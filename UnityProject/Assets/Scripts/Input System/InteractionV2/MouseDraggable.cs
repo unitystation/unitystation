@@ -39,11 +39,11 @@ public class MouseDraggable : MonoBehaviour
 	private GameObject shadowPrefab;
 
 	//cached list of MouseDrop interaction components on this object (may be empty)
-	private IInteractable<MouseDrop>[] mouseDrops;
+	private IBaseInteractable<MouseDrop>[] mouseDrops;
 
 	void Start()
 	{
-		mouseDrops = GetComponents<IInteractable<MouseDrop>>();
+		mouseDrops = GetComponents<IBaseInteractable<MouseDrop>>();
 		shadowPrefab = Resources.Load<GameObject>("MouseDragShadow");
 		if (shadow == null)
 		{
@@ -105,27 +105,10 @@ public class MouseDraggable : MonoBehaviour
 		{
 			MouseDrop info = MouseDrop.ByLocalPlayer( gameObject, dropTarget.gameObject);
 			//call this object's mousedrop interaction methods if it has any, for each object we are dropping on
-			foreach (IBaseInteractable<MouseDrop> mouseDrop in mouseDrops)
-			{
-				var interacted = mouseDrop.CheckInteract(info, NetworkSide.Client);
-				if (interacted)
-				{
-					InteractionUtils.RequestInteract(info, mouseDrop);
-					return;
-				}
-			}
-
-			//call the mousedrop interaction methods on the dropped-on object if it has any
-			foreach (IBaseInteractable<MouseDrop> mouseDropTarget in dropTarget.GetComponents<IBaseInteractable<MouseDrop>>()
-				.Where(mb => mb != null && (mb as MonoBehaviour).enabled))
-			{
-				var interacted = mouseDropTarget.CheckInteract(info, NetworkSide.Client);
-				if (interacted)
-				{
-					InteractionUtils.RequestInteract(info, mouseDropTarget);
-					return;
-				}
-			}
+			if (InteractionUtils.ClientCheckAndTrigger(mouseDrops, info) != null) return;
+			var targetComps = dropTarget.GetComponents<IBaseInteractable<MouseDrop>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+			if (InteractionUtils.ClientCheckAndTrigger(targetComps, info) != null) return;
 		}
 	}
 

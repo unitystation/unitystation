@@ -288,14 +288,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			var interactables = Item.GetComponents<IBaseInteractable<HandActivate>>()
 				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 			var activate = HandActivate.ByLocalPlayer();
-			foreach (var interactable in interactables)
-			{
-				if (interactable.CheckInteract(activate, NetworkSide.Client))
-				{
-					InteractionUtils.RequestInteract(activate, interactable);
-					return;
-				}
-			}
+			InteractionUtils.ClientCheckAndTrigger(interactables, activate);
 		}
 		else
 		{
@@ -323,31 +316,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			{
 				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IBaseInteractable<InventoryApply>>()
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-				foreach (var interactable in handInteractables)
-				{
-					if (interactable.CheckInteract(combine, NetworkSide.Client))
-					{
-						//something combined, don't do anything else
-						InteractionUtils.RequestInteract(combine, interactable);
-						return true;
-					}
-				}
+				if (InteractionUtils.ClientCheckAndTrigger(handInteractables, combine) != null) return true;
 			}
 
 			//check interactables in the target
-			var targetInteractables = Item.GetComponents<IInteractable<InventoryApply>>()
+			var targetInteractables = Item.GetComponents<IBaseInteractable<InventoryApply>>()
 				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-			foreach (var interactable in targetInteractables)
-			{
-				if (interactable.CheckInteract(combine, NetworkSide.Client))
-				{
-					//something combined, don't do anything else
-					InteractionUtils.RequestInteract(combine, interactable);
-					return true;
-				}
-			}
-
-
+			if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, combine) != null) return true;
 		}
 
 		return false;

@@ -35,23 +35,21 @@ public class RequestInteractMessage : ClientMessage
 	//state of the mouse - whether this is initial press or being held down.
 	public MouseButtonState MouseButtonState;
 
-	private static readonly Dictionary<ushort, Type> componentIDToComponentType;
-	private static readonly Dictionary<Type, ushort> componentTypeToComponentID;
-	private static readonly Dictionary<ushort, Type> interactionIDToInteractionType;
-	private static readonly Dictionary<Type, ushort> interactionTypeToInteractionID;
+	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
+	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
+	private static readonly Dictionary<ushort, Type> interactionIDToInteractionType = new Dictionary<ushort, Type>();
+	private static readonly Dictionary<Type, ushort> interactionTypeToInteractionID = new Dictionary<Type, ushort>();
 
 	static RequestInteractMessage()
 	{
 		//initialize id mappings
-		var alphabeticalComponentTypes =
-			typeof(IActionable<>).Assembly.GetTypes()
-				.Where(type => typeof(IActionable<>).IsAssignableFrom(type))
-				.OrderBy(type => type.FullName);
+		var alphabeticalComponentTypes = GetAllTypes(typeof(IInteractable<>));
 		ushort i = 0;
-		foreach (var actionType in alphabeticalComponentTypes)
+		foreach (var componentType in alphabeticalComponentTypes)
 		{
-			componentIDToComponentType.Add(i, actionType);
-			componentTypeToComponentID.Add(actionType, i);
+			componentIDToComponentType.Add(i, componentType);
+			componentTypeToComponentID.Add(componentType, i);
+			i++;
 		}
 
 		var alphabeticalInteractionTypes =
@@ -63,8 +61,22 @@ public class RequestInteractMessage : ClientMessage
 		{
 			interactionIDToInteractionType.Add(i, actionType);
 			interactionTypeToInteractionID.Add(actionType, i);
+			i++;
 		}
 	}
+
+	private static IEnumerable<Type> GetAllTypes(Type genericType)
+	{
+		if (!genericType.IsGenericTypeDefinition)
+			throw new ArgumentException("Specified type must be a generic type definition.", nameof(genericType));
+
+		return Assembly.GetExecutingAssembly()
+			.GetTypes()
+			.Where(t => t.GetInterfaces()
+				.Any(i => i.IsGenericType &&
+				          i.GetGenericTypeDefinition().Equals(genericType)));
+	}
+
 	public override IEnumerator Process()
 	{
 		var performer = SentByPlayer.GameObject;
@@ -79,6 +91,7 @@ public class RequestInteractMessage : ClientMessage
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
 			var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot);
+			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(HandApply))
 		{
@@ -90,6 +103,7 @@ public class RequestInteractMessage : ClientMessage
 			var processorObj = NetworkObjects[1];
 			var performerObj = SentByPlayer.GameObject;
 			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot);
+			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(AimApply))
 		{
@@ -100,6 +114,7 @@ public class RequestInteractMessage : ClientMessage
 			var processorObj = NetworkObject;
 			var performerObj = SentByPlayer.GameObject;
 			var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState);
+			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(MouseDrop))
 		{
@@ -109,6 +124,7 @@ public class RequestInteractMessage : ClientMessage
 			var processorObj = NetworkObjects[2];
 			var performerObj = SentByPlayer.GameObject;
 			var interaction = MouseDrop.ByClient(performer, usedObj, targetObj);
+			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(HandActivate))
 		{
@@ -120,6 +136,7 @@ public class RequestInteractMessage : ClientMessage
 			var handSlot = HandSlot.ForName(clientPNA.activeHand);
 			var activatedObject = clientPNA.Inventory[handSlot.equipSlot].Item;
 			var interaction = HandActivate.ByClient(performer, activatedObject, handSlot);
+			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(InventoryApply))
 		{
@@ -149,7 +166,7 @@ public class RequestInteractMessage : ClientMessage
 				Category.Interaction, ComponentType.Name, processorObj.name);
 			return;
 		}
-		if (!component.GetType().IsAssignableFrom(typeof(IInteractable<T>)))
+		if (!(component is IInteractable<T>))
 		{
 			Logger.LogWarningFormat("Component of type {0} doesn't implement IInteractable" +
 			                        " for interaction type {1} on {2}," +
@@ -167,9 +184,9 @@ public class RequestInteractMessage : ClientMessage
 		else
 		{
 			//rollback if this component implements it
-			if (component.GetType().IsAssignableFrom(typeof(IPredictedInteractable<T>)))
+			if (component is IPredictedInteractable<T> predictedInteractable)
 			{
-				(component as IPredictedInteractable<T>).ServerRollbackClient(interaction);
+				predictedInteractable.ServerRollbackClient(interaction);
 			}
 		}
 	}

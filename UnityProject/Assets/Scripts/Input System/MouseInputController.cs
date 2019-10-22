@@ -343,6 +343,8 @@ public class MouseInputController : MonoBehaviour
 			//get all components that can handapply or PositionalHandApply
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
 				.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+				Category.Interaction, handApply.HandObject.name, target.name);
 
 			foreach (var handAppliable in handAppliables)
 			{
@@ -370,7 +372,7 @@ public class MouseInputController : MonoBehaviour
 
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
-			.Where(c => c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+			.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables)
 		{
 			var interacted = false;
@@ -421,17 +423,14 @@ public class MouseInputController : MonoBehaviour
 			//it's being clicked down
 			triggeredAimApply = null;
 			//Checks for aim apply interactions which can trigger
-			foreach (var aimApply in handObj.GetComponents<IBaseInteractable<AimApply>>()
-				.Where(mb => mb != null && (mb as MonoBehaviour).enabled))
+			var comps = handObj.GetComponents<IBaseInteractable<AimApply>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+			var triggered = InteractionUtils.ClientCheckAndTrigger(comps, aimApplyInfo);
+			if (triggered != null)
 			{
-				var interacted = aimApply.CheckInteract(aimApplyInfo, NetworkSide.Client);
-				if (interacted)
-				{
-					triggeredAimApply = aimApply;
-					secondsSinceLastAimApplyTrigger = 0;
-					InteractionUtils.RequestInteract(aimApplyInfo, aimApply);
-					return true;
-				}
+				triggeredAimApply = triggered;
+				secondsSinceLastAimApplyTrigger = 0;
+				return true;
 			}
 		}
 		else

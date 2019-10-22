@@ -6,7 +6,7 @@ using UnityEngine;
 /// Main health scanner interaction. Applying it to a living thing sends a request to the server to
 /// tell us their health info.
 /// </summary>
-public class HealthScanner : ICheckedInteractable<HandApply>
+public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)

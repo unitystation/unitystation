@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Allows object to be picked up and put into hand.
 /// </summary>
-public class Pickupable : MonoBehaviour, IPredictedCheckedInteractable<HandApply>, IRightClickable
+public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IRightClickable
 {
 
 	//controls whether this can currently be picked up.
