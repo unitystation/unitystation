@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 
-public class InteractableFireCabinet : NBHandApplyInteractable
+public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SyncVar(hook = nameof(SyncCabinet))] public bool IsClosed;
 
@@ -44,9 +44,9 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		SyncItemSprite(isFull);
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		//only allow interactions targeting this
 		if (interaction.TargetObject != gameObject) return false;
@@ -54,7 +54,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 

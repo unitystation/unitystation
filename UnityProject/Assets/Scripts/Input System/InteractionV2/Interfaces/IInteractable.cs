@@ -2,7 +2,7 @@
 /// <summary>
 /// Indicates an Interactable Component, which has some server-side interaction logic.
 /// </summary>
-public interface IInteractable<T>
+public interface IInteractable<T> : IBaseInteractable<T>
 	where T : Interaction
 {
 	/// <summary>
@@ -11,4 +11,5 @@ public interface IInteractable<T>
 	/// </summary>
 	/// <param name="interaction"></param>
 	void ServerPerformInteraction(T interaction);
+
 }

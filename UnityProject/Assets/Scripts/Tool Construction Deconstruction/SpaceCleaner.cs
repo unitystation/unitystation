@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
-public class SpaceCleaner : NBAimApplyInteractable
+public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 {
 	int travelDistance = 6;
 	public ReagentContainer reagentContainer;
@@ -13,7 +13,7 @@ public class SpaceCleaner : NBAimApplyInteractable
 	public ParticleSystem particleSystem;
 	[SyncVar(hook = nameof(SyncParticles))] public float particleSync;
 
-	protected override bool WillInteract(AimApply interaction, NetworkSide side)
+	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
 		if (interaction.MouseButtonState == MouseButtonState.PRESS)
 		{
@@ -22,7 +22,7 @@ public class SpaceCleaner : NBAimApplyInteractable
 		return false;
 	}
 
-	protected override void ServerPerformInteraction(AimApply interaction)
+	public void ServerPerformInteraction(AimApply interaction)
 	{
 		if (reagentContainer.CurrentCapacity >= 5)
 		{

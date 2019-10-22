@@ -8,7 +8,7 @@ using UnityEngine.Events;
 /// when clicking on vendor with a VendingRestock item in hand.
 /// </summary>
 [RequireComponent(typeof(HasNetworkTab))]
-public class Vendor : NBHandApplyInteractable
+public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public List<VendorItem> VendorContent = new List<VendorItem>();
 	public Color HullColor = Color.white;
@@ -28,14 +28,14 @@ public class Vendor : NBHandApplyInteractable
 		hasNetTab.NetTabType = NetTabType.Vendor;
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (!Validations.HasComponent<VendingRestock>(interaction.HandObject)) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//Checking restock
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);

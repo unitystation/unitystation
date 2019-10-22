@@ -7,7 +7,7 @@ using UnityEngine;
 /// Adding this to a weapon stuns the target on hit
 /// If the weapon has the StunBaton behaviour it only stuns when the baton is active
 /// </summary>
-public class MeleeStun : Interactable<HandApply>
+public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	/// <summary>
 	/// How long to stun for (in seconds)
@@ -28,16 +28,16 @@ public class MeleeStun : Interactable<HandApply>
 		stunBaton = GetComponent<StunBaton>();
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		return interaction.UsedObject == gameObject
 			&& (!stunBaton || stunBaton.isActive)
 			&& interaction.TargetObject.GetComponent<RegisterPlayer>();
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		GameObject target = interaction.TargetObject;
 		GameObject performer = interaction.Performer;

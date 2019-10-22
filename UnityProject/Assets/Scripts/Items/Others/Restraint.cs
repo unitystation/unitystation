@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Restraint : Interactable<HandApply>
+public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	/// <summary>
 	/// How long it takes to apply the restraints
@@ -26,9 +26,9 @@ public class Restraint : Interactable<HandApply>
 	[SerializeField]
 	private string sound = "Handcuffs";
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		PlayerMove targetPM = interaction.TargetObject?.GetComponent<PlayerMove>();
 
@@ -38,7 +38,7 @@ public class Restraint : Interactable<HandApply>
 			&& targetPM.IsCuffed == false;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		GameObject target = interaction.TargetObject;
 		GameObject performer = interaction.Performer;

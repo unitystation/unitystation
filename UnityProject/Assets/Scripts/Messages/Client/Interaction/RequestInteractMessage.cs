@@ -158,10 +158,11 @@ public class RequestInteractMessage : ClientMessage
 			return;
 		}
 
-		if (CheckWillInteract(interaction, component))
+		var interactable = (component as IInteractable<T>);
+		if (interactable.CheckInteract(interaction, NetworkSide.Server))
 		{
 			//perform
-			(component as IInteractable<T>).ServerPerformInteraction(interaction);
+			interactable.ServerPerformInteraction(interaction);
 		}
 		else
 		{
@@ -173,28 +174,15 @@ public class RequestInteractMessage : ClientMessage
 		}
 	}
 
-	private bool CheckWillInteract<T>(T interaction, Component interactableComponent) where T : Interaction
-	{
-		if (interactableComponent.GetType().IsAssignableFrom(typeof(ICheckable<T>)))
-		{
-			return (interactableComponent as ICheckable<T>).WillInteract(interaction, NetworkSide.Server);
-		}
-		else
-		{
-			//use default logic
-			return DefaultWillInteract.Default(interaction, NetworkSide.Server);
-		}
-	}
-
-	/// <summary>
-	/// Send the interaction request to the server
-	/// </summary>
-	/// <param name="interaction">interaction being requested</param>
-	/// <param name="interactableComponent">interactable component which is causing the interaction</param>
-	/// <typeparam name="T"></typeparam>
-	public static void Send<T>(T interaction, IInteractable<T> interactableComponent)
+	//only intended to be used by core if2 classes, please use InteractionUtils.RequestInteract instead.
+	public static void Send<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
 	{
+		//never send anything for client-side-only interactions
+		if (interactableComponent.GetType().IsAssignableFrom(typeof(IClientInteractable<T>)))
+		{
+			return;
+		}
 		if (!interaction.Performer.Equals(PlayerManager.LocalPlayer))
 		{
 			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +

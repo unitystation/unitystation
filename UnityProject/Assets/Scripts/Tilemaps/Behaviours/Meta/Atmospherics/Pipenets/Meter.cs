@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
-public class Meter : NBHandApplyInteractable
+public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private Pipe pipe;
 	public bool anchored;
@@ -47,16 +47,16 @@ public class Meter : NBHandApplyInteractable
 		}
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side))
+		if (!DefaultWillInteract.Default(interaction, side))
 			return false;
 		if (!Validations.IsTool(interaction.HandObject, ToolType.Wrench))
 			return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if(anchored)
 		{

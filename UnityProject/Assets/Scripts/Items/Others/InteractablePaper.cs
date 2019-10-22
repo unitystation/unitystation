@@ -7,27 +7,27 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Paper))]
 [RequireComponent(typeof(Pickupable))]
-public class InteractablePaper : Interactable<HandActivate, InventoryApply>
+public class InteractablePaper : MonoBehaviour, IInteractable<HandActivate>, ICheckedInteractable<InventoryApply>
 {
 	public NetTabType NetTabType;
 	public Paper paper;
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		//show the paper to the client
 		TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 		paper.UpdatePlayer(interaction.Performer);
 	}
 
-	protected override bool WillInteractT2(InventoryApply interaction, NetworkSide side)
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteractT2(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//only pen can be used on this
 		if (!Validations.HasComponent<Pen>(interaction.HandObject)) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(InventoryApply interaction)
+	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		//show the paper to the client
 		TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);

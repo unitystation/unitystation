@@ -6,7 +6,7 @@ using Mirror;
 /// Component which enables the object to function as a shutter switch, opening / closing shutters it is
 /// connected with (via TriggeringObjects)
 /// </summary>
-public class ShutterSwitch : NetworkBehaviour, IInteractableOld<HandApply>
+public class ShutterSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 {
 	private Animator animator;
 

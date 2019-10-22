@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BodyBag : Interactable<MouseDrop>, IOnStageServer, IRightClickable
+public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IOnStageServer, IRightClickable
 {
 	public GameObject prefabVariant;
 
@@ -9,9 +9,9 @@ public class BodyBag : Interactable<MouseDrop>, IOnStageServer, IRightClickable
 		GetComponent<ClosetControl>().ToggleLocker(false);
 	}
 
-	protected override bool WillInteract(MouseDrop interaction, NetworkSide side)
+	public bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side))
+		if (!DefaultWillInteract.Default(interaction, side))
 		{
 			return false;
 		}
@@ -33,7 +33,7 @@ public class BodyBag : Interactable<MouseDrop>, IOnStageServer, IRightClickable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(MouseDrop interaction)
+	public void ServerPerformInteraction(MouseDrop interaction)
 	{
 		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 
@@ -74,6 +74,6 @@ public class BodyBag : Interactable<MouseDrop>, IOnStageServer, IRightClickable
 
 	private void RightClickInteract()
 	{
-		Interact(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer));
+		InteractionUtils.RequestInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer), this);
 	}
 }

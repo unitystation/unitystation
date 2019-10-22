@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Items.Bureaucracy
 {
-	public class PaperBin : NBHandApplyInteractable, IOnStageServer
+	public class PaperBin : NetworkBehaviour, ICheckedInteractable<HandApply>, IOnStageServer
 	{
 
 		public int initialPaperCount = 20;
@@ -113,9 +113,9 @@ namespace Items.Bureaucracy
 			ChatRelay.Instance.AddToChatLogClient(message, ChatChannel.Examine);
 		}
 
-		protected override bool WillInteract(HandApply interaction, NetworkSide side)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!base.WillInteract(interaction, side))
+			if (!DefaultWillInteract.Default(interaction, side))
 			{
 				return false;
 			}
@@ -149,7 +149,7 @@ namespace Items.Bureaucracy
 		}
 
 		// Interaction when clicking the bin
-		protected override void ServerPerformInteraction(HandApply interaction)
+		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var handObj = interaction.HandObject;
 			if (handObj == null)

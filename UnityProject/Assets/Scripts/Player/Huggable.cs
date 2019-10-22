@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an object to be hugged by a player.
 /// </summary>
-public class Huggable : MonoBehaviour, IInteractableOld<PositionalHandApply>
+public class Huggable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
 	public bool Interact(PositionalHandApply interaction)
 	{

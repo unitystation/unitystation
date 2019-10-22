@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class FieldGenerator : NBHandApplyInteractable, INodeControl
+public class FieldGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
 	public bool connectedToOther = false;
 	private Coroutine coSpriteAnimator;
@@ -29,14 +29,14 @@ public class FieldGenerator : NBHandApplyInteractable, INodeControl
 	}
 
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;
 		UpdateSprites(isOn);

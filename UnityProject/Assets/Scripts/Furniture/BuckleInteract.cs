@@ -8,7 +8,7 @@ using Mirror;
 /// Buckle a player in when they are dragged and dropped while on this object, then unbuckle
 /// them when the object is hand-applied to.
 /// </summary>
-public class BuckleInteract : Interactable<MouseDrop, HandApply>
+public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, ICheckedInteractable<HandApply>
 {
 	//may be null
 	private OccupiableDirectionalSprite occupiableDirectionalSprite;
@@ -18,12 +18,11 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	private void Start()
 	{
 		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
-		base.Start();
 	}
 
-	protected override bool WillInteract(MouseDrop interaction, NetworkSide side)
+	public bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (!Validations.ObjectsAtSameTile(interaction.DroppedObject, interaction.TargetObject)) return false;
 		if (!Validations.HasComponent<PlayerMove>(interaction.DroppedObject)) return false;
 		//if there are any restrained players already here, we can't restrain another one here
@@ -52,7 +51,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 			.Any(pm => pm != playerMove && pm.GetComponent<RegisterPlayer>().IsBlocking);
 	}
 
-	protected override void ServerPerformInteraction(MouseDrop drop)
+	public void ServerPerformInteraction(MouseDrop drop)
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
 
@@ -64,9 +63,9 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		occupiableDirectionalSprite?.RenderOccupied(true);
 	}
 
-	protected override bool WillInteractT2(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteractT2(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
 		//can only do this empty handed
 		if (interaction.HandObject != null) return false;
@@ -75,7 +74,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 			.Any(pm => pm.IsBuckled);
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer());
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
-public class FireExtinguisher : NBAimApplyHandActivateInteractable
+public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, ICheckedInteractable<AimApply>
 {
 	bool safety = true;
 	int travelDistance = 6;
@@ -26,7 +26,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 		base.OnStartClient();
 	}
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (safety)
 		{
@@ -40,7 +40,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 		}
 	}
 
-	protected override bool WillInteract(AimApply interaction, NetworkSide side)
+	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
 		if (interaction.MouseButtonState == MouseButtonState.PRESS)
 		{
@@ -50,7 +50,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 		return false;
 	}
 
-	protected override void ServerPerformInteraction(AimApply interaction)
+	public void ServerPerformInteraction(AimApply interaction)
 	{
 		if (reagentContainer.CurrentCapacity >= 5 && !safety)
 		{
@@ -133,7 +133,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 	public void SyncParticles(float value)
 	{
 		if (!gameObject.activeInHierarchy) return;
-		
+
 		particleSystem.transform.position = registerItem.WorldPositionClient;
 		particleSystem.transform.rotation = Quaternion.Euler(0, 0, value);
 		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();

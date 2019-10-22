@@ -7,7 +7,7 @@ using System.Reflection;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 
-public class ConstructionHandler : NBHandApplyInteractable
+public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	public IConstructionHandler RelatedInterface;
 	public List<ConstructionStage> ConstructionStages;
@@ -33,14 +33,14 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 	public GameObject StandardConstructionComponent;
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		return (InteractionCheck(interaction, side));
 
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		InventorySlot slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 
@@ -325,8 +325,6 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 	void Start()
 	{
-		base.Start();
-
 		TSpriteRenderer = Instantiate(TSpriteRenderer).GetComponent<SpriteRenderer>();
 		TSpriteRenderer.gameObject.transform.SetParent(this.transform, false);
 		if (isServer)

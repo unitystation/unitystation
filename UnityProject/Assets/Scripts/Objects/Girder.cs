@@ -6,7 +6,7 @@ using Mirror;
 /// </summary>
 [RequireComponent(typeof(RegisterObject))]
 [RequireComponent(typeof(Pickupable))]
-public class Girder : NBHandApplyInteractable
+public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private TileChangeManager tileChangeManager;
 	public GameObject metalPrefab;
@@ -24,10 +24,10 @@ public class Girder : NBHandApplyInteractable
 		ObjectFactory.SpawnMetal(1, gameObject.TileWorldPosition(), parent: transform.parent);
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		//start with the default HandApply WillInteract logic.
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
@@ -36,7 +36,7 @@ public class Girder : NBHandApplyInteractable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.TargetObject != gameObject) return;
 

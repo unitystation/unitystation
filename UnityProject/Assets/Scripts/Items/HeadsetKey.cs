@@ -4,7 +4,7 @@
 /// Allows the object to function as a headset key - to be inserted into a headset to set its encryption key.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class HeadsetKey : MonoBehaviour, IInteractableOld<InventoryApply>
+public class HeadsetKey : MonoBehaviour, IClientInteractable<InventoryApply>
 {
 	public bool Interact(InventoryApply interaction)
 	{

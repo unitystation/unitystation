@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 /// <summary>
 /// Component which allows all the tiles of a matrix to be interacted with.
 /// </summary>
-public class InteractableTiles : MonoBehaviour, IInteractableOld<PositionalHandApply>
+public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;

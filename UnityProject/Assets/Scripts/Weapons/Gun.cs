@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Gun : NBAimApplyInteractable, IInteractableOld<HandActivate>, IInteractableOld<InventoryApply>, IOnStageServer
+public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>, IOnStageServer
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
@@ -157,7 +157,6 @@ public class Gun : NBAimApplyInteractable, IInteractableOld<HandActivate>, IInte
 
 			ServerEnsureMag();
 		}
-		base.Start();
 	}
 
 	//if no mag is already in the gun, creates one at max capacity
@@ -208,9 +207,9 @@ public class Gun : NBAimApplyInteractable, IInteractableOld<HandActivate>, IInte
 
 	#region Interaction
 
-	protected override bool WillInteract(AimApply interaction, NetworkSide side)
+	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (CurrentMagazine == null)
 		{
 			PlayEmptySFX();
@@ -266,7 +265,7 @@ public class Gun : NBAimApplyInteractable, IInteractableOld<HandActivate>, IInte
 		return false;
 	}
 
-	protected override void ClientPredictInteraction(AimApply interaction)
+	public void ClientPredictInteraction(AimApply interaction)
 	{
 		//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 		//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
@@ -284,7 +283,10 @@ public class Gun : NBAimApplyInteractable, IInteractableOld<HandActivate>, IInte
 		DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide);
 	}
 
-	protected override void ServerPerformInteraction(AimApply interaction)
+	//nothing to rollback
+	public void ServerRollbackClient(AimApply interaction) { }
+
+	public void ServerPerformInteraction(AimApply interaction)
 	{
 		//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 		//case 1 - we are beginning a new shot, need to see if we are shooting ourselves

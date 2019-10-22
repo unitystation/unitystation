@@ -6,7 +6,7 @@ using Mirror;
 /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
-public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
+public class HealsTheLiving : NetworkBehaviour, ICheckedInteractable<HandApply>, IOnStageServer
 {
 	public DamageType healType;
 	//total number of times this can be used
@@ -19,15 +19,15 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 		timesUsed = 0;
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 		if (LHB.IsDead)
