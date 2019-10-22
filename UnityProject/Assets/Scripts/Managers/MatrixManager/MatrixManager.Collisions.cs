@@ -228,8 +228,8 @@ public partial class MatrixManager
 			ApplyLivingDamage( i.Matrix2, cellPos2, damage );
 
 			//TilemapDamage
-			ApplyTilemapDamage( i.Matrix1, cellPos1, damage );
-			ApplyTilemapDamage( i.Matrix2, cellPos2, damage );
+			ApplyTilemapDamage( i.Matrix1, cellPos1, damage, worldPos );
+			ApplyTilemapDamage( i.Matrix2, cellPos2, damage, worldPos );
 
 			//Wires (since they don't have Integrity)
 			ApplyWireDamage( i.Matrix1, cellPos1, damage );
@@ -261,22 +261,11 @@ public partial class MatrixManager
 
 		//Damage methods
 
-		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
 		{
 			foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
 			{
-				if ( Random.value >= 0.5 && damageableLayer.LayerType != LayerType.Objects )
-				{ //faking tile destruction by damage. remove when wall
-					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType );
-				} else
-				{
-					if ( damageableLayer.LayerType == LayerType.Floors )
-					{
-						damageableLayer.TilemapDamage.TryScorch( cellPos );
-					}
-
-					damageableLayer.TilemapDamage.DoMeleeDamage( cellPos.To2Int(), null, ( int ) damage );
-				}
+				damageableLayer.TilemapDamage.DoCollisionDamage( cellPos, (int) damage, worldPos );
 			}
 		}
 
