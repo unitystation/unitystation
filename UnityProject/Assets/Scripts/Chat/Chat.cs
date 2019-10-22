@@ -49,15 +49,38 @@ public partial class Chat : MonoBehaviour
 	{
 		var player = sentByPlayer.Script;
 
-		Instance.addChatLogServer.Invoke(new ChatEvent
+		var chatEvent = new ChatEvent
 		{
 			message = message,
 			modifiers = (player == null) ? ChatModifier.None : player.GetCurrentChatModifiers(),
-			speaker = ((channels & ChatChannel.OOC) == ChatChannel.OOC) ? sentByPlayer.Username : player.name,
+			speaker = player.name,
 			position = ((player == null) ? Vector2.zero : (Vector2) player.gameObject.transform.position),
 			channels = channels,
 			originator = sentByPlayer.GameObject
-		});
+		};
+
+		if (channels.HasFlag(ChatChannel.OOC))
+		{
+			chatEvent.speaker = sentByPlayer.Username;
+			Instance.addChatLogServer.Invoke(chatEvent);
+			return;
+		}
+
+		// There could be multiple channels we need to send a message for each.
+		// We do this on the server side that local chans can be determined correctly
+		foreach (Enum value in Enum.GetValues(channels.GetType()))
+		{
+			if (channels.HasFlag((ChatChannel)value))
+			{
+				//Using HasFlag will always return true for flag at value 0 so skip it
+				if ((ChatChannel) value == ChatChannel.None) continue;
+
+				if (IsNamelessChan((ChatChannel) value)) continue;
+
+				chatEvent.channels = (ChatChannel) value;
+				Instance.addChatLogServer.Invoke(chatEvent);
+			}
+		}
 	}
 
 	/// <summary>
@@ -176,16 +199,40 @@ public partial class Chat : MonoBehaviour
 		}
 
 		string victimName;
+		string victimNameOthers = "";
 		if (attacker == victim)
 		{
 			victimName = "yourself";
+			if (player != null)
+			{
+				if (player.Script.characterSettings.Gender == Gender.Female)
+				{
+					victimNameOthers = "herself";
+				}
+
+				if (player.Script.characterSettings.Gender == Gender.Male)
+				{
+					victimNameOthers = "himself";
+				}
+
+				if (player.Script.characterSettings.Gender == Gender.Neuter)
+				{
+					victimNameOthers = "itself";
+				}
+			}
+			else
+			{
+				victimNameOthers = "itself";
+			}
+
 		}
 		else
 		{
 			victimName = victim.ExpensiveName();
+			victimNameOthers = victimName;
 		}
 
-		var messageOthers = $"{attacker.Player()?.Name} has {attackVerb} {victimName}{InTheZone(hitZone)}{attack}!";
+		var messageOthers = $"{attacker.Player()?.Name} has {attackVerb} {victimNameOthers}{InTheZone(hitZone)}{attack}!";
 		var message = $"You {attackVerb} {victimName}{InTheZone(hitZone)}{attack}!";
 
 		Instance.addChatLogServer.Invoke(new ChatEvent
@@ -283,27 +330,8 @@ public partial class Chat : MonoBehaviour
 			}
 		}
 
-		foreach (Enum value in Enum.GetValues(channels.GetType()))
-		{
-			if (channels.HasFlag((ChatChannel)value))
-			{
-				//Using HasFlag will always return true for flag at value 0 so skip it
-				if ((ChatChannel) value == ChatChannel.None) continue;
-
-				if (IsNamelessChan((ChatChannel)value))
-				{
-					var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
-					Instance.addChatLogClient.Invoke(msg, channels);
-					break;
-				}
-				else
-				{
-
-					var msg = ProcessMessageFurther(message, speaker, (ChatChannel)value, modifiers);
-					Instance.addChatLogClient.Invoke(msg, channels);
-				}
-			}
-		}
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
+		Instance.addChatLogClient.Invoke(msg, channels);
 	}
 
 	private static string InTheZone(BodyPartType hitZone)

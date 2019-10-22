@@ -33,7 +33,7 @@ public class UpdateChatMessage : ServerMessage
 		uint origin = NetId.Empty;
 		if (originator != null)
 		{
-			origin = recipient.GetComponent<NetworkIdentity>().netId;
+			origin = originator.GetComponent<NetworkIdentity>().netId;
 		}
 
 		UpdateChatMessage msg =
