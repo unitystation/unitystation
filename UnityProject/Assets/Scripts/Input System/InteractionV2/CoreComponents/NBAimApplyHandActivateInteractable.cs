@@ -6,7 +6,7 @@ using Mirror;
 /// Version of Interactable which uses AimApply and HandActivate
 /// </summary>
 public abstract class NBAimApplyHandActivateInteractable
-	: NetworkBehaviour, IInteractable<AimApply>, IInteractionProcessor<AimApply>, IInteractable<HandActivate>, IInteractionProcessor<HandActivate>
+	: NetworkBehaviour, IInteractableOld<AimApply>, IInteractionProcessor<AimApply>, IInteractableOld<HandActivate>, IInteractionProcessor<HandActivate>
 {
 	//we delegate our interaction logic to this.
 	private InteractionCoordinator<AimApply> coordinatorAimApply;

@@ -285,7 +285,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		if (Item != null && UIManager.Hands.CurrentSlot.equipSlot == equipSlot)
 		{
 			//check IF2 logic first
-			var interactables = Item.GetComponents<IInteractable<HandActivate>>()
+			var interactables = Item.GetComponents<IInteractableOld<HandActivate>>()
 				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 			var activate = HandActivate.ByLocalPlayer();
 			foreach (var interactable in interactables)
@@ -320,7 +320,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			//check interactables in the active hand (if active hand occupied)
 			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
-				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>()
+				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractableOld<InventoryApply>>()
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 				foreach (var interactable in handInteractables)
 				{
@@ -333,7 +333,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			}
 
 			//check interactables in the target
-			var targetInteractables = Item.GetComponents<IInteractable<InventoryApply>>()
+			var targetInteractables = Item.GetComponents<IInteractableOld<InventoryApply>>()
 				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 			foreach (var interactable in targetInteractables)
 			{

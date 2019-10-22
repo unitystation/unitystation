@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Indicates that the object is a source of welding fuel
 /// </summary>
-public class WeldingFuelSource : MonoBehaviour, IInteractable<HandApply>
+public class WeldingFuelSource : MonoBehaviour, IInteractableOld<HandApply>
 {
 
 	public bool Interact(HandApply interaction)

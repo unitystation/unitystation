@@ -11,7 +11,7 @@ public enum BatteryStateSprite
 	Empty,
 }
 
-public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>, INodeControl
+public class DepartmentBattery : NetworkBehaviour, IInteractableOld<HandApply>, IInteractionProcessor<HandApply>, INodeControl
 {
 	public DepartmentBatterySprite CurrentSprite  = DepartmentBatterySprite.Default;
 	public SpriteRenderer Renderer;

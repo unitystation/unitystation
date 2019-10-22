@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInteractable<InventoryApply>, IOnStageServer
+public class Gun : NBAimApplyInteractable, IInteractableOld<HandActivate>, IInteractableOld<InventoryApply>, IOnStageServer
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;

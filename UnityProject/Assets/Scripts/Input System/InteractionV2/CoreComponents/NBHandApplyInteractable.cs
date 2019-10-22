@@ -6,7 +6,7 @@ using Mirror;
 /// Version of Interactable which supports HandApply and extends NetworkBehavior rather than MonoBehavior
 /// </summary>
 public abstract class NBHandApplyInteractable
-	: NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>
+	: NetworkBehaviour, IInteractableOld<HandApply>, IInteractionProcessor<HandApply>
 {
 	//we delegate our interaction logic to this.
 	private InteractionCoordinator<HandApply> coordinator;

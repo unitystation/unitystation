@@ -23,7 +23,7 @@ using UnityEngine;
 /// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 public abstract class Interactable<T>
-	: MonoBehaviour, IInteractable<T>, IInteractionProcessor<T>
+	: MonoBehaviour, IInteractableOld<T>, IInteractionProcessor<T>
 	where T : Interaction
 {
 	//we delegate our interaction logic to this.

@@ -4,7 +4,7 @@
 /// Allows object to function as a screwdriver.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Screwdriver : MonoBehaviour, IInteractable<InventoryApply>
+public class Screwdriver : MonoBehaviour, IInteractableOld<InventoryApply>
 {
 	public bool Interact(InventoryApply interaction)
 	{

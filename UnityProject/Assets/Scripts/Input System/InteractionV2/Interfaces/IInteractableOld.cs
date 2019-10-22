@@ -6,7 +6,7 @@
 /// <typeparamref name="T">Interaction subtype
 /// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
-public interface IInteractable<T>
+public interface IInteractableOld<T>
 	where T : Interaction
 {
 

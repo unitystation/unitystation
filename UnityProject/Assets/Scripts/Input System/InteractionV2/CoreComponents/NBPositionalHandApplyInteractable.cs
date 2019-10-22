@@ -6,7 +6,7 @@ using Mirror;
 /// Version of Interactable which supports PositionalHandApply and extends NetworkBehavior rather than MonoBehavior
 /// </summary>
 public abstract class NBPositionalHandApplyInteractable
-	: NetworkBehaviour, IInteractable<PositionalHandApply>, IInteractionProcessor<PositionalHandApply>
+	: NetworkBehaviour, IInteractableOld<PositionalHandApply>, IInteractionProcessor<PositionalHandApply>
 {
 	//we delegate our interaction logic to this.
 	private InteractionCoordinator<PositionalHandApply> coordinator;

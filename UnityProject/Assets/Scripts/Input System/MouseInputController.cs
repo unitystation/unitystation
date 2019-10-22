@@ -61,7 +61,7 @@ public class MouseInputController : MonoBehaviour
 	/// interactable that was triggered, then it is re-triggered continuously while the button is held,
 	/// then set back to null when the button is released.
 	/// </summary>
-	private IInteractable<AimApply> triggeredAimApply;
+	private IInteractableOld<AimApply> triggeredAimApply;
 
 	private void OnDrawGizmos()
 	{
@@ -342,13 +342,13 @@ public class MouseInputController : MonoBehaviour
 		{
 			//get all components that can handapply or PositionalHandApply
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
-				.Where(c => c != null && c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
+				.Where(c => c != null && c.enabled && (c is IInteractableOld<HandApply> || c is IInteractableOld<PositionalHandApply>));
 
 			foreach (var handAppliable in handAppliables)
 			{
-				var interacted = handAppliable is IInteractable<HandApply> ?
-					(handAppliable as IInteractable<HandApply>).Interact(handApply) :
-					(handAppliable as IInteractable<PositionalHandApply>).Interact(posHandApply);
+				var interacted = handAppliable is IInteractableOld<HandApply> ?
+					(handAppliable as IInteractableOld<HandApply>).Interact(handApply) :
+					(handAppliable as IInteractableOld<PositionalHandApply>).Interact(posHandApply);
 				if (interacted)
 				{
 					//we're done checking, something happened
@@ -359,12 +359,12 @@ public class MouseInputController : MonoBehaviour
 
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
-			.Where(c => c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
+			.Where(c => c.enabled && (c is IInteractableOld<HandApply> || c is IInteractableOld<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables)
 		{
-			var interacted = targetHandAppliable is IInteractable<HandApply> ?
-				(targetHandAppliable as IInteractable<HandApply>).Interact(handApply) :
-				(targetHandAppliable as IInteractable<PositionalHandApply>).Interact(posHandApply);
+			var interacted = targetHandAppliable is IInteractableOld<HandApply> ?
+				(targetHandAppliable as IInteractableOld<HandApply>).Interact(handApply) :
+				(targetHandAppliable as IInteractableOld<PositionalHandApply>).Interact(posHandApply);
 			if (interacted)
 			{
 				//we're done checking, something happened
@@ -399,7 +399,7 @@ public class MouseInputController : MonoBehaviour
 			//it's being clicked down
 			triggeredAimApply = null;
 			//Checks for aim apply interactions which can trigger
-			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>()
+			foreach (var aimApply in handObj.GetComponents<IInteractableOld<AimApply>>()
 				.Where(mb => mb != null && (mb as MonoBehaviour).enabled))
 			{
 				var interacted = aimApply.Interact(aimApplyInfo);

@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(StorageObject))]
 [RequireComponent(typeof(Pickupable))]
-public class InteractableStorage : MonoBehaviour, IInteractable<HandActivate>, IInteractable<InventoryApply>
+public class InteractableStorage : MonoBehaviour, IInteractableOld<HandActivate>, IInteractableOld<InventoryApply>
 {
 	private StorageObject storageObj;
 	private ObjectBehaviour objectBehaviour;

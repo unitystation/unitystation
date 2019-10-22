@@ -4,7 +4,7 @@
 /// <summary>
 /// Allows an object to be attacked by melee. Supports being placed on tilemap layers for meleeing tiles
 /// </summary>
-public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
+public class Meleeable : MonoBehaviour, IInteractableOld<PositionalHandApply>
 {
 	//Cache these on start for checking at runtime
 	private Layer tileMapLayer;

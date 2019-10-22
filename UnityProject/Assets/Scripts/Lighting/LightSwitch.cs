@@ -8,7 +8,7 @@ using System;
 /// Main component for light switch
 /// </summary>
 [ExecuteInEditMode]
-public class LightSwitch : NetworkBehaviour, IInteractable<HandApply>
+public class LightSwitch : NetworkBehaviour, IInteractableOld<HandApply>
 {
 
 	public enum States

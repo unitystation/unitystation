@@ -6,7 +6,7 @@ using Mirror;
 /// Version of Interactable which supports AimApply and extends NetworkBehavior rather than MonoBehavior
 /// </summary>
 public abstract class NBAimApplyInteractable
-	: NetworkBehaviour, IInteractable<AimApply>, IInteractionProcessor<AimApply>
+	: NetworkBehaviour, IInteractableOld<AimApply>, IInteractionProcessor<AimApply>
 {
 	//we delegate our interaction logic to this.
 	private InteractionCoordinator<AimApply> coordinator;

@@ -6,7 +6,7 @@ using Mirror;
 /// Version of Interactable which supports MouseDrop and extends NetworkBehavior rather than MonoBehavior
 /// </summary>
 public abstract class NBMouseDropHandApplyInteractable
-	: NetworkBehaviour, IInteractable<MouseDrop>, IInteractionProcessor<MouseDrop>, IInteractable<HandApply>, IInteractionProcessor<HandApply>
+	: NetworkBehaviour, IInteractableOld<MouseDrop>, IInteractionProcessor<MouseDrop>, IInteractableOld<HandApply>, IInteractionProcessor<HandApply>
 {
 	//we delegate our interaction logic to this.
 	private InteractionCoordinator<MouseDrop> coordinatorMouseDrop;

@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an object to be disarmed by a player.
 /// </summary>
-public class Disarmable : MonoBehaviour, IInteractable<PositionalHandApply>
+public class Disarmable : MonoBehaviour, IInteractableOld<PositionalHandApply>
 {
 	public bool Interact(PositionalHandApply interaction)
 	{
