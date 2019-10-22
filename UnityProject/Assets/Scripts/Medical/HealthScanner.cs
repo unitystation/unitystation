@@ -40,7 +40,7 @@ public class HealthScanner : NBHandApplyInteractable
 		{
 			ToShow += $"Cellular Damage Level: {livingHealth.cloningDamage}";
 		}
-		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, ToShow);
 
+		Chat.AddExamineMsgFromServer(interaction.Performer, ToShow);
 	}
 }

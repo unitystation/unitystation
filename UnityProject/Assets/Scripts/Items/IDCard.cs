@@ -169,6 +169,6 @@ public class IDCard : NetworkBehaviour
 			message = "This is " + RegisteredName + "'s ID card\nThey are the " + GetJobType + " of the station!";
 		}
 
-		ChatRelay.Instance.AddToChatLogClient(message, ChatChannel.Examine);
+		Chat.AddExamineMsgToClient(message);
 	}
 }

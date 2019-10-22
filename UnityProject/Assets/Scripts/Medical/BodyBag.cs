@@ -40,14 +40,14 @@ public class BodyBag : Interactable<MouseDrop>, IOnStageServer, IRightClickable
 		var closetControl = GetComponent<ClosetControl>();
 		if (!closetControl.IsClosed)
 		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
+			Chat.AddExamineMsgFromServer(interaction.Performer,
 				"You wrestle with the body bag, but it won't fold while unzipped.");
 			return;
 		}
 
 		if (!closetControl.IsEmpty())
 		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
+			Chat.AddExamineMsgFromServer(interaction.Performer,
 				"There are too many things inside of the body bag to fold it up!");
 			return;
 		}

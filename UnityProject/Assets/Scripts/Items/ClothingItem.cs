@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public enum SpriteHandType
 {
@@ -19,9 +18,11 @@ public class ClothingItem : MonoBehaviour
 	/// </summary>
 	private Orientation currentDirection = Orientation.Down;
 
-	public int reference = -1;
+	public int reference;
 	private int referenceOffset;
 	public Color color = Color.white;
+	private int variantIndex = 0;
+	private SpriteDataHandler SHD;
 
 	public SpriteHandler spriteHandler;
 
@@ -83,17 +84,17 @@ public class ClothingItem : MonoBehaviour
 			GameObjectReference = Item;
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
-				var SHD = Item.GetComponent<ItemAttributes>()?.spriteDataHandler;
+				SHD = Item.GetComponent<ItemAttributes>()?.spriteDataHandler;
 				if (SHD != null)
 				{
 					spriteHandler.Infos = SHD.Infos;
 					if (spriteType == SpriteHandType.RightHand)
 					{
-						spriteHandler.ChangeSprite(1);
+						spriteHandler.ChangeSprite((spriteHandler.Infos.VariantIndex * 2) + 1);
 					}
 					else
 					{
-						spriteHandler.ChangeSprite(0);
+						spriteHandler.ChangeSprite(spriteHandler.Infos.VariantIndex * 2);
 					}
 
 					PushTexture();
@@ -145,6 +146,17 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteHandler.Infos != null)
 			{
+				if (SHD)
+				{
+					if (spriteType == SpriteHandType.RightHand)
+					{
+						spriteHandler.ChangeSprite((SHD.Infos.VariantIndex * 2) + 1);
+					}
+					else
+					{
+						spriteHandler.ChangeSprite(SHD.Infos.VariantIndex * 2);
+					}
+				}
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
 		}

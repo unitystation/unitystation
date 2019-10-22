@@ -60,7 +60,7 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 			return;
 		}
 
-		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
+		Chat.AddExamineMsgFromServer(interaction.Performer,
 			"You start constructing a rack...");
 
 		var progressFinishAction = new FinishProgressAction(
@@ -72,7 +72,7 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 				}
 				else if (reason == FinishProgressAction.FinishReason.COMPLETED)
 				{
-					UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
+					Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You assemble a rack.");
 
 					PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);
