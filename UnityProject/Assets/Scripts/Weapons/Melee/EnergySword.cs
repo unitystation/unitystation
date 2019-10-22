@@ -125,22 +125,19 @@ public class EnergySword: NBHandActivateInventoryApplyInteractable
 	{
 		if (activated)
 		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-				"You can't adjust the sword while it's on!");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't adjust the sword while it's on!");
 			return;
 		}
 
 		if (color == (int)SwordColor.Rainbow)
 		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-				"It's already fabulous!");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "It's already fabulous!");
 			return;
 		}
 
 		if (Validations.IsTool(interaction.HandObject, ToolType.Screwdriver))
 		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-				"You adjust the crystalline beam emitter...");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You adjust the crystalline beam emitter...");
 			var c = color + 1;
 			if (c >= (int)SwordColor.Rainbow)
 			{
@@ -151,8 +148,7 @@ public class EnergySword: NBHandActivateInventoryApplyInteractable
 		}
 		else if (Validations.IsTool(interaction.HandObject, ToolType.Multitool))
 		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-				"RNBW_ENGAGE");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
 			SyncColor((int)SwordColor.Rainbow);
 		}
 	}
