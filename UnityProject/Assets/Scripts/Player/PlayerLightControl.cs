@@ -106,4 +106,33 @@ public class PlayerLightControl : NetworkBehaviour
 			}
 		}
 	}
+
+	public void Toggle(bool on, float intensity = -1)
+	{
+		if (intensity > -1)
+		{
+			PlayerLightData.Intensity = intensity;
+		}
+
+		if (LightEmission == null)
+		{
+			return;
+		}
+
+		if (on)
+		{
+			if (LightEmission.ContainsLight(PlayerLightData))
+			{
+				LightEmission.UpdateLight(PlayerLightData);
+			}
+			else
+			{
+				LightEmission.AddLight(PlayerLightData);
+			}
+		}
+		else
+		{
+			LightEmission.RemoveLight(PlayerLightData);
+		}
+	}
 }

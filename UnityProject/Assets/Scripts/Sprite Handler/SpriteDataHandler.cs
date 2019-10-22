@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
@@ -22,15 +23,23 @@ public class SpriteDataHandler : MonoBehaviour
 	//TODO
 	//Maybe a dictionary so you can easily look up in hands and stuff like that
 	//With enum
-	[FormerlySerializedAs("SpriteInfos")] public SpriteData Infos;
+	[FormerlySerializedAs("SpriteInfos")]
+	[Tooltip("Do not edit this by hand! Use set up sheet!")]
+	public SpriteData Infos;
+
+	// List of sprites to be used. If the sprite has an animation, only the zeroth is needed.
+	// Left hand and right hand sprites need to be first in the list.
 	public List<Sprite> spriteList = new List<Sprite>();
 
 	private SpriteJson spriteJson;
 
-	// Start is called before the first frame update
-	public virtual void OnEnable()
+	public void Awake()
 	{
 		Infos.DeSerializeT();
+	}
+
+	public virtual void OnEnable()
+	{
 	}
 
 #if UNITY_EDITOR
