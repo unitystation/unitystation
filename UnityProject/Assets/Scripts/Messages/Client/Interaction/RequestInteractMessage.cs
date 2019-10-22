@@ -13,7 +13,7 @@ using UnityEngine;
 public class RequestInteractMessage : ClientMessage
 {
 	//TODO: Is this constant needed anymore
-	public static short MessageType = (short) MessageTypes.RequestUAction;
+	public static short MessageType = (short) MessageTypes.RequestInteraction;
 
 	//these are always populated
 	public Type ComponentType;

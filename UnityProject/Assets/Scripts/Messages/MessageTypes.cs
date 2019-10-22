@@ -66,16 +66,9 @@ internal enum MessageTypes : short
 	DevSpawnMessage = 2015,
 	DevCloneMessage = 2016,
 	DevDestroyMessage = 2017,
-	RequestMouseDropMessage = 2018,
-	RequestHandApplyMessage = 2019,
-	RequestAimApplyMessage = 2020,
-	RequestHandActivateMessage = 2021,
-	RequestInventoryApplyMessage = 2022,
-	RequestPositionalHandApplyMessage = 2023,
-	RequestActivateMessage = 2024,
 	RequestToViewObjectsAtTile = 2026,
 	RequestBookshelfNetMessage = 2027,
 	RequestOpenBookIDNetMessage = 2028,
 	RequestUncuffMessage = 2029,
-	RequestUAction = 2030
+	RequestInteraction = 2030
 }
