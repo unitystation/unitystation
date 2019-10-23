@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class MetaTileMap : MonoBehaviour
 
 	//Using arrays for iteration speed
 	public LayerType[] LayersKeys { get; private set; }
+//	public LayerType LayerTypeBitmask { get; private set; }
 	public Layer[] LayersValues { get; private set; }
 
 	/// <summary>
@@ -50,6 +52,10 @@ public class MetaTileMap : MonoBehaviour
 		}
 
 		LayersKeys = layersKeys.ToArray();
+//		foreach ( var layerType in LayersKeys )
+//		{
+//			LayerTypeBitmask |= layerType;
+//		}
 		LayersValues = layersValues.ToArray();
 		SolidLayersValues = solidLayersValues.ToArray();
 		DamageableLayers = damageableLayersValues.ToArray();
@@ -215,12 +221,16 @@ public class MetaTileMap : MonoBehaviour
 		return null;
 	}
 
-	public bool IsEmptyAt(Vector3Int position, bool isServer)
+	/// <summary>
+	/// Checks if tile is empty of solid objects. 
+	/// </summary>
+	/// <param name="inclItems">If true, checks for non-solid items, too</param>
+	public bool IsEmptyAt( Vector3Int position, bool isServer, bool inclItems = false )
 	{
 		for (var index = 0; index < LayersKeys.Length; index++)
 		{
 			LayerType layer = LayersKeys[index];
-			if (layer != LayerType.Objects && HasTile(position, layer, isServer))
+			if (HasTile(position, layer, isServer))
 			{
 				return false;
 			}
@@ -231,7 +241,7 @@ public class MetaTileMap : MonoBehaviour
 					? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
 					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 				{
-					if (!o.IsPassable(isServer))
+					if (!o.IsPassable(isServer) || inclItems)
 					{
 						return false;
 					}
@@ -336,6 +346,10 @@ public class MetaTileMap : MonoBehaviour
 	}
 	public bool HasTile(Vector3Int position, LayerType layerType, bool isServer)
 	{
+//		if ( !LayerTypeBitmask.HasFlag( layerType ) )
+//		{
+//			return false;
+//		}
 		return Layers[layerType].HasTile(position, isServer);
 	}
 

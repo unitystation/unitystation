@@ -1,5 +1,7 @@
 
 
+using System;
+
 public enum TileType
 {
 	None,
@@ -14,6 +16,10 @@ public enum TileType
 	Effects
 }
 
+/// <summary>
+/// Flags are only there for LayerTypeBitmask
+/// </summary>
+//[Flags]
 public enum LayerType
 {
 	Walls,
@@ -24,4 +30,12 @@ public enum LayerType
 	Grills,
 	Effects,
 	None
-}
+} //Dictionary shits itself when order is changed! Clueless!
+//None =  0,
+//Walls =  1 << 0,
+//Windows =  1 << 1,
+//Objects =  1 << 2,
+//Floors =  1 << 3,
+//Base =  1 << 4,
+//Grills =  1 << 5,
+//Effects = 1 << 6,

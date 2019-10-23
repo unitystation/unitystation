@@ -198,13 +198,13 @@ public partial class MatrixManager
 		foreach ( Vector3Int worldPos in i.Rect.ToBoundsInt().allPositionsWithin )
 		{
 			Vector3Int cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
-			if ( i.Matrix1.Matrix.IsEmptyAt( cellPos1, true ) )
+			if ( i.Matrix1.Matrix.IsEmptyAt( cellPos1, true, inclItems: true ) )
 			{
 				continue;
 			}
 
 			Vector3Int cellPos2 = i.Matrix2.MetaTileMap.WorldToCell( worldPos );
-			if ( i.Matrix2.Matrix.IsEmptyAt( cellPos2, true ) )
+			if ( i.Matrix2.Matrix.IsEmptyAt( cellPos2, true, inclItems: true ) )
 			{
 				continue;
 			}
@@ -219,6 +219,10 @@ public partial class MatrixManager
 			//todo: placeholder, must take movement vectors in account!
 			ushort damage =  (ushort) (50 * (i.Matrix1.Speed + i.Matrix2.Speed));
 
+			//TilemapDamage
+			ApplyTilemapDamage( i.Matrix1, cellPos1, damage, worldPos );
+			ApplyTilemapDamage( i.Matrix2, cellPos2, damage, worldPos );
+
 			//Integrity
 			ApplyIntegrityDamage( i.Matrix1, cellPos1, damage );
 			ApplyIntegrityDamage( i.Matrix2, cellPos2, damage );
@@ -226,10 +230,6 @@ public partial class MatrixManager
 			//LivingHealthBehaviour
 			ApplyLivingDamage( i.Matrix1, cellPos1, damage );
 			ApplyLivingDamage( i.Matrix2, cellPos2, damage );
-
-			//TilemapDamage
-			ApplyTilemapDamage( i.Matrix1, cellPos1, damage, worldPos );
-			ApplyTilemapDamage( i.Matrix2, cellPos2, damage, worldPos );
 
 			//Wires (since they don't have Integrity)
 			ApplyWireDamage( i.Matrix1, cellPos1, damage );
@@ -240,11 +240,14 @@ public partial class MatrixManager
 			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, 150 * collisions, collisions/10f );
 
 			//Other
-			foreach ( var layer in otherLayers )
+			foreach ( var layer in layersToRemove )
 			{
 				i.Matrix1.TileChangeManager.RemoveTile( cellPos1, layer );
-				i.Matrix1.TileChangeManager.RemoveEffect( cellPos1, layer );
 				i.Matrix2.TileChangeManager.RemoveTile( cellPos2, layer );
+			}
+			foreach ( var layer in effectsToRemove )
+			{
+				i.Matrix1.TileChangeManager.RemoveEffect( cellPos1, layer );
 				i.Matrix2.TileChangeManager.RemoveEffect( cellPos2, layer );
 			}
 		}
@@ -253,8 +256,8 @@ public partial class MatrixManager
 		{
 			ExplosionUtils.PlaySoundAndShake(
 				i.Rect.position.RoundToInt(),
-				(byte) Mathf.Clamp(collisions*4, 5, byte.MaxValue),
-				Mathf.Clamp(collisions, 15, 60)
+				(byte) Mathf.Clamp(collisions*5, 5, byte.MaxValue),
+				Mathf.Clamp(collisions*5, 15, 80)
 				);
 			SlowDown( i, collisions );
 		}
@@ -300,7 +303,8 @@ public partial class MatrixManager
 		}
 	}
 
-	private static LayerType[] otherLayers = { LayerType.Effects, LayerType.Base };
+	private static LayerType[] layersToRemove = { LayerType.Effects, LayerType.Base };
+	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Objects };
 
 	private void SlowDown( MatrixIntersection i, int collisions )
 	{

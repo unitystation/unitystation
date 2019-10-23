@@ -115,11 +115,11 @@ public partial class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
-	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
+	public static bool IsEmptyAt( Vector3Int worldPos, bool isServer, bool inclItems = false )
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
-			if (!mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer))
+			if (!mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer, inclItems))
 			{
 				return false;
 			}

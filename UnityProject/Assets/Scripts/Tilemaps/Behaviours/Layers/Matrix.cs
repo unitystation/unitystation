@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Light2D;
 using UnityEngine;
@@ -91,9 +90,9 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsTileTypeAt(position, isServer, TileType.Table);
 	}
 
-	public bool IsEmptyAt(Vector3Int position, bool isServer)
+	public bool IsEmptyAt( Vector3Int position, bool isServer, bool inclItems = false )
 	{
-		return MetaTileMap.IsEmptyAt(position, isServer);
+		return MetaTileMap.IsEmptyAt(position, isServer, inclItems);
 	}
 
 	/// Is this position and surrounding area completely clear of solid objects?
