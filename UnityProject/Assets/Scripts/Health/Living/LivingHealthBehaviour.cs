@@ -14,6 +14,7 @@ using Mirror;
 [RequireComponent(typeof(HealthStateMonitor))]
 public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 {
+	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
 	private static readonly float DAMAGE_PER_FIRE_STACK = 1;
 	//volume and temp of hotspot exposed by this player when they are on fire
@@ -271,6 +272,28 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	}
 
 	/// <summary>
+	///  Apply Damage to the whole body of this Living thing. Server only
+	/// </summary>
+	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+	/// <param name="damage">Damage Amount. will be distributed evenly across all bodyparts</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
+	/// <param name="damageType">The Type of Damage</param>
+	[Server]
+	public void ApplyDamage( GameObject damagedBy, float damage,
+		AttackType attackType, DamageType damageType )
+	{
+		if ( IsDead && damage >= GIB_THRESHOLD )
+		{
+			Harvest();//Gib() instead when fancy gibs are in
+		}
+
+		foreach ( var bodyPart in BodyParts )
+		{
+			ApplyDamage( damagedBy, damage/BodyParts.Count, attackType, damageType, bodyPart.Type );
+		}
+	}
+
+	/// <summary>
 	///  Apply Damage to the Living thing. Server only
 	/// </summary>
 	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -280,7 +303,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
 	public virtual void ApplyDamage(GameObject damagedBy, float damage,
-		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
+		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if(bodyPartBehaviour == null)
@@ -634,22 +657,18 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		{
 			PoolManager.PoolNetworkInstantiate(harvestPrefab, transform.position, parent: transform.parent);
 		}
-		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
-		//Remove the NPC after all has been harvested
-		var cnt = GetComponent<CustomNetTransform>();
-		if (cnt != null)
-		{
-			cnt.DisappearFromWorldServer();
-		}
-		else
-		{
-			//Just incase player ever needs to be harvested for some reason
-			var playerSync = GetComponent<PlayerSync>();
-			if (playerSync != null)
-			{
-				playerSync.DisappearFromWorldServer();
-			}
-		}
+
+		Gib();
+	}
+
+	[Server]
+	protected virtual void Gib()
+	{
+		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large );
+		//todo: actual gibs
+
+		//never destroy players!
+		PoolManager.PoolNetworkDestroy( gameObject );
 	}
 
 	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)

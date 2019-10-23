@@ -223,11 +223,11 @@ public partial class MatrixManager
 			//todo: placeholder, must take movement vectors in account! + what hits what
 			//total damage to apply to victim tile
 			float hitEnergy =  (100 * (i.Matrix1.Speed + i.Matrix2.Speed));
-			//total damage to apply to attacker tile. will grow
-			float hitResistance =
-				ApplyDamage( i.Matrix2, cellPos2, hitEnergy, worldPos );
 			//damage attacker tile with resistance
-			ApplyDamage( i.Matrix1, cellPos1, hitResistance, worldPos );
+			ApplyDamage( i.Matrix1,
+						cellPos1,
+						hitEnergy: ApplyDamage( i.Matrix2, cellPos2, hitEnergy, worldPos ), //hit attacker matrix with resistance
+						worldPos );
 
 			//Wires (since they don't have Integrity)
 			ApplyWireDamage( i.Matrix1, cellPos1 );
@@ -263,25 +263,24 @@ public partial class MatrixManager
 		//Damage methods
 		float ApplyDamage( MatrixInfo victimMatrix, Vector3Int cellPos, float hitEnergy, Vector3Int worldPos )
 		{
-			float hitResistance = 0;
-			float tmpHitResistance = 0;
+			float resistance = 0;
+			float currentResistance;
 			//Integrity
-			tmpHitResistance = ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
-			hitEnergy -= tmpHitResistance;
-			hitResistance += tmpHitResistance;
+			currentResistance = ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
+			hitEnergy -= currentResistance;
+			resistance += currentResistance;
 
 			//LivingHealthBehaviour
-			tmpHitResistance = ApplyLivingDamage( victimMatrix, cellPos, hitEnergy );
-			hitEnergy -= tmpHitResistance;
-			hitResistance += tmpHitResistance;
+			currentResistance = ApplyLivingDamage( victimMatrix, cellPos, hitEnergy );
+			hitEnergy -= currentResistance;
+			resistance += currentResistance;
 
-			tmpHitResistance = 0;
 			//TilemapDamage
-			ApplyTilemapDamage( victimMatrix, cellPos, hitEnergy, worldPos, ref tmpHitResistance );
-			hitResistance += tmpHitResistance;
+			currentResistance = 0;
+			ApplyTilemapDamage( victimMatrix, cellPos, hitEnergy, worldPos, ref currentResistance );
+			resistance += currentResistance;
 
-
-			return hitResistance;
+			return resistance;
 		}
 
 		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos, ref float resistance )
@@ -334,7 +333,7 @@ public partial class MatrixManager
 			byte count = 0;
 			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
 			{
-				healthBehaviour.ApplyDamage( null, damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize( 0 ) );
+				healthBehaviour.ApplyDamage( null, damage, AttackType.Melee, DamageType.Brute );
 				count++;
 			}
 
