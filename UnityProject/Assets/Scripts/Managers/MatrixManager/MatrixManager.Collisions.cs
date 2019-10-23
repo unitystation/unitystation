@@ -23,6 +23,10 @@ public partial class MatrixManager
 
 	public List<MatrixIntersection> TrackedIntersections => trackedIntersections;
 
+	private static LayerType[] layersToRemove = { LayerType.Effects };
+	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Objects };
+	private static readonly float JUST_DESTROY_THRESHOLD = 250f;
+
 	private void InitCollisions()
 	{
 		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
@@ -216,24 +220,18 @@ public partial class MatrixManager
 			// ******** DESTROY STUFF!!! ********
 			//
 
-			//todo: placeholder, must take movement vectors in account!
-			ushort damage =  (ushort) (50 * (i.Matrix1.Speed + i.Matrix2.Speed));
-
-			//TilemapDamage
-			ApplyTilemapDamage( i.Matrix1, cellPos1, damage, worldPos );
-			ApplyTilemapDamage( i.Matrix2, cellPos2, damage, worldPos );
-
-			//Integrity
-			ApplyIntegrityDamage( i.Matrix1, cellPos1, damage );
-			ApplyIntegrityDamage( i.Matrix2, cellPos2, damage );
-
-			//LivingHealthBehaviour
-			ApplyLivingDamage( i.Matrix1, cellPos1, damage );
-			ApplyLivingDamage( i.Matrix2, cellPos2, damage );
+			//todo: placeholder, must take movement vectors in account! + what hits what
+			//total damage to apply to victim tile
+			float hitEnergy =  (100 * (i.Matrix1.Speed + i.Matrix2.Speed));
+			//total damage to apply to attacker tile. will grow
+			float hitResistance =
+				ApplyDamage( i.Matrix2, cellPos2, hitEnergy, worldPos );
+			//damage attacker tile with resistance
+			ApplyDamage( i.Matrix1, cellPos1, hitResistance, worldPos );
 
 			//Wires (since they don't have Integrity)
-			ApplyWireDamage( i.Matrix1, cellPos1, damage );
-			ApplyWireDamage( i.Matrix2, cellPos2, damage );
+			ApplyWireDamage( i.Matrix1, cellPos1 );
+			ApplyWireDamage( i.Matrix2, cellPos2 );
 
 			//Heat shit up
 			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 150 * collisions, collisions/10f );
@@ -263,16 +261,49 @@ public partial class MatrixManager
 		}
 
 		//Damage methods
-
-		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
+		float ApplyDamage( MatrixInfo victimMatrix, Vector3Int cellPos, float hitEnergy, Vector3Int worldPos )
 		{
-			foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
+			float hitResistance = 0;
+			float tmpHitResistance = 0;
+			//Integrity
+			tmpHitResistance = ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
+			hitEnergy -= tmpHitResistance;
+			hitResistance += tmpHitResistance;
+
+			//LivingHealthBehaviour
+			tmpHitResistance = ApplyLivingDamage( victimMatrix, cellPos, hitEnergy );
+			hitEnergy -= tmpHitResistance;
+			hitResistance += tmpHitResistance;
+
+			tmpHitResistance = 0;
+			//TilemapDamage
+			ApplyTilemapDamage( victimMatrix, cellPos, hitEnergy, worldPos, ref tmpHitResistance );
+			hitResistance += tmpHitResistance;
+
+
+			return hitResistance;
+		}
+
+		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos, ref float resistance )
+		{
+			if ( damage > JUST_DESTROY_THRESHOLD )
 			{
-				damageableLayer.TilemapDamage.DoCollisionDamage( cellPos, (int) damage, worldPos );
+				foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
+				{
+					if ( damageableLayer.LayerType != LayerType.Objects
+					  && matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType ) )
+					{
+						resistance += 100;
+					}
+				}
+			}
+			else
+			{
+				matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos, ref resistance );
 			}
 		}
 
-		void ApplyWireDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		void ApplyWireDamage( MatrixInfo matrix, Vector3Int cellPos/*, float damage*/ )
 		{
 			foreach ( var wire in matrix.Matrix.Get<CableInheritance>( cellPos, true ) )
 			{
@@ -286,25 +317,32 @@ public partial class MatrixManager
 			}
 		}
 
-		void ApplyIntegrityDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		float ApplyIntegrityDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
 		{
+			float totalResistance = 0f;
 			foreach ( var integrity in matrix.Matrix.Get<Integrity>( cellPos, true ) )
 			{
+				totalResistance += integrity.integrity;
 				integrity.ApplyDamage( damage, AttackType.Melee, DamageType.Brute );
 			}
+
+			return totalResistance;
 		}
 
-		void ApplyLivingDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		float ApplyLivingDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
 		{
+			byte count = 0;
 			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
 			{
 				healthBehaviour.ApplyDamage( null, damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize( 0 ) );
+				count++;
 			}
+
+			return count * 50;
 		}
 	}
 
-	private static LayerType[] layersToRemove = { LayerType.Effects, LayerType.Base };
-	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Objects };
+
 
 	private void SlowDown( MatrixIntersection i, int collisions )
 	{

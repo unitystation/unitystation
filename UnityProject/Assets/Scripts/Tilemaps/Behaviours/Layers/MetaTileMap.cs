@@ -61,6 +61,23 @@ public class MetaTileMap : MonoBehaviour
 		DamageableLayers = damageableLayersValues.ToArray();
 	}
 
+	/// <summary>
+	/// Apply damage to damageable layers, top to bottom.
+	/// If tile gets destroyed, remaining damage is applied to the layer below
+	/// </summary>
+	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, ref float resistance)
+	{
+		foreach ( var damageableLayer in DamageableLayers )
+		{
+			if ( damage <= 0f )
+			{
+				return;
+			}
+			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos );
+			resistance += 100;
+		}
+	}
+
 	public bool IsPassableAt(Vector3Int position, bool isServer)
 	{
 		return IsPassableAt(position, position, isServer);
@@ -222,7 +239,7 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks if tile is empty of solid objects. 
+	/// Checks if tile is empty of solid objects.
 	/// </summary>
 	/// <param name="inclItems">If true, checks for non-solid items, too</param>
 	public bool IsEmptyAt( Vector3Int position, bool isServer, bool inclItems = false )
@@ -230,7 +247,7 @@ public class MetaTileMap : MonoBehaviour
 		for (var index = 0; index < LayersKeys.Length; index++)
 		{
 			LayerType layer = LayersKeys[index];
-			if (HasTile(position, layer, isServer))
+			if (layer != LayerType.Objects && HasTile(position, layer, isServer))
 			{
 				return false;
 			}
@@ -346,11 +363,16 @@ public class MetaTileMap : MonoBehaviour
 	}
 	public bool HasTile(Vector3Int position, LayerType layerType, bool isServer)
 	{
-//		if ( !LayerTypeBitmask.HasFlag( layerType ) )
-//		{
-//			return false;
-//		}
-		return Layers[layerType].HasTile(position, isServer);
+		//protection against nonexistent layers
+		for ( var i = 0; i < LayersKeys.Length; i++ )
+		{
+			if ( layerType == LayersKeys[i] )
+			{
+				return Layers[layerType].HasTile( position, isServer );
+			}
+		}
+
+		return false;
 	}
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer)

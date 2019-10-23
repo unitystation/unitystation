@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
@@ -71,14 +72,17 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void RemoveTile(Vector3Int cellPosition, LayerType layerType)
+	public bool RemoveTile(Vector3Int cellPosition, LayerType layerType)
 	{
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
 			RpcRemoveTile(cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
+			return true;
 		}
+
+		return false;
 	}
 
 	[Server]

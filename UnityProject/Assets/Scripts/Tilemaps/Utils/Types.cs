@@ -1,6 +1,7 @@
 
 
 using System;
+using UnityEngine.Serialization;
 
 public enum TileType
 {
@@ -16,26 +17,15 @@ public enum TileType
 	Effects
 }
 
-/// <summary>
-/// Flags are only there for LayerTypeBitmask
-/// </summary>
-//[Flags]
+//If you change numbers, scene layers will mess up
 public enum LayerType
 {
-	Walls,
-	Windows,
-	Objects,
-	Floors,
-	Base,
-	Grills,
-	Effects,
-	None
-} //Dictionary shits itself when order is changed! Clueless!
-//None =  0,
-//Walls =  1 << 0,
-//Windows =  1 << 1,
-//Objects =  1 << 2,
-//Floors =  1 << 3,
-//Base =  1 << 4,
-//Grills =  1 << 5,
-//Effects = 1 << 6,
+	Walls 	= 0,
+	Windows = 1,
+	Objects = 2,
+	Floors 	= 3,
+	Base 	= 4,
+	Grills 	= 5,
+	Effects = 6,
+	None 	= 7
+}

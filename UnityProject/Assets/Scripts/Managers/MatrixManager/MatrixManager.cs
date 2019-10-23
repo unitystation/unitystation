@@ -324,8 +324,12 @@ public partial class MatrixManager : MonoBehaviour
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable(isServer) && playerMove.gameObject != mover
-			    && !playerMove.PlayerScript.pushPull.IsPullingSomething && !playerMove.IsBuckled)
+			if (playerMove.IsHelpIntent
+			    && !playerMove.PlayerScript.playerHealth.IsDead
+			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)
+			    && playerMove.gameObject != mover
+			    && !playerMove.PlayerScript.pushPull.IsPullingSomething
+			    && !playerMove.IsBuckled)
 			{
 				return playerMove;
 			}

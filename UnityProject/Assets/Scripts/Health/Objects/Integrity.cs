@@ -75,7 +75,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 	private static readonly float BURN_RATE = 1f;
 	private float timeSinceLastBurn;
 
-	private float integrity = 100f;
+	public float integrity { get; private set; } = 100f;
 	private bool destroyed = false;
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
