@@ -71,8 +71,7 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 			5f, progressFinishAction, interaction.Performer);
 		if (bar != null)
 		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-				"You start constructing a rack...");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You start constructing a rack...");
 		}
 	}
 

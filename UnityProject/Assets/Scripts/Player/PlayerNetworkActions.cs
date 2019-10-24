@@ -733,8 +733,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Chat.AddActionMsgToChat(rescuer, $"You have performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
 			$"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.");
-
-		doingCPR = false;
 	}
 
 	/// <summary>
