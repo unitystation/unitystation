@@ -27,6 +27,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	public float maxHealth = 100;
 
+	[Tooltip("For mobs that can breath in any atmos environment")]
+	public bool canBreathAnywhere = false;
+
 	public float OverallHealth { get; private set; } = 100;
 	public float cloningDamage;
 
@@ -148,6 +151,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		{
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
+		respiratorySystem.canBreathAnywhere = canBreathAnywhere;
 
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
