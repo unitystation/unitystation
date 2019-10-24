@@ -6,9 +6,6 @@
 [RequireComponent(typeof(Pickupable))]
 public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
-	//server-side only, tracks if mop is currently cleaning.
-	private bool isCleaning;
-
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
