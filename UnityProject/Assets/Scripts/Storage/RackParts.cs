@@ -4,7 +4,6 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 {
 
 	public GameObject rackPrefab;
-	private bool isBuilding;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -55,40 +54,25 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			return;
 		}
 
-		if (isBuilding)
-		{
-			return;
-		}
-
-		Chat.AddExamineMsgFromServer(interaction.Performer,
-			"You start constructing a rack...");
-
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
+		var progressFinishAction = new ProgressCompleteAction(() =>
 			{
-				if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
-				{
-					isBuilding = false;
-				}
-				else if (reason == FinishProgressAction.FinishReason.COMPLETED)
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer,
+				Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You assemble a rack.");
-
-					PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);
-
-					var handObj = interaction.HandObject;
-					var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-					handObj.GetComponent<Pickupable>().DisappearObject(slot);
-
-					isBuilding = false;
-				}
+				PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
+					interaction.Performer.transform.parent);
+				var handObj = interaction.HandObject;
+				var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer,
+					interaction.HandSlot.equipSlot);
+				handObj.GetComponent<Pickupable>().DisappearObject(slot);
 			}
 		);
-		isBuilding = true;
 
-		UIManager.ProgressBar.StartProgress(interaction.WorldPositionTarget.RoundToInt(),
+		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
 			5f, progressFinishAction, interaction.Performer);
+		if (bar != null)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You start constructing a rack...");
+		}
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)

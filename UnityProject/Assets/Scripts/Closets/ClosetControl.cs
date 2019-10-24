@@ -241,12 +241,13 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-
-		//Is the player trying to put something in the closet
+		// Is the player trying to put something in the closet
 		if (interaction.HandObject != null && !IsClosed)
 		{
-			PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-			pna.CmdPlaceItem(interaction.HandSlot.equipSlot, registerTile.WorldPosition, null, false);
+			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
+			targetPosition.z = -0.2f;
+			var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+			pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
 		}
 		else if (!IsLocked)
 		{

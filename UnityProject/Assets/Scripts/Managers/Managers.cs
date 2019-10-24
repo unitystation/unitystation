@@ -37,11 +37,6 @@ public class Managers : MonoBehaviour
 		await Task.Delay(3000); //Wait a decent amount of time for startup of the scene (3s)
 
 		Instantiate (Resources.Load ("UI/GUI/Right click canvas"));
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			//Spawn the ProgressBar handler:
-			var p = PoolManager.PoolNetworkInstantiate(Resources.Load("ProgressBar") as GameObject, Vector3.zero);
-		}
 	}
 
 	public void SetScreenForLobby()

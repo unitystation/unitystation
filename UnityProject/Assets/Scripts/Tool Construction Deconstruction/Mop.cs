@@ -19,30 +19,12 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (!isCleaning)
-		{
-			//server is performing server-side logic for the interaction
-			//do the mopping
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
-					{
-						CancelCleanTile();
-					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
-					{
-						CleanTile(interaction.WorldPositionTarget);
-						isCleaning = false;
-					}
-				}
-			);
-			isCleaning = true;
-
-			//Start the progress bar:
-			UIManager.ProgressBar.StartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, progressFinishAction, interaction.Performer);
-		}
+		//server is performing server-side logic for the interaction
+		//do the mopping
+		var progressFinishAction = new ProgressCompleteAction(() => CleanTile(interaction.WorldPositionTarget));
+		//Start the progress bar:
+		UIManager.ServerStartProgress(ProgressAction.Mop, interaction.WorldPositionTarget.RoundToInt(),
+			5f, progressFinishAction, interaction.Performer);
 	}
 
 	public void CleanTile(Vector3 worldPos)
@@ -52,12 +34,4 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
 		matrix.MetaDataLayer.Clean(worldPosInt, localPosInt, true);
 	}
-
-
-	private void CancelCleanTile()
-	{
-		//stop the in progress cleaning
-		isCleaning = false;
-	}
-
 }

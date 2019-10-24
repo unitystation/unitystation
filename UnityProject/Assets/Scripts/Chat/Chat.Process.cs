@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 public partial class Chat
 {
@@ -67,14 +66,14 @@ public partial class Chat
 		//Check for OOC. If selected, remove all other channels and modifiers (could happen if UI fucks up or someone tampers with it)
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
-			message = AddMsgColor(channels, $"<b>{speaker}: {message}</b>");
+			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
 			return message;
 		}
 
 		//Ghosts don't get modifiers
 		if (channels.HasFlag(ChatChannel.Ghost))
 		{
-			return AddMsgColor(channels, $"<b>{speaker}: ") + $"<color=white>{message}</b></color>";
+			return AddMsgColor(channels, $"[dead] <b>{speaker}</b>: {message}");
 		}
 
 		message = ApplyModifiers(message, modifiers);
@@ -83,7 +82,32 @@ public partial class Chat
 			return "";
 		}
 
-		return AddMsgColor(channels, $"<b>{speaker}</b> says:") + "<color=white> \"" + message + "\"</color>";
+		var verb = "says:";
+		var toUpperCheck = message.ToUpper(CultureInfo.InvariantCulture);
+
+		if (message.Contains("!") && toUpperCheck != message){
+			verb = "exclaims,";
+		}
+
+		if (toUpperCheck == message)
+		{
+			verb = "yells,";
+			message = $"<b>{message}</b>";
+		}
+
+		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
+
+		if (channels.HasFlag(ChatChannel.Command))
+		{
+			chan = "[cmd] ";
+		}
+
+		if (channels.HasFlag(ChatChannel.Local))
+		{
+			chan = "";
+		}
+
+		return AddMsgColor(channels, $"{chan}<b>{speaker}</b> {verb} " + "\"" + message + "\"");
 	}
 
 	private static string StripTags(string input)
