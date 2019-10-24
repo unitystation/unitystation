@@ -35,7 +35,7 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	{
 		yield return WaitFor.Seconds( 0.02f );
 		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5 );
-		targetHealth.ApplyDamage( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
+		targetHealth.ApplyDamageToBodypart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
 	/// <summary>

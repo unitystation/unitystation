@@ -239,10 +239,10 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks if tile is empty of solid objects.
+	/// Checks if tile is empty of objects (only solid by default)
 	/// </summary>
-	/// <param name="inclItems">If true, checks for non-solid items, too</param>
-	public bool IsEmptyAt( Vector3Int position, bool isServer, bool inclItems = false )
+	/// <param name="includingPassable">If true, checks for non-solid items, too</param>
+	public bool IsEmptyAt( Vector3Int position, bool isServer, bool includingPassable = false )
 	{
 		for (var index = 0; index < LayersKeys.Length; index++)
 		{
@@ -258,7 +258,7 @@ public class MetaTileMap : MonoBehaviour
 					? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
 					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 				{
-					if (!o.IsPassable(isServer) || inclItems)
+					if (!o.IsPassable(isServer) || includingPassable)
 					{
 						return false;
 					}

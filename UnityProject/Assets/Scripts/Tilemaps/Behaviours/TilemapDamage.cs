@@ -9,10 +9,10 @@ using Random = UnityEngine.Random;
 /// Allows for damaging tiles and updating tiles based on damage taken.
 /// </summary>
 public class TilemapDamage : MonoBehaviour, IFireExposable
-{ 
+{
 	//TODO: this needs a refactor. BaseTile has useful fields that should be used instead of this.
 	//also this implementation isn't designed for tile variations, essentially being limited to one tile kind per layer
-  
+
 	private const int MAX_TABLE_DAMAGE = 50;
 	private const int MAX_WALL_DAMAGE = 100;
 	private const int MAX_FLOOR_DAMAGE = 70;
@@ -20,7 +20,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private const int MAX_WINDOW_DAMAGE = 100;
 	private const int MAX_GRILL_DAMAGE = 60;
 	private static readonly float TILE_MIN_SCORCH_TEMPERATURE = 100f;
-	
+
 	public float Integrity(Vector3Int pos)
 	{
 		if ( !Layer.HasTile( pos, true ) )
@@ -260,15 +260,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			}
 		}
 
-		//fixme
-//		if ( Layer.LayerType == LayerType.Objects )
-//		{
-//			if ( metaTileMap.HasTile( cellPos, LayerType.Objects, true ) )
-//			{
-////				SoundManager.PlayNetworkedAtPos( "TableHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-//				return AddTableDamage( dmgAmt, data, cellPos, worldPos, attackType );
-//			}
-//		}
+		if ( Layer.LayerType == LayerType.Objects )
+		{
+			if ( metaTileMap.GetTile( cellPos, LayerType.Objects )?.TileType == TileType.Table )
+			{
+//				SoundManager.PlayNetworkedAtPos( "TableHit", worldPos, Random.Range( 0.9f, 1.1f ) );
+				return AddTableDamage( dmgAmt, data, cellPos, worldPos, attackType );
+			}
+		}
 
 		if ( Layer.LayerType == LayerType.Floors )
 		{
@@ -291,17 +290,26 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return dmgAmt;
 	}
 
-	private float AddTableDamage( int dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType )
+	private float AddTableDamage( float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType )
 	{
 		data.Damage += TABLE_ARMOR.GetDamage(dmgAmt, attackType);
 
 		if (data.Damage >= MAX_TABLE_DAMAGE)
 		{
-			tileChangeManager.UpdateTile(cellPos, TileType.Object, null); //fixme: watch out! must not destroy other objects like player!
+			//watch out! must not accidentally destroy other objects like player!
+			tileChangeManager.RemoveTile(cellPos, LayerType.Objects);
 
 //			SoundManager.PlayNetworkedAtPos("TableHit", worldPos, 1f);
 
-			//todo: Spawn wood or metal
+			//Spawn remains:
+			if ( Random.value < 0.05f )
+			{
+				SpawnRods(worldPos);
+			}
+			else if ( Random.value > 0.95f )
+			{
+				SpawnMetal(worldPos);
+			}
 
 			return data.ResetDamage() - MAX_TABLE_DAMAGE;
 		}

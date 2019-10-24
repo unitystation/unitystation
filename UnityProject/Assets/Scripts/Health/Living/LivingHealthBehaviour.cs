@@ -290,8 +290,22 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 		foreach ( var bodyPart in BodyParts )
 		{
-			ApplyDamage( damagedBy, damage/BodyParts.Count, attackType, damageType, bodyPart.Type );
+			ApplyDamageToBodypart( damagedBy, damage/BodyParts.Count, attackType, damageType, bodyPart.Type );
 		}
+	}
+
+	/// <summary>
+	///  Apply Damage to random bodypart of the Living thing. Server only
+	/// </summary>
+	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+	/// <param name="damage">Damage Amount</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
+	/// <param name="damageType">The Type of Damage</param>
+	[Server]
+	public void ApplyDamageToBodypart( GameObject damagedBy, float damage,
+		AttackType attackType, DamageType damageType )
+	{
+		ApplyDamageToBodypart( damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize( 0 ) );
 	}
 
 	/// <summary>
@@ -303,7 +317,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
-	public virtual void ApplyDamage(GameObject damagedBy, float damage,
+	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
@@ -379,7 +393,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 				if (fireStacks > 0)
 				{
 					//TODO: Burn clothes / limbs (see species.dm handle_fire), currently it just burns the chest.
-					ApplyDamage(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
+					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
 					//gradually deplete fire stacks
 					SyncFireStacks(fireStacks-0.1f);
 					//instantly stop burning if there's no oxygen at this location

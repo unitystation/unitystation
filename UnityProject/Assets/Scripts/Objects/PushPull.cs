@@ -93,10 +93,10 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		bool collided = false;
 		foreach ( var living in MatrixManager.GetAt<LivingHealthBehaviour>( collision.CollisionTile, true ) )
 		{
-			living.ApplyDamage( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			living.ApplyDamageToBodypart( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute );
 			collided = true;
 		}
-		foreach ( var tile in MatrixManager.GetDamagetableTilemapsAt( collision.CollisionTile ) )
+		foreach ( var tile in MatrixManager.GetDamageableTilemapsAt( collision.CollisionTile ) )
 		{
 			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
 			collided = true;
@@ -105,7 +105,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		if ( collided )
 		{
 			//Damage self as bad as the thing you collide with
-			GetComponent<LivingHealthBehaviour>()?.ApplyDamage( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodypart( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute );
 			Logger.LogFormat( "{0}: collided with something at {2}, both received {1} damage",
 				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile );
 		}

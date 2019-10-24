@@ -11,6 +11,8 @@ using Random = UnityEngine.Random;
 /// </summary>
 public partial class MatrixManager
 {
+	private const float EXTRA_COLLISION_THRESHOLD = 200f;
+
 	/// <summary>
 	/// Currently moving matrices. Should be monitored for new intersections with other matrix bounds
 	/// </summary>
@@ -213,9 +215,6 @@ public partial class MatrixManager
 				continue;
 			}
 
-			collisions++;
-
-
 			//
 			// ******** DESTROY STUFF!!! ********
 			//
@@ -235,8 +234,8 @@ public partial class MatrixManager
 			ApplyWireDamage( i.Matrix2, cellPos2 );
 
 			//Heat shit up
-			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 150 * collisions, collisions/10f );
-			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, 150 * collisions, collisions/10f );
+			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, resistance, resistance/1000f );
+			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, resistance, resistance/1000f );
 
 			//Other
 			foreach ( var layer in layersToRemove )
@@ -249,6 +248,16 @@ public partial class MatrixManager
 				i.Matrix1.TileChangeManager.RemoveEffect( cellPos1, layer );
 				i.Matrix2.TileChangeManager.RemoveEffect( cellPos2, layer );
 			}
+
+			if ( resistance >= 0f )
+			{
+				collisions++;
+				if ( resistance > EXTRA_COLLISION_THRESHOLD )
+				{
+					collisions += (byte)( (resistance-EXTRA_COLLISION_THRESHOLD) / EXTRA_COLLISION_THRESHOLD );
+				}
+			}
+
 		}
 
 		if ( collisions > 0 )
@@ -287,18 +296,17 @@ public partial class MatrixManager
 		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos, ref float resistance )
 		{
 //			if ( damage > JUST_DESTROY_THRESHOLD )
-//			{
+//			{ //quicker damaging
 //				foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
 //				{
-//					if ( damageableLayer.LayerType != LayerType.Objects
-//					  && matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType ) )
+//					if ( matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType ) )
 //					{
-//						resistance += 100;
+//						resistance += 200;
 //					}
 //				}
 //			}
 //			else
-//			{
+//			{ //proper damaging
 				matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos, ref resistance );
 //			}
 		}
@@ -319,14 +327,14 @@ public partial class MatrixManager
 
 		float ApplyIntegrityDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
 		{
-			float totalResistance = 0f;
+			float resistance = 0f;
 			foreach ( var integrity in matrix.Matrix.Get<Integrity>( cellPos, true ) )
 			{
-				totalResistance += integrity.integrity;
+				resistance += integrity.integrity;
 				integrity.ApplyDamage( damage, AttackType.Melee, DamageType.Brute );
 			}
 
-			return totalResistance;
+			return resistance;
 		}
 
 		float ApplyLivingDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
@@ -334,7 +342,7 @@ public partial class MatrixManager
 			byte count = 0;
 			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
 			{
-				healthBehaviour.ApplyDamage( null, damage, AttackType.Melee, DamageType.Brute );
+				healthBehaviour.ApplyDamageToBodypart( null, damage, AttackType.Melee, DamageType.Brute );
 				count++;
 			}
 
@@ -362,7 +370,7 @@ public partial class MatrixManager
 				0.1f,
 				0.95f
 				);
-			float speed = ( info.MatrixMove.State.Speed * slowdownFactor ) - 0.1f;
+			float speed = ( info.MatrixMove.State.Speed * slowdownFactor ) - 0.07f;
 			if ( speed <= 1f )
 			{
 				info.MatrixMove.StopMovement();

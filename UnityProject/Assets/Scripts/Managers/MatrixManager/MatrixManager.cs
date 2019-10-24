@@ -145,7 +145,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	/// <param name="worldTarget"></param>
 	/// <returns></returns>
-	public static List<TilemapDamage> GetDamagetableTilemapsAt( Vector3Int worldTarget )
+	public static List<TilemapDamage> GetDamageableTilemapsAt( Vector3Int worldTarget )
 	{
 		var hit2D = Physics2D.RaycastAll(worldTarget.To2Int(), Vector2.zero, 10, tileDmgMask);
 		var hitTilemaps = new List<TilemapDamage>();

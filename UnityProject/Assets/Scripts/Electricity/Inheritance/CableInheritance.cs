@@ -98,7 +98,11 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 		if (SelfDestruct) {
 			wireConnect.registerTile.UnregisterClient();
 			wireConnect.registerTile.UnregisterServer();
-			PoolManager.PoolNetworkDestroy(gameObject);
+
+			if ( this != null )
+			{
+				PoolManager.PoolNetworkDestroy(gameObject);
+			}
 		}
 
 	}

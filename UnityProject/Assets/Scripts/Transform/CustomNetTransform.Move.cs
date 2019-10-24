@@ -511,7 +511,7 @@ public partial class CustomNetTransform
 
 		if (serverState.Speed > SpeedHitThreshold && HittingSomething(intGoal, info.ThrownBy, out hitDamageables))
 		{
-			OnHit(intGoal, info, hitDamageables, MatrixManager.GetDamagetableTilemapsAt(intGoal));
+			OnHit(intGoal, info, hitDamageables, MatrixManager.GetDamageableTilemapsAt(intGoal));
 			if (info.ThrownBy != null)
 			{
 				return false;
@@ -552,7 +552,7 @@ public partial class CustomNetTransform
 				//Remove cast to int when moving health values to float
 				var damage = (int)(ItemAttributes.throwDamage * 2);
 				var hitZone = info.Aim.Randomize();
-				objects[i].ApplyDamage(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
+				objects[i].ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 				Chat.AddThrowHitMsgToChat(gameObject,objects[i].gameObject, hitZone);
 			}
 			//hit sound
