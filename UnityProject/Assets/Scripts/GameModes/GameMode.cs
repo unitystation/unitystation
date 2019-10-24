@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Antagonists;
 
 /// <summary>
 /// Contains the definition of a game mode. To create a new one you should
@@ -78,12 +79,19 @@ public abstract class GameMode : MonoBehaviour
 	/// <summary>
 	/// Check if the round should end yet
 	/// </summary>
-	public abstract void CheckEndCondition();
+	public virtual void CheckEndCondition()
+	{
+		Logger.Log("Checking end round conditions!", Category.GameMode);
+	}
 
 	/// <summary>
 	/// End the round and display any relevant reports
 	/// </summary>
-	public abstract void EndRound();
+	public virtual void EndRound()
+	{
+		Logger.Log("Ending round!", Category.GameMode);
+		AntagManager.Instance.ShowAntagStatusReport();
+	}
 
 	// TODO
 	// public abstract void ChooseAntags();

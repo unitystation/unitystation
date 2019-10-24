@@ -244,7 +244,7 @@ public partial class GameManager : MonoBehaviour
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			// TODO hard coding gamemode for testing purposes
-			SelectGameMode("NukeOps");
+			SelectGameMode("Traitor");
 			// if (SecretGameMode && GameMode == null)
 			// {
 			// 	ChooseGameMode();
@@ -281,6 +281,8 @@ public partial class GameManager : MonoBehaviour
 			}
 
 			waitForRestart = true;
+			GameMode.EndRound();
+			Antagonists.AntagManager.Instance.ResetAntags();
 			PlayerList.Instance.ReportScores();
 		}
 	}

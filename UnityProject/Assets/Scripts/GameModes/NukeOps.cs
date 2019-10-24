@@ -18,20 +18,20 @@ public class NukeOps : GameMode
 		// TODO remove once random antag allocation is done
 		UpdateUIMessage.Send(ControlDisplays.Screens.TeamSelect);
 	}
-	/// <summary>
-	/// Check if the round should end yet
-	/// </summary>
-	public override void CheckEndCondition()
-	{
-		Logger.Log("Check end round conditions!", Category.GameMode);
-	}
-	/// <summary>
-	/// End the round and display any relevant reports
-	/// </summary>
-	public override void EndRound()
-	{
-		Logger.Log("Ending round!", Category.GameMode);
-	}
+	// /// <summary>
+	// /// Check if the round should end yet
+	// /// </summary>
+	// public override void CheckEndCondition()
+	// {
+	// 	Logger.Log("Check end round conditions!", Category.GameMode);
+	// }
+	// /// <summary>
+	// /// End the round and display any relevant reports
+	// /// </summary>
+	// public override void EndRound()
+	// {
+	// 	Logger.Log("Ending round!", Category.GameMode);
+	// }
 
 	// TODO
 	// private void ChooseNukeOps()

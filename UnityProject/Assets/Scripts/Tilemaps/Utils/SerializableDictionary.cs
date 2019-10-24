@@ -312,3 +312,8 @@ public class PassableDictionary : SerializableDictionary<CollisionType, bool>
 public class UISwapDictionary : SerializableDictionary<UIType, string>
 {
 }
+
+[Serializable]
+public class ItemDictionary : SerializableDictionary<GameObject, int>
+{
+}
