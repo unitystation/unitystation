@@ -11,21 +11,60 @@ public class ProgressBarMessage : ServerMessage
 
 	public uint Recipient;
 	public int SpriteIndex;
-	public Vector3 Position;
+	public Vector2Int OffsetFromPlayer;
+	public int ProgressBarID;
 
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
-		UIManager.ProgressBar.ClientUpdateProgress(Position, SpriteIndex);
+
+		var bar = UIManager.GetProgressBar(ProgressBarID);
+
+		//bar not found, so create it
+		if (bar == null)
+		{
+			bar = UIManager.CreateProgressBar(OffsetFromPlayer, ProgressBarID);
+		}
+
+
+		bar.ClientUpdateProgress(SpriteIndex);
 	}
 
-	public static ProgressBarMessage Send(GameObject recipient, int spriteIndex, Vector3 pos)
+	/// <summary>
+	/// Sends the message to create the progress bar client side
+	/// </summary>
+	/// <param name="recipient"></param>
+	/// <param name="spriteIndex"></param>
+	/// <param name="offsetFromPlayer">offset from player performing the progress action</param>
+	/// <param name="progressBarID"></param>
+	/// <returns></returns>
+	public static ProgressBarMessage SendCreate(GameObject recipient, int spriteIndex, Vector2Int offsetFromPlayer, int progressBarID)
 	{
 		ProgressBarMessage msg = new ProgressBarMessage
 		{
 			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
-				SpriteIndex = spriteIndex,
-				Position = pos
+			SpriteIndex = spriteIndex,
+			OffsetFromPlayer = offsetFromPlayer,
+			ProgressBarID = progressBarID
+		};
+		msg.SendTo(recipient);
+		return msg;
+	}
+
+	/// <summary>
+	/// Sends the message to update the progress bar with the specified id
+	/// </summary>
+	/// <param name="recipient"></param>
+	/// <param name="spriteIndex"></param>
+	/// <param name="progressBarID"></param>
+	/// <returns></returns>
+	public static ProgressBarMessage SendUpdate(GameObject recipient, int spriteIndex, int progressBarID)
+	{
+		ProgressBarMessage msg = new ProgressBarMessage
+		{
+			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+			SpriteIndex = spriteIndex,
+			ProgressBarID = progressBarID
 		};
 		msg.SendTo(recipient);
 		return msg;

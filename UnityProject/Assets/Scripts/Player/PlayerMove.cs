@@ -392,6 +392,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		Uncuff();
 	}
 
+	//TODO: uncuffing logic can be refactored to IF2
+
 	/// <summary>
 	/// Used for the right click action, sends a message requesting uncuffing
 	/// </summary>

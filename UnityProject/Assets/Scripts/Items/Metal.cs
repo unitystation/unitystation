@@ -8,7 +8,6 @@ using Mirror;
 /// </summary>
 public class Metal : NBHandActivateInteractable
 {
-	private bool isBuilding;
 	public GameObject girderPrefab;
 
 	protected override void ServerPerformInteraction(HandActivate interaction)
@@ -19,42 +18,18 @@ public class Metal : NBHandActivateInteractable
 	[Server]
 	private void startBuilding(HandActivate interaction)
 	{
-		if (!isBuilding)
-		{
-			var position = interaction.Performer.transform.position;
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
-					{
-						CancelBuild();
-					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
-					{
-						BuildGirder(interaction, position);
-					}
-				}
-			);
-			isBuilding = true;
-			UIManager.ProgressBar.StartProgress(position.RoundToInt(), 5f, progressFinishAction, interaction.Performer);
-		}
+		var progressFinishAction = new ProgressCompleteAction(() => BuildGirder(interaction));
+		UIManager.ServerStartProgress(ProgressAction.Construction, interaction.Performer.TileWorldPosition().To3Int(), 5f, progressFinishAction, interaction.Performer);
 	}
 
 	[Server]
-	private void BuildGirder(HandActivate interaction, Vector3 position)
+	private void BuildGirder(HandActivate interaction)
 	{
-		PoolManager.PoolNetworkInstantiate(girderPrefab, position);
-		isBuilding = false;
+		PoolManager.PoolNetworkInstantiate(girderPrefab, interaction.Performer.TileWorldPosition().To3Int());
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		GetComponent<Pickupable>().DisappearObject(slot);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 
-	}
-
-	[Server]
-	private void CancelBuild()
-	{
-		isBuilding = false;
 	}
 
 }

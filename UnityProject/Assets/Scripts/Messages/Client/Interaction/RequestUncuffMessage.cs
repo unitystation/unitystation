@@ -31,20 +31,14 @@ public class RequestUncuffMessage : ClientMessage
 		GameObject actor = SentByPlayer.GameObject;
 		GameObject playerToUncuff = NetworkObject;
 
-		var finishProgressAction = new FinishProgressAction(
-			finishReason =>
-			{
-				if (finishReason == FinishProgressAction.FinishReason.COMPLETED)
-				{
-					playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor);
-				}
-			}
-		);
-
 		var restraint = playerToUncuff.GetComponent<PlayerNetworkActions>().Inventory[EquipSlot.handcuffs]?.Item?.GetComponent<Restraint>();
-
 		if (restraint)
-			UIManager.ProgressBar.StartProgress(actor.transform.position, restraint.RemoveTime, finishProgressAction, actor);
+		{
+			var finishProgressAction = new ProgressCompleteAction(() =>
+				playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor));
+			UIManager.ServerStartProgress(ProgressAction.Uncuff, actor.transform.position, restraint.RemoveTime,
+				finishProgressAction, actor);
+		}
 	}
 
 	public override void Serialize(NetworkWriter writer)
