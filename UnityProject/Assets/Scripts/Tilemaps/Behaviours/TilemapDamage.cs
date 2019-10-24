@@ -1,13 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Allows for damaging tiles and updating tiles based on damage taken.
 /// </summary>
 public class TilemapDamage : MonoBehaviour, IFireExposable
-{
+{ 
+	//TODO: this needs a refactor. BaseTile has useful fields that should be used instead of this.
+	//also this implementation isn't designed for tile variations, essentially being limited to one tile kind per layer
+  
 	private const int MAX_TABLE_DAMAGE = 50;
 	private const int MAX_WALL_DAMAGE = 100;
 	private const int MAX_FLOOR_DAMAGE = 70;
@@ -15,6 +20,45 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private const int MAX_WINDOW_DAMAGE = 100;
 	private const int MAX_GRILL_DAMAGE = 60;
 	private static readonly float TILE_MIN_SCORCH_TEMPERATURE = 100f;
+	
+	public float Integrity(Vector3Int pos)
+	{
+		if ( !Layer.HasTile( pos, true ) )
+		{
+			return 0;
+		}
+		int maxDamage = 0;
+		switch ( Layer.LayerType )
+		{
+			case LayerType.Walls:
+				maxDamage = MAX_WALL_DAMAGE;
+				break;
+			case LayerType.Windows:
+				maxDamage = MAX_WINDOW_DAMAGE;
+				break;
+			case LayerType.Objects:
+				if ( metaTileMap.IsTileTypeAt( pos, isServer: true, TileType.Table ) )
+				{
+					maxDamage = MAX_TABLE_DAMAGE;
+				}
+				else
+				{
+					return 0;
+				}
+				break;
+			case LayerType.Floors:
+				maxDamage = MAX_FLOOR_DAMAGE;
+				break;
+			case LayerType.Base:
+				maxDamage = MAX_PLATING_DAMAGE;
+				break;
+			case LayerType.Grills:
+				maxDamage = MAX_GRILL_DAMAGE;
+				break;
+		}
+
+		return Mathf.Clamp(maxDamage - metaDataLayer.Get( pos ).Damage, 0, float.MaxValue);
+	}
 
 	private TileChangeManager tileChangeManager;
 
@@ -492,7 +536,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 	}
 
-	//TODO: make use of BasicTile fields: float MaxHealth; TileState[] HealthStates; LayerTile DestroyedTile
 	public void TryScorch( Vector3Int cellPos )
 	{
 		//is it already scorched

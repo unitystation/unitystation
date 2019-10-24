@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility = UnityEngine.Networking.Utility;
@@ -701,6 +702,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		}
 	}
 
+	private void OnDrawGizmos()
+	{
+		if ( !Application.isPlaying )
+		{
+			return;
+		}
+		Gizmos.color = Color.blue.WithAlpha( 0.5f );
+		Gizmos.DrawCube( registerTile.WorldPositionServer, Vector3.one );
+	}
 }
 
 /// <summary>

@@ -73,8 +73,8 @@ public class MetaTileMap : MonoBehaviour
 			{
 				return;
 			}
+			resistance += damageableLayer.TilemapDamage.Integrity( cellPos );
 			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos );
-			resistance += 100;
 		}
 	}
 

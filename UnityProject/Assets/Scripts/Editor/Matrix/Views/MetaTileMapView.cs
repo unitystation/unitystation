@@ -10,6 +10,7 @@ public class MetaTileMapView : BasicView
 	static MetaTileMapView()
 	{
 		localChecks.Add(new NonEmptyCheck());
+		localChecks.Add(new ObjectLayerCheck());
 		localChecks.Add(new PassableCheck());
 		localChecks.Add(new AtmosPassableCheck());
 		localChecks.Add(new ShowLocalPositionsCheck());
@@ -57,6 +58,18 @@ public class MetaTileMapView : BasicView
 			if (!source.IsEmptyAt(position, false))
 			{
 				GizmoUtils.DrawCube(position, Color.green);
+			}
+		}
+	}
+	private class ObjectLayerCheck : Check<MetaTileMap>
+	{
+		public override string Label { get; } = "Object Layer Tiles";
+
+		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
+		{
+			if (source.HasTile(position, LayerType.Objects, false))
+			{
+				GizmoUtils.DrawCube(position, Color.magenta);
 			}
 		}
 	}
