@@ -57,16 +57,31 @@ namespace Antagonists
 		}
 
 		/// <summary>
-		/// Returns a string with the current objectives for this antag
+		/// Returns a string with just the objectives for logging
 		/// </summary>
-		public string GetObjectives()
+		public string GetObjectivesForLog()
 		{
-			StringBuilder objSB = new StringBuilder($"You are a {antagName}!\n", 200);
+			StringBuilder objSB = new StringBuilder(200);
+			for (int i = 0; i < CurrentObjectives.Count; i++)
+			{
+				objSB.AppendLine($"{i+1}. {CurrentObjectives[i].Description}");
+			}
+			return objSB.ToString();
+		}
+
+		/// <summary>
+		/// Returns a string with the current objectives for this antag which will be shown to the player
+		/// </summary>
+		public string GetObjectivesForPlayer()
+		{
+			StringBuilder objSB = new StringBuilder($"</i><size=26>You are a <b>{antagName}</b>!</size>\n", 200);
 			objSB.AppendLine("Your objectives are:");
 			for (int i = 0; i < CurrentObjectives.Count; i++)
 			{
-				objSB.AppendLine($"{i+1} - {CurrentObjectives[i].Description}");
+				objSB.AppendLine($"{i+1}. {CurrentObjectives[i].Description}");
 			}
+			// Adding back italic tag so rich text doesn't break
+			objSB.AppendLine("<i>");
 			return objSB.ToString();
 		}
 
@@ -76,12 +91,12 @@ namespace Antagonists
 		public string GetObjectiveStatus()
 		{
 			var pna = Owner.body.playerNetworkActions;
-			StringBuilder objSB = new StringBuilder($"{Owner.body.playerName}\n", 200);
+			StringBuilder objSB = new StringBuilder($"<b>{Owner.body.playerName}</b>\n", 200);
 			objSB.AppendLine("Their objectives were:");
 			for (int i = 0; i < CurrentObjectives.Count; i++)
 			{
-				objSB.Append($"{i+1} - {CurrentObjectives[i].Description}: ");
-				objSB.AppendLine(CurrentObjectives[i].IsComplete(pna) ? "Completed" : "Failed");
+				objSB.Append($"{i+1}. {CurrentObjectives[i].Description}: ");
+				objSB.AppendLine(CurrentObjectives[i].IsComplete(pna) ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
 			}
 			return objSB.ToString();
 		}

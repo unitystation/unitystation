@@ -125,7 +125,7 @@ public class Mind
 	public void ShowObjectives()
 	{
 		if (!IsAntag) return;
-		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectives());
+		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectivesForPlayer());
 	}
 
 }

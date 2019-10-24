@@ -51,7 +51,7 @@ namespace Antagonists
 			antag.GiveObjectives(objectives);
 			ActiveAntags.Add(antag);
 			player.Script.mind.SetAntag(antag);
-			Logger.Log($"Created new antag. Made {player.Name} a {antag.AntagName}", Category.Antags);
+			Logger.Log($"Created new antag. Made {player.Name} a {antag.AntagName} with objectives:\n{antag.GetObjectivesForLog()}", Category.Antags);
 		}
 
 		/// <summary>
@@ -59,14 +59,14 @@ namespace Antagonists
 		/// </summary>
 		public void ShowAntagStatusReport()
 		{
-			StringBuilder statusSB = new StringBuilder($"End of Round Report\n", 200);
+			StringBuilder statusSB = new StringBuilder($"<color=white><size=30><b>End of Round Report</b></size></color>\n\n", 200);
 
 			if (ActiveAntags.Count > 0)
 			{
 				// Group all the antags by type and list them together
 				foreach (var antagType in ActiveAntags.GroupBy(t => t.GetType()))
 				{
-					statusSB.AppendLine($"The {antagType.Key.Name}s were:");
+					statusSB.AppendLine($"<size=24>The <b>{antagType.Key.Name}s</b> were:\n</size>");
 					foreach (var antag in antagType)
 					{
 						statusSB.AppendLine(antag.GetObjectiveStatus());
@@ -75,7 +75,7 @@ namespace Antagonists
 			}
 			else
 			{
-				statusSB.AppendLine("There were no antagonists this round!");
+				statusSB.AppendLine("<size=24>There were no antagonists!</size>");
 			}
 
 			// Send the message
