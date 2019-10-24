@@ -106,7 +106,7 @@ public partial class Chat
 		{
 			chan = "";
 		}
-		
+
 		return AddMsgColor(channels, $"{chan}<b>{speaker}</b> {verb} " + "\"" + message + "\"");
 	}
 

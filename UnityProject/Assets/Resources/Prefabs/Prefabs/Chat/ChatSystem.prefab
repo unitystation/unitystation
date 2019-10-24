@@ -1983,6 +1983,8 @@ MonoBehaviour:
   toggleChatBubbleImage: {fileID: 8272338613766088271}
   toggleOffCol: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   toggleOnCol: {r: 0.30980393, g: 0.46274513, b: 0.6117647, a: 1}
+  scrollHandle: {fileID: 2807939661053576224}
+  scrollBackground: {fileID: 50052018069764188}
 --- !u!1 &1100739055192324531
 GameObject:
   m_ObjectHideFlags: 0
@@ -2570,7 +2572,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2658,7 +2660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.27607688, g: 0.35021952, b: 0.41509432, a: 1}
+  m_Color: {r: 0.40988785, g: 0.493755, b: 0.5754717, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

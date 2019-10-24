@@ -10,32 +10,23 @@ public class ChatUI : MonoBehaviour
 	public GameObject chatInputWindow;
 	public Transform content;
 	public GameObject chatEntryPrefab;
-	private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
-	[SerializeField]
-	private Text chatInputLabel;
-	[SerializeField]
-	private RectTransform channelPanel;
-	[SerializeField]
-	private GameObject channelToggleTemplate;
-	[SerializeField]
-	private GameObject background;
-	[SerializeField]
-	private GameObject uiObj;
-	[SerializeField]
-	private GameObject activeRadioChannelPanel;
-	[SerializeField]
-	private GameObject activeChannelTemplate;
-	[SerializeField]
-	private InputField InputFieldChat;
-	[SerializeField]
-	private Image toggleChatBubbleImage;
-	[SerializeField]
-	private Color toggleOffCol;
-	[SerializeField]
-	private Color toggleOnCol;
+	[SerializeField] private Text chatInputLabel;
+	[SerializeField] private RectTransform channelPanel;
+	[SerializeField] private GameObject channelToggleTemplate;
+	[SerializeField] private GameObject background;
+	[SerializeField] private GameObject uiObj;
+	[SerializeField] private GameObject activeRadioChannelPanel;
+	[SerializeField] private GameObject activeChannelTemplate;
+	[SerializeField] private InputField InputFieldChat;
+	[SerializeField] private Image toggleChatBubbleImage;
+	[SerializeField] private Color toggleOffCol;
+	[SerializeField] private Color toggleOnCol;
+	[SerializeField] private Image scrollHandle;
+	[SerializeField] private Image scrollBackground;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
+
 	/// <summary>
 	/// The currently selected chat channels. Prunes all unavailable ones on get.
 	/// </summary>
@@ -49,10 +40,15 @@ public class ChatUI : MonoBehaviour
 	/// A map of channel names and their toggles for UI manipulation
 	/// </summary>
 	private Dictionary<ChatChannel, Toggle> ChannelToggles = new Dictionary<ChatChannel, Toggle>();
+
 	/// <summary>
 	/// A map of channel names and their active radio channel entry for UI manipulation
 	/// </summary>
 	private Dictionary<ChatChannel, GameObject> ActiveChannels = new Dictionary<ChatChannel, GameObject>();
+
+	//All the current chat entries in the chat feed
+	private Queue<ChatEntry> allEntries = new Queue<ChatEntry>();
+	private int hiddenEntries = 0;
 
 	/// <summary>
 	/// The main channels which shouldn't be active together.
@@ -83,10 +79,12 @@ public class ChatUI : MonoBehaviour
 		ChatChannel.Service,
 		ChatChannel.Syndicate
 	};
+
 	/// <summary>
 	/// The last available set of channels. May be out of date.
 	/// </summary>
 	private ChatChannel availableChannelCache;
+
 	/// <summary>
 	/// Are the channel toggles on show?
 	/// </summary>
@@ -114,21 +112,11 @@ public class ChatUI : MonoBehaviour
 			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
 			PlayerPrefs.Save();
 		}
+
 		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1)
 		{
 			toggleChatBubbleImage.color = toggleOnCol;
 		}
-	}
-
-	public void AddChatEvent(ChatEvent chatEvent)
-	{
-		_localEvents.Add(chatEvent);
-		//ChatRelay.Instance.RefreshLog();
-	}
-
-	public List<ChatEvent> GetChatEvents()
-	{
-		return _localEvents;
 	}
 
 	public void Start()
@@ -164,6 +152,7 @@ public class ChatUI : MonoBehaviour
 				{
 					PlayerSendChat();
 				}
+
 				CloseChatWindow();
 			}
 		}
@@ -181,6 +170,50 @@ public class ChatUI : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Only to be used via chat relay!
+	/// </summary>
+	public void AddChatEntry(string message)
+	{
+		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
+		var chatEntry = entry.GetComponent<ChatEntry>();
+		chatEntry.text.text = message;
+		entry.transform.SetParent(content, false);
+		entry.transform.localScale = Vector3.one;
+		allEntries.Enqueue(chatEntry);
+		hiddenEntries++;
+		ReportEntryState(false);
+	}
+
+	public void ReportEntryState(bool isHidden)
+	{
+		if (isHidden)
+		{
+			if (hiddenEntries < 0) hiddenEntries = 0;
+			hiddenEntries++;
+			DetermineScrollBarState();
+		}
+		else
+		{
+			hiddenEntries--;
+			DetermineScrollBarState();
+		}
+	}
+
+	private void DetermineScrollBarState()
+	{
+		if ((allEntries.Count - hiddenEntries) < 20)
+		{
+			scrollBackground.CrossFadeAlpha(0.01f, 0f, false);
+			scrollHandle.CrossFadeAlpha(0.01f, 0f, false);
+		}
+		else
+		{
+			scrollBackground.CrossFadeAlpha(1f, 0f, false);
+			scrollHandle.CrossFadeAlpha(1f, 0f, false);
+		}
+	}
+
 	private void OnUpdateChatChannels()
 	{
 		TrySelectDefaultChannel();
@@ -194,6 +227,7 @@ public class ChatUI : MonoBehaviour
 			SoundManager.Play("Click01");
 			PlayerSendChat();
 		}
+
 		CloseChatWindow();
 	}
 
@@ -213,6 +247,7 @@ public class ChatUI : MonoBehaviour
 			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 1);
 			toggleChatBubbleImage.color = toggleOnCol;
 		}
+
 		PlayerPrefs.Save();
 		EventManager.Broadcast(EVENT.ToggleChatBubbles);
 	}
@@ -227,6 +262,7 @@ public class ChatUI : MonoBehaviour
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true, InputFieldChat.text,
 				SelectedChannels);
 		}
+
 		InputFieldChat.text = "";
 	}
 
@@ -237,12 +273,13 @@ public class ChatUI : MonoBehaviour
 	{
 		// Don't show if player is talking in OOC, dead, crit, or sent an empty message
 		if (SelectedChannels.Equals(ChatChannel.OOC) ||
-			PlayerManager.LocalPlayerScript.IsGhost ||
-			PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
-			InputFieldChat.text == "")
+		    PlayerManager.LocalPlayerScript.IsGhost ||
+		    PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
+		    InputFieldChat.text == "")
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -379,7 +416,8 @@ public class ChatUI : MonoBehaviour
 
 		Logger.Log($"Creating channel toggle for {channel}", Category.UI);
 		// Create the toggle button
-		GameObject channelToggleItem = Instantiate(channelToggleTemplate, channelToggleTemplate.transform.parent, false);
+		GameObject channelToggleItem =
+			Instantiate(channelToggleTemplate, channelToggleTemplate.transform.parent, false);
 		var uiToggleScript = channelToggleItem.GetComponent<UIToggleChannel>();
 
 		//Set the new UIToggleChannel object and
@@ -417,6 +455,7 @@ public class ChatUI : MonoBehaviour
 		{
 			CreateToggle(channel);
 		}
+
 		foreach (ChatChannel channel in RadioChannels)
 		{
 			CreateToggle(channel);
@@ -461,6 +500,7 @@ public class ChatUI : MonoBehaviour
 				return;
 			}
 		}
+
 		activeRadioChannelPanel.SetActive(false);
 	}
 
@@ -528,6 +568,7 @@ public class ChatUI : MonoBehaviour
 		{
 			channelEntry.Value.SetActive(false);
 		}
+
 		activeRadioChannelPanel.SetActive(false);
 	}
 
@@ -615,6 +656,7 @@ public class ChatUI : MonoBehaviour
 				{
 					CreateActiveRadioEntry(channel);
 				}
+
 				ActiveChannels[channel].SetActive(true);
 				activeRadioChannelPanel.SetActive(true);
 			}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class ChatEntry : MonoBehaviour {
 	public RectTransform rect;
 
 	private Coroutine coCoolDown;
+	private bool isHidden = false;
 
     void OnEnable()
     {
@@ -38,6 +40,11 @@ public class ChatEntry : MonoBehaviour {
 			}
         }
         text.CrossFadeAlpha(1f, 0f, false);
+        if (isHidden)
+        {
+	        isHidden = false;
+	        ChatUI.Instance.ReportEntryState(false);
+        }
     }
 
     public void OnChatUnfocused()
@@ -48,6 +55,11 @@ public class ChatEntry : MonoBehaviour {
         } else
         {
             text.CrossFadeAlpha(0f, 0f, false);
+            if (!isHidden)
+            {
+	            isHidden = true;
+	            ChatUI.Instance.ReportEntryState(true);
+            }
         }
     }
 
@@ -66,5 +78,22 @@ public class ChatEntry : MonoBehaviour {
         }
         yield return WaitFor.Seconds(3f);
         isCoolingDown = false;
+
+        if (!isHidden)
+        {
+	        isHidden = true;
+	        ChatUI.Instance.ReportEntryState(true);
+        }
+    }
+
+    public void OnDestroy()
+    {
+	    if (ChatUI.Instance != null)
+	    {
+		    if (isHidden)
+		    {
+			    ChatUI.Instance.ReportEntryState(false);
+		    }
+	    }
     }
 }
