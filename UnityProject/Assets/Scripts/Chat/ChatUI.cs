@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class ChatUI : MonoBehaviour
 {
@@ -46,9 +47,12 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private Dictionary<ChatChannel, GameObject> ActiveChannels = new Dictionary<ChatChannel, GameObject>();
 
-	//All the current chat entries in the chat feed
+	//All the current chat entries in the chat feed. It's a queue so they are easier to trim
+	//if needed in the future
 	private Queue<ChatEntry> allEntries = new Queue<ChatEntry>();
 	private int hiddenEntries = 0;
+	private bool scrollBarInteract = false;
+	public event Action<bool> scrollBarEvent;
 
 	/// <summary>
 	/// The main channels which shouldn't be active together.
@@ -185,33 +189,49 @@ public class ChatUI : MonoBehaviour
 		ReportEntryState(false);
 	}
 
-	public void ReportEntryState(bool isHidden)
+	public void ReportEntryState(bool isHidden, bool fromCoolDownFade = false)
 	{
 		if (isHidden)
 		{
 			if (hiddenEntries < 0) hiddenEntries = 0;
 			hiddenEntries++;
-			DetermineScrollBarState();
+			DetermineScrollBarState(fromCoolDownFade);
 		}
 		else
 		{
 			hiddenEntries--;
-			DetermineScrollBarState();
+			DetermineScrollBarState(fromCoolDownFade);
 		}
 	}
 
-	private void DetermineScrollBarState()
+	private void DetermineScrollBarState(bool coolDownFade)
 	{
 		if ((allEntries.Count - hiddenEntries) < 20)
 		{
-			scrollBackground.CrossFadeAlpha(0.01f, 0f, false);
-			scrollHandle.CrossFadeAlpha(0.01f, 0f, false);
+			float fadeTime = 0f;
+			if (coolDownFade) fadeTime = 3f;
+			scrollBackground.CrossFadeAlpha(0.01f, fadeTime, false);
+			scrollHandle.CrossFadeAlpha(0.01f, fadeTime, false);
 		}
 		else
 		{
 			scrollBackground.CrossFadeAlpha(1f, 0f, false);
 			scrollHandle.CrossFadeAlpha(1f, 0f, false);
 		}
+	}
+
+	//This is an editor interface trigger event, do not delete
+	public void OnScrollBarInteract()
+	{
+		scrollBarInteract = true;
+		scrollBarEvent?.Invoke(scrollBarInteract);
+	}
+
+	//This is an editor interface trigger event, do not delete
+	public void OnScrollBarInteractEnd()
+	{
+		scrollBarInteract = false;
+		scrollBarEvent?.Invoke(scrollBarInteract);
 	}
 
 	private void OnUpdateChatChannels()
