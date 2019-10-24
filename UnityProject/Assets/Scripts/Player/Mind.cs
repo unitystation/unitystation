@@ -125,7 +125,7 @@ public class Mind
 	public void ShowObjectives()
 	{
 		if (!IsAntag) return;
-		ChatRelay.Instance.AddToChatLogClient(Antag.GetObjectives(), ChatChannel.Examine);
+		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectives());
 	}
 
 }

@@ -79,11 +79,7 @@ namespace Antagonists
 			}
 
 			// Send the message
-			ChatEvent statusReport = new ChatEvent{
-				channels = ChatChannel.System,
-				message = statusSB.ToString()
-			};
-			ChatRelay.Instance.AddToChatLogServer(statusReport);
+			Chat.AddGameWideSystemMsgToChat(statusSB.ToString());
 		}
 
 		/// <summary>
