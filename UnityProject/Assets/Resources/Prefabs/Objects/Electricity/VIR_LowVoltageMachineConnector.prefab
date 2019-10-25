@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 1
 --- !u!61 &61506100139303226
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -208,7 +209,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3159970441
+  m_SceneId: 4218490625
 --- !u!114 &870447227101467930
 MonoBehaviour:
   m_ObjectHideFlags: 0

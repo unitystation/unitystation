@@ -204,13 +204,14 @@ public partial class MatrixManager
 		foreach ( Vector3Int worldPos in i.Rect.ToBoundsInt().allPositionsWithin )
 		{
 			Vector3Int cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
-			if ( i.Matrix1.Matrix.IsEmptyAt( cellPos1, true, inclItems: true ) )
+
+			if ( !i.Matrix1.Matrix.HasTile( cellPos1, true) )
 			{
 				continue;
 			}
 
 			Vector3Int cellPos2 = i.Matrix2.MetaTileMap.WorldToCell( worldPos );
-			if ( i.Matrix2.Matrix.IsEmptyAt( cellPos2, true, inclItems: true ) )
+			if ( !i.Matrix2.Matrix.HasTile( cellPos2, true) )
 			{
 				continue;
 			}
@@ -249,7 +250,7 @@ public partial class MatrixManager
 				i.Matrix2.TileChangeManager.RemoveEffect( cellPos2, layer );
 			}
 
-			if ( resistance >= 0f )
+			if ( resistance > 0f )
 			{
 				collisions++;
 				if ( resistance > EXTRA_COLLISION_THRESHOLD )
@@ -275,10 +276,6 @@ public partial class MatrixManager
 		{
 			float resistance = 0;
 			float tempResistance;
-			//Integrity
-			tempResistance = ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
-			hitEnergy -= tempResistance;
-			resistance += tempResistance;
 
 			//LivingHealthBehaviour
 			tempResistance = ApplyLivingDamage( victimMatrix, cellPos, hitEnergy );
@@ -288,7 +285,13 @@ public partial class MatrixManager
 			//TilemapDamage
 			tempResistance = 0;
 			ApplyTilemapDamage( victimMatrix, cellPos, hitEnergy, worldPos, ref tempResistance );
+			hitEnergy -= tempResistance;
 			resistance += tempResistance;
+
+			//todo: fix items not changing matrix when floor and base are gone
+//			//Integrity
+//			tempResistance = ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
+//			resistance += tempResistance;
 
 			return resistance;
 		}

@@ -90,9 +90,9 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsTileTypeAt(position, isServer, TileType.Table);
 	}
 
-	public bool IsEmptyAt( Vector3Int position, bool isServer, bool inclItems = false )
+	public bool IsEmptyAt( Vector3Int position, bool isServer)
 	{
-		return MetaTileMap.IsEmptyAt(position, isServer, inclItems);
+		return MetaTileMap.IsEmptyAt(position, isServer);
 	}
 
 	/// Is this position and surrounding area completely clear of solid objects?

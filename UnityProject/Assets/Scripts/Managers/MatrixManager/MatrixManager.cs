@@ -54,7 +54,7 @@ public partial class MatrixManager : MonoBehaviour
 		for ( var i = Instance.ActiveMatrices.Length - 1; i >= 0; i-- )
 		{
 			MatrixInfo mat = Instance.ActiveMatrices[i];
-			if ( mat.Matrix.HasTile( WorldToLocalInt( worldPos, mat ), isServer ) )
+			if ( !mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ), isServer ) )
 			{
 				return mat;
 			}
@@ -115,11 +115,11 @@ public partial class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
-	public static bool IsEmptyAt( Vector3Int worldPos, bool isServer, bool inclItems = false )
+	public static bool IsEmptyAt( Vector3Int worldPos, bool isServer )
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
-			if (!mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer, inclItems))
+			if (!mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat), isServer))
 			{
 				return false;
 			}
@@ -324,6 +324,10 @@ public partial class MatrixManager : MonoBehaviour
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
+			if ( playerMove == null )
+			{
+				continue;
+			}
 			if (playerMove.IsHelpIntent
 			    && !playerMove.PlayerScript.playerHealth.IsDead
 			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)

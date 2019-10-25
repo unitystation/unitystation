@@ -63,6 +63,14 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	/// <summary>
+	/// TODO: fully destroy damageable layer tiles. returns total resistance
+	/// </summary>
+	public void Destroy( Vector3Int cellPos, Vector3Int worldPos, ref float resistance )
+	{
+
+	}
+
+	/// <summary>
 	/// Apply damage to damageable layers, top to bottom.
 	/// If tile gets destroyed, remaining damage is applied to the layer below
 	/// </summary>
@@ -243,7 +251,7 @@ public class MetaTileMap : MonoBehaviour
 	/// Checks if tile is empty of objects (only solid by default)
 	/// </summary>
 	/// <param name="includingPassable">If true, checks for non-solid items, too</param>
-	public bool IsEmptyAt( Vector3Int position, bool isServer, bool includingPassable = false )
+	public bool IsEmptyAt( Vector3Int position, bool isServer )
 	{
 		for (var index = 0; index < LayersKeys.Length; index++)
 		{
@@ -259,7 +267,7 @@ public class MetaTileMap : MonoBehaviour
 					? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
 					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 				{
-					if (!o.IsPassable(isServer) || includingPassable)
+					if (!o.IsPassable(isServer))
 					{
 						return false;
 					}
@@ -391,7 +399,7 @@ public class MetaTileMap : MonoBehaviour
 		}
 	}
 
-	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll = false)
+	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
 		Layers[refLayer].RemoveTile(position, removeAll);
 	}

@@ -102,7 +102,7 @@ public class LightSwitch : NetworkBehaviour, IInteractable<HandApply>
 			PowerCut = true;
 			if (PowerCut)
 			{
-
+				if ( spriteRenderer == null ){ return; }
 				spriteRenderer.sprite = lightPowerCut;
 			}
 		}

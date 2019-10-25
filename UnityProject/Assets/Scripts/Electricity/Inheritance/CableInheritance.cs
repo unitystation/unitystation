@@ -65,8 +65,14 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	{
 		if (wireConnect.RelatedLine != null)
 		{
-			foreach (var CB in wireConnect.RelatedLine.Covering)
+			foreach ( var CB in wireConnect.RelatedLine.Covering )
+			{
+				if ( CB == null )
+				{
+					return;
+				}
 				CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+			}
 		}
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		SelfDestruct = true;

@@ -122,6 +122,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 
+	public bool IsFixedMatrix = false;
+
 	/// <summary>
 	/// If it has ItemAttributes, get size from it (default to tiny).
 	/// Otherwise it's probably something like a locker, so consider it huge.
@@ -407,20 +409,36 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	}
 
 	[Server]
-	private void CheckMatrixSwitch( bool notify = true ) {
+	public void CheckMatrixSwitch( bool notify = true ) {
+		if ( IsFixedMatrix )
+		{
+			return;
+		}
+
+
 //		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
-		int newMatrixId = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true ).Id;
-		if ( serverState.MatrixId != newMatrixId ) {
-			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, serverState.MatrixId, newMatrixId );
+		var newMatrix = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true );
+		if ( serverState.MatrixId != newMatrix.Id ) {
+			var oldMatrix = MatrixManager.Get( serverState.MatrixId );
+			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, oldMatrix, newMatrix );
+
+			if ( oldMatrix.IsMovable
+			     && oldMatrix.MatrixMove.isMovingServer )
+			{
+				Push( oldMatrix.MatrixMove.State.Direction.Vector.To2Int(), oldMatrix.Speed );
+				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Transform, gameObject );
+				return;
+			}
 
 			//It's very important to save World Pos before matrix switch and restore it back afterwards
 			var preservedPos = serverState.WorldPosition;
-			serverState.MatrixId = newMatrixId;
+			serverState.MatrixId = newMatrix.Id;
 			serverState.WorldPosition = preservedPos;
 
 			var preservedLerpPos = serverLerpState.WorldPosition;
 			serverLerpState.MatrixId = serverState.MatrixId;
 			serverLerpState.WorldPosition = preservedLerpPos;
+
 			if ( notify ) {
 				NotifyPlayers();
 			}

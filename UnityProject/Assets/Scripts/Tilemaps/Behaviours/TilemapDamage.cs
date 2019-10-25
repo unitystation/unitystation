@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -20,6 +21,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private const int MAX_WINDOW_DAMAGE = 100;
 	private const int MAX_GRILL_DAMAGE = 60;
 	private static readonly float TILE_MIN_SCORCH_TEMPERATURE = 100f;
+	private Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
 	public float Integrity(Vector3Int pos)
 	{
@@ -152,6 +154,22 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		Layer = GetComponent<Layer>();
 		matrix = GetComponentInParent<Matrix>();
+
+		OnFloorOrPlatingRemoved.RemoveAllListeners();
+		OnFloorOrPlatingRemoved.AddListener( cellPos =>
+		{ //Poke items when both floor and plating are gone
+		  //As they might want to change matrix
+			if ( !metaTileMap.HasTile( cellPos, LayerType.Floors, true )
+			  && !metaTileMap.HasTile( cellPos, LayerType.Base, true )
+			  &&  metaTileMap.HasTile( cellPos, LayerType.Objects, true )
+			  )
+			{
+				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( cellPos, true ) )
+				{
+					customNetTransform.CheckMatrixSwitch();
+				}
+			}
+		} );
 	}
 
 	//Server Only:
@@ -354,6 +372,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		else if (data.Damage >= MAX_FLOOR_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
+			OnFloorOrPlatingRemoved.Invoke(cellPos);
 			if ( Random.value < 0.05f )
 			{
 				CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), null); // TODO parent ?
@@ -386,6 +405,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		else if (data.Damage >= MAX_PLATING_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Base);
+			OnFloorOrPlatingRemoved.Invoke(cellPos);
 			//Spawn remains:
 			if ( Random.value < 0.05f )
 			{
@@ -434,7 +454,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			SpawnGlassShards(bulletHitTarget);
 
 			//Play the breaking window sfx:
-			SoundManager.PlayNetworkedAtPos("GlassBreak0" + Random.Range(1, 4).ToString(), bulletHitTarget, 1f);
+			SoundManager.PlayNetworkedAtPos("GlassBreak0#", bulletHitTarget, 1f);
 
 			data.WindowDmgType = "broken";
 			return data.ResetDamage() - MAX_WINDOW_DAMAGE;
@@ -456,7 +476,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
 			//Spawn rods:
-			SpawnRods(bulletHitTarget);
+			if ( Random.value < 0.4f )
+			{
+				SpawnRods(bulletHitTarget);
+			}
 
 			return data.ResetDamage() - MAX_GRILL_DAMAGE;
 		}
@@ -499,11 +522,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private void SpawnGlassShards(Vector3 pos)
 	{
-		//Spawn 3 glass shards with different sprites:
-		ObjectFactory.SpawnGlassShard(3, pos.To2Int());
+		//Spawn 2-3 glass shards with different sprites:
+		ObjectFactory.SpawnGlassShard(Random.Range(2, 4), pos.To2Int());
 
 		//Play the breaking window sfx:
-		SoundManager.PlayNetworkedAtPos("GlassBreak0" + Random.Range(1, 4), pos, 1f);
+		SoundManager.PlayNetworkedAtPos("GlassBreak0#", pos, 1f);
 	}
 
 	public void OnExposed(FireExposure exposure)

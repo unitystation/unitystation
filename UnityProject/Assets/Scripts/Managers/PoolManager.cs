@@ -188,7 +188,7 @@ public class PoolManager : NetworkBehaviour
 			Logger.LogWarningFormat("Attempting to network destroy object {0} at {1} but this object" +
 			                        " has no CustomNetTransform. Lifecycle hooks will be bypassed. This is" +
 			                        " most likely a mistake as any objects which sync over the network" +
-			                        " should have a CNT.", Category.ItemSpawn, target.name, objBehavior.AssumedWorldPositionServer());
+			                        " should have a CNT.", Category.ItemSpawn, target.name, objBehavior ? objBehavior.AssumedWorldPositionServer() : target.transform.position);
 		}
 		if (poolPrefabTracker != null && objBehavior != null)
 		{

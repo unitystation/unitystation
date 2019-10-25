@@ -30,11 +30,11 @@ public class TileChangeManager : NetworkBehaviour
 			// load tile & apply
 			if (entry.TileType.Equals(TileType.None))
 			{
-				RemoveTile(entry.Position, entry.LayerType, entry.RemoveAll);
+				InternalRemoveTile(entry.Position, entry.LayerType, entry.RemoveAll);
 			}
 			else
 			{
-				UpdateTile(entry.Position, entry.TileType, entry.TileName);
+				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName);
 			}
 		}
 	}
@@ -56,6 +56,8 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if (IsDifferent(cellPosition, tileType, tileName))
 		{
+			InternalUpdateTile(cellPosition, tileType, tileName);
+
 			RpcUpdateTile(cellPosition, tileType, tileName);
 
 			AddToChangeList(cellPosition, tileType:tileType, tileName:tileName);
@@ -76,6 +78,8 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
+			InternalRemoveTile(cellPosition, layerType, false);
+
 			RpcRemoveTile(cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
@@ -92,6 +96,8 @@ public class TileChangeManager : NetworkBehaviour
 
 		if (metaTileMap.HasTile(cellPosition, layerType, true))
 		{
+			InternalRemoveTile(cellPosition, layerType, true);
+
 			RpcRemoveTile(cellPosition, layerType, true);
 
 			AddToChangeList(cellPosition, layerType, removeAll:true);
@@ -101,10 +107,14 @@ public class TileChangeManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
 	{
-		RemoveTile(position, layerType, onlyRemoveEffect);
+		if ( isServer )
+		{
+			return;
+		}
+		InternalRemoveTile(position, layerType, onlyRemoveEffect);
 	}
 
-	private void RemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
+	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
 	{
 		if (onlyRemoveEffect)
 		{
@@ -119,10 +129,14 @@ public class TileChangeManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
-		UpdateTile(position, tileType, tileName);
+		if ( isServer )
+		{
+			return;
+		}
+		InternalUpdateTile(position, tileType, tileName);
 	}
 
-	private void UpdateTile(Vector3 position, TileType tileType, string tileName)
+	private void InternalUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
