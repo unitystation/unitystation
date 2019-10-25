@@ -37,8 +37,8 @@ public class RequestInteractMessage : ClientMessage
 
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
-	private static readonly Dictionary<ushort, Type> interactionIDToInteractionType = new Dictionary<ushort, Type>();
-	private static readonly Dictionary<Type, ushort> interactionTypeToInteractionID = new Dictionary<Type, ushort>();
+	private static readonly Dictionary<byte, Type> interactionIDToInteractionType = new Dictionary<byte, Type>();
+	private static readonly Dictionary<Type, byte> interactionTypeToInteractionID = new Dictionary<Type, byte>();
 
 	static RequestInteractMessage()
 	{
@@ -56,12 +56,12 @@ public class RequestInteractMessage : ClientMessage
 			typeof(Interaction).Assembly.GetTypes()
 				.Where(type => typeof(Interaction).IsAssignableFrom(type))
 				.OrderBy(type => type.FullName);
-		i = 0;
+		byte j = 0;
 		foreach (var actionType in alphabeticalInteractionTypes)
 		{
-			interactionIDToInteractionType.Add(i, actionType);
-			interactionTypeToInteractionID.Add(actionType, i);
-			i++;
+			interactionIDToInteractionType.Add(j, actionType);
+			interactionTypeToInteractionID.Add(actionType, j);
+			j++;
 		}
 	}
 
@@ -264,7 +264,7 @@ public class RequestInteractMessage : ClientMessage
 
 		base.Deserialize(reader);
 		ComponentType = componentIDToComponentType[reader.ReadUInt16()];
-		InteractionType = interactionIDToInteractionType[reader.ReadUInt16()];
+		InteractionType = interactionIDToInteractionType[reader.ReadByte()];
 		ProcessorObject = reader.ReadUInt32();
 
 		if (InteractionType == typeof(PositionalHandApply))
@@ -293,7 +293,7 @@ public class RequestInteractMessage : ClientMessage
 	{
 		base.Serialize(writer);
 		writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
-		writer.WriteUInt16(interactionTypeToInteractionID[InteractionType]);
+		writer.WriteByte(interactionTypeToInteractionID[InteractionType]);
 		writer.WriteUInt32(ProcessorObject);
 
 		if (InteractionType == typeof(PositionalHandApply))
