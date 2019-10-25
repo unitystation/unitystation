@@ -72,9 +72,12 @@ public class RequestInteractMessage : ClientMessage
 
 		return Assembly.GetExecutingAssembly()
 			.GetTypes()
-			.Where(t => t.GetInterfaces()
-				.Any(i => i.IsGenericType &&
-				          i.GetGenericTypeDefinition().Equals(genericType)));
+			.Where(t => ImplementsGenericType(t, genericType));
+	}
+
+	private static bool ImplementsGenericType(Type toCheck, Type genericType)
+	{
+		return toCheck.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == genericType);
 	}
 
 	public override IEnumerator Process()
@@ -196,7 +199,7 @@ public class RequestInteractMessage : ClientMessage
 		where T : Interaction
 	{
 		//never send anything for client-side-only interactions
-		if (interactableComponent.GetType().IsAssignableFrom(typeof(IClientInteractable<T>)))
+		if (interactableComponent is IClientInteractable<T>)
 		{
 			return;
 		}
