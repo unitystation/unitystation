@@ -32,6 +32,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	public float OverallHealth { get; private set; } = 100;
 	public float cloningDamage;
 
+	/// <summary>
+	/// Serverside, used for gibbing bodies after certain amount of damage is received afer death
+	/// </summary>
+	private float afterDeathDamage = 0f;
+
 	// Systems can also be added via inspector
 	public BloodSystem bloodSystem;
 	public BrainSystem brainSystem;
@@ -283,11 +288,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	public void ApplyDamage( GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType )
 	{
-		if ( IsDead && damage >= GIB_THRESHOLD )
-		{
-			Harvest();//Gib() instead when fancy gibs are in
-		}
-
 		foreach ( var bodyPart in BodyParts )
 		{
 			ApplyDamageToBodypart( damagedBy, damage/BodyParts.Count, attackType, damageType, bodyPart.Type );
@@ -320,12 +320,23 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
+		if ( IsDead )
+		{
+			afterDeathDamage += damage;
+			if ( afterDeathDamage >= GIB_THRESHOLD )
+			{
+				Harvest();//Gib() instead when fancy gibs are in
+			}
+		}
+
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if(bodyPartBehaviour == null)
 		{
 			return;
 		}
 		//TODO: determine and apply armor protection
+
+		var prevHealth = OverallHealth;
 
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
@@ -340,7 +351,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		//For special effects spawning like blood:
 		DetermineDamageEffects(damageType);
 
-		var prevHealth = OverallHealth;
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
 	}
@@ -372,7 +382,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	public void OnExposed(FireExposure exposure)
 	{
-		//TODO: Apply to limbs, not just chest
 		ApplyDamage(null, 1, AttackType.Fire, DamageType.Burn);
 	}
 
@@ -392,7 +401,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 				tick = 0f;
 				if (fireStacks > 0)
 				{
-					//TODO: Burn clothes / limbs (see species.dm handle_fire), currently it just burns the chest.
+					//TODO: Burn clothes (see species.dm handle_fire)
 					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
 					//gradually deplete fire stacks
 					SyncFireStacks(fireStacks-0.1f);
@@ -510,6 +519,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		{
 			return;
 		}
+		afterDeathDamage = 0;
 		ConsciousState = ConsciousState.DEAD;
 		OnDeathActions();
 		bloodSystem.StopBleedingAll();
