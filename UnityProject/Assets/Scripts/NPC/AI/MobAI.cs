@@ -249,7 +249,7 @@ public class MobAI : MonoBehaviour
 	}
 
 	//Resets all the behaviours:
-	protected void ResetBehaviours()
+	protected virtual void ResetBehaviours()
 	{
 		if (mobFlee.activated)
 		{

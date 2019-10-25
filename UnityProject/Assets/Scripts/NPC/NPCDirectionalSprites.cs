@@ -18,6 +18,14 @@ public class NPCDirectionalSprites : NetworkBehaviour
 
 	private Vector2 localPosCache;
 
+	/// <summary>
+	/// Gets the current facing direction of the NPC
+	/// </summary>
+	public Vector2 CurrentFacingDirection
+	{
+		get { return GetDirection(dir); }
+	}
+
 	[SyncVar(hook = "OnDirChange")] private int dir;
 
 	void OnEnable()
@@ -97,6 +105,23 @@ public class NPCDirectionalSprites : NetworkBehaviour
 		}
 
 		return 2;
+	}
+
+	private Vector2 GetDirection(int dirNum)
+	{
+		switch (dirNum)
+		{
+			case 1:
+				return Vector2.up;
+			case 2:
+				return Vector2.right;
+			case 3:
+				return Vector2.down;
+			case 4:
+				return Vector2.left;
+			default:
+				return Vector2.left;
+		}
 	}
 
 	/// 1=up ,2=right ,3=down ,4=left

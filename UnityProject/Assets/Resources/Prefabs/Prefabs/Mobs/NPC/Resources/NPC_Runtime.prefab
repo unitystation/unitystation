@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 114582363912736342}
   - component: {fileID: 114774533267492450}
   - component: {fileID: 114791056930384320}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: NPC_Runtime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,6 +129,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
+  canBreathAnywhere: 0
   cloningDamage: 0
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
@@ -160,7 +161,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114713267190622314
 MonoBehaviour:
@@ -221,8 +221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1414664760
+  m_AssetId: a990bc1742ffa46c39c5839d3e7ec915
+  m_SceneId: 0
 --- !u!1 &5258005088007752283
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5871718606718482414}
   - component: {fileID: 544425337743952269}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: RuntimeChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3408112225263000323}
   - component: {fileID: 8271809860616263456}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: RuntimeHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,7 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2343874451617258338}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: BodyParts
   m_TagString: Untagged
   m_Icon: {fileID: 0}

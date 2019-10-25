@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4958762019292942}
   - component: {fileID: 114273493098920630}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: PeteHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4519478499382082}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: BodyParts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 114347523696378436}
   - component: {fileID: 114416966196078904}
   - component: {fileID: 114015240692607784}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: NPC_Pete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,6 +218,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
+  canBreathAnywhere: 0
   cloningDamage: 0
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
@@ -249,7 +250,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114713267190622314
 MonoBehaviour:
@@ -336,8 +336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 711881794
+  m_AssetId: 0a3101e2ebc0df449a0615550905877f
+  m_SceneId: 0
 --- !u!1 &1887464382434718
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4318877702125412}
   - component: {fileID: 114588246911682174}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: PeteChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
