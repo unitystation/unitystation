@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class DNAscanner : ClosetControl, IAPCPowered
+public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPowered
 {
 	public LivingHealthBehaviour occupant;
 	public string statusString;

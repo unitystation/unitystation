@@ -243,6 +243,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &988237533008200232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,15 +269,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3055497906850374734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8105dc00b6334b4bab99d9b6602ab309, type: 3}
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dropLayers:
     serializedVersion: 2
     m_Bits: 256
-  shadow: {fileID: 21300000, guid: 09af0815d7e175f4fb273f06a55c01ff, type: 3}
+  shadow: {fileID: 21300000, guid: c38c63ad7e846f24ba408fdddb95e2fa, type: 3}
   draggerMustBeAdjacent: 1
-  allowDragWhileSoftCrit: 0
+  allowDragWhileSoftCrit: 1
 --- !u!114 &6635141557155274514
 MonoBehaviour:
   m_ObjectHideFlags: 0

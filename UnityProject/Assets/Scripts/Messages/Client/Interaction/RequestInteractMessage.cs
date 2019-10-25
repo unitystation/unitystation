@@ -203,6 +203,13 @@ public class RequestInteractMessage : ClientMessage
 		{
 			return;
 		}
+		//if we are client and the interaction has client prediction, trigger it.
+		//Note that client prediction is not triggered for server player.
+		if (!CustomNetworkManager.IsServer && interactableComponent is IPredictedInteractable<T> predictedInteractable)
+		{
+			Logger.LogTraceFormat("Predicting {0} interaction for {1} on {2}", Category.Interaction, typeof(T).Name, interactableComponent.GetType().Name, ((Component) interactableComponent).gameObject.name);
+			predictedInteractable.ClientPredictInteraction(interaction);
+		}
 		if (!interaction.Performer.Equals(PlayerManager.LocalPlayer))
 		{
 			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
