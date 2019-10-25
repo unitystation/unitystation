@@ -15,6 +15,8 @@ public struct MatrixInfo
 	public GameObject GameObject;
 	public BoundsInt Bounds => MetaTileMap.GetBounds();
 	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
+	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
+
 	public Vector3Int CachedOffset;
 	// position we were at when offset was last cached, to check if it is invalid
 	private Vector3 cachedPosition;

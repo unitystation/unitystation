@@ -85,7 +85,12 @@ public class PoolManager : NetworkBehaviour
 		}
 		bool isPooled;
 
-		GameObject tempObject = Instance.PoolInstantiate(prefab, position ?? TransformState.HiddenPos, rotation ?? Quaternion.identity, parent, out isPooled);
+		GameObject tempObject = Instance.PoolInstantiate(
+			prefab,
+			position ?? TransformState.HiddenPos,
+			rotation ?? Quaternion.identity,
+			parent ?? MatrixManager.GetDefaultParent(position, true),
+			out isPooled);
 
 		if (!isPooled)
 		{

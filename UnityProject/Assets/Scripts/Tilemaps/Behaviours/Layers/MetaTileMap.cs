@@ -13,8 +13,8 @@ public class MetaTileMap : MonoBehaviour
 
 	//Using arrays for iteration speed
 	public LayerType[] LayersKeys { get; private set; }
-//	public LayerType LayerTypeBitmask { get; private set; }
 	public Layer[] LayersValues { get; private set; }
+	public Layer ObjectLayer { get; private set; }
 
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
@@ -49,13 +49,14 @@ public class MetaTileMap : MonoBehaviour
 			{
 				damageableLayersValues.Add( layer );
 			}
+
+			if ( layer.LayerType == LayerType.Objects )
+			{
+				ObjectLayer = layer;
+			}
 		}
 
 		LayersKeys = layersKeys.ToArray();
-//		foreach ( var layerType in LayersKeys )
-//		{
-//			LayerTypeBitmask |= layerType;
-//		}
 		LayersValues = layersValues.ToArray();
 		SolidLayersValues = solidLayersValues.ToArray();
 		DamageableLayers = damageableLayersValues.ToArray();

@@ -753,6 +753,15 @@ public partial class MatrixManager : MonoBehaviour
 	    }
 	}
 
+	public static Transform GetDefaultParent( Vector3? position, bool isServer )
+	{
+		if ( !position.HasValue )
+		{
+			return MainStationMatrix.ObjectParent;
+		}
+
+		return AtPoint( position.Value.RoundToInt(), isServer ).ObjectParent;
+	}
 }
 
 /// <summary>
