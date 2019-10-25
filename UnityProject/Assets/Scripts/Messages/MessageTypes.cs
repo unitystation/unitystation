@@ -24,7 +24,7 @@ internal enum MessageTypes : short
 	ProgressBarMessage = 1020,
 	PaperUpdateMessage = 1021,
 	StorageObjectSyncMessage = 1022,
-	// = 1023, unused, replace at will
+	MobMeleeLerpMessage = 1023,
 	// = 1024, unused, replace at will
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,

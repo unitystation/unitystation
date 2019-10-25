@@ -24,6 +24,8 @@ public class MobAgent : Agent
 	private float tickWait;
 	private float decisionTimeOut;
 
+	public bool Pause { get; set; }
+
 	void Awake()
 	{
 		cnt = GetComponent<CustomNetTransform>();
@@ -110,7 +112,7 @@ public class MobAgent : Agent
 
 	void MonitorDecisionMaking()
 	{
-		if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+		if (health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)
 		{
 			//can't do anything this NPC is not capable of movement
 			return;
@@ -172,6 +174,12 @@ public class MobAgent : Agent
 						count++;
 					}
 				}
+			}
+
+			if (dirToMove == Vector2Int.zero)
+			{
+				performingDecision = false;
+				return;
 			}
 
 			var dest = registerObj.LocalPositionServer + (Vector3Int) dirToMove;

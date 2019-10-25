@@ -52,6 +52,7 @@ public class XenoAI : MobAI
 
 	GameObject SearchForTarget()
 	{
+		Debug.Log("SEARCH");
 		NudgeInDir(Random.Range(1,9));
 		var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
 		if (hits.Count == 0)
