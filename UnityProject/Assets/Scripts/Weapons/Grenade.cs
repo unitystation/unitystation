@@ -75,7 +75,7 @@ public class Grenade : NBHandActivateInteractable
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 
 		// Set grenade to locked state by default
-		spriteHandler?.ChangeSprite(LOCKED_SPRITE);
+		UpdateSprite(LOCKED_SPRITE);
 	}
 
 	protected override void ServerPerformInteraction(HandActivate interaction)
@@ -88,7 +88,7 @@ public class Grenade : NBHandActivateInteractable
 		if (!timerRunning)
 		{
 			// Start playing arm animation
-			spriteHandler?.ChangeSprite(ARMED_SPRITE);
+			UpdateSprite(ARMED_SPRITE);
 
 			timerRunning = true;
 			PlayPinSFX(originator.transform.position);
@@ -104,6 +104,21 @@ public class Grenade : NBHandActivateInteractable
 			}
 			yield return WaitFor.Seconds(fuseLength);
 			Explode("explosion");
+		}
+	}
+
+	private void UpdateSprite(int sprite)
+	{
+		spriteHandler?.ChangeSprite(sprite);
+
+		// Now update hands
+		if (UIManager.Hands.CurrentSlot != null)
+		{
+			// UIManager doesn't update held item sprites automatically
+			if (UIManager.Hands.CurrentSlot.Item == gameObject)
+			{
+				UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
+			}
 		}
 	}
 
