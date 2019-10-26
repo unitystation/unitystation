@@ -47,7 +47,8 @@ namespace Antagonists
 		/// <param name="antag">The antag type</param>
 		public List<Objective> GetRandomObjectives(int amount = 1, bool unique = false, Antagonist antag = null)
 		{
-			List<Objective> objPool = SharedObjectives.Concat(antag.PossibleObjectives).ToList();
+			// Get all antag specific and shared objectives which are possible
+			List<Objective> objPool = SharedObjectives.Concat(antag.PossibleObjectives).Where(obj => obj.IsPossible()).ToList();
 			List<Objective> chosenObjs = new List<Objective>();
 			if (unique && objPool.Count < amount)
 			{

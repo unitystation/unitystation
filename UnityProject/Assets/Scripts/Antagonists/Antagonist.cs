@@ -41,7 +41,6 @@ namespace Antagonists
 		/// </summary>
 		public void GiveObjective(Objective objective)
 		{
-			objective.Setup();
 			CurrentObjectives.Add(objective);
 		}
 
@@ -50,9 +49,17 @@ namespace Antagonists
 		/// </summary>
 		public void GiveObjectives(List<Objective> objectives)
 		{
-			foreach (var obj in objectives)
+			CurrentObjectives.AddRange(objectives);
+		}
+
+		/// <summary>
+		/// Sets up all of this antagonist's objectives
+		/// </summary>
+		public void SetupObjectives()
+		{
+			foreach (var obj in CurrentObjectives)
 			{
-				GiveObjective(obj);
+				obj.Setup(Owner.body);
 			}
 		}
 
@@ -90,13 +97,12 @@ namespace Antagonists
 		/// </summary>
 		public string GetObjectiveStatus()
 		{
-			var pna = Owner.body.playerNetworkActions;
 			StringBuilder objSB = new StringBuilder($"<b>{Owner.body.playerName}</b>\n", 200);
 			objSB.AppendLine("Their objectives were:");
 			for (int i = 0; i < CurrentObjectives.Count; i++)
 			{
 				objSB.Append($"{i+1}. {CurrentObjectives[i].Description}: ");
-				objSB.AppendLine(CurrentObjectives[i].IsComplete(pna) ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+				objSB.AppendLine(CurrentObjectives[i].IsComplete(Owner.body) ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
 			}
 			return objSB.ToString();
 		}

@@ -30,13 +30,21 @@ namespace Antagonists
 		public string Description => description;
 
 		/// <summary>
+		/// Check if this objective is possible, defaults to true if not set
+		/// </summary>
+		public virtual bool IsPossible()
+		{
+			return true;
+		}
+
+		/// <summary>
 		/// Perform initial setup of the objective if needed
 		/// </summary>
-		public virtual void Setup() {}
+		public virtual void Setup(PlayerScript thisPlayer) {}
 
 		/// <summary>
 		/// Defines how to check the completion of the objective using a reference to the player's PlayerNetworkActions
 		/// </summary>
-		public abstract bool IsComplete(PlayerNetworkActions player);
+		public abstract bool IsComplete(PlayerScript thisPlayer);
 	}
 }

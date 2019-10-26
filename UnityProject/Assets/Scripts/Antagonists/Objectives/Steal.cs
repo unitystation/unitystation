@@ -30,20 +30,21 @@ namespace Antagonists
 		/// <summary>
 		/// Perform initial setup of the objective if needed
 		/// </summary>
-		public override void Setup()
+		public override void Setup(PlayerScript thisPlayer)
 		{
 			// Select a random item to steal
-			var entry = ItemPool.ElementAt(Random.Range(0, ItemPool.Count));
+			int randIndex = Random.Range(0, ItemPool.Count);
+			var entry = ItemPool.ElementAt(randIndex);
 			ItemName = entry.Key.Item().itemName;
 			Amount = entry.Value;
 			// TODO randomise amount based on weightings/amount on station?
 			description = $"Steal {Amount} {ItemName}";
 		}
 
-		public override bool IsComplete(PlayerNetworkActions player)
+		public override bool IsComplete(PlayerScript player)
 		{
 			int count = 0;
-			foreach (var item in player.Inventory)
+			foreach (var item in player.playerNetworkActions.Inventory)
 			{
 				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
 				if (item.Value.ItemAttributes?.itemName == ItemName)

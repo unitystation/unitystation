@@ -43,14 +43,29 @@ namespace Antagonists
 		/// <param name="chosenPlayer">The player to make an antag</param>
 		public void CreateAntag(Antagonist chosenAntag = null, ConnectedPlayer chosenPlayer = null)
 		{
-			// Choose a random non-antag player
-			ConnectedPlayer player = chosenPlayer ?? PlayerList.Instance.NonAntagPlayers[Random.Range(0, PlayerList.Instance.InGamePlayers.Count)];
+			// Choose a random non-antag player if one hasn't been provided
+			ConnectedPlayer player = chosenPlayer;
+			if (chosenAntag == null)
+			{
+				if (PlayerList.Instance.NonAntagPlayers.Count == 0)
+				{
+					Logger.LogWarning("Unable to create new antag: No suitable candidates left.");
+					return;
+				}
+				int randIndex = Random.Range(0, PlayerList.Instance.NonAntagPlayers.Count);
+				player = PlayerList.Instance.NonAntagPlayers[randIndex];
+			}
+			// Choose a random antag type if one hasn't been provided
 			var antag = chosenAntag ?? AntagData.GetRandomAntag();
+
+			// Give the antag some objectives and one escape objective
 			List<Objective> objectives = AntagData.GetRandomObjectives(3, false, antag);
 			objectives.Add(AntagData.GetEscapeObjective());
 			antag.GiveObjectives(objectives);
-			ActiveAntags.Add(antag);
+
+			// Set the antag
 			player.Script.mind.SetAntag(antag);
+			ActiveAntags.Add(antag);
 			Logger.Log($"Created new antag. Made {player.Name} a {antag.AntagName} with objectives:\n{antag.GetObjectivesForLog()}", Category.Antags);
 		}
 
