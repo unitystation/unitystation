@@ -282,7 +282,6 @@ public partial class GameManager : MonoBehaviour
 
 			waitForRestart = true;
 			GameMode.EndRound();
-			Antagonists.AntagManager.Instance.ResetAntags();
 			PlayerList.Instance.ReportScores();
 		}
 	}

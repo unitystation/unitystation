@@ -36,6 +36,32 @@ namespace Antagonists
 			}
 		}
 
+		void OnEnable()
+		{
+			EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+		}
+
+		void OnDisable()
+		{
+			EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+		}
+
+		void OnRoundEnd()
+		{
+			ResetAntags();
+		}
+
+		/// <summary>
+		/// Check the player count and see if new antags are needed
+		/// </summary>
+		public void CheckPlayers()
+		{
+			if (ActiveAntags.Count == 0 && PlayerList.Instance.InGamePlayers.Count > 1)
+			{
+				CreateAntag();
+			}
+		}
+
 		/// <summary>
 		/// Creates a new antagonist, defaults to a random player with a random antag type if no arguments passed.
 		/// </summary>
