@@ -295,7 +295,7 @@ public class Grenade : NBHandActivateInteractable
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		SoundManager.PlayNetworkedAtPos("EmptyGunClick", position, 2.2f);
+		SoundManager.PlayNetworkedAtPos("armbomb", position);
 	}
 
 }
