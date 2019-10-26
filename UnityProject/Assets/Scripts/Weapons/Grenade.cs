@@ -45,6 +45,12 @@ public class Grenade : NBHandActivateInteractable
 	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 	public float minEffectDuration = .05f;
 
+	[Tooltip("Used for animation")]
+	public SpriteHandler spriteHandler;
+	// Zero and one reserved for hands
+	private const int LOCKED_SPRITE = 2;
+	private const int ARMED_SPRITE = 3;
+
 	//LayerMask for obstructions which can block the explosion
 	private int OBSTACLE_MASK;
 	//arrays containing the list of things damaged by the explosion.
@@ -67,6 +73,9 @@ public class Grenade : NBHandActivateInteractable
 		registerItem = GetComponent<RegisterItem>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
+
+		// Set grenade to locked state by default
+		spriteHandler?.ChangeSprite(LOCKED_SPRITE);
 	}
 
 	protected override void ServerPerformInteraction(HandActivate interaction)
@@ -78,6 +87,9 @@ public class Grenade : NBHandActivateInteractable
 	{
 		if (!timerRunning)
 		{
+			// Start playing arm animation
+			spriteHandler?.ChangeSprite(ARMED_SPRITE);
+
 			timerRunning = true;
 			PlayPinSFX(originator.transform.position);
 			if (unstableFuse)
@@ -298,6 +310,7 @@ public class Grenade : NBHandActivateInteractable
 		SoundManager.PlayNetworkedAtPos("armbomb", position);
 	}
 
+#if UNITY_EDITOR
 	/// <summary>
 	/// Used only for debug in editor
 	/// </summary>
@@ -306,5 +319,5 @@ public class Grenade : NBHandActivateInteractable
 	{
 		StartCoroutine(TimeExplode(gameObject));
 	}
-
+#endif
 }
