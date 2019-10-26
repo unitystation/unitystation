@@ -298,4 +298,13 @@ public class Grenade : NBHandActivateInteractable
 		SoundManager.PlayNetworkedAtPos("armbomb", position);
 	}
 
+	/// <summary>
+	/// Used only for debug in editor
+	/// </summary>
+	[ContextMenu("Pull a pin")]
+	private void PullPin()
+	{
+		StartCoroutine(TimeExplode(gameObject));
+	}
+
 }
