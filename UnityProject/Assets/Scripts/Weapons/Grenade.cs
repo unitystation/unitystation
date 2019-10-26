@@ -60,6 +60,7 @@ public class Grenade : NBHandActivateInteractable
 	//whether this object has exploded
 	private bool hasExploded;
 	//this object's registerObject
+	[SyncVar(hook = nameof(UpdateTimer))]
 	private bool timerRunning = false;
 	private RegisterItem registerItem;
 
@@ -87,9 +88,6 @@ public class Grenade : NBHandActivateInteractable
 	{
 		if (!timerRunning)
 		{
-			// Start playing arm animation
-			UpdateSprite(ARMED_SPRITE);
-
 			timerRunning = true;
 			PlayPinSFX(originator.transform.position);
 			if (unstableFuse)
@@ -323,6 +321,23 @@ public class Grenade : NBHandActivateInteractable
 	private void PlayPinSFX(Vector3 position)
 	{
 		SoundManager.PlayNetworkedAtPos("armbomb", position);
+	}
+
+	private void UpdateTimer(bool timerRunning)
+	{
+		this.timerRunning = timerRunning;
+
+		if (timerRunning)
+		{
+			// Start playing arm animation
+			UpdateSprite(ARMED_SPRITE);
+		}
+		else
+		{
+			// We somehow deactivated bomb
+			UpdateSprite(LOCKED_SPRITE);
+		}
+
 	}
 
 #if UNITY_EDITOR
