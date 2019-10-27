@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NBHandActivateInteractable
+public class Grenade : NBHandActivateInteractable, IOnStageClient
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -75,6 +75,12 @@ public class Grenade : NBHandActivateInteractable
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 
+		// Set grenade to locked state by default
+		UpdateSprite(LOCKED_SPRITE);
+	}
+
+	public void GoingOnStageClient(OnStageInfo info)
+	{
 		// Set grenade to locked state by default
 		UpdateSprite(LOCKED_SPRITE);
 	}
