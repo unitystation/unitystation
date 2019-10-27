@@ -59,7 +59,8 @@ namespace Antagonists
 		{
 			foreach (var obj in CurrentObjectives)
 			{
-				obj.Setup(Owner.body);
+				obj.Owner = Owner;
+				obj.Setup();
 			}
 		}
 
@@ -102,7 +103,7 @@ namespace Antagonists
 			for (int i = 0; i < CurrentObjectives.Count; i++)
 			{
 				objSB.Append($"{i+1}. {CurrentObjectives[i].Description}: ");
-				objSB.AppendLine(CurrentObjectives[i].IsComplete(Owner.body) ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+				objSB.AppendLine(CurrentObjectives[i].IsComplete() ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
 			}
 			return objSB.ToString();
 		}

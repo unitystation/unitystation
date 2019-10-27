@@ -30,7 +30,7 @@ namespace Antagonists
 		/// <summary>
 		/// Perform initial setup of the objective if needed
 		/// </summary>
-		public override void Setup(PlayerScript thisPlayer)
+		public override void Setup()
 		{
 			// Select a random item to steal
 			int randIndex = Random.Range(0, ItemPool.Count);
@@ -41,10 +41,10 @@ namespace Antagonists
 			description = $"Steal {Amount} {ItemName}";
 		}
 
-		public override bool IsComplete(PlayerScript player)
+		public override bool IsComplete()
 		{
 			int count = 0;
-			foreach (var item in player.playerNetworkActions.Inventory)
+			foreach (var item in Owner.body.playerNetworkActions.Inventory)
 			{
 				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
 				if (item.Value.ItemAttributes?.itemName == ItemName)

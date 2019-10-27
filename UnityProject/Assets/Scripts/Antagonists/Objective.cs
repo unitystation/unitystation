@@ -10,6 +10,11 @@ namespace Antagonists
 	public abstract class Objective : ScriptableObject
 	{
 		/// <summary>
+		/// The player who has this objective
+		/// </summary>
+		public Mind Owner { get; set; }
+
+		/// <summary>
 		/// The name of the objective type
 		/// </summary>
 		[SerializeField]
@@ -40,11 +45,11 @@ namespace Antagonists
 		/// <summary>
 		/// Perform initial setup of the objective if needed
 		/// </summary>
-		public virtual void Setup(PlayerScript thisPlayer) {}
+		public virtual void Setup() {}
 
 		/// <summary>
 		/// Defines how to check the completion of the objective using a reference to the player's PlayerNetworkActions
 		/// </summary>
-		public abstract bool IsComplete(PlayerScript thisPlayer);
+		public abstract bool IsComplete();
 	}
 }

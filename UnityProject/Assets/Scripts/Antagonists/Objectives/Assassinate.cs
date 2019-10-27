@@ -28,16 +28,16 @@ namespace Antagonists
 		/// <summary>
 		/// Select the target randomly
 		/// </summary>
-		public override void Setup(PlayerScript thisPlayer)
+		public override void Setup()
 		{
 			// Get all ingame players excluding the one who owns this objective, and pick a random one as the target
-			List<ConnectedPlayer> playerPool = PlayerList.Instance.InGamePlayers.Where( p => p.Script != thisPlayer).ToList();
+			List<ConnectedPlayer> playerPool = PlayerList.Instance.InGamePlayers.Where( p => p.Script != Owner.body).ToList();
 			int randIndex = Random.Range(0, playerPool.Count);
 			Target = playerPool[randIndex].Script;
 			description = $"Assassinate {Target.playerName}, the {Target.mind.jobType.JobString()}";
 		}
 
-		public override bool IsComplete(PlayerScript player)
+		public override bool IsComplete()
 		{
 			return (Target.playerHealth == null || Target.playerHealth.IsDead);
 		}

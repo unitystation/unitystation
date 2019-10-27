@@ -13,9 +13,9 @@ namespace Antagonists
 		/// <summary>
 		/// Complete if the player is alive
 		/// </summary>
-		public override bool IsComplete(PlayerScript player)
+		public override bool IsComplete()
 		{
-			return !player.playerHealth.IsDead;
+			return !Owner.body.playerHealth.IsDead;
 		}
 	}
 }
