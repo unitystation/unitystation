@@ -6,14 +6,14 @@ using System.Linq;
 namespace Antagonists
 {
 	/// <summary>
-	/// An objective to kill someone on the station
+	/// An objective to assassinate someone on the station
 	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Kill")]
-	public class Kill : Objective
+	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/Assassinate")]
+	public class Assassinate : Objective
 	{
 
 		/// <summary>
-		/// The person to kill
+		/// The person to assassinate
 		/// </summary>
 		private PlayerScript Target;
 
@@ -34,7 +34,7 @@ namespace Antagonists
 			List<ConnectedPlayer> playerPool = PlayerList.Instance.InGamePlayers.Where( p => p.Script != thisPlayer).ToList();
 			int randIndex = Random.Range(0, playerPool.Count);
 			Target = playerPool[randIndex].Script;
-			description = $"Kill {Target.playerName}, the {Target.mind.jobType.JobString()}";
+			description = $"Assassinate {Target.playerName}, the {Target.mind.jobType.JobString()}";
 		}
 
 		public override bool IsComplete(PlayerScript player)
