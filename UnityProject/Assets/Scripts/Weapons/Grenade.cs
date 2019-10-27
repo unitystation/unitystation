@@ -107,17 +107,31 @@ public class Grenade : NBHandActivateInteractable
 
 	private void UpdateSprite(int sprite)
 	{
+		// Update sprite in game
 		spriteHandler?.ChangeSprite(sprite);
+	}
 
-		// Now update hands
-		if (UIManager.Hands.CurrentSlot != null)
+	/// <summary>
+	/// This coroutines make sure that sprite in hands is animated
+	/// TODO: replace this with more general aproach for animated icons
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator AnimateSpriteInHands()
+	{
+		while (timerRunning && !hasExploded)
 		{
-			// UIManager doesn't update held item sprites automatically
-			if (UIManager.Hands.CurrentSlot.Item == gameObject)
+			if (UIManager.Hands.CurrentSlot != null)
 			{
-				UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
+				// UIManager doesn't update held item sprites automatically
+				if (UIManager.Hands.CurrentSlot.Item == gameObject)
+				{
+					UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
+				}
 			}
+
+			yield return null;
 		}
+
 	}
 
 	public void Explode(string damagedBy)
@@ -331,6 +345,8 @@ public class Grenade : NBHandActivateInteractable
 		{
 			// Start playing arm animation
 			UpdateSprite(ARMED_SPRITE);
+			// Update grenade icon in hands
+			StartCoroutine(AnimateSpriteInHands());
 		}
 		else
 		{
