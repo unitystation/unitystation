@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an object to be CPRed by a player.
 /// </summary>
-public class CPRable : MonoBehaviour, IInteractable<PositionalHandApply>
+public class CPRable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
 	public bool Interact(PositionalHandApply interaction)
 	{

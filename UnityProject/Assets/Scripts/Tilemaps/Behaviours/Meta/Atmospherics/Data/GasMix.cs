@@ -189,6 +189,15 @@ namespace Atmospherics
 			RecalculateTemperatureCache();
 		}
 
+		public GasMix AddGasReturn(Gas gas, float moles)
+		{
+			TemperatureCache = Temperature;
+			Gases[gas] += moles;
+
+			RecalculateTemperatureCache();
+			return (this);
+		}
+
 		public void RemoveGas(Gas gas, float moles)
 		{
 			TemperatureCache = Temperature;

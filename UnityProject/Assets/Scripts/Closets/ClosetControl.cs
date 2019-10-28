@@ -9,7 +9,8 @@ using Mirror;
 /// Allows closet to be opened / closed / locked
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
+public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable
+
 {
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
@@ -228,9 +229,9 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		return true;
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		//only allow interactions targeting this closet
 		if (interaction.TargetObject != gameObject) return false;
@@ -238,12 +239,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(MouseDrop interaction)
-	{
-
-	}
-
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		// Is the player trying to put something in the closet
 		if (interaction.HandObject != null && !IsClosed)
@@ -387,7 +383,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 
 	private void RightClickInteract()
 	{
-		Interact(HandApply.ByLocalPlayer(gameObject));
+		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
 	}
 
 	public bool IsEmpty()

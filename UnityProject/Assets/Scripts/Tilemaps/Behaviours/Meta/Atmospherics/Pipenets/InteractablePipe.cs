@@ -5,7 +5,7 @@
 /// </summary>
 [RequireComponent(typeof(Pipe))]
 [RequireComponent(typeof(Pickupable))]
-public class InteractablePipe : NBHandApplyInteractable
+public class InteractablePipe : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	Pipe pipe;
 
@@ -14,15 +14,15 @@ public class InteractablePipe : NBHandApplyInteractable
 		pipe = GetComponent<Pipe>();
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//only wrench can be used on this
 		if (!Validations.IsTool(interaction.HandObject, ToolType.Wrench)) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		pipe.WrenchAct();
 	}

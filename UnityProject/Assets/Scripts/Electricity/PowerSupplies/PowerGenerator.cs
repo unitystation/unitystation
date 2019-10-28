@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-public class PowerGenerator : NBHandApplyInteractable, INodeControl
+public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
 	public ObjectBehaviour objectBehaviour;
 	[SyncVar(hook = nameof(UpdateSecured))]
@@ -165,7 +165,7 @@ public class PowerGenerator : NBHandApplyInteractable, INodeControl
 		}
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		var tool = slot.Item?.GetComponent<Tool>();

@@ -285,16 +285,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		if (Item != null && UIManager.Hands.CurrentSlot.equipSlot == equipSlot)
 		{
 			//check IF2 logic first
-			var interactables = Item.GetComponents<IInteractable<HandActivate>>()
+			var interactables = Item.GetComponents<IBaseInteractable<HandActivate>>()
 				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 			var activate = HandActivate.ByLocalPlayer();
-			foreach (var interactable in interactables)
-			{
-				if (interactable.Interact(activate))
-				{
-					return;
-				}
-			}
+			InteractionUtils.ClientCheckAndTrigger(interactables, activate);
 		}
 		else
 		{
@@ -320,31 +314,15 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			//check interactables in the active hand (if active hand occupied)
 			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
-				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>()
+				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IBaseInteractable<InventoryApply>>()
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-				foreach (var interactable in handInteractables)
-				{
-					if (interactable.Interact(combine))
-					{
-						//something combined, don't do anything else
-						return true;
-					}
-				}
+				if (InteractionUtils.ClientCheckAndTrigger(handInteractables, combine) != null) return true;
 			}
 
 			//check interactables in the target
-			var targetInteractables = Item.GetComponents<IInteractable<InventoryApply>>()
+			var targetInteractables = Item.GetComponents<IBaseInteractable<InventoryApply>>()
 				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-			foreach (var interactable in targetInteractables)
-			{
-				if (interactable.Interact(combine))
-				{
-					//something combined, don't do anything else
-					return true;
-				}
-			}
-
-
+			if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, combine) != null) return true;
 		}
 
 		return false;

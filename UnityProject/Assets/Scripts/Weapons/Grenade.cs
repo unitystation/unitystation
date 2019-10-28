@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NBHandActivateInteractable, IOnStageClient
+public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IOnStageClient
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -85,7 +85,7 @@ public class Grenade : NBHandActivateInteractable, IOnStageClient
 		UpdateSprite(LOCKED_SPRITE);
 	}
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		StartCoroutine(TimeExplode(interaction.Performer));
 	}

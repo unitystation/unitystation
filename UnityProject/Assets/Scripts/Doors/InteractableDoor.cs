@@ -6,7 +6,7 @@ using UnityEngine;
 ///     Allows a door to be interacted with.
 ///     It also checks for access restrictions on the players ID card
 /// </summary>
-public class InteractableDoor : Interactable<HandApply>
+public class InteractableDoor : MonoBehaviour, IPredictedCheckedInteractable<HandApply>
 {
 	public bool allowInput = true;
 
@@ -23,20 +23,23 @@ public class InteractableDoor : Interactable<HandApply>
 		}
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		if (interaction.TargetObject != gameObject) return false;
 
 		return allowInput && Controller != null;
 	}
 
-	protected override void ClientPredictInteraction(HandApply interaction)
+	public void ClientPredictInteraction(HandApply interaction)
 	{
 		allowInput = false;
 		StartCoroutine(DoorInputCoolDown());
 	}
+
+	//nothing to rollback
+	public void ServerRollbackClient(HandApply interaction) {}
 
 	/// <summary>
 	/// Invoke this on server when player bumps into door to try to open it.
@@ -49,7 +52,7 @@ public class InteractableDoor : Interactable<HandApply>
 		}
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//Server actions
 		// Close the door if it's open

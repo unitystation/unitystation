@@ -61,7 +61,7 @@ public class MouseInputController : MonoBehaviour
 	/// interactable that was triggered, then it is re-triggered continuously while the button is held,
 	/// then set back to null when the button is released.
 	/// </summary>
-	private IInteractable<AimApply> triggeredAimApply;
+	private IBaseInteractable<AimApply> triggeredAimApply;
 
 	private void OnDrawGizmos()
 	{
@@ -342,33 +342,57 @@ public class MouseInputController : MonoBehaviour
 		{
 			//get all components that can handapply or PositionalHandApply
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
-				.Where(c => c != null && c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
+				.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+				Category.Interaction, handApply.HandObject.name, target.name);
 
 			foreach (var handAppliable in handAppliables)
 			{
-				var interacted = handAppliable is IInteractable<HandApply> ?
-					(handAppliable as IInteractable<HandApply>).Interact(handApply) :
-					(handAppliable as IInteractable<PositionalHandApply>).Interact(posHandApply);
-				if (interacted)
+				var interacted = false;
+				if (handAppliable is IBaseInteractable<HandApply>)
 				{
-					//we're done checking, something happened
-					return true;
+					var hap = handAppliable as IBaseInteractable<HandApply>;
+					if (hap.CheckInteract(handApply, NetworkSide.Client))
+					{
+						InteractionUtils.RequestInteract(handApply, hap);
+						return true;
+					}
+				}
+				else
+				{
+					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
+					if (hap.CheckInteract(posHandApply, NetworkSide.Client))
+					{
+						InteractionUtils.RequestInteract(posHandApply, hap);
+						return true;
+					}
 				}
 			}
 		}
 
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
-			.Where(c => c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
+			.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables)
 		{
-			var interacted = targetHandAppliable is IInteractable<HandApply> ?
-				(targetHandAppliable as IInteractable<HandApply>).Interact(handApply) :
-				(targetHandAppliable as IInteractable<PositionalHandApply>).Interact(posHandApply);
-			if (interacted)
+			var interacted = false;
+			if (targetHandAppliable is IBaseInteractable<HandApply>)
 			{
-				//we're done checking, something happened
-				return true;
+				var hap = targetHandAppliable as IBaseInteractable<HandApply>;
+				if (hap.CheckInteract(handApply, NetworkSide.Client))
+				{
+					InteractionUtils.RequestInteract(handApply, hap);
+					return true;
+				}
+			}
+			else
+			{
+				var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
+				if (hap.CheckInteract(posHandApply, NetworkSide.Client))
+				{
+					InteractionUtils.RequestInteract(posHandApply, hap);
+					return true;
+				}
 			}
 		}
 
@@ -399,16 +423,14 @@ public class MouseInputController : MonoBehaviour
 			//it's being clicked down
 			triggeredAimApply = null;
 			//Checks for aim apply interactions which can trigger
-			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>()
-				.Where(mb => mb != null && (mb as MonoBehaviour).enabled))
+			var comps = handObj.GetComponents<IBaseInteractable<AimApply>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+			var triggered = InteractionUtils.ClientCheckAndTrigger(comps, aimApplyInfo);
+			if (triggered != null)
 			{
-				var interacted = aimApply.Interact(aimApplyInfo);
-				if (interacted)
-				{
-					triggeredAimApply = aimApply;
-					secondsSinceLastAimApplyTrigger = 0;
-					return true;
-				}
+				triggeredAimApply = triggered;
+				secondsSinceLastAimApplyTrigger = 0;
+				return true;
 			}
 		}
 		else
@@ -420,10 +442,11 @@ public class MouseInputController : MonoBehaviour
 				secondsSinceLastAimApplyTrigger += Time.deltaTime;
 				if (secondsSinceLastAimApplyTrigger > AimApplyInterval)
 				{
-					if (triggeredAimApply.Interact(aimApplyInfo))
+					if (triggeredAimApply.CheckInteract(aimApplyInfo, NetworkSide.Client))
 					{
 						//only reset timer if it was actually triggered
 						secondsSinceLastAimApplyTrigger = 0;
+						InteractionUtils.RequestInteract(aimApplyInfo, triggeredAimApply);
 					}
 				}
 

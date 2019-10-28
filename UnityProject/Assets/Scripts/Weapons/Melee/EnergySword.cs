@@ -6,7 +6,8 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Pickupable))]
-public class EnergySword: NBHandActivateInventoryApplyInteractable
+public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
+	ICheckedInteractable<InventoryApply>
 {
 	public ItemAttributes itemAttributes;
 	public SpriteHandler spriteHandler;
@@ -88,9 +89,9 @@ public class EnergySword: NBHandActivateInventoryApplyInteractable
 		worldLight.Color = lightColor;
 	}
 
-	protected override bool WillInteract(HandActivate interaction, NetworkSide side)
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side))
+		if (!DefaultWillInteract.Default(interaction, side))
 		{
 			return false;
 		}
@@ -98,9 +99,9 @@ public class EnergySword: NBHandActivateInventoryApplyInteractable
 		return true;
 	}
 
-	protected override bool WillInteract(InventoryApply interaction, NetworkSide side)
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side))
+		if (!DefaultWillInteract.Default(interaction, side))
 		{
 			return false;
 		}
@@ -115,13 +116,13 @@ public class EnergySword: NBHandActivateInventoryApplyInteractable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		ToggleState(interaction.Performer.WorldPosServer());
 		EquipmentSpritesMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.equipSlot, gameObject);
 	}
 
-	protected override void ServerPerformInteraction(InventoryApply interaction)
+	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		if (activated)
 		{

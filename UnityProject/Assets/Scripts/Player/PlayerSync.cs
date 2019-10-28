@@ -484,7 +484,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 					var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
 					if (closet)
 					{
-						closet.Interact(HandApply.ByLocalPlayer(closet.gameObject));
+						InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
 						didWiggle = true;
 					}
 				}

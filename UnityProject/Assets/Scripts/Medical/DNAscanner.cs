@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class DNAscanner : ClosetControl, IAPCPowered
+public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPowered
 {
 	public LivingHealthBehaviour occupant;
 	public string statusString;
@@ -48,7 +48,7 @@ public class DNAscanner : ClosetControl, IAPCPowered
 		}
 	}
 
-	protected override bool WillInteract(MouseDrop interaction, NetworkSide side)
+	public bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
 		if (side == NetworkSide.Server && IsClosed)
 			return false;
@@ -63,7 +63,7 @@ public class DNAscanner : ClosetControl, IAPCPowered
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(MouseDrop drop)
+	public void ServerPerformInteraction(MouseDrop drop)
 	{
 		var objectBehaviour = drop.DroppedObject.GetComponent<ObjectBehaviour>();
 		if(objectBehaviour)

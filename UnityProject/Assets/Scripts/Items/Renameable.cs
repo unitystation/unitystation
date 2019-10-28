@@ -2,7 +2,7 @@ using Mirror;
 using UnityEngine;
 using WebSocketSharp;
 
-public class Renameable : NBHandActivateInteractable, IRightClickable
+public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, IRightClickable
 {
 	public NetTabType NetTabType = NetTabType.Rename;
 	[SerializeField]
@@ -50,9 +50,9 @@ public class Renameable : NBHandActivateInteractable, IRightClickable
 		attributes.SetItemName(itemName);
 	}
 
-	protected override bool WillInteract(HandActivate interaction, NetworkSide side)
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		var cnt = GetComponent<CustomNetTransform>();
 		var ps = interaction.Performer.GetComponent<PlayerScript>();
@@ -72,7 +72,7 @@ public class Renameable : NBHandActivateInteractable, IRightClickable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		OpenRenameDialog(interaction.Performer);
 	}
@@ -91,7 +91,7 @@ public class Renameable : NBHandActivateInteractable, IRightClickable
 
 	private void RightClickInteract()
 	{
-		Interact(HandActivate.ByLocalPlayer(), nameof(Renameable));
+		InteractionUtils.RequestInteract(HandActivate.ByLocalPlayer(), this);
 	}
 
 	private void OpenRenameDialog(GameObject player)
