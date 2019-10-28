@@ -41,6 +41,11 @@ public abstract class GameMode : ScriptableObject
 	[Tooltip("What is the minimum amount of antagonists needed for this game mode?")]
 	public int MinAntags;
 
+	/// <summary>
+	/// The possible antagonists for this game mode
+	/// </summary>
+	public List<Antagonist> PossibleAntags;
+
 	// ================= Game Mode Methods =================
 
 	/// <summary>
@@ -56,6 +61,17 @@ public abstract class GameMode : ScriptableObject
 	/// Set up everything for the game mode
 	/// </summary>
 	public abstract void SetupRound();
+
+	/// <summary>
+	/// Defines how to spawn an antag for this game mode.
+	/// Defaults to picking a random antag from the possible antags.
+	/// </summary>
+	public virtual void SpawnAntag()
+	{
+		int randIndex = Random.Range(0, PossibleAntags.Count);
+		Antagonist gmAntag = Instantiate(PossibleAntags[randIndex]);
+		AntagManager.Instance.CreateAntag(gmAntag);
+	}
 
 	/// <summary>
 	/// Determine what to do with new players that join

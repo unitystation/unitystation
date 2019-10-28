@@ -62,18 +62,12 @@ namespace Antagonists
 		}
 
 		/// <summary>
-		/// Check the player count and see if new antags are needed
+		/// Returns the number of active antags
 		/// </summary>
-		public void CheckPlayers()
-		{
-			if (ActiveAntags.Count == 0 && PlayerList.Instance.InGamePlayers.Count > 1)
-			{
-				CreateAntag();
-			}
-		}
+		public int AntagCount => ActiveAntags.Count;
 
 		/// <summary>
-		/// Creates a new antagonist, defaults to a random player with a random antag type if no arguments passed.
+		/// Creates a new antagonist, defaults to a random player with a random antag type if null is passed.
 		/// </summary>
 		/// <param name="chosenAntag">The antag type to spawn</param>
 		/// <param name="chosenPlayer">The player to make an antag</param>
@@ -81,7 +75,7 @@ namespace Antagonists
 		{
 			// Choose a random non-antag player if one hasn't been provided
 			ConnectedPlayer player = chosenPlayer;
-			if (chosenAntag == null)
+			if (player == null)
 			{
 				if (PlayerList.Instance.NonAntagPlayers.Count == 0)
 				{

@@ -76,4 +76,15 @@ public partial class GameManager
 	{
 		return SecretGameMode ? "Secret" : GameMode.Name;
 	}
+
+	/// <summary>
+	/// Check the player count and see if new antags are needed
+	/// </summary>
+	public void CheckPlayers()
+	{
+		if ((Antagonists.AntagManager.Instance.AntagCount == 0) && PlayerList.Instance.InGamePlayers.Count > 1)
+		{
+			GameMode.SpawnAntag();
+		}
+	}
 }
