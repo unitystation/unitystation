@@ -28,11 +28,11 @@ public class StoreItemMessage : ClientMessage
 		}
 		else
 		{
-			//var storageInvSlot = storageObj.GetSlot(StoreEquipSlot);
-			//InventoryManager.EquipInInvSlot(playerInvSlot, storageInvSlot.Item);
-			//InventoryManager.ClearInvSlot(storageInvSlot);
+			var storageInvSlot = storageObj.GetSlot(StoreEquipSlot);
+			InventoryManager.EquipInInvSlot(playerInvSlot, storageInvSlot.Item);
+			InventoryManager.ClearInvSlot(storageInvSlot);
 		}
-		storageObj.NotifyPlayer(pna.gameObject);
+		storageObj.ServerNotifyPlayer(pna.gameObject);
 
 
 

@@ -51,6 +51,8 @@ public class InventorySlot
 				netInstanceIdentifier = 0;
 				ItemAttributes = null;
 			}
+
+			item = value;
 		}
 	}
 

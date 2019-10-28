@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -15,26 +16,36 @@ public class StorageObjectSyncMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient, StorageObj);
-		NetworkObjects[1].GetComponent<StorageObject>().RefreshStorageItems(Data);
+		NetworkObjects[1].GetComponent<StorageObject>().UpdateSlots(JsonUtility.FromJson<InventorySlots>(Data).Slots);
 	}
 
 	/// <param name="recipient">Client GO</param>
-	/// <param name="slot"></param>
-	/// <param name="objectForSlot">Pass null to clear slot</param>
-	/// <param name="forced">
-	///     Used for client simulation, use false if client's slot is already updated by prediction
-	///     (to avoid updating it twice)
-	/// </param>
+	/// <param name="storageObj">storage object to update</param>
+	/// <param name="newSlots">the new slots the client should have for this storage object</param>
 	/// <returns></returns>
-	public static StorageObjectSyncMessage Send(GameObject recipient, GameObject storageObj, string data)
+	public static StorageObjectSyncMessage Send(GameObject recipient, StorageObject storageObj, List<InventorySlot> newSlots)
 	{
 		StorageObjectSyncMessage msg = new StorageObjectSyncMessage
 		{
 			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 				StorageObj = storageObj.GetComponent<NetworkIdentity>().netId,
-				Data = data
+				Data = JsonUtility.ToJson(new InventorySlots(newSlots))
 		};
 		msg.SendTo(recipient);
 		return msg;
+	}
+}
+
+
+/// <summary>
+/// Needed only for json serialization to work
+/// </summary>
+class InventorySlots
+{
+	public List<InventorySlot> Slots;
+
+	public InventorySlots(List<InventorySlot> slots)
+	{
+		Slots = slots;
 	}
 }

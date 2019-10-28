@@ -7,6 +7,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Represents an item slot rendered in the UI.
+/// </summary>
 public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 {
 	public bool allowAllItems;
@@ -37,6 +40,24 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		set
 		{
 			inventorySlot.Item = value;
+		}
+	}
+
+	/// <summary>
+	/// Set this item slot appearance to show what is currently in the indicated storage object's
+	/// specified slot. Note, needs to be called again if that slot's contents are changed.
+	/// </summary>
+	/// <param name="slotIndex">slot index of the storage object this slot should display</param>
+	/// <param name="forStorage">storage object this slot is from</param>
+	public void UpdateFromStorage(int slotIndex, StorageObject forStorage)
+	{
+		eventName = "inventory" + slotIndex;
+		maxItemSize = forStorage.maxItemSize;
+		inventorySlot = forStorage.inventorySlotList[slotIndex];
+		equipSlot = inventorySlot.equipSlot;
+		InventorySlotCache.Add(this);
+		if(Item != null){
+			SetItem(Item);
 		}
 	}
 
@@ -248,7 +269,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		{
 			allowed = true;
 		}
-		if (!inventorySlot.IsUISlot && UIManager.StorageHandler.storageCache?.gameObject == item)
+		if (!inventorySlot.IsUISlot && UIManager.StorageHandler.currentOpenStorage?.gameObject == item)
 		{
 			allowed = false;
 		}

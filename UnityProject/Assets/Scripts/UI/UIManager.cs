@@ -207,7 +207,7 @@ public class UIManager : MonoBehaviour
 		{
 			return;
 		}
-		if (storageObj == StorageHandler.storageCache)
+		if (storageObj == StorageHandler.currentOpenStorage)
 		{
 			StorageHandler.CloseStorageUI();
 		}

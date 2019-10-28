@@ -66,7 +66,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public bool Interact(HandActivate interaction)
 	{
 		//open / close the backpack on activate
-		if (UIManager.StorageHandler.storageCache != storageObj)
+		if (UIManager.StorageHandler.currentOpenStorage != storageObj)
 		{
 			UIManager.StorageHandler.OpenStorageUI(storageObj);
 		}
@@ -81,7 +81,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public void OnPickupServer(HandApply interaction)
 	{
 		//Do a sync of the storage items when adding to UI
-		storageObj.NotifyPlayer(interaction.Performer);
+		storageObj.ServerNotifyPlayer(interaction.Performer);
 	}
 
 

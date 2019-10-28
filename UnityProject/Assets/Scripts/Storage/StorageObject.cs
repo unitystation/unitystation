@@ -1,82 +1,75 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 
-public class StorageObject : NetworkBehaviour
+/// <summary>
+/// Component which allows an object to store items (like a backpack)
+/// </summary>
+public class StorageObject : MonoBehaviour
 {
-	[HideInInspector]
-	public StorageSlots storageSlots;
 	public int maxSlots = 7;
 	public ItemSize maxItemSize = ItemSize.Large;
 
-	public List<InventorySlot> inventorySlotList = new List<InventorySlot>();
+	public List<InventorySlot> inventorySlotList;
 
 	public Action clientUpdatedDelegate;
 
-	public void Start()
+	public void Awake()
 	{
 		InitSlots();
 	}
 
 	void InitSlots()
 	{
-		storageSlots = new StorageSlots();
+		inventorySlotList = new List<InventorySlot>();
 		for (int i = 0; i < maxSlots; i++)
 		{
 			InventorySlot invSlot = new InventorySlot(EquipSlot.inventory01 + i, false, gameObject);
-			storageSlots.inventorySlots.Add(invSlot);
+			inventorySlotList.Add(invSlot);
 		}
 	}
 
-	[Server]
-	public void NotifyPlayer(GameObject recipient)
+	/// <summary>
+	/// (server only) Update the given client's storage slots for this storage object, so the client now knows what's
+	/// in this storage.
+	/// </summary>
+	/// <param name="recipient"></param>
+	public void ServerNotifyPlayer(GameObject recipient)
 	{
-		//Validate data and make sure it is being pulled from Server List (Fixes Host problems)
-		StorageSlots slotsData = new StorageSlots();
-		foreach (InventorySlot slot in storageSlots.inventorySlots)
-		{
-			slotsData.inventorySlots.Add(slot);
-		}
-
-		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(slotsData));
+		StorageObjectSyncMessage.Send(recipient, this, inventorySlotList);
 	}
 
-	public void RefreshStorageItems(string data)
+	/// <summary>
+	/// Updates this object's slots to be the specified slots.
+	/// </summary>
+	/// <param name="slots"></param>
+	public void UpdateSlots(List<InventorySlot> slots)
 	{
-		JsonUtility.FromJsonOverwrite(data, storageSlots);
-		RefreshInstanceIds();
-	}
+		this.inventorySlotList = slots;
+		foreach (var slot in inventorySlotList)
+		{
+			slot.RefreshInstanceIdFromIdentifier();
+			slot.Owner = gameObject;
+		}
 
-	private void RefreshInstanceIds()
-	{
-		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
-		{
-			var invSlot = storageSlots.inventorySlots[i];
-			invSlot.RefreshInstanceIdFromIdentifier();
-			invSlot.Owner = gameObject;
-		}
-		if (clientUpdatedDelegate != null)
-		{
-			clientUpdatedDelegate.Invoke();
-		}
+		clientUpdatedDelegate?.Invoke();
 	}
 
 	public InventorySlot NextSpareSlot()
 	{
-		InventorySlot invSlot = null;
-
-		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
+		foreach (var slot in inventorySlotList)
 		{
-			if (storageSlots.inventorySlots[i].Item == null)
+			if (slot.Item == null)
 			{
-				return storageSlots.inventorySlots[i];
+				return slot;
 			}
 		}
 
-		return invSlot;
+		return null;
 	}
 
 	public void SetUpFromStorageObjectData(StorageObjectData Data)
@@ -84,10 +77,9 @@ public class StorageObject : NetworkBehaviour
 		maxItemSize = Data.maxItemSize;
 		maxSlots = Data.maxSlots;
 	}
-}
 
-[Serializable]
-public class StorageSlots
-{
-	public List<InventorySlot> inventorySlots = new List<InventorySlot>();
+	public InventorySlot GetSlot(EquipSlot storeEquipSlot)
+	{
+		return inventorySlotList.FirstOrDefault(slot => slot.equipSlot == storeEquipSlot);
+	}
 }

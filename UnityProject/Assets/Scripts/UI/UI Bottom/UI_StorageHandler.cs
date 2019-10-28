@@ -5,8 +5,12 @@ using UnityEngine;
 public class UI_StorageHandler : MonoBehaviour
 {
 	private GameObject inventorySlotPrefab;
-	public StorageObject storageCache {get; private set;}
-	private List<UI_ItemSlot> localSlotCache = new List<UI_ItemSlot>();
+	/// <summary>
+	/// Currently opened StorageObj (like the backpack that's currently being looked in)
+	/// </summary>
+	public StorageObject currentOpenStorage {get; private set;}
+	// holds the currently rendered ui slots linked to the open storage.
+	private List<UI_ItemSlot> currentOpenStorageUISlots = new List<UI_ItemSlot>();
 
 	void Awake()
 	{
@@ -15,33 +19,23 @@ public class UI_StorageHandler : MonoBehaviour
 
 	public void OpenStorageUI(StorageObject storageObj)
 	{
-		storageCache = storageObj;
-		storageCache.clientUpdatedDelegate += StorageUpdatedEvent;
+		currentOpenStorage = storageObj;
+		currentOpenStorage.clientUpdatedDelegate += StorageUpdatedEvent;
 		PopulateInventorySlots();
 		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 	}
 
 	private void PopulateInventorySlots()
 	{
-		if(localSlotCache.Count == storageCache.storageSlots.inventorySlots.Count){
-			return;
-		}
-
-		for (int i = 0; i < storageCache.storageSlots.inventorySlots.Count; i++)
+		for (int i = 0; i < currentOpenStorage.inventorySlotList.Count; i++)
 		{
 			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
 			newSlot.transform.parent = transform;
 			newSlot.transform.localScale = Vector3.one;
-			var itemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
-			itemSlot.eventName = "inventory" + i;
-			itemSlot.maxItemSize = storageCache.maxItemSize;
-			itemSlot.inventorySlot = storageCache.storageSlots.inventorySlots[i];
-			itemSlot.equipSlot = itemSlot.inventorySlot.equipSlot;
-			localSlotCache.Add(itemSlot);
-			InventorySlotCache.Add(itemSlot);
-			if(itemSlot.Item != null){
-				itemSlot.SetItem(itemSlot.Item);
-			}
+			var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
+			uiItemSlot.UpdateFromStorage(i, currentOpenStorage);
+			currentOpenStorageUISlots.Add(uiItemSlot);
+
 		}
 	}
 
@@ -49,22 +43,25 @@ public class UI_StorageHandler : MonoBehaviour
 	{
 		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 
-		storageCache.clientUpdatedDelegate -= StorageUpdatedEvent;
-		storageCache = null;
+		currentOpenStorage.clientUpdatedDelegate -= StorageUpdatedEvent;
+		currentOpenStorage = null;
 
-		for (int i = localSlotCache.Count - 1; i >= 0; i--)
+		foreach (var uiItemSlot in currentOpenStorageUISlots)
 		{
-			InventorySlotCache.Remove(localSlotCache[i]);
-			Destroy(localSlotCache[i].transform.parent.gameObject);
+			InventorySlotCache.Remove(uiItemSlot);
+			Destroy(uiItemSlot.transform.parent.gameObject);
 		}
-		localSlotCache.Clear();
+		currentOpenStorageUISlots.Clear();
 	}
 
 	private void StorageUpdatedEvent()
 	{
 		Logger.Log("Storage updated while open" , Category.Inventory);
-		for(int i = 0; i < localSlotCache.Count; i++){
-			localSlotCache[i].SetItem(localSlotCache[i].Item);
+		//relink all the slots based on the current inventory slots in the open storage object
+		for (int i = 0; i < currentOpenStorage.inventorySlotList.Count; i++)
+		{
+			var uiItemSlot = currentOpenStorageUISlots[i];
+			uiItemSlot.UpdateFromStorage(i, currentOpenStorage);
 		}
 	}
 }
