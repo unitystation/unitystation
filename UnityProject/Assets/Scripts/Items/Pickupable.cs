@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Allows object to be picked up and put into hand.
 /// </summary>
-public class Pickupable : NBHandApplyInteractable, IRightClickable
+public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IRightClickable
 {
 
 	//controls whether this can currently be picked up.
@@ -37,11 +37,6 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		CheckSpriteOrder();
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		return Validations.ValidateWithServerRollback(interaction, side, CheckWillInteract, ServerInformClientRollback);
-	}
-
 	/// <summary>
 	/// Server-side method, sets whether this object can be picked up.
 	/// </summary>
@@ -52,7 +47,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		this.canPickup = canPickup;
 	}
 
-	private bool CheckWillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!canPickup) return false;
 		//we need to be the target
@@ -64,7 +59,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		return true;
 	}
 
-	protected override void ClientPredictInteraction(HandApply interaction)
+	public void ClientPredictInteraction(HandApply interaction)
 	{
 		if ( interaction.Performer.GetComponent<PlayerScript>().IsInReach( this.gameObject, false ))
 		{
@@ -73,14 +68,14 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		}
 	}
 
-	private void ServerInformClientRollback(HandApply interaction)
+	public void ServerRollbackClient(HandApply interaction)
 	{
 		//Rollback prediction (inform player about item's true state)
 		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer);
 	}
 
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//we validated, but object may only be in extended range
 		var cnt = GetComponent<CustomNetTransform>();
@@ -106,7 +101,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Security,
 				cnt.ServerState.WorldPosition, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
-			ServerInformClientRollback(interaction);
+			ServerRollbackClient(interaction);
 		}
 		else
 		{
@@ -124,7 +119,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			else
 			{
 				//for some reason pickup failed even after earlier validation, need to rollback client
-				ServerInformClientRollback(interaction);
+				ServerRollbackClient(interaction);
 			}
 		}
 	}
@@ -145,7 +140,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	private void RightClickInteract()
 	{
 		//trigger the interaction manually, triggered via the right click menu
-		Interact(HandApply.ByLocalPlayer(gameObject), nameof(Pickupable));
+		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
 	}
 
 	//Broadcast from InventoryManager on server

@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 ///     Indicates an object that emits sound upon activation (bike horn/air horn...)
 /// </summary>
-public class Horn : Interactable<HandActivate, PositionalHandApply>
+public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 {
 	public string Sound;
 	public float Cooldown = 0.2f;
@@ -41,7 +41,7 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// <summary>
 	///	honk on activate
 	/// </summary>
-	protected override void ServerPerformInteraction( HandActivate interaction )
+	public void ServerPerformInteraction( HandActivate interaction )
 	{
 		ClassicHonk();
 		StartCoroutine( StartCooldown());
@@ -50,7 +50,7 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// <summary>
 	/// honk on world click
 	/// </summary>
-	protected override void ServerPerformInteraction( PositionalHandApply interaction )
+	public void ServerPerformInteraction( PositionalHandApply interaction )
 	{
 		bool inCloseRange = PlayerScript.IsInReach( interaction.TargetVector );
 		var targetHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
@@ -85,7 +85,7 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// <summary>
 	/// Allow honking when barely conscious
 	/// </summary>
-	protected override bool WillInteract( HandActivate interaction, NetworkSide side )
+	public bool WillInteract( HandActivate interaction, NetworkSide side )
 	{
 		return Validations.CanInteract( interaction.Performer, side, true )
 		       && allowUse;
@@ -94,7 +94,7 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// <summary>
 	/// Allow honking when barely conscious and when clicking anything
 	/// </summary>
-	protected override bool WillInteractT2( PositionalHandApply interaction, NetworkSide side )
+	public bool WillInteract( PositionalHandApply interaction, NetworkSide side )
 	{
 		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector)
 				&& allowUse;

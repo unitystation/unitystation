@@ -6,13 +6,13 @@ using Mirror;
 /// <summary>
 /// Allows this object to toggle its electrical node when clicked - turning the supply on or off.
 /// </summary>
-public class ToggleableElectricalNode : NBHandApplyInteractable, INodeControl
+public class ToggleableElectricalNode : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
   	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 	public ElectricalNodeControl ElectricalNodeControl;
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;
 		UpdateServerState(isOn);

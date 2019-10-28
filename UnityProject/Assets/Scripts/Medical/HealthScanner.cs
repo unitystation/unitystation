@@ -6,18 +6,18 @@ using UnityEngine;
 /// Main health scanner interaction. Applying it to a living thing sends a request to the server to
 /// tell us their health info.
 /// </summary>
-public class HealthScanner : NBHandApplyInteractable
+public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var livingHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 		string ToShow = (livingHealth.name + " is " + livingHealth.ConsciousState.ToString() + "\n"

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
 /// Cable coil which can be applied to the ground to lay cable.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class CableCoil : NBPositionalHandApplyInteractable
+public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public WiringColor CableType;
 	public GameObject CablePrefab;
@@ -40,9 +41,9 @@ public class CableCoil : NBPositionalHandApplyInteractable
 	}
 
 
-	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be used on tiles
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
@@ -55,7 +56,7 @@ public class CableCoil : NBPositionalHandApplyInteractable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		var cableCoil = interaction.HandObject.GetComponent<CableCoil>();
 		if (cableCoil != null)

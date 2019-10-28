@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class APC  : NBHandApplyInteractable, INodeControl
+public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -189,7 +189,7 @@ public class APC  : NBHandApplyInteractable, INodeControl
 
 	public NetTabType NetTabType;
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 	}

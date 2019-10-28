@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 ///     Indicates an edible object.
 /// </summary>
-public class Edible : NetworkBehaviour, IInteractable<HandActivate>, IInteractable<HandApply>
+public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClientInteractable<HandApply>
 {
     public GameObject leavings;
     protected bool isDrink = false;

@@ -1,8 +1,9 @@
 using System;
+using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Rack : NBPositionalHandApplyInteractable
+public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public GameObject rackParts;
 
@@ -19,16 +20,16 @@ public class Rack : NBPositionalHandApplyInteractable
 		PoolManager.PoolNetworkInstantiate(rackParts, gameObject.TileWorldPosition().To3Int(), transform.parent);
 	}
 
-	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		if (!DefaultWillInteract.PositionalHandApply(interaction, NetworkSide.Client)) return false;
 
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 

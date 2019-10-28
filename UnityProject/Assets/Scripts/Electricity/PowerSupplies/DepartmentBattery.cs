@@ -11,7 +11,7 @@ public enum BatteryStateSprite
 	Empty,
 }
 
-public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>, INodeControl
+public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
 	public DepartmentBatterySprite CurrentSprite  = DepartmentBatterySprite.Default;
 	public SpriteRenderer Renderer;
@@ -120,22 +120,10 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IIn
 
 	}
 
-    public bool Interact(HandApply interaction)
-    {
-	    if (!DefaultWillInteract.HandApply(interaction, NetworkSide.Client)) return false;
-
-		InteractionMessageUtils.SendRequest(interaction, this);
-		return true;
-    }
-
-
-	public bool ServerProcessInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (!DefaultWillInteract.HandApply(interaction, NetworkSide.Server)) return false;
-
 		isOn = !isOn;
 		UpdateServerState(isOn);
-		return true;
 	}
 	public void UpdateServerState(bool _isOn)
 	{

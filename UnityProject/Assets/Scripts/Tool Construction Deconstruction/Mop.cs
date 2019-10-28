@@ -4,17 +4,17 @@
 /// Main component for Mop. Allows mopping to be done on tiles.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Mop : Interactable<PositionalHandApply>
+public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
-	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only mop tiles
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		//server is performing server-side logic for the interaction
 		//do the mopping
