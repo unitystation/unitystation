@@ -67,9 +67,11 @@ public class MobMeleeAttack : MobFollow
 		if (followTarget != null)
 		{
 			var followLivingBehaviour = followTarget.GetComponent<LivingHealthBehaviour>();
+			var distanceToTarget = Vector3.Distance(followTarget.transform.position, transform.position);
 			if (followLivingBehaviour != null)
 			{
-				if (followLivingBehaviour.IsDead)
+				//When to stop following on the server:
+				if (followLivingBehaviour.IsDead || distanceToTarget > 30f)
 				{
 					Deactivate();
 					followTarget = null;
@@ -137,7 +139,7 @@ public class MobMeleeAttack : MobFollow
 					//What to do with Window hits?
 					if (hitInfo.transform.gameObject.layer == windowsLayer)
 					{
-						if (Vector3.Distance(followTarget.transform.position, transform.position) > 4.5f)
+						if (distanceToTarget > 4.5f)
 						{
 							//Don't bother, the target is too far away to warrant a decision to break down a window
 							return false;
