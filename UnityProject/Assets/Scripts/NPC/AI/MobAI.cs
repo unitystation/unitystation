@@ -6,6 +6,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(MobFlee))]
 public class MobAI : MonoBehaviour
 {
+	public string mobName;
+
 	protected MobFollow mobFollow;
 	protected MobExplore mobExplore;
 	protected MobFlee mobFlee;

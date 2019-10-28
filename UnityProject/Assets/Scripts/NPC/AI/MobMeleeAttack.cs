@@ -15,6 +15,10 @@ public class MobMeleeAttack : MobFollow
 	         "a player originally.")]
 	public bool targetOtherPlayersWhoGetInWay;
 
+	public int hitDamage = 30;
+	public string attackVerb;
+	public BodyPartType defaultTarget;
+
 	private LayerMask checkMask;
 	private int playersLayer;
 	private int npcLayer;
@@ -65,7 +69,10 @@ public class MobMeleeAttack : MobFollow
 					//What to do with player hit?
 					if (hitInfo.transform.gameObject.layer == playersLayer)
 					{
-						AttackFlesh(dir,hitInfo.transform.GetComponent<Meleeable>());
+						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
+						if (healthBehaviour.IsDead) return false;
+
+						AttackFlesh(dir, healthBehaviour);
 
 						if (followTarget.gameObject.layer == playersLayer)
 						{
@@ -84,10 +91,10 @@ public class MobMeleeAttack : MobFollow
 					//What to do with NPC hit?
 					if (hitInfo.transform.gameObject.layer == npcLayer)
 					{
-						var meleeable = hitInfo.transform.GetComponent<Meleeable>();
-						if (meleeable != null)
+						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
+						if (healthBehaviour != null)
 						{
-							AttackFlesh(dir, meleeable);
+							AttackFlesh(dir, healthBehaviour);
 							return true;
 						}
 					}
@@ -109,8 +116,11 @@ public class MobMeleeAttack : MobFollow
 		return false;
 	}
 
-	private void AttackFlesh(Vector2 dir, Meleeable meleeable)
+	private void AttackFlesh(Vector2 dir, LivingHealthBehaviour healthBehaviour)
 	{
+		healthBehaviour.ApplyDamage(gameObject, hitDamage,AttackType.Melee, DamageType.Brute, defaultTarget);
+		Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
+		SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
 		ServerDoLerpAnimation(dir);
 	}
 

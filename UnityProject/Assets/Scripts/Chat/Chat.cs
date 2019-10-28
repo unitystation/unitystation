@@ -173,8 +173,9 @@ public partial class Chat : MonoBehaviour
 	/// <param name="damage">damage done</param>
 	/// <param name="hitZone">zone that was damaged</param>
 	/// <param name="item">optional gameobject with an itemattributes, representing the item the attack was made with</param>
+	/// <param name="customAttackVerb">If you want to override the attack verb then pass the verb here</param>
 	public static void AddAttackMsgToChat(GameObject attacker, GameObject victim,
-		BodyPartType hitZone = BodyPartType.None, GameObject item = null)
+		BodyPartType hitZone = BodyPartType.None, GameObject item = null, string customAttackVerb = "")
 	{
 		string attackVerb;
 		string attack;
@@ -190,6 +191,11 @@ public partial class Chat : MonoBehaviour
 			// Punch attack as there is no item.
 			attackVerb = "punched";
 			attack = "";
+		}
+
+		if (!string.IsNullOrEmpty(customAttackVerb))
+		{
+			attackVerb = customAttackVerb;
 		}
 
 		var player = victim.Player();
@@ -232,7 +238,20 @@ public partial class Chat : MonoBehaviour
 			victimNameOthers = victimName;
 		}
 
-		var messageOthers = $"{attacker.Player()?.Name} has {attackVerb} {victimNameOthers}{InTheZone(hitZone)}{attack}!";
+		var attackerName = attacker.Player()?.Name;
+		if (string.IsNullOrEmpty(attackerName))
+		{
+			var mobAi = attacker.GetComponent<MobAI>();
+			if (mobAi != null)
+			{
+				attackerName = mobAi.mobName;
+			}
+			else
+			{
+				attackerName = "Unknown";
+			}
+		}
+		var messageOthers = $"{attackerName} has {attackVerb} {victimNameOthers}{InTheZone(hitZone)}{attack}!";
 		var message = $"You {attackVerb} {victimName}{InTheZone(hitZone)}{attack}!";
 
 		Instance.addChatLogServer.Invoke(new ChatEvent

@@ -441,8 +441,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 9ff670259caaa5c488c14453dd5d8c63
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 138678952
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,6 +541,9 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   spriteHolder: {fileID: 3392343644113499114}
   targetOtherPlayersWhoGetInWay: 1
+  hitDamage: 15
+  attackVerb: slashed
+  defaultTarget: 0
 --- !u!114 &8310532552690989649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,3 +556,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba86e59112fcacd448eb7b1203dd37f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobName: Xenomorph
