@@ -59,6 +59,7 @@ public class MetaTileMap : MonoBehaviour
 		LayersKeys = layersKeys.ToArray();
 		LayersValues = layersValues.ToArray();
 		SolidLayersValues = solidLayersValues.ToArray();
+		damageableLayersValues.Sort(( layerOne, layerTwo ) => layerOne.LayerType.GetOrder().CompareTo( layerTwo.LayerType.GetOrder() ) );
 		DamageableLayers = damageableLayersValues.ToArray();
 	}
 

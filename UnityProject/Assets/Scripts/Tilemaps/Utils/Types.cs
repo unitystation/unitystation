@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Linq;
 using UnityEngine.Serialization;
 
 public enum TileType
@@ -20,12 +21,22 @@ public enum TileType
 //If you change numbers, scene layers will mess up
 public enum LayerType
 {
-	Walls 	= 0,
-	Windows = 1,
-	Objects = 2,
-	Floors 	= 3,
-	Base 	= 4,
-	Grills 	= 5,
-	Effects = 6,
-	None 	= 7
+	[Order(0)]	None 	= 7,
+	[Order(1)]	Effects = 6,
+	[Order(2)]	Walls 	= 0,
+	[Order(3)]	Windows = 1,
+	[Order(4)]	Grills 	= 5,
+	[Order(5)]	Objects = 2,
+	[Order(6)]	Floors 	= 3,
+	[Order(7)]	Base 	= 4,
+}
+
+public class OrderAttribute : Attribute
+{
+	public readonly int Order;
+
+	public OrderAttribute(int order)
+	{
+		Order = order;
+	}
 }
