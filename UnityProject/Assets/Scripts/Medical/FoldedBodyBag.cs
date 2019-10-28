@@ -1,13 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Pickupable))]
-public class FoldedBodyBag  : Interactable<PositionalHandApply>
+public class FoldedBodyBag  : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public GameObject prefabVariant;
 
-	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side))
+		if (!DefaultWillInteract.Default(interaction, side))
 		{
 			return false;
 		}
@@ -27,7 +27,7 @@ public class FoldedBodyBag  : Interactable<PositionalHandApply>
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		// Place the opened body bag in the world
 		PoolManager.PoolNetworkInstantiate(prefabVariant, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);

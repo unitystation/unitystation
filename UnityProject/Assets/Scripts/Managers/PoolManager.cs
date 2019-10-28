@@ -163,6 +163,32 @@ public class PoolManager : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Spawn the item locally without syncing it over the network. Only client-side lifecycle hooks will be called.
+	/// </summary>
+	/// <param name="prefabName">Name of the prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
+	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented a GoingOnStageServer and GoingOnStageClient method.</param>
+	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <returns>the newly created GameObject</returns>
+	public static GameObject PoolClientInstantiate(string prefabName, Vector3? position = null, Transform parent = null, Quaternion? rotation = null)
+	{
+		GameObject prefab = GetPrefabByName(prefabName);
+		if (prefab == null)
+		{
+			Logger.LogErrorFormat("Attempted to spawn prefab with name {0} which is either not an actual prefab name or" +
+			                      " is a prefab which is not spawnable. Request to spawn will be ignored.", Category.ItemSpawn, prefabName);
+			return null;
+		}
+
+		return PoolClientInstantiate(prefab, position, parent, rotation);
+	}
+
+	/// <summary>
 	///     For items that are network synced only!
 	/// 	If target has no ObjectBehavior or is not pooled, it will simply be deleted and the deletion
 	/// 	will be synced to each client.
@@ -410,6 +436,21 @@ public class PoolManager : NetworkBehaviour
 	/// <returns>the gameobject of the prefab</returns>
 	public static GameObject GetPrefabByName(string prefabName)
 	{
+		if (!Instance.nameToSpawnablePrefab.ContainsKey(prefabName))
+		{
+			//try to load it ourselves
+			var prefab = Resources.Load<GameObject>(prefabName);
+			if (prefab == null)
+			{
+				Logger.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.", Category.ItemSpawn,
+					prefabName);
+				return null;
+			}
+			else
+			{
+				Instance.nameToSpawnablePrefab.Add(prefabName, prefab);
+			}
+		}
 		return Instance.nameToSpawnablePrefab[prefabName];
 	}
 

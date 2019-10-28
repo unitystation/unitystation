@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NBHandActivateInteractable
+public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -69,7 +69,7 @@ public class Grenade : NBHandActivateInteractable
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		StartCoroutine(TimeExplode(interaction.Performer));
 	}

@@ -6,12 +6,12 @@ using UnityEngine;
 /// please ensure this component is placed below them, otherwise the tab open/close will
 /// be the interaction that always takes precedence.
 /// </summary>
-public class HasNetworkTab : Interactable<HandApply>
+public class HasNetworkTab : MonoBehaviour, IInteractable<HandApply>
 {
 	[Tooltip("Network tab to display.")]
 	public NetTabType NetTabType = NetTabType.None;
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType, TabAction.Open );
 	}

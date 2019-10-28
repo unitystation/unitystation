@@ -176,11 +176,7 @@ public class ChatRelay : NetworkBehaviour
 
 		if (channels != ChatChannel.None)
 		{
-			GameObject chatEntry = Instantiate(ChatUI.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
-			Text text = chatEntry.GetComponent<Text>();
-			text.text = message;
-			chatEntry.transform.SetParent(ChatUI.Instance.content, false);
-			chatEntry.transform.localScale = Vector3.one;
+			ChatUI.Instance.AddChatEntry(message);
 		}
 	}
 }

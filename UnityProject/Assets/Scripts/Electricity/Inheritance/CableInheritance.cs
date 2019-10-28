@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
 
-public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceControl
+public class CableInheritance : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IDeviceControl
 {
 	public bool SelfDestruct = false;
 	public WiringColor CableType;
@@ -25,15 +26,15 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	public bool CanOverCurrent = true;
 
 
-	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (!Validations.IsTool(interaction.HandObject, ToolType.Wirecutter)) return false;
 		if (interaction.TargetObject != gameObject) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		//wirecutters can be used to cut this cable
 		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();

@@ -6,7 +6,7 @@ using Mirror;
 /// </summary>
 [RequireComponent(typeof(RegisterObject))]
 [RequireComponent(typeof(Pickupable))]
-public class Girder : NBHandApplyInteractable
+public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private TileChangeManager tileChangeManager;
 	public GameObject metalPrefab;
@@ -24,10 +24,10 @@ public class Girder : NBHandApplyInteractable
 		ObjectFactory.SpawnMetal(1, gameObject.TileWorldPosition(), parent: transform.parent);
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		//start with the default HandApply WillInteract logic.
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
@@ -36,35 +36,24 @@ public class Girder : NBHandApplyInteractable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.TargetObject != gameObject) return;
 
 		if (Validations.HasComponent<Metal>(interaction.HandObject)){
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishProgressAction.FinishReason.COMPLETED)
-					{
-						ConstructWall(interaction);
-					}
-				}
-			);
-			UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+			var progressFinishAction = new ProgressCompleteAction(() =>
+						ConstructWall(interaction));
+			UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
 		}
 		else if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishProgressAction.FinishReason.COMPLETED)
-					{
-						Disassemble();
-					}
-				}
-			);
-			UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+
+			var progressFinishAction = new ProgressCompleteAction(Disassemble);
+			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+			if (bar != null)
+			{
+				SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
+			}
 		}
 	}
 

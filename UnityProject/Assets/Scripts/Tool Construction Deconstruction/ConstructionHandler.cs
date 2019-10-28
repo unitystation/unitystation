@@ -7,7 +7,7 @@ using System.Reflection;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 
-public class ConstructionHandler : NBHandApplyInteractable
+public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	public IConstructionHandler RelatedInterface;
 	public List<ConstructionStage> ConstructionStages;
@@ -33,14 +33,14 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 	public GameObject StandardConstructionComponent;
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		return (InteractionCheck(interaction, side));
 
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		InventorySlot slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 
@@ -62,14 +62,8 @@ public class ConstructionHandler : NBHandApplyInteractable
 						{
 							if (_Object.TimeNeeded > 0)
 							{
-								var progressFinishAction = new FinishProgressAction(reason =>
-								{
-									if (reason == FinishProgressAction.FinishReason.COMPLETED)
-									{
-										ExceptItem(slot, interaction);
-									}
-								});
-								UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+								var progressFinishAction = new ProgressCompleteAction(() => ExceptItem(slot, interaction));
+								UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 							}
 							else {
 								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -83,14 +77,8 @@ public class ConstructionHandler : NBHandApplyInteractable
 						if (Item != null) {
 							if (Item.CType == _Object.CType && Item.level >= _Object.level) {
 								if (_Object.TimeNeeded > 0) {
-									var progressFinishAction = new FinishProgressAction(reason =>
-									{
-										if (reason == FinishProgressAction.FinishReason.COMPLETED)
-										{
-											ExceptItem(slot, interaction);
-										}
-									});
-									UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+									var progressFinishAction = new ProgressCompleteAction(() => ExceptItem(slot, interaction));
+									UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 								}
 								else {
 									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -114,14 +102,8 @@ public class ConstructionHandler : NBHandApplyInteractable
 			var Jump = ConstructionStages[CurrentStage].ToolStage[tool.ToolType];
 			if (Jump.ConstructionTime > 0)
 			{
-				var progressFinishAction = new FinishProgressAction(reason =>
-				{
-					if (reason == FinishProgressAction.FinishReason.COMPLETED)
-					{
-						JumpLanding(tool);
-					}
-				});
-				UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
+				var progressFinishAction = new ProgressCompleteAction(() => JumpLanding(tool));
+				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
 			}
 			else {
 				JumpLanding(tool);
@@ -325,8 +307,6 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 	void Start()
 	{
-		base.Start();
-
 		TSpriteRenderer = Instantiate(TSpriteRenderer).GetComponent<SpriteRenderer>();
 		TSpriteRenderer.gameObject.transform.SetParent(this.transform, false);
 		if (isServer)

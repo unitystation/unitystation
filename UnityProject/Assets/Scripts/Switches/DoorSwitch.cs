@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// Allows object to function as a door switch - opening / closing door when clicked.
 /// </summary>
-public class DoorSwitch : NBHandApplyInteractable
+public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private Animator animator;
 	private SpriteRenderer spriteRenderer;
@@ -20,9 +20,9 @@ public class DoorSwitch : NBHandApplyInteractable
 		animator = GetComponent<Animator>();
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//this validation is only done client side for their convenience - they can't
 		//press button while it's animating.
 		if (side == NetworkSide.Client)
@@ -34,7 +34,7 @@ public class DoorSwitch : NBHandApplyInteractable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		for (int i = 0; i < doorControllers.Length; i++)
 		{

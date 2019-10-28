@@ -6,28 +6,27 @@ using Mirror;
 /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
-public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
+public class HealsTheLiving : NetworkBehaviour, ICheckedInteractable<HandApply>, IOnStageServer
 {
 	public DamageType healType;
 	//total number of times this can be used
 	public int uses = 6;  //TODO: move into some stack component (metal sheets, ores, etc)
 	private int timesUsed;
-	private bool isSelfHealing;
 
 	public void GoingOnStageServer(OnStageInfo info)
 	{
 		timesUsed = 0;
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 		if (LHB.IsDead)
@@ -63,24 +62,7 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 	[Server]
 	private void SelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
 	{
-		if (!isSelfHealing)
-		{
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
-					{
-						isSelfHealing = false;
-					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
-					{
-						ApplyHeal(targetBodyPart);
-						isSelfHealing = false;
-					}
-				}
-			);
-			isSelfHealing = true;
-			UIManager.ProgressBar.StartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
-		}
+		var progressFinishAction = new ProgressCompleteAction(() => ApplyHeal(targetBodyPart));
+		UIManager.ServerStartProgress(ProgressAction.SelfHeal, originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
 	}
 }

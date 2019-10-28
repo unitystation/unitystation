@@ -6,7 +6,6 @@ using UnityEngine.Events;
 using Mirror;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(RightClickAppearance))]
 public class PushPull : NetworkBehaviour, IRightClickable {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;

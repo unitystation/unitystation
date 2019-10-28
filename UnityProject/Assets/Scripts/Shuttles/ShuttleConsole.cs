@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Main component for shuttle console
 /// </summary>
-public class ShuttleConsole : NBHandApplyInteractable
+public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public MatrixMove ShuttleMatrixMove;
 	private RegisterTile registerTile;
@@ -68,15 +68,15 @@ public class ShuttleConsole : NBHandApplyInteractable
     }
 
 
-    protected override bool WillInteract(HandApply interaction, NetworkSide side)
+    public bool WillInteract(HandApply interaction, NetworkSide side)
     {
-	    if (!base.WillInteract(interaction, side)) return false;
+	    if (!DefaultWillInteract.Default(interaction, side)) return false;
 	    //can only be interacted with an emag (normal click behavior is in HasNetTab)
 	    if (!Validations.IsTool(interaction.UsedObject, ToolType.Emag)) return false;
 	    return true;
     }
 
-    protected override void ServerPerformInteraction(HandApply interaction)
+    public void ServerPerformInteraction(HandApply interaction)
     {
 	    //apply emag
 	    switch ( State )

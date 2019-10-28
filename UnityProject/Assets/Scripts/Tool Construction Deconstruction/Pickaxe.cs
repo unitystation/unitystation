@@ -4,46 +4,32 @@ using UnityEngine;
 /// <summary>
 /// Allows object to be used as a pickaxe to mine rocks.
 /// </summary>
-public class Pickaxe : Interactable<PositionalHandApply>
+public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	private const float PLASMA_SPAWN_CHANCE = 0.5f;
-	//server-side only, tracks if pick is currently mining a rock
-	private bool isMining;
 
-	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 		if (interactableTiles == null) return false;
 
 		return Validations.IsMineableAt(interaction.WorldPositionTarget, interactableTiles.MetaTileMap);
 	}
 
-	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (!isMining)
-		{
-			//server is performing server-side logic for the interaction
-			//do the mining
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
-					{
-						CancelMine();
-					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
-					{
-						FinishMine(interaction);
-						isMining = false;
-					}
-				}
-			);
-			isMining = true;
+		//server is performing server-side logic for the interaction
+		//do the mining
+		var progressFinishAction = new ProgressCompleteAction(() => FinishMine(interaction));
 
-			//Start the progress bar:
-			UIManager.ProgressBar.StartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, progressFinishAction, interaction.Performer);
+		//Start the progress bar:
+		//technically pickaxe is deconstruction, so it would interrupt any construction / deconstruction being done
+		//on that tile
+		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
+			5f, progressFinishAction, interaction.Performer);
+		if (bar != null)
+		{
 			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
 		}
 	}
@@ -66,12 +52,5 @@ public class Pickaxe : Interactable<PositionalHandApply>
 				ObjectFactory.SpawnPlasma(1, interaction.WorldPositionTarget.RoundToInt().To2Int());
 			}
 		}
-	}
-
-
-	private void CancelMine()
-	{
-		//stop the in progress cleaning
-		isMining = false;
 	}
 }

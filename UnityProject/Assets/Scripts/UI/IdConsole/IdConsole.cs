@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IdConsole : NBHandApplyInteractable
+public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public IdConsoleUpdateEvent OnConsoleUpdate = new IdConsoleUpdateEvent();
 	public IDCard AccessCard;
@@ -15,9 +15,9 @@ public class IdConsole : NBHandApplyInteractable
 		OnConsoleUpdate?.Invoke();
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side))
+		if (!DefaultWillInteract.Default(interaction, side))
 			return false;
 
 		//interaction only works if using an ID card on console
@@ -27,7 +27,7 @@ public class IdConsole : NBHandApplyInteractable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//Put ID card inside
 		var handIDCard = interaction.HandObject.GetComponent<IDCard>();

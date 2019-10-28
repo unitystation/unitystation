@@ -33,9 +33,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public EquipSlot activeHand = EquipSlot.rightHand;
 
-
-	private bool doingCPR = false;
-
 	private PlayerChatBubble playerChatBubble;
 
 	private Equipment equipment;
@@ -703,7 +700,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
 	{
 		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
-		Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
+		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
+		var lhbOther = huggedPlayer.GetComponent<LivingHealthBehaviour>();
+		if (lhb != null && lhbOther != null && (lhb.FireStacks > 0 || lhbOther.FireStacks > 0))
+		{
+			lhb.ApplyDamage(huggedPlayer, 1, AttackType.Fire, DamageType.Burn);
+			lhbOther.ApplyDamage(gameObject, 1, AttackType.Fire, DamageType.Burn);
+			Chat.AddCombatMsgToChat(gameObject, $"You give {hugged} a fiery hug.", $"{hugger} has given {hugged} a fiery hug.");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
+		}
 	}
 
 	/// <summary>
@@ -712,50 +720,29 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestCPR(GameObject rescuer, GameObject cardiacArrestPlayer)
 	{
+		//TODO: Probably refactor this to IF2
+
 		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
 
-		if (doingCPR)
-			return;
+		var progressFinishAction = new ProgressCompleteAction(() => DoCPR(rescuer, cardiacArrestPlayer));
 
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
-			{
-				switch (reason)
-				{
-					case FinishProgressAction.FinishReason.INTERRUPTED:
-						CancelCPR();
-						doingCPR = false;
-						break;
-					case FinishProgressAction.FinishReason.COMPLETED:
-						DoCPR(rescuer, cardiacArrestPlayer);
-						doingCPR = false;
-						break;
-				}
-			}
-		);
-
-		doingCPR = true;
-		UIManager.ProgressBar.StartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
+		var bar = UIManager.ServerStartProgress(ProgressAction.CPR, cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
 			rescuer);
 
-		Chat.AddActionMsgToChat(rescuer, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
+		if (bar != null)
+		{
+			Chat.AddActionMsgToChat(rescuer, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
 			$"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.");
+		}
 	}
 
 	[Server]
 	private void DoCPR(GameObject rescuer, GameObject CardiacArrestPlayer)
 	{
 		CardiacArrestPlayer.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= 7f;
-		doingCPR = false;
+
 		Chat.AddActionMsgToChat(rescuer, $"You have performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
 			$"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.");
-	}
-
-	[Server]
-	private void CancelCPR()
-	{
-		// Stop the in progress CPR.
-		doingCPR = false;
 	}
 
 	/// <summary>
