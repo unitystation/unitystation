@@ -40,40 +40,76 @@ namespace Antagonists
 		}
 
 		/// <summary>
-		/// Gets a number of random objectives
+		/// Generates a set of valid objectives for a player based on their antag type.
+		/// Will set them up and ensure all targets are unique.
+		/// Amount to generate does not include the escape objective.
 		/// </summary>
-		/// <param name="amount">How many objectives to generate</param>
-		/// <param name="unique">Should these objectives be unique</param>
+		/// <param name="player">The player receiving these objectives</param>
 		/// <param name="antag">The antag type</param>
-		public List<Objective> GetRandomObjectives(int amount = 1, bool unique = false, Antagonist antag = null)
+		/// <param name="amount">How many objectives to generate, not including escape objectives</param>
+		/// <param name="unique">Should these objectives be unique</param>
+		public List<Objective> GenerateObjectives(PlayerScript player, Antagonist antag, int amount = 2, bool unique = false)
 		{
-			// Get all antag specific and shared objectives which are possible
-			List<Objective> objPool = SharedObjectives.Concat(antag.PossibleObjectives).Where(obj => obj.IsPossible()).ToList();
-			List<Objective> chosenObjs = new List<Objective>();
+			// Get all antag specific and shared objectives which are possible for this player
+			List<Objective> objPool = SharedObjectives.Concat(antag.PossibleObjectives).Where(obj => obj.IsPossible(player)).ToList();
+			List<Objective> generatedObjs = new List<Objective>();
+			Objective newObjective;
+
+			if (objPool.Count == 0)
+			{
+				amount = 0;
+				Logger.LogWarning($"No objectives available, only assigning escape type objective", Category.Antags);
+			}
+
 			if (unique && objPool.Count < amount)
 			{
 				amount = objPool.Count;
-				Logger.LogWarning($"Not enough unique objectives available, only getting {amount}", Category.Antags);
+				Logger.LogWarning($"Not enough unique objectives available, only generating {amount}", Category.Antags);
 			}
+
 			for (int i = 0; i < amount; i++)
 			{
-				int randIndex = Random.Range(0, objPool.Count);
-				chosenObjs.Add(Instantiate(objPool[randIndex]));
-				if (unique)
+				// Select objective and perform setup e.g. assign owner and targets
+				newObjective = PickRandomObjective(ref objPool, unique);
+				newObjective.DoSetup(player.mind);
+				generatedObjs.Add(newObjective);
+
+				// Trim any objectives which aren't possible
+				// Should be done everytime an objective is assigned and setup,
+				// otherwise all targets could be taken already!
+				objPool = objPool.Where(obj => obj.IsPossible(player)).ToList();
+
+				if (objPool.Count == 0)
 				{
-					objPool.RemoveAt(randIndex);
+					// No objectives left to give so stop assigning
+					break;
 				}
 			}
-			return chosenObjs;
+
+			// Add one escape type objective
+			newObjective = PickRandomObjective(ref EscapeObjectives);
+			newObjective.DoSetup(player.mind);
+			generatedObjs.Add(newObjective);
+
+			return generatedObjs;
 		}
 
 		/// <summary>
-		/// Returns an escape objective
+		/// Instantiates a random objective from a list and returns it
 		/// </summary>
-		public Objective GetEscapeObjective()
+		/// <param name="objectives">The objectives to pick from</param>
+		/// <param name="removeAfter">If the chosen objective should be removed after</param>
+		/// <returns>The random objective</returns>
+		public static Objective PickRandomObjective(ref List<Objective> objectives, bool removeAfter = false)
 		{
-			int randIndex = Random.Range(0, EscapeObjectives.Count);
-			return Instantiate(EscapeObjectives[randIndex]);
+			// Must use Instantiate or else the objectives in AntagData will be referenced for each player!
+			int randIndex = Random.Range(0, objectives.Count);
+			Objective chosenObjective = Instantiate(objectives[randIndex]);
+			if (removeAfter)
+			{
+				objectives.RemoveAt(randIndex);
+			}
+			return chosenObjective;
 		}
 	}
 }

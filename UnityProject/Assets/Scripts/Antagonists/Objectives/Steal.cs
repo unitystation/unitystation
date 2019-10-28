@@ -28,20 +28,43 @@ namespace Antagonists
 		private int Amount;
 
 		/// <summary>
-		/// Perform initial setup of the objective if needed
+		/// Make sure there's at least one item which hasn't been targeted
 		/// </summary>
-		public override void Setup()
+		public override bool IsPossible(PlayerScript candidate)
 		{
-			// Select a random item to steal
-			int randIndex = Random.Range(0, ItemPool.Count);
-			var entry = ItemPool.ElementAt(randIndex);
-			ItemName = entry.Key.Item().itemName;
-			Amount = entry.Value;
-			// TODO randomise amount based on weightings/amount on station?
+			// Get all items from the item pool which haven't been targeted already
+			int itemCount = ItemPool.Where( itemDict =>
+				!AntagManager.Instance.TargetedItems.Contains(itemDict.Key)).Count();
+			return (itemCount > 0);
+		}
+
+		/// <summary>
+		/// Choose a target item from the item pool (no duplicates)
+		/// </summary>
+		protected override void Setup()
+		{
+			// Get all items from the item pool which haven't been targeted already
+			var possibleItems = ItemPool.Where( itemDict =>
+				!AntagManager.Instance.TargetedItems.Contains(itemDict.Key)).ToList();
+
+			if (possibleItems.Count == 0)
+			{
+				Logger.LogWarning("Unable to find any suitable items to steal! Giving free objective", Category.Antags);
+				description = "Free objective";
+				Complete = true;
+				return;
+			}
+
+			// Pick a random item and add it to the targeted list
+			var itemEntry = possibleItems.PickRandom();
+			ItemName = itemEntry.Key.Item().itemName;
+			Amount = itemEntry.Value;
+			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
+			// TODO randomise amount based on range/weightings?
 			description = $"Steal {Amount} {ItemName}";
 		}
 
-		public override bool IsComplete()
+		protected override bool CheckCompletion()
 		{
 			int count = 0;
 			foreach (var item in Owner.body.playerNetworkActions.Inventory)

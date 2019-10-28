@@ -13,7 +13,7 @@ namespace Antagonists
 		/// <summary>
 		/// Complete if the player is alive and on the escape shuttle
 		/// </summary>
-		public override bool IsComplete()
+		protected override bool CheckCompletion()
 		{
 			return !Owner.body.playerHealth.IsDead &&
 				(Owner.body.registerTile.Matrix.Id == GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo.Id);

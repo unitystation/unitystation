@@ -53,18 +53,6 @@ namespace Antagonists
 		}
 
 		/// <summary>
-		/// Sets up all of this antagonist's objectives
-		/// </summary>
-		public void SetupObjectives()
-		{
-			foreach (var obj in CurrentObjectives)
-			{
-				obj.Owner = Owner;
-				obj.Setup();
-			}
-		}
-
-		/// <summary>
 		/// Returns a string with just the objectives for logging
 		/// </summary>
 		public string GetObjectivesForLog()

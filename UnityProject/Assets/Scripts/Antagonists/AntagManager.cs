@@ -24,6 +24,16 @@ namespace Antagonists
 		/// </summary>
 		private List<Antagonist> ActiveAntags = new List<Antagonist>();
 
+		/// <summary>
+		/// Keeps track of which players have already been targeted for objectives
+		/// </summary>
+		public List<PlayerScript> TargetedPlayers = new List<PlayerScript>();
+
+		/// <summary>
+		/// Keeps track of which items have already been targeted for objectives
+		/// </summary>
+		public List<GameObject> TargetedItems = new List<GameObject>();
+
 		private void Awake()
 		{
 			if ( Instance == null )
@@ -78,15 +88,13 @@ namespace Antagonists
 					Logger.LogWarning("Unable to create new antag: No suitable candidates left.");
 					return;
 				}
-				int randIndex = Random.Range(0, PlayerList.Instance.NonAntagPlayers.Count);
-				player = PlayerList.Instance.NonAntagPlayers[randIndex];
+				player = PlayerList.Instance.NonAntagPlayers.PickRandom();
 			}
 			// Choose a random antag type if one hasn't been provided
-			var antag = chosenAntag ?? AntagData.GetRandomAntag();
+			Antagonist antag = chosenAntag ?? AntagData.GetRandomAntag();
 
-			// Give the antag some objectives and one escape objective
-			List<Objective> objectives = AntagData.GetRandomObjectives(3, false, antag);
-			objectives.Add(AntagData.GetEscapeObjective());
+			// Generate objectives for this antag
+			List<Objective> objectives = AntagData.GenerateObjectives(player.Script, antag, 2);
 			antag.GiveObjectives(objectives);
 
 			// Set the antag
@@ -124,11 +132,13 @@ namespace Antagonists
 		}
 
 		/// <summary>
-		/// Clears all active antagonists
+		/// Clears all active antagonists and targets
 		/// </summary>
 		public void ResetAntags()
 		{
 			ActiveAntags.Clear();
+			TargetedPlayers.Clear();
+			TargetedItems.Clear();
 		}
 	}
 }

@@ -40,7 +40,6 @@ public class Mind
 	{
 		Antag = newAntag;
 		Antag.Owner = this;
-		Antag.SetupObjectives();
 		ShowObjectives();
 	}
 

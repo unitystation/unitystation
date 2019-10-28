@@ -12,7 +12,7 @@ namespace Antagonists
 		/// <summary>
 		/// The player who has this objective
 		/// </summary>
-		public Mind Owner { get; set; }
+		public Mind Owner { get; protected set; }
 
 		/// <summary>
 		/// The name of the objective type
@@ -35,21 +35,43 @@ namespace Antagonists
 		public string Description => description;
 
 		/// <summary>
-		/// Check if this objective is possible, defaults to true if not set
+		/// Variable to override the IsComplete function. Useful for free/custom objectives.
 		/// </summary>
-		public virtual bool IsPossible()
+		protected bool Complete;
+
+		/// <summary>
+		/// Check if this objective is possible for a player, defaults to true if not overriden
+		/// </summary>
+		public virtual bool IsPossible(PlayerScript candidate)
 		{
 			return true;
 		}
 
 		/// <summary>
-		/// Perform initial setup of the objective if needed
+		/// Sets the owner of the objective and performs setup if required
 		/// </summary>
-		public virtual void Setup() {}
+		public void DoSetup(Mind owner)
+		{
+			Owner = owner;
+			Setup();
+		}
 
 		/// <summary>
-		/// Defines how to check the completion of the objective using a reference to the player's PlayerNetworkActions
+		/// Perform initial setup of the objective if needed
 		/// </summary>
-		public abstract bool IsComplete();
+		protected virtual void Setup() {}
+
+		/// <summary>
+		/// Shows if this objective is complete or not
+		/// </summary>
+		public bool IsComplete()
+		{
+			return (Complete || CheckCompletion());
+		}
+
+		/// <summary>
+		/// Defines how to check the completion of the objective.
+		/// </summary>
+		protected abstract bool CheckCompletion();
 	}
 }
