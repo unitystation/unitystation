@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[CreateAssetMenu(menuName="ScriptableObjects/GameModes/NukeOps")]
 public class NukeOps : GameMode
 {
 	/// <summary>

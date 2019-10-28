@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
 public class Traitor : GameMode
 {
 	/// <summary>

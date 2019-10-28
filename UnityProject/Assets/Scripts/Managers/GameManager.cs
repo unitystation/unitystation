@@ -223,9 +223,6 @@ public partial class GameManager : MonoBehaviour
 			SpaceBodies.Clear();
 			PendingSpaceBodies = new Queue<MatrixMove>();
 
-			// Find all available game modes
-			RefreshAllGameModes();
-
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
@@ -244,10 +241,11 @@ public partial class GameManager : MonoBehaviour
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			// TODO hard coding gamemode for testing purposes
-			SelectGameMode("Traitor");
+			SetGameMode("Traitor");
+			// SetGameMode("NukeOps");
 			// if (SecretGameMode && GameMode == null)
 			// {
-			// 	ChooseGameMode();
+			// 	SetRandomGameMode();
 			// }
 			// Game mode specific setup
 			GameMode.SetupRound();

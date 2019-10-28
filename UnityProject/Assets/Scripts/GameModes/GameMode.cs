@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Antagonists;
@@ -8,7 +9,7 @@ using Antagonists;
 /// attached so you can define the values in the editor and define your
 /// game mode functions in the child class.
 /// </summary>
-public abstract class GameMode : MonoBehaviour
+public abstract class GameMode : ScriptableObject
 {
 	/// <summary>
 	/// The name of the game mode
