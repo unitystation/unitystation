@@ -18,8 +18,8 @@ public class CameraZoomHandler : MonoBehaviour
         }
         else
         {
-            zoomLevel = 2;
-            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 3);
+            zoomLevel = 4;
+            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 4);
             PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 0);
             PlayerPrefs.Save();
         }
