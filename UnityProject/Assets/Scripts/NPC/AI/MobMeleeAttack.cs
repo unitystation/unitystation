@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Basic AI behaviour for following and melee attacking a target
@@ -10,6 +12,7 @@ public class MobMeleeAttack : MobFollow
 {
 	[Tooltip("The sprites gameobject. Needs to be a child of the prefab root")]
 	public GameObject spriteHolder;
+
 	[Tooltip("If a player gets close to this mob and blocks the mobs path to the target," +
 	         "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
 	         "a player originally.")]
@@ -18,17 +21,22 @@ public class MobMeleeAttack : MobFollow
 	public int hitDamage = 30;
 	public string attackVerb;
 	public BodyPartType defaultTarget;
+	public float meleeCoolDown = 1f;
 
 	private LayerMask checkMask;
 	private int playersLayer;
 	private int npcLayer;
 	private int windowsLayer;
 
+	//Will be null if there is no mobAI on this object
+	private MobAI mobAI;
+
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
 	private Vector3 lerpTo;
 	private float lerpProgress;
 	private bool lerping;
+	private bool isAttacking = false;
 
 
 	public override void OnEnable()
@@ -38,6 +46,7 @@ public class MobMeleeAttack : MobFollow
 		npcLayer = LayerMask.NameToLayer("NPC");
 		windowsLayer = LayerMask.NameToLayer("Windows");
 		checkMask = LayerMask.GetMask("Players", "NPC", "Windows");
+		mobAI = GetComponent<MobAI>();
 	}
 
 	protected override void OnPushSolid(Vector3Int destination)
@@ -58,13 +67,14 @@ public class MobMeleeAttack : MobFollow
 		if (followTarget != null)
 		{
 			var dirToTarget = (followTarget.position - transform.position).normalized;
-			RaycastHit2D hitInfo = Physics2D.Linecast(transform.position + dirToTarget, followTarget.position, checkMask);
-			Debug.DrawLine(transform.position + dirToTarget, followTarget.position, Color.blue, 10f);
+			RaycastHit2D hitInfo =
+				Physics2D.Linecast(transform.position + dirToTarget, followTarget.position, checkMask);
+		//	Debug.DrawLine(transform.position + dirToTarget, followTarget.position, Color.blue, 10f);
 			if (hitInfo.collider != null)
 			{
 				if (Vector3.Distance(transform.position, hitInfo.point) < 1.5f)
 				{
-					var dir = ((Vector3)hitInfo.point - transform.position).normalized;
+					var dir = ((Vector3) hitInfo.point - transform.position).normalized;
 
 					//What to do with player hit?
 					if (hitInfo.transform.gameObject.layer == playersLayer)
@@ -91,6 +101,15 @@ public class MobMeleeAttack : MobFollow
 					//What to do with NPC hit?
 					if (hitInfo.transform.gameObject.layer == npcLayer)
 					{
+						var mobAi = hitInfo.transform.GetComponent<MobAI>();
+						if (mobAi != null && mobAI != null)
+						{
+							if (mobAi.mobName.Equals(mobAI.mobName, StringComparison.OrdinalIgnoreCase))
+							{
+								return false;
+							}
+						}
+
 						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
 						if (healthBehaviour != null)
 						{
@@ -102,10 +121,11 @@ public class MobMeleeAttack : MobFollow
 					//What to do with Window hits?
 					if (hitInfo.transform.gameObject.layer == windowsLayer)
 					{
-						var interactableTile = hitInfo.transform.GetComponent<InteractableTiles>();
-						if (interactableTile != null)
+						var tileMapDmg = hitInfo.transform.GetComponent<TilemapDamage>();
+						if (tileMapDmg != null)
 						{
-							AttackTile(dir, interactableTile);
+
+							AttackTile(dir, tileMapDmg);
 							return true;
 						}
 					}
@@ -118,14 +138,17 @@ public class MobMeleeAttack : MobFollow
 
 	private void AttackFlesh(Vector2 dir, LivingHealthBehaviour healthBehaviour)
 	{
-		healthBehaviour.ApplyDamage(gameObject, hitDamage,AttackType.Melee, DamageType.Brute, defaultTarget);
+		healthBehaviour.ApplyDamage(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget);
 		Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
-		SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
+		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 		ServerDoLerpAnimation(dir);
 	}
 
-	private void AttackTile(Vector2 dir, InteractableTiles interactableTiles)
+	private void AttackTile(Vector2 dir, TilemapDamage tileMapDamage)
 	{
+		var dmgPosition = (Vector2) transform.position + dir;
+		tileMapDamage.DoMeleeDamage(dmgPosition, gameObject, hitDamage * 2);
+		SoundManager.PlayNetworkedAtPos("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
 		ServerDoLerpAnimation(dir);
 	}
 
@@ -136,17 +159,36 @@ public class MobMeleeAttack : MobFollow
 		{
 			angleOfDir = -angleOfDir;
 		}
+
 		dirSprites.CheckSpriteServer(angleOfDir);
 
 		Pause = true;
-		StartCoroutine(WaitToUnPause(1f));
+		isAttacking = true;
 		MobMeleeLerpMessage.Send(gameObject, dir);
+		StartCoroutine(WaitForLerp());
 	}
 
-	IEnumerator WaitToUnPause(float timeToWait)
+	IEnumerator WaitForLerp()
 	{
-		yield return WaitFor.Seconds(timeToWait);
+		float timeElapsed = 0f;
+		while (isAttacking)
+		{
+			timeElapsed += Time.deltaTime;
 
+			if (timeElapsed > 5f)
+			{
+				isAttacking = false;
+			}
+			yield return WaitFor.EndOfFrame;
+		}
+		yield return WaitFor.Seconds(meleeCoolDown);
+
+		DeterminePostAttackActions();
+	}
+
+	//What should the Mob do after an attack action has finished:
+	private void DeterminePostAttackActions()
+	{
 		if (Random.value > 0.2f) //80% chance of hitting the target again
 		{
 			if (!CheckForAttackTarget())
@@ -163,7 +205,7 @@ public class MobMeleeAttack : MobFollow
 	public void ClientDoLerpAnimation(Vector2 dir)
 	{
 		lerpFrom = spriteHolder.transform.localPosition;
-		lerpTo = spriteHolder.transform.localPosition + (Vector3)(dir * 0.5f);
+		lerpTo = spriteHolder.transform.localPosition + (Vector3) (dir * 0.5f);
 
 		lerpProgress = 0f;
 		isForLerpBack = true;
@@ -189,12 +231,17 @@ public class MobMeleeAttack : MobFollow
 		{
 			lerpProgress += Time.deltaTime;
 			spriteHolder.transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * 7f);
-			if (spriteHolder.transform.localPosition == lerpTo || lerpProgress > 2f)
+			if (spriteHolder.transform.localPosition == lerpTo || lerpProgress >= 1f)
 			{
 				if (!isForLerpBack)
 				{
 					ResetLerp();
 					spriteHolder.transform.localPosition = Vector3.zero;
+
+					if (isServer)
+					{
+						isAttacking = false;
+					}
 				}
 				else
 				{

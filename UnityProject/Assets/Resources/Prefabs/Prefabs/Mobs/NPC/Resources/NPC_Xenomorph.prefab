@@ -67,7 +67,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300006, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -442,7 +442,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 138678952
+  m_SceneId: 1534341331
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,6 +544,7 @@ MonoBehaviour:
   hitDamage: 15
   attackVerb: slashed
   defaultTarget: 0
+  meleeCoolDown: 0.4
 --- !u!114 &8310532552690989649
 MonoBehaviour:
   m_ObjectHideFlags: 0
