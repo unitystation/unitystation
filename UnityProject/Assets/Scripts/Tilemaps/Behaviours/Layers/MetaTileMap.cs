@@ -14,7 +14,7 @@ public class MetaTileMap : MonoBehaviour
 	//Using arrays for iteration speed
 	public LayerType[] LayersKeys { get; private set; }
 	public Layer[] LayersValues { get; private set; }
-	public Layer ObjectLayer { get; private set; }
+	public ObjectLayer ObjectLayer { get; private set; }
 
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
@@ -24,6 +24,21 @@ public class MetaTileMap : MonoBehaviour
 	/// Layers that contain TilemapDamage
 	/// </summary>
 	public Layer[] DamageableLayers { get; private set; }
+
+	public float Resistance(Vector3Int cellPos, bool includeObjects = true)
+	{
+		float resistance = 0;
+		foreach ( var damageableLayer in DamageableLayers )
+		{
+			resistance += damageableLayer.TilemapDamage.Integrity( cellPos );
+		}
+
+		if ( includeObjects && ObjectLayer )
+		{
+			resistance += ObjectLayer.GetObjectResistanceAt( cellPos, true );
+		}
+		return resistance;
+	}
 
 	private void OnEnable()
 	{
@@ -52,7 +67,7 @@ public class MetaTileMap : MonoBehaviour
 
 			if ( layer.LayerType == LayerType.Objects )
 			{
-				ObjectLayer = layer;
+				ObjectLayer = layer as ObjectLayer;
 			}
 		}
 
@@ -75,7 +90,7 @@ public class MetaTileMap : MonoBehaviour
 	/// Apply damage to damageable layers, top to bottom.
 	/// If tile gets destroyed, remaining damage is applied to the layer below
 	/// </summary>
-	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, ref float resistance)
+	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos)
 	{
 		foreach ( var damageableLayer in DamageableLayers )
 		{
@@ -83,7 +98,6 @@ public class MetaTileMap : MonoBehaviour
 			{
 				return;
 			}
-			resistance += damageableLayer.TilemapDamage.Integrity( cellPos );
 			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos );
 		}
 	}
@@ -251,7 +265,6 @@ public class MetaTileMap : MonoBehaviour
 	/// <summary>
 	/// Checks if tile is empty of objects (only solid by default)
 	/// </summary>
-	/// <param name="includingPassable">If true, checks for non-solid items, too</param>
 	public bool IsEmptyAt( Vector3Int position, bool isServer )
 	{
 		for (var index = 0; index < LayersKeys.Length; index++)

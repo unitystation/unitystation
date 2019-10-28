@@ -66,6 +66,21 @@ public class ObjectLayer : Layer
 		base.RemoveTile(position, removeAll);
 	}
 
+	public float GetObjectResistanceAt( Vector3Int position, bool isServer )
+	{
+		float resistance = 0; //todo: non-alloc method with ref?
+		foreach ( RegisterTile t in isServer ? ServerObjects.Get( position ) : ClientObjects.Get( position ) )
+		{
+			var health = t.GetComponent<IHealth>();
+			if ( health != null )
+			{
+				resistance += health.Resistance;
+			}
+		}
+
+		return resistance;
+	}
+
 	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
 									  CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{

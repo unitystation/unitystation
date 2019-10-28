@@ -85,6 +85,11 @@ public struct PlayerState
 
 public partial class PlayerSync : NetworkBehaviour, IPushable
 {
+	public bool VisibleState {
+		get => ServerPosition != TransformState.HiddenPos;
+		set => SetVisibleServer( value );
+	}
+
 	/// <summary>
 	/// Player is huge, okay?
 	/// </summary>

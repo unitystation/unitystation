@@ -18,7 +18,7 @@ using Object = System.Object;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnStageServer
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IOnStageServer
 {
 
 	/// <summary>
@@ -79,9 +79,12 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 	private bool destroyed = false;
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
+	private IPushable pushable;
 
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)
 	private bool isLarge;
+
+	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size/10f);
 
 	private void Awake()
 	{
@@ -91,6 +94,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("LargeBurning");
 		}
 		registerTile = GetComponent<RegisterTile>();
+		pushable = GetComponent<IPushable>();
 		//this is just a guess - large items can't be picked up
 		isLarge = GetComponent<Pickupable>() == null;
 		if (Resistances.Flammable)

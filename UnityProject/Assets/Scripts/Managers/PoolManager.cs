@@ -203,24 +203,26 @@ public class PoolManager : NetworkBehaviour
 
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
 		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		var objBehavior = target.GetComponent<ObjectBehaviour>();
-		var cnt = target.GetComponent<CustomNetTransform>();
-		if (cnt)
+
+		//CNT or PlayerSync
+		var transform = target.GetComponent<IPushable>();
+		if (transform is CustomNetTransform cnt)
 		{
 			cnt.FireGoingOffStageHooks();
 		}
 		else
 		{
+			var pushPull = target.GetComponent<PushPull>();
 			Logger.LogWarningFormat("Attempting to network destroy object {0} at {1} but this object" +
 			                        " has no CustomNetTransform. Lifecycle hooks will be bypassed. This is" +
 			                        " most likely a mistake as any objects which sync over the network" +
-			                        " should have a CNT.", Category.ItemSpawn, target.name, objBehavior ? objBehavior.AssumedWorldPositionServer() : target.transform.position);
+			                        " should have a CNT.", Category.ItemSpawn, target.name, pushPull != null ? pushPull.AssumedWorldPositionServer() : target.transform.position);
 		}
-		if (poolPrefabTracker != null && objBehavior != null)
+		if (poolPrefabTracker != null && transform != null)
 		{
 			//pooled
 			Instance.AddToPool(target);
-			objBehavior.VisibleState = false;
+			transform.VisibleState = false;
 		}
 		else
 		{

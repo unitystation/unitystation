@@ -13,7 +13,7 @@ using Mirror;
 /// Monitors and calculates health
 /// </summary>
 [RequireComponent(typeof(HealthStateMonitor))]
-public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
+public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable
 {
 	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
@@ -28,6 +28,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	public int mobID { get; private set; }
 
 	public float maxHealth = 100;
+
+	public float Resistance { get; } = 50;
 
 	public float OverallHealth { get; private set; } = 100;
 	public float cloningDamage;

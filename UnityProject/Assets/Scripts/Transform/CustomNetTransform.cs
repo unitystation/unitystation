@@ -102,6 +102,11 @@ public struct TransformState {
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
+	public bool VisibleState {
+		get => ServerPosition != TransformState.HiddenPos;
+		set => SetVisibleServer( value );
+	}
+
 	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
 	public Vector3IntEvent OnUpdateRecieved() {
 		return onUpdateReceived;
@@ -379,9 +384,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false)
 	{
-		if (worldPos != TransformState.HiddenPos)
+		if (worldPos != TransformState.HiddenPos && pushPull)
 		{
-			PushPull.parentContainer = null;
+			pushPull.parentContainer = null;
 		}
 		Poke();
 		Vector2 pos = worldPos; //Cut z-axis

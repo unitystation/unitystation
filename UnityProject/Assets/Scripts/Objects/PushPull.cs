@@ -17,8 +17,8 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	/// </summary>
 	public bool VisibleState
 	{
-		get => Pushable.ServerPosition != TransformState.HiddenPos;
-		set => Pushable.SetVisibleServer( value );
+		get => Pushable.VisibleState;
+		set => Pushable.VisibleState = value;
 	}
 
 	/// <summary>

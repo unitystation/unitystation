@@ -216,27 +216,74 @@ public partial class MatrixManager
 				continue;
 			}
 
+			float resistance1 = i.Matrix1.MetaTileMap.Resistance( cellPos1, true );
+			if ( resistance1 <= 0f )
+			{
+				continue;
+			}
+
+			float resistance2 = i.Matrix2.MetaTileMap.Resistance( cellPos2, true );
+			if ( resistance2 <= 0f )
+			{
+				continue;
+			}
+
+
 			//
 			// ******** DESTROY STUFF!!! ********
 			//
 
 			//todo: placeholder, must take movement vectors in account! + what hits what
 			//total damage to apply to victim tile
-			float hitEnergy =  (100 * (i.Matrix1.Speed + i.Matrix2.Speed));
-			//damage attacker tile with resistance
-			float resistance = ApplyDamage( i.Matrix2, cellPos2, hitEnergy, worldPos );
-			ApplyDamage( i.Matrix1,
-						cellPos1,
-						resistance, //hit attacker matrix with resistance
-						worldPos );
+			if ( resistance1 + (100 * i.Matrix1.Speed) >= resistance2 + (100 * i.Matrix2.Speed) )
+			{
+				//attacker tile is stronger:
+
+				//destroy victim tile
+				ApplyCritDamage( i.Matrix2, cellPos2, worldPos );
+
+				//slightly damage adjacent victim tiles
+				ApplyTilemapDamage( i.Matrix2, cellPos2+Vector3Int.up, resistance1*0.4f, worldPos );
+				ApplyTilemapDamage( i.Matrix2, cellPos2+Vector3Int.down, resistance1*0.4f, worldPos );
+				ApplyTilemapDamage( i.Matrix2, cellPos2+Vector3Int.left, resistance1*0.4f, worldPos );
+				ApplyTilemapDamage( i.Matrix2, cellPos2+Vector3Int.right, resistance1*0.4f, worldPos );
+
+				//damage back attacker
+				ApplyDamage( i.Matrix1,	cellPos1, resistance2, worldPos );
+				if ( resistance2 > EXTRA_COLLISION_THRESHOLD )
+				{
+					collisions += (byte)( (resistance2-EXTRA_COLLISION_THRESHOLD) / EXTRA_COLLISION_THRESHOLD );
+				}
+
+			} else
+			{
+				//victim tile is stronger
+
+				//destroy weaker tile
+				ApplyCritDamage( i.Matrix1,	cellPos1, worldPos );
+				//slightly damage adjacent tiles
+				ApplyTilemapDamage( i.Matrix1, cellPos1+Vector3Int.up, resistance2*0.4f, worldPos );
+				ApplyTilemapDamage( i.Matrix1, cellPos1+Vector3Int.down, resistance2*0.4f, worldPos );
+				ApplyTilemapDamage( i.Matrix1, cellPos1+Vector3Int.left, resistance2*0.4f, worldPos );
+				ApplyTilemapDamage( i.Matrix1, cellPos1+Vector3Int.right, resistance2*0.4f, worldPos );
+
+				//damage back
+				ApplyDamage( i.Matrix2, cellPos2, resistance1, worldPos );
+				if ( resistance1 > EXTRA_COLLISION_THRESHOLD )
+				{
+					collisions += (byte)( (resistance1-EXTRA_COLLISION_THRESHOLD) / EXTRA_COLLISION_THRESHOLD );
+				}
+			}
+
+			collisions++;
 
 			//Wires (since they don't have Integrity)
 			ApplyWireDamage( i.Matrix1, cellPos1 );
 			ApplyWireDamage( i.Matrix2, cellPos2 );
 
 			//Heat shit up
-			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, resistance, resistance/1000f );
-			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, resistance, resistance/1000f );
+			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, resistance2, resistance2/1000f );
+			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, resistance1, resistance1/1000f );
 
 			//Other
 			foreach ( var layer in layersToRemove )
@@ -249,16 +296,6 @@ public partial class MatrixManager
 				i.Matrix1.TileChangeManager.RemoveEffect( cellPos1, layer );
 				i.Matrix2.TileChangeManager.RemoveEffect( cellPos2, layer );
 			}
-
-			if ( resistance > 0f )
-			{
-				collisions++;
-				if ( resistance > EXTRA_COLLISION_THRESHOLD )
-				{
-					collisions += (byte)( (resistance-EXTRA_COLLISION_THRESHOLD) / EXTRA_COLLISION_THRESHOLD );
-				}
-			}
-
 		}
 
 		if ( collisions > 0 )
@@ -272,49 +309,47 @@ public partial class MatrixManager
 		}
 
 		//Damage methods
-		float ApplyDamage( MatrixInfo victimMatrix, Vector3Int cellPos, float hitEnergy, Vector3Int worldPos )
+		void ApplyDamage( MatrixInfo victimMatrix, Vector3Int cellPos, float hitEnergy, Vector3Int worldPos )
 		{
-			float resistance = 0;
-			float tempResistance;
-
 			//LivingHealthBehaviour
-			tempResistance = ApplyLivingDamage( victimMatrix, cellPos, hitEnergy );
-			hitEnergy -= tempResistance;
-			resistance += tempResistance;
+			hitEnergy -= ApplyLivingDamage( victimMatrix, cellPos, hitEnergy );
 
 			//TilemapDamage
-			tempResistance = 0;
-			ApplyTilemapDamage( victimMatrix, cellPos, hitEnergy, worldPos, ref tempResistance );
-			hitEnergy -= tempResistance;
-			resistance += tempResistance;
+			ApplyTilemapDamage( victimMatrix, cellPos, hitEnergy, worldPos );
 
-			//todo: fix items not changing matrix when floor and base are gone
 //			//Integrity
-//			tempResistance = ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
-//			resistance += tempResistance;
-
-			return resistance;
+			ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
 		}
 
-		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos, ref float resistance )
+		void ApplyCritDamage( MatrixInfo victimMatrix, Vector3Int cellPos, Vector3Int worldPos )
 		{
-//			if ( damage > JUST_DESTROY_THRESHOLD )
-//			{ //quicker damaging
-//				foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
-//				{
-//					if ( matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType ) )
-//					{
-//						resistance += 200;
-//					}
-//				}
-//			}
-//			else
-//			{ //proper damaging
-				matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos, ref resistance );
-//			}
+			//LivingHealthBehaviour
+			ApplyLivingDamage( victimMatrix, cellPos, 9001 );
+
+			//TilemapDamage
+			ApplyTilemapDamage( victimMatrix, cellPos, 9001, worldPos);
+
+//			//Integrity
+			ApplyIntegrityDamage( victimMatrix, cellPos, 9001 );
 		}
 
-		void ApplyWireDamage( MatrixInfo matrix, Vector3Int cellPos/*, float damage*/ )
+		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
+		{
+			matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos );
+			if ( damage > 9000 )
+			{
+				foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
+				{
+					if ( damageableLayer.LayerType == LayerType.Objects )
+					{
+						continue;
+					}
+					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType );
+				}
+			}
+		}
+
+		void ApplyWireDamage( MatrixInfo matrix, Vector3Int cellPos )
 		{
 			foreach ( var wire in matrix.Matrix.Get<CableInheritance>( cellPos, true ) )
 			{

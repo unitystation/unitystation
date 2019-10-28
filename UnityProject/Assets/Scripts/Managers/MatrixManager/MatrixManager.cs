@@ -324,11 +324,8 @@ public partial class MatrixManager : MonoBehaviour
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			if ( playerMove == null )
-			{
-				continue;
-			}
-			if (playerMove.IsHelpIntent
+			if (playerMove
+				&& playerMove.IsHelpIntent
 			    && !playerMove.PlayerScript.playerHealth.IsDead
 			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)
 			    && playerMove.gameObject != mover
