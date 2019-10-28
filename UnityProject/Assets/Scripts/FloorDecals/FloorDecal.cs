@@ -41,7 +41,7 @@ public class FloorDecal : NetworkBehaviour
 		//randomly pick if there are options
 		if (PossibleSprites != null && PossibleSprites.Length > 0)
 		{
-			chosenSprite = Random.Range(0, PossibleSprites.Length - 1);
+			chosenSprite = Random.Range(0, PossibleSprites.Length);
 		}
 		//set lifetime
 		if (SecondsUntilDisappear > 0)

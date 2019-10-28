@@ -396,7 +396,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.small, bloodColor);
+			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
 		}
 	}
 
