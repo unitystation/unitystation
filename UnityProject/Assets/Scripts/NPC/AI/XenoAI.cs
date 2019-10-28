@@ -17,14 +17,14 @@ public class XenoAI : MobAI
 	private LayerMask hitMask;
 	private int playersLayer;
 
-	private enum XenoStatus
+	public enum XenoStatus
 	{
 		None,
 		Searching,
 		Attacking
 	}
 
-	private XenoStatus status;
+	public XenoStatus status;
 
 	public override void OnEnable()
 	{
@@ -97,6 +97,20 @@ public class XenoAI : MobAI
 					BeginSearch();
 				}
 			}
+		}
+
+		if (status == XenoStatus.Attacking || status == XenoStatus.None)
+		{
+			MonitorIdleness();
+		}
+	}
+
+	//Determine if mob has become idle:
+	void MonitorIdleness()
+	{
+		if (!mobAttack.performingDecision && mobAttack.followTarget == null)
+		{
+			BeginSearch();
 		}
 	}
 

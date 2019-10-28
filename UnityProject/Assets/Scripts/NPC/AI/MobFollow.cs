@@ -36,6 +36,18 @@ public class MobFollow : MobAgent
 
 	public override void CollectObservations()
 	{
+		//You need to feed ML agents null obs
+		//if the follow target is null
+		//otherwise ML agents will break
+		if (followTarget == null)
+		{
+			AddVectorObs(0f);
+			AddVectorObs(0f);
+			AddVectorObs(Vector2.zero);
+			ObserveAdjacentTiles(true);
+			return;
+		}
+
 		var curDist = Vector2.Distance(followTarget.transform.position, transform.position);
 		if (distanceCache == 0)
 		{
@@ -52,6 +64,8 @@ public class MobFollow : MobAgent
 
 	public override void AgentAction(float[] vectorAction, string textAction)
 	{
+		if (followTarget == null) return;
+
 		PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
 	}
 

@@ -66,6 +66,17 @@ public class MobMeleeAttack : MobFollow
 	{
 		if (followTarget != null)
 		{
+			var followLivingBehaviour = followTarget.GetComponent<LivingHealthBehaviour>();
+			if (followLivingBehaviour != null)
+			{
+				if (followLivingBehaviour.IsDead)
+				{
+					Deactivate();
+					followTarget = null;
+					return false;
+				}
+			}
+
 			var dirToTarget = (followTarget.position - transform.position).normalized;
 			RaycastHit2D hitInfo =
 				Physics2D.Linecast(transform.position + dirToTarget, followTarget.position, checkMask);
@@ -80,7 +91,10 @@ public class MobMeleeAttack : MobFollow
 					if (hitInfo.transform.gameObject.layer == playersLayer)
 					{
 						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-						if (healthBehaviour.IsDead) return false;
+						if (healthBehaviour.IsDead)
+						{
+							return false;
+						}
 
 						AttackFlesh(dir, healthBehaviour);
 
@@ -113,6 +127,8 @@ public class MobMeleeAttack : MobFollow
 						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
 						if (healthBehaviour != null)
 						{
+							if (healthBehaviour.IsDead) return false;
+
 							AttackFlesh(dir, healthBehaviour);
 							return true;
 						}
@@ -121,6 +137,11 @@ public class MobMeleeAttack : MobFollow
 					//What to do with Window hits?
 					if (hitInfo.transform.gameObject.layer == windowsLayer)
 					{
+						if (Vector3.Distance(followTarget.transform.position, transform.position) > 4.5f)
+						{
+							//Don't bother, the target is too far away to warrant a decision to break down a window
+							return false;
+						}
 						var tileMapDmg = hitInfo.transform.GetComponent<TilemapDamage>();
 						if (tileMapDmg != null)
 						{
@@ -175,7 +196,7 @@ public class MobMeleeAttack : MobFollow
 		{
 			timeElapsed += Time.deltaTime;
 
-			if (timeElapsed > 5f)
+			if (timeElapsed > 3f)
 			{
 				isAttacking = false;
 			}
