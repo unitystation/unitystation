@@ -41,7 +41,7 @@ public class FloorDecal : NetworkBehaviour
 		//randomly pick if there are options
 		if (PossibleSprites != null && PossibleSprites.Length > 0)
 		{
-			SyncChosenSprite(Random.Range(0, PossibleSprites.Length - 1));
+			chosenSprite = Random.Range(0, PossibleSprites.Length - 1);
 		}
 		//set lifetime
 		if (SecondsUntilDisappear > 0)
@@ -60,12 +60,12 @@ public class FloorDecal : NetworkBehaviour
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 
-	private void SyncChosenSprite(int chosenSprite)
+	private void SyncChosenSprite(int _chosenSprite)
 	{
-		this.chosenSprite = chosenSprite;
+		chosenSprite = chosenSprite;
 		if (PossibleSprites != null && PossibleSprites.Length > 0)
 		{
-			spriteRenderer.sprite = PossibleSprites[this.chosenSprite];
+			spriteRenderer.sprite = PossibleSprites[chosenSprite];
 		}
 	}
 

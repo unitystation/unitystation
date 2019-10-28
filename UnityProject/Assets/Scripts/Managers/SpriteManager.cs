@@ -219,17 +219,14 @@ public enum BloodSplatSize
 {
 	small,
 	medium,
-	large
+	large,
+	Random
 }
 
 public enum BloodSplatType
 {
-	Generic,
-	BloodLoss,
-	Brute,
-
-	Bullet
-	//whatever
+	red,
+	green
 }
 
 public enum WiringColor
