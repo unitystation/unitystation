@@ -14,6 +14,7 @@ public class MobAI : MonoBehaviour, IOffStageServer
 	protected LivingHealthBehaviour health;
 	protected NPCDirectionalSprites dirSprites;
 	protected CustomNetTransform cnt;
+	protected RegisterObject registerObject;
 	protected bool isServer;
 
 	private float followingTime = 0f;
@@ -64,6 +65,7 @@ public class MobAI : MonoBehaviour, IOffStageServer
 		health = GetComponent<LivingHealthBehaviour>();
 		dirSprites = GetComponent<NPCDirectionalSprites>();
 		cnt = GetComponent<CustomNetTransform>();
+		registerObject = GetComponent<RegisterObject>();
 	}
 
 	public virtual void OnEnable()
@@ -74,6 +76,7 @@ public class MobAI : MonoBehaviour, IOffStageServer
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			UpdateManager.Instance.Add(UpdateMe);
+			health.applyDamageEvent += OnAttackReceived;
 			isServer = true;
 			AIStartServer();
 		}
@@ -84,6 +87,7 @@ public class MobAI : MonoBehaviour, IOffStageServer
 		if (isServer)
 		{
 			UpdateManager.Instance.Remove(UpdateMe);
+			health.applyDamageEvent += OnAttackReceived;
 		}
 	}
 
@@ -97,6 +101,25 @@ public class MobAI : MonoBehaviour, IOffStageServer
 	/// </summary>
 	protected virtual void UpdateMe()
 	{
+		if (IsDead || IsUnconscious)
+		{
+			//Allow players to walk over the body:
+			if (!registerObject.Passable)
+			{
+				registerObject.Passable = true;
+				dirSprites.SetToBodyLayer();
+			}
+			return;
+		}
+
+		//Maybe the mob was revived set passable back to false
+		//and put sprite render sort layer back to NPC:
+		if (registerObject.Passable)
+		{
+			registerObject.Passable = false;
+			dirSprites.SetToNPCLayer();
+		}
+
 		MonitorFollowingTime();
 		MonitorExploreTime();
 		MonitorFleeingTime();
@@ -143,6 +166,12 @@ public class MobAI : MonoBehaviour, IOffStageServer
 	/// by the NPC
 	/// </summary>
 	public virtual void LocalChatReceived(ChatEvent chatEvent) { }
+
+	/// <summary>
+	/// Called on the server whenever the NPC is physically attacked
+	/// </summary>
+	/// <param name="damagedBy"></param>
+	protected virtual void OnAttackReceived(GameObject damagedBy) { }
 
 	/// <summary>
 	/// Call this to begin following a target.
@@ -260,7 +289,12 @@ public class MobAI : MonoBehaviour, IOffStageServer
 		}
 	}
 
-	//Resets all the behaviours:
+	/// <summary>
+	/// Resets all the behaviours when choosing another action.
+	/// Do not use this for a hard reset (for when reusing from a pool etc)
+	/// use GoingOffStageServer instead
+	/// </summary>
+	/// <returns></returns>
 	protected virtual void ResetBehaviours()
 	{
 		if (mobFlee.activated)

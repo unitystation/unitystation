@@ -60,6 +60,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	protected GameObject LastDamagedBy;
 
+	public event Action<GameObject> applyDamageEvent;
 
 	public ConsciousState ConsciousState
 	{
@@ -295,6 +296,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 			return;
 		}
 		//TODO: determine and apply armor protection
+
+		applyDamageEvent?.Invoke(damagedBy);
 
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;

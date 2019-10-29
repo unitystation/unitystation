@@ -77,7 +77,47 @@ public class XenoAI : MobAI
 	//The alien has heard something!!
 	public override void LocalChatReceived(ChatEvent chatEvent)
 	{
+		if (status == XenoStatus.Searching || status == XenoStatus.None )
+		{
+			//face towards the origin:
+			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
+			dirSprites.ChangeDirection(dir);
 
+			//Then scan to see if anyone is there:
+			var findTarget = SearchForTarget();
+			if (findTarget != null)
+			{
+				BeginAttack(findTarget);
+			}
+		}
+	}
+
+	//The alien has been attacked by something!
+	protected override void OnAttackReceived(GameObject damagedBy)
+	{
+		if (health.OverallHealth < -20f)
+		{
+			//30% chance the xeno decides to flee:
+			if (Random.value < 0.3f)
+			{
+				StartFleeing(damagedBy.transform, 5f);
+				return;
+			}
+		}
+
+		if (damagedBy != mobAttack.followTarget)
+		{
+			//80% chance the xeno decides to attack the new attacker
+			if (Random.value < 0.8f)
+			{
+				var playerScript = damagedBy.GetComponent<PlayerScript>();
+				if (playerScript != null)
+				{
+					BeginAttack(damagedBy);
+					return;
+				}
+			}
+		}
 	}
 
 	private void DoRandomMove()
@@ -90,9 +130,11 @@ public class XenoAI : MobAI
 	{
 		base.UpdateMe();
 
+		if (!isServer) return;
+
 		if (IsDead || IsUnconscious)
 		{
-			if (IsDead && !alienScreechPlayed && isServer)
+			if (IsDead && !alienScreechPlayed)
 			{
 				alienScreechPlayed = true;
 				SoundManager.PlayNetworkedAtPos("xenodie", transform.position, Random.Range(0.9f, 1.1f));
@@ -152,6 +194,14 @@ public class XenoAI : MobAI
 		base.ResetBehaviours();
 		status = XenoStatus.None;
 		searchWaitTime = 0f;
+
+	}
+
+	public override void GoingOffStageServer(OffStageInfo info)
+	{
+		base.GoingOffStageServer(info);
+		dirSprites.SetToBodyLayer();
 		alienScreechPlayed = false;
+		registerObject.Passable = true;
 	}
 }

@@ -141,7 +141,37 @@ public class NPCDirectionalSprites : NetworkBehaviour
 			case 4:
 				spriteRend.sprite = leftSprite;
 				break;
-
 		}
+	}
+
+	/// <summary>
+	/// Set the sprite renderer to bodies when the mob has died
+	/// </summary>
+	public void SetToBodyLayer()
+	{
+		spriteRend.sortingLayerName = "Bodies";
+	}
+
+	/// <summary>
+	/// Set the mobs sprite renderer to NPC layer
+	/// </summary>
+	public void SetToNPCLayer()
+	{
+		spriteRend.sortingLayerName = "NPCs";
+	}
+
+	/// <summary>
+	/// Change the facing direction based on a Vector2 dir
+	/// </summary>
+	/// <param name="dir"></param>
+	public void ChangeDirection(Vector2 dir)
+	{
+		var angleOfDir = Vector3.Angle((Vector2) dir, transform.up);
+		if (dir.x < 0f)
+		{
+			angleOfDir = -angleOfDir;
+		}
+
+		CheckSpriteServer(angleOfDir);
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using UnityEngine;
+using Mirror;
 
 /// <summary>
 /// <see cref="RegisterTile"/> for an object, adds additional logic to
@@ -9,6 +10,7 @@ using UnityEngine;
 public class RegisterObject : RegisterTile
 {
 	public bool AtmosPassable = true;
+	[SyncVar]
 	public bool Passable = true;
 
 	public override bool IsPassable(Vector3Int from, bool isServer)
