@@ -7,6 +7,9 @@ using UnityEngine.Events;
 public class MobAI : MonoBehaviour, IOffStageServer
 {
 	public string mobName;
+	[Tooltip("When the mob is unconscious, how much should the sprite obj " +
+	         "be rotated to indicate a knocked down or dead NPC")]
+	public float knockedDownRotation = 90f;
 
 	protected MobFollow mobFollow;
 	protected MobExplore mobExplore;
@@ -108,6 +111,7 @@ public class MobAI : MonoBehaviour, IOffStageServer
 			{
 				registerObject.Passable = true;
 				dirSprites.SetToBodyLayer();
+				MonitorUprightState();
 			}
 			return;
 		}
@@ -118,11 +122,33 @@ public class MobAI : MonoBehaviour, IOffStageServer
 		{
 			registerObject.Passable = false;
 			dirSprites.SetToNPCLayer();
+			MonitorUprightState();
 		}
 
 		MonitorFollowingTime();
 		MonitorExploreTime();
 		MonitorFleeingTime();
+	}
+
+
+	//Should mob be knocked down?
+	void MonitorUprightState()
+	{
+		if (IsDead || IsUnconscious)
+		{
+			if (dirSprites.spriteRend.transform.localEulerAngles.z == 0f)
+			{
+				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+				dirSprites.SetRotationServer(knockedDownRotation);
+			}
+		}
+		else
+		{
+			if (dirSprites.spriteRend.transform.localEulerAngles.z != 0f)
+			{
+				dirSprites.SetRotationServer(0f);
+			}
+		}
 	}
 
 	void MonitorFollowingTime()

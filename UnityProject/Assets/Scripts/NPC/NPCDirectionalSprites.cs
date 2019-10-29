@@ -27,6 +27,7 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	}
 
 	[SyncVar(hook = "OnDirChange")] private int dir;
+	[SyncVar(hook = "OnRotChange")] private float spriteRot;
 
 	void OnEnable()
 	{
@@ -38,12 +39,14 @@ public class NPCDirectionalSprites : NetworkBehaviour
 		base.OnStartServer();
 		localPosCache = transform.localPosition;
 		dir = 2;
+		spriteRot = 0;
 	}
 
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		OnDirChange(dir);
+		OnRotChange(spriteRot);
 	}
 
 	//0=no init ,1=up ,2=right ,3=down ,4=left
@@ -51,6 +54,22 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	{
 		dir = direction;
 		ChangeSprite(direction);
+	}
+
+	//The local rotation of the sprite obj
+	void OnRotChange(float newRot)
+	{
+		spriteRot = newRot;
+		spriteRend.transform.localEulerAngles = new Vector3(0f,0f, spriteRot);
+	}
+
+	/// <summary>
+	/// Sets the local rotation of the sprite obj
+	/// </summary>
+	/// <param name="newRot"></param>
+	public void SetRotationServer(float newRot)
+	{
+		spriteRot = newRot;
 	}
 
 	/// <summary>
