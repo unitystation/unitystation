@@ -31,6 +31,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public float Resistance { get; } = 50;
 
+	[Tooltip("For mobs that can breath in any atmos environment")]
+	public bool canBreathAnywhere = false;
+
 	public float OverallHealth { get; private set; } = 100;
 	public float cloningDamage;
 
@@ -43,6 +46,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public BloodSystem bloodSystem;
 	public BrainSystem brainSystem;
 	public RespiratorySystem respiratorySystem;
+
+	public BloodSplatType bloodColor;
 
 	/// <summary>
 	/// If there are any body parts for this living thing, then add them to this list
@@ -64,6 +69,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	protected GameObject LastDamagedBy;
 
+	public event Action<GameObject> applyDamageEvent;
 
 	public ConsciousState ConsciousState
 	{
@@ -157,6 +163,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
+		respiratorySystem.canBreathAnywhere = canBreathAnywhere;
 
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
@@ -181,6 +188,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		//Generate BloodType and DNA
 		DNABloodType = new DNAandBloodType();
+		DNABloodType.BloodColor = bloodColor;
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
 
@@ -340,6 +348,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		var prevHealth = OverallHealth;
 
+		applyDamageEvent?.Invoke(damagedBy);
+
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 		bodyPartBehaviour.ReceiveDamage(damageType, damage);
@@ -438,7 +448,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium);
+			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
 		}
 	}
 
@@ -691,7 +701,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Server]
 	protected virtual void Gib()
 	{
-		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large );
+		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
 		//todo: actual gibs
 
 		//never destroy players!

@@ -18,8 +18,8 @@ public class CameraZoomHandler : MonoBehaviour
         }
         else
         {
-            zoomLevel = 2;
-            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 2);
+            zoomLevel = 4;
+            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 4);
             PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 0);
             PlayerPrefs.Save();
         }
@@ -66,7 +66,7 @@ public class CameraZoomHandler : MonoBehaviour
         }
 
         // Calculate orthographic size with full precision and then convert to float precision.
-        Camera.main.orthographicSize = Convert.ToSingle(ratio * 10 * scaleFactor / zoomLevel);
+        Camera.main.orthographicSize = Convert.ToSingle(ratio * 20 * scaleFactor / zoomLevel);
 
         // Recenter camera.
         DisplayManager.Instance.SetCameraFollowPos();
