@@ -27,6 +27,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	public float maxHealth = 100;
 
+	[Tooltip("For mobs that can breath in any atmos environment")]
+	public bool canBreathAnywhere = false;
+
 	public float OverallHealth { get; private set; } = 100;
 	public float cloningDamage;
 
@@ -34,6 +37,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	public BloodSystem bloodSystem;
 	public BrainSystem brainSystem;
 	public RespiratorySystem respiratorySystem;
+
+	public BloodSplatType bloodColor;
 
 	/// <summary>
 	/// If there are any body parts for this living thing, then add them to this list
@@ -55,6 +60,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	protected GameObject LastDamagedBy;
 
+	public event Action<GameObject> applyDamageEvent;
 
 	public ConsciousState ConsciousState
 	{
@@ -148,6 +154,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		{
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
+		respiratorySystem.canBreathAnywhere = canBreathAnywhere;
 
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
@@ -172,6 +179,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 		//Generate BloodType and DNA
 		DNABloodType = new DNAandBloodType();
+		DNABloodType.BloodColor = bloodColor;
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
 
@@ -289,6 +297,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		}
 		//TODO: determine and apply armor protection
 
+		applyDamageEvent?.Invoke(damagedBy);
+
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 		bodyPartBehaviour.ReceiveDamage(damageType, damage);
@@ -389,7 +399,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium);
+			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
 		}
 	}
 
@@ -634,7 +644,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		{
 			PoolManager.PoolNetworkInstantiate(harvestPrefab, transform.position, parent: transform.parent);
 		}
-		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium, bloodColor);
 		//Remove the NPC after all has been harvested
 		var cnt = GetComponent<CustomNetTransform>();
 		if (cnt != null)

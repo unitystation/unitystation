@@ -231,10 +231,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
+  canBreathAnywhere: 0
   cloningDamage: 0
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
+  bloodColor: 0
   BodyParts:
   - {fileID: 114232649470732454}
   - {fileID: 114804766488326296}
@@ -361,7 +363,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1226608153
+  m_SceneId: 1113585861
 --- !u!114 &1750259749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +472,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715d7edbfa5ae6742b05a85634ad752c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dogName: Ian
+  mobName: Ian
+  knockedDownRotation: -180
   allowedToGiveCommands: 0600000016000000
 --- !u!1 &7921138586108671727
 GameObject:
@@ -539,7 +542,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300006, guid: e521117653fea244c9645316be5ec3a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

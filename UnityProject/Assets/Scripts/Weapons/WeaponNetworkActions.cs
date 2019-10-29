@@ -24,20 +24,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private Vector3 lerpTo;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private RegisterPlayer registerPlayer;
 	private GameObject spritesObj;
-
-	private GameObject casingPrefab;
 
 	private void Start()
 	{
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerMove = GetComponent<PlayerMove>();
-		registerPlayer = GetComponent<RegisterPlayer>();
 		playerScript = GetComponent<PlayerScript>();
 		lerpSprite = null;
-
-		casingPrefab = Resources.Load("BulletCasing") as GameObject;
 	}
 
 	[Command]
@@ -100,15 +94,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
 		{
-			TileChangeManager tileChangeManager = victim.GetComponent<TileChangeManager>();
-			MetaTileMap metaTileMap = victim.GetComponentInChildren<MetaTileMap>();
-			if (tileChangeManager == null)
-			{
-				return;
-			}
+			var tileChangeManager = victim.GetComponent<TileChangeManager>();
+			if (tileChangeManager == null) return; //Make sure its on a matrix that is destructable
 
 			//Tilemap stuff:
-			var tileMapDamage = metaTileMap.Layers[layerType].GetComponent<TilemapDamage>();
+			var tileMapDamage = victim.GetComponentInChildren<MetaTileMap>().Layers[layerType].gameObject
+				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
 				//Wire cutters should snip the grills instead:

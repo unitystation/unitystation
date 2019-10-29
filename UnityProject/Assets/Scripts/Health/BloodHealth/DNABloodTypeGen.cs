@@ -4,15 +4,17 @@ using System;
 public class DNAandBloodType
 {
 	public string DNAString;
-	
+
 	public BloodTypes BloodType;
-	
+
+	public BloodSplatType BloodColor;
+
 	private static Random random = new Random();
-	
+
 	private float BloodTypeGenerator = random.Next(0,1000);
-	
+
 	public DNAandBloodType()
-	{	
+	{
 		// Assigns DNA a GUID
 		DNAString = System.Guid.NewGuid().ToString();
 		// Assigns blood type by roll, note that there isnt an equal chance for each roll.

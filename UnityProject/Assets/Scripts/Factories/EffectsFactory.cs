@@ -12,6 +12,11 @@ public class EffectsFactory : NetworkBehaviour
 	private GameObject largeBloodTile;
 	private GameObject largeAshTile;
 	private GameObject smallAshTile;
+
+	private GameObject smallXenoBloodTile;
+	private GameObject medXenoBloodTile;
+	private GameObject largeXenoBloodTile;
+
 	private GameObject waterTile { get; set; }
 
 	private void Awake()
@@ -30,9 +35,16 @@ public class EffectsFactory : NetworkBehaviour
 	{
 		//Do init stuff
 		fireTile = Resources.Load("FireTile") as GameObject;
+
+		//Blood
 		smallBloodTile = Resources.Load("SmallBloodSplat") as GameObject;
 		mediumBloodTile = Resources.Load("MediumBloodSplat") as GameObject;
 		largeBloodTile = Resources.Load("LargeBloodSplat") as GameObject;
+
+		smallXenoBloodTile = Resources.Load("SmallXenoBloodSplat") as GameObject;
+		medXenoBloodTile = Resources.Load("MedXenoBloodSplat") as GameObject;
+		largeXenoBloodTile = Resources.Load("LargeXenoBloodSplat") as GameObject;
+
 		largeAshTile = Resources.Load("LargeAsh") as GameObject;
 		smallAshTile = Resources.Load("SmallAsh") as GameObject;
 		waterTile = Resources.Load("WaterSplat") as GameObject;
@@ -51,9 +63,23 @@ public class EffectsFactory : NetworkBehaviour
 	}
 
 	[Server]
-	public void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize)
+	public void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize, BloodSplatType bloodColorType)
+	{
+		switch (bloodColorType)
+		{
+			case BloodSplatType.red:
+				SpawnRedBlood(worldPos, splatSize);
+				break;
+			case BloodSplatType.green:
+				SpawnXenoBlood(worldPos, splatSize);
+				break;
+		}
+	}
+
+	void SpawnRedBlood(Vector3 worldPos, BloodSplatSize splatSize)
 	{
 		GameObject chosenTile = null;
+
 		switch (splatSize)
 		{
 			case BloodSplatSize.small:
@@ -65,6 +91,38 @@ public class EffectsFactory : NetworkBehaviour
 			case BloodSplatSize.large:
 				chosenTile = largeBloodTile;
 				break;
+			case BloodSplatSize.Random:
+				int rand = Random.Range(0, 3);
+				SpawnRedBlood(worldPos, (BloodSplatSize)rand);
+				return;
+		}
+
+		if (chosenTile != null)
+		{
+			PoolManager.PoolNetworkInstantiate(chosenTile, worldPos,
+				MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Objects);
+		}
+	}
+
+	void SpawnXenoBlood(Vector3 worldPos, BloodSplatSize splatSize)
+	{
+		GameObject chosenTile = null;
+
+		switch (splatSize)
+		{
+			case BloodSplatSize.small:
+				chosenTile = smallXenoBloodTile;
+				break;
+			case BloodSplatSize.medium:
+				chosenTile = medXenoBloodTile;
+				break;
+			case BloodSplatSize.large:
+				chosenTile = largeXenoBloodTile;
+				break;
+			case BloodSplatSize.Random:
+				int rand = Random.Range(0, 3);
+				SpawnXenoBlood(worldPos, (BloodSplatSize)rand);
+				return;
 		}
 
 		if (chosenTile != null)
