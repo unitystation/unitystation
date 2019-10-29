@@ -6,11 +6,11 @@ using Mirror;
 /// <summary>
 /// The main metal sheet component
 /// </summary>
-public class Metal : NBHandActivateInteractable
+public class Metal : NetworkBehaviour, IInteractable<HandActivate>
 {
 	public GameObject girderPrefab;
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		startBuilding(interaction);
 	}

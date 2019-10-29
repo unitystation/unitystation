@@ -6,7 +6,7 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
-public class Welder : NBHandActivateInteractable
+public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 {
 	//TODO: Update the sprites from the array below based on how much fuel is left
 	//TODO: gas readout in stats
@@ -75,7 +75,7 @@ public class Welder : NBHandActivateInteractable
 		}
 	}
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		ToggleWelder(interaction.Performer);
 	}

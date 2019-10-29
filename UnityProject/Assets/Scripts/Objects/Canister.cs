@@ -7,7 +7,7 @@ using Mirror;
 /// Main component for canister
 /// </summary>
 [RequireComponent(typeof(Integrity))]
-public class Canister : NBHandApplyInteractable
+public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	public static readonly int MAX_RELEASE_PRESSURE = 1000;
 	[Tooltip("Tint of the main background in the GUI")]
@@ -97,14 +97,14 @@ public class Canister : NBHandApplyInteractable
 		SetDefaultIntegrity();
 	}
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		//only wrench can be used
 		return DefaultWillInteract.HandApply(interaction, side) &&
 			   Validations.IsTool(interaction.UsedObject, ToolType.Wrench);
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();

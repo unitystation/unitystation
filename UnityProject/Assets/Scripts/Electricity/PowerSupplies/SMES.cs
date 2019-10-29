@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class SMES : NBHandApplyInteractable, INodeControl
+public class SMES : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
 	public bool ResistanceChange = false;
 
@@ -34,7 +34,7 @@ public class SMES : NBHandApplyInteractable, INodeControl
 		UpdateState(isOn);
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;
 		UpdateServerState(isOn);

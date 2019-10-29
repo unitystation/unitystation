@@ -701,7 +701,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
 	{
 		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
-		Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
+		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
+		var lhbOther = huggedPlayer.GetComponent<LivingHealthBehaviour>();
+		if (lhb != null && lhbOther != null && (lhb.FireStacks > 0 || lhbOther.FireStacks > 0))
+		{
+			lhb.ApplyDamage(huggedPlayer, 1, AttackType.Fire, DamageType.Burn);
+			lhbOther.ApplyDamage(gameObject, 1, AttackType.Fire, DamageType.Burn);
+			Chat.AddCombatMsgToChat(gameObject, $"You give {hugged} a fiery hug.", $"{hugger} has given {hugged} a fiery hug.");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
+		}
 	}
 
 	/// <summary>

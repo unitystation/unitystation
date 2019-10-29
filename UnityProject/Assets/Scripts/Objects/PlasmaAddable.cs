@@ -8,14 +8,14 @@ using Atmospherics;
 using Objects;
 using UnityEngine;
 
-public class PlasmaAddable : NBHandApplyInteractable, IRightClickable
+public class PlasmaAddable : MonoBehaviour, ICheckedInteractable<HandApply>, IRightClickable
 {
 	public GasContainer gasContainer;
 	public float molesAdded = 15000f;
 
-	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side))
+		if (!DefaultWillInteract.Default(interaction, side))
 		{
 			return false;
 		}
@@ -30,7 +30,7 @@ public class PlasmaAddable : NBHandApplyInteractable, IRightClickable
 		return true;
 	}
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var handObj = interaction.HandObject;
 
@@ -41,7 +41,7 @@ public class PlasmaAddable : NBHandApplyInteractable, IRightClickable
 
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		handObj.GetComponent<Pickupable>().DisappearObject(slot);
-		
+
 		gasContainer.GasMix = gasContainer.GasMix.AddGasReturn(Gas.Plasma, molesAdded);
 	}
 
@@ -59,6 +59,6 @@ public class PlasmaAddable : NBHandApplyInteractable, IRightClickable
 
 	private void RightClickInteract()
 	{
-		Interact(HandApply.ByLocalPlayer(gameObject), nameof(PlasmaAddable));
+		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
 	}
 }

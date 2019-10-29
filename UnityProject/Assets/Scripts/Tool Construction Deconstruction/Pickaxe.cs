@@ -4,20 +4,20 @@ using UnityEngine;
 /// <summary>
 /// Allows object to be used as a pickaxe to mine rocks.
 /// </summary>
-public class Pickaxe : Interactable<PositionalHandApply>
+public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	private const float PLASMA_SPAWN_CHANCE = 0.5f;
 
-	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!base.WillInteract(interaction, side)) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 		if (interactableTiles == null) return false;
 
 		return Validations.IsMineableAt(interaction.WorldPositionTarget, interactableTiles.MetaTileMap);
 	}
 
-	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		//server is performing server-side logic for the interaction
 		//do the mining

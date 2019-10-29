@@ -377,6 +377,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false)
 	{
+		if (worldPos != TransformState.HiddenPos)
+		{
+			PushPull.parentContainer = null;
+		}
 		Poke();
 		Vector2 pos = worldPos; //Cut z-axis
 		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ), true ).Id;

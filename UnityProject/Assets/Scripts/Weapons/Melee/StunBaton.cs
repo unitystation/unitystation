@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Pickupable))]
-public class StunBaton : NBHandActivateInteractable
+public class StunBaton : NetworkBehaviour, IInteractable<HandActivate>
 {
 	public SpriteRenderer spriteRenderer;
 
@@ -64,12 +64,12 @@ public class StunBaton : NBHandActivateInteractable
 		}
 	}
 
-	protected override void ClientPredictInteraction(HandActivate interaction)
+	public void ClientPredictInteraction(HandActivate interaction)
 	{
 		ToggleState();
 	}
 
-	protected override void ServerPerformInteraction(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.transform.position);
 		ToggleState();
