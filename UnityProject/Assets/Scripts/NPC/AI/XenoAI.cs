@@ -77,6 +77,8 @@ public class XenoAI : MobAI
 	//The alien has heard something!!
 	public override void LocalChatReceived(ChatEvent chatEvent)
 	{
+		if (chatEvent.originator == null) return;
+
 		if (status == XenoStatus.Searching || status == XenoStatus.None )
 		{
 			//face towards the origin:

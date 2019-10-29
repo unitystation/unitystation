@@ -255,14 +255,21 @@ public class MobAgent : Agent
 					{
 						if (allowTargetPush)
 						{
-							if (checkPos == Vector3Int.RoundToInt(target.localPosition))
+							if (target != null)
 							{
-								//it is our target! Allow mob to attempt to walk into it (can be used for attacking)
-								AddVectorObs(true);
+								if (checkPos == Vector3Int.RoundToInt(target.localPosition))
+								{
+									//it is our target! Allow mob to attempt to walk into it (can be used for attacking)
+									AddVectorObs(true);
+								}
+								else
+								{
+									// it is something solid
+									AddVectorObs(false);
+								}
 							}
 							else
 							{
-								// it is something solid
 								AddVectorObs(false);
 							}
 						}
