@@ -13,7 +13,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private TileChangeManager tileChangeManager;
 
 	private MetaDataLayer metaDataLayer;
-	public MetaTileMap MetaTileMap { get; set; }
+	private MetaTileMap metaTileMap;
 
 	public Layer Layer { get; private set; }
 
@@ -49,7 +49,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		tileChangeManager = transform.GetComponentInParent<TileChangeManager>();
 		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
-		MetaTileMap = transform.GetComponentInParent<MetaTileMap>();
+		metaTileMap = transform.GetComponentInParent<MetaTileMap>();
 
 		Layer = GetComponent<Layer>();
 		matrix = GetComponentInParent<Matrix>();
@@ -80,12 +80,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		forceDir.z = 0;
 		Vector3 bulletHitTarget = hitPos + (forceDir * 0.2f);
-		Vector3Int cellPos = MetaTileMap.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));
+		Vector3Int cellPos = metaTileMap.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		if (Layer.LayerType == LayerType.Windows)
 		{
-			LayerTile getTile = MetaTileMap.GetTile(cellPos, LayerType.Windows);
+			LayerTile getTile = metaTileMap.GetTile(cellPos, LayerType.Windows);
 			if (getTile != null)
 			{
 				AddWindowDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
@@ -96,16 +96,16 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (Layer.LayerType == LayerType.Grills)
 		{
 			//Make sure a window is not protecting it first:
-			if (!MetaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if (MetaTileMap.HasTile(cellPos, LayerType.Grills, true))
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					AddGrillDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
 				}
 			} else
 			{
 				//Pass it to the window:
-				MetaTileMap.Layers[LayerType.Windows].GetComponent<TilemapDamage>()
+				metaTileMap.Layers[LayerType.Windows].GetComponent<TilemapDamage>()
 					.DoBulletDamage(bullet, forceDir, hitPos);
 			}
 		}
@@ -119,11 +119,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	//Only works serverside:
 	public void DoMeleeDamage(Vector2 dmgPosition, GameObject originator, int dmgAmt)
 	{
-		Vector3Int cellPos = MetaTileMap.WorldToCell(dmgPosition);
+		Vector3Int cellPos = metaTileMap.WorldToCell(dmgPosition);
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 		if (Layer.LayerType == LayerType.Windows)
 		{
-			if (MetaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
 				SoundManager.PlayNetworkedAtPos("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
 				AddWindowDamage(dmgAmt, data, cellPos, dmgPosition, AttackType.Melee);
@@ -134,9 +134,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (Layer.LayerType == LayerType.Grills)
 		{
 			//Make sure a window is not protecting it first:
-			if (!MetaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if (MetaTileMap.HasTile(cellPos, LayerType.Grills, true))
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					SoundManager.PlayNetworkedAtPos("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
 					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition, AttackType.Melee);
@@ -145,7 +145,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			else
 			{
 				//Pass it to the window:
-				MetaTileMap.Layers[LayerType.Windows].GetComponent<TilemapDamage>()
+				metaTileMap.Layers[LayerType.Windows].GetComponent<TilemapDamage>()
 					.DoMeleeDamage(dmgPosition, originator, dmgAmt);
 			}
 		}
@@ -210,15 +210,15 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	//Only works server side:
 	public void WireCutGrill(Vector3 snipPosition)
 	{
-		Vector3Int cellPos = MetaTileMap.WorldToCell(snipPosition);
+		Vector3Int cellPos = metaTileMap.WorldToCell(snipPosition);
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		if (Layer.LayerType == LayerType.Grills)
 		{
 			//Make sure a window is not protecting it first:
-			if (!MetaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if (MetaTileMap.HasTile(cellPos, LayerType.Grills, true))
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
 
@@ -254,7 +254,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (exposure.IsSideExposure) return;
 			if (!(exposure.Temperature > TILE_MIN_SCORCH_TEMPERATURE)) return;
 
-			if (!MetaTileMap.HasTile(cellPos, true)) return;
+			if (!metaTileMap.HasTile(cellPos, true)) return;
 			//is it already scorched
 			var metaData = metaDataLayer.Get(exposure.ExposedLocalPosition.To3Int());
 			if (metaData.IsScorched) return;
@@ -275,7 +275,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 		else if (Layer.LayerType == LayerType.Windows)
 		{
-			if (MetaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
 				//window damage
 				MetaDataNode data = metaDataLayer.Get(cellPos);
@@ -289,9 +289,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			//grill damage
 			//Make sure a window is not protecting it first:
-			if (!MetaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if (MetaTileMap.HasTile(cellPos, LayerType.Grills, true))
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					//window damage
 					MetaDataNode data = metaDataLayer.Get(cellPos);
