@@ -220,7 +220,7 @@ namespace IngameDebugConsole
 				Vector2 appearPos = new Vector2Int(-37, 37);
 				foreach ( var movableMatrix in MatrixManager.Instance.MovableMatrices )
 				{
-					if ( movableMatrix.GameObject.name.ToLower().Contains( "large" ) )
+					if ( movableMatrix.GameObject.name.ToLower().Contains( "verylarge" ) )
 					{
 						continue;
 					}

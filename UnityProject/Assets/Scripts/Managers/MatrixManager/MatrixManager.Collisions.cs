@@ -67,10 +67,10 @@ public partial class MatrixManager
 			return;
 		}
 
-		PruneTracking();
+		UpdateAndPruneIntersections();
 		TrackNewIntersections();
 
-		void PruneTracking()
+		void UpdateAndPruneIntersections()
 		{
 			List<MatrixIntersection> toRemove = null;
 			List<MatrixIntersection> toUpdate = null;
@@ -302,7 +302,7 @@ public partial class MatrixManager
 		{
 			ExplosionUtils.PlaySoundAndShake(
 				i.Rect.position.RoundToInt(),
-				(byte) Mathf.Clamp(collisions*5, 5, byte.MaxValue),
+				(byte) Mathf.Clamp(collisions*8, 8, byte.MaxValue),
 				Mathf.Clamp(collisions*5, 15, 80)
 				);
 			SlowDown( i, collisions );
@@ -412,6 +412,9 @@ public partial class MatrixManager
 			if ( speed <= 1f )
 			{
 				info.MatrixMove.StopMovement();
+
+				//doing last tile collision as intersection is no longer tracked
+				CheckTileCollisions( i );
 			} else
 			{
 				info.MatrixMove.SetSpeed( speed );
