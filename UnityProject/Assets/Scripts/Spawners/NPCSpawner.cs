@@ -60,7 +60,7 @@ public class NPCSpawner : MonoBehaviour
 		//50% chance
 		if (Random.value > 0.5f)
 		{
-			var amountToSpawn = Random.Range(1, 3);
+			var amountToSpawn = Random.Range(1, 4);
 			for (int i = 0; i < amountToSpawn; i++)
 			{
 				switch (npcToSpawn)
