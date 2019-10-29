@@ -19,6 +19,8 @@ public class XenoAI : MobAI
 	private LayerMask hitMask;
 	private int playersLayer;
 
+	private bool alienScreechPlayed = false;
+
 	public enum XenoStatus
 	{
 		None,
@@ -87,6 +89,18 @@ public class XenoAI : MobAI
 	protected override void UpdateMe()
 	{
 		base.UpdateMe();
+
+		if (IsDead || IsUnconscious)
+		{
+			if (IsDead && !alienScreechPlayed && isServer)
+			{
+				alienScreechPlayed = true;
+				SoundManager.PlayNetworkedAtPos("xenodie", transform.position, Random.Range(0.9f, 1.1f));
+			}
+
+			return;
+		}
+
 		if (status == XenoStatus.Searching)
 		{
 			moveWaitTime += Time.deltaTime;
@@ -138,5 +152,6 @@ public class XenoAI : MobAI
 		base.ResetBehaviours();
 		status = XenoStatus.None;
 		searchWaitTime = 0f;
+		alienScreechPlayed = false;
 	}
 }

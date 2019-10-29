@@ -28,7 +28,6 @@ public class MobMeleeAttack : MobFollow
 	private int npcLayer;
 	private int windowsLayer;
 
-	//Will be null if there is no mobAI on this object
 	private MobAI mobAI;
 
 	private bool isForLerpBack;
@@ -66,6 +65,13 @@ public class MobMeleeAttack : MobFollow
 	{
 		if (followTarget != null)
 		{
+			if (mobAI.IsDead || mobAI.IsUnconscious)
+			{
+				Deactivate();
+				followTarget = null;
+				return false;
+			}
+
 			var followLivingBehaviour = followTarget.GetComponent<LivingHealthBehaviour>();
 			var distanceToTarget = Vector3.Distance(followTarget.transform.position, transform.position);
 			if (followLivingBehaviour != null)

@@ -4,7 +4,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(MobFollow))]
 [RequireComponent(typeof(MobExplore))]
 [RequireComponent(typeof(MobFlee))]
-public class MobAI : MonoBehaviour
+public class MobAI : MonoBehaviour, IOffStageServer
 {
 	public string mobName;
 
@@ -44,6 +44,16 @@ public class MobAI : MonoBehaviour
 
 			return false;
 		}
+	}
+
+	public bool IsDead
+	{
+		get { return health.IsDead; }
+	}
+
+	public bool IsUnconscious
+	{
+		get { return health.IsCrit; }
 	}
 
 	protected virtual void Awake()
@@ -274,5 +284,10 @@ public class MobAI : MonoBehaviour
 		exploringTime = 0f;
 		followTimeMax = -1f;
 		followingTime = 0f;
+	}
+
+	public virtual void GoingOffStageServer(OffStageInfo info)
+	{
+		ResetBehaviours();
 	}
 }
