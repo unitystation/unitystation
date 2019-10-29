@@ -88,6 +88,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			LayerTile getTile = metaTileMap.GetTile(cellPos, LayerType.Windows);
 			if (getTile != null)
 			{
+				//TODO damage amt based off type of bullet
 				AddWindowDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
 				return;
 			}
@@ -100,13 +101,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
+					//TODO damage amt based off type of bullet
 					AddGrillDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
 				}
-			} else
-			{
-				//Pass it to the window:
-				metaTileMap.Layers[LayerType.Windows].GetComponent<TilemapDamage>()
-					.DoBulletDamage(bullet, forceDir, hitPos);
 			}
 		}
 	}
@@ -121,6 +118,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(dmgPosition);
 		MetaDataNode data = metaDataLayer.Get(cellPos);
+
 		if (Layer.LayerType == LayerType.Windows)
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
@@ -141,12 +139,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 					SoundManager.PlayNetworkedAtPos("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
 					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition, AttackType.Melee);
 				}
-			}
-			else
-			{
-				//Pass it to the window:
-				metaTileMap.Layers[LayerType.Windows].GetComponent<TilemapDamage>()
-					.DoMeleeDamage(dmgPosition, originator, dmgAmt);
 			}
 		}
 	}
