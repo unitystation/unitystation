@@ -83,7 +83,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void Gib()
 	{
-		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large );
+		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 		playerMove.PlayerScript.pushPull.VisibleState = false; //fixme: teleports ghost to invalidpos, too

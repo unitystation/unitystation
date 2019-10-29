@@ -167,7 +167,7 @@ public class MobMeleeAttack : MobFollow
 
 	private void AttackFlesh(Vector2 dir, LivingHealthBehaviour healthBehaviour)
 	{
-		healthBehaviour.ApplyDamage(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget);
+		healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget.Randomize());
 		Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
 		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 		ServerDoLerpAnimation(dir);
