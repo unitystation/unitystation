@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: NuclearOperative
   m_EditorClassIdentifier: 
   antagName: Nuclear Operative
-  possibleObjectives: []
+  NumberOfObjectives: 1
+  canUseSharedObjectives: 0
+  needsEscapeObjective: 0
+  coreObjectives:
+  - {fileID: 11400000, guid: 1a15330eccadc7044b35b5a49a4154b4, type: 2}
