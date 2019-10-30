@@ -25,11 +25,30 @@ namespace Antagonists
 		public string AntagName => antagName;
 
 		/// <summary>
-		/// The possible objectives only this type of antagonist can get
+		/// How many objectives this antag needs
 		/// </summary>
+		public int NumberOfObjectives = 2;
+
 		[SerializeField]
-		protected List<Objective> possibleObjectives = new List<Objective>();
-		public List<Objective> PossibleObjectives => possibleObjectives;
+		protected bool canUseSharedObjectives;
+		/// <summary>
+		/// Can this antag get objectives from the shared objective pool?
+		/// </summary>
+		public bool CanUseSharedObjectives => canUseSharedObjectives;
+
+		[SerializeField]
+		protected bool needsEscapeObjective;
+		/// <summary>
+		/// Does this antag need some kind of escape objective?
+		/// </summary>
+		public bool NeedsEscapeObjective => needsEscapeObjective;
+
+		[SerializeField]
+		protected List<Objective> coreObjectives = new List<Objective>();
+		/// <summary>
+		/// The core objectives only this type of antagonist can get
+		/// </summary>
+		public List<Objective> CoreObjectives => coreObjectives;
 
 		/// <summary>
 		/// The objectives this antag currently has

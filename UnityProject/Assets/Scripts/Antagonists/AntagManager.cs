@@ -88,7 +88,7 @@ namespace Antagonists
 			Antagonist antag = chosenAntag ?? AntagData.GetRandomAntag();
 
 			// Generate objectives for this antag
-			List<Objective> objectives = AntagData.GenerateObjectives(player.Script, antag, 2);
+			List<Objective> objectives = AntagData.GenerateObjectives(player.Script, antag);
 			antag.GiveObjectives(objectives);
 
 			// Set the antag
