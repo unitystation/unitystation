@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c391e329f9f301b4c8bddb5b97ff5975, type: 3}
   m_Name: NukeOps
   m_EditorClassIdentifier: 
-  Name: NukeOps
+  Name: Nuclear Emergency
   Description: Syndicate forces are approaching the station in an attempt to destroy
     it!
-  CanRespawn: 1
+  CanRespawn: 0
   MinPlayers: 2
   MinAntags: 1
-  PossibleAntags: []
+  PossibleAntags:
+  - {fileID: 11400000, guid: 4bc36e6d8aa946c4081073eabc2472eb, type: 2}
