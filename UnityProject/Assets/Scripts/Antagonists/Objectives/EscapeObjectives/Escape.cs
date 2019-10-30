@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Antagonists
 {
@@ -11,12 +12,25 @@ namespace Antagonists
 	public class Escape : Objective
 	{
 		/// <summary>
-		/// Complete if the player is alive and on the escape shuttle
+		/// The shuttles that will be checked for this objective
+		/// </summary>
+		private List<EscapeShuttle> ValidShuttles = new List<EscapeShuttle>();
+
+		/// <summary>
+		/// Populate the list of valid escape shuttles
+		/// </summary>
+		protected override void Setup()
+		{
+			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+		}
+
+		/// <summary>
+		/// Complete if the player is alive and on one of the escape shuttles
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
 			return !Owner.body.playerHealth.IsDead &&
-				(Owner.body.registerTile.Matrix.Id == GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo.Id);
+				ValidShuttles.Any( shuttle => Owner.body.registerTile.Matrix.Id == shuttle.MatrixInfo.Id);
 		}
 	}
 }

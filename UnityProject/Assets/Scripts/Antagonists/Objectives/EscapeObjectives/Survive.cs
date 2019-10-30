@@ -11,6 +11,11 @@ namespace Antagonists
 	public class Survive : Objective
 	{
 		/// <summary>
+		/// No setup required
+		/// </summary>
+		protected override void Setup() {}
+
+		/// <summary>
 		/// Complete if the player is alive
 		/// </summary>
 		protected override bool CheckCompletion()

@@ -59,7 +59,7 @@ namespace Antagonists
 		/// <summary>
 		/// Perform initial setup of the objective if needed
 		/// </summary>
-		protected virtual void Setup() {}
+		protected abstract void Setup();
 
 		/// <summary>
 		/// Shows if this objective is complete or not
