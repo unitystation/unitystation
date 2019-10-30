@@ -39,7 +39,6 @@ public static class SpawnHandler
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		connectedPlayer.Name = playerScript.playerName;
 		UpdateConnectedPlayersMessage.Send();
-		PlayerList.Instance.TryAddScores(playerScript.playerName);
 
 		equipment.SetPlayerLoadOuts();
 		if(jobType != JobType.SYNDICATE && jobType != JobType.AI)

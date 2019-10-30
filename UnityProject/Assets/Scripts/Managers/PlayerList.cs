@@ -25,19 +25,14 @@ public class PlayerList : NetworkBehaviour
 	public List<ConnectedPlayer> NonAntagPlayers => values.FindAll( player => player.Script != null && !player.Script.mind.IsAntag );
 	public List<ConnectedPlayer> AntagPlayers => values.FindAll( player => player.Script != null && player.Script.mind.IsAntag );
 	public List<ConnectedPlayer> AllPlayers => values.FindAll( player => (player.Script != null || player.ViewerScript != null));
-	public bool reportDone = false;
 
-	//For TDM demo
-	//public Dictionary<JobDepartment, int> departmentScores = new Dictionary<JobDepartment, int>();
-
-	//For combat demo
-	public Dictionary<string, int> playerScores = new Dictionary<string, int>();
+	/// <summary>
+	/// Used to track who killed who. Could be used to check that a player actually killed someone themselves.
+	/// </summary>
+	public Dictionary<PlayerScript,List<PlayerScript>> KillTracker = new Dictionary<PlayerScript, List<PlayerScript>>();
 
 	//Nuke Ops (TODO: throughoutly remove all unnecessary TDM variables)
 	public bool nukeSetOff = false;
-	//Kill counts for crew members and syndicate for display at end of round, similar to past TDM department scores
-	public int crewKills;
-	public int syndicateKills;
 
 	private void Awake()
 	{
@@ -60,107 +55,33 @@ public class PlayerList : NetworkBehaviour
 		}
 	}
 
-	//Called on the server when a kill is confirmed
+	/// <summary>
+	/// Called on the server when a kill is confirmed to track which players killed eachother.
+	/// </summary>
 	[Server]
-	public void UpdateKillScore(GameObject perpetrator, GameObject victim)
+	public void TrackKill(GameObject perpetrator, GameObject victim)
 	{
-		if ( perpetrator == null )
+		var perPlayer = perpetrator?.Player()?.Script;
+		var victimPlayer = victim?.Player()?.Script;
+
+		if ( perPlayer == null || victimPlayer == null )
 		{
 			return;
 		}
-		var perPlayer = perpetrator.Player();
-		var victimPlayer = victim.Player();
-		if ( perPlayer == null || victimPlayer == null ) {
-			return;
-		}
 
-		var playerName = perPlayer.Name;
-		if ( playerScores.ContainsKey(playerName) )
+		// Check if the victim list needs to be created
+		if (KillTracker.ContainsKey(perPlayer))
 		{
-			playerScores[playerName]++;
-		}
-
-		//If killer is syndicate, add kills to syndicate score, if not - to crew.
-		if(perPlayer.Job == JobType.SYNDICATE)
-		{
-			syndicateKills++;
+			KillTracker[perPlayer].Add(victimPlayer);
 		}
 		else
 		{
-			crewKills++;
-		}
-	}
-
-	[Server]
-	public void TryAddScores(string uniqueName)
-	{
-		if ( !playerScores.ContainsKey(uniqueName) )
-		{
-			playerScores.Add(uniqueName, 0);
-		}
-	}
-
-	[Server]
-	public void ReportScores()
-	{
-		if (!reportDone)
-		{
-			//if (!nukeSetOff && syndicateKills == 0 && crewKills == 0)
-			//{
-			//	PostToChatMessage.Send("Nobody killed anybody. Fucking hippies.", ChatChannel.System);
-			//}
-
-			if (nukeSetOff)
+			KillTracker[perPlayer] = new List<PlayerScript>()
 			{
-				Chat.AddGameWideSystemMsgToChat("Nuke has been detonated, <b>Syndicate wins.</b>");
-				ReportKills();
-			}
-			else
-			{
-				int alivePlayers = GetAlivePlayers().Count;
-				int crewCountOnboard = GetAliveShuttleCrew().Count;
-				if (alivePlayers > 0 && crewCountOnboard == 0)
-				{
-					Chat.AddGameWideSystemMsgToChat("Station crew failed to escape, <b>Syndicate wins.</b>");
-					ReportKills();
-				}
-				else if (alivePlayers == 0)
-				{
-					Chat.AddGameWideSystemMsgToChat("All crew members are dead, <b>Syndicate wins.</b>");
-					ReportKills();
-				}
-				else if (alivePlayers > 0 && crewCountOnboard > 0)
-				{
-					Chat.AddGameWideSystemMsgToChat(crewCountOnboard + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>");
-					ReportKills();
-				}
-			}
-			Chat.AddGameWideSystemMsgToChat("Game Restarting in 30 seconds...");
-			reportDone = true;
-		}
-
-		List<ConnectedPlayer> GetAliveShuttleCrew()
-		{
-			var playersOnMatrix = GetPlayersOnMatrix(GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
-			return GetAlivePlayers( playersOnMatrix ).FindAll( p => p.Job != JobType.SYNDICATE );
+				victimPlayer
+			};
 		}
 	}
-
-	[Server]
-	public void ReportKills()
-	{
-		if (syndicateKills != 0)
-		{
-			Chat.AddGameWideSystemMsgToChat("Syndicate managed to kill " + syndicateKills + " crew members.");
-		}
-
-		if (crewKills != 0)
-		{
-			Chat.AddGameWideSystemMsgToChat("Crew managed to kill " + crewKills + " Syndicate operators.");
-		}
-	}
-
-
 
 	/// <summary>
 	/// Get all players currently located on provided matrix

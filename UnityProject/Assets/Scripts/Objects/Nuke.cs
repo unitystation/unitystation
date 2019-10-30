@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
@@ -45,7 +45,6 @@ public class Nuke : NetworkBehaviour
 		yield return WaitFor.Seconds(5f);
 		GibMessage.Send();
 		yield return WaitFor.Seconds(2f);
-		PlayerList.Instance.ReportScores(); //Report scores for who won (Crew or Syndicate)
 		yield return WaitFor.Seconds(30f);
 		//Restart Round:
 		GameManager.Instance.RestartRound();
