@@ -593,8 +593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4921d535b014209820ae966644206ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   VariableViewer: {fileID: 9116065612801158685}
   BookshelfViewer: {fileID: 162722399631721757}
   actionControl: {fileID: 8587658629322085199}
@@ -614,7 +612,6 @@ MonoBehaviour:
   zoneSelector: {fileID: 8587720124485941055}
   ttsToggle: 0
   gamePad: {fileID: 3869768115897617313}
-  progressBar: {fileID: 0}
   isInputFocus: 0
 --- !u!114 &8587641789623873495
 MonoBehaviour:
@@ -3486,32 +3483,32 @@ PrefabInstance:
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -110.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 982.46
+      value: -51.5
       objectReference: {fileID: 0}
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 248.5
+      value: -384.59998
       objectReference: {fileID: 0}
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 135.5
+      value: 83.61401
       objectReference: {fileID: 0}
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
@@ -3521,7 +3518,7 @@ PrefabInstance:
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8232259481283617645, guid: 54fe31d4ce5448346b0dcb9952fc3754,
         type: 3}
