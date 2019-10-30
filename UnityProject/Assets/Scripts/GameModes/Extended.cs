@@ -16,12 +16,7 @@ public class Extended : GameMode
 		Logger.Log("Starting extended round!", Category.GameMode);
 		base.StartRound();
 	}
-	/// <summary>
-	/// Check if the round should end yet
-	/// </summary>
 	public override void CheckEndCondition() {}
-	/// <summary>
-	/// End the round and display any relevant reports
-	/// </summary>
 	public override void EndRound() {}
+	public override void CheckAntags() {}
 }

@@ -160,7 +160,6 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job", Category.Jobs);
 		}
-		GameManager.Instance.CheckPlayers();
 	}
 
 	/// <summary>

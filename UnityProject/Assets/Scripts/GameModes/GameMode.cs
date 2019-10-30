@@ -63,14 +63,22 @@ public abstract class GameMode : ScriptableObject
 	public abstract void SetupRound();
 
 	/// <summary>
-	/// Defines how to spawn an antag for this game mode.
-	/// Defaults to picking a random antag from the possible antags.
+	/// Check if more antags are needed. Should be defined by each game mode.
 	/// </summary>
-	public virtual void SpawnAntag()
+	public abstract void CheckAntags();
+
+	/// <summary>
+	/// Defines how to spawn an antag for this game mode.
+	/// Defaults to picking a random antag from the possible antags list.
+	/// </summary>
+	public virtual void SpawnAntag(ConnectedPlayer player = null)
 	{
+		if (PossibleAntags.Count > 0)
+		{
 		int randIndex = Random.Range(0, PossibleAntags.Count);
 		Antagonist gmAntag = Instantiate(PossibleAntags[randIndex]);
-		AntagManager.Instance.CreateAntag(gmAntag);
+		AntagManager.Instance.CreateAntag(gmAntag, player);
+		}
 	}
 
 	/// <summary>

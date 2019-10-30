@@ -45,6 +45,8 @@ public static class SpawnHandler
 		{
 			SecurityRecordsManager.Instance.AddRecord(playerScript, jobType);
 		}
+
+		GameManager.Instance.CheckAntags();
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, GameObject oldBody, CharacterSettings characterSettings)

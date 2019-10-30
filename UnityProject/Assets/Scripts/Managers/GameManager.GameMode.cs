@@ -80,11 +80,8 @@ public partial class GameManager
 	/// <summary>
 	/// Check the player count and see if new antags are needed
 	/// </summary>
-	public void CheckPlayers()
+	public void CheckAntags()
 	{
-		if ((Antagonists.AntagManager.Instance.AntagCount == 0) && PlayerList.Instance.InGamePlayers.Count > 1)
-		{
-			GameMode.SpawnAntag();
-		}
+		GameMode.CheckAntags();
 	}
 }

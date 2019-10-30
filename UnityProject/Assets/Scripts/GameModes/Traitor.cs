@@ -1,4 +1,5 @@
 using UnityEngine;
+using Antagonists;
 
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
 public class Traitor : GameMode
@@ -34,9 +35,14 @@ public class Traitor : GameMode
 
 	// }
 
-	// TODO
-	// private void ChooseTraitors()
-	// {
-
-	// }
+	/// <summary>
+	/// Check if more antags are needed. Should be defined by each game mode.
+	/// </summary>
+	public override void CheckAntags()
+	{
+		if ((AntagManager.Instance.AntagCount == 0) && PlayerList.Instance.InGamePlayers.Count > 1)
+		{
+			SpawnAntag();
+		}
+	}
 }
