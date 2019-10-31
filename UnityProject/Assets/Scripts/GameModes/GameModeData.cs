@@ -25,11 +25,11 @@ public class GameModeData : ScriptableObject
 			if (gm.Name == gmName)
 			{
 
-				return gm;
+				return Instantiate(gm);
 			}
 		}
 		Logger.Log($"Unable to get gamemode {gmName}, returning default: {DefaultGameMode.Name}", Category.GameMode);
-		return DefaultGameMode;
+		return GetDefaultGameMode();
 	}
 
 	/// <summary>
@@ -40,10 +40,18 @@ public class GameModeData : ScriptableObject
 		List<GameMode> possibleGMs = GameModes.Where( gm => gm.IsPossible()).ToList();
 		if (possibleGMs.Count == 0)
 		{
-			return DefaultGameMode;
+			return GetDefaultGameMode();
 		}
 
-		return possibleGMs.PickRandom();
+		return Instantiate(possibleGMs.PickRandom());
+	}
+
+	/// <summary>
+	/// Returns the default game mode
+	/// </summary>
+	public GameMode GetDefaultGameMode()
+	{
+		return Instantiate(DefaultGameMode);
 	}
 
 }
