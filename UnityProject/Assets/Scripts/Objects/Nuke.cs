@@ -41,6 +41,13 @@ public class Nuke : NetworkBehaviour
 		return false;
 	}
 
+	IEnumerator PlayNukeDetSound()
+	{
+		// Wait for 1 second so audio syncs up
+		yield return WaitFor.Seconds(1f);
+		SoundManager.Play("SelfDestruct");
+	}
+
 	IEnumerator WaitForDeath()
 	{
 		yield return WaitFor.Seconds(5f);
@@ -91,7 +98,7 @@ public class Nuke : NetworkBehaviour
 		UIManager.Display.PlayNukeDetVideo();
 
 		//Playing the sound
-		SoundManager.Play("SelfDestruct");
+		StartCoroutine(PlayNukeDetSound());
 	}
 
 	[Server]
