@@ -235,7 +235,7 @@ public partial class MatrixManager
 
 			//todo: placeholder, must take movement vectors in account! + what hits what
 			//total damage to apply to victim tile
-			if ( resistance1 + (100 * i.Matrix1.Speed) >= resistance2 + (100 * i.Matrix2.Speed) )
+			if ( resistance1 + (10 * i.Matrix1.Speed) >= resistance2 + (10 * i.Matrix2.Speed) )
 			{
 				//attacker tile is stronger:
 

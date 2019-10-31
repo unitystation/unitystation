@@ -524,6 +524,11 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		return getInternal(mat => mat.GameObject == go);
 	}
+	/// Get MatrixInfo by Objects layer transform
+	public static MatrixInfo Get(Transform objectParent)
+	{
+		return getInternal(mat => mat.ObjectParent == objectParent);
+	}
 
 	/// Get MatrixInfo by Matrix component
 	public static MatrixInfo Get(Matrix matrix)

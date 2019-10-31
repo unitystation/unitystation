@@ -36,7 +36,7 @@ public static class ObjectFactory
 				var cnt = spawned.GetComponent<CustomNetTransform>();
 				if (cnt != null)
 				{
-					cnt.SetPosition(cnt.ServerState.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
+					cnt.ForceDrop(cnt.ServerState.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
 				}
 			}
 
@@ -62,6 +62,7 @@ public static class ObjectFactory
 	public static void SpawnRods(int amount, Vector2Int tileWorldPosition, float scatterRadius = 0.1f, Transform parent=null)
 	{
 		EnsureInit();
+		Logger.LogWarningFormat( "Spawning rods at {0}, parent = {1}", Category.ItemSpawn, tileWorldPosition, parent );
 		Spawn(amount, rodsPrefab, tileWorldPosition, scatterRadius, parent);
 	}
 

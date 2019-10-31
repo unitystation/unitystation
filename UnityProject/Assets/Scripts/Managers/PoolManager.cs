@@ -221,8 +221,8 @@ public class PoolManager : NetworkBehaviour
 		if (poolPrefabTracker != null && transform != null)
 		{
 			//pooled
-			Instance.AddToPool(target);
 			transform.VisibleState = false;
+			Instance.AddToPool(target);
 		}
 		else
 		{

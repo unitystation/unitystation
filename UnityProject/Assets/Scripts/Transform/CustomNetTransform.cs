@@ -265,29 +265,35 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		}
 
 		//If object is supposed to be hidden, keep it that way
-//		var worldPos = serverState.WorldPosition;//
 		serverState.Speed = 0;
 		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
-		registerTile = GetComponent<RegisterTile>();
-
-		//Matrix id init
-		if ( registerTile && registerTile.Matrix ) {
-			//pre-placed
-			serverState.MatrixId = MatrixManager.Get( matrix ).Id;
-			serverState.Position =
-				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
-		} else {
-			//runtime-placed
-			bool initError = !MatrixManager.Instance || !registerTile;
-			if ( initError ) {
-				serverState.MatrixId = 0;
-				Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
-			} else {
-				serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position), true ).Id;
-			}
-			serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position);
+		if ( !registerTile )
+		{
+			registerTile = GetComponent<RegisterTile>();
 		}
+
+		if ( registerTile )
+		{
+			MatrixInfo matrixInfo = MatrixManager.Get( transform.parent );
+
+			if ( matrixInfo == MatrixInfo.Invalid )
+			{
+				Logger.LogWarning( $"{gameObject.name}: was unable to detect Matrix by parent!", Category.Transform );
+				serverState.MatrixId = MatrixManager.AtPoint( ( (Vector2)transform.position ).RoundToInt(), true ).Id;
+			} else
+			{
+				serverState.MatrixId = matrixInfo.Id;
+			}
+			serverState.Position = ((Vector2)transform.localPosition).RoundToInt();
+
+		} else
+		{
+			serverState.MatrixId = 0;
+			Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
+		}
+
+		registerTile.UpdatePositionServer();
 
 		serverLerpState = serverState;
 	}
@@ -457,16 +463,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	#region Hiding/Unhiding
 
 	[Server]
-	public void DisappearFromWorldServer(bool stopInertia = true)
+	public void DisappearFromWorldServer()
 	{
 		OnPullInterrupt().Invoke();
+		if (IsFloatingServer)
+		{
+			Stop(notify: false);
+		}
+
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
 
-		if (CheckFloatingServer() && stopInertia )
-		{
-			Stop();
-		}
 		NotifyPlayers();
 		UpdateActiveStatusServer();
 	}

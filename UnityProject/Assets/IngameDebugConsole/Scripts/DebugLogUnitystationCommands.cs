@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using PathFinding;
 using UnityEngine;
 using Mirror;
@@ -136,7 +137,7 @@ namespace IngameDebugConsole
 		private static void SpawnMeat()
 		{
 			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
-				Vector3 playerPos = player.GameObject.GetComponent<PlayerScript>().PlayerSync.ServerState.WorldPosition;
+				Vector3 playerPos = player.Script.WorldPos;
 				Vector3 spawnPos = playerPos + new Vector3( 0, 2, 0 );
 				GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
 				var slabs = new List<CustomNetTransform>();
@@ -218,7 +219,13 @@ namespace IngameDebugConsole
 				StopLastCrashed();
 
 				Vector2 appearPos = new Vector2Int(-37, 37);
-				foreach ( var movableMatrix in MatrixManager.Instance.MovableMatrices )
+				var usedMatricesCount = usedMatrices.Count;
+
+				var matrices = MatrixManager.Instance.MovableMatrices //limit to shuttles if you wish
+					.Where( matrix => matrix.GameObject.name.ToLower().Contains( "shuttle" )
+								   || matrix.GameObject.name.ToLower().Contains( "pod" ) );
+
+				foreach ( var movableMatrix in matrices )
 				{
 					if ( movableMatrix.GameObject.name.ToLower().Contains( "verylarge" ) )
 					{
@@ -242,6 +249,12 @@ namespace IngameDebugConsole
 
 					break;
 				}
+
+				if ( usedMatricesCount == usedMatrices.Count && usedMatricesCount > 0 )
+				{ //ran out of unused matrices - doing it again
+					usedMatrices.Clear();
+					CrashIntoStation();
+				}
 			}
 		}
 		[MenuItem("Networking/Stop last crashed matrix")]
@@ -255,6 +268,37 @@ namespace IngameDebugConsole
 					lastUsedMatrix.Item1.MatrixMove.SetPosition( lastUsedMatrix.Item2 );
 					lastUsedMatrix = null;
 				}
+			}
+		}
+		private static GameObject maskPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Clothing/Resources/BreathMask");
+		private static GameObject oxyTankPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Other/Resources/Emergency Oxygen Tank");
+		[MenuItem("Networking/Make players EVA-ready")]
+		private static void MakeEvaReady()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				{
+					var helmet = ClothFactory.CreateCloth(ClothFactory.Instance.ClothingStoredData["mining hard suit helmet"], TransformState.HiddenPos);
+					var suit = ClothFactory.CreateCloth(ClothFactory.Instance.ClothingStoredData["mining hard suit"], TransformState.HiddenPos);
+					var mask = PoolManager.PoolNetworkInstantiate(maskPrefab);
+					var oxyTank = PoolManager.PoolNetworkInstantiate(oxyTankPrefab);
+					player.Script.playerNetworkActions.AddItemToUISlot( helmet, EquipSlot.head, null, true );
+					player.Script.playerNetworkActions.AddItemToUISlot( suit, EquipSlot.exosuit, null, true );
+					player.Script.playerNetworkActions.AddItemToUISlot( mask, EquipSlot.mask, null, true );
+					player.Script.playerNetworkActions.AddItemToUISlot( oxyTank, EquipSlot.storage01, null, true );
+					player.Script.Equipment.IsInternalsEnabled = true;
+				}
+
+			}
+		}
+		[MenuItem("Networking/Spawn Rods")]
+		private static void SpawnRods()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				ObjectFactory.SpawnRods(1, PlayerManager.LocalPlayerScript.WorldPos.To2Int()+Vector2Int.up);
+
 			}
 		}
 	}

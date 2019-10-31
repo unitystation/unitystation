@@ -21,7 +21,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private const int MAX_WINDOW_DAMAGE = 100;
 	private const int MAX_GRILL_DAMAGE = 60;
 	private static readonly float TILE_MIN_SCORCH_TEMPERATURE = 100f;
-	private Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
 	public float Integrity(Vector3Int pos)
 	{
@@ -155,8 +154,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		Layer = GetComponent<Layer>();
 		matrix = GetComponentInParent<Matrix>();
 
-		OnFloorOrPlatingRemoved.RemoveAllListeners();
-		OnFloorOrPlatingRemoved.AddListener( cellPos =>
+		tileChangeManager.OnFloorOrPlatingRemoved.RemoveAllListeners();
+		tileChangeManager.OnFloorOrPlatingRemoved.AddListener( cellPos =>
 		{ //Poke items when both floor and plating are gone
 		  //As they might want to change matrix
 			if ( !metaTileMap.HasTile( cellPos, LayerType.Floors, true )
@@ -164,6 +163,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			  &&  metaTileMap.HasTile( cellPos, LayerType.Objects, true )
 			  )
 			{
+//				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(metaTileMap.CellToWorld( cellPos ), matrix);
+//				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( localPos, true ) )
 				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( cellPos, true ) )
 				{
 					customNetTransform.CheckMatrixSwitch();
@@ -372,7 +373,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		else if (data.Damage >= MAX_FLOOR_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
-			OnFloorOrPlatingRemoved.Invoke(cellPos);
 			if ( Random.value < 0.05f )
 			{
 				CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), null); // TODO parent ?
@@ -405,7 +405,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		else if (data.Damage >= MAX_PLATING_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Base);
-			OnFloorOrPlatingRemoved.Invoke(cellPos);
 			//Spawn remains:
 			if ( Random.value < 0.05f )
 			{
@@ -513,11 +512,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private void SpawnMetal(Vector3 pos)
 	{
-		ObjectFactory.SpawnMetal(1, pos.RoundToInt().To2Int());
+		ObjectFactory.SpawnMetal(1, pos.To2Int());
 	}
 	private void SpawnRods(Vector3 pos)
 	{
-		ObjectFactory.SpawnRods(1, pos.RoundToInt().To2Int());
+		ObjectFactory.SpawnRods(1, pos.To2Int());
 	}
 
 	private void SpawnGlassShards(Vector3 pos)

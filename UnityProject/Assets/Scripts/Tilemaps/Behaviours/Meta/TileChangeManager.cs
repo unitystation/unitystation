@@ -15,6 +15,8 @@ public class TileChangeManager : NetworkBehaviour
 
 	private TileChangeList changeList = new TileChangeList();
 
+	public Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
+
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
@@ -83,6 +85,11 @@ public class TileChangeManager : NetworkBehaviour
 			RpcRemoveTile(cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
+
+			if ( layerType == LayerType.Floors || layerType == LayerType.Base )
+			{
+				OnFloorOrPlatingRemoved.Invoke( cellPosition );
+			}
 			return true;
 		}
 
