@@ -87,7 +87,8 @@ namespace Antagonists
 			if (antag.NeedsEscapeObjective)
 			{
 				// Add one escape type objective if needed
-				newObjective = PickRandomObjective(ref EscapeObjectives);
+				// Be careful not to remove all escape objectives from AntagData
+				newObjective = PickRandomObjective(ref EscapeObjectives, false);
 				newObjective.DoSetup(player.mind);
 				generatedObjs.Add(newObjective);
 			}
@@ -99,14 +100,14 @@ namespace Antagonists
 		/// Instantiates a random objective from a list and returns it
 		/// </summary>
 		/// <param name="objectives">The objectives to pick from</param>
-		/// <param name="removeAfter">If the chosen objective should be removed after</param>
+		/// <param name="checkUnique">If true, checks if objective is unique and removes it from the pool </param>
 		/// <returns>The random objective</returns>
-		public static Objective PickRandomObjective(ref List<Objective> objectives)
+		public static Objective PickRandomObjective(ref List<Objective> objectives, bool checkUnique = true)
 		{
 			// Must use Instantiate or else the objectives in AntagData will be referenced for each player!
 			int randIndex = Random.Range(0, objectives.Count);
 			Objective chosenObjective = Instantiate(objectives[randIndex]);
-			if (chosenObjective.IsUnique)
+			if (checkUnique && chosenObjective.IsUnique)
 			{
 				objectives.RemoveAt(randIndex);
 			}

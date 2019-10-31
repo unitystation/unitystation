@@ -38,9 +38,12 @@ public class GameModeData : ScriptableObject
 	public GameMode ChooseGameMode()
 	{
 		List<GameMode> possibleGMs = GameModes.Where( gm => gm.IsPossible()).ToList();
-		GameMode chosenGM = possibleGMs.PickRandom();
-		Logger.Log($"Chosen gamemode: {chosenGM.Name}", Category.GameMode);
-		return chosenGM;
+		if (possibleGMs.Count == 0)
+		{
+			return DefaultGameMode;
+		}
+
+		return possibleGMs.PickRandom();
 	}
 
 }

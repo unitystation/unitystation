@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -242,11 +242,10 @@ public partial class GameManager : MonoBehaviour
 		{
 			// TODO hard coding gamemode for testing purposes
 			SetGameMode("Traitor");
-			// SetGameMode("NukeOps");
-			// if (SecretGameMode && GameMode == null)
-			// {
-			// 	SetRandomGameMode();
-			// }
+			if (GameMode == null)
+			{
+				SetRandomGameMode();
+			}
 			// Game mode specific setup
 			GameMode.SetupRound();
 			GameMode.StartRound();
