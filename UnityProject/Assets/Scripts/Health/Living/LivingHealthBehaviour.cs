@@ -62,9 +62,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Header("For harvestable animals")]
 	public GameObject[] butcherResults;
 
-	[Header("Is this an animal or NPC?")]
-	public bool isNotPlayer = false;
-
 	protected DamageType LastDamageType;
 
 	protected GameObject LastDamagedBy;

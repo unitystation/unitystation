@@ -27,6 +27,7 @@ public struct MatrixInfo
 	//todo: placeholder, should depend on solid tiles count instead (and use caching)
 	public float Mass => Bounds.size.sqrMagnitude/1000f;
 	public bool IsMovable => MatrixMove != null;
+	public Vector2Int MovementVector => ( IsMovable && MatrixMove.isMovingServer ) ? MatrixMove.State.Direction.VectorInt : Vector2Int.zero;
 
 	/// <summary>
 	/// Transform containing all the physical objects on the map

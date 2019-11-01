@@ -193,7 +193,7 @@ public partial class MatrixManager
 		}
 
 		for ( var i = trackedIntersections.Count - 1; i >= 0; i-- )
-		{
+		{ //fixme: can throw ArgumentOutOfRangeException
 			CheckTileCollisions( trackedIntersections[i] );
 		}
 	}
@@ -228,18 +228,17 @@ public partial class MatrixManager
 				continue;
 			}
 
-
 			//
 			// ******** DESTROY STUFF!!! ********
 			//
 
-			//todo: placeholder, must take movement vectors in account! + what hits what
 			//total damage to apply to victim tile
 			if ( resistance1 + (10 * i.Matrix1.Speed) >= resistance2 + (10 * i.Matrix2.Speed) )
 			{
 				//attacker tile is stronger:
 
 				//destroy victim tile
+				TryPushing( i.Matrix2, cellPos2, i.Matrix1.MovementVector, i.Matrix1.Speed );
 				ApplyCritDamage( i.Matrix2, cellPos2, worldPos );
 
 				//slightly damage adjacent victim tiles
@@ -249,6 +248,7 @@ public partial class MatrixManager
 				ApplyTilemapDamage( i.Matrix2, cellPos2+Vector3Int.right, resistance1*0.4f, worldPos );
 
 				//damage back attacker
+				TryPushing( i.Matrix1, cellPos1, i.Matrix2.MovementVector, i.Matrix2.Speed );
 				ApplyDamage( i.Matrix1,	cellPos1, resistance2, worldPos );
 				if ( resistance2 > EXTRA_COLLISION_THRESHOLD )
 				{
@@ -260,7 +260,9 @@ public partial class MatrixManager
 				//victim tile is stronger
 
 				//destroy weaker tile
+				TryPushing( i.Matrix1, cellPos1, i.Matrix2.MovementVector, i.Matrix2.Speed );
 				ApplyCritDamage( i.Matrix1,	cellPos1, worldPos );
+
 				//slightly damage adjacent tiles
 				ApplyTilemapDamage( i.Matrix1, cellPos1+Vector3Int.up, resistance2*0.4f, worldPos );
 				ApplyTilemapDamage( i.Matrix1, cellPos1+Vector3Int.down, resistance2*0.4f, worldPos );
@@ -268,6 +270,7 @@ public partial class MatrixManager
 				ApplyTilemapDamage( i.Matrix1, cellPos1+Vector3Int.right, resistance2*0.4f, worldPos );
 
 				//damage back
+				TryPushing( i.Matrix2, cellPos2, i.Matrix1.MovementVector, i.Matrix1.Speed );
 				ApplyDamage( i.Matrix2, cellPos2, resistance1, worldPos );
 				if ( resistance1 > EXTRA_COLLISION_THRESHOLD )
 				{
@@ -381,11 +384,27 @@ public partial class MatrixManager
 			byte count = 0;
 			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
 			{
-				healthBehaviour.ApplyDamageToBodypart( null, damage, AttackType.Melee, DamageType.Brute );
+				healthBehaviour.ApplyDamageToBodypart( matrix.GameObject, damage, AttackType.Melee, DamageType.Brute );
 				count++;
 			}
 
 			return count * 50;
+		}
+
+		void TryPushing( MatrixInfo matrix, Vector3Int cellPos, Vector2Int pushVector, float speed )
+		{
+			if ( pushVector == Vector2Int.zero )
+			{
+				return;
+			}
+			foreach ( var pushPull in matrix.Matrix.Get<PushPull>( cellPos, true ) )
+			{
+				byte pushes = (byte) Mathf.Clamp( speed / 4, 1, 4 );
+				for ( int j = 0; j < pushes; j++ )
+				{
+					pushPull.QueuePush( pushVector, speed * Random.Range( 0.8f, 1.1f ) );
+				}
+			}
 		}
 
 		IEnumerator DestroyWireWithDelay( CableInheritance wire, byte timer )
@@ -397,7 +416,6 @@ public partial class MatrixManager
 			}
 		}
 	}
-
 
 	private void SlowDown( MatrixIntersection i, int collisions )
 	{

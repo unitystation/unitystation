@@ -36,7 +36,7 @@ public static class ObjectFactory
 				var cnt = spawned.GetComponent<CustomNetTransform>();
 				if (cnt != null)
 				{
-					cnt.ForceDrop(cnt.ServerState.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
+					cnt.SetPosition(cnt.ServerState.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
 				}
 			}
 

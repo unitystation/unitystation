@@ -321,11 +321,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 //			SoundManager.PlayNetworkedAtPos("TableHit", worldPos, 1f);
 
 			//Spawn remains:
-			if ( Random.value < 0.05f )
+			if ( Random.value < 0.25f )
 			{
 				SpawnRods(worldPos);
 			}
-			else if ( Random.value > 0.95f )
+			else if ( Random.value > 0.75f )
 			{
 				SpawnMetal(worldPos);
 			}
@@ -373,7 +373,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		else if (data.Damage >= MAX_FLOOR_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
-			if ( Random.value < 0.05f )
+			if ( Random.value < 0.25f )
 			{
 				CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), null); // TODO parent ?
 			}
@@ -406,11 +406,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Base);
 			//Spawn remains:
-			if ( Random.value < 0.05f )
+			if ( Random.value < 0.25f )
 			{
 				SpawnRods(worldPos);
 			}
-			else if ( Random.value > 0.95f )
+			else if ( Random.value > 0.75f )
 			{
 				SpawnMetal(worldPos);
 			}

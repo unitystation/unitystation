@@ -218,12 +218,13 @@ namespace IngameDebugConsole
 			{
 				StopLastCrashed();
 
-				Vector2 appearPos = new Vector2Int(-37, 37);
+				Vector2 appearPos = new Vector2Int(-50, 37);
 				var usedMatricesCount = usedMatrices.Count;
 
-				var matrices = MatrixManager.Instance.MovableMatrices //limit to shuttles if you wish
-					.Where( matrix => matrix.GameObject.name.ToLower().Contains( "shuttle" )
-								   || matrix.GameObject.name.ToLower().Contains( "pod" ) );
+				var matrices = MatrixManager.Instance.MovableMatrices;
+				//limit to shuttles if you wish
+//					.Where( matrix => matrix.GameObject.name.ToLower().Contains( "shuttle" )
+//								   || matrix.GameObject.name.ToLower().Contains( "pod" ) );
 
 				foreach ( var movableMatrix in matrices )
 				{
@@ -244,7 +245,7 @@ namespace IngameDebugConsole
 					mm.RequiresFuel = false;
 					mm.SafetyProtocolsOn = false;
 					mm.RotateTo( Orientation.Right );
-					mm.SetSpeed( 10 );
+					mm.SetSpeed( 15 );
 					mm.StartMovement();
 
 					break;
