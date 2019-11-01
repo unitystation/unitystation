@@ -49,7 +49,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 			if (Random.value > PLASMA_SPAWN_CHANCE)
 			{
 				//spawn plasma
-				ObjectFactory.SpawnPlasma(1, interaction.WorldPositionTarget.RoundToInt().To2Int());
+				ObjectFactory.SpawnPlasma(1, interaction.WorldPositionTarget.RoundToInt());
 			}
 		}
 	}

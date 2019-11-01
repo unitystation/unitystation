@@ -22,10 +22,9 @@ public class ObjectLayer : Layer
 
 		if (objectTile)
 		{
-//			if (!objectTile.IsItem)
-//			{
-				base.InternalSetTile(position, null);
-//			}
+			//hack to expand bounds when placing items in editor
+			base.InternalSetTile(position, tile);
+			base.InternalSetTile(position, null);
 
 			objectTile.SpawnObject(position, tilemap, transformMatrix);
 		}

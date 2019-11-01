@@ -75,6 +75,11 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
 	}
 
+	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.IsAtmosPassableAt(position, isServer);
+	}
+
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsAtmosPassableAt(origin, position, isServer);

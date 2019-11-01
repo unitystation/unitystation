@@ -54,7 +54,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 		if (metalDroppedOnDestroy > 0)
 		{
-			ObjectFactory.SpawnMetal(metalDroppedOnDestroy, gameObject.TileWorldPosition(), parent: transform.parent);
+			ObjectFactory.SpawnMetal(metalDroppedOnDestroy, gameObject.TileWorldPosition().To3Int(), parent: transform.parent);
 		}
 	}
 

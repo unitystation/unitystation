@@ -356,6 +356,7 @@ public partial class MatrixManager
 				if ( Random.value >= 0.5 )
 				{ //Sparks
 					wire.QueueForDemolition( wire );
+					StartCoroutine( DestroyWireWithDelay( wire, (byte)(Random.value * 20f) ) );
 				} else
 				{ //Destruction
 					wire.toDestroy();
@@ -386,8 +387,16 @@ public partial class MatrixManager
 
 			return count * 50;
 		}
-	}
 
+		IEnumerator DestroyWireWithDelay( CableInheritance wire, byte timer )
+		{
+			yield return WaitFor.Seconds( timer );
+			if ( wire != null )
+			{
+				wire.toDestroy();
+			}
+		}
+	}
 
 
 	private void SlowDown( MatrixIntersection i, int collisions )

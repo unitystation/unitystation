@@ -63,15 +63,15 @@ public partial class MatrixManager : MonoBehaviour
 		return Instance.ActiveMatrices[0];
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsFloatingAt(Vector3Int worldPos, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsFloatingAt(WorldToLocalInt(worldPos, mat), isServer));
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsNonStickyAt(WorldToLocalInt(worldPos, mat), isServer));
@@ -84,8 +84,8 @@ public partial class MatrixManager : MonoBehaviour
 		return isAtInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer ));
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
 	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsFloatingAt(new[] {context}, WorldToLocalInt(worldPos, mat), isServer));
@@ -339,14 +339,21 @@ public partial class MatrixManager : MonoBehaviour
 		return null;
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
-	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	public static bool IsAtmosPassableAt(Vector3Int worldTarget, bool isServer)
+	{
+		return isAtInternal(mat => mat.Matrix.IsAtmosPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
+	}
+
+	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();

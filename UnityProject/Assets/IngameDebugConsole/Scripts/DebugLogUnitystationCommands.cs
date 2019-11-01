@@ -297,7 +297,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				ObjectFactory.SpawnRods(1, PlayerManager.LocalPlayerScript.WorldPos.To2Int()+Vector2Int.up);
+				ObjectFactory.SpawnRods(1, PlayerManager.LocalPlayerScript.WorldPos+Vector3Int.up);
 
 			}
 		}

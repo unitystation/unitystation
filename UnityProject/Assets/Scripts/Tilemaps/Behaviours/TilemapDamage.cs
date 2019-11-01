@@ -512,17 +512,17 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private void SpawnMetal(Vector3 pos)
 	{
-		ObjectFactory.SpawnMetal(1, pos.To2Int());
+		ObjectFactory.SpawnMetal(1, pos.CutToInt());
 	}
 	private void SpawnRods(Vector3 pos)
 	{
-		ObjectFactory.SpawnRods(1, pos.To2Int());
+		ObjectFactory.SpawnRods(1, pos.CutToInt());
 	}
 
 	private void SpawnGlassShards(Vector3 pos)
 	{
 		//Spawn 2-3 glass shards with different sprites:
-		ObjectFactory.SpawnGlassShard(Random.Range(2, 4), pos.To2Int());
+		ObjectFactory.SpawnGlassShard(Random.Range(2, 4), pos.CutToInt());
 
 		//Play the breaking window sfx:
 		SoundManager.PlayNetworkedAtPos("GlassBreak0#", pos, 1f);

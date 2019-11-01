@@ -236,7 +236,7 @@ public class LightSource : ObjectTrigger
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		ObjectFactory.SpawnGlassShard(2, gameObject.TileWorldPosition(), parent: transform.parent);
+		ObjectFactory.SpawnGlassShard(2, gameObject.TileWorldPosition().To3Int(), parent: transform.parent);
 	}
 
 	void Update()
