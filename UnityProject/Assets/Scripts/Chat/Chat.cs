@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text;
+using Tilemaps.Behaviours.Meta;
 
 /// <summary>
 /// The Chat API
@@ -290,6 +292,59 @@ public partial class Chat : MonoBehaviour
 		});
 	}
 
+	public static void AddLocalDestroyMsgToChat( string message, Vector2Int worldPos )
+	{
+		messageQueue.Enqueue( new Tuple<string, Vector2Int>( message, worldPos ) );
+
+		if ( composeMessageHandle == null )
+		{
+			Instance.StartCoroutine( Instance.ComposeDestroyMessage(), ref composeMessageHandle );
+		}
+	}
+
+	private static UniqueQueue<Tuple<string,Vector2Int>> messageQueue = new UniqueQueue<Tuple<string, Vector2Int>>();
+	private static Coroutine composeMessageHandle;
+	private static StringBuilder stringBuilder = new StringBuilder();
+
+	private IEnumerator ComposeDestroyMessage()
+	{ //TODO: instead of simply appending lines, provide format mask, too, and format by category (burnt, destroyed,..)
+		yield return WaitFor.Seconds( 0.2f );
+
+		if ( messageQueue.Count == 0 )
+		{
+			Instance.TryStopCoroutine( ref composeMessageHandle );
+			yield break;
+		}
+
+		if ( messageQueue.Count == 1
+		     && messageQueue.TryDequeue( out var singleMsg ) )
+		{
+			AddLocalMsgToChat( singleMsg.Item1, singleMsg.Item2 );
+			yield break;
+		}
+
+		stringBuilder.Clear();
+
+		int averageX = 0;
+		int averageY = 0;
+		int count = 0;
+
+		while ( messageQueue.TryDequeue( out var msg ) )
+		{
+			count++;
+			stringBuilder.AppendLine( msg.Item1 );
+			averageX += msg.Item2.x;
+			averageY += msg.Item2.y;
+		}
+
+		if ( count == 0 )
+		{ //afraid of NaNs
+			count = 1;
+		}
+
+		AddLocalMsgToChat( stringBuilder.ToString(), new Vector2Int(averageX/count,averageY/count) );
+	}
+
 	/// <summary>
 	/// For any other local messages that are not an Action or a Combat Action.
 	/// I.E for machines
@@ -300,6 +355,7 @@ public partial class Chat : MonoBehaviour
 	public static void AddLocalMsgToChat(string message, Vector2 worldPos)
 	{
 		if (!IsServer()) return;
+		Instance.TryStopCoroutine( ref composeMessageHandle );
 
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{

@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Atmospherics;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using Tilemaps.Behaviours.Meta;
 using Object = System.Object;
 
 /// <summary>
@@ -235,7 +238,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		//just a guess - objects which can be picked up should have a smaller amount of ash
 		EffectsFactory.Instance.Ash(registerTile.WorldPosition.To2Int(), isLarge);
-		Chat.AddLocalMsgToChat($"{name} burnt to ash.", gameObject.TileWorldPosition());
+		Chat.AddLocalDestroyMsgToChat($"{name} burnt to ash.", gameObject.TileWorldPosition());
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		PoolManager.PoolNetworkDestroy(gameObject);
 	}
@@ -245,13 +248,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (info.DamageType == DamageType.Brute)
 		{
-			Chat.AddLocalMsgToChat($"{name} was smashed to pieces.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat($"{name} was smashed to pieces.", gameObject.TileWorldPosition());
 			PoolManager.PoolNetworkDestroy(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
-			Chat.AddLocalMsgToChat($"{name} was destroyed.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat($"{name} was destroyed.", gameObject.TileWorldPosition());
 			PoolManager.PoolNetworkDestroy(gameObject);
 		}
 	}

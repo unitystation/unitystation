@@ -198,6 +198,8 @@ public partial class MatrixManager
 		}
 	}
 
+	private static List<Vector3Int> collisionLocations = new List<Vector3Int>();
+
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
 		byte collisions = 0;
@@ -227,6 +229,8 @@ public partial class MatrixManager
 			{
 				continue;
 			}
+
+			collisionLocations.Add( worldPos );
 
 			//
 			// ******** DESTROY STUFF!!! ********
@@ -303,12 +307,22 @@ public partial class MatrixManager
 
 		if ( collisions > 0 )
 		{
+
+			var epicenter = collisionLocations[collisionLocations.Count / 2];//i.Rect.position.RoundToInt();
+
 			ExplosionUtils.PlaySoundAndShake(
-				i.Rect.position.RoundToInt(),
-				(byte) Mathf.Clamp(collisions*8, 8, byte.MaxValue),
-				Mathf.Clamp(collisions*5, 15, 80)
+				epicenter,
+				(byte) Mathf.Clamp(collisions*12, 16, byte.MaxValue),
+				Mathf.Clamp(collisions*8, 15, 127)
 				);
 			SlowDown( i, collisions );
+
+			if ( collisions > 6 )
+			{
+				i.Matrix1.Matrix.OnEarthquake.Invoke( epicenter, collisions );
+				i.Matrix2.Matrix.OnEarthquake.Invoke( epicenter, collisions );
+			}
+			collisionLocations.Clear();
 		}
 
 		//Damage methods

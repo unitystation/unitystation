@@ -117,6 +117,10 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="slipWhileWalking">Enables slipping while walking.</param>
 	public void Slip(bool slipWhileWalking = false)
 	{
+		if ( this == null )
+		{
+			return;
+		}
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
 		if ( IsSlippingServer

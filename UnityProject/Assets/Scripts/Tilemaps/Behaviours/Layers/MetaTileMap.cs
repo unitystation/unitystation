@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 [ExecuteInEditMode]
 public class MetaTileMap : MonoBehaviour
@@ -76,14 +77,6 @@ public class MetaTileMap : MonoBehaviour
 		SolidLayersValues = solidLayersValues.ToArray();
 		damageableLayersValues.Sort(( layerOne, layerTwo ) => layerOne.LayerType.GetOrder().CompareTo( layerTwo.LayerType.GetOrder() ) );
 		DamageableLayers = damageableLayersValues.ToArray();
-	}
-
-	/// <summary>
-	/// TODO: fully destroy damageable layer tiles. returns total resistance
-	/// </summary>
-	public void Destroy( Vector3Int cellPos, Vector3Int worldPos, ref float resistance )
-	{
-
 	}
 
 	/// <summary>

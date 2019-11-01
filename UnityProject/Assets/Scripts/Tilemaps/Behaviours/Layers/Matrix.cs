@@ -2,6 +2,7 @@
 using System.Linq;
 using Light2D;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -29,12 +30,36 @@ public class Matrix : MonoBehaviour
 
 	public Color Color => colors.Wrap( Id ).WithAlpha( 0.7f );
 
+	/// <summary>
+	/// Invoked when some serious collision/explosion happens.
+	/// Should make people fall and shake items a bit
+	/// </summary>
+	public EarthquakeEvent OnEarthquake = new EarthquakeEvent();
+
 	private void Awake()
 	{
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
 		MatrixMove = GetComponentInParent<MatrixMove>();
+
+
+		OnEarthquake.AddListener( ( worldPos, magnitude ) =>
+		{
+			var cellPos = metaTileMap.WorldToCell( worldPos );
+
+			var bounds =
+				new BoundsInt(cellPos - new Vector3Int(magnitude, magnitude, 0), new Vector3Int(magnitude*2, magnitude*2, 1));
+
+			foreach ( var pos in bounds.allPositionsWithin )
+			{
+				foreach ( var player in Get<RegisterPlayer>(pos, true) )
+				{
+					player.Slip(true);
+				}
+				//maybe shake items somehow, too
+			}
+		} );
 	}
 
 	public void CompressAllBounds()
@@ -270,3 +295,4 @@ public class Matrix : MonoBehaviour
 	}
 #endif
 }
+public class EarthquakeEvent : UnityEvent<Vector3Int, byte> { }
