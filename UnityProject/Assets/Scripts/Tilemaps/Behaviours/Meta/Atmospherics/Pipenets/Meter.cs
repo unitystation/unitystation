@@ -28,7 +28,7 @@ public class Meter : NBHandApplyInteractable
 
 	public void UpdateMe()
 	{
-		float pressure = pipe.pipenet.gasMix.Pressure;
+		float pressure = pipe.gasMix.Pressure;
 		if(pressure >= 0)
 		{
 			spriteSync = 1;

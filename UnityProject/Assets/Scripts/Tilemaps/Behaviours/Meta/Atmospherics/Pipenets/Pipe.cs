@@ -15,8 +15,9 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 	public List<Pipe> nodes = new List<Pipe>();
 	public Direction direction = Direction.NORTH | Direction.SOUTH;
 	private Directional directional;
-	public Pipenet pipenet;
+	public GasMix gasMix;
 	public bool anchored;
+	public bool blockflow = false; // for valves & pumps
 	public float volume = 70;
 
 	public Sprite[] pipeSprites;
@@ -113,7 +114,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 
 		CalculateAttachedNodes();
 
-		Pipenet foundPipenet;
+	/* 	Pipenet foundPipenet;
 		if (nodes.Count > 0)
 		{
 			foundPipenet = nodes[0].pipenet;
@@ -123,7 +124,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 			foundPipenet = new Pipenet();
 		}
 
-		foundPipenet.AddPipe(this);
+		foundPipenet.AddPipe(this); */
 		SetAnchored(true);
 		SetSpriteLayer(true);
 
@@ -192,7 +193,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 
 		nodes = new List<Pipe>();
 
-		Pipenet oldPipenet = pipenet;
+	/* 	Pipenet oldPipenet = pipenet;
 		pipenet.RemovePipe(this);
 
 		if (oldPipenet.members.Count == 0)
@@ -208,7 +209,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 			return;
 		}
 
-		oldPipenet.Separate();
+		oldPipenet.Separate(); */
 	}
 
 
@@ -404,4 +405,55 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
 		}
 	}
+
+	public void GasFlowSim(Pipe target, int amount){ // 0.45 = /2 (cause, well, gas laws), and *0.9, cause flow isn't happening in an instant
+		float coeff = (gasMix.Pressure - target.gasMix.Pressure) * 0.45 / gasMix.Pressure; // Assuming temperature already calculated
+		float[] gases = new float[Gas.Count];
+		for (int i = 0; i < Gas.Count; i++)
+		{
+			gases[i] = gasMix.gases[i] * coeff; 
+		}
+		float pressure = gasMix.Pressure - target.gasMix.Pressure;
+		target.gasMix.Recalculate();
+		return new GasMix(gases, pressure, volume);
+	}
+
+	void Update(){
+		gasMix.Volume = volume; // Just in case
+		gasMix.Recalculate(); // Initial pressure matters first
+		if(!blockflow){
+			float SumTemp = gasMix.Temperature;  // Second - termodynamics
+			int AvainablePipes = 1; // Initial pipe
+			foreach(Pipe pipe in nodes){
+				if(!pipe.blockflow){
+					AvainablePipes += 1;
+					SumTemp += pipe.GasMix.Temperature;
+				}
+			}
+			foreach(Pipe pipe in nodes){
+				if(!pipe.blockflow){
+					pipe.gasMix.Temperature = SumTemp/AvainablePipes;
+					pipe.gasMix.Recalculate();
+				}
+			}
+			gasMix.Temperature = SumTemp/AvainablePipes; // Including initial pipe
+			gasMix.Recalculate();
+
+			List<Pipe> Candidates = nodes; // There our gas will flow, fortunately
+			foreach(Pipe candidate in Candidates){
+				if(candidate.gasMix.Pressure > gasMix.Pressure || candidate.blockflow){
+					Candidates.Remove(candidate);  // Remove odd pipes
+				}
+			}
+			GasMix flownout;
+			foreach(Pipe pipe in Candidates){  //And, eventially - gas transfer
+				GasMix transfergas = this.GasFlowSim(pipe, Candidates.Count);
+				pipe.gasMix = (pipe.gasMix + transfergas);
+				flownout = (flownout + transfergas);
+			}
+			gasMix = (gasMix - flownout); //Also including starting pipe
+			gasMix.Recalculate();
+		}
+	}
+
 }
