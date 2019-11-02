@@ -39,13 +39,14 @@ public static class SpawnHandler
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		connectedPlayer.Name = playerScript.playerName;
 		UpdateConnectedPlayersMessage.Send();
-		PlayerList.Instance.TryAddScores(playerScript.playerName);
 
 		equipment.SetPlayerLoadOuts();
 		if(jobType != JobType.SYNDICATE && jobType != JobType.AI)
 		{
 			SecurityRecordsManager.Instance.AddRecord(playerScript, jobType);
 		}
+
+		GameManager.Instance.CheckAntags();
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, GameObject oldBody, CharacterSettings characterSettings)

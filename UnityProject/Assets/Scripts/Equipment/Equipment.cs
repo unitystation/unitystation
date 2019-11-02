@@ -168,25 +168,6 @@ public class Equipment : NetworkBehaviour
 			SetItem(EquipSlot.ear, itemAtts.gameObject, true);
 		}
 		SpawnID(jobOutfit);
-
-		CheckForSpecialRoleTypes();
-	}
-
-	/// <summary>
-	/// Special set up instructions when spawning as a special role
-	/// </summary>
-	void CheckForSpecialRoleTypes()
-	{
-		if (playerScript.mind.jobType == JobType.SYNDICATE)
-		{
-			//Check to see if there is a nuke and communicate the nuke code:
-			Nuke nuke = FindObjectOfType<Nuke>();
-			if (nuke != null)
-			{
-				UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate, ChatModifier.None,
-					"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
-			}
-		}
 	}
 
 	/// <summary>

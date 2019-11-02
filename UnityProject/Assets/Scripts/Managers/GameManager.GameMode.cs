@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 /// <summary>
 /// Represents what state the round is in: PreRound, Started or Ended
@@ -20,7 +19,12 @@ public enum RoundState
 /// </summary>
 public partial class GameManager
 {
-	public List<GameMode> AllGameModes = new List<GameMode>();
+	[Header("Game Mode Fields")]
+	/// <summary>
+	/// Holds all gamemodes
+	/// </summary>
+	[SerializeField]
+	private GameModeData GameModeData = null;
 
 	/// <summary>
 	/// Is the current game mode being kept secret?
@@ -38,38 +42,31 @@ public partial class GameManager
 	private GameMode GameMode;
 
 	/// <summary>
-	/// Find all gamemode prefabs and add them to AllGameModes for selection
+	/// Sets the current gamemode using a string to find the gamemode name
 	/// </summary>
-	private void RefreshAllGameModes()
+	public void SetGameMode(string gmName)
 	{
-		// Only do this stuff on the server
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			return;
-		}
-
-		AllGameModes.Clear();
-		Logger.Log("Finding available gamemodes...", Category.GameMode);
-		var prefabs = Resources.LoadAll("Prefabs/GameModes", typeof(GameObject));
-		foreach(Object obj in prefabs)
-		{
-			var gm = ((GameObject) obj).GetComponent<GameMode>();
-			Logger.Log($"Found GM: {gm.Name}", Category.GameMode);
-			AllGameModes.Add(gm);
-		}
+		GameMode selectedGM = GameModeData.GetGameMode(gmName);
+		SetGameMode(selectedGM);
 	}
 
-	public void SelectGameMode(string gmName)
+	/// <summary>
+	/// Sets the current gamemode
+	/// </summary>
+	public void SetGameMode(GameMode gm)
+	{
+		Logger.Log($"Set game mode to: {gm.Name}", Category.GameMode);
+		GameMode = gm;
+	}
+
+	/// <summary>
+	/// Sets a random gamemode which is currently possible
+	/// </summary>
+	public void SetRandomGameMode()
 	{
 		// TODO add precondition checks
-		foreach(GameMode gm in AllGameModes)
-		{
-			if (gm.Name == gmName)
-			{
-				Logger.Log($"Set game mode to: {gmName}", Category.GameMode);
-				GameMode = gm;
-			}
-		}
+		GameMode randomGM = GameModeData.ChooseGameMode();
+		SetGameMode(randomGM);
 	}
 
 	/// <summary>
@@ -81,20 +78,10 @@ public partial class GameManager
 	}
 
 	/// <summary>
-	/// Finds all possible game modes and randomly chooses one that is possible with the current number of players
+	/// Check the player count and see if new antags are needed
 	/// </summary>
-	private void ChooseGameMode()
+	public void CheckAntags()
 	{
-		List<GameMode> possibleGMs = new List<GameMode>();
-		foreach (var gm in AllGameModes)
-		{
-			if (gm.IsPossible())
-			{
-				possibleGMs.Add(gm);
-			}
-		}
-		int index = Random.Range(0, possibleGMs.Count);
-		GameMode = possibleGMs[index];
-		Logger.Log($"Selected game mode: {GameMode.Name}", Category.GameMode);
+		GameMode.CheckAntags();
 	}
 }

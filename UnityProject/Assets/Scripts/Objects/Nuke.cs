@@ -11,6 +11,7 @@ public class Nuke : NetworkBehaviour
 	public string interactionMessage;
 	public string deniedMessage;
 	private bool detonated = false;
+	public bool IsDetonated => detonated;
 	//Nuke code is only populated on the server
 	private int nukeCode;
 	public int NukeCode => nukeCode;
@@ -40,22 +41,28 @@ public class Nuke : NetworkBehaviour
 		return false;
 	}
 
+	IEnumerator PlayNukeDetSound()
+	{
+		// Wait for 1 second so audio syncs up
+		yield return WaitFor.Seconds(1f);
+		SoundManager.Play("SelfDestruct");
+	}
+
 	IEnumerator WaitForDeath()
 	{
 		yield return WaitFor.Seconds(5f);
 		GibMessage.Send();
-		yield return WaitFor.Seconds(2f);
-		PlayerList.Instance.ReportScores(); //Report scores for who won (Crew or Syndicate)
-		yield return WaitFor.Seconds(30f);
-		//Restart Round:
-		GameManager.Instance.RestartRound();
+		yield return WaitFor.Seconds(15f);
+		// Trigger end of round
+		GameManager.Instance.RoundEnd();
 	}
 
 	//Server validating the code sent back by the GUI
 	[Server]
 	public bool Validate()
 	{
-		if (CurrentCode == NukeCode.ToString()) {
+		if (CurrentCode == NukeCode.ToString())
+		{
 			//if yes, blow up the nuke
 			RpcDetonate();
 			//Kill Everyone in the universe
@@ -63,7 +70,9 @@ public class Nuke : NetworkBehaviour
 			StartCoroutine(WaitForDeath());
 			GameManager.Instance.RespawnCurrentlyAllowed = false;
 			return true;
-		} else {
+		}
+		else
+		{
 			//if no, tell the GUI that it was an incorrect code
 			return false;
 		}
@@ -84,17 +93,12 @@ public class Nuke : NetworkBehaviour
 		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
 		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
 		ChatUI.Instance.CloseChatWindow();
-		GameManager.Instance.RoundEnd();
-		//		UIManager.Display.logInWindow.SetActive(false);
-		//		UIManager.Display.infoWindow.SetActive(false);
-
-		PlayerList.Instance.nukeSetOff = true;
 
 		//Playing the video
 		UIManager.Display.PlayNukeDetVideo();
 
 		//Playing the sound
-		SoundManager.Play("SelfDestruct");
+		StartCoroutine(PlayNukeDetSound());
 	}
 
 	[Server]
