@@ -1,4 +1,3 @@
-
 /**
  * This is a temporary component to be used while we do not have a system for converting solid plasma
  * into liquid plasma. When this is implemented, this component is to be deleted.
@@ -12,6 +11,11 @@ public class PlasmaAddable : MonoBehaviour, ICheckedInteractable<HandApply>, IRi
 {
 	public GasContainer gasContainer;
 	public float molesAdded = 15000f;
+
+	void Awake()
+	{
+		gasContainer = GetComponent<GasContainer>();
+	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
