@@ -6,12 +6,12 @@ using UnityEngine;
 /// </summary>
 public class HandActivate : Interaction
 {
-	private readonly HandSlot handSlot;
+	private readonly ItemSlot handSlot;
 
 	/// <summary>
 	/// Hand slot being activated
 	/// </summary>
-	public HandSlot HandSlot => handSlot;
+	public ItemSlot HandSlot => handSlot;
 
 	/// <summary>
 	///
@@ -19,7 +19,7 @@ public class HandActivate : Interaction
 	/// <param name="performer">The gameobject of the player activating the item</param>
 	/// <param name="activatedObject">Object that is being activated</param>
 	/// <param name="handSlot">hand slot that is being activated</param>
-	private HandActivate(GameObject performer, GameObject activatedObject, HandSlot handSlot) :
+	private HandActivate(GameObject performer, GameObject activatedObject, ItemSlot handSlot) :
 		base(performer, activatedObject)
 	{
 		this.handSlot = handSlot;
@@ -31,8 +31,8 @@ public class HandActivate : Interaction
 	/// <returns></returns>
 	public static HandActivate ByLocalPlayer()
 	{
-		return new HandActivate(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
-			HandSlot.ForName(UIManager.Hands.CurrentSlot.equipSlot));
+		return new HandActivate(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
+			UIManager.Hands.CurrentSlot.ItemSlot);
 	}
 
 	/// <summary>
@@ -44,7 +44,7 @@ public class HandActivate : Interaction
 	/// it doesn't need to be looked up again, since it already should've been looked up in
 	/// the message processing logic. Should match HandSlot.ForName(SentByPlayer.Script.playerNetworkActions.activeHand).</param>
 	/// <returns></returns>
-	public static HandActivate ByClient(GameObject clientPlayer, GameObject activatedObject, HandSlot handSlot)
+	public static HandActivate ByClient(GameObject clientPlayer, GameObject activatedObject, ItemSlot handSlot)
 	{
 		return new HandActivate(clientPlayer, activatedObject, handSlot);
 	}

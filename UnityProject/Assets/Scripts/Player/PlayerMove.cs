@@ -358,19 +358,20 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	}
 
 	[Server]
-	public void Cuff(GameObject cuffs, PlayerNetworkActions originPNA)
+	public void Cuff(HandApply interaction)
 	{
 		cuffed = true;
 
-		pna.AddItemToUISlot(cuffs, EquipSlot.handcuffs, originPNA);
+		Inventory.ServerTransfer(interaction.HandSlot,
+			interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs));
 	}
 
 	[Server]
-	public void Uncuff()
+	private void Uncuff()
 	{
 		cuffed = false;
 
-		pna.DropItem(EquipSlot.handcuffs);
+		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
 	}
 
 	/// <summary>

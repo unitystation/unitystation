@@ -8,14 +8,23 @@ public class Networking : Editor
 	[MenuItem("Networking/Give Random Item To All (Server)")]
 	private static void GiveItems()
 	{
-		PlayerNetworkActions[] players = FindObjectsOfType<PlayerNetworkActions>();
+		PlayerScript[] players = FindObjectsOfType<PlayerScript>();
 		Pickupable[] items = FindObjectsOfType<Pickupable>();
 
 		//		var gameObject = items[Random.Range(1, items.Length)].gameObject;
 		for (int i = 0; i < players.Length; i++)
 		{
-			GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
-			players[i].AddItemToUISlot(gameObject, EquipSlot.leftHand);
+			Pickupable pickupable = items[Random.Range(1, items.Length)];
+			if (pickupable.ItemSlot != null)
+			{
+				Inventory.ServerTransfer(pickupable.ItemSlot,
+					players[i].ItemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+			}
+			else
+			{
+				Inventory.ServerAdd(pickupable, players[i].ItemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+			}
+
 		}
 	}
 	[MenuItem("Networking/Push everyone up")]

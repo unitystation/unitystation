@@ -1,7 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Main logic for fire cabinet, allows storing an extinguisher.
+/// </summary>
+[RequireComponent(typeof(ItemStorage))]
 public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SyncVar(hook = nameof(SyncCabinet))] public bool IsClosed;
@@ -15,8 +20,17 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	[SerializeField]
 	private SpriteRenderer spriteRenderer;
 
-	//For storing extinguishers server side
-	private GameObject storedObject;
+	private ItemStorage storageObject;
+	private ItemSlot slot;
+
+	private void Awake()
+	{
+		//we have an item storage with only 1 slot.
+		//TODO: Populate with fire extinguisher in item storage config
+		storageObject = GetComponent<ItemStorage>();
+		slot = storageObject.GetIndexedItemSlot(0);
+		//TODO: Can probably refactor this component to rely more on ItemStorage and do less of its own logic.
+	}
 
 	public override void OnStartServer()
 	{
@@ -26,8 +40,6 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 		}
 		IsClosed = true;
 		isFull = true;
-		storedObject = PoolManager.PoolNetworkInstantiate(itemPrefab, parent: transform.parent);
-
 		base.OnStartServer();
 	}
 
@@ -61,7 +73,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 		if (IsClosed)
 		{
 			if(isFull && interaction.HandObject == null) {
-				RemoveExtinguisher(pna, interaction.HandSlot.equipSlot);
+				ServerRemoveExtinguisher(interaction.HandSlot);
 			}
 			IsClosed = false;
 		}
@@ -71,7 +83,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 			{
 				if (interaction.HandObject == null)
 				{
-					RemoveExtinguisher(pna, interaction.HandSlot.equipSlot);
+					ServerRemoveExtinguisher(interaction.HandSlot);
 				}
 				else
 				{
@@ -82,7 +94,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 			{
 				if (interaction.HandObject && interaction.HandObject.GetComponent<FireExtinguisher>())
 				{
-					AddExtinguisher(interaction);
+					ServerAddExtinguisher(interaction);
 				}
 				else
 				{
@@ -92,19 +104,20 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 		}
 	}
 
-	private void RemoveExtinguisher(PlayerNetworkActions pna, EquipSlot hand){
-		if (pna.AddItemToUISlot(storedObject.gameObject, hand))
+	private void ServerRemoveExtinguisher(ItemSlot toSlot)
+	{
+		if (Inventory.ServerTransfer(slot, toSlot))
 		{
-			storedObject = null;
 			isFull = false;
 		}
 	}
 
-	private void AddExtinguisher(HandApply interaction){
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		InventoryManager.ClearInvSlot(slot);
-		storedObject = interaction.HandObject;
-		isFull = true;
+	private void ServerAddExtinguisher(HandApply interaction)
+	{
+		if (Inventory.ServerTransfer(interaction.HandSlot, slot))
+		{
+			isFull = true;
+		}
 	}
 
 	public void SyncItemSprite(bool value)

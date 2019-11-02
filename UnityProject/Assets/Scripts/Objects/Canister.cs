@@ -108,7 +108,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-		GameObject handObj = pna.Inventory[interaction.HandSlot.equipSlot].Item;
+		GameObject handObj = interaction.HandObject;
 		var tool = handObj != null ? handObj.GetComponent<Tool>() : null;
 		//can click on the canister with a wrench to connect/disconnect it from a connector
 		if (tool != null && tool.ToolType == ToolType.Wrench)

@@ -6,17 +6,26 @@ public class Hands : MonoBehaviour
 	public RectTransform selectorRect;
 	public Transform rightHand;
 	public Transform leftHand;
-	public UI_ItemSlot CurrentSlot { get; private set; }
-	public UI_ItemSlot OtherSlot { get; private set; }
+	/// <summary>
+	/// Active slot
+	/// </summary>
+	public UI_ItemSlot CurrentSlot => IsRight ? RightHand : LeftHand;
+	/// <summary>
+	/// Non active slot
+	/// </summary>
+	public UI_ItemSlot OtherSlot => IsRight ? LeftHand : RightHand;
+	public UI_ItemSlot LeftHand =>
+		PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.leftHand).LocalUISlot;
+	public UI_ItemSlot RightHand =>
+		PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.rightHand).LocalUISlot;
+	/// <summary>
+	/// True iff right hand is active hand
+	/// </summary>
 	public bool IsRight { get; private set; }
 	public bool hasSwitchedHands;
 
-	private InventorySlotCache Slots => UIManager.InventorySlots;
-
 	private void Start()
 	{
-		CurrentSlot = Slots[EquipSlot.rightHand];
-		OtherSlot = Slots[EquipSlot.leftHand];
 		IsRight = true;
 		hasSwitchedHands = false;
 	}
@@ -41,26 +50,22 @@ public class Hands : MonoBehaviour
 		{
 			if (right)
 			{
-				if (CurrentSlot != Slots[EquipSlot.rightHand])
+				if (right != IsRight)
 				{
 					hasSwitchedHands = true;
 				}
-				CurrentSlot = Slots[EquipSlot.rightHand];
-				OtherSlot = Slots[EquipSlot.leftHand];
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(EquipSlot.rightHand);
-				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = EquipSlot.rightHand;
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(NamedSlot.rightHand);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = NamedSlot.rightHand;
 				selector.SetParent(rightHand, false);
 			}
 			else
 			{
-				if (CurrentSlot != Slots[EquipSlot.leftHand])
+				if (right != IsRight)
 				{
 					hasSwitchedHands = true;
 				}
-				CurrentSlot = Slots[EquipSlot.leftHand];
-				OtherSlot = Slots[EquipSlot.rightHand];
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(EquipSlot.leftHand);
-				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = EquipSlot.leftHand;
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(NamedSlot.leftHand);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = NamedSlot.leftHand;
 				selector.SetParent(leftHand, false);
 			}
 
@@ -87,14 +92,7 @@ public class Hands : MonoBehaviour
 				{
 					if(itemSlot.Item != null)
 					{
-						if(itemSlot.inventorySlot.IsUISlot)
-						{
-							pna.CmdUpdateSlot(CurrentSlot.equipSlot, itemSlot.equipSlot);
-						}
-						else
-						{
-							StoreItemMessage.Send(itemSlot.inventorySlot.Owner, PlayerManager.LocalPlayerScript.gameObject, CurrentSlot.equipSlot, false, itemSlot.equipSlot);
-						}
+						RequestInventoryTransferMessage.Send(itemSlot.ItemSlot, CurrentSlot.ItemSlot);
 						return true;
 					}
 				}
@@ -102,14 +100,7 @@ public class Hands : MonoBehaviour
 				{
 					if(itemSlot.Item == null)
 					{
-						if (itemSlot.inventorySlot.IsUISlot)
-						{
-							pna.CmdUpdateSlot(itemSlot.equipSlot, CurrentSlot.equipSlot);
-						}
-						else
-						{
-							StoreItemMessage.Send(itemSlot.inventorySlot.Owner, PlayerManager.LocalPlayerScript.gameObject, CurrentSlot.equipSlot, true);
-						}
+						RequestInventoryTransferMessage.Send(CurrentSlot.ItemSlot, itemSlot.ItemSlot);
 						return true;
 					}
 				}
@@ -151,26 +142,16 @@ public class Hands : MonoBehaviour
 		}
 
 		//This checks which UI slot the item can be equiped to and swaps it there
-		UI_ItemSlot itemSlot = InventorySlotCache.GetSlotByItemType(CurrentSlot.Item);
-
-		if (itemSlot != null)
+		//Try to equip the item into the appropriate slot
+		if (!SwapItem(CurrentSlot))
 		{
-			//Try to equip the item into the appropriate slot
-			if (!SwapItem(itemSlot))
+			//If we couldn't equip the item into it's primary slot, try the pockets!
+			if(!SwapItem(PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.storage01).LocalUISlot))
 			{
-				//If we couldn't equip the item into it's primary slot, try the pockets!
-				if(!SwapItem(InventorySlotCache.GetSlotByEvent(EquipSlot.storage01)))
-				{
-					//We couldn't equip the item in pocket 1. Try pocket2!
-					//This swap fails if both pockets are full, do nothing if fail
-					SwapItem(InventorySlotCache.GetSlotByEvent(EquipSlot.storage02));
-				}
+				//We couldn't equip the item in pocket 1. Try pocket2!
+				//This swap fails if both pockets are full, do nothing if fail
+				SwapItem(PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.storage02).LocalUISlot);
 			}
-		}
-
-		else
-		{
-			Logger.LogError("No slot type was found for this object for auto equip", Category.UI);
 		}
 	}
 

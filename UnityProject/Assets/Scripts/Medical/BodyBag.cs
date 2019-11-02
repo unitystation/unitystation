@@ -52,10 +52,11 @@ public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IOnStageS
 			return;
 		}
 
-		// Add folded to player inventory
-		InventoryManager.EquipInInvSlot(pna.Inventory[pna.activeHand],
-			PoolManager.PoolNetworkInstantiate(prefabVariant));
-
+		// Add folded to player inventory (note, this is actually a new object, not this object)
+		//TODO: This means that body bag integrity gets reset every time it is picked up. Should be converted to be the same object instead.
+		var folded = PoolManager.PoolNetworkInstantiate(prefabVariant);
+		Inventory.ServerAdd(folded,
+			interaction.Performer.GetComponent<ItemStorage>().GetActiveHandSlot());
 		// Remove from world
 		PoolManager.PoolNetworkDestroy(gameObject);
 	}

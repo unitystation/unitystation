@@ -24,19 +24,19 @@ public enum EnumSpriteLightData
 }
 
 [RequireComponent(typeof(Pickupable))]
-public class PlayerLightControl : NetworkBehaviour
+public class PlayerLightControl : NetworkBehaviour, IServerOnInventoryMove
 {
 	public LightEmissionPlayer LightEmission;
 
-	public HashSet<EquipSlot> CompatibleSlots = new HashSet<EquipSlot>() {
-		EquipSlot.leftHand,
-		EquipSlot.rightHand,
-		EquipSlot.suitStorage,
-		EquipSlot.belt,
-		EquipSlot.back,
-		EquipSlot.storage01,
-		EquipSlot.storage02,
-		EquipSlot.suitStorage
+	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
+		NamedSlot.leftHand,
+		NamedSlot.rightHand,
+		NamedSlot.suitStorage,
+		NamedSlot.belt,
+		NamedSlot.back,
+		NamedSlot.storage01,
+		NamedSlot.storage02,
+		NamedSlot.suitStorage
 	};
 
 	public float Intensity;
@@ -47,24 +47,6 @@ public class PlayerLightControl : NetworkBehaviour
 
 	public PlayerLightData PlayerLightData;
 
-	private void OnPickupServer(HandApply interaction)
-	{
-		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-		InventorySlot Slot = InventoryManager.GetSlotFromItem(gameObject, pna);
-		if (Slot != null)
-		{
-			LightEmission = Slot.Owner.GetComponent<LightEmissionPlayer>();
-			LightEmission.AddLight(PlayerLightData);
-		}
-	}
-	private void OnDrop()
-	{
-		if (LightEmission != null)
-		{
-			LightEmission.RemoveLight(PlayerLightData);
-			LightEmission = null;
-		}
-	}
 	void Start()
 	{
 		PlayerLightData = new PlayerLightData()
@@ -74,35 +56,25 @@ public class PlayerLightControl : NetworkBehaviour
 			EnumSprite = EnumSprite,
 			Size = Size,
 		};
-
-		var pickup = GetComponent<Pickupable>();
-		if (pickup != null)
-		{
-			pickup.OnPickupServer.AddListener(OnPickupServer);
-			pickup.OnDropServer.AddListener(OnDrop);
-		}
 	}
-	public void OnAddToInventorySlot(InventorySlot slot)
+
+
+	public void ServerOnInventoryMove(InventoryMove info)
 	{
-		if (isServer)
+		//was it transferred from a player's visible inventory?
+		if (info.FromPlayer != null)
 		{
-			if (slot.IsUISlot)
+			LightEmission.RemoveLight(PlayerLightData);
+		}
+
+		if (info.ToPlayer != null)
+		{
+			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
-				if (!(CompatibleSlots.Contains(slot.equipSlot)))
+				if (LightEmission != null)
 				{
-					LightEmission.RemoveLight(PlayerLightData);
+					LightEmission.AddLight(PlayerLightData);
 				}
-				else
-				{
-					if (LightEmission != null)
-					{
-						LightEmission.AddLight(PlayerLightData);
-					}
-				}
-			}
-			else
-			{
-				LightEmission.RemoveLight(PlayerLightData);
 			}
 		}
 	}
@@ -135,4 +107,5 @@ public class PlayerLightControl : NetworkBehaviour
 			LightEmission.RemoveLight(PlayerLightData);
 		}
 	}
+
 }

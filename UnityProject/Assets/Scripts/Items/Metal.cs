@@ -26,10 +26,7 @@ public class Metal : NetworkBehaviour, IInteractable<HandActivate>
 	private void BuildGirder(HandActivate interaction)
 	{
 		PoolManager.PoolNetworkInstantiate(girderPrefab, interaction.Performer.TileWorldPosition().To3Int());
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		GetComponent<Pickupable>().DisappearObject(slot);
-		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
-
+		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 
 }

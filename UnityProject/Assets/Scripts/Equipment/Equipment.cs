@@ -9,6 +9,13 @@ using Newtonsoft.Json;
 
 public class Equipment : NetworkBehaviour
 {
+	//TODO: finish refactoring this
+
+	/// <summary>
+	/// Assigned in editor, contains each of the clothing items on the player.
+	/// Index in this maps to NamedSlot ordinal.
+	/// TODO: Don't map ordinal values to array indices plz.
+	/// </summary>
 	public ClothingItem[] clothingSlots;
 	public bool IsInternalsEnabled;
 
@@ -16,9 +23,9 @@ public class Equipment : NetworkBehaviour
 	private BackpackOrPrefab Backpack;
 	private PlayerNetworkActions playerNetworkActions;
 	private PlayerScript playerScript;
-	private InventorySlot[] gasSlots;
-	private InventorySlot maskSlot;
+	private ItemSlot maskSlot;
 	private GameObject idPrefab;
+	private ItemStorage itemStorage;
 
 	public NetworkIdentity networkIdentity { get; set; }
 
@@ -27,26 +34,12 @@ public class Equipment : NetworkBehaviour
 		networkIdentity = GetComponent<NetworkIdentity>();
 		playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
 		playerScript = gameObject.GetComponent<PlayerScript>();
-	}
-
-	private InventorySlot[] InitPotentialGasSlots()
-	{
-		var slots = new List<InventorySlot>();
-		foreach (var slot in playerNetworkActions.Inventory)
-		{
-			if (GasContainer.GasSlots.Contains(slot.Value.equipSlot))
-			{
-				slots.Add(slot.Value);
-			}
-		}
-
-		return slots.ToArray();
+		itemStorage = GetComponent<ItemStorage>();
 	}
 
 	public override void OnStartClient()
 	{
-		gasSlots = InitPotentialGasSlots();
-		maskSlot = playerNetworkActions.Inventory[EquipSlot.mask];
+		maskSlot = itemStorage.GetNamedItemSlot(NamedSlot.mask);
 		idPrefab = Resources.Load<GameObject>("ID");
 		InitInternals();
 	}
@@ -61,36 +54,38 @@ public class Equipment : NetworkBehaviour
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
 			var clothItem = clothingSlots[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, false);
+			EquipmentSpritesMessage.SendTo(gameObject, (NamedSlot)i, recipient, clothItem.GameObjectReference, true, false);
 		}
 	}
 
+	[Server]
 	public void SetPlayerLoadOuts()
 	{
+		//TODO: Use a populator for this intstead
 		JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
 		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.mind.jobType);
 
 		//Create collection of all the new items to add to the gear slots
-		Dictionary<EquipSlot, ClothOrPrefab> gear = new Dictionary<EquipSlot, ClothOrPrefab>();
+		Dictionary<NamedSlot, ClothOrPrefab> gear = new Dictionary<NamedSlot, ClothOrPrefab>();
 
-		gear.Add(EquipSlot.uniform, standardOutfit.uniform);
-		gear.Add(EquipSlot.feet, standardOutfit.shoes);
-		gear.Add(EquipSlot.eyes, standardOutfit.glasses);
-		gear.Add(EquipSlot.hands, standardOutfit.gloves);
+		gear.Add(NamedSlot.uniform, standardOutfit.uniform);
+		gear.Add(NamedSlot.feet, standardOutfit.shoes);
+		gear.Add(NamedSlot.eyes, standardOutfit.glasses);
+		gear.Add(NamedSlot.hands, standardOutfit.gloves);
 		Backpack = standardOutfit.backpack;
 		Ears = standardOutfit.ears;
-		gear.Add(EquipSlot.exosuit, standardOutfit.suit);
-		gear.Add(EquipSlot.head, standardOutfit.head);
-		gear.Add(EquipSlot.mask, standardOutfit.mask);
-		gear.Add(EquipSlot.suitStorage, standardOutfit.suit_store);
+		gear.Add(NamedSlot.exosuit, standardOutfit.suit);
+		gear.Add(NamedSlot.head, standardOutfit.head);
+		gear.Add(NamedSlot.mask, standardOutfit.mask);
+		gear.Add(NamedSlot.suitStorage, standardOutfit.suit_store);
 
-		AddifPresent(gear, EquipSlot.exosuit, jobOutfit.suit);
-		AddifPresent(gear, EquipSlot.head, jobOutfit.head);
-		AddifPresent(gear, EquipSlot.uniform, jobOutfit.uniform);
-		AddifPresent(gear, EquipSlot.feet, jobOutfit.shoes);
-		AddifPresent(gear, EquipSlot.hands, jobOutfit.gloves);
-		AddifPresent(gear, EquipSlot.eyes, jobOutfit.glasses);
-		AddifPresent(gear, EquipSlot.mask, jobOutfit.mask);
+		AddifPresent(gear, NamedSlot.exosuit, jobOutfit.suit);
+		AddifPresent(gear, NamedSlot.head, jobOutfit.head);
+		AddifPresent(gear, NamedSlot.uniform, jobOutfit.uniform);
+		AddifPresent(gear, NamedSlot.feet, jobOutfit.shoes);
+		AddifPresent(gear, NamedSlot.hands, jobOutfit.gloves);
+		AddifPresent(gear, NamedSlot.eyes, jobOutfit.glasses);
+		AddifPresent(gear, NamedSlot.mask, jobOutfit.mask);
 
 		if (jobOutfit.backpack?.Backpack?.Sprites?.Equipped?.Texture != null || jobOutfit.backpack.Prefab != null)
 		{
@@ -102,7 +97,7 @@ public class Equipment : NetworkBehaviour
 			Ears = jobOutfit.ears;
 		}
 
-		foreach (KeyValuePair<EquipSlot, ClothOrPrefab> gearItem in gear)
+		foreach (KeyValuePair<NamedSlot, ClothOrPrefab> gearItem in gear)
 		{
 			if (gearItem.Value.Clothing != null)
 			{
@@ -129,21 +124,21 @@ public class Equipment : NetworkBehaviour
 		{
 			if (Backpack.Backpack.PrefabVariant != null)
 			{
-				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: Backpack.Backpack.PrefabVariant); //Where it is made
+				var obj = ClothFactory.CreateCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: Backpack.Backpack.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.back, itemAtts.gameObject, true);
+				SetItem(NamedSlot.back, itemAtts.gameObject, true);
 			}
 			else {
-				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent);
+				var obj = ClothFactory.CreateCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.back, itemAtts.gameObject, true);
+				SetItem(NamedSlot.back, itemAtts.gameObject, true);
 			}
 		}
 		else if (Backpack.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(EquipSlot.back, itemAtts.gameObject, true);
+			SetItem(NamedSlot.back, itemAtts.gameObject, true);
 		}
 
 
@@ -151,21 +146,21 @@ public class Equipment : NetworkBehaviour
 		{
 			if (Ears.Headset.PrefabVariant != null)
 			{
-				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent, PrefabOverride: Ears.Headset.PrefabVariant); //Where it is made
+				var obj = ClothFactory.CreateCloth(Ears.Headset, TransformState.HiddenPos, transform.parent, PrefabOverride: Ears.Headset.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.ear, itemAtts.gameObject, true);
+				SetItem(NamedSlot.ear, itemAtts.gameObject, true);
 			}
 			else {
-				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent);
+				var obj = ClothFactory.CreateCloth(Ears.Headset, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.ear, itemAtts.gameObject, true);
+				SetItem(NamedSlot.ear, itemAtts.gameObject, true);
 			}
 		}
 		else if (Ears.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(EquipSlot.ear, itemAtts.gameObject, true);
+			SetItem(NamedSlot.ear, itemAtts.gameObject, true);
 		}
 		SpawnID(jobOutfit);
 
@@ -193,7 +188,7 @@ public class Equipment : NetworkBehaviour
 	/// Does it have SpriteSheetData for Equiped sprites or does it contain a prefab?
 	/// Else don't spawn it
 	/// </summary>
-	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
+	private void AddifPresent(Dictionary<NamedSlot, ClothOrPrefab> gear, NamedSlot key, ClothOrPrefab clothOrPrefab)
 	{
 		if (clothOrPrefab?.Clothing?.Base?.Equipped != null || clothOrPrefab?.Prefab != null)
 		{
@@ -219,12 +214,12 @@ public class Equipment : NetworkBehaviour
 		{
 			idObj.GetComponent<IDCard>().Initialize(IDCardType.standard, outFit.jobType, outFit.allowedAccess, realName);
 		}
-		SetItem(EquipSlot.id, idObj);
+		SetItem(NamedSlot.id, idObj);
 	}
 
 	public void SetReference(int index, GameObject _Item)
 	{
-		EquipmentSpritesMessage.SendToAll(gameObject, index, _Item);
+		EquipmentSpritesMessage.SendToAll(gameObject, (NamedSlot)index, _Item);
 	}
 
 	/// <summary>
@@ -234,7 +229,7 @@ public class Equipment : NetworkBehaviour
 	/// <param name="slotName">name of the slot (should match an EquipSlot enum)</param>
 	public void ClearItemSprite(string slotName)
 	{
-		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
+		NamedSlot enumA = (NamedSlot)Enum.Parse(typeof(NamedSlot), slotName);
 		if (HasPlayerSprite(enumA))
 		{
 			SetReference((int)enumA, null);
@@ -246,14 +241,15 @@ public class Equipment : NetworkBehaviour
 	/// </summary>
 	/// <param name="slot"></param>
 	/// <returns>true iff the specified EquipSlot has an associated player sprite.</returns>
-	private bool HasPlayerSprite(EquipSlot slot)
+	private bool HasPlayerSprite(NamedSlot slot)
 	{
-		return slot != EquipSlot.id && slot != EquipSlot.storage01 && slot != EquipSlot.storage02 && slot != EquipSlot.suitStorage;
+		return slot != NamedSlot.id && slot != NamedSlot.storage01 && slot != NamedSlot.storage02 && slot != NamedSlot.suitStorage;
 	}
 
-	private void SetItem(EquipSlot slotName, GameObject obj, bool isInit = false)
+	private void SetItem(NamedSlot slotName, GameObject obj, bool isInit = false)
 	{
-		playerNetworkActions.AddItemToUISlot(obj, slotName, null, false, isInit);
+		Inventory.ServerAdd(obj.GetComponent<Pickupable>(),
+			itemStorage.GetNamedItemSlot(slotName));
 	}
 
 	private void InitInternals()
@@ -289,9 +285,14 @@ public class Equipment : NetworkBehaviour
 	/// </summary>
 	public bool HasInternalsEquipped()
 	{
-		if (maskSlot?.ItemAttributes?.itemType == ItemType.Mask)
+		var item = maskSlot?.Item;
+		if (item == null) return false;
+		var itemAttrs = item.GetComponent<ItemAttributes>();
+		if (itemAttrs == null) return false;
+
+		if (itemAttrs.itemType == ItemType.Mask)
 		{
-			foreach (var gasSlot in gasSlots)
+			foreach (var gasSlot in itemStorage.GetGasSlots())
 			{
 				if (gasSlot.Item && gasSlot.Item.GetComponent<GasContainer>())
 				{

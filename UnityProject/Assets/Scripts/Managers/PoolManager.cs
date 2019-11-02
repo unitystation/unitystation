@@ -187,6 +187,8 @@ public class PoolManager : NetworkBehaviour
 	///     For items that are network synced only!
 	/// 	If target has no ObjectBehavior or is not pooled, it will simply be deleted and the deletion
 	/// 	will be synced to each client.
+	///
+	/// 	This is safe to call on stuff in inventory. It will be destroyed where it is.
 	/// </summary>
 	[Server]
 	public static void PoolNetworkDestroy(GameObject target)

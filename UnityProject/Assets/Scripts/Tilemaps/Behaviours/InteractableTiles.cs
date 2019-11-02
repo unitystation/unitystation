@@ -67,7 +67,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				{
 					Vector3 targetPosition = interaction.WorldPositionTarget;
 					targetPosition.z = -0.2f;
-					pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
+					Inventory.ServerDrop(interaction.HandSlot, targetPosition);
 					return true;
 				}
 				case TileType.Floor:

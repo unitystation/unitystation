@@ -157,5 +157,6 @@ public enum ItemType
 	Food,
 	Medical,
 	Knife,
-	Gun
+	Gun,
+	All
 }

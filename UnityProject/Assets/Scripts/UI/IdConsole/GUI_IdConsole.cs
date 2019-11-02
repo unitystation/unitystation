@@ -197,7 +197,6 @@ public class GUI_IdConsole : NetTab
 			return;
 		}
 		console.EjectCard(console.TargetCard);
-		console.TargetCard = null;
 		pageSwitcher.SetActivePage(usercardPage);
 	}
 
@@ -208,7 +207,6 @@ public class GUI_IdConsole : NetTab
 			return;
 		}
 		console.EjectCard(console.AccessCard);
-		console.AccessCard = null;
 		UpdateCardNames();
 		LogOut();
 	}

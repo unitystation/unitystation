@@ -61,9 +61,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 				PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
 					interaction.Performer.transform.parent);
 				var handObj = interaction.HandObject;
-				var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer,
-					interaction.HandSlot.equipSlot);
-				handObj.GetComponent<Pickupable>().DisappearObject(slot);
+				Inventory.ServerDespawn(interaction.HandSlot);
 			}
 		);
 
@@ -79,9 +77,6 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	{
 		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f);
 		ObjectFactory.SpawnMetal(1, interaction.Performer.WorldPosServer().To2Int(), parent: transform.parent);
-
-		var rack = interaction.TargetObject;
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.TargetSlot.equipSlot);
-		rack.GetComponent<Pickupable>().DisappearObject(slot);
+		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 }

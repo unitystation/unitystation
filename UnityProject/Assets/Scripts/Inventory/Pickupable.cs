@@ -6,10 +6,16 @@ using Mirror;
 using Random = UnityEngine.Random;
 
 /// <summary>
-/// Allows object to be picked up and put into hand.
+/// Main API / component for dealing with inventory. Use this if you want to do something to this object that involves
+/// inventory. No longer should use InventoryManager.
+/// Allows object to be picked up into inventory and moved to different slots, storage objects, and be dropped.
 /// </summary>
-public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IRightClickable
+public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>,
+	IRightClickable, IOffStageServer, IServerOnInventoryMove
 {
+	private CustomNetTransform customNetTransform;
+	private ObjectBehaviour objectBehaviour;
+	private RegisterTile registerTile;
 
 	//controls whether this can currently be picked up.
 	[SyncVar]
@@ -21,20 +27,62 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	public bool CanPickup => canPickup;
 
 	/// <summary>
-	/// Event fired after the object is picked up, on server only.
+	/// Which inventory slot this is currently in, null if not in inventory
 	/// </summary>
-	[HideInInspector]
-	public PickupSuccessEvent OnPickupServer = new PickupSuccessEvent();
-	/// <summary>
-	/// Fired when item is being dropped, on server side only.
-	/// </summary>
-	[HideInInspector]
-	public UnityEvent OnDropServer = new UnityEvent();
+	public ItemSlot ItemSlot => itemSlot;
+	//TODO: Refactor to make sure this is always up to date, use this rather than InventoryManager
+	private ItemSlot itemSlot;
+
+	private void Awake()
+	{
+		this.customNetTransform = GetComponent<CustomNetTransform>();
+		this.objectBehaviour = GetComponent<ObjectBehaviour>();
+		this.registerTile = GetComponent<RegisterTile>();
+	}
 
 	// make sure to call this in subclasses
 	public void Start()
 	{
 		CheckSpriteOrder();
+	}
+
+	public void GoingOffStageServer(OffStageInfo info)
+	{
+		//remove ourselves from inventory if we aren't already removed
+		if (itemSlot != null)
+		{
+			Inventory.ServerDespawn(itemSlot);
+		}
+	}
+
+	public void ServerOnInventoryMove(InventoryMove info)
+	{
+		//when the item is picked up / dropped, need to update
+		//several things
+
+		/*
+		 * TODO: There is a security issue here which existed even prior to inventory refactor.
+		 * The issue is that every time a player's top level inventory changes, a message is sent to all other players
+		 * telling them what object was added / removed from that player's slot. So with a hacked client,
+		 * it would be easy to see every item change that happens on the server in top level inventory, such as being able
+		 * to see who is using antag items.
+		 *
+		 * Bubbling should help prevent this
+		 */
+
+		if (info.FromPlayer != null)
+		{
+			//clear previous slot appearance
+			EquipmentSpritesMessage.SendToAll(info.FromPlayer.gameObject,
+				info.FromSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
+		}
+
+		if (info.ToPlayer != null)
+		{
+			//change appearance based on new item
+			EquipmentSpritesMessage.SendToAll(info.ToPlayer.gameObject,
+				info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
+		}
 	}
 
 	/// <summary>
@@ -74,7 +122,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer);
 	}
 
-
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//we validated, but object may only be in extended range
@@ -107,14 +154,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			//pick it up normally - if it was floating, we will grab it while it's floating
 			//set ForceInform to false for simulation
-			//the return value of AddItemToUISlot is an extra layer of validation on top of our other validations,
-			//not sure if this is redundant with our validation chain.
-			if (ps.playerNetworkActions.AddItemToUISlot(gameObject, interaction.HandSlot.equipSlot /*, false*/))
+			if (Inventory.ServerAdd(this, interaction.HandSlot))
 			{
 				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
 					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);
-				//continue to what happens after pickup
-				OnPickupServer.Invoke(interaction);
 			}
 			else
 			{
@@ -143,13 +186,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
 	}
 
-	//Broadcast from InventoryManager on server
-	[Server]
-	public void OnRemoveFromInventory()
-	{
-		OnDropServer.Invoke();
-	}
-
 	/// <summary>
 	///     Making reach check less strict when object is flying, otherwise high ping players can never catch shit!
 	/// </summary>
@@ -176,20 +212,15 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	}
 
 	/// <summary>
-	// Removes the object from the player inventory before vanishing it
+	/// NOTE: Please use Inventory instead for moving inventory around.
+	///
+	/// Server-only. Change the slot this pickupable thinks it is in. Null to make it be in no slot.
 	/// </summary>
-	[Server]
-	public void DisappearObject(InventorySlot inventorySlot)
+	/// <param name="toSlot"></param>
+	public void ServerSetItemSlot(ItemSlot toSlot)
 	{
-		InventoryManager.ClearInvSlot(inventorySlot);
-		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		this.itemSlot = toSlot;
 	}
-}
 
-/// <summary>
-/// Event which fires after a pickup occurs. Provides the interaction that was used to trigger the pickup
-/// </summary>
-public class PickupSuccessEvent : UnityEvent<HandApply>
-{
 
 }

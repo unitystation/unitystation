@@ -8,30 +8,12 @@ using System;
 
 
 [CreateAssetMenu(fileName = "ContainerData", menuName = "ScriptableObjects/BackpackData", order = 1)]
-public class ContainerData : ScriptableObject
+public class ContainerData : BaseClothData
 {
-	public GameObject PrefabVariant;
+	public EquippedData Sprites;
+	public StorageObjectData StorageData;
 
-	public EquippedData Sprites;	public StorageObjectData StorageData;
-	public ItemAttributesData ItemAttributes;
-
-	public void Awake()
-	{
-		InitializePool();
-	}
-
-	private void OnEnable()
-	{
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
-		InitializePool();
-	}
-
-
-	public void InitializePool()
+	public override void  InitializePool()
 	{
 		var clothFactory = UnityEngine.Object.FindObjectOfType<ClothFactory>();
 		if (clothFactory != null)
@@ -53,7 +35,7 @@ public class ContainerData : ScriptableObject
 			DataPCD.Add(PCDObj);
 		}
 
-		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
 
 		//foreach (string dir in dirs)
 		//{

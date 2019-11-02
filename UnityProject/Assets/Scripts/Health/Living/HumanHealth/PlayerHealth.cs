@@ -16,6 +16,8 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// </summary>
 	private RegisterPlayer registerPlayer;
 
+	private ItemStorage itemStorage;
+
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
@@ -24,6 +26,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
 		registerPlayer = GetComponent<RegisterPlayer>();
+		itemStorage = GetComponent<ItemStorage>();
 		base.OnStartClient();
 	}
 
@@ -57,8 +60,10 @@ public class PlayerHealth : LivingHealthBehaviour
 			{
 				PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
 			}
-			pna.DropItem(EquipSlot.rightHand);
-			pna.DropItem(EquipSlot.leftHand);
+
+			//drop items in hand
+			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
 
 			if (isServer)
 			{

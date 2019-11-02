@@ -156,10 +156,8 @@ public class Clothing : NetworkBehaviour
 				else {this.name = containerData.name;}
 
 				var Item = GetComponent<ItemAttributes>();
-				var Storage = GetComponent<StorageObject>();
 				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 				Item.SetUpFromClothingData(containerData.Sprites, containerData.ItemAttributes);
-				Storage.SetUpFromStorageObjectData(containerData.StorageData);
 				Initialised = true;
 			}
 			else if (headsetData != null)

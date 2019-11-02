@@ -245,9 +245,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		if (interaction.HandObject != null && !IsClosed)
 		{
 			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			targetPosition.z = -0.2f;
-			var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-			pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
+			Inventory.ServerDrop(interaction.HandSlot, targetPosition);
 		}
 		else if (!IsLocked)
 		{

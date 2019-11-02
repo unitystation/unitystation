@@ -2,11 +2,21 @@
 using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Message telling a player the new outward appearance of a player based on their equipped sprites.
+///
+///
+///TODO: There is a security issue here which existed even prior to inventory refactor.
+///The issue is that every time a player's top level inventory changes, this message is sent to all other players
+///telling them what object was added / removed from that player's slot. So with a hacked client,
+///it would be easy to see every item change that happens on the server in top level inventory, such as being able
+///to see who is using antag items.
+///Bubbling should help prevent this
+/// </summary>
 public class EquipmentSpritesMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.EquipmentSpritesMessage;
-	public int Reference;
-	public int Index;
+	public NamedSlot NamedSlot;
 	public uint EquipmentObject;
 	public uint ItemNetID;
 	public bool ForceInit;
@@ -24,7 +34,7 @@ public class EquipmentSpritesMessage : ServerMessage
 		{
 			if (!IsBodySprites)
 			{
-				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index];
+				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[(int)NamedSlot];
 				if (ItemNetID == NetId.Invalid)
 				{
 					if (!ForceInit) c.SetReference(null);
@@ -38,7 +48,7 @@ public class EquipmentSpritesMessage : ServerMessage
 			}
 			else
 			{
-				ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[Index];
+				ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[(int)NamedSlot];
 				if (ItemNetID == NetId.Invalid)
 				{
 					if (!ForceInit) c.SetReference(null);
@@ -53,30 +63,30 @@ public class EquipmentSpritesMessage : ServerMessage
 		}
 	}
 
-	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item,
+	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, NamedSlot namedSlot, GameObject _Item,
 		bool _forceInit = false, bool _isBodyParts = false)
 	{
-		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
+		var msg = CreateMsg(equipmentObject, namedSlot, _Item, _forceInit, _isBodyParts);
 		msg.SendToAll();
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, int index, GameObject recipient,
+	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, NamedSlot namedSlot, GameObject recipient,
 		GameObject _Item, bool _forceInit, bool _isBodyParts)
 	{
-		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
+		var msg = CreateMsg(equipmentObject, namedSlot, _Item, _forceInit, _isBodyParts);
 		msg.SendTo(recipient);
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item,
+	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, NamedSlot namedSlot, GameObject _Item,
 		bool _forceInit, bool _isBodyParts)
 	{
 		if (_Item != null)
 		{
 			return new EquipmentSpritesMessage
 			{
-				Index = index,
+				NamedSlot = namedSlot,
 				EquipmentObject = equipmentObject.NetId(),
 				ItemNetID = _Item.NetId(),
 				ForceInit = _forceInit,
@@ -87,7 +97,7 @@ public class EquipmentSpritesMessage : ServerMessage
 		{
 			return new EquipmentSpritesMessage
 			{
-				Index = index,
+				NamedSlot = namedSlot,
 				EquipmentObject = equipmentObject.NetId(),
 				ItemNetID = NetId.Invalid,
 				ForceInit = _forceInit,

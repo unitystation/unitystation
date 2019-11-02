@@ -50,6 +50,11 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
+	/// <summary>
+	/// This player's item storage.
+	/// </summary>
+	public ItemStorage ItemStorage { get; private set; }
+
 	private static bool verified;
 	private static ulong SteamID;
 
@@ -96,6 +101,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		hitIcon = GetComponentInChildren<HitIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
+		ItemStorage = GetComponent<ItemStorage>();
 	}
 
 	public void Init()
@@ -241,10 +247,10 @@ public class PlayerScript : ManagedNetworkBehaviour
 		ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
-			if (pna && pna.SlotNotEmpty(EquipSlot.ear))
+			var playerStorage = gameObject.GetComponent<ItemStorage>();
+			if (playerStorage && !playerStorage.GetNamedItemSlot(NamedSlot.ear).IsEmpty)
 			{
-				Headset headset = pna.Inventory[EquipSlot.ear].Item.GetComponent<Headset>();
+				Headset headset =  playerStorage.GetNamedItemSlot(NamedSlot.ear).Item.GetComponent<Headset>();
 				if (headset)
 				{
 					EncryptionKeyType key = headset.EncryptionKey;
@@ -254,7 +260,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		}
 		else
 		{
-			GameObject earSlotItem = UIManager.InventorySlots[EquipSlot.ear].Item;
+			GameObject earSlotItem = gameObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.ear).ItemObject;
 			if (earSlotItem)
 			{
 				Headset headset = earSlotItem.GetComponent<Headset>();

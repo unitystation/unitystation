@@ -29,12 +29,10 @@ public class FoldedBodyBag  : MonoBehaviour, ICheckedInteractable<PositionalHand
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		// Place the opened body bag in the world
+		// Spawn the opened body bag in the world
 		PoolManager.PoolNetworkInstantiate(prefabVariant, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);
 
 		// Remove the body bag from the player's inventory
-		var handObj = interaction.HandObject;
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		handObj.GetComponent<Pickupable>().DisappearObject(slot);
+		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 }

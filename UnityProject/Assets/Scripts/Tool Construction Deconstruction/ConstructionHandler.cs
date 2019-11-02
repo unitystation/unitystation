@@ -42,7 +42,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		InventorySlot slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		var slot = interaction.HandSlot;
 
 		if (RelatedInterface != null)
 		{
@@ -66,14 +66,15 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 								UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 							}
 							else {
-								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-								InventoryManager.ClearInvSlot(slot);
+								ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+								//TODO: In need of refactor throughout this component to not use Inventory.Vanish, instead should have an ItemStorage of its own most likely
+								Inventory.ServerVanish(slot);
 								_Object.NumberPresent++;
 							}
 						}
 					}
 					else if (_Object.CType != ConstructionElementType.Null){
-						var Item = slot.Item?.GetComponent<ConstructionComponent>();
+						var Item = slot.ItemObject?.GetComponent<ConstructionComponent>();
 						if (Item != null) {
 							if (Item.CType == _Object.CType && Item.level >= _Object.level) {
 								if (_Object.TimeNeeded > 0) {
@@ -81,8 +82,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 									UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 								}
 								else {
-									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-									InventoryManager.ClearInvSlot(slot);
+									ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+									Inventory.ServerVanish(slot);
 									_Object.NumberPresent++;
 								}
 							}
@@ -117,7 +118,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 				return (true);
 			}
 		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+
+		var slot = interaction.HandSlot;
 
 		if (RelatedInterface != null)
 		{
@@ -162,7 +164,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		}
 		return (false);
 	}
-	public void ExceptItem(InventorySlot slot, HandApply interaction) {
+	public void ExceptItem(ItemSlot slot, HandApply interaction) {
 	if (ContainedObjects[CurrentStage] != null)
 		{
 			foreach (var _Object in ContainedObjects[CurrentStage])
@@ -173,8 +175,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 					{
 						if (slot.Item.GetComponent(_Object.IdentifyingComponent) != null)
 						{
-							ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-							InventoryManager.ClearInvSlot(slot);
+							ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+							Inventory.ServerVanish(slot);
 							_Object.NumberPresent++;
 						}
 					}
@@ -185,8 +187,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 						{
 							if (Item.CType == _Object.CType && Item.level >= _Object.level)
 							{
-								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-								InventoryManager.ClearInvSlot(slot);
+								ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+								Inventory.ServerVanish(slot);
 								_Object.NumberPresent++;
 							}
 						}

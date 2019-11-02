@@ -132,24 +132,16 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (playerScript != null)
 		{
-			Dictionary<EquipSlot, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
 
 			// Check if internals exist
-			ItemAttributes mask = inventory.ContainsKey(EquipSlot.mask) ? inventory[EquipSlot.mask]?.ItemAttributes : null;
-
+			var maskItemAttrs = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.mask).ItemAttributes;
 			bool internalsEnabled = equipment.IsInternalsEnabled;
-
-			//todo: devise a convenient method to get item/script from top level of inventory instead of this
-			if (mask != null && mask.CanConnectToTank && internalsEnabled)
+			if (maskItemAttrs != null && maskItemAttrs.CanConnectToTank && internalsEnabled)
 			{
-				foreach ( var gasSlot in GasContainer.GasSlots )
+				foreach ( var gasSlot in playerScript.ItemStorage.GetGasSlots() )
 				{
-					if ( !inventory.ContainsKey(gasSlot) || inventory[gasSlot] == null || !inventory[gasSlot].Item )
-					{
-						continue;
-					}
-
-					var gasContainer = inventory[gasSlot].Item.GetComponent<GasContainer>();
+					if (gasSlot.Item == null) continue;
+					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
 					if ( gasContainer )
 					{
 						return gasContainer;
@@ -218,10 +210,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			return false;
 		}
 
-		Dictionary<EquipSlot, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
-
-		ItemAttributes headItem = inventory.ContainsKey(EquipSlot.head) ? inventory[EquipSlot.head]?.ItemAttributes : null;
-		ItemAttributes suitItem = inventory.ContainsKey(EquipSlot.exosuit) ? inventory[EquipSlot.exosuit]?.ItemAttributes : null;
+		ItemAttributes headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
+		ItemAttributes suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit).ItemAttributes;
 
 		if (headItem != null && suitItem != null)
 		{

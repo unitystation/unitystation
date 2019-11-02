@@ -97,11 +97,5 @@ namespace Objects
 		{
 			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
-
-		/// <summary>
-		/// Slots that should be checked for gas containers
-		/// </summary>
-		public static readonly EquipSlot[] GasSlots = 	{EquipSlot.leftHand, EquipSlot.rightHand, EquipSlot.storage01, EquipSlot.storage02,
-														EquipSlot.suitStorage, EquipSlot.back, EquipSlot.belt};
 	}
 }

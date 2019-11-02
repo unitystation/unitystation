@@ -228,4 +228,78 @@ public static class Validations
 		return basicWallTile.Mineable;
 	}
 
+	/// <summary>
+	/// Checks if the indicated item can fit in this slot. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="itemSlot">slot to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <returns></returns>
+	public static bool CanFit(ItemSlot itemSlot, GameObject toCheck, NetworkSide side, bool ignoreOccupied = false)
+	{
+		var pu = toCheck.GetComponent<Pickupable>();
+		if (pu == null) return false;
+		return CanFit(itemSlot, pu, side, ignoreOccupied);
+	}
+
+	/// <summary>
+	/// Checks if the indicated item can fit in this slot. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="itemSlot">slot to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <returns></returns>
+	public static bool CanFit(ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	{
+		//client generally only knows about their own inventory, so unless this is one of their own inventory
+		//slots we will just assume it fits when doing client side check.
+		if (side == NetworkSide.Client)
+		{
+			var rootHolder = itemSlot.GetRootStorage();
+			if (rootHolder.gameObject != PlayerManager.LocalPlayer)
+			{
+				//we have no idea if it fits since it's not in our inventory, so rely on the server to check this.
+				return true;
+			}
+			else
+			{
+				return itemSlot.CanFit(toCheck, ignoreOccupied);
+			}
+		}
+		else
+		{
+			return itemSlot.CanFit(toCheck, ignoreOccupied);
+		}
+	}
+
+	/// <summary>
+	/// Checks if the player can currently put the indicated item in this slot. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="player">player to check</param>
+	/// <param name="itemSlot">slot to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <returns></returns>
+	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	{
+		if (toCheck == null || itemSlot.Item != null)
+		{
+			return false;
+		}
+		if (playerScript.canNotInteract())
+		{
+			return false;
+		}
+		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied))
+		{
+			return false;
+		}
+		return true;
+	}
 }

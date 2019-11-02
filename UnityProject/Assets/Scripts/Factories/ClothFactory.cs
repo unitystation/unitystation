@@ -37,7 +37,41 @@ public class ClothFactory : NetworkBehaviour
 		}
 	}
 
-	public static GameObject CreateHeadsetCloth(HeadsetData headsetData, Vector3 worldPos, Transform parent = null,
+	/// <summary>
+	/// Spawns the indicated cloth.
+	/// </summary>
+	/// <param name="ClothingData">data describing the cloth to spawn</param>
+	/// <param name="worldPos"></param>
+	/// <param name="parent"></param>
+	/// <param name="CVT"></param>
+	/// <param name="variant"></param>
+	/// <param name="PrefabOverride">prefab to use instead of the default for this cloth type</param>
+	/// <returns></returns>
+	public static GameObject CreateCloth(BaseClothData clothData, Vector3? worldPos = null, Transform parent = null,
+		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
+	{
+		if (clothData is HeadsetData headsetData)
+		{
+			return CreateHeadsetCloth(headsetData, worldPos, parent, CVT, variant, PrefabOverride);
+		}
+		else if (clothData is ContainerData containerData)
+		{
+			return CreateBackpackCloth(containerData, worldPos, parent, CVT, variant, PrefabOverride);
+		}
+		else if (clothData is ClothingData clothingData)
+		{
+			return CreateCloth(clothingData, worldPos, parent, CVT, variant, PrefabOverride);
+		}
+		else
+		{
+			Logger.LogErrorFormat("Unrecognize BaseClothData subtype {0}, please add logic" +
+			                      " to ClothFactory to handle spawning this type.", Category.ItemSpawn,
+				clothData.GetType().Name);
+			return null;
+		}
+	}
+
+	private static GameObject CreateHeadsetCloth(HeadsetData headsetData, Vector3? worldPos = null, Transform parent = null,
 		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
 		if (Instance.uniHeadSet == null)
@@ -67,7 +101,7 @@ public class ClothFactory : NetworkBehaviour
 		return clothObj;
 	}
 
-	public static GameObject CreateBackpackCloth(ContainerData ContainerData, Vector3 worldPos, Transform parent = null,
+	private static GameObject CreateBackpackCloth(ContainerData ContainerData, Vector3? worldPos = null, Transform parent = null,
 		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
 		if (Instance.uniBackpack == null)
@@ -88,16 +122,14 @@ public class ClothFactory : NetworkBehaviour
 
 		var _Clothing = clothObj.GetComponent<Clothing>();
 		var Item = clothObj.GetComponent<ItemAttributes>();
-		var Storage = clothObj.GetComponent<StorageObject>();
 		_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(ContainerData.Sprites.Equipped);
 		Item.SetUpFromClothingData(ContainerData.Sprites, ContainerData.ItemAttributes);
 		_Clothing.SetSynchronise(ConD: ContainerData);
-		Storage.SetUpFromStorageObjectData(ContainerData.StorageData);
 		return clothObj;
 	}
 
 
-	public static GameObject CreateCloth(ClothingData ClothingData, Vector3 worldPos, Transform parent = null,
+	private static GameObject CreateCloth(ClothingData ClothingData, Vector3? worldPos = null, Transform parent = null,
 		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
 		if (Instance.uniCloth == null)

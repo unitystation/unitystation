@@ -70,12 +70,12 @@ public class Meleeable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 			if (tileMapLayer == null)
 			{
 				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObject,
-					UIManager.Hands.CurrentSlot.equipSlot, dir, UIManager.DamageZone, LayerType.None);
+					UIManager.Hands.CurrentSlot.namedSlot.GetValueOrDefault(NamedSlot.none), dir, UIManager.DamageZone, LayerType.None);
 			}
 			else
 			{
 				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObjectRoot,
-					UIManager.Hands.CurrentSlot.equipSlot, dir, UIManager.DamageZone, tileMapLayer.LayerType);
+					UIManager.Hands.CurrentSlot.namedSlot.GetValueOrDefault(NamedSlot.none), dir, UIManager.DamageZone, tileMapLayer.LayerType);
 			}
 
 			return true;

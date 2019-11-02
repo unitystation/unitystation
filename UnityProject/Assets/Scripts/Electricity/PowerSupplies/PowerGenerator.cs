@@ -167,8 +167,8 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		var tool = slot.Item?.GetComponent<Tool>();
+		var slot = interaction.HandSlot;
+		var tool = slot.Item != null ? slot.Item.GetComponent<Tool>() : null;
 		if (tool != null && tool.ToolType == ToolType.Wrench)
 		{
 			UpdateSecured(!isSecured);
@@ -180,11 +180,12 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 			return;
 		}
 
-		var solidPlasma = slot.Item?.GetComponent<SolidPlasma>();
+		var solidPlasma = slot.Item != null ? slot.Item.GetComponent<SolidPlasma>() : null;
 		if (solidPlasma != null)
 		{
 			plasmaFuel.Add(solidPlasma);
-			InventoryManager.ClearInvSlot(slot);
+			//we just destroy the plasma because we consume it
+			Inventory.ServerDespawn(interaction.HandSlot);
 			return;
 		}
 

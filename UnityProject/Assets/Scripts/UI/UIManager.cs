@@ -16,7 +16,6 @@ public class UIManager : MonoBehaviour
 	public DisplayManager displayManager;
 	public Hands hands;
 	public ControlIntent intentControl;
-	public InventorySlotCache inventorySlotCache;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
 	public AlertUI alertUI;
@@ -121,8 +120,6 @@ public class UIManager : MonoBehaviour
 		set { Instance.pingDisplay.text = value; }
 	}
 
-	public static InventorySlotCache InventorySlots => Instance.inventorySlotCache;
-
 	/// <summary>
 	///     Current Intent status
 	/// </summary>
@@ -194,41 +191,6 @@ public class UIManager : MonoBehaviour
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);
-	}
-
-	public static void CheckStorageHandlerOnMove(GameObject item)
-	{
-		if (item == null)
-		{
-			return;
-		}
-		var storageObj = item.GetComponent<StorageObject>();
-		if (storageObj == null)
-		{
-			return;
-		}
-		if (storageObj == StorageHandler.currentOpenStorage)
-		{
-			StorageHandler.CloseStorageUI();
-		}
-	}
-
-	public static bool CanPutItemToSlot(InventorySlot inventorySlot, GameObject item, PlayerScript playerScript)
-	{
-		if (item == null || inventorySlot.Item != null)
-		{
-			return false;
-		}
-		if (playerScript.canNotInteract())
-		{
-			return false;
-		}
-		var uiItemSlot = InventorySlotCache.GetSlotByEvent(inventorySlot.equipSlot);
-		if (!uiItemSlot.CheckItemFit(item))
-		{
-			return false;
-		}
-		return true;
 	}
 
 	/// <summary>

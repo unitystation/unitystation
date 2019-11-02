@@ -54,7 +54,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 			Headset headset = headsetGO.GetComponent<Headset>();
 			EncryptionKey encryptionkey = keyGO.GetComponent<EncryptionKey>();
 			headset.EncryptionKey = encryptionkey.Type;
-			pna.Consume(keyGO);
+			Inventory.ServerDespawn(keyGO.GetComponent<Pickupable>().ItemSlot);
 		}
 	}
 

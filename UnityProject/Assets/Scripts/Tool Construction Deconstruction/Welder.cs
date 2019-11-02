@@ -36,12 +36,11 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 	public float damageOn;
 	private float damageOff;
 
-	//seems to be server-side only
-	public GameObject heldByPlayer;
 	private string currentHand;
 
 	private ItemAttributes itemAtts;
 	private RegisterTile registerTile;
+	private Pickupable pickupable;
 
 	[SyncVar(hook = nameof(UpdateState))] public bool isOn;
 
@@ -68,21 +67,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void Start()
 	{
-		var pickup = GetComponent<Pickupable>();
-		if (pickup != null)
-		{
-			pickup.OnPickupServer.AddListener(OnPickupServer);
-		}
+		pickupable = GetComponent<Pickupable>();
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		ToggleWelder(interaction.Performer);
-	}
-
-	private void OnPickupServer(HandApply interaction)
-	{
-		heldByPlayer = interaction.Performer;
 	}
 
 	void Awake()
@@ -102,7 +92,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 	[Server]
 	public void ToggleWelder(GameObject originator)
 	{
-		heldByPlayer = originator;
 		UpdateState(!isOn);
 	}
 
@@ -153,16 +142,11 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 		CheckHeldByPlayer();
 	}
 
-	//A broadcast message from InventoryManager.cs on the server:
-	public void OnRemoveFromInventory()
-	{
-		heldByPlayer = null;
-	}
-
 	void CheckHeldByPlayer()
 	{
-		if (UIManager.Instance != null && UIManager.Hands != null && UIManager.Hands.CurrentSlot != null && UIManager.Hands.CurrentSlot.Item == gameObject)
+		if (UIManager.Instance != null && UIManager.Hands != null && UIManager.Hands.CurrentSlot != null && UIManager.Hands.CurrentSlot.ItemObject == gameObject)
 		{
+			//TODO: Need a more systematic way to update inventory sprites.
 			UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
 		}
 
@@ -210,10 +194,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 				}
 
 				Vector2Int position = gameObject.TileWorldPosition();
-				if (heldByPlayer != null)
-				{
-					position = heldByPlayer.gameObject.TileWorldPosition();
-				}
 
 				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(position, 700, 0.005f);
 			}

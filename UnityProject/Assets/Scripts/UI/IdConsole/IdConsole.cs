@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,13 +7,25 @@ using UnityEngine.Events;
 public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public IdConsoleUpdateEvent OnConsoleUpdate = new IdConsoleUpdateEvent();
-	public IDCard AccessCard;
-	public IDCard TargetCard;
+	private ItemStorage itemStorage;
+	private ItemSlot AccessSlot;
+	private ItemSlot TargetSlot;
+	public IDCard AccessCard => AccessSlot.Item != null ? AccessSlot.Item.GetComponent<IDCard>() : null;
+	public IDCard TargetCard => TargetSlot.Item != null ? TargetSlot.Item.GetComponent<IDCard>() : null;
 	public bool LoggedIn;
 
-	private void UpdateGUI()
+	private void Awake()
 	{
-		OnConsoleUpdate?.Invoke();
+		itemStorage = GetComponent<ItemStorage>();
+		AccessSlot = itemStorage.GetIndexedItemSlot(0);
+		TargetSlot = itemStorage.GetIndexedItemSlot(1);
+		AccessSlot.OnServerSlotContentsChange.AddListener(OnServerSlotContentsChange);
+	}
+
+	private void OnServerSlotContentsChange()
+	{
+		//propagate the ID change to listeners
+		OnConsoleUpdate.Invoke();
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -29,31 +42,14 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		//Put ID card inside
-		var handIDCard = interaction.HandObject.GetComponent<IDCard>();
-		if(handIDCard)
-		{
-			InsertCard(handIDCard);
-		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		InventoryManager.ClearInvSlot(slot);
-		UpdateGUI();
-	}
-
-	/// <summary>
-	/// Insert some ID into console and update login details.
-	/// Will spit out currently inserted ID card.
-	/// </summary>
-	///<param name="cardToInsert">Card you want to insert</param>
-	private void InsertCard(IDCard cardToInsert)
-	{
 		if (LoggedIn)
 		{
 			if (TargetCard)
 			{
 				EjectCard(TargetCard);
 			}
-			TargetCard = cardToInsert;
+
+			Inventory.ServerTransfer(interaction.HandSlot, TargetSlot);
 		}
 		else
 		{
@@ -61,7 +57,8 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				EjectCard(AccessCard);
 			}
-			AccessCard = cardToInsert;
+
+			Inventory.ServerTransfer(interaction.HandSlot, AccessSlot);
 		}
 	}
 
@@ -71,12 +68,8 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// <param name="cardToEject">Card you want to eject</param>
 	public void EjectCard(IDCard cardToEject)
 	{
-		ObjectBehaviour objBeh = cardToEject.GetComponentInChildren<ObjectBehaviour>();
-		Vector3Int pos = gameObject.RegisterTile().WorldPosition;
-		CustomNetTransform netTransform = objBeh.GetComponent<CustomNetTransform>();
-		netTransform.AppearAtPosition(pos);
-		netTransform.AppearAtPositionServer(pos);
-		UpdateGUI();
+		var slot = cardToEject.GetComponent<Pickupable>().ItemSlot;
+		Inventory.ServerDrop(slot);
 	}
 }
 

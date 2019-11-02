@@ -58,7 +58,7 @@ public class GUI_SecurityRecords : NetTab
 	{
 		if (console.IdCard)
 		{
-			console.RemoveID();
+			console.ServerRemoveIDCard();
 			UpdateScreen();
 		}
 	}

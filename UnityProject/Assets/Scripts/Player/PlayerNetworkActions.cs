@@ -7,31 +7,9 @@ using Mirror;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-	private readonly EquipSlot[] playerSlots =
-	{
-		EquipSlot.exosuit,
-		EquipSlot.belt,
-		EquipSlot.feet,
-		EquipSlot.head,
-		EquipSlot.mask,
-		EquipSlot.uniform,
-		EquipSlot.neck,
-		EquipSlot.ear,
-		EquipSlot.eyes,
-		EquipSlot.hands,
-		EquipSlot.id,
-		EquipSlot.back,
-		EquipSlot.rightHand,
-		EquipSlot.leftHand,
-		EquipSlot.storage01,
-		EquipSlot.storage02,
-		EquipSlot.suitStorage,
-		EquipSlot.handcuffs,
-	};
-
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[NonSerialized] public EquipSlot activeHand = EquipSlot.rightHand;
+	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
 
 	private PlayerChatBubble playerChatBubble;
 
@@ -39,89 +17,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-
-	public Dictionary<EquipSlot, InventorySlot> Inventory { get; } = new Dictionary<EquipSlot, InventorySlot>();
-
+	private ItemStorage itemStorage;
 
 	private void Awake()
 	{
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
 		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
-		foreach (var equipSlot in playerSlots)
-		{
-			var invSlot = new InventorySlot(equipSlot, true, gameObject);
-			Inventory.Add(equipSlot, invSlot);
-		}
-	}
-
-	/// <summary>
-	/// Sync the player with the server.
-	/// </summary>
-	/// <param name="recipient">The player to be synced.</param>
-	[Server]
-	public void ReenterBodyUpdates(GameObject recipient)
-	{
-		UpdateInventorySlots();
-	}
-
-	/// <summary>
-	/// Sends messages to a client to update every slot in the player's clientside inventory.
-	/// </summary>
-	[Server]
-	public void UpdateInventorySlots()
-	{
-		foreach (KeyValuePair<EquipSlot, InventorySlot> slot in Inventory)
-		{
-			if (slot.Value.Item != null)
-			{
-				UpdateSlotMessage.Send(gameObject, slot.Value.Item, false, slot.Key);
-			}
-		}
-	}
-
-	/// <summary>
-	/// Sets the Equipped Item to the UI slot on client
-	/// Stores a collection of items for the UI slot on the server as well
-	/// IsInit is for initial spawning and forces a SpriteHandler.PushTexture
-	/// on the client so that we know they are showing the correct sprites
-	/// </summary>
-	[Server]
-	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null,
-		bool replaceIfOccupied = false, bool isInit = false)
-	{
-		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
-		{
-			return false;
-		}
-
-		var cnt = itemObject.GetComponent<CustomNetTransform>();
-		if (cnt != null)
-		{
-			var objectBehaviour = itemObject.GetComponent<ObjectBehaviour>();
-			if (objectBehaviour != null)
-			{
-				objectBehaviour.parentContainer = playerScript.pushPull;
-			}
-
-			cnt.DisappearFromWorldServer();
-		}
-
-		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
-		{
-			return false;
-		}
-
-		if (originPNA != null)
-		{
-			var fromSlot = InventoryManager.GetSlotFromItem(itemObject, originPNA);
-			InventoryManager.ClearInvSlot(fromSlot);
-		}
-
-		var toSlot = Inventory[equipSlot];
-		InventoryManager.EquipInInvSlot(toSlot, itemObject, isInit);
-
-		return true;
 	}
 
 	/// <summary>
@@ -130,31 +32,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// <returns>the gameobject item in the player's active hand, null if nothing in active hand</returns>
 	public GameObject GetActiveHandItem()
 	{
-		return Inventory[activeHand].Item;
-	}
-
-	/// Destroys item if it's in player's pool.
-	/// It's not recommended to destroy shit in general due to the specifics of our game
-	[Server]
-	public void Consume(GameObject item)
-	{
-		foreach (var slot in Inventory)
-		{
-			if (item == slot.Value.Item)
-			{
-				InventoryManager.ClearInvSlot(slot.Value);
-				break;
-			}
-		}
+		var pu = itemStorage.GetNamedItemSlot(activeHand).Item;
+		return pu != null ? pu.gameObject : null;
 	}
 
 	/// Checks if player has this item in any of his slots
 	[Server]
 	public bool HasItem(GameObject item)
 	{
-		foreach (var slot in Inventory)
+		foreach (var slot in itemStorage.GetItemSlotTree())
 		{
-			if (item == slot.Value.Item)
+			if (item == slot.Item?.gameObject)
 			{
 				return true;
 			}
@@ -163,210 +51,73 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return false;
 	}
 
-	// If the player has item in an inventory slot, get it
-	[Server]
-	public InventorySlot GetInventorySlot(GameObject item)
+	private bool IsEquipSpriteSlot(ItemSlot slot)
 	{
-		foreach (var slot in Inventory)
-		{
-			if (item == slot.Value.Item)
-			{
-				return slot.Value;
-			}
-		}
-
-		return null;
+		return slot.SlotIdentifier.NamedSlot != null;
 	}
 
-	private bool IsEquipSpriteSlot(InventorySlot slot)
-	{
-		return slot.IsUISlot;
-	}
-
-	[Server]
-	private void SyncEquipSpritesFor(InventorySlot slot, GameObject Item)
-	{
-		//clear equip sprite
-		//if (slot.Owner.gameObject == gameObject)
-		//{
-		//	SyncEquipSprite(slot, Item);
-		//}
-		//else
-		//{
-		//	slot.Owner.GetComponent<PlayerNetworkActions>()?.SyncEquipSprite(slot, Item);
-		//}
-	}
 
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
-		EquipSlot enumA = (EquipSlot) Enum.Parse(typeof(EquipSlot), slotName);
+		NamedSlot enumA = (NamedSlot) Enum.Parse(typeof(NamedSlot), slotName);
 		equipment.SetReference((int) enumA, Item);
-	}
-
-	/// Drop an item from a slot. use forceSlotUpdate=false when doing cThelientside prediction,
-	/// otherwise client will forcefully receive update slot messages
-	public void RequestDropItem(string handUUID, bool forceClientInform = true)
-	{
-		//InventoryInteractMessage.Send("", handUUID, InventoryManager.GetSlotFromUUID(handUUID, isServer).Item, forceClientInform);
-	}
-
-	//Dropping from a slot on the UI
-	[Server]
-	public bool ValidateDropItem(InventorySlot invSlot, bool forceClientInform /* = false*/)
-	{
-		//decline if not dropped from hands?
-		//if (Inventory.ContainsKey(invSlot.SlotName) && Inventory[invSlot.SlotName].Item)
-		//{
-		//	DropItem(invSlot.SlotName, forceClientInform);
-		//	return true;
-		//}
-
-		Logger.Log("Object not found in Inventory", Category.Inventory);
-		return false;
-	}
-
-	///     Imperative drop.
-	/// Pass empty slot to drop a random ones
-	[Server]
-	public void DropItem(EquipSlot equipSlot)
-	{
-		InventoryManager.DropItem(Inventory[equipSlot].Item, transform.position, this);
-	}
-
-	/// <summary>
-	/// Drops all items.
-	/// </summary>
-	[Server]
-	public void DropAll()
-	{
-		foreach (var key in Inventory.Keys)
-		{
-			if (Inventory[key].Item)
-			{
-				DropItem(key);
-			}
-		}
 	}
 
 	/// <summary>
 	/// Server handling of the request to drop an item from a client
 	/// </summary>
 	[Command]
-	public void CmdDropItem(EquipSlot equipSlot)
+	public void CmdDropItem(NamedSlot equipSlot)
 	{
-		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand ||
-		    !SlotNotEmpty(equipSlot))
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		if (playerScript.canNotInteract() || equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand ||
+		    slot.Item == null)
 		{
 			return;
 		}
 
-		DropItem(equipSlot);
+		Inventory.ServerDrop(slot);
 	}
 
 	/// <summary>
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow(EquipSlot equipSlot, Vector3 worldTargetPos, int aim)
+	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetPos, int aim)
 	{
-		var inventorySlot = Inventory[equipSlot];
-		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand ||
-		    !SlotNotEmpty(equipSlot))
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		if (playerScript.canNotInteract() || equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand ||
+		    slot.Item == null)
 		{
 			return;
 		}
 
-		GameObject throwable = inventorySlot.Item;
-		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
-
-		InventoryManager.ClearInvSlot(inventorySlot);
-
-		var throwInfo = new ThrowInfo
-		{
-			ThrownBy = gameObject,
-			Aim = (BodyPartType) aim,
-			OriginPos = playerPos,
-			TargetPos = worldTargetPos,
-			//Clockwise spin from left hand and Counterclockwise from the right hand
-			SpinMode = equipSlot == EquipSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise,
-		};
-		throwable.GetComponent<CustomNetTransform>().Throw(throwInfo);
-
-		//Simplified counter-impulse for players in space
-		if (playerScript.PlayerSync.IsWeightlessServer)
-		{
-			playerScript.PlayerSync.Push(Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized));
-		}
+		Inventory.ServerThrow(slot, worldTargetPos,
+			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
 	}
 
 	[Command] //Remember with the parent you can only send networked objects:
-	public void CmdPlaceItem(EquipSlot equipSlot, Vector3 pos, GameObject newParent, bool isTileMap)
+	public void CmdPlaceItem(NamedSlot equipSlot, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
 		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos, true))
 		{
 			return;
 		}
 
-		var inventorySlot = Inventory[equipSlot];
-		GameObject item = inventorySlot.Item;
-
-		if (item != null && newParent != null)
-		{
-			InventoryManager.DropItem(inventorySlot.Item, pos, this);
-			if (isTileMap)
-			{
-				TileChangeManager tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
-				//item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
-			}
-			else
-			{
-				item.transform.parent = newParent.transform;
-			}
-
-			// TODO
-			//ReorderGameobjectsOnTile(pos);
-		}
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		Inventory.ServerDrop(slot, pos);
 	}
 
 	[Command]
-	public void CmdUpdateSlot(EquipSlot target, EquipSlot from)
+	public void CmdUpdateSlot(NamedSlot target, NamedSlot from)
 	{
-		var formInvSlot = Inventory[from];
-		var targetInvSlot = Inventory[target];
-		if (UIManager.CanPutItemToSlot(targetInvSlot, formInvSlot.Item, playerScript))
+		var formInvSlot = itemStorage.GetNamedItemSlot(from);
+		var targetInvSlot = itemStorage.GetNamedItemSlot(target);
+		if (Validations.CanPutItemToSlot(playerScript, targetInvSlot, formInvSlot.Item, NetworkSide.Server))
 		{
-			InventoryManager.EquipInInvSlot(targetInvSlot, formInvSlot.Item);
-			InventoryManager.ClearInvSlot(formInvSlot);
+			Inventory.ServerTransfer(formInvSlot, targetInvSlot);
 		}
-	}
-
-	//	private void ReorderGameobjectsOnTile(Vector2 position)
-	//	{
-	//		List<RegisterItem> items = regCallCmdCrowBarRemoveFloorTileisterTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
-	//
-	//		for (int i = 0; i < items.Count; i++)
-	//		{
-	//			SpriteRenderer sRenderer = items[i].gameObject.GetComponentInChildren<SpriteRenderer>();
-	//			if (sRenderer != null)
-	//			{
-	//				sRenderer.sortingOrder = (i + 1);
-	//			}
-	//		}
-	//	}
-
-	public bool SlotNotEmpty(EquipSlot eventName)
-	{
-		return Inventory.ContainsKey(eventName) && Inventory[eventName].Item != null;
-	}
-
-	[Command]
-	public void CmdStartMicrowave(EquipSlot equipSlot, GameObject microwave, string mealName)
-	{
-		Microwave m = microwave.GetComponent<Microwave>();
-		m.ServerSetOutputMeal(mealName);
-		InventoryManager.ClearInvSlot(Inventory[equipSlot]);
-		m.RpcStartCooking();
 	}
 
 	[Command]
@@ -432,6 +183,30 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Everything that needs to be done when reentering body.
+	/// </summary>
+	/// <param name="recipient">The player to be synced.</param>
+	[Server]
+	public void ReenterBodyUpdates()
+	{
+		UpdateInventorySlots();
+	}
+
+	/// <summary>
+	/// Make client a listener of each slot
+	/// </summary>
+	[Server]
+	private void UpdateInventorySlots()
+	{
+		var body = playerScript.mind.body.gameObject;
+		//player gets inventory slot updates again
+		foreach (var slot in itemStorage.GetItemSlotTree())
+		{
+			slot.ServerAddObserverPlayer(body);
+		}
+	}
+
+	/// <summary>
 	/// Process the effects of a conscious state being changed (invoked from PlayerHealth on server when
 	/// conscious state changes)
 	/// </summary>
@@ -448,9 +223,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.PlayerSync.SpeedServer = playerMove.RunSpeed;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
-				//Drop items when unconscious
-				DropItem(EquipSlot.rightHand);
-				DropItem(EquipSlot.leftHand);
+				//Drop hand items when unconscious
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
 				if (oldState == ConsciousState.CONSCIOUS)
@@ -462,8 +237,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			case ConsciousState.UNCONSCIOUS:
 				//Drop items when unconscious
-				DropItem(EquipSlot.rightHand);
-				DropItem(EquipSlot.leftHand);
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
 				playerMove.allowInput = false;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
@@ -553,7 +328,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.mind.StopGhosting();
 		var body = playerScript.mind.body.gameObject;
 		SpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
-		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
+		body.GetComponent<PlayerNetworkActions>().ReenterBodyUpdates();
 		RpcAfterRespawn();
 	}
 
@@ -581,9 +356,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//FOOD
 	[Command]
-	public void CmdEatFood(GameObject food, EquipSlot fromSlot, bool isDrink)
+	public void CmdEatFood(GameObject food, NamedSlot fromSlot, bool isDrink)
 	{
-		if (Inventory[fromSlot].Item == null)
+		var slot = itemStorage.GetNamedItemSlot(fromSlot);
+		if (slot.Item == null)
 		{
 			//Already been eaten or the food is no longer in hand
 			return;
@@ -607,18 +383,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
 		playerHealth.bloodSystem.StopBleedingAll();
 
-		food.GetComponent<Pickupable>().DisappearObject(Inventory[fromSlot]);
+		Inventory.ServerDespawn(slot);
 
 		GameObject leavings = baseFood.leavings;
 		if (leavings != null)
 		{
 			leavings = PoolManager.PoolNetworkInstantiate(leavings);
-			AddItemToUISlot(leavings, fromSlot);
+			Inventory.ServerAdd(leavings.GetComponent<Pickupable>(), slot);
 		}
 	}
 
 	[Command]
-	public void CmdSetActiveHand(EquipSlot hand)
+	public void CmdSetActiveHand(NamedSlot hand)
 	{
 		activeHand = hand;
 	}
@@ -650,13 +426,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Validate paper edit request
 		//TODO Check for Pen
-		if (Inventory[EquipSlot.leftHand].Item == paper || Inventory[EquipSlot.rightHand].Item == paper)
+		var leftHand = itemStorage.GetNamedItemSlot(NamedSlot.leftHand);
+		var rightHand = itemStorage.GetNamedItemSlot(NamedSlot.rightHand);
+		if (leftHand.Item?.gameObject == paper || rightHand.Item?.gameObject == paper)
 		{
 			var paperComponent = paper.GetComponent<Paper>();
-			var pen = Inventory[EquipSlot.leftHand].Item?.GetComponent<Pen>();
+			var pen = leftHand.Item?.GetComponent<Pen>();
 			if (pen == null)
 			{
-				pen = Inventory[EquipSlot.rightHand].Item?.GetComponent<Pen>();
+				pen = rightHand.Item?.GetComponent<Pen>();
 				if (pen == null)
 				{
 					//no pen
@@ -755,8 +533,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var rng = new System.Random();
 		string disarmerName = disarmer.Player()?.Name;
 		string playerToDisarmName = playerToDisarm.Player()?.Name;
-		var leftHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, EquipSlot.leftHand);
-		var rightHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, EquipSlot.rightHand);
+		var disarmStorage = playerToDisarm.GetComponent<ItemStorage>();
+		var leftHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.leftHand);
+		var rightHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.rightHand);
 		var disarmedPlayerRegister = playerToDisarm.GetComponent<RegisterPlayer>();
 		var disarmedPlayerNetworkActions = playerToDisarm.GetComponent<PlayerNetworkActions>();
 
@@ -776,12 +555,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			// Disarms
 			if (leftHandSlot.Item != null)
 			{
-				disarmedPlayerNetworkActions.DropItem(EquipSlot.leftHand);
+				Inventory.ServerDrop(leftHandSlot);
 			}
 
 			if (rightHandSlot.Item != null)
 			{
-				disarmedPlayerNetworkActions.DropItem(EquipSlot.rightHand);
+				Inventory.ServerDrop(rightHandSlot);
 			}
 
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);

@@ -67,7 +67,7 @@ public class GUI_Comms : NetTab
 
 		//starting up, setting appropriate labels
 		ProcessIdChange(console.IdCard);
-		console.IdEvent.AddListener( ProcessIdChange );
+		console.OnServerIDCardChanged.AddListener( ProcessIdChange );
 		shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
 		shuttleStatusLabel.SetValue = shuttle.Status.ToString();
@@ -186,7 +186,7 @@ public class GUI_Comms : NetTab
 	{
 		if (console.IdCard)
 		{
-			console.RemoveID();
+			console.ServerRemoveIDCard();
 		}
 		CloseTab();
 	}

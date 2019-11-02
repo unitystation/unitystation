@@ -6,7 +6,7 @@ internal enum MessageTypes : short
 	UpdateChatMessage = 1002,
 	UpdateConnectedPlayersMessage = 1003,
 	UpdateRoundTimeMessage = 1004,
-	UpdateSlotMessage = 1005,
+	UpdateItemSlotMessage = 1005,
 	UpdateUIMessage = 1006,
 	ClosetHandlerMessage = 1007,
 	ForceJobListUpdateMessage = 1008,
@@ -70,5 +70,6 @@ internal enum MessageTypes : short
 	RequestBookshelfNetMessage = 2027,
 	RequestOpenBookIDNetMessage = 2028,
 	RequestUncuffMessage = 2029,
-	RequestInteraction = 2030
+	RequestInteraction = 2030,
+	RequestSlotTransferMessage = 2031
 }

@@ -7,30 +7,12 @@ using System.IO;
 using System;
 
 [CreateAssetMenu(fileName = "HeadsetData", menuName = "ScriptableObjects/HeadsetData", order = 2)]
-public class HeadsetData : ScriptableObject
+public class HeadsetData : BaseClothData
 {
-	public GameObject PrefabVariant;
 	public EquippedData Sprites;
-	public ItemAttributesData ItemAttributes;
 	public HeadsetKyes Key;
 
-	public void Awake()
-	{
-		InitializePool();
-	}
-
-	private void OnEnable()
-	{
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
-		InitializePool();
-	}
-
-
-	public void InitializePool()
+	public override void InitializePool()
 	{
 		var clothFactory = UnityEngine.Object.FindObjectOfType<ClothFactory>();
 		if (clothFactory != null)
@@ -54,7 +36,7 @@ public class HeadsetData : ScriptableObject
 			DataPCD.Add(PCDObj);
 		}
 
-		string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
 
 
 		//foreach (string dir in dirs)

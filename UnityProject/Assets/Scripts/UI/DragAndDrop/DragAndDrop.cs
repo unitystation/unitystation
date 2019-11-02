@@ -32,7 +32,7 @@ public class DragAndDrop : MonoBehaviour
 			dragDummy.enabled = true;
 			dragDummy.sprite = itemSlot.image.sprite;
 			itemSlot.image.enabled = false;
-			ItemCache = itemSlot.Item;
+			ItemCache = itemSlot.ItemObject;
 		}
 	}
 

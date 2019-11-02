@@ -5,12 +5,24 @@ using UnityEngine.Events;
 
 public class SecurityRecordsConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public IDCard IdCard;
+	private ItemStorage itemStorage;
+	private ItemSlot itemSlot;
+
+	public IDCard IdCard => itemSlot.Item != null ? itemSlot.Item.GetComponent<IDCard>() : null;
 	public SecurityRecordsUpdateEvent OnConsoleUpdate = new SecurityRecordsUpdateEvent();
 
-	private void  UpdateGUI()
+	private void Awake()
 	{
-		OnConsoleUpdate?.Invoke();
+		//we can just store a single card.
+		itemStorage = GetComponent<ItemStorage>();
+		itemSlot = itemStorage.GetIndexedItemSlot(0);
+		itemSlot.OnServerSlotContentsChange.AddListener(OnServerSlotContentsChange);
+	}
+
+	private void OnServerSlotContentsChange()
+	{
+		//propagate the ID change to listeners
+		OnConsoleUpdate.Invoke();
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -27,42 +39,21 @@ public class SecurityRecordsConsole : MonoBehaviour, ICheckedInteractable<HandAp
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		//Put ID card inside
-		var handIDCard = interaction.HandObject.GetComponent<IDCard>();
-		if(handIDCard)
+		//Eject existing id card if there is one and put new one in
+		if (itemSlot.Item != null)
 		{
-			InsertID(handIDCard);
+			ServerRemoveIDCard();
 		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		InventoryManager.ClearInvSlot(slot);
-		UpdateGUI();
-	}
 
-	/// <summary>
-	/// Insert some ID into console and update login details.
-	/// Will spit out currently inserted ID card.
-	/// </summary>
-	///<param name="cardToInsert">Card you want to insert</param>
-	private void InsertID(IDCard cardToInsert)
-	{
-		if (IdCard)
-		{
-			RemoveID();
-		}
-		IdCard = cardToInsert;
+		Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 	}
 
 	/// <summary>
 	/// Spits out ID card from console and updates login details.
 	/// </summary>
-	public void RemoveID()
+	public void ServerRemoveIDCard()
 	{
-		ObjectBehaviour objBeh = IdCard.GetComponentInChildren<ObjectBehaviour>();
-		Vector3Int pos = gameObject.RegisterTile().WorldPosition;
-		CustomNetTransform netTransform = objBeh.GetComponent<CustomNetTransform>();
-		netTransform.AppearAtPosition(pos);
-		netTransform.AppearAtPositionServer(pos);
-		IdCard = null;
+		Inventory.ServerDrop(itemSlot);
 	}
 }
 

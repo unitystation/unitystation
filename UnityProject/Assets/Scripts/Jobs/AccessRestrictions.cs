@@ -9,10 +9,10 @@ public class AccessRestrictions : MonoBehaviour
 	public bool CheckAccess(GameObject Player)
 	{
 		IDCard card;
-		PlayerNetworkActions PNA = Player.GetComponent<PlayerNetworkActions>();
+		ItemStorage playerStorage = Player.GetComponent<ItemStorage>();
 
 		//this isn't a player. It could be an npc:
-		if (PNA == null)
+		if (playerStorage == null)
 		{
 			if ((int) restriction == 0)
 			{
@@ -22,15 +22,16 @@ public class AccessRestrictions : MonoBehaviour
 		}
 
 		// Check for an ID card
-		if (PNA.Inventory.ContainsKey(EquipSlot.id) &&
-		    PNA.Inventory[EquipSlot.id].Item?.GetComponent<IDCard>() != null)
+		var idId = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
+		var handId = playerStorage.GetActiveHandSlot().ItemObject;
+		if (idId != null && idId.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory[EquipSlot.id].Item.GetComponent<IDCard>();
+			card = idId.GetComponent<IDCard>();
 		}
-		else if (PNA.Inventory.ContainsKey(PNA.activeHand) &&
-		         PNA.Inventory[PNA.activeHand].Item?.GetComponent<IDCard>() != null)
+		else if (handId != null &&
+		         handId.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory[PNA.activeHand].Item.GetComponent<IDCard>();
+			card = handId.GetComponent<IDCard>();
 		}
 		else
 		{

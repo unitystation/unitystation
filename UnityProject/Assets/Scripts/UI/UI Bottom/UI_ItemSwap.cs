@@ -44,14 +44,14 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		var item = UIManager.Hands.CurrentSlot.Item;
 		if (item == null
 		    || itemSlot.Item != null
-		    || itemSlot.equipSlot == EquipSlot.leftHand
-		    || itemSlot.equipSlot == EquipSlot.rightHand)
+		    || itemSlot.namedSlot == NamedSlot.leftHand
+		    || itemSlot.namedSlot == NamedSlot.rightHand)
 		{
 			return;
 		}
 
-		itemSlot.UpdateImage(item,
-			UIManager.CanPutItemToSlot(itemSlot.inventorySlot, item, PlayerManager.LocalPlayerScript)
+		itemSlot.UpdateImage(item.gameObject,
+			Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item, NetworkSide.Client)
 			? successOverlayColor : failOverlayColor);
 	}
 
@@ -67,46 +67,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	{
 		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
 		{
-			if (itemSlot.inventorySlot.IsUISlot)
-			{
-				if(itemSlot.Item == null)
-				{
-					if (itemSlot.CheckItemFit(UIManager.DragAndDrop.ItemCache))
-					{
-						if (PlayerManager.LocalPlayerScript != null)
-						{
-							if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-								PlayerManager.LocalPlayerScript.IsGhost)
-							{
-								return;
-							}
-						}
-						if(UIManager.DragAndDrop.ItemSlotCache.inventorySlot.IsUISlot)
-						{
-							PlayerManager.LocalPlayerScript.playerNetworkActions.CmdUpdateSlot(itemSlot.equipSlot, UIManager.DragAndDrop.ItemSlotCache.equipSlot);
-						}
-						else
-						{
-							var storage = UIManager.DragAndDrop.ItemSlotCache.inventorySlot;
-							StoreItemMessage.Send(storage.Owner, PlayerManager.LocalPlayerScript.gameObject, itemSlot.equipSlot, false, storage.equipSlot);
-						}
-
-					}
-				}
-				else
-				{
-					var storage = itemSlot.Item.GetComponent<InteractableStorage>();
-					if (storage)
-					{
-						storage.StoreItem(PlayerManager.LocalPlayerScript.gameObject, UIManager.DragAndDrop.ItemSlotCache.equipSlot, UIManager.DragAndDrop.ItemCache);
-					}
-				}
-			}
-			else
-			{
-				var storage = itemSlot.inventorySlot.Owner.GetComponent<InteractableStorage>();
-				storage.StoreItem(PlayerManager.LocalPlayerScript.gameObject, UIManager.DragAndDrop.ItemSlotCache.equipSlot, UIManager.DragAndDrop.ItemCache);
-			}
+			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
+			RequestInventoryTransferMessage.Send(fromSlot, UIManager.DragAndDrop.ItemSlotCache.ItemSlot);
 		}
 	}
 }
