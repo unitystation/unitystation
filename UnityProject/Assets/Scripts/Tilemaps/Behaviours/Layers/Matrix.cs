@@ -53,9 +53,13 @@ public class Matrix : MonoBehaviour
 
 			foreach ( var pos in bounds.allPositionsWithin )
 			{
-				foreach ( var player in Get<RegisterPlayer>(pos, true) )
+				foreach ( var player in Get<PlayerScript>(pos, true) )
 				{
-					player.Slip(true);
+					if ( player.IsGhost )
+					{
+						continue;
+					}
+					player.registerTile.Slip(true);
 				}
 				//maybe shake items somehow, too
 			}

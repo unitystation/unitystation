@@ -317,7 +317,7 @@ public partial class MatrixManager
 				);
 			SlowDown( i, collisions );
 
-			if ( collisions > 6 )
+			if ( collisions > 6 && Mathf.Max( i.Matrix1.Speed, i.Matrix2.Speed ) > 6 )
 			{
 				i.Matrix1.Matrix.OnEarthquake.Invoke( epicenter, collisions );
 				i.Matrix2.Matrix.OnEarthquake.Invoke( epicenter, collisions );

@@ -15,7 +15,7 @@ public class RegisterPlayer : RegisterTile
 	public bool IsDownClient { get; private set; }
 	public bool IsDownServer { get; set; }
 
-	public bool IsStunnedClient => false;
+	public bool IsStunnedClient => IsSlippingServer;
 
 	/// <summary>
 	/// True when the player is slipping
@@ -132,7 +132,6 @@ public class RegisterPlayer : RegisterTile
 			return;
 		}
 
-		IsSlippingServer = true;
 		Stun();
 		SoundManager.PlayNetworkedAtPos("Slip", WorldPositionServer, Random.Range(0.9f, 1.1f));
 		// Let go of pulled items.
@@ -147,6 +146,7 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
+		IsSlippingServer = true;
 		PlayerUprightMessage.SendToAll(gameObject, false, false);
 		if (dropItem)
 		{
@@ -165,6 +165,7 @@ public class RegisterPlayer : RegisterTile
 
 	public void RemoveStun()
 	{
+		IsSlippingServer = false;
 		PlayerUprightMessage.SendToAll(gameObject, true, false);
 		playerScript.playerMove.allowInput = true;
 	}

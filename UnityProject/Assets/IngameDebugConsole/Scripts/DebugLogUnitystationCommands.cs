@@ -302,5 +302,13 @@ namespace IngameDebugConsole
 
 			}
 		}
+		[MenuItem("Networking/Slip Local Player")]
+		private static void SlipPlayer()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				PlayerManager.LocalPlayerScript.registerTile.Slip( true );
+			}
+		}
 	}
 }

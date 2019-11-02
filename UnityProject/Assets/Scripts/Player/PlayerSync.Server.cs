@@ -77,8 +77,8 @@ public partial class PlayerSync
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => registerPlayer.IsSlippingServer
-	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
+	public bool IsNonStickyServer => registerPlayer.IsSlippingServer && MatrixManager.IsNoGravityAt(serverState.WorldPosition.RoundToInt(), true)
+	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(serverState.WorldPosition.RoundToInt(), true);
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
 
@@ -582,7 +582,7 @@ public partial class PlayerSync
 		if ( IsNonStickyServer )
 		{
 			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
-			{
+			{ //fixme: serverLastDirection is unreliable. maybe rethink notion of impulse
 				//server initiated space dive.
 				serverState.Impulse = serverLastDirection;
 				serverState.ImportantFlightUpdate = true;
