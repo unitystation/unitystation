@@ -218,7 +218,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 3a6a8a32e63303a4eb1dc62fbc736d5e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -277,6 +277,7 @@ MonoBehaviour:
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
+  bloodColor: 0
   BodyParts:
   - {fileID: 114274186841950984}
   - {fileID: 114590801595228480}
@@ -322,7 +323,7 @@ MonoBehaviour:
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
-  Passable: 1
+  Passable: 0
 --- !u!114 &114432418502425888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,5 +377,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 619645d8842bf4750bc2f93423ea4064
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2982637358

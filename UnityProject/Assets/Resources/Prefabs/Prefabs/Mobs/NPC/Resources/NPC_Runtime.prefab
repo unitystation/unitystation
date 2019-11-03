@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114555785714625820}
   - component: {fileID: 114713267190622314}
   - component: {fileID: 114582363912736342}
+  - component: {fileID: 2097831301508395641}
   - component: {fileID: 114774533267492450}
   - component: {fileID: 114791056930384320}
   m_Layer: 12
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300006, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -134,6 +135,7 @@ MonoBehaviour:
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
+  bloodColor: 0
   BodyParts:
   - {fileID: 8271809860616263456}
   - {fileID: 544425337743952269}
@@ -179,7 +181,7 @@ MonoBehaviour:
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
-  Passable: 1
+  Passable: 0
 --- !u!114 &114582363912736342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +196,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &2097831301508395641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114774533267492450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,8 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: a990bc1742ffa46c39c5839d3e7ec915
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2409253388
 --- !u!1 &5258005088007752283
 GameObject:
   m_ObjectHideFlags: 0
