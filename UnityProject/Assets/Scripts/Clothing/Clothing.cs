@@ -30,19 +30,19 @@ public class Clothing : NetworkBehaviour
 		if (string.IsNullOrEmpty(syncString)) return;
 
 		SynchronisedString = syncString;
-		if (ClothFactory.Instance.ClothingStoredData.ContainsKey(syncString))
+		if (Spawn.ClothingStoredData.ContainsKey(syncString))
 		{
-			clothingData = ClothFactory.Instance.ClothingStoredData[syncString];
+			clothingData = Spawn.ClothingStoredData[syncString];
 			TryInit();
 		}
-		else if (ClothFactory.Instance.BackpackStoredData.ContainsKey(syncString))
+		else if (Spawn.BackpackStoredData.ContainsKey(syncString))
 		{
-			containerData = ClothFactory.Instance.BackpackStoredData[syncString];
+			containerData = Spawn.BackpackStoredData[syncString];
 			TryInit();
 		}
-		else if (ClothFactory.Instance.HeadSetStoredData.ContainsKey(syncString))
+		else if (Spawn.HeadSetStoredData.ContainsKey(syncString))
 		{
-			headsetData = ClothFactory.Instance.HeadSetStoredData[syncString];
+			headsetData = Spawn.HeadSetStoredData[syncString];
 			TryInit();
 		}
 		else

@@ -22,7 +22,7 @@ public class ItemStorage : MonoBehaviour, IOnStageServer, IOffStageServer
 	public ItemStorageStructure ItemStorageStructure;
 
 	[Tooltip("Defines how the storage should be populated when the object spawns. You can also" +
-	         " invoke Populate to manually populate this storage.")]
+	         " invoke Populate to manually / dynamically populate this storage using a supplied populator.")]
 	public ItemStoragePopulator ItemStoragePopulator;
 
 	/// <summary>

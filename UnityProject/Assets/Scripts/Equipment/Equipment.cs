@@ -101,17 +101,10 @@ public class Equipment : NetworkBehaviour
 		{
 			if (gearItem.Value.Clothing != null)
 			{
-				if (gearItem.Value.Clothing.PrefabVariant != null)
-				{
-					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent, PrefabOverride: gearItem.Value.Clothing.PrefabVariant); //Where it is made
-					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(gearItem.Key, itemAtts.gameObject, true);
-				}
-				else {
-					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent);
-					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(gearItem.Key, itemAtts.gameObject, true);
-				}
+				var obj = Spawn.ServerCloth(gearItem.Value.Clothing, TransformState.HiddenPos,
+					parent: transform.parent, prefabOverride: gearItem.Value.Clothing.PrefabVariant).GameObject; //Where it is made
+				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+				SetItem(gearItem.Key, itemAtts.gameObject, true);
 			}
 			else if (gearItem.Value.Prefab != null)
 			{
@@ -122,17 +115,9 @@ public class Equipment : NetworkBehaviour
 		}
 		if (Backpack.Backpack != null)
 		{
-			if (Backpack.Backpack.PrefabVariant != null)
-			{
-				var obj = ClothFactory.CreateCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: Backpack.Backpack.PrefabVariant); //Where it is made
-				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(NamedSlot.back, itemAtts.gameObject, true);
-			}
-			else {
-				var obj = ClothFactory.CreateCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent);
-				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(NamedSlot.back, itemAtts.gameObject, true);
-			}
+			var obj = Spawn.ServerCloth(Backpack.Backpack, TransformState.HiddenPos, parent: transform.parent, prefabOverride: Backpack.Backpack.PrefabVariant).GameObject; //Where it is made
+			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+			SetItem(NamedSlot.back, itemAtts.gameObject, true);
 		}
 		else if (Backpack.Prefab)
 		{
@@ -144,17 +129,9 @@ public class Equipment : NetworkBehaviour
 
 		if (Ears.Headset != null)
 		{
-			if (Ears.Headset.PrefabVariant != null)
-			{
-				var obj = ClothFactory.CreateCloth(Ears.Headset, TransformState.HiddenPos, transform.parent, PrefabOverride: Ears.Headset.PrefabVariant); //Where it is made
-				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(NamedSlot.ear, itemAtts.gameObject, true);
-			}
-			else {
-				var obj = ClothFactory.CreateCloth(Ears.Headset, TransformState.HiddenPos, transform.parent);
-				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(NamedSlot.ear, itemAtts.gameObject, true);
-			}
+			var obj = Spawn.ServerCloth(Ears.Headset, TransformState.HiddenPos, parent: transform.parent, prefabOverride: Ears.Headset.PrefabVariant).GameObject; //Where it is made
+			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+			SetItem(NamedSlot.ear, itemAtts.gameObject, true);
 		}
 		else if (Ears.Prefab)
 		{

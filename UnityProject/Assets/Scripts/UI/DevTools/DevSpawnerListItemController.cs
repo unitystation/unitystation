@@ -60,7 +60,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 		else
 		{
-			var newClothingData = ClothFactory.Instance.ClothingStoredData[resultDoc.Get("name")];
+			var newClothingData = Spawn.ClothingStoredData[resultDoc.Get("name")];
 			detailText.text = $"{newClothingData.name}";
 			clothingData = newClothingData;
 			image.sprite = newClothingData.Base.ItemIcon.Sprites[0];
@@ -143,7 +143,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		{
 			if (clothingData != null)
 			{
-				ClothFactory.CreateCloth(clothingData, position);
+				Spawn.ServerCloth(clothingData, position);
 			}
 			else
 			{

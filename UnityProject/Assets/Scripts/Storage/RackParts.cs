@@ -48,7 +48,8 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
-			ObjectFactory.SpawnMetal(1, interaction.WorldPositionTarget.To2Int(), parent: transform.parent);
+			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget, transform.parent, count: 1,
+				scatterRadius: Spawn.DefaultScatterRadius);
 			PoolManager.PoolNetworkDestroy(gameObject);
 
 			return;
@@ -76,7 +77,8 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f);
-		ObjectFactory.SpawnMetal(1, interaction.Performer.WorldPosServer().To2Int(), parent: transform.parent);
+		Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer(), transform.parent, count: 1,
+			scatterRadius: Spawn.DefaultScatterRadius);
 		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 }

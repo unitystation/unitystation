@@ -38,11 +38,6 @@ public class CustomNetworkManager : NetworkManager
 	{
 		SetSpawnableList();
 
-		if (GameData.IsInGame && PoolManager.Instance == null)
-		{
-			ObjectManager.StartPoolManager();
-		}
-
 		//Automatically host if starting up game *not* from lobby
 		if (SceneManager.GetActiveScene().name != offlineScene)
 		{
@@ -283,11 +278,6 @@ public class CustomNetworkManager : NetworkManager
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		this.RegisterClientHandlers(conn);
 
-		if (GameData.IsInGame && PoolManager.Instance == null)
-		{
-			ObjectManager.StartPoolManager();
-		}
-
 		base.OnClientConnect(conn);
 	}
 
@@ -359,7 +349,6 @@ public class CustomNetworkManager : NetworkManager
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			if (PoolManager.Instance == null)
 			{
-				ObjectManager.StartPoolManager();
 				StartCoroutine(DoHeadlessCheck());
 			}
 		}

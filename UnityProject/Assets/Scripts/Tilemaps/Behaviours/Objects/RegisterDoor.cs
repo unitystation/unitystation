@@ -44,7 +44,8 @@
 	            SubsystemManager.UpdateAt(LocalPositionServer);
 	        }
 	        //spawn some metal for the door
-	        ObjectFactory.SpawnMetal(2, WorldPosition.To2Int(), parent: transform.parent);
+	        Spawn.ServerPrefab("Metal", WorldPosition, transform.parent, count: 2,
+		        scatterRadius: Spawn.DefaultScatterRadius);
 		}
 
 

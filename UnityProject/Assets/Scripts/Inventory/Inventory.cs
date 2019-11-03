@@ -93,11 +93,11 @@ public static class Inventory
 	}
 
 	/// <summary>
-	/// Server-side only. General purpose method for performing an inventory move. Performs the move indicated by the specified info.
+	/// Server-side only. General purpose method for performing an inventory move. Performs the move indicated by toPerform.
 	/// </summary>
 	/// <param name="toPerform"></param>
 	/// <returns>true if successful</returns>
-	private static bool ServerPerform(InventoryMove toPerform)
+	public static bool ServerPerform(InventoryMove toPerform)
 	{
 		var pickupable = toPerform.MovedObject;
 		if (pickupable == null)

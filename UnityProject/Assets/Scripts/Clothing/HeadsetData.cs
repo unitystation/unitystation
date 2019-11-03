@@ -14,15 +14,11 @@ public class HeadsetData : BaseClothData
 
 	public override void InitializePool()
 	{
-		var clothFactory = UnityEngine.Object.FindObjectOfType<ClothFactory>();
-		if (clothFactory != null)
+		if (Spawn.HeadSetStoredData.ContainsKey(this.name))
 		{
-			if (clothFactory.HeadSetStoredData.ContainsKey(this.name))
-			{
-				Logger.LogError("a HeadsetData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
-			}
-			clothFactory.HeadSetStoredData[this.name] = this;
+			Logger.LogError("a HeadsetData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
 		}
+		Spawn.HeadSetStoredData[this.name] = this;
 
 	}
 

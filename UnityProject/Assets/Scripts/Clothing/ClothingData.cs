@@ -15,23 +15,13 @@ public class ClothingData : BaseClothData
 	public EquippedData DressVariant; //humm yeah Dresses
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
-	private static ClothFactory ClothFactoryReference;
-
 	public override void  InitializePool()
 	{
-		if (ClothFactoryReference == null)
+		if (Spawn.ClothingStoredData.ContainsKey(this.name))
 		{
-			ClothFactoryReference = FindObjectOfType<ClothFactory>();
+			Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
 		}
-
-		if (ClothFactoryReference != null)
-		{
-			if (ClothFactoryReference.ClothingStoredData.ContainsKey(this.name))
-			{
-				Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
-			}
-			ClothFactoryReference.ClothingStoredData[this.name] = this;
-		}
+		Spawn.ClothingStoredData[this.name] = this;
 	}
 
 	public static void getClothingDatas(List<ClothingData> DataPCD)
@@ -56,9 +46,6 @@ public class ClothingData : BaseClothData
 		}
 	}
 }
-
-
-
 
 [System.Serializable]
 public class EquippedData

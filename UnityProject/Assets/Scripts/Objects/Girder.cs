@@ -21,7 +21,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		ObjectFactory.SpawnMetal(1, gameObject.TileWorldPosition(), parent: transform.parent);
+		Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
+			scatterRadius: Spawn.DefaultScatterRadius);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)

@@ -74,9 +74,9 @@ public class SlotContents
 					Category.Inventory, slot);
 				return;
 			}
-			var cloth = ClothFactory.CreateCloth(ClothData, CVT: ClothingVariantType,
-				variant: ClothVariantIndex,
-				PrefabOverride: Prefab);
+			var cloth = Spawn.ServerCloth(ClothData, CVT: ClothingVariantType,
+				variantIndex: ClothVariantIndex,
+				prefabOverride: Prefab).GameObject;
 			Inventory.ServerAdd(cloth, slot);
 		}
 		else if (ContentsType == SlotContentsType.SlotPopulator)

@@ -15,15 +15,11 @@ public class ContainerData : BaseClothData
 
 	public override void  InitializePool()
 	{
-		var clothFactory = UnityEngine.Object.FindObjectOfType<ClothFactory>();
-		if (clothFactory != null)
+		if (Spawn.BackpackStoredData.ContainsKey(this.name))
 		{
-			if (clothFactory.BackpackStoredData.ContainsKey(this.name))
-			{
-				Logger.LogError("a ContainerData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
-			}
-			clothFactory.BackpackStoredData[this.name] = this;
+			Logger.LogError("a ContainerData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
 		}
+		Spawn.BackpackStoredData[this.name] = this;
 
 	}
 	public static void getContainerData(List<ContainerData> DataPCD)

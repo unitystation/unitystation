@@ -27,7 +27,7 @@ public class DevSpawnerDocument
 	/// <param name="prefab"></param>
 	public static DevSpawnerDocument ForPrefab(GameObject prefab)
 	{
-		return new DevSpawnerDocument(prefab.name, SpawnableType.PREFAB);
+		return new DevSpawnerDocument(prefab.name, SpawnableType.Prefab);
 	}
 
 
@@ -37,12 +37,7 @@ public class DevSpawnerDocument
 	/// <param name="data"></param>
 	public static DevSpawnerDocument ForClothing(ClothingData data)
 	{
-		return new DevSpawnerDocument(data.name, SpawnableType.CLOTHING_DATA);
+		return new DevSpawnerDocument(data.name, SpawnableType.Cloth);
 	}
 }
 
-public enum SpawnableType
-{
-	PREFAB,
-	CLOTHING_DATA
-}
