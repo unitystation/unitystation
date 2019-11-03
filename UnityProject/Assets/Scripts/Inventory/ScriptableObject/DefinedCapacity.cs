@@ -7,16 +7,19 @@ using UnityEngine;
 /// ItemStorageCapacity which should cover most typical use cases, allowing you to define all the aspects of
 /// what is allowed.
 /// </summary>
+[CreateAssetMenu(fileName = "DefinedCapacity", menuName = "Inventory/DefinedCapacity", order = 4)]
 public class DefinedCapacity : ItemStorageCapacity
 {
 	[System.Serializable]
 	public class DefinedCapacityEntry
 	{
 		[Tooltip("Max item size allowed.")]
-		public ItemSize MaxItemSize = ItemSize.Huge;
+		public ItemSize MaxItemSize = ItemSize.None;
 
 		[Tooltip("Item types allowed.")]
-		public ItemType[] AllowedItemTypes = { ItemType.All };
+		public ItemType[] AllowedItemTypes;
+
+
 
 		public bool CanFit(Pickupable toCheck)
 		{
@@ -32,7 +35,14 @@ public class DefinedCapacity : ItemStorageCapacity
 				Logger.LogTraceFormat("{0} has no item attrs, defaulting to ItemSize.Huge", Category.Inventory, toCheck.name);
 			}
 
-			if (size > MaxItemSize)
+			var sizeLimit = MaxItemSize;
+			if (sizeLimit == ItemSize.None)
+			{
+				Logger.LogTraceFormat("No size restriction defined, defaulting to ItemSize.Huge", Category.Inventory);
+				sizeLimit = ItemSize.Huge;
+			}
+
+			if (size > sizeLimit)
 			{
 				Logger.LogTraceFormat("{0} ({1}) exceeds max size of slot ({2})", Category.Inventory, toCheck.name, size, MaxItemSize);
 				return false;
@@ -40,8 +50,8 @@ public class DefinedCapacity : ItemStorageCapacity
 
 			if (AllowedItemTypes.Length == 0)
 			{
-				Logger.LogTrace("No item types are allowed in this slot. This may be a config error.", Category.Inventory);
-				return false;
+				Logger.LogTraceFormat("No item types are defined in this slot. Defaulting to allowing all item types", Category.Inventory);
+				return true;
 			}
 			if (AllowedItemTypes.Contains(ItemType.All)) return true;
 			ItemType type = ItemType.None;
@@ -81,6 +91,7 @@ public class DefinedCapacity : ItemStorageCapacity
 	public DefinedCapacityEntry IndexedSlotCapacity;
 
 	[Tooltip("Capacity capabilities of each named slot")]
+	[ArrayElementTitle("NamedSlot")]
 	public NamedDefinedCapacityEntry[] NamedSlotCapacity;
 
 	public override bool CanFit(Pickupable toCheck, ItemSlot inSlot)

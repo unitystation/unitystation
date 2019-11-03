@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 /// <summary>
 /// Defines the structure of an ItemStorage - what the possible slots are.
 /// </summary>
+[CreateAssetMenu(fileName = "ItemStorageStructure", menuName = "Inventory/ItemStorageStructure", order = 1)]
 public class ItemStorageStructure : ScriptableObject
 {
 	[Tooltip("Number of unnamed slots in this structure, accessible via slot index. Note that setting" +

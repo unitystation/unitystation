@@ -45,6 +45,7 @@ public class ObjectManager : MonoBehaviour
 public enum ItemSize
 {
 	//w_class
+	None = 0,
 	Tiny = 	1,
 	Small = 2,
 	Medium =3, //Normal
@@ -140,23 +141,29 @@ public enum SpriteType
 [Serializable]
 public enum ItemType
 {
-	None,
-	Glasses,
-	Hat,
-	Neck,
-	Mask,
-	Ear,
-	Suit,
-	Uniform,
-	Gloves,
-	Shoes,
-	Belt,
-	Back,
-	ID,
-	PDA,
-	Food,
-	Medical,
-	Knife,
-	Gun,
-	All
+	//NOTE: To ensure safety of things, like scriptable objects, that are referencing this enum, you must NOT change
+	//the ordinals and any new value you add must specify a new ordinal value
+
+	//no item has this type, just used for defining what's allowed to go in a slot / null value
+	None = 0,
+	Glasses = 1,
+	Hat = 2,
+	Neck = 3,
+	Mask = 4,
+	Ear = 5,
+	Suit = 6,
+	Uniform = 7,
+	Gloves = 8,
+	Shoes = 9,
+	Belt = 10,
+	Back = 11,
+	ID = 12,
+	PDA = 13,
+	Food = 14,
+	Medical = 15,
+	Knife = 16,
+	Gun = 17,
+	//no item has this type, just used for defining what's allowed to go in a slot
+	All = 18,
+	
 }

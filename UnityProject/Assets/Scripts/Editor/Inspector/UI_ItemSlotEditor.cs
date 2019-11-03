@@ -14,9 +14,7 @@ public class UI_ItemSlotEditor : Editor
 	{
 		serializedObject.Update();
 
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("eventName"), new GUIContent("Slot Name"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("hoverName"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("equipSlot"));
 		EditorGUILayout.PropertyField(allowAllItems);
 
 		if (allowAllItems.boolValue)

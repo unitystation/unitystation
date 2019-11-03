@@ -180,7 +180,7 @@ public class Clothing : NetworkBehaviour
 
 public enum ClothingVariantType
 {
-	Default,
-	Tucked,
-	Skirt
+	Default = 0,
+	Tucked = 1,
+	Skirt = 2
 }
