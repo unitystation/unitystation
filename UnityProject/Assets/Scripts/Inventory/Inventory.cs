@@ -177,9 +177,9 @@ public static class Inventory
 		pickupable.ServerSetItemSlot(toSlot);
 		toSlot.ServerSetItem(pickupable);
 
-		foreach (var onMove in pickupable.GetComponents<IServerOnInventoryMove>())
+		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
-			onMove.ServerOnInventoryMove(toPerform);
+			onMove.OnInventoryMoveServer(toPerform);
 		}
 
 		return true;
@@ -291,9 +291,9 @@ public static class Inventory
 		//NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		//already been removed from the inventory system.
 
-		foreach (var onMove in pickupable.GetComponents<IServerOnInventoryMove>())
+		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
-			onMove.ServerOnInventoryMove(toPerform);
+			onMove.OnInventoryMoveServer(toPerform);
 		}
 
 		return true;
@@ -344,9 +344,9 @@ public static class Inventory
 		pickupable.ServerSetItemSlot(toSlot);
 		toSlot.ServerSetItem(pickupable);
 
-		foreach (var onMove in pickupable.GetComponents<IServerOnInventoryMove>())
+		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
-			onMove.ServerOnInventoryMove(toPerform);
+			onMove.OnInventoryMoveServer(toPerform);
 		}
 
 		return true;

@@ -41,7 +41,7 @@ public static class Despawn
 		var cnt = info.GameObject.GetComponent<CustomNetTransform>();
 		if (cnt)
 		{
-			cnt.FireGoingOffStageHooks();
+			cnt.FireDespawnHooks(info);
 		}
 		else
 		{

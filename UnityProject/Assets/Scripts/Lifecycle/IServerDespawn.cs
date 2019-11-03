@@ -7,12 +7,12 @@
 /// client-side object unless we implement a custom destruction
 /// syncing logic.
 /// </summary>
-public interface IOffStageServer
+public interface IServerDespawn
 {
 	/// <summary>
 	/// Lifecycle hook invoked on server side immediately before object will despawn.
 	/// Object should clear its state.
 	/// </summary>
 	/// <param name="info">info about how it is being despawned</param>
-	void GoingOffStageServer(OffStageInfo info);
+	void OnDespawnServer(DespawnInfo info);
 }

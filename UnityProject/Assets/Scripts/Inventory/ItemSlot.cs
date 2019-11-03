@@ -96,12 +96,12 @@ public class ItemSlot
 	/// Client side. Invoked after the contents of this slot are changed.
 	/// Use this to update in response to such changes.
 	/// </summary>
-	public readonly UnityEvent OnClientSlotContentsChange = new UnityEvent();
+	public readonly UnityEvent OnSlotContentsChangeClient = new UnityEvent();
 	/// <summary>
 	/// Server side. Invoked after the contents of this slot are changed.
 	/// Use this to update in response to such changes.
 	/// </summary>
-	public readonly UnityEvent OnServerSlotContentsChange = new UnityEvent();
+	public readonly UnityEvent OnSlotContentsChangeServer = new UnityEvent();
 
 	private ItemSlot(ItemStorage itemStorage, SlotIdentifier slotIdentifier)
 	{
@@ -232,7 +232,7 @@ public class ItemSlot
 	public void ServerSetItem(Pickupable newItem)
 	{
 		item = newItem;
-		OnServerSlotContentsChange.Invoke();
+		OnSlotContentsChangeServer.Invoke();
 		UpdateItemSlotMessage.Send(serverObserverPlayers, this);
 	}
 
@@ -255,7 +255,7 @@ public class ItemSlot
 	public void ClientUpdate(Pickupable newContents)
 	{
 		item = newContents;
-		OnClientSlotContentsChange.Invoke();
+		OnSlotContentsChangeClient.Invoke();
 	}
 
 	/// <summary>
@@ -295,8 +295,7 @@ public class ItemSlot
 	/// slots in this storage. Should be called when storage is going to be destroyed or
 	/// will be no longer known by the client. On server side, also destroys all the items in the slot.
 	/// </summary>
-	/// <param name="itemStorage1"></param>
-	/// <exception cref="NotImplementedException"></exception>
+	/// <param name="storageToFree"></param>
 	public static void Free(ItemStorage storageToFree)
 	{
 		if (CustomNetworkManager.IsServer)

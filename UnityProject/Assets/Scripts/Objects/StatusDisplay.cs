@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// Status display that will show short text messages sent to currently selected channel.
 /// Escape Shuttle channel is a priority one and will overtake other channels.
 /// </summary>
-public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
+public class StatusDisplay : NetworkBehaviour, IServerDespawn, IServerSpawn
 {
 	public static readonly int MAX_CHARS_PER_PAGE = 18;
 
@@ -47,13 +47,13 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 	{
 		SyncStatusText(statusText);
 	}
-	
+
 	public override void OnStartServer()
 	{
 		SyncStatusText(statusText);
 	}
 
-	public void GoingOnStageServer( OnStageInfo info )
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		SyncStatusText(statusText);
 	}
@@ -61,7 +61,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 	/// <summary>
 	/// cleaning up for reuse
 	/// </summary>
-	public void GoingOffStageServer( OffStageInfo info )
+	public void OnDespawnServer(DespawnInfo info)
 	{
 		GameManager.Instance.CentComm.OnStatusDisplayUpdate.RemoveListener( OnTextBroadcastReceived() );
 		channel = StatusDisplayChannel.Command;
@@ -77,7 +77,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 		}
 		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
 	}
-	
+
 	#endregion
 
 	/// <summary>
@@ -104,7 +104,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 		textField.text = statusText.Substring( 0, Mathf.Min( statusText.Length, MAX_CHARS_PER_PAGE ) );
 
 		yield return WaitFor.Seconds( 3 );
-		
+
 		int shownChars = textField.cachedTextGenerator.characterCount;
 
 		if ( shownChars >= statusText.Length )

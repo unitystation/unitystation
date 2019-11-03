@@ -6,14 +6,14 @@ using Mirror;
 /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
-public class HealsTheLiving : NetworkBehaviour, ICheckedInteractable<HandApply>, IOnStageServer
+public class HealsTheLiving : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 {
 	public DamageType healType;
 	//total number of times this can be used
 	public int uses = 6;  //TODO: move into some stack component (metal sheets, ores, etc)
 	private int timesUsed;
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		timesUsed = 0;
 	}

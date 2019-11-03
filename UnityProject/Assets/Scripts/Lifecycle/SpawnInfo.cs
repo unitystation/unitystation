@@ -256,5 +256,6 @@ public enum SpawnableType
 {
 	Prefab = 0,
 	Cloth = 1,
+	//cloning an existing gameobject
 	Clone = 2
 }

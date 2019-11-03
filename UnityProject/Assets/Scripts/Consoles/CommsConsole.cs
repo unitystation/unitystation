@@ -23,7 +23,7 @@ public class CommsConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 		//we can just store a single card.
 		itemStorage = GetComponent<ItemStorage>();
 		itemSlot = itemStorage.GetIndexedItemSlot(0);
-		itemSlot.OnServerSlotContentsChange.AddListener(OnServerSlotContentsChange);
+		itemSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);
 	}
 
 	private void OnServerSlotContentsChange()

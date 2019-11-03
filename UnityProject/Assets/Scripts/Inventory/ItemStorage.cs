@@ -15,7 +15,7 @@ using UnityEngine;
 /// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
 /// in a player's inventory)!
 /// </summary>
-public class ItemStorage : MonoBehaviour, IOnStageServer, IOffStageServer
+public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
 {
 	[Tooltip("Configuration describing the structure of the slots - i.e. what" +
 	         " the slots are / how many there are.")]
@@ -40,7 +40,7 @@ public class ItemStorage : MonoBehaviour, IOnStageServer, IOffStageServer
 		ServerPopulate(ItemStoragePopulator);
 	}
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		ServerPopulate(ItemStoragePopulator);
 	}
@@ -176,7 +176,7 @@ public class ItemStorage : MonoBehaviour, IOnStageServer, IOffStageServer
 		return GetIndexedSlots().FirstOrDefault(its => its.Item == null);
 	}
 
-	public void GoingOffStageServer(OffStageInfo info)
+	public void OnDespawnServer(DespawnInfo info)
 	{
 		//reclaim the space in the slot pool.
 		ItemSlot.Free(this);

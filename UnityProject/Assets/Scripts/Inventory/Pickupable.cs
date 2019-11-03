@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 /// Allows object to be picked up into inventory and moved to different slots, storage objects, and be dropped.
 /// </summary>
 public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>,
-	IRightClickable, IOffStageServer, IServerOnInventoryMove
+	IRightClickable, IServerDespawn, IServerInventoryMove
 {
 	private CustomNetTransform customNetTransform;
 	private ObjectBehaviour objectBehaviour;
@@ -46,7 +46,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		CheckSpriteOrder();
 	}
 
-	public void GoingOffStageServer(OffStageInfo info)
+	public void OnDespawnServer(DespawnInfo info)
 	{
 		//remove ourselves from inventory if we aren't already removed
 		if (itemSlot != null)
@@ -55,7 +55,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-	public void ServerOnInventoryMove(InventoryMove info)
+	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//when the item is picked up / dropped, need to update
 		//several things

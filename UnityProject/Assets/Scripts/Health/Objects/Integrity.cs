@@ -18,7 +18,7 @@ using Object = System.Object;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnStageServer
+public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IServerSpawn
 {
 
 	/// <summary>
@@ -106,9 +106,9 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 		}
 	}
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (info.IsCloned)
+		if (info.SpawnableType == SpawnableType.Clone)
 		{
 			//cloned
 			var clonedIntegrity = info.ClonedFrom.GetComponent<Integrity>();

@@ -581,38 +581,38 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// initialize itself as / if needed
 	/// </summary>
 	[Server]
-	public void FireGoingOnStageHooks()
+	public void FireSpawnHooks(SpawnInfo spawnInfo)
 	{
-		var comps = GetComponents<IOnStageServer>();
+		var comps = GetComponents<IServerSpawn>();
 		if (comps != null)
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageServer(OnStageInfo.Default());
+				comp.OnSpawnServer(spawnInfo);
 			}
 		}
 
-		var clientComps = GetComponents<IOnStageClient>();
+		var clientComps = GetComponents<IClientSpawn>();
 		if (clientComps != null)
 		{
 			foreach (var comp in clientComps)
 			{
-				comp.GoingOnStageClient(OnStageInfo.Default());
+				comp.OnSpawnClient(ClientSpawnInfo.Default());
 			}
 		}
-		RpcFireGoingOnStageHook();
+		RpcFireSpawnHooks();
 	}
 
 	[ClientRpc]
-	private void RpcFireGoingOnStageHook()
+	private void RpcFireSpawnHooks()
 	{
 
-		var comps = GetComponents<IOnStageClient>();
+		var comps = GetComponents<IClientSpawn>();
 		if (comps != null)
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageClient(OnStageInfo.Default());
+				comp.OnSpawnClient(ClientSpawnInfo.Default());
 			}
 		}
 	}
@@ -622,14 +622,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// clean up itself as / if needed
 	/// </summary>
 	[Server]
-	public void FireGoingOffStageHooks()
+	public void FireDespawnHooks(DespawnInfo despawnInfo)
 	{
-		var comps = GetComponents<IOffStageServer>();
+		var comps = GetComponents<IServerDespawn>();
 		if (comps != null)
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOffStageServer(OffStageInfo.Info());
+				comp.OnDespawnServer(despawnInfo);
 			}
 		}
 		//NOTE: No client side off-stage hook because we wouldn't be able
@@ -643,37 +643,37 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// clone the specified object
 	/// </summary>
 	[Server]
-	public void FireCloneHooks(GameObject clonedFrom)
+	public void FireCloneHooks(SpawnInfo spawnInfo)
 	{
-		var comps = GetComponents<IOnStageServer>();
+		var comps = GetComponents<IServerSpawn>();
 		if (comps != null)
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageServer(OnStageInfo.Cloned(clonedFrom));
+				comp.OnSpawnServer(spawnInfo);
 			}
 		}
 
-		var clientComps = GetComponents<IOnStageClient>();
+		var clientComps = GetComponents<IClientSpawn>();
 		if (clientComps != null)
 		{
 			foreach (var comp in clientComps)
 			{
-				comp.GoingOnStageClient(OnStageInfo.Cloned(clonedFrom));
+				comp.OnSpawnClient(ClientSpawnInfo.Cloned(spawnInfo.ClonedFrom));
 			}
 		}
-		RpcFireCloneHook(clonedFrom);
+		RpcFireCloneHook(spawnInfo.ClonedFrom);
 	}
 
 	[ClientRpc]
 	private void RpcFireCloneHook(GameObject clonedFrom)
 	{
-		var comps = GetComponents<IOnStageClient>();
+		var comps = GetComponents<IClientSpawn>();
 		if (comps != null)
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageClient(OnStageInfo.Cloned(clonedFrom));
+				comp.OnSpawnClient(ClientSpawnInfo.Cloned(clonedFrom));
 			}
 		}
 	}

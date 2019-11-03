@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Items.Bureaucracy
 {
 	[RequireComponent(typeof(ItemStorage))]
-	public class PaperBin : NetworkBehaviour, ICheckedInteractable<HandApply>, IOnStageServer
+	public class PaperBin : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 
 		public int initialPaperCount = 20;
@@ -71,7 +71,7 @@ namespace Items.Bureaucracy
 			SetupInitialValues();
 		}
 
-		public void GoingOnStageServer(OnStageInfo info)
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			SetupInitialValues();
 		}

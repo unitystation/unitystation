@@ -19,7 +19,7 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 		itemStorage = GetComponent<ItemStorage>();
 		AccessSlot = itemStorage.GetIndexedItemSlot(0);
 		TargetSlot = itemStorage.GetIndexedItemSlot(1);
-		AccessSlot.OnServerSlotContentsChange.AddListener(OnServerSlotContentsChange);
+		AccessSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);
 	}
 
 	private void OnServerSlotContentsChange()

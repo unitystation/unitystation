@@ -91,14 +91,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		{
 			//stop observing this slot
 			itemSlot.LinkLocalUISlot(null);
-			itemSlot.OnClientSlotContentsChange.RemoveListener(OnClientSlotContentsChange);
+			itemSlot.OnSlotContentsChangeClient.RemoveListener(OnClientSlotContentsChange);
 		}
 		//start observing the new slot
 		itemSlot = linkedSlot;
 		if (itemSlot != null)
 		{
 			itemSlot.LinkLocalUISlot(this);
-			itemSlot.OnClientSlotContentsChange.AddListener(OnClientSlotContentsChange);
+			itemSlot.OnSlotContentsChangeClient.AddListener(OnClientSlotContentsChange);
 		}
 
 		UpdateImage();

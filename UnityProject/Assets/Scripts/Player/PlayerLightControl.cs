@@ -24,7 +24,7 @@ public enum EnumSpriteLightData
 }
 
 [RequireComponent(typeof(Pickupable))]
-public class PlayerLightControl : NetworkBehaviour, IServerOnInventoryMove
+public class PlayerLightControl : NetworkBehaviour, IServerInventoryMove
 {
 	public LightEmissionPlayer LightEmission;
 
@@ -59,7 +59,7 @@ public class PlayerLightControl : NetworkBehaviour, IServerOnInventoryMove
 	}
 
 
-	public void ServerOnInventoryMove(InventoryMove info)
+	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//was it transferred from a player's visible inventory?
 		if (info.FromPlayer != null)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class ElectricalNodeControl : NetworkBehaviour, IOffStageServer
+public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 {
 	[SerializeField]
 	public InLineDevice Node;
@@ -86,9 +86,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IOffStageServer
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 	/// </summary>
-	public void GoingOffStageServer(OffStageInfo info) {
+	public void OnDespawnServer(DespawnInfo info) {
 		Node.FlushConnectionAndUp();
-		UpGoingOffStage(info);
+		UpDespawn(info);
 	}
 
 	public void TurnOnSupply()
@@ -193,12 +193,12 @@ public class ElectricalNodeControl : NetworkBehaviour, IOffStageServer
 		}
 	}
 
-	public void UpGoingOffStage(OffStageInfo info) {
+	public void UpDespawn(DespawnInfo info) {
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.GoingOffStage))
 		{
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.GoingOffStage])
 			{
-				UpdateDelegateDictionary[Module].GoingOffStageServer(info);
+				UpdateDelegateDictionary[Module].OnDespawnServer(info);
 			}
 		}
 	}

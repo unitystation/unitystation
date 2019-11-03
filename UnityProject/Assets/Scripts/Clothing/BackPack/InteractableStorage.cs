@@ -9,7 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(Pickupable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, IServerOnInventoryMove
+	ICheckedInteractable<InventoryApply>, IServerInventoryMove
 {
 	private ItemStorage itemStorage;
 	private ObjectBehaviour objectBehaviour;
@@ -21,7 +21,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	}
 
 
-	public void ServerOnInventoryMove(InventoryMove info)
+	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		var fromRootStorage = info.FromSlot?.GetRootStorage();
 		var toRootStorage = info.FromSlot?.GetRootStorage();

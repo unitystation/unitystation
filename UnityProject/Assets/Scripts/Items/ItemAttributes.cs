@@ -14,7 +14,7 @@ using Random = System.Random;
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class ItemAttributes : NetworkBehaviour, IRightClickable
+public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 {
 	/// <summary>
 	/// Remember in hands is Left then right so [0] = Left, [1] = right
@@ -89,7 +89,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		SyncItemName(itemName);
 	}
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		SyncItemName(itemName);
 	}

@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IOnStageServer, IRightClickable
+public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IServerSpawn, IRightClickable
 {
 	public GameObject prefabVariant;
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		GetComponent<ClosetControl>().ToggleLocker(false);
 	}

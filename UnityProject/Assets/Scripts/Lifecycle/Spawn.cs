@@ -287,7 +287,7 @@ public static class Spawn
 				}
 
 				//fire the hooks for spawning
-				tempObject.GetComponent<CustomNetTransform>()?.FireGoingOnStageHooks();
+				tempObject.GetComponent<CustomNetTransform>()?.FireSpawnHooks(info);
 				if (info.Count == 1)
 				{
 					return SpawnResult.Single(info, tempObject);
@@ -327,7 +327,7 @@ public static class Spawn
 				}
 
 				//fire the hooks for cloning
-				tempObject.GetComponent<CustomNetTransform>()?.FireCloneHooks(info.ClonedFrom);
+				tempObject.GetComponent<CustomNetTransform>()?.FireCloneHooks(info);
 
 				return SpawnResult.Single(info, tempObject);
 			}
@@ -359,12 +359,12 @@ public static class Spawn
 			bool isPooled; // not used for Client-only instantiation
 			var go = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation, info.Parent, out isPooled);
 			//fire client side lifecycle hooks
-			var hooks = go.GetComponents<IOnStageClient>();
+			var hooks = go.GetComponents<IClientSpawn>();
 			if (hooks != null)
 			{
 				foreach (var hook in hooks)
 				{
-					hook.GoingOnStageClient(OnStageInfo.Default());
+					hook.OnSpawnClient(ClientSpawnInfo.Default());
 				}
 			}
 
@@ -645,7 +645,7 @@ public static class Spawn
 			var cnt = target.GetComponent<CustomNetTransform>();
 			if (cnt)
 			{
-				cnt.FireGoingOffStageHooks();
+				cnt.FireDespawnHooks(DespawnInfo.Single(target));
 			}
 			else
 			{
@@ -664,7 +664,8 @@ public static class Spawn
 			{
 				cnt.ReInitServerState();
 				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
-				cnt.FireGoingOnStageHooks();
+				var prefab = DeterminePrefab(target);
+				cnt.FireSpawnHooks(SpawnInfo.Prefab(prefab, worldPos));
 			}
 
 			return target;

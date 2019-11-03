@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ItemStorage))]
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
-	 IClientInteractable<InventoryApply>, IOnStageServer, IServerOnInventoryMove
+	 IClientInteractable<InventoryApply>, IServerSpawn, IServerInventoryMove
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
@@ -152,7 +152,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 
 
-	public void ServerOnInventoryMove(InventoryMove info)
+	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		serverIsHeld = info.ToPlayer != null;
 	}
@@ -169,10 +169,10 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		}
 	}
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		ServerEnsureMag();
-		if (info.IsCloned)
+		if (info.SpawnableType == SpawnableType.Clone)
 		{
 			//set initial ammo from cloned
 			var otherMag = info.ClonedFrom.GetComponent<Gun>().CurrentMagazine;
