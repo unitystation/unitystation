@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: CaptainPopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 3
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 2fa3983339cbf9b40a9ca43f116be3fb, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+  - NamedSlot: 6
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 3161500b0e0022e4784e63f632708b21, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+  - NamedSlot: 10
+    Contents:
+      ContentsType: 2
+      ClothData: {fileID: 11400000, guid: eb9b9558dd0f31a41b9ecaa51f4c68a3, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 11400000, guid: 84c42723a30034179acbf588b7dd3ba3, type: 2}
+  - NamedSlot: 9
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+  - NamedSlot: 11
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+  - NamedSlot: 2
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 606e779e28cc6e349853bfe3a9f8b6ad, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+  - NamedSlot: 0
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 1d5035c6104d1e744b4bd1a5dd575d60, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}

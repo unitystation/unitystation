@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: SecurityOfficerPopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 12
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: d81ff42a8ea91754b95541d07403cfbe, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+  - NamedSlot: 16
+    Contents:
+      ContentsType: 0
+      ClothData: {fileID: 11400000, guid: eb9b9558dd0f31a41b9ecaa51f4c68a3, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 2664584551837519869, guid: 5eb99a314f588b54c8e187fccf082399,
+        type: 3}
+      SlotPopulator: {fileID: 0}
+  - NamedSlot: 1
+    Contents:
+      ContentsType: 0
+      ClothData: {fileID: 11400000, guid: eb9b9558dd0f31a41b9ecaa51f4c68a3, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 7503752898315862941, guid: fcd09c3dfb3c3954cac1623e1c37bac3,
+        type: 3}
+      SlotPopulator: {fileID: 0}
