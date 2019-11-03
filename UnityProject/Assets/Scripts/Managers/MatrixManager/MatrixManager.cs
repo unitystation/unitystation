@@ -387,6 +387,19 @@ public class MatrixManager : MonoBehaviour
 		return false;
 	}
 
+	public static bool IsWallAt(Vector3Int worldTarget, bool isServer)
+	{
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		{
+			if (mat.Matrix.IsWallAt(WorldToLocalInt(worldTarget, mat), isServer))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/// <Summary>
 	/// Cross-matrix edition of GetFirst
 	/// Use a Vector3Int of the WorldPosition to use
