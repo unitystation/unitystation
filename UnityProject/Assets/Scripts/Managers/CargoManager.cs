@@ -140,7 +140,7 @@ public class CargoManager : MonoBehaviour
 		CentcomMessage += $"+{credits} credits: received 1 {item.gameObject.ExpensiveName()}.\n";
 		item.registerTile.UnregisterClient();
 		item.registerTile.UnregisterServer();
-		PoolManager.PoolNetworkDestroy(item.gameObject);
+		Despawn.ServerSingle(item.gameObject);
 	}
 
 	private void SpawnOrder()

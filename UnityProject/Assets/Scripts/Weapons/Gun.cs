@@ -164,7 +164,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
 
-			GameObject m = PoolManager.PoolNetworkInstantiate(ammoPrefab, parent: transform.parent);
+			GameObject m = Spawn.ServerPrefab(ammoPrefab, parent: transform.parent).GameObject;
 			Inventory.ServerAdd(m, magSlot);
 		}
 	}
@@ -496,7 +496,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 					casingPrefab = Resources.Load("BulletCasing") as GameObject;
 				}
 
-				PoolManager.PoolNetworkInstantiate(casingPrefab, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
+				Spawn.ServerPrefab(casingPrefab, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
 			}
 		}
 	}
@@ -530,8 +530,8 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		FireCountDown += 1.0 / FireRate;
 		CurrentMagazine.ExpendAmmo();
 		//get the bullet prefab being shot
-		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(Projectile.name) as GameObject,
-			shooter.transform.position);
+		GameObject bullet = Spawn.ClientPrefab(Resources.Load(Projectile.name) as GameObject,
+			shooter.transform.position).GameObject;
 
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)

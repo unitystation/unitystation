@@ -124,7 +124,7 @@ public class ItemStorage : MonoBehaviour, IOnStageServer, IOffStageServer
 		{
 			if (slot.Item != null)
 			{
-				PoolManager.PoolNetworkDestroy(slot.Item.gameObject);
+				Despawn.ServerSingle(slot.Item.gameObject);
 			}
 		}
 	}

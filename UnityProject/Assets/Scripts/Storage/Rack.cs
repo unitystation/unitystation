@@ -17,7 +17,7 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		PoolManager.PoolNetworkInstantiate(rackParts, gameObject.TileWorldPosition().To3Int(), transform.parent);
+		Spawn.ServerPrefab(rackParts, gameObject.TileWorldPosition().To3Int(), transform.parent);
 	}
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
@@ -47,9 +47,9 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 		    && !interaction.Performer.Player().Script.playerMove.IsHelpIntent)
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
-			PoolManager.PoolNetworkInstantiate(rackParts, interaction.WorldPositionTarget.RoundToInt(),
+			Spawn.ServerPrefab(rackParts, interaction.WorldPositionTarget.RoundToInt(),
 				interaction.TargetObject.transform.parent);
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 
 			return;
 		}

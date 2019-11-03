@@ -388,7 +388,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		GameObject leavings = baseFood.leavings;
 		if (leavings != null)
 		{
-			leavings = PoolManager.PoolNetworkInstantiate(leavings);
+			leavings = Spawn.ServerPrefab(leavings).GameObject;
 			Inventory.ServerAdd(leavings.GetComponent<Pickupable>(), slot);
 		}
 	}
@@ -603,7 +603,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAdminRespawn(GameObject toRespawn)
 	{
-		PoolManager.PoolNetworkTestDestroyInstantiate(toRespawn);
+		Spawn.ServerPoolTestRespawn(toRespawn);
 	}
 
 	#endregion

@@ -389,7 +389,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium);
+			EffectsFactory.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium);
 		}
 	}
 
@@ -632,9 +632,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	{
 		foreach (GameObject harvestPrefab in butcherResults)
 		{
-			PoolManager.PoolNetworkInstantiate(harvestPrefab, transform.position, parent: transform.parent);
+			Spawn.ServerPrefab(harvestPrefab, transform.position, parent: transform.parent);
 		}
-		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.medium);
 		//Remove the NPC after all has been harvested
 		var cnt = GetComponent<CustomNetTransform>();
 		if (cnt != null)

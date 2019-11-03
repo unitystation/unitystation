@@ -140,7 +140,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 	private void BuildCable(Vector3 position, Transform parent, Connection WireEndB)
 	{
 		Connection WireEndA = Connection.Overlap;
-		GameObject Cable = PoolManager.PoolNetworkInstantiate(CablePrefab, position, parent);
+		GameObject Cable = Spawn.ServerPrefab(CablePrefab, position, parent).GameObject;
 		ElectricalCableMessage.Send(Cable, WireEndA, WireEndB, CableType);
 		Cable.GetComponent<CableInheritance>().SetDirection(WireEndB, WireEndA, CableType);
 	}

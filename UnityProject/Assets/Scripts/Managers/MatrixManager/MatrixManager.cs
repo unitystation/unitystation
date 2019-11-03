@@ -722,7 +722,7 @@ public class MatrixManager : MonoBehaviour
 	    if (!IsSpaceAt(worldPosInt, true) && makeSlippery)
 	    {
 		    // Create a WaterSplat Decal (visible slippery tile)
-		    EffectsFactory.Instance.WaterSplat(worldPosInt);
+		    EffectsFactory.WaterSplat(worldPosInt);
 
 		    // Sets a tile to slippery
 		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);

@@ -64,7 +64,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		StartCoroutine(WaitForServerReg());
 		foreach (GameObject itemPrefab in DefaultContents)
 		{
-			PoolManager.PoolNetworkInstantiate(itemPrefab, transform.position, parent: transform.parent);
+			Spawn.ServerPrefab(itemPrefab, transform.position, parent: transform.parent);
 		}
 	}
 

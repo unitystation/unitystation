@@ -41,7 +41,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		if (ControllingNode.SelfDestruct)
 		{
 			ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 
 	}

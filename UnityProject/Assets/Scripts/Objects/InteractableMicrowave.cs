@@ -34,7 +34,7 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 		if (meal)
 		{
 			microwave.ServerSetOutputMeal(meal.name);
-			PoolManager.PoolNetworkDestroy(interaction.HandObject);
+			Despawn.ServerSingle(interaction.HandObject);
 			microwave.RpcStartCooking();
 		}
 	}

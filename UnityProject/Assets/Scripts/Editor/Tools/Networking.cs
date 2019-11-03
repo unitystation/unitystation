@@ -44,7 +44,7 @@ public class Networking : Editor
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
 			var slabs = new List<CustomNetTransform>();
 			for ( int i = 0; i < 5; i++ ) {
-				slabs.Add( PoolManager.PoolNetworkInstantiate(mealPrefab, spawnPos).GetComponent<CustomNetTransform>() );
+				slabs.Add( Spawn.ServerPrefab(mealPrefab, spawnPos).GameObject.GetComponent<CustomNetTransform>() );
 			}
 			for ( var i = 0; i < slabs.Count; i++ ) {
 				Vector3 vector3 = i%2 == 0 ? new Vector3(i,-i,0) : new Vector3(-i,i,0);

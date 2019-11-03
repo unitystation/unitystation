@@ -61,7 +61,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void Disassemble()
 	{
-		PoolManager.PoolNetworkInstantiate(metalPrefab, registerObject.WorldPositionServer);
+		Spawn.ServerPrefab(metalPrefab, registerObject.WorldPositionServer);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 

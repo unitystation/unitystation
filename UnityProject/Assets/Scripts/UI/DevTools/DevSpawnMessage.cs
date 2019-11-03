@@ -34,7 +34,7 @@ public class DevSpawnMessage : ClientMessage
 			}
 			else
 			{
-				PoolManager.PoolNetworkInstantiate(Name, WorldPosition);
+				Spawn.ServerPrefab(Name, WorldPosition);
 			}
 		}
 

@@ -20,7 +20,7 @@ public class RawMeat : MonoBehaviour
 	private void OnBurnUpServer(DestructionInfo info)
 	{
 		//cook the meat by destroying this meat and spawning a meat steak
-		PoolManager.PoolNetworkInstantiate(meatSteakPrefab, registerTile.WorldPosition, transform.parent);
-		PoolManager.PoolNetworkDestroy(gameObject);
+		Spawn.ServerPrefab(meatSteakPrefab, registerTile.WorldPosition, transform.parent);
+		Despawn.ServerSingle(gameObject);
 	}
 }

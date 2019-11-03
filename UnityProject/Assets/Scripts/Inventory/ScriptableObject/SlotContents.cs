@@ -59,7 +59,7 @@ public class SlotContents
 					Category.Inventory, slot, Prefab.name);
 				return;
 			}
-			var item = PoolManager.PoolNetworkInstantiate(Prefab).GetComponent<Pickupable>();
+			var item = Spawn.ServerPrefab(Prefab).GameObject.GetComponent<Pickupable>();
 
 			Inventory.ServerAdd(item, slot);
 		}

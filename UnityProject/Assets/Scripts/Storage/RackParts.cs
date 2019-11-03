@@ -50,7 +50,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
 			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget, transform.parent, count: 1,
 				scatterRadius: Spawn.DefaultScatterRadius);
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 
 			return;
 		}
@@ -59,7 +59,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You assemble a rack.");
-				PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
+				Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
 					interaction.Performer.transform.parent);
 				var handObj = interaction.HandObject;
 				Inventory.ServerDespawn(interaction.HandSlot);

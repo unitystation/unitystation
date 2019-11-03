@@ -218,7 +218,7 @@ public static class Inventory
 		if (removeType == InventoryRemoveType.Despawn)
 		{
 			//destroy
-			PoolManager.PoolNetworkDestroy(pickupable.gameObject);
+			Despawn.ServerSingle(pickupable.gameObject);
 		}
 		else if (removeType == InventoryRemoveType.Drop)
 		{

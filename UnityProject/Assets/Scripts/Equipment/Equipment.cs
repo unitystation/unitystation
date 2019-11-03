@@ -108,7 +108,7 @@ public class Equipment : NetworkBehaviour
 			}
 			else if (gearItem.Value.Prefab != null)
 			{
-				var obj = PoolManager.PoolNetworkInstantiate(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent);
+				var obj = Spawn.ServerPrefab(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent).GameObject;
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(gearItem.Key, itemAtts.gameObject, true);
 			}
@@ -121,7 +121,7 @@ public class Equipment : NetworkBehaviour
 		}
 		else if (Backpack.Prefab)
 		{
-			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
+			var obj = Spawn.ServerPrefab(Backpack.Prefab, TransformState.HiddenPos, transform.parent).GameObject;
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 			SetItem(NamedSlot.back, itemAtts.gameObject, true);
 		}
@@ -135,7 +135,7 @@ public class Equipment : NetworkBehaviour
 		}
 		else if (Ears.Prefab)
 		{
-			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
+			var obj = Spawn.ServerPrefab(Backpack.Prefab, TransformState.HiddenPos, transform.parent).GameObject;
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 			SetItem(NamedSlot.ear, itemAtts.gameObject, true);
 		}
@@ -177,7 +177,7 @@ public class Equipment : NetworkBehaviour
 	{
 
 		var realName = GetComponent<PlayerScript>().playerName;
-		GameObject idObj = PoolManager.PoolNetworkInstantiate(idPrefab, parent: transform.parent);
+		GameObject idObj = Spawn.ServerPrefab(idPrefab, parent: transform.parent).GameObject;
 		if (outFit.jobType == JobType.CAPTAIN)
 		{
 			idObj.GetComponent<IDCard>().Initialize(IDCardType.captain, outFit.jobType, outFit.allowedAccess, realName);

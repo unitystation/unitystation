@@ -39,7 +39,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    ConfigureLucene();
 
 	    //get prefabs
-	    var toIndex = PoolManager.SpawnablePrefabs.Select(DevSpawnerDocument.ForPrefab).ToList();
+	    var toIndex = Spawn.SpawnablePrefabs().Select(DevSpawnerDocument.ForPrefab).ToList();
 
 	    //get clothing
 	    var data = Resources.FindObjectsOfTypeAll<ClothingData>();

@@ -347,10 +347,8 @@ public class CustomNetworkManager : NetworkManager
 			//INGAME:
 			// TODO check if this is needed
 			// EventManager.Broadcast(EVENT.RoundStarted);
-			if (PoolManager.Instance == null)
-			{
-				StartCoroutine(DoHeadlessCheck());
-			}
+			StartCoroutine(DoHeadlessCheck());
+
 		}
 	}
 

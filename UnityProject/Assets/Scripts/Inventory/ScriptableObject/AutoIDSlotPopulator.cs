@@ -42,7 +42,7 @@ public class AutoIDSlotPopulator : SlotPopulator
 
 		//spawn the id and put it into the slot
 		var realName = ps.playerName;
-		var idObj = PoolManager.PoolNetworkInstantiate(idPrefab);
+		var idObj = Spawn.ServerPrefab(idPrefab).GameObject;
 
 		var occupation = OccupationList.Get(jobType);
 		if (occupation == null)

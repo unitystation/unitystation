@@ -228,7 +228,7 @@ public class UIManager : MonoBehaviour
 		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
 		//back to world so we can call PoolClientInstantiate
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
+		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
 		progressBar.ClientStartProgress(progressBarId);
@@ -253,7 +253,7 @@ public class UIManager : MonoBehaviour
 		{
 			Instance.progressBars.Remove(progressBarId);
 			//note: not using poolmanager since this has no object behavior
-			PoolManager.PoolClientDestroy(bar.gameObject);
+			Despawn.ClientSingle(bar.gameObject);
 		}
 	}
 
@@ -307,7 +307,7 @@ public class UIManager : MonoBehaviour
 
 		//back to world so we can call PoolClientInstantiate
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
+		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
 		progressBar.ServerStartProgress(progressAction, timeForCompletion, progressEndAction, player);
 		Instance.progressBars.Add(progressBar.ID, progressBar);

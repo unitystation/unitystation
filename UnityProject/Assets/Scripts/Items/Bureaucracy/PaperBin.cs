@@ -192,7 +192,7 @@ namespace Items.Bureaucracy
 				else // Otherwise, take from blank paper stash
 				{
 
-					var paper = PoolManager.PoolNetworkInstantiate(blankPaper);
+					var paper = Spawn.ServerPrefab(blankPaper).GameObject;
 					var targetSlot = itemStorage.GetNextFreeIndexedSlot();
 					Inventory.ServerAdd(paper, targetSlot);
 				}

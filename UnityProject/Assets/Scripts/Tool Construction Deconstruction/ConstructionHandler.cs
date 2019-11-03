@@ -260,7 +260,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		if (ConstructionStages[CurrentStage].FinalDeconstructedResult != null) {
 
 			SpawnStage(CurrentStage);
-			var Objecte = PoolManager.PoolNetworkInstantiate(ConstructionStages[CurrentStage].FinalDeconstructedResult, this.transform.position, parent: this.transform.parent);
+			var Objecte = Spawn.ServerPrefab(ConstructionStages[CurrentStage].FinalDeconstructedResult, this.transform.position, parent: this.transform.parent);
 
 			if (CircuitBoard != null)
 			{
@@ -268,7 +268,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 				netTransform.AppearAtPosition(this.transform.position);
 				netTransform.AppearAtPositionServer(this.transform.position);
 			}
-			PoolManager.PoolNetworkDestroy(this.gameObject);
+			Despawn.ServerSingle(this.gameObject);
 		}
 		//ConstructionStages[CurrentStage]
 	}
@@ -324,7 +324,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 
 			if (PrefabCircuitBoard != null && CircuitBoard == null)
 			{
-				CircuitBoard = PoolManager.PoolNetworkInstantiate(PrefabCircuitBoard, this.transform.position, parent: this.transform.parent);
+				CircuitBoard = Spawn.ServerPrefab(PrefabCircuitBoard, this.transform.position, parent: this.transform.parent).GameObject;
 				if (CircuitBoard != null)
 				{
 					CustomNetTransform netTransform = CircuitBoard.GetComponent<CustomNetTransform>();
@@ -395,14 +395,14 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 				{
 					if (NeededObject.GameObject != null)
 					{
-						var _Object = PoolManager.PoolNetworkInstantiate(NeededObject.GameObject, this.transform.position, parent: this.transform.parent);
+						var _Object = Spawn.ServerPrefab(NeededObject.GameObject, this.transform.position, parent: this.transform.parent).GameObject;
 						CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
 						netTransform.DisappearFromWorldServer();
 						Stage.PresentParts.Add(_Object);
 					}
 					else if (NeededObject.CType != ConstructionElementType.Null)
 					{
-						var _Object = PoolManager.PoolNetworkInstantiate(StandardConstructionComponent, this.transform.position, parent: this.transform.parent);
+						var _Object = Spawn.ServerPrefab(StandardConstructionComponent, this.transform.position, parent: this.transform.parent).GameObject;
 						CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
 						netTransform.DisappearFromWorldServer();
 						_Object.GetComponent<ConstructionComponent>().setTypeLevel(NeededObject.CType, NeededObject.level);

@@ -29,6 +29,11 @@ public class SpawnInfo
 	public readonly GameObject PrefabUsed;
 
 	/// <summary>
+	/// GameObject to clone if SpawnableType.Clone
+	/// </summary>
+	public readonly GameObject ClonedFrom;
+
+	/// <summary>
 	/// Cloth data if spawning a cloth. Will be a subclass of BaseClothData.
 	/// </summary>
 	public readonly BaseClothData ClothData;
@@ -77,7 +82,7 @@ public class SpawnInfo
 
 	private SpawnInfo(SpawnableType spawnableType, SpawnType spawnType, GameObject prefab, BaseClothData clothData,
 		ClothingVariantType clothingVariantType, int clothingVariantIndex, Vector3 worldPosition, Transform parent,
-		Quaternion rotation, float? scatterRadius, int count, Occupation occupation)
+		Quaternion rotation, float? scatterRadius, int count, Occupation occupation, GameObject clonedFrom = null)
 	{
 		SpawnableType = spawnableType;
 		SpawnType = spawnType;
@@ -91,6 +96,7 @@ public class SpawnInfo
 		ScatterRadius = scatterRadius;
 		Count = count;
 		Occupation = occupation;
+		ClonedFrom = clonedFrom;
 	}
 
 	/// <summary>
@@ -194,7 +200,28 @@ public class SpawnInfo
 			parent, rotation.GetValueOrDefault(Quaternion.identity), scatterRadius, count, null);
 	}
 
-
+	/// <summary>
+	/// Clone the item This only works if toClone has a PoolPrefabTracker
+	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.
+	/// </summary>
+	/// <param name="toClone">GameObject to clone. This only works if toClone has a PoolPrefabTracker
+	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.. Intended to work for any object, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which might need unique behavior for how they should spawn. If you are trying
+	/// to clone something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented IOnStageServer or IOnStageClient when IsCloned = true</param>
+	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <returns>the newly created GameObject</returns>
+	public static SpawnInfo Clone(GameObject toClone, Vector3? worldPosition = null, Transform parent = null,
+		Quaternion? rotation = null)
+	{
+		return new SpawnInfo(SpawnableType.Clone, SpawnType.Default, null, null, ClothingVariantType.Default, -1,
+			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
+			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, null, toClone);
+	}
 
 	public override string ToString()
 	{
@@ -228,5 +255,6 @@ public enum SpawnType
 public enum SpawnableType
 {
 	Prefab = 0,
-	Cloth = 1
+	Cloth = 1,
+	Clone = 2
 }

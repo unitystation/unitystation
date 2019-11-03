@@ -48,7 +48,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IOffStageServer
 		if (SelfDestruct)
 		{
 			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 
 	}

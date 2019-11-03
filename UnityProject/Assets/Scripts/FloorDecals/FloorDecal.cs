@@ -76,7 +76,7 @@ public class FloorDecal : NetworkBehaviour
 	{
 		if (Cleanable)
 		{
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 	}
 }

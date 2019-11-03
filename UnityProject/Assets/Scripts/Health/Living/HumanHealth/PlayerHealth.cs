@@ -67,7 +67,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 			if (isServer)
 			{
-				EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
+				EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large);
 			}
 
 			PlayerDeathMessage.Send(gameObject);

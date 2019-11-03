@@ -99,7 +99,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		if (SelfDestruct) {
 			wireConnect.registerTile.UnregisterClient();
 			wireConnect.registerTile.UnregisterServer();
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 
 	}

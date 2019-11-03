@@ -25,7 +25,7 @@ public class Metal : NetworkBehaviour, IInteractable<HandActivate>
 	[Server]
 	private void BuildGirder(HandActivate interaction)
 	{
-		PoolManager.PoolNetworkInstantiate(girderPrefab, interaction.Performer.TileWorldPosition().To3Int());
+		Spawn.ServerPrefab(girderPrefab, interaction.Performer.TileWorldPosition().To3Int());
 		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 

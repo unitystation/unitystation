@@ -1,6 +1,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Facepunch.Steamworks;
 using Mirror;
 using UnityEngine;
 
@@ -62,11 +64,6 @@ public static class Spawn
 		uniHeadSet = GetPrefabByName("UniHeadSet");
 	}
 	private static bool IsPrefab(GameObject toCheck) => !toCheck.transform.gameObject.scene.IsValid();
-
-//	metalPrefab = Resources.Load<GameObject>("Metal");
-//	glassShardPrefab = Resources.Load("GlassShard") as GameObject;
-//	rodsPrefab = Resources.Load("Rods") as GameObject;
-//	plasmaPrefab = Resources.Load("SolidPlasma") as GameObject;
 
 	/// <summary>
 	/// Gets a prefab by its name
@@ -150,6 +147,27 @@ public static class Spawn
 	}
 
 	/// <summary>
+	/// Spawn the specified prefab locally, for this client only.
+	/// </summary>
+	/// <param name="prefab">Prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
+	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented necessary lifecycle methods.</param>
+	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <param name="count">number of instances to spawn, defaults to 1</param>
+	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
+	/// null (no scatter).</param>
+	/// <returns>the newly created GameObject</returns>
+	public static SpawnResult ClientPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	{
+		return Client(SpawnInfo.Prefab(prefab, worldPosition, parent, rotation, count, scatterRadius));
+	}
+
+	/// <summary>
 	/// Spawn the specified prefab, syncing it to all clients
 	/// </summary>
 	/// <param name="prefabName">name of prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
@@ -171,6 +189,27 @@ public static class Spawn
 	}
 
 	/// <summary>
+	/// Spawn the specified prefab locally, for this client only.
+	/// </summary>
+	/// <param name="prefabName">name of prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
+	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented necessary lifecycle methods.</param>
+	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <param name="count">number of instances to spawn, defaults to 1</param>
+	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
+	/// null (no scatter).</param>
+	/// <returns>the newly created GameObject</returns>
+	public static SpawnResult ClientPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	{
+		return Client(SpawnInfo.Prefab(prefabName, worldPosition, parent, rotation, count, scatterRadius));
+	}
+
+	/// <summary>
 	/// Spawn a player with the specified occupation, syncing it to all clients
 	/// </summary>
 	/// <param name="occupation">Occupation details to use to spawn this player</param>
@@ -188,6 +227,27 @@ public static class Spawn
 	public static SpawnResult ServerPlayer(Occupation occupation, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
 	{
 		return Server(SpawnInfo.Player(occupation, playerPrefab, worldPosition, parent, rotation));
+	}
+
+	/// <summary>
+	/// Clone the item and syncs it over the network. This only works if toClone has a PoolPrefabTracker
+	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.
+	/// </summary>
+	/// <param name="toClone">GameObject to clone. This only works if toClone has a PoolPrefabTracker
+	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.. Intended to work for any object, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which might need unique behavior for how they should spawn. If you are trying
+	/// to clone something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented IOnStageServer or IOnStageClient when IsCloned = true</param>
+	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <returns>the newly created GameObject</returns>
+	public static SpawnResult ServerClone(GameObject toClone, Vector3? worldPosition = null, Transform parent = null,
+		Quaternion? rotation = null)
+	{
+		return Server(SpawnInfo.Clone(toClone, worldPosition, parent, rotation));
 	}
 
 	/// <summary>
@@ -248,6 +308,72 @@ public static class Spawn
 				}
 				spawnedObjects.Add(result);
 			}
+			else if (info.SpawnableType == SpawnableType.Clone)
+			{
+				var prefab = DeterminePrefab(info.ClonedFrom);
+				if (prefab == null)
+				{
+					Logger.LogErrorFormat("Object {0} cannot be cloned because it has no PoolPrefabTracker and its name" +
+					                      " does not match a prefab name, so we cannot" +
+					                      " determine the prefab to instantiate. Please fix this object so that it" +
+					                      " has an attached PoolPrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, info.ClonedFrom);
+				}
+				GameObject tempObject = PoolInstantiate(prefab, info.WorldPosition, info.Rotation, info.Parent, out var isPooled);
+
+				if (!isPooled)
+				{
+					NetworkServer.Spawn(tempObject);
+					tempObject.GetComponent<CustomNetTransform>()?.NotifyPlayers();//Sending clientState for newly spawned items
+				}
+
+				//fire the hooks for cloning
+				tempObject.GetComponent<CustomNetTransform>()?.FireCloneHooks(info.ClonedFrom);
+
+				return SpawnResult.Single(info, tempObject);
+			}
+		}
+
+		return SpawnResult.Multiple(info, spawnedObjects);
+	}
+
+	/// <summary>
+	/// Performs the specified spawn locally, for this client only.
+	/// </summary>
+	/// <returns></returns>
+	public static SpawnResult Client(SpawnInfo info)
+	{
+		if (info == null)
+		{
+			Logger.LogError("Cannot spawn, info is null", Category.ItemSpawn);
+			return SpawnResult.Fail(info);
+		}
+		List<GameObject> spawnedObjects = new List<GameObject>();
+		for (var i = 0; i < info.Count; i++)
+		{
+			if (info.SpawnableType == SpawnableType.Cloth)
+			{
+				Logger.LogErrorFormat("Spawning cloths on client side is not currently supported. {0}", Category.ItemSpawn, info);
+				return SpawnResult.Fail(info);
+			}
+
+			bool isPooled; // not used for Client-only instantiation
+			var go = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation, info.Parent, out isPooled);
+			//fire client side lifecycle hooks
+			var hooks = go.GetComponents<IOnStageClient>();
+			if (hooks != null)
+			{
+				foreach (var hook in hooks)
+				{
+					hook.GoingOnStageClient(OnStageInfo.Default());
+				}
+			}
+
+			if (info.Count == 1)
+			{
+				return SpawnResult.Single(info, go);
+			}
+
+			spawnedObjects.Add(go);
 		}
 
 		return SpawnResult.Multiple(info, spawnedObjects);
@@ -306,11 +432,11 @@ public static class Spawn
 
 		if (PrefabOverride != null)
 		{
-			clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent);
+			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
 		}
 		else
 		{
-			clothObj = PoolManager.PoolNetworkInstantiate(uniHeadSet, worldPos, parent);
+			clothObj = Spawn.ServerPrefab(uniHeadSet, worldPos, parent).GameObject;
 		}
 
 		var _Clothing = clothObj.GetComponent<Clothing>();
@@ -335,11 +461,11 @@ public static class Spawn
 		GameObject clothObj;
 		if (PrefabOverride != null)
 		{
-			clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent);
+			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
 		}
 		else
 		{
-			clothObj = PoolManager.PoolNetworkInstantiate(uniBackpack, worldPos, parent);
+			clothObj = Spawn.ServerPrefab(uniBackpack, worldPos, parent).GameObject;
 		}
 
 		var _Clothing = clothObj.GetComponent<Clothing>();
@@ -363,11 +489,11 @@ public static class Spawn
 		GameObject clothObj;
 		if (PrefabOverride != null)
 		{
-			clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent);
+			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
 		}
 		else
 		{
-			clothObj = PoolManager.PoolNetworkInstantiate(uniCloth, worldPos, parent);
+			clothObj = Spawn.ServerPrefab(uniCloth, worldPos, parent).GameObject;
 		}
 
 		var _Clothing = clothObj.GetComponent<Clothing>();
@@ -452,6 +578,123 @@ public static class Spawn
 		return pools.ContainsKey(prefab) && pools[prefab].Count > 0;
 	}
 
+	/// <summary>
+	/// For internal use (lifecycle system) only
+	/// </summary>
+	/// <param name="target"></param>
+	public static void _AddToPool(GameObject target)
+	{
+		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
+		if ( !poolPrefabTracker )
+		{
+			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.ItemSpawn);
+			return;
+		}
+		GameObject prefab = poolPrefabTracker.myPrefab;
+		prefab.transform.position = Vector2.zero;
+
+		if (!pools.ContainsKey(prefab))
+		{
+			//pool for this prefab does not yet exist
+			pools.Add(prefab, new List<GameObject>());
+		}
+
+		pools[prefab].Add(target);
+	}
 
 
+	/// <summary>
+	/// FOR DEV / TESTING ONLY! Simulates destroying and recreating an item by putting it in the pool and taking it back
+	/// out again. If item is not pooled, simply destroys and recreates it as if calling Despawn and then Spawn
+	/// Can use this to validate that the object correctly re-initializes itself after spawning -
+	/// no state should be left over from its previous incarnation.
+	/// </summary>
+	/// <returns>the re-created object</returns>
+	public static GameObject ServerPoolTestRespawn(GameObject target)
+	{
+		//clear the pools so this instance is
+		var objBehavior = target.GetComponent<ObjectBehaviour>();
+		if (objBehavior == null)
+		{
+			//destroy / create using normal approach with no pooling
+			Logger.LogWarningFormat("Object {0} has no object behavior, thus cannot be pooled. It will be destroyed / created" +
+			                        " without going through the pool.", Category.ItemSpawn, target.name);
+
+			//determine prefab
+			var position = target.TileWorldPosition();
+			var prefab = DeterminePrefab(target);
+			if (prefab == null)
+			{
+				Logger.LogErrorFormat("Object {0} at {1} cannot be respawned because it has no PoolPrefabTracker and its name" +
+				                      " does not match a prefab name, so we cannot" +
+				                      " determine the prefab to instantiate. Please fix this object so that it" +
+				                      " has an attached PoolPrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, target.name, position);
+				return null;
+			}
+
+			Despawn.ServerSingle(target);
+			return ServerPrefab(prefab, position.To3Int()).GameObject;
+		}
+		else
+		{
+			//destroy / create with pooling
+			//save previous position
+			var worldPos = objBehavior.AssumedWorldPositionServer();
+
+			//this simulates going into the pool
+			var cnt = target.GetComponent<CustomNetTransform>();
+			if (cnt)
+			{
+				cnt.FireGoingOffStageHooks();
+			}
+			else
+			{
+				Logger.LogWarningFormat("Object {0} at {1} has no CustomNetTransform, lifecycle hooks will" +
+				                        " not be fired. This is most likely a mistake as almost all networked objects should" +
+				                        " have a CNT.", Category.ItemSpawn, target.name, worldPos);
+			}
+			objBehavior.VisibleState = false;
+
+			//this simulates coming back out of the pool
+			target.SetActive(true);
+			objBehavior.VisibleState = true;
+
+			target.transform.position = worldPos;
+			if (cnt)
+			{
+				cnt.ReInitServerState();
+				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+				cnt.FireGoingOnStageHooks();
+			}
+
+			return target;
+		}
+	}
+
+	/// <summary>
+	/// Tries to determine the prefab that was used to create the specified object.
+	/// If there is an attached PoolPrefabTracker, uses that. Otherwise, uses the name
+	/// and removes parentheses  like (Clone) or (1) to look up the prefab name in our map.
+	/// </summary>
+	/// <param name="instance">object whose prefab should be determined.</param>
+	/// <returns>the prefab, otherwise null if it could not be determined.</returns>
+	public static GameObject DeterminePrefab(GameObject instance)
+	{
+		var tracker = instance.GetComponent<PoolPrefabTracker>();
+		if (tracker != null)
+		{
+			return tracker.myPrefab;
+		}
+
+		//regex below strips out parentheses and things between them
+		var prefabName = Regex.Replace(instance.name, @"\(.*\)", "").Trim();
+
+		return nameToSpawnablePrefab.ContainsKey(prefabName) ? GetPrefabByName(prefabName) : null;
+	}
+}
+
+//not used for clients unless it is a client side pool object only
+public class PoolPrefabTracker : MonoBehaviour
+{
+	public GameObject myPrefab;
 }

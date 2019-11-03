@@ -230,10 +230,10 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 	private void DefaultBurnUp(DestructionInfo info)
 	{
 		//just a guess - objects which can be picked up should have a smaller amount of ash
-		EffectsFactory.Instance.Ash(registerTile.WorldPosition.To2Int(), isLarge);
+		EffectsFactory.Ash(registerTile.WorldPosition.To2Int(), isLarge);
 		Chat.AddLocalMsgToChat($"{name} burnt to ash.", gameObject.TileWorldPosition());
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
-		PoolManager.PoolNetworkDestroy(gameObject);
+		Despawn.ServerSingle(gameObject);
 	}
 
 	[Server]
@@ -242,13 +242,13 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 		if (info.DamageType == DamageType.Brute)
 		{
 			Chat.AddLocalMsgToChat($"{name} was smashed to pieces.", gameObject.TileWorldPosition());
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
 			Chat.AddLocalMsgToChat($"{name} was destroyed.", gameObject.TileWorldPosition());
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 	}
 

@@ -194,7 +194,7 @@ public class BloodSystem : MonoBehaviour
 			scaleOfTragedy = BloodSplatSize.large;
 		}
 
-		EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
+		EffectsFactory.BloodSplat(transform.position, scaleOfTragedy);
 	}
 
 	/// <summary>

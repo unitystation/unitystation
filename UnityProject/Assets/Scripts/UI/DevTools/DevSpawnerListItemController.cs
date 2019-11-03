@@ -49,7 +49,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		if (resultDoc.Get("isClothing").Equals("0"))
 		{
-			prefab = PoolManager.GetPrefabByName(resultDoc.Get("name"));
+			prefab = Spawn.GetPrefabByName(resultDoc.Get("name"));
 			Sprite toUse = prefab.GetComponentInChildren<SpriteRenderer>()?.sprite;
 			if (toUse != null)
 			{
@@ -147,7 +147,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 			}
 			else
 			{
-				PoolManager.PoolNetworkInstantiate(prefab, position);
+				Spawn.ServerPrefab(prefab, position);
 			}
 
 		}
