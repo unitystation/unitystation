@@ -244,11 +244,18 @@ public class SpawnInfo
 		if (clothing == null)
 		{
 			//assume prefab
+			var prefab = Spawn.DeterminePrefab(mappedObject);
+			return new SpawnInfo(SpawnableType.Prefab, SpawnType.Mapped, prefab, null, ClothingVariantType.Default, -1,
+				mappedObject.WorldPosServer(),
+				mappedObject.transform.parent, mappedObject.transform.rotation, null, 1, null);
 		}
 		else
 		{
 			//assume cloth
-			return new SpawnInfo();
+			return new SpawnInfo(SpawnableType.Cloth, SpawnType.Mapped, null, clothing.clothingData, clothing.Type,
+				clothing.Variant,
+				mappedObject.WorldPosServer(),
+				mappedObject.transform.parent, mappedObject.transform.rotation, null, 1, null);
 		}
 	}
 

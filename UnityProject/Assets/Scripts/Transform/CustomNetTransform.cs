@@ -577,7 +577,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	}
 
 	/// <summary>
-	/// Invokes the GoingOnStageServer (on the server) and GoingOnStageClient (on each client) hooks so each component can
+	/// Invokes the OnSpawnServer (on the server) and OnSpawnClient (on each client) hooks so each component can
 	/// initialize itself as / if needed
 	/// </summary>
 	[Server]
@@ -618,7 +618,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	}
 
 	/// <summary>
-	/// Invokes the GoingOffStageServer (on the server) hook so each component can
+	/// Invokes the OnDespawnServer (on the server) and OnDespawnClient (on the client) hook so each component can
 	/// clean up itself as / if needed
 	/// </summary>
 	[Server]
@@ -632,10 +632,30 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 				comp.OnDespawnServer(despawnInfo);
 			}
 		}
-		//NOTE: No client side off-stage hook because we wouldn't be able
-		//to ensure that the hook is called before Unet destroys the
-		//client-side object unless we implement a custom destruction
-		//syncing logic.
+
+		var clientComps = GetComponents<IClientDespawn>();
+		if (clientComps != null)
+		{
+			foreach (var comp in clientComps)
+			{
+				comp.OnDespawnClient(ClientDespawnInfo.Default());
+			}
+		}
+		RpcFireDespawnHooks();
+	}
+
+	[ClientRpc]
+	private void RpcFireDespawnHooks()
+	{
+
+		var comps = GetComponents<IClientDespawn>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.OnDespawnClient(ClientDespawnInfo.Default());
+			}
+		}
 	}
 
 	/// <summary>

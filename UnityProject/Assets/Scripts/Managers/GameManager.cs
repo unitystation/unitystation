@@ -233,9 +233,50 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
+			//invoke all server + client side hooks on all objects that have them
+			foreach (var serverSpawn in FindInterfaceImplementersInScene<IServerSpawn>())
+			{
+				serverSpawn.OnSpawnServer(SpawnInfo.Mapped(((Component)serverSpawn).gameObject));
+			}
+			foreach (var clientSpawn in FindInterfaceImplementersInScene<IClientSpawn>())
+			{
+				clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
+			}
+
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
+		else
+		{
+			//client side, just call the hooks
+			foreach (var clientSpawn in FindInterfaceImplementersInScene<IClientSpawn>())
+			{
+				clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
+			}
+
+		}
+	}
+
+	/// <summary>
+	/// Special version of FindObjects which supports interfaces
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static List<T> FindInterfaceImplementersInScene<T>()
+	{
+		List<T> interfaces = new List<T>();
+		GameObject[] rootGameObects = SceneManager.GetActiveScene().GetRootGameObjects();
+
+		foreach (var rootGameObject in rootGameObects)
+		{
+			T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>();
+			foreach (var childInterface in childrenInterfaces)
+			{
+				interfaces.Add(childInterface);
+			}
+		}
+
+		return interfaces;
 	}
 
 	/// <summary>

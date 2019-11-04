@@ -298,6 +298,8 @@ public static class Spawn
 			else if (info.SpawnableType == SpawnableType.Cloth)
 			{
 				var result = ServerCloth(info);
+				//fire the hooks for spawning
+				result.GetComponent<CustomNetTransform>()?.FireSpawnHooks(info);
 				if (result == null)
 				{
 					return SpawnResult.Fail(info);
