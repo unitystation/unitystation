@@ -17,9 +17,6 @@ public class ItemStorageStructure : ScriptableObject
 	[Tooltip("Available named slots in this structure, accessible via enum. Must not contain duplicates")]
 	public NamedSlot[] NamedSlots;
 
-	[Tooltip("Capacity capabilities of this item storage.")]
-	public ItemStorageCapacity Capacity;
-
 	/// <summary>
 	///
 	/// </summary>

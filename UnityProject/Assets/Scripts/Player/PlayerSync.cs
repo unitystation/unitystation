@@ -523,10 +523,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 			if (server)
 			{
-				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
-				{
-					SpawnHandler.SpawnDummyPlayer(JobType.ASSISTANT);
-				}
+				//TODO: Temporarily removing dummy spawning capability while I figure out spawning
+//				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
+//				{
+//					PlayerSpawnHandler.SpawnDummyPlayer(JobType.ASSISTANT);
+//				}
 
 				if (serverState.Position != serverLerpState.Position)
 				{

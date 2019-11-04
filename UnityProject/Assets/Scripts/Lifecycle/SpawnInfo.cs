@@ -80,9 +80,16 @@ public class SpawnInfo
 	/// </summary>
 	public readonly Occupation Occupation;
 
+	/// <summary>
+	/// If SpawnType.Player, character settings the player is being spawned with.
+	/// </summary>
+	/// <returns></returns>
+	public readonly CharacterSettings CharacterSettings;
+
 	private SpawnInfo(SpawnableType spawnableType, SpawnType spawnType, GameObject prefab, BaseClothData clothData,
 		ClothingVariantType clothingVariantType, int clothingVariantIndex, Vector3 worldPosition, Transform parent,
-		Quaternion rotation, float? scatterRadius, int count, Occupation occupation, GameObject clonedFrom = null)
+		Quaternion rotation, float? scatterRadius, int count, Occupation occupation, GameObject clonedFrom = null,
+		CharacterSettings characterSettings = null)
 	{
 		SpawnableType = spawnableType;
 		SpawnType = spawnType;
@@ -97,12 +104,14 @@ public class SpawnInfo
 		Count = count;
 		Occupation = occupation;
 		ClonedFrom = clonedFrom;
+		CharacterSettings = characterSettings;
 	}
 
 	/// <summary>
 	/// Spawn a player with the specified occupation
 	/// </summary>
 	/// <param name="occupation">Occupation details to use to spawn this player</param>
+	/// <param name="characterSettings">settings to use for this player</param>
 	/// <param name="playerPrefab">Prefab to use to spawn this player</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
@@ -114,11 +123,11 @@ public class SpawnInfo
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
-	public static SpawnInfo Player(Occupation occupation, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
+	public static SpawnInfo Player(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
 	{
 		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Player, playerPrefab, null, ClothingVariantType.Default, -1,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
-			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation);
+			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings);
 	}
 
 	/// <summary>
@@ -223,6 +232,26 @@ public class SpawnInfo
 			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, null, toClone);
 	}
 
+	/// <summary>
+	/// Special type of spawn, performed on each object mapped in the scene once the scene is done loading.
+	/// </summary>
+	/// <param name="mappedObject">object which was mapped into the scene.</param>
+	/// <returns></returns>
+	public static SpawnInfo Mapped(GameObject mappedObject)
+	{
+		//is it a prefab or cloth?
+		var clothing = mappedObject.GetComponent<Clothing>();
+		if (clothing == null)
+		{
+			//assume prefab
+		}
+		else
+		{
+			//assume cloth
+			return new SpawnInfo();
+		}
+	}
+
 	public override string ToString()
 	{
 		return $"{nameof(SpawnableType)}: {SpawnableType}, {nameof(SpawnType)}: {SpawnType}, {nameof(PrefabUsed)}: " +
@@ -246,7 +275,11 @@ public enum SpawnType
 	/// <summary>
 	/// Spawning a player, extra info related to this will be populated.
 	/// </summary>
-	Player = 1
+	Player = 1,
+	/// <summary>
+	/// Object was already mapped into the scene and scene has loaded.
+	/// </summary>
+	Mapped = 2
 }
 
 /// <summary>

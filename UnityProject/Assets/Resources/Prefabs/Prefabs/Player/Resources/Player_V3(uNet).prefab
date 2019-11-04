@@ -959,22 +959,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothingSlots:
-  - {fileID: 114683599938915282}
-  - {fileID: 114572444233789018}
-  - {fileID: 114292210339441364}
-  - {fileID: 114352699279829420}
-  - {fileID: 114361174706508060}
-  - {fileID: 114133756563624140}
-  - {fileID: 114150458415481364}
-  - {fileID: 114857622421506280}
-  - {fileID: 114600225155881128}
-  - {fileID: 114186826461219604}
-  - {fileID: 114176283518884694}
-  - {fileID: 114686590975304092}
-  - {fileID: 114280887415014694}
-  - {fileID: 114998611308440448}
-  - {fileID: 6063220810688058967}
   IsInternalsEnabled: 0
 --- !u!114 &114390575568471296
 MonoBehaviour:
@@ -1313,7 +1297,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemStorageStructure: {fileID: 11400000, guid: 480930b0b1e554bbc889b5c68bf4cfb2,
     type: 2}
-  ItemStoragePopulator: {fileID: 0}
+  ItemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+    type: 2}
+  ItemStoragePopulator: {fileID: 11400000, guid: 4c48a40375c1b43718c78eee5582051a,
+    type: 2}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

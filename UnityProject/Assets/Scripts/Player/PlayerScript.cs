@@ -301,7 +301,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		//TODO add if for being drunk
 		//ChatModifier modifiers = ChatModifier.Drunk;
 
-		if (mind.jobType == JobType.CLOWN)
+		if (mind.occupation.JobType == JobType.CLOWN)
 		{
 			modifiers |= ChatModifier.Clown;
 

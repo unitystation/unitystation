@@ -13,11 +13,16 @@ public class DefinedCapacity : ItemStorageCapacity
 	[System.Serializable]
 	public class DefinedCapacityEntry
 	{
+		private static readonly ItemType[] DefaultAllowedItemTypes = {ItemType.All};
+		private static readonly ToolType[] DefaultAllowedToolTypes = {ToolType.All};
 		[Tooltip("Max item size allowed.")]
 		public ItemSize MaxItemSize = ItemSize.None;
 
 		[Tooltip("Item types allowed.")]
 		public ItemType[] AllowedItemTypes;
+
+		[Tooltip("Tool types allowed.")]
+		public ToolType[] AllowedToolTypes;
 
 
 
@@ -26,6 +31,7 @@ public class DefinedCapacity : ItemStorageCapacity
 			if (toCheck == null) return false;
 			ItemSize size = ItemSize.Huge;
 			var itemAttrs = toCheck.GetComponent<ItemAttributes>();
+			var tool = toCheck.GetComponent<Tool>();
 			if (itemAttrs != null)
 			{
 				size = itemAttrs.size;
@@ -48,33 +54,64 @@ public class DefinedCapacity : ItemStorageCapacity
 				return false;
 			}
 
-			if (AllowedItemTypes.Length == 0)
+			var allowedTypes = AllowedItemTypes;
+			if (allowedTypes.Length == 0)
 			{
 				Logger.LogTraceFormat("No item types are defined in this slot. Defaulting to allowing all item types", Category.Inventory);
-				return true;
-			}
-			if (AllowedItemTypes.Contains(ItemType.All)) return true;
-			ItemType type = ItemType.None;
-			if (itemAttrs != null)
-			{
-				type = itemAttrs.itemType;
-			}
-			else
-			{
-				Logger.LogTraceFormat("{0} has no item attrs, defaulting to ItemType.None", Category.Inventory, toCheck.name);
+				allowedTypes = DefaultAllowedItemTypes;
 			}
 
-			if (AllowedItemTypes.Contains(type))
+			//if ALL is in the list, don't check item type, proceed to tool type check
+			if (!allowedTypes.Contains(ItemType.All))
 			{
-				return true;
-			}
-			else
-			{
-				Logger.LogTraceFormat("Item {0} with type {1} does not match allowed item types {2}.", Category.Inventory,
-					toCheck.name, type, String.Join(",", AllowedItemTypes.Select(ait => ait.ToString())));
-				return false;
+				ItemType type = ItemType.None;
+				if (itemAttrs != null)
+				{
+					type = itemAttrs.itemType;
+				}
+				else
+				{
+					Logger.LogTraceFormat("{0} has no item attrs, defaulting to ItemType.None", Category.Inventory, toCheck.name);
+				}
+
+				if (!allowedTypes.Contains(type))
+				{
+					Logger.LogTraceFormat("Item {0} with type {1} does not match allowed item types {2}.", Category.Inventory,
+						toCheck.name, type, String.Join(",", allowedTypes.Select(ait => ait.ToString())));
+					return false;
+				}
 			}
 
+			var allowedTools = AllowedToolTypes;
+			if (allowedTools.Length == 0)
+			{
+				Logger.LogTraceFormat("No tool types are defined in this slot. Defaulting to allowing all tool types", Category.Inventory);
+				allowedTools = DefaultAllowedToolTypes;
+			}
+
+
+			//if ALL is in the list, don't check tool type
+			if (!allowedTools.Contains(ToolType.All))
+			{
+				var toolType = ToolType.None;
+				if (tool == null)
+				{
+					Logger.LogTraceFormat("{0} has no Tool, defaulting to ToolType.None", Category.Inventory, toCheck.name);
+				}
+				else
+				{
+					toolType = tool.ToolType;
+				}
+
+				if (!allowedTools.Contains(toolType))
+				{
+					Logger.LogTraceFormat("Item {0} with type {1} does not match allowed tool types {2}.", Category.Inventory,
+						toCheck.name, toolType, String.Join(",", allowedTools.Select(ait => ait.ToString())));
+					return false;
+				}
+			}
+
+			return true;
 		}
 	}
 

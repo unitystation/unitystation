@@ -3,48 +3,59 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-public static class SpawnHandler
+public static class PlayerSpawnHandler
 {
 	private static readonly CustomNetworkManager networkManager = CustomNetworkManager.Instance;
 
-	public static void SpawnViewer(NetworkConnection conn, JobType jobType = JobType.NULL)
+	public static void SpawnViewer(NetworkConnection conn)
 	{
 		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
 		NetworkServer.AddPlayerForConnection(conn, joinedViewer, System.Guid.NewGuid());
 	}
 
-	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
-	{
-		GameObject dummyPlayer = CreatePlayer(jobType);
-		TransferPlayer(null, dummyPlayer, null, EVENT.PlayerSpawned, null);
-	}
+	//TODO: Temporarily removing dummy spawning capability while I figure out spawning
+//	public static void SpawnDummyPlayer(Occupation occupation)
+//	{
+//		GameObject dummyPlayer = CreatePlayer(occupation);
+//		TransferPlayer(null, dummyPlayer, null, EVENT.PlayerSpawned, null);
+//	}
 
-	public static void ClonePlayer(NetworkConnection conn, JobType jobType, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
+	public static void ClonePlayer(NetworkConnection conn, Occupation occupation, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
 	{
-		GameObject player = CreateMob(spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
+		GameObject player = CreatePlayer(occupation, characterSettings);
 		TransferPlayer(conn, player, oldBody, EVENT.PlayerSpawned, characterSettings);
 		var playerScript = player.GetComponent<PlayerScript>();
 		var oldPlayerScript = oldBody.GetComponent<PlayerScript>();
 		oldPlayerScript.mind.SetNewBody(playerScript);
 	}
 
-	public static void RespawnPlayer(NetworkConnection conn, JobType jobType, CharacterSettings characterSettings, GameObject oldBody)
+	public static void RespawnPlayer(NetworkConnection conn, Occupation occupation, CharacterSettings characterSettings, GameObject oldBody)
 	{
-		GameObject player = CreatePlayer(jobType);
-		TransferPlayer(conn, player, oldBody, EVENT.PlayerSpawned, characterSettings);
-		new Mind(player, jobType);
-		var equipment = player.GetComponent<Equipment>();
+		GameObject newPlayer = CreatePlayer(occupation, characterSettings);
+		TransferPlayer(conn, newPlayer, oldBody, EVENT.PlayerSpawned, characterSettings);
+		new Mind(newPlayer, occupation);
+		var equipment = newPlayer.GetComponent<Equipment>();
 
-		var playerScript = player.GetComponent<PlayerScript>();
+		var playerScript = newPlayer.GetComponent<PlayerScript>();
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		connectedPlayer.Name = playerScript.playerName;
 		UpdateConnectedPlayersMessage.Send();
 		PlayerList.Instance.TryAddScores(playerScript.playerName);
 
-		equipment.SetPlayerLoadOuts();
-		if(jobType != JobType.SYNDICATE && jobType != JobType.AI)
+		if (occupation.JobType == JobType.SYNDICATE)
 		{
-			SecurityRecordsManager.Instance.AddRecord(playerScript, jobType);
+			//Check to see if there is a nuke and communicate the nuke code:
+			Nuke nuke = Object.FindObjectOfType<Nuke>();
+			if (nuke != null)
+			{
+				UpdateChatMessage.Send(newPlayer, ChatChannel.Syndicate, ChatModifier.None,
+					"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
+			}
+		}
+
+		if(occupation.JobType != JobType.SYNDICATE && occupation.JobType != JobType.AI)
+		{
+			SecurityRecordsManager.Instance.AddRecord(playerScript, occupation.JobType);
 		}
 	}
 
@@ -120,6 +131,8 @@ public static class SpawnHandler
 		}
 	}
 
+
+
 	private static GameObject CreateMob(GameObject spawnSpot, GameObject mobPrefab)
 	{
 		var registerTile = spawnSpot.GetComponent<RegisterTile>();
@@ -152,24 +165,43 @@ public static class SpawnHandler
 		return newMob;
 	}
 
-	private static GameObject CreatePlayer(JobType jobType)
+	private static GameObject CreatePlayer(Occupation occupation, CharacterSettings settings)
 	{
-		GameObject playerPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
-
-		Transform spawnTransform = GetSpawnForJob(jobType);
-
-		GameObject player;
-
-		if (spawnTransform != null)
+		var spawnTransform = GetSpawnForJob(occupation.JobType);
+		if (spawnTransform == null)
 		{
-			player = CreateMob(spawnTransform.gameObject, playerPrefab );
-		}
-		else
-		{
-			player = Object.Instantiate(playerPrefab);
+			return Spawn.ServerPlayer(occupation, settings, CustomNetworkManager.Instance.humanPlayerPrefab).GameObject;
 		}
 
-		return player;
+		var spawnSpot = spawnTransform.gameObject;
+		var registerTile = spawnSpot.GetComponent<RegisterTile>();
+		Transform parentTransform;
+		uint parentNetId;
+		Vector3Int spawnPosition;
+
+		if ( registerTile ) //spawnSpot is someone's corpse
+		{
+			var objectLayer = registerTile.layer;
+			parentNetId = objectLayer.GetComponentInParent<NetworkIdentity>().netId;
+			parentTransform = objectLayer.transform;
+			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedWorldPositionServer().RoundToInt();
+		}
+		else //spawnSpot is a Spawnpoint object
+		{
+			spawnPosition = spawnSpot.transform.position.CutToInt();
+
+			var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
+			parentNetId = matrixInfo.NetID;
+			parentTransform = matrixInfo.Objects;
+		}
+
+		var newPlayer = Spawn.ServerPlayer(occupation, settings, CustomNetworkManager.Instance.humanPlayerPrefab, spawnPosition,
+			parentTransform).GameObject;
+		var playerScript = newPlayer.GetComponent<PlayerScript>();
+
+		playerScript.registerTile.ParentNetId = parentNetId;
+		return newPlayer;
+
 	}
 
 	private static Transform GetSpawnForJob(JobType jobType)

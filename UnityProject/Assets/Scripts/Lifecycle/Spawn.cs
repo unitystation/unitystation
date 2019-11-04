@@ -213,6 +213,7 @@ public static class Spawn
 	/// Spawn a player with the specified occupation, syncing it to all clients
 	/// </summary>
 	/// <param name="occupation">Occupation details to use to spawn this player</param>
+	/// <param name="characterSettings">settings to use for this player</param>
 	/// <param name="playerPrefab">Prefab to use to spawn this player</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
@@ -224,9 +225,9 @@ public static class Spawn
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
-	public static SpawnResult ServerPlayer(Occupation occupation, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
+	public static SpawnResult ServerPlayer(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
 	{
-		return Server(SpawnInfo.Player(occupation, playerPrefab, worldPosition, parent, rotation));
+		return Server(SpawnInfo.Player(occupation, characterSettings, playerPrefab, worldPosition, parent, rotation));
 	}
 
 	/// <summary>

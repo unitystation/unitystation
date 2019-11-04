@@ -19,8 +19,14 @@ public class Tool : MonoBehaviour
 	public float SpeedMultiplier = 1;
 }
 
+/// <summary>
+/// Defines various tool types, a way of distinguishing items that's different from itemtype
+/// </summary>
 public enum ToolType
 {
+	//no tool has this type, just used for defining what's allowed to go in a slot
+	None = -1,
+
 	Crowbar = 0,
 	Wirecutter = 1,
 	Wrench = 2,
@@ -32,5 +38,9 @@ public enum ToolType
 	Retractor = 8,
 	Saw = 9,
 	Hemostat =  10,
-	Cautery = 11
+	Cautery = 11,
+	FireExtinguisher = 12,
+
+	//no tool has this type, just used for defining what's allowed to go in a slot
+	All = 2048
 }

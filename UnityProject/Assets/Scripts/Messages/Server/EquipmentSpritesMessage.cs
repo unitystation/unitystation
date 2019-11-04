@@ -34,7 +34,7 @@ public class EquipmentSpritesMessage : ServerMessage
 		{
 			if (!IsBodySprites)
 			{
-				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[(int)NamedSlot];
+				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().GetClothingItem(NamedSlot);
 				if (ItemNetID == NetId.Invalid)
 				{
 					if (!ForceInit) c.SetReference(null);

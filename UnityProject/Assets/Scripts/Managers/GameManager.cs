@@ -11,6 +11,10 @@ using UnityEngine.UI;
 
 public partial class GameManager : MonoBehaviour
 {
+	/// <summary>
+	/// List of occupations allowed.
+	/// </summary>
+	public OccupationList AllowedOccupations;
 	public static GameManager Instance;
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
@@ -374,7 +378,7 @@ public partial class GameManager : MonoBehaviour
 	}
 
 	// Attempts to request job else assigns random occupation in order of priority
-	public JobType GetRandomFreeOccupation(JobType jobTypeRequest)
+	public Occupation GetRandomFreeOccupation(JobType jobTypeRequest)
 	{
 		// Try to assign specific job
 		if (jobTypeRequest != JobType.NULL)
@@ -387,12 +391,12 @@ public partial class GameManager : MonoBehaviour
 				{
 					if (job.limit > GetOccupationsCount(job.Type))
 					{
-						return job.Type;
+						return AllowedOccupations.Get(job.Type);
 					}
 				}
 				if (job.limit == -1)
 				{
-					return job.Type;
+					return AllowedOccupations.Get(job.Type);
 				}
 			}
 		}
@@ -405,16 +409,16 @@ public partial class GameManager : MonoBehaviour
 			{
 				if (job.limit > GetOccupationsCount(job.Type))
 				{
-					return job.Type;
+					return AllowedOccupations.Get(job.Type);
 				}
 			}
 			if (job.limit == -1)
 			{
-				return job.Type;
+				return AllowedOccupations.Get(job.Type);
 			}
 		}
 
-		return JobType.ASSISTANT;
+		return AllowedOccupations.Get(JobType.ASSISTANT);
 	}
 
 	public void RestartRound()

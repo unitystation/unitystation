@@ -147,13 +147,13 @@ public class JoinedViewer : NetworkBehaviour
 		/// Verifies that the player has no job
 		if (player.Job == JobType.NULL)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient,
+			PlayerSpawnHandler.RespawnPlayer(connectionToClient,
 				GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings, gameObject);
 		}
 		/// Spawns in player if they have a job but aren't spawned
 		else if (player.GameObject == null)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient,
+			PlayerSpawnHandler.RespawnPlayer(connectionToClient,
 				GameManager.Instance.GetRandomFreeOccupation(player.Job), characterSettings, gameObject);
 		}
 		else
@@ -169,7 +169,7 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{
-		SpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerRejoined, null);
+		PlayerSpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerRejoined, null);
 		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 	}
 

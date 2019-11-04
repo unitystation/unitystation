@@ -164,12 +164,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	[Command]
-	public void CmdMoveItem(GameObject item, Vector3 newPos)
-	{
-		item.transform.position = newPos;
-	}
-
 	/// <summary>
 	/// Validates that the player can interact with the specified wallmount
 	/// </summary>
@@ -255,7 +249,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!playerScript.pushPull.VisibleState || (playerScript.mind.jobType == JobType.NULL)
+		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
 		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
@@ -291,7 +285,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerScript.mind.jobType, playerScript.characterSettings,
+			PlayerSpawnHandler.RespawnPlayer(connectionToClient, playerScript.mind.occupation, playerScript.characterSettings,
 				gameObject);
 			RpcAfterRespawn();
 		}
@@ -312,7 +306,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (GetComponent<LivingHealthBehaviour>().IsDead)
 		{
 			var newGhost =
-				SpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings);
+				PlayerSpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
 	}
@@ -327,7 +321,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.mind.StopGhosting();
 		var body = playerScript.mind.body.gameObject;
-		SpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
+		PlayerSpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
 		body.GetComponent<PlayerNetworkActions>().ReenterBodyUpdates();
 		RpcAfterRespawn();
 	}

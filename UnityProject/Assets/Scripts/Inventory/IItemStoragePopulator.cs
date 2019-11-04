@@ -7,5 +7,6 @@ public interface IItemStoragePopulator
 	/// Populate the specified item storage with stuff.
 	/// </summary>
 	/// <param name="toPopulate">storage to populate</param>
-	void PopulateItemStorage(ItemStorage toPopulate);
+	/// <param name="populationContext">details / context of the population being performed.</param>
+	void PopulateItemStorage(ItemStorage toPopulate, PopulationContext populationContext);
 }

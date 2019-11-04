@@ -13,7 +13,6 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 	[SyncVar(hook = nameof(SyncItemSprite))] public bool isFull;
 
-	public GameObject itemPrefab;
 	public Sprite spriteClosed;
 	public Sprite spriteOpenedEmpty;
 	public Sprite spriteOpenedOccupied;

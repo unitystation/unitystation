@@ -64,10 +64,11 @@ public class Networking : Editor
 
 	}
 
-	[MenuItem("Networking/Spawn dummy player")]
-	private static void SpawnDummyPlayer() {
-		SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
-	}
+//TODO: Temporarily removing dummy spawning capability while I figure out spawning
+//	[MenuItem("Networking/Spawn dummy player")]
+//	private static void SpawnDummyPlayer() {
+//		PlayerSpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
+//	}
 
 	[MenuItem("Networking/Transform Waltz (Server)")]
 	private static void MoveAll()

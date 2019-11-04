@@ -10,5 +10,6 @@ public abstract class SlotPopulator : ScriptableObject
 	/// Populate the specified slot.
 	/// </summary>
 	/// <param name="toPopulate">slot to populate</param>
-	public abstract void PopulateSlot(ItemSlot toPopulate);
+	/// <param name="context">context the slot is being populated in</param>
+	public abstract void PopulateSlot(ItemSlot toPopulate, PopulationContext context);
 }

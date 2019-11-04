@@ -12,12 +12,10 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	ICheckedInteractable<InventoryApply>, IServerInventoryMove
 {
 	private ItemStorage itemStorage;
-	private ObjectBehaviour objectBehaviour;
 
 	void Awake()
 	{
 		itemStorage = GetComponent<ItemStorage>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 

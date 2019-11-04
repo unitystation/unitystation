@@ -34,7 +34,7 @@ public class SlotContents
 	/// Populates the specified slot using the specified config.
 	/// </summary>
 	/// <param name="toPopulate"></param>
-	public void PopulateItemSlot(ItemSlot slot)
+	public void PopulateItemSlot(ItemSlot slot, PopulationContext context)
 	{
 		if (slot.Item != null)
 		{
@@ -81,7 +81,7 @@ public class SlotContents
 		}
 		else if (ContentsType == SlotContentsType.SlotPopulator)
 		{
-			SlotPopulator.PopulateSlot(slot);
+			SlotPopulator.PopulateSlot(slot, context);
 		}
 
 		Logger.LogTraceFormat("Populated {0}", Category.Inventory, slot);

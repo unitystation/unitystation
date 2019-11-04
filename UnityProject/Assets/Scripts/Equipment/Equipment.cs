@@ -7,40 +7,26 @@ using UnityEngine;
 using Mirror;
 using Newtonsoft.Json;
 
-public class Equipment : NetworkBehaviour
+/// <summary>
+/// Component which manages all the equipment on a player.
+/// </summary>
+public class Equipment : MonoBehaviour
 {
-	//TODO: finish refactoring this
-
-	/// <summary>
-	/// Assigned in editor, contains each of the clothing items on the player.
-	/// Index in this maps to NamedSlot ordinal.
-	/// TODO: Don't map ordinal values to array indices plz.
-	/// </summary>
-	public ClothingItem[] clothingSlots;
+	private Dictionary<NamedSlot, ClothingItem> clothingItems;
 	public bool IsInternalsEnabled;
-
-	private HeadsetOrPrefab Ears;
-	private BackpackOrPrefab Backpack;
-	private PlayerNetworkActions playerNetworkActions;
-	private PlayerScript playerScript;
 	private ItemSlot maskSlot;
-	private GameObject idPrefab;
 	private ItemStorage itemStorage;
-
-	public NetworkIdentity networkIdentity { get; set; }
 
 	private void Awake()
 	{
-		networkIdentity = GetComponent<NetworkIdentity>();
-		playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
-		playerScript = gameObject.GetComponent<PlayerScript>();
 		itemStorage = GetComponent<ItemStorage>();
-	}
 
-	public override void OnStartClient()
-	{
+		clothingItems = new Dictionary<NamedSlot, ClothingItem>();
+		foreach (var clothingItem in GetComponentsInChildren<ClothingItem>())
+		{
+			clothingItems.Add(clothingItem.Slot, clothingItem);
+		}
 		maskSlot = itemStorage.GetNamedItemSlot(NamedSlot.mask);
-		idPrefab = Resources.Load<GameObject>("ID");
 		InitInternals();
 	}
 
@@ -51,182 +37,15 @@ public class Equipment : NetworkBehaviour
 
 	public void NotifyPlayer(GameObject recipient)
 	{
-		for (int i = 0; i < clothingSlots.Length; i++)
+		foreach (var clothingItem in clothingItems)
 		{
-			var clothItem = clothingSlots[i];
-			EquipmentSpritesMessage.SendTo(gameObject, (NamedSlot)i, recipient, clothItem.GameObjectReference, true, false);
+			EquipmentSpritesMessage.SendTo(gameObject, clothingItem.Key, recipient, clothingItem.Value.GameObjectReference, true, false);
 		}
-	}
-
-	[Server]
-	public void SetPlayerLoadOuts()
-	{
-		//TODO: Use a populator for this intstead
-		JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
-		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.mind.jobType);
-
-		//Create collection of all the new items to add to the gear slots
-		Dictionary<NamedSlot, ClothOrPrefab> gear = new Dictionary<NamedSlot, ClothOrPrefab>();
-
-		gear.Add(NamedSlot.uniform, standardOutfit.uniform);
-		gear.Add(NamedSlot.feet, standardOutfit.shoes);
-		gear.Add(NamedSlot.eyes, standardOutfit.glasses);
-		gear.Add(NamedSlot.hands, standardOutfit.gloves);
-		Backpack = standardOutfit.backpack;
-		Ears = standardOutfit.ears;
-		gear.Add(NamedSlot.exosuit, standardOutfit.suit);
-		gear.Add(NamedSlot.head, standardOutfit.head);
-		gear.Add(NamedSlot.mask, standardOutfit.mask);
-		gear.Add(NamedSlot.suitStorage, standardOutfit.suit_store);
-
-		AddifPresent(gear, NamedSlot.exosuit, jobOutfit.suit);
-		AddifPresent(gear, NamedSlot.head, jobOutfit.head);
-		AddifPresent(gear, NamedSlot.uniform, jobOutfit.uniform);
-		AddifPresent(gear, NamedSlot.feet, jobOutfit.shoes);
-		AddifPresent(gear, NamedSlot.hands, jobOutfit.gloves);
-		AddifPresent(gear, NamedSlot.eyes, jobOutfit.glasses);
-		AddifPresent(gear, NamedSlot.mask, jobOutfit.mask);
-
-		if (jobOutfit.backpack?.Backpack?.Sprites?.Equipped?.Texture != null || jobOutfit.backpack.Prefab != null)
-		{
-			Backpack = jobOutfit.backpack;
-		}
-
-		if (jobOutfit.ears?.Headset?.Sprites?.Equipped?.Texture != null || jobOutfit.ears.Prefab != null)
-		{
-			Ears = jobOutfit.ears;
-		}
-
-		foreach (KeyValuePair<NamedSlot, ClothOrPrefab> gearItem in gear)
-		{
-			if (gearItem.Value.Clothing != null)
-			{
-				var obj = Spawn.ServerCloth(gearItem.Value.Clothing, TransformState.HiddenPos,
-					parent: transform.parent, prefabOverride: gearItem.Value.Clothing.PrefabVariant).GameObject; //Where it is made
-				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(gearItem.Key, itemAtts.gameObject, true);
-			}
-			else if (gearItem.Value.Prefab != null)
-			{
-				var obj = Spawn.ServerPrefab(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent).GameObject;
-				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(gearItem.Key, itemAtts.gameObject, true);
-			}
-		}
-		if (Backpack.Backpack != null)
-		{
-			var obj = Spawn.ServerCloth(Backpack.Backpack, TransformState.HiddenPos, parent: transform.parent, prefabOverride: Backpack.Backpack.PrefabVariant).GameObject; //Where it is made
-			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(NamedSlot.back, itemAtts.gameObject, true);
-		}
-		else if (Backpack.Prefab)
-		{
-			var obj = Spawn.ServerPrefab(Backpack.Prefab, TransformState.HiddenPos, transform.parent).GameObject;
-			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(NamedSlot.back, itemAtts.gameObject, true);
-		}
-
-
-		if (Ears.Headset != null)
-		{
-			var obj = Spawn.ServerCloth(Ears.Headset, TransformState.HiddenPos, parent: transform.parent, prefabOverride: Ears.Headset.PrefabVariant).GameObject; //Where it is made
-			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(NamedSlot.ear, itemAtts.gameObject, true);
-		}
-		else if (Ears.Prefab)
-		{
-			var obj = Spawn.ServerPrefab(Backpack.Prefab, TransformState.HiddenPos, transform.parent).GameObject;
-			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(NamedSlot.ear, itemAtts.gameObject, true);
-		}
-		SpawnID(jobOutfit);
-
-		CheckForSpecialRoleTypes();
-	}
-
-	/// <summary>
-	/// Special set up instructions when spawning as a special role
-	/// </summary>
-	void CheckForSpecialRoleTypes()
-	{
-		if (playerScript.mind.jobType == JobType.SYNDICATE)
-		{
-			//Check to see if there is a nuke and communicate the nuke code:
-			Nuke nuke = FindObjectOfType<Nuke>();
-			if (nuke != null)
-			{
-				UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate, ChatModifier.None,
-					"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
-			}
-		}
-	}
-
-	/// <summary>
-	/// Does it have SpriteSheetData for Equiped sprites or does it contain a prefab?
-	/// Else don't spawn it
-	/// </summary>
-	private void AddifPresent(Dictionary<NamedSlot, ClothOrPrefab> gear, NamedSlot key, ClothOrPrefab clothOrPrefab)
-	{
-		if (clothOrPrefab?.Clothing?.Base?.Equipped != null || clothOrPrefab?.Prefab != null)
-		{
-			gear[key] = clothOrPrefab;
-		}
-	}
-
-	private void SpawnID(JobOutfit outFit)
-	{
-
-		var realName = GetComponent<PlayerScript>().playerName;
-		GameObject idObj = Spawn.ServerPrefab(idPrefab, parent: transform.parent).GameObject;
-		if (outFit.jobType == JobType.CAPTAIN)
-		{
-			idObj.GetComponent<IDCard>().Initialize(IDCardType.captain, outFit.jobType, outFit.allowedAccess, realName);
-		}
-		else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS || outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD ||
-				 outFit.jobType == JobType.CHIEF_ENGINEER)
-		{
-			idObj.GetComponent<IDCard>().Initialize(IDCardType.command, outFit.jobType, outFit.allowedAccess, realName);
-		}
-		else
-		{
-			idObj.GetComponent<IDCard>().Initialize(IDCardType.standard, outFit.jobType, outFit.allowedAccess, realName);
-		}
-		SetItem(NamedSlot.id, idObj);
 	}
 
 	public void SetReference(int index, GameObject _Item)
 	{
 		EquipmentSpritesMessage.SendToAll(gameObject, (NamedSlot)index, _Item);
-	}
-
-	/// <summary>
-	///  Clear any sprite slot by setting the slot to -1 via the slotName (server). If the
-	///  specified slot has no associated player sprite, nothing will be done.
-	/// </summary>
-	/// <param name="slotName">name of the slot (should match an EquipSlot enum)</param>
-	public void ClearItemSprite(string slotName)
-	{
-		NamedSlot enumA = (NamedSlot)Enum.Parse(typeof(NamedSlot), slotName);
-		if (HasPlayerSprite(enumA))
-		{
-			SetReference((int)enumA, null);
-		}
-	}
-
-	/// <summary>
-	///
-	/// </summary>
-	/// <param name="slot"></param>
-	/// <returns>true iff the specified EquipSlot has an associated player sprite.</returns>
-	private bool HasPlayerSprite(NamedSlot slot)
-	{
-		return slot != NamedSlot.id && slot != NamedSlot.storage01 && slot != NamedSlot.storage02 && slot != NamedSlot.suitStorage;
-	}
-
-	private void SetItem(NamedSlot slotName, GameObject obj, bool isInit = false)
-	{
-		Inventory.ServerAdd(obj.GetComponent<Pickupable>(),
-			itemStorage.GetNamedItemSlot(slotName));
 	}
 
 	private void InitInternals()
@@ -289,5 +108,10 @@ public class Equipment : NetworkBehaviour
 	public void CmdSetInternalsEnabled(bool internalsEnabled)
 	{
 		IsInternalsEnabled = internalsEnabled;
+	}
+
+	public ClothingItem GetClothingItem(NamedSlot namedSlot)
+	{
+		return clothingItems[namedSlot];
 	}
 }

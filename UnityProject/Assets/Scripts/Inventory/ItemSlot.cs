@@ -268,7 +268,7 @@ public class ItemSlot
 	{
 		if (!ignoreOccupied && item != null) return false;
 
-		return itemStorage.ItemStorageStructure.Capacity.CanFit(pickupable, this);
+		return itemStorage.ItemStorageCapacity.CanFit(pickupable, this);
 	}
 
 	/// <summary>

@@ -7,14 +7,14 @@ using UnityEngine.UIElements;
 /// <summary>
 /// Populates each named slot using a particular prefab, cloth, or slot populator.
 /// </summary>
-[CreateAssetMenu(fileName = "NamedSlotStoragePopulator", menuName = "Inventory/NamedSlotStoragePopulator", order = 2)]
+[CreateAssetMenu(fileName = "NamedSlotStoragePopulator", menuName = "Inventory/Populators/NamedSlotStoragePopulator", order = 2)]
 public class NamedSlotStoragePopulator : ItemStoragePopulator
 {
 	[Tooltip("What to use to populate each named slot")]
 	[ArrayElementTitle("NamedSlot")]
 	public NamedSlotPopulatorEntry[] Entries;
 
-	public override void PopulateItemStorage(ItemStorage toPopulate)
+	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{
 		Logger.LogTraceFormat("Populating item storage {0}", Category.Inventory, toPopulate.name);
 		foreach (var entry in Entries)
@@ -27,7 +27,7 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 				continue;
 			}
 
-			entry.Contents.PopulateItemSlot(slot);
+			entry.Contents.PopulateItemSlot(slot, context);
 		}
 	}
 }

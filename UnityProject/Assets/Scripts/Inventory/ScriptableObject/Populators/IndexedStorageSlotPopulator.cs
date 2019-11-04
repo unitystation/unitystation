@@ -5,7 +5,7 @@ using UnityEngine;
 /// Slot populator which populates a slot with something that has an indexed ItemStorage,
 /// and then populates each of the indexed slots in the ItemStorage with the specified contents.
 /// </summary>
-[CreateAssetMenu(fileName = "IndexedStorageSlotPopulator", menuName = "Inventory/IndexedStorageSlotPopulator")]
+[CreateAssetMenu(fileName = "IndexedStorageSlotPopulator", menuName = "Inventory/Populators/IndexedStorageSlotPopulator")]
 public class IndexedStorageSlotPopulator : SlotPopulator
 {
 	[Tooltip("What to populate in this slot. The populated item must have" +
@@ -15,9 +15,9 @@ public class IndexedStorageSlotPopulator : SlotPopulator
 	[Tooltip("What to put in each indexed slot of the item.")]
 	public SlotContents[] Contents;
 
-	public override void PopulateSlot(ItemSlot toPopulate)
+	public override void PopulateSlot(ItemSlot toPopulate, PopulationContext context)
 	{
-		Item.PopulateItemSlot(toPopulate);
+		Item.PopulateItemSlot(toPopulate, context);
 
 		var storage = toPopulate.Item.GetComponent<ItemStorage>();
 		if (storage == null)
@@ -38,7 +38,7 @@ public class IndexedStorageSlotPopulator : SlotPopulator
 					toPopulate, i);
 				return;
 			}
-			Contents[i].PopulateItemSlot(slot);
+			Contents[i].PopulateItemSlot(slot, context);
 		}
 	}
 }

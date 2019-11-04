@@ -8,16 +8,16 @@ using Mirror;
 /// </summary>
 public class Mind
 {
-	public JobType jobType = JobType.NULL;
+	public Occupation occupation;
 	public PlayerScript ghost;
 	public PlayerScript body;
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
 
-	public Mind(GameObject player, JobType newJobType)
+	public Mind(GameObject player, Occupation occupation)
 	{
-		jobType = newJobType;
+		this.occupation = occupation;
 		var playerScript = player.GetComponent<PlayerScript>();
 		SetNewBody(playerScript);
 	}
@@ -33,7 +33,7 @@ public class Mind
 	{
 		GameObject oldBody = GetCurrentMob();
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		SpawnHandler.ClonePlayer(connection, jobType, characterSettings, oldBody, spawnPoint);
+		PlayerSpawnHandler.ClonePlayer(connection, occupation, characterSettings, oldBody, spawnPoint);
 	}
 
 	public GameObject GetCurrentMob()

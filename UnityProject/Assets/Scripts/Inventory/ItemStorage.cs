@@ -21,8 +21,12 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
 	         " the slots are / how many there are.")]
 	public ItemStorageStructure ItemStorageStructure;
 
+	[Tooltip("Capacity of this storage - what each slot is allowed to hold.")]
+	public ItemStorageCapacity ItemStorageCapacity;
+
 	[Tooltip("Defines how the storage should be populated when the object spawns. You can also" +
-	         " invoke Populate to manually / dynamically populate this storage using a supplied populator.")]
+	         " invoke Populate to manually / dynamically populate this storage using a supplied populator." +
+	         " This will only run server side.")]
 	public ItemStoragePopulator ItemStoragePopulator;
 
 	/// <summary>
@@ -37,12 +41,11 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		CacheDefinedSlots();
-		ServerPopulate(ItemStoragePopulator);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerPopulate(ItemStoragePopulator);
+		ServerPopulate(ItemStoragePopulator, PopulationContext.AfterSpawn(info));
 	}
 
 	private void CacheDefinedSlots()
@@ -80,10 +83,11 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
 	/// items in this storage.
 	/// </summary>
 	/// <param name="populator"></param>
-	public void ServerPopulate(IItemStoragePopulator populator)
+	/// <param name="context">context of the population</param>
+	public void ServerPopulate(IItemStoragePopulator populator, PopulationContext context)
 	{
 		if (!CustomNetworkManager.IsServer) return;
-		populator.PopulateItemStorage(this);
+		populator.PopulateItemStorage(this, context);
 	}
 
 	/// <summary>
