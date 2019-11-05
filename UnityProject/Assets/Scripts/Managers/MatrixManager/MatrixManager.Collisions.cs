@@ -27,7 +27,6 @@ public partial class MatrixManager
 
 	private static LayerType[] layersToRemove = { LayerType.Effects };
 	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Objects };
-	private static readonly float JUST_DESTROY_THRESHOLD = 250f;
 
 	private void InitCollisions()
 	{

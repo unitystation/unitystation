@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Light2D;
 using UnityEngine;
@@ -92,6 +93,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool isRotatingServer => ClientNeedsRotation; //todo: calculate rotation time on server instead
 	private bool isAutopilotEngaged => Target != TransformState.HiddenPos;
+
+	private List<ShipThruster> thrusters = new List<ShipThruster>();
 
 	//client-only values
 	public MatrixState ClientState => clientState;
@@ -296,6 +299,33 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		clientState = serverState;
 		clientTargetState = serverState;
+
+		thrusters = GetComponentsInChildren<ShipThruster>(true).ToList();
+		if ( thrusters.Count > 0 )
+		{
+			Logger.LogFormat( "{0}: Initializing {1} thrusters!", Category.Transform, MatrixInfo.Matrix.name, thrusters.Count );
+			foreach ( var thruster in thrusters )
+			{
+				var integrity = thruster.GetComponent<Integrity>();
+				if ( integrity )
+				{
+					integrity.OnWillDestroyServer.AddListener( destructionInfo =>
+					{
+						if ( thrusters.Contains( thruster ) )
+						{
+							thrusters.Remove( thruster );
+						}
+
+						if ( thrusters.Count == 0 && isMovingServer )
+						{
+							Logger.LogFormat( "All thrusters were destroyed! Stopping {0}!", Category.Transform, MatrixInfo.Matrix.name );
+							StopMovement();
+						}
+					}	);
+				}
+			}
+		}
+
 		if (SensorPositions == null)
 		{
 			CollisionSensor[] sensors = GetComponentsInChildren<CollisionSensor>();
