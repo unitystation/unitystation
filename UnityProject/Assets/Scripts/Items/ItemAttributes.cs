@@ -26,6 +26,8 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 	[SyncVar(hook = nameof(SyncItemName))]
 	public string itemName;
+
+	[SyncVar(hook = nameof(SyncItemDescription))]
 	public string itemDescription;
 
 	public ItemType itemType = ItemType.None;
@@ -67,20 +69,32 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		SyncItemName(newName);
 	}
 
+	public void SetItemDescription(string newDescription)
+	{
+		SyncItemDescription(newDescription);
+	}
+
 	private void SyncItemName(string newName)
 	{
 		itemName = newName;
 	}
 
+	private void SyncItemDescription(string newDescription)
+	{
+		itemDescription = newDescription;
+	}
+
 	public override void OnStartClient()
 	{
 		SyncItemName(itemName);
+		SyncItemDescription(itemDescription);
 		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
 		SyncItemName(itemName);
+		SyncItemDescription(itemDescription);
 		base.OnStartServer();
 	}
 
@@ -114,7 +128,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	public void AttributesFromCD(ItemAttributesData ItemAttributes)
 	{
 		SyncItemName(ItemAttributes.itemName);
-		itemDescription = ItemAttributes.itemDescription;
+		SyncItemDescription(ItemAttributes.itemDescription);
 		itemType = ItemAttributes.itemType;
 		size = ItemAttributes.size;
 		spriteType = ItemAttributes.spriteType;
