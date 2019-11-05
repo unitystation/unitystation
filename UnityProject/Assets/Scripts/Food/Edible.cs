@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
@@ -14,6 +15,11 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 	[Header("Being used for TDM")] public int healAmount;
 
 	public int healHungerAmount;
+
+	private void Awake()
+	{
+		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.Food);
+	}
 
 	public virtual void TryEat()
 	{

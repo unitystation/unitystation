@@ -12,11 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bb3fea873e412992cc4403f7309968, type: 3}
   m_Name: CaptainBackpackSlotPopulator
   m_EditorClassIdentifier: 
-  Item:
-    ContentsType: 1
-    ClothData: {fileID: 11400000, guid: 015583514eb8cb140a6d0f61d310de6c, type: 2}
-    ClothingVariantType: 0
-    ClothVariantIndex: -1
-    Prefab: {fileID: 0}
-    SlotPopulator: {fileID: 0}
-  Contents: []
+  SlotPopulator: {fileID: 11400000, guid: 1edc7614fbb5e401489a905bd4fa8004, type: 2}
+  IndexedStoragePopulator: {fileID: 0}

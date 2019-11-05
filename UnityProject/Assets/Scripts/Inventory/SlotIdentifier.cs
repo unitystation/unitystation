@@ -37,7 +37,7 @@ public class SlotIdentifier
 
 	public override string ToString()
 	{
-		return SlotIdentifierType == SlotIdentifierType.Named ? NamedSlot.ToString() : (SlotIndex.ToString());
+		return $"{nameof(NamedSlot)}: {NamedSlot}, {nameof(SlotIndex)}: {SlotIndex}, {nameof(SlotIdentifierType)}: {SlotIdentifierType}";
 	}
 
 	/// <summary>
@@ -73,6 +73,8 @@ public class SlotIdentifier
 
 		return slotID;
 	}
+	
+	
 }
 
 

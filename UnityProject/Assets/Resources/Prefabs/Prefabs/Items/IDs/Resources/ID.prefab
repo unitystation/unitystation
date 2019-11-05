@@ -182,9 +182,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: identification card
   itemDescription: A card used to provide ID and determine access across the station.
-  Traits:
+  InitialTraits:
   - {fileID: 11400000, guid: 1dc47f324bdb1461b862b38cdb1e37d9, type: 2}
-  itemType: 12
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -446,5 +445,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
+  m_AssetId: 4c73033e5f8ab734eb2e85e6ae54de73
   m_SceneId: 0

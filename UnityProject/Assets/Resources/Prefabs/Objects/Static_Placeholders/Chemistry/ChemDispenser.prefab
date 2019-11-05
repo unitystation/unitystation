@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -98,6 +99,7 @@ GameObject:
   - component: {fileID: 114774467603860150}
   - component: {fileID: 114306958550935130}
   - component: {fileID: 114605663917569558}
+  - component: {fileID: 6148042499770104604}
   m_Layer: 11
   m_Name: ChemDispenser
   m_TagString: Untagged
@@ -292,6 +294,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114605663917569558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,5 +309,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1289384114
+  m_AssetId: 1581b03bb13b84328a0f9fe743bb5bbf
+  m_SceneId: 0
+--- !u!114 &6148042499770104604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880613391911220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  ItemStorageCapacity: {fileID: 11400000, guid: 14ba874224f65461b97794ca4c792e7f,
+    type: 2}
+  ItemStoragePopulator: {fileID: 0}

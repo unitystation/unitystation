@@ -129,6 +129,24 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		return traits.Contains(toCheck);
 	}
 
+	/// <summary>
+	/// Dynamically adds the specified trait to this item attributes
+	/// </summary>
+	/// <param name="toAdd"></param>
+	public void AddTrait(ItemTrait toAdd)
+	{
+		traits.Add(toAdd);
+	}
+
+	/// <summary>
+	/// Dynamically removes the specified trait from this item attributes
+	/// </summary>
+	/// <param name="toAdd"></param>
+	public void RemoveTrait(ItemTrait toRemove)
+	{
+		traits.Remove(toRemove);
+	}
+
 	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData itemAttributes)
 	{
 		spriteDataHandler.Infos = new SpriteData();
@@ -162,16 +180,9 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		attackVerb = ItemAttributes.attackVerb;
 		IsEVACapable = ItemAttributes.IsEVACapable;
 	}
-
-	private static ItemTypeToTraitMapping typeToTraitMapping;
 	private ItemTrait TypeToTrait(ItemType itemType)
 	{
-		if (typeToTraitMapping == null)
-		{
-			typeToTraitMapping = Resources.Load<ItemTypeToTraitMapping>("ItemTypeToTraitMapping");
-		}
-
-		return typeToTraitMapping.GetTrait(itemType);
+		return ItemTypeToTraitMapping.Instance.GetTrait(itemType);
 	}
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)

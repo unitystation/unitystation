@@ -83,11 +83,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Empty glass
   itemDescription: 
-  itemType: 0
+  InitialTraits:
+  - {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -112,9 +113,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114931546224579044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +128,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114121219251840654
 MonoBehaviour:
@@ -240,6 +237,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114225936998993750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,8 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -274,8 +270,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2597142808
+  m_AssetId: 50334239d541e7643a2b9d5c8cb43430
+  m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

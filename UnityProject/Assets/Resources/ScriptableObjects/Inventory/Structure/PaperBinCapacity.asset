@@ -12,13 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b7a14db6be4c0faeb441aa02814bac, type: 3}
   m_Name: PaperBinCapacity
   m_EditorClassIdentifier: 
-  IndexedSlotCapacity:
-    MaxItemSize: 0
-    AllowedItemTypes: 
-    AllowedToolTypes: 0e000000
+  IndexedSlotCapacity: {fileID: 0}
   NamedSlotCapacity:
   - NamedSlot: 16
-    Capacity:
-      MaxItemSize: 0
-      AllowedItemTypes: 
-      AllowedToolTypes: 0d000000
+    Capacity: {fileID: 0}
