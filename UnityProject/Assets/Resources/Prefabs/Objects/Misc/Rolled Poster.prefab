@@ -271,7 +271,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 5466995241280763689, guid: f421de3b3604142099b272d77faafeb6,
     type: 3}
-  posterVariant: 0
+  posterVariant: 1
+  sprite: {fileID: 0}
   legitSprite: {fileID: 21300000, guid: e3686f4fd49b3da478b3e180a674bd37, type: 3}
   contrabandSprite: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a, type: 3}
 --- !u!114 &6436908355588305388
@@ -335,8 +336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 96145b3165f5248b78302cd49658b0b2
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3771822482
 --- !u!114 &1683984791003869720
 MonoBehaviour:
   m_ObjectHideFlags: 0
