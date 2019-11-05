@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114960387729673952}
   - component: {fileID: 114740566893851918}
   - component: {fileID: 114646497524625992}
+  - component: {fileID: -7040035911593059216}
   m_Layer: 10
   m_Name: Shotgun_Ballistic
   m_TagString: Untagged
@@ -181,9 +182,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Shotgun
   itemDescription: 
-  Traits:
-  - {fileID: 11400000, guid: fe7314825ebf744c3b651ca76d282adc, type: 2}
-  itemType: 0
+  InitialTraits: []
   size: 2
   spriteType: 2
   CanConnectToTank: 0
@@ -365,5 +364,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3938001562
+--- !u!114 &-7040035911593059216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436741001650206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  ItemStorageCapacity: {fileID: 11400000, guid: 3aaa2fa3215284e608242ef34b8c7aa4,
+    type: 2}
+  ItemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+    type: 2}

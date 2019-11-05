@@ -58,10 +58,6 @@ public static class Spawn
 				nameToSpawnablePrefab.Add(spawnablePrefab.name, spawnablePrefab);
 			}
 		}
-
-		uniCloth = GetPrefabByName("UniCloth");
-		uniBackpack = GetPrefabByName("UniBackPack");
-		uniHeadSet = GetPrefabByName("UniHeadSet");
 	}
 	private static bool IsPrefab(GameObject toCheck) => !toCheck.transform.gameObject.scene.IsValid();
 
@@ -427,6 +423,10 @@ public static class Spawn
 	{
 		if (uniHeadSet == null)
 		{
+			uniHeadSet = GetPrefabByName("UniHeadSet");
+		}
+		if (uniHeadSet == null)
+		{
 			Logger.LogError("UniHeadSet Prefab not found", Category.SpriteHandler);
 			return null;
 		}
@@ -457,6 +457,10 @@ public static class Spawn
 	{
 		if (uniBackpack == null)
 		{
+			uniBackpack = GetPrefabByName("UniBackPack");
+		}
+		if (uniBackpack == null)
+		{
 			Logger.LogError("UniBackPack Prefab not found", Category.SpriteHandler);
 			return null;
 		}
@@ -483,6 +487,10 @@ public static class Spawn
 	private static GameObject CreateCloth(ClothingData ClothingData, Vector3? worldPos = null, Transform parent = null,
 		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
+		if (uniCloth == null)
+		{
+			uniCloth = GetPrefabByName("UniCloth");
+		}
 		if (uniCloth == null)
 		{
 			Logger.LogError("UniCloth Prefab not found", Category.SpriteHandler);

@@ -98,7 +98,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114162752830568772
 MonoBehaviour:
@@ -114,11 +113,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Uzi Magazine
   itemDescription: 
-  itemType: 0
+  InitialTraits:
+  - {fileID: 11400000, guid: d10d36b83632643b381b5fb3a41e294e, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -159,9 +159,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114908791848257368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +237,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114347820311685896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,8 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -275,7 +271,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2096676829
+  m_SceneId: 978443888
 --- !u!1 &1997933536368992
 GameObject:
   m_ObjectHideFlags: 0

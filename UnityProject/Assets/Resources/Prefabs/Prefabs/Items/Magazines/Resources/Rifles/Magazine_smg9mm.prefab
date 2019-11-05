@@ -178,7 +178,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114704218100228718
 MonoBehaviour:
@@ -194,11 +193,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: SMG magazine
   itemDescription: Magazine for the Saber SMG
-  itemType: 0
+  InitialTraits:
+  - {fileID: 11400000, guid: f605405b9b89d45e4afc2dd22eea1c64, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -239,9 +239,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114942314213274562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +317,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114980756005099596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,8 +330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -355,4 +351,4 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1845548704
+  m_SceneId: 3783734191

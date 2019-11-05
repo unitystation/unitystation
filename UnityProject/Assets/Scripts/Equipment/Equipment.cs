@@ -11,7 +11,7 @@ using YamlDotNet.Samples;
 /// <summary>
 /// Component which manages all the equipment on a player.
 /// </summary>
-public class Equipment : MonoBehaviour
+public class Equipment : NetworkBehaviour
 {
 	private Dictionary<NamedSlot, ClothingItem> clothingItems;
 	public bool IsInternalsEnabled;

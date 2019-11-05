@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114089709833932218}
   - component: {fileID: 114751323075751822}
   - component: {fileID: 114001467022758570}
+  - component: {fileID: 2723904792205394333}
   m_Layer: 10
   m_Name: LaserPistol
   m_TagString: Untagged
@@ -182,9 +183,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: LaserPistol
   itemDescription: 
-  Traits:
-  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
-  itemType: 0
+  InitialTraits: []
   size: 0
   spriteType: 2
   CanConnectToTank: 0
@@ -366,8 +365,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1805531645
+--- !u!114 &2723904792205394333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245908573886190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  ItemStorageCapacity: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
+    type: 2}
+  ItemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+    type: 2}
 --- !u!1 &5028027096888106743
 GameObject:
   m_ObjectHideFlags: 0

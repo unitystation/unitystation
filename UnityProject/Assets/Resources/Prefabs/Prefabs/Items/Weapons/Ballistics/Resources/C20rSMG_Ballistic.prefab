@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114840752522192544}
   - component: {fileID: 114905685680163770}
   - component: {fileID: 114162268071507282}
+  - component: {fileID: 4995470330489264669}
   m_Layer: 10
   m_Name: C20rSMG_Ballistic
   m_TagString: Untagged
@@ -103,9 +104,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: C20rSMG
   itemDescription: 
-  Traits:
-  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
-  itemType: 0
+  InitialTraits: []
   size: 2
   spriteType: 2
   CanConnectToTank: 0
@@ -361,8 +360,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2786820365
+--- !u!114 &4995470330489264669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  ItemStorageCapacity: {fileID: 11400000, guid: 341921cc736104dd785ecc1579567ec2,
+    type: 2}
+  ItemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+    type: 2}
 --- !u!1 &1992156404503320
 GameObject:
   m_ObjectHideFlags: 0

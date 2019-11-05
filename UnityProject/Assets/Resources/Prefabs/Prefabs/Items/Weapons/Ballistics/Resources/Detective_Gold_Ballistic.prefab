@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114767087319713958}
   - component: {fileID: 114132764856491264}
   - component: {fileID: 114792794626882886}
+  - component: {fileID: -4641284061545249848}
   m_Layer: 10
   m_Name: Detective_Gold_Ballistic
   m_TagString: Untagged
@@ -181,9 +182,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Golden Revolver
   itemDescription: 
-  Traits:
-  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
-  itemType: 0
+  InitialTraits: []
   size: 0
   spriteType: 2
   CanConnectToTank: 0
@@ -367,5 +366,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3409027919
+--- !u!114 &-4641284061545249848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946347799520078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  ItemStorageCapacity: {fileID: 11400000, guid: db8446be2958d46af9535e986cb7d8fb,
+    type: 2}
+  ItemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+    type: 2}
