@@ -3,9 +3,7 @@ using UnityEngine;
 using Mirror;
 
 /// <summary>
-///     This Server to Client message is sent when a player is stored inside a closet or crate.
-///     It makes sure the relevant ClosetHandler is created on the client to monitor the players actions while the
-///     player is being hidden inside
+///     This Server to Client message is sent when a player is stored inside a closet or crate, or needs to follow some other object.
 /// </summary>
 public class FollowCameraMessage : ServerMessage
 {
@@ -31,11 +29,11 @@ public class FollowCameraMessage : ServerMessage
 		}
 	}
 
-	public static FollowCameraMessage Send(GameObject recipient, GameObject closet)
+	public static FollowCameraMessage Send(GameObject recipient, GameObject objectToFollow)
 	{
 		FollowCameraMessage msg = new FollowCameraMessage
 		{
-			ObjectToFollow = closet.NetId()
+			ObjectToFollow = objectToFollow.NetId()
 		};
 		msg.SendTo(recipient);
 		return msg;
@@ -43,6 +41,6 @@ public class FollowCameraMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return string.Format("[FollowCameraMessage Closet={0}]", ObjectToFollow);
+		return string.Format("[FollowCameraMessage ObjectToFollow={0}]", ObjectToFollow);
 	}
 }

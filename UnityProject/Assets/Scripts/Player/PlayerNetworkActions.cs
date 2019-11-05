@@ -815,7 +815,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAdminSmash(GameObject toSmash)
 	{
-		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+		if ( toSmash == null )
+		{
+			return;
+		}
+
+		var integrity = toSmash.GetComponent<Integrity>();
+		if ( integrity == null )
+		{
+			return;
+		}
+		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
 	//simulates despawning and immediately respawning this object, expectation

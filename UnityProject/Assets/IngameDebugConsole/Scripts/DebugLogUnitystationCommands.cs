@@ -57,7 +57,9 @@ namespace IngameDebugConsole
 			HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
 		}
 
+#if UNITY_EDITOR
 		[MenuItem("Networking/Restart round")]
+#endif
 		[ConsoleMethod("restart-round", "restarts the round. Server only cmd.")]
 		public static void RunRestartRound()
 		{
@@ -124,8 +126,9 @@ namespace IngameDebugConsole
 
 			Logger.SetLogLevel(category, logLevel);
 		}
-
+#if UNITY_EDITOR
 		[MenuItem("Networking/Push everyone up")]
+#endif
 		private static void PushEveryoneUp()
 		{
 			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
@@ -133,7 +136,9 @@ namespace IngameDebugConsole
 				player.GameObject.GetComponent<PlayerScript>().PlayerSync.Push(Vector2Int.up);
 			}
 		}
+#if UNITY_EDITOR
 		[MenuItem("Networking/Spawn some meat")]
+#endif
 		private static void SpawnMeat()
 		{
 			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
@@ -150,7 +155,9 @@ namespace IngameDebugConsole
 				}
 			}
 		}
+#if UNITY_EDITOR
 		[MenuItem("Networking/Print player positions")]
+#endif
 		private static void PrintPlayerPositions()
 		{
 			//For every player in the connected player list (this list is serverside-only)
@@ -161,34 +168,41 @@ namespace IngameDebugConsole
 			}
 
 		}
-
+#if UNITY_EDITOR
 		[MenuItem("Networking/Spawn dummy player")]
+#endif
 		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
 		private static void SpawnDummyPlayer() {
 			SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
 		}
 
+#if UNITY_EDITOR
 		[MenuItem("Networking/Transform Waltz (Server)")]
 		private static void MoveAll()
 		{
 			CustomNetworkManager.Instance.MoveAll();
 		}
+#endif
 
+#if UNITY_EDITOR
 		[MenuItem("Networking/Gib All (Server)")]
+#endif
 		[ConsoleMethod("gib-all", "Gib All (Server)")]
 		private static void GibAll()
 		{
 			GibMessage.Send();
 		}
-
+#if UNITY_EDITOR
 		[MenuItem("Networking/Reset round time")]
+#endif
 		[ConsoleMethod("reset-time", "Reset round time")]
 		private static void ExtendRoundTime()
 		{
 			GameManager.Instance.ResetRoundTime();
 		}
-
+#if UNITY_EDITOR
 		[MenuItem("Networking/Kill local player (Server only)")]
+#endif
 		[ConsoleMethod("suicide", "Kill local player (Server only)")]
 		private static void KillLocalPlayer()
 		{
@@ -197,8 +211,9 @@ namespace IngameDebugConsole
 				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamage(null, 99999f, AttackType.Internal, DamageType.Brute);
 			}
 		}
-
+#if UNITY_EDITOR
 		[MenuItem("Networking/Respawn local player (Server only)")]
+#endif
 		[ConsoleMethod("respawn", "Respawn local player (Server only)")]
 		private static void RespawnLocalPlayer()
 		{
@@ -210,8 +225,9 @@ namespace IngameDebugConsole
 
 		private static HashSet<MatrixInfo> usedMatrices = new HashSet<MatrixInfo>();
 		private static Tuple<MatrixInfo, Vector3> lastUsedMatrix;
-
+#if UNITY_EDITOR
 		[MenuItem("Networking/Crash random matrix into station")]
+#endif
 		private static void CrashIntoStation()
 		{
 			if (CustomNetworkManager.Instance._isServer)
@@ -258,7 +274,9 @@ namespace IngameDebugConsole
 				}
 			}
 		}
+#if UNITY_EDITOR
 		[MenuItem("Networking/Stop last crashed matrix")]
+#endif
 		private static void StopLastCrashed()
 		{
 			if (CustomNetworkManager.Instance._isServer)
@@ -273,7 +291,9 @@ namespace IngameDebugConsole
 		}
 		private static GameObject maskPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Clothing/Resources/BreathMask");
 		private static GameObject oxyTankPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Other/Resources/Emergency Oxygen Tank");
+#if UNITY_EDITOR
 		[MenuItem("Networking/Make players EVA-ready")]
+#endif
 		private static void MakeEvaReady()
 		{
 			if (CustomNetworkManager.Instance._isServer)
@@ -293,7 +313,9 @@ namespace IngameDebugConsole
 
 			}
 		}
+#if UNITY_EDITOR
 		[MenuItem("Networking/Spawn Rods")]
+#endif
 		private static void SpawnRods()
 		{
 			if (CustomNetworkManager.Instance._isServer)
@@ -302,7 +324,9 @@ namespace IngameDebugConsole
 
 			}
 		}
+#if UNITY_EDITOR
 		[MenuItem("Networking/Slip Local Player")]
+#endif
 		private static void SlipPlayer()
 		{
 			if (CustomNetworkManager.Instance._isServer)

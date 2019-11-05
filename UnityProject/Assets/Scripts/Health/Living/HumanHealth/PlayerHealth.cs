@@ -95,7 +95,13 @@ public class PlayerHealth : LivingHealthBehaviour
 			var gibsToFollow = MatrixManager.GetAt<RawMeat>( transform.position.CutToInt(), true );
 			if ( gibsToFollow.Count > 0 )
 			{
-				FollowCameraMessage.Send(gameObject, gibsToFollow[0].gameObject);
+				var gibs = gibsToFollow[0];
+				FollowCameraMessage.Send(gameObject, gibs.gameObject);
+				var gibsIntegrity = gibs.GetComponent<Integrity>();
+				if ( gibsIntegrity != null )
+				{	//Stop cam following gibs if they are destroyed
+					gibsIntegrity.OnWillDestroyServer.AddListener( x => FollowCameraMessage.Send( gameObject, null ) );
+				}
 			}
 		}
 		playerMove.PlayerScript.pushPull.VisibleState = false;
