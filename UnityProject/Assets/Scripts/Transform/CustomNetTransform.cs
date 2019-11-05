@@ -155,6 +155,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	public Vector3Int ClientLocalPosition => predictedState.Position.RoundToInt();
 	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();
 	public Vector3Int TrustedLocalPosition => clientState.Position.RoundToInt();
+	public Vector3Int LastNonHiddenPosition { get; } = TransformState.HiddenPos; //todo: implement for CNT!
 
 	/// <summary>
 	/// Used to determine if this transform is worth updating every frame

@@ -43,6 +43,7 @@ public interface IPushable {
 	Vector3Int ClientLocalPosition { get; }
 	Vector3Int TrustedPosition { get; }
 	Vector3Int TrustedLocalPosition { get; }
+	Vector3Int LastNonHiddenPosition { get; }
 
 	/// Rollback predictive push on client using last good position
 	void RollbackPrediction();

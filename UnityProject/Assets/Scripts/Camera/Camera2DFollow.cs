@@ -95,6 +95,10 @@ public class Camera2DFollow : MonoBehaviour
 		}
 		if (target != null && !isShaking)
 		{
+			if ( (int)target.position.z == -100 )
+			{ //not following target on invalid coordinates
+				return;
+			}
 
 			Vector3 recoilOffset = Vector3.zero;
 			//if  we are recoiling, adjust target position

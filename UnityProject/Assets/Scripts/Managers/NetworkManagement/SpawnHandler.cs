@@ -98,7 +98,7 @@ public static class SpawnHandler
 		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
 		if (playerObjectBehavior && playerObjectBehavior.parentContainer)
 		{
-			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
+			FollowCameraMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
 		bool newMob = false;
 		if(characterSettings != null)

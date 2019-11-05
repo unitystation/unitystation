@@ -13,7 +13,9 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	public RegisterTile registerTile;
 
 	/// <summary>
-	/// Setting this is identical to calling Appear/DisappearFromWorldServer
+	/// *** USE WITH CAUTION! ***
+	/// Setting it to true without parent container will make it appear at HiddenPos.
+	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
 	/// </summary>
 	public bool VisibleState
 	{
@@ -56,7 +58,11 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		var pos = registerTile.WorldPositionServer;
 		if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
 		{
-			Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos, something might be wrong", Category.Transform, gameObject.name );
+			pos = Pushable.LastNonHiddenPosition;
+			if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+			{
+				Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name );
+			}
 		}
 		return pos;
 	}

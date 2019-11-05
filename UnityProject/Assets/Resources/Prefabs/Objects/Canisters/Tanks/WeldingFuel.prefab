@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -91,7 +92,6 @@ GameObject:
   - component: {fileID: 61967111112008582}
   - component: {fileID: 61665323473156212}
   - component: {fileID: 114020636723924386}
-  - component: {fileID: 114527046222029886}
   - component: {fileID: 114867396419559272}
   - component: {fileID: 114183243700281508}
   - component: {fileID: 114856973896395130}
@@ -187,23 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &114527046222029886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ab49f7209d2b4a9d94184d4ea24e312, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  damage: 150
-  radius: 3
-  spriteRend: {fileID: 212357524740156146}
+  IsFixedMatrix: 0
 --- !u!114 &114867396419559272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +203,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114183243700281508
 MonoBehaviour:
@@ -310,6 +293,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114663309010729824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,4 +309,4 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2752329546
+  m_SceneId: 669680205

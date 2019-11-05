@@ -632,8 +632,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			//is the welder on?
 			if (w.isOn)
-			{
-				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
+			{ //fixme: ExplodeWhenShot is removed for good
+//				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
 			}
 			else
 			{

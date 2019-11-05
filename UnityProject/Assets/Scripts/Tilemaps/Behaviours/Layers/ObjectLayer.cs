@@ -41,26 +41,26 @@ public class ObjectLayer : Layer
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-		if ( removeAll )
-		{ //Removing RegisterTile objects only if removeAll is true. Debatable
-			List<RegisterTile> list = ServerObjects.Get(position);
-			for ( var i = list.Count - 1; i >= 0; i-- )
-			{
-				PoolManager.PoolNetworkDestroy( list[i].gameObject );
-			}
-
-			List<RegisterTile> objs = ClientObjects.Get(position);
-			for ( var i = objs.Count - 1; i >= 0; i-- )
-			{
-				if ( CustomNetworkManager.IsServer )
-				{
-					PoolManager.PoolNetworkDestroy( objs[i].gameObject );
-				} else
-				{
-					DestroyImmediate( objs[i].gameObject );
-				}
-			}
-		}
+//		if ( removeAll )
+//		{
+//			List<RegisterTile> list = ServerObjects.Get(position);
+//			for ( var i = list.Count - 1; i >= 0; i-- )
+//			{
+//				PoolManager.PoolNetworkDestroy( list[i].gameObject );
+//			}
+//
+//			List<RegisterTile> objs = ClientObjects.Get(position);
+//			for ( var i = objs.Count - 1; i >= 0; i-- )
+//			{
+//				if ( CustomNetworkManager.IsServer )
+//				{
+//					PoolManager.PoolNetworkDestroy( objs[i].gameObject );
+//				} else
+//				{
+//					DestroyImmediate( objs[i].gameObject );
+//				}
+//			}
+//		}
 
 		base.RemoveTile(position, removeAll);
 	}

@@ -350,7 +350,6 @@ public class PoolManager : NetworkBehaviour
 
 			//this simulates coming back out of the pool
 			target.SetActive(true);
-			objBehavior.VisibleState = true;
 
 			target.transform.position = worldPos;
 			if (cnt)
@@ -475,11 +474,6 @@ public class PoolManager : NetworkBehaviour
 			pools[prefab].RemoveAt(index);
 			tempObject.SetActive(true);
 
-			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
-			if (objBehaviour)
-			{
-				objBehaviour.VisibleState = !hide;
-			}
 			tempObject.transform.position = pos;
 			tempObject.transform.rotation = rotation;
 			tempObject.transform.localScale = prefab.transform.localScale;
@@ -488,7 +482,7 @@ public class PoolManager : NetworkBehaviour
 			if ( cnt )
 			{
 				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+				cnt.NotifyPlayers();
 			}
 
 			pooledInstance = true;
