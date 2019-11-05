@@ -10,4 +10,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	//put all singletons here and assign them in editor.
 	public ItemTypeToTraitMapping ItemTypeToTraitMapping;
 	public CommonTraits CommonTraits;
+	public OccupationList OccupationList;
 }

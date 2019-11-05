@@ -11,13 +11,8 @@ using UnityEngine.UI;
 
 public partial class GameManager : MonoBehaviour
 {
-	/// <summary>
-	/// List of occupations allowed.
-	/// </summary>
-	public OccupationList AllowedOccupations;
 	public static GameManager Instance;
 	public bool counting;
-	public List<GameObject> Occupations = new List<GameObject>();
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
@@ -407,15 +402,7 @@ public partial class GameManager : MonoBehaviour
 
 	public int GetOccupationMaxCount(JobType jobType)
 	{
-		GameObject jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
-		OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-		return job.limit;
-	}
-
-	public JobOutfit GetOccupationOutfit(JobType jobType)
-	{
-		return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType)
-			.GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
+		return OccupationList.Instance.Get(jobType).Limit;
 	}
 
 	// Attempts to request job else assigns random occupation in order of priority
@@ -424,42 +411,23 @@ public partial class GameManager : MonoBehaviour
 		// Try to assign specific job
 		if (jobTypeRequest != JobType.NULL)
 		{
-			foreach (GameObject jobObject in Occupations.Where(o =>
-					o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
+			var occupation = OccupationList.Instance.Get(jobTypeRequest);
+			if (occupation.Limit > GetOccupationsCount(occupation.JobType) || occupation.Limit == -1)
 			{
-				OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-				if (job.limit != -1)
-				{
-					if (job.limit > GetOccupationsCount(job.Type))
-					{
-						return AllowedOccupations.Get(job.Type);
-					}
-				}
-				if (job.limit == -1)
-				{
-					return AllowedOccupations.Get(job.Type);
-				}
+				return occupation;
 			}
 		}
 
 		// No job found, get random via priority
-		foreach (GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+		foreach (Occupation occupation in OccupationList.Instance.Occupations.OrderBy(o => o.priority))
 		{
-			OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-			if (job.limit != -1)
+			if (occupation.Limit == -1 || occupation.Limit > GetOccupationsCount(occupation.JobType))
 			{
-				if (job.limit > GetOccupationsCount(job.Type))
-				{
-					return AllowedOccupations.Get(job.Type);
-				}
-			}
-			if (job.limit == -1)
-			{
-				return AllowedOccupations.Get(job.Type);
+				return occupation;
 			}
 		}
 
-		return AllowedOccupations.Get(JobType.ASSISTANT);
+		return OccupationList.Instance.Get(JobType.ASSISTANT);
 	}
 
 	public void RestartRound()

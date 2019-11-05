@@ -31,7 +31,7 @@ public class GUI_IdConsole : NetTab
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			StartCoroutine(WaitForProvider());
-			jobsCount = GameManager.Instance.Occupations.Count - IdConsoleManager.Instance.IgnoredJobs.Count;
+			jobsCount = OccupationList.Instance.Occupations.Length - IdConsoleManager.Instance.IgnoredJobs.Count;
 		}
 	}
 
@@ -144,13 +144,13 @@ public class GUI_IdConsole : NetTab
 		GUI_IdConsoleEntry entry;
 		for (int i = 0; i < jobsCount; i++)
 		{
-			JobType jobType = GameManager.Instance.Occupations[i].GetComponent<OccupationRoster>().Type;
+			JobType jobType = OccupationList.Instance.Occupations[i].JobType;
 			if (IdConsoleManager.Instance.IgnoredJobs.Contains(jobType))
 			{
 				continue;
 			}
 			entry = assignList.Entries[i] as GUI_IdConsoleEntry;
-			entry.SetUpAssign(this, console.TargetCard, GameManager.Instance.GetOccupationOutfit(jobType));
+			entry.SetUpAssign(this, console.TargetCard, OccupationList.Instance.Get(jobType));
 		}
 	}
 
@@ -182,11 +182,11 @@ public class GUI_IdConsole : NetTab
 		}
 	}
 
-	public void ChangeAssignment(JobOutfit jobToSet)
+	public void ChangeAssignment(Occupation occupationToSet)
 	{
 		console.TargetCard.accessSyncList.Clear();
-		console.TargetCard.AddAccessList(jobToSet.allowedAccess);
-		console.TargetCard.jobTypeInt = (int)jobToSet.jobType;
+		console.TargetCard.AddAccessList(occupationToSet.AllowedAccess);
+		console.TargetCard.jobTypeInt = (int)occupationToSet.JobType;
 		UpdateAssignment();
 	}
 

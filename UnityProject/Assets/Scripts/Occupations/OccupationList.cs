@@ -3,10 +3,10 @@ using UnityEngine;
 
 
 /// <summary>
-/// Provides a list of allowed occupations.
+/// Singleton. Provides a list of currently enabled occupations and definitions of special occupations
 /// </summary>
-[CreateAssetMenu(fileName = "Occupation", menuName = "Occupation/OccupationList", order = 2)]
-public class OccupationList : ScriptableObject
+[CreateAssetMenu(fileName = "OccupationList", menuName = "Singleton/OccupationList")]
+public class OccupationList : SingletonScriptableObject<OccupationList>
 {
 	[Tooltip("Allowed occupations")]
 	public Occupation[] Occupations;

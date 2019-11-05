@@ -11,7 +11,7 @@ public class GUI_IdConsoleEntry : DynamicEntry
 
 	//This button is used in two types - as access and assignment
 	private bool isAssignment;
-	private JobOutfit jobOutfit;
+	private Occupation occupation;
 	private Access access;
 	private IdAccessCategory category;
 	private IDCard idCard;
@@ -28,13 +28,13 @@ public class GUI_IdConsoleEntry : DynamicEntry
 		CheckIsSet();
 	}
 
-	public void SetUpAssign(GUI_IdConsole consoleToSet, IDCard idToSet, JobOutfit jobToSet)
+	public void SetUpAssign(GUI_IdConsole consoleToSet, IDCard idToSet, Occupation occupationToSet)
 	{
 		isAssignment = true;
 		console = consoleToSet;
 		idCard = idToSet;
-		jobOutfit = jobToSet;
-		displayedName.SetValue = jobOutfit.jobType.JobString();
+		occupation = occupationToSet;
+		displayedName.SetValue = occupationToSet.JobType.JobString();
 		CheckIsSet();
 	}
 
@@ -56,7 +56,7 @@ public class GUI_IdConsoleEntry : DynamicEntry
 
 	public void CheckIsSet()
 	{
-		if ((isAssignment && idCard.GetJobType == jobOutfit.jobType) ||
+		if ((isAssignment && idCard.GetJobType == occupation.JobType) ||
 			(!isAssignment && idCard.accessSyncList.Contains((int)access)))
 		{
 			SetButton(true);
@@ -71,7 +71,7 @@ public class GUI_IdConsoleEntry : DynamicEntry
 	{
 		if (isAssignment)
 		{
-			console.ChangeAssignment(jobOutfit);
+			console.ChangeAssignment(occupation);
 		}
 		else
 		{

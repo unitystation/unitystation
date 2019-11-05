@@ -40,12 +40,12 @@ public class GUI_PlayerJobs : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-		var occupations = GameManager.Instance.Occupations.OrderBy(
-			o => Array.IndexOf(JobTypeExtensions.DisplayOrder, o.GetComponent<OccupationRoster>().Type)).ToList();
+		var occupations = OccupationList.Instance.Occupations.OrderBy(
+			o => Array.IndexOf(JobTypeExtensions.DisplayOrder, o.JobType)).ToList();
 
-		foreach (GameObject occupationGo in occupations)
+		foreach (Occupation occupation in occupations)
 		{
-			JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
+			JobType jobType = occupation.JobType;
 
 			// For nuke ops mode, syndis spawn via a different button
 			if (jobType == JobType.SYNDICATE)
@@ -56,26 +56,26 @@ public class GUI_PlayerJobs : MonoBehaviour
 			int active = GameManager.Instance.GetOccupationsCount(jobType);
 			int available = GameManager.Instance.GetOccupationMaxCount(jobType);
 
-			GameObject occupation = Instantiate(buttonPrefab, screen_Jobs.transform);
+			GameObject occupationGO = Instantiate(buttonPrefab, screen_Jobs.transform);
 
 			occupation.name = jobType.ToString();
 			var color = jobType.GetDisplayColor();
 
-			occupation.GetComponent<Image>().color = color;
-			occupation.GetComponentInChildren<Text>().text = jobType.ToDisplayString() + " (" + active + " of " + available + ")";
-			occupation.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			occupationGO.GetComponent<Image>().color = color;
+			occupationGO.GetComponentInChildren<Text>().text = jobType.ToDisplayString() + " (" + active + " of " + available + ")";
+			occupationGO.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
 			// Disabled button for full jobs
 			if (active >= available)
 			{
-				occupation.GetComponentInChildren<Button>().interactable = false;
+				occupationGO.GetComponentInChildren<Button>().interactable = false;
 			}
 			else // Enabled button with listener for vacant jobs
 			{
-				occupation.GetComponent<Button>().onClick.AddListener(() => { BtnOk(jobType); });
+				occupationGO.GetComponent<Button>().onClick.AddListener(() => { BtnOk(jobType); });
 			}
 
-			occupation.SetActive(true);
+			occupationGO.SetActive(true);
 		}
 		screen_Jobs.SetActive(true);
 		isUpToDate = true;

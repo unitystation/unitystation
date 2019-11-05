@@ -15,6 +15,16 @@ public class Occupation : ScriptableObject
 	         " on spawn when they choose this occupation.")]
 	public ItemStoragePopulator InventoryPopulator;
 
+	[Tooltip("Maximum simultaneous players with this occupation. Set to -1 for unlimited")]
+	public int Limit;
+
+	[Tooltip("Priority for selecting this occupation when requested occupation is not" +
+	         " available.")]
+	public int priority;
+
+	[Tooltip("Color of this occupation's button in the occupation chooser")]
+	public Color ChoiceColor = Color.white;
+
 	[Tooltip("Default access allowed for this occupation.")]
 	public List<Access> AllowedAccess;
 }
