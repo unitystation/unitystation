@@ -143,36 +143,13 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		queuedShots = new Queue<QueuedShot>();
 	}
 
-	private void Start()
-	{
-		if (isServer)
-		{
-			ServerEnsureMag();
-		}
-	}
-
-
-
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		serverIsHeld = info.ToPlayer != null;
 	}
 
-	//if no mag is already in the gun, creates one at max capacity
-	private void ServerEnsureMag()
-	{
-		if (CurrentMagazine == null)
-		{
-			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
-
-			GameObject m = Spawn.ServerPrefab(ammoPrefab, parent: transform.parent).GameObject;
-			Inventory.ServerAdd(m, magSlot);
-		}
-	}
-
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerEnsureMag();
 		if (info.SpawnableType == SpawnableType.Clone)
 		{
 			//set initial ammo from cloned
@@ -192,6 +169,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			CurrentMagazine.ServerSetAmmoRemains(CurrentMagazine.magazineSize);
 		}
 	}
+
 
 	#endregion
 

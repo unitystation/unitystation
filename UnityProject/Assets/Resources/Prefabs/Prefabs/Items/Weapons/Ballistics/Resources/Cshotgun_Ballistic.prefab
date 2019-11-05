@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114337019426290282}
   - component: {fileID: 114078596252142752}
   - component: {fileID: 114028072277060010}
+  - component: {fileID: 1144437016424961650}
   m_Layer: 10
   m_Name: Cshotgun_Ballistic
   m_TagString: Untagged
@@ -181,9 +182,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Combat Shotgun
   itemDescription: 
-  Traits:
-  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
-  itemType: 0
+  InitialTraits: []
   size: 2
   spriteType: 2
   CanConnectToTank: 0
@@ -439,5 +438,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_AssetId: 8aa9c1617fcf44905b26d836feca524f
   m_SceneId: 0
+--- !u!114 &1144437016424961650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968992119088728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  ItemStorageCapacity: {fileID: 0}
+  ItemStoragePopulator: {fileID: 0}
