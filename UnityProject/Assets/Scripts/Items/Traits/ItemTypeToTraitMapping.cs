@@ -8,7 +8,6 @@ using UnityEngine;
 /// Only used to map from item types from the imported DMI data
 /// to ItemTrait. Shouldn't be used for anything else
 /// </summary>
-[CreateAssetMenu(fileName = "ItemTypeToTraitMapping", menuName = "Traits/ItemTypeToTraitMapping")]
 public class ItemTypeToTraitMapping : ScriptableObject
 {
 	[Serializable]
