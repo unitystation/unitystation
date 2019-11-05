@@ -24,6 +24,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
 		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
+		itemStorage = GetComponent<ItemStorage>();
 	}
 
 	/// <summary>

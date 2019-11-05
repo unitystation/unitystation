@@ -88,6 +88,7 @@ public class PlayerManager : MonoBehaviour
 			LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
 		Camera2DFollow.followControl.target = LocalPlayer.transform;
 
+
 		HasSpawned = true;
 	}
 

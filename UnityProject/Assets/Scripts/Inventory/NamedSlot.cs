@@ -1,7 +1,10 @@
 
+using System;
+
 /// <summary>
 /// All possible item slots. You MUST specify the ordinal otherwise it will break everything.
 /// </summary>
+[Serializable]
 public enum NamedSlot
 {
 	//NOTE: To ensure safety of things, like scriptable objects, that are referencing this enum, you must NOT change

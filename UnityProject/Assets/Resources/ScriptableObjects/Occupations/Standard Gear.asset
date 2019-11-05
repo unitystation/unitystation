@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
-  m_Name: Standard Gear
+  m_Name: NULL
   m_EditorClassIdentifier: 
   JobType: 0
   InventoryPopulator: {fileID: 11400000, guid: e9fa91afc36164817bc3c3c26eb54266, type: 2}
+  Limit: 0
+  priority: 0
+  ChoiceColor: {r: 1, g: 1, b: 1, a: 1}
   AllowedAccess: 

@@ -17,7 +17,6 @@ public class Equipment : NetworkBehaviour
 	public bool IsInternalsEnabled;
 	private ItemSlot maskSlot;
 	private ItemStorage itemStorage;
-	public ItemTrait MaskTrait;
 
 	private void Awake()
 	{
@@ -26,7 +25,10 @@ public class Equipment : NetworkBehaviour
 		clothingItems = new Dictionary<NamedSlot, ClothingItem>();
 		foreach (var clothingItem in GetComponentsInChildren<ClothingItem>())
 		{
-			clothingItems.Add(clothingItem.Slot, clothingItem);
+			if (clothingItem.Slot != NamedSlot.none)
+			{
+				clothingItems.Add(clothingItem.Slot, clothingItem);
+			}
 		}
 		maskSlot = itemStorage.GetNamedItemSlot(NamedSlot.mask);
 		InitInternals();
@@ -88,7 +90,7 @@ public class Equipment : NetworkBehaviour
 		var itemAttrs = item.GetComponent<ItemAttributes>();
 		if (itemAttrs == null) return false;
 
-		if (itemAttrs.HasTrait(MaskTrait))
+		if (itemAttrs.HasTrait(CommonTraits.Instance.Mask))
 		{
 			foreach (var gasSlot in itemStorage.GetGasSlots())
 			{

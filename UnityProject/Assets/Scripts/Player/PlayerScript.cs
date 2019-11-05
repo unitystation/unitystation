@@ -119,6 +119,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 			PlayerManager.SetPlayerForControl(gameObject);
 
+			UIManager.LinkUISlots();
+
 			if (IsGhost)
 			{
 				//stop the crit notification and change overlay to ghost mode
@@ -250,7 +252,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			var playerStorage = gameObject.GetComponent<ItemStorage>();
 			if (playerStorage && !playerStorage.GetNamedItemSlot(NamedSlot.ear).IsEmpty)
 			{
-				Headset headset =  playerStorage.GetNamedItemSlot(NamedSlot.ear).Item.GetComponent<Headset>();
+				Headset headset =  playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
 				if (headset)
 				{
 					EncryptionKeyType key = headset.EncryptionKey;

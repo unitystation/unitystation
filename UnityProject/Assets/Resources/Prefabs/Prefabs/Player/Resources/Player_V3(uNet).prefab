@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 1599133673258867465}
@@ -957,8 +957,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f941a6ff000f14c42a6a1e012b4495cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   IsInternalsEnabled: 0
-  MaskTrait: {fileID: 11400000, guid: 3858899698cc1425f86b8b93032ca57d, type: 2}
 --- !u!114 &114390575568471296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,7 +1622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4667243628362804010}
@@ -1746,7 +1747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 6711362655909564187}
@@ -2279,7 +2280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 1867231810626179718}
@@ -2404,7 +2405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 8764473760884168085}
@@ -2817,7 +2818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 8200977805082611184}
@@ -3192,7 +3193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 1175863438983944890}
@@ -3784,7 +3785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 7051865474305012518}
@@ -3909,7 +3910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 5648068482913700537}
@@ -4034,7 +4035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 6136734672455525919}
@@ -4381,7 +4382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 3267990453321456714}
@@ -4607,7 +4608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4086540550876152099}
@@ -4732,7 +4733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Slot: 0
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4603106399424094086}

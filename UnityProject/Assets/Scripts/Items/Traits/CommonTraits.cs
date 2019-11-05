@@ -12,4 +12,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait ReagentContainer;
 	public ItemTrait Gun;
 	public ItemTrait Food;
+	public ItemTrait Mask;
 }

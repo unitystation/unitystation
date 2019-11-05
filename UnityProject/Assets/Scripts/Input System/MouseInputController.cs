@@ -526,7 +526,7 @@ public class MouseInputController : MonoBehaviour
 			Vector3 position = MouseWorldPosition;
 			position.z = 0f;
 
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.namedSlot.GetValueOrDefault(NamedSlot.none),
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.NamedSlot,
 				position, (int)UIManager.DamageZone);
 
 			//Disabling throw button

@@ -44,8 +44,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		var item = UIManager.Hands.CurrentSlot.Item;
 		if (item == null
 		    || itemSlot.Item != null
-		    || itemSlot.namedSlot == NamedSlot.leftHand
-		    || itemSlot.namedSlot == NamedSlot.rightHand)
+		    || itemSlot.NamedSlot == NamedSlot.leftHand
+		    || itemSlot.NamedSlot == NamedSlot.rightHand)
 		{
 			return;
 		}

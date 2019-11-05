@@ -95,6 +95,7 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 			return;
 		}
 
+		definedSlots = new HashSet<SlotIdentifier>();
 		foreach (var slot in ItemStorageStructure.Slots())
 		{
 			definedSlots.Add(slot);

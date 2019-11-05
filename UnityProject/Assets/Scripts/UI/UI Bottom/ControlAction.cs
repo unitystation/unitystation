@@ -69,7 +69,7 @@ public class ControlAction : MonoBehaviour
 			Throw(); // Disable throw
 		}
 		//forceClientInform = true because we aren't doing prediction any more.
-		lps.playerNetworkActions.CmdDropItem(currentSlot.namedSlot.GetValueOrDefault(NamedSlot.none));
+		lps.playerNetworkActions.CmdDropItem(currentSlot.NamedSlot);
 		SoundManager.Play("Click01");
 		Logger.Log("Drop Button", Category.UI);
 	}

@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -10,20 +12,19 @@ using UnityEngine.UI;
 /// <summary>
 /// Represents an item slot rendered in the UI.
 /// </summary>
+[Serializable]
 public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 {
-	//TODO: Remove after I've copied these to the new assets.
-	public bool allowAllItems;
-	public List<ItemType> allowedItemTypes;
-	public string hoverName;
+
 	[Tooltip("For player inventory, named slot in local player's ItemStorage that this UI slot corresponds to.")]
-	public NamedSlot? namedSlot;
+	public NamedSlot NamedSlot;
+	public string hoverName;
+
+
 
 	[HideInInspector]
 	public Image image;
-
 	private Image secondaryImage; //For sprites that require two images
-	public ItemSize maxItemSize;
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
 	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributes>().itemName;
@@ -57,10 +58,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		secondaryImage.enabled = false;
 		image.alphaHitTestMinimumThreshold = 0.5f;
 		image.enabled = false;
-		if (namedSlot != null)
-		{
-			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, (NamedSlot) namedSlot));
-		}
 	}
 
 	private void OnEnable()
@@ -78,6 +75,18 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	{
 		image.sprite = null;
 		image.enabled = false;
+	}
+
+	/// <summary>
+	/// Link this item slot to its configured named slot on the local player.
+	/// Should only be called after local player is spawned.
+	/// </summary>
+	public void LinkToLocalPlayer()
+	{
+		if (NamedSlot != NamedSlot.none)
+		{
+			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, NamedSlot));
+		}
 	}
 
 

@@ -45,6 +45,11 @@ public class ClothingData : BaseClothData
 			}
 		}
 	}
+
+	public override string ToString()
+	{
+		return $"{name}";
+	}
 }
 
 [System.Serializable]

@@ -336,4 +336,16 @@ public class UIManager : MonoBehaviour
 			existingBar.ServerInterruptProgress();
 		}
 	}
+
+	/// <summary>
+	/// Links the UI slots to the spawned local player. Should only be called after local player has been spawned / set
+	/// </summary>
+	public static void LinkUISlots()
+	{
+		//link the UI slots to this player
+		foreach (var uiSlot in Instance.GetComponentsInChildren<UI_ItemSlot>(true))
+		{
+			uiSlot.LinkToLocalPlayer();
+		}
+	}
 }

@@ -84,7 +84,7 @@ public static class PlayerSpawnHandler
 				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
 			}
 			//no longer can observe their inventory
-			oldBody.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(oldBody);
+			oldBody.GetComponent<ItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
 		}
 
 		var connectedPlayer = PlayerList.Instance.Get(conn);
