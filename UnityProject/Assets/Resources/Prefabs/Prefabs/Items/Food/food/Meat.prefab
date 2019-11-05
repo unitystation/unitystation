@@ -181,6 +181,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Meat
   itemDescription: 
+  Traits:
+  - {fileID: 11400000, guid: fe7314825ebf744c3b651ca76d282adc, type: 2}
   itemType: 14
   size: 1
   spriteType: 0
@@ -206,9 +208,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114106687397898684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +302,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &8646462409530508651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,5 +347,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1532147113
+  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_SceneId: 0

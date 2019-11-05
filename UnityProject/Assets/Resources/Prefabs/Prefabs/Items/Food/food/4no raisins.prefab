@@ -87,6 +87,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: 4no raisins
   itemDescription: Best raisins in the universe. Not sure why.
+  Traits:
+  - {fileID: 11400000, guid: fe7314825ebf744c3b651ca76d282adc, type: 2}
   itemType: 14
   size: 0
   spriteType: 0
@@ -178,9 +180,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114417366729828038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +239,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114551020561031558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +272,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2298517565
+  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

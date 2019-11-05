@@ -182,11 +182,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Taser gun
   itemDescription: A low-capacity, energy-based stun gun used by security teams to
     subdue targets at range.
+  Traits:
+  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
   itemType: 17
   size: 3
   spriteType: 2
@@ -213,7 +215,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114155970044334132
 MonoBehaviour:
@@ -248,9 +249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8735810588248712643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +338,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114232160885882454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,8 +351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -374,8 +371,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2112918102
+  m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
+  m_SceneId: 0
 --- !u!1 &1564886528502844340
 GameObject:
   m_ObjectHideFlags: 0

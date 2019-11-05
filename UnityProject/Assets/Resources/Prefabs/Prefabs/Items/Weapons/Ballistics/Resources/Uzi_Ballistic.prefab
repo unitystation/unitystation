@@ -178,10 +178,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Uzi
   itemDescription: 
+  Traits:
+  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
   itemType: 0
   size: 1
   spriteType: 2
@@ -208,7 +210,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114914675585055498
 MonoBehaviour:
@@ -243,9 +244,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3812013440630209488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +333,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114852557143829536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,8 +346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -369,8 +366,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1079764782
+  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_SceneId: 0
 --- !u!1 &3766660294175928363
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,9 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
+/// <summary>
+/// Various attributes associated with a particular item.
+/// </summary>
 [RequireComponent(typeof(SpriteDataHandler))]
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ObjectBehaviour))]
@@ -24,10 +27,14 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	public SpriteHandler InventoryIcon;
 
+
 	[SyncVar(hook = nameof(SyncItemName))]
 	public string itemName;
 	public string itemDescription;
 
+	[Tooltip("Traits of this item. Will eventually replace ItemType")]
+	public List<ItemTrait> Traits;
+	//Note - itemtype will be replaced with Traits eventually.
 	public ItemType itemType = ItemType.None;
 	public ItemSize size;
 	public SpriteType spriteType;
