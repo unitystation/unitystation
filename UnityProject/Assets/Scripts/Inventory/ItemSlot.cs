@@ -68,6 +68,16 @@ public class ItemSlot
 	public RegisterPlayer Player => itemStorage != null ? itemStorage.GetComponent<RegisterPlayer>() : null;
 
 	/// <summary>
+	/// RegisterPlayer this slot is in the slot tree of (i.e. even if in a backpack). Null if not on a player at all.
+	/// </summary>
+	public RegisterPlayer RootPlayer()
+	{
+		var root = GetRootStorage();
+		if (root == null) return null;
+		return root.GetComponent<RegisterPlayer>();
+	}
+
+	/// <summary>
 	/// Named slot this item slot is identified by in this storage. Null if not a named slot.
 	/// </summary>
 	public NamedSlot? NamedSlot => slotIdentifier.NamedSlot;

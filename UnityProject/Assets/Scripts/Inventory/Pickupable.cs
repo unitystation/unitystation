@@ -30,7 +30,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// Which inventory slot this is currently in, null if not in inventory
 	/// </summary>
 	public ItemSlot ItemSlot => itemSlot;
-	//TODO: Refactor to make sure this is always up to date, use this rather than InventoryManager
 	private ItemSlot itemSlot;
 
 	private void Awake()
@@ -83,6 +82,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			EquipmentSpritesMessage.SendToAll(info.ToPlayer.gameObject,
 				info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
 		}
+
 	}
 
 	/// <summary>

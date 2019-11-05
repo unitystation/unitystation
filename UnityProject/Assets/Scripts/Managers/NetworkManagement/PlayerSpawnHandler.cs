@@ -79,10 +79,12 @@ public static class PlayerSpawnHandler
 		if (oldBody)
 		{
 			var oldPlayerNetworkActions = oldBody.GetComponent<PlayerNetworkActions>();
-			if(oldPlayerNetworkActions)
+			if (oldPlayerNetworkActions)
 			{
 				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
 			}
+			//no longer can observe their inventory
+			oldBody.GetComponent<ItemStorage>().ServerRemoveObserverPlayer(oldBody);
 		}
 
 		var connectedPlayer = PlayerList.Instance.Get(conn);
@@ -98,6 +100,10 @@ public static class PlayerSpawnHandler
 			NetworkServer.ReplacePlayerForConnection(new NetworkConnection("0.0.0.0"), oldBody);
 			TriggerEventMessage.Send(newBody, eventType);
 		}
+
+		//can observe their new inventory
+		newBody.GetComponent<ItemStorage>().ServerAddObserverPlayer(newBody);
+
 		var playerScript = newBody.GetComponent<PlayerScript>();
 		if (playerScript.PlayerSync != null)
 		{

@@ -15,7 +15,7 @@ using UnityEngine;
 /// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
 /// in a player's inventory)!
 /// </summary>
-public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
+public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerInventoryMove
 {
 	[Tooltip("Configuration describing the structure of the slots - i.e. what" +
 	         " the slots are / how many there are.")]
@@ -46,6 +46,44 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		ServerPopulate(ItemStoragePopulator, PopulationContext.AfterSpawn(info));
+		//if this is a player's inventory, make them an observer of all slots
+		if (GetComponent<PlayerScript>() != null)
+		{
+			ServerAddObserverPlayer(gameObject);
+		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		//if this is a player's inventory, make them no longer an observer of all slots
+		if (GetComponent<PlayerScript>() != null)
+		{
+			ServerRemoveObserverPlayer(gameObject);
+		}
+		//reclaim the space in the slot pool.
+		ItemSlot.Free(this);
+	}
+
+
+	public void OnInventoryMoveServer(InventoryMove info)
+	{
+		var fromRootPlayer = info.FromRootPlayer;
+		var toRootPlayer = info.ToRootPlayer;
+		//no need to do anything, hasn't moved into player inventory
+		if (fromRootPlayer == toRootPlayer) return;
+
+		//when this storage changes ownership to another player, the new owner becomes an observer of each slot in the slot
+		//tree.
+		//When it leaves ownership of another player, the previous owner no longer observes each slot in the slot tree.
+		if (fromRootPlayer != null)
+		{
+			ServerRemoveObserverPlayer(info.FromRootPlayer.gameObject);
+		}
+
+		if (toRootPlayer != null)
+		{
+			ServerAddObserverPlayer(info.ToRootPlayer.gameObject);
+		}
 	}
 
 	private void CacheDefinedSlots()
@@ -180,12 +218,6 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
 		return GetIndexedSlots().FirstOrDefault(its => its.Item == null);
 	}
 
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		//reclaim the space in the slot pool.
-		ItemSlot.Free(this);
-	}
-
 	/// <summary>
 	/// Gets all slots in which a gas container can be stored and used
 	/// </summary>
@@ -220,5 +252,37 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn
 	{
 		if (playerNetworkActions == null) return null;
 		return GetNamedItemSlot(playerNetworkActions.activeHand);
+	}
+
+	/// <summary>
+	/// Server only (can be called client side but has no effect).
+	/// Add this player to the list of players currently observing all slots in the slot tree
+	/// This observer will receive updates as they happen to this slot and will
+	/// receieve an update for each slot in the tree immediately as the result
+	/// of this method.
+	/// </summary>
+	/// <param name="observerPlayer"></param>
+	public void ServerAddObserverPlayer(GameObject observerPlayer)
+	{
+		if (!CustomNetworkManager.IsServer) return;
+		foreach (var slot in GetItemSlotTree())
+		{
+			slot.ServerAddObserverPlayer(observerPlayer);
+		}
+	}
+
+	/// <summary>
+	/// Server only (can be called client side but has no effect).
+	/// Remove this player from the list of players currently observing all slots in the slot tree
+	/// This observer will not longer receive updates as they happen to this slot.
+	/// </summary>
+	/// <param name="observerPlayer"></param>
+	public void ServerRemoveObserverPlayer(GameObject observerPlayer)
+	{
+		if (!CustomNetworkManager.IsServer) return;
+		foreach (var slot in GetItemSlotTree())
+		{
+			slot.ServerRemoveObserverPlayer(observerPlayer);
+		}
 	}
 }

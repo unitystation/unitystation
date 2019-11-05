@@ -20,7 +20,9 @@ public class Tool : MonoBehaviour
 }
 
 /// <summary>
-/// Defines various tool types, a way of distinguishing items that's different from itemtype
+/// Defines various tool types, a way of distinguishing items that's different from itemtype.
+/// Note that some of these aren't quite "tools", but this list is mostly just used
+/// as an alternative to ItemType to identify a "kind" of item because ItemType is quite broad.
 /// </summary>
 public enum ToolType
 {
@@ -40,6 +42,8 @@ public enum ToolType
 	Hemostat =  10,
 	Cautery = 11,
 	FireExtinguisher = 12,
+	Pen = 13,
+	Paper = 14,
 
 	//no tool has this type, just used for defining what's allowed to go in a slot
 	All = 2048

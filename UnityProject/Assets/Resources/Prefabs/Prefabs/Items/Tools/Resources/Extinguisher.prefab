@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114229085023085202}
   - component: {fileID: 114462233250351786}
   - component: {fileID: 114923660035280294}
+  - component: {fileID: 5519721869088170442}
   m_Layer: 10
   m_Name: Extinguisher
   m_TagString: Untagged
@@ -221,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Extinguisher
   itemDescription: A heavy fire extinguisher
@@ -250,9 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114335573703485954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,7 +266,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114690376875817604
 MonoBehaviour:
@@ -360,6 +357,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114462233250351786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,8 +388,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2170603969
+  m_AssetId: 7920a824df456044381e381e90277a5d
+  m_SceneId: 0
+--- !u!114 &5519721869088170442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToolType: 12
+  SuccessChance: 100
+  IsSyndicateVariant: 0
+  SpeedMultiplier: 1
 --- !u!1 &1645206611696558437
 GameObject:
   m_ObjectHideFlags: 0

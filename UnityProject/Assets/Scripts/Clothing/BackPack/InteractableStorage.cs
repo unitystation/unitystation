@@ -9,51 +9,13 @@ using UnityEngine;
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(Pickupable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, IServerInventoryMove
+	ICheckedInteractable<InventoryApply>
 {
 	private ItemStorage itemStorage;
 
 	void Awake()
 	{
 		itemStorage = GetComponent<ItemStorage>();
-	}
-
-
-	public void OnInventoryMoveServer(InventoryMove info)
-	{
-		var fromRootStorage = info.FromSlot?.GetRootStorage();
-		var toRootStorage = info.FromSlot?.GetRootStorage();
-		if (fromRootStorage == toRootStorage)
-		{
-			//nothing to do, the owner wouldn't have changed
-			return;
-		}
-		GameObject fromPlayer = null;
-		GameObject toPlayer = null;
-		if (fromRootStorage != null && fromRootStorage.GetComponent<RegisterPlayer>() != null)
-		{
-			fromPlayer = fromRootStorage.gameObject;
-		}
-		if (toRootStorage != null && toRootStorage.GetComponent<RegisterPlayer>() != null)
-		{
-			toPlayer = toRootStorage.gameObject;
-		}
-
-		//when this storage changes ownership to another player, the new owner becomes an observer of each slot in the slot
-		//tree.
-		//When it leaves ownership of another player, the previous owner no longer observes each slot in the slot tree.
-		foreach (var slot in itemStorage.GetItemSlotTree())
-		{
-			if (fromPlayer != null)
-			{
-				slot.ServerRemoveObserverPlayer(fromPlayer);
-			}
-
-			if (toPlayer != null)
-			{
-				slot.ServerAddObserverPlayer(toPlayer);
-			}
-		}
 	}
 
 	public bool Interact(InventoryApply interaction)

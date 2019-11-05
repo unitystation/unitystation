@@ -58,7 +58,19 @@ public class InventoryMove
 	/// <summary>
 	/// If toslot is a player's top-level inventory, returns that player. Otherwise null.
 	/// </summary>
-	public RegisterPlayer ToPlayer => FromSlot?.Player;
+	public RegisterPlayer ToPlayer => ToSlot?.Player;
+
+	/// <summary>
+	/// If fromSlot is in a player's slot tree (i.e. anywhere in their
+	/// inventory, even in a bag), returns that player. Otherwise null.
+	/// </summary>
+	public RegisterPlayer FromRootPlayer => FromSlot?.RootPlayer();
+
+	/// <summary>
+	/// If toslot is in a player's slot tree (i.e. anywhere in their
+	/// inventory, even in a bag), returns that player. Otherwise null.
+	/// </summary>
+	public RegisterPlayer ToRootPlayer => ToSlot?.RootPlayer();
 
 
 	public InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
