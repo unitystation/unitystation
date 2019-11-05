@@ -6,6 +6,7 @@ using Objects;
 using UnityEngine;
 using Mirror;
 using Newtonsoft.Json;
+using YamlDotNet.Samples;
 
 /// <summary>
 /// Component which manages all the equipment on a player.
@@ -16,6 +17,7 @@ public class Equipment : MonoBehaviour
 	public bool IsInternalsEnabled;
 	private ItemSlot maskSlot;
 	private ItemStorage itemStorage;
+	public ItemTrait MaskTrait;
 
 	private void Awake()
 	{
@@ -86,7 +88,7 @@ public class Equipment : MonoBehaviour
 		var itemAttrs = item.GetComponent<ItemAttributes>();
 		if (itemAttrs == null) return false;
 
-		if (itemAttrs.itemType == ItemType.Mask)
+		if (itemAttrs.HasTrait(MaskTrait))
 		{
 			foreach (var gasSlot in itemStorage.GetGasSlots())
 			{

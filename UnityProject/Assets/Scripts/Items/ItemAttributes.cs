@@ -32,12 +32,20 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	public string itemName;
 	public string itemDescription;
 
-	[Tooltip("Traits of this item. Will eventually replace ItemType")]
-	public List<ItemTrait> Traits;
-	//Note - itemtype will be replaced with Traits eventually.
-	public ItemType itemType = ItemType.None;
+	/// <summary>
+	/// Only used for config in editor. To dynamically change this, please use
+	/// AddTrait or RemoveTrait.
+	/// Don't use this for checking if an item has a trait. Use HasTrait instead.
+	/// </summary>
+	[Tooltip("Traits of this item.")]
+	public List<ItemTrait> InitialTraits;
 	public ItemSize size;
 	public SpriteType spriteType;
+
+	/// <summary>
+	/// Actual current traits, accounting for dynamic add / remove.
+	/// </summary>
+	private HashSet<ItemTrait> traits = new HashSet<ItemTrait>();
 
 	/// <summary>
 	/// True if this is a mask that can connect to a tank
@@ -93,6 +101,10 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	private void Awake()
 	{
+		foreach (var definedTrait in InitialTraits)
+		{
+			traits.Add(definedTrait);
+		}
 		SyncItemName(itemName);
 	}
 
@@ -105,6 +117,16 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
 		InventoryIcon = GetComponentInChildren<SpriteHandler>();
+	}
+
+	/// <summary>
+	/// Returns true iff this itemattributes has the specified trait
+	/// </summary>
+	/// <param name="toCheck"></param>
+	/// <returns></returns>
+	public bool HasTrait(ItemTrait toCheck)
+	{
+		return traits.Contains(toCheck);
 	}
 
 	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData itemAttributes)
@@ -122,7 +144,12 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		SyncItemName(ItemAttributes.itemName);
 		itemDescription = ItemAttributes.itemDescription;
-		itemType = ItemAttributes.itemType;
+		var trait = TypeToTrait(ItemAttributes.itemType);
+		if (trait != null)
+		{
+			traits.Add(trait);
+		}
+
 		size = ItemAttributes.size;
 		spriteType = ItemAttributes.spriteType;
 		CanConnectToTank = ItemAttributes.CanConnectToTank;
@@ -134,6 +161,17 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		hitSound = ItemAttributes.hitSound;
 		attackVerb = ItemAttributes.attackVerb;
 		IsEVACapable = ItemAttributes.IsEVACapable;
+	}
+
+	private static ItemTypeToTraitMapping typeToTraitMapping;
+	private ItemTrait TypeToTrait(ItemType itemType)
+	{
+		if (typeToTraitMapping == null)
+		{
+			typeToTraitMapping = Resources.Load<ItemTypeToTraitMapping>("ItemTypeToTraitMapping");
+		}
+
+		return typeToTraitMapping.GetTrait(itemType);
 	}
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)

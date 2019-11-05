@@ -26,6 +26,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private PlayerScript playerScript;
 	private RegisterPlayer registerPlayer;
 	private GameObject spritesObj;
+	public ItemTrait KnifeTrait;
 
 	private GameObject casingPrefab;
 
@@ -138,7 +139,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		// Consider moving this into a MeleeItemTrigger for knifes
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-		if (victimHealth != null && victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
+		if (victimHealth != null && victimHealth.IsDead && weaponAttr.HasTrait(KnifeTrait))
 		{
 			if (victim.GetComponent<SimpleAnimal>())
 			{

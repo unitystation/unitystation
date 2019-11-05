@@ -67,7 +67,7 @@ public class DefinedCapacity : ItemStorageCapacity
 				ItemType type = ItemType.None;
 				if (itemAttrs != null)
 				{
-					type = itemAttrs.itemType;
+					//type = itemAttrs.itemType;
 				}
 				else
 				{

@@ -1,12 +1,13 @@
 using System;
 
+/// <summary>
+/// NOTE: Deprecated, only used for importing info from
+/// DM config. You must always use the Traits system (ItemTrait and subclasses)
+/// for these purposes. This will eventually be removed.
+/// </summary>
 [Serializable]
 public enum ItemType
 {
-	//NOTE: To ensure safety of things, like scriptable objects, that are referencing this enum, you must NOT change
-	//the ordinals and any new value you add must specify a new ordinal value
-
-	//no item has this type, just used for defining what's allowed to go in a slot / null value
 	None = 0,
 	Glasses = 1,
 	Hat = 2,
@@ -25,7 +26,6 @@ public enum ItemType
 	Medical = 15,
 	Knife = 16,
 	Gun = 17,
-	//no item has this type, just used for defining what's allowed to go in a slot
 	All = 18,
 
 }

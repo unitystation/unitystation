@@ -957,9 +957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f941a6ff000f14c42a6a1e012b4495cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   IsInternalsEnabled: 0
+  MaskTrait: {fileID: 11400000, guid: 3858899698cc1425f86b8b93032ca57d, type: 2}
 --- !u!114 &114390575568471296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1072,6 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  KnifeTrait: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5002,26 +5002,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+    - target: {fileID: 6868749942529127699, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: chatIcon
+      value: 
+      objectReference: {fileID: 114053825719430910}
     - target: {fileID: 5781423884290289158, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -5052,11 +5037,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6868749942529127699, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
-      propertyPath: chatIcon
-      value: 
-      objectReference: {fileID: 114053825719430910}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3681712926237386885, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe2ac855b478c5c4cb6e7df2634f28d3, type: 3}
 --- !u!224 &3952844223850906092 stripped
