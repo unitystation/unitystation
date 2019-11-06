@@ -202,7 +202,7 @@ public static class Inventory
 			return false;
 		}
 
-		if (fromSlot.Item != null)
+		if (fromSlot.Item == null)
 		{
 			Logger.LogWarningFormat("Attempted to remove {0} from inventory but from slot {1} had no item in it." +
 			                      " Move will not be performed.", Category.Inventory, pickupable.name, fromSlot);

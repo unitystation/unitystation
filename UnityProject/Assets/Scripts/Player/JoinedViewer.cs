@@ -169,7 +169,7 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{
-		PlayerSpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerRejoined, null);
+		PlayerSpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerRejoined, null, null);
 		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 	}
 

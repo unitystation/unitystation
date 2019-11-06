@@ -307,7 +307,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (GetComponent<LivingHealthBehaviour>().IsDead)
 		{
 			var newGhost =
-				PlayerSpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings);
+				PlayerSpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings, playerScript.mind.occupation);
 			playerScript.mind.Ghosting(newGhost);
 		}
 	}
@@ -322,7 +322,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.mind.StopGhosting();
 		var body = playerScript.mind.body.gameObject;
-		PlayerSpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
+		PlayerSpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null, null);
 		body.GetComponent<PlayerNetworkActions>().ReenterBodyUpdates();
 		RpcAfterRespawn();
 	}

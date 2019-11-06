@@ -51,6 +51,23 @@ public class ClientSpawnInfo
 	{
 		return new ClientSpawnInfo(clonedFrom, ClientSpawnType.Default);
 	}
+
+	/// <summary>
+	///
+	/// </summary>
+	/// <param name="clonedFrom">object cloned from, null if not a clone</param>
+	/// <returns></returns>
+	public static ClientSpawnInfo Create(GameObject clonedFrom)
+	{
+		if (clonedFrom)
+		{
+			return ClientSpawnInfo.Cloned(clonedFrom);
+		}
+		else
+		{
+			return ClientSpawnInfo.Default();
+		}
+	}
 }
 
 /// <summary>

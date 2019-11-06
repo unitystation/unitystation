@@ -71,5 +71,7 @@ internal enum MessageTypes : short
 	RequestOpenBookIDNetMessage = 2028,
 	RequestUncuffMessage = 2029,
 	RequestInteraction = 2030,
-	RequestSlotTransferMessage = 2031
+	RequestSlotTransferMessage = 2031,
+	SpawnMessage = 2032,
+	DespawnMessage = 2033
 }

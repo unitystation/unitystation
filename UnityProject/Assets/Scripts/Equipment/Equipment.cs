@@ -43,13 +43,13 @@ public class Equipment : NetworkBehaviour
 	{
 		foreach (var clothingItem in clothingItems)
 		{
-			EquipmentSpritesMessage.SendTo(gameObject, clothingItem.Key, recipient, clothingItem.Value.GameObjectReference, true, false);
+			EquipmentSpritesMessage.SendTo(gameObject, (int)clothingItem.Key, recipient, clothingItem.Value.GameObjectReference, true, false);
 		}
 	}
 
 	public void SetReference(int index, GameObject _Item)
 	{
-		EquipmentSpritesMessage.SendToAll(gameObject, (NamedSlot)index, _Item);
+		EquipmentSpritesMessage.SendToAll(gameObject, index, _Item);
 	}
 
 	private void InitInternals()
@@ -114,8 +114,14 @@ public class Equipment : NetworkBehaviour
 		IsInternalsEnabled = internalsEnabled;
 	}
 
+	/// <summary>
+	/// Gets the clothing item corresponding to this slot, null if no clothing item exists for this slot.
+	/// </summary>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
 	public ClothingItem GetClothingItem(NamedSlot namedSlot)
 	{
-		return clothingItems[namedSlot];
+		clothingItems.TryGetValue(namedSlot, out var clothingItem);
+		return clothingItem;
 	}
 }

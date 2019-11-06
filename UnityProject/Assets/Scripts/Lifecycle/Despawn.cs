@@ -38,18 +38,7 @@ public static class Despawn
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
 		var poolPrefabTracker = info.GameObject.GetComponent<PoolPrefabTracker>();
 		var objBehavior = info.GameObject.GetComponent<ObjectBehaviour>();
-		var cnt = info.GameObject.GetComponent<CustomNetTransform>();
-		if (cnt)
-		{
-			cnt.FireDespawnHooks(info);
-		}
-		else
-		{
-			Logger.LogWarningFormat("Attempting to network despawn object {0} at {1} but this object" +
-			                        " has no CustomNetTransform. Lifecycle hooks will be bypassed. This is" +
-			                        " most likely a mistake as any objects which sync over the network" +
-			                        " should have a CNT.", Category.ItemSpawn, info.GameObject.name, objBehavior.AssumedWorldPositionServer());
-		}
+		_ServerFireDespawnHooks(DespawnResult.Single(info));
 		if (poolPrefabTracker != null && objBehavior != null)
 		{
 			//pooled
@@ -62,7 +51,7 @@ public static class Despawn
 			NetworkServer.Destroy(info.GameObject);
 		}
 
-		return DespawnResult.Single(info, info.GameObject);
+		return DespawnResult.Single(info);
 	}
 
 	/// <summary>
@@ -91,9 +80,41 @@ public static class Despawn
 			Logger.LogError("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
 		}
+
+		//fire despawn hooks
+		var hooks = info.GameObject.GetComponents<IClientDespawn>();
+		if (hooks != null)
+		{
+			foreach (var hook in hooks)
+			{
+				hook.OnDespawnClient(ClientDespawnInfo.Default());
+			}
+		}
+
 		Spawn._AddToPool(info.GameObject);
 		info.GameObject.SetActive(false);
 
-		return DespawnResult.Single(info, info.GameObject);
+		return DespawnResult.Single(info);
+	}
+
+	/// <summary>
+	/// Note - for internal use by spawn system only. Fires all server side despawn hooks then informs
+	/// client to call client side despawn hooks
+	/// </summary>
+	/// <param name="result"></param>
+	public static void _ServerFireDespawnHooks(DespawnResult result)
+	{
+		//fire server hooks
+		var comps = result.GameObject.GetComponents<IServerDespawn>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.OnDespawnServer(result.DespawnInfo);
+			}
+		}
+
+		//fire client hooks
+		DespawnMessage.SendToAll(result);
 	}
 }

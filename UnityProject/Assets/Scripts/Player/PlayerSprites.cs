@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Light2D;
 using NUnit.Framework.Constraints;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class PlayerSprites : MonoBehaviour
 	public CharacterSettings ThisCharacter;
 
 	//clothes for each clothing slot
+	//TODO: don't use string as the dictionary key
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
 	private Directional directional;
@@ -293,7 +295,7 @@ public class PlayerSprites : MonoBehaviour
 			for (int i = 0; i < characterSprites.Length; i++)
 			{
 				var clothItem = characterSprites[i];
-				EquipmentSpritesMessage.SendTo(gameObject, (NamedSlot)i, recipient, clothItem.GameObjectReference, true, true);
+				EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
 			}
 		}
 	}
@@ -352,6 +354,16 @@ public class PlayerSprites : MonoBehaviour
 		muzzleFlash.gameObject.SetActive(true);
 		yield return WaitFor.Seconds(0.1f);
 		muzzleFlash.gameObject.SetActive(false);
+	}
+
+	/// <summary>
+	/// Returns true iff this playersprites has a clothing item for the specified named slot
+	/// </summary>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
+	public bool HasClothingItem(NamedSlot? namedSlot)
+	{
+		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
 	}
 }
 

@@ -69,21 +69,35 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		 * Bubbling should help prevent this
 		 */
 
-		if (info.FromPlayer != null)
+
+		if (info.FromPlayer != null &&
+		    HasClothingItem(info.FromPlayer, info.FromSlot))
 		{
+			if (info.FromPlayer.GetComponent<PlayerSprites>())
 			//clear previous slot appearance
 			EquipmentSpritesMessage.SendToAll(info.FromPlayer.gameObject,
-				info.FromSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
+				(int)info.FromSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
 		}
 
-		if (info.ToPlayer != null)
+		if (info.ToPlayer != null &&
+		    HasClothingItem(info.ToPlayer, info.ToSlot))
 		{
 			//change appearance based on new item
 			EquipmentSpritesMessage.SendToAll(info.ToPlayer.gameObject,
-				info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
+				(int)info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
 		}
 
 	}
+
+	private bool HasClothingItem(RegisterPlayer onPlayer, ItemSlot infoToSlot)
+	{
+		var equipment = onPlayer.GetComponent<Equipment>();
+		if (equipment == null) return false;
+		if (infoToSlot.SlotIdentifier.SlotIdentifierType != SlotIdentifierType.Named) return false;
+
+		return equipment.GetClothingItem(infoToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)) != null;
+	}
+
 
 	/// <summary>
 	/// Server-side method, sets whether this object can be picked up.

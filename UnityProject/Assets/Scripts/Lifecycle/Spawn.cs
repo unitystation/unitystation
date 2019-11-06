@@ -283,28 +283,16 @@ public static class Spawn
 					Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
 				}
 
-				//fire the hooks for spawning
-				tempObject.GetComponent<CustomNetTransform>()?.FireSpawnHooks(info);
-				if (info.Count == 1)
-				{
-					return SpawnResult.Single(info, tempObject);
-				}
 				spawnedObjects.Add(tempObject);
 			}
 			else if (info.SpawnableType == SpawnableType.Cloth)
 			{
 				var result = ServerCloth(info);
-				//fire the hooks for spawning
-				result.GetComponent<CustomNetTransform>()?.FireSpawnHooks(info);
 				if (result == null)
 				{
 					return SpawnResult.Fail(info);
 				}
 
-				if (info.Count == 1)
-				{
-					return SpawnResult.Single(info, result);
-				}
 				spawnedObjects.Add(result);
 			}
 			else if (info.SpawnableType == SpawnableType.Clone)
@@ -325,10 +313,16 @@ public static class Spawn
 					tempObject.GetComponent<CustomNetTransform>()?.NotifyPlayers();//Sending clientState for newly spawned items
 				}
 
-				//fire the hooks for cloning
-				tempObject.GetComponent<CustomNetTransform>()?.FireCloneHooks(info);
-
-				return SpawnResult.Single(info, tempObject);
+				spawnedObjects.Add(tempObject);
+			}
+			//fire hooks for all spawned objects
+			if (spawnedObjects.Count == 1)
+			{
+				ServerFireSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
+			}
+			else
+			{
+				ServerFireSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
 			}
 		}
 
@@ -357,8 +351,14 @@ public static class Spawn
 
 			bool isPooled; // not used for Client-only instantiation
 			var go = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation, info.Parent, out isPooled);
-			//fire client side lifecycle hooks
-			var hooks = go.GetComponents<IClientSpawn>();
+
+			spawnedObjects.Add(go);
+		}
+
+		//fire client side lifecycle hooks
+		foreach (var spawnedObject in spawnedObjects)
+		{
+			var hooks = spawnedObject.GetComponents<IClientSpawn>();
 			if (hooks != null)
 			{
 				foreach (var hook in hooks)
@@ -366,13 +366,11 @@ public static class Spawn
 					hook.OnSpawnClient(ClientSpawnInfo.Default());
 				}
 			}
+		}
 
-			if (info.Count == 1)
-			{
-				return SpawnResult.Single(info, go);
-			}
-
-			spawnedObjects.Add(go);
+		if (spawnedObjects.Count == 1)
+		{
+			return SpawnResult.Single(info, spawnedObjects[0]);
 		}
 
 		return SpawnResult.Multiple(info, spawnedObjects);
@@ -433,7 +431,7 @@ public static class Spawn
 
 		GameObject clothObj;
 
-		if (PrefabOverride != null)
+		if (PrefabOverride != null && PrefabOverride != uniHeadSet)
 		{
 			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
 		}
@@ -452,6 +450,32 @@ public static class Spawn
 		return clothObj;
 	}
 
+	/// <summary>
+	/// Fires all the server side spawn hooks and messages the client telling them to fire their
+	/// client-side hooks.
+	/// </summary>
+	/// <param name="result"></param>
+	private static void ServerFireSpawnHooks(SpawnResult result)
+	{
+
+		//fire server hooks
+		foreach (var spawnedObject in result.GameObjects)
+		{
+			var comps = spawnedObject.GetComponents<IServerSpawn>();
+			if (comps != null)
+			{
+				foreach (var comp in comps)
+				{
+					comp.OnSpawnServer(result.SpawnInfo);
+				}
+			}
+		}
+
+		//fire client hooks
+		SpawnMessage.SendToAll(result);
+	}
+
+
 	private static GameObject CreateBackpackCloth(ContainerData ContainerData, Vector3? worldPos = null, Transform parent = null,
 		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
@@ -466,7 +490,7 @@ public static class Spawn
 		}
 
 		GameObject clothObj;
-		if (PrefabOverride != null)
+		if (PrefabOverride != null && PrefabOverride != uniBackpack)
 		{
 			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
 		}
@@ -498,7 +522,7 @@ public static class Spawn
 		}
 
 		GameObject clothObj;
-		if (PrefabOverride != null)
+		if (PrefabOverride != null && PrefabOverride != uniCloth)
 		{
 			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
 		}
@@ -623,7 +647,6 @@ public static class Spawn
 	/// <returns>the re-created object</returns>
 	public static GameObject ServerPoolTestRespawn(GameObject target)
 	{
-		//clear the pools so this instance is
 		var objBehavior = target.GetComponent<ObjectBehaviour>();
 		if (objBehavior == null)
 		{
@@ -653,17 +676,8 @@ public static class Spawn
 			var worldPos = objBehavior.AssumedWorldPositionServer();
 
 			//this simulates going into the pool
-			var cnt = target.GetComponent<CustomNetTransform>();
-			if (cnt)
-			{
-				cnt.FireDespawnHooks(DespawnInfo.Single(target));
-			}
-			else
-			{
-				Logger.LogWarningFormat("Object {0} at {1} has no CustomNetTransform, lifecycle hooks will" +
-				                        " not be fired. This is most likely a mistake as almost all networked objects should" +
-				                        " have a CNT.", Category.ItemSpawn, target.name, worldPos);
-			}
+			Despawn._ServerFireDespawnHooks(DespawnResult.Single(DespawnInfo.Single(target)));
+
 			objBehavior.VisibleState = false;
 
 			//this simulates coming back out of the pool
@@ -671,14 +685,28 @@ public static class Spawn
 			objBehavior.VisibleState = true;
 
 			target.transform.position = worldPos;
+			var cnt = target.GetComponent<CustomNetTransform>();
 			if (cnt)
 			{
 				cnt.ReInitServerState();
 				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
-				var prefab = DeterminePrefab(target);
-				cnt.FireSpawnHooks(SpawnInfo.Prefab(prefab, worldPos));
 			}
 
+			SpawnInfo spawnInfo = null;
+			//cloth or prefab?
+			var clothing = target.GetComponent<Clothing>();
+			var prefab = DeterminePrefab(target);
+			if (clothing != null)
+			{
+				spawnInfo = SpawnInfo.Cloth(clothing.clothingData, worldPos, clothing.Type,
+					clothing.Variant, prefab);
+			}
+			else
+			{
+				spawnInfo = SpawnInfo.Prefab(prefab, worldPos);
+			}
+
+			ServerFireSpawnHooks(SpawnResult.Single(spawnInfo, target));
 			return target;
 		}
 	}

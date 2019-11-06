@@ -110,7 +110,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			itemSlot.OnSlotContentsChangeClient.AddListener(OnClientSlotContentsChange);
 		}
 
-		UpdateImage();
+		RefreshImage();
 	}
 
 	private void OnClientSlotContentsChange()
@@ -124,58 +124,51 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			return;
 		}
 
-		UpdateImage(item.gameObject);
-
-		//TODO: This shouldn't be needed, right?
-		//item.transform.position = TransformState.HiddenPos;
+		RefreshImage();
 	}
 
-	//TODO: Refactor the below to be done using a callback / interface / hook type of system, probably create a component which manages the UI appearance
+	/// <summary>
+	/// Update the image displayed in the slot based on the slots current contents
+	/// </summary>
+	public void RefreshImage()
+	{
+		UpdateImage(ItemObject);
+	}
 
 	/// <summary>
-	/// Update the image displayed in this slot based on what is currently in the slot, optionally overriding
-	/// the slot to show the appearance of a different item or change the color.
+	/// Update the image displayed in this slot to display the sprite of the specified item
 	///
-	/// For example, you can call this if the equipped item's sprite has changed and you want to reflect that change
-	/// in the UI.
 	/// </summary>
-	/// <param name="overrideItem">game object to use instead of the item that is currently in this slot in order
-	/// to derive the image to show in this slot</param>
+	/// <param name="item">game object to use to determine what to show in this slot</param>
 	/// <param name="color">color tint to apply</param>
-	public void UpdateImage(GameObject overrideItem = null, Color? color = null)
+	public void UpdateImage(GameObject item = null, Color? color = null)
 	{
-		var useColor = color.GetValueOrDefault(Color.white);
+		var nullItem = item == null;
 		var forceColor = color != Color.white;
 
-		var nullItem = overrideItem == null;
-		var itemToRender = overrideItem;
-		if (itemToRender == null && Item != null)
-		{
-			itemToRender = Item.gameObject;
-		}
-
-		if (itemToRender == null)
-		{
-			Clear();
+		if (nullItem && Item != null)
+		{ // Case for when we have a hovered image and insert, then stop hovering
 			return;
 		}
 
-		var spriteRends = itemToRender.GetComponentsInChildren<SpriteRenderer>();
-		if (image == null)
+		if (!nullItem)
 		{
-			image = GetComponent<Image>();
-		}
-		image.sprite = spriteRends[0].sprite;
-		image.color = spriteRends[0].color;
-		if (spriteRends.Length > 1)
-		{
-			if (spriteRends[1].sprite != null)
+			var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
+			if (image == null)
 			{
-				SetSecondaryImage(spriteRends[1].sprite);
-				secondaryImage.color = spriteRends[1].color;
+				image = GetComponent<Image>();
+			}
+			image.sprite = spriteRends[0].sprite;
+			image.color = spriteRends[0].color;
+			if (spriteRends.Length > 1)
+			{
+				if (spriteRends[1].sprite != null)
+				{
+					SetSecondaryImage(spriteRends[1].sprite);
+					secondaryImage.color = spriteRends[1].color;
+				}
 			}
 		}
-
 		else
 		{
 			Clear();
@@ -183,7 +176,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 
 		if (forceColor)
 		{
-			image.color = useColor;
+			image.color = color.GetValueOrDefault(Color.white);
 		}
 
 		image.enabled = !nullItem;
@@ -193,7 +186,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		{
 			if (forceColor)
 			{
-				secondaryImage.color = useColor;
+				secondaryImage.color = color.GetValueOrDefault(Color.white);
 			}
 
 			secondaryImage.enabled = secondaryImage.sprite != null && !nullItem;
@@ -216,10 +209,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 	}
 
-	/// <summary>
-	///     removes item from slot
-	/// </summary>
-	/// <returns></returns>
+	//clears the displayed contents of this slot
 	private void Clear()
 	{
 		PlayerScript lps = PlayerManager.LocalPlayerScript;

@@ -14,31 +14,29 @@ public class DespawnResult
 	public readonly bool Successful;
 
 	/// <summary>
-	/// GameObject that was despawn.
+	/// GameObject that was despawned.
 	/// </summary>
-	public readonly GameObject GameObject;
+	public GameObject GameObject => DespawnInfo.GameObject;
 
 	/// <summary>
 	/// SpawnInfo that was used to do the spawn.
 	/// </summary>
 	public readonly DespawnInfo DespawnInfo;
 
-	private DespawnResult(DespawnInfo despawnInfo, GameObject gameObject, bool successful)
+	private DespawnResult(DespawnInfo despawnInfo, bool successful)
 	{
 		DespawnInfo = despawnInfo;
-		GameObject = gameObject;
 		Successful = successful;
 	}
 
 	/// <summary>
 	/// Successfully despawned a single object
 	/// </summary>
-	/// <param name="spawnInfo"></param>
-	/// <param name="gameObject"></param>
+	/// <param name="despawnInfo"></param>
 	/// <returns></returns>
-	public static DespawnResult Single(DespawnInfo spawnInfo, GameObject gameObject)
+	public static DespawnResult Single(DespawnInfo despawnInfo)
 	{
-		return new DespawnResult(spawnInfo, gameObject, true);
+		return new DespawnResult(despawnInfo, true);
 	}
 
 	/// <summary>
@@ -48,7 +46,7 @@ public class DespawnResult
 	/// <returns></returns>
 	public static DespawnResult Fail(DespawnInfo spawnInfo)
 	{
-		return new DespawnResult(spawnInfo, null, false);
+		return new DespawnResult(spawnInfo, false);
 	}
 
 }

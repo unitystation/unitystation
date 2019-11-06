@@ -103,6 +103,7 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0
 --- !u!1 &1585232330438968
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +119,6 @@ GameObject:
   - component: {fileID: 114677721502774396}
   - component: {fileID: 114120662618608678}
   - component: {fileID: 114336348675555448}
-  - component: {fileID: 114234295319972672}
   - component: {fileID: 114465317721107106}
   - component: {fileID: 114166600190300968}
   - component: {fileID: 114122756854411570}
@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 114144300265124736}
   - component: {fileID: 8134703155087779743}
   - component: {fileID: 114254203349742134}
+  - component: {fileID: 7117549763075892957}
   m_Layer: 10
   m_Name: UniBackPack
   m_TagString: Untagged
@@ -202,11 +203,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 114144300265124736}
+  spriteDataHandler: {fileID: 114144300265124736}
   InventoryIcon: {fileID: 5613584594651815714}
   itemName: 
   itemDescription: 
-  itemType: 0
+  InitialTraits:
+  - {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d, type: 2}
   size: 4
   spriteType: 1
   CanConnectToTank: 0
@@ -232,7 +234,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114120662618608678
 MonoBehaviour:
@@ -265,25 +266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114234295319972672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1585232330438968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eac5b97f2a9c42ac9f2e98c0316ba2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  storageSlots:
-    inventorySlots: []
-  maxSlots: 7
-  maxItemSize: 3
-  inventorySlotList: []
 --- !u!114 &114465317721107106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,9 +280,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114166600190300968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +339,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114144300265124736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,3 +401,20 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
   m_SceneId: 0
+--- !u!114 &7117549763075892957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585232330438968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
+    type: 2}
+  ItemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+    type: 2}
+  ItemStoragePopulator: {fileID: 0}

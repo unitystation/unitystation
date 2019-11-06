@@ -125,6 +125,7 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 	/// <param name="context">context of the population</param>
 	public void ServerPopulate(IItemStoragePopulator populator, PopulationContext context)
 	{
+		if (populator == null) return;
 		if (!CustomNetworkManager.IsServer) return;
 		populator.PopulateItemStorage(this, context);
 	}

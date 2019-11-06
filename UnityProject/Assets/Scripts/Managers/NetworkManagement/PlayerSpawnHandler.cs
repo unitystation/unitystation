@@ -23,7 +23,7 @@ public static class PlayerSpawnHandler
 	public static void ClonePlayer(NetworkConnection conn, Occupation occupation, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
 	{
 		GameObject player = CreatePlayer(occupation, characterSettings);
-		TransferPlayer(conn, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+		TransferPlayer(conn, player, oldBody, EVENT.PlayerSpawned, characterSettings, occupation);
 		var playerScript = player.GetComponent<PlayerScript>();
 		var oldPlayerScript = oldBody.GetComponent<PlayerScript>();
 		oldPlayerScript.mind.SetNewBody(playerScript);
@@ -32,7 +32,7 @@ public static class PlayerSpawnHandler
 	public static void RespawnPlayer(NetworkConnection conn, Occupation occupation, CharacterSettings characterSettings, GameObject oldBody)
 	{
 		GameObject newPlayer = CreatePlayer(occupation, characterSettings);
-		TransferPlayer(conn, newPlayer, oldBody, EVENT.PlayerSpawned, characterSettings);
+		TransferPlayer(conn, newPlayer, oldBody, EVENT.PlayerSpawned, characterSettings, occupation);
 		new Mind(newPlayer, occupation);
 		var equipment = newPlayer.GetComponent<Equipment>();
 
@@ -59,10 +59,10 @@ public static class PlayerSpawnHandler
 		}
 	}
 
-	public static GameObject SpawnPlayerGhost(NetworkConnection conn, GameObject oldBody, CharacterSettings characterSettings)
+	public static GameObject SpawnPlayerGhost(NetworkConnection conn, GameObject oldBody, CharacterSettings characterSettings, Occupation occupation)
 	{
 		GameObject ghost = CreateMob(oldBody, CustomNetworkManager.Instance.ghostPrefab);
-		TransferPlayer(conn, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
+		TransferPlayer(conn, ghost, oldBody, EVENT.GhostSpawned, characterSettings, occupation);
 		return ghost;
 	}
 
@@ -74,7 +74,9 @@ public static class PlayerSpawnHandler
 	/// <param name="newBody">The character gameobject to be transfered into.</param>
 	/// <param name="oldBody">The old body of the character.</param>
 	/// <param name="eventType">Event type for the player sync.</param>
-	public static void TransferPlayer(NetworkConnection conn, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
+	/// <param name="characterSettings">settings, ignored if transferring to an existing player body</param>
+	/// <param name="occupation">occupation, ignored if transferring to an existing player body</param>
+	public static void TransferPlayer(NetworkConnection conn, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings, Occupation occupation)
 	{
 		if (oldBody)
 		{
@@ -91,7 +93,7 @@ public static class PlayerSpawnHandler
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
 			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
-			NetworkServer.Spawn(newBody);
+			Spawn.ServerPlayer(occupation, characterSettings, newBody);
 		}
 		else
 		{
