@@ -14,7 +14,7 @@ public class ChatEntry : MonoBehaviour
 	public GameObject stackTimesObj;
 	public Text stackTimesText;
 	private Image stackCircle;
-	private int stackTimes = 0;
+	private int stackTimes = 1;
 
 	void OnEnable()
 	{
