@@ -156,6 +156,8 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
+		if (string.IsNullOrEmpty(message)) return;
+		
 		if (UIManager.Instance.ttsToggle)
 		{
 			//Text to Speech:

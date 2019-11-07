@@ -15,13 +15,11 @@ public class PostToChatMessage : ClientMessage
 	{
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
-			if (ValidRequest(SentByPlayer)) {
-				Chat.AddChatMsgToChat(SentByPlayer, ChatMessageText, Channels);
-			}
+			Chat.AddChatMsgToChat(SentByPlayer, ChatMessageText, Channels);
 		}
 		yield return null;
 	}
-	
+
 	//This is only used to send the chat input on the client to the server
 	public static PostToChatMessage Send(string message, ChatChannel channels)
 	{
@@ -33,26 +31,6 @@ public class PostToChatMessage : ClientMessage
 		msg.Send();
 
 		return msg;
-	}
-
-	public bool ValidRequest(ConnectedPlayer player)
-	{
-		//Need to add system channel here so player can transmit system level events but not select it in the UI
-		ChatChannel availableChannels = ChatChannel.System;
-		if (player.Script == null)
-		{
-			availableChannels |= ChatChannel.OOC;
-		}
-		else
-		{
-			availableChannels |= player.Script.GetAvailableChannelsMask();
-		}
-
-		if ((availableChannels & Channels) == Channels)
-		{
-			return true;
-		}
-		return false;
 	}
 
 	public override void Deserialize(NetworkReader reader)

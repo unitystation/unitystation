@@ -47,9 +47,8 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private Dictionary<ChatChannel, GameObject> ActiveChannels = new Dictionary<ChatChannel, GameObject>();
 
-	//All the current chat entries in the chat feed. It's a queue so they are easier to trim
-	//if needed in the future
-	private Queue<ChatEntry> allEntries = new Queue<ChatEntry>();
+	//All the current chat entries in the chat feed
+	private List<ChatEntry> allEntries = new List<ChatEntry>();
 	private int hiddenEntries = 0;
 	private bool scrollBarInteract = false;
 	public event Action<bool> scrollBarEvent;
@@ -179,12 +178,22 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	public void AddChatEntry(string message)
 	{
+		//Check for chat entry dupes:
+		if (allEntries.Count != 0)
+		{
+			if (message.Equals(allEntries[allEntries.Count - 1].text.text))
+			{
+				allEntries[allEntries.Count - 1].AddChatDuplication();
+				return;
+			}
+		}
+
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();
 		chatEntry.text.text = message;
 		entry.transform.SetParent(content, false);
 		entry.transform.localScale = Vector3.one;
-		allEntries.Enqueue(chatEntry);
+		allEntries.Add(chatEntry);
 		hiddenEntries++;
 		ReportEntryState(false);
 	}
@@ -276,31 +285,7 @@ public class ChatUI : MonoBehaviour
 	{
 		// Selected channels already masks all unavailable channels in it's get method
 		PostToChatMessage.Send(InputFieldChat.text, SelectedChannels);
-
-		if (PlayerChatShown())
-		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true, InputFieldChat.text,
-				SelectedChannels);
-		}
-
 		InputFieldChat.text = "";
-	}
-
-	/// <summary>
-	/// Check if player should show a speech balloon
-	/// </summary>
-	private bool PlayerChatShown()
-	{
-		// Don't show if player is talking in OOC, dead, crit, or sent an empty message
-		if (SelectedChannels.Equals(ChatChannel.OOC) ||
-		    PlayerManager.LocalPlayerScript.IsGhost ||
-		    PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
-		    InputFieldChat.text == "")
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	public void OnChatCancel()
