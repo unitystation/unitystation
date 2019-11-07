@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using IngameDebugConsole;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class ChatEntry : MonoBehaviour
 
 	private Coroutine coCoolDown;
 	private bool isHidden = false;
+	public GameObject stackTimesObj;
 
 	void OnEnable()
 	{
@@ -85,6 +87,8 @@ public class ChatEntry : MonoBehaviour
 		Vector2 sizeDelta = rect.sizeDelta;
 		sizeDelta.x = 472f;
 		rect.sizeDelta = sizeDelta;
+		yield return WaitFor.EndOfFrame;
+		SetStackPos();
 		yield return WaitFor.Seconds(12f);
 		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
 		{
@@ -129,5 +133,18 @@ public class ChatEntry : MonoBehaviour
 			isCoolingDown = true;
 			coCoolDown = StartCoroutine(CoolDown());
 		}
+	}
+
+	[ContextMenu("Force Stack Position")]
+	void SetStackPos()
+	{
+		string _text = text.text;
+
+		TextGenerator textGen = new TextGenerator(_text.Length);
+		Vector2 extents = text.gameObject.GetComponent<RectTransform>().rect.size;
+		textGen.Populate(_text, text.GetGenerationSettings(extents));
+
+		stackTimesObj.transform.localPosition =
+			textGen.verts[textGen.vertexCount - 1].position / text.canvas.scaleFactor;
 	}
 }
