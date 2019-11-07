@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using IngameDebugConsole;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +12,13 @@ public class ChatEntry : MonoBehaviour
 	private Coroutine coCoolDown;
 	private bool isHidden = false;
 	public GameObject stackTimesObj;
+	public Text stackTimesText;
+	private Image stackCircle;
+	private int stackTimes = 0;
 
 	void OnEnable()
 	{
+		stackCircle = stackTimesObj.GetComponent<Image>();
 		EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
 		EventManager.AddHandler(EVENT.ChatUnfocused, OnChatUnfocused);
 		ChatUI.Instance.scrollBarEvent += OnScrollInteract;
@@ -57,7 +60,7 @@ public class ChatEntry : MonoBehaviour
 			}
 		}
 
-		text.CrossFadeAlpha(1f, 0f, false);
+		SetCrossFadeAlpha(1f, 0f);
 		if (isHidden)
 		{
 			isHidden = false;
@@ -73,7 +76,7 @@ public class ChatEntry : MonoBehaviour
 		}
 		else
 		{
-			text.CrossFadeAlpha(0f, 0f, false);
+			SetCrossFadeAlpha(0f, 0f);
 			if (!isHidden)
 			{
 				isHidden = true;
@@ -92,7 +95,7 @@ public class ChatEntry : MonoBehaviour
 		yield return WaitFor.Seconds(12f);
 		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
 		{
-			text.CrossFadeAlpha(0.01f, 3f, false);
+			SetCrossFadeAlpha(0.01f, 3f);
 			if (!isHidden)
 			{
 				isHidden = true;
@@ -108,12 +111,45 @@ public class ChatEntry : MonoBehaviour
 		isCoolingDown = false;
 	}
 
+	public void AddChatDuplication()
+	{
+		stackTimes++;
+		stackTimesText.text = $"x{stackTimes}";
+		stackTimesObj.SetActive(true);
+		if (stackTimesObj.activeInHierarchy)
+		{
+			StartCoroutine(StackPumpAnim());
+		}
+	}
+
+	IEnumerator StackPumpAnim()
+	{
+		yield return WaitFor.EndOfFrame;
+		var localScaleCache = stackTimesObj.transform.localScale;
+		var targetScale = localScaleCache * 1.1f;
+		var progress = 0f;
+		while (progress < 1f)
+		{
+			progress += Time.deltaTime * 10f;
+			stackTimesObj.transform.localScale = Vector3.Lerp(localScaleCache, targetScale, progress);
+			yield return WaitFor.EndOfFrame;
+		}
+
+		progress = 0f;
+		while (progress < 1f)
+		{
+			progress += Time.deltaTime * 10f;
+			stackTimesObj.transform.localScale = Vector3.Lerp(targetScale, localScaleCache, progress);
+			yield return WaitFor.EndOfFrame;
+		}
+	}
+
 	//state = is mouse button down on the scroll bar handle
 	private void OnScrollInteract(bool state)
 	{
 		if (isHidden && state)
 		{
-			text.CrossFadeAlpha(1f, 0f, false);
+			SetCrossFadeAlpha(1f, 0f);
 			isHidden = false;
 			ChatUI.Instance.ReportEntryState(false);
 		}
@@ -135,7 +171,6 @@ public class ChatEntry : MonoBehaviour
 		}
 	}
 
-	[ContextMenu("Force Stack Position")]
 	void SetStackPos()
 	{
 		string _text = text.text;
@@ -143,8 +178,18 @@ public class ChatEntry : MonoBehaviour
 		TextGenerator textGen = new TextGenerator(_text.Length);
 		Vector2 extents = text.gameObject.GetComponent<RectTransform>().rect.size;
 		textGen.Populate(_text, text.GetGenerationSettings(extents));
-
+		if (textGen.vertexCount == 0)
+		{
+			return;
+		}
 		stackTimesObj.transform.localPosition =
 			textGen.verts[textGen.vertexCount - 1].position / text.canvas.scaleFactor;
+	}
+
+	void SetCrossFadeAlpha(float amt, float time)
+	{
+		text.CrossFadeAlpha(amt, time, false);
+		stackTimesText.CrossFadeAlpha(amt, time, false);
+		stackCircle.CrossFadeAlpha(amt, time, false);
 	}
 }

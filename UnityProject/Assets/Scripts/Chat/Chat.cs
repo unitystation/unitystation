@@ -49,6 +49,7 @@ public partial class Chat : MonoBehaviour
 	{
 		var player = sentByPlayer.Script;
 
+
 		var chatEvent = new ChatEvent
 		{
 			message = message,
@@ -66,11 +67,27 @@ public partial class Chat : MonoBehaviour
 			return;
 		}
 
+		if (player.playerHealth != null)
+		{
+			if (player.playerHealth.IsCrit || player.playerHealth.IsCardiacArrest)
+			{
+				if (!player.playerHealth.IsDead)
+				{
+
+					return;
+				}
+				else
+				{
+					channels = ChatChannel.Ghost;
+				}
+			}
+		}
+
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side that local chans can be determined correctly
 		foreach (Enum value in Enum.GetValues(channels.GetType()))
 		{
-			if (channels.HasFlag((ChatChannel)value))
+			if (channels.HasFlag((ChatChannel) value))
 			{
 				//Using HasFlag will always return true for flag at value 0 so skip it
 				if ((ChatChannel) value == ChatChannel.None) continue;
@@ -230,7 +247,6 @@ public partial class Chat : MonoBehaviour
 			{
 				victimNameOthers = "itself";
 			}
-
 		}
 		else
 		{
@@ -251,6 +267,7 @@ public partial class Chat : MonoBehaviour
 				attackerName = "Unknown";
 			}
 		}
+
 		var messageOthers = $"{attackerName} has {attackVerb} {victimNameOthers}{InTheZone(hitZone)}{attack}!";
 		var message = $"You {attackVerb} {victimName}{InTheZone(hitZone)}{attack}!";
 
