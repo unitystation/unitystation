@@ -18,7 +18,8 @@ public class ItemTypeToTraitMapping : SingletonScriptableObject<ItemTypeToTraitM
 		public ItemTrait Trait;
 	}
 
-	public List<TypeToTraitEntry> Mappings;
+	[SerializeField]
+	private List<TypeToTraitEntry> Mappings;
 
 	public ItemTrait GetTrait(ItemType forType)
 	{

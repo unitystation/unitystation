@@ -102,9 +102,7 @@ public static class Inventory
 		var pickupable = toPerform.MovedObject;
 		if (pickupable == null)
 		{
-			Logger.LogError("Inventory move attempted with null object. Please ensure" +
-			                      " toPerform.MovedObject is not null. This could indicate that a move was" +
-			                      " attempted on a slot that has no item. Move will not be performed", Category.Inventory);
+			Logger.LogTrace("Inventory move attempted with null object. Move will not be performed", Category.Inventory);
 			return false;
 		}
 
@@ -352,38 +350,21 @@ public static class Inventory
 		return true;
 	}
 
-	//TODO: Refactor everything below, taken from InventoryManager
-
-//	public static void ClientEquipInInvSlot(PlayerNetworkActions pna, GameObject item, EquipSlot equipSlot)
-//	{
-//		var inventorySlot = pna.Inventory[equipSlot];
-//		inventorySlot.Item = item;
-//		var UIitemSlot = InventorySlotCache.GetSlotByEvent(inventorySlot.equipSlot);
-//		UIitemSlot.SetItem(item);
-//	}
-//
-//	private static bool IsEquipSpriteSlot(EquipSlot equipSlot)
-//	{
-//		if (equipSlot == EquipSlot.id || equipSlot == EquipSlot.storage01 ||
-//			equipSlot == EquipSlot.storage02 || equipSlot == EquipSlot.suitStorage)
-//		{
-//			return false;
-//		}
-//		return true;
-//	}
-
-	//Server only:
 	/// <summary>
-	/// Get an Inventory slot from originators hand id (i.e leftHand)
-	/// Can only be used ont he server
+	/// Client tells server to transfer items between 2 item slots.
+	/// One of the item slots must be either in this player's slot tree (i.e. currently owned by them
+	/// even if nested within an item storage).
+	///
+	/// This method has validations to check this precondition before sending the message to the server,
+	/// so feel free to just call this and not do any validation. It will fail with a Trace level
+	/// message in Category.Inventory if it fails validation.
 	/// </summary>
-	/// <param name="originator"></param>
-	/// <param name="hand"></param>
+	/// <param name="from">
+	/// o</param>
+	/// <param name="to"></param>
 	/// <returns></returns>
-//	public static InventorySlot GetSlotFromOriginatorHand(GameObject originator, EquipSlot hand)
-//	{
-//		var pna = originator.GetComponent<PlayerNetworkActions>();
-//		var slot = pna.Inventory[hand];
-//		return slot;
-//	}
+	public static void ClientRequestTransfer(ItemSlot from, ItemSlot to)
+	{
+		RequestInventoryTransferMessage.Send(from, to);
+	}
 }

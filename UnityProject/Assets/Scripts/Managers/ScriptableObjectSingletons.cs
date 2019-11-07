@@ -11,4 +11,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public ItemTypeToTraitMapping ItemTypeToTraitMapping;
 	public CommonTraits CommonTraits;
 	public OccupationList OccupationList;
+	public BestSlotForTrait BestSlotForTrait;
 }

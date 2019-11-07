@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Allows an object to store items.
@@ -17,17 +18,33 @@ using UnityEngine;
 /// </summary>
 public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerInventoryMove
 {
+	[SerializeField]
+	[FormerlySerializedAs("ItemStorageStructure")]
 	[Tooltip("Configuration describing the structure of the slots - i.e. what" +
 	         " the slots are / how many there are.")]
-	public ItemStorageStructure ItemStorageStructure;
+	private ItemStorageStructure itemStorageStructure;
 
+	/// <summary>
+	/// Storage structure of this object
+	/// </summary>
+	public ItemStorageStructure ItemStorageStructure => itemStorageStructure;
+
+	[SerializeField]
+	[FormerlySerializedAs("ItemStorageCapacity")]
 	[Tooltip("Capacity of this storage - what each slot is allowed to hold.")]
-	public ItemStorageCapacity ItemStorageCapacity;
+	private ItemStorageCapacity itemStorageCapacity;
 
+	/// <summary>
+	/// Storage capacity of this object
+	/// </summary>
+	public ItemStorageCapacity ItemStorageCapacity => itemStorageCapacity;
+
+	[FormerlySerializedAs("ItemStoragePopulator")]
+	[SerializeField]
 	[Tooltip("Defines how the storage should be populated when the object spawns. You can also" +
 	         " invoke Populate to manually / dynamically populate this storage using a supplied populator." +
 	         " This will only run server side.")]
-	public ItemStoragePopulator ItemStoragePopulator;
+	private ItemStoragePopulator itemStoragePopulator;
 
 	/// <summary>
 	/// Cached for quick lookup of what slots are actually available in this storage.
@@ -45,7 +62,7 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerPopulate(ItemStoragePopulator, PopulationContext.AfterSpawn(info));
+		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(info));
 		//if this is a player's inventory, make them an observer of all slots
 		if (GetComponent<PlayerScript>() != null)
 		{
@@ -88,7 +105,7 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 
 	private void CacheDefinedSlots()
 	{
-		if (ItemStorageStructure == null)
+		if (itemStorageStructure == null)
 		{
 			Logger.LogErrorFormat("{0} has ItemStorage but no defined ItemStorageStructure. Item storage will not work." +
 			                      " Please define an ItemStorageStructure for this prefab.", Category.Inventory, name);
@@ -96,7 +113,7 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 		}
 
 		definedSlots = new HashSet<SlotIdentifier>();
-		foreach (var slot in ItemStorageStructure.Slots())
+		foreach (var slot in itemStorageStructure.Slots())
 		{
 			definedSlots.Add(slot);
 		}

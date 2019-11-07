@@ -32,7 +32,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		}
 	}
 
-	private void Start()
+	private void Awake()
 	{
 		itemSlot = GetComponentInChildren<UI_ItemSlot>();
 	}
@@ -44,8 +44,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		var item = UIManager.Hands.CurrentSlot.Item;
 		if (item == null
 		    || itemSlot.Item != null
-		    || itemSlot.NamedSlot == NamedSlot.leftHand
-		    || itemSlot.NamedSlot == NamedSlot.rightHand)
+		    || itemSlot.namedSlot == NamedSlot.leftHand
+		    || itemSlot.namedSlot == NamedSlot.rightHand)
 		{
 			return;
 		}
@@ -68,7 +68,19 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
 		{
 			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
-			RequestInventoryTransferMessage.Send(fromSlot, UIManager.DragAndDrop.ItemSlotCache.ItemSlot);
+
+			//if there's an item storage in the slot, request to put the item in the storage
+			var destStorage = itemSlot.ItemSlot.Item?.GetComponent<InteractableStorage>();
+			if (destStorage != null)
+			{
+				//rather than try to figure out which indexed slot it should go in,
+				//just perform the normal inventory apply interaction with this slot
+				InteractionUtils.RequestInteract(InventoryApply.ByLocalPlayer(itemSlot.ItemSlot), destStorage);
+			}
+			else
+			{
+				Inventory.ClientRequestTransfer(fromSlot, itemSlot.ItemSlot);
+			}
 		}
 	}
 }

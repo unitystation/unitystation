@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -16,8 +17,12 @@ using UnityEngine.UI;
 public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 {
 
+	[SerializeField]
+	[FormerlySerializedAs("NamedSlot")]
 	[Tooltip("For player inventory, named slot in local player's ItemStorage that this UI slot corresponds to.")]
-	public NamedSlot NamedSlot;
+	public NamedSlot namedSlot;
+	public NamedSlot NamedSlot => namedSlot;
+
 	public string hoverName;
 
 
@@ -83,9 +88,9 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	/// </summary>
 	public void LinkToLocalPlayer()
 	{
-		if (NamedSlot != NamedSlot.none)
+		if (namedSlot != NamedSlot.none)
 		{
-			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, NamedSlot));
+			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, namedSlot));
 		}
 	}
 
@@ -144,7 +149,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	public void UpdateImage(GameObject item = null, Color? color = null)
 	{
 		var nullItem = item == null;
-		var forceColor = color != Color.white;
+		var forceColor = color != null;
 
 		if (nullItem && Item != null)
 		{ // Case for when we have a hovered image and insert, then stop hovering

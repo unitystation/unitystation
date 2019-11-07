@@ -255,6 +255,7 @@ public static class Validations
 	/// <returns></returns>
 	public static bool CanFit(ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
 	{
+		if (itemSlot == null) return false;
 		//client generally only knows about their own inventory, so unless this is one of their own inventory
 		//slots we will just assume it fits when doing client side check.
 		if (side == NetworkSide.Client)
@@ -290,14 +291,18 @@ public static class Validations
 	{
 		if (toCheck == null || itemSlot.Item != null)
 		{
+			Logger.LogTrace("Cannot put item to slot because the item or slot are null", Category.Inventory);
 			return false;
 		}
 		if (playerScript.canNotInteract())
 		{
+			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;
 		}
 		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied))
 		{
+			Logger.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
+				toCheck.name, itemSlot);
 			return false;
 		}
 		return true;

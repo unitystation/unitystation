@@ -7,14 +7,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ClothSlotPopulator", menuName = "Inventory/Populators/Slot/ClothSlotPopulator")]
 public class ClothSlotPopulator : SlotPopulator
 {
+	[SerializeField]
 	[Tooltip("Cloth data indicating the cloth to create and put in this cloth.")]
-	public BaseClothData ClothData;
+	private BaseClothData ClothData;
+
+	[SerializeField]
 	[Tooltip("Variant of the cloth to spawn.")]
-	public ClothingVariantType ClothingVariantType = ClothingVariantType.Default;
+	private ClothingVariantType ClothingVariantType = ClothingVariantType.Default;
+
+	[SerializeField]
 	[Tooltip("Index of the variant of the cloth to spawn. ")]
-	public int ClothVariantIndex = -1;
+	private int ClothVariantIndex = -1;
+
+	[SerializeField]
 	[Tooltip("Prefab override to use. Leave blank to use the default prefab for this cloth.")]
-	public GameObject PrefabOverride;
+	private GameObject PrefabOverride;
 
 
 	public override void PopulateSlot(ItemSlot slot, PopulationContext context)

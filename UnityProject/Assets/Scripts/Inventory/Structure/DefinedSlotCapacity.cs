@@ -10,19 +10,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DefinedSlotCapacity", menuName = "Inventory/Structure/DefinedSlotCapacity", order = 4)]
 public class DefinedSlotCapacity : SlotCapacity
 {
+	[SerializeField]
 	[Tooltip("Largest item size allowed in this slot")]
-	public ItemSize MaxItemSize = ItemSize.Huge;
+	private ItemSize MaxItemSize = ItemSize.Huge;
 
+	[SerializeField]
 	[Tooltip("Items with at least one of these traits will be allowed, provided they also have all" +
 	         " the required traits. If empty, items will be allowed as long as they" +
 	         " don't have blacklisted traits and have all required traits.")]
-	public List<ItemTrait> Whitelist;
+	private List<ItemTrait> Whitelist;
+
+	[SerializeField]
 	[Tooltip("Item MUST have ALL of these traits in order to fit.")]
-	public List<ItemTrait> Required;
+	private List<ItemTrait> Required;
+
+	[SerializeField]
 	[Tooltip("Items with any of these traits will be disallowed, regardless of if they have the" +
 	         " required traits or whitelisted traits (blacklist takes priority over whitelist). " +
 	         "If blank, has no effect on capacity logic.")]
-	public List<ItemTrait> Blacklist;
+	private List<ItemTrait> Blacklist;
 
 	/// <summary>
 	/// Check if the given item is able to fit in this slot (regardless of whether it is occupied)

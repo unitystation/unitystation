@@ -8,10 +8,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "IndexedStorageSlotPopulator", menuName = "Inventory/Populators/Slot/IndexedStorageSlotPopulator")]
 public class IndexedStorageSlotPopulator : SlotPopulator
 {
+	[SerializeField]
 	[Tooltip("Populator to use to populate this slot. The populated item must have itemstorage.")]
-	public SlotPopulator SlotPopulator;
+	private SlotPopulator SlotPopulator;
+
+	[SerializeField]
 	[Tooltip("Indexed storage populator to populate each slot in the storage.")]
-	public IndexedStoragePopulator IndexedStoragePopulator;
+	private IndexedStoragePopulator IndexedStoragePopulator;
 
 	public override void PopulateSlot(ItemSlot toPopulate, PopulationContext context)
 	{

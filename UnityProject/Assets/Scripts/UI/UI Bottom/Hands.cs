@@ -86,13 +86,11 @@ public class Hands : MonoBehaviour
 		{
 			if (CurrentSlot != itemSlot)
 			{
-				var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
-
 				if (CurrentSlot.Item == null)
 				{
 					if(itemSlot.Item != null)
 					{
-						RequestInventoryTransferMessage.Send(itemSlot.ItemSlot, CurrentSlot.ItemSlot);
+						Inventory.ClientRequestTransfer(itemSlot.ItemSlot, CurrentSlot.ItemSlot);
 						return true;
 					}
 				}
@@ -100,7 +98,7 @@ public class Hands : MonoBehaviour
 				{
 					if(itemSlot.Item == null)
 					{
-						RequestInventoryTransferMessage.Send(CurrentSlot.ItemSlot, itemSlot.ItemSlot);
+						Inventory.ClientRequestTransfer(CurrentSlot.ItemSlot, itemSlot.ItemSlot);
 						return true;
 					}
 				}
@@ -143,16 +141,9 @@ public class Hands : MonoBehaviour
 
 		//This checks which UI slot the item can be equiped to and swaps it there
 		//Try to equip the item into the appropriate slot
-		if (!SwapItem(CurrentSlot))
-		{
-			//If we couldn't equip the item into it's primary slot, try the pockets!
-			if(!SwapItem(PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.storage01).LocalUISlot))
-			{
-				//We couldn't equip the item in pocket 1. Try pocket2!
-				//This swap fails if both pockets are full, do nothing if fail
-				SwapItem(PlayerManager.LocalPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.storage02).LocalUISlot);
-			}
-		}
+		var bestSlot = BestSlotForTrait.Instance.GetBestSlot(CurrentSlot.Item, PlayerManager.LocalPlayerScript.ItemStorage);
+		if (bestSlot == null) return;
+		SwapItem(bestSlot.LocalUISlot);
 	}
 
 	/// <summary>

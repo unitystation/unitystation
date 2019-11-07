@@ -419,7 +419,7 @@ public partial class GameManager : MonoBehaviour
 		}
 
 		// No job found, get random via priority
-		foreach (Occupation occupation in OccupationList.Instance.Occupations.OrderBy(o => o.priority))
+		foreach (Occupation occupation in OccupationList.Instance.Occupations.OrderBy(o => o.Priority))
 		{
 			if (occupation.Limit == -1 || occupation.Limit > GetOccupationsCount(occupation.JobType))
 			{

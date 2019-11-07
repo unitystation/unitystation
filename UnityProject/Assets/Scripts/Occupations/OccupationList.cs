@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 /// <summary>
@@ -8,8 +9,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "OccupationList", menuName = "Singleton/OccupationList")]
 public class OccupationList : SingletonScriptableObject<OccupationList>
 {
+	[FormerlySerializedAs("Occupations")]
+	[SerializeField]
 	[Tooltip("Allowed occupations")]
-	public Occupation[] Occupations;
+	private Occupation[] occcupations;
+	public Occupation[] Occupations => occcupations;
 
 	/// <summary>
 	/// Gets the occupation with the specified jobtype. Null if not in this list.
@@ -18,6 +22,6 @@ public class OccupationList : SingletonScriptableObject<OccupationList>
 	/// <returns></returns>
 	public Occupation Get(JobType jobType)
 	{
-		return Occupations.FirstOrDefault(ocp => ocp.JobType == jobType);
+		return occcupations.FirstOrDefault(ocp => ocp.JobType == jobType);
 	}
 }

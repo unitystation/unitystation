@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
   m_Name: BARTENDER
   m_EditorClassIdentifier: 
-  JobType: 4
-  InventoryPopulator: {fileID: 11400000, guid: dac8b1a38dcb348eeb279cfcb56d1bf7, type: 2}
-  Limit: 1
+  jobType: 4
+  inventoryPopulator: {fileID: 11400000, guid: dac8b1a38dcb348eeb279cfcb56d1bf7, type: 2}
+  limit: 1
   priority: 99
-  ChoiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
-  AllowedAccess: 050000001a0000002200000031000000
+  choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
+  allowedAccess: 050000001a0000002200000031000000

@@ -68,9 +68,8 @@ public class RequestInventoryTransferMessage : ClientMessage
 
 	/// <summary>
 	/// Client tells server to transfer items between 2 item slots.
-	/// The item slots must be either in this player's slot tree (i.e. currently owned by them
-	/// even if nested within an item storage) or in an InteractableStorage that this player
-	/// is an observer of.
+	/// One of the item slots must be either in this player's slot tree (i.e. currently owned by them
+	/// even if nested within an item storage).
 	/// </summary>
 	/// <param name="fromSlot">
 	/// o</param>
@@ -78,6 +77,28 @@ public class RequestInventoryTransferMessage : ClientMessage
 	/// <returns></returns>
 	public static void Send(ItemSlot fromSlot, ItemSlot toSlot)
 	{
+		var player = fromSlot.RootPlayer();
+		if (player == null)
+		{
+			player = toSlot.RootPlayer();
+		}
+		if (player == null)
+		{
+			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
+			                      " neither slot exists in their inventory.", Category.Inventory,
+				fromSlot, toSlot);
+			return;
+		}
+
+		if (!Validations.CanPutItemToSlot(player.GetComponent<PlayerScript>(), toSlot, fromSlot.Item,
+			NetworkSide.Client))
+		{
+			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
+			                      " validation failed.", Category.Inventory,
+				fromSlot, toSlot);
+			return;
+		}
+
 		RequestInventoryTransferMessage msg = new RequestInventoryTransferMessage
 		{
 			FromStorage = fromSlot.ItemStorageNetId,

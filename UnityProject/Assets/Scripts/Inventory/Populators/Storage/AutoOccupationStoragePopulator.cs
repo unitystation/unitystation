@@ -9,8 +9,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AutoOccupationStoragePopulator", menuName = "Inventory/Populators/Storage/AutoOccupationStoragePopulator")]
 public class AutoOccupationStoragePopulator : ItemStoragePopulator
 {
+	[SerializeField]
 	[Tooltip("Populator to use after the occupation-specific populator has been run.")]
-	public ItemStoragePopulator StandardPopulator;
+	private ItemStoragePopulator StandardPopulator;
+
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{
 		var occupation = PopulatorUtils.TryGetOccupation(context);

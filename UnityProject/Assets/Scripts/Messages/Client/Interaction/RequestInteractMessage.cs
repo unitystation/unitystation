@@ -199,8 +199,10 @@ public class RequestInteractMessage : ClientMessage
 		where T : Interaction
 	{
 		//never send anything for client-side-only interactions
-		if (interactableComponent is IClientInteractable<T>)
+		if (interactableComponent is IClientInteractable<T> && !(interactableComponent is IInteractable<T>))
 		{
+			Logger.LogWarningFormat("Interaction request {0} will not be sent because interactable component {1} is" +
+			                      " IClientInteractable only (client-side only).", Category.Interaction, interaction, interactableComponent);
 			return;
 		}
 		//if we are client and the interaction has client prediction, trigger it.

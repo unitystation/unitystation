@@ -9,8 +9,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AutoIDSlotPopulator", menuName = "Inventory/Populators/Slot/AutoIDSlotPopulator")]
 public class AutoIDSlotPopulator : SlotPopulator
 {
+	[SerializeField]
 	[Tooltip("Prefab to use for the ID")]
-	public GameObject idPrefab;
+	private GameObject idPrefab;
 
 	public override void PopulateSlot(ItemSlot toPopulate, PopulationContext context)
 	{

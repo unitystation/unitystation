@@ -7,9 +7,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "IndexedStoragePopulator", menuName = "Inventory/Populators/Storage/IndexedStoragePopulator")]
 public class IndexedStoragePopulator : ItemStoragePopulator
 {
+	[SerializeField]
 	[Tooltip("Populator to use for each indexed storage slot (index in list corresponds" +
 	         " to slot index that it will populate).")]
-	public SlotPopulator[] SlotPopulators;
+	private SlotPopulator[] SlotPopulators;
 
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{

@@ -46,7 +46,7 @@ public class ArrayElementTitleDrawer : PropertyDrawer
             case SerializedPropertyType.Color:
                 return TitleNameProp.colorValue.ToString();
             case SerializedPropertyType.ObjectReference:
-                return TitleNameProp.objectReferenceValue.ToString();
+                return TitleNameProp.objectReferenceValue == null ? Atribute.Nullname : TitleNameProp.objectReferenceValue.ToString();
             case SerializedPropertyType.LayerMask:
                 break;
             case SerializedPropertyType.Enum:
@@ -81,9 +81,11 @@ public class ArrayElementTitleDrawer : PropertyDrawer
 public class ArrayElementTitleAttribute : PropertyAttribute
 {
 	public string Varname;
-	public ArrayElementTitleAttribute(string ElementTitleVar)
+	public string Nullname;
+	public ArrayElementTitleAttribute(string ElementTitleVar, string NullvalueString = "null")
 	{
 		Varname = ElementTitleVar;
+		Nullname = NullvalueString;
 	}
 }
 

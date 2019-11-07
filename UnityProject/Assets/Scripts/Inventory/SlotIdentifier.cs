@@ -67,14 +67,14 @@ public class SlotIdentifier
 		indexedIdentifiers.TryGetValue(slotIndex, out var slotID);
 		if (slotID == null)
 		{
-			slotID = new SlotIdentifier(null, slotIndex, SlotIdentifierType.Named);
+			slotID = new SlotIdentifier(null, slotIndex, SlotIdentifierType.Indexed);
 			indexedIdentifiers.Add(slotIndex, slotID);
 		}
 
 		return slotID;
 	}
-	
-	
+
+
 }
 
 

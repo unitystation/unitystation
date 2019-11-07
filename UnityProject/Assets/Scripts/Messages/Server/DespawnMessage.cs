@@ -17,13 +17,20 @@ public class DespawnMessage : ServerMessage
 		yield return WaitFor(DespawnedObject);
 
 		//call all the hooks!
-		var comps = NetworkObjects[0].GetComponents<IClientDespawn>();
-		var despawnInfo = ClientDespawnInfo.Default();
-		if (comps != null)
+		if (NetworkObject == null)
 		{
-			foreach (var comp in comps)
+			Logger.LogTraceFormat("Not calling client side despawn hooks, object no longer exists", Category.Inventory);
+		}
+		else
+		{
+			var comps = NetworkObject.GetComponents<IClientDespawn>();
+			var despawnInfo = ClientDespawnInfo.Default();
+			if (comps != null)
 			{
-				comp.OnDespawnClient(despawnInfo);
+				foreach (var comp in comps)
+				{
+					comp.OnDespawnClient(despawnInfo);
+				}
 			}
 		}
 	}

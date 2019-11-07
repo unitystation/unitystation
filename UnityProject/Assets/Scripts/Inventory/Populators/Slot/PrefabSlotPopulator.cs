@@ -7,8 +7,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PrefabSlotPopulator", menuName = "Inventory/Populators/Slot/PrefabSlotPopulator")]
 public class PrefabSlotPopulator : SlotPopulator
 {
+	[SerializeField]
 	[Tooltip("Prefab to instantiate and populate in the slot. Must have Pickupable.")]
-	public GameObject Prefab;
+	private GameObject Prefab;
 
 	/// <summary>
 	/// Populates the specified slot using the specified config.

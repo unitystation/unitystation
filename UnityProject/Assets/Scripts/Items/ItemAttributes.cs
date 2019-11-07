@@ -32,13 +32,10 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	public string itemName;
 	public string itemDescription;
 
-	/// <summary>
-	/// Only used for config in editor. To dynamically change this, please use
-	/// AddTrait or RemoveTrait.
-	/// Don't use this for checking if an item has a trait. Use HasTrait instead.
-	/// </summary>
-	[Tooltip("Traits of this item.")]
-	public List<ItemTrait> InitialTraits;
+	[SerializeField]
+	[FormerlySerializedAs("InitialTraits")] [Tooltip("Traits of this item.")]
+	private List<ItemTrait> initialTraits;
+
 	public ItemSize size;
 	public SpriteType spriteType;
 
@@ -101,7 +98,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	private void Awake()
 	{
-		foreach (var definedTrait in InitialTraits)
+		foreach (var definedTrait in initialTraits)
 		{
 			traits.Add(definedTrait);
 		}

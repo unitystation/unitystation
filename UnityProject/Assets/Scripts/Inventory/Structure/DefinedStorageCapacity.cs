@@ -19,12 +19,14 @@ public class DefinedStorageCapacity : ItemStorageCapacity
 		public SlotCapacity Capacity;
 	}
 
+	[SerializeField]
 	[Tooltip("Capacity of all indexed slots.")]
-	public SlotCapacity IndexedSlotCapacity;
+	private SlotCapacity IndexedSlotCapacity;
 
+	[SerializeField]
 	[Tooltip("Capacity capabilities of each named slot")]
 	[ArrayElementTitle("NamedSlot")]
-	public NamedDefinedCapacityEntry[] NamedSlotCapacity;
+	private NamedDefinedCapacityEntry[] NamedSlotCapacity;
 
 	public override bool CanFit(Pickupable toCheck, SlotIdentifier inSlot)
 	{

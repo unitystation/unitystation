@@ -10,9 +10,10 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(fileName = "NamedSlotStoragePopulator", menuName = "Inventory/Populators/Storage/NamedSlotStoragePopulator", order = 2)]
 public class NamedSlotStoragePopulator : ItemStoragePopulator
 {
+	[SerializeField]
 	[Tooltip("What to use to populate each named slot")]
 	[ArrayElementTitle("NamedSlot")]
-	public NamedSlotPopulatorEntry[] Entries;
+	private NamedSlotPopulatorEntry[] Entries;
 
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{
