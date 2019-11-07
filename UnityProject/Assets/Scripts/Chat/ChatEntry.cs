@@ -171,8 +171,12 @@ public class ChatEntry : MonoBehaviour
 		}
 	}
 
+	private bool stackPosSet = false;
 	void SetStackPos()
 	{
+		if (stackPosSet) return;
+		stackPosSet = true;
+
 		string _text = text.text;
 
 		TextGenerator textGen = new TextGenerator(_text.Length);
@@ -182,8 +186,17 @@ public class ChatEntry : MonoBehaviour
 		{
 			return;
 		}
-		stackTimesObj.transform.localPosition =
-			textGen.verts[textGen.vertexCount - 1].position / text.canvas.scaleFactor;
+
+		var newPos = stackTimesObj.transform.localPosition;
+		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / text.canvas.scaleFactor).x;
+
+
+		if (rect.rect.height < 30f)
+		{
+			newPos.y += 3.5f * rect.localScale.y;
+		}
+
+		stackTimesObj.transform.localPosition = newPos;
 	}
 
 	void SetCrossFadeAlpha(float amt, float time)

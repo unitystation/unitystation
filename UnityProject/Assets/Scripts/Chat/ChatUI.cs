@@ -285,31 +285,7 @@ public class ChatUI : MonoBehaviour
 	{
 		// Selected channels already masks all unavailable channels in it's get method
 		PostToChatMessage.Send(InputFieldChat.text, SelectedChannels);
-
-		if (PlayerChatShown())
-		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true, InputFieldChat.text,
-				SelectedChannels);
-		}
-
 		InputFieldChat.text = "";
-	}
-
-	/// <summary>
-	/// Check if player should show a speech balloon
-	/// </summary>
-	private bool PlayerChatShown()
-	{
-		// Don't show if player is talking in OOC, dead, crit, or sent an empty message
-		if (SelectedChannels.Equals(ChatChannel.OOC) ||
-		    PlayerManager.LocalPlayerScript.IsGhost ||
-		    PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
-		    InputFieldChat.text == "")
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	public void OnChatCancel()
