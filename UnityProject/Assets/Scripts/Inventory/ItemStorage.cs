@@ -214,7 +214,7 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 		var itemStorage = slot.Item.GetComponent<ItemStorage>();
 		if (itemStorage != null)
 		{
-			return itemStorage.GetItemSlots();
+			return itemStorage.GetItemSlots().Concat(new[] {slot});
 		}
 		else
 		{
