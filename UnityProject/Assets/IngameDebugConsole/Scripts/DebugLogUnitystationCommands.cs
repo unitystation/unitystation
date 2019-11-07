@@ -334,5 +334,28 @@ namespace IngameDebugConsole
 				PlayerManager.LocalPlayerScript.registerTile.Slip( true );
 			}
 		}
+		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
+		public static void SpawnAntag()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			Antagonists.AntagManager.Instance.CreateAntag();
+		}
+		[ConsoleMethod("antag-status", "Shows status of all antag objectives. Server only command")]
+		public static void ShowAntagObjectives()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			Antagonists.AntagManager.Instance.ShowAntagStatusReport();
+		}
+
 	}
 }

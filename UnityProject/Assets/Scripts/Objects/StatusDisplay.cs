@@ -39,7 +39,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 	/// <summary>
 	/// used for restoring selected channel message when priority message is gone
 	/// </summary>
-	private string cachedText;
+	private string cachedText = String.Empty;
 
 	#region syncvar boilerplate and init
 
@@ -47,7 +47,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 	{
 		SyncStatusText(statusText);
 	}
-	
+
 	public override void OnStartServer()
 	{
 		SyncStatusText(statusText);
@@ -77,7 +77,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 		}
 		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
 	}
-	
+
 	#endregion
 
 	/// <summary>
@@ -104,7 +104,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 		textField.text = statusText.Substring( 0, Mathf.Min( statusText.Length, MAX_CHARS_PER_PAGE ) );
 
 		yield return WaitFor.Seconds( 3 );
-		
+
 		int shownChars = textField.cachedTextGenerator.characterCount;
 
 		if ( shownChars >= statusText.Length )

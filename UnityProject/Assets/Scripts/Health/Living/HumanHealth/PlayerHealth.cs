@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -51,12 +51,12 @@ public class PlayerHealth : LivingHealthBehaviour
 			else if (killerName.EndsWith(playerName))
 			{
 				// chain reactions
-				Chat.AddActionMsgToChat(gameObject, $" You screwed yourself up with some help (" + killerName + ")",
-					"{playerName} screwed himself up with some help (" + killerName + ")");
+				Chat.AddActionMsgToChat(gameObject, $" You screwed yourself up with some help from {killerName}",
+					$"{playerName} screwed himself up with some help from {killerName}");
 			}
 			else
 			{
-				PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
+				PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
 			}
 			pna.DropItem(EquipSlot.rightHand);
 			pna.DropItem(EquipSlot.leftHand);

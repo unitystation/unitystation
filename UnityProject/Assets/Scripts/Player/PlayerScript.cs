@@ -229,7 +229,13 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsGhost)
+		var isDeadOrGhost = IsGhost;
+		if (playerHealth != null)
+		{
+			isDeadOrGhost = playerHealth.IsDead;
+		}
+
+		if (isDeadOrGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;

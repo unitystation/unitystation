@@ -323,7 +323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1875447609467830}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4982547716752472}
@@ -519,7 +519,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 0.9811321, g: 0.6423435, b: 0.5784977, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.7137255}
+      maxColor: {r: 0.5896226, g: 0.91036487, b: 1, a: 0.14117648}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1609,9 +1609,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.759434, g: 0.87011665, b: 1, a: 1}
-        key1: {r: 0.7429245, g: 0.95334005, b: 0.990566, a: 0.70980394}
-        key2: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0}
+        key0: {r: 0.5896226, g: 0.71268004, b: 1, a: 1}
+        key1: {r: 0.6556604, g: 0.7354947, b: 1, a: 0.70980394}
+        key2: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1626,8 +1626,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 13878
-        atime2: 47609
+        atime1: 34502
+        atime2: 51272
         atime3: 47609
         atime4: 0
         atime5: 0
@@ -4187,7 +4187,7 @@ ParticleSystem:
         m_RotationOrder: 4
     maxLights: 20
   TrailModule:
-    enabled: 1
+    enabled: 0
     mode: 0
     ratio: 1
     lifetime:
@@ -5040,10 +5040,10 @@ ParticleSystemRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 35
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 0.5
+  m_MaxParticleSize: 2.39
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -5051,7 +5051,7 @@ ParticleSystemRenderer:
   m_NormalDirection: 1
   m_ShadowBias: 0
   m_RenderAlignment: 0
-  m_Pivot: {x: 0, y: 0, z: 0}
+  m_Pivot: {x: 0, y: 0.84, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Antagonists;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -11,6 +12,8 @@ public class Mind
 	public JobType jobType = JobType.NULL;
 	public PlayerScript ghost;
 	public PlayerScript body;
+	private Antagonist Antag;
+	public bool IsAntag => Antag !=null;
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
@@ -22,11 +25,30 @@ public class Mind
 		SetNewBody(playerScript);
 	}
 
-	public void SetNewBody(PlayerScript playerScript){
+	public void SetNewBody(PlayerScript playerScript)
+	{
 		playerScript.mind = this;
 		body = playerScript;
 		bodyMobID = playerScript.GetComponent<LivingHealthBehaviour>().mobID;
 		StopGhosting();
+	}
+
+	/// <summary>
+	/// Make this mind a specific antag type
+	/// </summary>
+	public void SetAntag(Antagonist newAntag)
+	{
+		Antag = newAntag;
+		Antag.Owner = this;
+		ShowObjectives();
+	}
+
+	/// <summary>
+	/// Remove the antag status from this mind
+	/// </summary>
+	public void RemoveAntag()
+	{
+		Antag = null;
 	}
 
 	public void ClonePlayer(GameObject spawnPoint, CharacterSettings characterSettings)
@@ -96,4 +118,14 @@ public class Mind
 		}
 		return true;
 	}
+
+	/// <summary>
+	/// Show the the player their current objectives if they have any
+	/// </summary>
+	public void ShowObjectives()
+	{
+		if (!IsAntag) return;
+		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectivesForPlayer());
+	}
+
 }

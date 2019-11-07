@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Antagonists;
 
 /// <summary>
 /// Contains the definition of a game mode. To create a new one you should
@@ -7,7 +9,7 @@ using UnityEngine.Events;
 /// attached so you can define the values in the editor and define your
 /// game mode functions in the child class.
 /// </summary>
-public abstract class GameMode : MonoBehaviour
+public abstract class GameMode : ScriptableObject
 {
 	/// <summary>
 	/// The name of the game mode
@@ -39,6 +41,11 @@ public abstract class GameMode : MonoBehaviour
 	[Tooltip("What is the minimum amount of antagonists needed for this game mode?")]
 	public int MinAntags;
 
+	/// <summary>
+	/// The possible antagonists for this game mode
+	/// </summary>
+	public List<Antagonist> PossibleAntags;
+
 	// ================= Game Mode Methods =================
 
 	/// <summary>
@@ -54,6 +61,25 @@ public abstract class GameMode : MonoBehaviour
 	/// Set up everything for the game mode
 	/// </summary>
 	public abstract void SetupRound();
+
+	/// <summary>
+	/// Check if more antags are needed. Should be defined by each game mode.
+	/// </summary>
+	public abstract void CheckAntags();
+
+	/// <summary>
+	/// Defines how to spawn an antag for this game mode.
+	/// Defaults to picking a random antag from the possible antags list.
+	/// </summary>
+	public virtual void SpawnAntag(ConnectedPlayer player = null)
+	{
+		if (PossibleAntags.Count > 0)
+		{
+		int randIndex = Random.Range(0, PossibleAntags.Count);
+		Antagonist gmAntag = Instantiate(PossibleAntags[randIndex]);
+		AntagManager.Instance.CreateAntag(gmAntag, player);
+		}
+	}
 
 	/// <summary>
 	/// Determine what to do with new players that join
@@ -78,12 +104,19 @@ public abstract class GameMode : MonoBehaviour
 	/// <summary>
 	/// Check if the round should end yet
 	/// </summary>
-	public abstract void CheckEndCondition();
+	public virtual void CheckEndCondition()
+	{
+		Logger.Log("Checking end round conditions!", Category.GameMode);
+	}
 
 	/// <summary>
 	/// End the round and display any relevant reports
 	/// </summary>
-	public abstract void EndRound();
+	public virtual void EndRound()
+	{
+		Logger.Log("Ending round!", Category.GameMode);
+		AntagManager.Instance.ShowAntagStatusReport();
+	}
 
 	// TODO
 	// public abstract void ChooseAntags();
