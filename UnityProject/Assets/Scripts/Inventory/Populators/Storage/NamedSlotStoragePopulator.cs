@@ -28,6 +28,13 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 				continue;
 			}
 
+			if (entry.SlotPopulator == null)
+			{
+				Logger.LogTraceFormat("Skipping populating slot {0} because Slot Populator was empty for this entry.",
+					Category.Inventory, entry.NamedSlot);
+				continue;
+			}
+
 			entry.SlotPopulator.PopulateSlot(slot, context);
 		}
 	}

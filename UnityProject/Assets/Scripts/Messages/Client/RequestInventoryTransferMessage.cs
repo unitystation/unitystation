@@ -101,10 +101,10 @@ public class RequestInventoryTransferMessage : ClientMessage
 
 		RequestInventoryTransferMessage msg = new RequestInventoryTransferMessage
 		{
-			FromStorage = fromSlot.ItemStorageNetId,
+			FromStorage = fromSlot.ItemStorageNetID,
 			FromSlotIndex = fromSlot.SlotIdentifier.SlotIndex,
 			FromNamedSlot = fromSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back),
-			ToStorage = toSlot.ItemStorageNetId,
+			ToStorage = toSlot.ItemStorageNetID,
 			ToSlotIndex = toSlot.SlotIdentifier.SlotIndex,
 			ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 		};

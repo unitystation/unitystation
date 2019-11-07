@@ -42,7 +42,7 @@ public class UpdateItemSlotMessage : ServerMessage
 	{
 		UpdateItemSlotMessage msg = new UpdateItemSlotMessage
 		{
-			Storage = itemSlot.ItemStorageNetId,
+			Storage = itemSlot.ItemStorageNetID,
 			Item = itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
 			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
@@ -60,7 +60,7 @@ public class UpdateItemSlotMessage : ServerMessage
 	{
 		UpdateItemSlotMessage msg = new UpdateItemSlotMessage
 		{
-			Storage = itemSlot.ItemStorageNetId,
+			Storage = itemSlot.ItemStorageNetID,
 			Item = itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
 			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)

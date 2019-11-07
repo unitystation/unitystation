@@ -21,12 +21,12 @@ using UnityEngine.Events;
 /// </summary>
 public class ItemSlot
 {
-	//object pool. Maps from the ItemStorage object's NetId, to the Slot Identifier, to the actual item slot
-	private static Dictionary<uint, Dictionary<SlotIdentifier, ItemSlot>> slots =
-		new Dictionary<uint, Dictionary<SlotIdentifier, ItemSlot>>();
+	//object pool. Maps from the ItemStorage object's instance ID, to the Slot Identifier, to the actual item slot
+	private static Dictionary<int, Dictionary<SlotIdentifier, ItemSlot>> slots =
+		new Dictionary<int, Dictionary<SlotIdentifier, ItemSlot>>();
 
-	// net id of that itemStorage's object
-	private readonly uint itemStorageNetId;
+	// instance id of that itemStorage's object
+	private readonly int itemStorageNetId;
 
 	/// <summary>
 	/// ItemStorage which contains this slot
@@ -48,7 +48,7 @@ public class ItemSlot
 	/// <summary>
 	/// Net ID of the ItemStorage this slot exists in
 	/// </summary>
-	public uint ItemStorageNetId => itemStorageNetId;
+	public uint ItemStorageNetID => itemStorage.GetComponent<NetworkIdentity>().netId;
 
 	/// <summary>
 	/// ItemAttributes of item in this slot, null if no item or item doesn't have any attributes.
@@ -116,7 +116,7 @@ public class ItemSlot
 	private ItemSlot(ItemStorage itemStorage, SlotIdentifier slotIdentifier)
 	{
 		this.itemStorage = itemStorage;
-		this.itemStorageNetId = itemStorage.GetComponent<NetworkIdentity>().netId;
+		this.itemStorageNetId = itemStorage.GetInstanceID();
 		this.slotIdentifier = slotIdentifier;
 	}
 
@@ -132,12 +132,12 @@ public class ItemSlot
 	{
 		if (!itemStorage.HasSlot(slotIdentifier)) return null;
 
-		var netId = itemStorage.GetComponent<NetworkIdentity>().netId;
-		slots.TryGetValue(netId, out var dict);
+		var instanceID = itemStorage.GetInstanceID();
+		slots.TryGetValue(instanceID, out var dict);
 		if (dict == null)
 		{
 			dict = new Dictionary<SlotIdentifier, ItemSlot>();
-			slots.Add(netId, dict);
+			slots.Add(instanceID, dict);
 		}
 
 		dict.TryGetValue(slotIdentifier, out var slot);
@@ -320,12 +320,12 @@ public class ItemSlot
 			}
 		}
 
-		var netId = storageToFree.GetComponent<NetworkIdentity>().netId;
-		slots.TryGetValue(netId, out var dict);
+		var instanceID = storageToFree.GetComponent<NetworkIdentity>().GetInstanceID();
+		slots.TryGetValue(instanceID, out var dict);
 		if (dict != null)
 		{
 			dict.Clear();
-			slots.Remove(netId);
+			slots.Remove(instanceID);
 		}
 	}
 
@@ -334,7 +334,7 @@ public class ItemSlot
 	/// </summary>
 	public static void EmptyPool()
 	{
-		slots = new Dictionary<uint, Dictionary<SlotIdentifier, ItemSlot>>();
+		slots = new Dictionary<int, Dictionary<SlotIdentifier, ItemSlot>>();
 	}
 
 	/// <summary>

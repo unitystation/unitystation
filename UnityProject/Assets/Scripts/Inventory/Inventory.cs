@@ -224,7 +224,7 @@ public static class Inventory
 			//determine where it will appear
 			var holder = fromSlot.GetRootStorage();
 
-			if (holder.GetComponent<ObjectBehaviour>().parentContainer != null)
+			if (holder.GetComponent<ObjectBehaviour>()?.parentContainer != null)
 			{
 				//TODO: Should we support dropping things while in a PushPull container?
 				Logger.LogWarningFormat(
