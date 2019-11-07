@@ -88,6 +88,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// future state that collects all changes
 	private MatrixState serverTargetState = MatrixState.Invalid;
 
+	private Coroutine floatingSyncHandle;
+
 	public bool SafetyProtocolsOn { get; set; } = true;
 	public bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
@@ -253,6 +255,16 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public override void OnStartServer()
 	{
 		InitServerState();
+
+		OnStart.AddListener( () =>
+		{
+			if ( floatingSyncHandle == null )
+			{
+				this.StartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
+			}
+		} );
+		OnStop.AddListener( () => this.TryStopCoroutine( ref floatingSyncHandle ) );
+
 		base.OnStartServer();
 		NotifyPlayers();
 	}
@@ -357,6 +369,17 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			RotationSensors = sensors.Select(sensor => sensor.gameObject).ToArray();
 		}
+	}
+
+	/// <summary>
+	/// Send current position of space floating player to clients every second in case their reproduction is wrong
+	/// </summary>
+	private IEnumerator FloatingAwarenessSync()
+	{
+		yield return WaitFor.Seconds(1);
+		serverState.Inform = true;
+		NotifyPlayers();
+		this.RestartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
 	}
 
 	///managed by UpdateManager
@@ -584,7 +607,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (clientState.Position != transform.position)
 		{
 			float distance = Vector3.Distance(clientState.Position, transform.position);
-			bool shouldWarp = distance > 2 || ClientNeedsRotation;
 
 			//Teleport (Greater then 30 unity meters away from server target):
 			if (distance > 30f)
@@ -593,22 +615,18 @@ public class MatrixMove : ManagedNetworkBehaviour
 				return;
 			}
 
+			transform.position = Vector3.MoveTowards( transform.position, clientState.Position,
+				clientState.Speed * Time.deltaTime * Mathf.Clamp( distance, 1, distance ));
+
 			//If stopped then lerp to target (snap to grid)
 			if (!clientState.IsMoving && distance > 0f)
 			{
-				transform.position = Vector3.MoveTowards(transform.position, clientState.Position,
-					clientState.Speed * Time.deltaTime * (shouldWarp ? (distance * 2) : 1));
 				mPreviousPosition = transform.position;
 				mPreviousFilteredPosition = transform.position;
 				return;
 			}
 
-			//FIXME: We need to use MoveTowards or some other lerp function as ClientState is like server waypoints and does not contain lerp positions
-			//FIXME: Currently shuttles teleport to each position received via server instead of lerping towards them
-			clampedPosition = clientState.Position;
-
-			// Activate warp speed if object gets too far away or have to rotate
-			//Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
+			clampedPosition = transform.position;
 		}
 	}
 

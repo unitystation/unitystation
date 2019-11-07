@@ -657,9 +657,8 @@ public partial class PlayerSync
 	}
 
 	/// <summary>
-	/// Send current position of space floating player to clients every second in case their reproduction is wrog
+	/// Send current position of space floating player to clients every second in case their reproduction is wrong
 	/// </summary>
-	/// <returns></returns>
 	private IEnumerator FloatingAwarenessSync()
 	{
 		yield return WaitFor.Seconds(1);

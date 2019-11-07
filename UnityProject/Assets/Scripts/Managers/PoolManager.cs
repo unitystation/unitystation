@@ -218,10 +218,15 @@ public class PoolManager : NetworkBehaviour
 			                        " most likely a mistake as any objects which sync over the network" +
 			                        " should have a CNT.", Category.ItemSpawn, target.name, pushPull != null ? pushPull.AssumedWorldPositionServer() : target.transform.position);
 		}
-		if (poolPrefabTracker != null && transform != null)
+
+		if ( transform != null )
+		{
+			transform.VisibleState = false;
+		}
+
+		if (poolPrefabTracker != null)
 		{
 			//pooled
-			transform.VisibleState = false;
 			Instance.AddToPool(target);
 		}
 		else
