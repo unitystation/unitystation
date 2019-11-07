@@ -167,6 +167,11 @@ public class RegisterPlayer : RegisterTile
 	{
 		IsSlippingServer = false;
 		PlayerUprightMessage.SendToAll(gameObject, true, false);
-		playerScript.playerMove.allowInput = true;
+
+		if ( playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
+		  || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
+		{
+			playerScript.playerMove.allowInput = true;
+		}
 	}
 }
