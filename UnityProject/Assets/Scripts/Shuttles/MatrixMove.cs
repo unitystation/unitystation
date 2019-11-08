@@ -131,6 +131,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	//editor (global) values
 	public UnityEvent OnClientStart = new UnityEvent();
 	public UnityEvent OnClientStop = new UnityEvent();
+	public UnityEvent OnClientFullStop = new UnityEvent();
 	public UnityEvent OnStart = new UnityEvent();
 	public UnityEvent OnStop = new UnityEvent();
 
@@ -330,8 +331,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 						if ( thrusters.Count == 0 && isMovingServer )
 						{
-							Logger.LogFormat( "All thrusters were destroyed! Stopping {0}!", Category.Transform, MatrixInfo.Matrix.name );
-							StopMovement();
+							Logger.LogFormat( "All thrusters were destroyed! Stopping {0} soon!", Category.Transform, MatrixInfo.Matrix.name );
+							StartCoroutine( StopWithDelay(1f) );
 						}
 					}	);
 				}
@@ -368,6 +369,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 
 			RotationSensors = sensors.Select(sensor => sensor.gameObject).ToArray();
+		}
+
+		IEnumerator StopWithDelay( float delay )
+		{
+			SetSpeed( State.Speed / 2 );
+			yield return WaitFor.Seconds( delay );
+			Logger.LogFormat( "{0}: Stopping due to missing thrusters!", Category.Transform, MatrixInfo.Matrix.name );
+			StopMovement();
 		}
 	}
 
@@ -619,11 +628,18 @@ public class MatrixMove : ManagedNetworkBehaviour
 				clientState.Speed * Time.deltaTime * Mathf.Clamp( distance, 1, distance ));
 
 			//If stopped then lerp to target (snap to grid)
-			if (!clientState.IsMoving && distance > 0f)
+			if (!clientState.IsMoving )
 			{
-				mPreviousPosition = transform.position;
-				mPreviousFilteredPosition = transform.position;
-				return;
+				if ( clientState.Position == transform.position )
+				{
+					OnClientFullStop.Invoke();
+				}
+				if ( distance > 0f )
+				{
+					mPreviousPosition = transform.position;
+					mPreviousFilteredPosition = transform.position;
+					return;
+				}
 			}
 
 			clampedPosition = transform.position;

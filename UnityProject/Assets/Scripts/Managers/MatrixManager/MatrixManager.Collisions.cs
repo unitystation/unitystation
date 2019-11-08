@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -44,14 +45,29 @@ public partial class MatrixManager
 					movingMatrices.Add( movableMatrix );
 				}
 			} );
+
 			movableMatrix.MatrixMove.OnStop.AddListener( () =>
 			{
 				if ( movingMatrices.Contains( movableMatrix ) )
 				{
+					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == movableMatrix );
+					movableMatrix.MatrixMove.OnClientFullStop.AddListener( CollideBeforeStop( movableMatrix, participatingIntersections ) );
 					movingMatrices.Remove( movableMatrix );
 					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == movableMatrix );
 				}
 			} );
+		}
+
+		UnityAction CollideBeforeStop( MatrixInfo matrix, List<MatrixIntersection> intersections )
+		{
+			return () =>
+			{
+				foreach ( var intersection in intersections )
+				{
+					CheckTileCollisions( intersection );
+				}
+				intersections.Clear();
+			};
 		}
 	}
 
@@ -192,7 +208,11 @@ public partial class MatrixManager
 		}
 
 		for ( var i = trackedIntersections.Count - 1; i >= 0; i-- )
-		{ //fixme: can throw ArgumentOutOfRangeException
+		{
+			if ( trackedIntersections.Count - 1 < i )
+			{
+				continue;
+			}
 			CheckTileCollisions( trackedIntersections[i] );
 		}
 	}
@@ -307,7 +327,7 @@ public partial class MatrixManager
 		if ( collisions > 0 )
 		{
 
-			var epicenter = collisionLocations[collisionLocations.Count / 2];//i.Rect.position.RoundToInt();
+			var epicenter = collisionLocations[collisionLocations.Count / 2];
 
 			ExplosionUtils.PlaySoundAndShake(
 				epicenter,
@@ -354,12 +374,8 @@ public partial class MatrixManager
 			matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos );
 			if ( damage > 9000 )
 			{
-				foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
+				foreach ( var damageableLayer in matrix.MetaTileMap.LayersValues )
 				{
-					if ( damageableLayer.LayerType == LayerType.Objects )
-					{
-						continue;
-					}
 					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType );
 				}
 			}
@@ -452,9 +468,6 @@ public partial class MatrixManager
 			if ( speed <= 1f )
 			{
 				info.MatrixMove.StopMovement();
-
-				//doing last tile collision as intersection is no longer tracked
-				CheckTileCollisions( i );
 			} else
 			{
 				info.MatrixMove.SetSpeed( speed );
