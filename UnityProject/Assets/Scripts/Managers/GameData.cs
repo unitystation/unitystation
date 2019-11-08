@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Lobby;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -13,10 +10,6 @@ public class GameData : MonoBehaviour
 
 	public bool testServer;
 	private RconManager rconManager;
-	public static RconManager RconManager
-	{
-		get { return Instance.rconManager; }
-	}
 
 	/// <summary>
 	///     Check to see if you are in the game or in the lobby
@@ -58,17 +51,22 @@ public class GameData : MonoBehaviour
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
-		LoadData();
+		CheckCommandLineArgs();
 	}
 
-	private void ApplicationWillResignActive()
+	private void CheckCommandLineArgs()
 	{
-		if (IsTestMode)
+		//Check for Hub Message
+		string hubData = GetArgument("hubdata");
+		if (!string.IsNullOrEmpty(hubData))
 		{
-			return;
+			StartCoroutine(ConnectToServerFromHub(JsonUtility.FromJson<HubMessage>(hubData)));
 		}
+	}
 
-		SaveData();
+	IEnumerator ConnectToServerFromHub(HubMessage msg)
+	{
+		Logger.Log("Hub message found. Attempting to log into firebase..", Category.Hub);
 	}
 
 	private void OnEnable()
@@ -90,17 +88,6 @@ public class GameData : MonoBehaviour
 		}
 
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-		SaveData();
-	}
-
-	private void OnApplicationQuit()
-	{
-		if (IsTestMode)
-		{
-			return;
-		}
-
-		SaveData();
 	}
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -124,10 +111,12 @@ public class GameData : MonoBehaviour
 			{
 				IsHeadlessServer = true;
 			}
+
 			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
 			{
 				GameManager.Instance.ResetRoundTime();
 			}
+
 			return;
 		}
 
@@ -136,7 +125,8 @@ public class GameData : MonoBehaviour
 		{
 			float calcFrameRate = 1f / Time.deltaTime;
 			Application.targetFrameRate = (int) calcFrameRate;
-			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}", Category.Server);
+			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+				Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
 
@@ -155,48 +145,34 @@ public class GameData : MonoBehaviour
 		CustomNetworkManager.Instance.StartHost();
 	}
 
-	private void LoadData()
-	{
-		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
-		if (File.Exists(Application.persistentDataPath + "/genData01.dat"))
-		{
-			BinaryFormatter bf = new BinaryFormatter();
-			//TODO: Change folder to a streaming path
-			FileStream file = File.Open(Application.persistentDataPath + "/genData01.dat", FileMode.Open);
-			UserData data = (UserData) bf.Deserialize(file);
-			//DO SOMETHNG WITH THE VALUES HERE, I.E STORE THEM IN A CACHE IN THIS CLASS
-			//TODO: LOAD SOME STUFF
-
-			//TODO: Load RCON config file for server
-
-			file.Close();
-		}
-	}
-
-	private void SaveData()
-	{
-		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + "/genData01.dat");
-		UserData data = new UserData();
-		/// PUT YOUR MEMBER VALUES HERE, ADD THE PROPERTY TO USERDATA CLASS AND THIS WILL SAVE IT
-
-		//TODO: SAVE SOME STUFF
-		bf.Serialize(file, data);
-		file.Close();
-	}
-
 	private void SetPlayerPreferences()
 	{
 		//Ambient Volume
 		if (PlayerPrefs.HasKey("AmbientVol"))
 		{
-			SoundManager.Instance.ambientTrack.volume =	PlayerPrefs.GetFloat("AmbientVol");
+			SoundManager.Instance.ambientTrack.volume = PlayerPrefs.GetFloat("AmbientVol");
 		}
+	}
+
+	private string GetArgument(string name)
+	{
+		string[] args = Environment.GetCommandLineArgs();
+		for (int i = 0; i < args.Length; i++)
+		{
+			if (args[i].Contains(name))
+			{
+				return args[i + 1];
+			}
+		}
+
+		return null;
 	}
 }
 
 [Serializable]
-internal class UserData
+public class HubMessage
 {
-	//TODO: add your members here
+	public string serverAddress;
+	public ushort port;
+	public string token;
 }
