@@ -319,58 +319,89 @@ public partial class Chat : MonoBehaviour
 			});
 		}
 
-		public static void AddLocalDestroyMsgToChat( string message, Vector2Int worldPos )
-	{
-		messageQueue.Enqueue( new Tuple<string, Vector2Int>( message, worldPos ) );
+		#region Destroy Message
 
-		if ( composeMessageHandle == null )
+		private static Dictionary<string, UniqueQueue<DestroyChatMessage>> messageQueueDict = new Dictionary<string, UniqueQueue<DestroyChatMessage>>();
+		private static Coroutine composeMessageHandle;
+		private static StringBuilder stringBuilder = new StringBuilder();
+		private struct DestroyChatMessage
 		{
-			Instance.StartCoroutine( Instance.ComposeDestroyMessage(), ref composeMessageHandle );
+			public string Message;
+			public Vector2Int WorldPosition;
 		}
-	}
 
-	private static UniqueQueue<Tuple<string,Vector2Int>> messageQueue = new UniqueQueue<Tuple<string, Vector2Int>>();
-	private static Coroutine composeMessageHandle;
-	private static StringBuilder stringBuilder = new StringBuilder();
-
-	private IEnumerator ComposeDestroyMessage()
-	{ //TODO: instead of simply appending lines, provide format mask, too, and format by category (burnt, destroyed,..)
-		yield return WaitFor.Seconds( 0.2f );
-
-		if ( messageQueue.Count == 0 )
+		/// <summary>
+		/// Allows grouping destruction messages into one if they happen in short period of time.
+		/// Average position is calculated in that case.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="postfix">Common, amount agnostic postfix</param>
+		/// <param name="worldPos"></param>
+		public static void AddLocalDestroyMsgToChat( string message, string postfix, Vector2Int worldPos )
 		{
-			Instance.TryStopCoroutine( ref composeMessageHandle );
-			yield break;
+			if ( !messageQueueDict.ContainsKey( postfix ) )
+			{
+				messageQueueDict.Add( postfix, new UniqueQueue<DestroyChatMessage>() );
+			}
+
+			messageQueueDict[postfix].Enqueue( new DestroyChatMessage{Message = message, WorldPosition = worldPos} );
+
+			if ( composeMessageHandle == null )
+			{
+				Instance.StartCoroutine( Instance.ComposeDestroyMessage(), ref composeMessageHandle );
+			}
 		}
 
-		if ( messageQueue.Count == 1
-		     && messageQueue.TryDequeue( out var singleMsg ) )
+
+
+		private IEnumerator ComposeDestroyMessage()
 		{
-			AddLocalMsgToChat( singleMsg.Item1, singleMsg.Item2 );
-			yield break;
+			yield return WaitFor.Seconds( 0.3f );
+
+			foreach ( var postfix in messageQueueDict.Keys )
+			{
+				var messageQueue = messageQueueDict[postfix];
+
+				if ( messageQueue.IsEmpty )
+				{
+					Instance.TryStopCoroutine( ref composeMessageHandle );
+					continue;
+				}
+
+				//Normal separate messages with precise location
+				if ( messageQueue.Count <= 3 )
+				{
+					while ( messageQueue.TryDequeue( out var msg ) )
+					{
+						AddLocalMsgToChat( msg.Message + postfix, msg.WorldPosition );
+					}
+					continue;
+				}
+
+				//Combined message at average position
+				stringBuilder.Clear();
+
+				int averageX = 0;
+				int averageY = 0;
+				int count = 1;
+
+				while ( messageQueue.TryDequeue( out DestroyChatMessage msg ) )
+				{
+					if ( count > 1 )
+					{
+						stringBuilder.Append( ", " );
+					}
+					stringBuilder.Append( msg.Message );
+					averageX += msg.WorldPosition.x;
+					averageY += msg.WorldPosition.y;
+					count++;
+				}
+
+				AddLocalMsgToChat( stringBuilder.Append( postfix ).ToString(), new Vector2Int(averageX/count,averageY/count) );
+			}
 		}
 
-		stringBuilder.Clear();
-
-		int averageX = 0;
-		int averageY = 0;
-		int count = 0;
-
-		while ( messageQueue.TryDequeue( out var msg ) )
-		{
-			count++;
-			stringBuilder.AppendLine( msg.Item1 );
-			averageX += msg.Item2.x;
-			averageY += msg.Item2.y;
-		}
-
-		if ( count == 0 )
-		{ //afraid of NaNs
-			count = 1;
-		}
-
-		AddLocalMsgToChat( stringBuilder.ToString(), new Vector2Int(averageX/count,averageY/count) );
-	}
+		#endregion
 
 	/// <summary>
 	/// For any other local messages that are not an Action or a Combat Action.
