@@ -60,7 +60,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	/// <param name="recipient">The player to be synced.</param>
 	[Server]
-	public void ReenterBodyUpdates(GameObject recipient)
+	public void ReenterBodyUpdates()
 	{
 		UpdateInventorySlots();
 	}
@@ -550,10 +550,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEnterBody()
 	{
+		PlayerScript body = playerScript.mind.body;
+		if ( !playerScript.IsGhost || !body.playerHealth.IsDead )
+		{
+			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
+			return;
+		}
+		if ( body.WorldPos == TransformState.HiddenPos )
+		{
+			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
+			return;
+		}
 		playerScript.mind.StopGhosting();
-		var body = playerScript.mind.body.gameObject;
-		SpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
-		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
+		SpawnHandler.TransferPlayer(connectionToClient, body.gameObject, gameObject, EVENT.PlayerSpawned, null);
+		body.playerNetworkActions.ReenterBodyUpdates();
 		RpcAfterRespawn();
 	}
 
