@@ -54,7 +54,7 @@ public partial class Chat : MonoBehaviour
 		{
 			message = message,
 			modifiers = (player == null) ? ChatModifier.None : player.GetCurrentChatModifiers(),
-			speaker = player.name,
+			speaker = (player == null) ? sentByPlayer.Username : player.name,
 			position = ((player == null) ? Vector2.zero : (Vector2) player.gameObject.transform.position),
 			channels = channels,
 			originator = sentByPlayer.GameObject
