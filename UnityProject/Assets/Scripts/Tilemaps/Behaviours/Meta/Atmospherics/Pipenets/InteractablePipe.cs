@@ -18,7 +18,7 @@ public class InteractablePipe : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//only wrench can be used on this
-		if (!Validations.IsTool(interaction.HandObject, ToolType.Wrench)) return false;
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
 		return true;
 	}
 

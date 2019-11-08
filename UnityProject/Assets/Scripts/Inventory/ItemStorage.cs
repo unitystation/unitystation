@@ -16,7 +16,8 @@ using UnityEngine.Serialization;
 /// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
 /// in a player's inventory)!
 /// </summary>
-public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerInventoryMove
+public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove,
+	IClientDespawn
 {
 	[SerializeField]
 	[FormerlySerializedAs("ItemStorageStructure")]
@@ -82,6 +83,13 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 	}
 
 
+	public void OnDespawnClient(ClientDespawnInfo info)
+	{
+		//free the slots
+		ItemSlot.Free(this);
+	}
+
+
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		var fromRootPlayer = info.FromRootPlayer;
@@ -100,6 +108,16 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 		if (toRootPlayer != null)
 		{
 			ServerAddObserverPlayer(info.ToRootPlayer.gameObject);
+		}
+	}
+
+
+	public void OnInventoryMoveClient(ClientInventoryMove info)
+	{
+		//if we were currently looking at this storage, close the storage UI if this item was moved at all.
+		if (UIManager.StorageHandler.currentOpenStorage == this)
+		{
+			UIManager.StorageHandler.CloseStorageUI();
 		}
 	}
 
@@ -304,4 +322,5 @@ public class ItemStorage : MonoBehaviour, IServerSpawn, IServerDespawn, IServerI
 			slot.ServerRemoveObserverPlayer(observerPlayer);
 		}
 	}
+
 }

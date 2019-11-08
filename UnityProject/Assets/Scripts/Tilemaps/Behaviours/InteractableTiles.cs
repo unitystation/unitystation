@@ -73,7 +73,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				case TileType.Floor:
 				{
 					//Crowbar
-					if (Validations.IsTool(interaction.HandObject, ToolType.Crowbar))
+					if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 					{
 						pna.CmdCrowBarRemoveFloorTile(interaction.Performer, LayerType.Floors,
 							new Vector2(cellPos.x, cellPos.y), interaction.WorldPositionTarget);

@@ -231,10 +231,33 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// Server-only. Change the slot this pickupable thinks it is in. Null to make it be in no slot.
 	/// </summary>
 	/// <param name="toSlot"></param>
-	public void ServerSetItemSlot(ItemSlot toSlot)
+	public void _ServerSetItemSlot(ItemSlot toSlot)
 	{
 		this.itemSlot = toSlot;
 	}
 
 
+	/// <summary>
+	/// If this is currently in an item slot linked to the local UI, refreshes that local UI slot to display
+	/// the current sprite of the gameobject.
+	/// </summary>
+	public void RefreshUISlotImage()
+	{
+		if (itemSlot != null && itemSlot.LocalUISlot != null)
+		{
+			itemSlot.LocalUISlot.RefreshImage();
+		}
+	}
+
+	/// <summary>
+	/// If this is currently in an item slot linked to the local UI, changes the secondary
+	/// sprite of that UI slot to use newSprite.
+	/// </summary>
+	public void UpdateSecondaryUISlotImage(Sprite newSecondaryImage)
+	{
+		if (itemSlot != null && itemSlot.LocalUISlot != null)
+		{
+			itemSlot.LocalUISlot.SetSecondaryImage(newSecondaryImage);
+		}
+	}
 }

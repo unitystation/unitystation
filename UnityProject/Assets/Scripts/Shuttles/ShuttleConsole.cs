@@ -72,7 +72,7 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
     {
 	    if (!DefaultWillInteract.Default(interaction, side)) return false;
 	    //can only be interacted with an emag (normal click behavior is in HasNetTab)
-	    if (!Validations.IsTool(interaction.UsedObject, ToolType.Emag)) return false;
+	    if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag)) return false;
 	    return true;
     }
 

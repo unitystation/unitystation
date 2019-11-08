@@ -17,7 +17,7 @@ public class ClothingData : BaseClothData
 
 	public override void  InitializePool()
 	{
-		if (Spawn.ClothingStoredData.ContainsKey(this.name))
+		if (Spawn.ClothingStoredData.ContainsKey(this.name) && Spawn.ClothingStoredData[this.name] != this)
 		{
 			Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
 		}

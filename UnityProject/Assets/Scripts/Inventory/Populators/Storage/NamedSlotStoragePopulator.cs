@@ -1,8 +1,5 @@
-
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 /// <summary>
 /// Populates each named slot using a particular prefab, cloth, or slot populator.

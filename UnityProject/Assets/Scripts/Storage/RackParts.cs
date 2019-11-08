@@ -12,7 +12,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			return false;
 		}
 
-		if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			return true;
 		}
@@ -35,7 +35,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		}
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		    || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			return false;
 		}
@@ -45,7 +45,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
 			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget, transform.parent, count: 1,

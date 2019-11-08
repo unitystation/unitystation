@@ -34,7 +34,7 @@ public class PlayerTextureData : ScriptableObject
 
 	public void InitializePool()
 	{
-		if (Spawn.RaceData.ContainsKey(this.name))
+		if (Spawn.RaceData.ContainsKey(this.name) && Spawn.RaceData[this.name] != this)
 		{
 			Logger.LogError("a PlayerTextureData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
 		}

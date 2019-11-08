@@ -15,7 +15,7 @@ public class ContainerData : BaseClothData
 
 	public override void  InitializePool()
 	{
-		if (Spawn.BackpackStoredData.ContainsKey(this.name))
+		if (Spawn.BackpackStoredData.ContainsKey(this.name) && Spawn.BackpackStoredData[this.name] != this)
 		{
 			Logger.LogError("a ContainerData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
 		}

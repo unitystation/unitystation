@@ -40,8 +40,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-		var occupations = OccupationList.Instance.Occupations.OrderBy(
-			o => Array.IndexOf(JobTypeExtensions.DisplayOrder, o.JobType)).ToList();
+		var occupations = OccupationList.Instance.Occupations.ToList();
 
 		foreach (Occupation occupation in occupations)
 		{
@@ -59,10 +58,10 @@ public class GUI_PlayerJobs : MonoBehaviour
 			GameObject occupationGO = Instantiate(buttonPrefab, screen_Jobs.transform);
 
 			occupation.name = jobType.ToString();
-			var color = jobType.GetDisplayColor();
+			var color = occupation.ChoiceColor;
 
 			occupationGO.GetComponent<Image>().color = color;
-			occupationGO.GetComponentInChildren<Text>().text = jobType.ToDisplayString() + " (" + active + " of " + available + ")";
+			occupationGO.GetComponentInChildren<Text>().text = occupation.DisplayName + " (" + active + " of " + available + ")";
 			occupationGO.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
 			// Disabled button for full jobs

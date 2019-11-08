@@ -168,8 +168,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var slot = interaction.HandSlot;
-		var tool = slot.Item != null ? slot.Item.GetComponent<Tool>() : null;
-		if (tool != null && tool.ToolType == ToolType.Wrench)
+		if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wrench))
 		{
 			UpdateSecured(!isSecured);
 			if (!isSecured && isOn)

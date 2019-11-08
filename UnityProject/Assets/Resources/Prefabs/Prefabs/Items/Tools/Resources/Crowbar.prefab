@@ -177,11 +177,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 114976959642827926}
+  spriteDataHandler: {fileID: 114976959642827926}
   InventoryIcon: {fileID: 0}
   itemName: crowbar
   itemDescription: A Crowbar
-  itemType: 0
+  initialTraits:
+  - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
   size: 1
   spriteType: 0
   CanConnectToTank: 0
@@ -207,7 +208,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114484434474911270
 MonoBehaviour:
@@ -242,9 +242,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2107020011812829422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +317,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114976959642827926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,8 +330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -428,5 +424,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1380358478
+  m_AssetId: ac13474c9d8108940b75c30b2bff8a38
+  m_SceneId: 0

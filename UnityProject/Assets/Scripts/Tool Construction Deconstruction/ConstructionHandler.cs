@@ -93,21 +93,28 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 			}
 		}
 
+		var attrs = slot.Item?.GetComponent<ItemAttributes>();
 		var tool = slot.Item?.GetComponent<Tool>();
-		if (tool == null)
+		if (attrs == null || tool == null)
 		{
 			return;
 		}
-		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
+
+		foreach (var trait in attrs.GetTraits())
 		{
-			var Jump = ConstructionStages[CurrentStage].ToolStage[tool.ToolType];
-			if (Jump.ConstructionTime > 0)
+			if (ConstructionStages[CurrentStage].TraitStage.ContainsKey(trait))
 			{
-				var progressFinishAction = new ProgressCompleteAction(() => JumpLanding(tool));
-				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
-			}
-			else {
-				JumpLanding(tool);
+				var Jump = ConstructionStages[CurrentStage].TraitStage[trait];
+				if (Jump.ConstructionTime > 0)
+				{
+					var progressFinishAction = new ProgressCompleteAction(() => JumpLanding(tool, attrs));
+					UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer,
+						Jump.ConstructionTime / tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
+				}
+				else
+				{
+					JumpLanding(tool, attrs);
+				}
 			}
 		}
 	}
@@ -154,14 +161,20 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		}
 
 		var tool = slot.Item?.GetComponent<Tool>();
-		if (tool == null)
+		var attrs = slot.Item?.GetComponent<ItemAttributes>();
+		if (tool == null || attrs == null)
 		{
 			return (false);
 		}
-		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
+
+		foreach (var trait in attrs.GetTraits())
 		{
-			return (true);
+			if (ConstructionStages[CurrentStage].TraitStage.ContainsKey(trait))
+			{
+				return (true);
+			}
 		}
+
 		return (false);
 	}
 	public void ExceptItem(ItemSlot slot, HandApply interaction) {
@@ -199,32 +212,39 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		}
 	}
 
-	public void JumpLanding(Tool tool) {
-		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
+	public void JumpLanding(Tool tool, ItemAttributes attrs)
+	{
+		foreach (var trait in attrs.GetTraits())
 		{
-			var Jump = ConstructionStages[CurrentStage].ToolStage[tool.ToolType];
-			float SuccessChance = (tool.SuccessChance / 100) * Jump.SuccessChance;
-			if (!(SuccessChance < ListChance[random.Next(99)]))
+			if (ConstructionStages[CurrentStage].TraitStage.ContainsKey(trait))
 			{
-				if (Jump.Construction)
+				var Jump = ConstructionStages[CurrentStage].TraitStage[trait];
+				float SuccessChance = (tool.SuccessChance / 100) * Jump.SuccessChance;
+				if (!(SuccessChance < ListChance[random.Next(99)]))
 				{
-					ConstructionStages[CurrentStage].CheckParts();
-					if (!ConstructionStages[CurrentStage].MissingParts)
+					if (Jump.Construction)
 					{
+						ConstructionStages[CurrentStage].CheckParts();
+						if (!ConstructionStages[CurrentStage].MissingParts)
+						{
+							GoToStage(Jump.JumpToStage);
+						}
+					}
+					else
+					{
+						SpawnStage(CurrentStage);
+						SpawnStage(Jump.JumpToStage);
 						GoToStage(Jump.JumpToStage);
 					}
 				}
 				else
 				{
-					SpawnStage(CurrentStage);
-					SpawnStage(Jump.JumpToStage);
-					GoToStage(Jump.JumpToStage);
+					Logger.Log("you Failed!");
+					return;
 				}
 			}
-			else {
-				Logger.Log("you Failed!");
-			}
 		}
+		Logger.Log("you Failed!");
 	}
 
 	public void ClientGoToStage(int Stage)
@@ -338,7 +358,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 
 				foreach (var TOStageAdvance in Stage.StageAdvances)
 				{
-					Stage.ToolStage[TOStageAdvance.RequiredTool] = TOStageAdvance;
+					Stage.TraitStage[TOStageAdvance.RequiredTrait] = TOStageAdvance;
 				}
 
 
@@ -360,7 +380,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 			{
 				foreach (var TOStageAdvance in Stage.StageAdvances)
 				{
-					Stage.ToolStage[TOStageAdvance.RequiredTool] = TOStageAdvance;
+					Stage.TraitStage[TOStageAdvance.RequiredTrait] = TOStageAdvance;
 				}
 
 			}

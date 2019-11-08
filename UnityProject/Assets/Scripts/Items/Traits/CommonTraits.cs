@@ -13,4 +13,10 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Gun;
 	public ItemTrait Food;
 	public ItemTrait Mask;
+	public ItemTrait Wirecutter;
+	public ItemTrait Wrench;
+	public ItemTrait Emag;
+	public ItemTrait Crowbar;
+	public ItemTrait Screwdriver;
+	public ItemTrait Multitool;
 }

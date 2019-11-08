@@ -5,7 +5,7 @@ using UnityEngine;
 /// Stores data about the current stage of construction, For example what tools can change the stage, what they do, what parts are currently present, what parts are needed for construction and Other information
 /// </summary>
 [System.Serializable]
-public class ConstructionStage 
+public class ConstructionStage
 {
 	public Sprite StageSprite;
 
@@ -35,7 +35,7 @@ public class ConstructionStage
 	[HideInInspector]
 	public List<GameObject> PresentParts;
 
-	public Dictionary<ToolType, StageAdvance> ToolStage = new Dictionary<ToolType, StageAdvance>();
+	public Dictionary<ItemTrait, StageAdvance> TraitStage = new Dictionary<ItemTrait, StageAdvance>();
 
 	/// <summary>
 	/// This is what it should spawn if it goes to this stage, this will destroy the original component
@@ -54,7 +54,7 @@ public class ConstructionStage
 				MissingParts = true;
 				return;
 			}
-		
+
 		}
 	}
 }

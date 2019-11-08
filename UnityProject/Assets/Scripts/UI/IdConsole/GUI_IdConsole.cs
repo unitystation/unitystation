@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GUI_IdConsole : NetTab
@@ -31,7 +32,7 @@ public class GUI_IdConsole : NetTab
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			StartCoroutine(WaitForProvider());
-			jobsCount = OccupationList.Instance.Occupations.Length - IdConsoleManager.Instance.IgnoredJobs.Count;
+			jobsCount = OccupationList.Instance.Occupations.Count() - IdConsoleManager.Instance.IgnoredJobs.Count;
 		}
 	}
 
@@ -142,9 +143,10 @@ public class GUI_IdConsole : NetTab
 		assignList.Clear();
 		assignList.AddItems(jobsCount);
 		GUI_IdConsoleEntry entry;
+		var occupations = OccupationList.Instance.Occupations.ToArray();
 		for (int i = 0; i < jobsCount; i++)
 		{
-			JobType jobType = OccupationList.Instance.Occupations[i].JobType;
+			JobType jobType = occupations[i].JobType;
 			if (IdConsoleManager.Instance.IgnoredJobs.Contains(jobType))
 			{
 				continue;

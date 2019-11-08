@@ -116,6 +116,16 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		InventoryIcon = GetComponentInChildren<SpriteHandler>();
 	}
 
+
+	/// <summary>
+	/// Gets all the traits this object currently has
+	/// </summary>
+	/// <returns></returns>
+	public IEnumerable<ItemTrait> GetTraits()
+	{
+		return traits;
+	}
+
 	/// <summary>
 	/// Returns true iff this itemattributes has the specified trait
 	/// </summary>
@@ -234,4 +244,5 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		return RightClickableResult.Create()
 			.AddElement("Examine", OnExamine);
 	}
+
 }

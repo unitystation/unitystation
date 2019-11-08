@@ -214,8 +214,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 	}
 
-	//clears the displayed contents of this slot
-	private void Clear()
+	/// <summary>
+	/// Clears the displayed contents of this slot
+	/// </summary>
+	public void Clear()
 	{
 		PlayerScript lps = PlayerManager.LocalPlayerScript;
 		if (!lps)

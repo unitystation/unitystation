@@ -1,19 +1,22 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 
 /// <summary>
-/// Singleton. Provides a list of currently enabled occupations and definitions of special occupations
+/// Singleton. Provides a list of currently enabled occupations and the order in which they
+/// should appear in the chooser.
 /// </summary>
-[CreateAssetMenu(fileName = "OccupationList", menuName = "Singleton/OccupationList")]
+[CreateAssetMenu(fileName = "OccupationListSingleton", menuName = "Singleton/OccupationList")]
 public class OccupationList : SingletonScriptableObject<OccupationList>
 {
 	[FormerlySerializedAs("Occupations")]
 	[SerializeField]
-	[Tooltip("Allowed occupations")]
+	[Tooltip("Allowed occupations, and the order in which they should be displayed in" +
+	         " occupation chooser.")]
 	private Occupation[] occcupations;
-	public Occupation[] Occupations => occcupations;
+	public IEnumerable<Occupation> Occupations => occcupations;
 
 	/// <summary>
 	/// Gets the occupation with the specified jobtype. Null if not in this list.

@@ -25,17 +25,17 @@ public static class Validations
 	}
 
 	/// <summary>
-	/// Checks if the game object is the specified tool type
+	/// Checks if the game object has the specified trait
 	/// </summary>
 	/// <param name="toCheck">object to check, can be null</param>
-	/// <param name="expectedType"></param>
-	/// <returns>true iff toCheck not null and has the Tool component with the specified tool type</returns>
-	public static bool IsTool(GameObject toCheck, ToolType expectedType)
+	/// <param name="expectedTrait"></param>
+	/// <returns></returns>
+	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
 		if (toCheck == null) return false;
-		var tool = toCheck.GetComponent<Tool>();
-		if (tool == null) return false;
-		return tool.ToolType == expectedType;
+		var attrs = toCheck.GetComponent<ItemAttributes>();
+		if (attrs == null) return false;
+		return attrs.HasTrait(expectedTrait);
 	}
 
 	/// <summary>

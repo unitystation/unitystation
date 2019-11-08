@@ -147,7 +147,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 		if (UIManager.Instance != null && UIManager.Hands != null && UIManager.Hands.CurrentSlot != null && UIManager.Hands.CurrentSlot.ItemObject == gameObject)
 		{
 			//TODO: Need a more systematic way to update inventory sprites.
-			UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
+			Inventory.UpdateSecondaryUISlotImage(gameObject, flameRenderer.sprite);
 		}
 
 		//Server also needs to know which player is holding the item so that it can sync

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
   m_Name: Syndicate Operative
   m_EditorClassIdentifier: 
-  JobType: 36
-  InventoryPopulator: {fileID: 11400000, guid: d3fa80a1a5cc14a0b86b26aaddff5a7d, type: 2}
-  Limit: 10
+  jobType: 36
+  displayName: Syndicate Operative
+  inventoryPopulator: {fileID: 11400000, guid: d3fa80a1a5cc14a0b86b26aaddff5a7d, type: 2}
+  limit: 10
   priority: 99
-  ChoiceColor: {r: 1, g: 1, b: 1, a: 1}
-  AllowedAccess: 220000002300000031000000
+  choiceColor: {r: 1, g: 1, b: 1, a: 1}
+  allowedAccess: 220000002300000031000000

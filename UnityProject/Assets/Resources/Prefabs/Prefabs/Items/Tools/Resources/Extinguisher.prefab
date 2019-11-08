@@ -226,7 +226,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Extinguisher
   itemDescription: A heavy fire extinguisher
-  itemType: 0
+  initialTraits:
+  - {fileID: 11400000, guid: 4b8500f0a3b33429b927e6db755bf25a, type: 2}
   size: 2
   spriteType: 0
   CanConnectToTank: 0

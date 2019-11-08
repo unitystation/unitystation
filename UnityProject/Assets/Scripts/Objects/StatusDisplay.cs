@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// Status display that will show short text messages sent to currently selected channel.
 /// Escape Shuttle channel is a priority one and will overtake other channels.
 /// </summary>
-public class StatusDisplay : NetworkBehaviour, IServerDespawn, IServerSpawn
+public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 {
 	public static readonly int MAX_CHARS_PER_PAGE = 18;
 

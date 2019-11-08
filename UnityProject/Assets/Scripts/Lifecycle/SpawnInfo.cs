@@ -131,6 +131,29 @@ public class SpawnInfo
 	}
 
 	/// <summary>
+	/// Spawn a ghost with the specified occupation
+	/// </summary>
+	/// <param name="occupation">Occupation details to use to spawn this ghost</param>
+	/// <param name="characterSettings">settings to use for this ghost</param>
+	/// <param name="playerPrefab">Prefab to use to spawn this ghost</param>
+	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <param name="count">number of instances to spawn, defaults to 1</param>
+	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
+	/// null (no scatter).</param>
+	/// <returns>the newly created GameObject</returns>
+	/// <returns></returns>
+	public static SpawnInfo Ghost(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
+	{
+		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Ghost, playerPrefab, null, ClothingVariantType.Default, -1,
+			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
+			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings);
+	}
+
+	/// <summary>
 	/// Spawn the specified prefab
 	/// </summary>
 	/// <param name="prefab">Prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
@@ -286,7 +309,15 @@ public enum SpawnType
 	/// <summary>
 	/// Object was already mapped into the scene and scene has loaded.
 	/// </summary>
-	Mapped = 2
+	Mapped = 2,
+	/// <summary>
+	/// Spawning an NPC
+	/// </summary>
+	Mob = 3,
+	/// <summary>
+	/// Spawning a ghost
+	/// </summary>
+	Ghost = 4
 }
 
 /// <summary>

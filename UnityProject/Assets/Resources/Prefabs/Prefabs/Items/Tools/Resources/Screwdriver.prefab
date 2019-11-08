@@ -201,11 +201,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: yellow screwdriver
   itemDescription: A screwdriver
-  itemType: 0
+  initialTraits:
+  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -243,7 +244,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114484434474911270
 MonoBehaviour:
@@ -290,9 +290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114196815897616336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +349,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114013628232825724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,8 +380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3435200138
+  m_AssetId: daa925ae33eab5d4988f8182a1ce33ac
+  m_SceneId: 0
 --- !u!1 &5751769075716656209
 GameObject:
   m_ObjectHideFlags: 0

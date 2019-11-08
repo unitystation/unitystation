@@ -29,7 +29,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (!Validations.IsTool(interaction.HandObject, ToolType.Wirecutter)) return false;
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter)) return false;
 		if (interaction.TargetObject != gameObject) return false;
 		return true;
 	}

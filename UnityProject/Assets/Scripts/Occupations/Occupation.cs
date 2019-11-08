@@ -9,11 +9,17 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(fileName = "Occupation", menuName = "Occupation/Occupation", order = 1)]
 public class Occupation : ScriptableObject
 {
+
 	[FormerlySerializedAs("JobType")]
 	[SerializeField]
 	[Tooltip("Type of occupation.")]
 	private JobType jobType;
 	public JobType JobType => jobType;
+
+	[Tooltip("Display name for this occupation.")]
+	[SerializeField]
+	private string displayName;
+	public string DisplayName => displayName;
 
 	[FormerlySerializedAs("InventoryPopulator")]
 	[SerializeField]
@@ -45,4 +51,5 @@ public class Occupation : ScriptableObject
 	[Tooltip("Default access allowed for this occupation.")]
 	private List<Access> allowedAccess;
 	public List<Access> AllowedAccess => allowedAccess;
+
 }

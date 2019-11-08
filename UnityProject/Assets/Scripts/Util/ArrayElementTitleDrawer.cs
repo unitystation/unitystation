@@ -1,5 +1,12 @@
-using UnityEditor;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
+using System.Linq;
+using Newtonsoft.Json;
+#if UNITY_EDITOR
+using UnityEditor;
 
 /// <summary>
 /// Allows using a property of the array element to display its name in the array rather than just
@@ -77,6 +84,7 @@ public class ArrayElementTitleDrawer : PropertyDrawer
         return "";
     }
 }
+#endif
 
 public class ArrayElementTitleAttribute : PropertyAttribute
 {
@@ -88,4 +96,3 @@ public class ArrayElementTitleAttribute : PropertyAttribute
 		Nullname = NullvalueString;
 	}
 }
-

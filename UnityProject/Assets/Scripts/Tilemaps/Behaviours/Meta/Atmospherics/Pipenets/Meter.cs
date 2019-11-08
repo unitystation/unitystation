@@ -51,7 +51,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (!DefaultWillInteract.Default(interaction, side))
 			return false;
-		if (!Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			return false;
 		return true;
 	}

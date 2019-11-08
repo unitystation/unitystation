@@ -180,9 +180,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Cryptographic sequencer
   itemDescription: It's a card with a magnetic strip attached to some circuitry.
-  Traits:
-  - {fileID: 11400000, guid: 1dc47f324bdb1461b862b38cdb1e37d9, type: 2}
-  itemType: 12
+  initialTraits:
+  - {fileID: 11400000, guid: 8ddc1bf1d79674344b6b5c7cf6b3f1ee, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0

@@ -169,11 +169,11 @@ public static class Inventory
 			return false;
 		}
 
-		pickupable.ServerSetItemSlot(null);
-		fromSlot.ServerRemoveItem();
+		pickupable._ServerSetItemSlot(null);
+		fromSlot._ServerRemoveItem();
 
-		pickupable.ServerSetItemSlot(toSlot);
-		toSlot.ServerSetItem(pickupable);
+		pickupable._ServerSetItemSlot(toSlot);
+		toSlot._ServerSetItem(pickupable);
 
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
@@ -208,8 +208,8 @@ public static class Inventory
 		}
 
 		//update pickupable's item and slot's item
-		pickupable.ServerSetItemSlot(null);
-		fromSlot.ServerRemoveItem();
+		pickupable._ServerSetItemSlot(null);
+		fromSlot._ServerRemoveItem();
 
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
@@ -339,8 +339,8 @@ public static class Inventory
 		pickupable.GetComponent<RegisterTile>().UpdatePositionServer();
 
 		//update pickupable's item and slot's item
-		pickupable.ServerSetItemSlot(toSlot);
-		toSlot.ServerSetItem(pickupable);
+		pickupable._ServerSetItemSlot(toSlot);
+		toSlot._ServerSetItem(pickupable);
 
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
@@ -351,7 +351,7 @@ public static class Inventory
 	}
 
 	/// <summary>
-	/// Client tells server to transfer items between 2 item slots.
+	/// Client tells server to transfer items between 2 item slots, with client side prediction.
 	/// One of the item slots must be either in this player's slot tree (i.e. currently owned by them
 	/// even if nested within an item storage).
 	///
@@ -365,6 +365,58 @@ public static class Inventory
 	/// <returns></returns>
 	public static void ClientRequestTransfer(ItemSlot from, ItemSlot to)
 	{
+		//client side prediction, just change the sprite of the ui slots
+		if (from.LocalUISlot != null)
+		{
+			from.LocalUISlot.Clear();
+		}
+
+		if (to.LocalUISlot != null)
+		{
+			to.LocalUISlot.UpdateImage(from.ItemObject);
+		}
+
+		//send the actual message.
 		RequestInventoryTransferMessage.Send(from, to);
+	}
+
+	/// <summary>
+	/// Use this to update the image displayed in a local UI slot when the object's sprite
+	/// has changed somehow.
+	/// If the provided object is in an item slot linked to a local UI slot, refreshes
+	/// the local UI slot's image based on the object's current image.
+	///
+	/// If it's not in a slot, this has no effect.
+	/// </summary>
+	/// <param name="forObject"></param>
+	public static void RefreshUISlotImage(GameObject forObject)
+	{
+		if (forObject == null) return;
+		var pu = forObject.GetComponent<Pickupable>();
+		if (pu != null)
+		{
+			pu.RefreshUISlotImage();
+		}
+
+	}
+
+	/// <summary>
+	/// Use this to update the secondary image displayed in a local UI slot when the object's secondary sprite
+	/// has changed somehow.
+	/// If the provided object is in an item slot linked to a local UI slot, changes
+	/// the local UI slot's secondary image to the provided Sprite
+	///
+	/// If it's not in a slot, this has no effect.
+	/// </summary>
+	/// <param name="forObject"></param>
+	public static void UpdateSecondaryUISlotImage(GameObject forObject, Sprite newSecondaryImage)
+	{
+		if (forObject == null) return;
+		var pu = forObject.GetComponent<Pickupable>();
+		if (pu != null)
+		{
+			pu.UpdateSecondaryUISlotImage(newSecondaryImage);
+		}
+
 	}
 }

@@ -523,10 +523,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 			if (server)
 			{
-				//TODO: Temporarily removing dummy spawning capability while I figure out spawning
+				//TODO: Not currently allowing dummy spawning
 //				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
 //				{
-//					PlayerSpawnHandler.SpawnDummyPlayer(JobType.ASSISTANT);
+//					PlayerSpawnHandler.SpawnDummyPlayer(OccupationList.Instance.Get(JobType.ASSISTANT));
 //				}
 
 				if (serverState.Position != serverLerpState.Position)

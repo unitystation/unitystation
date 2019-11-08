@@ -13,11 +13,25 @@ public static class PlayerSpawnHandler
 		NetworkServer.AddPlayerForConnection(conn, joinedViewer, System.Guid.NewGuid());
 	}
 
-	//TODO: Temporarily removing dummy spawning capability while I figure out spawning
+	//TODO: Not currently allowing dummy spawning
 //	public static void SpawnDummyPlayer(Occupation occupation)
 //	{
-//		GameObject dummyPlayer = CreatePlayer(occupation);
-//		TransferPlayer(null, dummyPlayer, null, EVENT.PlayerSpawned, null);
+//		//TODO: Not sure this still works
+//		GameObject playerPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
+//
+//		Transform spawnTransform = GetSpawnForJob(occupation.JobType);
+//
+//		GameObject dummy;
+//
+//		if (spawnTransform != null)
+//		{
+//			dummy = CreateMob(spawnTransform.gameObject, playerPrefab );
+//		}
+//		else
+//		{
+//			dummy = Object.Instantiate(playerPrefab);
+//		}
+//		TransferPlayer(null, dummy, null, EVENT.PlayerSpawned, null, occupation);
 //	}
 
 	public static void ClonePlayer(NetworkConnection conn, Occupation occupation, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
@@ -59,13 +73,6 @@ public static class PlayerSpawnHandler
 		}
 	}
 
-	public static GameObject SpawnPlayerGhost(NetworkConnection conn, GameObject oldBody, CharacterSettings characterSettings, Occupation occupation)
-	{
-		GameObject ghost = CreateMob(oldBody, CustomNetworkManager.Instance.ghostPrefab);
-		TransferPlayer(conn, ghost, oldBody, EVENT.GhostSpawned, characterSettings, occupation);
-		return ghost;
-	}
-
 	/// <summary>
 	/// Connects a client to a character or redirects a logged out ConnectedPlayer.
 	/// </summary>
@@ -93,7 +100,7 @@ public static class PlayerSpawnHandler
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
 			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
-			Spawn.ServerPlayer(occupation, characterSettings, newBody);
+			Spawn.ServerCreatePlayer(occupation, characterSettings, newBody);
 		}
 		else
 		{
@@ -139,77 +146,36 @@ public static class PlayerSpawnHandler
 		}
 	}
 
-
-
-	private static GameObject CreateMob(GameObject spawnSpot, GameObject mobPrefab)
+	public static GameObject SpawnPlayerGhost(NetworkConnection conn, GameObject oldBody, CharacterSettings characterSettings, Occupation occupation)
 	{
-		var registerTile = spawnSpot.GetComponent<RegisterTile>();
-
-		Transform parentTransform;
-		uint parentNetId;
-		Vector3Int spawnPosition;
-
-		if ( registerTile ) //spawnSpot is someone's corpse
+		//determine where to spawn the ghost
+		var registerTile = oldBody.GetComponent<RegisterTile>();
+		if (registerTile == null)
 		{
-			var objectLayer = registerTile.layer;
-			parentNetId = objectLayer.GetComponentInParent<NetworkIdentity>().netId;
-			parentTransform = objectLayer.transform;
-			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedWorldPositionServer().RoundToInt();
-		}
-		else //spawnSpot is a Spawnpoint object
-		{
-			spawnPosition = spawnSpot.transform.position.CutToInt();
-
-			var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
-			parentNetId = matrixInfo.NetID;
-			parentTransform = matrixInfo.Objects;
+			Logger.LogErrorFormat("Cannot spawn ghost for body {0} because it has no registerTile", Category.ItemSpawn,
+				oldBody.name);
+			return null;
 		}
 
-		GameObject newMob = Object.Instantiate(mobPrefab, spawnPosition, Quaternion.identity, parentTransform);
-		var playerScript = newMob.GetComponent<PlayerScript>();
-
-		playerScript.registerTile.ParentNetId = parentNetId;
-
-		return newMob;
+		Vector3Int spawnPosition = oldBody.GetComponent<ObjectBehaviour>().AssumedWorldPositionServer().RoundToInt();
+		var ghost = Spawn.ServerCreateGhost(occupation, characterSettings, CustomNetworkManager.Instance.ghostPrefab,
+			spawnPosition).GameObject;
+		TransferPlayer(conn, ghost, oldBody, EVENT.GhostSpawned, characterSettings, occupation);
+		return ghost;
 	}
 
 	private static GameObject CreatePlayer(Occupation occupation, CharacterSettings settings)
 	{
-		var spawnTransform = GetSpawnForJob(occupation.JobType);
+		//determine where to spawn them
+		Transform spawnTransform = GetSpawnForJob(occupation.JobType);
 		if (spawnTransform == null)
 		{
-			return Spawn.ServerPlayer(occupation, settings, CustomNetworkManager.Instance.humanPlayerPrefab).GameObject;
+			Logger.LogError("Unable to determine spawn position. Cannot create player.", Category.ItemSpawn);
+			return null;
 		}
 
-		var spawnSpot = spawnTransform.gameObject;
-		var registerTile = spawnSpot.GetComponent<RegisterTile>();
-		Transform parentTransform;
-		uint parentNetId;
-		Vector3Int spawnPosition;
-
-		if ( registerTile ) //spawnSpot is someone's corpse
-		{
-			var objectLayer = registerTile.layer;
-			parentNetId = objectLayer.GetComponentInParent<NetworkIdentity>().netId;
-			parentTransform = objectLayer.transform;
-			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedWorldPositionServer().RoundToInt();
-		}
-		else //spawnSpot is a Spawnpoint object
-		{
-			spawnPosition = spawnSpot.transform.position.CutToInt();
-
-			var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
-			parentNetId = matrixInfo.NetID;
-			parentTransform = matrixInfo.Objects;
-		}
-
-		var newPlayer = Spawn.ServerPlayer(occupation, settings, CustomNetworkManager.Instance.humanPlayerPrefab, spawnPosition,
-			parentTransform).GameObject;
-		var playerScript = newPlayer.GetComponent<PlayerScript>();
-
-		playerScript.registerTile.ParentNetId = parentNetId;
-		return newPlayer;
-
+		return Spawn.ServerCreatePlayer(occupation, settings, CustomNetworkManager.Instance.humanPlayerPrefab,
+			spawnTransform.transform.position.CutToInt()).GameObject;
 	}
 
 	private static Transform GetSpawnForJob(JobType jobType)

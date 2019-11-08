@@ -103,7 +103,8 @@ public class ItemSlot
 	private readonly HashSet<GameObject> serverObserverPlayers = new HashSet<GameObject>();
 
 	/// <summary>
-	/// Client side. Invoked after the contents of this slot are changed.
+	/// Client side. Invoked after the contents of this slot are changed, which typically only happens
+	/// when server sends us an update about this slot.
 	/// Use this to update in response to such changes.
 	/// </summary>
 	public readonly UnityEvent OnSlotContentsChangeClient = new UnityEvent();
@@ -196,6 +197,8 @@ public class ItemSlot
 	{
 		if (!CustomNetworkManager.IsServer) return;
 		serverObserverPlayers.Remove(observerPlayer);
+		//tell the client the slot is now empty
+		UpdateItemSlotMessage.Send(observerPlayer, this, true);
 	}
 
 
@@ -239,7 +242,7 @@ public class ItemSlot
 	/// Server-side only. Adds the specified item to the slot, updating any observers.
 	/// Note that this doesn't do anything other than saying the item is now in the slot.
 	/// </summary>
-	public void ServerSetItem(Pickupable newItem)
+	public void _ServerSetItem(Pickupable newItem)
 	{
 		item = newItem;
 		OnSlotContentsChangeServer.Invoke();
@@ -252,9 +255,9 @@ public class ItemSlot
 	/// Server-side only. Remove the current item from the slot, updating any observers.
 	/// Note that this doesn't do anything other than saying the item is no longer in the slot.
 	/// </summary>
-	public void ServerRemoveItem()
+	public void _ServerRemoveItem()
 	{
-		ServerSetItem(null);
+		_ServerSetItem(null);
 	}
 
 	/// <summary>

@@ -5,12 +5,12 @@ using UnityEngine;
 /// Used to change the current stage, it specifies the tool how it would take what stage to go to, those Type of things
 /// </summary>
 [System.Serializable]
-public class StageAdvance 
+public class StageAdvance
 {
 	/// <summary>
 	/// the tool Needed
 	/// </summary>
-	public ToolType RequiredTool;
+	public ItemTrait RequiredTrait;
 
 	/// <summary>
 	/// How long it will take ( can be changed by speed multipliers on the tools )

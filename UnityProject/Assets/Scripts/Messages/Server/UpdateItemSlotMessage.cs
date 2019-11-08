@@ -28,8 +28,31 @@ public class UpdateItemSlotMessage : ServerMessage
 			slot = ItemSlot.GetIndexed(NetworkObjects[0].GetComponent<ItemStorage>(), SlotIndex);
 		}
 
+		var previouslyInSlot = slot.ItemObject;
 		var pickupable = Item == NetId.Invalid ? null : NetworkObjects[1].GetComponent<Pickupable>();
 		slot.ClientUpdate(pickupable);
+
+		if (pickupable != null)
+		{
+			//was added to slot
+			var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Added);
+			var hooks = pickupable.GetComponents<IClientInventoryMove>();
+			foreach (var hook in hooks)
+			{
+				hook.OnInventoryMoveClient(moveInfo);
+			}
+		}
+
+		if (previouslyInSlot != null)
+		{
+			//was removed from slot
+			var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
+			var hooks = previouslyInSlot.GetComponents<IClientInventoryMove>();
+			foreach (var hook in hooks)
+			{
+				hook.OnInventoryMoveClient(moveInfo);
+			}
+		}
 	}
 
 	/// <summary>
@@ -37,13 +60,15 @@ public class UpdateItemSlotMessage : ServerMessage
 	/// </summary>
 	/// <param name="recipient">client to inform</param>
 	/// <param name="inventorySlot">slot to tell them about</param>
+	/// <param name="informEmpty">if true, regardless of the slot's actual status, it
+	/// will be reported to the client as empty.</param>
 	/// <returns></returns>
-	public static void Send(GameObject recipient, ItemSlot itemSlot)
+	public static void Send(GameObject recipient, ItemSlot itemSlot, bool informEmpty = false)
 	{
 		UpdateItemSlotMessage msg = new UpdateItemSlotMessage
 		{
 			Storage = itemSlot.ItemStorageNetID,
-			Item = itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+			Item = informEmpty ? NetId.Invalid : (itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid),
 			SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
 			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 		};
