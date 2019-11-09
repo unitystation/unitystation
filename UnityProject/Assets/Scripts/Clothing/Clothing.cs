@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -24,6 +25,13 @@ public class Clothing : NetworkBehaviour
 	public Dictionary<ClothingVariantType, int> VariantStore = new Dictionary<ClothingVariantType, int>();
 	public List<int> VariantList;
 	public SpriteData SpriteInfo;
+
+	private Pickupable pickupable;
+
+	private void Awake()
+	{
+		pickupable = GetComponent<Pickupable>();
+	}
 
 	public void SyncFindData(string syncString)
 	{
@@ -51,8 +59,24 @@ public class Clothing : NetworkBehaviour
 		}
 	}
 
+	private void RefreshAppearance()
+	{
+		pickupable.RefreshUISlotImage();
+		//if currently equipped, refresh clothingitem apperance.
+		if (pickupable.LocalUISlot != null && PlayerManager.LocalPlayer)
+		{
+			//local UI slot, so refresh out appearance
+			ClothingItem c = PlayerManager.LocalPlayer.GetComponent<Equipment>().GetClothingItem(pickupable.ItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none));
+			if (c != null)
+			{
+				c.SetReference(gameObject);
+			}
+		}
+	}
+
 	public void SyncType(ClothingVariantType _Type) {
 		Type = _Type;
+		RefreshAppearance();
 
 	}
 
@@ -103,6 +127,7 @@ public class Clothing : NetworkBehaviour
 			SynchronisedString = HD.name;
 			headsetData = HD;
 		}
+		RefreshAppearance();
 	}
 
 
@@ -175,6 +200,8 @@ public class Clothing : NetworkBehaviour
 				Initialised = true;
 			}
 		}
+
+		RefreshAppearance();
 	}
 }
 

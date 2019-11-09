@@ -116,9 +116,6 @@ public class JoinedViewer : NetworkBehaviour
 				}
 				break;
 		}
-
-		//call all client side spawn hooks as if map has loaded (they just joined so they need to init all the objects)
-		Spawn._CallAllClientSpawnHooksInScene();
 	}
 
 	//Just ensures connected player record is set on the server first before Auth req is sent

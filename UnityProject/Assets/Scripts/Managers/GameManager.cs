@@ -228,26 +228,38 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
+
+			// Wait for the PlayerList instance to init before checking player count
+			StartCoroutine(WaitToCheckPlayers());
+		}
+
+		//wait for scene to be ready and fire mapped spawn hooks
+		StartCoroutine(WaitToFireHooks());
+	}
+
+	private IEnumerator WaitToFireHooks()
+	{
+		//we have to wait to fire hooks until the root objects in the scene are active,
+		//otherwise our attempt to find the hooks to call will always return 0.
+		//TODO: Find a better way to do this, maybe there is a hook for this
+		while (FindUtils.FindInterfaceImplementersInScene<IServerSpawn>().Count == 0)
+		{
+			yield return WaitFor.Seconds(1);
+		}
+		if (CustomNetworkManager.Instance._isServer)
+		{
 			//invoke all server + client side hooks on all objects that have them
 			foreach (var serverSpawn in FindUtils.FindInterfaceImplementersInScene<IServerSpawn>())
 			{
 				serverSpawn.OnSpawnServer(SpawnInfo.Mapped(((Component)serverSpawn).gameObject));
 			}
-			foreach (var clientSpawn in FindUtils.FindInterfaceImplementersInScene<IClientSpawn>())
-			{
-				clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
-			}
-
-			// Wait for the PlayerList instance to init before checking player count
-			StartCoroutine(WaitToCheckPlayers());
+			Spawn._CallAllClientSpawnHooksInScene();
 		}
 		else
 		{
 			Spawn._CallAllClientSpawnHooksInScene();
-
 		}
 	}
-
 
 
 	/// <summary>

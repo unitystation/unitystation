@@ -223,15 +223,36 @@ public static class Inventory
 			//drop where it is
 			//determine where it will appear
 			var holder = fromSlot.GetRootStorage();
-
-			if (holder.GetComponent<ObjectBehaviour>()?.parentContainer != null)
+			var parentContainer = holder.GetComponent<ObjectBehaviour>()?.parentContainer;
+			if (parentContainer != null)
 			{
-				//TODO: Should we support dropping things while in a PushPull container?
-				Logger.LogWarningFormat(
-					"Trying to drop an item from slot {1} while in a PushPull container {1} is not currently supported, dropping will" +
-					" not occur.", Category.Inventory, fromSlot,
+				//TODO: Not a big fan of this bespoke logic for dealing with dropping in closet control. Try to refactor this
+				Logger.LogTraceFormat("Dropping from slot {0} while in container {1}", Category.Inventory,
+					fromSlot,
 					holder.GetComponent<ObjectBehaviour>().parentContainer.name);
-				return false;
+				var closetControl = parentContainer.GetComponent<ClosetControl>();
+				if (closetControl == null)
+				{
+					Logger.LogErrorFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
+					                      "Currently only ClosetControl is supported. Please add code to handle this case.", Category.Inventory,
+						fromSlot,
+						holder.GetComponent<ObjectBehaviour>().parentContainer.name);
+					return false;
+				}
+				//vanish it and set its parent container
+				ServerVanish(fromSlot);
+				var objBehavior = pickupable.GetComponent<ObjectBehaviour>();
+				if (objBehavior == null)
+				{
+					Logger.LogErrorFormat("Dropping object {0} while in container {1}, but dropped object had" +
+					                      " no object behavior. Cannot drop.", Category.Inventory,
+						pickupable,
+						holder.GetComponent<ObjectBehaviour>().parentContainer.name);
+					return false;
+				}
+				closetControl.AddItem(objBehavior);
+
+				return true;
 			}
 
 			var holderPlayer = holder.GetComponent<PlayerSync>();
@@ -304,7 +325,7 @@ public static class Inventory
 
 		if (pickupable.ItemSlot != null)
 		{
-			Logger.LogErrorFormat("Attempted to add {0} to inventory but item is already in slot {1}." +
+			Logger.LogTraceFormat("Attempted to add {0} to inventory but item is already in slot {1}." +
 			                      " Move will not be performed.", Category.Inventory, pickupable.name, pickupable.ItemSlot);
 			return false;
 		}
@@ -312,21 +333,21 @@ public static class Inventory
 		var toSlot = toPerform.ToSlot;
 		if (toSlot == null)
 		{
-			Logger.LogErrorFormat("Attempted to add {0} to inventory but target slot was null." +
+			Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot was null." +
 			                      " Move will not be performed.", Category.Inventory, pickupable.name);
 			return false;
 		}
 
 		if (toSlot.Item != null)
 		{
-			Logger.LogErrorFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+			Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
 			                      " Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
 			return false;
 		}
 
 		if (!Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true))
 		{
-			Logger.LogErrorFormat("Attempted to add {0} to slot {1} but slot cannot fit this item." +
+			Logger.LogTraceFormat("Attempted to add {0} to slot {1} but slot cannot fit this item." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name, toSlot);
 			return false;
 		}

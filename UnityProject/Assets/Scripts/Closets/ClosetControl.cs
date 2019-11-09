@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
@@ -290,6 +291,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 
 		heldItems = Enumerable.Empty<ObjectBehaviour>();
+	}
+
+	public void AddItem(ObjectBehaviour toAdd)
+	{
+		if (toAdd == null) return;
+		heldItems = heldItems.Concat(new [] {toAdd});
+		toAdd.parentContainer = objectBehaviour;
+		toAdd.VisibleState = false;
 	}
 
 	private void CloseItemHandling()
