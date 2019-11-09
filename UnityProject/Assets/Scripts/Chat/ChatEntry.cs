@@ -72,6 +72,8 @@ public class ChatEntry : MonoBehaviour
 	{
 		if (isCoolingDown)
 		{
+			if(coCoolDown != null) StopCoroutine(coCoolDown);
+
 			coCoolDown = StartCoroutine(CoolDown());
 		}
 		else
@@ -116,9 +118,17 @@ public class ChatEntry : MonoBehaviour
 		stackTimes++;
 		stackTimesText.text = $"x{stackTimes}";
 		stackTimesObj.SetActive(true);
-		if (stackTimesObj.activeInHierarchy)
+		StartCoroutine(StackPumpAnim());
+		SetCrossFadeAlpha(1f, 0f);
+		if (isCoolingDown)
 		{
-			StartCoroutine(StackPumpAnim());
+			if(coCoolDown != null) StopCoroutine(coCoolDown);
+			coCoolDown = StartCoroutine(CoolDown());
+		}
+		else
+		{
+			isCoolingDown = true;
+			coCoolDown = StartCoroutine(CoolDown());
 		}
 	}
 
@@ -172,6 +182,7 @@ public class ChatEntry : MonoBehaviour
 	}
 
 	private bool stackPosSet = false;
+
 	void SetStackPos()
 	{
 		if (stackPosSet) return;
