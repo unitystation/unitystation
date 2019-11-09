@@ -286,9 +286,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			PlayerSpawnHandler.RespawnPlayer(connectionToClient, playerScript.mind.occupation, playerScript.characterSettings,
-				gameObject);
-			RpcAfterRespawn();
+			PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+			RpcDestroy();
 		}
 	}
 
@@ -306,9 +305,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GetComponent<LivingHealthBehaviour>().IsDead)
 		{
-			var newGhost =
-				PlayerSpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings, playerScript.mind.occupation);
-			playerScript.mind.Ghosting(newGhost);
+			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
 	}
 
@@ -316,15 +313,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// <summary>
 	/// Asks the server to let the client rejoin into a logged off character.
 	/// </summary>
-	/// <param name="loggedOffPlayer">The character to be rejoined into.</param>
 	[Command]
-	public void CmdEnterBody()
+	public void CmdGhostEnterBody()
 	{
 		playerScript.mind.StopGhosting();
-		var body = playerScript.mind.body.gameObject;
-		PlayerSpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null, null);
-		body.GetComponent<PlayerNetworkActions>().ReenterBodyUpdates();
-		RpcAfterRespawn();
+		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
+		RpcDestroy();
 	}
 
 	/// <summary>
@@ -343,7 +337,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Note this will be invoked on all clients.
 	/// </summary>
 	[ClientRpc]
-	private void RpcAfterRespawn()
+	private void RpcDestroy()
 	{
 		//this ghost is not needed anymore
 		Destroy(gameObject);

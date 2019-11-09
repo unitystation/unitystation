@@ -15,11 +15,21 @@ public class Mind
 	public bool DenyCloning;
 	public int bodyMobID;
 
-	public Mind(GameObject player, Occupation occupation)
+	//use Create to create a mind.
+	private Mind()
 	{
-		this.occupation = occupation;
+	}
+
+	/// <summary>
+	/// Creates and populates the mind for the specified player.
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="occupation"></param>
+	public static void Create(GameObject player, Occupation occupation)
+	{
+		var mind = new Mind {occupation = occupation};
 		var playerScript = player.GetComponent<PlayerScript>();
-		SetNewBody(playerScript);
+		mind.SetNewBody(playerScript);
 	}
 
 	public void SetNewBody(PlayerScript playerScript){
@@ -28,14 +38,6 @@ public class Mind
 		bodyMobID = playerScript.GetComponent<LivingHealthBehaviour>().mobID;
 		StopGhosting();
 	}
-
-	public void ClonePlayer(GameObject spawnPoint, CharacterSettings characterSettings)
-	{
-		GameObject oldBody = GetCurrentMob();
-		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		PlayerSpawnHandler.ClonePlayer(connection, occupation, characterSettings, oldBody, spawnPoint);
-	}
-
 	public GameObject GetCurrentMob()
 	{
 		if (IsGhosting)

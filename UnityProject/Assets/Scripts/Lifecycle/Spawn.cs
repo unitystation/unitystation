@@ -5,9 +5,10 @@ using System.Text.RegularExpressions;
 using Facepunch.Steamworks;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Main API for all types of spawning. If you ever need to spawn something, look here.
+/// Main API for all types of spawning (except players - see PlayerSpawn). If you ever need to spawn something, look here.
 ///
 /// Notes on Lifecycle - there are various lifecycle stages components can hook into by implementing the
 /// appropriate interface. see https://github.com/unitystation/unitystation/wiki/Object-Lifecycle-Best-Practices
@@ -206,46 +207,6 @@ public static class Spawn
 	}
 
 	/// <summary>
-	/// Creates a player object with the specified occupation. This only spawns the player on the server-side, it does
-	/// not sync this to the other players. This is so the server can transfer the connection to this object
-	/// when the server is ready.
-	/// </summary>
-	/// <param name="occupation">Occupation details to use to spawn this player</param>
-	/// <param name="characterSettings">settings to use for this player</param>
-	/// <param name="playerPrefab">Prefab to use to spawn this player</param>
-	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <returns>the newly created GameObject</returns>
-	/// <returns></returns>
-	public static SpawnResult ServerCreatePlayer(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
-	{
-		return Server(SpawnInfo.Player(occupation, characterSettings, playerPrefab, worldPosition, parent, rotation));
-	}
-
-	/// <summary>
-	/// Creates a ghost object with the specified settings. This only spawns the ghost on the server-side, it does
-	/// not sync this to the other players. This is so the server can transfer the connection to this object
-	/// when the server is ready.
-	/// </summary>
-	/// <param name="occupation">Occupation details to use to spawn this ghost</param>
-	/// <param name="characterSettings">settings to use for this ghost</param>
-	/// <param name="playerPrefab">Prefab to use to spawn this ghost</param>
-	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <returns>the newly created GameObject</returns>
-	/// <returns></returns>
-	public static SpawnResult ServerCreateGhost(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
-	{
-		return Server(SpawnInfo.Ghost(occupation, characterSettings, playerPrefab, worldPosition, parent, rotation));
-	}
-
-	/// <summary>
 	/// Clone the item and syncs it over the network. This only works if toClone has a PoolPrefabTracker
 	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.
 	/// </summary>
@@ -270,7 +231,7 @@ public static class Spawn
 	/// Server-side only. Performs the spawn and syncs it to all clients.
 	/// </summary>
 	/// <returns></returns>
-	public static SpawnResult Server(SpawnInfo info)
+	private static SpawnResult Server(SpawnInfo info)
 	{
 		if (info == null)
 		{
@@ -280,145 +241,80 @@ public static class Spawn
 		EnsureInit();
 		Logger.LogTraceFormat("Server spawning {0}", Category.ItemSpawn, info);
 
-		if (info.SpawnType == SpawnType.Player)
+		List<GameObject> spawnedObjects = new List<GameObject>();
+		for (int i = 0; i < info.Count; i++)
 		{
-			return ServerSpawnPlayer(info);
-
-		}
-		else if (info.SpawnType == SpawnType.Ghost)
-		{
-			return ServerSpawnGhost(info);
-		}
-		else
-		{
-
-
-
-			List<GameObject> spawnedObjects = new List<GameObject>();
-			for (int i = 0; i < info.Count; i++)
+			if (info.SpawnableType == SpawnableType.Prefab)
 			{
-				if (info.SpawnableType == SpawnableType.Prefab)
+				bool isPooled;
+
+				GameObject tempObject = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation,
+					info.Parent,
+					out isPooled);
+
+				if (!isPooled)
 				{
-					bool isPooled;
-
-					GameObject tempObject = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation,
-						info.Parent,
-						out isPooled);
-
-					if (!isPooled)
-					{
-						Logger.LogTrace("Prefab to spawn was not pooled, spawning new instance.", Category.ItemSpawn);
-						NetworkServer.Spawn(tempObject);
-						tempObject.GetComponent<CustomNetTransform>()
-							?.NotifyPlayers(); //Sending clientState for newly spawned items
-					}
-					else
-					{
-						Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
-					}
-
-					spawnedObjects.Add(tempObject);
-				}
-				else if (info.SpawnableType == SpawnableType.Cloth)
-				{
-					var result = ServerCloth(info);
-					if (result == null)
-					{
-						return SpawnResult.Fail(info);
-					}
-
-					spawnedObjects.Add(result);
-				}
-				else if (info.SpawnableType == SpawnableType.Clone)
-				{
-					var prefab = DeterminePrefab(info.ClonedFrom);
-					if (prefab == null)
-					{
-						Logger.LogErrorFormat(
-							"Object {0} cannot be cloned because it has no PoolPrefabTracker and its name" +
-							" does not match a prefab name, so we cannot" +
-							" determine the prefab to instantiate. Please fix this object so that it" +
-							" has an attached PoolPrefabTracker or so its name matches the prefab it was created from.",
-							Category.ItemSpawn, info.ClonedFrom);
-					}
-
-					GameObject tempObject = PoolInstantiate(prefab, info.WorldPosition, info.Rotation, info.Parent,
-						out var isPooled);
-
-					if (!isPooled)
-					{
-						NetworkServer.Spawn(tempObject);
-						tempObject.GetComponent<CustomNetTransform>()
-							?.NotifyPlayers(); //Sending clientState for newly spawned items
-					}
-
-					spawnedObjects.Add(tempObject);
-				}
-
-				//fire hooks for all spawned objects
-				if (spawnedObjects.Count == 1)
-				{
-					ServerFireSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
+					Logger.LogTrace("Prefab to spawn was not pooled, spawning new instance.", Category.ItemSpawn);
+					NetworkServer.Spawn(tempObject);
+					tempObject.GetComponent<CustomNetTransform>()
+						?.NotifyPlayers(); //Sending clientState for newly spawned items
 				}
 				else
 				{
-					ServerFireSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
+					Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
 				}
+
+				spawnedObjects.Add(tempObject);
 			}
-
-			return SpawnResult.Multiple(info, spawnedObjects);
-		}
-	}
-
-	private static SpawnResult ServerSpawnPlayer(SpawnInfo info)
-	{
-		//player is only spawned on server, we don't sync it to other players yet
-        var spawnPosition = info.WorldPosition.CutToInt();
-        var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
-        var parentNetId = matrixInfo.NetID;
-        var parentTransform = matrixInfo.Objects;
-
-        var player = Object.Instantiate(info.PrefabUsed, spawnPosition, Quaternion.identity,
-        	parentTransform);
-        player.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
-
-        //manually fire hooks since this isn't networked
-        var comps = player.GetComponents<IServerSpawn>();
-        if (comps != null)
-        {
-        	foreach (var comp in comps)
-        	{
-        		comp.OnSpawnServer(info);
-        	}
-        }
-
-        return SpawnResult.Single(info, player);
-	}
-
-
-	private static SpawnResult ServerSpawnGhost(SpawnInfo info)
-	{
-		//ghost is only spawned on server, we don't sync it to other players yet
-		var spawnPosition = info.WorldPosition.CutToInt();
-		var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
-		var parentNetId = matrixInfo.NetID;
-		var parentTransform = matrixInfo.Objects;
-
-		var player = Object.Instantiate(info.PrefabUsed, spawnPosition, Quaternion.identity,
-			parentTransform);
-		player.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
-
-		//manually fire hooks since this isn't networked
-		var comps = player.GetComponents<IServerSpawn>();
-		if (comps != null)
-		{
-			foreach (var comp in comps)
+			else if (info.SpawnableType == SpawnableType.Cloth)
 			{
-				comp.OnSpawnServer(info);
+				var result = ServerCloth(info);
+				if (result == null)
+				{
+					return SpawnResult.Fail(info);
+				}
+
+				spawnedObjects.Add(result);
+			}
+			else if (info.SpawnableType == SpawnableType.Clone)
+			{
+				var prefab = DeterminePrefab(info.ClonedFrom);
+				if (prefab == null)
+				{
+					Logger.LogErrorFormat(
+						"Object {0} cannot be cloned because it has no PoolPrefabTracker and its name" +
+						" does not match a prefab name, so we cannot" +
+						" determine the prefab to instantiate. Please fix this object so that it" +
+						" has an attached PoolPrefabTracker or so its name matches the prefab it was created from.",
+						Category.ItemSpawn, info.ClonedFrom);
+				}
+
+				GameObject tempObject = PoolInstantiate(prefab, info.WorldPosition, info.Rotation, info.Parent,
+					out var isPooled);
+
+				if (!isPooled)
+				{
+					NetworkServer.Spawn(tempObject);
+					tempObject.GetComponent<CustomNetTransform>()
+						?.NotifyPlayers(); //Sending clientState for newly spawned items
+				}
+
+				spawnedObjects.Add(tempObject);
+			}
+
+			//fire hooks for all spawned objects
+			if (spawnedObjects.Count == 1)
+			{
+				ServerFireSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
+			}
+			else
+			{
+				ServerFireSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
 			}
 		}
 
-		return SpawnResult.Single(info, player);
+		return SpawnResult.Multiple(info, spawnedObjects);
+
 	}
 
 	/// <summary>
@@ -822,6 +718,15 @@ public static class Spawn
 		var prefabName = Regex.Replace(instance.name, @"\(.*\)", "").Trim();
 
 		return nameToSpawnablePrefab.ContainsKey(prefabName) ? GetPrefabByName(prefabName) : null;
+	}
+
+	public static void _CallAllClientSpawnHooksInScene()
+	{
+		//client side, just call the hooks
+		foreach (var clientSpawn in FindUtils.FindInterfaceImplementersInScene<IClientSpawn>())
+		{
+			clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
+		}
 	}
 }
 

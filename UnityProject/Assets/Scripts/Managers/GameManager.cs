@@ -229,11 +229,11 @@ public partial class GameManager : MonoBehaviour
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
 			//invoke all server + client side hooks on all objects that have them
-			foreach (var serverSpawn in FindInterfaceImplementersInScene<IServerSpawn>())
+			foreach (var serverSpawn in FindUtils.FindInterfaceImplementersInScene<IServerSpawn>())
 			{
 				serverSpawn.OnSpawnServer(SpawnInfo.Mapped(((Component)serverSpawn).gameObject));
 			}
-			foreach (var clientSpawn in FindInterfaceImplementersInScene<IClientSpawn>())
+			foreach (var clientSpawn in FindUtils.FindInterfaceImplementersInScene<IClientSpawn>())
 			{
 				clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
 			}
@@ -243,36 +243,12 @@ public partial class GameManager : MonoBehaviour
 		}
 		else
 		{
-			//client side, just call the hooks
-			foreach (var clientSpawn in FindInterfaceImplementersInScene<IClientSpawn>())
-			{
-				clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
-			}
+			Spawn._CallAllClientSpawnHooksInScene();
 
 		}
 	}
 
-	/// <summary>
-	/// Special version of FindObjects which supports interfaces
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <returns></returns>
-	public static List<T> FindInterfaceImplementersInScene<T>()
-	{
-		List<T> interfaces = new List<T>();
-		GameObject[] rootGameObects = SceneManager.GetActiveScene().GetRootGameObjects();
 
-		foreach (var rootGameObject in rootGameObects)
-		{
-			T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>();
-			foreach (var childInterface in childrenInterfaces)
-			{
-				interfaces.Add(childInterface);
-			}
-		}
-
-		return interfaces;
-	}
 
 	/// <summary>
 	/// Setup the station and then begin the round for the selected game mode

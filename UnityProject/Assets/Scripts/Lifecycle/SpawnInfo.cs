@@ -135,7 +135,7 @@ public class SpawnInfo
 	/// </summary>
 	/// <param name="occupation">Occupation details to use to spawn this ghost</param>
 	/// <param name="characterSettings">settings to use for this ghost</param>
-	/// <param name="playerPrefab">Prefab to use to spawn this ghost</param>
+	/// <param name="ghostPrefab">Prefab to use to spawn this ghost</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
@@ -146,9 +146,9 @@ public class SpawnInfo
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
-	public static SpawnInfo Ghost(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
+	public static SpawnInfo Ghost(Occupation occupation, CharacterSettings characterSettings, GameObject ghostPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
 	{
-		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Ghost, playerPrefab, null, ClothingVariantType.Default, -1,
+		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Ghost, ghostPrefab, null, ClothingVariantType.Default, -1,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
 			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings);
 	}

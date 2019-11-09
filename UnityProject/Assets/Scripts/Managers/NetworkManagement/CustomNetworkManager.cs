@@ -269,7 +269,7 @@ public class CustomNetworkManager : NetworkManager
 		// }
 		else
 		{
-			PlayerSpawnHandler.SpawnViewer(conn);
+			PlayerSpawn.ServerSpawnViewer(conn);
 		}
 	}
 
