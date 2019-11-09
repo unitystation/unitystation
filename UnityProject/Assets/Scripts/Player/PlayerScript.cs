@@ -119,8 +119,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 			PlayerManager.SetPlayerForControl(gameObject);
 
-			UIManager.LinkUISlots();
-
 			if (IsGhost)
 			{
 				//stop the crit notification and change overlay to ghost mode
@@ -134,6 +132,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 			}
 			else
 			{
+
+				UIManager.LinkUISlots();
 				//play the spawn sound
 				SoundManager.PlayAmbience();
 				//Hide ghosts

@@ -172,7 +172,7 @@ public class InventoryMove
 	/// <returns></returns>
 	public static InventoryMove Throw(ItemSlot fromSlot, Vector2 targetWorldPosition, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
 	{
-		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Drop, aim, targetWorldPosition, spinMode);
+		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Throw, aim, targetWorldPosition, spinMode);
 	}
 }
 

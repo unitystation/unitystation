@@ -293,7 +293,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		if (!isServer)
 		{
 			if (UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return;
-			var heldItem = UIManager.Hands.CurrentSlot.Item;
+			var heldItem = UIManager.Hands.CurrentSlot.ItemObject;
 			if (gameObject != heldItem) return;
 		}
 
@@ -482,32 +482,16 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 			return;
 		}
-		//Add too the cooldown timer to being allowed to shoot again
-		FireCountDown += 1.0 / FireRate;
-		CurrentMagazine.ExpendAmmo();
-		//get the bullet prefab being shot
-		GameObject bullet = Spawn.ClientPrefab(Resources.Load(Projectile.name) as GameObject,
-			shooter.transform.position).GameObject;
-
-		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-		if (isSuicideShot)
-		{
-			b.Suicide(shooter, this, damageZone);
-		}
-		else
-		{
-			b.Shoot(finalDirection, shooter, this, damageZone);
-		}
-
-
-		//add additional recoil after shooting for the next round
-		AppendRecoil();
-
-		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
-		//jerk screen back based on recoil angle and power
+		//TODO: If this is not our gun, simply display the shot, don't run any other logic
 		if (shooter == PlayerManager.LocalPlayer)
 		{
-			//Default recoil params until each gun is configured separately
+			//this is our gun so we need to update our predictions
+			FireCountDown += 1.0 / FireRate;
+			CurrentMagazine.ExpendAmmo();
+			//add additional recoil after shooting for the next round
+			AppendRecoil();
+
+			//Default camera recoil params until each gun is configured separately
 			if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
 			{
 				CameraRecoilConfig = new CameraRecoilConfig
@@ -520,7 +504,21 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 		}
 
+		//display the effects of the shot
 
+		//get the bullet prefab being shot
+		GameObject bullet = Spawn.ClientPrefab(Resources.Load(Projectile.name) as GameObject,
+			shooter.transform.position).GameObject;
+		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+		if (isSuicideShot)
+		{
+			b.Suicide(shooter, this, damageZone);
+		}
+		else
+		{
+			b.Shoot(finalDirection, shooter, this, damageZone);
+		}
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
 		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 

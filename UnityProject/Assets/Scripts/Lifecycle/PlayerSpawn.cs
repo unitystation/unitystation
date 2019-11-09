@@ -36,8 +36,15 @@ public static class PlayerSpawn
 		var oldBody = forMind.GetCurrentMob();
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+		var oldGhost = forMind.ghost;
 
 		ServerSpawnInternal(connection, occupation, settings, forMind);
+
+		if (oldGhost)
+		{
+			Despawn.ServerSingle(oldGhost.gameObject);
+		}
+
 	}
 
 	/// <summary>
@@ -56,7 +63,7 @@ public static class PlayerSpawn
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 
-		ServerSpawnInternal(connection, occupation, settings, forMind);
+		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, true);
 	}
 
 	/// <summary>
@@ -70,21 +77,28 @@ public static class PlayerSpawn
 	/// <param name="characterSettings">settings of the new player character</param>
 	/// <param name="existingMind">existing mind to transfer to the new player, if null new mind will be created
 	/// and assigned to the new player character</param>
+	/// <param name="spawnPos"></param>
 	private static void ServerSpawnInternal(NetworkConnection connection, Occupation occupation, CharacterSettings characterSettings,
-		Mind existingMind)
+		Mind existingMind, Vector3Int? spawnPos = null, bool naked = false)
 	{
 		//determine where to spawn them
-		Transform spawnTransform = GetSpawnForJob(occupation.JobType);
-		if (spawnTransform == null)
+		if (spawnPos == null)
 		{
-			Logger.LogErrorFormat("Unable to determine spawn position for connection {0} occupation {1}. Cannot spawn player.", Category.ItemSpawn,
-				connection.address, occupation.DisplayName);
-			return;
+			Transform spawnTransform = GetSpawnForJob(occupation.JobType);
+			if (spawnTransform == null)
+			{
+				Logger.LogErrorFormat(
+					"Unable to determine spawn position for connection {0} occupation {1}. Cannot spawn player.",
+					Category.ItemSpawn,
+					connection.address, occupation.DisplayName);
+				return;
+			}
+
+			spawnPos = spawnTransform.transform.position.CutToInt();
 		}
 
 		//create the player object
-		var spawnPosition = spawnTransform.transform.position.CutToInt();
-		var newPlayer = ServerCreatePlayer(spawnPosition,
+		var newPlayer = ServerCreatePlayer(spawnPos.GetValueOrDefault(),
 			occupation, characterSettings);
 		var newPlayerScript = newPlayer.GetComponent<PlayerScript>();
 
@@ -131,7 +145,7 @@ public static class PlayerSpawn
 
 		//fire all hooks
 		var info = SpawnInfo.Player(occupation, characterSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
-			spawnPosition);
+			spawnPos, naked: naked);
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
 	}
 
@@ -145,12 +159,18 @@ public static class PlayerSpawn
 	public static void ServerGhostReenterBody(NetworkConnection forConnection, GameObject fromObject, Mind forMind)
 	{
 		var body = forMind.GetCurrentMob();
+		var oldGhost = forMind.ghost;
 		var ps = body.GetComponent<PlayerScript>();
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
 		ServerTransferPlayer(forConnection, body, fromObject, EVENT.PlayerRejoined, settings, occupation);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
+
+		if (oldGhost)
+		{
+			Despawn.ServerSingle(oldGhost.gameObject);
+		}
 	}
 
 
@@ -166,7 +186,7 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(viewer.connectionToClient, body, body, EVENT.PlayerRejoined, settings, occupation);
+		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, EVENT.PlayerRejoined, settings, occupation);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 	}
 
@@ -292,7 +312,7 @@ public static class PlayerSpawn
 		}
 		TriggerEventMessage.Send(newBody, eventType);
 		//can observe their new inventory
-		newBody.GetComponent<ItemStorage>().ServerAddObserverPlayer(newBody);
+		newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);
 
 		var playerScript = newBody.GetComponent<PlayerScript>();
 		if (playerScript.PlayerSync != null)

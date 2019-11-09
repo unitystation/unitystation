@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class HandApply : BodyPartTargetedInteraction
 {
+	private static readonly HandApply Invalid = new HandApply(null, null, null, BodyPartType.None, null);
+
 	private readonly ItemSlot handSlot;
 
 	public ItemSlot HandSlot => handSlot;
@@ -39,6 +41,11 @@ public class HandApply : BodyPartTargetedInteraction
 	/// <returns></returns>
 	public static HandApply ByLocalPlayer(GameObject targetObject)
 	{
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			//hand apply never works when local player
+			return HandApply.Invalid;
+		}
 		return new HandApply(PlayerManager.LocalPlayer,
 			UIManager.Hands.CurrentSlot.ItemObject,
 			targetObject,

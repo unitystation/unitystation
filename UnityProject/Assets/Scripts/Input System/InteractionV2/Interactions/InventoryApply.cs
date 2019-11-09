@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {
+	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, null);
+
 	private ItemSlot handSlot;
 	private ItemSlot targetSlot;
 
@@ -47,6 +49,10 @@ public class InventoryApply : TargetedInteraction
 	/// <returns></returns>
 	public static InventoryApply ByLocalPlayer(ItemSlot targetObjectSlot)
 	{
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return Invalid;
+		}
 		return new InventoryApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
 			targetObjectSlot, UIManager.Hands.CurrentSlot.ItemSlot);
 	}

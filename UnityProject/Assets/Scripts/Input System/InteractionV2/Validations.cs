@@ -73,6 +73,7 @@ public static class Validations
 	/// <returns></returns>
 	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false)
 	{
+		if (player == null) return false;
 		var playerScript = player.GetComponent<PlayerScript>();
 		if (playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
@@ -101,6 +102,7 @@ public static class Validations
 	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null)
 	{
+		if (player == null) return false;
 		var playerScript = player.GetComponent<PlayerScript>();
 		var playerObjBehavior = player.GetComponent<ObjectBehaviour>();
 

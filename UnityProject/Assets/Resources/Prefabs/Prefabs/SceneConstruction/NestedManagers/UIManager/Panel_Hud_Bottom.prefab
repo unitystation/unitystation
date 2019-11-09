@@ -999,12 +999,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 8
-  allowAllItems: 1
-  allowedItemTypes: 
+  namedSlot: 8
   hoverName: right hand
-  image: {fileID: 0}
-  maxItemSize: 4
+  initiallyHidden: 0
 --- !u!114 &8281618038162328647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1776,12 +1773,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 7
-  allowAllItems: 1
-  allowedItemTypes: 
+  namedSlot: 7
   hoverName: left hand
-  image: {fileID: 0}
-  maxItemSize: 4
+  initiallyHidden: 0
 --- !u!114 &8282046623769771551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1976,12 +1970,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 13
-  allowAllItems: 0
-  allowedItemTypes: 03000000
+  namedSlot: 13
   hoverName: neck
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8281099982155351903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2325,12 +2316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 11
-  allowAllItems: 0
-  allowedItemTypes: 08000000
+  namedSlot: 11
   hoverName: gloves
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8282013931426605571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2518,12 +2506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 15
-  allowAllItems: 0
-  allowedItemTypes: 0c0000000d000000
+  namedSlot: 15
   hoverName: id
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 0
 --- !u!114 &8281598406267256839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3799,12 +3784,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 10
-  allowAllItems: 0
-  allowedItemTypes: 0b000000
+  namedSlot: 10
   hoverName: back
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 0
 --- !u!114 &8281714557989333947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4019,12 +4001,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 5
-  allowAllItems: 0
-  allowedItemTypes: 04000000
+  namedSlot: 5
   hoverName: mask
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8278153824545481731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4285,12 +4264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 0
-  allowAllItems: 0
-  allowedItemTypes: 06000000
+  namedSlot: 0
   hoverName: o_clothing
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8281727653073488633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4378,12 +4354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 6
-  allowAllItems: 0
-  allowedItemTypes: 07000000
+  namedSlot: 6
   hoverName: i_clothing
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8282020277741709817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4645,12 +4618,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 12
-  allowAllItems: 0
-  allowedItemTypes: 05000000
+  namedSlot: 12
   hoverName: ears
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8282083071945512055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4805,12 +4775,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 18
-  allowAllItems: 0
-  allowedItemTypes: 00000000
+  namedSlot: 18
   hoverName: suit storage
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 0
 --- !u!114 &8281769724951693843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6867,12 +6834,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 2
-  allowAllItems: 0
-  allowedItemTypes: 02000000
+  namedSlot: 2
   hoverName: head
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8281663299502864331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7033,12 +6997,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 3
-  allowAllItems: 0
-  allowedItemTypes: 09000000
+  namedSlot: 3
   hoverName: shoes
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 0
 --- !u!114 &8277981872350202469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7539,12 +7500,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 17
-  allowAllItems: 1
-  allowedItemTypes: 
+  namedSlot: 17
   hoverName: storage2
-  image: {fileID: 0}
-  maxItemSize: 1
+  initiallyHidden: 0
 --- !u!114 &8282072067080021949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7632,12 +7590,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 16
-  allowAllItems: 1
-  allowedItemTypes: 
+  namedSlot: 16
   hoverName: storage1
-  image: {fileID: 0}
-  maxItemSize: 1
+  initiallyHidden: 0
 --- !u!114 &8281975483754746179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7871,12 +7826,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 9
-  allowAllItems: 0
-  allowedItemTypes: 01000000
+  namedSlot: 9
   hoverName: eyes
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 1
 --- !u!114 &8281567288758422327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8092,12 +8044,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NamedSlot: 1
-  allowAllItems: 0
-  allowedItemTypes: 0a0000000d000000
+  namedSlot: 1
   hoverName: belt
-  image: {fileID: 0}
-  maxItemSize: 0
+  initiallyHidden: 0
 --- !u!114 &8281779622868138873
 MonoBehaviour:
   m_ObjectHideFlags: 0

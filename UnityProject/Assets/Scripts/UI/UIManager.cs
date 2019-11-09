@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
 	public ControlAction actionControl;
 	public DragAndDrop dragAndDrop;
 	public ControlDisplays displayControl;
+	public ControlClothing controlClothing;
 	public DisplayManager displayManager;
 	public Hands hands;
 	public ControlIntent intentControl;
@@ -103,6 +104,7 @@ public class UIManager : MonoBehaviour
 	public static ControlWalkRun WalkRun => Instance.walkRunControl;
 
 	public static ControlDisplays Display => Instance.displayControl;
+	public static ControlClothing ControlClothing => Instance.controlClothing;
 
 	public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
 

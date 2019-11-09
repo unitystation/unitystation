@@ -41,8 +41,12 @@ public class UpdateItemSlotMessage : ServerMessage
 
 			if (previouslyInSlot != null)
 			{
-				//was removed from slot
-				pickupable._SetItemSlot(null);
+				if (pickupable != null)
+				{
+					//was removed from slot
+					pickupable._SetItemSlot(null);
+				}
+
 				var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
 				var hooks = previouslyInSlot.GetComponents<IClientInventoryMove>();
 				foreach (var hook in hooks)

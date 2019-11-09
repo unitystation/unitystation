@@ -354,7 +354,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 			}
 		}
 		//ensure we are in sync with server
-		playerScript.PlayerSync.RollbackPrediction();
+		playerScript?.PlayerSync?.RollbackPrediction();
 	}
 
 	[Server]

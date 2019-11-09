@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Populator which only works when being used to spawn a player.
+/// Populator which only works when being used to spawn a player (when not spawning naked).
 /// Populates the starting inventory of the player based on their occupation - uses the populator
 /// defined in that Occupation, then the standard loadout
 /// </summary>
@@ -17,6 +17,7 @@ public class AutoOccupationStoragePopulator : ItemStoragePopulator
 	{
 		var occupation = PopulatorUtils.TryGetOccupation(context);
 		if (occupation == null) return;
+		if (context.SpawnInfo.Naked) return;
 
 		Logger.LogTraceFormat("Populating item storage using configured populator for occupation {0}",
 			Category.Inventory, occupation.JobType);

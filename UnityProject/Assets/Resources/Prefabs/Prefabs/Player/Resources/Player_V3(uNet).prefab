@@ -1080,7 +1080,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
@@ -1296,11 +1296,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemStorageStructure: {fileID: 11400000, guid: 480930b0b1e554bbc889b5c68bf4cfb2,
+  itemStorageStructure: {fileID: 11400000, guid: 480930b0b1e554bbc889b5c68bf4cfb2,
     type: 2}
-  ItemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
     type: 2}
-  ItemStoragePopulator: {fileID: 11400000, guid: 4c48a40375c1b43718c78eee5582051a,
+  itemStoragePopulator: {fileID: 11400000, guid: 4c48a40375c1b43718c78eee5582051a,
     type: 2}
 --- !u!1 &1147423205297840
 GameObject:

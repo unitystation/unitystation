@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class PositionalHandApply : TargetedInteraction
 {
+	private static readonly PositionalHandApply Invalid = new PositionalHandApply(null, null, null, Vector2.zero, null);
+
 	private readonly ItemSlot handSlot;
 
 	public ItemSlot HandSlot => handSlot;
@@ -54,6 +56,10 @@ public class PositionalHandApply : TargetedInteraction
 	/// <returns></returns>
 	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? targetVector = null)
 	{
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return Invalid;
+		}
 		var targetVec = targetVector ?? Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
 		                PlayerManager.LocalPlayer.transform.position;
 		return new PositionalHandApply(PlayerManager.LocalPlayer,

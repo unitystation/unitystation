@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class HandActivate : Interaction
 {
+	private static readonly HandActivate Invalid = new HandActivate(null, null, null);
+
 	private readonly ItemSlot handSlot;
 
 	/// <summary>
@@ -31,6 +33,11 @@ public class HandActivate : Interaction
 	/// <returns></returns>
 	public static HandActivate ByLocalPlayer()
 	{
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			//hand apply never works when local player
+			return HandActivate.Invalid;
+		}
 		return new HandActivate(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
 			UIManager.Hands.CurrentSlot.ItemSlot);
 	}

@@ -27,6 +27,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	[SerializeField]
 	private string hoverName;
 
+	[Tooltip("Whether this slot is initially visible in the UI.")]
+	[SerializeField]
+	private bool initiallyHidden;
+
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
 	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributes>().itemName;
@@ -55,9 +59,12 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	/// </summary>
 	public Image Image => image;
 
+	private bool hidden;
 	private ItemSlot itemSlot;
 	private Image image;
 	private Image secondaryImage;
+	private Sprite sprite;
+	private Sprite secondarySprite;
 
 	private void Awake() {
 
@@ -67,6 +74,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		secondaryImage.enabled = false;
 		image.alphaHitTestMinimumThreshold = 0.5f;
 		image.enabled = false;
+		hidden = initiallyHidden;
 	}
 
 	private void OnEnable()
@@ -82,6 +90,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	//Reset Item slot sprite on game restart
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
+		sprite = null;
 		image.sprite = null;
 		image.enabled = false;
 	}
@@ -145,7 +154,9 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	}
 
 	/// <summary>
-	/// Update the image displayed in this slot to display the sprite of the specified item
+	/// Update the image that should be displayed in this slot to display the sprite of the specified item.
+	///
+	/// If hidden, effect will not be visible until this slot is unhidden
 	///
 	/// </summary>
 	/// <param name="item">game object to use to determine what to show in this slot</param>
@@ -162,12 +173,15 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 
 		if (!nullItem)
 		{
+			//determine the sprites to display based on the new item
 			var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
 			if (image == null)
 			{
 				image = GetComponent<Image>();
 			}
-			image.sprite = spriteRends[0].sprite;
+
+			sprite = spriteRends[0].sprite;
+			image.sprite = sprite;
 			image.color = spriteRends[0].color;
 			if (spriteRends.Length > 1)
 			{
@@ -180,6 +194,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 		else
 		{
+			//no object was passed, so clear out the sprites
 			Clear();
 		}
 
@@ -188,8 +203,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			image.color = color.GetValueOrDefault(Color.white);
 		}
 
-		image.enabled = !nullItem;
-		image.preserveAspect = !nullItem;
+		image.enabled = !nullItem && !hidden;
+		image.preserveAspect = !nullItem && !hidden;
 
 		if (secondaryImage)
 		{
@@ -198,17 +213,18 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 				secondaryImage.color = color.GetValueOrDefault(Color.white);
 			}
 
-			secondaryImage.enabled = secondaryImage.sprite != null && !nullItem;
-			secondaryImage.preserveAspect = !nullItem;
+			secondaryImage.enabled = secondaryImage.sprite != null && !nullItem && !hidden;
+			secondaryImage.preserveAspect = !nullItem && !hidden;
 		}
 	}
 
 	public void SetSecondaryImage(Sprite sprite)
 	{
-		if (sprite != null)
+		secondarySprite = sprite;
+		if (secondarySprite != null)
 		{
-			secondaryImage.sprite = sprite;
-			secondaryImage.enabled = true;
+			secondaryImage.sprite = secondarySprite;
+			secondaryImage.enabled = !hidden;
 			secondaryImage.preserveAspect = true;
 		}
 		else
@@ -219,7 +235,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	}
 
 	/// <summary>
-	/// Clears the displayed image. Unlike blank, actually nulls out the sprite reference.
+	/// Clears the displayed image.
 	/// </summary>
 	public void Clear()
 	{
@@ -229,45 +245,21 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			return;
 		}
 
+		sprite = null;
 		image.enabled = false;
 		secondaryImage.enabled = false;
 		ControlTabs.CheckTabClose();
 		image.sprite = null;
+		secondarySprite = null;
 		secondaryImage.sprite = null;
 	}
 
-/*
-	/// <summary>
-	///     Clientside check for dropping/placing objects from inventory slot
-	/// </summary>
-	public bool CanPlaceItem()
-	{
-		return IsFull && UIManager.SendUpdateAllowed(Item);
-	}
- */
-	/// <summary>
-	///     clientside simulation of placement
-	/// </summary>
-	/// TODO: Is this still needed?
-//	public bool PlaceItem(Vector3 pos)
-//	{
-//		var item = Clear();
-//		if (!item)
-//		{
-//			return false;
-//		}
-//		var itemTransform = item.GetComponent<CustomNetTransform>();
-//		itemTransform.AppearAtPosition(pos);
-//		var itemAttributes = item.GetComponent<ItemAttributes>();
-//		Logger.LogTraceFormat("Placing item {0}/{1} from {2} to {3}", Category.UI, item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
-//		ControlTabs.CheckTabClose();
-//		return true;
-//	}
-
 	public void Reset()
 	{
+		sprite = null;
 		image.sprite = null;
 		image.enabled = false;
+		secondarySprite = null;
 		secondaryImage.sprite = null;
 		secondaryImage.enabled = false;
 		ControlTabs.CheckTabClose();
@@ -373,5 +365,25 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	void DebugItem()
 	{
 		Logger.Log(itemSlot.ToString(), Category.Inventory);
+	}
+
+	/// <summary>
+	/// Sets whether this should be shown / hidden (but the set sprites will still be remembered when it is unhidden)
+	/// </summary>
+	/// <param name="hidden"></param>
+	/// <exception cref="NotImplementedException"></exception>
+	public void SetHidden(bool hidden)
+	{
+		this.hidden = hidden;
+		image.sprite = sprite;
+		image.enabled = sprite != null && !hidden;
+		image.preserveAspect = sprite != null && !hidden;
+
+		if (secondaryImage)
+		{
+			secondaryImage.sprite = secondarySprite;
+			secondaryImage.enabled = secondarySprite != null && !hidden;
+			secondaryImage.preserveAspect = secondarySprite != null && !hidden;
+		}
 	}
 }

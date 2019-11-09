@@ -287,7 +287,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
-			RpcDestroy();
 		}
 	}
 
@@ -318,7 +317,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.mind.StopGhosting();
 		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
-		RpcDestroy();
 	}
 
 	/// <summary>
@@ -330,17 +328,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//no more input can be sent to the body.
 		GetComponent<MouseInputController>().enabled = false;
-	}
-
-	/// <summary>
-	/// Invoked after our respawn is going to be performed by the server. Destroys the ghost.
-	/// Note this will be invoked on all clients.
-	/// </summary>
-	[ClientRpc]
-	private void RpcDestroy()
-	{
-		//this ghost is not needed anymore
-		Destroy(gameObject);
 	}
 
 	//FOOD

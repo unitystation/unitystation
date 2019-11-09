@@ -86,10 +86,15 @@ public class SpawnInfo
 	/// <returns></returns>
 	public readonly CharacterSettings CharacterSettings;
 
+	/// <summary>
+	/// If SpawnType.Player, whether character should be spawned naked or populated with their default loadout.
+	/// </summary>
+	public readonly bool Naked;
+
 	private SpawnInfo(SpawnableType spawnableType, SpawnType spawnType, GameObject prefab, BaseClothData clothData,
 		ClothingVariantType clothingVariantType, int clothingVariantIndex, Vector3 worldPosition, Transform parent,
 		Quaternion rotation, float? scatterRadius, int count, Occupation occupation, GameObject clonedFrom = null,
-		CharacterSettings characterSettings = null)
+		CharacterSettings characterSettings = null, bool naked = false)
 	{
 		SpawnableType = spawnableType;
 		SpawnType = spawnType;
@@ -105,6 +110,7 @@ public class SpawnInfo
 		Occupation = occupation;
 		ClonedFrom = clonedFrom;
 		CharacterSettings = characterSettings;
+		Naked = naked;
 	}
 
 	/// <summary>
@@ -118,16 +124,15 @@ public class SpawnInfo
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
 	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
 	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <param name="count">number of instances to spawn, defaults to 1</param>
-	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
-	/// null (no scatter).</param>
+	/// <param name="named">whether player should spawn naked or with their default loadout</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
-	public static SpawnInfo Player(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
+	public static SpawnInfo Player(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null,
+		bool naked = false)
 	{
 		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Player, playerPrefab, null, ClothingVariantType.Default, -1,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
-			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings);
+			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings, naked: naked);
 	}
 
 	/// <summary>
