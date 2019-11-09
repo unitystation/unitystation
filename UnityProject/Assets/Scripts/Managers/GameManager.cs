@@ -158,6 +158,8 @@ public partial class GameManager : MonoBehaviour
 
 	public void SyncTime(string currentTime)
 	{
+		if (string.IsNullOrEmpty(currentTime)) return;
+		
 		if (!CustomNetworkManager.Instance._isServer)
 		{
 			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
