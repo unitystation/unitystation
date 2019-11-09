@@ -60,7 +60,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	/// <param name="recipient">The player to be synced.</param>
 	[Server]
-	public void ReenterBodyUpdates(GameObject recipient)
+	public void ReenterBodyUpdates()
 	{
 		UpdateInventorySlots();
 	}
@@ -506,8 +506,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<LivingHealthBehaviour>()
-			.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute, BodyPartType.Chest);
+		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
 	}
 
 	//Respawn action for Deathmatch v 0.1.3
@@ -551,10 +550,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEnterBody()
 	{
+		PlayerScript body = playerScript.mind.body;
+		if ( !playerScript.IsGhost || !body.playerHealth.IsDead )
+		{
+			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
+			return;
+		}
+		if ( body.WorldPos == TransformState.HiddenPos )
+		{
+			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
+			return;
+		}
 		playerScript.mind.StopGhosting();
-		var body = playerScript.mind.body.gameObject;
-		SpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
-		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
+		SpawnHandler.TransferPlayer(connectionToClient, body.gameObject, gameObject, EVENT.PlayerSpawned, null);
+		body.playerNetworkActions.ReenterBodyUpdates();
 		RpcAfterRespawn();
 	}
 
@@ -634,8 +643,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			//is the welder on?
 			if (w.isOn)
-			{
-				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
+			{ //fixme: ExplodeWhenShot is removed for good
+//				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
 			}
 			else
 			{
@@ -817,7 +826,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAdminSmash(GameObject toSmash)
 	{
-		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+		if ( toSmash == null )
+		{
+			return;
+		}
+
+		var integrity = toSmash.GetComponent<Integrity>();
+		if ( integrity == null )
+		{
+			return;
+		}
+		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
 	//simulates despawning and immediately respawning this object, expectation

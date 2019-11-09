@@ -33,6 +33,8 @@
 		private void Awake()
 		{
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+			//Doors/airlocks aren't supposed to switch matrices
+			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -44,7 +46,7 @@
 	            SubsystemManager.UpdateAt(LocalPositionServer);
 	        }
 	        //spawn some metal for the door
-	        ObjectFactory.SpawnMetal(2, WorldPosition.To2Int(), parent: transform.parent);
+	        ObjectFactory.SpawnMetal(2, WorldPosition, parent: transform.parent);
 		}
 
 

@@ -24,6 +24,8 @@ public partial class PlayerSync
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
 	public Vector3Int ServerLocalPosition => serverState.Position.RoundToInt();
 
+	public Vector3Int LastNonHiddenPosition => serverState.LastNonHiddenPosition.RoundToInt();
+
 	/// Current server state. Integer positions.
 	private PlayerState serverState;
 
@@ -77,8 +79,8 @@ public partial class PlayerSync
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => registerPlayer.IsSlippingServer
-	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
+	public bool IsNonStickyServer => registerPlayer.IsSlippingServer && MatrixManager.IsNoGravityAt(serverState.WorldPosition.RoundToInt(), true)
+	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(serverState.WorldPosition.RoundToInt(), true);
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
 
@@ -115,7 +117,7 @@ public partial class PlayerSync
 			Logger.LogTraceFormat( "{0}: InitServerState for {1} found matrix {2} resulting in\n{3}", Category.Movement,
 				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state );
 			serverLerpState = state;
-			serverState = state;
+			ServerState = state;
 	}
 
 	private PlayerAction lastAddedAction = PlayerAction.None;
@@ -205,7 +207,7 @@ public partial class PlayerSync
 			Speed = !float.IsNaN( speed ) && speed > 0 ? speed : PushPull.DEFAULT_PUSH_SPEED
 		};
 		serverLastDirection = direction;
-		serverState = newState;
+		ServerState = newState;
 		SyncMatrix();
 		OnStartMove().Invoke( origin, pushGoal );
 		NotifyPlayers();
@@ -232,7 +234,7 @@ public partial class PlayerSync
 			Speed = SpeedServer
 		};
 		serverLerpState = newState;
-		serverState = newState;
+		ServerState = newState;
 		SyncMatrix();
 		NotifyPlayers(noLerp);
 		registerPlayer.UpdatePositionServer();
@@ -368,7 +370,7 @@ public partial class PlayerSync
 		var newPos = nextState.WorldPosition;
 		var oldPos = serverState.WorldPosition;
 		serverLastDirection = Vector2Int.RoundToInt(newPos - oldPos);
-		serverState = nextState;
+		ServerState = nextState;
 		//In case positions already match
 		TryNotifyPlayers();
 		if ( serverLastDirection != Vector2.zero ) {
@@ -582,7 +584,7 @@ public partial class PlayerSync
 		if ( IsNonStickyServer )
 		{
 			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
-			{
+			{ //fixme: serverLastDirection is unreliable. maybe rethink notion of impulse
 				//server initiated space dive.
 				serverState.Impulse = serverLastDirection;
 				serverState.ImportantFlightUpdate = true;
@@ -655,9 +657,8 @@ public partial class PlayerSync
 	}
 
 	/// <summary>
-	/// Send current position of space floating player to clients every second in case their reproduction is wrog
+	/// Send current position of space floating player to clients every second in case their reproduction is wrong
 	/// </summary>
-	/// <returns></returns>
 	private IEnumerator FloatingAwarenessSync()
 	{
 		yield return WaitFor.Seconds(1);

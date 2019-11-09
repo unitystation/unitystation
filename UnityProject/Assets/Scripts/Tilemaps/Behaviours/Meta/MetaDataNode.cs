@@ -41,7 +41,18 @@ public class MetaDataNode: IGasMixContainer
 	/// <summary>
 	/// Current damage inflicted on this tile.
 	/// </summary>
-	public float Damage;
+	public float Damage
+	{
+		get => damage;
+		set
+		{
+			previousDamage = damage;
+			damage = value;
+		}
+	}
+
+	private float damage;
+	private float previousDamage;
 
 	public Vector2Int 	WindDirection 	= Vector2Int.zero;
 	public float		WindForce 		= 0;
@@ -171,9 +182,12 @@ public class MetaDataNode: IGasMixContainer
 	public string WindowDmgType { get; set; } = "";
 
 
-	public void ResetDamage()
+	/// <returns>Damage before reset</returns>
+	public float ResetDamage()
 	{
 		Damage = 0;
+		IsScorched = false;
+		return previousDamage;
 	}
 
 	public override string ToString()

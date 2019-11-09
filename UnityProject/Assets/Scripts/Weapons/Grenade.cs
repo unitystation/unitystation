@@ -152,7 +152,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IOnStageCl
 			PlaySoundAndShake();
 			CreateShape();
 			CalcAndApplyExplosionDamage(damagedBy);
-			objectBehaviour.VisibleState = false; //todo: should probably destroy such things (or return into pool) instead of hiding
+			PoolManager.PoolNetworkDestroy( gameObject );
 		}
 	}
 

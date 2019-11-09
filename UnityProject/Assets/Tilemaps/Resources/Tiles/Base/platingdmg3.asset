@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: platingdmg3
   m_EditorClassIdentifier: 
-  LayerType: 3
-  TileType: 3
+  LayerType: 4
+  TileType: 7
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
   AtmosPassable: 1
   IsSealed: 1
   Passable: 1
+  Mineable: 0
   PassableException:
     m_keys: 01000000
     m_values: 00

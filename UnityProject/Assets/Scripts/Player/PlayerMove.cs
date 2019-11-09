@@ -142,8 +142,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 				}
 				else
 				{
-					var LHB = GetComponent<LivingHealthBehaviour>();
-					if(LHB.IsDead)
+					if(PlayerScript.playerHealth.IsDead)
 					{
 						pna.CmdSpawnPlayerGhost();
 					}

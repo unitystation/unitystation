@@ -53,6 +53,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 	}
 	private Matrix matrix;
+	public bool MatrixIsMovable => Matrix && Matrix.MatrixMove;
 
 	public uint ParentNetId
 	{
@@ -150,7 +151,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		layer?.ServerObjects.Remove(LocalPositionServer, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
 		Matrix = parent.GetComponentInChildren<Matrix>();
-		transform.parent = layer.transform;
+		transform.SetParent( layer.transform, true );
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
 		if (LocalPositionClient != TransformState.HiddenPos)
 		{

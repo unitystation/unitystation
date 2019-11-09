@@ -66,8 +66,14 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	{
 		if (wireConnect.RelatedLine != null)
 		{
-			foreach (var CB in wireConnect.RelatedLine.Covering)
+			foreach ( var CB in wireConnect.RelatedLine.Covering )
+			{
+				if ( CB == null )
+				{
+					return;
+				}
 				CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+			}
 		}
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		SelfDestruct = true;
@@ -99,7 +105,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		if (SelfDestruct) {
 			wireConnect.registerTile.UnregisterClient();
 			wireConnect.registerTile.UnregisterServer();
-			PoolManager.PoolNetworkDestroy(gameObject);
+
+			if ( this != null )
+			{
+				PoolManager.PoolNetworkDestroy(gameObject);
+			}
 		}
 
 	}
@@ -146,7 +156,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 				}
 				Smoke.Stop();
 			}
-			Sparks.Stop();
+
+			if ( Sparks )
+			{
+				Sparks.Stop();
+			}
 		}
 	}
 

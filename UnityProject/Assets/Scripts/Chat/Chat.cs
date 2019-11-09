@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text;
+using Tilemaps.Behaviours.Meta;
 
 /// <summary>
 /// The Chat API
@@ -317,16 +319,101 @@ public partial class Chat : MonoBehaviour
 			});
 		}
 
-		/// <summary>
-		/// For any other local messages that are not an Action or a Combat Action.
-		/// I.E for machines
-		/// Server side only
-		/// </summary>
-		/// <param name="message">The message to show in the chat stream</param>
-		/// <param name="worldPos">The position of the local message</param>
-		public static void AddLocalMsgToChat(string message, Vector2 worldPos)
+		#region Destroy Message
+
+		private static Dictionary<string, UniqueQueue<DestroyChatMessage>> messageQueueDict = new Dictionary<string, UniqueQueue<DestroyChatMessage>>();
+		private static Coroutine composeMessageHandle;
+		private static StringBuilder stringBuilder = new StringBuilder();
+		private struct DestroyChatMessage
 		{
-			if (!IsServer()) return;
+			public string Message;
+			public Vector2Int WorldPosition;
+		}
+
+		/// <summary>
+		/// Allows grouping destruction messages into one if they happen in short period of time.
+		/// Average position is calculated in that case.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="postfix">Common, amount agnostic postfix</param>
+		/// <param name="worldPos"></param>
+		public static void AddLocalDestroyMsgToChat( string message, string postfix, Vector2Int worldPos )
+		{
+			if ( !messageQueueDict.ContainsKey( postfix ) )
+			{
+				messageQueueDict.Add( postfix, new UniqueQueue<DestroyChatMessage>() );
+			}
+
+			messageQueueDict[postfix].Enqueue( new DestroyChatMessage{Message = message, WorldPosition = worldPos} );
+
+			if ( composeMessageHandle == null )
+			{
+				Instance.StartCoroutine( Instance.ComposeDestroyMessage(), ref composeMessageHandle );
+			}
+		}
+
+
+
+		private IEnumerator ComposeDestroyMessage()
+		{
+			yield return WaitFor.Seconds( 0.3f );
+
+			foreach ( var postfix in messageQueueDict.Keys )
+			{
+				var messageQueue = messageQueueDict[postfix];
+
+				if ( messageQueue.IsEmpty )
+				{
+					Instance.TryStopCoroutine( ref composeMessageHandle );
+					continue;
+				}
+
+				//Normal separate messages with precise location
+				if ( messageQueue.Count <= 3 )
+				{
+					while ( messageQueue.TryDequeue( out var msg ) )
+					{
+						AddLocalMsgToChat( msg.Message + postfix, msg.WorldPosition );
+					}
+					continue;
+				}
+
+				//Combined message at average position
+				stringBuilder.Clear();
+
+				int averageX = 0;
+				int averageY = 0;
+				int count = 1;
+
+				while ( messageQueue.TryDequeue( out DestroyChatMessage msg ) )
+				{
+					if ( count > 1 )
+					{
+						stringBuilder.Append( ", " );
+					}
+					stringBuilder.Append( msg.Message );
+					averageX += msg.WorldPosition.x;
+					averageY += msg.WorldPosition.y;
+					count++;
+				}
+
+				AddLocalMsgToChat( stringBuilder.Append( postfix ).ToString(), new Vector2Int(averageX/count,averageY/count) );
+			}
+		}
+
+		#endregion
+
+	/// <summary>
+	/// For any other local messages that are not an Action or a Combat Action.
+	/// I.E for machines
+	/// Server side only
+	/// </summary>
+	/// <param name="message">The message to show in the chat stream</param>
+	/// <param name="worldPos">The position of the local message</param>
+	public static void AddLocalMsgToChat(string message, Vector2 worldPos)
+	{
+		if (!IsServer()) return;
+		Instance.TryStopCoroutine( ref composeMessageHandle );
 
 			Instance.addChatLogServer.Invoke(new ChatEvent
 			{

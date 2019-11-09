@@ -80,14 +80,10 @@ public class SpriteMatrixRotation : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (registerTile.Matrix != null)
+		if (registerTile.MatrixIsMovable)
 		{
-			var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
-			if (move != null)
-			{
-				move.OnRotateStart.RemoveListener(OnMatrixRotationStart);
-				move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-			}
+			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
+			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
 		}
 	}
 
@@ -96,24 +92,19 @@ public class SpriteMatrixRotation : MonoBehaviour
 	{
 		//add our listeners
 		//unsub from old matrix
-		if (registerTile.Matrix != null)
+		if (registerTile.MatrixIsMovable)
 		{
-			var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
-			if (move != null)
-			{
-				move.OnRotateStart.RemoveListener(OnMatrixRotationStart);
-				move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-			}
+			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
+			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
 		}
 
 		//sub to new matrix
 		if (newMatrix != null)
 		{
-			var newMove = newMatrix.GetComponentInParent<MatrixMove>();
-			if (newMove != null)
+			if (newMatrix.MatrixMove != null)
 			{
-				newMove.OnRotateStart.AddListener(OnMatrixRotationStart);
-				newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
+				newMatrix.MatrixMove.OnRotateStart.AddListener(OnMatrixRotationStart);
+				newMatrix.MatrixMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
 			}
 			//changed matrices, so we have to re-orient as well (esp if this is the first matrix we subscribed to)
 			SetSpritesUpright();

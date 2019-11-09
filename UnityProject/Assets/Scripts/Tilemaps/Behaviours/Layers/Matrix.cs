@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Light2D;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -24,11 +26,57 @@ public class Matrix : MonoBehaviour
 	public MetaDataLayer MetaDataLayer => metaDataLayer;
 	private MetaDataLayer metaDataLayer;
 
+	public MatrixMove MatrixMove { get; private set; }
+
+	public Color Color => colors.Wrap( Id ).WithAlpha( 0.7f );
+
+	/// <summary>
+	/// Invoked when some serious collision/explosion happens.
+	/// Should make people fall and shake items a bit
+	/// </summary>
+	public EarthquakeEvent OnEarthquake = new EarthquakeEvent();
+
 	private void Awake()
 	{
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
+		MatrixMove = GetComponentInParent<MatrixMove>();
+
+
+		OnEarthquake.AddListener( ( worldPos, magnitude ) =>
+		{
+			var cellPos = metaTileMap.WorldToCell( worldPos );
+
+			var bounds =
+				new BoundsInt(cellPos - new Vector3Int(magnitude, magnitude, 0), new Vector3Int(magnitude*2, magnitude*2, 1));
+
+			foreach ( var pos in bounds.allPositionsWithin )
+			{
+				foreach ( var player in Get<PlayerScript>(pos, true) )
+				{
+					if ( player.IsGhost )
+					{
+						continue;
+					}
+					player.registerTile.Slip(true);
+				}
+				//maybe shake items somehow, too
+			}
+		} );
+	}
+
+	public void CompressAllBounds()
+	{
+		foreach ( var tilemap in GetComponentsInChildren<Tilemap>() )
+		{
+			tilemap.CompressBounds();
+		}
+
+		foreach ( var layer in MetaTileMap.LayersValues )
+		{
+			layer.RecalculateBounds();
+		}
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)
@@ -54,6 +102,11 @@ public class Matrix : MonoBehaviour
 	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null)
 	{
 		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
+	}
+
+	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.IsAtmosPassableAt(position, isServer);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position, bool isServer)
@@ -220,4 +273,35 @@ public class Matrix : MonoBehaviour
 			return null;
 		}
 	}
+
+	//Visual debug
+	private static Color[] colors = new []{
+		DebugTools.HexToColor( "a6caf0" ), //winterblue
+		DebugTools.HexToColor( "e3949e" ), //brick
+		DebugTools.HexToColor( "a8e4a0" ), //cyanish
+		DebugTools.HexToColor( "ffff99" ), //canary yellow
+		DebugTools.HexToColor( "cbbac5" ), //purplish
+		DebugTools.HexToColor( "ffcfab" ), //peach
+		DebugTools.HexToColor( "ccccff" ), //bluish
+		DebugTools.HexToColor( "caf28d" ), //avocado
+		DebugTools.HexToColor( "ffb28b" ), //pinkorange
+		DebugTools.HexToColor( "98ff98" ), //mintygreen
+		DebugTools.HexToColor( "fcdd76" ), //sand
+		DebugTools.HexToColor( "afc797" ), //swamp green
+		DebugTools.HexToColor( "ffca86" ), //orange
+		DebugTools.HexToColor( "b0e0e6" ), //blue-cyanish
+		DebugTools.HexToColor( "d1ba73" ), //khaki
+		DebugTools.HexToColor( "c7fcec" ), //also greenish
+		DebugTools.HexToColor( "cdb891" ), //brownish
+	};
+#if UNITY_EDITOR
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color;
+		BoundsInt bounds = MetaTileMap.GetWorldBounds();
+		DebugGizmoUtils.DrawText( gameObject.name, bounds.max, 11, 5 );
+		DebugGizmoUtils.DrawRect( bounds );
+	}
+#endif
 }
+public class EarthquakeEvent : UnityEvent<Vector3Int, byte> { }

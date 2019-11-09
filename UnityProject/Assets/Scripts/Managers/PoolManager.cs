@@ -85,7 +85,12 @@ public class PoolManager : NetworkBehaviour
 		}
 		bool isPooled;
 
-		GameObject tempObject = Instance.PoolInstantiate(prefab, position ?? TransformState.HiddenPos, rotation ?? Quaternion.identity, parent, out isPooled);
+		GameObject tempObject = Instance.PoolInstantiate(
+			prefab,
+			position ?? TransformState.HiddenPos,
+			rotation ?? Quaternion.identity,
+			parent ?? MatrixManager.GetDefaultParent(position, true),
+			out isPooled);
 
 		if (!isPooled)
 		{
@@ -198,24 +203,31 @@ public class PoolManager : NetworkBehaviour
 
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
 		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		var objBehavior = target.GetComponent<ObjectBehaviour>();
-		var cnt = target.GetComponent<CustomNetTransform>();
-		if (cnt)
+
+		//CNT or PlayerSync
+		var transform = target.GetComponent<IPushable>();
+		if (transform is CustomNetTransform cnt)
 		{
 			cnt.FireGoingOffStageHooks();
 		}
 		else
 		{
+			var pushPull = target.GetComponent<PushPull>();
 			Logger.LogWarningFormat("Attempting to network destroy object {0} at {1} but this object" +
 			                        " has no CustomNetTransform. Lifecycle hooks will be bypassed. This is" +
 			                        " most likely a mistake as any objects which sync over the network" +
-			                        " should have a CNT.", Category.ItemSpawn, target.name, objBehavior.AssumedWorldPositionServer());
+			                        " should have a CNT.", Category.ItemSpawn, target.name, pushPull != null ? pushPull.AssumedWorldPositionServer() : target.transform.position);
 		}
-		if (poolPrefabTracker != null && objBehavior != null)
+
+		if ( transform != null )
+		{
+			transform.VisibleState = false;
+		}
+
+		if (poolPrefabTracker != null)
 		{
 			//pooled
 			Instance.AddToPool(target);
-			objBehavior.VisibleState = false;
 		}
 		else
 		{
@@ -343,7 +355,6 @@ public class PoolManager : NetworkBehaviour
 
 			//this simulates coming back out of the pool
 			target.SetActive(true);
-			objBehavior.VisibleState = true;
 
 			target.transform.position = worldPos;
 			if (cnt)
@@ -468,11 +479,6 @@ public class PoolManager : NetworkBehaviour
 			pools[prefab].RemoveAt(index);
 			tempObject.SetActive(true);
 
-			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
-			if (objBehaviour)
-			{
-				objBehaviour.VisibleState = !hide;
-			}
 			tempObject.transform.position = pos;
 			tempObject.transform.rotation = rotation;
 			tempObject.transform.localScale = prefab.transform.localScale;
@@ -481,7 +487,7 @@ public class PoolManager : NetworkBehaviour
 			if ( cnt )
 			{
 				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+				cnt.NotifyPlayers();
 			}
 
 			pooledInstance = true;

@@ -42,6 +42,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
 
+	public Equipment Equipment { get; private set; }
+
 	public RegisterPlayer registerTile { get; set; }
 
 	public MouseInputController mouseInputController { get; set; }
@@ -96,6 +98,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		hitIcon = GetComponentInChildren<HitIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
+		Equipment = GetComponent<Equipment>();
 	}
 
 	public void Init()

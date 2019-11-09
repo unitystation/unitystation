@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEditor;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -79,6 +80,31 @@ public class PlayerHealth : LivingHealthBehaviour
 				comp.enabled = false;
 			}
 		}
+	}
+
+	protected override void Gib()
+	{
+		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
+		//drop clothes, gib... but don't destroy actual player, a piece should remain
+
+		//? experimental
+		playerNetworkActions.DropAll();
+
+		if (!playerMove.PlayerScript.IsGhost)
+		{ //dirty way to follow gibs. change this when implementing proper gibbing, perhaps make it follow brain
+			var gibsToFollow = MatrixManager.GetAt<RawMeat>( transform.position.CutToInt(), true );
+			if ( gibsToFollow.Count > 0 )
+			{
+				var gibs = gibsToFollow[0];
+				FollowCameraMessage.Send(gameObject, gibs.gameObject);
+				var gibsIntegrity = gibs.GetComponent<Integrity>();
+				if ( gibsIntegrity != null )
+				{	//Stop cam following gibs if they are destroyed
+					gibsIntegrity.OnWillDestroyServer.AddListener( x => FollowCameraMessage.Send( gameObject, null ) );
+				}
+			}
+		}
+		playerMove.PlayerScript.pushPull.VisibleState = false;
 	}
 
 	///     make player unconscious upon crit

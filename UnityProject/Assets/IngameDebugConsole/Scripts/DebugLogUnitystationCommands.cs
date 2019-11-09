@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using PathFinding;
 using UnityEngine;
 using Mirror;
+using UnityEditor;
+using Random = UnityEngine.Random;
 
 namespace IngameDebugConsole
 {
 	/// <summary>
 	/// Contains all the custom defined commands for the IngameDebugLogger
 	/// </summary>
-	public class DebugLogUnitystationCommands
+	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
 		[ConsoleMethod("suicide", "kill yo' self")]
 		public static void RunSuicide()
@@ -54,6 +57,9 @@ namespace IngameDebugConsole
 			HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
 		}
 
+#if UNITY_EDITOR
+		[MenuItem("Networking/Restart round")]
+#endif
 		[ConsoleMethod("restart-round", "restarts the round. Server only cmd.")]
 		public static void RunRestartRound()
 		{
@@ -120,7 +126,214 @@ namespace IngameDebugConsole
 
 			Logger.SetLogLevel(category, logLevel);
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Push everyone up")]
+#endif
+		private static void PushEveryoneUp()
+		{
+			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+			{
+				player.GameObject.GetComponent<PlayerScript>().PlayerSync.Push(Vector2Int.up);
+			}
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spawn some meat")]
+#endif
+		private static void SpawnMeat()
+		{
+			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
+				Vector3 playerPos = player.Script.WorldPos;
+				Vector3 spawnPos = playerPos + new Vector3( 0, 2, 0 );
+				GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
+				var slabs = new List<CustomNetTransform>();
+				for ( int i = 0; i < 5; i++ ) {
+					slabs.Add( PoolManager.PoolNetworkInstantiate(mealPrefab, spawnPos).GetComponent<CustomNetTransform>() );
+				}
+				for ( var i = 0; i < slabs.Count; i++ ) {
+					Vector3 vector3 = i%2 == 0 ? new Vector3(i,-i,0) : new Vector3(-i,i,0);
+					slabs[i].ForceDrop( spawnPos + vector3/10 );
+				}
+			}
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Print player positions")]
+#endif
+		private static void PrintPlayerPositions()
+		{
+			//For every player in the connected player list (this list is serverside-only)
+			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
+				//Printing this the pretty way, example:
+				//Bob (CAPTAIN) is located at (77,0, 52,0, 0,0)
+				Logger.LogFormat( "{0} ({1)} is located at {2}.", Category.Server, player.Name, player.Job, player.Script.WorldPos );
+			}
 
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spawn dummy player")]
+#endif
+		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
+		private static void SpawnDummyPlayer() {
+			SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Transform Waltz (Server)")]
+		private static void MoveAll()
+		{
+			CustomNetworkManager.Instance.MoveAll();
+		}
+#endif
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Gib All (Server)")]
+#endif
+		[ConsoleMethod("gib-all", "Gib All (Server)")]
+		private static void GibAll()
+		{
+			GibMessage.Send();
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Reset round time")]
+#endif
+		[ConsoleMethod("reset-time", "Reset round time")]
+		private static void ExtendRoundTime()
+		{
+			GameManager.Instance.ResetRoundTime();
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Kill local player (Server only)")]
+#endif
+		[ConsoleMethod("suicide", "Kill local player (Server only)")]
+		private static void KillLocalPlayer()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				PlayerManager.LocalPlayerScript.playerHealth.ApplyDamage(null, 99999f, AttackType.Internal, DamageType.Brute);
+			}
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Respawn local player (Server only)")]
+#endif
+		[ConsoleMethod("respawn", "Respawn local player (Server only)")]
+		private static void RespawnLocalPlayer()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
+			}
+		}
+
+		private static HashSet<MatrixInfo> usedMatrices = new HashSet<MatrixInfo>();
+		private static Tuple<MatrixInfo, Vector3> lastUsedMatrix;
+#if UNITY_EDITOR
+		[MenuItem("Networking/Crash random matrix into station")]
+#endif
+		private static void CrashIntoStation()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				StopLastCrashed();
+
+				Vector2 appearPos = new Vector2Int(-50, 37);
+				var usedMatricesCount = usedMatrices.Count;
+
+				var matrices = MatrixManager.Instance.MovableMatrices;
+				//limit to shuttles if you wish
+//					.Where( matrix => matrix.GameObject.name.ToLower().Contains( "shuttle" )
+//								   || matrix.GameObject.name.ToLower().Contains( "pod" ) );
+
+				foreach ( var movableMatrix in matrices )
+				{
+					if ( movableMatrix.GameObject.name.ToLower().Contains( "verylarge" ) )
+					{
+						continue;
+					}
+
+					if ( usedMatrices.Contains( movableMatrix ) )
+					{
+						continue;
+					}
+
+					usedMatrices.Add( movableMatrix );
+					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.State.Position);
+					var mm = movableMatrix.MatrixMove;
+					mm.SetPosition( appearPos );
+					mm.RequiresFuel = false;
+					mm.SafetyProtocolsOn = false;
+					mm.RotateTo( Orientation.Right );
+					mm.SetSpeed( 15 );
+					mm.StartMovement();
+
+					break;
+				}
+
+				if ( usedMatricesCount == usedMatrices.Count && usedMatricesCount > 0 )
+				{ //ran out of unused matrices - doing it again
+					usedMatrices.Clear();
+					CrashIntoStation();
+				}
+			}
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Stop last crashed matrix")]
+#endif
+		private static void StopLastCrashed()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				if ( lastUsedMatrix != null )
+				{
+					lastUsedMatrix.Item1.MatrixMove.StopMovement();
+					lastUsedMatrix.Item1.MatrixMove.SetPosition( lastUsedMatrix.Item2 );
+					lastUsedMatrix = null;
+				}
+			}
+		}
+		private static GameObject maskPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Clothing/Resources/BreathMask");
+		private static GameObject oxyTankPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Other/Resources/Emergency Oxygen Tank");
+#if UNITY_EDITOR
+		[MenuItem("Networking/Make players EVA-ready")]
+#endif
+		private static void MakeEvaReady()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				{
+					var helmet = ClothFactory.CreateCloth(ClothFactory.Instance.ClothingStoredData["mining hard suit helmet"], TransformState.HiddenPos);
+					var suit = ClothFactory.CreateCloth(ClothFactory.Instance.ClothingStoredData["mining hard suit"], TransformState.HiddenPos);
+					var mask = PoolManager.PoolNetworkInstantiate(maskPrefab);
+					var oxyTank = PoolManager.PoolNetworkInstantiate(oxyTankPrefab);
+					player.Script.playerNetworkActions.AddItemToUISlot( helmet, EquipSlot.head, null, true );
+					player.Script.playerNetworkActions.AddItemToUISlot( suit, EquipSlot.exosuit, null, true );
+					player.Script.playerNetworkActions.AddItemToUISlot( mask, EquipSlot.mask, null, true );
+					player.Script.playerNetworkActions.AddItemToUISlot( oxyTank, EquipSlot.storage01, null, true );
+					player.Script.Equipment.IsInternalsEnabled = true;
+				}
+
+			}
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spawn Rods")]
+#endif
+		private static void SpawnRods()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				ObjectFactory.SpawnRods(1, PlayerManager.LocalPlayerScript.WorldPos+Vector3Int.up);
+
+			}
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Slip Local Player")]
+#endif
+		private static void SlipPlayer()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				PlayerManager.LocalPlayerScript.registerTile.Slip( true );
+			}
+		}
 		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
 		public static void SpawnAntag()
 		{

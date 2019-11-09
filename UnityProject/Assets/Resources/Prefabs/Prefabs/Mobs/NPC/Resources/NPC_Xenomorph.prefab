@@ -262,7 +262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4827737755655954553}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50, y: 53, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8891796486152224138}
@@ -325,7 +325,7 @@ MonoBehaviour:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
   isNotPlayer: 0
-  aliveSprite: {fileID: 21300006, guid: e521117653fea244c9645316be5ec3a6, type: 3}
+  aliveSprite: {fileID: 21300006, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
   deadSprite: {fileID: 21300000, guid: 0311b0c4dc326f74b935199093802681, type: 3}
   deadState: 0
   spriteRend: {fileID: 83192708151968013}
@@ -377,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &4859381606111050923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
+  spriteMatrixRotationBehavior: 0
 --- !u!114 &4859335736327027429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,8 +443,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3566525206
+  m_AssetId: 9ff670259caaa5c488c14453dd5d8c63
+  m_SceneId: 0
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0

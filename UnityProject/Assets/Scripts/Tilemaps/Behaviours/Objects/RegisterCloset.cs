@@ -19,7 +19,7 @@ public class RegisterCloset : RegisterObject
 		set
 		{
 			isClosed = value;
-			if (closetType == ClosetType.LOCKER)
+			if (closetType == ClosetType.LOCKER || closetType == ClosetType.SCANNER)
 			{
 				//become passable to bullets and people when open
 				Passable = !isClosed;
@@ -57,5 +57,6 @@ public enum ClosetType
 {
 	LOCKER,
 	CRATE,
+	SCANNER,
 	OTHER
 }

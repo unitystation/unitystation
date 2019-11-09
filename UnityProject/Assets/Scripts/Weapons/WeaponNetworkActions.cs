@@ -166,7 +166,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		else
 		{
 			//damaging a living thing
-			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
+			victimHealth.ApplyDamageToBodypart(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
 		}
 
 		SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
@@ -210,7 +210,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (90 >= rng.Next(1, 100))
 		{
 			// The punch hit.
-			victimHealth.ApplyDamage(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
+			victimHealth.ApplyDamageToBodypart(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
 			if (fistDamage > 0)
 			{
 				Chat.AddAttackMsgToChat(gameObject, victim, damageZone);

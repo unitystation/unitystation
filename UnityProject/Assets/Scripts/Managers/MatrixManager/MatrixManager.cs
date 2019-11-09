@@ -18,13 +18,15 @@ public enum CollisionType
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
-public class MatrixManager : MonoBehaviour
+[ExecuteInEditMode]
+public partial class MatrixManager : MonoBehaviour
 {
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change
 	public static MatrixManager Instance;
 	private static LayerMask tileDmgMask;
 
 	private MatrixInfo[] ActiveMatrices = new MatrixInfo[0];
+	public MatrixInfo[] MovableMatrices { get; private set; } = new MatrixInfo[0];
 
 	public static bool IsInitialized;
 
@@ -48,25 +50,28 @@ public class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		//reverse loop so that station comes last
+		for ( var i = Instance.ActiveMatrices.Length - 1; i >= 0; i-- )
 		{
-			if (mat.Matrix.HasTile(WorldToLocalInt(worldPos, mat), isServer))
+			MatrixInfo mat = Instance.ActiveMatrices[i];
+			if ( !mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ), isServer ) )
 			{
 				return mat;
 			}
 		}
+
 		return Instance.ActiveMatrices[0];
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsFloatingAt(Vector3Int worldPos, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsFloatingAt(WorldToLocalInt(worldPos, mat), isServer));
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsNonStickyAt(Vector3Int worldPos, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsNonStickyAt(WorldToLocalInt(worldPos, mat), isServer));
@@ -79,8 +84,8 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer ));
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
 	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsFloatingAt(new[] {context}, WorldToLocalInt(worldPos, mat), isServer));
@@ -110,7 +115,7 @@ public class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
-	public static bool IsEmptyAt(Vector3Int worldPos, bool isServer)
+	public static bool IsEmptyAt( Vector3Int worldPos, bool isServer )
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
@@ -125,7 +130,6 @@ public class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
-	/// FIXME: not truly cross-matrix. can walk diagonally between matrices
 	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null, int[] excludeList = null)
 	{
 		// Gets the list of Matrixes to actually check
@@ -141,7 +145,7 @@ public class MatrixManager : MonoBehaviour
 	/// </summary>
 	/// <param name="worldTarget"></param>
 	/// <returns></returns>
-	public static List<TilemapDamage> GetDamagetableTilemapsAt( Vector3Int worldTarget )
+	public static List<TilemapDamage> GetDamageableTilemapsAt( Vector3Int worldTarget )
 	{
 		var hit2D = Physics2D.RaycastAll(worldTarget.To2Int(), Vector2.zero, 10, tileDmgMask);
 		var hitTilemaps = new List<TilemapDamage>();
@@ -320,8 +324,13 @@ public class MatrixManager : MonoBehaviour
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable(isServer) && playerMove.gameObject != mover
-			    && !playerMove.PlayerScript.pushPull.IsPullingSomething && !playerMove.IsBuckled)
+			if (playerMove
+				&& playerMove.IsHelpIntent
+			    && !playerMove.PlayerScript.playerHealth.IsDead
+			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)
+			    && playerMove.gameObject != mover
+			    && !playerMove.PlayerScript.pushPull.IsPullingSomething
+			    && !playerMove.IsBuckled)
 			{
 				return playerMove;
 			}
@@ -330,14 +339,21 @@ public class MatrixManager : MonoBehaviour
 		return null;
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
 	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer)
 	{
 		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
-	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
+	public static bool IsAtmosPassableAt(Vector3Int worldTarget, bool isServer)
+	{
+		return isAtInternal(mat => mat.Matrix.IsAtmosPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
+	}
+
+	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
@@ -406,7 +422,8 @@ public class MatrixManager : MonoBehaviour
 	/// </Summary>
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		for (var i = 0; i < ActiveMatrices.Length; i++)
+		//reverse loop so that station matrix comes last
+		for (var i = ActiveMatrices.Length - 1; i >= 0; i-- )
 		{
 			T first = ActiveMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, ActiveMatrices[i]), isServer);
 			if (first)
@@ -463,7 +480,8 @@ public class MatrixManager : MonoBehaviour
 			return;
 		}
 
-		var activeMatrices = new List<MatrixInfo>(/*ActiveMatrices*/);
+		var activeMatrices = new List<MatrixInfo>();
+		var movableMatrices = new List<MatrixInfo>();
 
 		for (int i = 0; i < findMatrices.Count; i++)
 		{
@@ -479,6 +497,8 @@ public class MatrixManager : MonoBehaviour
 				MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 				MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
 				SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
+				ReactionManager = gameObj.GetComponentInParent<ReactionManager>(),
+				TileChangeManager = gameObj.GetComponentInParent<TileChangeManager>(),
 //				NetId is initialized later
 				InitialOffset = matrix.InitialOffset
 			};
@@ -486,10 +506,17 @@ public class MatrixManager : MonoBehaviour
 			{
 				activeMatrices.Add(matrixInfo);
 			}
+			if (!movableMatrices.Contains(matrixInfo) && matrixInfo.MatrixMove != null)
+			{
+				movableMatrices.Add(matrixInfo);
+			}
 			matrix.Id = i;
 		}
 
 		ActiveMatrices = activeMatrices.ToArray();
+		MovableMatrices = movableMatrices.ToArray();
+
+		InitCollisions();
 
 		IsInitialized = true;
 
@@ -517,6 +544,11 @@ public class MatrixManager : MonoBehaviour
 	{
 		return getInternal(mat => mat.GameObject == go);
 	}
+	/// Get MatrixInfo by Objects layer transform
+	public static MatrixInfo Get(Transform objectParent)
+	{
+		return getInternal(mat => mat.ObjectParent == objectParent);
+	}
 
 	/// Get MatrixInfo by Matrix component
 	public static MatrixInfo Get(Matrix matrix)
@@ -532,7 +564,8 @@ public class MatrixManager : MonoBehaviour
 			Instance.InitMatrices();
 		}
 
-		for (var i = 0; i < Instance.ActiveMatrices.Length; i++)
+		//reverse loop so that station comes up last
+		for (var i = Instance.ActiveMatrices.Length - 1; i >= 0; i-- )
 		{
 			if (condition(Instance.ActiveMatrices[i]))
 			{
@@ -649,6 +682,8 @@ public class MatrixManager : MonoBehaviour
 			return TransformState.HiddenPos;
 		}
 
+//		return matrix.MetaTileMap.LocalToWorld( localPos );
+
 		if (!matrix.MatrixMove)
 		{
 			return localPos + matrix.Offset;
@@ -673,6 +708,8 @@ public class MatrixManager : MonoBehaviour
 		{
 			return TransformState.HiddenPos;
 		}
+
+//		return matrix.MetaTileMap.WorldToLocal( worldPos );
 
 		if (!matrix.MatrixMove)
 		{
@@ -742,6 +779,15 @@ public class MatrixManager : MonoBehaviour
 	    }
 	}
 
+	public static Transform GetDefaultParent( Vector3? position, bool isServer )
+	{
+		if ( !position.HasValue )
+		{
+			return MainStationMatrix.ObjectParent;
+		}
+
+		return AtPoint( position.Value.RoundToInt(), isServer ).ObjectParent;
+	}
 }
 
 /// <summary>
