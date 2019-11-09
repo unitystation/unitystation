@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -16,41 +16,51 @@ public class UpdateItemSlotMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Storage, Item);
-
-		ItemSlot slot = null;
-		if (SlotIndex == -1)
+		//server calls their own client side hooks, so server doesn't do anything here.
+		//It's necessary for it to be this way because by the time the server reaches this point,
+		//the change to this slot has already occurred so it can't figure out what the previous
+		//slot was for this item.
+		if (!CustomNetworkManager.IsServer)
 		{
-			slot = ItemSlot.GetNamed(NetworkObjects[0].GetComponent<ItemStorage>(), NamedSlot);
-		}
-		else
-		{
-			slot = ItemSlot.GetIndexed(NetworkObjects[0].GetComponent<ItemStorage>(), SlotIndex);
-		}
+			yield return WaitFor(Storage, Item);
 
-		var previouslyInSlot = slot.ItemObject;
-		var pickupable = Item == NetId.Invalid ? null : NetworkObjects[1].GetComponent<Pickupable>();
-		slot.ClientUpdate(pickupable);
-
-		if (pickupable != null)
-		{
-			//was added to slot
-			var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Added);
-			var hooks = pickupable.GetComponents<IClientInventoryMove>();
-			foreach (var hook in hooks)
+			ItemSlot slot = null;
+			if (SlotIndex == -1)
 			{
-				hook.OnInventoryMoveClient(moveInfo);
+				slot = ItemSlot.GetNamed(NetworkObjects[0].GetComponent<ItemStorage>(), NamedSlot);
 			}
-		}
-
-		if (previouslyInSlot != null)
-		{
-			//was removed from slot
-			var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
-			var hooks = previouslyInSlot.GetComponents<IClientInventoryMove>();
-			foreach (var hook in hooks)
+			else
 			{
-				hook.OnInventoryMoveClient(moveInfo);
+				slot = ItemSlot.GetIndexed(NetworkObjects[0].GetComponent<ItemStorage>(), SlotIndex);
+			}
+
+			var previouslyInSlot = slot.ItemObject;
+			var pickupable = Item == NetId.Invalid ? null : NetworkObjects[1].GetComponent<Pickupable>();
+			slot.ClientUpdate(pickupable);
+
+
+			if (previouslyInSlot != null)
+			{
+				//was removed from slot
+				pickupable._SetItemSlot(null);
+				var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
+				var hooks = previouslyInSlot.GetComponents<IClientInventoryMove>();
+				foreach (var hook in hooks)
+				{
+					hook.OnInventoryMoveClient(moveInfo);
+				}
+			}
+
+			if (pickupable != null)
+			{
+				//was added to slot
+				pickupable._SetItemSlot(slot);
+				var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Added);
+				var hooks = pickupable.GetComponents<IClientInventoryMove>();
+				foreach (var hook in hooks)
+				{
+					hook.OnInventoryMoveClient(moveInfo);
+				}
 			}
 		}
 	}

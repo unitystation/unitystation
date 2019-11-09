@@ -5,7 +5,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	IPointerEnterHandler, IPointerExitHandler
 {
 	private UI_ItemSlot itemSlot;
-	public override string Tooltip => itemSlot.hoverName;
+	public override string Tooltip => itemSlot.NamedSlot.ToString();
 
 	private Color32 successOverlayColor = new Color32(0, 255, 0, 92);
 	private Color32 failOverlayColor = new Color32(255, 0, 0, 92);
@@ -44,8 +44,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		var item = UIManager.Hands.CurrentSlot.Item;
 		if (item == null
 		    || itemSlot.Item != null
-		    || itemSlot.namedSlot == NamedSlot.leftHand
-		    || itemSlot.namedSlot == NamedSlot.rightHand)
+		    || itemSlot.NamedSlot == NamedSlot.leftHand
+		    || itemSlot.NamedSlot == NamedSlot.rightHand)
 		{
 			return;
 		}

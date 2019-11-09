@@ -43,13 +43,13 @@ public class Equipment : NetworkBehaviour
 	{
 		foreach (var clothingItem in clothingItems)
 		{
-			EquipmentSpritesMessage.SendTo(gameObject, (int)clothingItem.Key, recipient, clothingItem.Value.GameObjectReference, true, false);
+			PlayerAppearanceMessage.SendTo(gameObject, (int)clothingItem.Key, recipient, clothingItem.Value.GameObjectReference, true, false);
 		}
 	}
 
 	public void SetReference(int index, GameObject _Item)
 	{
-		EquipmentSpritesMessage.SendToAll(gameObject, index, _Item);
+		PlayerAppearanceMessage.SendToAll(gameObject, index, _Item);
 	}
 
 	private void InitInternals()

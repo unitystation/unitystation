@@ -305,11 +305,11 @@ public static class Spawn
 			//fire hooks for all spawned objects
 			if (spawnedObjects.Count == 1)
 			{
-				ServerFireSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
+				_ServerFireClientServerSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
 			}
 			else
 			{
-				ServerFireSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
+				_ServerFireClientServerSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
 			}
 		}
 
@@ -439,11 +439,13 @@ public static class Spawn
 	}
 
 	/// <summary>
-	/// Fires all the server side spawn hooks and messages the client telling them to fire their
-	/// client-side hooks.
+	/// NOTE: For internal lifecycle system use only.
+	///
+	/// Fires all the server side spawn hooks for the given spawn and messages all clients telling them to fire their
+	/// client-side hooks. Should only be called after object becomes networked / known by clients.
 	/// </summary>
 	/// <param name="result"></param>
-	private static void ServerFireSpawnHooks(SpawnResult result)
+	public static void _ServerFireClientServerSpawnHooks(SpawnResult result)
 	{
 
 		//fire server hooks
@@ -694,7 +696,7 @@ public static class Spawn
 				spawnInfo = SpawnInfo.Prefab(prefab, worldPos);
 			}
 
-			ServerFireSpawnHooks(SpawnResult.Single(spawnInfo, target));
+			_ServerFireClientServerSpawnHooks(SpawnResult.Single(spawnInfo, target));
 			return target;
 		}
 	}

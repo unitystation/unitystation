@@ -89,6 +89,8 @@ public class PlayerSprites : MonoBehaviour
 		RaceTexture = Spawn.RaceData["human"];
 		SetupBodySprites();
 		SetupCustomisations();
+		OnDirectionChange(directional.CurrentDirection);
+
 	}
 
 	public void SetupCustomisations()
@@ -295,7 +297,7 @@ public class PlayerSprites : MonoBehaviour
 			for (int i = 0; i < characterSprites.Length; i++)
 			{
 				var clothItem = characterSprites[i];
-				EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
+				PlayerAppearanceMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
 			}
 		}
 	}

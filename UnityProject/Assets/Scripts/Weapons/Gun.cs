@@ -355,7 +355,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 					string ammoType = magazine.ammoType;
 					if (AmmoType == ammoType)
 					{
-						var hand = UIManager.Hands.CurrentSlot.namedSlot;
+						var hand = UIManager.Hands.CurrentSlot.NamedSlot;
 						RequestReload(item, hand, true);
 					}
 					if (AmmoType != ammoType)

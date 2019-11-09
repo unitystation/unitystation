@@ -40,7 +40,7 @@ internal enum MessageTypes : short
 	ElectricalCableMessage = 1036,
 	HealthTemperatureStats = 1037,
 	HealthPressureStats = 1038,
-	EquipmentSpritesMessage = 1039,
+	PlayerAppearanceMessage = 1039,
 	PlayerCustomisationMessage = 1040,
 	BookNetMessage = 1041,
 	BookshelfNetMessage = 1042,

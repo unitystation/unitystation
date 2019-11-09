@@ -15,9 +15,9 @@ using Mirror;
 ///to see who is using antag items.
 ///Bubbling should help prevent this
 /// </summary>
-public class EquipmentSpritesMessage : ServerMessage
+public class PlayerAppearanceMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.EquipmentSpritesMessage;
+	public static short MessageType = (short) MessageTypes.PlayerAppearanceMessage;
 	//if IsBodySprites, index in PlayerSprites.characterSprites to update.
 	//otherwise, ordinal value of NamedSlot enum in Equipment to update
 	public int Index;
@@ -67,7 +67,7 @@ public class EquipmentSpritesMessage : ServerMessage
 		}
 	}
 
-	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item,
+	public static PlayerAppearanceMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item,
 		bool _forceInit = false, bool _isBodyParts = false)
 	{
 		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
@@ -75,7 +75,7 @@ public class EquipmentSpritesMessage : ServerMessage
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, int index, GameObject recipient,
+	public static PlayerAppearanceMessage SendTo(GameObject equipmentObject, int index, GameObject recipient,
 		GameObject _Item, bool _forceInit, bool _isBodyParts)
 	{
 		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
@@ -83,12 +83,12 @@ public class EquipmentSpritesMessage : ServerMessage
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item,
+	public static PlayerAppearanceMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item,
 		bool _forceInit, bool _isBodyParts)
 	{
 		if (_Item != null)
 		{
-			return new EquipmentSpritesMessage
+			return new PlayerAppearanceMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),
@@ -99,7 +99,7 @@ public class EquipmentSpritesMessage : ServerMessage
 		}
 		else
 		{
-			return new EquipmentSpritesMessage
+			return new PlayerAppearanceMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),

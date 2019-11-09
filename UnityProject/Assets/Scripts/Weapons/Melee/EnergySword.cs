@@ -119,7 +119,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		ToggleState(interaction.Performer.WorldPosServer());
-		EquipmentSpritesMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
+		PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)

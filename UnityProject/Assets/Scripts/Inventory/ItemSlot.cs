@@ -244,8 +244,37 @@ public class ItemSlot
 	/// </summary>
 	public void _ServerSetItem(Pickupable newItem)
 	{
+		var removedItem = item;
 		item = newItem;
 		OnSlotContentsChangeServer.Invoke();
+
+		//server has to call their own client side hooks because by the time the message is received,
+		//the server will not be able to determine what slot the item came from.
+		OnSlotContentsChangeClient.Invoke();
+		if (removedItem != null)
+		{
+			//we displaced an item
+			var info = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
+			foreach (var hook in removedItem.GetComponents<IClientInventoryMove>())
+			{
+				hook.OnInventoryMoveClient(info);
+			}
+		}
+
+		if (newItem != null)
+		{
+			//we are adding an item to this slot
+			var info = ClientInventoryMove.OfType(ClientInventoryMoveType.Added);
+			foreach (var hook in newItem.GetComponents<IClientInventoryMove>())
+			{
+				hook.OnInventoryMoveClient(info);
+			}
+		}
+
+
+
+
+
 		UpdateItemSlotMessage.Send(serverObserverPlayers, this);
 	}
 

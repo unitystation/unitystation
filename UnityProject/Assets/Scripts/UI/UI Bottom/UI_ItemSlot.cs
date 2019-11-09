@@ -20,16 +20,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlot")]
 	[Tooltip("For player inventory, named slot in local player's ItemStorage that this UI slot corresponds to.")]
-	public NamedSlot namedSlot;
+	private NamedSlot namedSlot;
 	public NamedSlot NamedSlot => namedSlot;
 
-	public string hoverName;
+	[Tooltip("Name to display when hovering over this slot in the UI")]
+	[SerializeField]
+	private string hoverName;
 
-
-
-	[HideInInspector]
-	public Image image;
-	private Image secondaryImage; //For sprites that require two images
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
 	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributes>().itemName;
@@ -53,7 +50,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	/// </summary>
 	public GameObject ItemObject => itemSlot.ItemObject;
 
+	/// <summary>
+	/// Current image displayed in this slot.
+	/// </summary>
+	public Image Image => image;
+
 	private ItemSlot itemSlot;
+	private Image image;
+	private Image secondaryImage;
 
 	private void Awake() {
 
@@ -215,7 +219,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	}
 
 	/// <summary>
-	/// Clears the displayed contents of this slot
+	/// Clears the displayed image. Unlike blank, actually nulls out the sprite reference.
 	/// </summary>
 	public void Clear()
 	{

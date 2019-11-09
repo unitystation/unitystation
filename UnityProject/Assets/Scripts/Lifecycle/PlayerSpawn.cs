@@ -83,9 +83,9 @@ public static class PlayerSpawn
 		}
 
 		//create the player object
-		var spawnResult = ServerCreatePlayer(spawnTransform.transform.position.CutToInt(),
+		var spawnPosition = spawnTransform.transform.position.CutToInt();
+		var newPlayer = ServerCreatePlayer(spawnPosition,
 			occupation, characterSettings);
-		var newPlayer = spawnResult.GameObject;
 		var newPlayerScript = newPlayer.GetComponent<PlayerScript>();
 
 		//get the old body if they have one.
@@ -129,8 +129,10 @@ public static class PlayerSpawn
 			SecurityRecordsManager.Instance.AddRecord(ps, occupation.JobType);
 		}
 
-		//fire client side spawn hooks
-		SpawnMessage.SendToAll(spawnResult);
+		//fire all hooks
+		var info = SpawnInfo.Player(occupation, characterSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
+			spawnPosition);
+		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
 	}
 
 	/// <summary>
@@ -215,23 +217,13 @@ public static class PlayerSpawn
 
 		forMind.Ghosting(ghost);
 
-		//manually fire hooks since this isn't networked
-		var comps = ghost.GetComponents<IServerSpawn>();
-		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab, spawnPosition,
-			parentTransform);
-		if (comps != null)
-		{
-			foreach (var comp in comps)
-			{
-				comp.OnSpawnServer(info);
-			}
-		}
-
 		ServerTransferPlayer(connection, ghost, body, EVENT.GhostSpawned, settings, forMind.occupation);
 
-		//client side spawn hooks on ghost
-		SpawnMessage.SendToAll(SpawnResult.Single(SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab,
-			spawnPosition, parentTransform), ghost));
+
+		//fire all hooks
+		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab, spawnPosition,
+			parentTransform);
+		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 	}
 
 	/// <summary>
@@ -243,7 +235,7 @@ public static class PlayerSpawn
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
 	/// <returns></returns>
-	private static SpawnResult ServerCreatePlayer(Vector3Int spawnWorldPosition, Occupation occupation, CharacterSettings settings)
+	private static GameObject ServerCreatePlayer(Vector3Int spawnWorldPosition, Occupation occupation, CharacterSettings settings)
 	{
 		//player is only spawned on server, we don't sync it to other players yet
 		var spawnPosition = spawnWorldPosition;
@@ -256,19 +248,9 @@ public static class PlayerSpawn
 			parentTransform);
 		player.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
 
-		//manually fire server-side hooks since this isn't networked
-		var comps = player.GetComponents<IServerSpawn>();
-		var info = SpawnInfo.Player(occupation, settings, CustomNetworkManager.Instance.humanPlayerPrefab,
-			spawnWorldPosition, parentTransform);
-		if (comps != null)
-		{
-			foreach (var comp in comps)
-			{
-				comp.OnSpawnServer(info);
-			}
-		}
 
-		return SpawnResult.Single(info, player);
+
+		return player;
 	}
 
 	/// <summary>

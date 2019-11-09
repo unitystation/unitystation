@@ -169,10 +169,10 @@ public static class Inventory
 			return false;
 		}
 
-		pickupable._ServerSetItemSlot(null);
+		pickupable._SetItemSlot(null);
 		fromSlot._ServerRemoveItem();
 
-		pickupable._ServerSetItemSlot(toSlot);
+		pickupable._SetItemSlot(toSlot);
 		toSlot._ServerSetItem(pickupable);
 
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
@@ -208,7 +208,7 @@ public static class Inventory
 		}
 
 		//update pickupable's item and slot's item
-		pickupable._ServerSetItemSlot(null);
+		pickupable._SetItemSlot(null);
 		fromSlot._ServerRemoveItem();
 
 		//decide how it should be removed
@@ -339,7 +339,7 @@ public static class Inventory
 		pickupable.GetComponent<RegisterTile>().UpdatePositionServer();
 
 		//update pickupable's item and slot's item
-		pickupable._ServerSetItemSlot(toSlot);
+		pickupable._SetItemSlot(toSlot);
 		toSlot._ServerSetItem(pickupable);
 
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())

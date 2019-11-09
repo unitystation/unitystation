@@ -31,6 +31,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public ItemSlot ItemSlot => itemSlot;
 	private ItemSlot itemSlot;
+	/// <summary>
+	/// If this item is in a slot linked to a UI slot, returns that UI slot.
+	/// </summary>
+	public UI_ItemSlot LocalUISlot => itemSlot != null ? ItemSlot.LocalUISlot : null;
 
 	private void Awake()
 	{
@@ -56,9 +60,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		//when the item is picked up / dropped, need to update
-		//several things
-
 		/*
 		 * TODO: There is a security issue here which existed even prior to inventory refactor.
 		 * The issue is that every time a player's top level inventory changes, a message is sent to all other players
@@ -70,12 +71,12 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		 */
 
 
+		//update appearance depending on the slot that was changed
 		if (info.FromPlayer != null &&
 		    HasClothingItem(info.FromPlayer, info.FromSlot))
 		{
-			if (info.FromPlayer.GetComponent<PlayerSprites>())
 			//clear previous slot appearance
-			EquipmentSpritesMessage.SendToAll(info.FromPlayer.gameObject,
+			PlayerAppearanceMessage.SendToAll(info.FromPlayer.gameObject,
 				(int)info.FromSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
 		}
 
@@ -83,10 +84,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		    HasClothingItem(info.ToPlayer, info.ToSlot))
 		{
 			//change appearance based on new item
-			EquipmentSpritesMessage.SendToAll(info.ToPlayer.gameObject,
+			PlayerAppearanceMessage.SendToAll(info.ToPlayer.gameObject,
 				(int)info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
 		}
-
 	}
 
 	private bool HasClothingItem(RegisterPlayer onPlayer, ItemSlot infoToSlot)
@@ -228,10 +228,11 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// <summary>
 	/// NOTE: Please use Inventory instead for moving inventory around.
 	///
-	/// Server-only. Change the slot this pickupable thinks it is in. Null to make it be in no slot.
+	/// Internal lifecycle system use only.
+	/// Change the slot this pickupable thinks it is in. Null to make it be in no slot.
 	/// </summary>
 	/// <param name="toSlot"></param>
-	public void _ServerSetItemSlot(ItemSlot toSlot)
+	public void _SetItemSlot(ItemSlot toSlot)
 	{
 		this.itemSlot = toSlot;
 	}
