@@ -257,7 +257,7 @@ public static class Inventory
 
 			var holderPlayer = holder.GetComponent<PlayerSync>();
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			Vector3 targetWorldPos = toPerform.TargetWorldPos.GetValueOrDefault(holder.gameObject.TileWorldPosition());
+			Vector3 targetWorldPos = toPerform.TargetWorldPos.GetValueOrDefault(holder.gameObject.AssumedWorldPosServer());
 			if (holderPlayer != null)
 			{
 				//dropping from player
@@ -292,7 +292,7 @@ public static class Inventory
 			{
 				ThrownBy = holder.gameObject,
 				Aim = toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest),
-				OriginPos = holder.gameObject.TileWorldPosition().To3Int(),
+				OriginPos = holder.gameObject.AssumedWorldPosServer(),
 				TargetPos = (Vector3) toPerform.TargetWorldPos,
 				SpinMode = toPerform.ThrowSpinMode.GetValueOrDefault(SpinMode.Clockwise)
 			};

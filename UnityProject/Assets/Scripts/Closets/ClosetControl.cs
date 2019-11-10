@@ -67,7 +67,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		if (metalDroppedOnDestroy > 0)
 		{
 			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: metalDroppedOnDestroy,
-				scatterRadius: Spawn.DefaultScatterRadius);
+				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
 	}
 

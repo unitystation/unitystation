@@ -22,7 +22,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
 		Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius);
+			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)

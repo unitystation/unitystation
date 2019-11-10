@@ -44,7 +44,9 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	private PushPull _parentContainer = null;
 
 	/// <summary>
-	/// World position of highest object this object is contained in
+	/// World position of highest object this object is contained in,
+	/// works even if inside a pushpull or inside an ItemStorage, no matter
+	/// how many levels deep.
 	/// </summary>
 	/// <returns></returns>
 	public Vector3 AssumedWorldPositionServer()
@@ -58,6 +60,31 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		var pos = registerTile.WorldPositionServer;
 		if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
 		{
+			var pu = GetComponent<Pickupable>();
+			if (pu != null && pu.ItemSlot != null)
+			{
+				//we are in an itemstorage, so report our position
+				//based on our root item storage object.
+				var storage = pu.ItemSlot.GetRootStorage();
+				var pushPull = storage.GetComponent<PushPull>();
+				if (pushPull != null)
+				{
+					//our container has a pushpull, so use its assumed position
+					return pushPull.AssumedWorldPositionServer();
+				}
+				else
+				{
+					//our container doesn't have a push pull so use world position
+					pos = storage.gameObject.WorldPosServer().CutToInt();
+					if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+					{
+						Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name );
+					}
+
+					return pos;
+				}
+			}
+			//wasn't in an item storage, so use our last non hidden position
 			pos = Pushable.LastNonHiddenPosition;
 			if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
 			{

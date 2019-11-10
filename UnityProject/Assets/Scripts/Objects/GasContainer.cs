@@ -48,7 +48,7 @@ namespace Objects
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject.TileWorldPosition());
 
 			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
-				scatterRadius: Spawn.DefaultScatterRadius);
+				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 
 			ExplosionUtils.PlaySoundAndShake(tileWorldPosition, shakeIntensity, (int) shakeDistance);
 		}

@@ -49,7 +49,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
 			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget.RoundToInt(), transform.parent, count: 1,
-				scatterRadius: Spawn.DefaultScatterRadius);
+				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 			Despawn.ServerSingle(gameObject);
 
 			return;
@@ -78,7 +78,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	{
 		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f);
 		Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius);
+			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 }

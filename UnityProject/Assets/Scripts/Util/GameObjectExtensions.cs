@@ -11,9 +11,11 @@ public static class GameObjectExtensions
 	/// Creates garbage, use sparingly.
 	///
 	/// Get the tile-aligned (i.e. rounded to vector2int) world position of the specified object using RegisterTile,
-	/// warning and defaulting to transform.position if it has no registertile. If the object is inside an
-	/// ItemStorage, it will return the position of the root storage (i.e. where it would physically be
-	/// in the game if it dropped out of storage)
+	/// warning and defaulting to transform.position if it has no registertile.
+	///
+	/// Note this wil lreturn hiddenPos if the object is at hiddenpos, such as if it is inside something.
+	/// If you want to know where it would be in the world based on what it's inside, use
+	/// AssumedWorldPos instead of this
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
@@ -28,11 +30,6 @@ public static class GameObjectExtensions
 		}
 		else
 		{
-			var pu = obj.GetComponent<Pickupable>();
-			if (pu != null && pu.ItemSlot != null)
-			{
-				return pu.ItemSlot.GetRootStorage().gameObject.TileWorldPosition();
-			}
 			return regTile.WorldPosition.To2Int();
 		}
 	}
@@ -41,9 +38,10 @@ public static class GameObjectExtensions
 	/// Creates garbage, use sparingly.
 	///
 	/// Get the tile-aligned (i.e. rounded to vector2int) local position of the specified object using RegisterTile,
-	/// warning and defaulting to transform.localposition if it has no registertile. If the object is inside an
-	/// ItemStorage, it will return the position of the root storage (i.e. where it would physically be
-	/// in the game if it dropped out of storage)
+	/// warning and defaulting to transform.localposition if it has no registertile.
+	///
+	/// If you want to know where it would be in the world based on what it's inside, use
+	/// AssumedWorldPos instead of this
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
@@ -58,11 +56,6 @@ public static class GameObjectExtensions
 		}
 		else
 		{
-			var pu = obj.GetComponent<Pickupable>();
-			if (pu != null && pu.ItemSlot != null)
-			{
-				return pu.ItemSlot.GetRootStorage().gameObject.TileLocalPosition();
-			}
 			return regTile.LocalPosition.To2Int();
 		}
 	}

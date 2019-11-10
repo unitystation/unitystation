@@ -237,7 +237,7 @@ public class LightSource : ObjectTrigger
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
 		Spawn.ServerPrefab("GlassShard", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
-			scatterRadius: Spawn.DefaultScatterRadius);
+			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 	}
 
 	void Update()

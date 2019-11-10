@@ -323,6 +323,20 @@ public static class Spawn
 				spawnedObjects.Add(tempObject);
 			}
 
+			//apply scattering if it was specified
+			if (info.ScatterRadius != null)
+			{
+				foreach (var spawned in spawnedObjects)
+				{
+					var cnt = spawned.GetComponent<CustomNetTransform>();
+					var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
+					if (cnt != null)
+					{
+						cnt.SetPosition(info.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
+					}
+				}
+			}
+
 			//fire hooks for all spawned objects
 			if (spawnedObjects.Count == 1)
 			{
@@ -665,11 +679,11 @@ public static class Spawn
 	/// <returns>the re-created object</returns>
 	public static GameObject ServerPoolTestRespawn(GameObject target)
 	{
-		var objBehavior = target.GetComponent<ObjectBehaviour>();
-		if (objBehavior == null)
+		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
+		if (poolPrefabTracker == null)
 		{
 			//destroy / create using normal approach with no pooling
-			Logger.LogWarningFormat("Object {0} has no object behavior, thus cannot be pooled. It will be destroyed / created" +
+			Logger.LogWarningFormat("Object {0} has no pool prefab tracker, thus cannot be pooled. It will be destroyed / created" +
 			                        " without going through the pool.", Category.ItemSpawn, target.name);
 
 			//determine prefab
@@ -691,18 +705,28 @@ public static class Spawn
 		{
 			//destroy / create with pooling
 			//save previous position
-			var worldPos = objBehavior.AssumedWorldPositionServer();
+			var worldPos = target.TileWorldPosition();
+			var transform = target.GetComponent<IPushable>();
+			var prevParent = target.transform.parent;
 
 			//this simulates going into the pool
 			Despawn._ServerFireDespawnHooks(DespawnResult.Single(DespawnInfo.Single(target)));
 
-			objBehavior.VisibleState = false;
+			if (transform != null)
+			{
+				transform.VisibleState = false;
+			}
 
 			//this simulates coming back out of the pool
 			target.SetActive(true);
-			objBehavior.VisibleState = true;
+			if (transform != null)
+			{
+				transform.VisibleState = true;
+			}
 
-			target.transform.position = worldPos;
+			target.transform.parent = prevParent;
+			target.transform.position = worldPos.To3Int();
+
 			var cnt = target.GetComponent<CustomNetTransform>();
 			if (cnt)
 			{
@@ -716,12 +740,12 @@ public static class Spawn
 			var prefab = DeterminePrefab(target);
 			if (clothing != null)
 			{
-				spawnInfo = SpawnInfo.Cloth(clothing.clothingData, worldPos, clothing.Type,
+				spawnInfo = SpawnInfo.Cloth(clothing.clothingData, worldPos.To3Int(), clothing.Type,
 					clothing.Variant, prefab);
 			}
 			else
 			{
-				spawnInfo = SpawnInfo.Prefab(prefab, worldPos);
+				spawnInfo = SpawnInfo.Prefab(prefab, worldPos.To3Int());
 			}
 
 			_ServerFireClientServerSpawnHooks(SpawnResult.Single(spawnInfo, target));
