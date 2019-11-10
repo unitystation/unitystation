@@ -76,6 +76,11 @@ public class SpawnInfo
 	public readonly int Count;
 
 	/// <summary>
+	/// If true, the spawn will be cancelled if the location being spawned into is totally impassable.
+	/// </summary>
+	public readonly bool CancelIfImpassable;
+
+	/// <summary>
 	/// If SpawnType.Player, occupation the player is being spawned with.
 	/// </summary>
 	public readonly Occupation Occupation;
@@ -94,7 +99,7 @@ public class SpawnInfo
 	private SpawnInfo(SpawnableType spawnableType, SpawnType spawnType, GameObject prefab, BaseClothData clothData,
 		ClothingVariantType clothingVariantType, int clothingVariantIndex, Vector3 worldPosition, Transform parent,
 		Quaternion rotation, float? scatterRadius, int count, Occupation occupation, GameObject clonedFrom = null,
-		CharacterSettings characterSettings = null, bool naked = false)
+		CharacterSettings characterSettings = null, bool naked = false, bool cancelIfImpassable = false)
 	{
 		SpawnableType = spawnableType;
 		SpawnType = spawnType;
@@ -111,6 +116,7 @@ public class SpawnInfo
 		ClonedFrom = clonedFrom;
 		CharacterSettings = characterSettings;
 		Naked = naked;
+		CancelIfImpassable = cancelIfImpassable;
 	}
 
 	/// <summary>
@@ -121,10 +127,9 @@ public class SpawnInfo
 	/// <param name="playerPrefab">Prefab to use to spawn this player</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <param name="named">whether player should spawn naked or with their default loadout</param>
+	/// <param name="parent">Parent to spawn under, defaults to the matrix at the indicated spawn position, which
+	/// is the correct behavior for most things. </param>
+	/// <param name="naked">whether player should spawn naked or with their default loadout</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
 	public static SpawnInfo Player(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null,
@@ -132,7 +137,7 @@ public class SpawnInfo
 	{
 		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Player, playerPrefab, null, ClothingVariantType.Default, -1,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
-			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings, naked: naked);
+			DefaultParent(parent, worldPosition), rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings, naked: naked);
 	}
 
 	/// <summary>
@@ -143,19 +148,15 @@ public class SpawnInfo
 	/// <param name="ghostPrefab">Prefab to use to spawn this ghost</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <param name="count">number of instances to spawn, defaults to 1</param>
-	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
-	/// null (no scatter).</param>
+	/// <param name="parent">Parent to spawn under, defaults to the matrix at the indicated spawn position, which
+	/// is the correct behavior for most things. </param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
 	public static SpawnInfo Ghost(Occupation occupation, CharacterSettings characterSettings, GameObject ghostPrefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null)
 	{
 		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Ghost, ghostPrefab, null, ClothingVariantType.Default, -1,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
-			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings);
+			DefaultParent(parent, worldPosition), rotation.GetValueOrDefault(Quaternion.identity), null, 1, occupation, characterSettings: characterSettings);
 	}
 
 	/// <summary>
@@ -167,18 +168,19 @@ public class SpawnInfo
 	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <param name="parent">Parent to spawn under, defaults to the matrix at the indicated spawn position, which
+	/// is the correct behavior for most things. </param>
 	/// <param name="count">number of instances to spawn, defaults to 1</param>
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
+	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnInfo Prefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnInfo Prefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null,
+		bool cancelIfImpassable = false)
 	{
 		return new SpawnInfo(SpawnableType.Prefab, SpawnType.Default, prefab, null, ClothingVariantType.Default, -1,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
-			parent, rotation.GetValueOrDefault(Quaternion.identity), scatterRadius, count, null);
+			DefaultParent(parent, worldPosition), rotation.GetValueOrDefault(Quaternion.identity), scatterRadius, count, null, cancelIfImpassable: cancelIfImpassable);
 	}
 
 
@@ -191,14 +193,15 @@ public class SpawnInfo
 	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <param name="parent">Parent to spawn under, defaults to the matrix at the indicated spawn position, which
+	/// is the correct behavior for most things. </param>
 	/// <param name="count">number of instances to spawn, defaults to 1</param>
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
+	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnInfo Prefab(string prefabName, Vector3? position = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnInfo Prefab(string prefabName, Vector3? position = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null,
+		bool cancelIfImpassable = false)
 	{
 		GameObject prefab = Spawn.GetPrefabByName(prefabName);
 		if (prefab == null)
@@ -208,7 +211,7 @@ public class SpawnInfo
 			return null;
 		}
 
-		return Prefab(prefab, position, parent, rotation, count, scatterRadius);
+		return Prefab(prefab, position, parent, rotation, count, scatterRadius, cancelIfImpassable: cancelIfImpassable);
 	}
 
 	/// <summary>
@@ -220,9 +223,8 @@ public class SpawnInfo
 	/// <param name="variantIndex">variant index to spawn this cloth as, defaults to -1</param>
 	/// <param name="prefabOverride">prefab to use instead of this cloth's default</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <param name="parent">Parent to spawn under, defaults to the matrix at the indicated spawn position, which
+	/// is the correct behavior for most things. </param>
 	/// <param name="count">number of instances to spawn, defaults to 1</param>
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
@@ -234,7 +236,7 @@ public class SpawnInfo
 	{
 		return new SpawnInfo(SpawnableType.Cloth, SpawnType.Default, prefabOverride, clothData, CVT, variantIndex,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
-			parent, rotation.GetValueOrDefault(Quaternion.identity), scatterRadius, count, null);
+			DefaultParent(parent, worldPosition), rotation.GetValueOrDefault(Quaternion.identity), scatterRadius, count, null);
 	}
 
 	/// <summary>
@@ -248,16 +250,15 @@ public class SpawnInfo
 	/// properly implemented IOnStageServer or IOnStageClient when IsCloned = true</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <param name="parent">Parent to spawn under, defaults to the matrix at the indicated spawn position, which
+	/// is the correct behavior for most things. </param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnInfo Clone(GameObject toClone, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? rotation = null)
 	{
 		return new SpawnInfo(SpawnableType.Clone, SpawnType.Default, null, null, ClothingVariantType.Default, -1,
 			worldPosition.GetValueOrDefault(TransformState.HiddenPos),
-			parent, rotation.GetValueOrDefault(Quaternion.identity), null, 1, null, toClone);
+			DefaultParent(parent, worldPosition), rotation.GetValueOrDefault(Quaternion.identity), null, 1, null, toClone);
 	}
 
 	/// <summary>
@@ -285,6 +286,11 @@ public class SpawnInfo
 				mappedObject.WorldPosServer(),
 				mappedObject.transform.parent, mappedObject.transform.rotation, null, 1, null);
 		}
+	}
+
+	private static Transform DefaultParent(Transform parent, Vector3? worldPos)
+	{
+		return parent != null ? parent : MatrixManager.GetDefaultParent(worldPos, true);
 	}
 
 	public override string ToString()

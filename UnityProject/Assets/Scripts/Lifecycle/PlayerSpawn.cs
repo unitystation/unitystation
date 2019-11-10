@@ -21,7 +21,27 @@ public static class PlayerSpawn
 	public static void ServerSpawnPlayer(JoinedViewer forViewer, Occupation occupation, CharacterSettings characterSettings)
 	{
 		NetworkConnection conn = forViewer.connectionToClient;
-		ServerSpawnInternal(conn, occupation, characterSettings, null);
+		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null);
+		if (newPlayer)
+		{
+			if (occupation.JobType == JobType.SYNDICATE)
+			{
+				//Check to see if there is a nuke and communicate the nuke code:
+				Nuke nuke = Object.FindObjectOfType<Nuke>();
+				if (nuke != null)
+				{
+					UpdateChatMessage.Send(newPlayer, ChatChannel.Syndicate, ChatModifier.None,
+						"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
+				}
+			}
+
+			GameManager.Instance.CheckAntags();
+
+			if (occupation.JobType != JobType.SYNDICATE && occupation.JobType != JobType.AI)
+			{
+				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
+			}
+		}
 	}
 
 	/// <summary>
@@ -78,7 +98,8 @@ public static class PlayerSpawn
 	/// <param name="existingMind">existing mind to transfer to the new player, if null new mind will be created
 	/// and assigned to the new player character</param>
 	/// <param name="spawnPos"></param>
-	private static void ServerSpawnInternal(NetworkConnection connection, Occupation occupation, CharacterSettings characterSettings,
+	/// <returns>the spawned object</returns>
+	private static GameObject ServerSpawnInternal(NetworkConnection connection, Occupation occupation, CharacterSettings characterSettings,
 		Mind existingMind, Vector3Int? spawnPos = null, bool naked = false)
 	{
 		//determine where to spawn them
@@ -91,7 +112,7 @@ public static class PlayerSpawn
 					"Unable to determine spawn position for connection {0} occupation {1}. Cannot spawn player.",
 					Category.ItemSpawn,
 					connection.address, occupation.DisplayName);
-				return;
+				return null;
 			}
 
 			spawnPos = spawnTransform.transform.position.CutToInt();
@@ -126,26 +147,12 @@ public static class PlayerSpawn
 		connectedPlayer.Name = ps.playerName;
 		UpdateConnectedPlayersMessage.Send();
 
-		if (occupation.JobType == JobType.SYNDICATE)
-		{
-			//Check to see if there is a nuke and communicate the nuke code:
-			Nuke nuke = Object.FindObjectOfType<Nuke>();
-			if (nuke != null)
-			{
-				UpdateChatMessage.Send(newPlayer, ChatChannel.Syndicate, ChatModifier.None,
-					"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
-			}
-		}
-
-		if (occupation.JobType != JobType.SYNDICATE && occupation.JobType != JobType.AI)
-		{
-			SecurityRecordsManager.Instance.AddRecord(ps, occupation.JobType);
-		}
-
 		//fire all hooks
 		var info = SpawnInfo.Player(occupation, characterSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
 			spawnPos, naked: naked);
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
+
+		return newPlayer;
 	}
 
 	/// <summary>

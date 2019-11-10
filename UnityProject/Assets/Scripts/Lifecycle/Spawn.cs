@@ -137,10 +137,12 @@ public static class Spawn
 	/// <param name="count">number of instances to spawn, defaults to 1</param>
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
+	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
+		Quaternion? rotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
 	{
-		return Server(SpawnInfo.Prefab(prefab, worldPosition, parent, rotation, count, scatterRadius));
+		return Server(SpawnInfo.Prefab(prefab, worldPosition, parent, rotation, count, scatterRadius, cancelIfImpassable));
 	}
 
 	/// <summary>
@@ -179,10 +181,12 @@ public static class Spawn
 	/// <param name="count">number of instances to spawn, defaults to 1</param>
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
+	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnResult ServerPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnResult ServerPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null,
+		Quaternion? rotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
 	{
-		return Server(SpawnInfo.Prefab(prefabName, worldPosition, parent, rotation, count, scatterRadius));
+		return Server(SpawnInfo.Prefab(prefabName, worldPosition, parent, rotation, count, scatterRadius, cancelIfImpassable));
 	}
 
 	/// <summary>
@@ -251,6 +255,18 @@ public static class Spawn
 					Logger.LogError("Cannot spawn, prefab to use is null", Category.ItemSpawn);
 					return SpawnResult.Fail(info);
 				}
+
+				if (info.CancelIfImpassable)
+				{
+					if (IsTotallyImpassable(info.WorldPosition.CutToInt()))
+					{
+						Logger.LogTraceFormat("Cancelling spawn of {0} because" +
+						                      " the position being spawned to {1} is impassable",
+							Category.ItemSpawn, info.PrefabUsed, info.WorldPosition.CutToInt());
+						return SpawnResult.Fail(info);
+					}
+				}
+
 				bool isPooled;
 
 				GameObject tempObject = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation,
@@ -320,6 +336,12 @@ public static class Spawn
 
 		return SpawnResult.Multiple(info, spawnedObjects);
 
+	}
+
+	private static bool IsTotallyImpassable(Vector3Int tileWorldPosition)
+	{
+		return!MatrixManager.IsPassableAt(tileWorldPosition,true)
+		      &&!MatrixManager.IsAtmosPassableAt(tileWorldPosition,true);
 	}
 
 	/// <summary>

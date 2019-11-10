@@ -15,7 +15,9 @@ public static class Despawn
 	/// </summary>
 	/// <param name="toDespawn"></param>
 	/// <param name="skipInventoryDespawn">If the indicated object is in inventory, it will
-	/// be despawned via the inventory API instead. Set this to true to bypass this.</param>
+	/// be despawned via the inventory API instead. Set this to true to bypass this. This is only
+	/// intended to be set to true for particular internal use cases in the lifecycle system, so should
+	/// almost always be left at the default</param>
 	/// <returns></returns>
 	public static DespawnResult ServerSingle(GameObject toDespawn, bool skipInventoryDespawn = false)
 	{
@@ -29,7 +31,9 @@ public static class Despawn
 	/// </summary>
 	/// <param name="info"></param>
 	/// <param name="skipInventoryDespawn">If the indicated object is in inventory, it will
-	/// be despawned via the inventory API instead. Set this to true to bypass this.</param>
+	/// be despawned via the inventory API instead. Set this to true to bypass this. This is only
+	/// intended to be set to true for particular internal use cases in the lifecycle system, so should
+	/// almost always be left at the default</param>
 	/// <returns></returns>
 	private static DespawnResult Server(DespawnInfo info, bool skipInventoryDespawn = false)
 	{
@@ -57,19 +61,24 @@ public static class Despawn
 
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
 		var poolPrefabTracker = info.GameObject.GetComponent<PoolPrefabTracker>();
-		var objBehavior = info.GameObject.GetComponent<ObjectBehaviour>();
+		var transform = info.GameObject.GetComponent<IPushable>();
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
-		if (poolPrefabTracker != null && objBehavior != null)
+		if ( transform != null )
+		{
+			transform.VisibleState = false;
+		}
+
+		if (poolPrefabTracker != null)
 		{
 			//pooled
 			Spawn._AddToPool(info.GameObject);
-			objBehavior.VisibleState = false;
 		}
 		else
 		{
 			//not pooled
 			NetworkServer.Destroy(info.GameObject);
 		}
+
 
 		return DespawnResult.Single(info);
 	}
