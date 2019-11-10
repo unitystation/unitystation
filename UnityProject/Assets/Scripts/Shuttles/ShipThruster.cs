@@ -8,7 +8,7 @@ public class ShipThruster : MonoBehaviour
 	public MatrixMove shipMatrixMove; // ship matrix move
 	public ParticleSystem particleFX;
 
-	public float particleSpeedMultiplier = 1.5f;
+	public float particleRateMultiplier = 4f;
 
 	void Awake()
 	{
@@ -28,8 +28,8 @@ public class ShipThruster : MonoBehaviour
 		{
 			return;
 		}
-		shipMatrixMove.OnStart.RemoveListener(UpdateEngineState);
-		shipMatrixMove.OnStop.RemoveListener(UpdateEngineState);
+		shipMatrixMove.OnClientStart.RemoveListener(UpdateEngineState);
+		shipMatrixMove.OnClientStop.RemoveListener(UpdateEngineState);
 		shipMatrixMove.OnRotateStart.RemoveListener(RotateFX);
 		shipMatrixMove.OnSpeedChange.RemoveListener(SpeedChange);
 	}
@@ -49,8 +49,8 @@ public class ShipThruster : MonoBehaviour
 
 		}
 		yield return WaitFor.EndOfFrame;
-		shipMatrixMove.OnStart.AddListener(UpdateEngineState);
-		shipMatrixMove.OnStop.AddListener(UpdateEngineState);
+		shipMatrixMove.OnClientStart.AddListener(UpdateEngineState);
+		shipMatrixMove.OnClientStop.AddListener(UpdateEngineState);
 		shipMatrixMove.OnRotateStart.AddListener(RotateFX);
 		shipMatrixMove.OnSpeedChange.AddListener(SpeedChange);
 	}
@@ -61,7 +61,7 @@ public class ShipThruster : MonoBehaviour
 		if (EngineStatus())
 		{
 			emissionFX.enabled = true;
-			SpeedChange(0, shipMatrixMove.ClientState.Speed, particleSpeedMultiplier); //Set particle speed on engine updates, used for setting speed at beginning of flight.
+			SpeedChange(0, shipMatrixMove.ClientState.Speed); //Set particle speed on engine updates, used for setting speed at beginning of flight.
 		}
 		else
 		{
@@ -74,22 +74,14 @@ public class ShipThruster : MonoBehaviour
 	{
 		var mainFX = particleFX.main;
 
-		mainFX.startRotation = newRotationOffset.Degree * Mathf.Deg2Rad;
-	}
-
-	public void SpeedChange(float oldSpeed, float newSpeed, float _particleSpeedMultiplier)
-	{
-		var mainFX = particleFX.main;
-		particleSpeedMultiplier = _particleSpeedMultiplier;
-
-		mainFX.startSpeed = newSpeed * _particleSpeedMultiplier;
+		//mainFX.startRotation = newRotationOffset.Degree * Mathf.Deg2Rad;
 	}
 
 	public void SpeedChange(float oldSpeed, float newSpeed)
 	{
-		var mainFX = particleFX.main;
+		var emission = particleFX.emission;
 
-		mainFX.startSpeed = newSpeed * particleSpeedMultiplier;
+		emission.rateOverTime = Mathf.Clamp(newSpeed * particleRateMultiplier, 30f, 70f);
 	}
 
 	bool EngineStatus() // Returns if engines are "on" (if ship is moving)

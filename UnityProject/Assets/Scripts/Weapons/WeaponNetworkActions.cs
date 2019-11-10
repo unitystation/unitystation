@@ -24,21 +24,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private Vector3 lerpTo;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private RegisterPlayer registerPlayer;
 	private GameObject spritesObj;
 	public ItemTrait KnifeTrait;
-
-	private GameObject casingPrefab;
 
 	private void Start()
 	{
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerMove = GetComponent<PlayerMove>();
-		registerPlayer = GetComponent<RegisterPlayer>();
 		playerScript = GetComponent<PlayerScript>();
 		lerpSprite = null;
-
-		casingPrefab = Resources.Load("BulletCasing") as GameObject;
 	}
 
 	[Command]
@@ -99,15 +93,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
 		{
-			TileChangeManager tileChangeManager = victim.GetComponent<TileChangeManager>();
-			MetaTileMap metaTileMap = victim.GetComponentInChildren<MetaTileMap>();
-			if (tileChangeManager == null)
-			{
-				return;
-			}
+			var tileChangeManager = victim.GetComponent<TileChangeManager>();
+			if (tileChangeManager == null) return; //Make sure its on a matrix that is destructable
 
 			//Tilemap stuff:
-			var tileMapDamage = metaTileMap.Layers[layerType].GetComponent<TilemapDamage>();
+			var tileMapDamage = victim.GetComponentInChildren<MetaTileMap>().Layers[layerType].gameObject
+				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
 				//Wire cutters should snip the grills instead:
@@ -174,7 +165,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		else
 		{
 			//damaging a living thing
-			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
+			victimHealth.ApplyDamageToBodypart(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
 		}
 
 		SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
@@ -218,7 +209,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (90 >= rng.Next(1, 100))
 		{
 			// The punch hit.
-			victimHealth.ApplyDamage(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
+			victimHealth.ApplyDamageToBodypart(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
 			if (fistDamage > 0)
 			{
 				Chat.AddAttackMsgToChat(gameObject, victim, damageZone);

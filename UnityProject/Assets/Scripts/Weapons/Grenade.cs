@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
+public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IOnStageClient
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -45,6 +45,12 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
 	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 	public float minEffectDuration = .05f;
 
+	[Tooltip("Used for animation")]
+	public SpriteHandler spriteHandler;
+	// Zero and one reserved for hands
+	private const int LOCKED_SPRITE = 2;
+	private const int ARMED_SPRITE = 3;
+
 	//LayerMask for obstructions which can block the explosion
 	private int OBSTACLE_MASK;
 	//arrays containing the list of things damaged by the explosion.
@@ -54,6 +60,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
 	//whether this object has exploded
 	private bool hasExploded;
 	//this object's registerObject
+	[SyncVar(hook = nameof(UpdateTimer))]
 	private bool timerRunning = false;
 	private RegisterItem registerItem;
 
@@ -67,6 +74,15 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
 		registerItem = GetComponent<RegisterItem>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
+
+		// Set grenade to locked state by default
+		UpdateSprite(LOCKED_SPRITE);
+	}
+
+	public void GoingOnStageClient(OnStageInfo info)
+	{
+		// Set grenade to locked state by default
+		UpdateSprite(LOCKED_SPRITE);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -95,6 +111,35 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
 		}
 	}
 
+	private void UpdateSprite(int sprite)
+	{
+		// Update sprite in game
+		spriteHandler?.ChangeSprite(sprite);
+	}
+
+	/// <summary>
+	/// This coroutines make sure that sprite in hands is animated
+	/// TODO: replace this with more general aproach for animated icons
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator AnimateSpriteInHands()
+	{
+		while (timerRunning && !hasExploded)
+		{
+			if (UIManager.Hands.CurrentSlot != null)
+			{
+				// UIManager doesn't update held item sprites automatically
+				if (UIManager.Hands.CurrentSlot.Item == gameObject)
+				{
+					UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
+				}
+			}
+
+			yield return null;
+		}
+
+	}
+
 	public void Explode(string damagedBy)
 	{
 		if (hasExploded)
@@ -107,7 +152,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
 			PlaySoundAndShake();
 			CreateShape();
 			CalcAndApplyExplosionDamage(damagedBy);
-			objectBehaviour.VisibleState = false; //todo: should probably destroy such things (or return into pool) instead of hiding
+			PoolManager.PoolNetworkDestroy( gameObject );
 		}
 	}
 
@@ -295,7 +340,36 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		SoundManager.PlayNetworkedAtPos("EmptyGunClick", position, 2.2f);
+		SoundManager.PlayNetworkedAtPos("armbomb", position);
 	}
 
+	private void UpdateTimer(bool timerRunning)
+	{
+		this.timerRunning = timerRunning;
+
+		if (timerRunning)
+		{
+			// Start playing arm animation
+			UpdateSprite(ARMED_SPRITE);
+			// Update grenade icon in hands
+			StartCoroutine(AnimateSpriteInHands());
+		}
+		else
+		{
+			// We somehow deactivated bomb
+			UpdateSprite(LOCKED_SPRITE);
+		}
+
+	}
+
+#if UNITY_EDITOR
+	/// <summary>
+	/// Used only for debug in editor
+	/// </summary>
+	[ContextMenu("Pull a pin")]
+	private void PullPin()
+	{
+		StartCoroutine(TimeExplode(gameObject));
+	}
+#endif
 }

@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class TileChangeManager : NetworkBehaviour
@@ -12,6 +14,8 @@ public class TileChangeManager : NetworkBehaviour
 	private MetaTileMap metaTileMap;
 
 	private TileChangeList changeList = new TileChangeList();
+
+	public Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
 	private void Awake()
 	{
@@ -28,11 +32,11 @@ public class TileChangeManager : NetworkBehaviour
 			// load tile & apply
 			if (entry.TileType.Equals(TileType.None))
 			{
-				RemoveTile(entry.Position, entry.LayerType, entry.RemoveAll);
+				InternalRemoveTile(entry.Position, entry.LayerType, entry.RemoveAll);
 			}
 			else
 			{
-				UpdateTile(entry.Position, entry.TileType, entry.TileName);
+				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName);
 			}
 		}
 	}
@@ -54,6 +58,8 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if (IsDifferent(cellPosition, tileType, tileName))
 		{
+			InternalUpdateTile(cellPosition, tileType, tileName);
+
 			RpcUpdateTile(cellPosition, tileType, tileName);
 
 			AddToChangeList(cellPosition, tileType:tileType, tileName:tileName);
@@ -61,14 +67,33 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void RemoveTile(Vector3Int cellPosition, LayerType layerType)
+	public void RemoveTile( Vector3Int cellPosition )
+	{
+		foreach ( var layerType in metaTileMap.LayersKeys )
+		{
+			RemoveTile( cellPosition, layerType );
+		}
+	}
+
+	[Server]
+	public bool RemoveTile(Vector3Int cellPosition, LayerType layerType)
 	{
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
+			InternalRemoveTile(cellPosition, layerType, false);
+
 			RpcRemoveTile(cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType);
+
+			if ( layerType == LayerType.Floors || layerType == LayerType.Base )
+			{
+				OnFloorOrPlatingRemoved.Invoke( cellPosition );
+			}
+			return true;
 		}
+
+		return false;
 	}
 
 	[Server]
@@ -78,6 +103,8 @@ public class TileChangeManager : NetworkBehaviour
 
 		if (metaTileMap.HasTile(cellPosition, layerType, true))
 		{
+			InternalRemoveTile(cellPosition, layerType, true);
+
 			RpcRemoveTile(cellPosition, layerType, true);
 
 			AddToChangeList(cellPosition, layerType, removeAll:true);
@@ -87,10 +114,14 @@ public class TileChangeManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
 	{
-		RemoveTile(position, layerType, onlyRemoveEffect);
+		if ( isServer )
+		{
+			return;
+		}
+		InternalRemoveTile(position, layerType, onlyRemoveEffect);
 	}
 
-	private void RemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
+	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
 	{
 		if (onlyRemoveEffect)
 		{
@@ -105,10 +136,14 @@ public class TileChangeManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
-		UpdateTile(position, tileType, tileName);
+		if ( isServer )
+		{
+			return;
+		}
+		InternalUpdateTile(position, tileType, tileName);
 	}
 
-	private void UpdateTile(Vector3 position, TileType tileType, string tileName)
+	private void InternalUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
@@ -161,3 +196,5 @@ public class TileChangeEntry
 
 	public bool RemoveAll;
 }
+
+public class TileChangeEvent : UnityEvent<Vector3Int, GenericTile> { }

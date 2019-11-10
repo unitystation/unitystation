@@ -102,7 +102,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 			PowerCut = true;
 			if (PowerCut)
 			{
-
+				if ( spriteRenderer == null ){ return; }
 				spriteRenderer.sprite = lightPowerCut;
 			}
 		}
@@ -197,6 +197,10 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 
 	private void DetectLightsAndAction(bool state)
 	{
+		if ( this == null )
+		{
+			return;
+		}
 		Vector2 startPos = GetCastPos();
 		int length = Physics2D.OverlapCircleNonAlloc(startPos, radius, lightSpriteColliders, lightingMask);
 		for (int i = 0; i < length; i++)

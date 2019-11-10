@@ -39,7 +39,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 	/// <summary>
 	/// used for restoring selected channel message when priority message is gone
 	/// </summary>
-	private string cachedText;
+	private string cachedText = String.Empty;
 
 	#region syncvar boilerplate and init
 

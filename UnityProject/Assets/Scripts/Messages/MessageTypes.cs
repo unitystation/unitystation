@@ -8,7 +8,7 @@ internal enum MessageTypes : short
 	UpdateRoundTimeMessage = 1004,
 	UpdateItemSlotMessage = 1005,
 	UpdateUIMessage = 1006,
-	ClosetHandlerMessage = 1007,
+	FollowCameraMessage = 1007,
 	ForceJobListUpdateMessage = 1008,
 	TransformStateMessage = 1009,
 	PlayerDeathMessage = 1010,
@@ -24,7 +24,7 @@ internal enum MessageTypes : short
 	ProgressBarMessage = 1020,
 	PaperUpdateMessage = 1021,
 	StorageObjectSyncMessage = 1022,
-	// = 1023, unused, replace at will
+	MobMeleeLerpMessage = 1023,
 	// = 1024, unused, replace at will
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,

@@ -240,7 +240,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
+		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
+		                                        || playerScript.playerHealth.IsCardiacArrest)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -264,8 +265,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<LivingHealthBehaviour>()
-			.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute, BodyPartType.Chest);
+		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute);
 	}
 
 	//Respawn action for Deathmatch v 0.1.3
@@ -304,6 +304,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdGhostEnterBody()
 	{
+		PlayerScript body = playerScript.mind.body;
+		if ( !playerScript.IsGhost || !body.playerHealth.IsDead )
+		{
+			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
+			return;
+		}
+		if ( body.WorldPos == TransformState.HiddenPos )
+		{
+			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
+			return;
+		}
 		playerScript.mind.StopGhosting();
 		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
 	}
@@ -374,8 +385,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			//is the welder on?
 			if (w.isOn)
-			{
-				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
+			{ //fixme: ExplodeWhenShot is removed for good
+//				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
 			}
 			else
 			{
@@ -560,7 +571,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAdminSmash(GameObject toSmash)
 	{
-		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+		if ( toSmash == null )
+		{
+			return;
+		}
+
+		var integrity = toSmash.GetComponent<Integrity>();
+		if ( integrity == null )
+		{
+			return;
+		}
+		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
 	//simulates despawning and immediately respawning this object, expectation

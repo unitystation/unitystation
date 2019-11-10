@@ -48,6 +48,8 @@ public class BloodSystem : MonoBehaviour
 	private float tickRate = 1f;
 	private float tick = 0f;
 
+	private BloodSplatType bloodSplatColor;
+
 	void Awake()
 	{
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
@@ -68,6 +70,7 @@ public class BloodSystem : MonoBehaviour
 	public void SetBloodType(DNAandBloodType dnaBloodType)
 	{
 		bloodType = dnaBloodType;
+		bloodSplatColor = dnaBloodType.BloodColor;
 	}
 
 	//Handle by UpdateManager
@@ -194,7 +197,7 @@ public class BloodSystem : MonoBehaviour
 			scaleOfTragedy = BloodSplatSize.large;
 		}
 
-		EffectsFactory.BloodSplat(transform.position, scaleOfTragedy);
+		EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy, bloodSplatColor);
 	}
 
 	/// <summary>

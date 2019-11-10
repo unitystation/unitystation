@@ -18,7 +18,16 @@ public class NPCDirectionalSprites : NetworkBehaviour
 
 	private Vector2 localPosCache;
 
+	/// <summary>
+	/// Gets the current facing direction of the NPC
+	/// </summary>
+	public Vector2 CurrentFacingDirection
+	{
+		get { return GetDirection(dir); }
+	}
+
 	[SyncVar(hook = "OnDirChange")] private int dir;
+	[SyncVar(hook = "OnRotChange")] private float spriteRot;
 
 	void OnEnable()
 	{
@@ -30,12 +39,14 @@ public class NPCDirectionalSprites : NetworkBehaviour
 		base.OnStartServer();
 		localPosCache = transform.localPosition;
 		dir = 2;
+		spriteRot = 0;
 	}
 
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		OnDirChange(dir);
+		OnRotChange(spriteRot);
 	}
 
 	//0=no init ,1=up ,2=right ,3=down ,4=left
@@ -43,6 +54,22 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	{
 		dir = direction;
 		ChangeSprite(direction);
+	}
+
+	//The local rotation of the sprite obj
+	void OnRotChange(float newRot)
+	{
+		spriteRot = newRot;
+		spriteRend.transform.localEulerAngles = new Vector3(0f,0f, spriteRot);
+	}
+
+	/// <summary>
+	/// Sets the local rotation of the sprite obj
+	/// </summary>
+	/// <param name="newRot"></param>
+	public void SetRotationServer(float newRot)
+	{
+		spriteRot = newRot;
 	}
 
 	/// <summary>
@@ -99,6 +126,23 @@ public class NPCDirectionalSprites : NetworkBehaviour
 		return 2;
 	}
 
+	private Vector2 GetDirection(int dirNum)
+	{
+		switch (dirNum)
+		{
+			case 1:
+				return Vector2.up;
+			case 2:
+				return Vector2.right;
+			case 3:
+				return Vector2.down;
+			case 4:
+				return Vector2.left;
+			default:
+				return Vector2.left;
+		}
+	}
+
 	/// 1=up ,2=right ,3=down ,4=left
 	private void ChangeSprite(int dirNum)
 	{
@@ -116,7 +160,37 @@ public class NPCDirectionalSprites : NetworkBehaviour
 			case 4:
 				spriteRend.sprite = leftSprite;
 				break;
-
 		}
+	}
+
+	/// <summary>
+	/// Set the sprite renderer to bodies when the mob has died
+	/// </summary>
+	public void SetToBodyLayer()
+	{
+		spriteRend.sortingLayerName = "Bodies";
+	}
+
+	/// <summary>
+	/// Set the mobs sprite renderer to NPC layer
+	/// </summary>
+	public void SetToNPCLayer()
+	{
+		spriteRend.sortingLayerName = "NPCs";
+	}
+
+	/// <summary>
+	/// Change the facing direction based on a Vector2 dir
+	/// </summary>
+	/// <param name="dir"></param>
+	public void ChangeDirection(Vector2 dir)
+	{
+		var angleOfDir = Vector3.Angle((Vector2) dir, transform.up);
+		if (dir.x < 0f)
+		{
+			angleOfDir = -angleOfDir;
+		}
+
+		CheckSpriteServer(angleOfDir);
 	}
 }

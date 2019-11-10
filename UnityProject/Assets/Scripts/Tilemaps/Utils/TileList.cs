@@ -8,7 +8,7 @@ using UnityEngine;
 		private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects =
 			new Dictionary<Vector3Int, List<RegisterTile>>();
 
-		private static readonly IEnumerable<RegisterTile> emptyList = Enumerable.Empty<RegisterTile>();
+		private static readonly List<RegisterTile> emptyList = new List<RegisterTile>();
 
 		public List<RegisterTile> AllObjects {
 			get {
@@ -39,7 +39,7 @@ using UnityEngine;
 		{
 			return _objects.ContainsKey(position) && _objects[position].Count > 0;
 		}
-		public IEnumerable<RegisterTile> Get(Vector3Int position)
+		public List<RegisterTile> Get(Vector3Int position)
 		{
 			return _objects.ContainsKey(position) ? _objects[position] : emptyList;
 		}

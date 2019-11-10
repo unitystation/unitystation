@@ -24,6 +24,8 @@ public class MobAgent : Agent
 	private float tickWait;
 	private float decisionTimeOut;
 
+	public bool Pause { get; set; }
+
 	void Awake()
 	{
 		cnt = GetComponent<CustomNetTransform>();
@@ -39,7 +41,7 @@ public class MobAgent : Agent
 	//lines present for any future retraining
 	public override void AgentReset()
 	{
-	//	cnt.SetPosition(startPos);
+		//	cnt.SetPosition(startPos);
 	}
 
 	[ContextMenu("Force Activate")]
@@ -61,10 +63,11 @@ public class MobAgent : Agent
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;
 
+		UpdateManager.Instance.Add(UpdateMe);
+
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			cnt.OnTileReached().AddListener(OnTileReached);
-			UpdateManager.Instance.Add(UpdateMe);
 			startPos = transform.position;
 			isServer = true;
 			base.OnEnable();
@@ -78,8 +81,8 @@ public class MobAgent : Agent
 		if (isServer)
 		{
 			cnt.OnTileReached().RemoveListener(OnTileReached);
-			UpdateManager.Instance.Remove(UpdateMe);
 		}
+		UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	protected virtual void OnTileReached(Vector3Int tilePos)
@@ -95,9 +98,15 @@ public class MobAgent : Agent
 	{
 	}
 
+	/// <summary>
+	/// Make sure to call base.UpdateMe if overriding
+	/// </summary>
 	protected virtual void UpdateMe()
 	{
-		MonitorDecisionMaking();
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			MonitorDecisionMaking();
+		}
 	}
 
 	/// <summary>
@@ -110,7 +119,7 @@ public class MobAgent : Agent
 
 	void MonitorDecisionMaking()
 	{
-		if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+		if (health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)
 		{
 			//can't do anything this NPC is not capable of movement
 			return;
@@ -172,6 +181,12 @@ public class MobAgent : Agent
 						count++;
 					}
 				}
+			}
+
+			if (dirToMove == Vector2Int.zero)
+			{
+				performingDecision = false;
+				return;
 			}
 
 			var dest = registerObj.LocalPositionServer + (Vector3Int) dirToMove;
@@ -240,14 +255,21 @@ public class MobAgent : Agent
 					{
 						if (allowTargetPush)
 						{
-							if (checkPos == Vector3Int.RoundToInt(target.localPosition))
+							if (target != null)
 							{
-								//it is our target! Allow mob to attempt to walk into it (can be used for attacking)
-								AddVectorObs(true);
+								if (checkPos == Vector3Int.RoundToInt(target.localPosition))
+								{
+									//it is our target! Allow mob to attempt to walk into it (can be used for attacking)
+									AddVectorObs(true);
+								}
+								else
+								{
+									// it is something solid
+									AddVectorObs(false);
+								}
 							}
 							else
 							{
-								// it is something solid
 								AddVectorObs(false);
 							}
 						}

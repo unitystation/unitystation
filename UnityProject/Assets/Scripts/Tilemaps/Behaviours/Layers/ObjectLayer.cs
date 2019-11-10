@@ -22,10 +22,9 @@ public class ObjectLayer : Layer
 
 		if (objectTile)
 		{
-			if (!objectTile.IsItem)
-			{
-				tilemap.SetTile(position, null);
-			}
+			//hack to expand bounds when placing items in editor
+			base.InternalSetTile(position, tile);
+			base.InternalSetTile(position, null);
 
 			objectTile.SpawnObject(position, tilemap, transformMatrix);
 		}
@@ -42,16 +41,43 @@ public class ObjectLayer : Layer
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-		foreach ( RegisterTile obj in ClientObjects.Get(position) )
-		{
-			DestroyImmediate(obj.gameObject);
-		}
-		foreach ( RegisterTile obj in ServerObjects.Get(position) )
-		{
-			DestroyImmediate(obj.gameObject);
-		}
+//		if ( removeAll )
+//		{
+//			List<RegisterTile> list = ServerObjects.Get(position);
+//			for ( var i = list.Count - 1; i >= 0; i-- )
+//			{
+//				PoolManager.PoolNetworkDestroy( list[i].gameObject );
+//			}
+//
+//			List<RegisterTile> objs = ClientObjects.Get(position);
+//			for ( var i = objs.Count - 1; i >= 0; i-- )
+//			{
+//				if ( CustomNetworkManager.IsServer )
+//				{
+//					PoolManager.PoolNetworkDestroy( objs[i].gameObject );
+//				} else
+//				{
+//					DestroyImmediate( objs[i].gameObject );
+//				}
+//			}
+//		}
 
 		base.RemoveTile(position, removeAll);
+	}
+
+	public float GetObjectResistanceAt( Vector3Int position, bool isServer )
+	{
+		float resistance = 0; //todo: non-alloc method with ref?
+		foreach ( RegisterTile t in isServer ? ServerObjects.Get( position ) : ClientObjects.Get( position ) )
+		{
+			var health = t.GetComponent<IHealth>();
+			if ( health != null )
+			{
+				resistance += health.Resistance;
+			}
+		}
+
+		return resistance;
 	}
 
 	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,

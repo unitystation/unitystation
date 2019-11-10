@@ -13,12 +13,6 @@ public class SimpleAnimal : LivingHealthBehaviour
 
 	public SpriteRenderer spriteRend;
 
-	private void Start()
-	{
-		//Set it automatically because we are using the SimpleAnimalBehaviour
-		isNotPlayer = true;
-	}
-
 	public override void OnStartClient()
 	{
 		base.OnStartClient();

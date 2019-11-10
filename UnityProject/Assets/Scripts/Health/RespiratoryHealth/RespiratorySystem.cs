@@ -32,6 +32,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private float tick = 0f;
 	private PlayerScript playerScript;
 	private float breatheCooldown = 0;
+	public bool canBreathAnywhere { get; set; }
 
 
 	void Awake()
@@ -60,7 +61,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	void UpdateMe()
 	{
 		//Server Only:
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.IsServer && !canBreathAnywhere)
 		{
 			tick += Time.deltaTime;
 			if (tick >= tickRate)

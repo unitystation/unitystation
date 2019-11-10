@@ -10,10 +10,24 @@ public struct MatrixInfo
 	public MetaTileMap MetaTileMap;
 	public MetaDataLayer MetaDataLayer;
 	public SubsystemManager SubsystemManager;
+	public TileChangeManager TileChangeManager;
+	public ReactionManager ReactionManager;
 	public GameObject GameObject;
+	public BoundsInt Bounds => MetaTileMap.GetBounds();
+	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
+	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
+
 	public Vector3Int CachedOffset;
 	// position we were at when offset was last cached, to check if it is invalid
 	private Vector3 cachedPosition;
+
+	public Color Color => Matrix ? Matrix.Color : Color.red;
+	public float Speed => MatrixMove ? MatrixMove.State.Speed : 0f;
+
+	//todo: placeholder, should depend on solid tiles count instead (and use caching)
+	public float Mass => Bounds.size.sqrMagnitude/1000f;
+	public bool IsMovable => MatrixMove != null;
+	public Vector2Int MovementVector => ( IsMovable && MatrixMove.isMovingServer ) ? MatrixMove.State.Direction.VectorInt : Vector2Int.zero;
 
 	/// <summary>
 	/// Transform containing all the physical objects on the map

@@ -30,11 +30,12 @@ public class ConeOfSight : MonoBehaviour
 
 		for (int i = 0; i < rayCount; i++)
 		{
-			var offset = Mathf.Lerp(-offsetDegrees, offsetDegrees, (float)i / (float)rayCount - 1);
+			var step = (float) i / ((float) rayCount - 1);
+			var offset = Mathf.Lerp(-offsetDegrees, offsetDegrees, step);
 			var castDir = (Quaternion.AngleAxis(-angleOfDir, Vector3.forward) * Quaternion.Euler(0,0, -offset)) * Vector3.up;
 
 			RaycastHit2D hit = Physics2D.Raycast(transform.position, castDir, lengthOfSight, hitMask);
-
+		//	Debug.DrawRay(transform.position, castDir, Color.blue, 10f);
 			if (hit.collider != null)
 			{
 				hitColls.Add(hit.collider);
@@ -86,7 +87,7 @@ public class ConeOfSight : MonoBehaviour
 			var castDir = (Quaternion.AngleAxis(-angleOfDir, Vector3.forward) * Quaternion.Euler(0,0, -offset)) * Vector3.up;
 
 			RaycastHit2D hit = Physics2D.Raycast(originWorldPos, castDir, lengthOfSight, hitMask);
-			Debug.DrawRay(originWorldPos, castDir, Color.blue, 10f);
+		//	Debug.DrawRay(originWorldPos, castDir, Color.blue, 10f);
 			if (hit.collider != null)
 			{
 				if (hit.distance > furthestDist)

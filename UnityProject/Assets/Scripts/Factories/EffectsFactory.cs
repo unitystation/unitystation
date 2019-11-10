@@ -12,6 +12,10 @@ public static class EffectsFactory
 	private static GameObject smallAshTile;
 	private static GameObject waterTile;
 
+	private static GameObject smallXenoBloodTile;
+	private static GameObject medXenoBloodTile;
+	private static GameObject largeXenoBloodTile;
+
 	private static void EnsureInit()
 	{
 		if (fireTile == null)
@@ -24,6 +28,9 @@ public static class EffectsFactory
 			largeAshTile = Resources.Load("LargeAsh") as GameObject;
 			smallAshTile = Resources.Load("SmallAsh") as GameObject;
 			waterTile = Resources.Load("WaterSplat") as GameObject;
+			smallXenoBloodTile = Resources.Load("SmallXenoBloodSplat") as GameObject;
+			medXenoBloodTile = Resources.Load("MedXenoBloodSplat") as GameObject;
+			largeXenoBloodTile = Resources.Load("LargeXenoBloodSplat") as GameObject;
 		}
 	}
 
@@ -40,20 +47,47 @@ public static class EffectsFactory
 		fT.StartFire(fuelAmt);
 	}
 
-	public static void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize)
+	public static void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize, BloodSplatType bloodColorType)
 	{
 		EnsureInit();
 		GameObject chosenTile = null;
-		switch (splatSize)
+		switch (bloodColorType)
 		{
-			case BloodSplatSize.small:
-				chosenTile = smallBloodTile;
+			case BloodSplatType.red:
+				switch (splatSize)
+				{
+					case BloodSplatSize.small:
+						chosenTile = smallBloodTile;
+						break;
+					case BloodSplatSize.medium:
+						chosenTile = mediumBloodTile;
+						break;
+					case BloodSplatSize.large:
+						chosenTile = largeBloodTile;
+						break;
+					case BloodSplatSize.Random:
+						int rand = Random.Range(0, 3);
+						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType);
+						return;
+				}
 				break;
-			case BloodSplatSize.medium:
-				chosenTile = mediumBloodTile;
-				break;
-			case BloodSplatSize.large:
-				chosenTile = largeBloodTile;
+			case BloodSplatType.green:
+				switch (splatSize)
+				{
+					case BloodSplatSize.small:
+						chosenTile = smallXenoBloodTile;
+						break;
+					case BloodSplatSize.medium:
+						chosenTile = medXenoBloodTile;
+						break;
+					case BloodSplatSize.large:
+						chosenTile = largeXenoBloodTile;
+						break;
+					case BloodSplatSize.Random:
+						int rand = Random.Range(0, 3);
+						BloodSplat(worldPos, (BloodSplatSize)rand, bloodColorType);
+						return;
+				}
 				break;
 		}
 

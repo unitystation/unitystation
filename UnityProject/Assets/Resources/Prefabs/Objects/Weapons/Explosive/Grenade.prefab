@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 114501387999760508}
   - component: {fileID: 114006909984101046}
   - component: {fileID: 114217806038025902}
-  - component: {fileID: 114083320015762204}
+  - component: {fileID: 13680737134351771}
   - component: {fileID: 114867601024140442}
   m_Layer: 10
   m_Name: Grenade
@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5134582746904691057}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 45, y: 26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5851200215818439649}
@@ -177,11 +177,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
+  spriteDataHandler: {fileID: 13680737134351771}
   InventoryIcon: {fileID: 0}
   itemName: Grenade
   itemDescription: It's a metal can with a pretty ring attached to it.
-  initialTraits: []
+  itemType: 0
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -251,6 +251,7 @@ MonoBehaviour:
   minDamage: 2
   maxEffectDuration: 0.25
   minEffectDuration: 0.05
+  spriteHandler: {fileID: 13680737134351771}
 --- !u!114 &114110293052994112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +266,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114501387999760508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +329,7 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &114083320015762204
+--- !u!114 &13680737134351771
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -334,15 +338,124 @@ MonoBehaviour:
   m_GameObject: {fileID: 5134582746904691057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
     spriteIndex: 0
     VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+    AID: 26
+    Serialized:
+    - inlistID: 2
+      listID: 3
+      sprite: {fileID: 21300000, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 2
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 4
+      listID: 5
+      sprite: {fileID: 21300002, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 4
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 6
+      listID: 7
+      sprite: {fileID: 21300004, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 6
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 8
+      listID: 9
+      sprite: {fileID: 21300006, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 8
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 1
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 11
+      listID: 12
+      sprite: {fileID: 21300000, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 11
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 13
+      listID: 14
+      sprite: {fileID: 21300002, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 13
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 15
+      listID: 16
+      sprite: {fileID: 21300004, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 15
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 17
+      listID: 18
+      sprite: {fileID: 21300006, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 17
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 10
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 20
+      listID: 21
+      sprite: {fileID: 21300000, guid: 9e33c5ac9bd9b5841ae5ab45b683b6ee, type: 3}
+      waitTime: 0
+    - inlistID: 19
+      listID: 20
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 19
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 23
+      listID: 24
+      sprite: {fileID: 21300000, guid: 1300832411f509040bf065bec2b01dd9, type: 3}
+      waitTime: 0.1
+    - inlistID: 23
+      listID: 25
+      sprite: {fileID: 21300002, guid: 1300832411f509040bf065bec2b01dd9, type: 3}
+      waitTime: 0.2
+    - inlistID: 22
+      listID: 23
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 22
+      sprite: {fileID: 0}
+      waitTime: 0
+  spriteList:
+  - {fileID: 21300000, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
+  - {fileID: 21300000, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
+  - {fileID: 21300000, guid: 9e33c5ac9bd9b5841ae5ab45b683b6ee, type: 3}
+  - {fileID: 21300000, guid: 1300832411f509040bf065bec2b01dd9, type: 3}
+  spriteRenderer: {fileID: 7002858292552391738}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 0
+  test: 0
 --- !u!114 &114867601024140442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,5 +470,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 176771780f0044e888d03a1373c39328
+  m_AssetId: 200bde3ddfd65ea4db701f0fa1c81f6c
   m_SceneId: 0

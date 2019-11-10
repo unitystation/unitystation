@@ -10,7 +10,7 @@ using System.Collections;
 /// </summary>
 public class CorgiAI : MobAI
 {
-	public string dogName = "Ian";
+	private string dogName;
 
 	//Set this inspector. The corgi will only respond to
 	//voice commands from these job types:
@@ -25,7 +25,7 @@ public class CorgiAI : MobAI
 	protected override void Awake()
 	{
 		base.Awake();
-		dogName = dogName.ToLower();
+		dogName = mobName.ToLower();
 	}
 
 	protected override void AIStartServer()
@@ -183,7 +183,7 @@ public class CorgiAI : MobAI
 				StartCoroutine(ChaseTail(Random.Range(1, 5)));
 				break;
 			case 2:
-				NudgeInDir(Random.Range(1, 8));
+				NudgeInDir(Random.Range(1, 9));
 				break;
 			//case 3 is nothing
 		}

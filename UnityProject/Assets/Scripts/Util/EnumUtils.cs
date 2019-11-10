@@ -16,6 +16,13 @@ public static class EnumUtils
 			fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
 		return descriptionAttribute == null ? value.ToString() : descriptionAttribute.Description;
 	}
+	public static int GetOrder(this Enum value)
+	{
+		FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
+		OrderAttribute attribute =
+			fieldInfo.GetCustomAttributes(typeof(OrderAttribute), false).FirstOrDefault() as OrderAttribute;
+		return attribute == null ? -1 : attribute.Order;
+	}
 
 	public static int GetSetBitCount(long lValue)
 	{

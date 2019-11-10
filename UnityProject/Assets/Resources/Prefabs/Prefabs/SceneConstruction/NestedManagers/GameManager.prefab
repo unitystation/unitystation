@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd149a73a974c77bd23df0cb28c844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowedOccupations: {fileID: 11400000, guid: 372aeb2f97f7d4617b83a6e8fe6adb92, type: 2}
   counting: 0
   Occupations:
   - {fileID: 1907548023066798, guid: 21b1766adb51e3349890b2d2f9db3227, type: 3}
@@ -97,6 +96,7 @@ MonoBehaviour:
   CentComm: {fileID: 5244294626086762232}
   primaryEscapeShuttle: {fileID: 0}
   AllGameModes: []
+  GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
   SecretGameMode: 1
   CurrentRoundState: 0
 --- !u!114 &5244294626086762232

@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Atmospherics;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using Tilemaps.Behaviours.Meta;
 using Object = System.Object;
 
 /// <summary>
@@ -18,7 +21,7 @@ using Object = System.Object;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IServerSpawn
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn
 {
 
 	/// <summary>
@@ -75,13 +78,16 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, ISer
 	private static readonly float BURN_RATE = 1f;
 	private float timeSinceLastBurn;
 
-	private float integrity = 100f;
+	public float integrity { get; private set; } = 100f;
 	private bool destroyed = false;
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
+	private IPushable pushable;
 
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)
 	private bool isLarge;
+
+	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size/10f);
 
 	private void Awake()
 	{
@@ -91,6 +97,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, ISer
 			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("LargeBurning");
 		}
 		registerTile = GetComponent<RegisterTile>();
+		pushable = GetComponent<IPushable>();
 		//this is just a guess - large items can't be picked up
 		isLarge = GetComponent<Pickupable>() == null;
 		if (Resistances.Flammable)
@@ -231,7 +238,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, ISer
 	{
 		//just a guess - objects which can be picked up should have a smaller amount of ash
 		EffectsFactory.Ash(registerTile.WorldPosition.To2Int(), isLarge);
-		Chat.AddLocalMsgToChat($"{name} burnt to ash.", gameObject.TileWorldPosition());
+		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject.TileWorldPosition());
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		Despawn.ServerSingle(gameObject);
 	}
@@ -241,13 +248,13 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, ISer
 	{
 		if (info.DamageType == DamageType.Brute)
 		{
-			Chat.AddLocalMsgToChat($"{name} was smashed to pieces.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject.TileWorldPosition());
 			Despawn.ServerSingle(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
-			Chat.AddLocalMsgToChat($"{name} was destroyed.", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject.TileWorldPosition());
 			Despawn.ServerSingle(gameObject);
 		}
 	}

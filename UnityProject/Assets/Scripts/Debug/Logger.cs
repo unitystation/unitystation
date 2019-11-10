@@ -241,7 +241,8 @@ public enum Category
 	SpriteHandler,
 	GameMode,
 	Chat,
-	Interaction
+	Interaction,
+	Antags
 }
 
 [Serializable]

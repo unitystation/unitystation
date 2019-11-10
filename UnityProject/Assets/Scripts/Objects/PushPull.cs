@@ -13,12 +13,14 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	public RegisterTile registerTile;
 
 	/// <summary>
-	/// Setting this is identical to calling Appear/DisappearFromWorldServer
+	/// *** USE WITH CAUTION! ***
+	/// Setting it to true without parent container will make it appear at HiddenPos.
+	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
 	/// </summary>
 	public bool VisibleState
 	{
-		get => Pushable.ServerPosition != TransformState.HiddenPos;
-		set => Pushable.SetVisibleServer( value );
+		get => Pushable.VisibleState;
+		set => Pushable.VisibleState = value;
 	}
 
 	/// <summary>
@@ -56,7 +58,11 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		var pos = registerTile.WorldPositionServer;
 		if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
 		{
-			Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos, something might be wrong", Category.Transform, gameObject.name );
+			pos = Pushable.LastNonHiddenPosition;
+			if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+			{
+				Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name );
+			}
 		}
 		return pos;
 	}
@@ -92,10 +98,10 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		bool collided = false;
 		foreach ( var living in MatrixManager.GetAt<LivingHealthBehaviour>( collision.CollisionTile, true ) )
 		{
-			living.ApplyDamage( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			living.ApplyDamageToBodypart( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute );
 			collided = true;
 		}
-		foreach ( var tile in MatrixManager.GetDamagetableTilemapsAt( collision.CollisionTile ) )
+		foreach ( var tile in MatrixManager.GetDamageableTilemapsAt( collision.CollisionTile ) )
 		{
 			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
 			collided = true;
@@ -104,7 +110,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		if ( collided )
 		{
 			//Damage self as bad as the thing you collide with
-			GetComponent<LivingHealthBehaviour>()?.ApplyDamage( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodypart( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute );
 			Logger.LogFormat( "{0}: collided with something at {2}, both received {1} damage",
 				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile );
 		}

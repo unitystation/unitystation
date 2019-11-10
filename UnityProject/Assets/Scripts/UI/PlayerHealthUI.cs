@@ -16,6 +16,7 @@ public class PlayerHealthUI : MonoBehaviour
 	public UI_HeartMonitor heartMonitor;
 	public List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
 	public GameObject baseBody;
+	public GameObject alertsBox;
 
 	public bool humanUI;
 
@@ -61,6 +62,7 @@ public class PlayerHealthUI : MonoBehaviour
 			bodyPartListeners[i].gameObject.SetActive(true);
 		}
 		baseBody.SetActive(true);
+		alertsBox.SetActive(true);
 		humanUI = true;
 	}
 

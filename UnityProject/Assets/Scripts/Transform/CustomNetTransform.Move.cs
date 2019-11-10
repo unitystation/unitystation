@@ -145,21 +145,29 @@ public partial class CustomNetTransform
 	/// </summary>
 	public void Stop()
 	{
+		Stop(true);
+	}
+
+	private void Stop( bool notify )
+	{
 		Logger.LogTraceFormat(STOPPED_FLOATING, Category.Transform, gameObject.name);
-		if (IsTileSnap)
-		{
-			serverState.Position = Vector3Int.RoundToInt(serverState.Position);
-		}
-		else
-		{
-			serverState.Speed = 0;
-		}
-		serverState.Impulse = Vector2.zero;
-		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
-		serverState.SpinFactor = 0;
-		serverState.ActiveThrow = ThrowInfo.NoThrow;
-		NotifyPlayers();
-		registerTile.UpdatePositionServer();
+        if (IsTileSnap)
+        {
+        	serverState.Position = Vector3Int.RoundToInt(serverState.Position);
+        }
+        else
+        {
+        	serverState.Speed = 0;
+        }
+        serverState.Impulse = Vector2.zero;
+        serverState.SpinRotation = transform.localRotation.eulerAngles.z;
+        serverState.SpinFactor = 0;
+        serverState.ActiveThrow = ThrowInfo.NoThrow;
+        if ( notify )
+        {
+			NotifyPlayers();
+        }
+        registerTile.UpdatePositionServer();
 	}
 
 	public void OnClientStartFollowing(){}
@@ -511,7 +519,7 @@ public partial class CustomNetTransform
 
 		if (serverState.Speed > SpeedHitThreshold && HittingSomething(intGoal, info.ThrownBy, out hitDamageables))
 		{
-			OnHit(intGoal, info, hitDamageables, MatrixManager.GetDamagetableTilemapsAt(intGoal));
+			OnHit(intGoal, info, hitDamageables, MatrixManager.GetDamageableTilemapsAt(intGoal));
 			if (info.ThrownBy != null)
 			{
 				return false;
@@ -552,7 +560,7 @@ public partial class CustomNetTransform
 				//Remove cast to int when moving health values to float
 				var damage = (int)(ItemAttributes.throwDamage * 2);
 				var hitZone = info.Aim.Randomize();
-				objects[i].ApplyDamage(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
+				objects[i].ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 				Chat.AddThrowHitMsgToChat(gameObject,objects[i].gameObject, hitZone);
 			}
 			//hit sound

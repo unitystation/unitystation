@@ -102,6 +102,11 @@ public struct TransformState {
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
+	public bool VisibleState {
+		get => ServerPosition != TransformState.HiddenPos;
+		set => SetVisibleServer( value );
+	}
+
 	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
 	public Vector3IntEvent OnUpdateRecieved() {
 		return onUpdateReceived;
@@ -121,6 +126,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
+
+	public bool IsFixedMatrix = false;
 
 	/// <summary>
 	/// If it has ItemAttributes, get size from it (default to tiny).
@@ -148,6 +155,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	public Vector3Int ClientLocalPosition => predictedState.Position.RoundToInt();
 	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();
 	public Vector3Int TrustedLocalPosition => clientState.Position.RoundToInt();
+	public Vector3Int LastNonHiddenPosition { get; } = TransformState.HiddenPos; //todo: implement for CNT!
 
 	/// <summary>
 	/// Used to determine if this transform is worth updating every frame
@@ -258,29 +266,35 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		}
 
 		//If object is supposed to be hidden, keep it that way
-//		var worldPos = serverState.WorldPosition;//
 		serverState.Speed = 0;
 		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
-		registerTile = GetComponent<RegisterTile>();
-
-		//Matrix id init
-		if ( registerTile && registerTile.Matrix ) {
-			//pre-placed
-			serverState.MatrixId = MatrixManager.Get( matrix ).Id;
-			serverState.Position =
-				Vector3Int.RoundToInt(new Vector3(transform.localPosition.x, transform.localPosition.y, 0));
-		} else {
-			//runtime-placed
-			bool initError = !MatrixManager.Instance || !registerTile;
-			if ( initError ) {
-				serverState.MatrixId = 0;
-				Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
-			} else {
-				serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position), true ).Id;
-			}
-			serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position);
+		if ( !registerTile )
+		{
+			registerTile = GetComponent<RegisterTile>();
 		}
+
+		if ( registerTile )
+		{
+			MatrixInfo matrixInfo = MatrixManager.Get( transform.parent );
+
+			if ( matrixInfo == MatrixInfo.Invalid )
+			{
+				Logger.LogWarning( $"{gameObject.name}: was unable to detect Matrix by parent!", Category.Transform );
+				serverState.MatrixId = MatrixManager.AtPoint( ( (Vector2)transform.position ).RoundToInt(), true ).Id;
+			} else
+			{
+				serverState.MatrixId = matrixInfo.Id;
+			}
+			serverState.Position = ((Vector2)transform.localPosition).RoundToInt();
+
+		} else
+		{
+			serverState.MatrixId = 0;
+			Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
+		}
+
+		registerTile.UpdatePositionServer();
 
 		serverLerpState = serverState;
 	}
@@ -377,6 +391,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false)
 	{
+		if (worldPos != TransformState.HiddenPos && pushPull)
+		{
+			pushPull.parentContainer = null;
+		}
 		Poke();
 		Vector2 pos = worldPos; //Cut z-axis
 		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ), true ).Id;
@@ -407,20 +425,36 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	}
 
 	[Server]
-	private void CheckMatrixSwitch( bool notify = true ) {
+	public void CheckMatrixSwitch( bool notify = true ) {
+		if ( IsFixedMatrix )
+		{
+			return;
+		}
+
+
 //		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
-		int newMatrixId = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true ).Id;
-		if ( serverState.MatrixId != newMatrixId ) {
-			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, serverState.MatrixId, newMatrixId );
+		var newMatrix = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true );
+		if ( serverState.MatrixId != newMatrix.Id ) {
+			var oldMatrix = MatrixManager.Get( serverState.MatrixId );
+			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, oldMatrix, newMatrix );
+
+			if ( oldMatrix.IsMovable
+			     && oldMatrix.MatrixMove.isMovingServer )
+			{
+				Push( oldMatrix.MatrixMove.State.Direction.Vector.To2Int(), oldMatrix.Speed );
+				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Transform, gameObject );
+				return;
+			}
 
 			//It's very important to save World Pos before matrix switch and restore it back afterwards
 			var preservedPos = serverState.WorldPosition;
-			serverState.MatrixId = newMatrixId;
+			serverState.MatrixId = newMatrix.Id;
 			serverState.WorldPosition = preservedPos;
 
 			var preservedLerpPos = serverLerpState.WorldPosition;
 			serverLerpState.MatrixId = serverState.MatrixId;
 			serverLerpState.WorldPosition = preservedLerpPos;
+
 			if ( notify ) {
 				NotifyPlayers();
 			}
@@ -430,16 +464,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	#region Hiding/Unhiding
 
 	[Server]
-	public void DisappearFromWorldServer(bool stopInertia = true)
+	public void DisappearFromWorldServer()
 	{
 		OnPullInterrupt().Invoke();
+		if (IsFloatingServer)
+		{
+			Stop(notify: false);
+		}
+
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
 
-		if (CheckFloatingServer() && stopInertia )
-		{
-			Stop();
-		}
 		NotifyPlayers();
 		UpdateActiveStatusServer();
 	}

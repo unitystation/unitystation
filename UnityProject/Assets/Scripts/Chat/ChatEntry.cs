@@ -11,9 +11,14 @@ public class ChatEntry : MonoBehaviour
 
 	private Coroutine coCoolDown;
 	private bool isHidden = false;
+	public GameObject stackTimesObj;
+	public Text stackTimesText;
+	private Image stackCircle;
+	private int stackTimes = 1;
 
 	void OnEnable()
 	{
+		stackCircle = stackTimesObj.GetComponent<Image>();
 		EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
 		EventManager.AddHandler(EVENT.ChatUnfocused, OnChatUnfocused);
 		ChatUI.Instance.scrollBarEvent += OnScrollInteract;
@@ -55,7 +60,7 @@ public class ChatEntry : MonoBehaviour
 			}
 		}
 
-		text.CrossFadeAlpha(1f, 0f, false);
+		SetCrossFadeAlpha(1f, 0f);
 		if (isHidden)
 		{
 			isHidden = false;
@@ -67,11 +72,13 @@ public class ChatEntry : MonoBehaviour
 	{
 		if (isCoolingDown)
 		{
+			if(coCoolDown != null) StopCoroutine(coCoolDown);
+
 			coCoolDown = StartCoroutine(CoolDown());
 		}
 		else
 		{
-			text.CrossFadeAlpha(0f, 0f, false);
+			SetCrossFadeAlpha(0f, 0f);
 			if (!isHidden)
 			{
 				isHidden = true;
@@ -85,10 +92,12 @@ public class ChatEntry : MonoBehaviour
 		Vector2 sizeDelta = rect.sizeDelta;
 		sizeDelta.x = 472f;
 		rect.sizeDelta = sizeDelta;
+		yield return WaitFor.EndOfFrame;
+		SetStackPos();
 		yield return WaitFor.Seconds(12f);
 		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
 		{
-			text.CrossFadeAlpha(0.01f, 3f, false);
+			SetCrossFadeAlpha(0.01f, 3f);
 			if (!isHidden)
 			{
 				isHidden = true;
@@ -104,12 +113,53 @@ public class ChatEntry : MonoBehaviour
 		isCoolingDown = false;
 	}
 
+	public void AddChatDuplication()
+	{
+		stackTimes++;
+		stackTimesText.text = $"x{stackTimes}";
+		stackTimesObj.SetActive(true);
+		StartCoroutine(StackPumpAnim());
+		SetCrossFadeAlpha(1f, 0f);
+		if (isCoolingDown)
+		{
+			if(coCoolDown != null) StopCoroutine(coCoolDown);
+			coCoolDown = StartCoroutine(CoolDown());
+		}
+		else
+		{
+			isCoolingDown = true;
+			coCoolDown = StartCoroutine(CoolDown());
+		}
+	}
+
+	IEnumerator StackPumpAnim()
+	{
+		yield return WaitFor.EndOfFrame;
+		var localScaleCache = stackTimesObj.transform.localScale;
+		var targetScale = localScaleCache * 1.1f;
+		var progress = 0f;
+		while (progress < 1f)
+		{
+			progress += Time.deltaTime * 10f;
+			stackTimesObj.transform.localScale = Vector3.Lerp(localScaleCache, targetScale, progress);
+			yield return WaitFor.EndOfFrame;
+		}
+
+		progress = 0f;
+		while (progress < 1f)
+		{
+			progress += Time.deltaTime * 10f;
+			stackTimesObj.transform.localScale = Vector3.Lerp(targetScale, localScaleCache, progress);
+			yield return WaitFor.EndOfFrame;
+		}
+	}
+
 	//state = is mouse button down on the scroll bar handle
 	private void OnScrollInteract(bool state)
 	{
 		if (isHidden && state)
 		{
-			text.CrossFadeAlpha(1f, 0f, false);
+			SetCrossFadeAlpha(1f, 0f);
 			isHidden = false;
 			ChatUI.Instance.ReportEntryState(false);
 		}
@@ -129,5 +179,41 @@ public class ChatEntry : MonoBehaviour
 			isCoolingDown = true;
 			coCoolDown = StartCoroutine(CoolDown());
 		}
+	}
+
+	private bool stackPosSet = false;
+
+	void SetStackPos()
+	{
+		if (stackPosSet) return;
+		stackPosSet = true;
+
+		string _text = text.text;
+
+		TextGenerator textGen = new TextGenerator(_text.Length);
+		Vector2 extents = text.gameObject.GetComponent<RectTransform>().rect.size;
+		textGen.Populate(_text, text.GetGenerationSettings(extents));
+		if (textGen.vertexCount == 0)
+		{
+			return;
+		}
+
+		var newPos = stackTimesObj.transform.localPosition;
+		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / text.canvas.scaleFactor).x;
+
+
+		if (rect.rect.height < 30f)
+		{
+			newPos.y += 3.5f * rect.localScale.y;
+		}
+
+		stackTimesObj.transform.localPosition = newPos;
+	}
+
+	void SetCrossFadeAlpha(float amt, float time)
+	{
+		text.CrossFadeAlpha(amt, time, false);
+		stackTimesText.CrossFadeAlpha(amt, time, false);
+		stackCircle.CrossFadeAlpha(amt, time, false);
 	}
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4958762019292942}
   - component: {fileID: 114273493098920630}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: PeteHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4519478499382082}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: BodyParts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 114347523696378436}
   - component: {fileID: 114416966196078904}
   - component: {fileID: 114015240692607784}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: NPC_Pete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: cf8f9f59eeb8cbe4fa338d33d4ddc1d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -218,10 +218,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxHealth: 100
+  canBreathAnywhere: 0
   cloningDamage: 0
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
+  bloodColor: 0
   BodyParts:
   - {fileID: 114273493098920630}
   - {fileID: 114588246911682174}
@@ -249,7 +251,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114713267190622314
 MonoBehaviour:
@@ -268,7 +269,7 @@ MonoBehaviour:
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
-  Passable: 1
+  Passable: 0
 --- !u!114 &114544550771380326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,7 +338,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 711881794
+  m_SceneId: 1167950832
 --- !u!1 &1887464382434718
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4318877702125412}
   - component: {fileID: 114588246911682174}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: PeteChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}

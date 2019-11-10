@@ -42,6 +42,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
 
+	public Equipment Equipment { get; private set; }
+
 	public RegisterPlayer registerTile { get; set; }
 
 	public MouseInputController mouseInputController { get; set; }
@@ -234,7 +236,13 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsGhost)
+		var isDeadOrGhost = IsGhost;
+		if (playerHealth != null)
+		{
+			isDeadOrGhost = playerHealth.IsDead;
+		}
+
+		if (isDeadOrGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;

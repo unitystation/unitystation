@@ -12,6 +12,7 @@ public interface IPushable {
 	bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false );
 	/// Notify players about up-to-date state
 	void NotifyPlayers();
+	bool VisibleState { get; set; }
 	Vector3IntEvent OnUpdateRecieved();
 	DualVector3IntEvent OnStartMove();
 	DualVector3IntEvent OnClientStartMove();
@@ -42,6 +43,7 @@ public interface IPushable {
 	Vector3Int ClientLocalPosition { get; }
 	Vector3Int TrustedPosition { get; }
 	Vector3Int TrustedLocalPosition { get; }
+	Vector3Int LastNonHiddenPosition { get; }
 
 	/// Rollback predictive push on client using last good position
 	void RollbackPrediction();

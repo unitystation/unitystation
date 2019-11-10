@@ -30,6 +30,8 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	[SyncVar(hook = nameof(SyncItemName))]
 	public string itemName;
+
+	[SyncVar(hook = nameof(SyncItemDescription))]
 	public string itemDescription;
 
 	[SerializeField]
@@ -79,20 +81,32 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		SyncItemName(newName);
 	}
 
+	public void SetItemDescription(string newDescription)
+	{
+		SyncItemDescription(newDescription);
+	}
+
 	private void SyncItemName(string newName)
 	{
 		itemName = newName;
 	}
 
+	private void SyncItemDescription(string newDescription)
+	{
+		itemDescription = newDescription;
+	}
+
 	public override void OnStartClient()
 	{
 		SyncItemName(itemName);
+		SyncItemDescription(itemDescription);
 		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
 		SyncItemName(itemName);
+		SyncItemDescription(itemDescription);
 		base.OnStartServer();
 	}
 
@@ -168,13 +182,12 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	public void AttributesFromCD(ItemAttributesData ItemAttributes)
 	{
 		SyncItemName(ItemAttributes.itemName);
-		itemDescription = ItemAttributes.itemDescription;
+		SyncItemDescription(ItemAttributes.itemDescription);
 		var trait = TypeToTrait(ItemAttributes.itemType);
 		if (trait != null)
 		{
 			traits.Add(trait);
 		}
-
 		size = ItemAttributes.size;
 		spriteType = ItemAttributes.spriteType;
 		CanConnectToTank = ItemAttributes.CanConnectToTank;

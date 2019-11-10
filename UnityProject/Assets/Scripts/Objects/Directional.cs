@@ -122,23 +122,15 @@ public class Directional : NetworkBehaviour
 	{
 		//add our listeners
 		//unsub from old matrix
-		if (registerTile.Matrix != null)
+		if (registerTile.MatrixIsMovable)
 		{
-			var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
-			if (move != null)
-			{
-				move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-			}
+			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
 		}
 
 		//sub to new matrix
-		if (newMatrix != null)
+		if (newMatrix != null && newMatrix.MatrixMove != null)
 		{
-			var newMove = newMatrix.GetComponentInParent<MatrixMove>();
-			if (newMove != null)
-			{
-				newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
-			}
+			newMatrix.MatrixMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
 		}
 	}
 
@@ -182,13 +174,9 @@ public class Directional : NetworkBehaviour
 
     private void OnDisable()
     {
-	    if (registerTile.Matrix != null)
+	    if (registerTile.MatrixIsMovable)
 	    {
-		    var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
-		    if (move != null)
-		    {
-			    move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-		    }
+			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
 	    }
     }
 
