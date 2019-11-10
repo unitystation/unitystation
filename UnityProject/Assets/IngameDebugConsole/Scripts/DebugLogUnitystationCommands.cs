@@ -147,7 +147,7 @@ namespace IngameDebugConsole
 				GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
 				var slabs = new List<CustomNetTransform>();
 				for ( int i = 0; i < 5; i++ ) {
-					slabs.Add( PoolManager.PoolNetworkInstantiate(mealPrefab, spawnPos).GetComponent<CustomNetTransform>() );
+					slabs.Add( Spawn.ServerPrefab(mealPrefab, spawnPos).GameObject.GetComponent<CustomNetTransform>() );
 				}
 				for ( var i = 0; i < slabs.Count; i++ ) {
 					Vector3 vector3 = i%2 == 0 ? new Vector3(i,-i,0) : new Vector3(-i,i,0);
@@ -171,10 +171,11 @@ namespace IngameDebugConsole
 #if UNITY_EDITOR
 		[MenuItem("Networking/Spawn dummy player")]
 #endif
-		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
-		private static void SpawnDummyPlayer() {
-			SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
-		}
+//TODO: Removing dummy spawning capability for now
+//		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
+//		private static void SpawnDummyPlayer() {
+//			SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
+//		}
 
 #if UNITY_EDITOR
 		[MenuItem("Networking/Transform Waltz (Server)")]
@@ -300,14 +301,15 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
-					var helmet = ClothFactory.CreateCloth(ClothFactory.Instance.ClothingStoredData["mining hard suit helmet"], TransformState.HiddenPos);
-					var suit = ClothFactory.CreateCloth(ClothFactory.Instance.ClothingStoredData["mining hard suit"], TransformState.HiddenPos);
-					var mask = PoolManager.PoolNetworkInstantiate(maskPrefab);
-					var oxyTank = PoolManager.PoolNetworkInstantiate(oxyTankPrefab);
-					player.Script.playerNetworkActions.AddItemToUISlot( helmet, EquipSlot.head, null, true );
-					player.Script.playerNetworkActions.AddItemToUISlot( suit, EquipSlot.exosuit, null, true );
-					player.Script.playerNetworkActions.AddItemToUISlot( mask, EquipSlot.mask, null, true );
-					player.Script.playerNetworkActions.AddItemToUISlot( oxyTank, EquipSlot.storage01, null, true );
+					var helmet = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit helmet"]).GameObject;
+					var suit = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit"]).GameObject;
+					var mask = Spawn.ServerPrefab(maskPrefab).GameObject;
+					var oxyTank = Spawn.ServerPrefab(oxyTankPrefab).GameObject;
+
+					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head));
+					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit));
+					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask));
+					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01));
 					player.Script.Equipment.IsInternalsEnabled = true;
 				}
 
@@ -320,8 +322,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				ObjectFactory.SpawnRods(1, PlayerManager.LocalPlayerScript.WorldPos+Vector3Int.up);
-
+				Spawn.ServerPrefab("Rods", PlayerManager.LocalPlayerScript.WorldPos + Vector3Int.up, cancelIfImpassable: true);
 			}
 		}
 #if UNITY_EDITOR
