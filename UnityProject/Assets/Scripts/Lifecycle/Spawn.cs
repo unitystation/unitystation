@@ -246,6 +246,11 @@ public static class Spawn
 		{
 			if (info.SpawnableType == SpawnableType.Prefab)
 			{
+				if (info.PrefabUsed == null)
+				{
+					Logger.LogError("Cannot spawn, prefab to use is null", Category.ItemSpawn);
+					return SpawnResult.Fail(info);
+				}
 				bool isPooled;
 
 				GameObject tempObject = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation,
@@ -600,6 +605,7 @@ public static class Spawn
 
 	private static bool CanLoadFromPool(GameObject prefab)
 	{
+		if (prefab == null) return false;
 		return pools.ContainsKey(prefab) && pools[prefab].Count > 0;
 	}
 

@@ -55,7 +55,7 @@ public class HealsTheLiving : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		Logger.LogTraceFormat("{0} uses left.", Category.Health, uses - timesUsed);
 		if(uses == timesUsed)
 		{
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			Despawn.ServerSingle(gameObject);
 		}
 	}
 

@@ -194,7 +194,7 @@ namespace Items.Bureaucracy
 
 					var paper = Spawn.ServerPrefab(blankPaper).GameObject;
 					var targetSlot = itemStorage.GetNextFreeIndexedSlot();
-					Inventory.ServerAdd(paper, targetSlot);
+					Inventory.ServerAdd(paper, interaction.HandSlot);
 				}
 
 				SyncPaperCount(paperCount - 1);

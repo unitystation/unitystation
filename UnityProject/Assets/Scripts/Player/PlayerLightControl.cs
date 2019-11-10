@@ -62,19 +62,18 @@ public class PlayerLightControl : NetworkBehaviour, IServerInventoryMove
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//was it transferred from a player's visible inventory?
-		if (info.FromPlayer != null)
+		if (info.FromPlayer != null && LightEmission != null)
 		{
 			LightEmission.RemoveLight(PlayerLightData);
+			LightEmission = null;
 		}
 
 		if (info.ToPlayer != null)
 		{
 			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
-				if (LightEmission != null)
-				{
-					LightEmission.AddLight(PlayerLightData);
-				}
+				LightEmission = info.ToPlayer.GetComponent<LightEmissionPlayer>();
+				LightEmission.AddLight(PlayerLightData);
 			}
 		}
 	}

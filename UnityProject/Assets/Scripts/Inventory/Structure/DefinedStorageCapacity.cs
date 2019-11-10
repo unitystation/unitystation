@@ -44,7 +44,7 @@ public class DefinedStorageCapacity : ItemStorageCapacity
 		else
 		{
 			NamedDefinedCapacityEntry entry = NamedSlotCapacity.FirstOrDefault(nsc => nsc.NamedSlot == inSlot.NamedSlot);
-			if (entry == null)
+			if (entry == null || entry.Capacity == null)
 			{
 				Logger.LogTraceFormat("Slot capacity not defined for {0}. Defaulting to it fits.", Category.Inventory, toCheck.name);
 				return true;

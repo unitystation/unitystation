@@ -111,17 +111,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdUpdateSlot(NamedSlot target, NamedSlot from)
-	{
-		var formInvSlot = itemStorage.GetNamedItemSlot(from);
-		var targetInvSlot = itemStorage.GetNamedItemSlot(target);
-		if (Validations.CanPutItemToSlot(playerScript, targetInvSlot, formInvSlot.Item, NetworkSide.Server))
-		{
-			Inventory.ServerTransfer(formInvSlot, targetInvSlot);
-		}
-	}
-
-	[Command]
 	public void CmdToggleShutters(GameObject switchObj)
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))

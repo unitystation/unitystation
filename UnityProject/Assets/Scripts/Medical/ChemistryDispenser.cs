@@ -9,8 +9,8 @@ using System.Collections.Generic;
 /// </summary>
 public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply> {
 
-	public ReagentContainer Container;
-	public ObjectBehaviour objectse;
+	public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null ?
+	                                     itemSlot.ItemObject.GetComponent<ReagentContainer>() : null;
 	public delegate void ChangeEvent ();
 	public static event ChangeEvent changeEvent;
 
@@ -32,6 +32,11 @@ public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApp
 		}
  	}
 
+	public void EjectContainer()
+	{
+		Inventory.ServerDrop(itemSlot);
+	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -45,8 +50,6 @@ public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApp
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//put the reagant container inside me
-		Container = interaction.HandObject.GetComponent<ReagentContainer>();
-		objectse = interaction.HandObject.GetComponentInChildren<ObjectBehaviour> ();
 		Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 		UpdateGUI();
 	}

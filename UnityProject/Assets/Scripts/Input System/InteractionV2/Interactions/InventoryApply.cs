@@ -36,7 +36,7 @@ public class InventoryApply : TargetedInteraction
 	/// <param name="targetSlot">object that the player applying the used object to</param>
 	/// <param name="handSlot">hand slot of handObject</param>
 	private InventoryApply(GameObject performer, GameObject handObject, ItemSlot targetSlot, ItemSlot handSlot) :
-		base(performer, handObject, targetSlot.ItemObject)
+		base(performer, handObject, targetSlot?.ItemObject)
 	{
 		this.handSlot = handSlot;
 		this.targetSlot = targetSlot;

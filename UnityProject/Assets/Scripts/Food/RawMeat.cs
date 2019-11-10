@@ -6,6 +6,7 @@ using UnityEngine;
 public class RawMeat : MonoBehaviour
 {
 	private Integrity integrity;
+	[SerializeField]
 	private GameObject meatSteakPrefab;
 	private RegisterTile registerTile;
 
@@ -13,7 +14,6 @@ public class RawMeat : MonoBehaviour
 	{
 		integrity = GetComponent<Integrity>();
 		integrity.OnBurnUpServer += OnBurnUpServer;
-		meatSteakPrefab = Resources.Load<GameObject>("Meat Steak");
 		registerTile = GetComponent<RegisterTile>();
 	}
 

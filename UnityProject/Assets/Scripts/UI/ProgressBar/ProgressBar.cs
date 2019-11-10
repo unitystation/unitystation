@@ -99,6 +99,7 @@ public class ProgressBar : MonoBehaviour
 		//interrupt if hand contents are changed
 		var activeSlot = player.Player().Script.ItemStorage.GetActiveHandSlot();
 		activeSlot.OnSlotContentsChangeServer.AddListener(ServerInterruptOnInvChange);
+		this.usedSlot = activeSlot;
 
 
 		if (player != PlayerManager.LocalPlayer)
@@ -173,7 +174,9 @@ public class ProgressBar : MonoBehaviour
 		done = true;
 		spriteRenderer.transform.parent.localRotation = Quaternion.identity;
 		spriteRenderer.enabled = false;
-		this.usedSlot.OnSlotContentsChangeServer.RemoveListener(ServerInterruptOnInvChange);
+		usedSlot?.OnSlotContentsChangeServer.RemoveListener(ServerInterruptOnInvChange);
+
+
 
 		if (matrixMove != null)
 		{

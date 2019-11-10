@@ -30,13 +30,13 @@ public class RequestInventoryTransferMessage : ClientMessage
 		bool valid = true;
 		if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server))
 		{
-			LogFail(fromSlot, toSlot);
+			HandleFail(fromSlot, toSlot);
 			yield return null;
 		}
 		//the slots must both be either in this player's inv or in an observed InteractableStorage
 		if (!ValidSlot(toSlot) || !ValidSlot(fromSlot))
 		{
-			LogFail(fromSlot, toSlot);
+			HandleFail(fromSlot, toSlot);
 			yield return null;
 		}
 
@@ -59,11 +59,15 @@ public class RequestInventoryTransferMessage : ClientMessage
 		return false;
 	}
 
-	private void LogFail(ItemSlot fromSlot, ItemSlot toSlot)
+	private void HandleFail(ItemSlot fromSlot, ItemSlot toSlot)
 	{
 		Logger.LogWarningFormat(
 			"Possible hacking attempt (or bad clientside logic), {0} tried to transfer from slot {1} to {2} when they" +
 			" are not allowed.", Category.Inventory, SentByPlayer.GameObject.name, fromSlot, toSlot);
+
+		//roll back the client prediction
+		UpdateItemSlotMessage.Send(SentByPlayer.GameObject, fromSlot);
+		UpdateItemSlotMessage.Send(SentByPlayer.GameObject, toSlot);
 	}
 
 	/// <summary>

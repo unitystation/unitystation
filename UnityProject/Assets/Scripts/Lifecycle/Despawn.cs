@@ -14,8 +14,10 @@ public static class Despawn
 	/// object pool to be later reused.
 	/// </summary>
 	/// <param name="toDespawn"></param>
+	/// <param name="skipInventoryDespawn">If the indicated object is in inventory, it will
+	/// be despawned via the inventory API instead. Set this to true to bypass this.</param>
 	/// <returns></returns>
-	public static DespawnResult ServerSingle(GameObject toDespawn)
+	public static DespawnResult ServerSingle(GameObject toDespawn, bool skipInventoryDespawn = false)
 	{
 		return Server(DespawnInfo.Single(toDespawn));
 	}
@@ -26,13 +28,31 @@ public static class Despawn
 	/// object pool to be later reused.
 	/// </summary>
 	/// <param name="info"></param>
+	/// <param name="skipInventoryDespawn">If the indicated object is in inventory, it will
+	/// be despawned via the inventory API instead. Set this to true to bypass this.</param>
 	/// <returns></returns>
-	public static DespawnResult Server(DespawnInfo info)
+	private static DespawnResult Server(DespawnInfo info, bool skipInventoryDespawn = false)
 	{
 		if (info == null)
 		{
 			Logger.LogError("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
+		}
+
+		if (!skipInventoryDespawn)
+		{
+			var pu = info.GameObject.GetComponent<Pickupable>();
+			if (pu != null && pu.ItemSlot != null)
+			{
+				if (Inventory.ServerDespawn(pu.ItemSlot))
+				{
+					return DespawnResult.Single(info);
+				}
+				else
+				{
+					return DespawnResult.Fail(info);
+				}
+			}
 		}
 
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior

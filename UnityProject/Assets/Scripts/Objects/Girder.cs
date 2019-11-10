@@ -71,6 +71,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 		var handObj = interaction.HandObject;
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
 		Inventory.ServerDespawn(interaction.HandSlot);
+		Despawn.ServerSingle(gameObject);
 	}
 
 }

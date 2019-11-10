@@ -213,7 +213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1869747887731904}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 19, y: 69, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4392619360261442}
@@ -279,7 +279,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Lamp
   itemDescription: A Lamp
-  itemType: 0
+  initialTraits: []
   size: 1
   spriteType: 0
   CanConnectToTank: 0
@@ -363,9 +363,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114828444551440684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +422,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114500040489965280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,5 +529,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 9c91a985c48aef648b219b1d267a9cab
+  m_AssetId: 176771780f0044e888d03a1373c39328
   m_SceneId: 0

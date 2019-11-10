@@ -40,8 +40,11 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool activated;
 
+	private Pickupable pickupable;
+
 	public void Awake()
 	{
+		pickupable = GetComponent<Pickupable>();
 		if (color == (int)SwordColor.Random)
 		{
 			color = Random.Range(1, 5);
@@ -87,6 +90,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		playerLightControl.Colour = lightColor;
 		playerLightControl.PlayerLightData.Colour = lightColor;
 		worldLight.Color = lightColor;
+		pickupable.RefreshUISlotImage();
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -168,6 +172,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		UpdateSprite();
 		UpdateValues();
 		UpdateLight();
+		pickupable.RefreshUISlotImage();
 	}
 
 	private void UpdateSprite()
@@ -182,12 +187,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			spriteHandler.ChangeSprite(12);
 			spriteHandler.Infos.SetVariant(0);
 		}
-
-		if (UIManager.Hands.CurrentSlot != null
-		    && UIManager.Hands.CurrentSlot.Item == gameObject)
-		{
-			Inventory.RefreshUISlotImage(gameObject);
-		}
+		pickupable.RefreshUISlotImage();
 	}
 
 	private void UpdateValues()

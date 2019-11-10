@@ -181,9 +181,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: 
   itemDescription: 
-  Traits:
+  initialTraits:
   - {fileID: 11400000, guid: 3858899698cc1425f86b8b93032ca57d, type: 2}
-  itemType: 4
   size: 1
   spriteType: 1
   CanConnectToTank: 1
@@ -424,5 +423,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_AssetId: 611c366b2d389b94193a817e11987cdc
   m_SceneId: 0

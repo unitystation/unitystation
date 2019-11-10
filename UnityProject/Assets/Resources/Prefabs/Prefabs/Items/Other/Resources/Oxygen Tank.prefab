@@ -197,8 +197,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Oxygen Tank
   itemDescription: A tank of oxygen
-  Traits: []
-  itemType: 0
+  initialTraits: []
   size: 4
   spriteType: 0
   CanConnectToTank: 0
@@ -431,5 +430,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3210054683

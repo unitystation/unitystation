@@ -215,8 +215,8 @@ public static class Inventory
 		var removeType = toPerform.RemoveType;
 		if (removeType == InventoryRemoveType.Despawn)
 		{
-			//destroy
-			Despawn.ServerSingle(pickupable.gameObject);
+			//destroy (safe to skip invnetory despawn check because we already performed necessary inventory logic)
+			Despawn.ServerSingle(pickupable.gameObject, true);
 		}
 		else if (removeType == InventoryRemoveType.Drop)
 		{
