@@ -303,14 +303,39 @@ public class ItemSlot
 	/// <summary>
 	/// Checks if the indicated item can fit in this slot.
 	/// </summary>
-	/// <param name="pickupable"></param>
+	/// <param name="toStore"></param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
 	/// <returns></returns>
-	public bool CanFit(Pickupable pickupable, bool ignoreOccupied = false)
+	public bool CanFit(Pickupable toStore, bool ignoreOccupied = false)
 	{
 		if (!ignoreOccupied && item != null) return false;
+		if (toStore == null) return false;
+		//go through this slot's ancestors and make sure none of them ARE toStore,
+		//as that would create a loop in the inventory hierarchy
+		ItemStorage storageToCheck = itemStorage;
+		while (storageToCheck != null)
+		{
+			if (storageToCheck.gameObject == toStore.gameObject)
+			{
+				Logger.LogTraceFormat(
+					"Cannot fit {0} in slot {1}, this would create an inventory hierarchy loop (putting the" +
+					" storage inside itself)", Category.Inventory, toStore, ToString());
+				return false;
+			}
+			//get parent item storage if it exists
+			var pickupable = storageToCheck.GetComponent<Pickupable>();
+			if (pickupable != null && pickupable.ItemSlot != null)
+			{
+				storageToCheck = pickupable.ItemSlot.ItemStorage;
+			}
+			else
+			{
+				storageToCheck = null;
+			}
+		}
 
-		return itemStorage.ItemStorageCapacity.CanFit(pickupable, this.slotIdentifier);
+		//no loop created, check if this storage can fit this according to its specific capacity logic
+		return itemStorage.ItemStorageCapacity.CanFit(toStore, this.slotIdentifier);
 	}
 
 	/// <summary>

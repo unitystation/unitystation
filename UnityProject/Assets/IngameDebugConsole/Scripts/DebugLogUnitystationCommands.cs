@@ -301,15 +301,16 @@ namespace IngameDebugConsole
 			{
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
+
 					var helmet = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit helmet"]).GameObject;
 					var suit = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit"]).GameObject;
 					var mask = Spawn.ServerPrefab(maskPrefab).GameObject;
 					var oxyTank = Spawn.ServerPrefab(oxyTankPrefab).GameObject;
 
-					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head));
-					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit));
-					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask));
-					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01));
+					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.Drop);
+					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit), ReplacementStrategy.Drop);
+					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.Drop);
+					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.Drop);
 					player.Script.Equipment.IsInternalsEnabled = true;
 				}
 

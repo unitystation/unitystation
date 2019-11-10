@@ -104,6 +104,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
 		ItemStorage = GetComponent<ItemStorage>();
+		Equipment = GetComponent<Equipment>();
 	}
 
 	public void Init()

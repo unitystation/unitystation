@@ -11,10 +11,11 @@ public static class Inventory
 	/// </summary>
 	/// <param name="fromSlot"></param>
 	/// <param name="toSlot"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerTransfer(ItemSlot fromSlot, ItemSlot toSlot)
+	public static bool ServerTransfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
-		return ServerPerform(InventoryMove.Transfer(fromSlot, toSlot));
+		return ServerPerform(InventoryMove.Transfer(fromSlot, toSlot, replacementStrategy));
 	}
 
 	/// <summary>
@@ -23,10 +24,11 @@ public static class Inventory
 	/// </summary>
 	/// <param name="addedObject"></param>
 	/// <param name="toSlot"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerAdd(Pickupable addedObject, ItemSlot toSlot)
+	public static bool ServerAdd(Pickupable addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
-		return ServerPerform(InventoryMove.Add(addedObject, toSlot));
+		return ServerPerform(InventoryMove.Add(addedObject, toSlot, replacementStrategy));
 	}
 
 	/// <summary>
@@ -35,10 +37,11 @@ public static class Inventory
 	/// </summary>
 	/// <param name="addedObject"></param>
 	/// <param name="toSlot"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerAdd(GameObject addedObject, ItemSlot toSlot)
+	public static bool ServerAdd(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
-		return ServerPerform(InventoryMove.Add(addedObject, toSlot));
+		return ServerPerform(InventoryMove.Add(addedObject, toSlot, replacementStrategy));
 	}
 
 	/// <summary>
@@ -121,7 +124,7 @@ public static class Inventory
 		}
 		else
 		{
-			Logger.LogErrorFormat("Unrecognized move type {0}. Please add logic to this method to support this move type.",
+			Logger.LogTraceFormat("Unrecognized move type {0}. Please add logic to this method to support this move type.",
 				Category.Inventory, toPerform.InventoryMoveType);
 		}
 
@@ -132,39 +135,57 @@ public static class Inventory
 	{
 		//transfer from one slot to another
 		var toSlot = toPerform.ToSlot;
+		var fromSlot = toPerform.FromSlot;
 		if (toSlot == null)
 		{
-			Logger.LogErrorFormat("Attempted to transfer {0} to another slot but target slot was null." +
+			Logger.LogTraceFormat("Attempted to transfer {0} to another slot but target slot was null." +
 			                      " Move will not be performed.", Category.Inventory, pickupable.name);
 			return false;
 		}
 
 		if (toSlot.Item != null)
 		{
-			Logger.LogErrorFormat(
-				"Attempted to transfer {0} to target slot but target slot {1} already had something in it." +
-				" Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
-			return false;
+			if (toSlot.Item != null)
+			{
+				switch (toPerform.ReplacementStrategy)
+				{
+					case ReplacementStrategy.Despawn:
+						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
+						                      " Item in slot will be despawned first.", Category.Inventory, fromSlot, toSlot);
+						ServerDespawn(toSlot);
+						break;
+					case ReplacementStrategy.Drop:
+						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
+						                      " Item in slot will be dropped first.", Category.Inventory, fromSlot, toSlot);
+						ServerDrop(toSlot);
+						break;
+					case ReplacementStrategy.Cancel:
+					default:
+						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
+						                      " Transfer will not be performed.", Category.Inventory, fromSlot, toSlot);
+						return false;
+				}
+			}
 		}
 
 		if (pickupable.ItemSlot == null)
 		{
-			Logger.LogErrorFormat("Attempted to transfer {0} to target slot but item is not in a slot." +
+			Logger.LogTraceFormat("Attempted to transfer {0} to target slot but item is not in a slot." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name);
 			return false;
 		}
 
-		var fromSlot = toPerform.FromSlot;
+
 		if (fromSlot == null)
 		{
-			Logger.LogErrorFormat("Attempted to transfer {0} to target slot but from slot was null." +
+			Logger.LogTraceFormat("Attempted to transfer {0} to target slot but from slot was null." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name);
 			return false;
 		}
 
 		if (!Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true))
 		{
-			Logger.LogErrorFormat("Attempted to transfer {0} to slot {1} but slot cannot fit this item." +
+			Logger.LogTraceFormat("Attempted to transfer {0} to slot {1} but slot cannot fit this item." +
 			                      " transfer will not be performed.", Category.Inventory, pickupable.name, toSlot);
 			return false;
 		}
@@ -187,7 +208,7 @@ public static class Inventory
 	{
 		if (pickupable.ItemSlot == null)
 		{
-			Logger.LogErrorFormat("Attempted to remove {0} from inventory but item is not in a slot." +
+			Logger.LogTraceFormat("Attempted to remove {0} from inventory but item is not in a slot." +
 			                      " remove will not be performed.", Category.Inventory, pickupable.name);
 			return false;
 		}
@@ -195,14 +216,14 @@ public static class Inventory
 		var fromSlot = toPerform.FromSlot;
 		if (fromSlot == null)
 		{
-			Logger.LogErrorFormat("Attempted to remove {0} from inventory but from slot was null." +
+			Logger.LogTraceFormat("Attempted to remove {0} from inventory but from slot was null." +
 			                      " Move will not be performed.", Category.Inventory, pickupable.name);
 			return false;
 		}
 
 		if (fromSlot.Item == null)
 		{
-			Logger.LogWarningFormat("Attempted to remove {0} from inventory but from slot {1} had no item in it." +
+			Logger.LogTraceFormat("Attempted to remove {0} from inventory but from slot {1} had no item in it." +
 			                      " Move will not be performed.", Category.Inventory, pickupable.name, fromSlot);
 			return false;
 		}
@@ -213,6 +234,17 @@ public static class Inventory
 
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
+		var holder = fromSlot.GetRootStorage();
+		var parentContainer = holder.GetComponent<ObjectBehaviour>()?.parentContainer;
+		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
+		{
+			Logger.LogTraceFormat("throwing from slot {0} while in container {1}. Will drop instead.", Category.Inventory,
+				fromSlot,
+				parentContainer.name);
+			removeType = InventoryRemoveType.Drop;
+		}
+
+
 		if (removeType == InventoryRemoveType.Despawn)
 		{
 			//destroy (safe to skip invnetory despawn check because we already performed necessary inventory logic)
@@ -222,18 +254,16 @@ public static class Inventory
 		{
 			//drop where it is
 			//determine where it will appear
-			var holder = fromSlot.GetRootStorage();
-			var parentContainer = holder.GetComponent<ObjectBehaviour>()?.parentContainer;
 			if (parentContainer != null)
 			{
 				//TODO: Not a big fan of this bespoke logic for dealing with dropping in closet control. Try to refactor this
 				Logger.LogTraceFormat("Dropping from slot {0} while in container {1}", Category.Inventory,
 					fromSlot,
-					holder.GetComponent<ObjectBehaviour>().parentContainer.name);
+					parentContainer.name);
 				var closetControl = parentContainer.GetComponent<ClosetControl>();
 				if (closetControl == null)
 				{
-					Logger.LogErrorFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
+					Logger.LogWarningFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
 					                      "Currently only ClosetControl is supported. Please add code to handle this case.", Category.Inventory,
 						fromSlot,
 						holder.GetComponent<ObjectBehaviour>().parentContainer.name);
@@ -244,7 +274,7 @@ public static class Inventory
 				var objBehavior = pickupable.GetComponent<ObjectBehaviour>();
 				if (objBehavior == null)
 				{
-					Logger.LogErrorFormat("Dropping object {0} while in container {1}, but dropped object had" +
+					Logger.LogTraceFormat("Dropping object {0} while in container {1}, but dropped object had" +
 					                      " no object behavior. Cannot drop.", Category.Inventory,
 						pickupable,
 						holder.GetComponent<ObjectBehaviour>().parentContainer.name);
@@ -275,18 +305,6 @@ public static class Inventory
 		{
 			//throw / eject
 			//determine where it will be thrown from
-			var holder = fromSlot.GetRootStorage();
-
-			if (holder.GetComponent<ObjectBehaviour>().parentContainer != null)
-			{
-				//TODO: Should we support dropping things while in a PushPull container?
-				Logger.LogWarningFormat(
-					"Trying to throw an item from slot {1} while in a PushPull container {1} is not currently supported, dropping will" +
-					" not occur.", Category.Inventory, fromSlot,
-					holder.GetComponent<ObjectBehaviour>().parentContainer.name);
-				return false;
-			}
-
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
 			var throwInfo = new ThrowInfo
 			{
@@ -340,9 +358,24 @@ public static class Inventory
 
 		if (toSlot.Item != null)
 		{
-			Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
-			                      " Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
-			return false;
+			switch (toPerform.ReplacementStrategy)
+			{
+				case ReplacementStrategy.Despawn:
+					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+					                      " Item in slot will be despawned first.", Category.Inventory, pickupable.name, toSlot);
+					ServerDespawn(toSlot);
+					break;
+				case ReplacementStrategy.Drop:
+					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+					                      " Item in slot will be dropped first.", Category.Inventory, pickupable.name, toSlot);
+					ServerDrop(toSlot);
+					break;
+				case  ReplacementStrategy.Cancel:
+				default:
+					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+					                      " Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
+					return false;
+			}
 		}
 
 		if (!Validations.CanFit(toSlot, pickupable, NetworkSide.Server, true))

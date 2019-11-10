@@ -9,6 +9,12 @@ using UnityEngine;
 /// </summary>
 public class InventoryMove
 {
+
+	/// <summary>
+	/// Defines what should happen for this move if the target slot contains something.
+	/// </summary>
+	public readonly ReplacementStrategy ReplacementStrategy;
+
 	/// <summary>
 	/// What kind of movement occurred
 	/// </summary>
@@ -73,8 +79,9 @@ public class InventoryMove
 	public RegisterPlayer ToRootPlayer => ToSlot?.RootPlayer();
 
 
-	public InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
-		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? targetWorldPos = null, SpinMode? throwSpinMode = null)
+	private InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
+		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? targetWorldPos = null, SpinMode? throwSpinMode = null,
+		ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
 		InventoryMoveType = inventoryMoveType;
 		MovedObject = movedObject;
@@ -84,6 +91,7 @@ public class InventoryMove
 		ThrowAim = throwAim;
 		TargetWorldPos = targetWorldPos;
 		ThrowSpinMode = throwSpinMode;
+		ReplacementStrategy = replacementStrategy;
 	}
 
 	/// <summary>
@@ -91,10 +99,11 @@ public class InventoryMove
 	/// </summary>
 	/// <param name="fromSlot"></param>
 	/// <param name="toSlot"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns></returns>
-	public static InventoryMove Transfer(ItemSlot fromSlot, ItemSlot toSlot)
+	public static InventoryMove Transfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
-		return new InventoryMove(InventoryMoveType.Transfer, fromSlot.Item, fromSlot, toSlot);
+		return new InventoryMove(InventoryMoveType.Transfer, fromSlot.Item, fromSlot, toSlot, replacementStrategy: replacementStrategy);
 	}
 
 	/// <summary>
@@ -103,10 +112,11 @@ public class InventoryMove
 	/// </summary>
 	/// <param name="addedObject"></param>
 	/// <param name="toSlot"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns></returns>
-	public static InventoryMove Add(Pickupable addedObject, ItemSlot toSlot)
+	public static InventoryMove Add(Pickupable addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
-		return new InventoryMove(InventoryMoveType.Add, addedObject, null, toSlot);
+		return new InventoryMove(InventoryMoveType.Add, addedObject, null, toSlot, replacementStrategy: replacementStrategy);
 	}
 
 	/// <summary>
@@ -115,15 +125,16 @@ public class InventoryMove
 	/// </summary>
 	/// <param name="addedObject"></param>
 	/// <param name="toSlot"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns></returns>
-	public static InventoryMove Add(GameObject addedObject, ItemSlot toSlot)
+	public static InventoryMove Add(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
 		var pu = addedObject.GetComponent<Pickupable>();
 		if (pu == null)
 		{
 			Logger.LogErrorFormat("{0} has no pickupable, thus cannot be added to inventory", Category.Inventory, addedObject);
 		}
-		return new InventoryMove(InventoryMoveType.Add, pu, null, toSlot);
+		return new InventoryMove(InventoryMoveType.Add, pu, null, toSlot, replacementStrategy: replacementStrategy);
 	}
 
 	/// <summary>
@@ -220,4 +231,23 @@ public enum InventoryRemoveType
 	/// Should rarely be used.
 	/// </summary>
 	Vanish
+}
+
+/// <summary>
+/// Defines what should happen if an item already occupies the slot being added to.
+/// </summary>
+public enum ReplacementStrategy
+{
+	/// <summary>
+	/// Despawn the item in the target slot
+	/// </summary>
+	Despawn,
+	/// <summary>
+	/// Drop the item currently in the target slot
+	/// </summary>
+	Drop,
+	/// <summary>
+	/// Cancel the inventory movement (default).
+	/// </summary>
+	Cancel
 }
