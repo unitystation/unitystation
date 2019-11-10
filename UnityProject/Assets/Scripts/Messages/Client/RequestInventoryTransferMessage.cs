@@ -71,6 +71,9 @@ public class RequestInventoryTransferMessage : ClientMessage
 	}
 
 	/// <summary>
+	/// For internal inventory system use only. Use Inventory.ClientRequestTransfer to properly request
+	/// a transfer.
+	///
 	/// Client tells server to transfer items between 2 item slots.
 	/// One of the item slots must be either in this player's slot tree (i.e. currently owned by them
 	/// even if nested within an item storage).
@@ -79,30 +82,8 @@ public class RequestInventoryTransferMessage : ClientMessage
 	/// o</param>
 	/// <param name="toSlot"></param>
 	/// <returns></returns>
-	public static void Send(ItemSlot fromSlot, ItemSlot toSlot)
+	public static void _Send(ItemSlot fromSlot, ItemSlot toSlot)
 	{
-		var player = fromSlot.RootPlayer();
-		if (player == null)
-		{
-			player = toSlot.RootPlayer();
-		}
-		if (player == null)
-		{
-			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
-			                      " neither slot exists in their inventory.", Category.Inventory,
-				fromSlot, toSlot);
-			return;
-		}
-
-		if (!Validations.CanPutItemToSlot(player.GetComponent<PlayerScript>(), toSlot, fromSlot.Item,
-			NetworkSide.Client))
-		{
-			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
-			                      " validation failed.", Category.Inventory,
-				fromSlot, toSlot);
-			return;
-		}
-
 		RequestInventoryTransferMessage msg = new RequestInventoryTransferMessage
 		{
 			FromStorage = fromSlot.ItemStorageNetID,

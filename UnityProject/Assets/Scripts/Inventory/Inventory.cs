@@ -386,6 +386,28 @@ public static class Inventory
 	/// <returns></returns>
 	public static void ClientRequestTransfer(ItemSlot from, ItemSlot to)
 	{
+		var player = from.RootPlayer();
+		if (player == null)
+		{
+			player = to.RootPlayer();
+		}
+		if (player == null)
+		{
+			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
+			                      " neither slot exists in their inventory.", Category.Inventory,
+				from, to);
+			return;
+		}
+
+		if (!Validations.CanPutItemToSlot(player.GetComponent<PlayerScript>(), to, from.Item,
+			NetworkSide.Client))
+		{
+			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
+			                      " validation failed.", Category.Inventory,
+				from, to);
+			return;
+		}
+
 		//client side prediction, just change the sprite of the ui slots
 		if (from.LocalUISlot != null)
 		{
@@ -398,7 +420,7 @@ public static class Inventory
 		}
 
 		//send the actual message.
-		RequestInventoryTransferMessage.Send(from, to);
+		RequestInventoryTransferMessage._Send(from, to);
 	}
 
 	/// <summary>
