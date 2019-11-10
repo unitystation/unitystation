@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114072904611129618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +183,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114755971734360584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,8 +198,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2063614665
+  m_AssetId: a90fb099442cf4377aefa0b3d74b9a2b
+  m_SceneId: 0
 --- !u!1 &1503944631886592
 GameObject:
   m_ObjectHideFlags: 0

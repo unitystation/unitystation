@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114313499704245640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +198,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Shutgun Slug
   itemDescription: 
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: c5ea118354e234f9fa2e1e18ce0adff8, type: 2}
   size: 0
   spriteType: 0
@@ -350,5 +351,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3332968655
+  m_AssetId: afa5cc272972d406eac7e8e62bcb5e4b
+  m_SceneId: 0

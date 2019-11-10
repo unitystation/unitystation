@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114593161572524446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +183,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: identification card
   itemDescription: A card used to provide ID and determine access across the station.
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: 1dc47f324bdb1461b862b38cdb1e37d9, type: 2}
   size: 0
   spriteType: 0

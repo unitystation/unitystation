@@ -184,8 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: You see some lights blinking in strange patterns, either its broken or
     you're a complete retard.
 --- !u!114 &114857470181492602
@@ -220,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114553008561561802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +278,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114577489607381912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,5 +293,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1841811640
+  m_AssetId: c8840fcd6c05941b2997fb91e13c3aed
+  m_SceneId: 0

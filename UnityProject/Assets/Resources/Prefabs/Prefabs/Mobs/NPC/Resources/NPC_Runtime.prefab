@@ -143,7 +143,6 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
-  isNotPlayer: 0
   aliveSprite: {fileID: 21300006, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
   deadSprite: {fileID: 21300000, guid: e058d1fe9f973f14f9e9a80e7c147395, type: 3}
   deadState: 0
@@ -196,6 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &2097831301508395641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,8 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2409253388
+  m_AssetId: a990bc1742ffa46c39c5839d3e7ec915
+  m_SceneId: 0
 --- !u!1 &5258005088007752283
 GameObject:
   m_ObjectHideFlags: 0

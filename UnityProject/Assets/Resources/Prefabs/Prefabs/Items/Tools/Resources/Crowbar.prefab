@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114909773131868738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToolType: 0
   SuccessChance: 100
   IsSyndicateVariant: 0
   SpeedMultiplier: 1

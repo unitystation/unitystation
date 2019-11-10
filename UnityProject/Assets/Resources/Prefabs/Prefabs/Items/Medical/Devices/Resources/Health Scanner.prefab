@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114509519296518920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,9 +182,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Medical Scanner
   itemDescription: Used to check somebody's health.
-  Traits:
-  - {fileID: 11400000, guid: 6678545dc93924a5e80e8e353ffb1298, type: 2}
-  itemType: 15
+  initialTraits: []
   size: 1
   spriteType: 0
   CanConnectToTank: 0
@@ -347,5 +346,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_AssetId: d1b135e5a46c6f4408972d504eaebc4b
   m_SceneId: 0

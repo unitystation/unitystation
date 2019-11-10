@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114891067180309740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +118,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: 38 Magnum Magazine
   itemDescription: Magazine for the Detective Revolver
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: ef9ed56250b41426baa5a3e5b16b8f34, type: 2}
   size: 0
   spriteType: 0
@@ -270,8 +271,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2768768973
+  m_AssetId: 43b82868fea5e4d8b931c85860de40c6
+  m_SceneId: 0
 --- !u!1 &1960548086557526
 GameObject:
   m_ObjectHideFlags: 0

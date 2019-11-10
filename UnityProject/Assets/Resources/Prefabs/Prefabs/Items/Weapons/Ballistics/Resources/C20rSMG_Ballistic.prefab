@@ -86,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114132912066377716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +105,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: C20rSMG
   itemDescription: 
-  InitialTraits: []
+  initialTraits: []
   size: 2
   spriteType: 2
   CanConnectToTank: 0
@@ -360,8 +361,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2786820365
+  m_AssetId: 054d4c5d3f4b74caa87d549779ef4bf0
+  m_SceneId: 0
 --- !u!114 &4995470330489264669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,11 +375,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
     type: 2}
-  ItemStorageCapacity: {fileID: 11400000, guid: 341921cc736104dd785ecc1579567ec2,
+  itemStorageCapacity: {fileID: 11400000, guid: 341921cc736104dd785ecc1579567ec2,
     type: 2}
-  ItemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
 --- !u!1 &1992156404503320
 GameObject:

@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!50 &50080775290529754
 Rigidbody2D:
   serializedVersion: 4
@@ -276,7 +277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToolType: 1
   SuccessChance: 100
   IsSyndicateVariant: 0
   SpeedMultiplier: 1
@@ -372,5 +372,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 716afa9ab8df5874a8801b81b5e626be
+  m_AssetId: 9198440a9fbd8684fa7906b4ede7ad02
   m_SceneId: 0

@@ -177,8 +177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: The automatic firealarm is locked
 --- !u!114 &114450786801091896
 MonoBehaviour:
@@ -253,6 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114234539136935032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +298,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114146168231498696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,8 +313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 954448656
+  m_AssetId: d8ff8a6c4d044500806d2f0ab1cb6358
+  m_SceneId: 0
 --- !u!1 &1000013647327112
 GameObject:
   m_ObjectHideFlags: 0

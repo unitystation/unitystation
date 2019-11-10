@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114631740818005732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +118,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: A762 Magazine
   itemDescription: 
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: 5344f7d34a67046a19f7955f984f8ea0, type: 2}
   size: 0
   spriteType: 0
@@ -270,8 +271,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2341268880
+  m_AssetId: 97b133313606d48178e8c800c28ea1bf
+  m_SceneId: 0
 --- !u!1 &1645393414742414
 GameObject:
   m_ObjectHideFlags: 0

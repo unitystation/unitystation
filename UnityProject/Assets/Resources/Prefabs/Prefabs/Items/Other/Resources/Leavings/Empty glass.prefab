@@ -87,7 +87,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Empty glass
   itemDescription: 
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58, type: 2}
   size: 0
   spriteType: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &7129349394144089427
 MonoBehaviour:
   m_ObjectHideFlags: 0

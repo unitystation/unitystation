@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114729131846127588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +184,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Uzi
   itemDescription: 
-  InitialTraits: []
+  initialTraits: []
   size: 1
   spriteType: 2
   CanConnectToTank: 0
@@ -365,8 +366,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3713147257
+  m_AssetId: 3a2d5158054c440108a809dc52c9bc04
+  m_SceneId: 0
 --- !u!114 &1117949388603872857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,11 +380,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
     type: 2}
-  ItemStorageCapacity: {fileID: 11400000, guid: e770c2c25b69d40d39e2084d4c3a4653,
+  itemStorageCapacity: {fileID: 11400000, guid: e770c2c25b69d40d39e2084d4c3a4653,
     type: 2}
-  ItemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
 --- !u!1 &3766660294175928363
 GameObject:

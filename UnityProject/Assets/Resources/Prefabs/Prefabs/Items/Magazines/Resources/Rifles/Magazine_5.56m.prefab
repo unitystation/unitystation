@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114117670336802206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +198,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: P90 Magazine
   itemDescription: 
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: 4e7a28935887b42c0abbb43cc4370604, type: 2}
   size: 0
   spriteType: 0
@@ -350,5 +351,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2947394621
+  m_AssetId: 6dbf3f0b537e34ad49c639488c561edc
+  m_SceneId: 0

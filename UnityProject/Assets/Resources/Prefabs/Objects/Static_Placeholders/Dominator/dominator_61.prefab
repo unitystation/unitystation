@@ -184,8 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: All external communitation disabled... please override with y..... *ERROR*
 --- !u!114 &114274140949368814
 MonoBehaviour:
@@ -219,6 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114760571649812786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +277,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114035871076146378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,5 +292,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3082194848
+  m_AssetId: 196cd20eb60f24356b89fa6571947da0
+  m_SceneId: 0

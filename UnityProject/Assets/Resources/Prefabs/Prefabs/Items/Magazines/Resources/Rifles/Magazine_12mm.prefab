@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114944961118809770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +198,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: c20r45 Magazine
   itemDescription: 
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: 876a70aadb2d64ee69a9fcecd369635c, type: 2}
   size: 0
   spriteType: 0
@@ -350,5 +351,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1526170317
+  m_AssetId: 5c6f9e9e80c8a4b5a84d0376fb69f876
+  m_SceneId: 0

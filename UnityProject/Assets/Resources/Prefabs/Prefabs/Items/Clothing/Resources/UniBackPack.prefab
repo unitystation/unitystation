@@ -142,7 +142,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585232330438968}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 79.50574, y: 56.58905, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4198876866591856}
@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114768507001769714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +208,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 5613584594651815714}
   itemName: 
   itemDescription: 
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d, type: 2}
   size: 4
   spriteType: 1
@@ -413,8 +414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemStorageStructure: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
+  itemStorageStructure: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
     type: 2}
-  ItemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
     type: 2}
-  ItemStoragePopulator: {fileID: 0}
+  itemStoragePopulator: {fileID: 0}

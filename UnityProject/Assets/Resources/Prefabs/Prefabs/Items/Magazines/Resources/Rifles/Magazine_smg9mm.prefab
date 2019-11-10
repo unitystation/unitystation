@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114588700412026578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +198,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: SMG magazine
   itemDescription: Magazine for the Saber SMG
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: f605405b9b89d45e4afc2dd22eea1c64, type: 2}
   size: 0
   spriteType: 0
@@ -350,5 +351,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3783734191
+  m_AssetId: 5dc72fc6825e44e5abb5a8b44d0aa649
+  m_SceneId: 0
