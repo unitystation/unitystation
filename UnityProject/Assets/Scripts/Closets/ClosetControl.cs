@@ -308,7 +308,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		if (toAdd == null) return;
 		heldItems = heldItems.Concat(new [] {toAdd});
-		toAdd.parentContainer = objectBehaviour;
+		toAdd.parentContainer = pushPull;
 		toAdd.VisibleState = false;
 	}
 

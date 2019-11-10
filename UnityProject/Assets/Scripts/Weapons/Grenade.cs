@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IOnStageClient
+public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpawn
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -79,7 +79,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IOnStageCl
 		UpdateSprite(LOCKED_SPRITE);
 	}
 
-	public void GoingOnStageClient(OnStageInfo info)
+	public void OnSpawnClient(ClientSpawnInfo info)
 	{
 		// Set grenade to locked state by default
 		UpdateSprite(LOCKED_SPRITE);
@@ -152,7 +152,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IOnStageCl
 			PlaySoundAndShake();
 			CreateShape();
 			CalcAndApplyExplosionDamage(damagedBy);
-			PoolManager.PoolNetworkDestroy( gameObject );
+			Despawn.ServerSingle(gameObject);
 		}
 	}
 

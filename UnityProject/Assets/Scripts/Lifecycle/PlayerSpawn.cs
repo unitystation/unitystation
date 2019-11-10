@@ -125,7 +125,6 @@ public static class PlayerSpawn
 		var connectedPlayer = PlayerList.Instance.Get(connection);
 		connectedPlayer.Name = ps.playerName;
 		UpdateConnectedPlayersMessage.Send();
-		PlayerList.Instance.TryAddScores(ps.playerName);
 
 		if (occupation.JobType == JobType.SYNDICATE)
 		{
@@ -325,7 +324,7 @@ public static class PlayerSpawn
 		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
 		if (playerObjectBehavior && playerObjectBehavior.parentContainer)
 		{
-			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
+			FollowCameraMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
 		bool newMob = false;
 		if(characterSettings != null)

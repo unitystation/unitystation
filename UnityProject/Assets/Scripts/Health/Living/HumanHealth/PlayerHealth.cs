@@ -89,11 +89,14 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void Gib()
 	{
-		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
+		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
-		//? experimental
-		playerNetworkActions.DropAll();
+		//drop everything
+		foreach (var slot in itemStorage.GetItemSlots())
+		{
+			Inventory.ServerDrop(slot);
+		}
 
 		if (!playerMove.PlayerScript.IsGhost)
 		{ //dirty way to follow gibs. change this when implementing proper gibbing, perhaps make it follow brain

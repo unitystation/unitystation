@@ -31,7 +31,7 @@ public class NPCFactory : NetworkBehaviour
 	/// <returns></returns>
 	public static GameObject SpawnXenomorph(Vector2 worldPos, Transform parent)
 	{
-		var npc = PoolManager.PoolNetworkInstantiate(Instance.xenoPrefab, worldPos, parent, Quaternion.identity);
+		var npc = Spawn.ServerPrefab(Instance.xenoPrefab, worldPos, parent, Quaternion.identity).GameObject;
 		return npc;
 	}
 }

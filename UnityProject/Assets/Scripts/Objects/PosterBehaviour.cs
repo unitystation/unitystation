@@ -129,7 +129,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 		var item = pna.GetActiveHandItem();
-		if (Validations.IsTool(item, ToolType.Wirecutter))
+		if (Validations.HasItemTrait(item, CommonTraits.Instance.Wirecutter))
 		{
 			return true;
 		}
@@ -142,7 +142,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		var pos = interaction.Performer.WorldPosServer();
 		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 		var item = pna.GetActiveHandItem();
-		if (Validations.IsTool(item, ToolType.Wirecutter))
+		if (Validations.HasItemTrait(item, CommonTraits.Instance.Wirecutter))
 		{
 			SoundManager.PlayNetworkedAtPos("WireCutter", pos, 1f);
 
@@ -156,10 +156,10 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 				rolledPosterPrefab.GetComponent<RolledPoster>().posterVariant = posterVariant;
 
-				PoolManager.PoolNetworkInstantiate(rolledPosterPrefab, pos, interaction.Performer.transform.parent);
+				Spawn.ServerPrefab(rolledPosterPrefab, pos, interaction.Performer.transform.parent);
 			}
 
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 
 			return;
 		}

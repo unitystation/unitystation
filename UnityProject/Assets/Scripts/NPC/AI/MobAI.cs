@@ -4,7 +4,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(MobFollow))]
 [RequireComponent(typeof(MobExplore))]
 [RequireComponent(typeof(MobFlee))]
-public class MobAI : MonoBehaviour, IOffStageServer
+public class MobAI : MonoBehaviour, IServerDespawn
 {
 	public string mobName;
 	[Tooltip("When the mob is unconscious, how much should the sprite obj " +
@@ -346,7 +346,7 @@ public class MobAI : MonoBehaviour, IOffStageServer
 		followingTime = 0f;
 	}
 
-	public virtual void GoingOffStageServer(OffStageInfo info)
+	public virtual void OnDespawnServer(DespawnInfo info)
 	{
 		ResetBehaviours();
 	}

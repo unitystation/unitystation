@@ -32,7 +32,7 @@ public class NPCSpawner : MonoBehaviour
 
 	IEnumerator WaitForLoad()
 	{
-		while (PoolManager.Instance == null || CustomNetworkManager.Instance == null)
+		while (CustomNetworkManager.Instance == null)
 		{
 			yield return WaitFor.Seconds(1f);
 		}

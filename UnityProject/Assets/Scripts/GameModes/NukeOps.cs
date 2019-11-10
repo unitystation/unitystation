@@ -24,7 +24,7 @@ public class NukeOps : GameMode
 
 	public override void CheckAntags()
 	{
-		List<ConnectedPlayer> shouldBeAntags = PlayerList.Instance.NonAntagPlayers.FindAll( p => p.Script.mind.jobType == JobType.SYNDICATE);
+		List<ConnectedPlayer> shouldBeAntags = PlayerList.Instance.NonAntagPlayers.FindAll( p => p.Script.mind.occupation.JobType == JobType.SYNDICATE);
 		foreach (var player in shouldBeAntags)
 		{
 			SpawnAntag(player);

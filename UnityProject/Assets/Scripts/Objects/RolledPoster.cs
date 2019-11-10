@@ -108,11 +108,10 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 		wallPrefab.GetComponent<PosterBehaviour>().posterVariant = posterVariant;
 		wallPrefab.GetComponent<Directional>().InitialDirection = Orientation.From(interaction.Performer.TileWorldPosition() - interaction.WorldPositionTarget).AsEnum();
 
-		PoolManager.PoolNetworkInstantiate(wallPrefab, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);
+		Spawn.ServerPrefab(wallPrefab, interaction.WorldPositionTarget.RoundToInt(),
+			interaction.Performer.transform.parent);
 
-		var handObj = interaction.HandObject;
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		handObj.GetComponent<Pickupable>().DisappearObject(slot);
+		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 
 	private static class Globals
