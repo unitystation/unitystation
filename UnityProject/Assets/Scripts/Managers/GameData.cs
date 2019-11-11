@@ -67,6 +67,7 @@ public class GameData : MonoBehaviour
 	IEnumerator ConnectToServerFromHub(HubMessage msg)
 	{
 		Logger.Log("Hub message found. Attempting to log into firebase..", Category.Hub);
+		yield return WaitFor.EndOfFrame;
 	}
 
 	private void OnEnable()
