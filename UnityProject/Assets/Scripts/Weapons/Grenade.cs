@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpawn
+public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IServerDespawn
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -47,6 +47,8 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 
 	[Tooltip("Used for animation")]
 	public SpriteHandler spriteHandler;
+	[Tooltip("Used for inventory animation")]
+	public Pickupable pickupable;
 	// Zero and one reserved for hands
 	private const int LOCKED_SPRITE = 2;
 	private const int ARMED_SPRITE = 3;
@@ -79,10 +81,13 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 		UpdateSprite(LOCKED_SPRITE);
 	}
 
-	public void OnSpawnClient(ClientSpawnInfo info)
+	public void OnDespawnServer(DespawnInfo info)
 	{
 		// Set grenade to locked state by default
 		UpdateSprite(LOCKED_SPRITE);
+		// Reset grenade timer
+		timerRunning = false;
+		hasExploded = false;
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -107,7 +112,10 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 				radius = Random.Range(radius - radiusVariation, radius + radiusVariation);
 			}
 			yield return WaitFor.Seconds(fuseLength);
-			Explode("explosion");
+
+			// Is timer still running?
+			if (timerRunning)
+				Explode("explosion");
 		}
 	}
 
@@ -126,15 +134,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 	{
 		while (timerRunning && !hasExploded)
 		{
-			if (UIManager.Hands.CurrentSlot != null)
-			{
-				// UIManager doesn't update held item sprites automatically
-				if (UIManager.Hands.CurrentSlot.Item == gameObject)
-				{
-					UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
-				}
-			}
-
+			pickupable.RefreshUISlotImage();
 			yield return null;
 		}
 
@@ -171,6 +171,9 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 		//apply damage to each damaged thing
 		foreach (var damagedObject in damagedObjects)
 		{
+			if (!damagedObject)
+				continue;
+
 			int calculatedDamage = CalculateDamage(damagedObject.gameObject.TileWorldPosition(), explosionPos.To2Int());
 			if (calculatedDamage <= 0) continue;
 			damagedObject.ApplyDamage(calculatedDamage, AttackType.Bomb, DamageType.Burn);
