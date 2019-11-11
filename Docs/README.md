@@ -19,7 +19,7 @@ Please join us on Discord:<br>
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://github.com/unitystation/unitystation/wiki/Starting-contribution)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version 2019.2.5
+2. Install editor version 2019.2.11
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines
