@@ -242,7 +242,8 @@ public enum Category
 	GameMode,
 	Chat,
 	Interaction,
-	Antags
+	Antags,
+	SpatialRelationship
 }
 
 [Serializable]

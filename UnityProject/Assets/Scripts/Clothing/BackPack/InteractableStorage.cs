@@ -9,8 +9,13 @@ using UnityEngine;
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(Pickupable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>
+	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>
 {
+	/// <summary>
+	/// Item storage that is being interacted with.
+	/// </summary>
+	public ItemStorage ItemStorage => itemStorage;
+
 	private ItemStorage itemStorage;
 
 	void Awake()
@@ -59,7 +64,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public bool Interact(HandActivate interaction)
 	{
 		//open / close the backpack on activate
-		if (UIManager.StorageHandler.currentOpenStorage != itemStorage)
+		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)
 		{
 			UIManager.StorageHandler.OpenStorageUI(itemStorage);
 		}
@@ -69,5 +74,30 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		return true;
+	}
+
+	public bool WillInteract(MouseDrop interaction, NetworkSide side)
+	{
+		//can only drag and drop on ourselves
+		if (interaction.Performer != interaction.TargetObject) return false;
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		return true;
+	}
+
+	public void ServerPerformInteraction(MouseDrop interaction)
+	{
+		//player can observe this storage
+		itemStorage.ServerAddObserverPlayer(interaction.Performer);
+		ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
+		SpatialRelationship.Activate(RangeRelationship.Between(interaction.Performer, interaction.TargetObject,
+			PlayerScript.interactionDistance, ServerOnRelationshipCancelled));
+	}
+
+	private void ServerOnRelationshipCancelled(RangeRelationship cancelled)
+	{
+		//they can't observe anymore
+		itemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
+		ObserveInteractableStorageMessage.Send(cancelled.obj1.gameObject, this, false);
 	}
 }

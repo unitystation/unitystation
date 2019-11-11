@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class UI_StorageHandler : MonoBehaviour
 {
+	[Tooltip("Button which should close the storage UI. Will be positioned / made visible when" +
+	         " the UI is opened and made invisible when it is closed.")]
+	[SerializeField]
+	private GameObject closeStorageUIButton;
 	private GameObject inventorySlotPrefab;
 	/// <summary>
 	/// Currently opened ItemStorage (like the backpack that's currently being looked in)
 	/// </summary>
-	public ItemStorage currentOpenStorage {get; private set;}
+	public ItemStorage CurrentOpenStorage {get; private set;}
 	// holds the currently rendered ui slots linked to the open storage.
 	private List<UI_ItemSlot> currentOpenStorageUISlots = new List<UI_ItemSlot>();
 
@@ -23,7 +27,11 @@ public class UI_StorageHandler : MonoBehaviour
 	/// <param name="itemStorage"></param>
 	public void OpenStorageUI(ItemStorage itemStorage)
 	{
-		currentOpenStorage = itemStorage;
+		if (CurrentOpenStorage != itemStorage)
+		{
+			CloseStorageUI();
+		}
+		CurrentOpenStorage = itemStorage;
 		PopulateInventorySlots();
 		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 	}
@@ -31,25 +39,44 @@ public class UI_StorageHandler : MonoBehaviour
 	private void PopulateInventorySlots()
 	{
 		//create a slot element for each indexed slot in the storage
-		for (int i = 0; i < currentOpenStorage.ItemStorageStructure.IndexedSlots; i++)
+		closeStorageUIButton.SetActive(true);
+		bool insertedCloseButton = false;
+		for (int i = 0; i < CurrentOpenStorage.ItemStorageStructure.IndexedSlots; i++)
 		{
+			//7th element is always the close button
+			if (i == 6)
+			{
+				closeStorageUIButton.transform.parent = transform;
+				closeStorageUIButton.transform.localScale = Vector3.one;
+				insertedCloseButton = true;
+			}
 			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
 			newSlot.transform.parent = transform;
 			newSlot.transform.localScale = Vector3.one;
 			var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
-			uiItemSlot.LinkSlot(currentOpenStorage.GetIndexedItemSlot(i));
+			uiItemSlot.LinkSlot(CurrentOpenStorage.GetIndexedItemSlot(i));
 			currentOpenStorageUISlots.Add(uiItemSlot);
 		}
+
+		if (!insertedCloseButton)
+		{
+			closeStorageUIButton.transform.parent = transform;
+			closeStorageUIButton.transform.localScale = Vector3.one;
+		}
+
 	}
 
 	public void CloseStorageUI()
 	{
 		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
-		currentOpenStorage = null;
+		CurrentOpenStorage = null;
 		foreach (var uiItemSlot in currentOpenStorageUISlots)
 		{
 			Destroy(uiItemSlot.transform.parent.gameObject);
 		}
 		currentOpenStorageUISlots.Clear();
+		closeStorageUIButton.transform.parent = transform.parent;
+		closeStorageUIButton.SetActive(false);
+
 	}
 }
