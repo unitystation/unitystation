@@ -103,6 +103,7 @@ namespace DatabaseAPI
 			refreshToken.userID = uid;
 
 			UnityWebRequest r = UnityWebRequest.Get("https://api.unitystation.org/validatetoken?data=" + JsonUtility.ToJson(refreshToken));
+			Debug.Log(r.url);
 			yield return r.SendWebRequest();
 
 
@@ -125,7 +126,7 @@ namespace DatabaseAPI
 
 					if (task.IsFaulted)
 					{
-						Logger.LogError("Custom token sign in encountered an error: " + task.Exception, Category.DatabaseAPI);
+						Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
 						failedCallBack?.Invoke("Error");
 						return;
 					}
