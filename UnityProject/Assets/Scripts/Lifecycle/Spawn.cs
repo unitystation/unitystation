@@ -606,11 +606,6 @@ public static class Spawn
 			pools[prefab].RemoveAt(index);
 			tempObject.SetActive(true);
 
-			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
-			if (objBehaviour)
-			{
-				objBehaviour.VisibleState = !hide;
-			}
 			tempObject.transform.position = pos;
 			tempObject.transform.rotation = rotation;
 			tempObject.transform.localScale = prefab.transform.localScale;
@@ -719,10 +714,6 @@ public static class Spawn
 
 			//this simulates coming back out of the pool
 			target.SetActive(true);
-			if (transform != null)
-			{
-				transform.VisibleState = true;
-			}
 
 			target.transform.parent = prevParent;
 			target.transform.position = worldPos.To3Int();
