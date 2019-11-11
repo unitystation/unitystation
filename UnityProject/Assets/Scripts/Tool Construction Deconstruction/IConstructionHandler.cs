@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IConstructionHandler 
+public interface IConstructionHandler
 {
 	/// <summary>
 	/// so When someone interacts with the machine, this is an override so you can implement your custom logic
@@ -11,7 +11,7 @@ public interface IConstructionHandler
 	/// <param name="interaction">Interaction.</param>
 	/// <param name="Slot">Slot.</param>
 	/// <param name="Handler">Handler.</param>
-	bool InteractionUpdate(HandApply interaction,InventorySlot Slot, ConstructionHandler Handler);
+	bool InteractionUpdate(HandApply interaction,ItemSlot Slot, ConstructionHandler Handler);
 
 	/// <summary>
 	/// Since how the interaction system work you have to  state if a action is possible or not before doing it
@@ -20,5 +20,5 @@ public interface IConstructionHandler
 	/// <param name="interaction">Interaction.</param>
 	/// <param name="Slot">Slot.</param>
 	/// <param name="Handler">Handler.</param>
-	bool CanInteraction(HandApply interaction, InventorySlot Slot, ConstructionHandler Handler);
+	bool CanInteraction(HandApply interaction, ItemSlot Slot, ConstructionHandler Handler);
 }

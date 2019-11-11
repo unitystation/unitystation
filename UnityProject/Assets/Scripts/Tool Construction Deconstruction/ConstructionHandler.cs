@@ -42,7 +42,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		InventorySlot slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		var slot = interaction.HandSlot;
 
 		if (RelatedInterface != null)
 		{
@@ -66,14 +66,15 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 								UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 							}
 							else {
-								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-								InventoryManager.ClearInvSlot(slot);
+								ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+								//TODO: In need of refactor throughout this component to not use Inventory.Vanish, instead should have an ItemStorage of its own most likely
+								Inventory.ServerVanish(slot);
 								_Object.NumberPresent++;
 							}
 						}
 					}
 					else if (_Object.CType != ConstructionElementType.Null){
-						var Item = slot.Item?.GetComponent<ConstructionComponent>();
+						var Item = slot.ItemObject?.GetComponent<ConstructionComponent>();
 						if (Item != null) {
 							if (Item.CType == _Object.CType && Item.level >= _Object.level) {
 								if (_Object.TimeNeeded > 0) {
@@ -81,8 +82,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 									UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 								}
 								else {
-									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-									InventoryManager.ClearInvSlot(slot);
+									ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+									Inventory.ServerVanish(slot);
 									_Object.NumberPresent++;
 								}
 							}
@@ -92,21 +93,28 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 			}
 		}
 
+		var attrs = slot.Item?.GetComponent<ItemAttributes>();
 		var tool = slot.Item?.GetComponent<Tool>();
-		if (tool == null)
+		if (attrs == null || tool == null)
 		{
 			return;
 		}
-		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
+
+		foreach (var trait in attrs.GetTraits())
 		{
-			var Jump = ConstructionStages[CurrentStage].ToolStage[tool.ToolType];
-			if (Jump.ConstructionTime > 0)
+			if (ConstructionStages[CurrentStage].TraitStage.ContainsKey(trait))
 			{
-				var progressFinishAction = new ProgressCompleteAction(() => JumpLanding(tool));
-				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
-			}
-			else {
-				JumpLanding(tool);
+				var Jump = ConstructionStages[CurrentStage].TraitStage[trait];
+				if (Jump.ConstructionTime > 0)
+				{
+					var progressFinishAction = new ProgressCompleteAction(() => JumpLanding(tool, attrs));
+					UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer,
+						Jump.ConstructionTime / tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
+				}
+				else
+				{
+					JumpLanding(tool, attrs);
+				}
 			}
 		}
 	}
@@ -117,7 +125,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 				return (true);
 			}
 		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+
+		var slot = interaction.HandSlot;
 
 		if (RelatedInterface != null)
 		{
@@ -152,17 +161,23 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		}
 
 		var tool = slot.Item?.GetComponent<Tool>();
-		if (tool == null)
+		var attrs = slot.Item?.GetComponent<ItemAttributes>();
+		if (tool == null || attrs == null)
 		{
 			return (false);
 		}
-		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
+
+		foreach (var trait in attrs.GetTraits())
 		{
-			return (true);
+			if (ConstructionStages[CurrentStage].TraitStage.ContainsKey(trait))
+			{
+				return (true);
+			}
 		}
+
 		return (false);
 	}
-	public void ExceptItem(InventorySlot slot, HandApply interaction) {
+	public void ExceptItem(ItemSlot slot, HandApply interaction) {
 	if (ContainedObjects[CurrentStage] != null)
 		{
 			foreach (var _Object in ContainedObjects[CurrentStage])
@@ -173,8 +188,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 					{
 						if (slot.Item.GetComponent(_Object.IdentifyingComponent) != null)
 						{
-							ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-							InventoryManager.ClearInvSlot(slot);
+							ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+							Inventory.ServerVanish(slot);
 							_Object.NumberPresent++;
 						}
 					}
@@ -185,8 +200,8 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 						{
 							if (Item.CType == _Object.CType && Item.level >= _Object.level)
 							{
-								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-								InventoryManager.ClearInvSlot(slot);
+								ConstructionStages[CurrentStage].PresentParts.Add(slot.ItemObject);
+								Inventory.ServerVanish(slot);
 								_Object.NumberPresent++;
 							}
 						}
@@ -197,32 +212,39 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		}
 	}
 
-	public void JumpLanding(Tool tool) {
-		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
+	public void JumpLanding(Tool tool, ItemAttributes attrs)
+	{
+		foreach (var trait in attrs.GetTraits())
 		{
-			var Jump = ConstructionStages[CurrentStage].ToolStage[tool.ToolType];
-			float SuccessChance = (tool.SuccessChance / 100) * Jump.SuccessChance;
-			if (!(SuccessChance < ListChance[random.Next(99)]))
+			if (ConstructionStages[CurrentStage].TraitStage.ContainsKey(trait))
 			{
-				if (Jump.Construction)
+				var Jump = ConstructionStages[CurrentStage].TraitStage[trait];
+				float SuccessChance = (tool.SuccessChance / 100) * Jump.SuccessChance;
+				if (!(SuccessChance < ListChance[random.Next(99)]))
 				{
-					ConstructionStages[CurrentStage].CheckParts();
-					if (!ConstructionStages[CurrentStage].MissingParts)
+					if (Jump.Construction)
 					{
+						ConstructionStages[CurrentStage].CheckParts();
+						if (!ConstructionStages[CurrentStage].MissingParts)
+						{
+							GoToStage(Jump.JumpToStage);
+						}
+					}
+					else
+					{
+						SpawnStage(CurrentStage);
+						SpawnStage(Jump.JumpToStage);
 						GoToStage(Jump.JumpToStage);
 					}
 				}
 				else
 				{
-					SpawnStage(CurrentStage);
-					SpawnStage(Jump.JumpToStage);
-					GoToStage(Jump.JumpToStage);
+					Logger.Log("you Failed!");
+					return;
 				}
 			}
-			else {
-				Logger.Log("you Failed!");
-			}
 		}
+		Logger.Log("you Failed!");
 	}
 
 	public void ClientGoToStage(int Stage)
@@ -258,7 +280,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		if (ConstructionStages[CurrentStage].FinalDeconstructedResult != null) {
 
 			SpawnStage(CurrentStage);
-			var Objecte = PoolManager.PoolNetworkInstantiate(ConstructionStages[CurrentStage].FinalDeconstructedResult, this.transform.position, parent: this.transform.parent);
+			var Objecte = Spawn.ServerPrefab(ConstructionStages[CurrentStage].FinalDeconstructedResult, this.transform.position, parent: this.transform.parent);
 
 			if (CircuitBoard != null)
 			{
@@ -266,7 +288,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 				netTransform.AppearAtPosition(this.transform.position);
 				netTransform.AppearAtPositionServer(this.transform.position);
 			}
-			PoolManager.PoolNetworkDestroy(this.gameObject);
+			Despawn.ServerSingle(this.gameObject);
 		}
 		//ConstructionStages[CurrentStage]
 	}
@@ -322,7 +344,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 
 			if (PrefabCircuitBoard != null && CircuitBoard == null)
 			{
-				CircuitBoard = PoolManager.PoolNetworkInstantiate(PrefabCircuitBoard, this.transform.position, parent: this.transform.parent);
+				CircuitBoard = Spawn.ServerPrefab(PrefabCircuitBoard, this.transform.position, parent: this.transform.parent).GameObject;
 				if (CircuitBoard != null)
 				{
 					CustomNetTransform netTransform = CircuitBoard.GetComponent<CustomNetTransform>();
@@ -336,7 +358,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 
 				foreach (var TOStageAdvance in Stage.StageAdvances)
 				{
-					Stage.ToolStage[TOStageAdvance.RequiredTool] = TOStageAdvance;
+					Stage.TraitStage[TOStageAdvance.RequiredTrait] = TOStageAdvance;
 				}
 
 
@@ -358,7 +380,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 			{
 				foreach (var TOStageAdvance in Stage.StageAdvances)
 				{
-					Stage.ToolStage[TOStageAdvance.RequiredTool] = TOStageAdvance;
+					Stage.TraitStage[TOStageAdvance.RequiredTrait] = TOStageAdvance;
 				}
 
 			}
@@ -393,14 +415,14 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 				{
 					if (NeededObject.GameObject != null)
 					{
-						var _Object = PoolManager.PoolNetworkInstantiate(NeededObject.GameObject, this.transform.position, parent: this.transform.parent);
+						var _Object = Spawn.ServerPrefab(NeededObject.GameObject, this.transform.position, parent: this.transform.parent).GameObject;
 						CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
 						netTransform.DisappearFromWorldServer();
 						Stage.PresentParts.Add(_Object);
 					}
 					else if (NeededObject.CType != ConstructionElementType.Null)
 					{
-						var _Object = PoolManager.PoolNetworkInstantiate(StandardConstructionComponent, this.transform.position, parent: this.transform.parent);
+						var _Object = Spawn.ServerPrefab(StandardConstructionComponent, this.transform.position, parent: this.transform.parent).GameObject;
 						CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
 						netTransform.DisappearFromWorldServer();
 						_Object.GetComponent<ConstructionComponent>().setTypeLevel(NeededObject.CType, NeededObject.level);

@@ -7,8 +7,13 @@ using UnityEngine.EventSystems;
 	{
 		public GameObject retractableGroup;
 		private Image[] equipImgs = new Image[0];
+		private UI_ItemSlot[] itemSlots;
 		public GameObject hideOnRetract;
 		private bool isOpen;
+		/// <summary>
+		/// Whether the expandable clothing menu is open
+		/// </summary>
+		public bool IsOpen => isOpen;
 		public override string Tooltip => "toggle";
 
 		private void Start()
@@ -17,6 +22,7 @@ using UnityEngine.EventSystems;
 			if ( retractableGroup )
 			{
 				equipImgs = retractableGroup.GetComponentsInChildren<Image>();
+				itemSlots = retractableGroup.GetComponentsInChildren<UI_ItemSlot>();
 			}
 			ToggleEquipMenu(false);
 		}
@@ -38,6 +44,7 @@ using UnityEngine.EventSystems;
 		private void ToggleEquipMenu(bool isOn)
 		{
 			isOpen = isOn;
+			//TODO: This needs to hide the slots better
 			if (isOn)
 			{
 				//Adjusting the alpha to hide the slots as the enabled state is handled
@@ -59,6 +66,10 @@ using UnityEngine.EventSystems;
 					equipImgs[i].color = tempCol;
 					equipImgs[i].raycastTarget = false;
 				}
+			}
+			foreach (var itemSlot in itemSlots)
+			{
+				itemSlot.SetHidden(!isOpen);
 			}
 			if ( hideOnRetract != null )
 			{

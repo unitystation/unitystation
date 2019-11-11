@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: QuartermasterPopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 12
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 06d6b7a373cb50f4fb92e17a9145f571, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+    SlotPopulator: {fileID: 11400000, guid: 290dde4d76e7b4af0b3769491a8bdba2, type: 2}
+  - NamedSlot: 9
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+    SlotPopulator: {fileID: 11400000, guid: 374ad707a2a484b468a52553aa3a9106, type: 2}
+  - NamedSlot: 11
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 635f4b881af45ee4db6f8403c0c4b14d, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+    SlotPopulator: {fileID: 11400000, guid: 934c2f2489878421d82175110fa68327, type: 2}
+  - NamedSlot: 3
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 2fa3983339cbf9b40a9ca43f116be3fb, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+    SlotPopulator: {fileID: 11400000, guid: a099995b42f334cf091143ce9b8cfbc8, type: 2}
+  - NamedSlot: 6
+    Contents:
+      ContentsType: 1
+      ClothData: {fileID: 11400000, guid: 6e06fc0ccb3a9fd41b178b93da462a92, type: 2}
+      ClothingVariantType: 0
+      ClothVariantIndex: 0
+      Prefab: {fileID: 0}
+      SlotPopulator: {fileID: 0}
+    SlotPopulator: {fileID: 11400000, guid: 9c612a6c304e943d2826cb604c967015, type: 2}

@@ -24,17 +24,17 @@ public class DevSpawnMessage : ClientMessage
 		var pos = WorldPosition.RoundToInt();
 		var isPassable = MatrixManager.IsPassableAt(pos, true);
 		var isTableAt = MatrixManager.IsTableAt(pos, true);
-		
+
 		if (isPassable || isTableAt)
 		{
 			if (IsUniCloth)
 			{
-				var clothData = ClothFactory.Instance.ClothingStoredData[Name];
-				ClothFactory.CreateCloth(clothData, WorldPosition);
+				var clothData = Spawn.ClothingStoredData[Name];
+				Spawn.ServerCloth(clothData, WorldPosition);
 			}
 			else
 			{
-				PoolManager.PoolNetworkInstantiate(Name, WorldPosition);
+				Spawn.ServerPrefab(Name, WorldPosition);
 			}
 		}
 

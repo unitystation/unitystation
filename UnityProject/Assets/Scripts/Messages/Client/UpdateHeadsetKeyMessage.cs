@@ -54,7 +54,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 			Headset headset = headsetGO.GetComponent<Headset>();
 			EncryptionKey encryptionkey = keyGO.GetComponent<EncryptionKey>();
 			headset.EncryptionKey = encryptionkey.Type;
-			pna.Consume(keyGO);
+			Inventory.ServerDespawn(keyGO.GetComponent<Pickupable>().ItemSlot);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		//TODO when added interact with dropped headset, add encryption key to empty hand
 		headset.EncryptionKey = EncryptionKeyType.None;
 
-		PoolManager.PoolNetworkInstantiate(encryptionKey, player.Script.WorldPos, player.GameObject.transform.parent);
+		Spawn.ServerPrefab(encryptionKey, player.Script.WorldPos, player.GameObject.transform.parent);
 	}
 
 	public static UpdateHeadsetKeyMessage Send(GameObject headsetItem, GameObject encryptionkey = null)

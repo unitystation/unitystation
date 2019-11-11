@@ -52,9 +52,8 @@ public class ProgressBar : MonoBehaviour
 	private PlayerSync playerSync;
 	//directional of the player who initiated it
 	private Directional playerDirectional;
-	//pickupable item associated with the action (if any)
-	//progress will be cancelled on drop
-	private Pickupable usedItem;
+	//slot being used to perform the action, will be interrupted if slot contents change
+	private ItemSlot usedSlot;
 	//initial orientation of player when they initiated it
 	private Orientation facingDirectionCache;
 	//Action which should be invoked when progress is done (for one reason or another)
@@ -97,16 +96,11 @@ public class ProgressBar : MonoBehaviour
 		this.progressAction = progressAction;
 		id = GetInstanceID();
 
-		//check if something is in hand so we can interrupt if it's dropped
-		var usedItemObj = player.Player().Script.playerNetworkActions.GetActiveHandItem();
-		if (usedItemObj != null)
-		{
-			usedItem  = usedItemObj.GetComponent<Pickupable>();
-			if (usedItem != null)
-			{
-				usedItem.OnDropServer.AddListener(ServerInterruptOnDrop);
-			}
-		}
+		//interrupt if hand contents are changed
+		var activeSlot = player.Player().Script.ItemStorage.GetActiveHandSlot();
+		activeSlot.OnSlotContentsChangeServer.AddListener(ServerInterruptOnInvChange);
+		this.usedSlot = activeSlot;
+
 
 		if (player != PlayerManager.LocalPlayer)
 		{
@@ -125,6 +119,12 @@ public class ProgressBar : MonoBehaviour
 		//note: using transform position for the offset, because progress bar has no register tile and
 		//otherwise it would give an incorrect offset if player is on moving matrix
 		ProgressBarMessage.SendCreate(player, 0, (transform.position - player.transform.position).To2Int(), id);
+	}
+
+	private void ServerInterruptOnInvChange()
+	{
+		//called when active hand slot is changed, interrupts progress
+		ServerInterruptProgress();
 	}
 
 	/// <summary>
@@ -167,11 +167,6 @@ public class ProgressBar : MonoBehaviour
 		transform.rotation = Quaternion.identity;
 	}
 
-	private void ServerInterruptOnDrop()
-	{
-		//called when item is dropped, interrupts progress
-		ServerInterruptProgress();
-	}
 
 
 	private void DestroyProgressBar()
@@ -179,10 +174,10 @@ public class ProgressBar : MonoBehaviour
 		done = true;
 		spriteRenderer.transform.parent.localRotation = Quaternion.identity;
 		spriteRenderer.enabled = false;
-		if (this.usedItem != null)
-		{
-			this.usedItem.OnDropServer.RemoveListener(ServerInterruptOnDrop);
-		}
+		usedSlot?.OnSlotContentsChangeServer.RemoveListener(ServerInterruptOnInvChange);
+
+
+
 		if (matrixMove != null)
 		{
 			matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);

@@ -9,9 +9,11 @@ using UnityEngine;
 /// </summary>
 public class PositionalHandApply : TargetedInteraction
 {
-	private readonly HandSlot handSlot;
+	private static readonly PositionalHandApply Invalid = new PositionalHandApply(null, null, null, Vector2.zero, null);
 
-	public HandSlot HandSlot => handSlot;
+	private readonly ItemSlot handSlot;
+
+	public ItemSlot HandSlot => handSlot;
 
 	/// <summary>
 	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand.
@@ -38,7 +40,7 @@ public class PositionalHandApply : TargetedInteraction
 	/// <param name="targetVector">vector pointing from performer position to the spot they are targeting</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
-	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetVector, HandSlot handSlot) :
+	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetVector, ItemSlot handSlot) :
 		base(performer, handObject, targetObject)
 	{
 		this.targetVector = targetVector;
@@ -54,13 +56,17 @@ public class PositionalHandApply : TargetedInteraction
 	/// <returns></returns>
 	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? targetVector = null)
 	{
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return Invalid;
+		}
 		var targetVec = targetVector ?? Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
 		                PlayerManager.LocalPlayer.transform.position;
 		return new PositionalHandApply(PlayerManager.LocalPlayer,
-			UIManager.Hands.CurrentSlot.Item,
+			UIManager.Hands.CurrentSlot.ItemObject,
 			targetObject,
 			targetVec,
-			HandSlot.ForName(UIManager.Instance.hands.CurrentSlot.equipSlot));
+			UIManager.Instance.hands.CurrentSlot.ItemSlot);
 	}
 
 	/// <summary>
@@ -78,7 +84,7 @@ public class PositionalHandApply : TargetedInteraction
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static PositionalHandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject,
 		Vector2 targetVector,
-		HandSlot handSlot)
+		ItemSlot handSlot)
 	{
 		return new PositionalHandApply(clientPlayer, handObject, targetObject, targetVector, handSlot);
 	}

@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114924791543060820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,11 +98,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: 357 Magnum Magazine
   itemDescription: Magazine for normal revolvers
-  itemType: 0
+  initialTraits:
+  - {fileID: 11400000, guid: 5efceb855c11841ad9af3f0510b3dbb8, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -142,9 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114563500087236606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +159,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114632442228932846
 MonoBehaviour:
@@ -240,6 +238,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114651201226394076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,8 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -274,8 +271,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3675094846
+  m_AssetId: 5d777f4b7c82a4b1eba964db405a1a46
+  m_SceneId: 0
 --- !u!1 &1993948941500644
 GameObject:
   m_ObjectHideFlags: 0

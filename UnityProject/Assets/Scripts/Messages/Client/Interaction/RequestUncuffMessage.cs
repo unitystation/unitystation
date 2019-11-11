@@ -33,13 +33,18 @@ public class RequestUncuffMessage : ClientMessage
 		GameObject actor = SentByPlayer.GameObject;
 		GameObject playerToUncuff = NetworkObject;
 
-		var restraint = playerToUncuff.GetComponent<PlayerNetworkActions>().Inventory[EquipSlot.handcuffs]?.Item?.GetComponent<Restraint>();
-		if (restraint)
+		var handcuffs = playerToUncuff.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs).ItemObject;
+
+		if (handcuffs != null)
 		{
-			var finishProgressAction = new ProgressCompleteAction(() =>
-				playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor));
-			UIManager.ServerStartProgress(ProgressAction.Uncuff, actor.transform.position, restraint.RemoveTime,
-				finishProgressAction, actor);
+			var restraint = handcuffs.GetComponent<Restraint>();
+			if (restraint)
+			{
+				var finishProgressAction = new ProgressCompleteAction(() =>
+					playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor));
+				UIManager.ServerStartProgress(ProgressAction.Uncuff, actor.transform.position, restraint.RemoveTime,
+					finishProgressAction, actor);
+			}
 		}
 	}
 

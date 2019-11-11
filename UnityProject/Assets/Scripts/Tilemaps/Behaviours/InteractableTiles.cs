@@ -67,13 +67,14 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				{
 					Vector3 targetPosition = interaction.WorldPositionTarget;
 					targetPosition.z = -0.2f;
-					pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
+					pna.CmdPlaceItem(interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none),
+						targetPosition, interaction.Performer, true);
 					return true;
 				}
 				case TileType.Floor:
 				{
 					//Crowbar
-					if (Validations.IsTool(interaction.HandObject, ToolType.Crowbar))
+					if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 					{
 						pna.CmdCrowBarRemoveFloorTile(interaction.Performer, LayerType.Floors,
 							new Vector2(cellPos.x, cellPos.y), interaction.WorldPositionTarget);

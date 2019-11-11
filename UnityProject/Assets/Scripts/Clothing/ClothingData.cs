@@ -8,51 +8,20 @@ using System;
 
 //[InitializeOnLoad]
 [CreateAssetMenu(fileName = "ClothingData", menuName = "ScriptableObjects/ClothingData", order = 1)]
-public class ClothingData : ScriptableObject
+public class ClothingData : BaseClothData
 {
-	public GameObject PrefabVariant;
-
 	public EquippedData Base; //Your Basic clothing, If any missing data on any of the other points it will take it from here
 	public EquippedData Base_Adjusted; //Variant for if it is Worn differently
 	public EquippedData DressVariant; //humm yeah Dresses
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
-	public ItemAttributesData ItemAttributes;
-
-	private static ClothFactory ClothFactoryReference;
-
-	public void Awake()
+	public override void  InitializePool()
 	{
-		InitializePool();
-	}
-
-	private void OnEnable()
-	{
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
-
-		InitializePool();
-	}
-
-
-	public void InitializePool()
-	{
-		if (ClothFactoryReference == null)
+		if (Spawn.ClothingStoredData.ContainsKey(this.name) && Spawn.ClothingStoredData[this.name] != this)
 		{
-			ClothFactoryReference = FindObjectOfType<ClothFactory>();
+			Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
 		}
-
-		if (ClothFactoryReference != null)
-		{
-			if (ClothFactoryReference.ClothingStoredData.ContainsKey(this.name))
-			{
-				Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
-			}
-			ClothFactoryReference.ClothingStoredData[this.name] = this;
-		}
+		Spawn.ClothingStoredData[this.name] = this;
 	}
 
 	public static void getClothingDatas(List<ClothingData> DataPCD)
@@ -76,10 +45,12 @@ public class ClothingData : ScriptableObject
 			}
 		}
 	}
+
+	public override string ToString()
+	{
+		return $"{name}";
+	}
 }
-
-
-
 
 [System.Serializable]
 public class EquippedData

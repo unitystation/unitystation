@@ -101,17 +101,16 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		//only wrench can be used
 		return DefaultWillInteract.HandApply(interaction, side) &&
-			   Validations.IsTool(interaction.UsedObject, ToolType.Wrench);
+			   Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench);
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-		GameObject handObj = pna.Inventory[interaction.HandSlot.equipSlot].Item;
-		var tool = handObj != null ? handObj.GetComponent<Tool>() : null;
+		GameObject handObj = interaction.HandObject;
 		//can click on the canister with a wrench to connect/disconnect it from a connector
-		if (tool != null && tool.ToolType == ToolType.Wrench)
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			if (isConnected)
 			{

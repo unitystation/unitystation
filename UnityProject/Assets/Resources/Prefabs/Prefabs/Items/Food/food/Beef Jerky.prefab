@@ -87,7 +87,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Scaredy's Private Reserve Beef Jerky
   itemDescription: Beef jerky made from the finest space cows.
-  itemType: 14
+  initialTraits: []
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114394843888639426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,9 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114823943790196644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +238,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114003728713013522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +271,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 4027345276
+  m_AssetId: 8af5096e4df03fd42a23efb157a94bf3
+  m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

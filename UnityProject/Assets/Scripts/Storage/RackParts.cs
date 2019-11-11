@@ -12,7 +12,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			return false;
 		}
 
-		if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			return true;
 		}
@@ -35,7 +35,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		}
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		    || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			return false;
 		}
@@ -45,11 +45,12 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
-			ObjectFactory.SpawnMetal(1, interaction.WorldPositionTarget.RoundToInt(), parent: transform.parent);
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget.RoundToInt(), transform.parent, count: 1,
+				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+			Despawn.ServerSingle(gameObject);
 
 			return;
 		}
@@ -58,12 +59,10 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You assemble a rack.");
-				PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
+				Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
 					interaction.Performer.transform.parent);
 				var handObj = interaction.HandObject;
-				var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer,
-					interaction.HandSlot.equipSlot);
-				handObj.GetComponent<Pickupable>().DisappearObject(slot);
+				Inventory.ServerDespawn(interaction.HandSlot);
 			}
 		);
 
@@ -78,10 +77,8 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f);
-		ObjectFactory.SpawnMetal(1, interaction.Performer.WorldPosServer().CutToInt(), parent: transform.parent);
-
-		var rack = interaction.TargetObject;
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.TargetSlot.equipSlot);
-		rack.GetComponent<Pickupable>().DisappearObject(slot);
+		Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
+			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+		Inventory.ServerDespawn(interaction.HandSlot);
 	}
 }

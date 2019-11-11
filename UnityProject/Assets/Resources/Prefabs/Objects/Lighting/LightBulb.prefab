@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114259338949648092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +162,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114556952556266662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,8 +177,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3296992166
+  m_AssetId: 739ea793d41f91b47b2ab424d60bad55
+  m_SceneId: 0
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +246,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: bd3225efc525643479b237af41876cf0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

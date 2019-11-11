@@ -25,6 +25,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private GameObject spritesObj;
+	public ItemTrait KnifeTrait;
 
 	private void Start()
 	{
@@ -35,13 +36,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	[Command]
-	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, string hand)
+	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, NamedSlot hand)
 	{
 		Gun gun = gunObject.GetComponent<Gun>();
 		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		gun.ServerHandleReloadRequest(networkID);
-		//var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		//InventoryManager.ClearInvSlot(slot);
 	}
 
 	[Command]
@@ -64,10 +63,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	/// Utility function that gets the weapon for you
 	/// </summary>
 	[Command]
-	public void CmdRequestMeleeAttackSlot(GameObject victim, EquipSlot slot, Vector2 stabDirection,
+	public void CmdRequestMeleeAttackSlot(GameObject victim, NamedSlot slot, Vector2 stabDirection,
 	BodyPartType damageZone, LayerType layerType)
 	{
-		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
+		var weapon = playerScript.ItemStorage.GetNamedItemSlot(slot).ItemObject;
 		CmdRequestMeleeAttack(victim, weapon, stabDirection, damageZone, layerType);
 	}
 
@@ -131,7 +130,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		// Consider moving this into a MeleeItemTrigger for knifes
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-		if (victimHealth != null && victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
+		if (victimHealth != null && victimHealth.IsDead && weaponAttr.HasTrait(KnifeTrait))
 		{
 			if (victim.GetComponent<SimpleAnimal>())
 			{

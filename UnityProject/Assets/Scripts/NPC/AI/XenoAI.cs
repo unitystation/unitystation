@@ -203,9 +203,9 @@ public class XenoAI : MobAI
 
 	}
 
-	public override void GoingOffStageServer(OffStageInfo info)
+	public override void OnDespawnServer(DespawnInfo info)
 	{
-		base.GoingOffStageServer(info);
+		base.OnDespawnServer(info);
 		dirSprites.SetToBodyLayer();
 		alienScreechPlayed = false;
 		registerObject.Passable = true;

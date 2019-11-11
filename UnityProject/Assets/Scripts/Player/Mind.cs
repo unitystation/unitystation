@@ -9,7 +9,7 @@ using Antagonists;
 /// </summary>
 public class Mind
 {
-	public JobType jobType = JobType.NULL;
+	public Occupation occupation;
 	public PlayerScript ghost;
 	public PlayerScript body;
 	private Antagonist Antag;
@@ -18,11 +18,21 @@ public class Mind
 	public bool DenyCloning;
 	public int bodyMobID;
 
-	public Mind(GameObject player, JobType newJobType)
+	//use Create to create a mind.
+	private Mind()
 	{
-		jobType = newJobType;
+	}
+
+	/// <summary>
+	/// Creates and populates the mind for the specified player.
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="occupation"></param>
+	public static void Create(GameObject player, Occupation occupation)
+	{
+		var mind = new Mind {occupation = occupation};
 		var playerScript = player.GetComponent<PlayerScript>();
-		SetNewBody(playerScript);
+		mind.SetNewBody(playerScript);
 	}
 
 	public void SetNewBody(PlayerScript playerScript)
@@ -49,13 +59,6 @@ public class Mind
 	public void RemoveAntag()
 	{
 		Antag = null;
-	}
-
-	public void ClonePlayer(GameObject spawnPoint, CharacterSettings characterSettings)
-	{
-		GameObject oldBody = GetCurrentMob();
-		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		SpawnHandler.ClonePlayer(connection, jobType, characterSettings, oldBody, spawnPoint);
 	}
 
 	public GameObject GetCurrentMob()

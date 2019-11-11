@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!50 &50080775290529754
 Rigidbody2D:
   serializedVersion: 4
@@ -281,11 +282,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 114112507639602968}
+  spriteDataHandler: {fileID: 114112507639602968}
   InventoryIcon: {fileID: 0}
   itemName: 
   itemDescription: 
-  itemType: 0
+  initialTraits: []
   size: 1
   spriteType: 0
   CanConnectToTank: 0
@@ -311,7 +312,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114484434474911270
 MonoBehaviour:
@@ -359,7 +359,6 @@ MonoBehaviour:
   flameRenderer: {fileID: 212351652085156724}
   clientFuelAmt: 0
   damageOn: 15
-  heldByPlayer: {fileID: 0}
   isOn: 0
 --- !u!114 &114994829710997294
 MonoBehaviour:
@@ -375,9 +374,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114973183945482710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,6 +433,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114112507639602968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,8 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -545,8 +540,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1050384640
+  m_AssetId: 698c97193d3a26f48885710aa6c90ffe
+  m_SceneId: 0
 --- !u!1 &8596341256241081698
 GameObject:
   m_ObjectHideFlags: 0

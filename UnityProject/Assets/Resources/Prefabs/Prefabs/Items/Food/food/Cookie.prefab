@@ -87,7 +87,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: cookie
   itemDescription: COOKIE!!!
-  itemType: 14
+  initialTraits: []
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114267865915288146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,9 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114325994199222478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +238,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114152895328573920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +271,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1295391734
+  m_AssetId: 1a54efe7f51314f4eb3da3e5917c99b2
+  m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

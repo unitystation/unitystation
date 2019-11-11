@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114239634461430000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +219,7 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   playerLimit: 3
   metalDroppedOnDestroy: 2
+  soundOnOpen: OpenClose
   statusSync: 0
   doorOpened: {fileID: 21300000, guid: d7b97659b5ce1f04498d7e5d13bdfbdd, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
@@ -315,6 +317,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114635920524582264
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -17,6 +17,8 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// </summary>
 	private RegisterPlayer registerPlayer;
 
+	private ItemStorage itemStorage;
+
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
@@ -25,6 +27,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
 		registerPlayer = GetComponent<RegisterPlayer>();
+		itemStorage = GetComponent<ItemStorage>();
 		base.OnStartClient();
 	}
 
@@ -58,12 +61,14 @@ public class PlayerHealth : LivingHealthBehaviour
 			{
 				PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
 			}
-			pna.DropItem(EquipSlot.rightHand);
-			pna.DropItem(EquipSlot.leftHand);
+
+			//drop items in hand
+			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
 
 			if (isServer)
 			{
-				EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+				EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 			}
 
 			PlayerDeathMessage.Send(gameObject);
@@ -84,11 +89,14 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void Gib()
 	{
-		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
+		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
-		//? experimental
-		playerNetworkActions.DropAll();
+		//drop everything
+		foreach (var slot in itemStorage.GetItemSlots())
+		{
+			Inventory.ServerDrop(slot);
+		}
 
 		if (!playerMove.PlayerScript.IsGhost)
 		{ //dirty way to follow gibs. change this when implementing proper gibbing, perhaps make it follow brain

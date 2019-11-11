@@ -40,8 +40,11 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool activated;
 
+	private Pickupable pickupable;
+
 	public void Awake()
 	{
+		pickupable = GetComponent<Pickupable>();
 		if (color == (int)SwordColor.Random)
 		{
 			color = Random.Range(1, 5);
@@ -87,6 +90,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		playerLightControl.Colour = lightColor;
 		playerLightControl.PlayerLightData.Colour = lightColor;
 		worldLight.Color = lightColor;
+		pickupable.RefreshUISlotImage();
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -108,7 +112,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.IsTool(interaction.HandObject, ToolType.Screwdriver))
+		    || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
 			return false;
 		}
@@ -119,7 +123,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		ToggleState(interaction.Performer.WorldPosServer());
-		EquipmentSpritesMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.equipSlot, gameObject);
+		PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)
@@ -136,7 +140,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			return;
 		}
 
-		if (Validations.IsTool(interaction.HandObject, ToolType.Screwdriver))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You adjust the crystalline beam emitter...");
 			var c = color + 1;
@@ -147,7 +151,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 			SyncColor(c);
 		}
-		else if (Validations.IsTool(interaction.HandObject, ToolType.Multitool))
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Multitool))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
 			SyncColor((int)SwordColor.Rainbow);
@@ -168,6 +172,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		UpdateSprite();
 		UpdateValues();
 		UpdateLight();
+		pickupable.RefreshUISlotImage();
 	}
 
 	private void UpdateSprite()
@@ -182,12 +187,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			spriteHandler.ChangeSprite(12);
 			spriteHandler.Infos.SetVariant(0);
 		}
-
-		if (UIManager.Hands.CurrentSlot != null
-		    && UIManager.Hands.CurrentSlot.Item == gameObject)
-		{
-			UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
-		}
+		pickupable.RefreshUISlotImage();
 	}
 
 	private void UpdateValues()

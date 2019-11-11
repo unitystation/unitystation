@@ -6,7 +6,7 @@ internal enum MessageTypes : short
 	UpdateChatMessage = 1002,
 	UpdateConnectedPlayersMessage = 1003,
 	UpdateRoundTimeMessage = 1004,
-	UpdateSlotMessage = 1005,
+	UpdateItemSlotMessage = 1005,
 	UpdateUIMessage = 1006,
 	FollowCameraMessage = 1007,
 	ForceJobListUpdateMessage = 1008,
@@ -40,7 +40,7 @@ internal enum MessageTypes : short
 	ElectricalCableMessage = 1036,
 	HealthTemperatureStats = 1037,
 	HealthPressureStats = 1038,
-	EquipmentSpritesMessage = 1039,
+	PlayerAppearanceMessage = 1039,
 	PlayerCustomisationMessage = 1040,
 	BookNetMessage = 1041,
 	BookshelfNetMessage = 1042,
@@ -70,5 +70,8 @@ internal enum MessageTypes : short
 	RequestBookshelfNetMessage = 2027,
 	RequestOpenBookIDNetMessage = 2028,
 	RequestUncuffMessage = 2029,
-	RequestInteraction = 2030
+	RequestInteraction = 2030,
+	RequestSlotTransferMessage = 2031,
+	SpawnMessage = 2032,
+	DespawnMessage = 2033
 }

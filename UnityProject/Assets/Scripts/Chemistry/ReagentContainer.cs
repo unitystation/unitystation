@@ -11,6 +11,11 @@ public class ReagentContainer : Container, IRightClickable {
 
 	private RegisterTile registerTile;
 
+	private void Awake()
+	{
+		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.ReagentContainer);
+	}
+
 	void Start() //Initialise the contents if there are any
 	{
 		if(Reagents == null)

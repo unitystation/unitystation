@@ -78,7 +78,8 @@ public static class InteractionUtils
 				return true;
 			}
 		}
-		else if (interactable is ICheckable<T> checkable)
+		//check other kinds of interactions
+		if (interactable is ICheckable<T> checkable)
 		{
 			result = checkable.WillInteract(interaction, side);
 			if (result)

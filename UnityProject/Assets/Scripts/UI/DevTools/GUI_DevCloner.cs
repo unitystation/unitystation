@@ -128,7 +128,7 @@ public class GUI_DevCloner : MonoBehaviour
 					go => go.GetComponent<CustomNetTransform>() != null).ToList();
 				//warn about objects which cannot be cloned
 				var nonPooledHits = hitGOs
-					.Where(go => PoolManager.DeterminePrefab(go) == null).ToList();
+					.Where(go => Spawn.DeterminePrefab(go) == null).ToList();
 				if (nonPooledHits.Any())
 				{
 					foreach (GameObject nonPooled in nonPooledHits)
@@ -141,7 +141,7 @@ public class GUI_DevCloner : MonoBehaviour
 					}
 				}
 
-				var pooledHits = hitGOs.Where(go => PoolManager.DeterminePrefab(go) != null).ToList();
+				var pooledHits = hitGOs.Where(go => Spawn.DeterminePrefab(go) != null).ToList();
 				if (pooledHits.Any())
 				{
 					toClone = pooledHits.First();
@@ -162,7 +162,7 @@ public class GUI_DevCloner : MonoBehaviour
 				{
 					if (CustomNetworkManager.IsServer)
 					{
-						PoolManager.NetworkClone(toClone, position);
+						Spawn.ServerClone(toClone, position);
 					}
 					else
 					{

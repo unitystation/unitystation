@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
+  m_Name: Head of Security
+  m_EditorClassIdentifier: 
+  jobType: 23
+  displayName: Head of Security
+  inventoryPopulator: {fileID: 11400000, guid: f35de5f0be73b4ffd89ae3db306722d8, type: 2}
+  limit: 1
+  priority: 2
+  choiceColor: {r: 1, g: 0.8666667, b: 0.8666667, a: 1}
+  allowedAccess: 03000000060000001a0000001b00000022000000230000002600000027000000290000002c0000002e000000310000003a00000043000000440000004f000000

@@ -3,44 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Allows a storage object to be interacted with in inventory, to open/close it and drag things
-/// into it.
+/// Allows a storage object to be interacted with in inventory, to open/close it and drag things.
+/// Currently only supports indexed slots.
 /// </summary>
-[RequireComponent(typeof(StorageObject))]
+[RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(Pickupable))]
-public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>
+public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
+	ICheckedInteractable<InventoryApply>
 {
-	private StorageObject storageObj;
-	private ObjectBehaviour objectBehaviour;
-
-	void Start()
-	{
-		var pickup = GetComponent<Pickupable>();
-		if (pickup != null)
-		{
-			pickup.OnPickupServer.AddListener(OnPickupServer);
-		}
-	}
+	private ItemStorage itemStorage;
 
 	void Awake()
 	{
-		storageObj = GetComponent<StorageObject>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
-
+		itemStorage = GetComponent<ItemStorage>();
 	}
 
 	public bool Interact(InventoryApply interaction)
 	{
+		//client-side inventory apply interaction is just for opening / closing the backpack
 		if (interaction.TargetObject != gameObject)
 		{
 			//backpack can't be "applied" to something else in inventory
 			return false;
 		}
-		if (interaction.HandObject != null)
-		{
-			StoreItem(interaction.Performer, interaction.HandSlot.equipSlot, interaction.HandObject);
-		}
-		else
+		if (interaction.HandObject == null)
 		{
 			//nothing in hand, just open / close the backpack
 			return Interact(HandActivate.ByLocalPlayer());
@@ -48,27 +34,34 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		return false;
 	}
 
-	/// <summary> This is clientside </summary>
-	public void StoreItem(GameObject Performer, EquipSlot equipSlot, GameObject item)
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		InventorySlot storageInvSlot = storageObj.NextSpareSlot();
-		if (storageInvSlot != null && item != gameObject)
-		{
-			var playerInvSlot = InventoryManager.GetSlotFromOriginatorHand(Performer, equipSlot);
-			StoreItemMessage.Send(gameObject, Performer, playerInvSlot.equipSlot, true);
-			SoundManager.PlayAtPosition("Rustle0" + Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
-			ObjectBehaviour itemObj = item.GetComponent<ObjectBehaviour>();
-			itemObj.parentContainer = objectBehaviour;
-		}
+		//check if we can store our hand item in this storage.
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		//have to have something in hand to try to store it
+		if (interaction.HandObject == null) return false;
+		//item must be able to fit
+		//note: since this is in local player's inventory, we are safe to check this stuff on client side
+		var freeSlot = itemStorage.GetNextFreeIndexedSlot();
+		if (freeSlot == null) return false;
+		if (!freeSlot.CanFit(interaction.HandObject)) return false;
 
+		return true;
+	}
+
+
+	public void ServerPerformInteraction(InventoryApply interaction)
+	{
+		Inventory.ServerTransfer(interaction.HandSlot,
+			itemStorage.GetNextFreeIndexedSlot());
 	}
 
 	public bool Interact(HandActivate interaction)
 	{
 		//open / close the backpack on activate
-		if (UIManager.StorageHandler.storageCache != storageObj)
+		if (UIManager.StorageHandler.currentOpenStorage != itemStorage)
 		{
-			UIManager.StorageHandler.OpenStorageUI(storageObj);
+			UIManager.StorageHandler.OpenStorageUI(itemStorage);
 		}
 		else
 		{
@@ -77,12 +70,4 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 		return true;
 	}
-
-	public void OnPickupServer(HandApply interaction)
-	{
-		//Do a sync of the storage items when adding to UI
-		storageObj.NotifyPlayer(interaction.Performer);
-	}
-
-
 }

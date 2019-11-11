@@ -103,7 +103,7 @@ public class CentComm : MonoBehaviour
 		var commConsoles = FindObjectsOfType<CommsConsole>();
 		foreach (CommsConsole console in commConsoles)
 		{
-			var p = PoolManager.PoolNetworkInstantiate(paperPrefab, console.transform.position, console.transform.parent);
+			var p = Spawn.ServerPrefab(paperPrefab, console.transform.position, console.transform.parent).GameObject;
 			var paper = p.GetComponent<Paper>();
 			paper.SetServerString(CreateStartGameReport());
 		}

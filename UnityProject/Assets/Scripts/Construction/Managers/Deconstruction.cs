@@ -61,8 +61,8 @@ public class Deconstruction : MonoBehaviour
 		tcm.RemoveTile(cellPos, LayerType.Walls);
 		SoundManager.PlayNetworkedAtPos("Deconstruct", worldPos, 1f);
 
-		PoolManager.PoolNetworkInstantiate(metalPrefab, worldPos, tcm.transform);
-		PoolManager.PoolNetworkInstantiate(wallGirderPrefab, worldPos, tcm.transform);
+		Spawn.ServerPrefab(metalPrefab, worldPos, tcm.transform);
+		Spawn.ServerPrefab(wallGirderPrefab, worldPos, tcm.transform);
 	}
 
 }

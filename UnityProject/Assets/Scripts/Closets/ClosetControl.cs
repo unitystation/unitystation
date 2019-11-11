@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
@@ -65,7 +66,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 		if (metalDroppedOnDestroy > 0)
 		{
-			ObjectFactory.SpawnMetal(metalDroppedOnDestroy, gameObject.TileWorldPosition().To3Int(), parent: transform.parent);
+			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: metalDroppedOnDestroy,
+				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
 	}
 
@@ -74,7 +76,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		StartCoroutine(WaitForServerReg());
 		foreach (GameObject itemPrefab in DefaultContents)
 		{
-			PoolManager.PoolNetworkInstantiate(itemPrefab, transform.position, parent: transform.parent);
+			Spawn.ServerPrefab(itemPrefab, transform.position, parent: transform.parent);
 		}
 	}
 
@@ -256,9 +258,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		if (interaction.HandObject != null && !IsClosed)
 		{
 			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			targetPosition.z = -0.2f;
-			var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-			pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
+			Inventory.ServerDrop(interaction.HandSlot, targetPosition);
 		}
 		else if (!IsLocked)
 		{
@@ -302,6 +302,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 
 		heldItems = Enumerable.Empty<ObjectBehaviour>();
+	}
+
+	public void AddItem(ObjectBehaviour toAdd)
+	{
+		if (toAdd == null) return;
+		heldItems = heldItems.Concat(new [] {toAdd});
+		toAdd.parentContainer = pushPull;
+		toAdd.VisibleState = false;
 	}
 
 	private void CloseItemHandling()

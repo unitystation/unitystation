@@ -445,7 +445,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
+			EffectsFactory.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
 		}
 	}
 
@@ -689,7 +689,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		foreach (GameObject harvestPrefab in butcherResults)
 		{
-			PoolManager.PoolNetworkInstantiate(harvestPrefab, transform.position, parent: transform.parent);
+			Spawn.ServerPrefab(harvestPrefab, transform.position, parent: transform.parent);
 		}
 
 		Gib();
@@ -698,11 +698,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Server]
 	protected virtual void Gib()
 	{
-		EffectsFactory.Instance.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
+		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//todo: actual gibs
 
 		//never destroy players!
-		PoolManager.PoolNetworkDestroy( gameObject );
+		Despawn.ServerSingle(gameObject);
 	}
 
 	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)

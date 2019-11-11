@@ -88,7 +88,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Icy Soda
   itemDescription: This one looks like it's 90% ice...
-  itemType: 14
+  initialTraits: []
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114410907878908488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,9 +198,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114010301858744464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +257,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114352943751652020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,8 +290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2802760830
+  m_AssetId: b42d2d26201dd1c4287e24202bdf3aa4
+  m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

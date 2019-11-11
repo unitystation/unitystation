@@ -22,10 +22,7 @@ public class PlayerCustomisationData : ScriptableObject
 	private static bool AlreadyLoaded;
 	private static Lobby.LobbyManager CC;
 
-	private static ClothFactory ClothFactoryReference;
-
-
-    public void Awake()
+	public void Awake()
 	{
 		InitializePool();
 	}
@@ -44,13 +41,8 @@ public class PlayerCustomisationData : ScriptableObject
 
 	public void InitializePool()
 	{
-		if (CC == null){ 
+		if (CC == null){
 			CC = UnityEngine.Object.FindObjectOfType<Lobby.LobbyManager>();
-		}
-
-		if (ClothFactoryReference == null)
-		{
-			ClothFactoryReference = UnityEngine.Object.FindObjectOfType<ClothFactory>();
 		}
 
 
@@ -61,14 +53,12 @@ public class PlayerCustomisationData : ScriptableObject
 			CC.characterCustomization.playerCustomisationData[Type][Name] = this;
 		}
 
-		if (ClothFactoryReference != null)
+		if (!Spawn.PlayerCustomisationData.ContainsKey(Type))
 		{
-			if (!ClothFactoryReference.playerCustomisationData.ContainsKey(Type))
-			{
-				ClothFactoryReference.playerCustomisationData[Type] = new Dictionary<string, PlayerCustomisationData>();
-			}
-			ClothFactoryReference.playerCustomisationData[Type][Name] = this;		
+			Spawn.PlayerCustomisationData[Type] = new Dictionary<string, PlayerCustomisationData>();
 		}
+		Spawn.PlayerCustomisationData[Type][Name] = this;
+
 
 	}
 
@@ -103,7 +93,7 @@ public class PlayerCustomisationData : ScriptableObject
 			DataPCD.Add(PCDObj);
 		}
 
-		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing/undergarments", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing/undergarments", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
 		//foreach (string dir in dirs)
 		//{
 		//	//Should yield For a frame to Increase performance
@@ -114,7 +104,7 @@ public class PlayerCustomisationData : ScriptableObject
 		//	}
 		//}
 
-		//dirs = Directory.GetDirectories(Application.dataPath, "textures/mobs/races/_shared textures/customisation", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		//dirs = Directory.GetDirectories(Application.dataPath, "textures/mobs/races/_shared textures/customisation", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
 		//foreach (string dir in dirs)
 		//{
 		//	//Should yield For a frame to Increase performance
@@ -148,5 +138,5 @@ public enum PlayerCustomisation{
 	Undershirt= 4,
 	Socks = 5,
 	BodySprites = 6,
-	//Others as needed, 
+	//Others as needed,
 }

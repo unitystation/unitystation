@@ -166,6 +166,6 @@ public class BulletBehaviour : MonoBehaviour
 			trailRenderer.ShotDone();
 		}
 		rigidBody.velocity = Vector2.zero;
-		PoolManager.PoolClientDestroy(gameObject);
+		Despawn.ClientSingle(gameObject);
 	}
 }

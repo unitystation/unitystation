@@ -353,23 +353,24 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 			}
 		}
 		//ensure we are in sync with server
-		playerScript.PlayerSync.RollbackPrediction();
+		playerScript?.PlayerSync?.RollbackPrediction();
 	}
 
 	[Server]
-	public void Cuff(GameObject cuffs, PlayerNetworkActions originPNA)
+	public void Cuff(HandApply interaction)
 	{
 		cuffed = true;
 
-		pna.AddItemToUISlot(cuffs, EquipSlot.handcuffs, originPNA);
+		Inventory.ServerTransfer(interaction.HandSlot,
+			interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs));
 	}
 
 	[Server]
-	public void Uncuff()
+	private void Uncuff()
 	{
 		cuffed = false;
 
-		pna.DropItem(EquipSlot.handcuffs);
+		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
 	}
 
 	/// <summary>
@@ -390,8 +391,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 
 		Uncuff();
 	}
-
-	//TODO: uncuffing logic can be refactored to IF2
 
 	/// <summary>
 	/// Used for the right click action, sends a message requesting uncuffing

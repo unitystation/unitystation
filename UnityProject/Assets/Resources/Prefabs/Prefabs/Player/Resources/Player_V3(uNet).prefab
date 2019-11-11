@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 1599133673258867465}
@@ -280,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 10
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4821351870195518641}
@@ -464,6 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 0
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 2291017642642160610}
@@ -686,6 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 3
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 2894397304073737410}
@@ -750,6 +754,7 @@ GameObject:
   - component: {fileID: 7786899671633797224}
   - component: {fileID: 8566362239651287352}
   - component: {fileID: 114279031792796038}
+  - component: {fileID: 441872716838640463}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -954,22 +959,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clothingSlots:
-  - {fileID: 114683599938915282}
-  - {fileID: 114572444233789018}
-  - {fileID: 114292210339441364}
-  - {fileID: 114352699279829420}
-  - {fileID: 114361174706508060}
-  - {fileID: 114133756563624140}
-  - {fileID: 114150458415481364}
-  - {fileID: 114857622421506280}
-  - {fileID: 114600225155881128}
-  - {fileID: 114186826461219604}
-  - {fileID: 114176283518884694}
-  - {fileID: 114686590975304092}
-  - {fileID: 114280887415014694}
-  - {fileID: 114998611308440448}
-  - {fileID: 6063220810688058967}
   IsInternalsEnabled: 0
 --- !u!114 &114390575568471296
 MonoBehaviour:
@@ -1084,6 +1073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  KnifeTrait: {fileID: 0}
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,8 +1283,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3763318930
+  m_AssetId: 44a8a3be9127f4465a50b7811d059bb3
+  m_SceneId: 0
+--- !u!114 &441872716838640463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 480930b0b1e554bbc889b5c68bf4cfb2,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: 4c48a40375c1b43718c78eee5582051a,
+    type: 2}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,6 +1397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 9
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 3929256438670644051}
@@ -1512,6 +1521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 4
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 0}
@@ -1613,6 +1623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4667243628362804010}
@@ -1737,6 +1748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 6711362655909564187}
@@ -2019,6 +2031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 8590386929440372666}
@@ -2143,6 +2156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 13
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 5679511707142394592}
@@ -2267,6 +2281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 1867231810626179718}
@@ -2391,6 +2406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 8764473760884168085}
@@ -2515,6 +2531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 8
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 7961637454823593106}
@@ -2638,6 +2655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 1
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 0}
@@ -2801,6 +2819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 8200977805082611184}
@@ -2925,6 +2944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 6
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4396879776056569945}
@@ -3049,6 +3069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 7
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 8103884781919646546}
@@ -3173,6 +3194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 1175863438983944890}
@@ -3297,6 +3319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 5
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 5309190995282078153}
@@ -3514,6 +3537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 12
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 2062846101420785143}
@@ -3762,6 +3786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 7051865474305012518}
@@ -3886,6 +3911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 5648068482913700537}
@@ -4010,6 +4036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 6136734672455525919}
@@ -4134,6 +4161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 11
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 194670486440265898}
@@ -4355,6 +4383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 3267990453321456714}
@@ -4478,6 +4507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 14
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 0}
@@ -4579,6 +4609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4086540550876152099}
@@ -4703,6 +4734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Slot: 2048
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteHandler: {fileID: 4603106399424094086}
@@ -4744,12 +4776,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light2D
       objectReference: {fileID: 0}
-    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
-        type: 3}
-      propertyPath: Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
-        type: 3}
     - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.008
@@ -4794,16 +4820,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 33937463476659220, guid: e2b1333de46384f95876864de1911fff,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 23824325930050846, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 33937463476659220, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
 --- !u!114 &4196149980577959187 stripped
@@ -4837,11 +4869,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4102488425209486}
     m_Modifications:
-    - target: {fileID: 8239968386569427463, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: m_Name
-      value: ChatCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 6615217630540879312, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4946,6 +4973,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: -0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239968386569427463, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: m_Name
+      value: ChatCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 1165960983247551198, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}

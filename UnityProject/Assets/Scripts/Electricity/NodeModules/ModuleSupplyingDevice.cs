@@ -41,7 +41,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		if (ControllingNode.SelfDestruct)
 		{
 			ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 
 	}
@@ -67,7 +67,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		}
 	}
 
-	public override void GoingOffStageServer(OffStageInfo info) {
+	public override void OnDespawnServer(DespawnInfo info) {
 		ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
 		ControllingNode.Node.FlushSupplyAndUp(this.gameObject);
 	}

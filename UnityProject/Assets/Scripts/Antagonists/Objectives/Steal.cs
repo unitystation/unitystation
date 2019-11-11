@@ -67,10 +67,10 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			int count = 0;
-			foreach (var item in Owner.body.playerNetworkActions.Inventory)
+			foreach (var slot in Owner.body.ItemStorage.GetItemSlotTree())
 			{
 				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-				if (item.Value.ItemAttributes?.itemName == ItemName)
+				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributes>()?.itemName == ItemName)
 				{
 					count++;
 				}

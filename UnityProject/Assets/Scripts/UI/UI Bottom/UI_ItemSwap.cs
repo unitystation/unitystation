@@ -5,7 +5,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	IPointerEnterHandler, IPointerExitHandler
 {
 	private UI_ItemSlot itemSlot;
-	public override string Tooltip => itemSlot.hoverName;
+	public override string Tooltip => itemSlot.NamedSlot.ToString();
 
 	private Color32 successOverlayColor = new Color32(0, 255, 0, 92);
 	private Color32 failOverlayColor = new Color32(255, 0, 0, 92);
@@ -32,7 +32,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		}
 	}
 
-	private void Start()
+	private void Awake()
 	{
 		itemSlot = GetComponentInChildren<UI_ItemSlot>();
 	}
@@ -44,14 +44,14 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		var item = UIManager.Hands.CurrentSlot.Item;
 		if (item == null
 		    || itemSlot.Item != null
-		    || itemSlot.equipSlot == EquipSlot.leftHand
-		    || itemSlot.equipSlot == EquipSlot.rightHand)
+		    || itemSlot.NamedSlot == NamedSlot.leftHand
+		    || itemSlot.NamedSlot == NamedSlot.rightHand)
 		{
 			return;
 		}
 
-		itemSlot.UpdateImage(item,
-			UIManager.CanPutItemToSlot(itemSlot.inventorySlot, item, PlayerManager.LocalPlayerScript)
+		itemSlot.UpdateImage(item.gameObject,
+			Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item, NetworkSide.Client)
 			? successOverlayColor : failOverlayColor);
 	}
 
@@ -67,45 +67,19 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	{
 		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
 		{
-			if (itemSlot.inventorySlot.IsUISlot)
-			{
-				if(itemSlot.Item == null)
-				{
-					if (itemSlot.CheckItemFit(UIManager.DragAndDrop.ItemCache))
-					{
-						if (PlayerManager.LocalPlayerScript != null)
-						{
-							if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-								PlayerManager.LocalPlayerScript.IsGhost)
-							{
-								return;
-							}
-						}
-						if(UIManager.DragAndDrop.ItemSlotCache.inventorySlot.IsUISlot)
-						{
-							PlayerManager.LocalPlayerScript.playerNetworkActions.CmdUpdateSlot(itemSlot.equipSlot, UIManager.DragAndDrop.ItemSlotCache.equipSlot);
-						}
-						else
-						{
-							var storage = UIManager.DragAndDrop.ItemSlotCache.inventorySlot;
-							StoreItemMessage.Send(storage.Owner, PlayerManager.LocalPlayerScript.gameObject, itemSlot.equipSlot, false, storage.equipSlot);
-						}
+			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
 
-					}
-				}
-				else
-				{
-					var storage = itemSlot.Item.GetComponent<InteractableStorage>();
-					if (storage)
-					{
-						storage.StoreItem(PlayerManager.LocalPlayerScript.gameObject, UIManager.DragAndDrop.ItemSlotCache.equipSlot, UIManager.DragAndDrop.ItemCache);
-					}
-				}
+			//if there's an item storage in the slot, request to put the item in the storage
+			var destStorage = itemSlot.ItemSlot.Item?.GetComponent<InteractableStorage>();
+			if (destStorage != null)
+			{
+				//rather than try to figure out which indexed slot it should go in,
+				//just perform the normal inventory apply interaction with this slot
+				InteractionUtils.RequestInteract(InventoryApply.ByLocalPlayer(itemSlot.ItemSlot), destStorage);
 			}
 			else
 			{
-				var storage = itemSlot.inventorySlot.Owner.GetComponent<InteractableStorage>();
-				storage.StoreItem(PlayerManager.LocalPlayerScript.gameObject, UIManager.DragAndDrop.ItemSlotCache.equipSlot, UIManager.DragAndDrop.ItemCache);
+				Inventory.ClientRequestTransfer(fromSlot, itemSlot.ItemSlot);
 			}
 		}
 	}

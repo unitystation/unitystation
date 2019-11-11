@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -25,24 +26,31 @@ public class Clothing : NetworkBehaviour
 	public List<int> VariantList;
 	public SpriteData SpriteInfo;
 
+	private Pickupable pickupable;
+
+	private void Awake()
+	{
+		pickupable = GetComponent<Pickupable>();
+	}
+
 	public void SyncFindData(string syncString)
 	{
 		if (string.IsNullOrEmpty(syncString)) return;
 
 		SynchronisedString = syncString;
-		if (ClothFactory.Instance.ClothingStoredData.ContainsKey(syncString))
+		if (Spawn.ClothingStoredData.ContainsKey(syncString))
 		{
-			clothingData = ClothFactory.Instance.ClothingStoredData[syncString];
+			clothingData = Spawn.ClothingStoredData[syncString];
 			TryInit();
 		}
-		else if (ClothFactory.Instance.BackpackStoredData.ContainsKey(syncString))
+		else if (Spawn.BackpackStoredData.ContainsKey(syncString))
 		{
-			containerData = ClothFactory.Instance.BackpackStoredData[syncString];
+			containerData = Spawn.BackpackStoredData[syncString];
 			TryInit();
 		}
-		else if (ClothFactory.Instance.HeadSetStoredData.ContainsKey(syncString))
+		else if (Spawn.HeadSetStoredData.ContainsKey(syncString))
 		{
-			headsetData = ClothFactory.Instance.HeadSetStoredData[syncString];
+			headsetData = Spawn.HeadSetStoredData[syncString];
 			TryInit();
 		}
 		else
@@ -51,8 +59,24 @@ public class Clothing : NetworkBehaviour
 		}
 	}
 
+	private void RefreshAppearance()
+	{
+		pickupable.RefreshUISlotImage();
+		//if currently equipped, refresh clothingitem apperance.
+		if (pickupable.LocalUISlot != null && PlayerManager.LocalPlayer)
+		{
+			//local UI slot, so refresh out appearance
+			ClothingItem c = PlayerManager.LocalPlayer.GetComponent<Equipment>().GetClothingItem(pickupable.ItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none));
+			if (c != null)
+			{
+				c.SetReference(gameObject);
+			}
+		}
+	}
+
 	public void SyncType(ClothingVariantType _Type) {
 		Type = _Type;
+		RefreshAppearance();
 
 	}
 
@@ -103,6 +127,7 @@ public class Clothing : NetworkBehaviour
 			SynchronisedString = HD.name;
 			headsetData = HD;
 		}
+		RefreshAppearance();
 	}
 
 
@@ -156,10 +181,8 @@ public class Clothing : NetworkBehaviour
 				else {this.name = containerData.name;}
 
 				var Item = GetComponent<ItemAttributes>();
-				var Storage = GetComponent<StorageObject>();
 				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 				Item.SetUpFromClothingData(containerData.Sprites, containerData.ItemAttributes);
-				Storage.SetUpFromStorageObjectData(containerData.StorageData);
 				Initialised = true;
 			}
 			else if (headsetData != null)
@@ -177,12 +200,14 @@ public class Clothing : NetworkBehaviour
 				Initialised = true;
 			}
 		}
+
+		RefreshAppearance();
 	}
 }
 
 public enum ClothingVariantType
 {
-	Default,
-	Tucked,
-	Skirt
+	Default = 0,
+	Tucked = 1,
+	Skirt = 2
 }

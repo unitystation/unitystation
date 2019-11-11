@@ -7,8 +7,6 @@ using UnityEngine;
 /// </summary>
 public class Tool : MonoBehaviour
 {
-	[Tooltip("Type of tool this object functions as")]
-	public ToolType ToolType;
 	[Tooltip("The probability that the tool will succeed")]
 	public int SuccessChance = 100;
 
@@ -17,20 +15,4 @@ public class Tool : MonoBehaviour
 
 	[Tooltip("Used to set a multiplier of how fast the tool will do an action")]
 	public float SpeedMultiplier = 1;
-}
-
-public enum ToolType
-{
-	Crowbar = 0,
-	Wirecutter = 1,
-	Wrench = 2,
-	Welder = 3,
-	Screwdriver = 4,
-	Multitool = 5,
-	Emag = 6,
-	Scalpel = 7,
-	Retractor = 8,
-	Saw = 9,
-	Hemostat =  10,
-	Cautery = 11
 }

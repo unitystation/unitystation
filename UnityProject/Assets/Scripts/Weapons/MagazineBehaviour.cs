@@ -5,7 +5,7 @@ using Mirror;
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this
 /// behavior, server and client ammo counts are stored separately but can be synced with SyncClientAmmoRemainsWithServer().
 /// </summary>
-public class MagazineBehaviour : NetworkBehaviour, IOnStageServer
+public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 {
 	/*
 	We keep track of 2 ammo counts. The server's ammo count is authoritative, but when ammo is being
@@ -50,7 +50,7 @@ public class MagazineBehaviour : NetworkBehaviour, IOnStageServer
 		ServerInit();
 	}
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		ServerInit();
 	}

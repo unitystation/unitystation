@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114288380597099474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +179,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114267664904661214
 MonoBehaviour:
@@ -194,12 +194,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 114136922186643814}
+  spriteDataHandler: {fileID: 114136922186643814}
   InventoryIcon: {fileID: 0}
   itemName: Emergency Oxygen Tank
   itemDescription: Used for emergencies. Contains very little oxygen, so try to conserve
     it until you actually need it.
-  itemType: 0
+  initialTraits: []
   size: 1
   spriteType: 0
   CanConnectToTank: 0
@@ -224,9 +224,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3305593915559126072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +325,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114136922186643814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,8 +338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -436,5 +432,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2177837606
+  m_AssetId: f99902d04c3b1fe47b0e4e4ec36b7971
+  m_SceneId: 0

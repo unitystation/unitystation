@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114374460178807822}
   - component: {fileID: 114150278371818220}
   - component: {fileID: 114939312222920820}
+  - component: {fileID: -8146093686973242629}
   m_Layer: 10
   m_Name: M90_ballistic
   m_TagString: Untagged
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114228701505719040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,11 +179,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: M90 Sniperrifle
   itemDescription: 
-  itemType: 0
+  initialTraits: []
   size: 4
   spriteType: 2
   CanConnectToTank: 0
@@ -207,7 +209,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114157227028527442
 MonoBehaviour:
@@ -242,9 +243,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1352949759129444310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +332,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114150278371818220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,8 +345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -368,5 +365,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 4246304057
+  m_AssetId: 8538829c70c6347e88747ca6d9b0a4bd
+  m_SceneId: 0
+--- !u!114 &-8146093686973242629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860654956334788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: b93a1aa39070c432db237e446b52bad8,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+    type: 2}

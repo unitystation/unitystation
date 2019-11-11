@@ -1,26 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/// <summary>
+/// Represents an item slot rendered in the UI.
+/// </summary>
+[Serializable]
 public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 {
-	public bool allowAllItems;
-	public List<ItemType> allowedItemTypes;
-	public string eventName;
-	public string hoverName;
-	public EquipSlot equipSlot;
-	public InventorySlot inventorySlot;
 
-	[HideInInspector]
-	public Image image;
+	[SerializeField]
+	[FormerlySerializedAs("NamedSlot")]
+	[Tooltip("For player inventory, named slot in local player's ItemStorage that this UI slot corresponds to.")]
+	private NamedSlot namedSlot;
+	public NamedSlot NamedSlot => namedSlot;
 
-	private Image secondaryImage; //For sprites that require two images
-	public ItemSize maxItemSize;
+	[Tooltip("Name to display when hovering over this slot in the UI")]
+	[SerializeField]
+	private string hoverName;
+
+	[Tooltip("Whether this slot is initially visible in the UI.")]
+	[SerializeField]
+	private bool initiallyHidden;
+
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
 	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributes>().itemName;
@@ -28,32 +38,43 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	/// set back to the slot name since the pointer is still over the slot background
 	public override string ExitTooltip => hoverName;
 
-	public GameObject Item
-	{
-		get
-		{
-			return inventorySlot.Item;
-		}
-		set
-		{
-			inventorySlot.Item = value;
-		}
-	}
+	/// <summary>
+	/// Item in this slot, null if empty.
+	/// </summary>
+	public Pickupable Item => itemSlot.Item;
 
-	[ContextMenu("Debug Item")]
-	void DebugItem()
-	{
-		Debug.Log(Item == null ? "No Item in this slot" : $"Item found in slot: { Item.name }");
-	}
+	/// <summary>
+	/// Actual slot this UI slot is linked to
+	/// </summary>
+	public ItemSlot ItemSlot => itemSlot;
+
+	/// <summary>
+	/// GameObject of the item equipped in this slot, null if not equipped.
+	/// (Convenience method for not having to do Item.gameObject)
+	/// </summary>
+	public GameObject ItemObject => itemSlot.ItemObject;
+
+	/// <summary>
+	/// Current image displayed in this slot.
+	/// </summary>
+	public Image Image => image;
+
+	private bool hidden;
+	private ItemSlot itemSlot;
+	private Image image;
+	private Image secondaryImage;
+	private Sprite sprite;
+	private Sprite secondarySprite;
 
 	private void Awake() {
-		inventorySlot = new InventorySlot(equipSlot, true, gameObject);
+
 		image = GetComponent<Image>();
 		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
 		secondaryImage.enabled = false;
 		image.alphaHitTestMinimumThreshold = 0.5f;
 		image.enabled = false;
+		hidden = initiallyHidden;
 	}
 
 	private void OnEnable()
@@ -69,39 +90,81 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	//Reset Item slot sprite on game restart
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
+		sprite = null;
 		image.sprite = null;
 		image.enabled = false;
-
 	}
 
 	/// <summary>
-	///     direct low-level method, doesn't send anything to server
+	/// Link this item slot to its configured named slot on the local player.
+	/// Should only be called after local player is spawned.
 	/// </summary>
-	public void SetItem(GameObject item)
+	public void LinkToLocalPlayer()
 	{
+		if (namedSlot != NamedSlot.none)
+		{
+			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, namedSlot));
+		}
+	}
+
+
+	/// <summary>
+	/// Link this item slot to display the contents of the indicated slot, updating whenever the contents change.
+	/// </summary>
+	/// <param name="linkedSlot"></param>
+	public void LinkSlot(ItemSlot linkedSlot)
+	{
+		if (itemSlot != null)
+		{
+			//stop observing this slot
+			itemSlot.LinkLocalUISlot(null);
+			itemSlot.OnSlotContentsChangeClient.RemoveListener(OnClientSlotContentsChange);
+		}
+		//start observing the new slot
+		itemSlot = linkedSlot;
+		if (itemSlot != null)
+		{
+			itemSlot.LinkLocalUISlot(this);
+			itemSlot.OnSlotContentsChangeClient.AddListener(OnClientSlotContentsChange);
+		}
+
+		RefreshImage();
+	}
+
+	private void OnClientSlotContentsChange()
+	{
+		//callback for when our item slot's contents change.
+		//We update our sprite
+		var item = itemSlot.Item;
 		if (!item)
 		{
 			Clear();
 			return;
 		}
-		Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
 
-		Item = item;
-
-		UpdateImage(item);
-
-		item.transform.position = TransformState.HiddenPos;
+		RefreshImage();
 	}
 
-	public void UpdateImage(GameObject item)
+	/// <summary>
+	/// Update the image displayed in the slot based on the slots current contents
+	/// </summary>
+	public void RefreshImage()
 	{
-		UpdateImage(item, Color.white);
+		UpdateImage(ItemObject);
 	}
 
-	public void UpdateImage(GameObject item, Color color)
+	/// <summary>
+	/// Update the image that should be displayed in this slot to display the sprite of the specified item.
+	///
+	/// If hidden, effect will not be visible until this slot is unhidden
+	///
+	/// </summary>
+	/// <param name="item">game object to use to determine what to show in this slot</param>
+	/// <param name="color">color tint to apply</param>
+	public void UpdateImage(GameObject item = null, Color? color = null)
 	{
 		var nullItem = item == null;
-		var forceColor = color != Color.white;
+		var forceColor = color != null;
 
 		if (nullItem && Item != null)
 		{ // Case for when we have a hovered image and insert, then stop hovering
@@ -110,12 +173,15 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 
 		if (!nullItem)
 		{
+			//determine the sprites to display based on the new item
 			var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
 			if (image == null)
 			{
 				image = GetComponent<Image>();
 			}
-			image.sprite = spriteRends[0].sprite;
+
+			sprite = spriteRends[0].sprite;
+			image.sprite = sprite;
 			image.color = spriteRends[0].color;
 			if (spriteRends.Length > 1)
 			{
@@ -128,35 +194,37 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 		else
 		{
+			//no object was passed, so clear out the sprites
 			Clear();
 		}
 
 		if (forceColor)
 		{
-			image.color = color;
+			image.color = color.GetValueOrDefault(Color.white);
 		}
 
-		image.enabled = !nullItem;
-		image.preserveAspect = !nullItem;
+		image.enabled = !nullItem && !hidden;
+		image.preserveAspect = !nullItem && !hidden;
 
 		if (secondaryImage)
 		{
 			if (forceColor)
 			{
-				secondaryImage.color = color;
+				secondaryImage.color = color.GetValueOrDefault(Color.white);
 			}
 
-			secondaryImage.enabled = secondaryImage.sprite != null && !nullItem;
-			secondaryImage.preserveAspect = !nullItem;
+			secondaryImage.enabled = secondaryImage.sprite != null && !nullItem && !hidden;
+			secondaryImage.preserveAspect = !nullItem && !hidden;
 		}
 	}
 
 	public void SetSecondaryImage(Sprite sprite)
 	{
-		if (sprite != null)
+		secondarySprite = sprite;
+		if (secondarySprite != null)
 		{
-			secondaryImage.sprite = sprite;
-			secondaryImage.enabled = true;
+			secondaryImage.sprite = secondarySprite;
+			secondaryImage.enabled = !hidden;
 			secondaryImage.preserveAspect = true;
 		}
 		else
@@ -167,92 +235,41 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	}
 
 	/// <summary>
-	///     removes item from slot
+	/// Clears the displayed image.
 	/// </summary>
-	/// <returns></returns>
-	public GameObject Clear()
+	public void Clear()
 	{
 		PlayerScript lps = PlayerManager.LocalPlayerScript;
 		if (!lps)
 		{
-			return null;
+			return;
 		}
 
-		GameObject item = Item;
-		//            InputTrigger.Touch(Item);
-		Item = null;
+		sprite = null;
 		image.enabled = false;
 		secondaryImage.enabled = false;
 		ControlTabs.CheckTabClose();
 		image.sprite = null;
+		secondarySprite = null;
 		secondaryImage.sprite = null;
-		return item;
-	}
-
-/*
-	/// <summary>
-	///     Clientside check for dropping/placing objects from inventory slot
-	/// </summary>
-	public bool CanPlaceItem()
-	{
-		return IsFull && UIManager.SendUpdateAllowed(Item);
-	}
- */
-	/// <summary>
-	///     clientside simulation of placement
-	/// </summary>
-	public bool PlaceItem(Vector3 pos)
-	{
-		var item = Clear();
-		if (!item)
-		{
-			return false;
-		}
-		var itemTransform = item.GetComponent<CustomNetTransform>();
-		itemTransform.AppearAtPosition(pos);
-		var itemAttributes = item.GetComponent<ItemAttributes>();
-		Logger.LogTraceFormat("Placing item {0}/{1} from {2} to {3}", Category.UI, item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
-		ControlTabs.CheckTabClose();
-		return true;
 	}
 
 	public void Reset()
 	{
+		sprite = null;
 		image.sprite = null;
 		image.enabled = false;
+		secondarySprite = null;
 		secondaryImage.sprite = null;
 		secondaryImage.enabled = false;
-		Item = null;
 		ControlTabs.CheckTabClose();
 	}
 
 	public bool CheckItemFit(GameObject item)
 	{
-		ItemAttributes attributes = item.GetComponent<ItemAttributes>();
-
-		if (!allowAllItems)
-		{
-			if (!allowedItemTypes.Contains(attributes.itemType))
-			{
-				return false;
-			}
-		}
-		else if (attributes.size > maxItemSize)
-		{
-			Logger.LogWarning($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!", Category.UI);
-			return false;
-		}
-
-		bool allowed = false;
-		if (allowAllItems || allowedItemTypes.Contains(attributes.itemType))
-		{
-			allowed = true;
-		}
-		if (!inventorySlot.IsUISlot && UIManager.StorageHandler.storageCache?.gameObject == item)
-		{
-			allowed = false;
-		}
-		return allowed;
+		var pickupable = item.GetComponent<Pickupable>();
+		if (pickupable == null) return false;
+		return itemSlot.CanFit(pickupable);
 	}
 
 
@@ -262,8 +279,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	/// </summary>
 	public void TryItemInteract()
 	{
+
+		var slotName = itemSlot.SlotIdentifier.NamedSlot;
 		// Clicked on another slot other than hands
-		if (equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand)
+		if (slotName != NamedSlot.leftHand && slotName != NamedSlot.rightHand)
 		{
 			// If full, attempt to interact the two, otherwise swap
 			if (Item != null)
@@ -282,7 +301,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			}
 		}
 		// If there is an item and the hand is interacting in the same slot
-		if (Item != null && UIManager.Hands.CurrentSlot.equipSlot == equipSlot)
+		if (Item != null && UIManager.Hands.CurrentSlot.ItemSlot == itemSlot)
 		{
 			//check IF2 logic first
 			var interactables = Item.GetComponents<IBaseInteractable<HandActivate>>()
@@ -292,7 +311,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 		else
 		{
-			if (UIManager.Hands.CurrentSlot.equipSlot != equipSlot)
+			if (UIManager.Hands.CurrentSlot.ItemSlot != itemSlot)
 			{
 				//Clicked on item with otherslot selected
 				if (UIManager.Hands.OtherSlot.Item != null)
@@ -310,7 +329,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		//target slot is occupied, but it's okay if active hand slot is not occupied)
 		if (Item != null)
 		{
-			var combine = InventoryApply.ByLocalPlayer(inventorySlot);
+			var combine = InventoryApply.ByLocalPlayer(itemSlot);
 			//check interactables in the active hand (if active hand occupied)
 			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
@@ -339,5 +358,32 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	public void OnEndDrag(PointerEventData data)
 	{
 		UIManager.DragAndDrop.StopDrag();
+	}
+
+
+	[ContextMenu("Debug Slot")]
+	void DebugItem()
+	{
+		Logger.Log(itemSlot.ToString(), Category.Inventory);
+	}
+
+	/// <summary>
+	/// Sets whether this should be shown / hidden (but the set sprites will still be remembered when it is unhidden)
+	/// </summary>
+	/// <param name="hidden"></param>
+	/// <exception cref="NotImplementedException"></exception>
+	public void SetHidden(bool hidden)
+	{
+		this.hidden = hidden;
+		image.sprite = sprite;
+		image.enabled = sprite != null && !hidden;
+		image.preserveAspect = sprite != null && !hidden;
+
+		if (secondaryImage)
+		{
+			secondaryImage.sprite = secondarySprite;
+			secondaryImage.enabled = secondarySprite != null && !hidden;
+			secondaryImage.preserveAspect = secondarySprite != null && !hidden;
+		}
 	}
 }

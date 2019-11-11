@@ -24,7 +24,7 @@ public class DevDestroyMessage : ClientMessage
 		else
 		{
 			yield return WaitFor(ToDestroy);
-			PoolManager.PoolNetworkDestroy(NetworkObject);
+			Despawn.ServerSingle(NetworkObject);
 		}
 
 		yield return null;

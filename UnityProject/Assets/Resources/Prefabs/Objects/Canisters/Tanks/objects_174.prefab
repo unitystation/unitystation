@@ -106,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &6113723596695390047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +122,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114353228533517426
 MonoBehaviour:
@@ -200,6 +200,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114095969428848044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,8 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3161548233
+  m_AssetId: a752c6f5789964f82949e01ff6b80845
+  m_SceneId: 0
 --- !u!1 &1814863487152160
 GameObject:
   m_ObjectHideFlags: 0

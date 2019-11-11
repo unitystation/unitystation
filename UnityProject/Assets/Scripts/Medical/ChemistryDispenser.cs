@@ -1,4 +1,5 @@
-﻿﻿﻿using System.Collections;
+﻿﻿﻿using System;
+  using System.Collections;
 using System.Collections.Generic;
  using Mirror;
  using UnityEngine;
@@ -8,10 +9,19 @@ using System.Collections.Generic;
 /// </summary>
 public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply> {
 
-	public ReagentContainer Container;
-	public ObjectBehaviour objectse;
+	public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null ?
+	                                     itemSlot.ItemObject.GetComponent<ReagentContainer>() : null;
 	public delegate void ChangeEvent ();
 	public static event ChangeEvent changeEvent;
+
+	private ItemStorage itemStorage;
+	private ItemSlot itemSlot;
+
+	private void Awake()
+	{
+		itemStorage = GetComponent<ItemStorage>();
+		itemSlot = itemStorage.GetIndexedItemSlot(0);
+	}
 
 	private void  UpdateGUI()
 	{
@@ -21,6 +31,11 @@ public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApp
 			changeEvent();
 		}
  	}
+
+	public void EjectContainer()
+	{
+		Inventory.ServerDrop(itemSlot);
+	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -35,10 +50,7 @@ public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApp
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//put the reagant container inside me
-		Container = interaction.HandObject.GetComponent<ReagentContainer>();
-		objectse = interaction.HandObject.GetComponentInChildren<ObjectBehaviour> ();
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		InventoryManager.ClearInvSlot(slot);
+		Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 		UpdateGUI();
 	}
 }

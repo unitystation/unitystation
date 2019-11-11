@@ -1,0 +1,77 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+/// <summary>
+/// Singleton SO. When equipping, this SO indicates which item slot is the best slot
+/// for the item based on the item's traits.
+/// </summary>
+[CreateAssetMenu(fileName = "BestSlotForTraitSingleton", menuName = "Singleton/Traits/BestSlotForTrait")]
+public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
+{
+
+	[Serializable]
+	public class TraitSlotMapping
+	{
+		[Tooltip("Trait of the item to match on. Leave empty to match all items regardless of their traits.")]
+		public ItemTrait Trait;
+		public NamedSlot Slot;
+	}
+
+	[Tooltip("The item will be checked against the elements of this list in order." +
+	         " If the item has the indicated trait or no trait is defined for the entry, it will be checked if it can" +
+	         " fit in the indicated named slot. If not, it will continue to check through the" +
+	         " list for other possible matches. If no matches are found, it will" +
+	         " be placed in an arbitrary available slot.")]
+	[ArrayElementTitle("Trait", "Any")]
+	[SerializeField] private List<TraitSlotMapping> BestSlots;
+
+	/// <summary>
+	/// Returns the slot in storage which is the best fit for the item.
+	/// The BestSlots list will be scanned through in order. Returns the
+	/// first slot in the BestSlots list for which toCheck has the
+	/// indicated trait (ignored if trait is left blank) and can be put into the slot. If none of the BestSlots
+	/// will fit this item, returns the first slot in storage which can hold the item.
+	/// Returns null if the item cannot fit in any slots in storage.
+	/// </summary>
+	/// <param name="toCheck"></param>
+	/// <param name="storage"></param>
+	/// <param name="mustHaveUISlot">if true (default), will only return slots
+	/// which are linked to a UI slot</param>
+	/// <returns></returns>
+	public ItemSlot GetBestSlot(Pickupable toCheck, ItemStorage storage, bool mustHaveUISlot = true)
+	{
+		if (toCheck == null || storage == null)
+		{
+			Logger.LogTrace("Cannot get best slot, toCheck or storage was null", Category.Inventory);
+			return null;
+		}
+
+		var side = CustomNetworkManager.IsServer ? NetworkSide.Server : NetworkSide.Client;
+		var itemAttrs = toCheck.GetComponent<ItemAttributes>();
+		if (itemAttrs == null)
+		{
+			Logger.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +
+			                      " first available slot.", Category.Inventory, toCheck);
+		}
+		else
+		{
+			//find the best slot
+			var best = BestSlots.FirstOrDefault(tsm =>
+				(!mustHaveUISlot || storage.GetNamedItemSlot(tsm.Slot)?.LocalUISlot != null) &&
+				Validations.CanFit(storage.GetNamedItemSlot(tsm.Slot), toCheck, side) &&
+				(tsm.Trait == null || itemAttrs.HasTrait(tsm.Trait)));
+			if (best != null) return storage.GetNamedItemSlot(best.Slot);
+		}
+
+		Logger.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
+		                      " be placed in first available slot.", Category.Inventory, toCheck);
+
+		return storage.GetItemSlots().FirstOrDefault(slot =>
+			(!mustHaveUISlot || slot.LocalUISlot != null) &&
+			Validations.CanFit(slot, toCheck, side));
+	}
+
+}

@@ -143,23 +143,8 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
 	{
-		var player = PlayerList.Instance.Get(connectionToClient);
-		/// Verifies that the player has no job
-		if (player.Job == JobType.NULL)
-		{
-			SpawnHandler.RespawnPlayer(connectionToClient,
-				GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings, gameObject);
-		}
-		/// Spawns in player if they have a job but aren't spawned
-		else if (player.GameObject == null)
-		{
-			SpawnHandler.RespawnPlayer(connectionToClient,
-				GameManager.Instance.GetRandomFreeOccupation(player.Job), characterSettings, gameObject);
-		}
-		else
-		{
-			Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job", Category.Jobs);
-		}
+		PlayerSpawn.ServerSpawnPlayer(this, GameManager.Instance.GetRandomFreeOccupation(jobType),
+			characterSettings);
 	}
 
 	/// <summary>
@@ -169,8 +154,7 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{
-		SpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerRejoined, null);
-		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
+		PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
 	}
 
 	/// <summary>

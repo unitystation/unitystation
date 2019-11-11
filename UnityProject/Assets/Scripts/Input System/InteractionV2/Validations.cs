@@ -25,17 +25,17 @@ public static class Validations
 	}
 
 	/// <summary>
-	/// Checks if the game object is the specified tool type
+	/// Checks if the game object has the specified trait
 	/// </summary>
 	/// <param name="toCheck">object to check, can be null</param>
-	/// <param name="expectedType"></param>
-	/// <returns>true iff toCheck not null and has the Tool component with the specified tool type</returns>
-	public static bool IsTool(GameObject toCheck, ToolType expectedType)
+	/// <param name="expectedTrait"></param>
+	/// <returns></returns>
+	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
 		if (toCheck == null) return false;
-		var tool = toCheck.GetComponent<Tool>();
-		if (tool == null) return false;
-		return tool.ToolType == expectedType;
+		var attrs = toCheck.GetComponent<ItemAttributes>();
+		if (attrs == null) return false;
+		return attrs.HasTrait(expectedTrait);
 	}
 
 	/// <summary>
@@ -73,6 +73,7 @@ public static class Validations
 	/// <returns></returns>
 	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false)
 	{
+		if (player == null) return false;
 		var playerScript = player.GetComponent<PlayerScript>();
 		if (playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
@@ -101,6 +102,7 @@ public static class Validations
 	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null)
 	{
+		if (player == null) return false;
 		var playerScript = player.GetComponent<PlayerScript>();
 		var playerObjBehavior = player.GetComponent<ObjectBehaviour>();
 
@@ -228,4 +230,83 @@ public static class Validations
 		return basicWallTile.Mineable;
 	}
 
+	/// <summary>
+	/// Checks if the indicated item can fit in this slot. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="itemSlot">slot to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <returns></returns>
+	public static bool CanFit(ItemSlot itemSlot, GameObject toCheck, NetworkSide side, bool ignoreOccupied = false)
+	{
+		var pu = toCheck.GetComponent<Pickupable>();
+		if (pu == null) return false;
+		return CanFit(itemSlot, pu, side, ignoreOccupied);
+	}
+
+	/// <summary>
+	/// Checks if the indicated item can fit in this slot. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="itemSlot">slot to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <returns></returns>
+	public static bool CanFit(ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	{
+		if (itemSlot == null) return false;
+		//client generally only knows about their own inventory, so unless this is one of their own inventory
+		//slots we will just assume it fits when doing client side check.
+		if (side == NetworkSide.Client)
+		{
+			var rootHolder = itemSlot.GetRootStorage();
+			if (rootHolder.gameObject != PlayerManager.LocalPlayer)
+			{
+				//we have no idea if it fits since it's not in our inventory, so rely on the server to check this.
+				return true;
+			}
+			else
+			{
+				return itemSlot.CanFit(toCheck, ignoreOccupied);
+			}
+		}
+		else
+		{
+			return itemSlot.CanFit(toCheck, ignoreOccupied);
+		}
+	}
+
+	/// <summary>
+	/// Checks if the player can currently put the indicated item in this slot. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="player">player to check</param>
+	/// <param name="itemSlot">slot to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <returns></returns>
+	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	{
+		if (toCheck == null || itemSlot.Item != null)
+		{
+			Logger.LogTrace("Cannot put item to slot because the item or slot are null", Category.Inventory);
+			return false;
+		}
+		if (playerScript.canNotInteract())
+		{
+			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
+			return false;
+		}
+		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied))
+		{
+			Logger.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
+				toCheck.name, itemSlot);
+			return false;
+		}
+		return true;
+	}
 }

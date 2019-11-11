@@ -21,7 +21,7 @@ using Object = System.Object;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IOnStageServer
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn
 {
 
 	/// <summary>
@@ -113,9 +113,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (info.IsCloned)
+		if (info.SpawnableType == SpawnableType.Clone)
 		{
 			//cloned
 			var clonedIntegrity = info.ClonedFrom.GetComponent<Integrity>();
@@ -237,10 +237,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private void DefaultBurnUp(DestructionInfo info)
 	{
 		//just a guess - objects which can be picked up should have a smaller amount of ash
-		EffectsFactory.Instance.Ash(registerTile.WorldPosition.To2Int(), isLarge);
+		EffectsFactory.Ash(registerTile.WorldPosition.To2Int(), isLarge);
 		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject.TileWorldPosition());
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
-		PoolManager.PoolNetworkDestroy(gameObject);
+		Despawn.ServerSingle(gameObject);
 	}
 
 	[Server]
@@ -249,13 +249,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (info.DamageType == DamageType.Brute)
 		{
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got smashed to pieces.", gameObject.TileWorldPosition());
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " got destroyed.", gameObject.TileWorldPosition());
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 		}
 	}
 

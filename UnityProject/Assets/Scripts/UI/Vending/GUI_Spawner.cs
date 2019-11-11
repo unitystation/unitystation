@@ -106,7 +106,7 @@ public class GUI_Spawner : NetTab
 			return;
 		}
 
-		var spawnedItem = PoolManager.PoolNetworkInstantiate( item.Prefab, originPos, Provider.transform.parent );
+		var spawnedItem = Spawn.ServerPrefab( item.Prefab, originPos, Provider.transform.parent ).GameObject;
 		spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
 			ThrownBy = Provider,
 			Aim = BodyPartType.Chest,

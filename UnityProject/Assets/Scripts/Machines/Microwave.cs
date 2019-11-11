@@ -57,7 +57,7 @@ public class Microwave : NetworkBehaviour
 		if (isServer)
 		{
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
-			PoolManager.PoolNetworkInstantiate(mealPrefab, transform.position, transform.parent);
+			Spawn.ServerPrefab(mealPrefab, transform.position, transform.parent);
 		}
 		meal = null;
 	}

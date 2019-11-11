@@ -138,10 +138,10 @@ public class CargoShuttle : MonoBehaviour
 		if (pos == TransformState.HiddenPos)
 			return (false);
 
-		PoolManager.PoolNetworkInstantiate(order.Crate, pos);
+		Spawn.ServerPrefab(order.Crate, pos);
 		for (int i = 0; i < order.Items.Count; i++)
 		{
-			PoolManager.PoolNetworkInstantiate(order.Items[i], pos);
+			Spawn.ServerPrefab(order.Items[i], pos);
 		}
 		CargoManager.Instance.CentcomMessage += "Loaded " + order.OrderName + " onto shuttle.\n";
 		return (true);

@@ -21,7 +21,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		ObjectFactory.SpawnMetal(1, gameObject.TileWorldPosition().To3Int(), parent: transform.parent);
+		Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
+			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -32,7 +33,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench or metal in their hand
-		if (!Validations.HasComponent<Metal>(interaction.HandObject) && !Validations.IsTool(interaction.HandObject, ToolType.Wrench)) return false;
+		if (!Validations.HasComponent<Metal>(interaction.HandObject) &&
+		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
 		return true;
 	}
 
@@ -45,7 +47,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 						ConstructWall(interaction));
 			UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
 		}
-		else if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 
 			var progressFinishAction = new ProgressCompleteAction(Disassemble);
@@ -60,7 +62,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void Disassemble()
 	{
-		PoolManager.PoolNetworkInstantiate(metalPrefab, registerObject.WorldPositionServer);
+		Spawn.ServerPrefab(metalPrefab, registerObject.WorldPositionServer);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 
@@ -68,9 +70,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void ConstructWall(HandApply interaction){
 		var handObj = interaction.HandObject;
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		handObj.GetComponent<Pickupable>().DisappearObject(slot);
-		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		Inventory.ServerDespawn(interaction.HandSlot);
+		Despawn.ServerSingle(gameObject);
 	}
 
 }

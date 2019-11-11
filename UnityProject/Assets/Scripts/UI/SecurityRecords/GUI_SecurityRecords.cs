@@ -58,7 +58,7 @@ public class GUI_SecurityRecords : NetTab
 	{
 		if (console.IdCard)
 		{
-			console.RemoveID();
+			console.ServerRemoveIDCard();
 			UpdateScreen();
 		}
 	}
@@ -129,7 +129,7 @@ public class SecurityRecord
 	public string Fingerprints;
 	public SecurityStatus Status;
 	public List<SecurityRecordCrime> Crimes;
-	public JobOutfit jobOutfit;
+	public Occupation Occupation;
 	public CharacterSettings characterSettings;
 
 	public SecurityRecord()
