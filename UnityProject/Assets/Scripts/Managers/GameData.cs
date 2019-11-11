@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -57,17 +58,46 @@ public class GameData : MonoBehaviour
 	private void CheckCommandLineArgs()
 	{
 		//Check for Hub Message
-		string hubData = GetArgument("hubdata");
-		if (!string.IsNullOrEmpty(hubData))
+		string serverIp = GetArgument("-server");
+		string port = GetArgument("-port");
+		string token = GetArgument("-refreshtoken");
+		string uid = GetArgument("-uid");
+
+		Debug.Log($"ServerIP: {serverIp} port: {port} token: {token} uid: {uid}");
+		//This is a hug message, attempt to login and connect to server
+		if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
 		{
-			StartCoroutine(ConnectToServerFromHub(JsonUtility.FromJson<HubMessage>(hubData)));
+			response = false;
+			StartCoroutine(ConnectToServerFromHub(serverIp, port, uid, token));
 		}
 	}
 
-	IEnumerator ConnectToServerFromHub(HubMessage msg)
+	private bool response = false;
+	void TokenValidationSuccess(string msg)
+	{
+		Debug.Log("Token sign in was a success: " + msg);
+		response = true;
+	}
+
+	void TokenValidationFailed(string msg)
+	{
+		response = true;
+		Debug.Log("Token sign in failed: " + msg);
+	}
+
+	IEnumerator ConnectToServerFromHub(string ip, string port, string uid, string token)
 	{
 		Logger.Log("Hub message found. Attempting to log into firebase..", Category.Hub);
 		yield return WaitFor.EndOfFrame;
+
+		ServerData.TryTokenValidation(token, uid, TokenValidationSuccess, TokenValidationFailed);
+
+		while (!response)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+
 	}
 
 	private void OnEnable()
@@ -168,12 +198,4 @@ public class GameData : MonoBehaviour
 
 		return null;
 	}
-}
-
-[Serializable]
-public class HubMessage
-{
-	public string serverAddress;
-	public ushort port;
-	public string token;
 }
