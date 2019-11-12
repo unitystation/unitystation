@@ -5,6 +5,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(RightClickAppearance))]
 public class ReagentContainer : Container, IRightClickable {
+
+	public int MoveAmount;
+	public bool InSolidForm;
 	public float CurrentCapacity { get; private set; }
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
@@ -47,7 +50,16 @@ public class ReagentContainer : Container, IRightClickable {
 		return result;
 	}
 
-	public void AddReagents(Dictionary<string, float> reagents, float temperatureContainer) //Automatic overflow If you Don't want to lose check before adding
+	public bool Contains(string Chemical, float Amount) 
+	{
+		if (Contents.ContainsKey(Chemical)) {
+			if (Contents[Chemical] >= Amount) {
+				return (true);
+			}
+		}
+		return (false);
+	}
+	public void AddReagents(Dictionary<string, float> reagents, float temperatureContainer = 293.15f) //Automatic overflow If you Don't want to lose check before adding
 	{
 		CurrentCapacity = AmountOfReagents(Contents);
 		float totalToAdd = AmountOfReagents(reagents);
@@ -104,8 +116,8 @@ public class ReagentContainer : Container, IRightClickable {
 			["toxin"] = 15f,
 			["ammonia"] = 5f
 		};
-		AddReagents(transfering, 20f);
+		AddReagents(transfering, 293.15f);
 	}
 
-	private void RemoveSome() => MoveReagentsTo(10);
+	private void RemoveSome() => MoveReagentsTo(5);
 }

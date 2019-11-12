@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
+  m_Name: cherry_bomb
+  m_EditorClassIdentifier: 
+  plantData:
+    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+      type: 3}
+    plantType: 0
+    Name: cherry_bomb
+    Plantname: Cherry Bomb Tree
+    Description: They give you vibes of dread and frustration.
+    PacketsSprite:
+      Texture: {fileID: 2800000, guid: 84f89c00a583d6243831aba0a417decf, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 84f89c00a583d6243831aba0a417decf, type: 3}
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 2800000, guid: 9ece229416d663f469822d4f16df2a6e, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 9ece229416d663f469822d4f16df2a6e, type: 3}
+      EquippedData: {fileID: 0}
+    GrowthSprites: []
+    FullyGrownSprite:
+      Texture: {fileID: 2800000, guid: 8a7e28228f35f9543aa8f96c610f2ff8, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 8a7e28228f35f9543aa8f96c610f2ff8, type: 3}
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 2800000, guid: 428ce11964e4cef4fa8eab825c0aff50, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 428ce11964e4cef4fa8eab825c0aff50, type: 3}
+      - {fileID: 21300002, guid: 428ce11964e4cef4fa8eab825c0aff50, type: 3}
+      EquippedData: {fileID: 4900000, guid: 09b5effcab78a454b9252e7edb10c345, type: 3}
+    WeedResistance: 5
+    WeedGrowthRate: 1
+    GrowthSpeed: 5
+    Potency: 10
+    Endurance: 35
+    Yield: 3
+    Lifespan: 35
+    PlantTrays: 00000000
+    ReagentProduction:
+    - String: nutriment
+      Int: 10
+    - String: sugar
+      Int: 10
+    - String: blackpowder
+      Int: 69
+    MutatesInTo: []
+  WeedResistanceChange: 0
+  WeedGrowthRateChange: 0
+  GrowthSpeedChange: 0
+  PotencyChange: 0
+  EnduranceChange: 0
+  YieldChange: 0
+  LifespanChange: 0
+  PlantTrays: 
+  ReagentProduction: []
+  RemovePlantTrays: 
+  RemoveReagentProduction: []

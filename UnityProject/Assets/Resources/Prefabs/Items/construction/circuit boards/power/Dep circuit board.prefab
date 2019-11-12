@@ -9,7 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1519710982558066, guid: cc7c1682dd7a40343841dfb1f65b2849, type: 3}
       propertyPath: m_Name
-      value: circuit board
+      value: Dep circuit board
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845341591814981471, guid: cc7c1682dd7a40343841dfb1f65b2849,
+        type: 3}
+      propertyPath: ConstructionTarget
+      value: 
+      objectReference: {fileID: 1575520830166772, guid: d72e24d0fc40a7545aad2f4e4f978d33,
+        type: 3}
+    - target: {fileID: 114171556259583268, guid: cc7c1682dd7a40343841dfb1f65b2849,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4949321775558472, guid: cc7c1682dd7a40343841dfb1f65b2849, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54,17 +65,6 @@ PrefabInstance:
     - target: {fileID: 4949321775558472, guid: cc7c1682dd7a40343841dfb1f65b2849, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3845341591814981471, guid: cc7c1682dd7a40343841dfb1f65b2849,
-        type: 3}
-      propertyPath: ConstructionTarget
-      value: 
-      objectReference: {fileID: 1575520830166772, guid: d72e24d0fc40a7545aad2f4e4f978d33,
-        type: 3}
-    - target: {fileID: 114171556259583268, guid: cc7c1682dd7a40343841dfb1f65b2849,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc7c1682dd7a40343841dfb1f65b2849, type: 3}

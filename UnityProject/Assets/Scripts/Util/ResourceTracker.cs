@@ -15,6 +15,7 @@ public class ResourceTracker : MonoBehaviour
 	public List<ContainerData> DataContainerData = new List<ContainerData>();
 	public List<HeadsetData> DataHeadsetData = new List<HeadsetData>();
 	public List<PlayerTextureData> DataRaceData = new List<PlayerTextureData>();
+	public List<DefaultPlantData> DataDefaultPlantData = new List<DefaultPlantData>();
 
 	public void GatherData()
 	{
@@ -23,5 +24,6 @@ public class ResourceTracker : MonoBehaviour
 		ContainerData.getContainerData(DataContainerData);
 		HeadsetData.getHeadsetData(DataHeadsetData);
 		PlayerTextureData.getClothingDatas(DataRaceData);
+		DefaultPlantData.getDatas(DataDefaultPlantData);
 	}
 }
