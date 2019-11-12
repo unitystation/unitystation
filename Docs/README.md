@@ -1,8 +1,7 @@
 # unitystation
 [![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop) [![Krihelimeter](http://www.krihelinator.xyz/badge/unitystation/unitystation)](http://www.krihelinator.xyz/repositories/unitystation/unitystation)[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 <br>
-![built-with-resentment](http://forthebadge.com/images/badges/built-with-resentment.svg) ![contains-technical-debt](http://forthebadge.com/images/badges/contains-technical-debt.svg)
-![Header](https://camo.githubusercontent.com/33e89a24d66a1f94b45f652c1fd0ed391b86595a/687474703a2f2f646f6f626c792e697a7a2e6d6f652f756e69747973746174696f6e2f77696b692f756e69747973746174696f6e4c4f474f2e706e67)<br>
+![built-with-resentment](http://forthebadge.com/images/badges/built-with-resentment.svg) ![contains-technical-debt](http://forthebadge.com/images/badges/contains-technical-debt.svg)<br />
 
 _Unitystation has been active since late 2016_
 
