@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 26
-  m_Sprite: {fileID: 21300000, guid: 4fd169cca217496db6179700c61415c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e5b3a040a7f872b4da16138cffa8f234, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5613584594651815714
@@ -124,12 +124,11 @@ GameObject:
   - component: {fileID: 114122756854411570}
   - component: {fileID: 114013691186649456}
   - component: {fileID: 114144300265124736}
-  - component: {fileID: 8134703155087779743}
   - component: {fileID: 114254203349742134}
   - component: {fileID: 7117549763075892957}
   - component: {fileID: 3813030834210920614}
   m_Layer: 10
-  m_Name: UniBackPack
+  m_Name: SmallBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,16 +206,15 @@ MonoBehaviour:
   syncInterval: 0.1
   spriteDataHandler: {fileID: 114144300265124736}
   InventoryIcon: {fileID: 5613584594651815714}
-  itemName: 
-  itemDescription: 
-  initialTraits:
-  - {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d, type: 2}
-  size: 4
-  spriteType: 1
+  itemName: small box
+  itemDescription: stores things
+  initialTraits: []
+  size: 1
+  spriteType: 0
   CanConnectToTank: 0
-  hitDamage: 0
+  hitDamage: 5
   damageType: 0
-  throwDamage: 0
+  throwDamage: 10
   throwSpeed: 2
   throwRange: 7
   hitSound: GenericHit
@@ -360,33 +358,6 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
---- !u!114 &8134703155087779743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1585232330438968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4988eef284d24f4dbc16a62462df71e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Type: 0
-  Variant: -1
-  clothingData: {fileID: 0}
-  containerData: {fileID: 0}
-  headsetData: {fileID: 0}
-  Initialised: 0
-  SynchronisedString: 
-  VariantList: 
-  SpriteInfo:
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
 --- !u!114 &114254203349742134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
+  m_AssetId: f41055628add8412baae5e935a97980c
   m_SceneId: 0
 --- !u!114 &7117549763075892957
 MonoBehaviour:
@@ -417,9 +388,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+  itemStorageCapacity: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: 2445b31fbca7544668ce953da308a35e,
+  itemStoragePopulator: {fileID: 11400000, guid: bd1646f0f08a040b39e44c3f4bce9afd,
     type: 2}
 --- !u!114 &3813030834210920614
 MonoBehaviour:
@@ -435,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 536872192
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1

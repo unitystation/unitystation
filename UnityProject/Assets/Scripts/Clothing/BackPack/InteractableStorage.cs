@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(Pickupable))]
+[RequireComponent(typeof(MouseDraggable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>
 {
@@ -31,6 +32,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			//backpack can't be "applied" to something else in inventory
 			return false;
 		}
+		//can only be opened if it's in the player's top level inventory
+		if (interaction.TargetSlot.ItemStorage.gameObject != PlayerManager.LocalPlayer) return false;
+
 		if (interaction.HandObject == null)
 		{
 			//nothing in hand, just open / close the backpack
@@ -41,6 +45,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
+		//we need to be the target - something is put inside us
+		if (interaction.TargetObject != gameObject) return false;
 		//check if we can store our hand item in this storage.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//have to have something in hand to try to store it
@@ -49,7 +55,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		//note: since this is in local player's inventory, we are safe to check this stuff on client side
 		var freeSlot = itemStorage.GetNextFreeIndexedSlot();
 		if (freeSlot == null) return false;
-		if (!freeSlot.CanFit(interaction.HandObject)) return false;
+		if (!Validations.CanPutItemToSlot(interaction.Performer.GetComponent<PlayerScript>(),
+			freeSlot, interaction.HandObject.GetComponent<Pickupable>(), side, writeExamine: true)) return false;
+
 
 		return true;
 	}
@@ -90,11 +98,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		//player can observe this storage
 		itemStorage.ServerAddObserverPlayer(interaction.Performer);
 		ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
-		SpatialRelationship.Activate(RangeRelationship.Between(interaction.Performer, interaction.TargetObject,
-			PlayerScript.interactionDistance, ServerOnRelationshipCancelled));
+		SpatialRelationship.Activate(RangeRelationship.Between(interaction.Performer, interaction.UsedObject,
+			PlayerScript.interactionDistance, ServerOnRelationshipEnded));
 	}
 
-	private void ServerOnRelationshipCancelled(RangeRelationship cancelled)
+	private void ServerOnRelationshipEnded(RangeRelationship cancelled)
 	{
 		//they can't observe anymore
 		itemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);

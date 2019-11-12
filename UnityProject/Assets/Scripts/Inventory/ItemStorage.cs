@@ -89,6 +89,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
+	private void OnDestroy()
+	{
+		//free the slots
+		ItemSlot.Free(this);
+	}
+
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{

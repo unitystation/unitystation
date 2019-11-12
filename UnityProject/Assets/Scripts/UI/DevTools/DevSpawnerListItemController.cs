@@ -24,7 +24,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	public GameObject cursorPrefab;
 	// prefab to spawn
 	private GameObject prefab;
-	private ClothingData clothingData;
+	private BaseClothData clothingData;
 
 	// sprite under cursor for showing what will be spawned
 	private GameObject cursorObject;
@@ -60,10 +60,18 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 		else
 		{
-			var newClothingData = Spawn.ClothingStoredData[resultDoc.Get("name")];
-			detailText.text = $"{newClothingData.name}";
-			clothingData = newClothingData;
-			image.sprite = newClothingData.Base.ItemIcon.Sprites[0];
+			var newClothingData = Spawn.GetClothDataNamed(resultDoc.Get("name"));
+			if (newClothingData != null)
+			{
+				detailText.text = $"{newClothingData.name}";
+				clothingData = newClothingData;
+				image.sprite = newClothingData.SpawnerIcon();
+			}
+			else
+			{
+				detailText.text = "ERROR";
+			}
+
 		}
 		titleText.text = resultDoc.Get("name");
 	}

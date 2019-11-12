@@ -288,8 +288,9 @@ public static class Validations
 	/// <param name="toCheck">item to check for fit</param>
 	/// <param name="side">network side check is happening on</param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="writeExamine">if true, when validation fails, will output an appropriate examine message.</param>
 	/// <returns></returns>
-	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false, bool writeExamine = false)
 	{
 		if (toCheck == null || itemSlot.Item != null)
 		{
@@ -305,6 +306,11 @@ public static class Validations
 		{
 			Logger.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
 				toCheck.name, itemSlot);
+			if (writeExamine)
+			{
+				Chat.AddExamineMsg(playerScript.gameObject, $"{toCheck.gameObject.ExpensiveName()} doesn't fit in the {itemSlot.ItemStorage.gameObject.ExpensiveName()}.",
+					side);
+			}
 			return false;
 		}
 		return true;

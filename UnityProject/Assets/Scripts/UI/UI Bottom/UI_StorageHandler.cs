@@ -39,17 +39,8 @@ public class UI_StorageHandler : MonoBehaviour
 	private void PopulateInventorySlots()
 	{
 		//create a slot element for each indexed slot in the storage
-		closeStorageUIButton.SetActive(true);
-		bool insertedCloseButton = false;
 		for (int i = 0; i < CurrentOpenStorage.ItemStorageStructure.IndexedSlots; i++)
 		{
-			//7th element is always the close button
-			if (i == 6)
-			{
-				closeStorageUIButton.transform.parent = transform;
-				closeStorageUIButton.transform.localScale = Vector3.one;
-				insertedCloseButton = true;
-			}
 			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
 			newSlot.transform.parent = transform;
 			newSlot.transform.localScale = Vector3.one;
@@ -57,13 +48,7 @@ public class UI_StorageHandler : MonoBehaviour
 			uiItemSlot.LinkSlot(CurrentOpenStorage.GetIndexedItemSlot(i));
 			currentOpenStorageUISlots.Add(uiItemSlot);
 		}
-
-		if (!insertedCloseButton)
-		{
-			closeStorageUIButton.transform.parent = transform;
-			closeStorageUIButton.transform.localScale = Vector3.one;
-		}
-
+		closeStorageUIButton.SetActive(true);
 	}
 
 	public void CloseStorageUI()

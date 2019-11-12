@@ -19,7 +19,13 @@ public static class SweetExtensions
 
 	public static string ExpensiveName(this GameObject go)
 	{
-		return go.Item()?.itemName ?? go.Player()?.Name ?? go.name.Replace("NPC_", "").Replace("_", " ");
+		var item = go.Item();
+		if (item != null && !String.IsNullOrWhiteSpace(item.itemName)) return item.itemName;
+
+		var player = go.Player();
+		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;
+
+		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
 	}
 
 	public static T GetRandom<T>(this List<T> list)
