@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using DatabaseAPI;
+using Lobby;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -11,6 +13,16 @@ public class GameData : MonoBehaviour
 
 	public bool testServer;
 	private RconManager rconManager;
+
+	enum ValidationStatus
+	{
+		none,
+		success,
+		failed
+	}
+
+	//Token validation status:
+	private ValidationStatus validationStatus;
 
 	/// <summary>
 	///     Check to see if you are in the game or in the lobby
@@ -64,39 +76,57 @@ public class GameData : MonoBehaviour
 		string uid = GetArgument("-uid");
 
 		Debug.Log($"ServerIP: {serverIp} port: {port} token: {token} uid: {uid}");
-		//This is a hug message, attempt to login and connect to server
+		//This is a hub message, attempt to login and connect to server
 		if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
 		{
-			response = false;
+			validationStatus = ValidationStatus.none;
 			StartCoroutine(ConnectToServerFromHub(serverIp, port, uid, token));
 		}
 	}
 
-	private bool response = false;
 	void TokenValidationSuccess(string msg)
 	{
-		Debug.Log("Token sign in was a success: " + msg);
-		response = true;
+		validationStatus = ValidationStatus.success;
 	}
 
 	void TokenValidationFailed(string msg)
 	{
-		response = true;
-		Debug.Log("Token sign in failed: " + msg);
+		validationStatus = ValidationStatus.failed;
 	}
 
+	//Monitors hub connection steps:
 	IEnumerator ConnectToServerFromHub(string ip, string port, string uid, string token)
 	{
-		Logger.Log("Hub message found. Attempting to log into firebase..", Category.Hub);
+		Logger.Log("Hub message found. Attempting to log in..", Category.Hub);
+
+		//Hide all default lobby ui's:
+		if(!IsInGame) LobbyManager.Instance.lobbyDialogue.HideAllPanels();
+
 		yield return WaitFor.EndOfFrame;
 
 		ServerData.TryTokenValidation(token, uid, TokenValidationSuccess, TokenValidationFailed);
 
-		while (!response)
+		while (validationStatus == ValidationStatus.none)
 		{
 			yield return WaitFor.EndOfFrame;
 		}
 
+		if (validationStatus == ValidationStatus.failed)
+		{
+			//TODO: Show login screen
+			Logger.Log("Login failed, token or uid is invalid.", Category.Hub);
+			yield break;
+		}
+
+		Logger.Log("Token validated. User successfully authenticated", Category.Hub);
+
+		ushort p = 0;
+		ushort.TryParse(port, out p);
+
+		//Connect to server:
+		CustomNetworkManager.Instance.networkAddress = ip;
+		CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port = p;
+		CustomNetworkManager.Instance.StartClient();
 
 	}
 
