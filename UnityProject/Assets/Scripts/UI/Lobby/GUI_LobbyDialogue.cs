@@ -64,7 +64,7 @@ namespace Lobby
 
 			// Init Lobby UI
 			InitPlayerName();
-			
+
 			//TODO: Enable auto login. If CharacterSettings have not been downloaded for this instance
 			// then you need to download them if the user is already logged in. Show a logging in status text
 			// when doing this
@@ -385,7 +385,7 @@ namespace Lobby
 			wrongVersionPanel.SetActive(true);
 		}
 
-		void HideAllPanels()
+		public void HideAllPanels()
 		{
 			//FIXME
 			//	startGamePanel.SetActive(false);
