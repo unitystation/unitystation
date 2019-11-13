@@ -317,7 +317,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		heldItems = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
 		foreach (ObjectBehaviour item in heldItems)
 		{
-			item.parentContainer = PushPull;
+			///<summary>
+			///Airvents and Scrubbers should not be picked up by lockers
+			///</summary>
+			if (item.name.Equals("AirVent") || item.name.Equals("Scrubber"))
+				{
+				continue;
+				}
+			item.parentContainer = pushPull;
 			item.VisibleState = false;
 		}
 	}
