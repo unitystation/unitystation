@@ -2,8 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
 namespace DatabaseAPI
 {
@@ -13,6 +11,7 @@ namespace DatabaseAPI
 			Action<string> successCallBack, Action<string> failedCallBack)
 		{
 			var status = new Status();
+
 			Instance.auth.SignInWithEmailAndPasswordAsync(username, _password).ContinueWith(task =>
 			{
 				if (task.IsFaulted)
@@ -24,6 +23,31 @@ namespace DatabaseAPI
 			});
 
 			Instance.StartCoroutine(MonitorLogin(successCallBack, failedCallBack, status));
+		}
+
+		public string RefreshToks;
+
+		[ContextMenu("Test Access Token")]
+		void Test()
+		{
+			auth.SignInWithCustomTokenAsync(RefreshToks).ContinueWith(task =>
+			{
+				if (task.IsCanceled)
+				{
+					Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+					return;
+				}
+
+				if (task.IsFaulted)
+				{
+					Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+					return;
+				}
+
+				Firebase.Auth.FirebaseUser newUser = task.Result;
+				Debug.LogFormat("User signed in successfully: {0} ({1})",
+					newUser.DisplayName, newUser.UserId);
+			});
 		}
 
 		static IEnumerator MonitorLogin(Action<string> successCallBack, Action<string> failedCallBack, Status status)
@@ -40,9 +64,11 @@ namespace DatabaseAPI
 					{
 						Logger.Log("Log in timed out", Category.DatabaseAPI);
 					}
+
 					failedCallBack.Invoke("Check your username and password.");
 					yield break;
 				}
+
 				yield return WaitFor.EndOfFrame;
 			}
 
@@ -60,6 +86,54 @@ namespace DatabaseAPI
 			{
 				var charData = JsonUtility.FromJson<UserDocument>(r.downloadHandler.text);
 				successCallBack.Invoke(charData.fields.character.stringValue);
+			}
+		}
+
+		public static void TryTokenValidation(string token, string uid, Action<string> successCallBack,
+			Action<string> failedCallBack)
+		{
+			Instance.StartCoroutine(ValidateToken(token, uid, successCallBack, failedCallBack));
+		}
+
+		static IEnumerator ValidateToken(string token, string uid, Action<string> successCallBack,
+			Action<string> failedCallBack)
+		{
+			var refreshToken = new RefreshToken();
+			refreshToken.refreshToken = token;
+			refreshToken.userID = uid;
+
+			UnityWebRequest r = UnityWebRequest.Get("https://api.unitystation.org/validatetoken?data=" + JsonUtility.ToJson(refreshToken));
+			Debug.Log(r.url);
+			yield return r.SendWebRequest();
+
+
+			if (r.error != null)
+			{
+				Logger.Log($"Encountered error while attempting to verify token: {r.error}", Category.DatabaseAPI);
+				failedCallBack?.Invoke(r.error);
+			}
+			else
+			{
+				var response = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
+				Auth.SignInWithCustomTokenAsync(response.message).ContinueWith(task =>
+				{
+					if (task.IsCanceled)
+					{
+						Logger.LogError("Custom token sign in was canceled.");
+						failedCallBack?.Invoke("Custom token sign in was canceled.");
+						return;
+					}
+
+					if (task.IsFaulted)
+					{
+						Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
+						failedCallBack?.Invoke("Error");
+						return;
+					}
+
+					successCallBack?.Invoke("Success");
+					Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
+				});
 			}
 		}
 	}
@@ -83,4 +157,10 @@ namespace DatabaseAPI
 		public CharacterField character;
 	}
 
+	[Serializable]
+	public class AccessTokenResponse
+	{
+		public string access_token;
+		public string id_token;
+	}
 }
