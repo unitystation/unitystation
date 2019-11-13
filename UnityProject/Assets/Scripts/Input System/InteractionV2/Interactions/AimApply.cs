@@ -16,12 +16,12 @@ public class AimApply : Interaction
 
 	private readonly MouseButtonState mouseButtonState;
 	private readonly Vector2 targetVector;
-	private readonly HandSlot handSlot;
+	private readonly ItemSlot handSlot;
 
 	/// <summary>
 	/// Hand slot being used.
 	/// </summary>
-	public HandSlot HandSlot => handSlot;
+	public ItemSlot HandSlot => handSlot;
 
 	/// <summary>
 	/// State of the mouse button when this interaction was triggered
@@ -53,7 +53,7 @@ public class AimApply : Interaction
 	/// or ending.</param>
 	/// <param name="targetVector">vector pointing from shooter to the spot they are targeting - should NOT be normalized. Set to
 	/// Vector2.zero if aiming at self.</param>
-	private AimApply(GameObject performer, GameObject handObject, HandSlot handSlot, MouseButtonState buttonState, Vector2 targetVector) :
+	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState, Vector2 targetVector) :
 		base(performer, handObject)
 	{
 		this.targetVector = targetVector;
@@ -85,8 +85,8 @@ public class AimApply : Interaction
 				go => go == PlayerManager.LocalPlayer).Any();
 		}
 
-		return new AimApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
-			HandSlot.ForName(UIManager.Hands.CurrentSlot.equipSlot),
+		return new AimApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
+			UIManager.Hands.CurrentSlot.ItemSlot,
 			buttonState,
 			selfAim ? Vector2.zero : targetVector);
 	}
@@ -104,7 +104,7 @@ public class AimApply : Interaction
 	/// the message processing logic. Should match HandSlot.ForName(SentByPlayer.Script.playerNetworkActions.activeHand).</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	/// <param name="mouseButtonState">state of the mouse button</param>
-	public static AimApply ByClient(GameObject clientPlayer, Vector2 targetVector, GameObject handObject, HandSlot handSlot, MouseButtonState mouseButtonState)
+	public static AimApply ByClient(GameObject clientPlayer, Vector2 targetVector, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState)
 	{
 		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, targetVector);
 	}

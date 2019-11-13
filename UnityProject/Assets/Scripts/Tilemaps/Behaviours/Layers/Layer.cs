@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
@@ -15,9 +16,15 @@ using UnityEngine.Tilemaps;
 
 		public LayerType LayerType;
 		protected Tilemap tilemap;
+		public TilemapDamage TilemapDamage { get; private set; }
 
-		public BoundsInt Bounds => tilemap.cellBounds;
-		/// <summary>
+		public BoundsInt Bounds => boundsCache;
+		private BoundsInt boundsCache;
+
+		private Coroutine recalculateBoundsHandle;
+
+		public TileChangeEvent OnTileChanged = new TileChangeEvent();
+			/// <summary>
 		/// Current offset from our initial orientation. This is used by tiles within the tilemap
 		/// to determine what sprite to display. We could store it on each individual tile but it would
 		/// be entirely the same across a tilemap so no point in duplicating it.
@@ -30,11 +37,44 @@ using UnityEngine.Tilemaps;
 		private MatrixMove matrixMove;
 
 		public Vector3Int WorldToCell(Vector3 pos) => tilemap.WorldToCell(pos);
+		public Vector3Int LocalToCell(Vector3 pos) => tilemap.LocalToCell(pos);
+		public Vector3 LocalToWorld( Vector3 localPos ) => tilemap.LocalToWorld( localPos );
+		public Vector3 CellToWorld( Vector3Int cellPos ) => tilemap.CellToWorld( cellPos );
+		public Vector3 WorldToLocal( Vector3 worldPos ) => tilemap.WorldToLocal( worldPos );
 
 		public void Awake()
 		{
 			tilemap = GetComponent<Tilemap>();
+			TilemapDamage = GetComponent<TilemapDamage>();
 			subsystemManager = GetComponentInParent<SubsystemManager>();
+			RecalculateBounds();
+
+
+			OnTileChanged.AddListener( (pos, tile) => TryRecalculateBounds() );
+			void TryRecalculateBounds()
+			{
+				if ( recalculateBoundsHandle == null )
+				{
+					this.RestartCoroutine( RecalculateBoundsNextFrame(), ref recalculateBoundsHandle );
+				}
+			}
+		}
+
+		/// <summary>
+		/// In case there are lots of sudden changes, recalculate bounds once a frame
+		/// instead of doing it for every changed tile
+		/// </summary>
+		private IEnumerator RecalculateBoundsNextFrame()
+		{
+			//apparently waiting for next frame doesn't work when looking at Scene view!
+			yield return WaitFor.Seconds( 0.015f );
+			RecalculateBounds();
+		}
+
+		public void RecalculateBounds()
+		{
+			boundsCache = tilemap.cellBounds;
+			this.TryStopCoroutine( ref recalculateBoundsHandle );
 		}
 
 		public void Start()
@@ -100,9 +140,18 @@ using UnityEngine.Tilemaps;
 
 		public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
 		{
-			tilemap.SetTile(position, tile);
+			InternalSetTile( position, tile );
 			tilemap.SetTransformMatrix(position, transformMatrix);
 			subsystemManager.UpdateAt(position);
+		}
+
+		/// <summary>
+		/// Set tile and invoke tile changed event.
+		/// </summary>
+		protected void InternalSetTile( Vector3Int position, GenericTile tile )
+		{
+			tilemap.SetTile( position, tile );
+			OnTileChanged.Invoke( position, tile );
 		}
 
 		public virtual LayerTile GetTile(Vector3Int position)
@@ -123,14 +172,14 @@ using UnityEngine.Tilemaps;
 
 				while (tilemap.HasTile(position))
 				{
-					tilemap.SetTile(position, null);
+					InternalSetTile(position, null);
 
 					position.z--;
 				}
 			}
 			else
 			{
-				tilemap.SetTile(position, null);
+				InternalSetTile(position, null);
 			}
 
 			position.z = 0;
@@ -140,6 +189,7 @@ using UnityEngine.Tilemaps;
 		public virtual void ClearAllTiles()
 		{
 			tilemap.ClearAllTiles();
+			OnTileChanged.Invoke( TransformState.HiddenPos, null );
 		}
 
 #if UNITY_EDITOR

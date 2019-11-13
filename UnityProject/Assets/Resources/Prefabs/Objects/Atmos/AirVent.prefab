@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &6203799934882642808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,8 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027d1f2fae780624ebb2115cfc6e78af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &7499999529140733009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,11 +140,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Vent
   itemDescription: 
-  itemType: 0
+  initialTraits: []
   size: 1
   spriteType: 0
   CanConnectToTank: 0
@@ -171,7 +170,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &6479037130962053368
 MonoBehaviour:
@@ -206,9 +204,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3953549719403137607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +250,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &1554776711696640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,8 +279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -305,8 +299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3755316073
+  m_AssetId: 6123044d3e1847569dcc23e34dd3d3f5
+  m_SceneId: 0
 --- !u!1 &8513106460640881890
 GameObject:
   m_ObjectHideFlags: 0

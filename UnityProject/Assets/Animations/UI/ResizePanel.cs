@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 
 
-	/// <summary>
+/// <summary>
 	///     Resize a UI element, requires an Image to define draggable area
 	///     Add to a child gObj of the element you want to resize
 	/// </summary>

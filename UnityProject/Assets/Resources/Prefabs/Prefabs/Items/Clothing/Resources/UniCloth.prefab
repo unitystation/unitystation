@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114099586909895544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +102,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 2620878637528213898}
   itemName: 
   itemDescription: 
-  itemType: 0
+  initialTraits: []
   size: 1
   spriteType: 1
   CanConnectToTank: 0
@@ -126,9 +127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114182420558184634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +221,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114077084986960180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,3 +386,4 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0

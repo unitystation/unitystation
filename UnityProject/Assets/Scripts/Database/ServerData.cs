@@ -27,6 +27,7 @@ namespace DatabaseAPI
 		}
 
 		private const string FirebaseRoot = "https://firestore.googleapis.com/v1/projects/unitystation-c6a53/databases/(default)/documents";
+
 		private Firebase.Auth.FirebaseAuth auth;
 		public static Firebase.Auth.FirebaseAuth Auth => Instance.auth;
 		private Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth = new Dictionary<string, Firebase.Auth.FirebaseUser>();
@@ -102,7 +103,7 @@ namespace DatabaseAPI
 				if (signedIn)
 				{
 					//TODO: Display name stuff
-					/* 
+					/*
 					displayName = user.DisplayName ?? "";
 					DisplayDetailedUserInfo(user, 1);
 					*/
@@ -154,5 +155,12 @@ namespace DatabaseAPI
 			PlayerPrefs.SetInt("autoLogin", 0);
 			PlayerPrefs.Save();
 		}
+	}
+
+	[Serializable]
+	public class RefreshToken
+	{
+		public string refreshToken;
+		public string userID;
 	}
 }

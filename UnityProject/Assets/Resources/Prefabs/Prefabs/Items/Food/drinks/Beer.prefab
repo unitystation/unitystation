@@ -88,7 +88,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Beer
   itemDescription: 
-  itemType: 14
+  initialTraits: []
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114880268731048502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,9 +198,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114560757977240184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +257,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114060245427783958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,8 +290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3562023571
+  m_AssetId: 0a444092780864964b48a63b1a16cd34
+  m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

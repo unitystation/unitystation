@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 [ExecuteInEditMode]
 public class MetaTileMap : MonoBehaviour
@@ -11,13 +13,33 @@ public class MetaTileMap : MonoBehaviour
 	public Dictionary<LayerType, Layer> Layers { get; private set; }
 
 	//Using arrays for iteration speed
-	private LayerType[] LayersKeys { get; set; }
-	private Layer[] LayersValues { get; set; }
+	public LayerType[] LayersKeys { get; private set; }
+	public Layer[] LayersValues { get; private set; }
+	public ObjectLayer ObjectLayer { get; private set; }
 
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
-	private Layer[] SolidLayersValues { get; set; }
+	public Layer[] SolidLayersValues { get; private set; }
+	/// <summary>
+	/// Layers that contain TilemapDamage
+	/// </summary>
+	public Layer[] DamageableLayers { get; private set; }
+
+	public float Resistance(Vector3Int cellPos, bool includeObjects = true)
+	{
+		float resistance = 0;
+		foreach ( var damageableLayer in DamageableLayers )
+		{
+			resistance += damageableLayer.TilemapDamage.Integrity( cellPos );
+		}
+
+		if ( includeObjects && ObjectLayer )
+		{
+			resistance += ObjectLayer.GetObjectResistanceAt( cellPos, true );
+		}
+		return resistance;
+	}
 
 	private void OnEnable()
 	{
@@ -25,6 +47,7 @@ public class MetaTileMap : MonoBehaviour
 		var layersKeys = new List<LayerType>();
 		var layersValues = new List<Layer>();
 		var solidLayersValues = new List<Layer>();
+		var damageableLayersValues = new List<Layer>();
 
 		foreach (Layer layer in GetComponentsInChildren<Layer>(true))
 		{
@@ -37,11 +60,39 @@ public class MetaTileMap : MonoBehaviour
 			{
 				solidLayersValues.Add(layer);
 			}
+
+			if ( layer.GetComponent<TilemapDamage>() )
+			{
+				damageableLayersValues.Add( layer );
+			}
+
+			if ( layer.LayerType == LayerType.Objects )
+			{
+				ObjectLayer = layer as ObjectLayer;
+			}
 		}
 
 		LayersKeys = layersKeys.ToArray();
 		LayersValues = layersValues.ToArray();
 		SolidLayersValues = solidLayersValues.ToArray();
+		damageableLayersValues.Sort(( layerOne, layerTwo ) => layerOne.LayerType.GetOrder().CompareTo( layerTwo.LayerType.GetOrder() ) );
+		DamageableLayers = damageableLayersValues.ToArray();
+	}
+
+	/// <summary>
+	/// Apply damage to damageable layers, top to bottom.
+	/// If tile gets destroyed, remaining damage is applied to the layer below
+	/// </summary>
+	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos)
+	{
+		foreach ( var damageableLayer in DamageableLayers )
+		{
+			if ( damage <= 0f )
+			{
+				return;
+			}
+			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos );
+		}
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)
@@ -156,7 +207,17 @@ public class MetaTileMap : MonoBehaviour
 	/// <returns></returns>
 	public LayerTile GetTileAtWorldPos(Vector3 worldPosition, LayerType layerType)
 	{
-		var cellPos = WorldToCell(worldPosition.RoundToInt());
+		return GetTileAtWorldPos(worldPosition.RoundToInt(), layerType);
+	}
+	/// <summary>
+	/// Gets the tile with the specified layer type at the specified world position
+	/// </summary>
+	/// <param name="worldPosition">world position to check</param>
+	/// <param name="layerType"></param>
+	/// <returns></returns>
+	public LayerTile GetTileAtWorldPos(Vector3Int worldPosition, LayerType layerType)
+	{
+		var cellPos = WorldToCell(worldPosition);
 		return GetTile(cellPos, layerType);
 	}
 
@@ -194,7 +255,10 @@ public class MetaTileMap : MonoBehaviour
 		return null;
 	}
 
-	public bool IsEmptyAt(Vector3Int position, bool isServer)
+	/// <summary>
+	/// Checks if tile is empty of objects (only solid by default)
+	/// </summary>
+	public bool IsEmptyAt( Vector3Int position, bool isServer )
 	{
 		for (var index = 0; index < LayersKeys.Length; index++)
 		{
@@ -315,7 +379,16 @@ public class MetaTileMap : MonoBehaviour
 	}
 	public bool HasTile(Vector3Int position, LayerType layerType, bool isServer)
 	{
-		return Layers[layerType].HasTile(position, isServer);
+		//protection against nonexistent layers
+		for ( var i = 0; i < LayersKeys.Length; i++ )
+		{
+			if ( layerType == LayersKeys[i] )
+			{
+				return Layers[layerType].HasTile( position, isServer );
+			}
+		}
+
+		return false;
 	}
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer)
@@ -333,7 +406,7 @@ public class MetaTileMap : MonoBehaviour
 		}
 	}
 
-	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll = false)
+	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
 		Layers[refLayer].RemoveTile(position, removeAll);
 	}
@@ -344,6 +417,19 @@ public class MetaTileMap : MonoBehaviour
 		{
 			LayersValues[i].ClearAllTiles();
 		}
+	}
+
+	public Vector3 LocalToWorld( Vector3 localPos ) => LayersValues[0].LocalToWorld( localPos );
+	public Vector3 CellToWorld( Vector3Int cellPos ) => LayersValues[0].CellToWorld( cellPos );
+	public Vector3 WorldToLocal( Vector3 worldPos ) => LayersValues[0].WorldToLocal( worldPos );
+
+	public BoundsInt GetWorldBounds()
+	{
+		var bounds = GetBounds();
+		//???
+		var min = CellToWorld( bounds.min ).RoundToInt();
+		var max = CellToWorld( bounds.max ).RoundToInt();
+		return new BoundsInt(min, max - min);
 	}
 
 	public BoundsInt GetBounds()
@@ -364,7 +450,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public Vector3Int WorldToCell(Vector3 worldPosition)
 	{
-		return Layers.First().Value.WorldToCell(worldPosition);
+		return LayersValues[0].WorldToCell(worldPosition);
 	}
 
 

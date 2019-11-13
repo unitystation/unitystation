@@ -184,8 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: This seems to be some sort of old scrubber, you rather not touch it...
 --- !u!114 &114809015237144192
 MonoBehaviour:
@@ -219,6 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114606900759122318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +277,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114970760539533120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,5 +292,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1548236489
+  m_AssetId: b02344ed4d1bb4635a8a0f5c7d28244e
+  m_SceneId: 0

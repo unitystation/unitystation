@@ -395,7 +395,10 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 		}
 		for (int i = 0; i < ConnectedEmergencyLights.Count; i++)
 		{
-			ConnectedEmergencyLights[i].Toggle(isOn);
+			if ( ConnectedEmergencyLights[i] ) //might be destroyed
+			{
+				ConnectedEmergencyLights[i].Toggle(isOn);
+			}
 		}
 	}
 

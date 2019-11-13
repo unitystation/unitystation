@@ -49,17 +49,18 @@ public class CorgiAI : MobAI
 		if (speaker.Script.playerNetworkActions == null) return;
 
 		// Check for an ID card (could not find a better solution)
-		var PNA = speaker.Script.playerNetworkActions;
 		IDCard card = null;
-		if (PNA.Inventory.ContainsKey(EquipSlot.id) &&
-		    PNA.Inventory[EquipSlot.id].Item?.GetComponent<IDCard>() != null)
+		var playerStorage = speaker.Script.ItemStorage;
+		var idId = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
+		var handId = playerStorage.GetActiveHandSlot().ItemObject;
+		if (idId != null && idId.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory[EquipSlot.id].Item.GetComponent<IDCard>();
+			card = idId.GetComponent<IDCard>();
 		}
-		else if (PNA.Inventory.ContainsKey(PNA.activeHand) &&
-		         PNA.Inventory[PNA.activeHand].Item?.GetComponent<IDCard>() != null)
+		else if (handId != null &&
+		         handId.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory[PNA.activeHand].Item.GetComponent<IDCard>();
+			card = handId.GetComponent<IDCard>();
 		}
 
 		if (card == null) return;

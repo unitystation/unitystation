@@ -19,7 +19,7 @@ public static class SweetExtensions
 
 	public static string ExpensiveName(this GameObject go)
 	{
-		return go.Player()?.Name ?? go.Item()?.itemName ?? go.name.Replace("NPC_", "").Replace("_", " ");
+		return go.Item()?.itemName ?? go.Player()?.Name ?? go.name.Replace("NPC_", "").Replace("_", " ");
 	}
 
 	public static T GetRandom<T>(this List<T> list)
@@ -29,7 +29,7 @@ public static class SweetExtensions
 
 	public static uint NetId(this GameObject go)
 	{
-		return go ? go.GetComponent<NetworkIdentity>().netId : uint.MaxValue; //maxValue is invalid (see NetId.cs)
+		return go ? go.GetComponent<NetworkIdentity>().netId : global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
 	}
 
 	/// Creates garbage! Use very sparsely!

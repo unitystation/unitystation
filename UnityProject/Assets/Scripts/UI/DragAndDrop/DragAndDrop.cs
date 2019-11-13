@@ -25,14 +25,14 @@ public class DragAndDrop : MonoBehaviour
 	}
 	public void UI_ItemDrag(UI_ItemSlot itemSlot)
 	{
-		if (itemSlot.Item != null)
+		if (itemSlot.Item != null && !isDragging)
 		{
 			ItemSlotCache = itemSlot;
 			isDragging = true;
 			dragDummy.enabled = true;
-			dragDummy.sprite = itemSlot.image.sprite;
-			itemSlot.image.enabled = false;
-			ItemCache = itemSlot.Item;
+			dragDummy.sprite = itemSlot.Image.sprite;
+			itemSlot.Clear();
+			ItemCache = itemSlot.ItemObject;
 		}
 	}
 
@@ -44,7 +44,7 @@ public class DragAndDrop : MonoBehaviour
 		{
 			if (ItemSlotCache.Item != null)
 			{
-				ItemSlotCache.image.enabled = true;
+				ItemSlotCache.RefreshImage();
 			}
 		}
 		ItemSlotCache = null;

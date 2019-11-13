@@ -26,7 +26,6 @@ public class MobMeleeAttack : MobFollow
 	private LayerMask checkMask;
 	private int playersLayer;
 	private int npcLayer;
-	private int windowsLayer;
 
 	private MobAI mobAI;
 
@@ -43,8 +42,7 @@ public class MobMeleeAttack : MobFollow
 		base.OnEnable();
 		playersLayer = LayerMask.NameToLayer("Players");
 		npcLayer = LayerMask.NameToLayer("NPC");
-		windowsLayer = LayerMask.NameToLayer("Windows");
-		checkMask = LayerMask.GetMask("Players", "NPC", "Windows");
+		checkMask = LayerMask.GetMask("Players", "NPC", "Windows", "Objects");
 		mobAI = GetComponent<MobAI>();
 	}
 
@@ -142,22 +140,14 @@ public class MobMeleeAttack : MobFollow
 						}
 					}
 
-					//What to do with Window hits?
-					if (hitInfo.transform.gameObject.layer == windowsLayer)
+					//What to do with Tile hits?
+					if (distanceToTarget > 4.5f)
 					{
-						if (distanceToTarget > 4.5f)
-						{
-							//Don't bother, the target is too far away to warrant a decision to break down a window
-							return false;
-						}
-						var tileMapDmg = hitInfo.transform.GetComponent<TilemapDamage>();
-						if (tileMapDmg != null)
-						{
-
-							AttackTile(dir, tileMapDmg);
-							return true;
-						}
+						//Don't bother, the target is too far away to warrant a decision to break a tile
+						return false;
 					}
+					AttackTile(hitInfo.point.RoundToInt(), dir);
+					return true;
 				}
 			}
 		}
@@ -167,17 +157,16 @@ public class MobMeleeAttack : MobFollow
 
 	private void AttackFlesh(Vector2 dir, LivingHealthBehaviour healthBehaviour)
 	{
-		healthBehaviour.ApplyDamage(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget);
+		healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget.Randomize());
 		Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
 		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 		ServerDoLerpAnimation(dir);
 	}
 
-	private void AttackTile(Vector2 dir, TilemapDamage tileMapDamage)
+	private void AttackTile( Vector3Int worldPos, Vector2 dir )
 	{
-		var dmgPosition = (Vector2) transform.position + dir;
-		tileMapDamage.DoMeleeDamage(dmgPosition, gameObject, hitDamage * 2);
-		SoundManager.PlayNetworkedAtPos("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
+		var matrix = MatrixManager.AtPoint( worldPos, true );
+		matrix.MetaTileMap.ApplyDamage( MatrixManager.WorldToLocalInt( worldPos, matrix ), hitDamage*2, worldPos );
 		ServerDoLerpAnimation(dir);
 	}
 

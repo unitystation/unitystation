@@ -13,6 +13,10 @@ public enum SpriteHandType
 [RequireComponent(typeof(SpriteRenderer))]
 public class ClothingItem : MonoBehaviour
 {
+
+	[Tooltip("Slot this clothing item is equipped to.")]
+	public NamedSlot Slot;
+
 	/// <summary>
 	/// Absolute orientation
 	/// </summary>

@@ -71,6 +71,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 		//release the player
 		if (isOccupied)
 		{
+			//fixme: InvalidOperationException - Sequence contains no matching element
 			var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
 				?.First(pm => pm.IsBuckled);
 			playerMoveAtPosition.Unbuckle();

@@ -27,6 +27,8 @@ public struct PlayerState
 	public int MoveNumber;
 	public Vector3 Position;
 
+	[NonSerialized] public Vector3 LastNonHiddenPosition;
+
 	public Vector3 WorldPosition
 	{
 		get
@@ -47,6 +49,7 @@ public struct PlayerState
 			else
 			{
 				Position = MatrixManager.WorldToLocal(value, MatrixManager.Get(MatrixId));
+				LastNonHiddenPosition = value;
 			}
 		}
 	}
@@ -85,6 +88,11 @@ public struct PlayerState
 
 public partial class PlayerSync : NetworkBehaviour, IPushable
 {
+	public bool VisibleState {
+		get => ServerPosition != TransformState.HiddenPos;
+		set => SetVisibleServer( value );
+	}
+
 	/// <summary>
 	/// Player is huge, okay?
 	/// </summary>
@@ -93,7 +101,22 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	public bool IsTileSnap { get; } = true;
 
 	///For server code. Contains position
-	public PlayerState ServerState => serverState;
+	public PlayerState ServerState
+	{
+		get => serverState;
+		private set
+		{
+			if ( serverState.LastNonHiddenPosition == Vector3.zero )
+			{
+				serverState = value;
+			} else
+			{
+				var preservedPos = serverState.LastNonHiddenPosition;
+				serverState = value;
+				serverState.LastNonHiddenPosition = preservedPos;
+			}
+		}
+	}
 
 	/// For client code
 	public PlayerState ClientState => playerState;
@@ -322,7 +345,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	public void DisappearFromWorldServer()
 	{
 		OnPullInterrupt().Invoke();
-		serverState = PlayerState.HiddenState;
+		ServerState = PlayerState.HiddenState;
 		serverLerpState = PlayerState.HiddenState;
 		NotifyPlayers(true);
 	}
@@ -383,7 +406,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2) serverState.WorldPosition,
 				toWorldPosition.To2Int());
 			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition, true);
-			serverState = nextStateServer;
+			ServerState = nextStateServer;
 			if (pushPull != null && pushPull.IsBeingPulled && !pushPull.PulledBy == swapper)
 			{
 				pushPull.StopFollowing();
@@ -523,10 +546,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 			if (server)
 			{
-				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
-				{
-					SpawnHandler.SpawnDummyPlayer(JobType.ASSISTANT);
-				}
+				//TODO: Not currently allowing dummy spawning
+//				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
+//				{
+//					PlayerSpawnHandler.SpawnDummyPlayer(OccupationList.Instance.Get(JobType.ASSISTANT));
+//				}
 
 				if (serverState.Position != serverLerpState.Position)
 				{

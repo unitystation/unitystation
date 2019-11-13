@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Pickupable))]
-public class StunBaton : NetworkBehaviour, IInteractable<HandActivate>
+public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 {
 	public SpriteRenderer spriteRenderer;
 
@@ -31,6 +32,13 @@ public class StunBaton : NetworkBehaviour, IInteractable<HandActivate>
 
 	public bool isActive => active;
 
+	private Pickupable pickupable;
+
+	private void Awake()
+	{
+		pickupable = GetComponent<Pickupable>();
+	}
+
 	public void ToggleState()
 	{
 		UpdateState(!active);
@@ -54,19 +62,17 @@ public class StunBaton : NetworkBehaviour, IInteractable<HandActivate>
 			spriteRenderer.sprite = spriteInactive;
 		}
 
-		if (UIManager.Hands.CurrentSlot != null)
-		{
-			// UIManager doesn't update held item sprites automatically
-			if (UIManager.Hands.CurrentSlot.Item == gameObject)
-			{
-				UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
-			}
-		}
+		Inventory.RefreshUISlotImage(gameObject);
 	}
 
 	public void ClientPredictInteraction(HandActivate interaction)
 	{
 		ToggleState();
+	}
+
+	public void ServerRollbackClient(HandActivate interaction)
+	{
+		UpdateState(active);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)

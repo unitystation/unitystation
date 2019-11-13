@@ -184,8 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: You try to figure out how this scrubber works, but can't seem to find the
     manual.
 --- !u!114 &114652242124060220
@@ -220,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114204863277031292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +278,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114799487989178146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,5 +293,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3276145813
+  m_AssetId: 9ca4c7dc5ead14284bed6b190276a62a
+  m_SceneId: 0

@@ -17,7 +17,7 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		PoolManager.PoolNetworkInstantiate(rackParts, gameObject.TileWorldPosition().To3Int(), transform.parent);
+		Spawn.ServerPrefab(rackParts, gameObject.TileWorldPosition().To3Int(), transform.parent);
 	}
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
@@ -43,13 +43,13 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 		}
 
 		// If the player is using a wrench on the rack, deconstruct it
-		if (Validations.IsTool(interaction.HandObject, ToolType.Wrench)
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)
 		    && !interaction.Performer.Player().Script.playerMove.IsHelpIntent)
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
-			PoolManager.PoolNetworkInstantiate(rackParts, interaction.WorldPositionTarget.RoundToInt(),
+			Spawn.ServerPrefab(rackParts, interaction.WorldPositionTarget.RoundToInt(),
 				interaction.TargetObject.transform.parent);
-			PoolManager.PoolNetworkDestroy(gameObject);
+			Despawn.ServerSingle(gameObject);
 
 			return;
 		}
@@ -57,6 +57,6 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 		// Like a table, but everything is neatly stacked.
 		Vector3 targetPosition = interaction.WorldPositionTarget.RoundToInt();
 		targetPosition.z = -0.2f;
-		pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
+		pna.CmdPlaceItem(interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), targetPosition, interaction.Performer, true);
 	}
 }

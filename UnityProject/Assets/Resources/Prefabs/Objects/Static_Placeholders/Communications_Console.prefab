@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -135,6 +136,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -179,6 +181,7 @@ GameObject:
   - component: {fileID: 114756124129542138}
   - component: {fileID: 6354374949080783350}
   - component: {fileID: 114302809726908850}
+  - component: {fileID: 8020537792279011488}
   m_Layer: 11
   m_Name: Communications_Console
   m_TagString: Untagged
@@ -334,8 +337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294d2b1b66f24ff8befbc4e71f48652f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &6121755517172193553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +396,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &6354374949080783350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +440,24 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1745813778
+  m_SceneId: 0
+--- !u!114 &8020537792279011488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832449994204696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 6151cf8fb4f9c4bf890b69fad47b155b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!1 &3145195423426570531
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +534,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

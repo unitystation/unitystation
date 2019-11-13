@@ -34,7 +34,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		tm.UpdateTile(Vector3Int.RoundToInt(cellPos), TileType.Floor, floorTile.FloorTileType );
 
-		Consume(tileToPlace);
+		Inventory.ServerDespawn(tileToPlace.GetComponent<Pickupable>().ItemSlot);
 		RpcPlayerSoundAtPos("Deconstruct", transform.position, false);
 	}
 

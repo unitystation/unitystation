@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -86,11 +88,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// future state that collects all changes
 	private MatrixState serverTargetState = MatrixState.Invalid;
 
+	private Coroutine floatingSyncHandle;
+
 	public bool SafetyProtocolsOn { get; set; } = true;
 	public bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool isRotatingServer => ClientNeedsRotation; //todo: calculate rotation time on server instead
 	private bool isAutopilotEngaged => Target != TransformState.HiddenPos;
+
+	private List<ShipThruster> thrusters = new List<ShipThruster>();
 
 	//client-only values
 	public MatrixState ClientState => clientState;
@@ -123,6 +129,9 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 
 	//editor (global) values
+	public UnityEvent OnClientStart = new UnityEvent();
+	public UnityEvent OnClientStop = new UnityEvent();
+	public UnityEvent OnClientFullStop = new UnityEvent();
 	public UnityEvent OnStart = new UnityEvent();
 	public UnityEvent OnStop = new UnityEvent();
 
@@ -247,6 +256,16 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public override void OnStartServer()
 	{
 		InitServerState();
+
+		OnStart.AddListener( () =>
+		{
+			if ( floatingSyncHandle == null )
+			{
+				this.StartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
+			}
+		} );
+		OnStop.AddListener( () => this.TryStopCoroutine( ref floatingSyncHandle ) );
+
 		base.OnStartServer();
 		NotifyPlayers();
 	}
@@ -293,6 +312,33 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		clientState = serverState;
 		clientTargetState = serverState;
+
+		thrusters = GetComponentsInChildren<ShipThruster>(true).ToList();
+		if ( thrusters.Count > 0 )
+		{
+			Logger.LogFormat( "{0}: Initializing {1} thrusters!", Category.Transform, MatrixInfo.Matrix.name, thrusters.Count );
+			foreach ( var thruster in thrusters )
+			{
+				var integrity = thruster.GetComponent<Integrity>();
+				if ( integrity )
+				{
+					integrity.OnWillDestroyServer.AddListener( destructionInfo =>
+					{
+						if ( thrusters.Contains( thruster ) )
+						{
+							thrusters.Remove( thruster );
+						}
+
+						if ( thrusters.Count == 0 && isMovingServer )
+						{
+							Logger.LogFormat( "All thrusters were destroyed! Stopping {0} soon!", Category.Transform, MatrixInfo.Matrix.name );
+							StartCoroutine( StopWithDelay(1f) );
+						}
+					}	);
+				}
+			}
+		}
+
 		if (SensorPositions == null)
 		{
 			CollisionSensor[] sensors = GetComponentsInChildren<CollisionSensor>();
@@ -324,6 +370,25 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			RotationSensors = sensors.Select(sensor => sensor.gameObject).ToArray();
 		}
+
+		IEnumerator StopWithDelay( float delay )
+		{
+			SetSpeed( State.Speed / 2 );
+			yield return WaitFor.Seconds( delay );
+			Logger.LogFormat( "{0}: Stopping due to missing thrusters!", Category.Transform, MatrixInfo.Matrix.name );
+			StopMovement();
+		}
+	}
+
+	/// <summary>
+	/// Send current position of space floating player to clients every second in case their reproduction is wrong
+	/// </summary>
+	private IEnumerator FloatingAwarenessSync()
+	{
+		yield return WaitFor.Seconds(1);
+		serverState.Inform = true;
+		NotifyPlayers();
+		this.RestartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
 	}
 
 	///managed by UpdateManager
@@ -382,6 +447,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			Logger.LogTrace(gameObject.name + " started moving with speed " + serverTargetState.Speed, Category.Matrix);
 			serverTargetState.IsMoving = true;
+			OnStart.Invoke();
+
 			RequestNotify();
 		}
 	}
@@ -392,6 +459,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		Logger.LogTrace(gameObject.name+ " stopped movement", Category.Matrix);
 		serverTargetState.IsMoving = false;
+		OnStop.Invoke();
 
 		//To stop autopilot
 		DisableAutopilotTarget();
@@ -548,7 +616,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (clientState.Position != transform.position)
 		{
 			float distance = Vector3.Distance(clientState.Position, transform.position);
-			bool shouldWarp = distance > 2 || ClientNeedsRotation;
 
 			//Teleport (Greater then 30 unity meters away from server target):
 			if (distance > 30f)
@@ -557,22 +624,25 @@ public class MatrixMove : ManagedNetworkBehaviour
 				return;
 			}
 
+			transform.position = Vector3.MoveTowards( transform.position, clientState.Position,
+				clientState.Speed * Time.deltaTime * Mathf.Clamp( distance, 1, distance ));
+
 			//If stopped then lerp to target (snap to grid)
-			if (!clientState.IsMoving && distance > 0f)
+			if (!clientState.IsMoving )
 			{
-				transform.position = Vector3.MoveTowards(transform.position, clientState.Position,
-					clientState.Speed * Time.deltaTime * (shouldWarp ? (distance * 2) : 1));
-				mPreviousPosition = transform.position;
-				mPreviousFilteredPosition = transform.position;
-				return;
+				if ( clientState.Position == transform.position )
+				{
+					OnClientFullStop.Invoke();
+				}
+				if ( distance > 0f )
+				{
+					mPreviousPosition = transform.position;
+					mPreviousFilteredPosition = transform.position;
+					return;
+				}
 			}
 
-			//FIXME: We need to use MoveTowards or some other lerp function as ClientState is like server waypoints and does not contain lerp positions
-			//FIXME: Currently shuttles teleport to each position received via server instead of lerping towards them
-			clampedPosition = clientState.Position;
-
-			// Activate warp speed if object gets too far away or have to rotate
-			//Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
+			clampedPosition = transform.position;
 		}
 	}
 
@@ -685,6 +755,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		Vector3Int intPos = Vector3Int.RoundToInt(pos);
 		serverState.Position = intPos;
 		serverTargetState.Position = intPos;
+		serverState.Inform = true;
 		if (notify)
 		{
 			NotifyPlayers();
@@ -726,12 +797,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		if (!oldState.IsMoving && newState.IsMoving)
 		{
-			OnStart.Invoke();
+			OnClientStart.Invoke();
 		}
 
 		if (oldState.IsMoving && !newState.IsMoving)
 		{
-			OnStop.Invoke();
+			OnClientStop.Invoke();
 		}
 
 		if ((int) oldState.Speed != (int) newState.Speed)
@@ -794,7 +865,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			serverState.RotationTime = rotTime;
 
-			MatrixMoveMessage.SendToAll(gameObject, serverState);
+			//fixme: this whole class behaves like ass!
+			if ( serverState.RotationTime != serverTargetState.RotationTime )
+			{ //Doesn't guarantee that matrix will stop
+				MatrixMoveMessage.SendToAll(gameObject, serverState);
+			} else
+			{ //Ends up in instant rotations
+				MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
+			}
 			//Clear inform flags
 			serverTargetState.Inform = false;
 			serverState.Inform = false;
@@ -938,6 +1016,17 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	private void OnDrawGizmos()
 	{
+		if ( !Application.isPlaying )
+		{ //Showing matrix pivot if game is stopped
+			Gizmos.color = color1.WithAlpha( 0.6f );
+			Gizmos.DrawCube(transform.position, Vector3.one );
+			Gizmos.color = color1;
+			Gizmos.DrawWireCube(transform.position, Vector3.one );
+
+			DebugGizmoUtils.DrawArrow(transform.position, flyingDirection*2);
+			return;
+		}
+
 		//serverState
 		Gizmos.color = color1;
 		Vector3 serverPos = serverState.Position;

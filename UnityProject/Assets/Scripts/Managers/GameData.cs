@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using DatabaseAPI;
 using Lobby;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -13,10 +13,16 @@ public class GameData : MonoBehaviour
 
 	public bool testServer;
 	private RconManager rconManager;
-	public static RconManager RconManager
+
+	enum ValidationStatus
 	{
-		get { return Instance.rconManager; }
+		none,
+		success,
+		failed
 	}
+
+	//Token validation status:
+	private ValidationStatus validationStatus;
 
 	/// <summary>
 	///     Check to see if you are in the game or in the lobby
@@ -58,17 +64,70 @@ public class GameData : MonoBehaviour
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
-		LoadData();
+		CheckCommandLineArgs();
 	}
 
-	private void ApplicationWillResignActive()
+	private void CheckCommandLineArgs()
 	{
-		if (IsTestMode)
+		//Check for Hub Message
+		string serverIp = GetArgument("-server");
+		string port = GetArgument("-port");
+		string token = GetArgument("-refreshtoken");
+		string uid = GetArgument("-uid");
+
+		Debug.Log($"ServerIP: {serverIp} port: {port} token: {token} uid: {uid}");
+		//This is a hub message, attempt to login and connect to server
+		if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
 		{
-			return;
+			validationStatus = ValidationStatus.none;
+			StartCoroutine(ConnectToServerFromHub(serverIp, port, uid, token));
+		}
+	}
+
+	void TokenValidationSuccess(string msg)
+	{
+		validationStatus = ValidationStatus.success;
+	}
+
+	void TokenValidationFailed(string msg)
+	{
+		validationStatus = ValidationStatus.failed;
+	}
+
+	//Monitors hub connection steps:
+	IEnumerator ConnectToServerFromHub(string ip, string port, string uid, string token)
+	{
+		Logger.Log("Hub message found. Attempting to log in..", Category.Hub);
+
+		//Hide all default lobby ui's:
+		if(!IsInGame) LobbyManager.Instance.lobbyDialogue.HideAllPanels();
+
+		yield return WaitFor.EndOfFrame;
+
+		ServerData.TryTokenValidation(token, uid, TokenValidationSuccess, TokenValidationFailed);
+
+		while (validationStatus == ValidationStatus.none)
+		{
+			yield return WaitFor.EndOfFrame;
 		}
 
-		SaveData();
+		if (validationStatus == ValidationStatus.failed)
+		{
+			//TODO: Show login screen
+			Logger.Log("Login failed, token or uid is invalid.", Category.Hub);
+			yield break;
+		}
+
+		Logger.Log("Token validated. User successfully authenticated", Category.Hub);
+
+		ushort p = 0;
+		ushort.TryParse(port, out p);
+
+		//Connect to server:
+		CustomNetworkManager.Instance.networkAddress = ip;
+		CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port = p;
+		CustomNetworkManager.Instance.StartClient();
+
 	}
 
 	private void OnEnable()
@@ -90,17 +149,6 @@ public class GameData : MonoBehaviour
 		}
 
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-		SaveData();
-	}
-
-	private void OnApplicationQuit()
-	{
-		if (IsTestMode)
-		{
-			return;
-		}
-
-		SaveData();
 	}
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -124,10 +172,12 @@ public class GameData : MonoBehaviour
 			{
 				IsHeadlessServer = true;
 			}
+
 			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
 			{
 				GameManager.Instance.ResetRoundTime();
 			}
+
 			return;
 		}
 
@@ -136,7 +186,8 @@ public class GameData : MonoBehaviour
 		{
 			float calcFrameRate = 1f / Time.deltaTime;
 			Application.targetFrameRate = (int) calcFrameRate;
-			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}", Category.Server);
+			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+				Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
 
@@ -155,48 +206,26 @@ public class GameData : MonoBehaviour
 		CustomNetworkManager.Instance.StartHost();
 	}
 
-	private void LoadData()
-	{
-		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
-		if (File.Exists(Application.persistentDataPath + "/genData01.dat"))
-		{
-			BinaryFormatter bf = new BinaryFormatter();
-			//TODO: Change folder to a streaming path
-			FileStream file = File.Open(Application.persistentDataPath + "/genData01.dat", FileMode.Open);
-			UserData data = (UserData) bf.Deserialize(file);
-			//DO SOMETHNG WITH THE VALUES HERE, I.E STORE THEM IN A CACHE IN THIS CLASS
-			//TODO: LOAD SOME STUFF
-
-			//TODO: Load RCON config file for server
-
-			file.Close();
-		}
-	}
-
-	private void SaveData()
-	{
-		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + "/genData01.dat");
-		UserData data = new UserData();
-		/// PUT YOUR MEMBER VALUES HERE, ADD THE PROPERTY TO USERDATA CLASS AND THIS WILL SAVE IT
-
-		//TODO: SAVE SOME STUFF
-		bf.Serialize(file, data);
-		file.Close();
-	}
-
 	private void SetPlayerPreferences()
 	{
 		//Ambient Volume
 		if (PlayerPrefs.HasKey("AmbientVol"))
 		{
-			SoundManager.Instance.ambientTrack.volume =	PlayerPrefs.GetFloat("AmbientVol");
+			SoundManager.Instance.ambientTrack.volume = PlayerPrefs.GetFloat("AmbientVol");
 		}
 	}
-}
 
-[Serializable]
-internal class UserData
-{
-	//TODO: add your members here
+	private string GetArgument(string name)
+	{
+		string[] args = Environment.GetCommandLineArgs();
+		for (int i = 0; i < args.Length; i++)
+		{
+			if (args[i].Contains(name))
+			{
+				return args[i + 1];
+			}
+		}
+
+		return null;
+	}
 }

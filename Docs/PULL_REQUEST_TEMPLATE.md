@@ -10,7 +10,8 @@ _Don't forget to use "Fixes #issuenumber" to select issues and auto close them o
 - [ ]  This PR does not include any unnecessary .meta, .prefab or .unity (scene) changes
 - [ ]  This PR does not bring up any new compile errors
 - [ ]  This PR has been tested in editor
-- [ ]  Any new / changed components have been [tested using Respawn](https://github.com/unitystation/unitystation/wiki/Object-Lifecycle-Best-Practices)
+- [ ]  Any new / changed components have been [tested using Respawn](https://github.com/unitystation/unitystation/wiki/Proper-Spawning-and-Despawning-%28Object-Lifecycle%29)
+- [ ]  This PR has been tested with round restarts.
 - [ ]  This PR has been tested on moving / rotating / rotated-before-joining matrices (if applicable)
 - [ ]  This PR has been tested in multiplayer (with 2 clients and late joiners, if applicable)
 

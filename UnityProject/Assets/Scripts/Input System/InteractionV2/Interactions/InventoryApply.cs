@@ -9,8 +9,10 @@ using UnityEngine;
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {
-	private HandSlot handSlot;
-	private InventorySlot targetSlot;
+	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, null);
+
+	private ItemSlot handSlot;
+	private ItemSlot targetSlot;
 
 	/// <summary>
 	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand.
@@ -20,11 +22,11 @@ public class InventoryApply : TargetedInteraction
 	/// <summary>
 	/// slot of the hand that is being used to perform the apply.
 	/// </summary>
-	public HandSlot HandSlot => handSlot;
+	public ItemSlot HandSlot => handSlot;
 	/// <summary>
 	/// slot of object that the player is applying the used object to
 	/// </summary>
-	public InventorySlot TargetSlot => targetSlot;
+	public ItemSlot TargetSlot => targetSlot;
 
 	/// <summary>
 	///
@@ -33,8 +35,8 @@ public class InventoryApply : TargetedInteraction
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetSlot">object that the player applying the used object to</param>
 	/// <param name="handSlot">hand slot of handObject</param>
-	private InventoryApply(GameObject performer, GameObject handObject, InventorySlot targetSlot, HandSlot handSlot) :
-		base(performer, handObject, targetSlot.Item)
+	private InventoryApply(GameObject performer, GameObject handObject, ItemSlot targetSlot, ItemSlot handSlot) :
+		base(performer, handObject, targetSlot?.ItemObject)
 	{
 		this.handSlot = handSlot;
 		this.targetSlot = targetSlot;
@@ -45,10 +47,14 @@ public class InventoryApply : TargetedInteraction
 	/// </summary>
 	/// <param name="targetObjectSlot">slot of the object that the player is applying the active hand item to</param>
 	/// <returns></returns>
-	public static InventoryApply ByLocalPlayer(InventorySlot targetObjectSlot)
+	public static InventoryApply ByLocalPlayer(ItemSlot targetObjectSlot)
 	{
-		return new InventoryApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
-			targetObjectSlot, HandSlot.ForName(UIManager.Hands.CurrentSlot.equipSlot));
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return Invalid;
+		}
+		return new InventoryApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
+			targetObjectSlot, UIManager.Hands.CurrentSlot.ItemSlot);
 	}
 
 	/// <summary>
@@ -65,8 +71,8 @@ public class InventoryApply : TargetedInteraction
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 
-	public static InventoryApply ByClient(GameObject clientPlayer, InventorySlot targetObjectSlot,
-		GameObject handObject, HandSlot handSlot)
+	public static InventoryApply ByClient(GameObject clientPlayer, ItemSlot targetObjectSlot,
+		GameObject handObject, ItemSlot handSlot)
 	{
 		return new InventoryApply(clientPlayer, handObject, targetObjectSlot, handSlot);
 	}

@@ -88,7 +88,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: A Cappuccino in an edible mug
   itemDescription: 
-  itemType: 14
+  initialTraits: []
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114880268731048502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,9 +198,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114489376111717858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +257,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114217141058855336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,8 +290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2457198709
+  m_AssetId: d4b80359e4f4b40868cfc0bd10b94ae1
+  m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

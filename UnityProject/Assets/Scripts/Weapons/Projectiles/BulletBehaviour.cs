@@ -151,7 +151,7 @@ public class BulletBehaviour : MonoBehaviour
 		GetComponent<BulletHitTrigger>()?.BulletHitInteract(coll.gameObject);
 
 			var aim = isSuicide ? bodyAim : bodyAim.Randomize();
-			livingHealth.ApplyDamage(shooter, damage, attackType, damageType, aim);
+			livingHealth.ApplyDamageToBodypart(shooter, damage, attackType, damageType, aim);
 			Chat.AddAttackMsgToChat(shooter, coll.gameObject, aim, weapon.gameObject);
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, livingHealth.gameObject.name, damage);
 		}
@@ -166,6 +166,6 @@ public class BulletBehaviour : MonoBehaviour
 			trailRenderer.ShotDone();
 		}
 		rigidBody.velocity = Vector2.zero;
-		PoolManager.PoolClientDestroy(gameObject);
+		Despawn.ClientSingle(gameObject);
 	}
 }

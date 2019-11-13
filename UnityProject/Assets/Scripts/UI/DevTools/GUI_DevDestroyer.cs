@@ -45,7 +45,7 @@ public class GUI_DevDestroyer : MonoBehaviour
 			{
 				if (CustomNetworkManager.IsServer)
 				{
-					PoolManager.PoolNetworkDestroy(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
+					Despawn.ServerSingle(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
 				}
 				else
 				{

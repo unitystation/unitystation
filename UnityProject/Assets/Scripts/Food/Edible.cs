@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
@@ -15,37 +16,16 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 
 	public int healHungerAmount;
 
-	public override void OnStartServer()
+	private void Awake()
 	{
-		//If this wasn't spawned via ItemFactory (i.e via map editing) then add it to
-		//poolmanager so it can be safely destroyed
-		PoolPrefabTracker pT = GetComponent<PoolPrefabTracker>();
-		if (pT == null)
-		{
-			StartCoroutine(WaitForServerLoad());
-		}
-		base.OnStartServer();
-	}
-
-	private IEnumerator WaitForServerLoad()
-	{
-		//Checking directly in while loop crashes unity
-		PoolManager pI = PoolManager.Instance;
-		while (pI == null)
-		{
-			yield return WaitFor.Seconds(0.1f);
-			pI = PoolManager.Instance;
-		}
-		yield return WaitFor.EndOfFrame;
-
-		PoolManager.PoolCacheObject(gameObject);
+		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.Food);
 	}
 
 	public virtual void TryEat()
 	{
 		//FIXME: PNA Cmd is being used to heal the player instead of heal hunger for the TDM
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdEatFood(gameObject,
-            UIManager.Hands.CurrentSlot.equipSlot, isDrink);
+            UIManager.Hands.CurrentSlot.NamedSlot, isDrink);
 	}
 
 	/// <summary>
@@ -56,7 +36,7 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 		SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
 		if (leavings != null)
 		{
-			PoolManager.PoolNetworkInstantiate(leavings, transform.position, transform.parent);
+			Spawn.ServerPrefab(leavings, transform.position, transform.parent);
 		}
 
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();

@@ -29,14 +29,14 @@ public class CloningPod : NetworkBehaviour
 		SyncSprite(statusSync);
 	}
 
-	public void StartCloning(CloningRecord record)
+	public void ServerStartCloning(CloningRecord record)
 	{
 		statusSync = CloningPodStatus.Cloning;
 		statusString = "Cloning cycle in progress.";
-		StartCoroutine(ProcessCloning(record));
+		StartCoroutine(ServerProcessCloning(record));
 	}
 
-	private IEnumerator ProcessCloning(CloningRecord record)
+	private IEnumerator ServerProcessCloning(CloningRecord record)
 	{
 		yield return WaitFor.Seconds(10f);
 		statusString  = "Cloning process complete.";
@@ -46,7 +46,7 @@ public class CloningPod : NetworkBehaviour
 		}
 		if(record.mind.IsOnline(record.mind.GetCurrentMob()))
 		{
-			record.mind.ClonePlayer(gameObject, record.characterSettings);
+			PlayerSpawn.ServerClonePlayer(record.mind, transform.position.CutToInt());
 		}
 		statusSync = CloningPodStatus.Empty;
 	}

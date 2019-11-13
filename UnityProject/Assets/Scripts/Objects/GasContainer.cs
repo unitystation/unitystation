@@ -45,9 +45,10 @@ namespace Objects
 			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			node.GasMix += GasMix;
 			metaDataLayer.UpdateSystemsAt(position);
-			Chat.AddLocalMsgToChat($"{name} exploded!", gameObject.TileWorldPosition());
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject.TileWorldPosition());
 
-			ObjectFactory.SpawnMetal(2, tileWorldPosition.To2Int(), parent: transform.parent);
+			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
+				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 
 			ExplosionUtils.PlaySoundAndShake(tileWorldPosition, shakeIntensity, (int) shakeDistance);
 		}
@@ -97,11 +98,5 @@ namespace Objects
 		{
 			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
-
-		/// <summary>
-		/// Slots that should be checked for gas containers
-		/// </summary>
-		public static readonly EquipSlot[] GasSlots = 	{EquipSlot.leftHand, EquipSlot.rightHand, EquipSlot.storage01, EquipSlot.storage02,
-														EquipSlot.suitStorage, EquipSlot.back, EquipSlot.belt};
 	}
 }

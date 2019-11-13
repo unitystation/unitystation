@@ -45,7 +45,8 @@ public partial class PlayerSync
 	public Vector3Int TrustedLocalPosition => playerState.Position.RoundToInt();
 
 	/// Does client's transform pos match state pos? Ignores Z-axis. Unity's vectors might have 1E-05 of difference
-	private bool ClientPositionReady => Vector2.Distance(predictedState.Position, transform.localPosition) < 0.001f;
+	private bool ClientPositionReady => Vector2.Distance( predictedState.Position, transform.localPosition ) < 0.001f
+	                                    || playerState.WorldPosition == TransformState.HiddenPos;
 
 	private bool IsWeightlessClient
 	{
@@ -338,6 +339,15 @@ public partial class PlayerSync
 		OnUpdateRecieved().Invoke(newWorldPos);
 
 		playerState = newState;
+
+		if ( newWorldPos == TransformState.HiddenPos )
+		{
+			transform.position = newWorldPos;
+			transform.localPosition = newWorldPos;
+			ClearQueueClient();
+			blockClientMovement = false;
+			return;
+		}
 
 		//Direct transform.localPosition assignment in the same frame if NoLerp is true
 		if ( newState.NoLerp )

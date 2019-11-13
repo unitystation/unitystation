@@ -87,9 +87,9 @@ public class RequestInteractMessage : ClientMessage
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			//look up item in active hand slot
-			var clientPNA = SentByPlayer.Script.playerNetworkActions;
-			var usedSlot = HandSlot.ForName(clientPNA.activeHand);
-			var usedObject = clientPNA.Inventory[usedSlot.equipSlot].Item;
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
@@ -98,9 +98,9 @@ public class RequestInteractMessage : ClientMessage
 		}
 		else if (InteractionType == typeof(HandApply))
 		{
-			var clientPNA = SentByPlayer.Script.playerNetworkActions;
-			var usedSlot = HandSlot.ForName(clientPNA.activeHand);
-			var usedObject = clientPNA.Inventory[usedSlot.equipSlot].Item;
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
@@ -110,9 +110,9 @@ public class RequestInteractMessage : ClientMessage
 		}
 		else if (InteractionType == typeof(AimApply))
 		{
-			var clientPNA = SentByPlayer.Script.playerNetworkActions;
-			var usedSlot = HandSlot.ForName(clientPNA.activeHand);
-			var usedObject = clientPNA.Inventory[usedSlot.equipSlot].Item;
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 			yield return WaitFor(ProcessorObject);
 			var processorObj = NetworkObject;
 			var performerObj = SentByPlayer.GameObject;
@@ -135,10 +135,10 @@ public class RequestInteractMessage : ClientMessage
 			var processorObj = NetworkObject;
 			var performerObj = SentByPlayer.GameObject;
 			//look up item in active hand slot
-			var clientPNA = SentByPlayer.Script.playerNetworkActions;
-			var handSlot = HandSlot.ForName(clientPNA.activeHand);
-			var activatedObject = clientPNA.Inventory[handSlot.equipSlot].Item;
-			var interaction = HandActivate.ByClient(performer, activatedObject, handSlot);
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+			var interaction = HandActivate.ByClient(performer, usedObject, usedSlot);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(InventoryApply))
@@ -146,10 +146,10 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(ProcessorObject);
 			var processorObj = NetworkObject;
 			var performerObj = SentByPlayer.GameObject;
-			var pna = SentByPlayer.Script.playerNetworkActions;
-			var handSlot = HandSlot.ForName(pna.activeHand);
-			var handObject = pna.Inventory[handSlot.equipSlot].Item;
-			var interaction = InventoryApply.ByClient(performer, pna.GetInventorySlot(processorObj), handObject, handSlot);
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var handSlot = clientStorage.GetActiveHandSlot();
+			var handObject = clientStorage.GetActiveHandSlot().ItemObject;
+			var interaction = InventoryApply.ByClient(performer, processorObj.GetComponent<Pickupable>().ItemSlot, handObject, handSlot);
 			ProcessInteraction(interaction, processorObj);
 		}
 
@@ -199,8 +199,10 @@ public class RequestInteractMessage : ClientMessage
 		where T : Interaction
 	{
 		//never send anything for client-side-only interactions
-		if (interactableComponent is IClientInteractable<T>)
+		if (interactableComponent is IClientInteractable<T> && !(interactableComponent is IInteractable<T>))
 		{
+			Logger.LogWarningFormat("Interaction request {0} will not be sent because interactable component {1} is" +
+			                      " IClientInteractable only (client-side only).", Category.Interaction, interaction, interactableComponent);
 			return;
 		}
 		//if we are client and the interaction has client prediction, trigger it.

@@ -126,7 +126,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 
 		if (UIManager.Hands.CurrentSlot && UIManager.Hands.CurrentSlot.Item == gameObject)
 		{
-			UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
+			Inventory.RefreshUISlotImage(gameObject);
 		}
 	}
 

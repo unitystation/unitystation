@@ -144,14 +144,7 @@ public class GUI_ChemistryDispenser : NetTab {
 	public void EjectContainer(){
 		if (ChemistryDispenser.Container != null)
 		{
-			//unhiding malarkey
-			//Logger.Log ("Ejected");
-			Vector3Int pos = ChemistryDispenser.gameObject.WorldPosServer().RoundToInt();
-			CustomNetTransform netTransform = ChemistryDispenser.objectse.GetComponent<CustomNetTransform>();
-			netTransform.AppearAtPosition(pos);
-			netTransform.AppearAtPositionServer(pos);
-			ChemistryDispenser.Container = null;
-			ChemistryDispenser.objectse = null;
+			ChemistryDispenser.EjectContainer();
 		}
 		Updateall ();
 	}

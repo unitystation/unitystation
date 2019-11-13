@@ -32,8 +32,8 @@ public class SecurityRecordsManager : MonoBehaviour
 
 		record.EntryName = script.playerName;
 		record.Age = script.characterSettings.Age.ToString();
-		record.Rank = script.mind.jobType.JobString();
-		record.jobOutfit = GameManager.Instance.GetOccupationOutfit(jobType);
+		record.Rank = script.mind.occupation.JobType.JobString();
+		record.Occupation = OccupationList.Instance.Get(jobType);
 		record.Sex = script.characterSettings.Gender.ToString();
 		//We don't have races yet. Or I didn't find them.
 		record.Species = "Human";

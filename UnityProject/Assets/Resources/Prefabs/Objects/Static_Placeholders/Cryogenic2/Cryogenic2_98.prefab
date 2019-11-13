@@ -104,8 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: No one is in the sleeper.. so the results is quite... empty...
 --- !u!114 &114215485290820220
 MonoBehaviour:
@@ -139,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114821566562252132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +197,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114820595845249396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,8 +212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 408928825
+  m_AssetId: 675bc7b09d0b644c2a18ae140b4003a6
+  m_SceneId: 0
 --- !u!1 &1783734983500956
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,21 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
+[RequireComponent(typeof(ItemStorage))]
 public class CommsConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public IDEvent IdEvent = new IDEvent();
+	/// <summary>
+	/// Fired on server side when ID card is inserted or removed. Provides the new status of id card (null if removed)
+	/// </summary>
+	[FormerlySerializedAs("IdEvent")] public IDEvent OnServerIDCardChanged = new IDEvent();
 
-	private IDCard idCard;
-	public IDCard IdCard
+	private ItemStorage itemStorage;
+	private ItemSlot itemSlot;
+
+	public IDCard IdCard => itemSlot.Item != null ? itemSlot.Item.GetComponent<IDCard>() : null;
+
+	private void Awake()
 	{
-		get => idCard;
-		set
-		{
-			idCard = value;
-			IdEvent.Invoke( idCard );
-		}
+		//we can just store a single card.
+		itemStorage = GetComponent<ItemStorage>();
+		itemSlot = itemStorage.GetIndexedItemSlot(0);
+		itemSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);
+	}
+
+	private void OnServerSlotContentsChange()
+	{
+		//propagate the ID change to listeners
+		OnServerIDCardChanged.Invoke(IdCard);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -27,46 +41,29 @@ public class CommsConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (!Validations.HasComponent<IDCard>(interaction.HandObject))
 			return false;
 
+		if (!Validations.CanFit(itemSlot, interaction.HandObject, side, true))
+			return false;
+
 		return true;
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		//Put ID card inside
-		var handIDCard = interaction.HandObject.GetComponent<IDCard>();
-		if(handIDCard)
+		//Eject existing id card if there is one and put new one in
+		if (itemSlot.Item != null)
 		{
-			InsertID(handIDCard);
+			ServerRemoveIDCard();
 		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		InventoryManager.ClearInvSlot(slot);
-	}
 
-	/// <summary>
-	/// Insert some ID into console and update login details.
-	/// Will spit out currently inserted ID card.
-	/// </summary>
-	///<param name="cardToInsert">Card you want to insert</param>
-	private void InsertID(IDCard cardToInsert)
-	{
-		if (IdCard)
-		{
-			RemoveID();
-		}
-		IdCard = cardToInsert;
+		Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 	}
 
 	/// <summary>
 	/// Spits out ID card from console and updates login details.
 	/// </summary>
-	public void RemoveID()
+	public void ServerRemoveIDCard()
 	{
-		ObjectBehaviour objBeh = IdCard.GetComponentInChildren<ObjectBehaviour>();
-		Vector3Int pos = gameObject.RegisterTile().WorldPosition;
-		CustomNetTransform netTransform = objBeh.GetComponent<CustomNetTransform>();
-		netTransform.AppearAtPosition(pos);
-		netTransform.AppearAtPositionServer(pos);
-		IdCard = null;
+		Inventory.ServerDrop(itemSlot);
 	}
 }
 public class IDEvent : UnityEvent<IDCard> { }

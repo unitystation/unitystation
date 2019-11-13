@@ -19,7 +19,7 @@ echo $project_dir
 cp -r $script_dir/config $project_dir/Assets/StreamingAssets/config
 
 echo "Attempting build of UnityStation Server"
-/opt/2018.3.14f1/Editor/Unity \
+/opt/2019.2.11f1/Editor/Unity \
 	-batchmode \
 	-nographics \
 	-silent-crashes \

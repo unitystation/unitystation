@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &525738165772301342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,8 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   VendorContent:
   - Item: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
     Stock: 5
@@ -223,6 +222,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114407379193247608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,8 +237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2471455288
+  m_AssetId: 8415a5df4c61423dacd6b94592fd8e72
+  m_SceneId: 0
 --- !u!1 &1000013897877296
 GameObject:
   m_ObjectHideFlags: 0

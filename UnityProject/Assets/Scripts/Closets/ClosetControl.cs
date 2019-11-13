@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
@@ -28,8 +29,20 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private RegisterCloset registerTile;
 	private PushPull pushPull;
+
+	public PushPull PushPull
+	{
+		get
+		{
+			if ( pushPull == null )
+			{
+				Logger.LogErrorFormat( "Closet {0} has no PushPull component! All contained items will appear at HiddenPos!", Category.Transform, gameObject.ExpensiveName() );
+			}
+
+			return pushPull;
+		}
+	}
 	private Matrix matrix => registerTile.Matrix;
-	private ObjectBehaviour objectBehaviour;
 
 	[SyncVar(hook = nameof(SyncStatus))] public ClosetStatus statusSync;
 
@@ -42,7 +55,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 	}
 
@@ -54,7 +66,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 		if (metalDroppedOnDestroy > 0)
 		{
-			ObjectFactory.SpawnMetal(metalDroppedOnDestroy, gameObject.TileWorldPosition(), parent: transform.parent);
+			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: metalDroppedOnDestroy,
+				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
 	}
 
@@ -63,7 +76,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		StartCoroutine(WaitForServerReg());
 		foreach (GameObject itemPrefab in DefaultContents)
 		{
-			PoolManager.PoolNetworkInstantiate(itemPrefab, transform.position, parent: transform.parent);
+			Spawn.ServerPrefab(itemPrefab, transform.position, parent: transform.parent);
 		}
 	}
 
@@ -153,7 +166,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		if(IsClosed)
 		{
-			if(heldPlayers.Count > 0)
+			if(heldPlayers.Count > 0 && registerTile.closetType == ClosetType.SCANNER)
 			{
 				statusSync = ClosetStatus.ClosedWithOccupant;
 			}
@@ -245,9 +258,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		if (interaction.HandObject != null && !IsClosed)
 		{
 			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			targetPosition.z = -0.2f;
-			var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-			pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
+			Inventory.ServerDrop(interaction.HandSlot, targetPosition);
 		}
 		else if (!IsLocked)
 		{
@@ -277,10 +288,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			//avoids blinking of premapped items when opening first time in another place:
 			Vector3Int pos = registerTile.WorldPositionServer;
 			netTransform.AppearAtPosition(pos);
-			if (pushPull && pushPull.Pushable.IsMovingServer)
+			if (PushPull && PushPull.Pushable.IsMovingServer)
 			{
-				netTransform.InertiaDrop(pos, pushPull.Pushable.SpeedServer,
-					pushPull.InheritedImpulse.To2Int());
+				netTransform.InertiaDrop(pos, PushPull.Pushable.SpeedServer,
+					PushPull.InheritedImpulse.To2Int());
 			}
 			else
 			{
@@ -293,12 +304,20 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		heldItems = Enumerable.Empty<ObjectBehaviour>();
 	}
 
+	public void AddItem(ObjectBehaviour toAdd)
+	{
+		if (toAdd == null) return;
+		heldItems = heldItems.Concat(new [] {toAdd});
+		toAdd.parentContainer = pushPull;
+		toAdd.VisibleState = false;
+	}
+
 	private void CloseItemHandling()
 	{
 		heldItems = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
 		foreach (ObjectBehaviour item in heldItems)
 		{
-			item.parentContainer = objectBehaviour;
+			item.parentContainer = PushPull;
 			item.VisibleState = false;
 		}
 	}
@@ -308,14 +327,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		foreach (ObjectBehaviour player in heldPlayers)
 		{
 			player.VisibleState = true;
-			if (pushPull && pushPull.Pushable.IsMovingServer)
+			if (PushPull && PushPull.Pushable.IsMovingServer)
 			{
-				player.TryPush(pushPull.InheritedImpulse.To2Int(),pushPull.Pushable.SpeedServer);
+				player.TryPush(PushPull.InheritedImpulse.To2Int(),PushPull.Pushable.SpeedServer);
 			}
 			player.parentContainer = null;
 
 			//Stop tracking closet
-			ClosetHandlerMessage.Send(player.gameObject, null);
+			FollowCameraMessage.Send(player.gameObject, null);
 		}
 		heldPlayers = new List<ObjectBehaviour>();
 	}
@@ -341,12 +360,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		var playerScript = player.GetComponent<PlayerScript>();
 
 		player.VisibleState = false;
-		player.parentContainer = objectBehaviour;
+		player.parentContainer = PushPull;
 
 		//Start tracking closet
 		if (!playerScript.IsGhost)
 		{
-			ClosetHandlerMessage.Send(player.gameObject, gameObject);
+			FollowCameraMessage.Send(player.gameObject, gameObject);
 		}
 	}
 

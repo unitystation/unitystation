@@ -97,8 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: Atmospheric status Nominal
 --- !u!114 &114757767275401014
 MonoBehaviour:
@@ -155,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114477462743865550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +200,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114229560136497920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,8 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1026541595
+  m_AssetId: 56c6161e9e0a4ac08ff26848e7c65019
+  m_SceneId: 0
 --- !u!1 &1000012059094926
 GameObject:
   m_ObjectHideFlags: 0

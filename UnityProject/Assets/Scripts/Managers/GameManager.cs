@@ -13,7 +13,6 @@ public partial class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 	public bool counting;
-	public List<GameObject> Occupations = new List<GameObject>();
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
@@ -38,7 +37,6 @@ public partial class GameManager : MonoBehaviour
 
 	public Text roundTimer;
 
-	public GameObject StandardOutfit;
 	public bool waitForStart;
 	public bool waitForRestart;
 
@@ -158,6 +156,8 @@ public partial class GameManager : MonoBehaviour
 
 	public void SyncTime(string currentTime)
 	{
+		if (string.IsNullOrEmpty(currentTime)) return;
+
 		if (!CustomNetworkManager.Instance._isServer)
 		{
 			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
@@ -226,10 +226,39 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
+
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
+
+		//wait for scene to be ready and fire mapped spawn hooks
+		StartCoroutine(WaitToFireHooks());
 	}
+
+	private IEnumerator WaitToFireHooks()
+	{
+		//we have to wait to fire hooks until the root objects in the scene are active,
+		//otherwise our attempt to find the hooks to call will always return 0.
+		//TODO: Find a better way to do this, maybe there is a hook for this
+		while (FindUtils.FindInterfaceImplementersInScene<IServerSpawn>().Count == 0)
+		{
+			yield return WaitFor.Seconds(1);
+		}
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			//invoke all server + client side hooks on all objects that have them
+			foreach (var serverSpawn in FindUtils.FindInterfaceImplementersInScene<IServerSpawn>())
+			{
+				serverSpawn.OnSpawnServer(SpawnInfo.Mapped(((Component)serverSpawn).gameObject));
+			}
+			Spawn._CallAllClientSpawnHooksInScene();
+		}
+		else
+		{
+			Spawn._CallAllClientSpawnHooksInScene();
+		}
+	}
+
 
 	/// <summary>
 	/// Setup the station and then begin the round for the selected game mode
@@ -359,59 +388,32 @@ public partial class GameManager : MonoBehaviour
 
 	public int GetOccupationMaxCount(JobType jobType)
 	{
-		GameObject jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
-		OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-		return job.limit;
-	}
-
-	public JobOutfit GetOccupationOutfit(JobType jobType)
-	{
-		return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType)
-			.GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
+		return OccupationList.Instance.Get(jobType).Limit;
 	}
 
 	// Attempts to request job else assigns random occupation in order of priority
-	public JobType GetRandomFreeOccupation(JobType jobTypeRequest)
+	public Occupation GetRandomFreeOccupation(JobType jobTypeRequest)
 	{
 		// Try to assign specific job
 		if (jobTypeRequest != JobType.NULL)
 		{
-			foreach (GameObject jobObject in Occupations.Where(o =>
-					o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
+			var occupation = OccupationList.Instance.Get(jobTypeRequest);
+			if (occupation.Limit > GetOccupationsCount(occupation.JobType) || occupation.Limit == -1)
 			{
-				OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-				if (job.limit != -1)
-				{
-					if (job.limit > GetOccupationsCount(job.Type))
-					{
-						return job.Type;
-					}
-				}
-				if (job.limit == -1)
-				{
-					return job.Type;
-				}
+				return occupation;
 			}
 		}
 
 		// No job found, get random via priority
-		foreach (GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+		foreach (Occupation occupation in OccupationList.Instance.Occupations.OrderBy(o => o.Priority))
 		{
-			OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-			if (job.limit != -1)
+			if (occupation.Limit == -1 || occupation.Limit > GetOccupationsCount(occupation.JobType))
 			{
-				if (job.limit > GetOccupationsCount(job.Type))
-				{
-					return job.Type;
-				}
-			}
-			if (job.limit == -1)
-			{
-				return job.Type;
+				return occupation;
 			}
 		}
 
-		return JobType.ASSISTANT;
+		return OccupationList.Instance.Get(JobType.ASSISTANT);
 	}
 
 	public void RestartRound()

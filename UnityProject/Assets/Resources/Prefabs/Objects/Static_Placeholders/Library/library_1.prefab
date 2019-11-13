@@ -184,8 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: You need to put a paper in first...
 --- !u!114 &114351494878950674
 MonoBehaviour:
@@ -219,6 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114797502105998804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +277,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114765052790037288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,5 +292,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3775525107
+  m_AssetId: 2bb5f063746e04c5db932418b39030dc
+  m_SceneId: 0

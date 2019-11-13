@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility = UnityEngine.Networking.Utility;
@@ -12,8 +13,9 @@ using Mirror;
 /// Monitors and calculates health
 /// </summary>
 [RequireComponent(typeof(HealthStateMonitor))]
-public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
+public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable
 {
+	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
 	private static readonly float DAMAGE_PER_FIRE_STACK = 1;
 	//volume and temp of hotspot exposed by this player when they are on fire
@@ -27,11 +29,18 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	public float maxHealth = 100;
 
+	public float Resistance { get; } = 50;
+
 	[Tooltip("For mobs that can breath in any atmos environment")]
 	public bool canBreathAnywhere = false;
 
 	public float OverallHealth { get; private set; } = 100;
 	public float cloningDamage;
+
+	/// <summary>
+	/// Serverside, used for gibbing bodies after certain amount of damage is received afer death
+	/// </summary>
+	private float afterDeathDamage = 0f;
 
 	// Systems can also be added via inspector
 	public BloodSystem bloodSystem;
@@ -52,9 +61,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	[Header("For harvestable animals")]
 	public GameObject[] butcherResults;
-
-	[Header("Is this an animal or NPC?")]
-	public bool isNotPlayer = false;
 
 	protected DamageType LastDamageType;
 
@@ -279,6 +285,37 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	}
 
 	/// <summary>
+	///  Apply Damage to the whole body of this Living thing. Server only
+	/// </summary>
+	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+	/// <param name="damage">Damage Amount. will be distributed evenly across all bodyparts</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
+	/// <param name="damageType">The Type of Damage</param>
+	[Server]
+	public void ApplyDamage( GameObject damagedBy, float damage,
+		AttackType attackType, DamageType damageType )
+	{
+		foreach ( var bodyPart in BodyParts )
+		{
+			ApplyDamageToBodypart( damagedBy, damage/BodyParts.Count, attackType, damageType, bodyPart.Type );
+		}
+	}
+
+	/// <summary>
+	///  Apply Damage to random bodypart of the Living thing. Server only
+	/// </summary>
+	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+	/// <param name="damage">Damage Amount</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
+	/// <param name="damageType">The Type of Damage</param>
+	[Server]
+	public void ApplyDamageToBodypart( GameObject damagedBy, float damage,
+		AttackType attackType, DamageType damageType )
+	{
+		ApplyDamageToBodypart( damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize( 0 ) );
+	}
+
+	/// <summary>
 	///  Apply Damage to the Living thing. Server only
 	/// </summary>
 	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
@@ -287,15 +324,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
-	public virtual void ApplyDamage(GameObject damagedBy, float damage,
-		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
+	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
+		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
+		if ( IsDead )
+		{
+			afterDeathDamage += damage;
+			if ( afterDeathDamage >= GIB_THRESHOLD )
+			{
+				Harvest();//Gib() instead when fancy gibs are in
+			}
+		}
+
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if(bodyPartBehaviour == null)
 		{
 			return;
 		}
 		//TODO: determine and apply armor protection
+
+		var prevHealth = OverallHealth;
 
 		applyDamageEvent?.Invoke(damagedBy);
 
@@ -312,7 +360,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		//For special effects spawning like blood:
 		DetermineDamageEffects(damageType);
 
-		var prevHealth = OverallHealth;
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
 	}
@@ -344,7 +391,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 
 	public void OnExposed(FireExposure exposure)
 	{
-		//TODO: Apply to limbs, not just chest
 		ApplyDamage(null, 1, AttackType.Fire, DamageType.Burn);
 	}
 
@@ -364,8 +410,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 				tick = 0f;
 				if (fireStacks > 0)
 				{
-					//TODO: Burn clothes / limbs (see species.dm handle_fire), currently it just burns the chest.
-					ApplyDamage(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
+					//TODO: Burn clothes (see species.dm handle_fire)
+					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
 					//gradually deplete fire stacks
 					SyncFireStacks(fireStacks-0.1f);
 					//instantly stop burning if there's no oxygen at this location
@@ -399,7 +445,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
+			EffectsFactory.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium, bloodColor);
 		}
 	}
 
@@ -482,6 +528,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		{
 			return;
 		}
+		afterDeathDamage = 0;
 		ConsciousState = ConsciousState.DEAD;
 		OnDeathActions();
 		bloodSystem.StopBleedingAll();
@@ -642,24 +689,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	{
 		foreach (GameObject harvestPrefab in butcherResults)
 		{
-			PoolManager.PoolNetworkInstantiate(harvestPrefab, transform.position, parent: transform.parent);
+			Spawn.ServerPrefab(harvestPrefab, transform.position, parent: transform.parent);
 		}
-		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium, bloodColor);
-		//Remove the NPC after all has been harvested
-		var cnt = GetComponent<CustomNetTransform>();
-		if (cnt != null)
-		{
-			cnt.DisappearFromWorldServer();
-		}
-		else
-		{
-			//Just incase player ever needs to be harvested for some reason
-			var playerSync = GetComponent<PlayerSync>();
-			if (playerSync != null)
-			{
-				playerSync.DisappearFromWorldServer();
-			}
-		}
+
+		Gib();
+	}
+
+	[Server]
+	protected virtual void Gib()
+	{
+		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+		//todo: actual gibs
+
+		//never destroy players!
+		Despawn.ServerSingle(gameObject);
 	}
 
 	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
@@ -692,6 +735,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 		}
 	}
 
+	private void OnDrawGizmos()
+	{
+		if ( !Application.isPlaying )
+		{
+			return;
+		}
+		Gizmos.color = Color.blue.WithAlpha( 0.5f );
+		Gizmos.DrawCube( registerTile.WorldPositionServer, Vector3.one );
+	}
 }
 
 /// <summary>

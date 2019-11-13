@@ -49,7 +49,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		if (resultDoc.Get("isClothing").Equals("0"))
 		{
-			prefab = PoolManager.GetPrefabByName(resultDoc.Get("name"));
+			prefab = Spawn.GetPrefabByName(resultDoc.Get("name"));
 			Sprite toUse = prefab.GetComponentInChildren<SpriteRenderer>()?.sprite;
 			if (toUse != null)
 			{
@@ -60,7 +60,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 		else
 		{
-			var newClothingData = ClothFactory.Instance.ClothingStoredData[resultDoc.Get("name")];
+			var newClothingData = Spawn.ClothingStoredData[resultDoc.Get("name")];
 			detailText.text = $"{newClothingData.name}";
 			clothingData = newClothingData;
 			image.sprite = newClothingData.Base.ItemIcon.Sprites[0];
@@ -143,11 +143,11 @@ public class DevSpawnerListItemController : MonoBehaviour
 		{
 			if (clothingData != null)
 			{
-				ClothFactory.CreateCloth(clothingData, position);
+				Spawn.ServerCloth(clothingData, position);
 			}
 			else
 			{
-				PoolManager.PoolNetworkInstantiate(prefab, position);
+				Spawn.ServerPrefab(prefab, position);
 			}
 
 		}

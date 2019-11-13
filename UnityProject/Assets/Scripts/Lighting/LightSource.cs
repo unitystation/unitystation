@@ -94,7 +94,10 @@ public class LightSource : ObjectTrigger
 		if (Renderer == null)
 		{
 			waitToCheckState = true;
-			StartCoroutine(WaitToTryAgain());
+			if ( this != null )
+			{
+				StartCoroutine(WaitToTryAgain());
+			}
 			return;
 		}
 		else
@@ -233,7 +236,8 @@ public class LightSource : ObjectTrigger
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		ObjectFactory.SpawnGlassShard(2, gameObject.TileWorldPosition(), parent: transform.parent);
+		Spawn.ServerPrefab("GlassShard", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
+			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 	}
 
 	void Update()

@@ -49,7 +49,7 @@ namespace Antagonists
 			// Pick a random target and add them to the targeted list
 			Target = playerPool.PickRandom().Script;
 			AntagManager.Instance.TargetedPlayers.Add(Target);
-			description = $"Assassinate {Target.playerName}, the {Target.mind.jobType.JobString()}";
+			description = $"Assassinate {Target.playerName}, the {Target.mind.occupation.DisplayName}";
 		}
 
 		protected override bool CheckCompletion()

@@ -13,10 +13,10 @@ public class UIManager : MonoBehaviour
 	public ControlAction actionControl;
 	public DragAndDrop dragAndDrop;
 	public ControlDisplays displayControl;
+	public ControlClothing controlClothing;
 	public DisplayManager displayManager;
 	public Hands hands;
 	public ControlIntent intentControl;
-	public InventorySlotCache inventorySlotCache;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
 	public AlertUI alertUI;
@@ -104,6 +104,7 @@ public class UIManager : MonoBehaviour
 	public static ControlWalkRun WalkRun => Instance.walkRunControl;
 
 	public static ControlDisplays Display => Instance.displayControl;
+	public static ControlClothing ControlClothing => Instance.controlClothing;
 
 	public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
 
@@ -120,8 +121,6 @@ public class UIManager : MonoBehaviour
 	{
 		set { Instance.pingDisplay.text = value; }
 	}
-
-	public static InventorySlotCache InventorySlots => Instance.inventorySlotCache;
 
 	/// <summary>
 	///     Current Intent status
@@ -196,41 +195,6 @@ public class UIManager : MonoBehaviour
 		GamePad.gameObject.SetActive(UseGamePad);
 	}
 
-	public static void CheckStorageHandlerOnMove(GameObject item)
-	{
-		if (item == null)
-		{
-			return;
-		}
-		var storageObj = item.GetComponent<StorageObject>();
-		if (storageObj == null)
-		{
-			return;
-		}
-		if (storageObj == StorageHandler.storageCache)
-		{
-			StorageHandler.CloseStorageUI();
-		}
-	}
-
-	public static bool CanPutItemToSlot(InventorySlot inventorySlot, GameObject item, PlayerScript playerScript)
-	{
-		if (item == null || inventorySlot.Item != null)
-		{
-			return false;
-		}
-		if (playerScript.canNotInteract())
-		{
-			return false;
-		}
-		var uiItemSlot = InventorySlotCache.GetSlotByEvent(inventorySlot.equipSlot);
-		if (!uiItemSlot.CheckItemFit(item))
-		{
-			return false;
-		}
-		return true;
-	}
-
 	/// <summary>
 	/// Gets the progress bar with the specified unique id. Creates it at the specified position if it doesn't
 	/// exist yet
@@ -266,7 +230,7 @@ public class UIManager : MonoBehaviour
 		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
 		//back to world so we can call PoolClientInstantiate
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
+		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
 		progressBar.ClientStartProgress(progressBarId);
@@ -291,7 +255,7 @@ public class UIManager : MonoBehaviour
 		{
 			Instance.progressBars.Remove(progressBarId);
 			//note: not using poolmanager since this has no object behavior
-			PoolManager.PoolClientDestroy(bar.gameObject);
+			Despawn.ClientSingle(bar.gameObject);
 		}
 	}
 
@@ -345,7 +309,7 @@ public class UIManager : MonoBehaviour
 
 		//back to world so we can call PoolClientInstantiate
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
+		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
 		progressBar.ServerStartProgress(progressAction, timeForCompletion, progressEndAction, player);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
@@ -372,6 +336,18 @@ public class UIManager : MonoBehaviour
 		foreach (var existingBar in existingBars)
 		{
 			existingBar.ServerInterruptProgress();
+		}
+	}
+
+	/// <summary>
+	/// Links the UI slots to the spawned local player. Should only be called after local player has been spawned / set
+	/// </summary>
+	public static void LinkUISlots()
+	{
+		//link the UI slots to this player
+		foreach (var uiSlot in Instance.GetComponentsInChildren<UI_ItemSlot>(true))
+		{
+			uiSlot.LinkToLocalPlayer();
 		}
 	}
 }

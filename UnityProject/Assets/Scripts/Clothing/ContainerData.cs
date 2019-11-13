@@ -8,40 +8,18 @@ using System;
 
 
 [CreateAssetMenu(fileName = "ContainerData", menuName = "ScriptableObjects/BackpackData", order = 1)]
-public class ContainerData : ScriptableObject
+public class ContainerData : BaseClothData
 {
-	public GameObject PrefabVariant;
+	public EquippedData Sprites;
+	public StorageObjectData StorageData;
 
-	public EquippedData Sprites;	public StorageObjectData StorageData;
-	public ItemAttributesData ItemAttributes;
-
-	public void Awake()
+	public override void  InitializePool()
 	{
-		InitializePool();
-	}
-
-	private void OnEnable()
-	{
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
-		InitializePool();
-	}
-
-
-	public void InitializePool()
-	{
-		var clothFactory = UnityEngine.Object.FindObjectOfType<ClothFactory>();
-		if (clothFactory != null)
+		if (Spawn.BackpackStoredData.ContainsKey(this.name) && Spawn.BackpackStoredData[this.name] != this)
 		{
-			if (clothFactory.BackpackStoredData.ContainsKey(this.name))
-			{
-				Logger.LogError("a ContainerData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
-			}
-			clothFactory.BackpackStoredData[this.name] = this;
+			Logger.LogError("a ContainerData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
 		}
+		Spawn.BackpackStoredData[this.name] = this;
 
 	}
 	public static void getContainerData(List<ContainerData> DataPCD)
@@ -53,7 +31,7 @@ public class ContainerData : ScriptableObject
 			DataPCD.Add(PCDObj);
 		}
 
-		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
 
 		//foreach (string dir in dirs)
 		//{

@@ -85,9 +85,14 @@ public struct Orientation
 	}
 
 	/// <summary>
-	/// Vector pointing in the same direction as the orientation.
+	/// Vector3 pointing in the same direction as the orientation.
 	/// </summary>
-	public Vector3 Vector => (Quaternion.Euler(0,0, Degrees) * Vector3Int.right).RoundToInt();
+	public Vector3 Vector => (Vector2)VectorInt;
+
+	/// <summary>
+	/// Vector2Int pointing in the same direction as the orientation.
+	/// </summary>
+	public Vector2Int VectorInt => (Quaternion.Euler(0,0, Degrees) * Vector3Int.right).To2Int();
 
 	/// <summary>
 	/// Return the orientation that would be reached by rotating clockwise 90 degrees the given number of turns

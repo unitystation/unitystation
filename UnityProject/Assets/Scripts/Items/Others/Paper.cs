@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Mirror;
 
 public class Paper : NetworkBehaviour
@@ -15,6 +16,13 @@ public class Paper : NetworkBehaviour
 	///</Summary>
 	public string PaperString { get; set; } = "";
 	public SpriteRenderer spriteRenderer;
+
+	private Pickupable pickupable;
+
+	private void Awake()
+	{
+		pickupable = GetComponent<Pickupable>();
+	}
 
 	[Server]
 	public void SetServerString(string msg)
@@ -52,20 +60,6 @@ public class Paper : NetworkBehaviour
 	{
 		spriteState = i;
 		spriteRenderer.sprite = spriteStates[i];
-
-		if (UIManager.Hands.CurrentSlot == null)
-		{
-			return;
-		}
-
-		if (UIManager.Hands.CurrentSlot.Item == gameObject)
-		{
-			UIManager.Hands.CurrentSlot.image.sprite = spriteStates[spriteState];
-		}
-
-		if (UIManager.Hands.OtherSlot.Item == gameObject)
-		{
-			UIManager.Hands.OtherSlot.image.sprite = spriteStates[spriteState];
-		}
+		pickupable.LocalUISlot?.RefreshImage();
 	}
 }

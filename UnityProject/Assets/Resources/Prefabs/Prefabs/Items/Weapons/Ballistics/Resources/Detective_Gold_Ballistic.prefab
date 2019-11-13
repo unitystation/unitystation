@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114767087319713958}
   - component: {fileID: 114132764856491264}
   - component: {fileID: 114792794626882886}
+  - component: {fileID: -4641284061545249848}
   m_Layer: 10
   m_Name: Detective_Gold_Ballistic
   m_TagString: Untagged
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114840681176295264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,11 +179,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Golden Revolver
   itemDescription: 
-  itemType: 0
+  initialTraits: []
   size: 0
   spriteType: 2
   CanConnectToTank: 0
@@ -207,7 +209,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114422233424066394
 MonoBehaviour:
@@ -242,9 +243,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2902009535563850575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +332,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114132764856491264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,8 +345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -370,5 +367,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1781727108
+  m_AssetId: f89dd1a3681f542849c3eb187dcb751f
+  m_SceneId: 0
+--- !u!114 &-4641284061545249848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946347799520078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: db8446be2958d46af9535e986cb7d8fb,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
+    type: 2}

@@ -13,12 +13,14 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	public RegisterTile registerTile;
 
 	/// <summary>
-	/// Setting this is identical to calling Appear/DisappearFromWorldServer
+	/// *** USE WITH CAUTION! ***
+	/// Setting it to true without parent container will make it appear at HiddenPos.
+	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
 	/// </summary>
 	public bool VisibleState
 	{
-		get => Pushable.ServerPosition != TransformState.HiddenPos;
-		set => Pushable.SetVisibleServer( value );
+		get => Pushable.VisibleState;
+		set => Pushable.VisibleState = value;
 	}
 
 	/// <summary>
@@ -42,7 +44,9 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	private PushPull _parentContainer = null;
 
 	/// <summary>
-	/// World position of highest object this object is contained in
+	/// World position of highest object this object is contained in,
+	/// works even if inside a pushpull or inside an ItemStorage, no matter
+	/// how many levels deep.
 	/// </summary>
 	/// <returns></returns>
 	public Vector3 AssumedWorldPositionServer()
@@ -56,7 +60,36 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		var pos = registerTile.WorldPositionServer;
 		if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
 		{
-			Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos, something might be wrong", Category.Transform, gameObject.name );
+			var pu = GetComponent<Pickupable>();
+			if (pu != null && pu.ItemSlot != null)
+			{
+				//we are in an itemstorage, so report our position
+				//based on our root item storage object.
+				var storage = pu.ItemSlot.GetRootStorage();
+				var pushPull = storage.GetComponent<PushPull>();
+				if (pushPull != null)
+				{
+					//our container has a pushpull, so use its assumed position
+					return pushPull.AssumedWorldPositionServer();
+				}
+				else
+				{
+					//our container doesn't have a push pull so use world position
+					pos = storage.gameObject.WorldPosServer().CutToInt();
+					if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+					{
+						Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name );
+					}
+
+					return pos;
+				}
+			}
+			//wasn't in an item storage, so use our last non hidden position
+			pos = Pushable.LastNonHiddenPosition;
+			if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+			{
+				Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name );
+			}
 		}
 		return pos;
 	}
@@ -92,10 +125,10 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		bool collided = false;
 		foreach ( var living in MatrixManager.GetAt<LivingHealthBehaviour>( collision.CollisionTile, true ) )
 		{
-			living.ApplyDamage( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			living.ApplyDamageToBodypart( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute );
 			collided = true;
 		}
-		foreach ( var tile in MatrixManager.GetDamagetableTilemapsAt( collision.CollisionTile ) )
+		foreach ( var tile in MatrixManager.GetDamageableTilemapsAt( collision.CollisionTile ) )
 		{
 			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
 			collided = true;
@@ -104,7 +137,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		if ( collided )
 		{
 			//Damage self as bad as the thing you collide with
-			GetComponent<LivingHealthBehaviour>()?.ApplyDamage( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodypart( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute );
 			Logger.LogFormat( "{0}: collided with something at {2}, both received {1} damage",
 				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile );
 		}

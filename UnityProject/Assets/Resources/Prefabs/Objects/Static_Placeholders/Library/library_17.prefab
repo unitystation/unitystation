@@ -104,8 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: Seems like we-re short on books....
 --- !u!114 &114648981082683144
 MonoBehaviour:
@@ -139,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114775432733148844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +197,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114828171744822874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,8 +212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 4141028895
+  m_AssetId: 262061330351f42c88cd0ac8729f38c2
+  m_SceneId: 0
 --- !u!1 &1761031683560858
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,12 +9,15 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
+/// <summary>
+/// Various attributes associated with a particular item.
+/// </summary>
 [RequireComponent(typeof(SpriteDataHandler))]
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class ItemAttributes : NetworkBehaviour, IRightClickable
+public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 {
 	/// <summary>
 	/// Remember in hands is Left then right so [0] = Left, [1] = right
@@ -24,13 +27,24 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 	public SpriteHandler InventoryIcon;
 
+
 	[SyncVar(hook = nameof(SyncItemName))]
 	public string itemName;
+
+	[SyncVar(hook = nameof(SyncItemDescription))]
 	public string itemDescription;
 
-	public ItemType itemType = ItemType.None;
+	[SerializeField]
+	[FormerlySerializedAs("InitialTraits")] [Tooltip("Traits of this item.")]
+	private List<ItemTrait> initialTraits;
+
 	public ItemSize size;
 	public SpriteType spriteType;
+
+	/// <summary>
+	/// Actual current traits, accounting for dynamic add / remove.
+	/// </summary>
+	private HashSet<ItemTrait> traits = new HashSet<ItemTrait>();
 
 	/// <summary>
 	/// True if this is a mask that can connect to a tank
@@ -67,29 +81,45 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		SyncItemName(newName);
 	}
 
+	public void SetItemDescription(string newDescription)
+	{
+		SyncItemDescription(newDescription);
+	}
+
 	private void SyncItemName(string newName)
 	{
 		itemName = newName;
 	}
 
+	private void SyncItemDescription(string newDescription)
+	{
+		itemDescription = newDescription;
+	}
+
 	public override void OnStartClient()
 	{
 		SyncItemName(itemName);
+		SyncItemDescription(itemDescription);
 		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
 		SyncItemName(itemName);
+		SyncItemDescription(itemDescription);
 		base.OnStartServer();
 	}
 
 	private void Awake()
 	{
+		foreach (var definedTrait in initialTraits)
+		{
+			traits.Add(definedTrait);
+		}
 		SyncItemName(itemName);
 	}
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		SyncItemName(itemName);
 	}
@@ -98,6 +128,44 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	{
 		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
 		InventoryIcon = GetComponentInChildren<SpriteHandler>();
+	}
+
+
+	/// <summary>
+	/// Gets all the traits this object currently has
+	/// </summary>
+	/// <returns></returns>
+	public IEnumerable<ItemTrait> GetTraits()
+	{
+		return traits;
+	}
+
+	/// <summary>
+	/// Returns true iff this itemattributes has the specified trait
+	/// </summary>
+	/// <param name="toCheck"></param>
+	/// <returns></returns>
+	public bool HasTrait(ItemTrait toCheck)
+	{
+		return traits.Contains(toCheck);
+	}
+
+	/// <summary>
+	/// Dynamically adds the specified trait to this item attributes
+	/// </summary>
+	/// <param name="toAdd"></param>
+	public void AddTrait(ItemTrait toAdd)
+	{
+		traits.Add(toAdd);
+	}
+
+	/// <summary>
+	/// Dynamically removes the specified trait from this item attributes
+	/// </summary>
+	/// <param name="toAdd"></param>
+	public void RemoveTrait(ItemTrait toRemove)
+	{
+		traits.Remove(toRemove);
 	}
 
 	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData itemAttributes)
@@ -114,8 +182,12 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	public void AttributesFromCD(ItemAttributesData ItemAttributes)
 	{
 		SyncItemName(ItemAttributes.itemName);
-		itemDescription = ItemAttributes.itemDescription;
-		itemType = ItemAttributes.itemType;
+		SyncItemDescription(ItemAttributes.itemDescription);
+		var trait = TypeToTrait(ItemAttributes.itemType);
+		if (trait != null)
+		{
+			traits.Add(trait);
+		}
 		size = ItemAttributes.size;
 		spriteType = ItemAttributes.spriteType;
 		CanConnectToTank = ItemAttributes.CanConnectToTank;
@@ -127,6 +199,10 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		hitSound = ItemAttributes.hitSound;
 		attackVerb = ItemAttributes.attackVerb;
 		IsEVACapable = ItemAttributes.IsEVACapable;
+	}
+	private ItemTrait TypeToTrait(ItemType itemType)
+	{
+		return ItemTypeToTraitMapping.Instance.GetTrait(itemType);
 	}
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)
@@ -181,4 +257,5 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		return RightClickableResult.Create()
 			.AddElement("Examine", OnExamine);
 	}
+
 }

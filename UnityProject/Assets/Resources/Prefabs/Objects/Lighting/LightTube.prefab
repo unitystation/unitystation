@@ -67,7 +67,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 244761d659f269a4793677b4e2651889, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -158,6 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114197525563370534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +242,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114545401147975254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,5 +257,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2599254388
+  m_AssetId: cee8091bdb699f0428f8faa7152b92d3
+  m_SceneId: 0

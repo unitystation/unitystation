@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!50 &8126115436672341094
 Rigidbody2D:
   serializedVersion: 4
@@ -122,7 +123,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Body bag
   itemDescription: A folded bag designed for the storage and transportation of cadavers.
-  itemType: 0
+  initialTraits: []
   size: 2
   spriteType: 0
   CanConnectToTank: 0
@@ -182,9 +183,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &5355423063329961544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +242,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &8213862876224306985
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114859863419137498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +239,8 @@ MonoBehaviour:
   IsLocked: 0
   lockLight: {fileID: 0}
   playerLimit: 3
+  metalDroppedOnDestroy: 2
+  soundOnOpen: OpenClose
   statusSync: 0
   doorOpened: {fileID: 21300000, guid: 64b240e12ad22cb448e547c57af09f62, type: 3}
   spriteRenderer: {fileID: 212172245744083514}
@@ -256,7 +259,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114407287186085312
 MonoBehaviour:
@@ -336,6 +338,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114706465110969542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,8 +353,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2561182890
+  m_AssetId: 52fddf9aa0dcd42ac85b86d274269aeb
+  m_SceneId: 0
 --- !u!1 &1588453877446412
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,9 +43,7 @@ public class PlasmaAddable : MonoBehaviour, ICheckedInteractable<HandApply>, IRi
 			return;
 		}
 
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		handObj.GetComponent<Pickupable>().DisappearObject(slot);
-
+		Inventory.ServerDespawn(interaction.HandSlot);
 		gasContainer.GasMix = gasContainer.GasMix.AddGasReturn(Gas.Plasma, molesAdded);
 	}
 

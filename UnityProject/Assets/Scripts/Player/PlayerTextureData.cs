@@ -14,8 +14,6 @@ public class PlayerTextureData : ScriptableObject
 	public RaceVariantTextureData Female;
 	public List<RaceVariantTextureData> Other;
 
-	private static ClothFactory ClothFactoryReference;
-
 	public void Awake()
 	{
 		InitializePool();
@@ -36,19 +34,11 @@ public class PlayerTextureData : ScriptableObject
 
 	public void InitializePool()
 	{
-		if (ClothFactoryReference == null)
+		if (Spawn.RaceData.ContainsKey(this.name) && Spawn.RaceData[this.name] != this)
 		{
-			ClothFactoryReference = UnityEngine.Object.FindObjectOfType<ClothFactory>();
+			Logger.LogError("a PlayerTextureData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
 		}
-
-		if (ClothFactoryReference != null)
-		{
-			if (ClothFactoryReference.RaceData.ContainsKey(this.name))
-			{
-				Logger.LogError("a PlayerTextureData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
-			}
-			ClothFactoryReference.RaceData[this.name] = this;
-		}
+		Spawn.RaceData[this.name] = this;
 	}
 
 	public static void getClothingDatas(List<PlayerTextureData> DataPCD)

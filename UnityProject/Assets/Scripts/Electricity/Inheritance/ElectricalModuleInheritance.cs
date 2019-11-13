@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectricalModuleInheritance : MonoBehaviour, IOffStageServer
+public class ElectricalModuleInheritance : MonoBehaviour, IServerDespawn
 {
 	public ElectricalModuleTypeCategory ModuleType;
 	public ElectricalNodeControl ControllingNode;
@@ -20,8 +20,7 @@ public class ElectricalModuleInheritance : MonoBehaviour, IOffStageServer
 	public virtual void TurnOffSupply() {
 	}
 
-	public virtual void GoingOffStageServer(OffStageInfo info) {
-	}
+	public virtual void OnDespawnServer(DespawnInfo info){ }
 
 	public virtual void PowerUpdateStructureChange(){
 	}

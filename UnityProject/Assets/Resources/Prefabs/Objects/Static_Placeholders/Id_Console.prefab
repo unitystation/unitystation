@@ -76,6 +76,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -117,6 +118,7 @@ GameObject:
   - component: {fileID: 7180163552371466035}
   - component: {fileID: 7180073561033371851}
   - component: {fileID: 114577545745324966}
+  - component: {fileID: 8597459946000449771}
   m_Layer: 11
   m_Name: Id_Console
   m_TagString: Untagged
@@ -287,10 +289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a792564bc5bddb7da8c271b001b644cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  AccessCard: {fileID: 0}
-  TargetCard: {fileID: 0}
   LoggedIn: 0
 --- !u!114 &6797707358650549303
 MonoBehaviour:
@@ -364,6 +362,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114577545745324966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,8 +377,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3081927528
+  m_AssetId: fe7830029b255694f826e807700cb24f
+  m_SceneId: 0
+--- !u!114 &8597459946000449771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514185242108095534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+    type: 2}
+  ItemStorageCapacity: {fileID: 11400000, guid: 6151cf8fb4f9c4bf890b69fad47b155b,
+    type: 2}
+  ItemStoragePopulator: {fileID: 0}
 --- !u!1 &5514342282601624932
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +452,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -515,6 +532,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

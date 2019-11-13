@@ -112,7 +112,7 @@ public class GUI_Vendor : NetTab
 		}
 
 		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
-		var spawnedItem = PoolManager.PoolNetworkInstantiate(itemToSpawn.Item, spawnPos, vendor.transform.parent);
+		var spawnedItem = Spawn.ServerPrefab(itemToSpawn.Item, spawnPos, vendor.transform.parent).GameObject;
 		itemToSpawn.Stock--;
 
 		SendToChat($"{item.Item.name} was dispensed from the vending machine");

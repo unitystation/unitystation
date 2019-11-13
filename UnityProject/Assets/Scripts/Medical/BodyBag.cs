@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IOnStageServer, IRightClickable
+public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IServerSpawn, IRightClickable
 {
 	public GameObject prefabVariant;
 
-	public void GoingOnStageServer(OnStageInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		GetComponent<ClosetControl>().ToggleLocker(false);
 	}
@@ -52,12 +52,13 @@ public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IOnStageS
 			return;
 		}
 
-		// Add folded to player inventory
-		InventoryManager.EquipInInvSlot(pna.Inventory[pna.activeHand],
-			PoolManager.PoolNetworkInstantiate(prefabVariant));
-
+		// Add folded to player inventory (note, this is actually a new object, not this object)
+		//TODO: This means that body bag integrity gets reset every time it is picked up. Should be converted to be the same object instead.
+		var folded = Spawn.ServerPrefab(prefabVariant).GameObject;
+		Inventory.ServerAdd(folded,
+			interaction.Performer.GetComponent<ItemStorage>().GetActiveHandSlot());
 		// Remove from world
-		PoolManager.PoolNetworkDestroy(gameObject);
+		Despawn.ServerSingle(gameObject);
 	}
 
 	public RightClickableResult GenerateRightClickOptions()

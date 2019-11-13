@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class MouseDrop : TargetedInteraction
 {
+	private static readonly MouseDrop Invalid = new MouseDrop(null, null, null);
 
 	/// <summary>
 	/// Object being dropped (same as UsedObject)
@@ -30,6 +31,10 @@ public class MouseDrop : TargetedInteraction
 	/// <returns></returns>
 	public static MouseDrop ByLocalPlayer(GameObject droppedObject, GameObject targetObject)
 	{
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return Invalid;
+		}
 		return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject);
 	}
 

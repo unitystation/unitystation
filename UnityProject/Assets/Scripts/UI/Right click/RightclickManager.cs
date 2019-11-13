@@ -98,7 +98,7 @@ public class RightclickManager : MonoBehaviour
 				// Verbose workaround since you should not use null propagation on Unity objects. Thanks, Unity.
 				var itemSwap = rc.gameObject.GetComponent<UI_ItemSwap>();
 				var itemSlot = itemSwap == null ? null : itemSwap.GetComponentInChildren<UI_ItemSlot>();
-				return itemSlot == null ? null : itemSlot.Item;
+				return itemSlot == null ? null : itemSlot.ItemObject;
 				}).Where(go => go != null));
 #pragma warning restore UEA0005
 

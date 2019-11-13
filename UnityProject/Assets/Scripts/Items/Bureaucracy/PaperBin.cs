@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace Items.Bureaucracy
 {
-	public class PaperBin : NetworkBehaviour, ICheckedInteractable<HandApply>, IOnStageServer
+	[RequireComponent(typeof(ItemStorage))]
+	public class PaperBin : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 
 		public int initialPaperCount = 20;
@@ -17,7 +18,9 @@ namespace Items.Bureaucracy
 		[SyncVar (hook = nameof(SyncStoredPen))]
 		private GameObject storedPen;
 
-		private List<GameObject> storedPaper = new List<GameObject>();
+		private ItemStorage itemStorage;
+		private ItemSlot penSlot;
+
 		private SpriteRenderer binRenderer;
 		private SpriteRenderer penRenderer;
 		private Sprite binEmpty;
@@ -63,10 +66,12 @@ namespace Items.Bureaucracy
 
 		private void Awake()
 		{
+			itemStorage = GetComponent<ItemStorage>();
+			penSlot = itemStorage.GetNamedItemSlot(NamedSlot.storage01);
 			SetupInitialValues();
 		}
 
-		public void GoingOnStageServer(OnStageInfo info)
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			SetupInitialValues();
 		}
@@ -74,7 +79,6 @@ namespace Items.Bureaucracy
 		private void SetupInitialValues()
 		{
 			paperCount = initialPaperCount;
-			storedPaper.Clear();
 			storedPen = null;
 
 			SyncEverything();
@@ -160,7 +164,8 @@ namespace Items.Bureaucracy
 				if (storedPen)
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You take the pen out of the paper bin.");
-					InventoryManager.EquipInInvSlot(pna.Inventory[pna.activeHand], GetStoredPen());
+					Inventory.ServerTransfer(penSlot, interaction.HandSlot);
+					SyncStoredPen(null);
 					return;
 				}
 
@@ -172,25 +177,47 @@ namespace Items.Bureaucracy
 				}
 
 				Chat.AddExamineMsgFromServer(interaction.Performer, "You take the paper out of the paper bin.");
+				if (!HasPaper())
+				{
+					throw new InvalidOperationException();
+				}
 
-				InventoryManager.EquipInInvSlot(pna.Inventory[pna.activeHand], GetPaperFromStack());
+				// First, get the papers that players have put in the bin
+				var occupiedSlot = itemStorage.GetTopOccupiedIndexedSlot();
+				if (occupiedSlot != null)
+				{
+					//remove it from the slot
+					Inventory.ServerTransfer(occupiedSlot, interaction.HandSlot);
+				}
+				else // Otherwise, take from blank paper stash
+				{
+
+					var paper = Spawn.ServerPrefab(blankPaper).GameObject;
+					var targetSlot = itemStorage.GetNextFreeIndexedSlot();
+					Inventory.ServerAdd(paper, interaction.HandSlot);
+				}
+
+				SyncPaperCount(paperCount - 1);
 			}
 			else
 			{
 				// Player is adding a piece of paper or a pen
-				var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer,
-					interaction.HandSlot.equipSlot);
-				handObj.GetComponent<Pickupable>().DisappearObject(slot);
-
 				if (handObj.GetComponent<Pen>())
 				{
 					SyncStoredPen(handObj);
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You put the pen in the paper bin.");
+					Inventory.ServerTransfer(interaction.HandSlot, penSlot);
 					return;
 				}
 
+				var freeSlot = itemStorage.GetNextFreeIndexedSlot();
+				if (freeSlot == null)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, "The bin is full.");
+				}
 				Chat.AddExamineMsgFromServer(interaction.Performer, "You put the paper in the paper bin.");
-				AddPaperToStack(handObj);
+				Inventory.ServerTransfer(interaction.HandSlot, freeSlot);
+				SyncPaperCount(paperCount + 1);
 			}
 		}
 
@@ -206,44 +233,6 @@ namespace Items.Bureaucracy
 			return paperCount;
 		}
 
-		private void AddPaperToStack(GameObject paper)
-		{
-
-			storedPaper.Add(paper);
-			SyncPaperCount(paperCount + 1);
-		}
-
-		private GameObject GetPaperFromStack()
-		{
-			GameObject paper;
-
-			if (!HasPaper())
-			{
-				throw new InvalidOperationException();
-			}
-
-			// First, get the papers that players have put in the bin
-			if (storedPaper.Count > 0)
-			{
-				var pos = storedPaper.Count - 1;
-				paper = storedPaper[pos];
-				storedPaper.RemoveAt(pos);
-			}
-			else // Otherwise, take from blank paper stash
-			{
-				paper = PoolManager.PoolNetworkInstantiate(blankPaper);
-			}
-
-			SyncPaperCount(paperCount - 1);
-			return paper;
-		}
-
-		private GameObject GetStoredPen()
-		{
-			var pen = storedPen;
-			SyncStoredPen(null);
-			return pen;
-		}
 
 		private void UpdateSpriteState()
 		{
@@ -258,6 +247,4 @@ namespace Items.Bureaucracy
 			}
 		}
 	}
-
-	class SyncListPaper : SyncList<GameObject> {}
 }

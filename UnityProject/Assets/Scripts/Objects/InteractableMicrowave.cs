@@ -33,8 +33,9 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 
 		if (meal)
 		{
-			interaction.Performer.GetComponent<PlayerNetworkActions>().CmdStartMicrowave(interaction.HandSlot.equipSlot, gameObject, meal.name);
-			interaction.HandObject.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+			microwave.ServerSetOutputMeal(meal.name);
+			Despawn.ServerSingle(interaction.HandObject);
+			microwave.RpcStartCooking();
 		}
 	}
 }

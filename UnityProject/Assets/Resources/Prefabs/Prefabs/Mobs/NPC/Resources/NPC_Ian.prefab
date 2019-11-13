@@ -244,9 +244,8 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
-  isNotPlayer: 0
   aliveSprite: {fileID: 21300006, guid: e521117653fea244c9645316be5ec3a6, type: 3}
-  deadSprite: {fileID: 21300000, guid: 831a94d91f34f3349b2ac8ba09447fa7, type: 3}
+  deadSprite: {fileID: 21300000, guid: 359410cfbfeb9b548bfc8e3c69653be4, type: 3}
   deadState: 0
   spriteRend: {fileID: 4890346600101626888}
 --- !u!114 &114555785714625820
@@ -297,6 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114405087929252270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,8 +362,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1113585861
+  m_AssetId: 045023acf668941c190d73047ed87e74
+  m_SceneId: 0
 --- !u!114 &1750259749
 MonoBehaviour:
   m_ObjectHideFlags: 0

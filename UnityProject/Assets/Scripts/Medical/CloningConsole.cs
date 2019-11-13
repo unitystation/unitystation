@@ -57,13 +57,13 @@ public class CloningConsole : MonoBehaviour
 		}
 	}
 
-	public void TryClone(CloningRecord record)
+	public void ServerTryClone(CloningRecord record)
 	{
 		if (cloningPod && cloningPod.CanClone())
 		{
 			if(record.mind.ConfirmClone(record.mobID))
 			{
-				cloningPod.StartCloning(record);
+				cloningPod.ServerStartCloning(record);
 				CloningRecords.Remove(record);
 			}
 			else

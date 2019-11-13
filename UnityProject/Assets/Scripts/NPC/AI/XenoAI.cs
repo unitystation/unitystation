@@ -97,6 +97,10 @@ public class XenoAI : MobAI
 	//The alien has been attacked by something!
 	protected override void OnAttackReceived(GameObject damagedBy)
 	{
+		if ( damagedBy == null ) //when something is on fire, damagedBy is null
+		{
+			return;
+		}
 		if (health.OverallHealth < -20f)
 		{
 			//30% chance the xeno decides to flee:
@@ -199,9 +203,9 @@ public class XenoAI : MobAI
 
 	}
 
-	public override void GoingOffStageServer(OffStageInfo info)
+	public override void OnDespawnServer(DespawnInfo info)
 	{
-		base.GoingOffStageServer(info);
+		base.OnDespawnServer(info);
 		dirSprites.SetToBodyLayer();
 		alienScreechPlayed = false;
 		registerObject.Passable = true;

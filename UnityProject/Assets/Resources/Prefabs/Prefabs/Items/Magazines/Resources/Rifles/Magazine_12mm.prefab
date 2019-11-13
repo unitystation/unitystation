@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114944961118809770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +179,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114604252264824848
 MonoBehaviour:
@@ -194,11 +194,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
+  spriteDataHandler: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: c20r45 Magazine
   itemDescription: 
-  itemType: 0
+  initialTraits:
+  - {fileID: 11400000, guid: 876a70aadb2d64ee69a9fcecd369635c, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -239,9 +240,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114151640759957448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +318,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114550561066821966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,8 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -354,5 +351,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1771834183
+  m_AssetId: 5c6f9e9e80c8a4b5a84d0376fb69f876
+  m_SceneId: 0

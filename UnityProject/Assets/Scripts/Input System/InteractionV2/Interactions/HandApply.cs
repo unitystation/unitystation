@@ -9,9 +9,11 @@ using UnityEngine;
 /// </summary>
 public class HandApply : BodyPartTargetedInteraction
 {
-	private readonly HandSlot handSlot;
+	private static readonly HandApply Invalid = new HandApply(null, null, null, BodyPartType.None, null);
 
-	public HandSlot HandSlot => handSlot;
+	private readonly ItemSlot handSlot;
+
+	public ItemSlot HandSlot => handSlot;
 
 	/// <summary>
 	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand).
@@ -26,7 +28,7 @@ public class HandApply : BodyPartTargetedInteraction
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	/// <param name="targetBodyPart">targeted body part</param>
-	protected HandApply(GameObject performer, GameObject handObject, GameObject targetObject, BodyPartType targetBodyPart, HandSlot handSlot) :
+	protected HandApply(GameObject performer, GameObject handObject, GameObject targetObject, BodyPartType targetBodyPart, ItemSlot handSlot) :
 		base(performer, handObject, targetObject, targetBodyPart)
 	{
 		this.handSlot = handSlot;
@@ -39,11 +41,16 @@ public class HandApply : BodyPartTargetedInteraction
 	/// <returns></returns>
 	public static HandApply ByLocalPlayer(GameObject targetObject)
 	{
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			//hand apply never works when local player
+			return HandApply.Invalid;
+		}
 		return new HandApply(PlayerManager.LocalPlayer,
-			UIManager.Hands.CurrentSlot.Item,
+			UIManager.Hands.CurrentSlot.ItemObject,
 			targetObject,
 			UIManager.DamageZone,
-			HandSlot.ForName(UIManager.Instance.hands.CurrentSlot.equipSlot));
+			UIManager.Instance.hands.CurrentSlot.ItemSlot);
 	}
 
 	/// <summary>
@@ -60,7 +67,7 @@ public class HandApply : BodyPartTargetedInteraction
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static HandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject, BodyPartType targetBodyPart,
-		HandSlot handSlot)
+		ItemSlot handSlot)
 	{
 		return new HandApply(clientPlayer, handObject, targetObject, targetBodyPart, handSlot);
 	}

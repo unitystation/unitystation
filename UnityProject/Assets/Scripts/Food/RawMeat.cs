@@ -6,6 +6,7 @@ using UnityEngine;
 public class RawMeat : MonoBehaviour
 {
 	private Integrity integrity;
+	[SerializeField]
 	private GameObject meatSteakPrefab;
 	private RegisterTile registerTile;
 
@@ -13,14 +14,13 @@ public class RawMeat : MonoBehaviour
 	{
 		integrity = GetComponent<Integrity>();
 		integrity.OnBurnUpServer += OnBurnUpServer;
-		meatSteakPrefab = Resources.Load<GameObject>("Meat Steak");
 		registerTile = GetComponent<RegisterTile>();
 	}
 
 	private void OnBurnUpServer(DestructionInfo info)
 	{
 		//cook the meat by destroying this meat and spawning a meat steak
-		PoolManager.PoolNetworkInstantiate(meatSteakPrefab, registerTile.WorldPosition, transform.parent);
-		PoolManager.PoolNetworkDestroy(gameObject);
+		Spawn.ServerPrefab(meatSteakPrefab, registerTile.WorldPosition, transform.parent);
+		Despawn.ServerSingle(gameObject);
 	}
 }

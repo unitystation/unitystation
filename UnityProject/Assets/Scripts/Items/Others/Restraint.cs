@@ -47,7 +47,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			() =>
 			{
 				if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false) {
-					target.GetComponent<PlayerMove>().Cuff(gameObject, interaction.Performer.GetComponent<PlayerNetworkActions>());
+					target.GetComponent<PlayerMove>().Cuff(interaction);
 				}
 			}
 		);

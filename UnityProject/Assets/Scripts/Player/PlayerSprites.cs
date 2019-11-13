@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Light2D;
 using NUnit.Framework.Constraints;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class PlayerSprites : MonoBehaviour
 	public CharacterSettings ThisCharacter;
 
 	//clothes for each clothing slot
+	//TODO: don't use string as the dictionary key
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
 	private Directional directional;
@@ -84,9 +86,11 @@ public class PlayerSprites : MonoBehaviour
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
-		RaceTexture = ClothFactory.Instance.RaceData["human"];
+		RaceTexture = Spawn.RaceData["human"];
 		SetupBodySprites();
 		SetupCustomisations();
+		OnDirectionChange(directional.CurrentDirection);
+
 	}
 
 	public void SetupCustomisations()
@@ -95,7 +99,7 @@ public class PlayerSprites : MonoBehaviour
 		{
 			clothes["underwear"].spriteHandler.Infos = new SpriteData();
 			clothes["underwear"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
-				ClothFactory.Instance.playerCustomisationData[
+				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.Underwear][ThisCharacter.underwearName].Equipped));
 			clothes["underwear"].spriteHandler.PushTexture();
 		}
@@ -104,7 +108,7 @@ public class PlayerSprites : MonoBehaviour
 		{
 			clothes["socks"].spriteHandler.Infos = new SpriteData();
 			clothes["socks"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
-				ClothFactory.Instance.playerCustomisationData[
+				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.Socks][ThisCharacter.socksName].Equipped));
 			clothes["socks"].spriteHandler.PushTexture();
 		}
@@ -115,7 +119,7 @@ public class PlayerSprites : MonoBehaviour
 			ColorUtility.TryParseHtmlString(ThisCharacter.facialHairColor, out var newColor);
 			clothes["beard"].spriteHandler.Infos = new SpriteData();
 			clothes["beard"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
-				ClothFactory.Instance.playerCustomisationData[
+				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.FacialHair][ThisCharacter.facialHairName].Equipped));
 			clothes["beard"].spriteHandler.SetColor(newColor);
 			clothes["beard"].spriteHandler.PushTexture();
@@ -126,7 +130,7 @@ public class PlayerSprites : MonoBehaviour
 			ColorUtility.TryParseHtmlString(ThisCharacter.hairColor, out var newColor);
 			clothes["Hair"].spriteHandler.Infos = new SpriteData();
 			clothes["Hair"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
-				ClothFactory.Instance.playerCustomisationData[
+				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.HairStyle][ThisCharacter.hairStyleName].Equipped));
 			clothes["Hair"].spriteHandler.SetColor(newColor);
 			clothes["Hair"].spriteHandler.PushTexture();
@@ -293,7 +297,7 @@ public class PlayerSprites : MonoBehaviour
 			for (int i = 0; i < characterSprites.Length; i++)
 			{
 				var clothItem = characterSprites[i];
-				EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
+				PlayerAppearanceMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
 			}
 		}
 	}
@@ -352,6 +356,16 @@ public class PlayerSprites : MonoBehaviour
 		muzzleFlash.gameObject.SetActive(true);
 		yield return WaitFor.Seconds(0.1f);
 		muzzleFlash.gameObject.SetActive(false);
+	}
+
+	/// <summary>
+	/// Returns true iff this playersprites has a clothing item for the specified named slot
+	/// </summary>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
+	public bool HasClothingItem(NamedSlot? namedSlot)
+	{
+		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
 	}
 }
 

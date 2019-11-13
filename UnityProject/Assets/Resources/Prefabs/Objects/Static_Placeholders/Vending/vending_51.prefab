@@ -185,8 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   VendorContent:
   - Item: {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
     Stock: 5
@@ -229,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &8759977713929278339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +300,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114343594154895826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,5 +315,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 897391148
+  m_AssetId: eb515572856b64cfcacb99a939bf5671
+  m_SceneId: 0

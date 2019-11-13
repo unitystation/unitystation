@@ -38,12 +38,13 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//Checking restock
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-		var restock = slot.Item?.GetComponentInChildren<VendingRestock>();
+		var handObj = interaction.HandObject;
+		if (handObj == null) return;
+		var restock = handObj.GetComponentInChildren<VendingRestock>();
 		if (restock != null)
 		{
 			OnRestockUsed?.Invoke();
-			InventoryManager.ClearInvSlot(slot);
+			Inventory.ServerDespawn(interaction.HandSlot);
 		}
 	}
 }

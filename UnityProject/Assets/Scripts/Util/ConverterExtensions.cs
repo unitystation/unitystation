@@ -50,6 +50,21 @@
 		public static Vector3Int ToWorldInt( this Vector3 localPos, Matrix matrix ) {
 			return MatrixManager.LocalToWorldInt( localPos, MatrixManager.Get( matrix ));
 		}
+		public static Vector3 ToLocal( this Vector3 worldPos, MatrixInfo matrix ) {
+			return MatrixManager.WorldToLocal( worldPos,  matrix );
+		}
+
+		public static Vector3 ToWorld( this Vector3 localPos, MatrixInfo matrix ) {
+			return MatrixManager.LocalToWorld( localPos,  matrix );
+		}
+
+		public static Vector3Int ToLocalInt( this Vector3 worldPos, MatrixInfo matrix ) {
+			return MatrixManager.WorldToLocalInt(worldPos,  matrix );
+		}
+
+		public static Vector3Int ToWorldInt( this Vector3 localPos, MatrixInfo matrix ) {
+			return MatrixManager.LocalToWorldInt( localPos, matrix );
+		}
 
 
 	}

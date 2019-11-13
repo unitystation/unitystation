@@ -119,7 +119,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Paper
   itemDescription: A piece of paper
-  itemType: 0
+  InitialTraits:
+  - {fileID: 11400000, guid: 24632eaec5a984a9f95155bf676a95bc, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -175,7 +176,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c41af2d53114e99b2142b2b126717c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1320386684021000}
+  syncMode: 0
+  syncInterval: 0.1
+  NetTabType: 13
+  originalName: 
+  customName: 
 --- !u!114 &114930140412175382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,9 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114414318728299190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +273,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114689926834821060
 MonoBehaviour:
   m_ObjectHideFlags: 0

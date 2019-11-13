@@ -80,7 +80,7 @@ public class GUI_Cloning : NetTab
 
 	public void Clone()
 	{
-		CloningConsole.TryClone(specificRecord);
+		CloningConsole.ServerTryClone(specificRecord);
 		UpdateDisplay();
 		netPageSwitcher.SetActivePage(PageAllRecords);
 	}
