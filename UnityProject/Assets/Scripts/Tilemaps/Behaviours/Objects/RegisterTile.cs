@@ -318,7 +318,7 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 				{
 					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
 					                      " returned true.", Category.SpatialRelationship, cancelled);
-					SpatialRelationship.End(cancelled);
+					SpatialRelationship.ServerEnd(cancelled);
 				}
 			}
 
@@ -433,7 +433,7 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 				{
 					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
 					                      " returned true.", Category.SpatialRelationship, cancelled);
-					SpatialRelationship.End(cancelled);
+					SpatialRelationship.ServerEnd(cancelled);
 				}
 			}
 
@@ -458,7 +458,7 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 			foreach (var relationship in sameMatrixRelationships)
 			{
 				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
-				SpatialRelationship.End(relationship);
+				SpatialRelationship.ServerEnd(relationship);
 			}
 		}
 		if (crossMatrixRelationships != null)
@@ -466,7 +466,7 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 			foreach (var relationship in crossMatrixRelationships)
 			{
 				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
-				SpatialRelationship.End(relationship);
+				SpatialRelationship.ServerEnd(relationship);
 			}
 		}
 	}

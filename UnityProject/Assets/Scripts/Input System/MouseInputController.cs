@@ -45,7 +45,6 @@ public class MouseInputController : MonoBehaviour
 
 	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
-	private LayerMask layerMask;
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
 	private Directional playerDirectional;
@@ -104,10 +103,6 @@ public class MouseInputController : MonoBehaviour
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
-
-		//Do not include the Default layer! Assign your object to one of the layers below:
-		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-			"HiddenWalls", "Objects", "Matrix", "Floor", "NPC");
 	}
 
 	void LateUpdate()
@@ -236,7 +231,7 @@ public class MouseInputController : MonoBehaviour
 	private void CheckInitiatePull()
 	{
 		//checks if there is anything in reach we can drag
-		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
+		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(null,
 			go => go.GetComponent<PushPull>() != null).FirstOrDefault();
 
 		if (topObject != null)
@@ -288,7 +283,7 @@ public class MouseInputController : MonoBehaviour
 			return;
 		}
 
-		var hit = MouseUtils.GetOrderedObjectsUnderMouse(layerMask).FirstOrDefault();
+		var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
 		if (hit != null)
 		{
 			if (lastHoveredThing != hit)
@@ -319,7 +314,7 @@ public class MouseInputController : MonoBehaviour
 		if (!ctrlClick)
 		{
 			var handApplyTargets =
-				MouseUtils.GetOrderedObjectsUnderMouse(layerMask);
+				MouseUtils.GetOrderedObjectsUnderMouse();
 
 			//go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
@@ -472,7 +467,7 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		var draggable =
-			MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go =>
+			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
 					go.GetComponent<MouseDraggable>() != null &&
 					go.GetComponent<MouseDraggable>().enabled &&
 					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))

@@ -265,13 +265,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		ControlTabs.CheckTabClose();
 	}
 
-	public bool CheckItemFit(GameObject item)
-	{
-		var pickupable = item.GetComponent<Pickupable>();
-		if (pickupable == null) return false;
-		return itemSlot.CanFit(pickupable);
-	}
-
 
 	/// <summary>
 	/// Check if item has an interaction with a an item in a slot
@@ -329,7 +322,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		//target slot is occupied, but it's okay if active hand slot is not occupied)
 		if (Item != null)
 		{
-			var combine = InventoryApply.ByLocalPlayer(itemSlot);
+			var combine = InventoryApply.ByLocalPlayer(itemSlot, UIManager.Hands.CurrentSlot.itemSlot);
 			//check interactables in the active hand (if active hand occupied)
 			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
@@ -357,6 +350,41 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 
 	public void OnEndDrag(PointerEventData data)
 	{
+
+		//if there's an item in the target slot and we haven't dropped yet, try inventory apply interaction
+		if (!UIManager.DragAndDrop.DropInteracted && UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
+		{
+			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
+
+			var targetItem = itemSlot.ItemObject;
+			if (targetItem != null)
+			{
+				var invApply = InventoryApply.ByLocalPlayer(itemSlot, fromSlot);
+				//check interactables in the fromSlot (if it's occupied)
+				if (fromSlot.ItemObject != null)
+				{
+					var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
+						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
+					{
+						UIManager.DragAndDrop.DropInteracted = true;
+						UIManager.DragAndDrop.StopDrag();
+						return;
+					}
+				}
+
+				//check interactables in the target
+				var targetInteractables = targetItem.GetComponents<IBaseInteractable<InventoryApply>>()
+					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+				if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, invApply) != null)
+				{
+					UIManager.DragAndDrop.DropInteracted = true;
+					UIManager.DragAndDrop.StopDrag();
+					return;
+				}
+			}
+		}
+
 		UIManager.DragAndDrop.StopDrag();
 	}
 

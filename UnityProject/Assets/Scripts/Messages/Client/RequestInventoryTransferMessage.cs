@@ -28,7 +28,7 @@ public class RequestInventoryTransferMessage : ClientMessage
 		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), ToNamedSlot, ToSlotIndex);
 
 		bool valid = true;
-		if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, writeExamine: true))
+		if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 		{
 			HandleFail(fromSlot, toSlot);
 			yield return null;

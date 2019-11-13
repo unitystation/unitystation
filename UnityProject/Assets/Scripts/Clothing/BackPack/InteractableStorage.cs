@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(MouseDraggable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>
+	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove
 {
 	/// <summary>
 	/// Item storage that is being interacted with.
@@ -35,7 +35,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		//can only be opened if it's in the player's top level inventory
 		if (interaction.TargetSlot.ItemStorage.gameObject != PlayerManager.LocalPlayer) return false;
 
-		if (interaction.HandObject == null)
+		if (interaction.UsedObject == null)
 		{
 			//nothing in hand, just open / close the backpack
 			return Interact(HandActivate.ByLocalPlayer());
@@ -47,17 +47,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		//we need to be the target - something is put inside us
 		if (interaction.TargetObject != gameObject) return false;
-		//check if we can store our hand item in this storage.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		//have to have something in hand to try to store it
-		if (interaction.HandObject == null) return false;
 		//item must be able to fit
 		//note: since this is in local player's inventory, we are safe to check this stuff on client side
-		var freeSlot = itemStorage.GetNextFreeIndexedSlot();
-		if (freeSlot == null) return false;
-		if (!Validations.CanPutItemToSlot(interaction.Performer.GetComponent<PlayerScript>(),
-			freeSlot, interaction.HandObject.GetComponent<Pickupable>(), side, writeExamine: true)) return false;
-
+		if (!Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
+			itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer)) return false;
 
 		return true;
 	}
@@ -65,8 +59,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		Inventory.ServerTransfer(interaction.HandSlot,
-			itemStorage.GetNextFreeIndexedSlot());
+		Inventory.ServerTransfer(interaction.FromSlot,
+			itemStorage.GetBestSlotFor(((Interaction) interaction).UsedObject));
 	}
 
 	public bool Interact(HandActivate interaction)
@@ -86,20 +80,43 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
-		//can only drag and drop on ourselves
-		if (interaction.Performer != interaction.TargetObject) return false;
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-		return true;
+		//can only drag and drop the object to ourselves,
+		//or from our inventory to this object
+		if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
+		{
+			//trying to add an item from inventory slot to this storage sitting in the world
+			return Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
+				itemStorage, interaction.DroppedObject.GetComponent<Pickupable>(), side, examineRecipient: interaction.Performer);
+		}
+		else
+		{
+			//trying to view this storage, can only drop on ourselves to view it
+			return interaction.Performer == interaction.TargetObject;
+		}
 	}
 
 	public void ServerPerformInteraction(MouseDrop interaction)
 	{
-		//player can observe this storage
-		itemStorage.ServerAddObserverPlayer(interaction.Performer);
-		ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
-		SpatialRelationship.Activate(RangeRelationship.Between(interaction.Performer, interaction.UsedObject,
-			PlayerScript.interactionDistance, ServerOnRelationshipEnded));
+
+		if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
+		{
+			//try to add item to this storage
+			Inventory.ServerTransfer(interaction.FromSlot,
+				itemStorage.GetBestSlotFor(interaction.UsedObject));
+		}
+		else
+		{
+			//player can observe this storage
+			itemStorage.ServerAddObserverPlayer(interaction.Performer);
+			ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
+			if (!interaction.IsFromInventory)
+			{
+				SpatialRelationship.ServerActivate(RangeRelationship.Between(interaction.Performer, interaction.UsedObject,
+					PlayerScript.interactionDistance, ServerOnRelationshipEnded));
+			}
+		}
+
 	}
 
 	private void ServerOnRelationshipEnded(RangeRelationship cancelled)
@@ -107,5 +124,20 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		//they can't observe anymore
 		itemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
 		ObserveInteractableStorageMessage.Send(cancelled.obj1.gameObject, this, false);
+	}
+
+	public void OnInventoryMoveServer(InventoryMove info)
+	{
+		//stop player observing if it's dropped from the player's storage
+		var fromRootPlayer = info.FromRootPlayer;
+		var toRootPlayer = info.ToRootPlayer;
+		//no need to do anything, hasn't moved into player inventory
+		if (fromRootPlayer == toRootPlayer) return;
+
+		//make sure it's closed and any children as well
+		if (fromRootPlayer != null)
+		{
+			ObserveInteractableStorageMessage.Send(fromRootPlayer.gameObject, this, false);
+		}
 	}
 }

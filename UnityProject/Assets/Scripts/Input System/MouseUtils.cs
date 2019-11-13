@@ -10,22 +10,42 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public static class MouseUtils
 {
+	private static LayerMask? defaultInteractionLayerMask;
+
+	public static LayerMask GetDefaultInteractionLayerMask()
+	{
+		EnsureInit();
+		return defaultInteractionLayerMask.GetValueOrDefault();
+	}
+
+	private static void EnsureInit()
+	{
+		if (defaultInteractionLayerMask == null)
+		{
+			defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines",
+				"Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
+				"HiddenWalls", "Objects", "Matrix", "Floor", "NPC");
+		}
+	}
+
 	/// <summary>
 	/// Gets the game objects under the given world position, ordered so that highest item comes first.
 	///
 	/// The top-level matrix gameobject (the one with InteractableTiles) at this point is included at the end (if any of its tilemap gameobjects were at this point)
 	/// </summary>
 	/// <param name="worldPoint">world point to check</param>
-	/// <param name="layerMask">layers to check for hits in</param>
+	/// <param name="layerMask">layers to check for hits in. If left null, will use DefaultInteractionLayerMask (basically includes every layer
+	/// that can have interactable things).</param>
 	/// <param name="gameObjectFilter">optional filter to filter out game objects prior to sorting and checking for pixel hits, can improve performance
 	/// by shrinking the amount of sorting and pixel checking that needs to be done. Func should return true if should include the gameobject, otherwise false.
 	/// Be aware that the GameObject passed to this function will be the one that the SpriteRenderer or TilemapRenderer lives on, which may NOT
 	/// be the "root" of the gameobject this renderer lives on.</param>
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
-	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
+	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null, Func<GameObject,bool> gameObjectFilter = null)
 	{
+		LayerMask layerMaskToUse = layerMask.GetValueOrDefault(GetDefaultInteractionLayerMask());
 		var result = Physics2D.RaycastAll(worldPoint, Vector2.zero, 10f,
-				layerMask)
+				layerMaskToUse)
 			//get the hit game object
 			.Select(hit => hit.collider.transform.gameObject);
 
@@ -55,13 +75,14 @@ public static class MouseUtils
 	/// Gets the game objects under the mouse, ordered so that highest item comes first.
 	/// The top-level matrix gameobject (the one with InteractableTiles) at this point is included at the end (if any of its tilemap gameobjects were at this point)
 	/// </summary>
-	/// <param name="layerMask">layers to check for hits in</param>
+	/// <param name="layerMask">layers to check for hits in. If left null, will use DefaultInteractionLayerMask (basically includes every layer
+	/// that can have interactable things).</param>
 	/// <param name="gameObjectFilter">optional filter to filter out game objects prior to sorting and checking for pixel hits, can improve performance
 	/// by shrinking the amount of sorting and pixel checking that needs to be done. Func should return true if should include the gameobject, otherwise false.
 	/// Be aware that the GameObject passed to this function will be the one that the SpriteRenderer or TilemapRenderer lives on, which may NOT
 	/// be the "root" of the gameobject this renderer lives on.</param>
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
-	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
+	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask? layerMask = null, Func<GameObject,bool> gameObjectFilter = null)
 	{
 		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask, gameObjectFilter);
 	}
@@ -130,9 +151,9 @@ public static class MouseUtils
 		Camera cam = Camera.main;
 
 		Vector2 mousePos = CommonInput.mousePosition;
-	
+
 		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
-	
+
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
 																											// Cast a ray from viewport point into world
 		Ray ray = cam.ViewportPointToRay(viewportPos);

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler,
@@ -69,16 +70,36 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		{
 			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
 
-			//if there's an item storage in the slot, request to put the item in the storage
-			var destStorage = itemSlot.ItemSlot.Item?.GetComponent<InteractableStorage>();
-			if (destStorage != null)
+			//if there's an item in the target slot, try inventory apply interaction
+			var targetItem = itemSlot.ItemSlot.ItemObject;
+			if (targetItem != null)
 			{
-				//rather than try to figure out which indexed slot it should go in,
-				//just perform the normal inventory apply interaction with this slot
-				InteractionUtils.RequestInteract(InventoryApply.ByLocalPlayer(itemSlot.ItemSlot), destStorage);
+				var invApply = InventoryApply.ByLocalPlayer(itemSlot.ItemSlot, fromSlot);
+				//check interactables in the fromSlot (if it's occupied)
+				if (fromSlot.ItemObject != null)
+				{
+					var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
+						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
+					{
+						UIManager.DragAndDrop.DropInteracted = true;
+						return;
+					}
+
+				}
+
+				//check interactables in the target
+				var targetInteractables = targetItem.GetComponents<IBaseInteractable<InventoryApply>>()
+					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+				if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, invApply) != null)
+				{
+					UIManager.DragAndDrop.DropInteracted = true;
+					return;
+				}
 			}
 			else
 			{
+				UIManager.DragAndDrop.DropInteracted = true;
 				Inventory.ClientRequestTransfer(fromSlot, itemSlot.ItemSlot);
 			}
 		}

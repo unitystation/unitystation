@@ -466,6 +466,18 @@ public partial class Chat : MonoBehaviour
 		}
 
 		/// <summary>
+		/// Creates an examine message for a particular client, correctly choosing the
+		/// method to use based on the network side it's called from.
+		/// </summary>
+		/// <param name="recipient">The player object to send the message too</param>
+		/// <param name="msg">The examine message</param>
+		public static void AddExamineMsg(GameObject recipient, string message)
+		{
+			AddExamineMsg(recipient, message,
+				CustomNetworkManager.IsServer ? NetworkSide.Server : NetworkSide.Client);
+		}
+
+		/// <summary>
 		/// This should only be called via UpdateChatMessage
 		/// on the client. Do not use for anything else!
 		/// </summary>

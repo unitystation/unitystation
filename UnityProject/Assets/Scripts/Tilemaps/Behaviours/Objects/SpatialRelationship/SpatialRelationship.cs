@@ -22,11 +22,11 @@
 public static class SpatialRelationship
 {
 	/// <summary>
-	/// Activates the relationship, such that both sides will start checking it when they move relative to each other.
+	/// Server side only. Activates the relationship, such that both sides will start checking it when they move relative to each other.
 	/// This is the main method to use to create and start checking a relationship.
 	/// </summary>
 	/// <param name="relationship"></param>
-	public static void Activate(BaseSpatialRelationship relationship)
+	public static void ServerActivate(BaseSpatialRelationship relationship)
 	{
 		Logger.LogTraceFormat("Activating spatial relationship {0}", Category.SpatialRelationship, relationship);
 		relationship.obj1._AddSpatialRelationship(relationship);
@@ -34,11 +34,11 @@ public static class SpatialRelationship
 	}
 
 	/// <summary>
-	/// Ends the relationship, such that it will no longer be checked by either side of the relationship.
+	/// Server side only. Ends the relationship, such that it will no longer be checked by either side of the relationship.
 	/// Only valid for relationships that have already been activated via SpatialRelationship.Activate.
 	/// </summary>
 	/// <param name="relationship"></param>
-	public static void End(BaseSpatialRelationship relationship)
+	public static void ServerEnd(BaseSpatialRelationship relationship)
 	{
 		relationship.OnRelationshipEnded();
 		relationship.obj1._RemoveSpatialRelationship(relationship);

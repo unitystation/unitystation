@@ -434,7 +434,7 @@ public static class Inventory
 		}
 
 		if (!Validations.CanPutItemToSlot(player.GetComponent<PlayerScript>(), to, from.Item,
-			NetworkSide.Client, writeExamine: true))
+			NetworkSide.Client, PlayerManager.LocalPlayer, examineRecipient: PlayerManager.LocalPlayer))
 		{
 			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
 			                      " validation failed.", Category.Inventory,

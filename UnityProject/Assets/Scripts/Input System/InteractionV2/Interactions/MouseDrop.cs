@@ -2,11 +2,21 @@
 using UnityEngine;
 
 /// <summary>
-/// Encapsulates all of the info needed for handling a mouse drag and drop interaction
+/// Encapsulates all of the info needed for handling a mouse drag and drop interaction.
+/// Invoked for dragging and dropping an object from the world to another object in the world,
+/// or an object from inventory to an object in the world. Dragging and dropping between
+/// 2 inventory slots is handled by InventoryApply.
 /// </summary>
 public class MouseDrop : TargetedInteraction
 {
-	private static readonly MouseDrop Invalid = new MouseDrop(null, null, null);
+	private static readonly MouseDrop Invalid = new MouseDrop(null, null, null, null);
+
+	/// <summary>
+	/// If dragging and dropping from inventory, slot it is being dragged from. Null otherwise.
+	/// </summary>
+	public readonly ItemSlot FromSlot;
+
+	public bool IsFromInventory => FromSlot != null;
 
 	/// <summary>
 	/// Object being dropped (same as UsedObject)
@@ -18,9 +28,11 @@ public class MouseDrop : TargetedInteraction
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="droppedObject">Object that was being dragged and is now being dropped</param>
 	/// <param name="targetObject">Object that the dropped object is being dropped on</param>
-	private MouseDrop(GameObject performer, GameObject droppedObject, GameObject targetObject) :
+	/// <param name="fromSlot">if dragging from inventory, slot it is being dragged from</param>
+	private MouseDrop(GameObject performer, GameObject droppedObject, GameObject targetObject, ItemSlot fromSlot) :
 		base(performer, droppedObject, targetObject)
 	{
+		FromSlot = fromSlot;
 	}
 
 	/// <summary>
@@ -35,18 +47,35 @@ public class MouseDrop : TargetedInteraction
 		{
 			return Invalid;
 		}
-		return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject);
+		var pu = droppedObject.GetComponent<Pickupable>();
+		if (pu != null)
+		{
+			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, pu.ItemSlot);
+		}
+		else
+		{
+			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, null);
+		}
 	}
 
 	/// <summary>
 	/// For server only. Create a mouse drop interaction initiated by the client.
 	/// </summary>
 	/// <param name="clientPlayer">gameobject of the client's player</param>
-	/// <param name="droppedObject">object client is dropping.</param>
+	/// <param name="droppedObject">object client is dropping (may be currently in inventory).</param>
 	/// <param name="targetObject">object being dropped upon.</param>
 	/// <returns>a mouse drop by the client, targeting the specified object with the dropped object</returns>
 	public static MouseDrop ByClient(GameObject clientPlayer, GameObject droppedObject, GameObject targetObject)
 	{
-		return new MouseDrop(clientPlayer, droppedObject, targetObject);
+		var pu = droppedObject.GetComponent<Pickupable>();
+		if (pu != null)
+		{
+			return new MouseDrop(clientPlayer, droppedObject, targetObject, pu.ItemSlot);
+		}
+		else
+		{
+			return new MouseDrop(clientPlayer, droppedObject, targetObject, null);
+		}
+
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Message informing a client they are now observing / not observing
-/// a particular InteractableStorage and can show/hide the popup in the UI.
+/// a particular InteractableStorage (and/or any children of it) and can show/hide the popup in the UI.
 /// </summary>
 public class ObserveInteractableStorageMessage : ServerMessage
 {
@@ -34,13 +34,21 @@ public class ObserveInteractableStorageMessage : ServerMessage
 			{
 				UIManager.StorageHandler.CloseStorageUI();
 			}
+			//hide any children they might be viewing as well
+			foreach (var slot in itemStorage.GetItemSlotTree())
+			{
+				if (slot.ItemObject == UIManager.StorageHandler.CurrentOpenStorage?.gameObject)
+				{
+					UIManager.StorageHandler.CloseStorageUI();
+				}
+			}
 		}
 
 	}
 
 	/// <summary>
 	/// Informs the recipient that they can now show/hide the UI popup for observing a particular
-	/// storage.
+	/// storage or any children.
 	/// </summary>
 	/// <param name="recipient"></param>
 	/// <param name="storage"></param>

@@ -254,8 +254,9 @@ public static class Validations
 	/// <param name="toCheck">item to check for fit</param>
 	/// <param name="side">network side check is happening on</param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
 	/// <returns></returns>
-	public static bool CanFit(ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	public static bool CanFit(ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
 		if (itemSlot == null) return false;
 		//client generally only knows about their own inventory, so unless this is one of their own inventory
@@ -270,13 +271,51 @@ public static class Validations
 			}
 			else
 			{
-				return itemSlot.CanFit(toCheck, ignoreOccupied);
+				return itemSlot.CanFit(toCheck, ignoreOccupied, examineRecipient);
 			}
 		}
 		else
 		{
-			return itemSlot.CanFit(toCheck, ignoreOccupied);
+			return itemSlot.CanFit(toCheck, ignoreOccupied, examineRecipient);
 		}
+	}
+
+	/// <summary>
+	/// Checks if the player can currently put the indicated item into a free slot in this storage. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="player">player to check</param>
+	/// <param name="storage">storage to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
+	/// <returns></returns>
+	public static bool CanPutItemToStorage(PlayerScript playerScript, ItemStorage storage, Pickupable toCheck,
+		NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
+	{
+		var freeSlot = storage.GetBestSlotFor(toCheck);
+		if (freeSlot == null) return false;
+		return CanPutItemToSlot(playerScript, freeSlot, toCheck, side, ignoreOccupied, examineRecipient);
+	}
+
+	/// <summary>
+	/// Checks if the player can currently put the indicated item into a free slot in this storage. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="player">player to check</param>
+	/// <param name="storage">storage to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
+	/// <returns></returns>
+	public static bool CanPutItemToStorage(PlayerScript playerScript, ItemStorage storage, GameObject toCheck,
+		NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
+	{
+		if (toCheck == null) return false;
+		return CanPutItemToStorage(playerScript, storage, toCheck.GetComponent<Pickupable>(), side, ignoreOccupied,
+			examineRecipient);
 	}
 
 	/// <summary>
@@ -288,9 +327,10 @@ public static class Validations
 	/// <param name="toCheck">item to check for fit</param>
 	/// <param name="side">network side check is happening on</param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
-	/// <param name="writeExamine">if true, when validation fails, will output an appropriate examine message.</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
 	/// <returns></returns>
-	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false, bool writeExamine = false)
+	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side,
+		bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
 		if (toCheck == null || itemSlot.Item != null)
 		{
@@ -302,15 +342,10 @@ public static class Validations
 			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;
 		}
-		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied))
+		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied, examineRecipient))
 		{
 			Logger.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
 				toCheck.name, itemSlot);
-			if (writeExamine)
-			{
-				Chat.AddExamineMsg(playerScript.gameObject, $"{toCheck.gameObject.ExpensiveName()} doesn't fit in the {itemSlot.ItemStorage.gameObject.ExpensiveName()}.",
-					side);
-			}
 			return false;
 		}
 		return true;

@@ -84,7 +84,7 @@ public class UpdateItemSlotMessage : ServerMessage
 			Storage = itemSlot.ItemStorageNetID,
 			Item = informEmpty ? NetId.Invalid : (itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid),
 			SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
-			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
+			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none)
 		};
 		msg.SendTo(recipient);
 	}
@@ -102,7 +102,7 @@ public class UpdateItemSlotMessage : ServerMessage
 			Storage = itemSlot.ItemStorageNetID,
 			Item = itemSlot.Item != null ? itemSlot.Item.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			SlotIndex = itemSlot.SlotIdentifier.SlotIndex,
-			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
+			NamedSlot = itemSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none)
 		};
 
 		foreach (var recipient in recipients)
