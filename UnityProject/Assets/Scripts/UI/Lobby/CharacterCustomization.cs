@@ -266,22 +266,7 @@ namespace Lobby
 		//------------------
 		private void SaveData()
 		{
-			ServerData.UpdateCharacterProfile(currentCharacter, SaveDataSuccess, SaveDataError);
-			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(currentCharacter));
-			PlayerPrefs.Save();
-		}
-
-		public void SaveDataError(string msg)
-		{
-			//Log out on any error for the moment:
-			ServerData.Auth.SignOut();
-			Logger.LogError(msg, Category.DatabaseAPI);
-		}
-
-		public void SaveDataSuccess(string msg)
-		{
-			//TODO: Turn on nav panel top
-			Logger.LogTrace("Not implemented: Save data success notification", Category.UI);
+			ServerData.UpdateCharacterProfile(JsonUtility.ToJson(currentCharacter));
 		}
 
 		//------------------

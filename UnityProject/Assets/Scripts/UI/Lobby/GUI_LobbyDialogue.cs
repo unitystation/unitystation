@@ -217,9 +217,6 @@ namespace Lobby
 		private void LoginSuccess(string msg)
 		{
 			loggingInText.text = "Login Success..";
-			var characterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(msg));
-			PlayerPrefs.SetString("currentcharacter", msg);
-			PlayerManager.CurrentCharacterSettings = characterSettings;
 			ShowConnectionPanel();
 		}
 

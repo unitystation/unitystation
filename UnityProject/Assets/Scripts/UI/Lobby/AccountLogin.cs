@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
 using DatabaseAPI;
 using Firebase;
 using Firebase.Auth;
@@ -53,15 +55,16 @@ namespace Lobby
 
 			HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, ServerData.UserFirestoreURL);
 			ServerData.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerData.IdToken}");
+			CancellationToken cancellationToken = new CancellationTokenSource(120).Token;
 
 			HttpResponseMessage response;
 			try
 			{
-				response = await ServerData.HttpClient.SendAsync(req);
+				response = await ServerData.HttpClient.SendAsync(req, cancellationToken);
 			}
 			catch (HttpRequestException e)
 			{
-				Logger.LogError($"Error Accessing Firestore: {e.Message}");
+				Logger.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
 				return;
 			}
 
@@ -69,9 +72,36 @@ namespace Lobby
 			Debug.Log(content);
 			FireStoreResponse fr = JsonUtility.FromJson<FireStoreResponse>(content);
 
-			Debug.Log($"FR: Name: {fr.name} Error: {fr.error.message} character: {fr.fields.character.stringValue}");
+			var newChar = "";
+			if (fr.fields.character == null)
+			{
+				var newCharacter = new CharacterSettings();
+				newCharacter.Name = StringManager.GetRandomMaleName();
+				newCharacter.username = user.DisplayName;
+				newChar = JsonUtility.ToJson(newCharacter);
+				var updateSuccess = await ServerData.UpdateCharacterProfile(newChar);
 
+				if (!updateSuccess)
+				{
+					Logger.LogError($"Error when updating character", Category.DatabaseAPI);
+					errorAction?.Invoke("Error when updating character");
+					return;
+				}
+			}
 
+			if (string.IsNullOrEmpty(newChar))
+			{
+				var characterSettings =
+					JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(fr.fields.character.stringValue));
+				PlayerPrefs.SetString("currentcharacter", fr.fields.character.stringValue);
+				PlayerManager.CurrentCharacterSettings = characterSettings;
+			}
+			else
+			{
+				PlayerManager.CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(newChar);
+			}
+
+			successAction.Invoke("Login success");
 			PlayerPrefs.SetString("lastLogin", userNameInput.text);
 			PlayerPrefs.Save();
 			passwordInput.text = "";

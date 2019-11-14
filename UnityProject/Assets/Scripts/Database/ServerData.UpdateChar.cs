@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Firebase.Auth;
 using UnityEngine;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
 using Utility = UnityEngine.Networking.Utility;
@@ -9,45 +14,46 @@ namespace DatabaseAPI
 {
 	public partial class ServerData
 	{
-		public static void UpdateCharacterProfile(CharacterSettings updateSettings, Action<string> callBack, Action<string> errorCallBack)
+		public static async Task<bool> UpdateCharacterProfile(string updateSettings)
 		{
-			if (Instance.user == null)
+			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
 			{
 				Logger.LogWarning("User is not logged in! Skipping character upload.", Category.DatabaseAPI);
-				return;
+				return false;
 			}
-			var json = JsonUtility.ToJson(updateSettings);
-			/*
-			var url = FirebaseRoot + $"/users/{Instance.user.UserId}/?updateMask.fieldPaths=character";
-			Instance.StartCoroutine(Instance.TryUpdateChar(url, json, callBack, errorCallBack));
-		*/
-		}
 
-		IEnumerator TryUpdateChar(string url, string jsonData, Action<string> callBack, Action<string> errorCallBack)
-		{
 			var payload = Newtonsoft.Json.JsonConvert.SerializeObject(new
 			{
 				fields = new
 				{
-					character = new { stringValue = jsonData }
+					character = new { stringValue = updateSettings }
 				}
 			});
 
-			UnityWebRequest r = UnityWebRequest.Put(url, payload);
-			r.method = "PATCH";
-			r.SetRequestHeader("Content-Type", "application/json");
-			r.SetRequestHeader("Authorization", $"Bearer {Instance.idToken}");
+			HttpRequestMessage r = new HttpRequestMessage(new HttpMethod("PATCH"),
+				UserFirestoreURL + "/?updateMask.fieldPaths=character");
+			var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
+			r.Content = httpContent;
 
-			yield return r.SendWebRequest();
-			if (r.error != null)
+			HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {IdToken}");
+
+			CancellationToken cancellationToken = new CancellationTokenSource(120).Token;
+
+			HttpResponseMessage res;
+			try
 			{
-				Logger.Log("DB request failed: " + r.error, Category.DatabaseAPI);
-				errorCallBack.Invoke(r.error);
+				res = await HttpClient.SendAsync(r, cancellationToken);
 			}
-			else
+			catch (Exception e)
 			{
-				callBack.Invoke(r.downloadHandler.text);
+				Logger.LogError($"Error occured when uploading character: {e.Message}", Category.DatabaseAPI);
+				return false;
 			}
+
+			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(updateSettings));
+			PlayerPrefs.Save();
+
+			return true;
 		}
 	}
 }
