@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Net.Http;
+using System.Threading;
 using DatabaseAPI;
+using Firebase.Auth;
+using Firebase.Extensions;
 using Lobby;
 using Mirror;
 using UnityEngine;
@@ -13,16 +17,6 @@ public class GameData : MonoBehaviour
 
 	public bool testServer;
 	private RconManager rconManager;
-
-	enum ValidationStatus
-	{
-		none,
-		success,
-		failed
-	}
-
-	//Token validation status:
-	private ValidationStatus validationStatus;
 
 	/// <summary>
 	///     Check to see if you are in the game or in the lobby
@@ -79,46 +73,74 @@ public class GameData : MonoBehaviour
 		//This is a hub message, attempt to login and connect to server
 		if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
 		{
-			validationStatus = ValidationStatus.none;
-			StartCoroutine(ConnectToServerFromHub(serverIp, port, uid, token));
+			HubToServerConnect(serverIp, port, uid, token);
 		}
 	}
-
-	void TokenValidationSuccess(string msg)
+	
+	private async void HubToServerConnect(string ip, string port, string uid, string token)
 	{
-		validationStatus = ValidationStatus.success;
-	}
+		//TODO: Show logging in screen through LobbyManager
 
-	void TokenValidationFailed(string msg)
-	{
-		validationStatus = ValidationStatus.failed;
-	}
+		var refreshToken = new RefreshToken();
+		refreshToken.refreshToken = token;
+		refreshToken.userID = uid;
 
-	//Monitors hub connection steps:
-	IEnumerator ConnectToServerFromHub(string ip, string port, string uid, string token)
-	{
-		Logger.Log("Hub message found. Attempting to log in..", Category.Hub);
+		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, JsonUtility.ToJson(refreshToken));
 
-		//Hide all default lobby ui's:
-		if(!IsInGame) LobbyManager.Instance.lobbyDialogue.HideAllPanels();
+		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
-		yield return WaitFor.EndOfFrame;
-
-		ServerData.TryTokenValidation(token, uid, TokenValidationSuccess, TokenValidationFailed);
-
-		while (validationStatus == ValidationStatus.none)
+		HttpResponseMessage res;
+		try
 		{
-			yield return WaitFor.EndOfFrame;
+			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
 		}
-
-		if (validationStatus == ValidationStatus.failed)
+		catch(Exception e)
 		{
-			//TODO: Show login screen
-			Logger.Log("Login failed, token or uid is invalid.", Category.Hub);
-			yield break;
+			Logger.LogError($"Something went wrong with hub token validation {e.Message}", Category.Hub);
+			LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+			return;
 		}
 
-		Logger.Log("Token validated. User successfully authenticated", Category.Hub);
+		string msg = await res.Content.ReadAsStringAsync();
+		var response = JsonUtility.FromJson<ApiResponse>(msg);
+
+		if (!string.IsNullOrEmpty(response.errorMsg))
+		{
+			Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.Hub);
+			LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+			return;
+		}
+
+		await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message).ContinueWithOnMainThread(
+			async task =>
+			{
+				if (task.IsCanceled)
+				{
+					Logger.LogError("Custom token sign in was canceled.", Category.Hub);
+					LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+					return;
+				}
+
+				if (task.IsFaulted)
+				{
+					Logger.LogError("Task Faulted: " + task.Exception, Category.Hub);
+					LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+					return;
+				}
+
+				var success = await ServerData.ValidateUser(task.Result, null, null);
+
+				if (success)
+				{
+					Logger.Log("Signed in successfully with valid token", Category.Hub);
+				}
+				else
+				{
+					LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+				}
+			});
+
+		//TODO WAIT UNTIL CHAR SCREEN IS SHOWN:
 
 		ushort p = 0;
 		ushort.TryParse(port, out p);
@@ -127,7 +149,6 @@ public class GameData : MonoBehaviour
 		CustomNetworkManager.Instance.networkAddress = ip;
 		CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port = p;
 		CustomNetworkManager.Instance.StartClient();
-
 	}
 
 	private void OnEnable()

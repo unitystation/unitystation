@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
+using Firebase.Auth;
 using UnityEngine;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
 
@@ -8,52 +12,71 @@ namespace DatabaseAPI
 {
 	public partial class ServerData
 	{
-		public static void TryTokenValidation(string token, string uid, Action<string> successCallBack,
-			Action<string> failedCallBack)
+		public static async Task<bool> ValidateUser(FirebaseUser user, Action<string> successAction,
+			Action<string> errorAction)
 		{
-			Instance.StartCoroutine(ValidateToken(token, uid, successCallBack, failedCallBack));
-		}
+			await user.ReloadAsync();
 
-		static IEnumerator ValidateToken(string token, string uid, Action<string> successCallBack,
-			Action<string> failedCallBack)
-		{
-			var refreshToken = new RefreshToken();
-			refreshToken.refreshToken = token;
-			refreshToken.userID = uid;
-
-			UnityWebRequest r = UnityWebRequest.Get("https://api.unitystation.org/validatetoken?data=" + JsonUtility.ToJson(refreshToken));
-			Debug.Log(r.url);
-			yield return r.SendWebRequest();
-
-
-			if (r.error != null)
+			if (!user.IsEmailVerified)
 			{
-				Logger.Log($"Encountered error while attempting to verify token: {r.error}", Category.DatabaseAPI);
-				failedCallBack?.Invoke(r.error);
+				errorAction?.Invoke(" Email Not Verified");
+				return false;
+			}
+
+			HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, ServerData.UserFirestoreURL);
+			req.Headers.Add("Authorization", $"Bearer {ServerData.IdToken}");
+
+			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
+
+			HttpResponseMessage response;
+			try
+			{
+				response = await ServerData.HttpClient.SendAsync(req, cancellationToken);
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
+				errorAction?.Invoke($"Error Accessing Firestore: {e.Message}");
+				return false;
+			}
+
+			string content = await response.Content.ReadAsStringAsync();
+			Debug.Log(content);
+			FireStoreResponse fr = JsonUtility.FromJson<FireStoreResponse>(content);
+
+			var newChar = "";
+			if (fr.fields.character == null)
+			{
+				var newCharacter = new CharacterSettings();
+				newCharacter.Name = StringManager.GetRandomMaleName();
+				newCharacter.username = user.DisplayName;
+				newChar = JsonUtility.ToJson(newCharacter);
+				var updateSuccess = await ServerData.UpdateCharacterProfile(newChar);
+
+				if (!updateSuccess)
+				{
+					Logger.LogError($"Error when updating character", Category.DatabaseAPI);
+					errorAction?.Invoke("Error when updating character");
+					return false;
+				}
+			}
+
+			if (string.IsNullOrEmpty(newChar))
+			{
+				var characterSettings =
+					JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(fr.fields.character.stringValue));
+				PlayerPrefs.SetString("currentcharacter", fr.fields.character.stringValue);
+				PlayerManager.CurrentCharacterSettings = characterSettings;
 			}
 			else
 			{
-				var response = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
-				Auth.SignInWithCustomTokenAsync(response.message).ContinueWith(task =>
-				{
-					if (task.IsCanceled)
-					{
-						Logger.LogError("Custom token sign in was canceled.");
-						failedCallBack?.Invoke("Custom token sign in was canceled.");
-						return;
-					}
-
-					if (task.IsFaulted)
-					{
-						Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
-						failedCallBack?.Invoke("Error");
-						return;
-					}
-
-					successCallBack?.Invoke("Success");
-					Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
-				});
+				PlayerManager.CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(newChar);
 			}
+
+			successAction.Invoke("Login success");
+			PlayerPrefs.SetString("lastLogin", user.Email);
+			PlayerPrefs.Save();
+			return true;
 		}
 	}
 }

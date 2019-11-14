@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Text.RegularExpressions;
 using DatabaseAPI;
 using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
-using System.Threading.Tasks;
 using Firebase.Auth;
 
 namespace Lobby
