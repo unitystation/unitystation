@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -10,6 +11,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 	int travelDistance = 6;
 	public ReagentContainer reagentContainer;
 	public RegisterItem registerItem;
+	public Pickupable pickupable;
 
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
@@ -17,13 +19,21 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 
 	public ParticleSystem particleSystem;
 
-	[SyncVar(hook = nameof(SyncParticles))]
+	[SyncVar(hook = nameof(SyncPlayParticles))]
 	public float particleSync;
 
 	public override void OnStartClient()
 	{
 		SyncSprite(spriteSync);
 		base.OnStartClient();
+	}
+
+	public void Awake()
+	{
+		if ( !pickupable )
+		{
+			pickupable = GetComponent<Pickupable>();
+		}
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -54,9 +64,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 	{
 		if (reagentContainer.CurrentCapacity >= 5 && !safety)
 		{
-			Vector2
-				startPos = interaction.Performer.transform
-					.position; //TODO: use registeritem position once picked up items get fixed
+			Vector2	startPos = gameObject.AssumedWorldPosServer();
 			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x),
 				Mathf.RoundToInt(interaction.WorldPositionTarget.y));
 			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
@@ -71,7 +79,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 			StartCoroutine(Fire(positionList));
 
 			var angle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * 180 / Mathf.PI;
-			particleSync = angle;
+			SyncPlayParticles(angle);
 			SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
 			reagentContainer.MoveReagentsTo(5);
 		}
@@ -124,18 +132,16 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		spriteSync = value;
 		spriteRenderer.sprite = spriteList[spriteSync];
 
-		if (UIManager.Hands.CurrentSlot && UIManager.Hands.CurrentSlot.Item == gameObject)
-		{
-			Inventory.RefreshUISlotImage(gameObject);
-		}
+		pickupable.RefreshUISlotImage();
 	}
 
-	public void SyncParticles(float value)
+	public void SyncPlayParticles(float value)
 	{
+		particleSync = value;
 		if (!gameObject.activeInHierarchy) return;
 
-		particleSystem.transform.position = registerItem.WorldPositionClient;
-		particleSystem.transform.rotation = Quaternion.Euler(0, 0, value);
+		particleSystem.transform.position = gameObject.AssumedWorldPosServer(); //fixme won't work in mp
+		particleSystem.transform.rotation = Quaternion.Euler(0, 0, particleSync);
 		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
 		renderer.enabled = true;
 		particleSystem.Play();

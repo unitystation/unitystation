@@ -69,16 +69,19 @@ public class MetaDataLayer : MonoBehaviour
 		return Get(position, false).IsSlippery;
 	}
 
-	public void MakeSlipperyAt(Vector3Int position)
+	public void MakeSlipperyAt(Vector3Int position, bool canDryUp=true)
 	{
 		var tile = Get(position);
 		tile.IsSlippery = true;
-		if (tile.CurrentDrying != null)
+		if ( canDryUp )
 		{
-			StopCoroutine(tile.CurrentDrying);
+			if (tile.CurrentDrying != null)
+			{
+				StopCoroutine(tile.CurrentDrying);
+			}
+			tile.CurrentDrying = DryUp(tile);
+			StartCoroutine(tile.CurrentDrying);
 		}
-		tile.CurrentDrying = DryUp(tile);
-		StartCoroutine(tile.CurrentDrying);
 	}
 
 
@@ -93,9 +96,13 @@ public class MetaDataLayer : MonoBehaviour
 			if (reagent.Key == "water")
 			{
 				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
+				Clean(worldPosInt, localPosInt, true);
 			} else if (reagent.Key == "space_cleaner")
 			{
 				Clean(worldPosInt, localPosInt, false);
+			} else if (reagent.Key == "space_lube")
+			{ //( ͡° ͜ʖ ͡°)
+				MakeSlipperyAt(localPosInt, false);
 			}
 		}
 
