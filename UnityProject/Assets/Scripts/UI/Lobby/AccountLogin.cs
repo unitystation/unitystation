@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using DatabaseAPI;
 using Firebase;
 using Firebase.Auth;
@@ -18,7 +19,6 @@ namespace Lobby
 		//Account login screen:
 		public InputField userNameInput;
 		public InputField passwordInput;
-		public Toggle autoLoginToggle;
 
 		void Start()
 		{
@@ -54,15 +54,16 @@ namespace Lobby
 			}
 
 			HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, ServerData.UserFirestoreURL);
-			ServerData.HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ServerData.IdToken}");
-			CancellationToken cancellationToken = new CancellationTokenSource(120).Token;
+			req.Headers.Add("Authorization", $"Bearer {ServerData.IdToken}");
+
+			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
 			HttpResponseMessage response;
 			try
 			{
 				response = await ServerData.HttpClient.SendAsync(req, cancellationToken);
 			}
-			catch (HttpRequestException e)
+			catch (Exception e)
 			{
 				Logger.LogError($"Error Accessing Firestore: {e.Message}", Category.DatabaseAPI);
 				return;
@@ -98,6 +99,7 @@ namespace Lobby
 			}
 			else
 			{
+				Debug.Log("NEW CHAR: " + newChar);
 				PlayerManager.CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(newChar);
 			}
 

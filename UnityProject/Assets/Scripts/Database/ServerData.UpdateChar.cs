@@ -30,19 +30,16 @@ namespace DatabaseAPI
 				}
 			});
 
-			HttpRequestMessage r = new HttpRequestMessage(new HttpMethod("PATCH"),
+			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Put,
 				UserFirestoreURL + "/?updateMask.fieldPaths=character");
+			r.Method = new HttpMethod("PATCH");
 			var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
+			r.Headers.Add("Authorization", $"Bearer {IdToken}");
 			r.Content = httpContent;
 
-			HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {IdToken}");
-
-			CancellationToken cancellationToken = new CancellationTokenSource(120).Token;
-
-			HttpResponseMessage res;
 			try
 			{
-				res = await HttpClient.SendAsync(r, cancellationToken);
+				await HttpClient.SendAsync(r);
 			}
 			catch (Exception e)
 			{
