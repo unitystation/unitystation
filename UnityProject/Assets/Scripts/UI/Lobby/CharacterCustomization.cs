@@ -54,6 +54,8 @@ namespace Lobby
 
 		public Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> playerCustomisationData = new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
 
+		public Action onCloseAction;
+
 		void OnEnable()
 		{
 			LoadSettings();
@@ -275,6 +277,12 @@ namespace Lobby
 
 		public void OnApplyBtn()
 		{
+			if (onCloseAction != null)
+			{
+				onCloseAction.Invoke();
+				onCloseAction = null;
+			}
+
 			DisplayErrorText("");
 			try
 			{

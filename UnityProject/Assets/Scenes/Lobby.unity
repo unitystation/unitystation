@@ -4184,7 +4184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userNameInput: {fileID: 1069699631}
   passwordInput: {fileID: 1449840789}
-  autoLoginToggle: {fileID: 1418044337}
 --- !u!1 &415963220
 GameObject:
   m_ObjectHideFlags: 0
@@ -10061,8 +10060,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.9999847, y: -149}
-  m_SizeDelta: {x: -2, y: 54.1}
+  m_AnchoredPosition: {x: 2.9999847, y: -0.000045776367}
+  m_SizeDelta: {x: -2, y: 295.4}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &958122684
 MonoBehaviour:
@@ -21692,7 +21691,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1498495214}
-        m_MethodName: ShowCreationPanel
+        m_MethodName: ShowLoginScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21792,8 +21791,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.9999847, y: -149}
-  m_SizeDelta: {x: -2, y: 54.1}
+  m_AnchoredPosition: {x: 2.9999847, y: -55.6}
+  m_SizeDelta: {x: -2, y: 220}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2020705373
 MonoBehaviour:

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using UnityEngine;
-using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
 
 namespace DatabaseAPI
 {
@@ -19,7 +17,7 @@ namespace DatabaseAPI
 
 			if (!user.IsEmailVerified)
 			{
-				errorAction?.Invoke(" Email Not Verified");
+				errorAction?.Invoke("Email Not Verified");
 				return false;
 			}
 
@@ -41,7 +39,7 @@ namespace DatabaseAPI
 			}
 
 			string content = await response.Content.ReadAsStringAsync();
-			Debug.Log(content);
+
 			FireStoreResponse fr = JsonUtility.FromJson<FireStoreResponse>(content);
 
 			var newChar = "";
@@ -73,7 +71,7 @@ namespace DatabaseAPI
 				PlayerManager.CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(newChar);
 			}
 
-			successAction.Invoke("Login success");
+			successAction?.Invoke("Login success");
 			PlayerPrefs.SetString("lastLogin", user.Email);
 			PlayerPrefs.Save();
 			return true;

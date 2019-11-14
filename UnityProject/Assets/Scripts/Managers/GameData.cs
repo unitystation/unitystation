@@ -58,10 +58,16 @@ public class GameData : MonoBehaviour
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
-		CheckCommandLineArgs();
+		if (!CheckCommandLineArgs())
+		{
+			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+			{
+				AttemptAutoJoin();
+			}
+		}
 	}
 
-	private void CheckCommandLineArgs()
+	private bool CheckCommandLineArgs()
 	{
 		//Check for Hub Message
 		string serverIp = GetArgument("-server");
@@ -69,17 +75,41 @@ public class GameData : MonoBehaviour
 		string token = GetArgument("-refreshtoken");
 		string uid = GetArgument("-uid");
 
-		Debug.Log($"ServerIP: {serverIp} port: {port} token: {token} uid: {uid}");
 		//This is a hub message, attempt to login and connect to server
 		if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
 		{
 			HubToServerConnect(serverIp, port, uid, token);
+			return true;
 		}
+
+		return false;
 	}
-	
+
+	private async void AttemptAutoJoin()
+	{
+		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
+
+		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
+			async task =>
+			{
+				if (task.IsCanceled || task.IsFaulted)
+				{
+					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception.Message);
+					return;
+				}
+			});
+
+		await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, LobbyManager.Instance.lobbyDialogue.LoginSuccess,
+			LobbyManager.Instance.lobbyDialogue.LoginError);
+	}
+
 	private async void HubToServerConnect(string ip, string port, string uid, string token)
 	{
-		//TODO: Show logging in screen through LobbyManager
+		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
+
+		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
+		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
+		Managers.instance.serverIP = ip;
 
 		var refreshToken = new RefreshToken();
 		refreshToken.refreshToken = token;
@@ -97,7 +127,7 @@ public class GameData : MonoBehaviour
 		catch(Exception e)
 		{
 			Logger.LogError($"Something went wrong with hub token validation {e.Message}", Category.Hub);
-			LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {e.Message}");
 			return;
 		}
 
@@ -107,7 +137,7 @@ public class GameData : MonoBehaviour
 		if (!string.IsNullOrEmpty(response.errorMsg))
 		{
 			Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.Hub);
-			LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
 			return;
 		}
 
@@ -117,14 +147,14 @@ public class GameData : MonoBehaviour
 				if (task.IsCanceled)
 				{
 					Logger.LogError("Custom token sign in was canceled.", Category.Hub);
-					LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+					LobbyManager.Instance.lobbyDialogue.LoginError($"Sign in was cancelled");
 					return;
 				}
 
 				if (task.IsFaulted)
 				{
 					Logger.LogError("Task Faulted: " + task.Exception, Category.Hub);
-					LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+					LobbyManager.Instance.lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
 					return;
 				}
 
@@ -136,19 +166,17 @@ public class GameData : MonoBehaviour
 				}
 				else
 				{
-					LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+					LobbyManager.Instance.lobbyDialogue.LoginError(
+						"Unknown error occured when verifying character settings on the server");
 				}
 			});
 
-		//TODO WAIT UNTIL CHAR SCREEN IS SHOWN:
+		LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
+	}
 
-		ushort p = 0;
-		ushort.TryParse(port, out p);
-
-		//Connect to server:
-		CustomNetworkManager.Instance.networkAddress = ip;
-		CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port = p;
-		CustomNetworkManager.Instance.StartClient();
+	void OnCharacterScreenCloseFromHubConnect()
+	{
+		LobbyManager.Instance.lobbyDialogue.OnStartGame();
 	}
 
 	private void OnEnable()
