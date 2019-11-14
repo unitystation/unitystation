@@ -32,21 +32,20 @@ public class SquareEffectShape  : EffectShape
 
 	public override IEnumerator<Vector3Int> GetEnumerator()
 	{
-		if (Radius > 0)
-		{
-			// starting from left bottom
-			for (int i = -Radius; i <= Radius; i++)
-			{
-				for (int j = -Radius; j <= Radius; j++)
-				{
-					Vector3Int checkPos = new Vector3Int(Center.x + i, Center.y + j, 0);
-					yield return checkPos;
-				}
-			}
-		}
-		else
+		if (Radius <= 0)
 		{
 			yield return Center;
+			yield break;
+		}
+
+		// starting from left bottom
+		for (int i = -Radius; i <= Radius; i++)
+		{
+			for (int j = -Radius; j <= Radius; j++)
+			{
+				Vector3Int checkPos = new Vector3Int(Center.x + i, Center.y + j, 0);
+				yield return checkPos;
+			}
 		}
 	}
 }
