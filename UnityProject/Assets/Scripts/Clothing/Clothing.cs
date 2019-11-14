@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-
+/// <summary>
+/// Indicates that a given item functions as an article of clothing. Contains the data related to the clothing / how it looks.
+/// </summary>
 public class Clothing : NetworkBehaviour
 {
 
@@ -27,6 +29,11 @@ public class Clothing : NetworkBehaviour
 	public SpriteData SpriteInfo;
 
 	private Pickupable pickupable;
+
+	/// <summary>
+	/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
+	/// </summary>
+	private ClothingItem clothingItem;
 
 	private void Awake()
 	{
@@ -63,15 +70,7 @@ public class Clothing : NetworkBehaviour
 	{
 		pickupable.RefreshUISlotImage();
 		//if currently equipped, refresh clothingitem apperance.
-		if (pickupable.LocalUISlot != null && PlayerManager.LocalPlayer)
-		{
-			//local UI slot, so refresh out appearance
-			ClothingItem c = PlayerManager.LocalPlayer.GetComponent<Equipment>().GetClothingItem(pickupable.ItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none));
-			if (c != null)
-			{
-				c.SetReference(gameObject);
-			}
-		}
+		RefreshClothingItem();
 	}
 
 	public void SyncType(ClothingVariantType _Type) {
@@ -202,6 +201,20 @@ public class Clothing : NetworkBehaviour
 		}
 
 		RefreshAppearance();
+	}
+
+	public void SetClothingItem(ClothingItem clothingItem)
+	{
+		this.clothingItem = clothingItem;
+		RefreshClothingItem();
+	}
+
+	private void RefreshClothingItem()
+	{
+		if (clothingItem != null)
+		{
+			clothingItem.RefreshFromClothing(this);
+		}
 	}
 }
 
