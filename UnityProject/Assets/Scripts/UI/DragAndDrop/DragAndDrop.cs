@@ -12,8 +12,8 @@ public class DragAndDrop : MonoBehaviour
 {
 	public Image dragDummy;
 	private bool isDragging = false;
-	public UI_ItemSlot ItemSlotCache { get; private set; }
-	public GameObject ItemCache { get; private set; }
+	public UI_ItemSlot FromSlotCache { get; private set; }
+	public GameObject DraggedItem { get; private set; }
 	public Shadow shadow;
 
 	Vector3 scaleCache;
@@ -36,25 +36,25 @@ public class DragAndDrop : MonoBehaviour
 		scaleCache = dragDummy.transform.localScale;
 		interactableScale = scaleCache * 1.1f;
 	}
-	public void UI_ItemDrag(UI_ItemSlot itemSlot)
+	public void UI_ItemDrag(UI_ItemSlot fromSlot)
 	{
-		if (itemSlot.Item != null && !isDragging)
+		if (fromSlot.Item != null && !isDragging)
 		{
 			DropInteracted = false;
-			ItemSlotCache = itemSlot;
+			FromSlotCache = fromSlot;
 			isDragging = true;
 			dragDummy.enabled = true;
-			dragDummy.sprite = itemSlot.Image.sprite;
-			itemSlot.Clear();
-			ItemCache = itemSlot.ItemObject;
+			dragDummy.sprite = fromSlot.Image.sprite;
+			fromSlot.Clear();
+			DraggedItem = fromSlot.ItemObject;
 		}
 	}
 
 	public void StopDrag()
 	{
-		if (!DropInteracted && ItemCache != null)
+		if (!DropInteracted && DraggedItem != null)
 		{
-			var mouseDrops = ItemCache.GetComponents<IBaseInteractable<MouseDrop>>();
+			var mouseDrops = DraggedItem.GetComponents<IBaseInteractable<MouseDrop>>();
 			//check for MouseDrop interactions in the world if we didn't drop on a UI slot
 			//check what we dropped on, which may or may not have mousedrop interaction components
 			var dropTargets =
@@ -63,7 +63,7 @@ public class DragAndDrop : MonoBehaviour
 			//go through the stack of objects and call any drop components we find
 			foreach (GameObject dropTarget in dropTargets)
 			{
-				MouseDrop info = MouseDrop.ByLocalPlayer( ItemCache, dropTarget.gameObject);
+				MouseDrop info = MouseDrop.ByLocalPlayer( DraggedItem, dropTarget.gameObject);
 				//call this object's mousedrop interaction methods if it has any, for each object we are dropping on
 				if (InteractionUtils.ClientCheckAndTrigger(mouseDrops, info) != null) break;
 				var targetComps = dropTarget.GetComponents<IBaseInteractable<MouseDrop>>()
@@ -74,17 +74,17 @@ public class DragAndDrop : MonoBehaviour
 		DropInteracted = false;
 		isDragging = false;
 		dragDummy.enabled = false;
-		if (ItemSlotCache != null)
+		if (FromSlotCache != null)
 		{
-			if (ItemSlotCache.Item != null)
+			if (FromSlotCache.Item != null)
 			{
-				ItemSlotCache.RefreshImage();
+				FromSlotCache.RefreshImage();
 			}
 		}
 
 
-		ItemSlotCache = null;
-		ItemCache = null;
+		FromSlotCache = null;
+		DraggedItem = null;
 		ResetInteractable();
 	}
 

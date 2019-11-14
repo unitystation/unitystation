@@ -27,13 +27,15 @@ public class UI_StorageHandler : MonoBehaviour
 	/// <param name="itemStorage"></param>
 	public void OpenStorageUI(ItemStorage itemStorage)
 	{
+		//only update if it's actually different
 		if (CurrentOpenStorage != itemStorage)
 		{
 			CloseStorageUI();
+			CurrentOpenStorage = itemStorage;
+			PopulateInventorySlots();
+			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 		}
-		CurrentOpenStorage = itemStorage;
-		PopulateInventorySlots();
-		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
+
 	}
 
 	private void PopulateInventorySlots()

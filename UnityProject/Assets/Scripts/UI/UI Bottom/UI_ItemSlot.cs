@@ -14,7 +14,7 @@ using UnityEngine.UI;
 /// Represents an item slot rendered in the UI.
 /// </summary>
 [Serializable]
-public class UI_ItemSlot : TooltipMonoBehaviour, IEndDragHandler
+public class UI_ItemSlot : TooltipMonoBehaviour
 {
 
 	[SerializeField]
@@ -316,6 +316,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IEndDragHandler
 		}
 	}
 
+
 	private bool TryIF2InventoryApply()
 	{
 		//check IF2 InventoryApply interaction - apply the active hand item with this (only if
@@ -338,46 +339,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IEndDragHandler
 		}
 
 		return false;
-	}
-
-	public void OnEndDrag(PointerEventData data)
-	{
-
-		//if there's an item in the target slot and we haven't dropped yet, try inventory apply interaction
-		if (!UIManager.DragAndDrop.DropInteracted && UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
-		{
-			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
-
-			var targetItem = itemSlot.ItemObject;
-			if (targetItem != null)
-			{
-				var invApply = InventoryApply.ByLocalPlayer(itemSlot, fromSlot);
-				//check interactables in the fromSlot (if it's occupied)
-				if (fromSlot.ItemObject != null)
-				{
-					var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
-						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
-					{
-						UIManager.DragAndDrop.DropInteracted = true;
-						UIManager.DragAndDrop.StopDrag();
-						return;
-					}
-				}
-
-				//check interactables in the target
-				var targetInteractables = targetItem.GetComponents<IBaseInteractable<InventoryApply>>()
-					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
-				if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, invApply) != null)
-				{
-					UIManager.DragAndDrop.DropInteracted = true;
-					UIManager.DragAndDrop.StopDrag();
-					return;
-				}
-			}
-		}
-
-		UIManager.DragAndDrop.StopDrag();
 	}
 
 

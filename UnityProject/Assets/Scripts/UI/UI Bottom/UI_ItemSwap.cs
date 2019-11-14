@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler,
-	IPointerEnterHandler, IPointerExitHandler, IDragHandler
+	IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
 {
 	private UI_ItemSlot itemSlot;
 	public override string Tooltip => itemSlot.NamedSlot.ToString();
@@ -18,7 +18,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		if (eventData.button == PointerEventData.InputButton.Left)
+		if (eventData.button == PointerEventData.InputButton.Left && !eventData.dragging)
 		{
 			OnClick();
 		}
@@ -87,12 +87,12 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		itemSlot.UpdateImage(null);
 	}
 
-	//Means OnDrop while drag and dropping an Item. OnDrop is the UISlot that the mouse pointer is over when the user drops the item
 	public void OnDrop(PointerEventData data)
 	{
-		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
+		//something was dropped onto this slot
+		if (UIManager.DragAndDrop.FromSlotCache != null && UIManager.DragAndDrop.DraggedItem != null)
 		{
-			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
+			var fromSlot = UIManager.DragAndDrop.DraggedItem.GetComponent<Pickupable>().ItemSlot;
 
 			//if there's an item in the target slot, try inventory apply interaction
 			var targetItem = itemSlot.ItemSlot.ItemObject;
@@ -130,5 +130,12 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 				Inventory.ClientRequestTransfer(fromSlot, itemSlot.ItemSlot);
 			}
 		}
+		UIManager.DragAndDrop.StopDrag();
+	}
+
+	public void OnEndDrag(PointerEventData eventData)
+	{
+		//dragging this slot ended somewhere
+		UIManager.DragAndDrop.StopDrag();
 	}
 }
