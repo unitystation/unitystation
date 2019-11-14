@@ -17,8 +17,10 @@ namespace DatabaseAPI
 				return;
 			}
 			var json = JsonUtility.ToJson(updateSettings);
+			/*
 			var url = FirebaseRoot + $"/users/{Instance.user.UserId}/?updateMask.fieldPaths=character";
 			Instance.StartCoroutine(Instance.TryUpdateChar(url, json, callBack, errorCallBack));
+		*/
 		}
 
 		IEnumerator TryUpdateChar(string url, string jsonData, Action<string> callBack, Action<string> errorCallBack)
@@ -34,7 +36,7 @@ namespace DatabaseAPI
 			UnityWebRequest r = UnityWebRequest.Put(url, payload);
 			r.method = "PATCH";
 			r.SetRequestHeader("Content-Type", "application/json");
-			r.SetRequestHeader("Authorization", $"Bearer {Instance.token}");
+			r.SetRequestHeader("Authorization", $"Bearer {Instance.idToken}");
 
 			yield return r.SendWebRequest();
 			if (r.error != null)

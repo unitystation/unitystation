@@ -25,37 +25,12 @@ namespace DatabaseAPI
 			Instance.StartCoroutine(MonitorLogin(successCallBack, failedCallBack, status));
 		}
 
-		public string RefreshToks;
-
-		[ContextMenu("Test Access Token")]
-		void Test()
-		{
-			auth.SignInWithCustomTokenAsync(RefreshToks).ContinueWith(task =>
-			{
-				if (task.IsCanceled)
-				{
-					Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
-					return;
-				}
-
-				if (task.IsFaulted)
-				{
-					Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-					return;
-				}
-
-				Firebase.Auth.FirebaseUser newUser = task.Result;
-				Debug.LogFormat("User signed in successfully: {0} ({1})",
-					newUser.DisplayName, newUser.UserId);
-			});
-		}
-
 		static IEnumerator MonitorLogin(Action<string> successCallBack, Action<string> failedCallBack, Status status)
 		{
 			float timeOutTime = 8f;
 			float timeOutCount = 0f;
 
-			while (Auth.CurrentUser == null || string.IsNullOrEmpty(Instance.refreshToken))
+			while (Auth.CurrentUser == null || string.IsNullOrEmpty(Instance.idToken))
 			{
 				timeOutCount += Time.deltaTime;
 				if (timeOutCount >= timeOutTime || status.error)
@@ -71,10 +46,9 @@ namespace DatabaseAPI
 
 				yield return WaitFor.EndOfFrame;
 			}
-
-			var url = FirebaseRoot + $"/users/{Auth.CurrentUser.UserId}";
+			/*
 			UnityWebRequest r = UnityWebRequest.Get(url);
-			r.SetRequestHeader("Authorization", $"Bearer {Instance.refreshToken}");
+			r.SetRequestHeader("Authorization", $"Bearer {Instance.idToken}");
 
 			yield return r.SendWebRequest();
 			if (r.error != null)
@@ -87,6 +61,7 @@ namespace DatabaseAPI
 				var charData = JsonUtility.FromJson<UserDocument>(r.downloadHandler.text);
 				successCallBack.Invoke(charData.fields.character.stringValue);
 			}
+			*/
 		}
 
 		public static void TryTokenValidation(string token, string uid, Action<string> successCallBack,

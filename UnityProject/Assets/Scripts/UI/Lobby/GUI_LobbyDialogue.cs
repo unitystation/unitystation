@@ -5,6 +5,8 @@ using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using System.Threading.Tasks;
+using Firebase.Auth;
 
 namespace Lobby
 {
@@ -33,6 +35,7 @@ namespace Lobby
 		//Account login:
 		public GameObject loginNextButton;
 		public GameObject loginGoBackButton;
+		public Button resendEmailButton;
 
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
@@ -64,26 +67,6 @@ namespace Lobby
 
 			// Init Lobby UI
 			InitPlayerName();
-
-			//TODO: Enable auto login. If CharacterSettings have not been downloaded for this instance
-			// then you need to download them if the user is already logged in. Show a logging in status text
-			// when doing this
-			// if (ServerData.Auth.CurrentUser != null)
-			// {
-			// 	ShowConnectionPanel();
-			// }
-			// else
-			// {
-
-			//if (ServerData.Auth?.CurrentUser != null)
-			//{
-			//	ShowConnectionPanel();
-			//}
-			//else
-			//{
-
-			//	ShowLoginScreen();
-			//}
 		}
 
 		public void ShowLoginScreen()
@@ -185,8 +168,6 @@ namespace Lobby
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			chosenPasswordInput.text = "";
 			chosenUsernameInput.text = "";
-
-			ShowCharacterEditor();
 			PlayerPrefs.SetString("lastLogin", emailAddressInput.text);
 			PlayerPrefs.Save();
 			LobbyManager.Instance.accountLogin.userNameInput.text = emailAddressInput.text;
@@ -244,9 +225,27 @@ namespace Lobby
 
 		private void LoginError(string msg)
 		{
-			ServerData.Auth.SignOut(); //just incase
 			loggingInText.text = "Login failed:" + msg;
+			if (msg.Contains("Email Not Verified"))
+			{
+				resendEmailButton.gameObject.SetActive(true);
+				resendEmailButton.interactable = true;
+			}
+			else
+			{
+				resendEmailButton.gameObject.SetActive(false);
+				ServerData.Auth.SignOut();
+			}
 			loginGoBackButton.SetActive(true);
+		}
+
+		public void OnEmailResend()
+		{
+			resendEmailButton.interactable = false;
+			loggingInText.text = $"A new verification email has been sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.";
+			SoundManager.Play("Click01");
+			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
+			FirebaseAuth.DefaultInstance.SignOut();
 		}
 
 		public void OnHostToggle()
