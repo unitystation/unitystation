@@ -14,7 +14,7 @@ using UnityEngine.UI;
 /// Represents an item slot rendered in the UI.
 /// </summary>
 [Serializable]
-public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
+public class UI_ItemSlot : TooltipMonoBehaviour, IEndDragHandler
 {
 
 	[SerializeField]
@@ -338,14 +338,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 
 		return false;
-	}
-
-	public void OnDrag(PointerEventData data)
-	{
-		if (data.button == PointerEventData.InputButton.Left)
-		{
-			UIManager.DragAndDrop.UI_ItemDrag(this);
-		}
 	}
 
 	public void OnEndDrag(PointerEventData data)

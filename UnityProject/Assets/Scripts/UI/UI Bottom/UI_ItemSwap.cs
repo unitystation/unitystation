@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler,
-	IPointerEnterHandler, IPointerExitHandler
+	IPointerEnterHandler, IPointerExitHandler, IDragHandler
 {
 	private UI_ItemSlot itemSlot;
 	public override string Tooltip => itemSlot.NamedSlot.ToString();
@@ -13,23 +13,47 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 
 	public void OnPointerClick(BaseEventData eventData)
 	{
-		OnPointerClick((PointerEventData)eventData);
+		OnPointerClick((PointerEventData) eventData);
 	}
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		if (eventData.button == PointerEventData.InputButton.Left)
 		{
-			SoundManager.Play("Click01");
-			// Only try interacting if we're not actually switching hands
-			if (UIManager.Hands.hasSwitchedHands)
-			{
-				UIManager.Hands.hasSwitchedHands = false;
-			}
-			else
-			{
-				itemSlot.TryItemInteract();
-			}
+			OnClick();
+		}
+	}
+
+	public void OnClick()
+	{
+		SoundManager.Play("Click01");
+		//if there is an item in this slot, try interacting.
+		if (itemSlot.Item != null)
+		{
+			itemSlot.TryItemInteract();
+		}
+		//otherwise, try switching hands to this hand if this is a hand slot and not already active
+		else if (itemSlot.ItemSlot.NamedSlot == NamedSlot.leftHand && UIManager.Hands.CurrentSlot != itemSlot)
+		{
+			UIManager.Hands.SetHand(false);
+		}
+		else if (itemSlot.ItemSlot.NamedSlot == NamedSlot.rightHand && UIManager.Hands.CurrentSlot != itemSlot)
+		{
+			UIManager.Hands.SetHand(true);
+		}
+		else
+		{
+			//otherwise, try just interacting with the blank slot (which will transfer the item
+			itemSlot.TryItemInteract();
+		}
+	}
+
+
+	public void OnDrag(PointerEventData data)
+	{
+		if (data.button == PointerEventData.InputButton.Left && itemSlot.Item != null)
+		{
+			UIManager.DragAndDrop.UI_ItemDrag(itemSlot);
 		}
 	}
 
@@ -83,6 +107,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
 					{
 						UIManager.DragAndDrop.DropInteracted = true;
+						UIManager.DragAndDrop.StopDrag();
 						return;
 					}
 
@@ -94,12 +119,14 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 				if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, invApply) != null)
 				{
 					UIManager.DragAndDrop.DropInteracted = true;
+					UIManager.DragAndDrop.StopDrag();
 					return;
 				}
 			}
 			else
 			{
 				UIManager.DragAndDrop.DropInteracted = true;
+				UIManager.DragAndDrop.StopDrag();
 				Inventory.ClientRequestTransfer(fromSlot, itemSlot.ItemSlot);
 			}
 		}
