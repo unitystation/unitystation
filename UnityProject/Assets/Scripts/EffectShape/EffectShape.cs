@@ -10,6 +10,10 @@ public enum EffectShapeType
 	Circle // Diamond without tip
 }
 
+/// <summary>
+/// Basic type for all effects shapes
+/// Useful for quick iteration on a grid (magic, explosion, etc.)
+/// </summary>
 public abstract class EffectShape : IEnumerable<Vector3Int>
 {
 	public abstract IEnumerator<Vector3Int> GetEnumerator();
@@ -21,6 +25,7 @@ public abstract class EffectShape : IEnumerable<Vector3Int>
 
 	/// <summary>
 	/// Creates new center-based Effect Shape
+	/// Right now all Effect Shapes are center based
 	/// </summary>
 	/// <param name="type">The type of a new shape</param>
 	/// <param name="center"></param>

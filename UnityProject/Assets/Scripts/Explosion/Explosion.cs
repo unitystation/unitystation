@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
@@ -11,7 +12,7 @@ public class Explosion : MonoBehaviour
 	[TooltipAttribute("Explosion Radius in tiles")]
 	public float radius = 4f;
 	[TooltipAttribute("Shape of the explosion")]
-	public ExplosionType explosionType;
+	public EffectShapeType explosionType;
 	[TooltipAttribute("Distance multiplied from explosion that will still shake = shakeDistance * radius")]
 	public float shakeDistance = 8;
 	[TooltipAttribute("generally necessary for smaller explosions = 1 - ((distance + distance) / ((radius + radius) + minDamage))")]
@@ -21,33 +22,98 @@ public class Explosion : MonoBehaviour
 	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 	public float minEffectDuration = .05f;
 
-	public void Explode()
+	private LayerMask obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
+
+	public void Explode(Matrix matrix)
 	{
-		StartCoroutine(ExplosionRoutine());
+		StartCoroutine(ExplosionRoutine(matrix));
 	}
 
-	/// <summary>
-	/// calculates the distance from the the center using the looping x and y vars
-	/// returns a float between the limits
-	/// </summary>
-	private float DistanceFromCenter(int x, int y, float lowLimit = 0.05f, float highLimit = 0.25f)
+	private IEnumerator ExplosionRoutine(Matrix matrix)
 	{
-		float percentage = (Mathf.Abs(x) + Mathf.Abs(y)) / (radius + radius);
-		float reversedPercentage = (1 - percentage) * 100;
-		float distance = ((reversedPercentage * (highLimit - lowLimit) / 100) + lowLimit);
-		return distance;
-	}
-
-	private IEnumerator ExplosionRoutine()
-	{
-		var currentPosition = transform.position.RoundToInt();
+		var explosionCenter = transform.position.RoundToInt();
 
 		// First - play boom sound and shake ground
-		PlaySoundAndShake(currentPosition);
+		PlaySoundAndShake(explosionCenter);
 
-		// Now let's create shape
-		var shape = CreateShape(currentPosition);
-		fore
+		// Now let's create explosion shape
+		int radiusInteger = (int)radius;
+		var shape = EffectShape.CreateEffectShape(explosionType, explosionCenter, radiusInteger);
+
+		var explosionCenter2d = explosionCenter.To2Int();
+		var tileManager = GetComponentInParent<TileChangeManager>();
+		var longestTime = 0f;
+
+		foreach (var tilePos in shape)
+		{
+			float distance = Vector3Int.Distance(tilePos, explosionCenter);
+			var tilePos2d = tilePos.To2Int();
+
+			// Is explosion goes behind walls?
+			if (IsPastWall(explosionCenter2d, tilePos2d, distance))
+			{
+				// Heat the air
+				matrix.ReactionManager.ExposeHotspotWorldPosition(tilePos2d, 3200, 0.005f);
+
+				// Calculate damage from explosion
+				int damage = CalculateDamage(tilePos2d, explosionCenter2d);
+
+				if (damage > 0)
+				{
+					// Damage poor living things
+					DamageLivingThings(tilePos, damage);
+
+					// Damage all objects
+					DamageObjects(tilePos, damage);
+				}
+
+				// Calculate fire effect time
+				var fireTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
+				StartCoroutine(TimedEffect(tilePos, fireTime, tileManager));
+
+				// Save longest fire effect time
+				if (fireTime > longestTime)
+					longestTime = fireTime;
+			}
+		}
+
+		// Wait until all fire effects are finished
+		yield return WaitFor.Seconds(longestTime);
+
+		Destroy(gameObject);
+	}
+
+	public IEnumerator TimedEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
+	{
+		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
+		yield return WaitFor.Seconds(time);
+		tileChangeManager.RemoveTile(position, LayerType.Effects);
+	}
+
+
+
+	private void DamageLivingThings(Vector3Int worldPosition, int damage)
+	{
+		var damagedLivingThings = (MatrixManager.GetAt<LivingHealthBehaviour>(worldPosition, true)
+			//only damage each thing once
+			.Distinct());
+
+		foreach (var damagedLiving in damagedLivingThings)
+		{
+			damagedLiving.ApplyDamage(gameObject, damage, AttackType.Bomb, DamageType.Burn);
+		}
+	}
+
+	private void DamageObjects(Vector3Int worldPosition, int damage)
+	{
+		var damagedObjects = (MatrixManager.GetAt<Integrity>(worldPosition, true)
+			//only damage each thing once
+			.Distinct());
+
+		foreach (var damagedObject in damagedObjects)
+        {
+	        damagedObject.ApplyDamage(damage, AttackType.Bomb, DamageType.Burn);
+        }
 	}
 
 	/// <summary>
@@ -59,113 +125,29 @@ public class Explosion : MonoBehaviour
 		ExplosionUtils.PlaySoundAndShake(explosionPosition, shakeIntensity, (int) shakeDistance);
 	}
 
-	/// <summary>
-	/// Set the tiles to show fire effect in the pattern that was chosen
-	/// This could be used in the future to set it as chemical reactions in a location instead.
-	/// </summary>
-	private List<Vector3Int> CreateShape(Vector3Int pos)
+	private bool IsPastWall(Vector2Int pos, Vector2Int damageablePos, float distance)
 	{
-		int radiusInteger = (int)radius;
-
-		List<Vector3Int> shape = null;
-
-		switch (explosionType)
-		{
-			case ExplosionType.Square:
-				shape = ExplosionUtils.CreateSquareShapeMargin(pos, radiusInteger);
-				break;
-		}
-
-		/*if (explosionType == ExplosionType.Square)
-		{
-				if (IsPastWall(pos.To2Int(), checkPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
-				{
-					CheckDamagedThings(checkPos.To2Int());
-					checkPos.x -= 1;
-					checkPos.y -= 1;
-					StartCoroutine(TimedEffect(checkPos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
-				}
-
-		}
-		if (explosionType == ExplosionType.Diamond)
-		{
-			// F is distance from zero, calculated by radius - x
-			// if pos.x/pos.y is within that range it will apply affect that position
-			int f;
-			for (int i = -radiusInteger; i <= radiusInteger; i++)
-			{
-				f = radiusInteger - Mathf.Abs(i);
-				for (int j = -radiusInteger; j <= radiusInteger; j++)
-				{
-					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
-					{
-						Vector3Int diamondPos = new Vector3Int(pos.x + i, pos.y + j, 0);
-						if (IsPastWall(pos.To2Int(), diamondPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
-						{
-							CheckDamagedThings(diamondPos.To2Int());
-							diamondPos.x -= 1;
-							diamondPos.y -= 1;
-							StartCoroutine(TimedEffect(diamondPos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
-						}
-					}
-				}
-			}
-		}
-		if (explosionType == ExplosionType.Bomberman)
-		{
-			for (int i = -radiusInteger; i <= radiusInteger; i++)
-			{
-				Vector3Int xPos = new Vector3Int(pos.x + i, pos.y, 0);
-				if (IsPastWall(pos.To2Int(), xPos.To2Int(), Mathf.Abs(i)))
-				{
-					CheckDamagedThings(xPos.To2Int());
-					xPos.x -= 1;
-					xPos.y -= 1;
-					StartCoroutine(TimedEffect(xPos, TileType.Effects, "Fire", DistanceFromCenter(i,0, minEffectDuration, maxEffectDuration)));
-				}
-			}
-			for (int j = -radiusInteger; j <= radiusInteger; j++)
-			{
-				Vector3Int yPos = new Vector3Int(pos.x, pos.y + j, 0);
-				if (IsPastWall(pos.To2Int(), yPos.To2Int(), Mathf.Abs(j)))
-				{
-					CheckDamagedThings(yPos.To2Int());
-					yPos.x -= 1;
-					yPos.y -= 1;
-					StartCoroutine(TimedEffect(yPos, TileType.Effects, "Fire", DistanceFromCenter(0,j, minEffectDuration, maxEffectDuration)));
-				}
-			}
-		}
-		if (explosionType == ExplosionType.Circle)
-		{
-			// F is distance from zero, calculated by radius - x
-			// if pos.x/pos.y is within that range it will apply affect that position
-			int f;
-			for (int i = -radiusInteger; i <= radiusInteger; i++)
-			{
-				f = radiusInteger - Mathf.Abs(i) + 1;
-				for (int j = -radiusInteger; j <= radiusInteger; j++)
-				{
-					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
-					{
-						Vector3Int circlePos = new Vector3Int(pos.x + i, pos.y + j, 0);
-						if (IsPastWall(pos.To2Int(), circlePos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
-						{
-							CheckDamagedThings(circlePos.To2Int());
-							circlePos.x -= 1;
-							circlePos.y -= 1;
-							StartCoroutine(TimedEffect(circlePos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
-						}
-					}
-				}
-			}
-		}*/
-
-		return shape;
+		return Physics2D.Raycast(pos, damageablePos - pos, distance, obstacleMask).collider == null;
 	}
 
-	private bool IsPastWall(Vector2 pos, Vector2 damageablePos, float distance)
+	private int CalculateDamage(Vector2Int damagePos, Vector2Int explosionPos)
 	{
-		return Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
+		float distance = Vector2Int.Distance(explosionPos, damagePos);
+		float effect = 1 - ((distance + distance) / ((radius + radius) + minDamage));
+		return (int)(damage * effect);
+	}
+
+	/// <summary>
+	/// calculates the distance from the the center using the looping x and y vars
+	/// returns a float between the limits
+	/// </summary>
+	private float DistanceFromCenter(Vector2Int pos, Vector2Int center, float lowLimit = 0.05f, float highLimit = 0.25f)
+	{
+		var dif = center - pos;
+
+		float percentage = (Mathf.Abs(dif.x) + Mathf.Abs(dif.y)) / (radius + radius);
+		float reversedPercentage = (1 - percentage) * 100;
+		float distance = ((reversedPercentage * (highLimit - lowLimit) / 100) + lowLimit);
+		return distance;
 	}
 }

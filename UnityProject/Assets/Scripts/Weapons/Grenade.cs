@@ -19,7 +19,7 @@ public enum ExplosionType
 }
 
 /// <summary>
-///     Generic grenade base.
+/// Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
 public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpawn
