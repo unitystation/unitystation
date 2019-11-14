@@ -6,11 +6,11 @@
 /// A spatial relationship defines an arbitrary server-side spatial relationship between 2 RegisterTiles, so that logic
 /// can be invoked when either of the objects in the relationship moves relative to each other.
 ///
-/// A relationship is first started by calling Activate. The relationship will be checked appropriately when the
+/// A relationship is first started by calling ServerActivate. The relationship will be checked appropriately when the
 /// objects move relative to each other according to the RegisterTiles. The relationship ends
 /// by being ended, which may be due to the OnRelationshipChanged method returning false, or
-/// by some other external means (such as one of the objects being destroyed). At this time, the
-/// OnRelationshipEnded hook is invoked.
+/// by some other external means (such as one of the objects being destroyed). When it ends, the
+/// OnRelationshipEnded hook is invoked. It can be ended at will by calling ServerEnd.
 ///
 /// This can be used to avoid needing to do Update() polling - checking if the objects have moved away from each other
 /// in an update loop. Instead of polling, it simply invokes the OnRelationshipChanged hook whenever either
