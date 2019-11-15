@@ -6,16 +6,26 @@ using UnityEngine;
 /// spatial relationship which fires some logic and ends the relationship
 /// when the objects go out of range of each other or when the relationship is ended via
 /// any other means.
+///
+/// Handles case where one of the objects is pulling the other, in which case the puller will be considered
+/// in range of the thing they are pulling at all times. This special logic is needed because the puller
+/// actually reaches their destination before the thing they are pulling is moved, so for a brief moment they are
+/// out of range.
 /// </summary>
 public class RangeRelationship : BaseSpatialRelationship
 {
 	private readonly float maxRange;
 	private readonly Action<RangeRelationship> onRangeExceeded;
 
+	private readonly PushPull pushPull1;
+	private readonly PushPull pushPull2;
+
 	private RangeRelationship(RegisterTile obj1, RegisterTile obj2, float maxRange, Action<RangeRelationship> onRangeExceeded) : base(obj1, obj2)
 	{
 		this.maxRange = maxRange;
 		this.onRangeExceeded = onRangeExceeded;
+		pushPull1 = obj1.GetComponent<PushPull>();
+		pushPull2 = obj2.GetComponent<PushPull>();
 	}
 
 	/// <summary>
@@ -53,6 +63,12 @@ public class RangeRelationship : BaseSpatialRelationship
 
 	public override bool OnRelationshipChanged()
 	{
+		//if an object is pulling the other, they are always in range
+		if ((pushPull1 != null && pushPull1.PulledObjectServer == pushPull2) ||
+			(pushPull2 != null && pushPull2.PulledObjectServer == pushPull1))
+		{
+			return false;
+		}
 		if (Vector3Int.Distance(obj1.WorldPositionServer, obj2.WorldPositionServer) > maxRange)
 		{
 			onRangeExceeded.Invoke(this);
