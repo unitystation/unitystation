@@ -89,6 +89,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
+	private void OnDestroy()
+	{
+		//free the slots
+		ItemSlot.Free(this);
+	}
+
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
@@ -115,7 +121,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
 		//if we were currently looking at this storage, close the storage UI if this item was moved at all.
-		if (UIManager.StorageHandler.currentOpenStorage == this)
+		if (UIManager.StorageHandler.CurrentOpenStorage == this)
 		{
 			UIManager.StorageHandler.CloseStorageUI();
 		}
@@ -253,6 +259,33 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public ItemSlot GetNextFreeIndexedSlot()
 	{
 		return GetIndexedSlots().FirstOrDefault(its => its.Item == null);
+	}
+
+	/// <summary>
+	/// Returns the best slot (according to BestSlotForTrait) that is capable of holding
+	/// this item (or any arbitrary slot if none of the best slots are capable of holding it).
+	/// Returns null if there is no slot in this storage that can fit the item.
+	/// Works for indexed and named slots both.
+	/// </summary>
+	/// <param name="toCheck"></param>
+	/// <returns></returns>
+	public ItemSlot GetBestSlotFor(Pickupable toCheck)
+	{
+		return BestSlotForTrait.Instance.GetBestSlot(toCheck, this, false);
+	}
+
+	/// <summary>
+	/// Returns the best slot (according to BestSlotForTrait) that is capable of holding
+	/// this item (or any arbitrary slot if none of the best slots are capable of holding it).
+	/// Returns null if there is no slot in this storage that can fit the item.
+	/// Works for indexed and named slots both.
+	/// </summary>
+	/// <param name="toCheck"></param>
+	/// <returns></returns>
+	public ItemSlot GetBestSlotFor(GameObject toCheck)
+	{
+		if (toCheck == null) return null;
+		return GetBestSlotFor(toCheck.GetComponent<Pickupable>());
 	}
 
 	/// <summary>

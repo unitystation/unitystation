@@ -411,7 +411,8 @@ public static class Inventory
 	///
 	/// This method has validations to check this precondition before sending the message to the server,
 	/// so feel free to just call this and not do any validation. It will fail with a Trace level
-	/// message in Category.Inventory if it fails validation.
+	/// message in Category.Inventory if it fails validation. It will also output an examine
+	/// message to the player telling them why it failed.
 	/// </summary>
 	/// <param name="from">
 	/// o</param>
@@ -433,7 +434,7 @@ public static class Inventory
 		}
 
 		if (!Validations.CanPutItemToSlot(player.GetComponent<PlayerScript>(), to, from.Item,
-			NetworkSide.Client))
+			NetworkSide.Client, PlayerManager.LocalPlayer, examineRecipient: PlayerManager.LocalPlayer))
 		{
 			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
 			                      " validation failed.", Category.Inventory,

@@ -23,7 +23,9 @@ public class InteractablePaper : MonoBehaviour, IInteractable<HandActivate>, ICh
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//only pen can be used on this
-		if (!Validations.HasComponent<Pen>(interaction.HandObject)) return false;
+		if (!Validations.HasComponent<Pen>(interaction.UsedObject)) return false;
+		//only works if pen is in hand
+		if (!interaction.IsFromHandSlot) return false;
 		return true;
 	}
 

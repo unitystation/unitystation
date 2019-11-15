@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 8134703155087779743}
   - component: {fileID: 114254203349742134}
   - component: {fileID: 7117549763075892957}
+  - component: {fileID: 3813030834210920614}
   m_Layer: 10
   m_Name: UniBackPack
   m_TagString: Untagged
@@ -418,4 +419,23 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
     type: 2}
-  itemStoragePopulator: {fileID: 0}
+  itemStoragePopulator: {fileID: 11400000, guid: 2445b31fbca7544668ce953da308a35e,
+    type: 2}
+--- !u!114 &3813030834210920614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585232330438968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  shadow: {fileID: 0}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 1

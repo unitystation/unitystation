@@ -13,6 +13,11 @@ public class ContainerData : BaseClothData
 	public EquippedData Sprites;
 	public StorageObjectData StorageData;
 
+	public override Sprite SpawnerIcon()
+	{
+		return Sprites.Equipped.Sprites[0];
+	}
+
 	public override void  InitializePool()
 	{
 		if (Spawn.BackpackStoredData.ContainsKey(this.name) && Spawn.BackpackStoredData[this.name] != this)

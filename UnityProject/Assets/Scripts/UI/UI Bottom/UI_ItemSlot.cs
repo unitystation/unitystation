@@ -14,7 +14,7 @@ using UnityEngine.UI;
 /// Represents an item slot rendered in the UI.
 /// </summary>
 [Serializable]
-public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
+public class UI_ItemSlot : TooltipMonoBehaviour
 {
 
 	[SerializeField]
@@ -265,13 +265,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		ControlTabs.CheckTabClose();
 	}
 
-	public bool CheckItemFit(GameObject item)
-	{
-		var pickupable = item.GetComponent<Pickupable>();
-		if (pickupable == null) return false;
-		return itemSlot.CanFit(pickupable);
-	}
-
 
 	/// <summary>
 	/// Check if item has an interaction with a an item in a slot
@@ -323,13 +316,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 	}
 
+
 	private bool TryIF2InventoryApply()
 	{
 		//check IF2 InventoryApply interaction - apply the active hand item with this (only if
 		//target slot is occupied, but it's okay if active hand slot is not occupied)
 		if (Item != null)
 		{
-			var combine = InventoryApply.ByLocalPlayer(itemSlot);
+			var combine = InventoryApply.ByLocalPlayer(itemSlot, UIManager.Hands.CurrentSlot.itemSlot);
 			//check interactables in the active hand (if active hand occupied)
 			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
@@ -345,19 +339,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 
 		return false;
-	}
-
-	public void OnDrag(PointerEventData data)
-	{
-		if (data.button == PointerEventData.InputButton.Left)
-		{
-			UIManager.DragAndDrop.UI_ItemDrag(this);
-		}
-	}
-
-	public void OnEndDrag(PointerEventData data)
-	{
-		UIManager.DragAndDrop.StopDrag();
 	}
 
 

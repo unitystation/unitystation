@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler,
-	IPointerEnterHandler, IPointerExitHandler
+	IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
 {
 	private UI_ItemSlot itemSlot;
 	public override string Tooltip => itemSlot.NamedSlot.ToString();
@@ -12,23 +13,47 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 
 	public void OnPointerClick(BaseEventData eventData)
 	{
-		OnPointerClick((PointerEventData)eventData);
+		OnPointerClick((PointerEventData) eventData);
 	}
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		if (eventData.button == PointerEventData.InputButton.Left)
+		if (eventData.button == PointerEventData.InputButton.Left && !eventData.dragging)
 		{
-			SoundManager.Play("Click01");
-			// Only try interacting if we're not actually switching hands
-			if (UIManager.Hands.hasSwitchedHands)
-			{
-				UIManager.Hands.hasSwitchedHands = false;
-			}
-			else
-			{
-				itemSlot.TryItemInteract();
-			}
+			OnClick();
+		}
+	}
+
+	public void OnClick()
+	{
+		SoundManager.Play("Click01");
+		//if there is an item in this slot, try interacting.
+		if (itemSlot.Item != null)
+		{
+			itemSlot.TryItemInteract();
+		}
+		//otherwise, try switching hands to this hand if this is a hand slot and not already active
+		else if (itemSlot.ItemSlot.NamedSlot == NamedSlot.leftHand && UIManager.Hands.CurrentSlot != itemSlot)
+		{
+			UIManager.Hands.SetHand(false);
+		}
+		else if (itemSlot.ItemSlot.NamedSlot == NamedSlot.rightHand && UIManager.Hands.CurrentSlot != itemSlot)
+		{
+			UIManager.Hands.SetHand(true);
+		}
+		else
+		{
+			//otherwise, try just interacting with the blank slot (which will transfer the item
+			itemSlot.TryItemInteract();
+		}
+	}
+
+
+	public void OnDrag(PointerEventData data)
+	{
+		if (data.button == PointerEventData.InputButton.Left && itemSlot.Item != null)
+		{
+			UIManager.DragAndDrop.UI_ItemDrag(itemSlot);
 		}
 	}
 
@@ -62,25 +87,55 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		itemSlot.UpdateImage(null);
 	}
 
-	//Means OnDrop while drag and dropping an Item. OnDrop is the UISlot that the mouse pointer is over when the user drops the item
 	public void OnDrop(PointerEventData data)
 	{
-		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
+		//something was dropped onto this slot
+		if (UIManager.DragAndDrop.FromSlotCache != null && UIManager.DragAndDrop.DraggedItem != null)
 		{
-			var fromSlot = UIManager.DragAndDrop.ItemCache.GetComponent<Pickupable>().ItemSlot;
+			var fromSlot = UIManager.DragAndDrop.DraggedItem.GetComponent<Pickupable>().ItemSlot;
 
-			//if there's an item storage in the slot, request to put the item in the storage
-			var destStorage = itemSlot.ItemSlot.Item?.GetComponent<InteractableStorage>();
-			if (destStorage != null)
+			//if there's an item in the target slot, try inventory apply interaction
+			var targetItem = itemSlot.ItemSlot.ItemObject;
+			if (targetItem != null)
 			{
-				//rather than try to figure out which indexed slot it should go in,
-				//just perform the normal inventory apply interaction with this slot
-				InteractionUtils.RequestInteract(InventoryApply.ByLocalPlayer(itemSlot.ItemSlot), destStorage);
+				var invApply = InventoryApply.ByLocalPlayer(itemSlot.ItemSlot, fromSlot);
+				//check interactables in the fromSlot (if it's occupied)
+				if (fromSlot.ItemObject != null)
+				{
+					var fromInteractables = fromSlot.ItemObject.GetComponents<IBaseInteractable<InventoryApply>>()
+						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
+					{
+						UIManager.DragAndDrop.DropInteracted = true;
+						UIManager.DragAndDrop.StopDrag();
+						return;
+					}
+
+				}
+
+				//check interactables in the target
+				var targetInteractables = targetItem.GetComponents<IBaseInteractable<InventoryApply>>()
+					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+				if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, invApply) != null)
+				{
+					UIManager.DragAndDrop.DropInteracted = true;
+					UIManager.DragAndDrop.StopDrag();
+					return;
+				}
 			}
 			else
 			{
+				UIManager.DragAndDrop.DropInteracted = true;
+				UIManager.DragAndDrop.StopDrag();
 				Inventory.ClientRequestTransfer(fromSlot, itemSlot.ItemSlot);
 			}
 		}
+		UIManager.DragAndDrop.StopDrag();
+	}
+
+	public void OnEndDrag(PointerEventData eventData)
+	{
+		//dragging this slot ended somewhere
+		UIManager.DragAndDrop.StopDrag();
 	}
 }

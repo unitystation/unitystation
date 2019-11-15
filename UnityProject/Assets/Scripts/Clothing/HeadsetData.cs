@@ -12,6 +12,11 @@ public class HeadsetData : BaseClothData
 	public EquippedData Sprites;
 	public HeadsetKyes Key;
 
+	public override Sprite SpawnerIcon()
+	{
+		return Sprites.ItemIcon.Sprites[0];
+	}
+
 	public override void InitializePool()
 	{
 		if (Spawn.HeadSetStoredData.ContainsKey(this.name) && Spawn.HeadSetStoredData[this.name] != this)

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b9e74db66f84d28937416872ec44976, type: 3}
-  m_Name: BackpackStructure
+  m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
+  m_Name: StandardBackpackPopulator
   m_EditorClassIdentifier: 
-  IndexedSlots: 7
-  NamedSlots: 
+  SlotPopulators:
+  - {fileID: 11400000, guid: bb96b0e0bc717448a87fbe39751f716f, type: 2}

@@ -17,6 +17,13 @@ public abstract class BaseClothData : ScriptableObject
 	/// </summary>
 	public ItemAttributesData ItemAttributes;
 
+
+	/// <summary>
+	/// Return the sprite to show for this in the dev spawner
+	/// </summary>
+	/// <returns></returns>
+	public abstract Sprite SpawnerIcon();
+
 	private void Awake()
 	{
 		InitializePool();

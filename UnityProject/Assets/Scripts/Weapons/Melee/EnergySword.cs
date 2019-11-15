@@ -112,10 +112,13 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+		    || !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
 		{
 			return false;
 		}
+
+		//only works if screwdriver is in hand
+		if (!interaction.IsFromHandSlot) return false;
 
 		return true;
 	}
@@ -140,7 +143,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			return;
 		}
 
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You adjust the crystalline beam emitter...");
 			var c = color + 1;
@@ -151,7 +154,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 			SyncColor(c);
 		}
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Multitool))
+		else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Multitool))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
 			SyncColor((int)SwordColor.Rainbow);

@@ -265,13 +265,20 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	public bool Interact(InventoryApply interaction)
 	{
-		//only reload if the gun is the target
-		if (interaction.TargetObject == gameObject)
+		//only reload if the gun is the target and mag is in hand slot
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 		{
-			TryReload(interaction.HandObject);
-			return true;
-		}
+			if (interaction.UsedObject != null)
+			{
+				MagazineBehaviour magazine = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+				if (magazine)
+				{
+					TryReload(magazine);
+					return true;
+				}
+			}
 
+		}
 		return false;
 	}
 
@@ -341,33 +348,26 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
-	private void TryReload(GameObject item)
+	private void TryReload(MagazineBehaviour magazine)
 	{
-		if (item != null)
+		if (CurrentMagazine == null)
 		{
-			MagazineBehaviour magazine = item.GetComponent<MagazineBehaviour>();
-			if (magazine)
+			//RELOAD
+			// If the item used on the gun is a magazine, check type and reload
+			string ammoType = magazine.ammoType;
+			if (AmmoType == ammoType)
 			{
-				if (CurrentMagazine == null)
-				{
-					//RELOAD
-					// If the item used on the gun is a magazine, check type and reload
-					string ammoType = magazine.ammoType;
-					if (AmmoType == ammoType)
-					{
-						var hand = UIManager.Hands.CurrentSlot.NamedSlot;
-						RequestReload(item, hand, true);
-					}
-					if (AmmoType != ammoType)
-					{
-						Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
-					}
-				}
-				else  if (AmmoType == magazine.ammoType)
-				{
-					Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
-				}
+				var hand = UIManager.Hands.CurrentSlot.NamedSlot;
+				RequestReload(magazine.gameObject, hand, true);
 			}
+			if (AmmoType != ammoType)
+			{
+				Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
+			}
+		}
+		else  if (AmmoType == magazine.ammoType)
+		{
+			Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
 		}
 	}
 

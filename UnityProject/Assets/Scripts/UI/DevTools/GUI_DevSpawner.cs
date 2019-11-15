@@ -42,19 +42,8 @@ public class GUI_DevSpawner : MonoBehaviour
 	    var toIndex = Spawn.SpawnablePrefabs().Select(DevSpawnerDocument.ForPrefab).ToList();
 
 	    //get clothing
-	    var data = Resources.FindObjectsOfTypeAll<ClothingData>();
-	    //force clothfactory to load all clothing data
-	    foreach (var clothData in data)
+	    foreach (var clothData in Spawn.AllClothData)
 	    {
-		    if (!Spawn.ClothingStoredData.ContainsKey(clothData.name))
-		    {
-			    Spawn.ClothingStoredData.Add(clothData.name, clothData);
-		    }
-		    if (!Spawn.ClothingStoredData.ContainsKey(clothData.name))
-		    {
-			    Spawn.ClothingStoredData.Add(clothData.name, clothData);
-		    }
-
 		    toIndex.Add(DevSpawnerDocument.ForClothing(clothData));
 	    }
 
