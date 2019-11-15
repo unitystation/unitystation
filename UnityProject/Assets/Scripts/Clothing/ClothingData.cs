@@ -15,6 +15,11 @@ public class ClothingData : BaseClothData
 	public EquippedData DressVariant; //humm yeah Dresses
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
+	public override Sprite SpawnerIcon()
+	{
+		return Base.ItemIcon.Sprites[0];
+	}
+
 	public override void  InitializePool()
 	{
 		if (Spawn.ClothingStoredData.ContainsKey(this.name) && Spawn.ClothingStoredData[this.name] != this)
@@ -50,6 +55,8 @@ public class ClothingData : BaseClothData
 	{
 		return $"{name}";
 	}
+
+
 }
 
 [System.Serializable]

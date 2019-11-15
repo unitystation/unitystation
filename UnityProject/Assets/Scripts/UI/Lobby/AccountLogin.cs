@@ -1,7 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using DatabaseAPI;
+using Firebase;
+using Firebase.Auth;
+using Firebase.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +20,6 @@ namespace Lobby
 		//Account login screen:
 		public InputField userNameInput;
 		public InputField passwordInput;
-		public Toggle autoLoginToggle;
 
 		void Start()
 		{
@@ -21,13 +28,31 @@ namespace Lobby
 				userNameInput.text = PlayerPrefs.GetString("lastLogin");
 			}
 		}
-		public void TryLogin(Action<string> successAction, Action<string> errorAction)
-		{
-			ServerData.AttemptLogin(userNameInput.text, passwordInput.text,
-				successAction, errorAction);
 
-			PlayerPrefs.SetString("lastLogin", userNameInput.text);
-			PlayerPrefs.Save();
+		public async void TryLogin(Action<string> successAction, Action<string> errorAction)
+		{
+			await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(userNameInput.text,
+				passwordInput.text).ContinueWithOnMainThread(async task =>
+			{
+				if (task.IsCanceled)
+				{
+					Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
+					errorAction?.Invoke(task.Exception.Message);
+					passwordInput.text = "";
+					return;
+				}
+
+				if (task.IsFaulted)
+				{
+					Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
+					errorAction?.Invoke(task.Exception.Message);
+					passwordInput.text = "";
+					return;
+				}
+
+				await ServerData.ValidateUser(task.Result, successAction, errorAction);
+				passwordInput.text = "";
+			});
 		}
 
 		public bool ValidLogin()
@@ -37,6 +62,7 @@ namespace Lobby
 			{
 				return false;
 			}
+
 			return true;
 		}
 	}

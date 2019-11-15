@@ -1,4 +1,5 @@
-﻿﻿using UnityEngine;
+﻿﻿using System.Collections.Generic;
+ using UnityEngine;
  using UnityEngine.Events;
  using Mirror;
 
@@ -19,8 +20,12 @@ public enum ObjectType
 /// Also tracks the Matrix the object is in.
 /// </summary>
 [ExecuteInEditMode]
-public abstract class RegisterTile : NetworkBehaviour
+public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 {
+	//relationships which only need to be checked when UpdatePosition methods are called
+	private List<BaseSpatialRelationship> sameMatrixRelationships;
+	//relationships which need to be checked via polling due to being on different matrices
+	private List<BaseSpatialRelationship> crossMatrixRelationships;
 	private bool hasInit = false;
 
 	public ObjectLayer layer;
@@ -170,6 +175,7 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	}
 
+
 	public override void OnStartClient()
 	{
 		if (parentNetId != NetId.Invalid)
@@ -233,11 +239,236 @@ public abstract class RegisterTile : NetworkBehaviour
 	public virtual void UpdatePositionServer()
 	{
 		LocalPositionServer = CustomTransform ? CustomTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
+		CheckSameMatrixRelationships();
 	}
 
 	public virtual void UpdatePositionClient()
 	{
 		LocalPositionClient = CustomTransform ? CustomTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
+		CheckSameMatrixRelationships();
+	}
+
+	/// <summary>
+	/// For internal use by the relationship system only. Use SpatialRelationship.Activate instead to
+	/// activate a relationship between 2 register tiles
+	///
+	/// Adds a new spatial relationship which will be checked when this register tile moves relative to the other.
+	/// </summary>
+	public void _AddSpatialRelationship(BaseSpatialRelationship toAdd)
+	{
+		//are we across matrices?
+		if (toAdd.Other(this).matrix != Matrix)
+		{
+			AddCrossMatrixRelationship(toAdd);
+		}
+		else
+		{
+			AddSameMatrixRelationship(toAdd);
+		}
+	}
+
+	/// <summary>
+	/// For internal use by the relationship system only. Use SpatialRelationship.Cancel instead to
+	/// cancel a pre-existing relationship between 2 register tiles
+	///
+	/// removes the spatial relationship such that this registertile will no longer check it
+	/// </summary>
+	public void _RemoveSpatialRelationship(BaseSpatialRelationship toRemove)
+	{
+		RemoveSameMatrixRelationship(toRemove);
+		RemoveCrossMatrixRelationship(toRemove);
+	}
+
+	private void CheckSameMatrixRelationships()
+	{
+		//fires hooks for these relationships and checks if they should be switched to cross-matrix
+		if (sameMatrixRelationships != null)
+		{
+			//keeping null to avoid GC unless a switch happens, which should be rare
+			List<BaseSpatialRelationship> toSwitch = null;
+			List<BaseSpatialRelationship> toCancel = null;
+			foreach (var sameMatrixRelationship in sameMatrixRelationships)
+			{
+				var cancelled = sameMatrixRelationship.OnRelationshipChanged();
+				if (cancelled)
+				{
+					if (toCancel == null)
+					{
+						toCancel = new List<BaseSpatialRelationship>();
+					}
+					toCancel.Add(sameMatrixRelationship);
+				}
+				else
+				{
+					//not cancelled, check if we moved cross-matrix
+					if (sameMatrixRelationship.Other(this).Matrix != this.Matrix)
+					{
+						if (toSwitch == null)
+						{
+							toSwitch = new List<BaseSpatialRelationship>();
+						}
+						toSwitch.Add(sameMatrixRelationship);
+					}
+				}
+			}
+
+			if (toCancel != null)
+			{
+				foreach (var cancelled in toCancel)
+				{
+					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					                      " returned true.", Category.SpatialRelationship, cancelled);
+					SpatialRelationship.ServerEnd(cancelled);
+				}
+			}
+
+			if (toSwitch != null)
+			{
+				foreach (var switched in toSwitch)
+				{
+					Logger.LogTraceFormat("Switching spatial relationship {0} to cross matrix because" +
+					                      " objects moved to different matrices.", Category.SpatialRelationship, switched);
+					RemoveSameMatrixRelationship(switched);
+					AddCrossMatrixRelationship(switched);
+				}
+			}
+		}
+	}
+
+	private void AddSameMatrixRelationship(BaseSpatialRelationship toAdd)
+	{
+		if (sameMatrixRelationships == null)
+		{
+			sameMatrixRelationships = new List<BaseSpatialRelationship>();
+		}
+		Logger.LogTraceFormat("Adding same matrix relationship {0} on {1}",
+			Category.SpatialRelationship, toAdd, this);
+		sameMatrixRelationships.Add(toAdd);
+	}
+	private void AddCrossMatrixRelationship(BaseSpatialRelationship toAdd)
+	{
+		//we only check cross matrix relationships if we are the leader, since only
+		//one side needs to poll.
+		if (!toAdd.IsLeader(this))
+		{
+			Logger.LogTraceFormat("Not adding cross matrix relationship {0} on {1} because {1} is not the leader",
+				Category.SpatialRelationship, toAdd, this);
+			return;
+		}
+		Logger.LogTraceFormat("Adding cross matrix relationship {0} on {1}",
+			Category.SpatialRelationship, toAdd, this);
+
+		if (crossMatrixRelationships == null)
+		{
+			crossMatrixRelationships = new List<BaseSpatialRelationship>();
+			UpdateManager.Instance.Add(UpdatePollCrossMatrixRelationships);
+		}
+		crossMatrixRelationships.Add(toAdd);
+	}
+
+	private void RemoveSameMatrixRelationship(BaseSpatialRelationship toRemove)
+	{
+		if (sameMatrixRelationships == null) return;
+		Logger.LogTraceFormat("Removing same matrix relationship {0} from {1}",
+			Category.SpatialRelationship, toRemove, this);
+		sameMatrixRelationships.Remove(toRemove);
+		if (sameMatrixRelationships.Count == 0)
+		{
+			sameMatrixRelationships = null;
+		}
+	}
+
+	private void RemoveCrossMatrixRelationship(BaseSpatialRelationship toRemove)
+	{
+		if (crossMatrixRelationships == null) return;
+		Logger.LogTraceFormat("Removing cross matrix relationship {0} from {1}",
+			Category.SpatialRelationship, toRemove, this);
+		crossMatrixRelationships.Remove(toRemove);
+		if (crossMatrixRelationships.Count == 0)
+		{
+			UpdateManager.Instance.Remove(UpdatePollCrossMatrixRelationships);
+			crossMatrixRelationships = null;
+		}
+	}
+
+	private void UpdatePollCrossMatrixRelationships()
+	{
+		//used in update manager when there is a cross matrix relationship
+		//that this registertile is the leader for. Checks the relationship and switches it
+		//over to same matrix if they both end up on the same matrix
+
+		if (crossMatrixRelationships != null)
+		{
+			//keeping null to avoid GC unless a switch happens, which should be rare
+			List<BaseSpatialRelationship> toSwitch = null;
+			List<BaseSpatialRelationship> toCancel = null;
+			foreach (var crossMatrixRelationship in crossMatrixRelationships)
+			{
+				var cancelled = crossMatrixRelationship.OnRelationshipChanged();
+				if (cancelled)
+				{
+					if (toCancel == null)
+					{
+						toCancel = new List<BaseSpatialRelationship>();
+					}
+					toCancel.Add(crossMatrixRelationship);
+				}
+				else
+				{
+					//not cancelled, check if we moved to same matrix
+					if (crossMatrixRelationship.Other(this).Matrix == this.Matrix)
+					{
+						if (toSwitch == null)
+						{
+							toSwitch = new List<BaseSpatialRelationship>();
+						}
+						toSwitch.Add(crossMatrixRelationship);
+					}
+				}
+			}
+
+			if (toCancel != null)
+			{
+				foreach (var cancelled in toCancel)
+				{
+					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					                      " returned true.", Category.SpatialRelationship, cancelled);
+					SpatialRelationship.ServerEnd(cancelled);
+				}
+			}
+
+			if (toSwitch != null)
+			{
+				foreach (var switched in toSwitch)
+				{
+					Logger.LogTraceFormat("Switching spatial relationship {0} to same matrix because" +
+					                      " objects moved to the same matrix.", Category.SpatialRelationship, switched);
+					RemoveCrossMatrixRelationship(switched);
+					AddSameMatrixRelationship(switched);
+				}
+			}
+		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		//cancel all relationships
+		if (sameMatrixRelationships != null)
+		{
+			foreach (var relationship in sameMatrixRelationships)
+			{
+				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
+				SpatialRelationship.ServerEnd(relationship);
+			}
+		}
+		if (crossMatrixRelationships != null)
+		{
+			foreach (var relationship in crossMatrixRelationships)
+			{
+				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
+				SpatialRelationship.ServerEnd(relationship);
+			}
+		}
 	}
 
 	/// <summary>

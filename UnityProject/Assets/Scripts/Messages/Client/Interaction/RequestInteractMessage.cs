@@ -35,6 +35,14 @@ public class RequestInteractMessage : ClientMessage
 	//state of the mouse - whether this is initial press or being held down.
 	public MouseButtonState MouseButtonState;
 
+	//these are all used when it's an InventoryApply to denote the target slot
+	//netid of targeted storage
+	public uint Storage;
+	//slot index of slot targeted in storage (-1 if tareting named slot)
+	public int SlotIndex;
+	//named slot targeted in storage
+	public NamedSlot NamedSlot;
+
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
 	private static readonly Dictionary<byte, Type> interactionIDToInteractionType = new Dictionary<byte, Type>();
@@ -104,7 +112,6 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var performerObj = SentByPlayer.GameObject;
 			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot);
 			ProcessInteraction(interaction, processorObj);
 		}
@@ -115,7 +122,6 @@ public class RequestInteractMessage : ClientMessage
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 			yield return WaitFor(ProcessorObject);
 			var processorObj = NetworkObject;
-			var performerObj = SentByPlayer.GameObject;
 			var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState);
 			ProcessInteraction(interaction, processorObj);
 		}
@@ -125,7 +131,6 @@ public class RequestInteractMessage : ClientMessage
 			var usedObj = NetworkObjects[0];
 			var targetObj = NetworkObjects[1];
 			var processorObj = NetworkObjects[2];
-			var performerObj = SentByPlayer.GameObject;
 			var interaction = MouseDrop.ByClient(performer, usedObj, targetObj);
 			ProcessInteraction(interaction, processorObj);
 		}
@@ -143,13 +148,32 @@ public class RequestInteractMessage : ClientMessage
 		}
 		else if (InteractionType == typeof(InventoryApply))
 		{
-			yield return WaitFor(ProcessorObject);
-			var processorObj = NetworkObject;
-			var performerObj = SentByPlayer.GameObject;
-			var clientStorage = SentByPlayer.Script.ItemStorage;
-			var handSlot = clientStorage.GetActiveHandSlot();
-			var handObject = clientStorage.GetActiveHandSlot().ItemObject;
-			var interaction = InventoryApply.ByClient(performer, processorObj.GetComponent<Pickupable>().ItemSlot, handObject, handSlot);
+			yield return WaitFor(ProcessorObject, UsedObject, Storage);
+			var processorObj = NetworkObjects[0];
+			var usedObj = NetworkObjects[1];
+			var storageObj = NetworkObjects[2];
+
+			ItemSlot targetSlot = null;
+			if (SlotIndex == -1)
+			{
+				targetSlot = ItemSlot.GetNamed(storageObj.GetComponent<ItemStorage>(), NamedSlot);
+			}
+			else
+			{
+				targetSlot = ItemSlot.GetIndexed(storageObj.GetComponent<ItemStorage>(), SlotIndex);
+			}
+
+			//if used object is null, then empty hand was used
+			ItemSlot fromSlot = null;
+			if (usedObj == null)
+			{
+				fromSlot = SentByPlayer.Script.ItemStorage.GetActiveHandSlot();
+			}
+			else
+			{
+				fromSlot = usedObj.GetComponent<Pickupable>().ItemSlot;
+			}
+			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot);
 			ProcessInteraction(interaction, processorObj);
 		}
 
@@ -237,13 +261,13 @@ public class RequestInteractMessage : ClientMessage
 		if (typeof(T) == typeof(PositionalHandApply))
 		{
 			var casted = interaction as PositionalHandApply;
-			msg.TargetObject = casted.TargetObject.GetComponent<NetworkIdentity>().netId;
+			msg.TargetObject = casted.TargetObject.NetId();
 			msg.TargetVector = casted.TargetVector;
 		}
 		else if (typeof(T) == typeof(HandApply))
 		{
 			var casted = interaction as HandApply;
-			msg.TargetObject = casted.TargetObject.GetComponent<NetworkIdentity>().netId;
+			msg.TargetObject = casted.TargetObject.NetId();
 			msg.TargetBodyPart = casted.TargetBodyPart;
 		}
 		else if (typeof(T) == typeof(AimApply))
@@ -255,8 +279,16 @@ public class RequestInteractMessage : ClientMessage
 		else if (typeof(T) == typeof(MouseDrop))
 		{
 			var casted = interaction as MouseDrop;
-			msg.TargetObject = casted.TargetObject.GetComponent<NetworkIdentity>().netId;
-			msg.UsedObject = casted.UsedObject.GetComponent<NetworkIdentity>().netId;
+			msg.TargetObject = casted.TargetObject.NetId();
+			msg.UsedObject = casted.UsedObject.NetId();
+		}
+		else if (typeof(T) == typeof(InventoryApply))
+		{
+			var casted = interaction as InventoryApply;
+			msg.Storage = casted.TargetSlot.ItemStorageNetID;
+			msg.SlotIndex = casted.TargetSlot.SlotIdentifier.SlotIndex;
+			msg.NamedSlot = casted.TargetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none);
+			msg.UsedObject = casted.UsedObject.NetId();
 		}
 		msg.Send();
 	}
@@ -289,6 +321,13 @@ public class RequestInteractMessage : ClientMessage
 			TargetObject = reader.ReadUInt32();
 			UsedObject = reader.ReadUInt32();
 		}
+		else if (InteractionType == typeof(InventoryApply))
+		{
+			UsedObject = reader.ReadUInt32();
+			Storage = reader.ReadUInt32();
+			SlotIndex = reader.ReadInt32();
+			NamedSlot = (NamedSlot) reader.ReadInt32();
+		}
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -317,6 +356,13 @@ public class RequestInteractMessage : ClientMessage
 		{
 			writer.WriteUInt32(TargetObject);
 			writer.WriteUInt32(UsedObject);
+		}
+		else if (InteractionType == typeof(InventoryApply))
+		{
+			writer.WriteUInt32(UsedObject);
+			writer.WriteUInt32(Storage);
+			writer.WriteInt32(SlotIndex);
+			writer.WriteInt32((int) NamedSlot);
 		}
 	}
 }

@@ -88,7 +88,8 @@ public class ClothingItem : MonoBehaviour
 			GameObjectReference = Item;
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
-				SHD = Item.GetComponent<ItemAttributes>()?.spriteDataHandler;
+				var equippedAttributes = Item.GetComponent<ItemAttributes>();
+				SHD = equippedAttributes?.spriteDataHandler;
 				if (SHD != null)
 				{
 					spriteHandler.Infos = SHD.Infos;
@@ -106,17 +107,19 @@ public class ClothingItem : MonoBehaviour
 			}
 			else
 			{
-				var clothing = Item.GetComponent<Clothing>();
-				if (clothing != null)
-				{
-					spriteHandler.Infos = clothing.SpriteInfo;
-					spriteHandler.ChangeSprite(clothing.ReturnSetState());
-					PushTexture();
-				}
+				var equippedClothing = Item.GetComponent<Clothing>();
+				equippedClothing?.SetClothingItem(this);
 			}
 		}
 
 		UpdateReferenceOffset();
+	}
+
+	public void RefreshFromClothing(Clothing clothing)
+	{
+		spriteHandler.Infos = clothing.SpriteInfo;
+		spriteHandler.ChangeSprite(clothing.ReturnSetState());
+		PushTexture();
 	}
 
 	private void UpdateReferenceOffset()

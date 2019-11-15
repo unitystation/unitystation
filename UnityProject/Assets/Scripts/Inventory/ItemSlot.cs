@@ -228,7 +228,7 @@ public class ItemSlot
 			pickupable = storage.GetComponent<Pickupable>();
 		}
 
-		return itemStorage;
+		return storage;
 	}
 
 	public override string ToString()
@@ -305,8 +305,9 @@ public class ItemSlot
 	/// </summary>
 	/// <param name="toStore"></param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
 	/// <returns></returns>
-	public bool CanFit(Pickupable toStore, bool ignoreOccupied = false)
+	public bool CanFit(Pickupable toStore, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
 		if (!ignoreOccupied && item != null) return false;
 		if (toStore == null) return false;
@@ -320,6 +321,10 @@ public class ItemSlot
 				Logger.LogTraceFormat(
 					"Cannot fit {0} in slot {1}, this would create an inventory hierarchy loop (putting the" +
 					" storage inside itself)", Category.Inventory, toStore, ToString());
+				if (examineRecipient)
+				{
+					Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} can't go inside itself!");
+				}
 				return false;
 			}
 			//get parent item storage if it exists
@@ -335,7 +340,25 @@ public class ItemSlot
 		}
 
 		//no loop created, check if this storage can fit this according to its specific capacity logic
-		return itemStorage.ItemStorageCapacity.CanFit(toStore, this.slotIdentifier);
+		var canFit = itemStorage.ItemStorageCapacity.CanFit(toStore, this.slotIdentifier);
+		if (canFit) return true;
+		if (examineRecipient)
+		{
+			//if this is going in a player's inventory, use a more appropriate message.
+			var targetPlayerScript = ItemStorage.GetComponent<PlayerScript>();
+			if (targetPlayerScript != null)
+			{
+				//going into a top-level inventory slot of a player
+				Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} can't go in that slot.");
+			}
+			else
+			{
+				//going into something else
+				Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} doesn't fit in the {ItemStorage.gameObject.ExpensiveName()}.");
+			}
+		}
+
+		return false;
 	}
 
 	/// <summary>

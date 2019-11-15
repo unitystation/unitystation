@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,12 +12,23 @@ public class DragAndDrop : MonoBehaviour
 {
 	public Image dragDummy;
 	private bool isDragging = false;
-	public UI_ItemSlot ItemSlotCache { get; private set; }
-	public GameObject ItemCache { get; private set; }
+	public UI_ItemSlot FromSlotCache { get; private set; }
+	public GameObject DraggedItem { get; private set; }
 	public Shadow shadow;
 
 	Vector3 scaleCache;
 	Vector3 interactableScale;
+
+	//during a drag and drop, whether we dropped something into a slot (thus shouldn't
+	//check for interactions in the world)
+
+	/// <summary>
+	/// Indicate that the current drag and drop has resulted in something being dropped on a UI slot or
+	/// an interaction happening, thus
+	/// no MouseDrop interactions should be checked against things in the world under the mouse.
+	/// </summary>
+	[NonSerialized]
+	public bool DropInteracted;
 
 	public void Start()
 	{
@@ -23,32 +36,55 @@ public class DragAndDrop : MonoBehaviour
 		scaleCache = dragDummy.transform.localScale;
 		interactableScale = scaleCache * 1.1f;
 	}
-	public void UI_ItemDrag(UI_ItemSlot itemSlot)
+	public void UI_ItemDrag(UI_ItemSlot fromSlot)
 	{
-		if (itemSlot.Item != null && !isDragging)
+		if (fromSlot.Item != null && !isDragging)
 		{
-			ItemSlotCache = itemSlot;
+			DropInteracted = false;
+			FromSlotCache = fromSlot;
 			isDragging = true;
 			dragDummy.enabled = true;
-			dragDummy.sprite = itemSlot.Image.sprite;
-			itemSlot.Clear();
-			ItemCache = itemSlot.ItemObject;
+			dragDummy.sprite = fromSlot.Image.sprite;
+			fromSlot.Clear();
+			DraggedItem = fromSlot.ItemObject;
 		}
 	}
 
 	public void StopDrag()
 	{
-		isDragging = false;
-		dragDummy.enabled = false;
-		if (ItemSlotCache != null)
+		if (!DropInteracted && DraggedItem != null)
 		{
-			if (ItemSlotCache.Item != null)
+			var mouseDrops = DraggedItem.GetComponents<IBaseInteractable<MouseDrop>>();
+			//check for MouseDrop interactions in the world if we didn't drop on a UI slot
+			//check what we dropped on, which may or may not have mousedrop interaction components
+			var dropTargets =
+				MouseUtils.GetOrderedObjectsUnderMouse();
+
+			//go through the stack of objects and call any drop components we find
+			foreach (GameObject dropTarget in dropTargets)
 			{
-				ItemSlotCache.RefreshImage();
+				MouseDrop info = MouseDrop.ByLocalPlayer( DraggedItem, dropTarget.gameObject);
+				//call this object's mousedrop interaction methods if it has any, for each object we are dropping on
+				if (InteractionUtils.ClientCheckAndTrigger(mouseDrops, info) != null) break;
+				var targetComps = dropTarget.GetComponents<IBaseInteractable<MouseDrop>>()
+					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
+				if (InteractionUtils.ClientCheckAndTrigger(targetComps, info) != null) break;
 			}
 		}
-		ItemSlotCache = null;
-		ItemCache = null;
+		DropInteracted = false;
+		isDragging = false;
+		dragDummy.enabled = false;
+		if (FromSlotCache != null)
+		{
+			if (FromSlotCache.Item != null)
+			{
+				FromSlotCache.RefreshImage();
+			}
+		}
+
+
+		FromSlotCache = null;
+		DraggedItem = null;
 		ResetInteractable();
 	}
 
