@@ -90,7 +90,10 @@ public class UI_StorageHandler : MonoBehaviour
 
 	public void CloseStorageUI()
 	{
-		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
+		if (PlayerManager.LocalPlayer != null)
+		{
+			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
+		}
 		CurrentOpenStorage = null;
 		otherPlayerStorage.SetActive(false);
 		foreach (var uiItemSlot in currentOpenStorageUISlots)
