@@ -85,7 +85,7 @@ public class ItemSlot
 	/// <summary>
 	/// True iff the slot has no item.
 	/// </summary>
-	public bool IsEmpty => Item != null;
+	public bool IsEmpty => Item == null;
 
 	/// <summary>
 	/// If this item slot is linked to the local player's UI slot, returns that UI slot. Otherwise

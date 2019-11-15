@@ -25,7 +25,7 @@ internal enum MessageTypes : short
 	PaperUpdateMessage = 1021,
 	StorageObjectSyncMessage = 1022,
 	MobMeleeLerpMessage = 1023,
-	// = 1024, unused, replace at will
+	PlayParticleMessage = 1024,
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,
 	HealthOverallStats = 1027,

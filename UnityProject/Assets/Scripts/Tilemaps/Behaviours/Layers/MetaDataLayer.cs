@@ -102,6 +102,7 @@ public class MetaDataLayer : MonoBehaviour
 				Clean(worldPosInt, localPosInt, false);
 			} else if (reagent.Key == "space_lube")
 			{ //( ͡° ͜ʖ ͡°)
+				EffectsFactory.WaterSplat(worldPosInt);
 				MakeSlipperyAt(localPosInt, false);
 			}
 		}
@@ -110,6 +111,8 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
+		Get(localPosInt).IsSlippery = false;
+
 		var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
 		for (var i = 0; i < floorDecals.Count; i++)
@@ -129,8 +132,17 @@ public class MetaDataLayer : MonoBehaviour
 
 	private IEnumerator DryUp(MetaDataNode tile)
 	{
-		yield return WaitFor.Seconds(15f);
+		yield return WaitFor.Seconds(Random.Range(10,21));
 		tile.IsSlippery = false;
+
+		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
+		foreach ( var decal in floorDecals )
+		{
+			if ( decal.CanDryUp )
+			{
+				Despawn.ServerSingle(decal.gameObject);
+			}
+		}
 	}
 
 

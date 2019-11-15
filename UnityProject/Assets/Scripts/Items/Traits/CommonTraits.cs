@@ -18,5 +18,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Emag;
 	public ItemTrait Crowbar;
 	public ItemTrait Screwdriver;
+	public ItemTrait NoSlip;
+	public ItemTrait Slippery;
 	public ItemTrait Multitool;
 }

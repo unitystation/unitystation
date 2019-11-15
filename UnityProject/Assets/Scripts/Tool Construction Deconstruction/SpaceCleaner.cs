@@ -9,9 +9,6 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 	int travelDistance = 6;
 	public ReagentContainer reagentContainer;
 
-	public ParticleSystem particleSystem;
-	[SyncVar(hook = nameof(SyncPlayParticles))] public float particleSync;
-
 	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
 		if (interaction.MouseButtonState == MouseButtonState.PRESS)
@@ -30,8 +27,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
 			StartCoroutine(Fire(positionList));
 
-			var angle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * 180 / Mathf.PI;
-			SyncPlayParticles(angle);
+			Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
 			reagentContainer.MoveReagentsTo(5);
 			SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
@@ -52,18 +48,6 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		var matrix = MatrixManager.AtPoint(worldPos, true);
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPos, matrix);
 		matrix.MetaDataLayer.ReagentReact(reagentContainer.Contents, worldPos, localPosInt);
-	}
-
-	public void SyncPlayParticles(float value)
-	{
-		particleSync = value;
-		if (!gameObject.activeInHierarchy) return;
-
-		particleSystem.transform.position = gameObject.AssumedWorldPosServer(); //fixme won't work in mp
-		particleSystem.transform.rotation = Quaternion.Euler(0, 0, particleSync);
-		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
-		renderer.enabled = true;
-		particleSystem.Play();
 	}
 
 }

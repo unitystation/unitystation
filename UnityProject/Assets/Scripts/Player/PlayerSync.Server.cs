@@ -734,21 +734,26 @@ public partial class PlayerSync
 		{
 			return;
 		}
-		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position, true);
-		// Removes player from object list
-		objects.Remove(gameObject.GetComponent<RegisterItem>());
-		for (int i = 0; i < objects.Count; i++)
+		var crossedItems = MatrixManager.GetAt<ItemAttributes>(position, true);
+		foreach ( var crossedItem in crossedItems )
 		{
-			objects[i].Cross(registerPlayer);
+			if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
+			{
+				registerPlayer.Slip( slipWhileWalking: true );
+			}
 		}
 	}
 
 	public void CheckTileSlip()
 	{
-		var position = serverState.Position.CutToInt();
+
 		var matrix = MatrixManager.Get(serverState.MatrixId);
 
-		if (matrix.MetaDataLayer.IsSlipperyAt(position))
+		var shoeSlot = playerScript.ItemStorage.GetNamedItemSlot( NamedSlot.feet );
+
+		bool slipProtection = !shoeSlot.IsEmpty && shoeSlot.ItemAttributes.HasTrait( CommonTraits.Instance.NoSlip );
+
+		if (matrix.MetaDataLayer.IsSlipperyAt(ServerLocalPosition) && !slipProtection)
 		{
 			registerPlayer.Slip();
 		}

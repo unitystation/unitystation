@@ -183,11 +183,21 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		SyncItemName(ItemAttributes.itemName);
 		SyncItemDescription(ItemAttributes.itemDescription);
+
 		var trait = TypeToTrait(ItemAttributes.itemType);
 		if (trait != null)
 		{
 			traits.Add(trait);
 		}
+
+		foreach ( var clothDataTrait in ItemAttributes.traits )
+		{
+			if ( clothDataTrait != null )
+			{
+				traits.Add( clothDataTrait );
+			}
+		}
+
 		size = ItemAttributes.size;
 		spriteType = ItemAttributes.spriteType;
 		CanConnectToTank = ItemAttributes.CanConnectToTank;

@@ -41,6 +41,36 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		}
 	}
 
+	/// <summary>
+	/// Experimental. Top owner object
+	/// </summary>
+	public PushPull TopContainer
+	{
+		get
+		{
+			if ( parentContainer )
+			{
+				return parentContainer.parentContainer;
+			}
+
+            if ( !VisibleState )
+            {
+	            var pu = GetComponent<Pickupable>();
+	            if ( pu != null && pu.ItemSlot != null )
+	            {
+		            //we are in an itemstorage, so report our root item storage object.
+		            var pushPull = pu.ItemSlot.GetRootStorage().GetComponent<PushPull>();
+		            if ( pushPull != null )
+		            {
+			            //our container has a pushpull, so use its parent
+			            return pushPull.TopContainer;
+		            }
+	            }
+            }
+            return this;
+		}
+	}
+
 	private PushPull _parentContainer = null;
 
 	/// <summary>

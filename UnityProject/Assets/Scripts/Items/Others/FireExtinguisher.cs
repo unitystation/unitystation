@@ -17,11 +17,6 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
 	public Sprite[] spriteList;
 
-	public ParticleSystem particleSystem;
-
-	[SyncVar(hook = nameof(SyncPlayParticles))]
-	public float particleSync;
-
 	public override void OnStartClient()
 	{
 		SyncSprite(spriteSync);
@@ -41,12 +36,12 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		if (safety)
 		{
 			safety = false;
-			spriteSync = 1;
+			SyncSprite(1);
 		}
 		else
 		{
 			safety = true;
-			spriteSync = 0;
+			SyncSprite(0);
 		}
 	}
 
@@ -65,8 +60,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		if (reagentContainer.CurrentCapacity >= 5 && !safety)
 		{
 			Vector2	startPos = gameObject.AssumedWorldPosServer();
-			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x),
-				Mathf.RoundToInt(interaction.WorldPositionTarget.y));
+			Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
 			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
 			StartCoroutine(Fire(positionList));
 
@@ -78,8 +72,8 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 			positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
 			StartCoroutine(Fire(positionList));
 
-			var angle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * 180 / Mathf.PI;
-			SyncPlayParticles(angle);
+			Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
+
 			SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
 			reagentContainer.MoveReagentsTo(5);
 		}
@@ -135,15 +129,4 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		pickupable.RefreshUISlotImage();
 	}
 
-	public void SyncPlayParticles(float value)
-	{
-		particleSync = value;
-		if (!gameObject.activeInHierarchy) return;
-
-		particleSystem.transform.position = gameObject.AssumedWorldPosServer(); //fixme won't work in mp
-		particleSystem.transform.rotation = Quaternion.Euler(0, 0, particleSync);
-		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
-		renderer.enabled = true;
-		particleSystem.Play();
-	}
 }
