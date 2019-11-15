@@ -39,7 +39,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		for (int i = 0; i < positionList.Count; i++)
 		{
 			SprayTile(positionList[i]);
-			yield return WaitFor.Seconds(0.1f);
+			yield return WaitFor.Seconds(0.17f);
 		}
 	}
 
