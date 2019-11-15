@@ -82,6 +82,26 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Completely disrobes another player
+	/// </summary>
+	[Command]
+	public void CmdDisrobe(GameObject toDisrobe)
+	{
+		//only allowed if this player is an observer of the player to disrobe
+		var itemStorage = toDisrobe.GetComponent<ItemStorage>();
+		if (itemStorage == null) return;
+
+		//are we an observer of the player to disrobe?
+		if (!itemStorage.ServerIsObserver(gameObject)) return;
+
+		//disrobe
+		foreach (var itemSlot in itemStorage.GetItemSlots())
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+	}
+
+	/// <summary>
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]

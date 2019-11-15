@@ -19,9 +19,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlot")]
-	[Tooltip("For player inventory, named slot in local player's ItemStorage that this UI slot corresponds to.")]
+	[Tooltip("For player inventory, named slot in player's ItemStorage that this UI slot corresponds to.")]
 	private NamedSlot namedSlot;
 	public NamedSlot NamedSlot => namedSlot;
+
+	[Tooltip("whether this is for the local player's top level inventory or will be instead used" +
+	         " for another player's inventory.")]
+	[SerializeField]
+	private bool forLocalPlayer;
 
 	[Tooltip("Name to display when hovering over this slot in the UI")]
 	[SerializeField]
@@ -96,12 +101,12 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	}
 
 	/// <summary>
-	/// Link this item slot to its configured named slot on the local player.
+	/// Link this item slot to its configured named slot on the local player, if this slot is for the local player.
 	/// Should only be called after local player is spawned.
 	/// </summary>
 	public void LinkToLocalPlayer()
 	{
-		if (namedSlot != NamedSlot.none)
+		if (namedSlot != NamedSlot.none && forLocalPlayer)
 		{
 			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, namedSlot));
 		}

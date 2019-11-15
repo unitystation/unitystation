@@ -350,4 +350,29 @@ public static class Validations
 		}
 		return true;
 	}
+
+	/// <summary>
+	/// Checks if the player is in crit or dead.
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="side"></param>
+	/// <returns></returns>
+	public static bool IsDeadOrCrit(GameObject player, NetworkSide side)
+	{
+		if (player == null) return false;
+		if (side == NetworkSide.Client)
+		{
+			//we don't know their exact health state, but we can guess if they're downed we can do this
+			var registerPlayer = player.GetComponent<RegisterPlayer>();
+			if (registerPlayer == null) return false;
+			return registerPlayer.IsDown;
+		}
+		else
+		{
+			//find their exact conscious state
+			var playerHealth = player.GetComponent<PlayerHealth>();
+			if (playerHealth == null) return false;
+			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS;
+		}
+	}
 }

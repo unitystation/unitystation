@@ -81,6 +81,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		//can't drag / view ourselves
+		if (interaction.Performer == interaction.DroppedObject) return false;
 		//can only drag and drop the object to ourselves,
 		//or from our inventory to this object
 		if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
@@ -92,7 +94,15 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		else
 		{
 			//trying to view this storage, can only drop on ourselves to view it
-			return interaction.Performer == interaction.TargetObject;
+			if (interaction.Performer != interaction.TargetObject) return false;
+			//if we're dragging another player to us, it's only allowed if the other player is downed
+			if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
+			{
+				//dragging a player, can only do this if they are down / dead
+				return Validations.IsDeadOrCrit(interaction.DroppedObject, side);
+			}
+
+			return true;
 		}
 	}
 

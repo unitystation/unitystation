@@ -55,6 +55,11 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//note this will be null if this is not a player's own top-level inventory
 	private PlayerNetworkActions playerNetworkActions;
 
+	/// <summary>
+	/// Server-side only. Players server thinks are currently looking at this storage.
+	/// </summary>
+	private readonly HashSet<GameObject> serverObserverPlayers = new HashSet<GameObject>();
+
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -335,6 +340,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerAddObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+		serverObserverPlayers.Add(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{
 			slot.ServerAddObserverPlayer(observerPlayer);
@@ -350,10 +356,22 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerRemoveObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+		serverObserverPlayers.Remove(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{
 			slot.ServerRemoveObserverPlayer(observerPlayer);
 		}
 	}
 
+
+	/// <summary>
+	/// Checks if the indicated player is an observer of this storage
+	/// </summary>
+	/// <param name="observer"></param>
+	/// <returns></returns>
+	/// <exception cref="NotImplementedException"></exception>
+	public bool ServerIsObserver(GameObject observer)
+	{
+		return serverObserverPlayers.Contains(observer);
+	}
 }
