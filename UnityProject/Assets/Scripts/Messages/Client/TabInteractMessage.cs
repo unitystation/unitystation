@@ -68,10 +68,10 @@ public class TabInteractMessage : ClientMessage
 		}
 	}
 
-	private TabUpdateMessage FailValidation( ConnectedPlayer player, GameObject tabProvider, string reason="" ) {
+	private void FailValidation( ConnectedPlayer player, GameObject tabProvider, string reason="" ) {
 
 		Logger.LogWarning( $"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}",Category.NetUI );
-		return TabUpdateMessage.Send( player.GameObject, tabProvider, NetTabType, TabAction.Close );
+		TabUpdateMessage.Send( player.GameObject, tabProvider, NetTabType, TabAction.Close );
 	}
 
 	public static TabInteractMessage Send( GameObject tabProvider, NetTabType netTabType, string elementId, string elementValue = "-1" )

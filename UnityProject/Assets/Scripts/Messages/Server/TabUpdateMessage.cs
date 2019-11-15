@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 
-public class TabUpdateMessage : ServerMessage {
+public class TabUpdateMessage : ServerMessage
+{
+	//updates which are longer than this will be broken up
+	private static readonly short MAX_ELEMENTS_PER_MESSAGE = 10;
+
 	public static short MessageType = (short) MessageTypes.TabUpdateMessage;
 
 	public uint Provider;
@@ -41,15 +46,42 @@ public class TabUpdateMessage : ServerMessage {
 	public static void SendToPeepers( GameObject provider, NetTabType type, TabAction tabAction,
 		ElementValue[] values = null )
 	{
-		//Notify all peeping players of the change
 		List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers( provider, type );
 		foreach ( ConnectedPlayer connectedPlayer in list )
 		{
 			Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
 		}
+
 	}
 
-	public static TabUpdateMessage Send( GameObject recipient, GameObject provider, NetTabType type, TabAction tabAction, GameObject changedBy = null,
+	public static void Send(GameObject recipient, GameObject provider, NetTabType type, TabAction tabAction,
+		GameObject changedBy = null,
+		ElementValue[] values = null)
+	{
+		if (tabAction == TabAction.Open)
+		{
+			//register the recipient of this tab and
+			//automatically get the values from the nettab instance
+			NetworkTabManager.Instance.Add(provider, type, recipient);
+			values = NetworkTabManager.Instance.Get( provider, type ).ElementValues;
+		}
+		//NOTE: Slightly unrobust way of breaking up large messages into smaller chunks to avoid hitting max message size
+		//but this should be good for now
+		//This limit only gets hit when sending initial values of a large nettab, so it's rarely more than one chunk
+		if (values != null && values.Length > MAX_ELEMENTS_PER_MESSAGE)
+		{
+			foreach (var chunk in values.Chunk(MAX_ELEMENTS_PER_MESSAGE).Select(c => c.ToArray()))
+			{
+				SendInternal(recipient, provider, type, tabAction, changedBy, chunk);
+			}
+		}
+		else
+		{
+			SendInternal(recipient, provider, type, tabAction, changedBy, values);
+		}
+	}
+
+	private static TabUpdateMessage SendInternal( GameObject recipient, GameObject provider, NetTabType type, TabAction tabAction, GameObject changedBy = null,
 		ElementValue[] values = null ) {
 //		if ( changedBy ) {
 //			//body = human_33, hands, uniform, suit
@@ -62,12 +94,6 @@ public class TabUpdateMessage : ServerMessage {
 			Touched = changedBy != null
 		};
 		switch ( tabAction ) {
-			case TabAction.Open:
-				NetworkTabManager.Instance.Add(provider, type, recipient);
-				//!! resetting ElementValues
-				msg.ElementValues = NetworkTabManager.Instance.Get( provider, type ).ElementValues;
-				//!!
-				break;
 			case TabAction.Close:
 				NetworkTabManager.Instance.Remove(provider, type, recipient);
 				break;
@@ -78,7 +104,7 @@ public class TabUpdateMessage : ServerMessage {
 				//Not sending updates and closing tab for players that don't pass the validation anymore
 				bool validate = playerScript && !playerScript.canNotInteract() && playerScript.IsInReach( provider, true );
 				if ( !validate ) {
-					Send( recipient, provider, type, TabAction.Close );
+					SendInternal( recipient, provider, type, TabAction.Close );
 					return msg;
 				}
 				break;
