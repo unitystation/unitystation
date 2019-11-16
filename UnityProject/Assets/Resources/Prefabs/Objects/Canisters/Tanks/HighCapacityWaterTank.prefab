@@ -18,8 +18,10 @@ GameObject:
   - component: {fileID: 114225304750474940}
   - component: {fileID: 114884226294134310}
   - component: {fileID: 114095969428848044}
+  - component: {fileID: 2102555284219174637}
+  - component: {fileID: -6316358764717199605}
   m_Layer: 0
-  m_Name: objects_174
+  m_Name: HighCapacityWaterTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,6 +219,41 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: a752c6f5789964f82949e01ff6b80845
   m_SceneId: 0
+--- !u!114 &2102555284219174637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276867022725126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &-6316358764717199605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276867022725126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 100000
+  Reagents:
+  - water
+  Amounts:
+  - 100000
+  AcceptedReagents: []
 --- !u!1 &1814863487152160
 GameObject:
   m_ObjectHideFlags: 0

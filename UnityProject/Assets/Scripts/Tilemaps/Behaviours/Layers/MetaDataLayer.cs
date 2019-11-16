@@ -101,7 +101,7 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				Clean(worldPosInt, localPosInt, false);
 			} else if (reagent.Key == "space_lube")
-			{ //( ͡° ͜ʖ ͡°)
+			{ //( ͡° ͜ʖ ͡°) //fixme: don't spam watersplats
 				EffectsFactory.WaterSplat(worldPosInt);
 				MakeSlipperyAt(localPosInt, false);
 			}

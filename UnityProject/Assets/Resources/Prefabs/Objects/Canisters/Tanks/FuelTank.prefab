@@ -18,8 +18,10 @@ GameObject:
   - component: {fileID: 114383668046188982}
   - component: {fileID: 114026169455906660}
   - component: {fileID: 114536480436588622}
+  - component: {fileID: 6622438585055889099}
+  - component: {fileID: 6583254002094982938}
   m_Layer: 0
-  m_Name: objects_173
+  m_Name: FuelTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,8 +217,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 13d5bebf03e4548c2b99b312445a3939
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1099501376
+--- !u!114 &6622438585055889099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677789019931390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &6583254002094982938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677789019931390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 1000
+  Reagents:
+  - fuel
+  Amounts:
+  - 1000
+  AcceptedReagents:
+  - fuel
 --- !u!1 &1754091207019976
 GameObject:
   m_ObjectHideFlags: 0

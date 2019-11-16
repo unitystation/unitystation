@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 114011475389698314}
   - component: {fileID: 114483982261721994}
   - component: {fileID: 114625575897845998}
+  - component: {fileID: 8673378308319568878}
+  - component: {fileID: -6126722946839415971}
   m_Layer: 10
   m_Name: Magazine_Syringe
   m_TagString: Untagged
@@ -163,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114321033702020154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +200,7 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Syringe
   itemDescription: 
-  InitialTraits:
+  initialTraits:
   - {fileID: 11400000, guid: 8f46f13d516624e6883db235a840f575, type: 2}
   size: 0
   spriteType: 0
@@ -255,9 +258,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114855648352423478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,4 +351,40 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1934205230
+  m_SceneId: 3312956947
+--- !u!114 &8673378308319568878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570589854574774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &-6126722946839415971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570589854574774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 15
+  Reagents: []
+  Amounts: []
+  AcceptedReagents: []
+  TransferMode: 1
+  TransferAmount: 5
+  registerTile: {fileID: 0}

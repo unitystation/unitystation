@@ -94,11 +94,12 @@ GameObject:
   - component: {fileID: 114020636723924386}
   - component: {fileID: 114867396419559272}
   - component: {fileID: 114183243700281508}
-  - component: {fileID: 114856973896395130}
   - component: {fileID: 114386644002111336}
   - component: {fileID: 114281300273992844}
   - component: {fileID: 114350845769575412}
   - component: {fileID: 114663309010729824}
+  - component: {fileID: 3065337277714499866}
+  - component: {fileID: -4444550712224746429}
   m_Layer: 11
   m_Name: WeldingFuel
   m_TagString: Untagged
@@ -222,18 +223,6 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
---- !u!114 &114856973896395130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63702a80616d8441eb1973bfb97fc8e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114386644002111336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,4 +298,40 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 669680205
+  m_SceneId: 10832265
+--- !u!114 &3065337277714499866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &-4444550712224746429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 1000
+  Reagents:
+  - fuel
+  Amounts:
+  - 1000
+  AcceptedReagents:
+  - fuel

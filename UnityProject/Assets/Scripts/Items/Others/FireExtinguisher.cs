@@ -8,7 +8,7 @@ using Mirror;
 public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, ICheckedInteractable<AimApply>
 {
 	bool safety = true;
-	int travelDistance = 6;
+	public int travelDistance = 6;
 	public ReagentContainer reagentContainer;
 	public RegisterItem registerItem;
 	public Pickupable pickupable;

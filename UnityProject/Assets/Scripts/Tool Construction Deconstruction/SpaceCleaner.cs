@@ -6,7 +6,7 @@ using Mirror;
 [RequireComponent(typeof(Pickupable))]
 public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 {
-	int travelDistance = 6;
+	public int travelDistance = 6;
 	public ReagentContainer reagentContainer;
 
 	public bool WillInteract(AimApply interaction, NetworkSide side)
