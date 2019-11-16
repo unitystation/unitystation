@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -256,28 +255,5 @@ public static class SweetExtensions
 			return output.ToArray();
 
 		return null;
-	}
-
-	/// <summary>
-	/// Splits an enumerable into chunks of a specified size
-	/// Credit to: https://extensionmethod.net/csharp/ienumerable/ienumerable-chunk
-	/// </summary>
-	/// <param name="list"></param>
-	/// <param name="chunkSize"></param>
-	/// <typeparam name="T"></typeparam>
-	/// <returns></returns>
-	/// <exception cref="ArgumentException"></exception>
-	public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> list, int chunkSize)
-	{
-		if (chunkSize <= 0)
-		{
-			throw new ArgumentException("chunkSize must be greater than 0.");
-		}
-
-		while (list.Any())
-		{
-			yield return list.Take(chunkSize);
-			list = list.Skip(chunkSize);
-		}
 	}
 }
