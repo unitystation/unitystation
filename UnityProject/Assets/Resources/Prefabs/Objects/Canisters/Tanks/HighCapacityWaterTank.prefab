@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 114095969428848044}
   - component: {fileID: 2102555284219174637}
   - component: {fileID: -6316358764717199605}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HighCapacityWaterTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,6 +254,9 @@ MonoBehaviour:
   Amounts:
   - 100000
   AcceptedReagents: []
+  TransferMode: 2
+  TransferAmount: 20
+  registerTile: {fileID: 0}
 --- !u!1 &1814863487152160
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,8 +323,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d94c4c420b88e6242b7f09eaa3ed82ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

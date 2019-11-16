@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 114536480436588622}
   - component: {fileID: 6622438585055889099}
   - component: {fileID: 6583254002094982938}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FuelTank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,8 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1099501376
+  m_AssetId: 13d5bebf03e4548c2b99b312445a3939
+  m_SceneId: 0
 --- !u!114 &6622438585055889099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +255,9 @@ MonoBehaviour:
   - 1000
   AcceptedReagents:
   - fuel
+  TransferMode: 2
+  TransferAmount: 20
+  registerTile: {fileID: 0}
 --- !u!1 &1754091207019976
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,8 +324,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 185b88f5493eb6943be06789294c387f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
