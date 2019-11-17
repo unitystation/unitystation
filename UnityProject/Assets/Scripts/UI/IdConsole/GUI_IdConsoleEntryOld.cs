@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_IdConsoleEntry : DynamicEntry
+/// <summary>
+/// Old ID entry component, used only for stress testing nettab system.
+/// </summary>
+public class GUI_IdConsoleEntryOld : DynamicEntry
 {
 	[SerializeField]
 	private NetLabel displayedName;

@@ -116,9 +116,9 @@ public class GUI_IdConsole : NetTab
 			accessCategoriesList[i].AddItems(accessList.Count);
 			for (int j = 0; j < accessList.Count; j++)
 			{
-				GUI_IdConsoleEntry entry;
-				entry = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntry;
-				entry.SetUpAccess(this, console.TargetCard, accessList[j], IdConsoleManager.Instance.AccessCategories[i]);
+				GUI_IdConsoleEntryOld entryOld;
+				entryOld = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntryOld;
+				entryOld.SetUpAccess(this, console.TargetCard, accessList[j], IdConsoleManager.Instance.AccessCategories[i]);
 			}
 		}
 	}
@@ -130,9 +130,9 @@ public class GUI_IdConsole : NetTab
 			List<IdAccess> accessList = IdConsoleManager.Instance.AccessCategories[i].IdAccessList;
 			for (int j = 0; j < accessList.Count; j++)
 			{
-				GUI_IdConsoleEntry entry;
-				entry = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntry;
-				entry.CheckIsSet();
+				GUI_IdConsoleEntryOld entryOld;
+				entryOld = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntryOld;
+				entryOld.CheckIsSet();
 			}
 		}
 	}
@@ -142,7 +142,7 @@ public class GUI_IdConsole : NetTab
 	{
 		assignList.Clear();
 		assignList.AddItems(jobsCount);
-		GUI_IdConsoleEntry entry;
+		GUI_IdConsoleEntryOld entryOld;
 		var occupations = OccupationList.Instance.Occupations.ToArray();
 		for (int i = 0; i < jobsCount; i++)
 		{
@@ -151,18 +151,18 @@ public class GUI_IdConsole : NetTab
 			{
 				continue;
 			}
-			entry = assignList.Entries[i] as GUI_IdConsoleEntry;
-			entry.SetUpAssign(this, console.TargetCard, OccupationList.Instance.Get(jobType));
+			entryOld = assignList.Entries[i] as GUI_IdConsoleEntryOld;
+			entryOld.SetUpAssign(this, console.TargetCard, OccupationList.Instance.Get(jobType));
 		}
 	}
 
 	private void UpdateAssignList()
 	{
-		GUI_IdConsoleEntry entry;
+		GUI_IdConsoleEntryOld entryOld;
 		for (int i = 0; i < jobsCount; i++)
 		{
-			entry = assignList.Entries[i] as GUI_IdConsoleEntry;
-			entry.CheckIsSet();
+			entryOld = assignList.Entries[i] as GUI_IdConsoleEntryOld;
+			entryOld.CheckIsSet();
 		}
 	}
 
