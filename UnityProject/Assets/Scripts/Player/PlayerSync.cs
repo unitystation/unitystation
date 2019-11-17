@@ -131,7 +131,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private PlayerScript playerScript;
 	private Directional playerDirectional;
 
-	private Matrix Matrix => registerTile.Matrix;
+	private Matrix Matrix => registerTile != null ? registerTile.Matrix : null;
 
 	private RaycastHit2D[] rayHit;
 

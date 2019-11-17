@@ -120,7 +120,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			itemStorage.ServerAddObserverPlayer(interaction.Performer);
 			ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
 
-			if (!interaction.IsFromInventory)
+			//if we are observing a storage not in our inventory (such as another player's top
+			//level inventory or a storage within their inventory, or a box/backpack sitting on the ground), we must stop observing when it
+			//becomes unobservable for whatever reason (such as the owner becoming unobservable)
+			var rootStorage = itemStorage.GetRootStorage();
+			if (interaction.Performer != rootStorage.gameObject)
 			{
 				//stop observing when it becomes unobservable for whatever reason
 				var relationship = ObserveStorageRelationship.Observe(this, interaction.Performer.GetComponent<RegisterPlayer>(),
@@ -140,8 +144,14 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		//stop player observing if it's dropped from the player's storage
+		//stop any observers (except for owner) from observing it if it's moved
 		var fromRootPlayer = info.FromRootPlayer;
+		if (fromRootPlayer != null)
+		{
+			itemStorage.ServerRemoveAllObserversExceptOwner();
+		}
+
+		//stop owner observing if it's dropped from the owner's storage
 		var toRootPlayer = info.ToRootPlayer;
 		//no need to do anything, hasn't moved into player inventory
 		if (fromRootPlayer == toRootPlayer) return;

@@ -279,8 +279,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	{
 
 		var slotName = itemSlot.SlotIdentifier.NamedSlot;
-		// Clicked on another slot other than hands
-		if (slotName != NamedSlot.leftHand && slotName != NamedSlot.rightHand)
+		// Clicked on another slot other than our own hands
+		if (itemSlot != UIManager.Hands.LeftHand.ItemSlot && itemSlot != UIManager.Hands.RightHand.itemSlot)
 		{
 			// If full, attempt to interact the two, otherwise swap
 			if (Item != null)

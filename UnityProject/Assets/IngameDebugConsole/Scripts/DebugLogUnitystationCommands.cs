@@ -220,7 +220,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
+				PlayerSpawn.ServerRespawnPlayer(PlayerManager.LocalPlayerScript.mind);
 			}
 		}
 

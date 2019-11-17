@@ -63,7 +63,7 @@ public static class Validations
 
 	/// <summary>
 	/// Checks if a player is allowed to interact with things (based on this player's status, such
-	/// as being conscious).
+	/// as being conscious, and not cuffed).
 	///
 	/// This should be used instead of playerScript.canNotInteract as it handles more possible situations.
 	/// </summary>
@@ -75,7 +75,7 @@ public static class Validations
 	{
 		if (player == null) return false;
 		var playerScript = player.GetComponent<PlayerScript>();
-		if (playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		if (playerScript.playerMove.IsCuffed || playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
 			return false;
 		}

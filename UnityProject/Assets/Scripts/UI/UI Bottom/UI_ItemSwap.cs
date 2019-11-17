@@ -32,12 +32,12 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		{
 			itemSlot.TryItemInteract();
 		}
-		//otherwise, try switching hands to this hand if this is a hand slot and not already active
-		else if (itemSlot.ItemSlot.NamedSlot == NamedSlot.leftHand && UIManager.Hands.CurrentSlot != itemSlot)
+		//otherwise, try switching hands to this hand if this is our own  hand slot and not already active
+		else if (itemSlot == UIManager.Hands.LeftHand && UIManager.Hands.CurrentSlot != itemSlot)
 		{
 			UIManager.Hands.SetHand(false);
 		}
-		else if (itemSlot.ItemSlot.NamedSlot == NamedSlot.rightHand && UIManager.Hands.CurrentSlot != itemSlot)
+		else if (itemSlot == UIManager.Hands.RightHand && UIManager.Hands.CurrentSlot != itemSlot)
 		{
 			UIManager.Hands.SetHand(true);
 		}
@@ -69,8 +69,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		var item = UIManager.Hands.CurrentSlot.Item;
 		if (item == null
 		    || itemSlot.Item != null
-		    || itemSlot.NamedSlot == NamedSlot.leftHand
-		    || itemSlot.NamedSlot == NamedSlot.rightHand)
+		    || itemSlot == UIManager.Hands.RightHand
+		    || itemSlot == UIManager.Hands.LeftHand)
 		{
 			return;
 		}

@@ -374,8 +374,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		SyncCuffed(true);
 
+		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
+		//drop hand items
+		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
+		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
 		Inventory.ServerTransfer(interaction.HandSlot,
-			interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs));
+			targetStorage.GetNamedItemSlot(NamedSlot.handcuffs));
 	}
 
 	[Server]
