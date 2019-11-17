@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -11,7 +12,7 @@ using UnityEngine.Serialization;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 {
 	[SerializeField]
 	private PlayerScript playerScript;
@@ -33,12 +34,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	/// </summary>
 	public bool IsBuckled => buckledObject != NetId.Invalid;
 
-	[SyncVar] private bool cuffed;
+	[SyncVar(hook=nameof(SyncCuffed))] private bool cuffed;
 
 	/// <summary>
 	/// Whether the character is restrained with handcuffs (or similar)
 	/// </summary>
 	public bool IsCuffed => cuffed;
+
+	/// <summary>
+	/// Invoked on server side when the cuffed state is changed
+	/// </summary>
+	[NonSerialized]
+	public CuffEvent OnCuffChangeServer = new CuffEvent();
 
 	/// <summary>
 	/// Tracks the server's idea of whether we have help intent
@@ -112,6 +119,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
+	}
+
+	public override void OnStartClient()
+	{
+		SyncCuffed(this.cuffed);
+		base.OnStartClient();
 	}
 
 	[Command]
@@ -359,7 +372,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	[Server]
 	public void Cuff(HandApply interaction)
 	{
-		cuffed = true;
+		SyncCuffed(true);
 
 		Inventory.ServerTransfer(interaction.HandSlot,
 			interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs));
@@ -368,9 +381,20 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	[Server]
 	private void Uncuff()
 	{
-		cuffed = false;
+		SyncCuffed(false);
 
 		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+	}
+
+	private void SyncCuffed(bool cuffed)
+	{
+		var oldCuffed = this.cuffed;
+		this.cuffed = cuffed;
+
+		if (isServer)
+		{
+			OnCuffChangeServer.Invoke(oldCuffed, this.cuffed);
+		}
 	}
 
 	/// <summary>
@@ -417,4 +441,17 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 
 		return null;
 	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		SyncCuffed(this.cuffed);
+	}
+}
+
+/// <summary>
+/// Cuff state changed, provides old state and new state as 1st and 2nd args
+/// </summary>
+public class CuffEvent : UnityEvent<bool, bool>
+{
+
 }

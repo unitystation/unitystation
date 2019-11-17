@@ -22,6 +22,13 @@ public class PlayerHealth : LivingHealthBehaviour
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
+	private void Awake()
+	{
+		base.Awake();
+
+		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+	}
+
 	public override void OnStartClient()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -116,7 +123,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	///     make player unconscious upon crit
-	protected override void OnConsciousStateChange( ConsciousState oldState, ConsciousState newState )
+	private void OnPlayerConsciousStateChangeServer( ConsciousState oldState, ConsciousState newState )
 	{
 		if ( isServer )
 		{

@@ -97,6 +97,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//disrobe
 		foreach (var itemSlot in itemStorage.GetItemSlots())
 		{
+			//skip slots which have special uses
+			if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
 			Inventory.ServerDrop(itemSlot);
 		}
 	}

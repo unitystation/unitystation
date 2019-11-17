@@ -20,7 +20,7 @@ public class RangeRelationship : BaseSpatialRelationship
 	private readonly PushPull pushPull1;
 	private readonly PushPull pushPull2;
 
-	private RangeRelationship(RegisterTile obj1, RegisterTile obj2, float maxRange, Action<RangeRelationship> onRangeExceeded) : base(obj1, obj2)
+	protected RangeRelationship(RegisterTile obj1, RegisterTile obj2, float maxRange, Action<RangeRelationship> onRangeExceeded) : base(obj1, obj2)
 	{
 		this.maxRange = maxRange;
 		this.onRangeExceeded = onRangeExceeded;
@@ -71,7 +71,6 @@ public class RangeRelationship : BaseSpatialRelationship
 		}
 		if (Vector3Int.Distance(obj1.WorldPositionServer, obj2.WorldPositionServer) > maxRange)
 		{
-			onRangeExceeded.Invoke(this);
 			return true;
 		}
 

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Allows a storage object to be interacted with in inventory, to open/close it and drag things.
-/// Currently only supports indexed slots.
+/// Allows a storage object to be interacted with, to open/close it and drag things. Works for
+/// player inventories and normal indexed storages like backpacks
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
-[RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(MouseDraggable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove
@@ -99,7 +98,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
 			{
 				//dragging a player, can only do this if they are down / dead
-				return Validations.IsDeadOrCrit(interaction.DroppedObject, side);
+				return Validations.IsDeadCritStunnedOrCuffed(interaction.DroppedObject, side);
 			}
 
 			return true;
@@ -120,20 +119,23 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			//player can observe this storage
 			itemStorage.ServerAddObserverPlayer(interaction.Performer);
 			ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
+
 			if (!interaction.IsFromInventory)
 			{
-				SpatialRelationship.ServerActivate(RangeRelationship.Between(interaction.Performer, interaction.UsedObject,
-					PlayerScript.interactionDistance, ServerOnRelationshipEnded));
+				//stop observing when it becomes unobservable for whatever reason
+				var relationship = ObserveStorageRelationship.Observe(this, interaction.Performer.GetComponent<RegisterPlayer>(),
+					PlayerScript.interactionDistance, ServerOnObservationEnded);
+				SpatialRelationship.ServerActivate(relationship);
 			}
 		}
 
 	}
 
-	private void ServerOnRelationshipEnded(RangeRelationship cancelled)
+	private void ServerOnObservationEnded(ObserveStorageRelationship cancelled)
 	{
 		//they can't observe anymore
-		itemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
-		ObserveInteractableStorageMessage.Send(cancelled.obj1.gameObject, this, false);
+		itemStorage.ServerRemoveObserverPlayer(cancelled.ObserverPlayer.gameObject);
+		ObserveInteractableStorageMessage.Send(cancelled.ObserverPlayer.gameObject, this, false);
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)

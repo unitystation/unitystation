@@ -333,28 +333,25 @@ public static class Validations
 		return true;
 	}
 
-	/// <summary>
-	/// Checks if the player is in crit or dead.
-	/// </summary>
-	/// <param name="player"></param>
-	/// <param name="side"></param>
-	/// <returns></returns>
-	public static bool IsDeadOrCrit(GameObject player, NetworkSide side)
+	public static bool IsDeadCritStunnedOrCuffed(GameObject player, NetworkSide side)
 	{
 		if (player == null) return false;
 		if (side == NetworkSide.Client)
 		{
-			//we don't know their exact health state, but we can guess if they're downed we can do this
+			//we don't know their exact health state and whether they are slipping, but we can guess if they're downed we can do this
 			var registerPlayer = player.GetComponent<RegisterPlayer>();
-			if (registerPlayer == null) return false;
-			return registerPlayer.IsDown;
+			var playerMove = player.GetComponent<PlayerMove>();
+			if (registerPlayer == null || playerMove == null) return false;
+			return registerPlayer.IsDown || playerMove.IsCuffed;
 		}
 		else
 		{
-			//find their exact conscious state
+			//find their exact conscious state, slipping state, cuffed state
 			var playerHealth = player.GetComponent<PlayerHealth>();
-			if (playerHealth == null) return false;
-			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS;
+			var registerPlayer = player.GetComponent<RegisterPlayer>();
+			var playerMove = player.GetComponent<PlayerMove>();
+			if (playerHealth == null || playerMove == null || registerPlayer == null) return false;
+			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS || registerPlayer.IsSlippingServer || playerMove.IsCuffed;
 		}
 	}
 }
