@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using WebSocketSharp;
 
 [RequireComponent(typeof(RightClickAppearance))]
-public class ReagentContainer : Container, IRightClickable, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate> {
+public class ReagentContainer : Container, IRightClickable, 
+	ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
+	ICheckedInteractable<HandActivate>, //Activate to change transfer amount
+	ICheckedInteractable<InventoryApply> //Transfer: active hand <-> other hand
+{
+	private const float REGS_PER_TILE = 10f;
+
 	public float CurrentCapacity
 	{
 		get => currentCapacity;
@@ -105,7 +112,7 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 			//Pour / add can only be done if in reach
 			if ( PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
 			{
-				result.AddElement( "PourOut", RemoveAll );
+				result.AddElement( "PourOut", SpillAll );
 			}
 		}
 
@@ -149,23 +156,31 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		return new TransferResult{ Success = true, TransferAmount = totalToAdd };
 	}
 
+	/// <summary>
+	/// Don't provide target if you want reagents to simply vanish
+	/// </summary>
 	public TransferResult MoveReagentsTo(float amount, ReagentContainer target = null)
+	{
+		return MoveReagentsTo(amount, target, out _);
+	}
+
+	public TransferResult MoveReagentsTo(float amount, ReagentContainer target, out Dictionary<string, float> transferredReagents)
 	{
 
 		CurrentCapacity = AmountOfReagents(Contents);
 		float toMove = target == null ? amount : Math.Min(target.MaxCapacity - target.CurrentCapacity, amount);
 		float divideAmount = toMove / CurrentCapacity;
 
-		var toTransfer = Contents.ToDictionary(
+		transferredReagents = Contents.ToDictionary(
 			reagent => reagent.Key,
-			reagent => divideAmount > 1 ? reagent.Value : (reagent.Value * divideAmount)
+			reagent => divideAmount >= 1 ? reagent.Value : (reagent.Value * divideAmount)
 		);
 
 		TransferResult transferResult;
 
 		if ( target != null )
 		{
-			transferResult = target.AddReagents(toTransfer, Temperature);
+			transferResult = target.AddReagents(transferredReagents, Temperature);
 			if ( !transferResult.Success )
 			{ //don't consume contents if transfer failed
 				return transferResult;
@@ -182,13 +197,13 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 				Category.Chemistry, transferResult.TransferAmount, toMove );
 			divideAmount = transferResult.TransferAmount / CurrentCapacity;
 
-			toTransfer = Contents.ToDictionary(
+			transferredReagents = Contents.ToDictionary(
 				reagent => reagent.Key,
 				reagent => divideAmount > 1 ? reagent.Value : (reagent.Value * divideAmount)
 			);
 		}
 
-		foreach(var reagent in toTransfer)
+		foreach(var reagent in transferredReagents)
 		{
 			Contents[reagent.Key] -= reagent.Value;
 		}
@@ -212,59 +227,121 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 			Logger.Log(reagent.Key + " at " + reagent.Value, Category.Chemistry);
 		}
 	}
-
-	private void RemoveSome() => MoveReagentsTo(10);
 	private void RemoveAll()
 	{
 		MoveReagentsTo(AmountOfReagents(Contents));
 	}
 	private void SpillAll()
 	{
-		MoveReagentsTo(AmountOfReagents(Contents));
+		var amountOfReagents = AmountOfReagents(Contents);
+		MoveReagentsTo(amountOfReagents, null, out var spilledReagents);
+//todo: half decent regs spread
+//		if (amountOfReagents <= REGS_PER_TILE)
+//		{
+			registerTile.Matrix.MetaDataLayer.ReagentReact(spilledReagents, registerTile.WorldPositionServer, registerTile.LocalPositionServer);
+//			return;
+//		}
+//		
+//		//assuming one tile can hold REGS_PER_TILE units of regs
+//		var tilesToCover = Mathf.Clamp(amountOfReagents / REGS_PER_TILE, 1, int.MaxValue);
+//		var spillArea = registerTile.WorldPositionServer.BoundsAround();
+//		while ( (spillArea.size.x * spillArea.size.y) < tilesToCover )
+//		{
+//			spillArea = spillArea.Extend(1);
+//		}
+//
+//		var positions = spillArea.allPositionsWithin.ToIEnumerable().ToList();
+//		int count = positions.Count;
+//
+//		var spillPerTile = spilledReagents.ToDictionary(
+//			reagent => reagent.Key,
+//			reagent => reagent.Value / tilesToCover
+//		);
+//		
+//		StartCoroutine(SpillRegs(positions, tilesToCover, spillPerTile));
+	}
+
+//	private IEnumerator SpillRegs(List<Vector3Int> positions, float tilesToCover, Dictionary<string, float> spillPerTile)
+//	{
+//		int halfCount = positions.Count / 2;
+//		
+//		//1234567 -> 4,5,3,6,2,7,1. but no more than tilesToCover
+//		for (int i = halfCount, j = 0; i < positions.Count && i >= 0 && j < tilesToCover; ++j, i = (i > halfCount ? -j : j) + i)
+//		{
+//			var worldPos = positions[i];
+//			var localPos = MatrixManager.Instance.WorldToLocalInt(worldPos, registerTile.Matrix);
+//			registerTile.Matrix.MetaDataLayer.ReagentReact(spillPerTile, worldPos, localPos);
+//			yield return WaitFor.Seconds(0.05f);
+//		}
+//	}
+
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (!WillInteractInternal(interaction.UsedObject, interaction.TargetObject)) return false;
+		
+		return true;
 	}
 
 	public bool WillInteract( HandApply interaction, NetworkSide side )
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if ( interaction.HandObject == null || interaction.TargetObject == null ) return false;
-
-		var srcContainer = interaction.HandObject.GetComponent<ReagentContainer>();
-		var dstContainer = interaction.TargetObject.GetComponent<ReagentContainer>();
-
-		if ( srcContainer == null || dstContainer == null ) return false;
-
-		if ( srcContainer.TransferMode == TransferMode.NoTransfer
-		     || dstContainer.TransferMode == TransferMode.NoTransfer )
-		{
-			return false;
-		}
-
-		if ( dstContainer.TransferMode == TransferMode.Syringe ) return false; //syringes can only be used from source
+		if (!WillInteractInternal(interaction.HandObject, interaction.TargetObject)) return false;
 
 		return true;
 	}
 
-	/// <summary>
-	/// Transfers Reagents between two containers
-	/// </summary>
-	/// <param name="interaction"></param>
+	private bool WillInteractInternal(GameObject srcObject, GameObject dstObject)
+	{
+		if (srcObject == null || dstObject == null) return false;
+
+		var srcContainer = srcObject.GetComponent<ReagentContainer>();
+		var dstContainer = dstObject.GetComponent<ReagentContainer>();
+
+		if (srcContainer == null || dstContainer == null) return false;
+
+		if (srcContainer.TransferMode == TransferMode.NoTransfer
+		    || dstContainer.TransferMode == TransferMode.NoTransfer)
+		{
+			return false;
+		}
+
+		if (dstContainer.TransferMode == TransferMode.Syringe) return false;
+		return true;
+	}
+
+	public void ServerPerformInteraction(InventoryApply interaction)
+	{
+		var one = interaction.UsedObject.GetComponent<ReagentContainer>();
+		var two = interaction.TargetObject.GetComponent<ReagentContainer>();
+
+		TransferInteraction(one, two, interaction.Performer);
+	}
+
+
 	public void ServerPerformInteraction( HandApply interaction )
 	{
 		var one = interaction.HandObject.GetComponent<ReagentContainer>();
 		var two = interaction.TargetObject.GetComponent<ReagentContainer>();
 
+		TransferInteraction(one, two, interaction.Performer);
+	}
+
+	/// <summary>
+	/// Transfers Reagents between two containers
+	/// </summary>
+	private void TransferInteraction(ReagentContainer one, ReagentContainer two, GameObject performer)
+	{
 		ReagentContainer transferTo = null;
-		switch ( one.TransferMode )
+		switch (one.TransferMode)
 		{
 			case TransferMode.Normal:
-				switch ( two.TransferMode )
+				switch (two.TransferMode)
 				{
 					case TransferMode.Normal:
-//						var sizeOne = one.registerTile.CustomTransform.Pushable.Size;
-//						var sizeTwo = two.registerTile.CustomTransform.Pushable.Size;
-						//experimental: one should output unless two is larger
-						transferTo = two;//sizeOne >= sizeTwo ? two : one;
+						transferTo = two;
 						break;
 					case TransferMode.OutputOnly:
 						transferTo = one;
@@ -273,12 +350,14 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 						transferTo = two;
 						break;
 					default:
-						Logger.LogErrorFormat( "Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry, one, two );
+						Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Category.Chemistry, one, two);
 						break;
 				}
+
 				break;
 			case TransferMode.Syringe:
-				switch ( two.TransferMode )
+				switch (two.TransferMode)
 				{
 					case TransferMode.Normal:
 						transferTo = one.IsFull ? two : one;
@@ -290,29 +369,33 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 						transferTo = two;
 						break;
 					default:
-						Logger.LogErrorFormat( "Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry, one, two );
+						Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Category.Chemistry, one, two);
 						break;
 				}
+
 				break;
 			case TransferMode.OutputOnly:
-				switch ( two.TransferMode )
+				switch (two.TransferMode)
 				{
 					case TransferMode.Normal:
 						transferTo = two;
 						break;
 					case TransferMode.OutputOnly:
-						Chat.AddExamineMsg( interaction.Performer, "Both containers are output-only." );
+						Chat.AddExamineMsg(performer, "Both containers are output-only.");
 						break;
 					case TransferMode.InputOnly:
 						transferTo = two;
 						break;
 					default:
-						Logger.LogErrorFormat( "Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry, one, two );
+						Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Category.Chemistry, one, two);
 						break;
 				}
+
 				break;
 			case TransferMode.InputOnly:
-				switch ( two.TransferMode )
+				switch (two.TransferMode)
 				{
 					case TransferMode.Normal:
 						transferTo = one;
@@ -321,36 +404,39 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 						transferTo = one;
 						break;
 					case TransferMode.InputOnly:
-						Chat.AddExamineMsg( interaction.Performer, "Both containers are input-only." );
+						Chat.AddExamineMsg(performer, "Both containers are input-only.");
 						break;
 					default:
-						Logger.LogErrorFormat( "Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry, one, two );
+						Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Category.Chemistry, one, two);
 						break;
 				}
+
 				break;
 			default:
-				Logger.LogErrorFormat( "Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry, one, two );
+				Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry, one,
+					two);
 				break;
 		}
 
-		var transferFrom = two == transferTo ? one : two;
-
-		Logger.LogTraceFormat( "Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo );
-
-		if ( transferTo == null )
+		if (transferTo == null)
 		{
 			return;
 		}
+		var transferFrom = two == transferTo ? one : two;
 
-		if ( transferFrom.IsEmpty )
+		Logger.LogTraceFormat("Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo);
+
+
+		if (transferFrom.IsEmpty)
 		{
 			//red msg
-			Chat.AddExamineMsg( interaction.Performer, "The "+transferFrom.gameObject.ExpensiveName()+" is empty!" );
+			Chat.AddExamineMsg(performer, "The " + transferFrom.gameObject.ExpensiveName() + " is empty!");
 			return;
 		}
 
 		var transferAmount = transferFrom.TransferAmount;
-		
+
 		bool useFillMessage = false;
 		//always taking max capacity from output-only things like tanks
 		if (transferFrom.TransferMode == TransferMode.OutputOnly)
@@ -358,17 +444,17 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 			transferAmount = transferFrom.CurrentCapacity;
 			useFillMessage = true;
 		}
-		
-		TransferResult result = transferFrom.MoveReagentsTo( transferAmount, transferTo );
+
+		TransferResult result = transferFrom.MoveReagentsTo(transferAmount, transferTo);
 
 		string resultMessage;
 		if (string.IsNullOrEmpty(result.Message))
-			resultMessage = useFillMessage ?
-				$"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of the contents of the {transferFrom.gameObject.ExpensiveName()}."
-			  : $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
+			resultMessage = useFillMessage
+				? $"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of the contents of the {transferFrom.gameObject.ExpensiveName()}."
+				: $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
 		else
 			resultMessage = result.Message;
-		Chat.AddExamineMsg( interaction.Performer, resultMessage );
+		Chat.AddExamineMsg(performer, resultMessage);
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
