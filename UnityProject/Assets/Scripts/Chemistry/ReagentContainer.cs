@@ -11,12 +11,12 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 	public List<float> Amounts;  //And how much
 	public List<string> AcceptedReagents;
 	public bool ReagentsFilterOn => AcceptedReagents.Count > 0;
-	
+
 	public TransferMode TransferMode = TransferMode.Normal;
 
 	public bool IsFull => CurrentCapacity >= MaxCapacity;
 	public bool IsEmpty => CurrentCapacity <= 0f;
-	                         
+
 	/// <summary>
 	/// Server only
 	/// </summary>
@@ -52,7 +52,7 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		var result = RightClickableResult.Create();
-		
+
 		if ( CustomNetworkManager.Instance._isServer )
 		{ //fixme: these only work on server
 			//contents can always be viewed
@@ -81,7 +81,7 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 				}
 			}
 		}
-		
+
 		CurrentCapacity = AmountOfReagents(Contents);
 		float totalToAdd = AmountOfReagents(reagents);
 
@@ -96,12 +96,12 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 			float amountToAdd = reagent.Value * divideAmount;
 			Contents[reagent.Key] = (Contents.TryGetValue(reagent.Key, out float val) ? val : 0f) + amountToAdd;
 		}
-		
+
 		float oldCapacity = CurrentCapacity;
 		Contents = Calculations.Reactions(Contents, Temperature);
 		CurrentCapacity = AmountOfReagents(Contents);
 		Temperature = ((CurrentCapacity - oldCapacity) * temperatureContainer) + (oldCapacity * Temperature) / CurrentCapacity;
-		
+
 		return new TransferResult{ Success = true, TransferAmount = totalToAdd };
 	}
 
@@ -111,14 +111,14 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		CurrentCapacity = AmountOfReagents(Contents);
 		float toMove = target == null ? amount : Math.Min(target.MaxCapacity - target.CurrentCapacity, amount);
 		float divideAmount = toMove / CurrentCapacity;
-		
+
 		var toTransfer = Contents.ToDictionary(
 			reagent => reagent.Key,
 			reagent => divideAmount > 1 ? reagent.Value : (reagent.Value * divideAmount)
 		);
-		
+
 		TransferResult transferResult;
-		
+
 		if ( target != null )
 		{
 			transferResult = target.AddReagents(toTransfer, Temperature);
@@ -136,7 +136,7 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		{
 			Logger.LogError( "idk what to do", Category.Chemistry );
 		}
-		
+
 		foreach(var reagent in toTransfer)
 		{
 			Contents[reagent.Key] -= reagent.Value;
@@ -146,7 +146,7 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 
 		return transferResult;
 	}
-	
+
 	public float AmountOfReagents(Dictionary<string, float> Reagents) => Reagents.Select(reagent => reagent.Value).Sum();
 
 	private void LogReagents()
@@ -159,16 +159,16 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 
 	private void RemoveSome() => MoveReagentsTo(10);
 	private void RemoveAll() => MoveReagentsTo(AmountOfReagents(Contents));
-	
+
 	public bool WillInteract( HandApply interaction, NetworkSide side )
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		if ( interaction.HandObject == null || interaction.TargetObject == null ) return false;
-		
+
 		var srcContainer = interaction.HandObject.GetComponent<ReagentContainer>();
 		var dstContainer = interaction.TargetObject.GetComponent<ReagentContainer>();
-		
+
 		if ( srcContainer == null || dstContainer == null ) return false;
 
 		if ( srcContainer.TransferMode == TransferMode.NoTransfer
@@ -176,7 +176,7 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		{
 			return false;
 		}
-		
+
 		if ( dstContainer.TransferMode == TransferMode.Syringe ) return false; //syringes can only be used from source
 
 		return true;
@@ -198,10 +198,10 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 				switch ( two.TransferMode )
 				{
 					case TransferMode.Normal:
-						var sizeOne = one.registerTile.CustomTransform.Pushable.Size;
-						var sizeTwo = two.registerTile.CustomTransform.Pushable.Size;
+//						var sizeOne = one.registerTile.CustomTransform.Pushable.Size;
+//						var sizeTwo = two.registerTile.CustomTransform.Pushable.Size;
 						//experimental: one should output unless two is larger
-						transferTo = sizeOne >= sizeTwo ? two : one;
+						transferTo = two;//sizeOne >= sizeTwo ? two : one;
 						break;
 					case TransferMode.OutputOnly:
 						transferTo = one;
@@ -227,7 +227,6 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 						transferTo = two;
 						break;
 					default:
-						//shouldn't happen
 						Logger.LogErrorFormat( "Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry, one, two );
 						break;
 				}
@@ -272,7 +271,7 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		}
 
 		var transferFrom = two == transferTo ? one : two;
-		
+
 		Logger.LogTraceFormat( "Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo );
 
 		if ( transferTo == null )
@@ -284,12 +283,12 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		{
 			//red msg
 			Chat.AddExamineMsg( interaction.Performer, "The "+transferFrom.gameObject.ExpensiveName()+" is empty!" );
-			return;	
+			return;
 		}
 
 		TransferResult result = transferFrom.MoveReagentsTo( transferFrom.TransferAmount, transferTo );
 
-		string resultMessage = string.IsNullOrEmpty( result.Message ) ? 
+		string resultMessage = string.IsNullOrEmpty( result.Message ) ?
 			$"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}."
 			: result.Message;
 		Chat.AddExamineMsg( interaction.Performer, resultMessage );

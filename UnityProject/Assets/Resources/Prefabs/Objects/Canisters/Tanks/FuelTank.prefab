@@ -217,8 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 13d5bebf03e4548c2b99b312445a3939
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3251953788
 --- !u!114 &6622438585055889099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,11 +250,11 @@ MonoBehaviour:
   Temperature: 20
   MaxCapacity: 1000
   Reagents:
-  - fuel
+  - welding_fuel
   Amounts:
   - 1000
   AcceptedReagents:
-  - fuel
+  - welding_fuel
   TransferMode: 2
   TransferAmount: 20
   registerTile: {fileID: 0}

@@ -38,7 +38,7 @@ public class GUI_ChemistryDispenser : NetTab {
 		"sulfur",
 		"water",
 		"welding_fuel",
-		"space_cleaner"
+		"cleaner"
 	};
 
 	private List<string> DispenseAmounts = new List<string>(){ //Some security bizz

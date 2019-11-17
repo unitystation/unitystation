@@ -97,16 +97,18 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 				Clean(worldPosInt, localPosInt, true);
-			} else if (reagent.Key == "space_cleaner")
+			} else if (reagent.Key == "cleaner")
 			{
 				Clean(worldPosInt, localPosInt, false);
-			} else if (reagent.Key == "space_lube")
-			{ //( ͡° ͜ʖ ͡°) //fixme: don't spam watersplats
-				EffectsFactory.WaterSplat(worldPosInt);
-				MakeSlipperyAt(localPosInt, false);
+			} else if (reagent.Key == "lube")
+			{ //( ͡° ͜ʖ ͡°)
+				if (!Get(localPosInt).IsSlippery)
+				{
+					EffectsFactory.WaterSplat(worldPosInt);
+					MakeSlipperyAt(localPosInt, false);
+				}
 			}
 		}
-
 	}
 
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)

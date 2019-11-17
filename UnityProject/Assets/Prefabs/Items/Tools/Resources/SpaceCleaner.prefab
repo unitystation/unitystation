@@ -167,10 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  travelDistance: 6
   reagentContainer: {fileID: 4953889069794681373}
-  registerItem: {fileID: 114690376875817604}
-  particleSystem: {fileID: 5403326954991061525}
-  particleSync: 0
 --- !u!114 &4953889069794681373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,9 +184,13 @@ MonoBehaviour:
   Temperature: 20
   MaxCapacity: 100
   Reagents:
-  - space_cleaner
+  - cleaner
   Amounts:
   - 100
+  AcceptedReagents: []
+  TransferMode: 0
+  TransferAmount: 20
+  registerTile: {fileID: 0}
 --- !u!114 &114875290499615288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,9 +281,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114503468551468690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,8 +475,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 95adc0cf36af55d46baf1b7d4ef71eef
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1230516434
 --- !u!1 &7396984611411425534
 GameObject:
   m_ObjectHideFlags: 0
