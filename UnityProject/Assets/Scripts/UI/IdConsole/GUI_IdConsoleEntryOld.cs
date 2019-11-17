@@ -18,9 +18,9 @@ public class GUI_IdConsoleEntryOld : DynamicEntry
 	private Access access;
 	private IdAccessCategory category;
 	private IDCard idCard;
-	private GUI_IdConsole console;
+	private GUI_IdConsoleOld console;
 
-	public void SetUpAccess(GUI_IdConsole consoleToSet, IDCard idToSet, IdAccess accessToSet, IdAccessCategory categoryToSet)
+	public void SetUpAccess(GUI_IdConsoleOld consoleToSet, IDCard idToSet, IdAccess accessToSet, IdAccessCategory categoryToSet)
 	{
 		isAssignment = false;
 		console = consoleToSet;
@@ -31,10 +31,10 @@ public class GUI_IdConsoleEntryOld : DynamicEntry
 		CheckIsSet();
 	}
 
-	public void SetUpAssign(GUI_IdConsole consoleToSet, IDCard idToSet, Occupation occupationToSet)
+	public void SetUpAssign(GUI_IdConsoleOld consoleOldToSet, IDCard idToSet, Occupation occupationToSet)
 	{
 		isAssignment = true;
-		console = consoleToSet;
+		console = consoleOldToSet;
 		idCard = idToSet;
 		occupation = occupationToSet;
 		displayedName.SetValue = occupationToSet.JobType.JobString();

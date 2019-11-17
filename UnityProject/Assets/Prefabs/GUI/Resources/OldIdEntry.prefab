@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8184963648096117511}
   - component: {fileID: 6563747987670514579}
   - component: {fileID: 6861918984671894881}
+  - component: {fileID: 7562016175723476101}
   m_Layer: 5
   m_Name: IdEntryBg
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1679875868131893168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -63,6 +64,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: bde4f7b40d29d0706bb52ac59b2b753f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
@@ -72,7 +75,18 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7562016175723476101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679875868131893168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea513a57707b421f8f2880e64ddbfd96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2041067641272499810
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,10 +96,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4623058129856246119}
-  - component: {fileID: 8944320401514020936}
-  - component: {fileID: 1855350185259274876}
+  - component: {fileID: 8551936594901523499}
+  - component: {fileID: 6001168861189842318}
   m_Layer: 5
-  m_Name: IdEntryToggle
+  m_Name: IdEntryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +125,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8944320401514020936
+--- !u!114 &8551936594901523499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,7 +134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2041067641272499810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -134,30 +148,24 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 6861918984671894881}
-  toggleTransition: 1
-  graphic: {fileID: 0}
-  m_Group: {fileID: 0}
-  onValueChanged:
+  m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1855350185259274876}
+      - m_Target: {fileID: 6001168861189842318}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -168,8 +176,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 0
---- !u!114 &1855350185259274876
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &6001168861189842318
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,15 +187,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2041067641272499810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 294168097564939916}
-        m_MethodName: ServerToggle
-        m_Mode: 0
+      - m_Target: {fileID: 1082118656454979207}
+        m_MethodName: PressButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -195,6 +204,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &4547024672440015236
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +217,7 @@ GameObject:
   - component: {fileID: 1202170759297256822}
   - component: {fileID: 3866787013709927796}
   - component: {fileID: 5953459471698865265}
+  - component: {fileID: 8291162465692903013}
   m_Layer: 5
   m_Name: IdEntryText
   m_TagString: Untagged
@@ -249,7 +261,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4547024672440015236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -258,6 +270,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: b8471550233548f5a8aecb61061a2263, type: 3}
     m_FontSize: 15
@@ -272,6 +286,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Power and Engineering Equipment
+--- !u!114 &8291162465692903013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4547024672440015236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9212041992209255377
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3407102841600178071}
   - component: {fileID: 3138317380223768341}
-  - component: {fileID: 294168097564939916}
+  - component: {fileID: 1082118656454979207}
   m_Layer: 5
   m_Name: IdEntry
   m_TagString: Untagged
@@ -319,7 +345,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9212041992209255377}
   m_CullTransparentMesh: 0
---- !u!114 &294168097564939916
+--- !u!114 &1082118656454979207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -328,9 +354,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 9212041992209255377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97c08b306fd54d9192fdb5993558d9ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 23a7717f13181c7f2aef6f42bfb2885a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAssignment: 0
-  occupation: {fileID: 0}
-  access: 0
+  displayedName: {fileID: 8291162465692903013}
+  displayedBg: {fileID: 7562016175723476101}
