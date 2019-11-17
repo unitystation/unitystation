@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Atmospherics;
 using UnityEngine;
 
 /// <summary>
@@ -97,10 +98,17 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 				Clean(worldPosInt, localPosInt, true);
-			} else if (reagent.Key == "cleaner")
+			} 
+			else if (reagent.Key == "cleaner")
 			{
 				Clean(worldPosInt, localPosInt, false);
-			} else if (reagent.Key == "lube")
+			}
+			else if (reagent.Key == "welding_fuel")
+			{
+				//temporary: converting spilled fuel to plasma
+				Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
+			} 
+			else if (reagent.Key == "lube")
 			{ //( ͡° ͜ʖ ͡°)
 				if (!Get(localPosInt).IsSlippery)
 				{

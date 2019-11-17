@@ -162,6 +162,11 @@ public partial class CustomNetTransform
         serverState.Impulse = Vector2.zero;
         serverState.SpinRotation = transform.localRotation.eulerAngles.z;
         serverState.SpinFactor = 0;
+        
+        if ( IsBeingThrown )
+        {
+			OnThrowEnd.Invoke(serverState.ActiveThrow);
+        }
         serverState.ActiveThrow = ThrowInfo.NoThrow;
         if ( notify )
         {
@@ -302,6 +307,8 @@ public partial class CustomNetTransform
 	[Server]
 	public void Throw(ThrowInfo info)
 	{
+		OnThrowStart.Invoke(info);
+
 		SetPosition(info.OriginPos, false);
 
 		float throwSpeed = ItemAttributes.throwSpeed * 10; //tiles per second
@@ -474,6 +481,7 @@ public partial class CustomNetTransform
 		if (IsBeingThrown && ShouldStopThrow)
 		{
 			//			Logger.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
+			OnThrowEnd.Invoke(serverState.ActiveThrow);
 			serverState.ActiveThrow = ThrowInfo.NoThrow;
 			//Change spin when we hit the ground. Zero was kinda dull
 			serverState.SpinFactor = (sbyte)(-serverState.SpinFactor * 0.2f);

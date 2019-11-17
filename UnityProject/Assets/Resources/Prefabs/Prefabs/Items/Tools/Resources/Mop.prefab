@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 114567163244394598}
   - component: {fileID: 114441573294268492}
   - component: {fileID: 114321264871015286}
+  - component: {fileID: -4141852985515784285}
+  - component: {fileID: 5199146694513484801}
   m_Layer: 10
   m_Name: Mop
   m_TagString: Untagged
@@ -237,9 +239,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114657433043358150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,5 +419,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 882710f093d1c5f4c9f1dbd99b8dd790
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2945715719
+--- !u!114 &-4141852985515784285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801347380884054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &5199146694513484801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801347380884054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 25
+  Reagents: []
+  Amounts: []
+  AcceptedReagents: []
+  TransferMode: 3
+  TransferAmount: 25
+  registerTile: {fileID: 0}

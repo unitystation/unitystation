@@ -9,6 +9,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 {
 	bool safety = true;
 	public int travelDistance = 6;
+	private float travelTime => 1f / travelDistance;
 	public ReagentContainer reagentContainer;
 	public RegisterItem registerItem;
 	public Pickupable pickupable;
@@ -110,7 +111,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		for (int i = 0; i < positionList.Count; i++)
 		{
 			ExtinguishTile(positionList[i]);
-			yield return WaitFor.Seconds(0.17f);
+			yield return WaitFor.Seconds(travelTime);
 		}
 	}
 

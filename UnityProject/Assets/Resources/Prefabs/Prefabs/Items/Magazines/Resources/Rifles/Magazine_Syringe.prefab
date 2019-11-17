@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114625575897845998}
   - component: {fileID: 8673378308319568878}
   - component: {fileID: -6126722946839415971}
+  - component: {fileID: 5912220771279241566}
   m_Layer: 10
   m_Name: Magazine_Syringe
   m_TagString: Untagged
@@ -196,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
+  spriteDataHandler: {fileID: 114483982261721994}
   InventoryIcon: {fileID: 0}
   itemName: Syringe
   itemDescription: 
@@ -333,9 +334,83 @@ MonoBehaviour:
   Infos:
     spriteIndex: 0
     VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+    AID: 19
+    Serialized:
+    - inlistID: 2
+      listID: 3
+      sprite: {fileID: 21300000, guid: b3fa4c578ed26244390cfd315adf251b, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 2
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 4
+      listID: 5
+      sprite: {fileID: 21300002, guid: b3fa4c578ed26244390cfd315adf251b, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 4
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 6
+      listID: 7
+      sprite: {fileID: 21300004, guid: b3fa4c578ed26244390cfd315adf251b, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 6
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 8
+      listID: 9
+      sprite: {fileID: 21300006, guid: b3fa4c578ed26244390cfd315adf251b, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 8
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 1
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 11
+      listID: 12
+      sprite: {fileID: 21300000, guid: f68f9660bfed4f347958c0cfbdca90bc, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 11
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 13
+      listID: 14
+      sprite: {fileID: 21300002, guid: f68f9660bfed4f347958c0cfbdca90bc, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 13
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 15
+      listID: 16
+      sprite: {fileID: 21300004, guid: f68f9660bfed4f347958c0cfbdca90bc, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 15
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 17
+      listID: 18
+      sprite: {fileID: 21300006, guid: f68f9660bfed4f347958c0cfbdca90bc, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 17
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 10
+      sprite: {fileID: 0}
+      waitTime: 0
+  spriteList:
+  - {fileID: 21300000, guid: b3fa4c578ed26244390cfd315adf251b, type: 3}
+  - {fileID: 21300000, guid: f68f9660bfed4f347958c0cfbdca90bc, type: 3}
 --- !u!114 &114625575897845998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +426,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3312956947
+  m_SceneId: 3263003343
 --- !u!114 &8673378308319568878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,4 +462,26 @@ MonoBehaviour:
   AcceptedReagents: []
   TransferMode: 1
   TransferAmount: 5
-  registerTile: {fileID: 0}
+  PossibleTransferAmounts:
+  - 5
+  - 10
+  - 15
+--- !u!114 &5912220771279241566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570589854574774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66bdfc0b43384851bcf23cb6754755e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  EmptySprite: {fileID: 0}
+  FullSprite: {fileID: 21300000, guid: f1299495679e8f3439d3c0f467d18ea2, type: 3}
+  EmptyName: 
+  FullName: 
+  spriteSync: 0

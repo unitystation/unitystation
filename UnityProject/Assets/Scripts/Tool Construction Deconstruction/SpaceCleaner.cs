@@ -8,6 +8,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 {
 	public int travelDistance = 6;
 	public ReagentContainer reagentContainer;
+	private float travelTime => 1f / travelDistance;
 
 	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
@@ -39,7 +40,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		for (int i = 0; i < positionList.Count; i++)
 		{
 			SprayTile(positionList[i]);
-			yield return WaitFor.Seconds(0.17f);
+			yield return WaitFor.Seconds(travelTime);
 		}
 	}
 

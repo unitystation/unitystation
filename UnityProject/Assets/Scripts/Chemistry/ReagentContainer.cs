@@ -5,8 +5,17 @@ using UnityEngine;
 using WebSocketSharp;
 
 [RequireComponent(typeof(RightClickAppearance))]
-public class ReagentContainer : Container, IRightClickable, ICheckedInteractable<HandApply> {
-	public float CurrentCapacity { get; private set; }
+public class ReagentContainer : Container, IRightClickable, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate> {
+	public float CurrentCapacity
+	{
+		get => currentCapacity;
+		private set
+		{
+			currentCapacity = value;
+			OnCurrentCapacityChange.Invoke(value);
+		}
+	}
+	private FloatEvent OnCurrentCapacityChange = new FloatEvent();
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
 	public List<string> AcceptedReagents;
@@ -23,7 +32,11 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 	[Range(1,100)]
 	public float TransferAmount = 20;
 
-	public RegisterTile registerTile;
+	public List<float> PossibleTransferAmounts;
+
+	private RegisterTile registerTile;
+	private EmptyFullContainer containerSprite;
+	private float currentCapacity;
 
 	private void Awake()
 	{
@@ -32,6 +45,14 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		{
 			itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
 		}
+		OnCurrentCapacityChange.AddListener(newCapacity =>
+		{
+			if (containerSprite == null)
+			{
+				return;
+			}
+			containerSprite.SyncSprite(IsEmpty ? EmptyFullStatus.Empty : EmptyFullStatus.Full);
+		});
 	}
 
 	void Start() //Initialise the contents if there are any
@@ -47,6 +68,29 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 		CurrentCapacity = AmountOfReagents(Contents);
 
 		registerTile = GetComponent<RegisterTile>();
+		var customNetTransform = GetComponent<CustomNetTransform>();
+		if (customNetTransform != null)
+		{
+			customNetTransform.OnThrowEnd.AddListener(CheckSpill);
+		}
+
+		if (containerSprite == null)
+		{
+			containerSprite = GetComponent<EmptyFullContainer>();
+		}
+	}
+	
+	private void CheckSpill(ThrowInfo throwInfo)
+	{
+		if (Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow))
+		{
+			if (IsEmpty)
+			{
+				return;
+			}
+			SpillAll();
+			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!", throwInfo.OriginPos);
+		}
 	}
 
 	public RightClickableResult GenerateRightClickOptions()
@@ -134,7 +178,14 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 
 		if ( transferResult.TransferAmount < toMove )
 		{
-			Logger.LogError( "idk what to do", Category.Chemistry );
+			Logger.LogWarningFormat( "transfer amount {0} < toMove {1}, rebuilding divideAmount and toTransfer", 
+				Category.Chemistry, transferResult.TransferAmount, toMove );
+			divideAmount = transferResult.TransferAmount / CurrentCapacity;
+
+			toTransfer = Contents.ToDictionary(
+				reagent => reagent.Key,
+				reagent => divideAmount > 1 ? reagent.Value : (reagent.Value * divideAmount)
+			);
 		}
 
 		foreach(var reagent in toTransfer)
@@ -151,14 +202,26 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 
 	private void LogReagents()
 	{
+		if (IsEmpty)
+		{
+			Logger.Log("It's empty", Category.Chemistry);
+			return;
+		}
 		foreach (var reagent in Contents)
 		{
-			Logger.Log(reagent.Key + " at " + reagent.Value.ToString(), Category.Chemistry);
+			Logger.Log(reagent.Key + " at " + reagent.Value, Category.Chemistry);
 		}
 	}
 
 	private void RemoveSome() => MoveReagentsTo(10);
-	private void RemoveAll() => MoveReagentsTo(AmountOfReagents(Contents));
+	private void RemoveAll()
+	{
+		MoveReagentsTo(AmountOfReagents(Contents));
+	}
+	private void SpillAll()
+	{
+		MoveReagentsTo(AmountOfReagents(Contents));
+	}
 
 	public bool WillInteract( HandApply interaction, NetworkSide side )
 	{
@@ -286,17 +349,54 @@ public class ReagentContainer : Container, IRightClickable, ICheckedInteractable
 			return;
 		}
 
-		TransferResult result = transferFrom.MoveReagentsTo( transferFrom.TransferAmount, transferTo );
+		var transferAmount = transferFrom.TransferAmount;
+		
+		bool useFillMessage = false;
+		//always taking max capacity from output-only things like tanks
+		if (transferFrom.TransferMode == TransferMode.OutputOnly)
+		{
+			transferAmount = transferFrom.CurrentCapacity;
+			useFillMessage = true;
+		}
+		
+		TransferResult result = transferFrom.MoveReagentsTo( transferAmount, transferTo );
 
-		string resultMessage = string.IsNullOrEmpty( result.Message ) ?
-			$"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}."
-			: result.Message;
+		string resultMessage;
+		if (string.IsNullOrEmpty(result.Message))
+			resultMessage = useFillMessage ?
+				$"You fill the {transferTo.gameObject.ExpensiveName()} with {result.TransferAmount} units of the contents of the {transferFrom.gameObject.ExpensiveName()}."
+			  : $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
+		else
+			resultMessage = result.Message;
 		Chat.AddExamineMsg( interaction.Performer, resultMessage );
+	}
+
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (PossibleTransferAmounts.Count == 0) return false;
+
+		return true;
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		int currentIndex = PossibleTransferAmounts.IndexOf(TransferAmount);
+		if (currentIndex != -1)
+		{
+			TransferAmount = PossibleTransferAmounts.Wrap(currentIndex + 1);
+		}
+		else
+		{
+			TransferAmount = PossibleTransferAmounts[0];
+		}
+		Chat.AddExamineMsg( interaction.Performer,$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
 	}
 
 	public override string ToString()
 	{
-		return $"[{gameObject.ExpensiveName()}" +
+		return $"[ |{gameObject.ExpensiveName()}|" +
 		       $" Mode: {TransferMode}," +
 		       $" Amount: {TransferAmount}," +
 		       $" Capacity: {CurrentCapacity}/{MaxCapacity}," +
