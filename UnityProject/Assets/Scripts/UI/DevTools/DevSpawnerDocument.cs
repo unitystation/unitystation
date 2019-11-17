@@ -35,7 +35,7 @@ public class DevSpawnerDocument
 	/// Create a dev spawner document representing the specified clothing
 	/// </summary>
 	/// <param name="data"></param>
-	public static DevSpawnerDocument ForClothing(ClothingData data)
+	public static DevSpawnerDocument ForClothing(BaseClothData data)
 	{
 		return new DevSpawnerDocument(data.name, SpawnableType.Cloth);
 	}

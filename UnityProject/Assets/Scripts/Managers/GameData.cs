@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using DatabaseAPI;
+using Firebase.Auth;
+using Firebase.Extensions;
 using Lobby;
 using Mirror;
 using UnityEngine;
@@ -13,16 +18,6 @@ public class GameData : MonoBehaviour
 
 	public bool testServer;
 	private RconManager rconManager;
-
-	enum ValidationStatus
-	{
-		none,
-		success,
-		failed
-	}
-
-	//Token validation status:
-	private ValidationStatus validationStatus;
 
 	/// <summary>
 	///     Check to see if you are in the game or in the lobby
@@ -64,10 +59,16 @@ public class GameData : MonoBehaviour
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
-		CheckCommandLineArgs();
+		if (!CheckCommandLineArgs())
+		{
+			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+			{
+				AttemptAutoJoin();
+			}
+		}
 	}
 
-	private void CheckCommandLineArgs()
+	private bool CheckCommandLineArgs()
 	{
 		//Check for Hub Message
 		string serverIp = GetArgument("-server");
@@ -75,59 +76,112 @@ public class GameData : MonoBehaviour
 		string token = GetArgument("-refreshtoken");
 		string uid = GetArgument("-uid");
 
-		Debug.Log($"ServerIP: {serverIp} port: {port} token: {token} uid: {uid}");
 		//This is a hub message, attempt to login and connect to server
 		if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
 		{
-			validationStatus = ValidationStatus.none;
-			StartCoroutine(ConnectToServerFromHub(serverIp, port, uid, token));
+			HubToServerConnect(serverIp, port, uid, token);
+			return true;
 		}
+
+		return false;
 	}
 
-	void TokenValidationSuccess(string msg)
+	private async void AttemptAutoJoin()
 	{
-		validationStatus = ValidationStatus.success;
+		await Task.Delay(TimeSpan.FromSeconds(0.1));
+
+		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
+
+		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
+			async task =>
+			{
+				if (task.IsCanceled || task.IsFaulted)
+				{
+					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception.Message);
+					return;
+				}
+			});
+
+		await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, LobbyManager.Instance.lobbyDialogue.LoginSuccess,
+			LobbyManager.Instance.lobbyDialogue.LoginError);
 	}
 
-	void TokenValidationFailed(string msg)
+	private async void HubToServerConnect(string ip, string port, string uid, string token)
 	{
-		validationStatus = ValidationStatus.failed;
-	}
+		await Task.Delay(TimeSpan.FromSeconds(0.1));
+		
+		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
 
-	//Monitors hub connection steps:
-	IEnumerator ConnectToServerFromHub(string ip, string port, string uid, string token)
-	{
-		Logger.Log("Hub message found. Attempting to log in..", Category.Hub);
+		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
+		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
+		Managers.instance.serverIP = ip;
 
-		//Hide all default lobby ui's:
-		if(!IsInGame) LobbyManager.Instance.lobbyDialogue.HideAllPanels();
+		var refreshToken = new RefreshToken();
+		refreshToken.refreshToken = token;
+		refreshToken.userID = uid;
 
-		yield return WaitFor.EndOfFrame;
+		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, JsonUtility.ToJson(refreshToken));
 
-		ServerData.TryTokenValidation(token, uid, TokenValidationSuccess, TokenValidationFailed);
+		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
-		while (validationStatus == ValidationStatus.none)
+		HttpResponseMessage res;
+		try
 		{
-			yield return WaitFor.EndOfFrame;
+			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
 		}
-
-		if (validationStatus == ValidationStatus.failed)
+		catch(Exception e)
 		{
-			//TODO: Show login screen
-			Logger.Log("Login failed, token or uid is invalid.", Category.Hub);
-			yield break;
+			Logger.LogError($"Something went wrong with hub token validation {e.Message}", Category.Hub);
+			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {e.Message}");
+			return;
 		}
 
-		Logger.Log("Token validated. User successfully authenticated", Category.Hub);
+		string msg = await res.Content.ReadAsStringAsync();
+		var response = JsonUtility.FromJson<ApiResponse>(msg);
 
-		ushort p = 0;
-		ushort.TryParse(port, out p);
+		if (!string.IsNullOrEmpty(response.errorMsg))
+		{
+			Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.Hub);
+			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
+			return;
+		}
 
-		//Connect to server:
-		CustomNetworkManager.Instance.networkAddress = ip;
-		CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port = p;
-		CustomNetworkManager.Instance.StartClient();
+		await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message).ContinueWithOnMainThread(
+			async task =>
+			{
+				if (task.IsCanceled)
+				{
+					Logger.LogError("Custom token sign in was canceled.", Category.Hub);
+					LobbyManager.Instance.lobbyDialogue.LoginError($"Sign in was cancelled");
+					return;
+				}
 
+				if (task.IsFaulted)
+				{
+					Logger.LogError("Task Faulted: " + task.Exception, Category.Hub);
+					LobbyManager.Instance.lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
+					return;
+				}
+
+				var success = await ServerData.ValidateUser(task.Result, null, null);
+
+				if (success)
+				{
+					Logger.Log("Signed in successfully with valid token", Category.Hub);
+				}
+				else
+				{
+					LobbyManager.Instance.lobbyDialogue.LoginError(
+						"Unknown error occured when verifying character settings on the server");
+				}
+			});
+
+		LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
+	}
+
+	void OnCharacterScreenCloseFromHubConnect()
+	{
+		LobbyManager.Instance.lobbyDialogue.OnStartGame();
 	}
 
 	private void OnEnable()

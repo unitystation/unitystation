@@ -243,7 +243,8 @@ public enum Category
 	Chat,
 	Interaction,
 	Antags,
-	Hub
+	Hub,
+	SpatialRelationship
 }
 
 [Serializable]

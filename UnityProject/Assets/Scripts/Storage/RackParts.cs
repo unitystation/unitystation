@@ -35,10 +35,13 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		}
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+		    || !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 		{
 			return false;
 		}
+
+		//only works if wrench is in hand
+		if (!interaction.IsFromHandSlot) return false;
 
 		return true;
 	}
@@ -79,6 +82,6 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f);
 		Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
 			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
-		Inventory.ServerDespawn(interaction.HandSlot);
+		Inventory.ServerDespawn(interaction.FromSlot);
 	}
 }

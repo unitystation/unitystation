@@ -39,6 +39,31 @@ public static class Spawn
 		new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
 
 	/// <summary>
+	/// Tries to get the cloth data with the given name. Null if not found
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	public static BaseClothData GetClothDataNamed(string name)
+	{
+		ClothingStoredData.TryGetValue(name, out var clothResult);
+		if (clothResult != null) return clothResult;
+
+		BackpackStoredData.TryGetValue(name, out var backpackResult);
+		if (backpackResult != null) return backpackResult;
+
+		HeadSetStoredData.TryGetValue(name, out var headsetResult);
+		if (headsetResult != null) return headsetResult;
+
+		return null;
+	}
+
+	/// <summary>
+	/// All known spawnable cloth data.
+	/// </summary>
+	public static IEnumerable<BaseClothData> AllClothData =>
+		ClothingStoredData.Values.Concat<BaseClothData>(BackpackStoredData.Values).Concat(HeadSetStoredData.Values);
+
+	/// <summary>
 	/// Default scatter radius when spawning multiple things
 	/// </summary>
 	public static readonly float DefaultScatterRadius = 0.1f;
