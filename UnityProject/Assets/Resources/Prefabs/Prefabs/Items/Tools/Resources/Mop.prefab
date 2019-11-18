@@ -183,7 +183,7 @@ MonoBehaviour:
   spriteDataHandler: {fileID: 114441573294268492}
   InventoryIcon: {fileID: 0}
   itemName: mop
-  itemDescription: A Mop
+  itemDescription: The world of janitalia wouldn't be complete without a mop.
   initialTraits: []
   size: 2
   spriteType: 0
@@ -420,7 +420,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2945715719
+  m_SceneId: 3102709425
 --- !u!114 &-4141852985515784285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,9 +451,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Temperature: 20
   MaxCapacity: 25
+  itemAttributes: {fileID: 0}
   Reagents: []
   Amounts: []
+  AcceptedTraits:
+  - {fileID: 11400000, guid: 40bbe2f167fff41efb1c05e17fb43e88, type: 2}
   AcceptedReagents: []
   TransferMode: 3
   TransferAmount: 25
-  registerTile: {fileID: 0}
+  PossibleTransferAmounts: []

@@ -22,4 +22,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Slippery;
 	public ItemTrait Multitool;
 	public ItemTrait SpillOnThrow;
+	public ItemTrait CanFillMop;
 }

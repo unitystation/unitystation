@@ -6,7 +6,7 @@ using UnityEngine;
 using WebSocketSharp;
 
 [RequireComponent(typeof(RightClickAppearance))]
-public class ReagentContainer : Container, IRightClickable, 
+public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
 	ICheckedInteractable<HandActivate>, //Activate to change transfer amount
 	ICheckedInteractable<InventoryApply> //Transfer: active hand <-> other hand
@@ -22,9 +22,13 @@ public class ReagentContainer : Container, IRightClickable,
 			OnCurrentCapacityChange.Invoke(value);
 		}
 	}
+
+	public ItemAttributes itemAttributes;
 	private FloatEvent OnCurrentCapacityChange = new FloatEvent();
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
+	public List<ItemTrait> AcceptedTraits;
+	public bool TraitFilterOn => AcceptedTraits.Count > 0;
 	public List<string> AcceptedReagents;
 	public bool ReagentsFilterOn => AcceptedReagents.Count > 0;
 
@@ -47,7 +51,7 @@ public class ReagentContainer : Container, IRightClickable,
 
 	private void Awake()
 	{
-		var itemAttributes = GetComponent<ItemAttributes>();
+		itemAttributes = GetComponent<ItemAttributes>();
 		if ( itemAttributes )
 		{
 			itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
@@ -96,7 +100,6 @@ public class ReagentContainer : Container, IRightClickable,
 				return;
 			}
 			SpillAll();
-			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!", throwInfo.OriginPos);
 		}
 	}
 
@@ -233,6 +236,9 @@ public class ReagentContainer : Container, IRightClickable,
 	}
 	private void SpillAll()
 	{
+		Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!", 
+			registerTile.CustomTransform.AssumedWorldPositionServer());
+		
 		var amountOfReagents = AmountOfReagents(Contents);
 		MoveReagentsTo(amountOfReagents, null, out var spilledReagents);
 //todo: half decent regs spread
@@ -279,7 +285,7 @@ public class ReagentContainer : Container, IRightClickable,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if (!WillInteractInternal(interaction.UsedObject, interaction.TargetObject)) return false;
+		if (!WillInteractInternal(interaction.UsedObject, interaction.TargetObject, side)) return false;
 		
 		return true;
 	}
@@ -288,12 +294,12 @@ public class ReagentContainer : Container, IRightClickable,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if (!WillInteractInternal(interaction.HandObject, interaction.TargetObject)) return false;
+		if (!WillInteractInternal(interaction.HandObject, interaction.TargetObject, side)) return false;
 
 		return true;
 	}
 
-	private bool WillInteractInternal(GameObject srcObject, GameObject dstObject)
+	private bool WillInteractInternal(GameObject srcObject, GameObject dstObject, NetworkSide side)
 	{
 		if (srcObject == null || dstObject == null) return false;
 
@@ -306,6 +312,19 @@ public class ReagentContainer : Container, IRightClickable,
 		    || dstContainer.TransferMode == TransferMode.NoTransfer)
 		{
 			return false;
+		}
+
+		if (side == NetworkSide.Server)
+		{
+			//todo: itemAttributes null check
+			if (srcContainer.TraitFilterOn && srcContainer.AcceptedTraits.All( trait => !dstContainer.itemAttributes.GetTraits().Contains(trait) ))
+			{
+				return false;
+			}
+			if (dstContainer.TraitFilterOn && dstContainer.AcceptedTraits.All( trait => !srcContainer.itemAttributes.GetTraits().Contains(trait) ))
+			{
+				return false;
+			}
 		}
 
 		if (dstContainer.TransferMode == TransferMode.Syringe) return false;
@@ -489,6 +508,16 @@ public class ReagentContainer : Container, IRightClickable,
 		       $" {nameof( IsEmpty )}: {IsEmpty}," +
 		       $" {nameof( IsFull )}: {IsFull}" +
 		       "]";
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		SpillAll();
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		//todo: check if special treatment is needed
 	}
 }
 
