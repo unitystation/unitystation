@@ -1,44 +1,67 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     ID card properties
 /// </summary>
 public class IDCard : NetworkBehaviour
 {
-	//The actual list of access allowed set via the server and synced to all clients
-	public SyncListInt accessSyncList = new SyncListInt();
 
-	public Sprite captainSprite;
-	public Sprite commandSprite;
+	[Tooltip("Sprite to use when the card is a normal card")]
+	[SerializeField]
+	private Sprite standardSprite;
 
-	//What type of card? (standard, command, captain, emag etc)
-	[SyncVar(hook = nameof(SyncIDCardType))] public int idCardTypeInt;
+	[Tooltip("Sprite to use when the card is a captain's card")]
+	[SerializeField]
+	private Sprite captainSprite;
 
-	private bool isInit;
-
-	[SyncVar(hook = nameof(SyncJobType))] public int jobTypeInt;
+	[Tooltip("Sprite to use when the card is a command-tier card")]
+	[SerializeField]
+	private Sprite commandSprite;
 
 	[Tooltip("This is used to place ID cards via map editor and then setting their initial access type")]
-	public List<Access> ManuallyAddedAccess = new List<Access>();
+	[FormerlySerializedAs("ManuallyAddedAccess")]
+	[SerializeField]
+	private List<Access> manuallyAddedAccess = new List<Access>();
 
 	[Tooltip("For cards added via map editor and set their initial IDCardType here. This will only work" +
-	         "if there are entries in ManuallyAddedAccess list")] public IDCardType ManuallyAssignCardType;
+	         "if there are entries in ManuallyAddedAccess list")]
+	[FormerlySerializedAs("ManuallyAssignCardType")]
+	[SerializeField]
+	private IDCardType manuallyAssignCardType;
 
-	public int MiningPoints; //For redeeming at mining equipment vendors
 
-	[SyncVar(hook = nameof(SyncName))] public string RegisteredName;
+	public JobType JobType => jobType;
+	public Occupation Occupation => OccupationList.Instance.Get(JobType);
+	public IDCardType IDCardType => idCardType;
+	public string RegisteredName => registeredName;
 
+
+	[SyncVar(hook = nameof(SyncIDCardType))]
+	private IDCardType idCardType;
+
+	[SyncVar(hook = nameof(SyncJobType))]
+	private JobType jobType;
+
+	[SyncVar(hook = nameof(SyncName))]
+	private string registeredName;
+
+
+	//The actual list of access allowed set via the server and synced to all clients
+	private SyncListInt accessSyncList = new SyncListInt();
+
+	private bool isInit;
 	//To switch the card sprites when the type changes
-	public SpriteRenderer spriteRenderer;
+	private SpriteRenderer spriteRenderer;
 
-	public Sprite standardSprite;
-
-	public JobType GetJobType => (JobType) jobTypeInt;
-
-	public IDCardType GetIdCardType => (IDCardType) idCardTypeInt;
+	private void Awake()
+	{
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+	}
 
 	public override void OnStartServer()
 	{
@@ -63,10 +86,10 @@ public class IDCard : NetworkBehaviour
 	public void Initialize(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name)
 	{
 		//Set all the synced properties for the card
-		RegisteredName = name;
-		jobTypeInt = (int) jobType;
-		idCardTypeInt = (int) idCardType;
-		AddAccessList(allowedAccess);
+		SyncName(name);
+		this.jobType = jobType;
+		this.idCardType = idCardType;
+		ServerAddAccess(allowedAccess);
 	}
 
 	private void InitCard()
@@ -82,10 +105,10 @@ public class IDCard : NetworkBehaviour
 		//This will add the access from ManuallyAddedAccess list
 		if (isServer)
 		{
-			if (ManuallyAddedAccess.Count > 0)
+			if (manuallyAddedAccess.Count > 0)
 			{
-				AddAccessList(ManuallyAddedAccess);
-				idCardTypeInt = (int) ManuallyAssignCardType;
+				ServerAddAccess(manuallyAddedAccess);
+				idCardType = manuallyAssignCardType;
 			}
 		}
 	}
@@ -94,33 +117,9 @@ public class IDCard : NetworkBehaviour
 	private IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(3f);
-		SyncName(RegisteredName);
-		SyncJobType(jobTypeInt);
-		SyncIDCardType(idCardTypeInt);
-	}
-
-	[Server]
-	public void AddAccessList(List<Access> accessToBeAdded)
-	{
-		for (int i = 0; i < accessToBeAdded.Count; i++)
-		{
-			if (!accessSyncList.Contains((int) accessToBeAdded[i]))
-			{
-				accessSyncList.Add((int) accessToBeAdded[i]);
-			}
-		}
-	}
-
-	[Server]
-	public void RemoveAccessList(List<Access> accessToBeRemoved)
-	{
-		for (int i = 0; i < accessToBeRemoved.Count; i++)
-		{
-			if (accessSyncList.Contains((int) accessToBeRemoved[i]))
-			{
-				accessSyncList.Remove((int) accessToBeRemoved[i]);
-			}
-		}
+		SyncName(registeredName);
+		SyncJobType(jobType);
+		SyncIDCardType(idCardType);
 	}
 
 	public void SyncAccess(SyncList<int>.Operation op, int index, int item)
@@ -130,18 +129,18 @@ public class IDCard : NetworkBehaviour
 
 	public void SyncName(string name)
 	{
-		RegisteredName = name;
+		registeredName = name;
 	}
 
-	public void SyncJobType(int jobType)
+	public void SyncJobType(JobType jobType)
 	{
-		jobTypeInt = jobType;
+		this.jobType = jobType;
 	}
 
-	public void SyncIDCardType(int cardType)
+	public void SyncIDCardType(IDCardType cardType)
 	{
-		idCardTypeInt = cardType;
-		IDCardType cType = GetIdCardType;
+		idCardType = cardType;
+		IDCardType cType = IDCardType;
 		switch (cType)
 		{
 			case IDCardType.standard:
@@ -159,16 +158,95 @@ public class IDCard : NetworkBehaviour
 	public void OnExamine()
 	{
 		string message = "";
-
-		if (MiningPoints > 0)
-		{
-			message = "There's " + MiningPoints + " mining equipment redemption points loaded onto this card.";
-		}
-		else
-		{
-			message = "This is " + RegisteredName + "'s ID card\nThey are the " + GetJobType + " of the station!";
-		}
-
+		message = "This is " + registeredName + "'s ID card\nThey are the " + JobType + " of the station!";
 		Chat.AddExamineMsgToClient(message);
+	}
+
+	/// <summary>
+	/// Checks if this id card has the indicated access.
+	/// </summary>
+	/// <param name="access"></param>
+	/// <returns></returns>
+	public bool HasAccess(Access access)
+	{
+		return accessSyncList.Contains((int) access);
+	}
+
+	/// <summary>
+	/// Removes the indicated access from this IDCard
+	/// </summary>
+	[Server]
+	public void ServerRemoveAccess(Access access)
+	{
+		if (!HasAccess(access)) return;
+		accessSyncList.Remove((int)access);
+	}
+
+	/// <summary>
+	/// Adds the indicated access to this IDCard
+	/// </summary>
+	[Server]
+	public void ServerAddAccess(Access access)
+	{
+		if (HasAccess(access)) return;
+		accessSyncList.Add((int)access);
+	}
+
+	/// <summary>
+	/// Adds the indicated access to this id card
+	/// </summary>
+	/// <param name="accessToBeAdded"></param>
+	[Server]
+	public void ServerAddAccess(IEnumerable<Access> accessToBeAdded)
+	{
+		foreach (var access in accessToBeAdded)
+		{
+			ServerAddAccess(access);
+		}
+	}
+
+	/// <summary>
+	/// Removes the indicated access from this id card
+	/// </summary>
+	/// <param name="accessToBeAdded"></param>
+	[Server]
+	public void ServerRemoveAccess(IEnumerable<Access> accessToBeRemoved)
+	{
+		foreach (var access in accessToBeRemoved)
+		{
+			ServerRemoveAccess(access);
+		}
+	}
+
+	/// <summary>
+	/// Changes the card's occupation to the new occupation, granting them
+	/// the default access and clearing any existing access if indicated.
+	/// </summary>
+	/// <param name="occupation"></param>
+	/// <param name="grantDefaultAccess">if true, grants them the
+	/// default access afforded by this occupation, if false, only changes
+	/// the occupation</param>
+	/// <param name="clear">if true, removes the existing access of this card
+	/// before granting them the occupation.</param>
+	[Server]
+	public void ServerChangeOccupation(Occupation occupation, bool grantDefaultAccess = true, bool clear = true)
+	{
+		if (clear) accessSyncList.Clear();
+		if (grantDefaultAccess)
+		{
+			ServerAddAccess(occupation.AllowedAccess);
+		}
+
+		jobType = occupation.JobType;
+	}
+
+	/// <summary>
+	/// Sets the registered name of this card to the indicated value
+	/// </summary>
+	/// <param name="newName"></param>
+	[Server]
+	public void ServerSetRegisteredName(string newName)
+	{
+		SyncName(newName);
 	}
 }

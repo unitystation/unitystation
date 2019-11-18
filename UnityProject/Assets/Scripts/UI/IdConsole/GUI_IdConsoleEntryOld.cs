@@ -59,8 +59,8 @@ public class GUI_IdConsoleEntryOld : DynamicEntry
 
 	public void CheckIsSet()
 	{
-		if ((isAssignment && idCard.GetJobType == occupation.JobType) ||
-			(!isAssignment && idCard.accessSyncList.Contains((int)access)))
+		if ((isAssignment && idCard.JobType == occupation.JobType) ||
+			(!isAssignment && idCard.HasAccess(access)))
 		{
 			SetButton(true);
 		}

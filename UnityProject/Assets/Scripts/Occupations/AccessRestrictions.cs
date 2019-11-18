@@ -49,7 +49,7 @@ public class AccessRestrictions : MonoBehaviour
 		{
 			return true;
 		}
-		if (card.accessSyncList.Contains((int) restriction))
+		if (card.HasAccess(restriction))
 		{
 			return true;
 		}

@@ -68,7 +68,7 @@ public class GUI_SecurityRecords : NetTab
 		var IdCard = console.IdCard;
 		if (IdCard)
 		{
-			labelToSet.SetValue = $"{IdCard.RegisteredName}, {IdCard.GetJobType.ToString()}";
+			labelToSet.SetValue = $"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}";
 		}
 		else
 		{
@@ -78,7 +78,7 @@ public class GUI_SecurityRecords : NetTab
 
 	public void LogIn()
 	{
-		if (console.IdCard == null || !console.IdCard.accessSyncList.Contains((int) Access.security))
+		if (console.IdCard == null || !console.IdCard.HasAccess(Access.security))
 		{
 			return;
 		}

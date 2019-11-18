@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,6 @@ using UnityEngine;
 public class GUI_IDConsole : NetTab
 {
 	private IdConsole console;
-	[SerializeField]
-	private List<EmptyItemList> accessCategoriesList;
-	[SerializeField]
-	private EmptyItemList assignList;
 	[SerializeField]
 	private NetPageSwitcher pageSwitcher;
 	[SerializeField]
@@ -28,24 +25,42 @@ public class GUI_IDConsole : NetTab
 	private NetLabel accessCardName;
 	[SerializeField]
 	private NetLabel loginCardName;
-	private int jobsCount;
+
+	//cached mapping from access to its corresponding entry for fast lookup
+	private Dictionary<Access,GUI_IDConsoleEntry> accessToEntry = new Dictionary<Access, GUI_IDConsoleEntry>();
+	private Dictionary<Occupation,GUI_IDConsoleEntry> occupationToEntry = new Dictionary<Occupation, GUI_IDConsoleEntry>();
 
 	/// <summary>
 	/// Card currently targeted for security modifications. Null if none inserted
 	/// </summary>
 	public IDCard TargetCard => console.TargetCard;
 
+	private void Awake()
+	{
+		//cache the entries for quick lookup
+		foreach (var entry in GetComponentsInChildren<GUI_IDConsoleEntry>())
+		{
+			if (entry.IsAccess)
+			{
+				accessToEntry.Add(entry.Access, entry);
+			}
+			else
+			{
+				occupationToEntry.Add(entry.Occupation, entry);
+			}
+		}
+	}
+
 	public override void OnEnable()
 	{
 		base.OnEnable();
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			StartCoroutine(WaitForProvider());
-			jobsCount = OccupationList.Instance.Occupations.Count() - IdConsoleManagerOld.Instance.IgnoredJobs.Count;
+			StartCoroutine(ServerWaitForProvider());
 		}
 	}
 
-	IEnumerator WaitForProvider()
+	IEnumerator ServerWaitForProvider()
 	{
 		while (Provider == null)
 		{
@@ -53,16 +68,16 @@ public class GUI_IDConsole : NetTab
 		}
 
 		console = Provider.GetComponentInChildren<IdConsole>();
-		console.OnConsoleUpdate.AddListener(UpdateScreen);
-		UpdateScreen();
+		console.OnConsoleUpdate.AddListener(ServerUpdateScreen);
+		ServerUpdateScreen();
 	}
 
-	public void UpdateScreen()
+	public void ServerUpdateScreen()
 	{
 		if (pageSwitcher.CurrentPage == loginPage)
 		{
-			UpdateLoginCardName();
-			LogIn();
+			ServerUpdateLoginCardName();
+			ServerLogin();
 		}
 		if (pageSwitcher.CurrentPage == usercardPage && console.TargetCard != null)
 		{
@@ -70,74 +85,67 @@ public class GUI_IDConsole : NetTab
 		}
 		if (pageSwitcher.CurrentPage == mainPage)
 		{
-			UpdateAccessList();
-			UpdateAssignList();
+
+			ServerRefreshEntries();
 		}
-		UpdateCardNames();
+		ServerRefreshCardNames();
 	}
 
-	private void UpdateLoginCardName()
+	/// <summary>
+	/// Goes through each entry and updates its status based on the inserted card
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	private void ServerRefreshEntries()
+	{
+		foreach (var entry in accessToEntry.Values.Concat(occupationToEntry.Values))
+		{
+			entry.ServerRefreshFromTargetCard();
+		}
+	}
+
+	private void ServerUpdateLoginCardName()
 	{
 		loginCardName.SetValue = console.AccessCard != null ?
-			$"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobType.ToString()}" : "********";
+			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********";
 	}
 
-	private void UpdateCardNames()
+	private void ServerRefreshCardNames()
 	{
-		if (console.AccessCard != null)
+		string valToSet = null;
+		if (console.AccessCard != null && accessCardName)
 		{
-			accessCardName.SetValue = $"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobType.ToString()}";
+			valToSet = $"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}";
 		}
 		else
 		{
-			accessCardName.SetValue = "-";
+			valToSet = "-";
 		}
+
+		if (!valToSet.Equals(accessCardName.Value))
+		{
+			accessCardName.SetValue = valToSet;
+		}
+
 
 		if (console.TargetCard != null)
 		{
-			targetCardName.SetValue = $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobType.ToString()}";
+			valToSet = $"{console.TargetCard.RegisteredName}, {console.TargetCard.JobType.ToString()}";
 		}
 		else
 		{
-			targetCardName.SetValue = "-";
+			valToSet = "-";
 		}
-	}
 
-	private void UpdateAssignment()
-	{
-		UpdateAccessList();
-		UpdateAssignList();
-		UpdateCardNames();
-	}
-
-	private void UpdateAccessList()
-	{
-		for (int i = 0; i < IdConsoleManagerOld.Instance.AccessCategories.Count; i++)
+		if (!valToSet.Equals(targetCardName.Value))
 		{
-			List<IdAccess> accessList = IdConsoleManagerOld.Instance.AccessCategories[i].IdAccessList;
-			for (int j = 0; j < accessList.Count; j++)
-			{
-				GUI_IdConsoleEntryOld entryOld;
-				entryOld = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntryOld;
-				entryOld.CheckIsSet();
-			}
+			targetCardName.SetValue = valToSet;
 		}
 	}
 
-	private void UpdateAssignList()
+	public void ServerChangeName(string newName)
 	{
-		GUI_IdConsoleEntryOld entryOld;
-		for (int i = 0; i < jobsCount; i++)
-		{
-			entryOld = assignList.Entries[i] as GUI_IdConsoleEntryOld;
-			entryOld.CheckIsSet();
-		}
-	}
-
-	public void ChangeName(string newName)
-	{
-		console.TargetCard.RegisteredName = newName;
-		UpdateCardNames();
+		console.TargetCard.ServerSetRegisteredName(newName);
+		ServerRefreshCardNames();
 	}
 
 	/// <summary>
@@ -145,27 +153,30 @@ public class GUI_IDConsole : NetTab
 	/// </summary>
 	/// <param name="accessToModify"></param>
 	/// <param name="grant">if true, grants access, otherwise removes it</param>
-	public void ModifyAccess(Access accessToModify, bool grant)
+	public void ServerModifyAccess(Access accessToModify, bool grant)
 	{
-		if (!grant && console.TargetCard.accessSyncList.Contains((int) accessToModify))
+		var alreadyHasAccess = console.TargetCard.HasAccess(accessToModify);
+		if (!grant && alreadyHasAccess)
 		{
-			console.TargetCard.accessSyncList.Remove((int)accessToModify);
+			console.TargetCard.ServerRemoveAccess(accessToModify);
 		}
-		else if (grant)
+		else if (grant && !alreadyHasAccess)
 		{
-			console.TargetCard.accessSyncList.Add((int)accessToModify);
+			console.TargetCard.ServerAddAccess(accessToModify);
 		}
 	}
 
-	public void ChangeAssignment(Occupation occupationToSet)
+	public void ServerChangeAssignment(Occupation occupationToSet)
 	{
-		console.TargetCard.accessSyncList.Clear();
-		console.TargetCard.AddAccessList(occupationToSet.AllowedAccess);
-		console.TargetCard.jobTypeInt = (int)occupationToSet.JobType;
-		UpdateAssignment();
+		if (console.TargetCard.Occupation != occupationToSet)
+		{
+			console.TargetCard.ServerChangeOccupation(occupationToSet, true);
+			ServerRefreshEntries();
+			ServerRefreshCardNames();
+		}
 	}
 
-	public void RemoveTargetCard()
+	public void ServerRemoveTargetCard()
 	{
 		if (console.TargetCard == null)
 		{
@@ -175,34 +186,34 @@ public class GUI_IDConsole : NetTab
 		pageSwitcher.SetActivePage(usercardPage);
 	}
 
-	public void RemoveAccessCard()
+	public void ServerRemoveAccessCard()
 	{
 		if (console.AccessCard == null)
 		{
 			return;
 		}
 		console.EjectCard(console.AccessCard);
-		UpdateCardNames();
-		LogOut();
+		ServerRefreshCardNames();
+		ServerLogOut();
 	}
 
-	public void LogIn()
+	public void ServerLogin()
 	{
 		if (console.AccessCard != null &&
-			console.AccessCard.accessSyncList.Contains((int)Access.change_ids))
+			console.AccessCard.HasAccess(Access.change_ids))
 		{
 			console.LoggedIn = true;
 			pageSwitcher.SetActivePage(usercardPage);
-			UpdateScreen();
+			ServerUpdateScreen();
 		}
 	}
 
-	public void LogOut()
+	public void ServerLogOut()
 	{
-		RemoveTargetCard();
+		ServerRemoveTargetCard();
 		console.LoggedIn = false;
 		pageSwitcher.SetActivePage(loginPage);
-		UpdateLoginCardName();
+		ServerUpdateLoginCardName();
 	}
 
 	public void CloseTab()

@@ -83,14 +83,14 @@ public class GUI_IdConsoleOld : NetTab
 	private void UpdateLoginCardName()
 	{
 		loginCardName.SetValue = console.AccessCard != null ?
-			$"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobType.ToString()}" : "********";
+			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********";
 	}
 
 	private void UpdateCardNames()
 	{
 		if (console.AccessCard != null)
 		{
-			accessCardName.SetValue = $"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobType.ToString()}";
+			accessCardName.SetValue = $"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}";
 		}
 		else
 		{
@@ -99,7 +99,7 @@ public class GUI_IdConsoleOld : NetTab
 
 		if (console.TargetCard != null)
 		{
-			targetCardName.SetValue = $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobType.ToString()}";
+			targetCardName.SetValue = $"{console.TargetCard.RegisteredName}, {console.TargetCard.JobType.ToString()}";
 		}
 		else
 		{
@@ -176,7 +176,7 @@ public class GUI_IdConsoleOld : NetTab
 
 	public void ChangeName(string newName)
 	{
-		console.TargetCard.RegisteredName = newName;
+		console.TargetCard.ServerSetRegisteredName(newName);
 		UpdateCardNames();
 	}
 
@@ -187,21 +187,19 @@ public class GUI_IdConsoleOld : NetTab
 	/// <param name="grant">if true, grants access, otherwise removes it</param>
 	public void ModifyAccess(Access accessToModify)
 	{
-		if (console.TargetCard.accessSyncList.Contains((int) accessToModify))
+		if (console.TargetCard.HasAccess(accessToModify))
 		{
-			console.TargetCard.accessSyncList.Remove((int)accessToModify);
+			console.TargetCard.ServerRemoveAccess(accessToModify);
 		}
 		else
 		{
-			console.TargetCard.accessSyncList.Add((int)accessToModify);
+			console.TargetCard.ServerAddAccess(accessToModify);
 		}
 	}
 
 	public void ChangeAssignment(Occupation occupationToSet)
 	{
-		console.TargetCard.accessSyncList.Clear();
-		console.TargetCard.AddAccessList(occupationToSet.AllowedAccess);
-		console.TargetCard.jobTypeInt = (int)occupationToSet.JobType;
+		console.TargetCard.ServerChangeOccupation(occupationToSet);
 		UpdateAssignment();
 	}
 
@@ -229,7 +227,7 @@ public class GUI_IdConsoleOld : NetTab
 	public void LogIn()
 	{
 		if (console.AccessCard != null &&
-			console.AccessCard.accessSyncList.Contains((int)Access.change_ids))
+			console.AccessCard.HasAccess(Access.change_ids))
 		{
 			console.LoggedIn = true;
 			pageSwitcher.SetActivePage(usercardPage);
