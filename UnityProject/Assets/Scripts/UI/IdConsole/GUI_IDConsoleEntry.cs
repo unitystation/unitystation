@@ -72,7 +72,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 		//occupations which are on are not clickable
 		if (IsOccupation)
 		{
-			toggle.enabled = !isOn;
+			toggle.interactable = !isOn;
 		}
 
 	}
