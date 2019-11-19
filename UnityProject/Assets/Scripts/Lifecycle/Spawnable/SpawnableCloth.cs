@@ -113,7 +113,7 @@ public class SpawnableCloth : Spawnable
 
 		private GameObject CreateCloth(ClothingData clothData, SpawnDestination destination)
 		{
-			var clothObj = SpawnCloth("UniBackPack", destination);
+			var clothObj = SpawnCloth("UniCloth", destination);
 
 			var _Clothing = clothObj.GetComponent<Clothing>();
 			var Item = clothObj.GetComponent<ItemAttributes>();
