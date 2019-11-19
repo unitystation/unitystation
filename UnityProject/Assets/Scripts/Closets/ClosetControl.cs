@@ -13,8 +13,10 @@ using Enum = Google.Protobuf.WellKnownTypes.Enum;
 public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable
 
 {
-	[Header("Contents that will spawn inside every locker of type")]
-	public List<GameObject> DefaultContents;
+	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
+	         " locker spawns.")]
+	[SerializeField]
+	private SpawnableList initialContents;
 
 	//Inventory
 	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
@@ -74,10 +76,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	public override void OnStartServer()
 	{
 		StartCoroutine(WaitForServerReg());
-		foreach (GameObject itemPrefab in DefaultContents)
-		{
-			Spawn.ServerPrefab(itemPrefab, transform.position, parent: transform.parent);
-		}
+		//TODO: spawn at hidden pos and move in, and move this to OnSpawnServer
+		initialContents.SpawnAt(SpawnDestination.At(gameObject));
 	}
 
 	private IEnumerator WaitForServerReg()
