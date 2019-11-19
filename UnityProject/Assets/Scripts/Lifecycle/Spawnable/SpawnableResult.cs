@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -13,32 +14,66 @@ public class SpawnableResult
 	public readonly bool Successful;
 
 	/// <summary>
-	/// GameObject that was spawned. If this was a multi-spawn
-	/// (SpawnInfo.Count > 1), returns the first. Null if not successful
+	/// GameObject that was spawned. If this was a multi-spawn,
+	/// returns the first. Null if not successful
 	/// </summary>
 	public readonly GameObject GameObject;
+
+	/// <summary>
+	/// GameObjects that were spawned. Null if not successful
+	/// </summary>
+	public readonly IEnumerable<GameObject> GameObjects;
 
 	/// <summary>
 	/// Destination that was attempted to be spawned at.
 	/// </summary>
 	public readonly SpawnDestination SpawnDestination;
 
-	private SpawnableResult(bool successful, GameObject gameObject, SpawnDestination spawnDestination)
+
+	/// <summary>
+	/// True iff this was only a single spawned object
+	/// </summary>
+	public bool IsSingle => GameObjects.Count() == 1;
+
+	/// <summary>
+	/// True iff this was for spawning multiple objects.
+	/// </summary>
+	public bool IsMultiple => !IsSingle;
+
+	private SpawnableResult(bool successful, GameObject gameObject,
+		IEnumerable<GameObject> gameObjects, SpawnDestination spawnDestination)
 	{
 		Successful = successful;
 		GameObject = gameObject;
 		SpawnDestination = spawnDestination;
+		GameObjects = gameObjects;
 	}
 
+
 	/// <summary>
-	/// Spawning was successful
+	/// Spawning single object was successful
 	/// </summary>
 	/// <param name="spawned">object that was newly spawned</param>
 	/// <param name="destination">destination the object was spawned at</param>
 	/// <returns></returns>
-	public static SpawnableResult Success(GameObject spawned, SpawnDestination destination)
+	public static SpawnableResult Single(GameObject spawned, SpawnDestination destination)
 	{
-		return new SpawnableResult(true, spawned, destination);
+		return new SpawnableResult(true, spawned, new [] { spawned },
+			destination);
+	}
+
+	/// <summary>
+	/// Spawning multiple objects was successful
+	/// </summary>
+	/// <param name="spawned">objects that were newly spawned</param>
+	/// <param name="destination">destination the objects were spawned at</param>
+	/// <returns></returns>
+	public static SpawnableResult Multiple(IEnumerable<GameObject> spawned, SpawnDestination destination)
+	{
+		var gameObjects = spawned as GameObject[] ?? spawned.ToArray();
+		return new SpawnableResult(true, gameObjects.First(),
+			gameObjects,
+			destination);
 	}
 
 	/// <summary>
@@ -48,6 +83,6 @@ public class SpawnableResult
 	/// <returns></returns>
 	public static SpawnableResult Fail(SpawnDestination destination)
 	{
-		return new SpawnableResult(false, null, destination);
+		return new SpawnableResult(false, null, null, destination);
 	}
 }

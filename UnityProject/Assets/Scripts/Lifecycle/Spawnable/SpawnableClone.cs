@@ -48,6 +48,6 @@ public class SpawnableClone : ISpawnable
 				?.NotifyPlayers(); //Sending clientState for newly spawned items
 		}
 
-		return SpawnableResult.Success(tempObject, destination);
+		return SpawnableResult.Single(tempObject, destination);
 	}
 }

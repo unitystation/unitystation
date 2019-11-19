@@ -80,7 +80,7 @@ public class SpawnableCloth : Spawnable
 			{
 				return SpawnableResult.Fail(destination);
 			}
-			return SpawnableResult.Success(result, destination);
+			return SpawnableResult.Single(result, destination);
 		}
 
 		private GameObject CreateBaseCloth(SpawnDestination destination)

@@ -90,7 +90,7 @@ public class SpawnablePrefab : Spawnable, IClientSpawnable
 				Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
 			}
 
-			return SpawnableResult.Success(tempObject, destination);
+			return SpawnableResult.Single(tempObject, destination);
 		}
 
 		public SpawnableResult ClientSpawnAt(SpawnDestination destination)
@@ -98,7 +98,7 @@ public class SpawnablePrefab : Spawnable, IClientSpawnable
 			bool isPooled; // not used for Client-only instantiation
 			var go = Spawn._PoolInstantiate(prefab, destination, out isPooled);
 
-			return SpawnableResult.Success(go, destination);
+			return SpawnableResult.Single(go, destination);
 		}
 	}
 

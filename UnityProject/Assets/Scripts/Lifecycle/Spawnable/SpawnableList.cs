@@ -7,7 +7,7 @@ using UnityEngine;
 /// Provides capability to spawn them at the indicated destination
 /// </summary>
 [CreateAssetMenu(fileName = "SpawnableList", menuName = "Spawnable/SpawnableList")]
-public class SpawnableList : ScriptableObject
+public class SpawnableList : Spawnable
 {
 	[Tooltip("Things to spawn.")]
 	[SerializeField]
@@ -17,11 +17,15 @@ public class SpawnableList : ScriptableObject
 	/// Spawns the things defined in this list at the indicated destination
 	/// </summary>
 	/// <param name="destination"></param>
-	public void SpawnAt(SpawnDestination destination)
+	public override SpawnableResult SpawnIt(SpawnDestination destination)
 	{
+		List<GameObject> spawned = new List<GameObject>();
 		foreach (var spawnable in spawnables)
 		{
-			spawnable.SpawnAt(destination);
+			var result = spawnable.SpawnAt(destination);
+			spawned.AddRange(result.GameObjects);
 		}
+
+		return SpawnableResult.Multiple(spawned, destination);
 	}
 }

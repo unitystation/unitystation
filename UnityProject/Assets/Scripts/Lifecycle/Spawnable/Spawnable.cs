@@ -20,7 +20,7 @@ public abstract class Spawnable : SlotPopulator, ISpawnable
 
 		//spawn it at hidden pos
 		var result = SpawnAt(SpawnDestination.HiddenPos());
-		if (result.Successful)
+		if (result.Successful && result.IsSingle)
 		{
 			if (result.GameObject.GetComponent<Pickupable>() == null)
 			{
@@ -32,6 +32,7 @@ public abstract class Spawnable : SlotPopulator, ISpawnable
 			Inventory.ServerAdd(result.GameObject, slot);
 			Logger.LogTraceFormat("Populated {0}", Category.Inventory, slot);
 		}
+
 	}
 
 	public SpawnableResult SpawnAt(SpawnDestination destination)
