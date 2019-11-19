@@ -13,7 +13,7 @@ public class AutoIDSlotPopulator : SlotPopulator
 	[Tooltip("Prefab to use for the ID")]
 	private GameObject idPrefab;
 
-	public override void PopulateSlot(ItemSlot toPopulate, PopulationContext context)
+	public override void PopulateSlot(ItemSlot slot, PopulationContext context)
 	{
 		var occupation = PopulatorUtils.TryGetOccupation(context);
 		if (occupation == null) return;
@@ -35,7 +35,7 @@ public class AutoIDSlotPopulator : SlotPopulator
 			idObj.GetComponent<IDCard>().Initialize(IDCardType.standard, jobType, occupation.AllowedAccess, charSettings.Name);
 		}
 
-		Inventory.ServerAdd(idObj, toPopulate);
+		Inventory.ServerAdd(idObj, slot);
 
 	}
 }

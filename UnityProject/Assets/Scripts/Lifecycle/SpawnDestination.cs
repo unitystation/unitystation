@@ -1,0 +1,117 @@
+
+using UnityEngine;
+
+/// <summary>
+/// Defines where an object should be spawned.
+/// </summary>
+public class SpawnDestination
+{
+	/// <summary>
+	/// World position to spawn at. Defaults to HiddenPos.
+	/// </summary>
+	public readonly Vector3 WorldPosition;
+
+	/// <summary>
+	/// Parent transform to spawn under. This does not usually need to be specified because the RegisterTile
+	/// automatically figures out the correct parent.
+	/// </summary>
+	public readonly Transform Parent;
+
+	/// <summary>
+	/// Rotation to spawn with. Defaults to Quaterion.identity.
+	/// </summary>
+	public readonly Quaternion Rotation;
+
+	/// <summary>
+	/// if true, the spawn will be cancelled if the location being spawned into is totally impassable.
+	/// </summary>
+	public readonly bool CancelIfImpassable;
+
+
+
+	private SpawnDestination(Vector3 worldPosition, Transform parent, Quaternion rotation,
+		bool cancelIfImpassable)
+	{
+		WorldPosition = worldPosition;
+		Parent = parent;
+		Rotation = rotation;
+		CancelIfImpassable = cancelIfImpassable;
+	}
+
+	/// <summary>
+	/// Spawn destination at the indicated position.
+	/// </summary>
+	/// <param name="worldPosition">position to spawn at, defaults to HiddenPos</param>
+	/// <param name="parent">Parent transform to spawn under. This does not usually need to be specified because the RegisterTile
+	/// automatically figures out the correct parent.</param>
+	/// <param name="rotation">rotation to spawn with ,defaults to Quaternion.identity</param>
+	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
+	/// <returns></returns>
+	public static SpawnDestination At(Vector3? worldPosition = null, Transform parent = null,
+		Quaternion? rotation = null, bool cancelIfImpassable = false)
+	{
+		return new SpawnDestination(worldPosition.GetValueOrDefault(TransformState.HiddenPos),
+			DefaultParent(parent, worldPosition), rotation.GetValueOrDefault(Quaternion.identity), cancelIfImpassable);
+	}
+
+	/// <summary>
+	/// Creates a spawn destination at the existing object's position, with the same parent
+	/// and rotation.
+	/// </summary>
+	/// <param name="existingObject">existing object to use to determine the destination</param>
+	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
+	/// <returns></returns>
+	public static SpawnDestination At(GameObject existingObject, bool cancelIfImpassable = false)
+	{
+		var position = existingObject.WorldPosServer();
+		var parent = existingObject.transform.parent;
+		var rotation = existingObject.transform.rotation;
+		return At(position, parent, rotation, cancelIfImpassable);
+	}
+
+	/// <summary>
+	/// Spawn at hiddenpos, the place where invisible / not on stage stuff goes.
+	/// </summary>
+	/// <returns></returns>
+	public static SpawnDestination HiddenPos()
+	{
+		return At();
+	}
+
+	/// <summary>
+	/// Checks if the indicated tile is totally impassable.
+	/// </summary>
+	/// <param name="tileWorldPosition"></param>
+	/// <returns></returns>
+	public static bool IsTotallyImpassable(Vector3Int tileWorldPosition)
+	{
+		return!MatrixManager.IsPassableAt(tileWorldPosition,true)
+		      &&!MatrixManager.IsAtmosPassableAt(tileWorldPosition,true);
+	}
+
+	private static Transform DefaultParent(Transform parent, Vector3? worldPos)
+	{
+		return parent != null ? parent : MatrixManager.GetDefaultParent(worldPos, true);
+	}
+
+	public override string ToString()
+	{
+		return $"{nameof(WorldPosition)}: {WorldPosition}, {nameof(Parent)}: {Parent}, {nameof(Rotation)}: " +
+		       $"{Rotation}, {nameof(CancelIfImpassable)}: {CancelIfImpassable}";
+	}
+}
+
+/// <summary>
+/// Defines the kind of location where a spawned object should go
+/// </summary>
+public enum SpawnDestinationType
+{
+	/// <summary>
+	/// Spawn somewhere in the world (or hiddenpos)
+	/// </summary>
+	World = 0,
+	/// <summary>
+	/// Spawn in inventory
+	/// </summary>
+	Inventory = 1
+}

@@ -239,13 +239,13 @@ public enum InventoryRemoveType
 public enum ReplacementStrategy
 {
 	/// <summary>
-	/// Despawn the item in the target slot
+	/// Despawn the item currently in the target slot
 	/// </summary>
-	Despawn,
+	DespawnOther,
 	/// <summary>
 	/// Drop the item currently in the target slot
 	/// </summary>
-	Drop,
+	DropOther,
 	/// <summary>
 	/// Cancel the inventory movement (default).
 	/// </summary>
