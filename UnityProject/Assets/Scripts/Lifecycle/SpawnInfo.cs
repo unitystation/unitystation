@@ -20,7 +20,7 @@ public class SpawnInfo
 	public readonly SpawnType SpawnType;
 
 	/// <summary>
-	/// GameObject to clone if SpawnableType.Clone
+	/// GameObject to clone if SpawnType.Clone
 	/// </summary>
 	public readonly GameObject ClonedFrom;
 
@@ -122,6 +122,20 @@ public class SpawnInfo
 	public static SpawnInfo Spawnable(ISpawnable spawnable, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null)
 	{
 		return new SpawnInfo(SpawnType.Default, spawnable, spawnDestination, scatterRadius, count, null);
+	}
+
+	/// <summary>
+	/// Clones the specified object
+	/// </summary>
+	/// <param name="toClone">gameobject to clone.</param>
+	/// <param name="spawnDestination">destinaton to spawn the clone at</param>
+	/// <param name="count">number of instances to spawn, defaults to 1</param>
+	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
+	/// null (no scatter).</param>
+	/// <returns>the newly created GameObject</returns>
+	public static SpawnInfo Clone(GameObject toClone, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null)
+	{
+		return new SpawnInfo(SpawnType.Clone, SpawnableClone.Of(toClone), spawnDestination, scatterRadius, count, null, toClone);
 	}
 
 	/// <summary>

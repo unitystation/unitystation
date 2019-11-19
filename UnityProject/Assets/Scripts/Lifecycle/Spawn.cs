@@ -273,9 +273,7 @@ public static class Spawn
 		Quaternion? rotation = null)
 	{
 		return Server(
-			SpawnInfo.Spawnable(
-				SpawnableClone.Of(toClone),
-				SpawnDestination.At(toClone)));
+			SpawnInfo.Clone(toClone, SpawnDestination.At(toClone)));
 	}
 
 	/// <summary>
@@ -536,6 +534,7 @@ public static class Spawn
 		{
 			//destroy / create with pooling
 			//save previous position
+			var destination = SpawnDestination.At(target);
 			var worldPos = target.TileWorldPosition();
 			var transform = target.GetComponent<IPushable>();
 			var prevParent = target.transform.parent;
@@ -567,12 +566,15 @@ public static class Spawn
 			var prefab = DeterminePrefab(target);
 			if (clothing != null)
 			{
-				spawnInfo = SpawnInfo.Cloth(clothing.clothingData, worldPos.To3Int(), clothing.Type,
-					clothing.Variant, prefab);
+				spawnInfo = SpawnInfo.Spawnable(
+					SpawnableCloth.For(clothing),
+					destination);
 			}
 			else
 			{
-				spawnInfo = SpawnInfo.Prefab(prefab, worldPos.To3Int());
+				spawnInfo = SpawnInfo.Spawnable(
+					SpawnablePrefab.For(prefab),
+					destination);
 			}
 
 			_ServerFireClientServerSpawnHooks(SpawnResult.Single(spawnInfo, target));

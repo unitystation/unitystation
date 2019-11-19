@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Spawns an indicated cloth
+/// Spawns an indicated cloth. Can also be used as a slot populator.
 /// </summary>
 [CreateAssetMenu(fileName = "SpawnableCloth", menuName = "Spawnable/SpawnableCloth")]
 public class SpawnableCloth : Spawnable

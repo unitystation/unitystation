@@ -3,7 +3,7 @@ using Mirror;
 using UnityEngine;
 
 /// <summary>
-/// Spawns an indicated prefab.
+/// Spawns an indicated prefab. Can also be used as a slot populator.
 /// </summary>
 [CreateAssetMenu(fileName = "SpawnablePrefab", menuName = "Spawnable/SpawnablePrefab")]
 public class SpawnablePrefab : Spawnable, IClientSpawnable
