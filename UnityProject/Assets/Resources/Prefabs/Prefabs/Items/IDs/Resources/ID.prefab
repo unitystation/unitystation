@@ -223,16 +223,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  standardSprite: {fileID: 21300000, guid: f23c8d48c642ba64ab25750c1c8b3b9d, type: 3}
   captainSprite: {fileID: 21300000, guid: 567726fd081a97c46a2c93edc3a99825, type: 3}
   commandSprite: {fileID: 21300000, guid: bd80135c3a272264ebd5515cd8050ba1, type: 3}
-  idCardTypeInt: 0
-  jobTypeInt: 0
-  ManuallyAddedAccess: 
-  ManuallyAssignCardType: 0
-  MiningPoints: 0
-  RegisteredName: John Cena
-  spriteRenderer: {fileID: 212977371495627384}
-  standardSprite: {fileID: 21300000, guid: f23c8d48c642ba64ab25750c1c8b3b9d, type: 3}
+  manuallyAddedAccess: 
+  manuallyAssignCardType: 0
 --- !u!114 &114922150393857528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,5 +441,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 3c2b96c3f18c3cd4ebad42f3cc295c98
+  m_AssetId: 4c73033e5f8ab734eb2e85e6ae54de73
   m_SceneId: 0
