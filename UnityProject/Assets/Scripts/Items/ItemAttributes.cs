@@ -143,11 +143,26 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <summary>
 	/// Returns true iff this itemattributes has the specified trait
 	/// </summary>
-	/// <param name="toCheck"></param>
 	/// <returns></returns>
 	public bool HasTrait(ItemTrait toCheck)
 	{
 		return traits.Contains(toCheck);
+	}
+	/// <summary>
+	/// Returns true iff this itemattributes has any of the specified traits
+	/// </summary>
+	/// <returns></returns>
+	public bool HasAnyTrait(IEnumerable<ItemTrait> toCheck)
+	{
+		return traits.Any(toCheck.Contains);
+	}
+	/// <summary>
+	/// Returns true iff this itemattributes has all the of the specified traits
+	/// </summary>
+	/// <returns></returns>
+	public bool HasAllTraits(IEnumerable<ItemTrait> toCheck)
+	{
+		return traits.All(toCheck.Contains);
 	}
 
 	/// <summary>

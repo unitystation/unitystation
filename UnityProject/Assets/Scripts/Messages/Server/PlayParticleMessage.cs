@@ -12,7 +12,7 @@ public class PlayParticleMessage : ServerMessage
 	/// <summary>
 	/// GameObject containing ParticleSystem
 	/// </summary>
-	public uint 	Object;
+	public uint 	ParticleObject;
 	public uint 	ParentObject;
 	public float 	Angle;
 	public bool 	UseAngle;
@@ -20,13 +20,13 @@ public class PlayParticleMessage : ServerMessage
 	///To be run on client
 	public override IEnumerator Process()
 	{
-		if (Object.Equals(NetId.Invalid)) {
+		if (ParticleObject.Equals(NetId.Invalid)) {
 			//Failfast
 			Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.NetMessage);
 			yield break;
 		}
 
-		yield return WaitFor(Object, ParentObject );
+		yield return WaitFor(ParticleObject, ParentObject );
 
 		GameObject particleObject = NetworkObjects[0];
 		GameObject parentObject = NetworkObjects[1];
@@ -72,7 +72,7 @@ public class PlayParticleMessage : ServerMessage
 
 
 		PlayParticleMessage msg = new PlayParticleMessage {
-			Object = obj.NetId(),
+			ParticleObject = obj.NetId(),
 			ParentObject = topContainer == null ? NetId.Invalid : topContainer.NetId(),
 			UseAngle = targetVector != Vector2.zero,
 			Angle = Orientation.AngleFromUp( targetVector ),

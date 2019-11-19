@@ -89,8 +89,14 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		{
 			containerSprite = GetComponent<EmptyFullContainer>();
 		}
+
+		var integrity = GetComponent<Integrity>();
+		if (integrity != null)
+		{
+			integrity.OnWillDestroyServer.AddListener(info => SpillAll());
+		}
 	}
-	
+
 	private void CheckSpill(ThrowInfo throwInfo)
 	{
 		if (Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow))
@@ -196,7 +202,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 		if ( transferResult.TransferAmount < toMove )
 		{
-			Logger.LogWarningFormat( "transfer amount {0} < toMove {1}, rebuilding divideAmount and toTransfer", 
+			Logger.LogWarningFormat( "transfer amount {0} < toMove {1}, rebuilding divideAmount and toTransfer",
 				Category.Chemistry, transferResult.TransferAmount, toMove );
 			divideAmount = transferResult.TransferAmount / CurrentCapacity;
 
@@ -236,9 +242,9 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	}
 	private void SpillAll()
 	{
-		Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!", 
+		Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",
 			registerTile.CustomTransform.AssumedWorldPositionServer());
-		
+
 		var amountOfReagents = AmountOfReagents(Contents);
 		MoveReagentsTo(amountOfReagents, null, out var spilledReagents);
 //todo: half decent regs spread
@@ -247,7 +253,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 			registerTile.Matrix.MetaDataLayer.ReagentReact(spilledReagents, registerTile.WorldPositionServer, registerTile.LocalPositionServer);
 //			return;
 //		}
-//		
+//
 //		//assuming one tile can hold REGS_PER_TILE units of regs
 //		var tilesToCover = Mathf.Clamp(amountOfReagents / REGS_PER_TILE, 1, int.MaxValue);
 //		var spillArea = registerTile.WorldPositionServer.BoundsAround();
@@ -263,14 +269,14 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 //			reagent => reagent.Key,
 //			reagent => reagent.Value / tilesToCover
 //		);
-//		
+//
 //		StartCoroutine(SpillRegs(positions, tilesToCover, spillPerTile));
 	}
 
 //	private IEnumerator SpillRegs(List<Vector3Int> positions, float tilesToCover, Dictionary<string, float> spillPerTile)
 //	{
 //		int halfCount = positions.Count / 2;
-//		
+//
 //		//1234567 -> 4,5,3,6,2,7,1. but no more than tilesToCover
 //		for (int i = halfCount, j = 0; i < positions.Count && i >= 0 && j < tilesToCover; ++j, i = (i > halfCount ? -j : j) + i)
 //		{
@@ -286,7 +292,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		if (!WillInteractInternal(interaction.UsedObject, interaction.TargetObject, side)) return false;
-		
+
 		return true;
 	}
 
@@ -316,12 +322,11 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 		if (side == NetworkSide.Server)
 		{
-			//todo: itemAttributes null check
-			if (srcContainer.TraitFilterOn && srcContainer.AcceptedTraits.All( trait => !dstContainer.itemAttributes.GetTraits().Contains(trait) ))
+			if (srcContainer.TraitFilterOn && !Validations.HasAnyTrait(dstObject, srcContainer.AcceptedTraits))
 			{
 				return false;
 			}
-			if (dstContainer.TraitFilterOn && dstContainer.AcceptedTraits.All( trait => !srcContainer.itemAttributes.GetTraits().Contains(trait) ))
+			if (dstContainer.TraitFilterOn && !Validations.HasAnyTrait(dstObject, srcContainer.AcceptedTraits))
 			{
 				return false;
 			}
@@ -510,11 +515,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		       "]";
 	}
 
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		SpillAll();
-	}
-
+	public void OnDespawnServer(DespawnInfo info){}
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		//todo: check if special treatment is needed
