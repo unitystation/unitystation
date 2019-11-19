@@ -199,7 +199,8 @@ MonoBehaviour:
   itemName: Emergency Oxygen Tank
   itemDescription: Used for emergencies. Contains very little oxygen, so try to conserve
     it until you actually need it.
-  initialTraits: []
+  initialTraits:
+  - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
   size: 1
   spriteType: 0
   CanConnectToTank: 0
