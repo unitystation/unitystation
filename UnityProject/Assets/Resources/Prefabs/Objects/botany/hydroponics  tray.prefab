@@ -184,6 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &1612245312422546373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +199,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  SyncHarvestNotifier: 0
+  SyncWeedNotifier: 0
+  SyncWaterNotifier: 0
+  SyncNutrimentNotifier: 0
+  PlantSyncStage: 0
+  GrowingPlantStage: 0
+  PlantSyncString: 
   PotentialWeeds:
   - {fileID: 11400000, guid: 375fdb78e44a16f44bd8fed477aec2fa, type: 2}
   - {fileID: 11400000, guid: 8381b65b5721d454cbe2b03391fd34c4, type: 2}
@@ -247,7 +255,7 @@ MonoBehaviour:
     ReagentProduction: []
     MutatesInTo: []
   hasplant: 0
-  tickRate: 0.1
+  tickRate: 1
   tickCount: 0
   WeedLevel: 0
   PestLevel: 0
@@ -259,7 +267,6 @@ MonoBehaviour:
   MaxNutritionLevel: 10
   NumberOfUpdatesAlive: 0
   PlantAge: 0
-  PlantStage: 0
   PlantSubStage: 0
   PlantHealth: 100
   ReadyToHarvest: 0
@@ -343,6 +350,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114519504495500056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +497,7 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0
 --- !u!1 &2821288067960047100
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,6 +612,7 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0
 --- !u!1 &3663177110161525043
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,6 +728,7 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0
 --- !u!1 &5226030624696872044
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +843,7 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0
 --- !u!1 &8254462624725952794
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,3 +951,4 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0

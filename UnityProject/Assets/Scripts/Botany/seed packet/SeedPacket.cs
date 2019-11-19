@@ -5,8 +5,6 @@ using Mirror;
 
 public class SeedPacket : NetworkBehaviour
 {
-
-
 	public SpriteHandler Sprite;
 	//public DefaultPlantsStats defaultPlantsStats;
 	public PlantData plantData; //Stats and stuff
@@ -18,9 +16,12 @@ public class SeedPacket : NetworkBehaviour
 	public void SyncPlant(string _PlantSyncString)
 	{
 		PlantSyncString = _PlantSyncString;
-		if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
+		if (!isServer)
 		{
-			plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
+			if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
+			{
+				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
+			}
 		}
 		Sprite.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.PacketsSprite);
 		Sprite.PushTexture();
@@ -36,10 +37,9 @@ public class SeedPacket : NetworkBehaviour
 	{
 		if (defaultPlantData != null)
 		{
+			Logger.LogError("arrrrrrrr");
+			plantData = new PlantData();
 			plantData.SetValues(defaultPlantData);
-		}
-		else { 
-			plantData.SetValues(plantData);
 		}
 		SyncPlant(plantData.Name);
 	}

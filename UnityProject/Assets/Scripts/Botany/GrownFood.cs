@@ -23,9 +23,13 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	public void SyncPlant(string _PlantSyncString)
 	{
 		PlantSyncString = _PlantSyncString;
-		if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
+		if (!isServer)
 		{
-			plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
+			
+			if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
+			{
+				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
+			}
 		}
 		SpriteHandler.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
@@ -55,7 +59,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		SpriteHandler.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
 		SetupChemicalContents();
-		SyncSize(0.5f + (plantData.Potency / 200f));
+		SyncSize(0.5f + (plantData.Potency / 100f));
 	}
 
 
@@ -68,27 +72,27 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 
 		}
 	}
-    // Start is called before the first frame update
 
-	public bool Interact(HandActivate interaction)
+    // Start is called before the first frame update
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		//try ejecting the mag
+		Logger.Log("HEY!!!!!");
 		if (plantData != null)
 		{
-			var _Object = PoolManager.PoolNetworkInstantiate(SeedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent);
-			CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
+			if (SeedPacket == null) {
+				Logger.LogError("help!!");
+			}
+			var _Object = Spawn.ServerPrefab(SeedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject; 
 			var seedPacket = _Object.GetComponent<SeedPacket>();
 			seedPacket.plantData = plantData;
-			var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-			//InventoryManager.ClearInvSlot(slot);
-			InventoryManager.EquipInInvSlot(slot, _Object);
-			PoolManager.PoolNetworkDestroy(this.gameObject);
-			netTransform.DisappearFromWorldServer();
-			//Destroy(gameObject);
-			return true;
+
+			seedPacket.SyncPlant(plantData.Name);
+
+			var slot = interaction.HandSlot;
+			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.Despawn);
 		}
 
-		return false;
+	
 	}
 
     // Update is called once per frame

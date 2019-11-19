@@ -7,13 +7,12 @@ using System.Linq;
 public class PlantData
 {
 	public GameObject ProduceObject;
-	public PlantType plantType;
 	public string Name;
 	public string Plantname;
 	public string Description;
 	public SpriteSheetAndData PacketsSprite;
 	public SpriteSheetAndData ProduceSprite;
-	public List<SpriteSheetAndData> GrowthSprites;
+	public List<SpriteSheetAndData> GrowthSprites = new List<SpriteSheetAndData>();
 	public SpriteSheetAndData FullyGrownSprite;
 	public SpriteSheetAndData DeadSprite;
 	//add Fully grown sprite with Animations
@@ -33,7 +32,6 @@ public class PlantData
 	{
 		Name = _DefaultPlantData.plantData.Name;
 		ProduceObject = _DefaultPlantData.plantData.ProduceObject;
-		plantType = _DefaultPlantData.plantData.plantType;
 		PacketsSprite = _DefaultPlantData.plantData.PacketsSprite;
 		ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
 		GrowthSprites = _DefaultPlantData.plantData.GrowthSprites;
@@ -59,7 +57,6 @@ public class PlantData
 	{
 		Name = _PlantData.Name;
 		ProduceObject = _PlantData.ProduceObject;
-		plantType = _PlantData.plantType;
 		PacketsSprite = _PlantData.PacketsSprite;
 		ProduceSprite = _PlantData.ProduceSprite;
 		GrowthSprites = _PlantData.GrowthSprites;
@@ -82,17 +79,16 @@ public class PlantData
 	{
 		var _PlantData = DefaultPlantData.plantData;
 		Name = _PlantData.Name;
-		plantType = _PlantData.plantType;
 
 		if (ProduceObject == null)
 		{
 			ProduceObject = _PlantData.ProduceObject;
 		}
-		if (PacketsSprite.Texture == null)
+		if (PacketsSprite?.Texture == null)
 		{
 			PacketsSprite = _PlantData.PacketsSprite;
 		}
-		if (ProduceSprite.Texture  == null)
+		if (ProduceSprite?.Texture == null)
 		{
 			ProduceSprite = _PlantData.ProduceSprite;
 		}
@@ -102,11 +98,11 @@ public class PlantData
 			GrowthSprites = _PlantData.GrowthSprites;
 		}
 
-		if (FullyGrownSprite.Texture == null)
+		if (FullyGrownSprite?.Texture == null)
 		{
 			FullyGrownSprite = _PlantData.FullyGrownSprite;
 		}
-		if (DeadSprite.Texture == null)
+		if (DeadSprite?.Texture == null)
 		{
 			DeadSprite = _PlantData.DeadSprite;
 		}
@@ -179,100 +175,4 @@ public enum PlantTrays
 	Strong_Bioluminescence,
 	Bioluminescence,
 	Separated_Chemicals,
-}
-
-public enum PlantType
-{
-	Wheat,
-	Oat,
-	MeatWheat,
-	Reishi,
-	PlumpHelmet,
-	Nettle,
-	DeathNettle,
-	FlyAmanita,
-	DestroyingAngel,
-	Chanterelle,
-	Towercap,
-	Whitebeet,
-	Watermelon,
-	Vanilla,
-	Tomato,
-	TeaAspera,
-	TeaAstra,
-	SweetPotato,
-	Sunflower,
-	Sugarcane,
-	Steelcap,
-	SpaceTobacco,
-	Soybean,
-	Snapcorn,
-	Shadowshroom,
-	Rice,
-	RedOnionSprouts,
-	Redbeet,
-	RainbowWeed,
-	Pumpkin,
-	Potato,
-	PorciniMushroom,
-	Poppy,
-	PolyporeMushroom,
-	PoisonedApple,
-	PoisonBerry,
-	Parsnip,
-	Orange,
-	OnionSprouts,
-	OmegaWeed,
-	Novaflower,
-	Moonflower,
-	Mimana,
-	Lime,
-	Lily,
-	LifeWeed,
-	LibertyCap,
-	Lemon, 
-	Kudzu,
-	Koibean,
-	InocybeMushroom,
-	IcePepper,
-	Holymelon, 
-	Harebell,
-	GreenGrapes,
-	Grass,
-	Grapes,
-	GoldApple,
-	Glowcap,
-	Glowshroom,
-	GhostChili,
-	GlowBerry,
-	Geranium,
-	Gatfruit,
-	FruitingCactus,
-	Embershroom,
-	Egg_Plant,
-	Eggplant,
-	Deathweed,
-	DeathBerry,
-	Corn,
-	CombustibleLemon,
-	CoffeeRobusta,
-	CoffeeArabica,
-	Cocoa,	Chili,
-	CherryBomb,
-	Cherry,
-	Carrot,
-	Carpet,
-	Cannabis,
-	Blumpkin,
-	BlueTomato,
-	BlueCherry,
-	BlueSpaceTomato,
-	BlueSpaceBanana,
-	BloodTomato,
-	Berry,
-	Banana,
-	Apple,
-	AmbrosiaVulgaris,
-	AmbrosiaGaia,
-	AmbrosiaDeus,
 }

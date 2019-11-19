@@ -4,7 +4,8 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(RightClickAppearance))]
-public class ReagentContainer : Container, IRightClickable {
+public class ReagentContainer : Container, IRightClickable
+{
 
 	public int MoveAmount;
 	public bool InSolidForm;
@@ -16,12 +17,16 @@ public class ReagentContainer : Container, IRightClickable {
 
 	private void Awake()
 	{
-		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.ReagentContainer);
+		var ItemAttributes = this.GetComponent<ItemAttributes>();
+		if (ItemAttributes != null)
+		{
+			this.GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.ReagentContainer);
+		}
 	}
 
 	void Start() //Initialise the contents if there are any
 	{
-		if(Reagents == null)
+		if (Reagents == null)
 		{
 			return;
 		}
@@ -41,7 +46,7 @@ public class ReagentContainer : Container, IRightClickable {
 			.AddElement("Contents", LogReagents);
 
 		//Pour / add can only be done if in reach
-		if ( PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
+		if (PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
 		{
 			result.AddElement("PourOut", RemoveSome)
 				.AddElement("AddTo", AddTo);
@@ -50,10 +55,12 @@ public class ReagentContainer : Container, IRightClickable {
 		return result;
 	}
 
-	public bool Contains(string Chemical, float Amount) 
+	public bool Contains(string Chemical, float Amount)
 	{
-		if (Contents.ContainsKey(Chemical)) {
-			if (Contents[Chemical] >= Amount) {
+		if (Contents.ContainsKey(Chemical))
+		{
+			if (Contents[Chemical] >= Amount)
+			{
 				return (true);
 			}
 		}
@@ -89,7 +96,7 @@ public class ReagentContainer : Container, IRightClickable {
 			reagent => reagent.Key,
 			reagent => divideAmount > 1 ? reagent.Value : (reagent.Value * divideAmount)
 		);
-		foreach(var reagent in transfering)
+		foreach (var reagent in transfering)
 		{
 			Contents[reagent.Key] -= reagent.Value;
 		}

@@ -25,8 +25,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 397a3d20fd4db8d448742c20980a992e, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 20c7f3d751d3d7e4aa59ea007e7e67e0, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 20c7f3d751d3d7e4aa59ea007e7e67e0, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: eb96ff9f7c02baa4dbbde481253ee625, type: 3}
@@ -42,9 +43,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 897f5d54973165940acd0c275ec9c168, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 20c7f3d751d3d7e4aa59ea007e7e67e0, type: 3}
+      Texture: {fileID: 2800000, guid: 897f5d54973165940acd0c275ec9c168, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 20c7f3d751d3d7e4aa59ea007e7e67e0, type: 3}
+      - {fileID: 21300000, guid: 897f5d54973165940acd0c275ec9c168, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
       Texture: {fileID: 2800000, guid: 4c2cce256a5e5b24494cf89a23c1f65e, type: 3}
