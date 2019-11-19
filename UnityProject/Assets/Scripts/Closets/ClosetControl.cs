@@ -317,7 +317,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		heldItems = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
 		foreach (ObjectBehaviour item in heldItems)
 		{
-			item.parentContainer = PushPull;
+			var pipe = item.GetComponent<Pipe>();
+			//Checks to see if the item is anchored to the floor (i.e. a vent or a scrubber) before placing it in the locker
+			if (pipe != null && pipe.anchored) continue;
+			item.parentContainer = pushPull;
 			item.VisibleState = false;
 		}
 	}
