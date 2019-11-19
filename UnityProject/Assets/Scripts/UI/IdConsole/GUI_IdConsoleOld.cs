@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GUI_IdConsole : NetTab
+/// <summary>
+/// Old GUI_IDConsole, used only for stress testing nettab system
+/// </summary>
+public class GUI_IdConsoleOld : NetTab
 {
 	private IdConsole console;
 	[SerializeField]
@@ -26,13 +29,18 @@ public class GUI_IdConsole : NetTab
 	private NetLabel loginCardName;
 	private int jobsCount;
 
+	/// <summary>
+	/// Card currently targeted for security modifications. Null if none inserted
+	/// </summary>
+	public IDCard TargetCard => console.TargetCard;
+
 	public override void OnEnable()
 	{
 		base.OnEnable();
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			StartCoroutine(WaitForProvider());
-			jobsCount = OccupationList.Instance.Occupations.Count() - IdConsoleManager.Instance.IgnoredJobs.Count;
+			jobsCount = OccupationList.Instance.Occupations.Count() - IdConsoleManagerOld.Instance.IgnoredJobs.Count;
 		}
 	}
 
@@ -75,14 +83,14 @@ public class GUI_IdConsole : NetTab
 	private void UpdateLoginCardName()
 	{
 		loginCardName.SetValue = console.AccessCard != null ?
-			$"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobType.ToString()}" : "********";
+			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********";
 	}
 
 	private void UpdateCardNames()
 	{
 		if (console.AccessCard != null)
 		{
-			accessCardName.SetValue = $"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobType.ToString()}";
+			accessCardName.SetValue = $"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}";
 		}
 		else
 		{
@@ -91,7 +99,7 @@ public class GUI_IdConsole : NetTab
 
 		if (console.TargetCard != null)
 		{
-			targetCardName.SetValue = $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobType.ToString()}";
+			targetCardName.SetValue = $"{console.TargetCard.RegisteredName}, {console.TargetCard.JobType.ToString()}";
 		}
 		else
 		{
@@ -109,30 +117,30 @@ public class GUI_IdConsole : NetTab
 	//This method is super slow - call it only if the list is empty
 	private void CreateAccessList()
 	{
-		for (int i = 0; i < IdConsoleManager.Instance.AccessCategories.Count; i++)
+		for (int i = 0; i < IdConsoleManagerOld.Instance.AccessCategories.Count; i++)
 		{
-			List<IdAccess> accessList = IdConsoleManager.Instance.AccessCategories[i].IdAccessList;
+			List<IdAccess> accessList = IdConsoleManagerOld.Instance.AccessCategories[i].IdAccessList;
 			accessCategoriesList[i].Clear();
 			accessCategoriesList[i].AddItems(accessList.Count);
 			for (int j = 0; j < accessList.Count; j++)
 			{
-				GUI_IdConsoleEntry entry;
-				entry = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntry;
-				entry.SetUpAccess(this, console.TargetCard, accessList[j], IdConsoleManager.Instance.AccessCategories[i]);
+				GUI_IdConsoleEntryOld entryOld;
+				entryOld = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntryOld;
+				entryOld.SetUpAccess(this, console.TargetCard, accessList[j], IdConsoleManagerOld.Instance.AccessCategories[i]);
 			}
 		}
 	}
 
 	private void UpdateAccessList()
 	{
-		for (int i = 0; i < IdConsoleManager.Instance.AccessCategories.Count; i++)
+		for (int i = 0; i < IdConsoleManagerOld.Instance.AccessCategories.Count; i++)
 		{
-			List<IdAccess> accessList = IdConsoleManager.Instance.AccessCategories[i].IdAccessList;
+			List<IdAccess> accessList = IdConsoleManagerOld.Instance.AccessCategories[i].IdAccessList;
 			for (int j = 0; j < accessList.Count; j++)
 			{
-				GUI_IdConsoleEntry entry;
-				entry = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntry;
-				entry.CheckIsSet();
+				GUI_IdConsoleEntryOld entryOld;
+				entryOld = accessCategoriesList[i].Entries[j] as GUI_IdConsoleEntryOld;
+				entryOld.CheckIsSet();
 			}
 		}
 	}
@@ -142,53 +150,56 @@ public class GUI_IdConsole : NetTab
 	{
 		assignList.Clear();
 		assignList.AddItems(jobsCount);
-		GUI_IdConsoleEntry entry;
+		GUI_IdConsoleEntryOld entryOld;
 		var occupations = OccupationList.Instance.Occupations.ToArray();
 		for (int i = 0; i < jobsCount; i++)
 		{
 			JobType jobType = occupations[i].JobType;
-			if (IdConsoleManager.Instance.IgnoredJobs.Contains(jobType))
+			if (IdConsoleManagerOld.Instance.IgnoredJobs.Contains(jobType))
 			{
 				continue;
 			}
-			entry = assignList.Entries[i] as GUI_IdConsoleEntry;
-			entry.SetUpAssign(this, console.TargetCard, OccupationList.Instance.Get(jobType));
+			entryOld = assignList.Entries[i] as GUI_IdConsoleEntryOld;
+			entryOld.SetUpAssign(this, console.TargetCard, OccupationList.Instance.Get(jobType));
 		}
 	}
 
 	private void UpdateAssignList()
 	{
-		GUI_IdConsoleEntry entry;
+		GUI_IdConsoleEntryOld entryOld;
 		for (int i = 0; i < jobsCount; i++)
 		{
-			entry = assignList.Entries[i] as GUI_IdConsoleEntry;
-			entry.CheckIsSet();
+			entryOld = assignList.Entries[i] as GUI_IdConsoleEntryOld;
+			entryOld.CheckIsSet();
 		}
 	}
 
 	public void ChangeName(string newName)
 	{
-		console.TargetCard.RegisteredName = newName;
+		console.TargetCard.ServerSetRegisteredName(newName);
 		UpdateCardNames();
 	}
 
+	/// <summary>
+	/// Grants the target card the given access
+	/// </summary>
+	/// <param name="accessToModify"></param>
+	/// <param name="grant">if true, grants access, otherwise removes it</param>
 	public void ModifyAccess(Access accessToModify)
 	{
-		if (console.TargetCard.accessSyncList.Contains((int) accessToModify))
+		if (console.TargetCard.HasAccess(accessToModify))
 		{
-			console.TargetCard.accessSyncList.Remove((int)accessToModify);
+			console.TargetCard.ServerRemoveAccess(accessToModify);
 		}
 		else
 		{
-			console.TargetCard.accessSyncList.Add((int)accessToModify);
+			console.TargetCard.ServerAddAccess(accessToModify);
 		}
 	}
 
 	public void ChangeAssignment(Occupation occupationToSet)
 	{
-		console.TargetCard.accessSyncList.Clear();
-		console.TargetCard.AddAccessList(occupationToSet.AllowedAccess);
-		console.TargetCard.jobTypeInt = (int)occupationToSet.JobType;
+		console.TargetCard.ServerChangeOccupation(occupationToSet);
 		UpdateAssignment();
 	}
 
@@ -216,7 +227,7 @@ public class GUI_IdConsole : NetTab
 	public void LogIn()
 	{
 		if (console.AccessCard != null &&
-			console.AccessCard.accessSyncList.Contains((int)Access.change_ids))
+			console.AccessCard.HasAccess(Access.change_ids))
 		{
 			console.LoggedIn = true;
 			pageSwitcher.SetActivePage(usercardPage);

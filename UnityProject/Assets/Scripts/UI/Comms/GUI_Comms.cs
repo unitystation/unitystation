@@ -196,7 +196,7 @@ public class GUI_Comms : NetTab
 		var IdCard = console.IdCard;
 		if (IdCard)
 		{
-			idLabel.SetValue = $"{IdCard.RegisteredName}, {IdCard.GetJobType.ToString()}";
+			idLabel.SetValue = $"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}";
 		}
 		else
 		{
@@ -211,13 +211,13 @@ public class GUI_Comms : NetTab
 			return;
 		}
 
-		if ( !console.IdCard.accessSyncList.Contains((int) Access.heads) )
+		if ( !console.IdCard.HasAccess(Access.heads) )
 		{
 			idLabel.SetValue = idLabel.Value + " (No access)";
 			return;
 		}
 
-		bool isCaptain = console.IdCard.accessSyncList.Contains((int) Access.captain);
+		bool isCaptain = console.IdCard.HasAccess(Access.captain);
 		captainOnlySwitcher.SetActivePage( isCaptain ? captainAccessPage : noCaptainAccessPage );
 
 		OpenMenu();
