@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f29623cd914027a05edc41eae8af3c, type: 3}
+  m_Name: Mining
+  m_EditorClassIdentifier: 
+  spawnables:
+  - {fileID: 11400000, guid: 9b4397be800384191a10e04fc89d220c, type: 2}
+  - {fileID: 11400000, guid: 1b0fa457557a7496386a089d92dea801, type: 2}
+  - {fileID: 11400000, guid: 88c9c2b2e6a684730a193ed4b1ddeda3, type: 2}
+  - {fileID: 11400000, guid: 975f51152071b49c6b057ca4a5f55ace, type: 2}
