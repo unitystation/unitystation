@@ -100,18 +100,3 @@ public class SpawnDestination
 		       $"{Rotation}, {nameof(CancelIfImpassable)}: {CancelIfImpassable}";
 	}
 }
-
-/// <summary>
-/// Defines the kind of location where a spawned object should go
-/// </summary>
-public enum SpawnDestinationType
-{
-	/// <summary>
-	/// Spawn somewhere in the world (or hiddenpos)
-	/// </summary>
-	World = 0,
-	/// <summary>
-	/// Spawn in inventory
-	/// </summary>
-	Inventory = 1
-}
