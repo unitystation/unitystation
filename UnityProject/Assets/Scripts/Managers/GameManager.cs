@@ -61,11 +61,21 @@ public partial class GameManager : MonoBehaviour
 
 	public CentComm CentComm;
 
+	//whether the game was launched directly to a station, skipping lobby
+	private bool loadedDirectlyToStation;
+	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
+
 	private void Awake()
 	{
 		if (Instance == null)
 		{
 			Instance = this;
+			//if loading directly to outpost station, need to call pre round start once CustomNetworkManager
+			//starts because no scene change occurs to trigger it
+			if (SceneManager.GetActiveScene().name != "Lobby")
+			{
+				loadedDirectlyToStation = true;
+			}
 		}
 		else
 		{
@@ -74,6 +84,8 @@ public partial class GameManager : MonoBehaviour
 
 		//so respawn works when loading directly to outpost station
 		RespawnCurrentlyAllowed = RespawnAllowed;
+
+
 	}
 
 	private void OnEnable()

@@ -105,7 +105,7 @@ public class CustomNetworkManager : NetworkManager
 			SteamServerStart();
 		}
 		// Fixes loading directly into the station scene
-		if (GameManager.Instance.CurrentRoundState == RoundState.None)
+		if (GameManager.Instance.LoadedDirectlyToStation)
 		{
 			GameManager.Instance.PreRoundStart();
 		}
