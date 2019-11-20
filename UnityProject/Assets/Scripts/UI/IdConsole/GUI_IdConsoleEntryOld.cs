@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_IdConsoleEntry : DynamicEntry
+/// <summary>
+/// Old ID entry component, used only for stress testing nettab system.
+/// </summary>
+public class GUI_IdConsoleEntryOld : DynamicEntry
 {
 	[SerializeField]
 	private NetLabel displayedName;
@@ -15,9 +18,9 @@ public class GUI_IdConsoleEntry : DynamicEntry
 	private Access access;
 	private IdAccessCategory category;
 	private IDCard idCard;
-	private GUI_IdConsole console;
+	private GUI_IdConsoleOld console;
 
-	public void SetUpAccess(GUI_IdConsole consoleToSet, IDCard idToSet, IdAccess accessToSet, IdAccessCategory categoryToSet)
+	public void SetUpAccess(GUI_IdConsoleOld consoleToSet, IDCard idToSet, IdAccess accessToSet, IdAccessCategory categoryToSet)
 	{
 		isAssignment = false;
 		console = consoleToSet;
@@ -28,10 +31,10 @@ public class GUI_IdConsoleEntry : DynamicEntry
 		CheckIsSet();
 	}
 
-	public void SetUpAssign(GUI_IdConsole consoleToSet, IDCard idToSet, Occupation occupationToSet)
+	public void SetUpAssign(GUI_IdConsoleOld consoleOldToSet, IDCard idToSet, Occupation occupationToSet)
 	{
 		isAssignment = true;
-		console = consoleToSet;
+		console = consoleOldToSet;
 		idCard = idToSet;
 		occupation = occupationToSet;
 		displayedName.SetValue = occupationToSet.JobType.JobString();
@@ -56,8 +59,8 @@ public class GUI_IdConsoleEntry : DynamicEntry
 
 	public void CheckIsSet()
 	{
-		if ((isAssignment && idCard.GetJobType == occupation.JobType) ||
-			(!isAssignment && idCard.accessSyncList.Contains((int)access)))
+		if ((isAssignment && idCard.JobType == occupation.JobType) ||
+			(!isAssignment && idCard.HasAccess(access)))
 		{
 			SetButton(true);
 		}

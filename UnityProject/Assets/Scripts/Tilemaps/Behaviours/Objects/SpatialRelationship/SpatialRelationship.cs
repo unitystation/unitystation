@@ -31,6 +31,11 @@ public static class SpatialRelationship
 		Logger.LogTraceFormat("Activating spatial relationship {0}", Category.SpatialRelationship, relationship);
 		relationship.obj1._AddSpatialRelationship(relationship);
 		relationship.obj2._AddSpatialRelationship(relationship);
+		//check the relationship immediately
+		if (relationship.ShouldRelationshipEnd())
+		{
+			ServerEnd(relationship);
+		}
 	}
 
 	/// <summary>

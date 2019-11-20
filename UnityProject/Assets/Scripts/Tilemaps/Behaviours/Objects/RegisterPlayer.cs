@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(SpriteMatrixRotation))]
@@ -21,6 +24,12 @@ public class RegisterPlayer : RegisterTile
 	/// True when the player is slipping
 	/// </summary>
 	public bool IsSlippingServer { get; private set; }
+
+	/// <summary>
+	/// Invoked on server when slip state is change. Provides old and new value as 1st and 2nd args
+	/// </summary>
+	[NonSerialized]
+	public SlipEvent OnSlipChangeServer = new SlipEvent();
 
 	private PlayerScript playerScript;
 	private Directional playerDirectional;
@@ -146,7 +155,10 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
+		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
+		IsDownServer = true;
+		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		PlayerUprightMessage.SendToAll(gameObject, false, false);
 		if (dropItem)
 		{
@@ -165,7 +177,10 @@ public class RegisterPlayer : RegisterTile
 
 	public void RemoveStun()
 	{
+		var oldVal = IsSlippingServer;
 		IsSlippingServer = false;
+		IsDownServer = false;
+		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		PlayerUprightMessage.SendToAll(gameObject, true, false);
 
 		if ( playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
@@ -174,4 +189,11 @@ public class RegisterPlayer : RegisterTile
 			playerScript.playerMove.allowInput = true;
 		}
 	}
+}
+
+/// <summary>
+/// Fired when slip state changes. Provides old and new value.
+/// </summary>
+public class SlipEvent : UnityEvent<bool, bool>
+{
 }

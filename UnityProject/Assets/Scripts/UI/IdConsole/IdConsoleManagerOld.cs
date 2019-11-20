@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdConsoleManager : MonoBehaviour
+/// <summary>
+/// Only used for old ID console system for stress testing nettabs.
+/// </summary>
+public class IdConsoleManagerOld : MonoBehaviour
 {
 	public List<JobType> IgnoredJobs = new List<JobType>();
 	public List<IdAccessCategory> AccessCategories = new List<IdAccessCategory>();
-	private static IdConsoleManager instance;
+	private static IdConsoleManagerOld instance;
 
-	public static IdConsoleManager Instance
+	public static IdConsoleManagerOld Instance
 	{
 		get
 		{
 			if (instance == null)
 			{
-				instance = FindObjectOfType<IdConsoleManager>();
+				instance = FindObjectOfType<IdConsoleManagerOld>();
 			}
 			return instance;
 		}

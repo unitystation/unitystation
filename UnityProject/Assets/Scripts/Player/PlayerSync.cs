@@ -131,7 +131,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private PlayerScript playerScript;
 	private Directional playerDirectional;
 
-	private Matrix Matrix => registerTile.Matrix;
+	private Matrix Matrix => registerTile != null ? registerTile.Matrix : null;
 
 	private RaycastHit2D[] rayHit;
 
@@ -493,7 +493,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			didWiggle = false;
 
-			if (!playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed())
+			if (Validations.CanInteract(playerScript, isServer ? NetworkSide.Server : NetworkSide.Client) && KeyboardInputManager.IsMovementPressed())
 			{
 				//	If being pulled by another player and you try to break free
 				if (pushPull != null && pushPull.IsBeingPulledClient)
@@ -546,11 +546,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 			if (server)
 			{
-				//TODO: Not currently allowing dummy spawning
-//				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
-//				{
-//					PlayerSpawnHandler.SpawnDummyPlayer(OccupationList.Instance.Get(JobType.ASSISTANT));
-//				}
+				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
+				{
+					PlayerSpawn.ServerSpawnDummy();
+				}
 
 				if (serverState.Position != serverLerpState.Position)
 				{

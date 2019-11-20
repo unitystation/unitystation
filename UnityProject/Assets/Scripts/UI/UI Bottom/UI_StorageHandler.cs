@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles displaying the contents of an item storage, such as another player's inventory or a backpack.
+/// </summary>
 public class UI_StorageHandler : MonoBehaviour
 {
 	[Tooltip("Button which should close the storage UI. Will be positioned / made visible when" +
@@ -9,6 +12,14 @@ public class UI_StorageHandler : MonoBehaviour
 	[SerializeField]
 	private GameObject closeStorageUIButton;
 	private GameObject inventorySlotPrefab;
+
+	[Tooltip("GameObject under which all the other player UI slots live (for showing another player's inventory)")]
+	[SerializeField]
+	private GameObject otherPlayerStorage;
+	private UI_ItemSlot[] otherPlayerSlots;
+
+
+
 	/// <summary>
 	/// Currently opened ItemStorage (like the backpack that's currently being looked in)
 	/// </summary>
@@ -19,6 +30,7 @@ public class UI_StorageHandler : MonoBehaviour
 	void Awake()
 	{
 		inventorySlotPrefab = Resources.Load("InventorySlot")as GameObject;
+		otherPlayerSlots = otherPlayerStorage.GetComponentsInChildren<UI_ItemSlot>();
 	}
 
 	/// <summary>
@@ -40,23 +52,50 @@ public class UI_StorageHandler : MonoBehaviour
 
 	private void PopulateInventorySlots()
 	{
-		//create a slot element for each indexed slot in the storage
-		for (int i = 0; i < CurrentOpenStorage.ItemStorageStructure.IndexedSlots; i++)
+		//are we dealing with another player's storage or a simple indexed storage?
+		if (CurrentOpenStorage.GetComponent<PlayerScript>() != null)
 		{
-			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
-			newSlot.transform.parent = transform;
-			newSlot.transform.localScale = Vector3.one;
-			var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
-			uiItemSlot.LinkSlot(CurrentOpenStorage.GetIndexedItemSlot(i));
-			currentOpenStorageUISlots.Add(uiItemSlot);
+			//player storage
+			//turn it on and link all the slots
+			foreach (var otherPlayerSlot in otherPlayerSlots)
+			{
+				otherPlayerSlot.LinkSlot(CurrentOpenStorage.GetNamedItemSlot(otherPlayerSlot.NamedSlot));
+			}
+			otherPlayerStorage.SetActive(true);
 		}
-		closeStorageUIButton.SetActive(true);
+		else
+		{
+			//indexed storage
+			//create a slot element for each indexed slot in the storage
+			for (int i = 0; i < CurrentOpenStorage.ItemStorageStructure.IndexedSlots; i++)
+			{
+				GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
+				newSlot.transform.parent = transform;
+				newSlot.transform.localScale = Vector3.one;
+				var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
+				uiItemSlot.LinkSlot(CurrentOpenStorage.GetIndexedItemSlot(i));
+				currentOpenStorageUISlots.Add(uiItemSlot);
+			}
+			closeStorageUIButton.SetActive(true);
+		}
+	}
+
+	/// <summary>
+	/// Drops all the items other player has
+	/// </summary>
+	public void DropOtherPlayerAll()
+	{
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDisrobe(CurrentOpenStorage.gameObject);
 	}
 
 	public void CloseStorageUI()
 	{
-		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
+		if (PlayerManager.LocalPlayer != null)
+		{
+			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
+		}
 		CurrentOpenStorage = null;
+		otherPlayerStorage.SetActive(false);
 		foreach (var uiItemSlot in currentOpenStorageUISlots)
 		{
 			Destroy(uiItemSlot.transform.parent.gameObject);

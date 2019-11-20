@@ -247,7 +247,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			}
 		}
 		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get( gameObject );
-		if ( clientWhoAsked.Script.canNotInteract() )
+		if (!Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server))
 		{
 			return;
 		}
@@ -519,7 +519,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			return;
 		}
 		var player = PlayerList.Instance.Get( this.gameObject );
-		if ( player != ConnectedPlayer.Invalid && !player.Script.canNotInteract() ) {
+		if ( player != ConnectedPlayer.Invalid && Validations.CanInteract(player.Script, NetworkSide.Server)) {
 			StopFollowing();
 		}
 	}

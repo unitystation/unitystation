@@ -62,17 +62,19 @@ public abstract class BaseSpatialRelationship
 	}
 
 	/// <summary>
-	/// Invoked when either of the objects moves relative to each other (i.e. it wouldn't be called if they're
+	/// Invoked to check if the relationship should be ended.
+	///
+	/// Invoked automatically on creation and when either of the objects moves relative to each other (i.e. it wouldn't be called if they're
 	/// both on the same matrix and the matrix is moving, but it would be called if they are in different matrices
 	/// and either of the matrices is moving)
 	/// </summary>
 	/// <returns>true iff the relationship should be ended. The relationship will end
-	/// and no further checking will be performed. OnRelationshipCancelled hook will be called. False to continue the relationship.</returns>
-	public abstract bool OnRelationshipChanged();
+	/// and no further checking will be performed. OnRelationshipEnded hook will be called. false to continue the relationship.</returns>
+	public abstract bool ShouldRelationshipEnd();
 
 	/// <summary>
 	/// Invoked when the relationship is going to be ended for any reason, such as one side of the relationship
-	/// being destroyed or true being returned from OnRelationshipChanged.
+	/// being destroyed or true being returned from ShouldRelationshipEnd.
 	/// </summary>
 	/// <returns></returns>
 	public abstract void OnRelationshipEnded();

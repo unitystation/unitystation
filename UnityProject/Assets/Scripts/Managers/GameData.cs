@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using DatabaseAPI;
 using Firebase.Auth;
 using Firebase.Extensions;
@@ -87,6 +88,8 @@ public class GameData : MonoBehaviour
 
 	private async void AttemptAutoJoin()
 	{
+		await Task.Delay(TimeSpan.FromSeconds(0.1));
+
 		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
 
 		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
@@ -105,6 +108,8 @@ public class GameData : MonoBehaviour
 
 	private async void HubToServerConnect(string ip, string port, string uid, string token)
 	{
+		await Task.Delay(TimeSpan.FromSeconds(0.1));
+		
 		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
 
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
