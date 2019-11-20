@@ -157,6 +157,7 @@ public class RegisterPlayer : RegisterTile
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
+		IsDownServer = true;
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		PlayerUprightMessage.SendToAll(gameObject, false, false);
 		if (dropItem)
@@ -178,6 +179,7 @@ public class RegisterPlayer : RegisterTile
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = false;
+		IsDownServer = false;
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		PlayerUprightMessage.SendToAll(gameObject, true, false);
 

@@ -64,8 +64,6 @@ public static class Validations
 	/// <summary>
 	/// Checks if a player is allowed to interact with things (based on this player's status, such
 	/// as being conscious, and not cuffed).
-	///
-	/// This should be used instead of playerScript.canNotInteract as it handles more possible situations.
 	/// </summary>
 	/// <param name="player">player gameobject to check</param>
 	/// <param name="side">side of the network the check is being performed on</param>
@@ -75,8 +73,25 @@ public static class Validations
 	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
 	{
 		if (player == null) return false;
-		var playerScript = player.GetComponent<PlayerScript>();
-		if ((!allowCuffed && playerScript.playerMove.IsCuffed) || playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		return CanInteract(player.GetComponent<PlayerScript>(), side, allowSoftCrit, allowCuffed);
+	}
+
+	/// <summary>
+	/// Checks if a player is allowed to interact with things (based on this player's status, such
+	/// as being conscious, and not cuffed).
+	/// </summary>
+	/// <param name="playerScript">playerscript of the player to check</param>
+	/// <param name="side">side of the network the check is being performed on</param>
+	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
+	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
+	/// <returns></returns>
+	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
+	{
+		if (playerScript == null) return false;
+		if ((!allowCuffed && playerScript.playerMove.IsCuffed) ||
+		    playerScript.IsGhost ||
+		    !playerScript.playerMove.allowInput ||
+		    !CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side))
 		{
 			return false;
 		}
@@ -84,15 +99,26 @@ public static class Validations
 		return true;
 	}
 
+	private static bool CanInteractByConsciousState(PlayerHealth playerHealth, bool allowSoftCrit, NetworkSide side)
+	{
+		if (side == NetworkSide.Client)
+		{
+			//we only know our own conscious state, so assume true if it's not our local player
+			if (playerHealth.gameObject != PlayerManager.LocalPlayer) return true;
+		}
+
+		return playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+		       playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS && allowSoftCrit;
+	}
+
 	#region CanApply
 
 	/// <summary>
-	/// Validates if the performer is in range and not in crit, which are typical requirements for all
+	/// Validates if the performer is in range and capable of interaction -  all the typical requirements for all
 	/// various interactions. Works properly even if player is hidden in a ClosetControl. Can also optionally allow soft crit.
 	///
-	/// For PositionalHandApply, reach range is based on how far away they are clicking from themselves
 	/// </summary>
-	/// <param name="player">player performing the interaction</param>
+	/// <param name="playerScript">player script performing the interaction</param>
 	/// <param name="target">target object</param>
 	/// <param name="side">side of the network this is being checked on</param>
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
@@ -100,14 +126,13 @@ public static class Validations
 	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
 	/// if specified will use this to determine if in range rather than target object position.</param>
 	/// <returns></returns>
-	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
+	public static bool CanApply(PlayerScript playerScript, GameObject target, NetworkSide side, bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null)
 	{
-		if (player == null) return false;
-		var playerScript = player.GetComponent<PlayerScript>();
-		var playerObjBehavior = player.GetComponent<ObjectBehaviour>();
+		if (playerScript == null) return false;
+		var playerObjBehavior = playerScript.pushPull;
 
-		if (!CanInteract(player, side, allowSoftCrit))
+		if (!CanInteract(playerScript, side, allowSoftCrit))
 		{
 			return false;
 		}
@@ -141,7 +166,7 @@ public static class Validations
 		else if (reachRange == ReachRange.Standard)
 		{
 			var targetWorldPosition =
-				targetVector != null ? player.transform.position + targetVector : target.transform.position;
+				targetVector != null ? playerScript.transform.position + targetVector : target.transform.position;
 			result = playerScript.IsInReach((Vector3) targetWorldPosition, side == NetworkSide.Server);
 		}
 		else if (reachRange == ReachRange.ExtendedServer)
@@ -157,7 +182,7 @@ public static class Validations
 				if (cnt == null)
 				{
 					var targetWorldPosition =
-						targetVector != null ? player.transform.position + targetVector : target.transform.position;
+						targetVector != null ? playerScript.transform.position + targetVector : target.transform.position;
 					//fallback to standard range check if there is no CNT
 					result = playerScript.IsInReach((Vector3) targetWorldPosition, side == NetworkSide.Server);
 				}
@@ -173,10 +198,30 @@ public static class Validations
 			//client tried to do something out of range, report it
 			var cnt = target.GetComponent<CustomNetTransform>();
 			Logger.LogTraceFormat( "Not in reach! server pos:{0} player pos:{1} (floating={2})", Category.Security,
-				cnt.ServerState.WorldPosition, player.transform.position, cnt.IsFloatingServer);
+				cnt.ServerState.WorldPosition, playerScript.transform.position, cnt.IsFloatingServer);
 		}
 
 		return result;
+	}
+
+	/// <summary>
+	/// Validates if the performer is in range and capable of interaction -  all the typical requirements for all
+	/// various interactions. Works properly even if player is hidden in a ClosetControl. Can also optionally allow soft crit.
+	///
+	/// </summary>
+	/// <param name="player">player performing the interaction</param>
+	/// <param name="target">target object</param>
+	/// <param name="side">side of the network this is being checked on</param>
+	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
+	/// <param name="reachRange">range to allow</param>
+	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
+	/// if specified will use this to determine if in range rather than target object position.</param>
+	/// <returns></returns>
+	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
+		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null)
+	{
+		if (player == null) return false;
+		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector);
 	}
 
 	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state)
@@ -320,7 +365,7 @@ public static class Validations
 			Logger.LogTrace("Cannot put item to slot because the item or slot are null", Category.Inventory);
 			return false;
 		}
-		if (playerScript.canNotInteract())
+		if (!CanInteract(playerScript.gameObject, side, true))
 		{
 			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;
@@ -334,7 +379,13 @@ public static class Validations
 		return true;
 	}
 
-	public static bool IsDeadCritStunnedOrCuffed(GameObject player, NetworkSide side)
+	/// <summary>
+	/// Checks if the player is allowed to have their inventory examined and removed
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="side"></param>
+	/// <returns></returns>
+	public static bool IsStrippable(GameObject player, NetworkSide side)
 	{
 		if (player == null) return false;
 		var playerScript = player.GetComponent<PlayerScript>();

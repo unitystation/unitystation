@@ -375,11 +375,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		SyncCuffed(true);
 
 		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
+		//transfer cuffs to the special cuff slot (not exposed in UI ATM)
+		Inventory.ServerTransfer(interaction.HandSlot,
+			targetStorage.GetNamedItemSlot(NamedSlot.handcuffs));
 		//drop hand items
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
-		Inventory.ServerTransfer(interaction.HandSlot,
-			targetStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+
 	}
 
 	[Server]
@@ -411,10 +413,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		if (!cuffed || !uncuffingPlayer)
 			return;
-
-		ConnectedPlayer uncuffingClient = PlayerList.Instance.Get(uncuffingPlayer);
-
-		if (uncuffingClient.Script.canNotInteract() || !PlayerScript.IsInReach(uncuffingPlayer.RegisterTile(), gameObject.RegisterTile(), true))
+		
+		if (!Validations.CanApply(uncuffingPlayer, gameObject, NetworkSide.Server))
 			return;
 
 		Uncuff();

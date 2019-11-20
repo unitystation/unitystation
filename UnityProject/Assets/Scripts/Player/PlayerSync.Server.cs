@@ -414,7 +414,7 @@ public partial class PlayerSync
 		if ( isClientBump || (serverBump != BumpType.None && serverBump != BumpType.HelpIntent)) {
 			// we bumped something, an interaction might occur
 			// try pushing things / opening doors
-			if ( !playerScript.canNotInteract() || serverBump == BumpType.ClosedDoor )
+			if ( Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true) || serverBump == BumpType.ClosedDoor )
 			{
 				BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 			}
@@ -464,7 +464,7 @@ public partial class PlayerSync
 	[Command]
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
-		if ( playerScript.canNotInteract() || pushPull && !playerScript.IsInReach(pushPull.registerTile, true) ) {
+		if ( Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsInReach(pushPull.registerTile, true) ) {
 			questionablePushables.Add( pushPull );
 			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
 		}

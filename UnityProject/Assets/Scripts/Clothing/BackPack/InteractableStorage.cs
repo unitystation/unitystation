@@ -98,7 +98,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
 			{
 				//dragging a player, can only do this if they are down / dead
-				return Validations.IsDeadCritStunnedOrCuffed(interaction.DroppedObject, side);
+				return Validations.IsStrippable(interaction.DroppedObject, side);
 			}
 
 			return true;

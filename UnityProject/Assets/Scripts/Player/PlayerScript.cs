@@ -151,12 +151,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 		}
 	}
 
-	public bool canNotInteract()
-	{
-		return playerMove == null || playerMove.IsCuffed || !playerMove.allowInput || IsGhost ||
-			playerHealth.ConsciousState != ConsciousState.CONSCIOUS;
-	}
-
 	public override void UpdateMe()
 	{
 		//Read out of ping in toolTip

@@ -34,50 +34,22 @@ public class ControlAction : MonoBehaviour
 	/// </summary>
 	public void Drop()
 	{
-		PlayerScript lps = PlayerManager.LocalPlayerScript;
-		if (!lps || lps.canNotInteract())
-		{
-			return;
-		}
+
+		if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowCuffed: true));
 		UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
-		//			Vector3 dropPos = lps.gameObject.transform.position;
 		if (currentSlot.Item == null)
 		{
 			return;
 		}
-		//            if ( isNotMovingClient(lps) )
-		//            {
-		//               // Full client simulation(standing still)
-		//                var placedOk = currentSlot.PlaceItem(dropPos);
-		//                if ( !placedOk )
-		//                {
-		//                    Logger.Log("Client dropping error");
-		//                }
-		//            }
-		//            else
-		//            {
-		//Only clear slot(while moving, as prediction is shit in this situation)
-		//			GameObject dropObj = currentSlot.Item;
-		//			CustomNetTransform cnt = dropObj.GetComponent<CustomNetTransform>();
-		//			It is converted to LocalPos in transformstate struct
-		//			cnt.AppearAtPosition(PlayerManager.LocalPlayer.transform.position);
-		//            }
-		//Message
 
-		if(UIManager.IsThrow == true)
+		if(UIManager.IsThrow)
 		{
-			Throw(); // Disable throw
+			Throw();
 		}
-		//forceClientInform = true because we aren't doing prediction any more.
-		lps.playerNetworkActions.CmdDropItem(currentSlot.NamedSlot);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.NamedSlot);
 		SoundManager.Play("Click01");
 		Logger.Log("Drop Button", Category.UI);
 	}
-
-	// private static bool isNotMovingClient(PlayerScript lps)
-	// {
-	// 	return !lps.isServer && !lps.playerMove.isMoving;
-	// }
 
 	/// <summary>
 	/// Throw mode toggle. Actual throw is in <see cref="MouseInputController.CheckThrow()"/>
@@ -95,11 +67,8 @@ public class ControlAction : MonoBehaviour
 		// See if requesting to enable or disable throw
 		if (throwImage.sprite == throwSprites[0] && UIManager.IsThrow == false)
 		{
-			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
-
 			// Check if player can throw
-			if (!lps || lps.canNotInteract())
+			if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client))
 			{
 				return;
 			}
