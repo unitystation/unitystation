@@ -38,6 +38,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command]
 	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, NamedSlot hand)
 	{
+		if (!Validations.CanInteract(gameObject, NetworkSide.Server)) return;
+
 		Gun gun = gunObject.GetComponent<Gun>();
 		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		gun.ServerHandleReloadRequest(networkID);
@@ -46,6 +48,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command]
 	public void CmdUnloadWeapon(GameObject gunObject)
 	{
+		if (!Validations.CanInteract(gameObject, NetworkSide.Server)) return;
+
 		Gun gun = gunObject.GetComponent<Gun>();
 
 		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
@@ -74,6 +78,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdRequestMeleeAttack(GameObject victim, GameObject weapon, Vector2 stabDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
+		if (!Validations.CanApply(gameObject, victim, NetworkSide.Server)) return;
+
 		if (!playerMove.allowInput ||
 		    playerScript.IsGhost ||
 		    !victim ||
@@ -188,6 +194,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command]
 	public void CmdRequestPunchAttack(GameObject victim, Vector2 punchDirection, BodyPartType damageZone)
 	{
+		if (!Validations.CanApply(gameObject, victim, NetworkSide.Server)) return;
+
 		var victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 		var victimRegisterTile = victim.GetComponent<RegisterTile>();
 		var rng = new System.Random();

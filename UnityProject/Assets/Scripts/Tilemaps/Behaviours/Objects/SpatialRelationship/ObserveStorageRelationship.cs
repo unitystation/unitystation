@@ -36,31 +36,36 @@ public class ObserveStorageRelationship : RangeRelationship
 		}
 	}
 
+	public override bool ShouldRelationshipEnd()
+	{
+		var outOfRange = base.ShouldRelationshipEnd();
+		if (outOfRange) return true;
+		return !CanPlayerStillBeObserved();
+	}
+
+	private bool CanPlayerStillBeObserved()
+	{
+		//not observing a player, so only range matters for checking observation
+		if (observedPlayerMove == null) return true;
+
+		return observedPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
+		       observedPlayerMove.IsCuffed ||
+		       observedRegisterPlayer.IsSlippingServer;
+	}
+
 	private void OnConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 	{
-		//stop the relationship if observed player becomes conscious
-		if (newState == ConsciousState.CONSCIOUS)
-		{
-			SpatialRelationship.ServerEnd(this);
-		}
+		if (!CanPlayerStillBeObserved()) SpatialRelationship.ServerEnd(this);
 	}
 
 	private void OnSlipChangeServer(bool wasSlipped, bool nowSlipped)
 	{
-		//stop the relationship if observed player becomes unslipped
-		if (!nowSlipped)
-		{
-			SpatialRelationship.ServerEnd(this);
-		}
+		if (!CanPlayerStillBeObserved()) SpatialRelationship.ServerEnd(this);
 	}
 
 	private void OnCuffChangeServer(bool wasCuffed, bool nowCuffed)
 	{
-		//stop the relationship if observed player becomes uncuffed
-		if (!nowCuffed)
-		{
-			SpatialRelationship.ServerEnd(this);
-		}
+		if (!CanPlayerStillBeObserved()) SpatialRelationship.ServerEnd(this);
 	}
 
 	/// <summary>

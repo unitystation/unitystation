@@ -70,12 +70,13 @@ public static class Validations
 	/// <param name="player">player gameobject to check</param>
 	/// <param name="side">side of the network the check is being performed on</param>
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
+	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
 	/// <returns></returns>
-	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false)
+	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
 	{
 		if (player == null) return false;
 		var playerScript = player.GetComponent<PlayerScript>();
-		if (playerScript.playerMove.IsCuffed || playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		if ((!allowCuffed && playerScript.playerMove.IsCuffed) || playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
 			return false;
 		}
@@ -336,20 +337,23 @@ public static class Validations
 	public static bool IsDeadCritStunnedOrCuffed(GameObject player, NetworkSide side)
 	{
 		if (player == null) return false;
+		var playerScript = player.GetComponent<PlayerScript>();
+		if (playerScript == null) return false;
+
 		if (side == NetworkSide.Client)
 		{
 			//we don't know their exact health state and whether they are slipping, but we can guess if they're downed we can do this
-			var registerPlayer = player.GetComponent<RegisterPlayer>();
-			var playerMove = player.GetComponent<PlayerMove>();
+			var registerPlayer = playerScript.registerTile;
+			var playerMove = playerScript.playerMove;
 			if (registerPlayer == null || playerMove == null) return false;
 			return registerPlayer.IsDown || playerMove.IsCuffed;
 		}
 		else
 		{
 			//find their exact conscious state, slipping state, cuffed state
-			var playerHealth = player.GetComponent<PlayerHealth>();
-			var registerPlayer = player.GetComponent<RegisterPlayer>();
-			var playerMove = player.GetComponent<PlayerMove>();
+			var playerHealth = playerScript.playerHealth;
+			var registerPlayer = playerScript.registerTile;
+			var playerMove = playerScript.playerMove;
 			if (playerHealth == null || playerMove == null || registerPlayer == null) return false;
 			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS || registerPlayer.IsSlippingServer || playerMove.IsCuffed;
 		}

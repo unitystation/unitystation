@@ -71,6 +71,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdDropItem(NamedSlot equipSlot)
 	{
+		//allowed to drop from hands even when cuffed
+		var allowCuffed = equipSlot == NamedSlot.leftHand || equipSlot == NamedSlot.rightHand;
+		if (!Validations.CanInteract(gameObject, NetworkSide.Server, allowCuffed: allowCuffed)) return;
+
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		if (playerScript.canNotInteract() || equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand ||
 		    slot.Item == null)
@@ -87,6 +91,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdDisrobe(GameObject toDisrobe)
 	{
+		if (!Validations.CanApply(gameObject, toDisrobe, NetworkSide.Server)) return;
 		//only allowed if this player is an observer of the player to disrobe
 		var itemStorage = toDisrobe.GetComponent<ItemStorage>();
 		if (itemStorage == null) return;
@@ -94,13 +99,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//are we an observer of the player to disrobe?
 		if (!itemStorage.ServerIsObserver(gameObject)) return;
 
-		//disrobe
-		foreach (var itemSlot in itemStorage.GetItemSlots())
+		//disrobe after a short duration of progress
+		var finishProgressAction = new ProgressCompleteAction(() =>
 		{
-			//skip slots which have special uses
-			if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
-			Inventory.ServerDrop(itemSlot);
-		}
+			foreach (var itemSlot in itemStorage.GetItemSlots())
+			{
+				//skip slots which have special uses
+				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
+				Inventory.ServerDrop(itemSlot);
+			}
+		});
+		UIManager.ServerStartProgress(ProgressAction.Disrobe, toDisrobe.transform.position, 0.2f,
+			finishProgressAction, gameObject);
 	}
 
 	/// <summary>
@@ -109,6 +119,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetPos, int aim)
 	{
+		if (!Validations.CanInteract(gameObject, NetworkSide.Server)) return;
+
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		if (playerScript.canNotInteract() || equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand ||
 		    slot.Item == null)
@@ -121,20 +133,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command] //Remember with the parent you can only send networked objects:
-	public void CmdPlaceItem(NamedSlot equipSlot, Vector3 pos, GameObject newParent, bool isTileMap)
+	public void CmdPlaceItem(NamedSlot equipSlot, Vector3 worldPos, GameObject newParent, bool isTileMap)
 	{
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos, true))
+		var targetVector = worldPos - gameObject.TileWorldPosition().To3Int();
+		if (!Validations.CanApply(gameObject, newParent, NetworkSide.Server, targetVector: targetVector))
+
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(worldPos, true))
 		{
 			return;
 		}
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		Inventory.ServerDrop(slot, pos);
+		Inventory.ServerDrop(slot, worldPos);
 	}
 
 	[Command]
 	public void CmdToggleShutters(GameObject switchObj)
 	{
+		if (!Validations.CanApply(gameObject, switchObj, NetworkSide.Server)) return;
+
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
 			ShutterSwitch s = switchObj.GetComponent<ShutterSwitch>();
@@ -157,6 +174,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleLightSwitch(GameObject switchObj)
 	{
+		if (!Validations.CanApply(gameObject, switchObj, NetworkSide.Server)) return;
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
 			LightSwitch s = switchObj.GetComponent<LightSwitch>();
@@ -356,6 +374,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEatFood(GameObject food, NamedSlot fromSlot, bool isDrink)
 	{
+		if (!Validations.CanInteract(gameObject, NetworkSide.Server)) return;
+
 		var slot = itemStorage.GetNamedItemSlot(fromSlot);
 		if (slot.Item == null)
 		{
@@ -400,6 +420,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
 	{
+		if (!Validations.CanApply(gameObject, weldingTank, NetworkSide.Server)) return;
+
 		//Double check reach just in case:
 		if (playerScript.IsInReach(weldingTank, true))
 		{
@@ -422,6 +444,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
 	{
+		if (!Validations.CanInteract(gameObject, NetworkSide.Server)) return;
+
 		//Validate paper edit request
 		//TODO Check for Pen
 		var leftHand = itemStorage.GetNamedItemSlot(NamedSlot.leftHand);
@@ -476,6 +500,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
 	{
+		//validate that hug can be done
+		if (!Validations.CanApply(gameObject, huggedPlayer, NetworkSide.Server)) return;
+
 		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
 		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
 		var lhbOther = huggedPlayer.GetComponent<LivingHealthBehaviour>();
@@ -498,6 +525,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRequestCPR(GameObject rescuer, GameObject cardiacArrestPlayer)
 	{
 		//TODO: Probably refactor this to IF2
+		if (!Validations.CanApply(rescuer, cardiacArrestPlayer, NetworkSide.Server)) return;
 
 		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
 
@@ -528,6 +556,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestDisarm(GameObject disarmer, GameObject playerToDisarm)
 	{
+		if (!Validations.CanApply(disarmer, playerToDisarm, NetworkSide.Server)) return;
 		var rng = new System.Random();
 		string disarmerName = disarmer.Player()?.Name;
 		string playerToDisarmName = playerToDisarm.Player()?.Name;

@@ -546,11 +546,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 			if (server)
 			{
-				//TODO: Not currently allowing dummy spawning
-//				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
-//				{
-//					PlayerSpawnHandler.SpawnDummyPlayer(OccupationList.Instance.Get(JobType.ASSISTANT));
-//				}
+				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
+				{
+					PlayerSpawn.ServerSpawnDummy();
+				}
 
 				if (serverState.Position != serverLerpState.Position)
 				{

@@ -171,11 +171,10 @@ namespace IngameDebugConsole
 #if UNITY_EDITOR
 		[MenuItem("Networking/Spawn dummy player")]
 #endif
-//TODO: Removing dummy spawning capability for now
-//		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
-//		private static void SpawnDummyPlayer() {
-//			SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
-//		}
+		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
+		private static void SpawnDummyPlayer() {
+			PlayerSpawn.ServerSpawnDummy();
+		}
 
 #if UNITY_EDITOR
 		[MenuItem("Networking/Transform Waltz (Server)")]
