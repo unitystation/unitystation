@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  travelDistance: 6
+  travelDistance: 3
   reagentContainer: {fileID: 4953889069794681373}
 --- !u!114 &4953889069794681373
 MonoBehaviour:
@@ -183,14 +183,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Temperature: 20
   MaxCapacity: 100
+  itemAttributes: {fileID: 0}
   Reagents:
   - cleaner
   Amounts:
   - 100
+  AcceptedTraits: []
   AcceptedReagents: []
   TransferMode: 0
   TransferAmount: 20
-  registerTile: {fileID: 0}
+  PossibleTransferAmounts: []
 --- !u!114 &114875290499615288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +478,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1230516434
+  m_SceneId: 0
 --- !u!1 &7396984611411425534
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +647,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 7
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5298,7 +5300,7 @@ ParticleSystemRenderer:
   m_NormalDirection: 1
   m_ShadowBias: 0
   m_RenderAlignment: 0
-  m_Pivot: {x: 0, y: 0, z: 0}
+  m_Pivot: {x: 0, y: 0.25, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 1

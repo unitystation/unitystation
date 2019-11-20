@@ -57,6 +57,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -94,6 +95,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimationSpeed: 0.1
   sprites:
-  - {fileID: 21300272, guid: f2ff9acf54554b59b0b576418ecfea70, type: 3}
-  - {fileID: 21300274, guid: f2ff9acf54554b59b0b576418ecfea70, type: 3}
-  - {fileID: 21300276, guid: f2ff9acf54554b59b0b576418ecfea70, type: 3}
+  - {fileID: 21300000, guid: 217caae2d9adab145872b50ed0a46be5, type: 3}
+  - {fileID: 21300002, guid: 217caae2d9adab145872b50ed0a46be5, type: 3}
+  - {fileID: 21300004, guid: 217caae2d9adab145872b50ed0a46be5, type: 3}

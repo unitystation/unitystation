@@ -728,12 +728,13 @@ public partial class PlayerSync
 
 	private void Cross(Vector3Int position)
 	{
-		CheckTileSlip();
-
 		if (PlayerUtils.IsGhost(gameObject))
 		{
 			return;
 		}
+
+		CheckTileSlip();
+
 		var crossedItems = MatrixManager.GetAt<ItemAttributes>(position, true);
 		foreach ( var crossedItem in crossedItems )
 		{

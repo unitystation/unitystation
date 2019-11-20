@@ -196,7 +196,7 @@ MonoBehaviour:
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 0
+    Flammable: 1
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3251953788
+  m_SceneId: 0
 --- !u!114 &6622438585055889099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,15 +249,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Temperature: 20
   MaxCapacity: 1000
+  itemAttributes: {fileID: 0}
   Reagents:
   - welding_fuel
   Amounts:
   - 1000
+  AcceptedTraits: []
   AcceptedReagents:
   - welding_fuel
   TransferMode: 2
   TransferAmount: 20
-  registerTile: {fileID: 0}
+  PossibleTransferAmounts: []
 --- !u!1 &1754091207019976
 GameObject:
   m_ObjectHideFlags: 0
