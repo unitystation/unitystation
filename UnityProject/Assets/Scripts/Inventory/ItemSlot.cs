@@ -85,7 +85,7 @@ public class ItemSlot
 	/// <summary>
 	/// True iff the slot has no item.
 	/// </summary>
-	public bool IsEmpty => Item != null;
+	public bool IsEmpty => Item == null;
 
 	/// <summary>
 	/// If this item slot is linked to the local player's UI slot, returns that UI slot. Otherwise
@@ -220,15 +220,7 @@ public class ItemSlot
 	/// <returns></returns>
 	public ItemStorage GetRootStorage()
 	{
-		ItemStorage storage = itemStorage;
-		var pickupable = storage.GetComponent<Pickupable>();
-		while (pickupable != null && pickupable.ItemSlot != null)
-		{
-			storage = pickupable.ItemSlot.itemStorage;
-			pickupable = storage.GetComponent<Pickupable>();
-		}
-
-		return storage;
+		return itemStorage.GetRootStorage();
 	}
 
 	public override string ToString()

@@ -420,20 +420,7 @@ public static class Inventory
 	/// <returns></returns>
 	public static void ClientRequestTransfer(ItemSlot from, ItemSlot to)
 	{
-		var player = from.RootPlayer();
-		if (player == null)
-		{
-			player = to.RootPlayer();
-		}
-		if (player == null)
-		{
-			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
-			                      " neither slot exists in their inventory.", Category.Inventory,
-				from, to);
-			return;
-		}
-
-		if (!Validations.CanPutItemToSlot(player.GetComponent<PlayerScript>(), to, from.Item,
+		if (!Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, to, from.Item,
 			NetworkSide.Client, PlayerManager.LocalPlayer, examineRecipient: PlayerManager.LocalPlayer))
 		{
 			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +

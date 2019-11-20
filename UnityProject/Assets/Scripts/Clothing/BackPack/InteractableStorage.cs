@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Allows a storage object to be interacted with in inventory, to open/close it and drag things.
-/// Currently only supports indexed slots.
+/// Allows a storage object to be interacted with, to open/close it and drag things. Works for
+/// player inventories and normal indexed storages like backpacks
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
-[RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(MouseDraggable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove
@@ -81,6 +80,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		//can't drag / view ourselves
+		if (interaction.Performer == interaction.DroppedObject) return false;
 		//can only drag and drop the object to ourselves,
 		//or from our inventory to this object
 		if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
@@ -92,7 +93,15 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		else
 		{
 			//trying to view this storage, can only drop on ourselves to view it
-			return interaction.Performer == interaction.TargetObject;
+			if (interaction.Performer != interaction.TargetObject) return false;
+			//if we're dragging another player to us, it's only allowed if the other player is downed
+			if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
+			{
+				//dragging a player, can only do this if they are down / dead
+				return Validations.IsStrippable(interaction.DroppedObject, side);
+			}
+
+			return true;
 		}
 	}
 
@@ -110,26 +119,39 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			//player can observe this storage
 			itemStorage.ServerAddObserverPlayer(interaction.Performer);
 			ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
-			if (!interaction.IsFromInventory)
+
+			//if we are observing a storage not in our inventory (such as another player's top
+			//level inventory or a storage within their inventory, or a box/backpack sitting on the ground), we must stop observing when it
+			//becomes unobservable for whatever reason (such as the owner becoming unobservable)
+			var rootStorage = itemStorage.GetRootStorage();
+			if (interaction.Performer != rootStorage.gameObject)
 			{
-				SpatialRelationship.ServerActivate(RangeRelationship.Between(interaction.Performer, interaction.UsedObject,
-					PlayerScript.interactionDistance, ServerOnRelationshipEnded));
+				//stop observing when it becomes unobservable for whatever reason
+				var relationship = ObserveStorageRelationship.Observe(this, interaction.Performer.GetComponent<RegisterPlayer>(),
+					PlayerScript.interactionDistance, ServerOnObservationEnded);
+				SpatialRelationship.ServerActivate(relationship);
 			}
 		}
 
 	}
 
-	private void ServerOnRelationshipEnded(RangeRelationship cancelled)
+	private void ServerOnObservationEnded(ObserveStorageRelationship cancelled)
 	{
 		//they can't observe anymore
-		itemStorage.ServerRemoveObserverPlayer(cancelled.obj1.gameObject);
-		ObserveInteractableStorageMessage.Send(cancelled.obj1.gameObject, this, false);
+		itemStorage.ServerRemoveObserverPlayer(cancelled.ObserverPlayer.gameObject);
+		ObserveInteractableStorageMessage.Send(cancelled.ObserverPlayer.gameObject, this, false);
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		//stop player observing if it's dropped from the player's storage
+		//stop any observers (except for owner) from observing it if it's moved
 		var fromRootPlayer = info.FromRootPlayer;
+		if (fromRootPlayer != null)
+		{
+			itemStorage.ServerRemoveAllObserversExceptOwner();
+		}
+
+		//stop owner observing if it's dropped from the owner's storage
 		var toRootPlayer = info.ToRootPlayer;
 		//no need to do anything, hasn't moved into player inventory
 		if (fromRootPlayer == toRootPlayer) return;

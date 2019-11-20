@@ -222,26 +222,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 	}
 
-	public bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false)
-	{
-		var playerScript = originator.GetComponent<PlayerScript>();
-
-		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
-		{
-			return false;
-		}
-
-		if (!playerScript.IsInReach(position, false))
-		{
-			if(isServer && !Contains(originator))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;

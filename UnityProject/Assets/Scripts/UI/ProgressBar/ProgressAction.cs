@@ -13,6 +13,7 @@ public sealed class ProgressAction
 	public static readonly ProgressAction Uncuff = new ProgressAction();
 	public static readonly ProgressAction SelfHeal = new ProgressAction();
 	public static readonly ProgressAction CPR = new ProgressAction();
+	public static readonly ProgressAction Disrobe = new ProgressAction();
 	public static readonly ProgressAction Mop = new ProgressAction(false, allowMultiple: true);
 
 	/// <summary>

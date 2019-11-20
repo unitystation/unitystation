@@ -55,6 +55,11 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//note this will be null if this is not a player's own top-level inventory
 	private PlayerNetworkActions playerNetworkActions;
 
+	/// <summary>
+	/// Server-side only. Players server thinks are currently looking at this storage.
+	/// </summary>
+	private readonly HashSet<GameObject> serverObserverPlayers = new HashSet<GameObject>();
+
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -117,6 +122,25 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 	}
 
+
+	/// <summary>
+	/// Gets the top-level ItemStorage containing this storage. I.e. if this
+	/// is a crate inside a backpack will return the backpack ItemStorage. If this is not in anything
+	/// will simply return this
+	/// </summary>
+	/// <returns></returns>
+	public ItemStorage GetRootStorage()
+	{
+		ItemStorage storage = this;
+		var pickupable = storage.GetComponent<Pickupable>();
+		while (pickupable != null && pickupable.ItemSlot != null)
+		{
+			storage = pickupable.ItemSlot.ItemStorage;
+			pickupable = storage.GetComponent<Pickupable>();
+		}
+
+		return storage;
+	}
 
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
@@ -335,6 +359,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerAddObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+		serverObserverPlayers.Add(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{
 			slot.ServerAddObserverPlayer(observerPlayer);
@@ -350,10 +375,41 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerRemoveObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+		serverObserverPlayers.Remove(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{
 			slot.ServerRemoveObserverPlayer(observerPlayer);
 		}
+	}
+
+	/// <summary>
+	/// Server only (can be called client side but has no effect).
+	/// Removes every observer player from the list of players currently observing all slots in the slot tree,
+	/// except for the player who is holding this.
+	/// </summary>
+	/// <param name="observerPlayer"></param>
+	public void ServerRemoveAllObserversExceptOwner()
+	{
+		if (!CustomNetworkManager.IsServer) return;
+		var rootStorage = GetRootStorage();
+		//have to do it this way so we don't get a concurrent modification error
+		var observersToRemove = serverObserverPlayers.Where(obs => obs != rootStorage.gameObject).ToArray();
+		foreach (var observerPlayer in observersToRemove)
+		{
+			ServerRemoveObserverPlayer(observerPlayer);
+		}
+	}
+
+
+	/// <summary>
+	/// Checks if the indicated player is an observer of this storage
+	/// </summary>
+	/// <param name="observer"></param>
+	/// <returns></returns>
+	/// <exception cref="NotImplementedException"></exception>
+	public bool ServerIsObserver(GameObject observer)
+	{
+		return serverObserverPlayers.Contains(observer);
 	}
 
 }

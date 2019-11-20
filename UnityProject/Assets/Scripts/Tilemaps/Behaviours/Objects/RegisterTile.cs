@@ -289,7 +289,7 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 			List<BaseSpatialRelationship> toCancel = null;
 			foreach (var sameMatrixRelationship in sameMatrixRelationships)
 			{
-				var cancelled = sameMatrixRelationship.OnRelationshipChanged();
+				var cancelled = sameMatrixRelationship.ShouldRelationshipEnd();
 				if (cancelled)
 				{
 					if (toCancel == null)
@@ -404,7 +404,7 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 			List<BaseSpatialRelationship> toCancel = null;
 			foreach (var crossMatrixRelationship in crossMatrixRelationships)
 			{
-				var cancelled = crossMatrixRelationship.OnRelationshipChanged();
+				var cancelled = crossMatrixRelationship.ShouldRelationshipEnd();
 				if (cancelled)
 				{
 					if (toCancel == null)

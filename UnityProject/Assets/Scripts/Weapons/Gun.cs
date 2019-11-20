@@ -386,7 +386,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		var finalDirection = ApplyRecoil(target);
 		//don't enqueue the shot if the player is no longer able to shoot
 		PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
-		if ( shooter.canNotInteract() )
+		if (!Validations.CanInteract(shooter, NetworkSide.Server))
 		{
 			Logger.LogTrace("Server rejected shot: shooter cannot interact", Category.Firearms);
 			return;

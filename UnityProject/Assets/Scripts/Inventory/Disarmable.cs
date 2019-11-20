@@ -24,8 +24,7 @@ public class Disarmable : MonoBehaviour, IClientInteractable<PositionalHandApply
 			return false;
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestDisarm(
-			interaction.Performer, interaction.TargetObject);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestDisarm(interaction.TargetObject);
 		return true;
 	}
 }

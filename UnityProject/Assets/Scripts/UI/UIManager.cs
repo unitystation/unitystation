@@ -190,6 +190,7 @@ public class UIManager : MonoBehaviour
 		{
 			listener.Reset();
 		}
+		StorageHandler.CloseStorageUI();
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);

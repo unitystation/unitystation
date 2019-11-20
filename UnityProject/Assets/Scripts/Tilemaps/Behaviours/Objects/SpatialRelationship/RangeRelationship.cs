@@ -1,6 +1,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.TestTools.Constraints;
 
 /// <summary>
 /// spatial relationship which fires some logic and ends the relationship
@@ -20,7 +21,7 @@ public class RangeRelationship : BaseSpatialRelationship
 	private readonly PushPull pushPull1;
 	private readonly PushPull pushPull2;
 
-	private RangeRelationship(RegisterTile obj1, RegisterTile obj2, float maxRange, Action<RangeRelationship> onRangeExceeded) : base(obj1, obj2)
+	protected RangeRelationship(RegisterTile obj1, RegisterTile obj2, float maxRange, Action<RangeRelationship> onRangeExceeded) : base(obj1, obj2)
 	{
 		this.maxRange = maxRange;
 		this.onRangeExceeded = onRangeExceeded;
@@ -61,21 +62,30 @@ public class RangeRelationship : BaseSpatialRelationship
 		return new RangeRelationship(reg1, reg2, maxRange, onRangeExceeded);
 	}
 
-	public override bool OnRelationshipChanged()
+	public override bool ShouldRelationshipEnd()
+	{
+		return !IsStillInRange();
+	}
+
+	/// <summary>
+	/// Returns true iff the objects are still in range of each other, including logic for
+	/// pulling.
+	/// </summary>
+	/// <returns></returns>
+	protected bool IsStillInRange()
 	{
 		//if an object is pulling the other, they are always in range
 		if ((pushPull1 != null && pushPull1.PulledObjectServer == pushPull2) ||
-			(pushPull2 != null && pushPull2.PulledObjectServer == pushPull1))
+		    (pushPull2 != null && pushPull2.PulledObjectServer == pushPull1))
 		{
-			return false;
+			return true;
 		}
 		if (Vector3Int.Distance(obj1.WorldPositionServer, obj2.WorldPositionServer) > maxRange)
 		{
-			onRangeExceeded.Invoke(this);
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	public override void OnRelationshipEnded()

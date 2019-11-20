@@ -28,8 +28,7 @@ public class CPRable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 			return false;
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestCPR(interaction.Performer,
-			interaction.TargetObject);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestCPR(interaction.TargetObject);
 		return true;
 	}
 }

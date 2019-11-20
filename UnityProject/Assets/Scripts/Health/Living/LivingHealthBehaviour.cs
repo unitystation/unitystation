@@ -23,6 +23,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	private static readonly float BURNING_HOTSPOT_TEMPERATURE = 700f;
 
 	/// <summary>
+	/// Invoked when conscious state changes. Provides old state and new state as 1st and 2nd args.
+	/// </summary>
+	[NonSerialized]
+	public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
+
+	/// <summary>
 	/// Server side, each mob has a different one and never it never changes
 	/// </summary>
 	public int mobID { get; private set; }
@@ -77,7 +83,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			if (value != oldState)
 			{
 				consciousState = value;
-				OnConsciousStateChange(oldState, value);
+				if (isServer)
+				{
+					OnConsciousStateChangeServer.Invoke(oldState, value);
+				}
 			}
 		}
 	}
@@ -127,7 +136,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// INIT METHODS
 	/// ---------------------------
 
-	void Awake()
+	public virtual void Awake()
 	{
 		InitSystems();
 	}
@@ -593,13 +602,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		return OverallHealth > HealthThreshold.Dead || IsDead;
 	}
 
-	/// <summary>
-	/// Invoked when conscious state changes
-	/// </summary>
-	/// <param name="oldState">old state</param>
-	/// <param name="newState">new state</param>
-	protected virtual void OnConsciousStateChange(ConsciousState oldState, ConsciousState newState ) { }
-
 	protected abstract void OnDeathActions();
 
 	// --------------------
@@ -774,4 +776,11 @@ public static class HealthThreshold
 	public const int Crit = -30;
 	public const int Dead = -100;
 	public const int OxygenPassOut = 50;
+}
+
+/// <summary>
+/// Event which fires when conscious state changes, provides the old state and the new state
+/// </summary>
+public class ConsciousStateEvent : UnityEvent<ConsciousState, ConsciousState>
+{
 }
