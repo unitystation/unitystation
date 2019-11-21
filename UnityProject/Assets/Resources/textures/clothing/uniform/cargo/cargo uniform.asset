@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: cargo uniform
   m_EditorClassIdentifier: 
   PrefabVariant: {fileID: 0}
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 7
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    IsEVACapable: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: ad01a44ef8cba9c4d9cb122898c5a811, type: 3}
@@ -23,13 +38,21 @@ MonoBehaviour:
       - {fileID: 21300006, guid: ad01a44ef8cba9c4d9cb122898c5a811, type: 3}
       EquippedData: {fileID: 4900000, guid: bd98701a873fa6746bc2cc86284d8348, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      - {fileID: 21300002, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      - {fileID: 21300004, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      - {fileID: 21300006, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      EquippedData: {fileID: 4900000, guid: 8e7b4048eddae5f4389ef4539936b60e, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      - {fileID: 21300002, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      - {fileID: 21300004, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      - {fileID: 21300006, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      EquippedData: {fileID: 4900000, guid: 36b7d802013986346bc4494196acfbed, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: c1b4f37c3c7913348b0c0c8b3f9e6624, type: 3}
       Sprites:
@@ -66,30 +89,24 @@ MonoBehaviour:
       - {fileID: 21300006, guid: 52e2793f9914bb243914c0da3b33de39, type: 3}
       EquippedData: {fileID: 4900000, guid: aa1ac945020480b48979dcee1f80139b, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      - {fileID: 21300002, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      - {fileID: 21300004, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      - {fileID: 21300006, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
+      EquippedData: {fileID: 4900000, guid: 8e7b4048eddae5f4389ef4539936b60e, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      - {fileID: 21300002, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      - {fileID: 21300004, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      - {fileID: 21300006, guid: d1e05aa8be0d5d843a12d13be34d4bbb, type: 3}
+      EquippedData: {fileID: 4900000, guid: 36b7d802013986346bc4494196acfbed, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: ce849ea0dfce4c4459c475503361a51a, type: 3}
       Sprites:
       - {fileID: 21300000, guid: ce849ea0dfce4c4459c475503361a51a, type: 3}
       EquippedData: {fileID: 0}
   Variants: []
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 7
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []

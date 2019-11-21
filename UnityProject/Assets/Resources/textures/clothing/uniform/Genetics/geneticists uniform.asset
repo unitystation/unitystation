@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: geneticists uniform
   m_EditorClassIdentifier: 
   PrefabVariant: {fileID: 0}
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 7
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    IsEVACapable: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 767984166bda74043938fa7c11440a7f, type: 3}
@@ -23,13 +38,21 @@ MonoBehaviour:
       - {fileID: 21300006, guid: 767984166bda74043938fa7c11440a7f, type: 3}
       EquippedData: {fileID: 4900000, guid: dd00414f214442445828b38429ecf3f2, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      - {fileID: 21300002, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      - {fileID: 21300004, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      - {fileID: 21300006, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      EquippedData: {fileID: 4900000, guid: dc26195dccfb7ae40845517ca6ddb5ae, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      - {fileID: 21300002, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      - {fileID: 21300004, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      - {fileID: 21300006, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      EquippedData: {fileID: 4900000, guid: 4311d86bae7c9b242bd1756f817f2c68, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: 859336e98027ce64cb55af9b31236ccd, type: 3}
       Sprites:
@@ -66,30 +89,24 @@ MonoBehaviour:
       - {fileID: 21300006, guid: e0c439ad381fda249a9361fba1f629b2, type: 3}
       EquippedData: {fileID: 4900000, guid: cce3c374c48d8d6498766dadc9680f0b, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      - {fileID: 21300002, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      - {fileID: 21300004, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      - {fileID: 21300006, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
+      EquippedData: {fileID: 4900000, guid: dc26195dccfb7ae40845517ca6ddb5ae, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      - {fileID: 21300002, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      - {fileID: 21300004, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      - {fileID: 21300006, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
+      EquippedData: {fileID: 4900000, guid: 4311d86bae7c9b242bd1756f817f2c68, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: dd822e7d6c24bd249ba582d68186bb72, type: 3}
       Sprites:
       - {fileID: 21300000, guid: dd822e7d6c24bd249ba582d68186bb72, type: 3}
       EquippedData: {fileID: 0}
   Variants: []
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 7
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []

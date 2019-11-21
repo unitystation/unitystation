@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: white shoes
   m_EditorClassIdentifier: 
   PrefabVariant: {fileID: 0}
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 9
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    IsEVACapable: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 7a665d88269053b4489a4d41d5b9f7c4, type: 3}
@@ -23,13 +38,21 @@ MonoBehaviour:
       - {fileID: 21300006, guid: 7a665d88269053b4489a4d41d5b9f7c4, type: 3}
       EquippedData: {fileID: 4900000, guid: d82e7c957fb5704479e0433ce44361ac, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: ca2513a13dc5ea34d984d91face14036, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: ca2513a13dc5ea34d984d91face14036, type: 3}
+      - {fileID: 21300002, guid: ca2513a13dc5ea34d984d91face14036, type: 3}
+      - {fileID: 21300004, guid: ca2513a13dc5ea34d984d91face14036, type: 3}
+      - {fileID: 21300006, guid: ca2513a13dc5ea34d984d91face14036, type: 3}
+      EquippedData: {fileID: 4900000, guid: 14eeea5cac6fe154eb3b07dbd7b4f122, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: a12aae169e9b17346a06fe4603e7d3ac, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: a12aae169e9b17346a06fe4603e7d3ac, type: 3}
+      - {fileID: 21300002, guid: a12aae169e9b17346a06fe4603e7d3ac, type: 3}
+      - {fileID: 21300004, guid: a12aae169e9b17346a06fe4603e7d3ac, type: 3}
+      - {fileID: 21300006, guid: a12aae169e9b17346a06fe4603e7d3ac, type: 3}
+      EquippedData: {fileID: 4900000, guid: 42a8f6bcd0d3c06478c58754d752982b, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: 76ea565ed12575144bb80d234170857d, type: 3}
       Sprites:
@@ -70,17 +93,3 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
   Variants: []
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 9
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
