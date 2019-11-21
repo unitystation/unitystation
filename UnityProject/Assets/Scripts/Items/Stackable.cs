@@ -28,6 +28,8 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 
 	private Pickupable pickupable;
 	private GameObject prefab;
+	private PushPull pushPull;
+	private RegisterTile registerTile;
 
 
 	private void Awake()
@@ -35,6 +37,30 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		pickupable = GetComponent<Pickupable>();
 		prefab = Spawn.DeterminePrefab(gameObject);
 		amount = initialAmount;
+		pushPull = GetComponent<PushPull>();
+		registerTile = GetComponent<RegisterTile>();
+		if (CustomNetworkManager.IsServer)
+		{
+			registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChangedServer);
+		}
+	}
+
+	private void OnLocalPositionChangedServer(Vector3Int newLocalPos)
+	{
+		//if we are being pulled, combine the stacks with any on the ground under us.
+		if (pushPull.IsBeingPulled)
+		{
+			foreach (var stackable in registerTile.Matrix.Get<Stackable>(newLocalPos, true))
+			{
+				if (stackable == this) continue;
+				if (stackable.prefab == prefab)
+				{
+					//combine
+					SyncAmount(amount + stackable.amount);
+					Despawn.ServerSingle(stackable.gameObject);
+				}
+			}
+		}
 	}
 
 	public override void OnStartClient()
@@ -85,10 +111,9 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		//clicking on it with an empty hand when stack is in another hand to take one from it
-		if (CanStackWith(interaction.UsedObject) && interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty)
+		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty)
 		{
 			//spawn a new one and put it into the from slot with a stack size of 1
-
 			var single = Spawn.ServerPrefab(prefab).GameObject;
 			single.GetComponent<Stackable>().SyncAmount(1);
 			Inventory.ServerAdd(single, interaction.FromSlot);

@@ -1,4 +1,5 @@
-﻿﻿using System.Collections.Generic;
+﻿﻿using System;
+ using System.Collections.Generic;
  using UnityEngine;
  using UnityEngine.Events;
  using Mirror;
@@ -136,6 +137,12 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 	private Vector3Int clientLocalPosition;
 
 	/// <summary>
+	/// Event invoked on server side when position changes. Passes the new local position in the matrix.
+	/// </summary>
+	[NonSerialized]
+	public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
+
+	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
 	/// applies the change by moving this object to live in the same objectlayer and matrix as that
 	/// of the new parentid.
@@ -238,8 +245,13 @@ public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void UpdatePositionServer()
 	{
+		var prevPosition = LocalPositionServer;
 		LocalPositionServer = CustomTransform ? CustomTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
-		CheckSameMatrixRelationships();
+		if (prevPosition != LocalPositionServer)
+		{
+			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
+			CheckSameMatrixRelationships();
+		}
 	}
 
 	public virtual void UpdatePositionClient()
