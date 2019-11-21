@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using Firebase.Auth;
-using Firebase;
 
 namespace DatabaseAPI
 {
@@ -13,35 +11,42 @@ namespace DatabaseAPI
 		public async static void TryCreateAccount(string proposedName, string _password, string emailAcc,
 			Action<CharacterSettings> callBack, Action<string> errorCallBack)
 		{
-			FirebaseUser user;
 			try
 			{
-				user = await FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(emailAcc, _password);
+				FirebaseUser user = await FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(emailAcc, _password);
+
+				await user.SendEmailVerificationAsync();
+
+				UserProfile profile = new UserProfile
+				{
+					DisplayName = proposedName,
+					PhotoUrl = null
+				};
+
+				await user.UpdateUserProfileAsync(profile);
+
+				Logger.LogFormat($"Firebase user created successfully: {proposedName}",
+					Category.DatabaseAPI);
+
+				var newCharacter = new CharacterSettings
+				{
+					Name = StringManager.GetRandomMaleName(),
+					username = proposedName
+				};
+
+				callBack.Invoke(newCharacter);
 			}
-			catch (FirebaseException e)
+			catch (AggregateException ex)
 			{
-				Logger.LogError($"Failed to sign up {e.Message}");
-				errorCallBack.Invoke(e.Message);
-				return;
+				var innerEx = ex.Flatten().InnerExceptions[0];
+				Logger.LogError($"Failed to sign up {innerEx.Message}");
+				errorCallBack.Invoke(innerEx.Message);
 			}
-
-			await user.SendEmailVerificationAsync();
-
-			UserProfile profile = new UserProfile
+			catch (Exception ex)
 			{
-				DisplayName = proposedName,
-				PhotoUrl = null
-			};
-
-			await user.UpdateUserProfileAsync(profile);
-
-			Logger.LogFormat($"Firebase user created successfully: {proposedName}",
-				Category.DatabaseAPI);
-
-			var newCharacter = new CharacterSettings();
-			newCharacter.Name = StringManager.GetRandomMaleName();
-			newCharacter.username = proposedName;
-			callBack.Invoke(newCharacter);
+				Logger.LogError($"Failed to sign up {ex.Message}");
+				errorCallBack.Invoke(ex.Message);
+			}
 		}
 	}
 }
