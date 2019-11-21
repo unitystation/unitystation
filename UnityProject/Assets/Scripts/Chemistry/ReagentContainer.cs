@@ -166,13 +166,25 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	}
 
 	/// <summary>
-	/// Don't provide target if you want reagents to simply vanish
+	/// Extracts reagents to be used outside ReagentContainer
 	/// </summary>
-	public TransferResult MoveReagentsTo(float amount, ReagentContainer target = null)
+	public Dictionary<string, float> TakeReagents(float amount)
+	{
+		MoveReagentsTo(amount, null, out var transferredReagents);
+		return transferredReagents;
+	}
+
+	/// <summary>
+	/// Moves reagents to another container
+	/// </summary>
+	public TransferResult MoveReagentsTo(float amount, ReagentContainer target)
 	{
 		return MoveReagentsTo(amount, target, out _);
 	}
 
+	/// <summary>
+	/// Moves reagents to another container
+	/// </summary>
 	public TransferResult MoveReagentsTo(float amount, ReagentContainer target, out Dictionary<string, float> transferredReagents)
 	{
 
@@ -238,10 +250,14 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	}
 	private void RemoveAll()
 	{
-		MoveReagentsTo(AmountOfReagents(Contents));
+		TakeReagents(AmountOfReagents(Contents));
 	}
 	private void SpillAll()
 	{
+		if (IsEmpty)
+		{
+			return;
+		}
 		Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",
 			registerTile.CustomTransform.AssumedWorldPositionServer());
 

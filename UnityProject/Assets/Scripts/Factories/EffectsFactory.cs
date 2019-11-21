@@ -11,6 +11,7 @@ public static class EffectsFactory
 	private static GameObject largeAshTile;
 	private static GameObject smallAshTile;
 	private static GameObject waterTile;
+	private static GameObject chemTile;
 
 	private static GameObject smallXenoBloodTile;
 	private static GameObject medXenoBloodTile;
@@ -28,6 +29,7 @@ public static class EffectsFactory
 			largeAshTile = Resources.Load("LargeAsh") as GameObject;
 			smallAshTile = Resources.Load("SmallAsh") as GameObject;
 			waterTile = Resources.Load("WaterSplat") as GameObject;
+			chemTile = Resources.Load("ChemSplat") as GameObject;
 			smallXenoBloodTile = Resources.Load("SmallXenoBloodSplat") as GameObject;
 			medXenoBloodTile = Resources.Load("MedXenoBloodSplat") as GameObject;
 			largeXenoBloodTile = Resources.Load("LargeXenoBloodSplat") as GameObject;
@@ -114,6 +116,12 @@ public static class EffectsFactory
 	{
 		EnsureInit();
 		Spawn.ServerPrefab(waterTile, worldPos,
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Objects, Quaternion.identity);
+	}
+	public static void ChemSplat(Vector3 worldPos)
+	{
+		EnsureInit();
+		Spawn.ServerPrefab(chemTile, worldPos,
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Objects, Quaternion.identity);
 	}
 }

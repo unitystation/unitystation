@@ -14,6 +14,10 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 	public RegisterItem registerItem;
 	public Pickupable pickupable;
 
+	[SerializeField]
+	[Range(1,50)]
+	private int reagentsPerUse = 5;
+
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
 	public Sprite[] spriteList;
@@ -58,7 +62,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (reagentContainer.CurrentCapacity >= 5 && !safety)
+		if (reagentContainer.CurrentCapacity >= reagentsPerUse && !safety)
 		{
 			Vector2	startPos = gameObject.AssumedWorldPosServer();
 			Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
@@ -76,7 +80,7 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 			Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
 			SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
-			reagentContainer.MoveReagentsTo(5);
+			reagentContainer.TakeReagents(reagentsPerUse);
 		}
 	}
 
@@ -117,9 +121,9 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 
 	void ExtinguishTile(Vector3Int worldPos)
 	{
-		var matrix = MatrixManager.AtPoint(worldPos, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPos, matrix);
-		matrix.MetaDataLayer.ReagentReact(reagentContainer.Contents, worldPos, localPosInt);
+		//it actually uses remaining contents to react with world
+		//instead of the sprayed ones. not sure if this is right
+		MatrixManager.ReagentReact(reagentContainer.Contents, worldPos);
 	}
 
 	public void SyncSprite(int value)

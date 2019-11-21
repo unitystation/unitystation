@@ -10,6 +10,14 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	private ReagentContainer reagentContainer;
 
+	[SerializeField]
+	[Range(1,50)]
+	private int reagentsPerUse = 5;
+
+	[SerializeField]
+	[Range(0.1f,20f)]
+	private float useTime = 5f;
+
 	private void Awake()
 	{
 		if (!reagentContainer)
@@ -36,7 +44,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (reagentContainer.IsEmpty) //regs < 1
+		if (reagentContainer.CurrentCapacity < 1)
 		{	//warning
 			Chat.AddExamineMsg(interaction.Performer, "Your mop is dry!");
 			return;
@@ -49,19 +57,18 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 			Chat.AddExamineMsg(interaction.Performer, "You finish mopping.");
 		});
 
-		//todo clean what exactly
-		Chat.AddActionMsgToChat(interaction.Performer, $"You begin to clean the floor with {gameObject.ExpensiveName()}...",
-			$"{interaction.Performer.ExpensiveName()} begins to clean the floor with {gameObject.ExpensiveName()}.");
 		//Start the progress bar:
-		UIManager.ServerStartProgress(ProgressAction.Mop, interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer);
+		if (UIManager.ServerStartProgress(ProgressAction.Mop, interaction.WorldPositionTarget.RoundToInt(),
+			useTime, progressFinishAction, interaction.Performer))
+		{
+			Chat.AddActionMsgToChat(interaction.Performer,
+				$"You begin to clean the floor with {gameObject.ExpensiveName()}...",
+				$"{interaction.Performer.name} begins to clean the floor with {gameObject.ExpensiveName()}.");
+		}
 	}
 
 	public void CleanTile(Vector3 worldPos)
 	{
-		var worldPosInt = worldPos.CutToInt();
-		var matrix = MatrixManager.AtPoint(worldPosInt, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
-		matrix.MetaDataLayer.Clean(worldPosInt, localPosInt, true);
+		MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos.CutToInt());
 	}
 }

@@ -110,7 +110,7 @@ public class GUI_ChemistryDispenser : NetTab {
 		if (ChemistryDispenser.Container != null) {
 
 			//Logger.Log (Number.ToString ());
-			ChemistryDispenser.Container.MoveReagentsTo (Number);
+			ChemistryDispenser.Container.TakeReagents(Number);
 		}
 		Updateall ();
 	}

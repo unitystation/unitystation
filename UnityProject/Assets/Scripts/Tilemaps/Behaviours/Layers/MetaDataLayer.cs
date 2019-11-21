@@ -85,9 +85,18 @@ public class MetaDataLayer : MonoBehaviour
 		}
 	}
 
-
+	/// <summary>
+	/// Release reagents at provided coordinates, making them react with world
+	/// </summary>
 	public void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
+		if (MatrixManager.IsTotallyImpassable(worldPosInt, true))
+		{
+			return;
+		}
+
+		bool didSplat = false;
+
 		foreach (KeyValuePair<string, float> reagent in reagents)
 		{
 			if(reagent.Value < 1)
@@ -98,7 +107,7 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 				Clean(worldPosInt, localPosInt, true);
-			} 
+			}
 			else if (reagent.Key == "cleaner")
 			{
 				Clean(worldPosInt, localPosInt, false);
@@ -107,13 +116,21 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				//temporary: converting spilled fuel to plasma
 				Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
-			} 
+			}
 			else if (reagent.Key == "lube")
 			{ //( ͡° ͜ʖ ͡°)
 				if (!Get(localPosInt).IsSlippery)
 				{
 					EffectsFactory.WaterSplat(worldPosInt);
 					MakeSlipperyAt(localPosInt, false);
+				}
+			}
+			else
+			{ //for all other things leave a chem splat
+				if (!didSplat)
+				{
+					EffectsFactory.ChemSplat(worldPosInt);
+					didSplat = true;
 				}
 			}
 		}

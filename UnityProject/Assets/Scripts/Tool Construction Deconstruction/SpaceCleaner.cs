@@ -10,6 +10,10 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 	public ReagentContainer reagentContainer;
 	private float travelTime => 1f / travelDistance;
 
+	[SerializeField]
+	[Range(1,50)]
+	private int reagentsPerUse = 5;
+
 	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
 		if (interaction.MouseButtonState == MouseButtonState.PRESS)
@@ -21,7 +25,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (reagentContainer.CurrentCapacity >= 5)
+		if (reagentContainer.CurrentCapacity >= reagentsPerUse)
 		{
 			Vector2 startPos = gameObject.AssumedWorldPosServer();
 			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x), Mathf.RoundToInt(interaction.WorldPositionTarget.y));
@@ -30,7 +34,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 			Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
-			reagentContainer.MoveReagentsTo(5);
+			reagentContainer.TakeReagents(reagentsPerUse);
 			SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
 		}
 	}
@@ -46,9 +50,9 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	void SprayTile(Vector3Int worldPos)
 	{
-		var matrix = MatrixManager.AtPoint(worldPos, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPos, matrix);
-		matrix.MetaDataLayer.ReagentReact(reagentContainer.Contents, worldPos, localPosInt);
+		//it actually uses remaining contents of the bottle to react with world
+		//instead of the sprayed ones. not sure if this is right
+		MatrixManager.ReagentReact(reagentContainer.Contents, worldPos);
 	}
 
 }

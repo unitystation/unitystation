@@ -264,6 +264,19 @@ public partial class MatrixManager : MonoBehaviour
 
 		return MetaDataNode.None;
 	}
+	/// <summary>
+	/// Server only:
+	/// Picks best matching matrix at provided coords and releases reagents to that tile.
+	/// <inheritdoc cref="MetaDataLayer.ReagentReact"/>
+	/// </summary>
+	public static void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPos)
+	{
+		if (!CustomNetworkManager.IsServer) return;
+
+		var matrixInfo = AtPoint(worldPos, true);
+		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
+		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos);
+	}
 
 	/// <summary>
 	/// Triggers an Subsystem Update at the given position. Only triggers, when a MetaDataNode already exists.
@@ -337,6 +350,11 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		return null;
+	}
+
+	public static bool IsTotallyImpassable(Vector3Int worldTarget, bool isServer)
+	{
+		return !IsPassableAt(worldTarget,isServer) && !IsAtmosPassableAt(worldTarget,isServer);
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
