@@ -33,7 +33,7 @@ public class SpawnableResult
 	/// <summary>
 	/// True iff this was only a single spawned object
 	/// </summary>
-	public bool IsSingle => GameObjects.Count() == 1;
+	public bool IsSingle => GameObjects.Count() <= 1;
 
 	/// <summary>
 	/// True iff this was for spawning multiple objects.

@@ -173,7 +173,7 @@ public static class Spawn
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab),
-				SpawnDestination.At(worldPosition, parent, rotation),
+				SpawnDestination.At(worldPosition, parent, rotation, cancelIfImpassable),
 				count, scatterRadius));
 	}
 
@@ -225,7 +225,7 @@ public static class Spawn
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefabName),
-				SpawnDestination.At(worldPosition, parent, rotation),
+				SpawnDestination.At(worldPosition, parent, rotation, cancelIfImpassable),
 				count, scatterRadius));
 	}
 
@@ -273,7 +273,7 @@ public static class Spawn
 		Quaternion? rotation = null)
 	{
 		return Server(
-			SpawnInfo.Clone(toClone, SpawnDestination.At(toClone)));
+			SpawnInfo.Clone(toClone, SpawnDestination.At(worldPosition, parent, rotation)));
 	}
 
 	/// <summary>
