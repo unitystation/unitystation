@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public static class EffectsFactory
 {
@@ -112,16 +113,19 @@ public static class EffectsFactory
 			MatrixManager.AtPoint(worldTilePos.To3Int(), true).Objects);
 	}
 
-	public static void WaterSplat(Vector3 worldPos)
+	public static void WaterSplat(Vector3Int worldPos)
 	{
+		//don't do multiple splats
+		if (MatrixManager.GetAt<FloorDecal>(worldPos, isServer: true).Any(decal => decal.CanDryUp))
+		{
+			return;
+		}
 		EnsureInit();
-		Spawn.ServerPrefab(waterTile, worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Objects, Quaternion.identity);
+		Spawn.ServerPrefab(waterTile, worldPos,	MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
 	}
-	public static void ChemSplat(Vector3 worldPos)
+	public static void ChemSplat(Vector3Int worldPos)
 	{
 		EnsureInit();
-		Spawn.ServerPrefab(chemTile, worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Objects, Quaternion.identity);
+		Spawn.ServerPrefab(chemTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
 	}
 }

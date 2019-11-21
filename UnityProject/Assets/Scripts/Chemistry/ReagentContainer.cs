@@ -105,7 +105,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 			{
 				return;
 			}
-			SpillAll();
+			SpillAll(true);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 			//Pour / add can only be done if in reach
 			if ( PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
 			{
-				result.AddElement( "PourOut", SpillAll );
+				result.AddElement( "PourOut", () => SpillAll());
 			}
 		}
 
@@ -252,21 +252,48 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	{
 		TakeReagents(AmountOfReagents(Contents));
 	}
-	private void SpillAll()
+
+	private void SpillAll(bool thrown = false)
+	{
+		SpillAll(TransformState.HiddenPos, thrown);
+	}
+
+	private void SpillAll(Vector3Int worldPos, bool thrown = false)
 	{
 		if (IsEmpty)
 		{
 			return;
 		}
-		Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",
-			registerTile.CustomTransform.AssumedWorldPositionServer());
 
-		var amountOfReagents = AmountOfReagents(Contents);
-		MoveReagentsTo(amountOfReagents, null, out var spilledReagents);
+		if (worldPos == TransformState.HiddenPos)
+		{
+			worldPos = registerTile.CustomTransform.AssumedWorldPositionServer().CutToInt();
+		}
+
+		var mobs = MatrixManager.GetAt<LivingHealthBehaviour>(worldPos, true);
+
+		if (mobs.Count > 0)
+		{
+			foreach (var mob in mobs)
+			{
+				var mobGameObject = mob.gameObject;
+				Chat.AddCombatMsgToChat(mobGameObject, mobGameObject.name+" has been splashed with something!",
+					mobGameObject.name+" has been splashed with something!");
+			}
+		}
+		else
+		{
+			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",(Vector3)worldPos);
+		}
+
+		var spilledReagents = TakeReagents(AmountOfReagents(Contents));
+		MatrixManager.ReagentReact(spilledReagents, worldPos);
+
+
+
 //todo: half decent regs spread
 //		if (amountOfReagents <= REGS_PER_TILE)
 //		{
-			registerTile.Matrix.MetaDataLayer.ReagentReact(spilledReagents, registerTile.WorldPositionServer, registerTile.LocalPositionServer);
 //			return;
 //		}
 //
@@ -307,7 +334,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if (!WillInteractInternal(interaction.UsedObject, interaction.TargetObject, side)) return false;
+		if (!WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side)) return false;
 
 		return true;
 	}
@@ -316,12 +343,37 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if (!WillInteractInternal(interaction.HandObject, interaction.TargetObject, side)) return false;
+		var playerScript = interaction.Performer.GetComponent<PlayerScript>();
+		if (!playerScript) return false;
+
+		if (playerScript.playerMove.IsHelpIntent)
+		{ //checks if it's possible to transfer from container to container
+			if (!WillInteractHelp(interaction.HandObject, interaction.TargetObject, side)) return false;
+		}
+		else
+		{ //checks if it's possible to spill contents on player
+			if (!WillInteractHarm(interaction.HandObject, interaction.TargetObject, side)) return false;
+		}
 
 		return true;
 	}
 
-	private bool WillInteractInternal(GameObject srcObject, GameObject dstObject, NetworkSide side)
+	private bool WillInteractHarm(GameObject srcObject, GameObject dstObject, NetworkSide side)
+	{
+		if (srcObject == null || dstObject == null) return false;
+
+		var srcContainer = srcObject.GetComponent<ReagentContainer>();
+
+		if (srcContainer == null) return false;
+
+		if (srcContainer.TransferMode == TransferMode.NoTransfer) return false;
+
+		if (dstObject.Player() == ConnectedPlayer.Invalid) return false;
+
+		return true;
+	}
+
+	private bool WillInteractHelp(GameObject srcObject, GameObject dstObject, NetworkSide side)
 	{
 		if (srcObject == null || dstObject == null) return false;
 
@@ -363,10 +415,29 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 	public void ServerPerformInteraction( HandApply interaction )
 	{
-		var one = interaction.HandObject.GetComponent<ReagentContainer>();
-		var two = interaction.TargetObject.GetComponent<ReagentContainer>();
+		var srcPlayer = interaction.Performer.GetComponent<PlayerScript>();
 
-		TransferInteraction(one, two, interaction.Performer);
+		if (srcPlayer.playerMove.IsHelpIntent)
+		{
+			var one = interaction.HandObject.GetComponent<ReagentContainer>();
+			var two = interaction.TargetObject.GetComponent<ReagentContainer>();
+
+			TransferInteraction(one, two, interaction.Performer);
+		}
+		else
+		{
+			var dstPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
+			SpillInteraction(this, srcPlayer, dstPlayer);
+		}
+	}
+
+	private void SpillInteraction(ReagentContainer reagentContainer, PlayerScript srcPlayer, PlayerScript dstPlayer)
+	{
+		if (reagentContainer.IsEmpty)
+		{
+			return;
+		}
+		SpillAll(dstPlayer.WorldPos);
 	}
 
 	/// <summary>

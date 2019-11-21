@@ -106,6 +106,12 @@ public class MetaDataLayer : MonoBehaviour
 			if (reagent.Key == "water")
 			{
 				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
+
+				foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+				{
+					livingHealthBehaviour.Extinguish();
+				}
+
 				Clean(worldPosInt, localPosInt, true);
 			}
 			else if (reagent.Key == "cleaner")
