@@ -115,6 +115,10 @@ public static class EffectsFactory
 
 	public static void WaterSplat(Vector3Int worldPos)
 	{
+		if (MatrixManager.IsSpaceAt(worldPos, true))
+		{
+			return;
+		}
 		//don't do multiple splats
 		if (MatrixManager.GetAt<FloorDecal>(worldPos, isServer: true).Any(decal => decal.CanDryUp))
 		{

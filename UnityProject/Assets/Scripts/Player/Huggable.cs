@@ -20,7 +20,6 @@ public class Huggable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 		    interaction.HandObject != null ||
 		    performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
 		    performerRegisterPlayer.IsDown ||
-		    performerRegisterPlayer.IsStunnedClient ||
 		    interaction.Performer == interaction.TargetObject)
 		{
 			return false;

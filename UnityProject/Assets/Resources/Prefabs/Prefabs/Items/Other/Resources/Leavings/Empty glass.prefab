@@ -90,7 +90,7 @@ MonoBehaviour:
   itemDescription: 
   initialTraits:
   - {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58, type: 2}
-  - {fileID: 11400000, guid: 51bac1691d7e147949d0c9002c2dacea, type: 2}
+  - {fileID: 11400000, guid: 55917bb83c64bdc41acf0a60f284366c, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -176,8 +176,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Temperature: 20
   MaxCapacity: 50
+  itemAttributes: {fileID: 0}
   Reagents: []
   Amounts: []
+  AcceptedTraits: []
   AcceptedReagents: []
   TransferMode: 0
   TransferAmount: 20
@@ -349,7 +351,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3139990309
+  m_SceneId: 0
 --- !u!114 &3266362895114989803
 MonoBehaviour:
   m_ObjectHideFlags: 0

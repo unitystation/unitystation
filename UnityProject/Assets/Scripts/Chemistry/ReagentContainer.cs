@@ -368,7 +368,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 		if (srcContainer.TransferMode == TransferMode.NoTransfer) return false;
 
-		if (dstObject.Player() == ConnectedPlayer.Invalid) return false;
+		if (dstObject.GetComponent<PlayerScript>() == null) return false;
 
 		return true;
 	}

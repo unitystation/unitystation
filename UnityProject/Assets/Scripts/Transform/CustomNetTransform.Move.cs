@@ -162,7 +162,7 @@ public partial class CustomNetTransform
         serverState.Impulse = Vector2.zero;
         serverState.SpinRotation = transform.localRotation.eulerAngles.z;
         serverState.SpinFactor = 0;
-        
+
         if ( IsBeingThrown )
         {
 			OnThrowEnd.Invoke(serverState.ActiveThrow);
@@ -492,6 +492,12 @@ public partial class CustomNetTransform
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
 		if (!IsBeingThrown && !MatrixManager.IsNoGravityAt(Vector3Int.RoundToInt(tempOrigin), isServer : true))
 		{
+			//slippity slip
+			if (MatrixManager.IsSlipperyAt(tempOrigin.CutToInt()))
+			{
+				return;
+			}
+
 			//on-ground resistance
 
 			//no slide inertia for tile snapped objects like closets

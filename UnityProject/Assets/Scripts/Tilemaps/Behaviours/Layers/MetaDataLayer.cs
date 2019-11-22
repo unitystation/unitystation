@@ -72,7 +72,11 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void MakeSlipperyAt(Vector3Int position, bool canDryUp=true)
 	{
-		var tile = Get(position);
+		var tile = Get(position, false);
+		if (tile == MetaDataNode.None || tile.IsSpace)
+		{
+			return;
+		}
 		tile.IsSlippery = true;
 		if ( canDryUp )
 		{
