@@ -149,12 +149,12 @@ public static class Inventory
 			{
 				switch (toPerform.ReplacementStrategy)
 				{
-					case ReplacementStrategy.Despawn:
+					case ReplacementStrategy.DespawnOther:
 						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
 						                      " Item in slot will be despawned first.", Category.Inventory, fromSlot, toSlot);
 						ServerDespawn(toSlot);
 						break;
-					case ReplacementStrategy.Drop:
+					case ReplacementStrategy.DropOther:
 						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
 						                      " Item in slot will be dropped first.", Category.Inventory, fromSlot, toSlot);
 						ServerDrop(toSlot);
@@ -360,12 +360,12 @@ public static class Inventory
 		{
 			switch (toPerform.ReplacementStrategy)
 			{
-				case ReplacementStrategy.Despawn:
+				case ReplacementStrategy.DespawnOther:
 					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
 					                      " Item in slot will be despawned first.", Category.Inventory, pickupable.name, toSlot);
 					ServerDespawn(toSlot);
 					break;
-				case ReplacementStrategy.Drop:
+				case ReplacementStrategy.DropOther:
 					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
 					                      " Item in slot will be dropped first.", Category.Inventory, pickupable.name, toSlot);
 					ServerDrop(toSlot);

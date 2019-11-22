@@ -144,7 +144,10 @@ public static class Spawn
 		int count = 1, float? scatterRadius = null)
 	{
 		return Server(
-			SpawnInfo.Cloth(clothData, worldPosition, CVT, variantIndex, prefabOverride, parent, rotation, count, scatterRadius));
+			SpawnInfo.Spawnable(
+				SpawnableCloth.For(clothData, CVT, variantIndex, prefabOverride),
+				SpawnDestination.At(worldPosition, parent, rotation),
+				count, scatterRadius));
 	}
 
 	/// <summary>
@@ -167,7 +170,11 @@ public static class Spawn
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? rotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
 	{
-		return Server(SpawnInfo.Prefab(prefab, worldPosition, parent, rotation, count, scatterRadius, cancelIfImpassable));
+		return Server(
+			SpawnInfo.Spawnable(
+				SpawnablePrefab.For(prefab),
+				SpawnDestination.At(worldPosition, parent, rotation, cancelIfImpassable),
+				count, scatterRadius));
 	}
 
 	/// <summary>
@@ -188,7 +195,11 @@ public static class Spawn
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ClientPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
 	{
-		return Client(SpawnInfo.Prefab(prefab, worldPosition, parent, rotation, count, scatterRadius));
+		return Client(
+			SpawnInfo.Spawnable(
+				SpawnablePrefab.For(prefab),
+				SpawnDestination.At(worldPosition, parent, rotation),
+				count, scatterRadius));
 	}
 
 	/// <summary>
@@ -211,7 +222,11 @@ public static class Spawn
 	public static SpawnResult ServerPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? rotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
 	{
-		return Server(SpawnInfo.Prefab(prefabName, worldPosition, parent, rotation, count, scatterRadius, cancelIfImpassable));
+		return Server(
+			SpawnInfo.Spawnable(
+				SpawnablePrefab.For(prefabName),
+				SpawnDestination.At(worldPosition, parent, rotation, cancelIfImpassable),
+				count, scatterRadius));
 	}
 
 	/// <summary>
@@ -232,7 +247,11 @@ public static class Spawn
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ClientPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
 	{
-		return Client(SpawnInfo.Prefab(prefabName, worldPosition, parent, rotation, count, scatterRadius));
+		return Client(
+			SpawnInfo.Spawnable(
+				SpawnablePrefab.For(prefabName),
+				SpawnDestination.At(worldPosition, parent, rotation),
+				count, scatterRadius));
 	}
 
 	/// <summary>
@@ -253,7 +272,8 @@ public static class Spawn
 	public static SpawnResult ServerClone(GameObject toClone, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? rotation = null)
 	{
-		return Server(SpawnInfo.Clone(toClone, worldPosition, parent, rotation));
+		return Server(
+			SpawnInfo.Clone(toClone, SpawnDestination.At(worldPosition, parent, rotation)));
 	}
 
 	/// <summary>
@@ -273,103 +293,34 @@ public static class Spawn
 		List<GameObject> spawnedObjects = new List<GameObject>();
 		for (int i = 0; i < info.Count; i++)
 		{
-			if (info.SpawnableType == SpawnableType.Prefab)
-			{
-				if (info.PrefabUsed == null)
-				{
-					Logger.LogError("Cannot spawn, prefab to use is null", Category.ItemSpawn);
-					return SpawnResult.Fail(info);
-				}
+			var result = info.SpawnableToSpawn.SpawnAt(info.SpawnDestination);
 
-				if (info.CancelIfImpassable)
+			if (result.Successful)
+			{
+				spawnedObjects.Add(result.GameObject);
+				//apply scattering if it was specified
+				if (info.ScatterRadius != null)
 				{
-					if (IsTotallyImpassable(info.WorldPosition.CutToInt()))
+					foreach (var spawned in spawnedObjects)
 					{
-						Logger.LogTraceFormat("Cancelling spawn of {0} because" +
-						                      " the position being spawned to {1} is impassable",
-							Category.ItemSpawn, info.PrefabUsed, info.WorldPosition.CutToInt());
-						return SpawnResult.Fail(info);
+						var cnt = spawned.GetComponent<CustomNetTransform>();
+						var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
+						if (cnt != null)
+						{
+							cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
+						}
 					}
 				}
 
-				bool isPooled;
-
-				GameObject tempObject = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation,
-					info.Parent,
-					out isPooled);
-
-				if (!isPooled)
+				//fire hooks for all spawned objects
+				if (spawnedObjects.Count == 1)
 				{
-					Logger.LogTrace("Prefab to spawn was not pooled, spawning new instance.", Category.ItemSpawn);
-					NetworkServer.Spawn(tempObject);
-					tempObject.GetComponent<CustomNetTransform>()
-						?.NotifyPlayers(); //Sending clientState for newly spawned items
+					_ServerFireClientServerSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
 				}
 				else
 				{
-					Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
+					_ServerFireClientServerSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
 				}
-
-				spawnedObjects.Add(tempObject);
-			}
-			else if (info.SpawnableType == SpawnableType.Cloth)
-			{
-				var result = ServerCloth(info);
-				if (result == null)
-				{
-					return SpawnResult.Fail(info);
-				}
-
-				spawnedObjects.Add(result);
-			}
-			else if (info.SpawnableType == SpawnableType.Clone)
-			{
-				var prefab = DeterminePrefab(info.ClonedFrom);
-				if (prefab == null)
-				{
-					Logger.LogErrorFormat(
-						"Object {0} cannot be cloned because it has no PoolPrefabTracker and its name" +
-						" does not match a prefab name, so we cannot" +
-						" determine the prefab to instantiate. Please fix this object so that it" +
-						" has an attached PoolPrefabTracker or so its name matches the prefab it was created from.",
-						Category.ItemSpawn, info.ClonedFrom);
-				}
-
-				GameObject tempObject = PoolInstantiate(prefab, info.WorldPosition, info.Rotation, info.Parent,
-					out var isPooled);
-
-				if (!isPooled)
-				{
-					NetworkServer.Spawn(tempObject);
-					tempObject.GetComponent<CustomNetTransform>()
-						?.NotifyPlayers(); //Sending clientState for newly spawned items
-				}
-
-				spawnedObjects.Add(tempObject);
-			}
-
-			//apply scattering if it was specified
-			if (info.ScatterRadius != null)
-			{
-				foreach (var spawned in spawnedObjects)
-				{
-					var cnt = spawned.GetComponent<CustomNetTransform>();
-					var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-					if (cnt != null)
-					{
-						cnt.SetPosition(info.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
-					}
-				}
-			}
-
-			//fire hooks for all spawned objects
-			if (spawnedObjects.Count == 1)
-			{
-				_ServerFireClientServerSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
-			}
-			else
-			{
-				_ServerFireClientServerSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
 			}
 		}
 
@@ -394,114 +345,45 @@ public static class Spawn
 			Logger.LogError("Cannot spawn, info is null", Category.ItemSpawn);
 			return SpawnResult.Fail(info);
 		}
-		List<GameObject> spawnedObjects = new List<GameObject>();
-		for (var i = 0; i < info.Count; i++)
+
+		if (info.SpawnableToSpawn is IClientSpawnable clientSpawnable)
 		{
-			if (info.SpawnableType == SpawnableType.Cloth)
+			List<GameObject> spawnedObjects = new List<GameObject>();
+			for (var i = 0; i < info.Count; i++)
 			{
-				Logger.LogErrorFormat("Spawning cloths on client side is not currently supported. {0}", Category.ItemSpawn, info);
-				return SpawnResult.Fail(info);
-			}
-
-			bool isPooled; // not used for Client-only instantiation
-			var go = PoolInstantiate(info.PrefabUsed, info.WorldPosition, info.Rotation, info.Parent, out isPooled);
-
-			spawnedObjects.Add(go);
-		}
-
-		//fire client side lifecycle hooks
-		foreach (var spawnedObject in spawnedObjects)
-		{
-			var hooks = spawnedObject.GetComponents<IClientSpawn>();
-			if (hooks != null)
-			{
-				foreach (var hook in hooks)
+				var result = clientSpawnable.ClientSpawnAt(info.SpawnDestination);
+				if (result.Successful)
 				{
-					hook.OnSpawnClient(ClientSpawnInfo.Default());
+					spawnedObjects.Add(result.GameObject);
 				}
 			}
-		}
 
-		if (spawnedObjects.Count == 1)
-		{
-			return SpawnResult.Single(info, spawnedObjects[0]);
-		}
+			//fire client side lifecycle hooks
+			foreach (var spawnedObject in spawnedObjects)
+			{
+				var hooks = spawnedObject.GetComponents<IClientSpawn>();
+				if (hooks != null)
+				{
+					foreach (var hook in hooks)
+					{
+						hook.OnSpawnClient(ClientSpawnInfo.Default());
+					}
+				}
+			}
 
-		return SpawnResult.Multiple(info, spawnedObjects);
-	}
+			if (spawnedObjects.Count == 1)
+			{
+				return SpawnResult.Single(info, spawnedObjects[0]);
+			}
 
-	private static GameObject ServerCloth(SpawnInfo info)
-	{
-		return CreateCloth(info.ClothData, info.WorldPosition, info.Parent, info.ClothingVariantType,
-			info.ClothingVariantIndex, info.PrefabUsed);
-	}
-
-	/// <summary>
-	/// Spawns the indicated cloth.
-	/// </summary>
-	/// <param name="ClothingData">data describing the cloth to spawn</param>
-	/// <param name="worldPos"></param>
-	/// <param name="parent"></param>
-	/// <param name="CVT"></param>
-	/// <param name="variant"></param>
-	/// <param name="PrefabOverride">prefab to use instead of the default for this cloth type</param>
-	/// <returns></returns>
-	private static GameObject CreateCloth(BaseClothData clothData, Vector3? worldPos = null, Transform parent = null,
-		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
-	{
-		if (clothData is HeadsetData headsetData)
-		{
-			return CreateHeadsetCloth(headsetData, worldPos, parent, CVT, variant, PrefabOverride);
-		}
-		else if (clothData is ContainerData containerData)
-		{
-			return CreateBackpackCloth(containerData, worldPos, parent, CVT, variant, PrefabOverride);
-		}
-		else if (clothData is ClothingData clothingData)
-		{
-			return CreateCloth(clothingData, worldPos, parent, CVT, variant, PrefabOverride);
+			return SpawnResult.Multiple(info, spawnedObjects);
 		}
 		else
 		{
-			Logger.LogErrorFormat("Unrecognize BaseClothData subtype {0}, please add logic" +
-			                      " to ClothFactory to handle spawning this type.", Category.ItemSpawn,
-				clothData.GetType().Name);
-			return null;
+			Logger.LogErrorFormat("Cannot spawn {0} client side, spawnable does not" +
+			                      " implement IClientSpawnable", Category.ItemSpawn, info);
+			return SpawnResult.Fail(info);
 		}
-	}
-
-	private static GameObject CreateHeadsetCloth(HeadsetData headsetData, Vector3? worldPos = null, Transform parent = null,
-		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
-	{
-		if (uniHeadSet == null)
-		{
-			uniHeadSet = GetPrefabByName("UniHeadSet");
-		}
-		if (uniHeadSet == null)
-		{
-			Logger.LogError("UniHeadSet Prefab not found", Category.SpriteHandler);
-			return null;
-		}
-
-		GameObject clothObj;
-
-		if (PrefabOverride != null && PrefabOverride != uniHeadSet)
-		{
-			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
-		}
-		else
-		{
-			clothObj = Spawn.ServerPrefab(uniHeadSet, worldPos, parent).GameObject;
-		}
-
-		var _Clothing = clothObj.GetComponent<Clothing>();
-		var Item = clothObj.GetComponent<ItemAttributes>();
-		var Headset = clothObj.GetComponent<Headset>();
-		_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
-		_Clothing.SetSynchronise(HD: headsetData);
-		Item.SetUpFromClothingData(headsetData.Sprites, headsetData.ItemAttributes);
-		Headset.EncryptionKey = headsetData.Key.EncryptionKey;
-		return clothObj;
 	}
 
 	/// <summary>
@@ -532,96 +414,23 @@ public static class Spawn
 	}
 
 
-	private static GameObject CreateBackpackCloth(ContainerData ContainerData, Vector3? worldPos = null, Transform parent = null,
-		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
-	{
-		if (uniBackpack == null)
-		{
-			uniBackpack = GetPrefabByName("UniBackPack");
-		}
-		if (uniBackpack == null)
-		{
-			Logger.LogError("UniBackPack Prefab not found", Category.SpriteHandler);
-			return null;
-		}
-
-		GameObject clothObj;
-		if (PrefabOverride != null && PrefabOverride != uniBackpack)
-		{
-			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
-		}
-		else
-		{
-			clothObj = Spawn.ServerPrefab(uniBackpack, worldPos, parent).GameObject;
-		}
-
-		var _Clothing = clothObj.GetComponent<Clothing>();
-		var Item = clothObj.GetComponent<ItemAttributes>();
-		_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(ContainerData.Sprites.Equipped);
-		Item.SetUpFromClothingData(ContainerData.Sprites, ContainerData.ItemAttributes);
-		_Clothing.SetSynchronise(ConD: ContainerData);
-		return clothObj;
-	}
 
 
-	private static GameObject CreateCloth(ClothingData ClothingData, Vector3? worldPos = null, Transform parent = null,
-		ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
-	{
-		if (uniCloth == null)
-		{
-			uniCloth = GetPrefabByName("UniCloth");
-		}
-		if (uniCloth == null)
-		{
-			Logger.LogError("UniCloth Prefab not found", Category.SpriteHandler);
-			return null;
-		}
-
-		GameObject clothObj;
-		if (PrefabOverride != null && PrefabOverride != uniCloth)
-		{
-			clothObj = Spawn.ServerPrefab(PrefabOverride, worldPos, parent).GameObject;
-		}
-		else
-		{
-			clothObj = Spawn.ServerPrefab(uniCloth, worldPos, parent).GameObject;
-		}
-
-		var _Clothing = clothObj.GetComponent<Clothing>();
-		var Item = clothObj.GetComponent<ItemAttributes>();
-		_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(ClothingData, _Clothing);
-		_Clothing.SetSynchronise(CD: ClothingData);
-		Item.SetUpFromClothingData(ClothingData.Base, ClothingData.ItemAttributes);
-		switch (CVT)
-		{
-			case ClothingVariantType.Default:
-				if (variant > -1)
-				{
-					if (!(ClothingData.Variants.Count >= variant))
-					{
-						Item.SetUpFromClothingData(ClothingData.Variants[variant], ClothingData.ItemAttributes);
-					}
-				}
-
-				break;
-			case ClothingVariantType.Skirt:
-				Item.SetUpFromClothingData(ClothingData.DressVariant, ClothingData.ItemAttributes);
-				break;
-			case ClothingVariantType.Tucked:
-				Item.SetUpFromClothingData(ClothingData.Base_Adjusted, ClothingData.ItemAttributes);
-				break;
-		}
-
-		clothObj.name = ClothingData.name;
-		return clothObj;
-	}
-
-	private static GameObject PoolInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent, out bool pooledInstance)
+	/// <summary>
+	/// For internal use by lifecycle system only.
+	/// Instantiates the prefab at the specified location, taking from the pool if possible.
+	/// Does not call any hooks
+	/// </summary>
+	/// <param name="prefab">prefab to instantiate</param>
+	/// <param name="destination">destination to spawn</param>
+	/// <param name="pooledInstance">true if the object was taken from the pool. False if newly spawned</param>
+	/// <returns></returns>
+	public static GameObject _PoolInstantiate(GameObject prefab, SpawnDestination destination, out bool pooledInstance)
 	{
 		GameObject tempObject = null;
-		bool hide = position == TransformState.HiddenPos;
+		bool hide = destination.WorldPosition == TransformState.HiddenPos;
 		//Cut off Z-axis
-		Vector3 cleanPos = ( Vector2 ) position;
+		Vector3 cleanPos = ( Vector2 ) destination.WorldPosition;
 		Vector3 pos = hide ? TransformState.HiddenPos : cleanPos;
 		if (CanLoadFromPool(prefab))
 		{
@@ -632,9 +441,9 @@ public static class Spawn
 			tempObject.SetActive(true);
 
 			tempObject.transform.position = pos;
-			tempObject.transform.rotation = rotation;
+			tempObject.transform.rotation = destination.Rotation;
 			tempObject.transform.localScale = prefab.transform.localScale;
-			tempObject.transform.parent = parent;
+			tempObject.transform.parent = destination.Parent;
 			var cnt = tempObject.GetComponent<CustomNetTransform>();
 			if ( cnt )
 			{
@@ -646,7 +455,7 @@ public static class Spawn
 		}
 		else
 		{
-			tempObject = Object.Instantiate(prefab, pos, rotation, parent);
+			tempObject = Object.Instantiate(prefab, pos, destination.Rotation, destination.Parent);
 
 			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
 
@@ -725,6 +534,7 @@ public static class Spawn
 		{
 			//destroy / create with pooling
 			//save previous position
+			var destination = SpawnDestination.At(target);
 			var worldPos = target.TileWorldPosition();
 			var transform = target.GetComponent<IPushable>();
 			var prevParent = target.transform.parent;
@@ -756,12 +566,15 @@ public static class Spawn
 			var prefab = DeterminePrefab(target);
 			if (clothing != null)
 			{
-				spawnInfo = SpawnInfo.Cloth(clothing.clothingData, worldPos.To3Int(), clothing.Type,
-					clothing.Variant, prefab);
+				spawnInfo = SpawnInfo.Spawnable(
+					SpawnableCloth.For(clothing),
+					destination);
 			}
 			else
 			{
-				spawnInfo = SpawnInfo.Prefab(prefab, worldPos.To3Int());
+				spawnInfo = SpawnInfo.Spawnable(
+					SpawnablePrefab.For(prefab),
+					destination);
 			}
 
 			_ServerFireClientServerSpawnHooks(SpawnResult.Single(spawnInfo, target));

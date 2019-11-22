@@ -115,7 +115,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (info.SpawnableType == SpawnableType.Clone)
+		if (info.SpawnType == SpawnType.Clone)
 		{
 			//cloned
 			var clonedIntegrity = info.ClonedFrom.GetComponent<Integrity>();

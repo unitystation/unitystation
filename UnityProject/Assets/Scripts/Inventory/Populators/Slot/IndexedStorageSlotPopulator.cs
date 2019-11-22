@@ -16,23 +16,23 @@ public class IndexedStorageSlotPopulator : SlotPopulator
 	[Tooltip("Indexed storage populator to populate each slot in the storage.")]
 	private IndexedStoragePopulator IndexedStoragePopulator;
 
-	public override void PopulateSlot(ItemSlot toPopulate, PopulationContext context)
+	public override void PopulateSlot(ItemSlot slot, PopulationContext context)
 	{
-		SlotPopulator.PopulateSlot(toPopulate, context);
+		SlotPopulator.PopulateSlot(slot, context);
 
-		var storage = toPopulate.Item.GetComponent<ItemStorage>();
+		var storage = slot.Item.GetComponent<ItemStorage>();
 		if (storage == null)
 		{
 			Logger.LogErrorFormat("Item in slot {0} does not have an ItemStorage to populate, please ensure Item" +
 			                      " creates an object with ItemStorage", Category.Inventory,
-				toPopulate);
+				slot);
 			return;
 		}
 
 		if (IndexedStoragePopulator == null)
 		{
 			Logger.LogTraceFormat("Not populating indexed storage in {0} because the indexed storage slot " +
-			                      "populator is unspecified.", Category.Inventory, toPopulate);
+			                      "populator is unspecified.", Category.Inventory, slot);
 			return;
 		}
 
