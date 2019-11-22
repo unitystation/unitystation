@@ -24,11 +24,28 @@ public class PlayerCustomisationData : ScriptableObject
 
 	public void Awake()
 	{
+#if UNITY_EDITOR
+
+		{
+
+			if (PlayerCustomisationDataSOs.Instance == null)
+			{
+				Resources.LoadAll<PlayerCustomisationDataSOs>("ScriptableObjects/SOs singletons");
+			}
+			if (!PlayerCustomisationDataSOs.Instance.DataPCD.Contains(this))
+			{
+				PlayerCustomisationDataSOs.Instance.DataPCD.Add(this);
+			}
+
+		}
+
+#endif
 		InitializePool();
 	}
 
 	private void OnEnable()
 	{
+
 		SceneManager.sceneLoaded -= OnSceneLoaded;
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
@@ -41,13 +58,16 @@ public class PlayerCustomisationData : ScriptableObject
 
 	public void InitializePool()
 	{
-		if (CC == null){
+		if (CC == null)
+		{
 			CC = UnityEngine.Object.FindObjectOfType<Lobby.LobbyManager>();
 		}
 
 
-		if (CC != null) {
-			if (!CC.characterCustomization.playerCustomisationData.ContainsKey(Type)) {
+		if (CC != null)
+		{
+			if (!CC.characterCustomization.playerCustomisationData.ContainsKey(Type))
+			{
 				CC.characterCustomization.playerCustomisationData[Type] = new Dictionary<string, PlayerCustomisationData>();
 			}
 			CC.characterCustomization.playerCustomisationData[Type][Name] = this;
@@ -78,7 +98,7 @@ public class PlayerCustomisationData : ScriptableObject
 	//	}
 	//}
 
-	public static void getPlayerCustomisationDatas(List<PlayerCustomisationData>  DataPCD)
+	public static void getPlayerCustomisationDatas(List<PlayerCustomisationData> DataPCD)
 	{
 		DataPCD.Clear();
 		var PCD = Resources.LoadAll<PlayerCustomisationData>("textures/clothing/undergarments");
@@ -130,12 +150,13 @@ public class PlayerCustomisationData : ScriptableObject
 }
 
 
-public enum PlayerCustomisation{
+public enum PlayerCustomisation
+{
 	Null = 0,
 	FacialHair = 1,
 	HairStyle = 2,
 	Underwear = 3,
-	Undershirt= 4,
+	Undershirt = 4,
 	Socks = 5,
 	BodySprites = 6,
 	//Others as needed,
