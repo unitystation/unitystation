@@ -68,9 +68,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	[Server]
 	private void ConstructWall(HandApply interaction){
-		var handObj = interaction.HandObject;
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
-		Inventory.ServerDespawn(interaction.HandSlot);
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
 		Despawn.ServerSingle(gameObject);
 	}
 

@@ -212,6 +212,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				amountText.enabled = true;
 				amountText.text = stack.Amount.ToString();
 			}
+			else if (stack != null && stack.Amount <= 1 && amountText)
+			{
+				//remove the stack display
+				amountText.enabled = false;
+			}
 		}
 		else
 		{

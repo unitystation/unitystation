@@ -165,7 +165,6 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		else if (CanCombine(interaction.UsedObject))
 		{
 			//combining the stacks
-			var destinationStackable = this;
 			var sourceStackable = interaction.UsedObject.GetComponent<Stackable>();
 
 			ServerCombine(sourceStackable);
