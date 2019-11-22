@@ -267,7 +267,7 @@ public static class PlayerSpawn
 
 			//fire all hooks
 			var info = SpawnInfo.Player(OccupationList.Instance.Get(JobType.ASSISTANT), new CharacterSettings(), CustomNetworkManager.Instance.humanPlayerPrefab,
-				spawnTransform.position.RoundToInt());
+				SpawnDestination.At(spawnTransform.gameObject));
 			Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, dummy));
 		}
 	}

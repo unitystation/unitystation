@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 
@@ -39,10 +40,14 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		amount = initialAmount;
 		pushPull = GetComponent<PushPull>();
 		registerTile = GetComponent<RegisterTile>();
-		if (CustomNetworkManager.IsServer)
+
+		this.WaitForNetworkManager(() =>
 		{
-			registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChangedServer);
-		}
+			if (CustomNetworkManager.IsServer)
+			{
+				registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChangedServer);
+			}
+		});
 	}
 
 	private void OnLocalPositionChangedServer(Vector3Int newLocalPos)
