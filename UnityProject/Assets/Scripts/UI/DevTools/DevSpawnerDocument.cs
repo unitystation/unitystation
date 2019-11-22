@@ -12,9 +12,9 @@ public class DevSpawnerDocument
 	/// </summary>
 	public readonly string Name;
 
-	public readonly SpawnableType Type;
+	public readonly DevSpawnableType Type;
 
-	private DevSpawnerDocument(string name, SpawnableType type)
+	private DevSpawnerDocument(string name, DevSpawnableType type)
 	{
 
 		Name = name;
@@ -27,7 +27,7 @@ public class DevSpawnerDocument
 	/// <param name="prefab"></param>
 	public static DevSpawnerDocument ForPrefab(GameObject prefab)
 	{
-		return new DevSpawnerDocument(prefab.name, SpawnableType.Prefab);
+		return new DevSpawnerDocument(prefab.name, DevSpawnableType.Prefab);
 	}
 
 
@@ -37,7 +37,13 @@ public class DevSpawnerDocument
 	/// <param name="data"></param>
 	public static DevSpawnerDocument ForClothing(BaseClothData data)
 	{
-		return new DevSpawnerDocument(data.name, SpawnableType.Cloth);
+		return new DevSpawnerDocument(data.name, DevSpawnableType.Cloth);
 	}
+}
+
+public enum DevSpawnableType
+{
+	Prefab,
+	Cloth
 }
 

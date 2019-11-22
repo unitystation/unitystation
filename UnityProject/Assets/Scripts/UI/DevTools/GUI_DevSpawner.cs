@@ -131,7 +131,7 @@ public class GUI_DevSpawner : MonoBehaviour
 
 		    lucene.DefineIndexField<DevSpawnerDocument>("id", doc => doc.Name, IndexOptions.PrimaryKey);
 		    lucene.DefineIndexField<DevSpawnerDocument>("name", doc => doc.Name, IndexOptions.IndexTermsAndStore);
-		    lucene.DefineIndexField<DevSpawnerDocument>("isClothing", doc => doc.Type == SpawnableType.Cloth ? "1" : "0", IndexOptions.StoreOnly);
+		    lucene.DefineIndexField<DevSpawnerDocument>("isClothing", doc => doc.Type == DevSpawnableType.Cloth ? "1" : "0", IndexOptions.StoreOnly);
 	    }
     }
 

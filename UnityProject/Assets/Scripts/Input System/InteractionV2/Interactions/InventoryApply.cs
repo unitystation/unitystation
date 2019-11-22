@@ -32,6 +32,13 @@ public class InventoryApply : TargetedInteraction
 	                              fromSlot.SlotIdentifier.NamedSlot == NamedSlot.rightHand);
 
 	/// <summary>
+	/// True iff the target slot is one of the performer's hands
+	/// </summary>
+	public bool IsToHandSlot => fromSlot.ItemStorage.gameObject == Performer &&
+	                              (targetSlot.SlotIdentifier.NamedSlot == NamedSlot.leftHand ||
+	                               targetSlot.SlotIdentifier.NamedSlot == NamedSlot.rightHand);
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the InventoryApply</param>

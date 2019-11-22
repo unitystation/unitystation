@@ -148,7 +148,7 @@ public static class PlayerSpawn
 
 		//fire all hooks
 		var info = SpawnInfo.Player(occupation, characterSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
-			spawnPos, naked: naked);
+			SpawnDestination.At(spawnPos), naked: naked);
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
 
 		return newPlayer;
@@ -246,8 +246,8 @@ public static class PlayerSpawn
 
 
 		//fire all hooks
-		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab, spawnPosition,
-			parentTransform);
+		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab,
+			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 	}
 

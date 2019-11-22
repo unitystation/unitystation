@@ -10,11 +10,14 @@ using Enum = Google.Protobuf.WellKnownTypes.Enum;
 /// Allows closet to be opened / closed / locked
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable
+public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable,
+	IServerSpawn
 
 {
-	[Header("Contents that will spawn inside every locker of type")]
-	public List<GameObject> DefaultContents;
+	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
+	         " locker spawns.")]
+	[SerializeField]
+	private SpawnableList initialContents;
 
 	//Inventory
 	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
@@ -74,10 +77,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	public override void OnStartServer()
 	{
 		StartCoroutine(WaitForServerReg());
-		foreach (GameObject itemPrefab in DefaultContents)
-		{
-			Spawn.ServerPrefab(itemPrefab, transform.position, parent: transform.parent);
-		}
 	}
 
 	private IEnumerator WaitForServerReg()
@@ -90,6 +89,23 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		SyncStatus( statusSync );
 		SetIsLocked(IsLocked);
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		if (initialContents != null)
+		{
+			//populate initial contents on spawn
+			var result = initialContents.SpawnAt(SpawnDestination.At(gameObject));
+			foreach (var spawned in result.GameObjects)
+			{
+				var objBehavior = spawned.GetComponent<ObjectBehaviour>();
+				if (objBehavior != null)
+				{
+					AddItem(objBehavior);
+				}
+			}
+		}
 	}
 
 	public bool Contains(GameObject gameObject)
@@ -294,7 +310,15 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void CloseItemHandling()
 	{
-		heldItems = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
+		var itemsOnCloset = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
+		if (heldItems != null)
+		{
+			heldItems = heldItems.Concat(itemsOnCloset);
+		}
+		else
+		{
+			heldItems = itemsOnCloset;
+		}
 		foreach (ObjectBehaviour item in heldItems)
 		{
 			var pipe = item.GetComponent<Pipe>();
@@ -304,6 +328,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			item.VisibleState = false;
 		}
 	}
+
 
 	private void OpenPlayerHandling()
 	{
@@ -392,4 +417,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		return heldItems.Count() + heldPlayers.Count == 0;
 	}
+
+
 }

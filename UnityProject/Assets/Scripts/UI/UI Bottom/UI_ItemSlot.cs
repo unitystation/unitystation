@@ -70,9 +70,16 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	private Image secondaryImage;
 	private Sprite sprite;
 	private Sprite secondarySprite;
+	private Text amountText;
 
-	private void Awake() {
+	private void Awake()
+	{
 
+		amountText = GetComponentInChildren<Text>();
+		if (amountText)
+		{
+			amountText.enabled = false;
+		}
 		image = GetComponent<Image>();
 		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
@@ -80,6 +87,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		image.alphaHitTestMinimumThreshold = 0.5f;
 		image.enabled = false;
 		hidden = initiallyHidden;
+
 	}
 
 	private void OnEnable()
@@ -196,6 +204,19 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 					secondaryImage.color = spriteRends[1].color;
 				}
 			}
+
+			//determine if we should show an amount
+			var stack = item.GetComponent<Stackable>();
+			if (stack != null && stack.Amount > 1 && amountText)
+			{
+				amountText.enabled = true;
+				amountText.text = stack.Amount.ToString();
+			}
+			else if (stack != null && stack.Amount <= 1 && amountText)
+			{
+				//remove the stack display
+				amountText.enabled = false;
+			}
 		}
 		else
 		{
@@ -257,6 +278,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		image.sprite = null;
 		secondarySprite = null;
 		secondaryImage.sprite = null;
+		if (amountText)
+		{
+			amountText.enabled = false;
+		}
+
 	}
 
 	public void Reset()
@@ -267,6 +293,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		secondarySprite = null;
 		secondaryImage.sprite = null;
 		secondaryImage.enabled = false;
+		if (amountText)
+		{
+			amountText.enabled = false;
+		}
+
 		ControlTabs.CheckTabClose();
 	}
 
@@ -357,13 +388,29 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// Sets whether this should be shown / hidden (but the set sprites will still be remembered when it is unhidden)
 	/// </summary>
 	/// <param name="hidden"></param>
-	/// <exception cref="NotImplementedException"></exception>
 	public void SetHidden(bool hidden)
 	{
 		this.hidden = hidden;
 		image.sprite = sprite;
 		image.enabled = sprite != null && !hidden;
 		image.preserveAspect = sprite != null && !hidden;
+		if (hidden && amountText)
+		{
+			amountText.enabled = false;
+		}
+		else if (!hidden && amountText)
+		{
+			//show if we have something stackable.
+			if (itemSlot?.ItemObject != null)
+			{
+				var stack = itemSlot.ItemObject.GetComponent<Stackable>();
+				if (stack != null && stack.Amount > 1)
+				{
+					amountText.enabled = true;
+				}
+			}
+		}
+
 
 		if (secondaryImage)
 		{
