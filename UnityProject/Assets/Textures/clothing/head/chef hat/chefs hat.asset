@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: chefs hat
   m_EditorClassIdentifier: 
   PrefabVariant: {fileID: 0}
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 2
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    IsEVACapable: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 6b0711c9d3cb23a4d9fa0845cddbe10d, type: 3}
@@ -23,13 +38,21 @@ MonoBehaviour:
       - {fileID: 21300006, guid: 6b0711c9d3cb23a4d9fa0845cddbe10d, type: 3}
       EquippedData: {fileID: 4900000, guid: d2e4f0c6a0061294abde21f2beef9f7a, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 3e618aa9ed65f10409b036373dd704aa, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 3e618aa9ed65f10409b036373dd704aa, type: 3}
+      - {fileID: 21300002, guid: 3e618aa9ed65f10409b036373dd704aa, type: 3}
+      - {fileID: 21300004, guid: 3e618aa9ed65f10409b036373dd704aa, type: 3}
+      - {fileID: 21300006, guid: 3e618aa9ed65f10409b036373dd704aa, type: 3}
+      EquippedData: {fileID: 4900000, guid: 490ef4325060aba4f8aa70a3465e7ade, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 903f024d12a63d44aaaaab7b234d47ea, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 903f024d12a63d44aaaaab7b234d47ea, type: 3}
+      - {fileID: 21300002, guid: 903f024d12a63d44aaaaab7b234d47ea, type: 3}
+      - {fileID: 21300004, guid: 903f024d12a63d44aaaaab7b234d47ea, type: 3}
+      - {fileID: 21300006, guid: 903f024d12a63d44aaaaab7b234d47ea, type: 3}
+      EquippedData: {fileID: 4900000, guid: 51949e8745efafa4292cf2360d3b78c7, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: 71e9f7e00950ee4479f60d92399a6eb0, type: 3}
       Sprites:
@@ -70,17 +93,3 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
   Variants: []
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 2
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []

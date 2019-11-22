@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: Chief medical officers lab coat
   m_EditorClassIdentifier: 
   PrefabVariant: {fileID: 0}
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 6
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    IsEVACapable: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 9a2084aa5be9dfe4494dc2826d9f9a56, type: 3}
@@ -23,13 +38,21 @@ MonoBehaviour:
       - {fileID: 21300006, guid: 9a2084aa5be9dfe4494dc2826d9f9a56, type: 3}
       EquippedData: {fileID: 4900000, guid: a5ed69b347487d4428e65fdda4aa42f5, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 7551adbe6cdcb854a977913b433e6f07, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7551adbe6cdcb854a977913b433e6f07, type: 3}
+      - {fileID: 21300002, guid: 7551adbe6cdcb854a977913b433e6f07, type: 3}
+      - {fileID: 21300004, guid: 7551adbe6cdcb854a977913b433e6f07, type: 3}
+      - {fileID: 21300006, guid: 7551adbe6cdcb854a977913b433e6f07, type: 3}
+      EquippedData: {fileID: 4900000, guid: fee2788b370ec6b4c948f0892dd2cafe, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 73b889d1c7e4a7c4ca697e133e05d2d1, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 73b889d1c7e4a7c4ca697e133e05d2d1, type: 3}
+      - {fileID: 21300002, guid: 73b889d1c7e4a7c4ca697e133e05d2d1, type: 3}
+      - {fileID: 21300004, guid: 73b889d1c7e4a7c4ca697e133e05d2d1, type: 3}
+      - {fileID: 21300006, guid: 73b889d1c7e4a7c4ca697e133e05d2d1, type: 3}
+      EquippedData: {fileID: 4900000, guid: c97c7c60767b5c84ab05b9362b9e5127, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: 5e36c75d2221e57478dde90550e52b99, type: 3}
       Sprites:
@@ -75,17 +98,3 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
   Variants: []
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 6
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []

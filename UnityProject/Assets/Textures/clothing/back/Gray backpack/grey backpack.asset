@@ -13,6 +13,21 @@ MonoBehaviour:
   m_Name: grey backpack
   m_EditorClassIdentifier: 
   PrefabVariant: {fileID: 0}
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 11
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    IsEVACapable: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []
   Sprites:
     Equipped:
       Texture: {fileID: 2800000, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
@@ -23,13 +38,21 @@ MonoBehaviour:
       - {fileID: 21300006, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
       EquippedData: {fileID: 4900000, guid: 05739b9db6411b441a496f356199d793, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      - {fileID: 21300002, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      - {fileID: 21300004, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      - {fileID: 21300006, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      EquippedData: {fileID: 4900000, guid: 0218b36ba5efdd8489729b4540ccf0ff, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      - {fileID: 21300002, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      - {fileID: 21300004, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      - {fileID: 21300006, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      EquippedData: {fileID: 4900000, guid: fbf4dd5cb95b77440848285812761829, type: 3}
     ItemIcon:
       Texture: {fileID: 2800000, guid: 298efc3197e5fd34f87f478691d47745, type: 3}
       Sprites:
@@ -38,17 +61,3 @@ MonoBehaviour:
   StorageData:
     maxSlots: 7
     maxItemSize: 4
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 11
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
