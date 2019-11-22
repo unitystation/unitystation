@@ -19,3 +19,4 @@ to have it Processed the Example Files
 Second prompt is log statement
 
 Third is whether or not you want to delete the original DMI files as it's doing it
+

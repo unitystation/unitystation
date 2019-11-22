@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
+  m_Name: grey backpack
+  m_EditorClassIdentifier: 
+  PrefabVariant: {fileID: 0}
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 11
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    IsEVACapable: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []
+  Sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
+      - {fileID: 21300002, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
+      - {fileID: 21300004, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
+      - {fileID: 21300006, guid: e56068607c4ca6e4598963f8e42236de, type: 3}
+      EquippedData: {fileID: 4900000, guid: 05739b9db6411b441a496f356199d793, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      - {fileID: 21300002, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      - {fileID: 21300004, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      - {fileID: 21300006, guid: 34f40c1b80830724ebd33fa86a7df9c8, type: 3}
+      EquippedData: {fileID: 4900000, guid: 0218b36ba5efdd8489729b4540ccf0ff, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      - {fileID: 21300002, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      - {fileID: 21300004, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      - {fileID: 21300006, guid: 55cf6a4d1d1f9874794c147837009ffd, type: 3}
+      EquippedData: {fileID: 4900000, guid: fbf4dd5cb95b77440848285812761829, type: 3}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: 298efc3197e5fd34f87f478691d47745, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 298efc3197e5fd34f87f478691d47745, type: 3}
+      EquippedData: {fileID: 0}
+  StorageData:
+    maxSlots: 7
+    maxItemSize: 4
