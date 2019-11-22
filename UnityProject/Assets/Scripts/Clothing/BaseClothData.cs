@@ -26,11 +26,31 @@ public abstract class BaseClothData : ScriptableObject
 
 	private void Awake()
 	{
+
+#if UNITY_EDITOR
+		{
+			if (BaseClothDataSOs.Instance == null)
+			{
+				Resources.LoadAll<BaseClothDataSOs>("ScriptableObjects/SOs singletons");
+			}
+			if (!BaseClothDataSOs.Instance.BaseClothData.Contains(this))
+			{
+				BaseClothDataSOs.Instance.BaseClothData.Add(this);
+			}
+
+		}
+
+#endif
+		//Logger.Log(name + " Awake");
+		//if (name == "test"){
+		//	Logger.LogError("noooooooooo");
+		//}
 		InitializePool();
 	}
 
 	private void OnEnable()
 	{
+		//Logger.Log(name + " OnEnable");
 		SceneManager.sceneLoaded -= OnSceneLoaded;
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}

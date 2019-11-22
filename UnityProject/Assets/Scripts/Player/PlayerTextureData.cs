@@ -16,6 +16,19 @@ public class PlayerTextureData : ScriptableObject
 
 	public void Awake()
 	{
+#if UNITY_EDITOR
+		{
+			if (PlayerTextureDataSOs.Instance == null)
+			{
+				Resources.LoadAll<PlayerTextureDataSOs>("ScriptableObjects/SOs singletons");
+			}
+			if (!PlayerTextureDataSOs.Instance.DataRaceData.Contains(this))
+			{
+				PlayerTextureDataSOs.Instance.DataRaceData.Add(this);
+			}
+
+		}
+#endif
 		InitializePool();
 	}
 
