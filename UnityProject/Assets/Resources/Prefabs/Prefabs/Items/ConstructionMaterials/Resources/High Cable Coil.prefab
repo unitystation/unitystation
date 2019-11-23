@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -162,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114836435796936700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,11 +178,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 114822041883968204}
+  spriteDataHandler: {fileID: 114822041883968204}
   InventoryIcon: {fileID: 0}
   itemName: High power cable
   itemDescription: 'A thick coil of insulated powered cable. '
-  itemType: 0
+  initialTraits:
+  - {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
   size: 2
   spriteType: 0
   CanConnectToTank: 0
@@ -210,7 +213,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114185907784239616
 MonoBehaviour:
@@ -231,7 +233,6 @@ MonoBehaviour:
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &2836368675170884176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,11 +264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114917856105707652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +323,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114822041883968204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,8 +336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
     spriteIndex: 0
     VariantIndex: 0
@@ -436,4 +431,4 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1048994564
+  m_SceneId: 3364299744

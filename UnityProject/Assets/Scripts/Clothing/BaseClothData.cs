@@ -18,6 +18,10 @@ public abstract class BaseClothData : ScriptableObject
 	public ItemAttributesData ItemAttributes;
 
 
+	[Tooltip("The values to pull from if this SO does not define them. Numbers will override always unless set to -1.")]
+	public BaseClothData parent; // Defines the parent to use values from if values are missing
+
+
 	/// <summary>
 	/// Return the sprite to show for this in the dev spawner
 	/// </summary>
@@ -41,10 +45,12 @@ public abstract class BaseClothData : ScriptableObject
 		}
 
 #endif
-		//Logger.Log(name + " Awake");
-		//if (name == "test"){
-		//	Logger.LogError("noooooooooo");
-		//}
+
+		if (parent != null)
+		{
+			ItemAttributes.Combine(parent.ItemAttributes);
+		}
+
 		InitializePool();
 	}
 
@@ -57,6 +63,11 @@ public abstract class BaseClothData : ScriptableObject
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
+		if (parent != null)
+		{
+			ItemAttributes.Combine(parent.ItemAttributes);
+		}
+
 		InitializePool();
 	}
 

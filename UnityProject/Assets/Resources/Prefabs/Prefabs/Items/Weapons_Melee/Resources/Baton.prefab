@@ -181,7 +181,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Baton
   itemDescription: A wooden truncheon for beating criminal scum.
-  initialTraits: []
+  initialTraits:
+  - {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5, type: 2}
   size: 2
   spriteType: 0
   CanConnectToTank: 0
@@ -333,5 +334,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b3c9185918b6a40848954ead4b67f0e4
+  m_AssetId: 29d17c6e33a25434ca93edfb29f82cb7
   m_SceneId: 0
