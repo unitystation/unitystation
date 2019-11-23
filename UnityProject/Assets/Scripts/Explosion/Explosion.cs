@@ -22,15 +22,17 @@ public class Explosion : MonoBehaviour
 	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 	public float minEffectDuration = .05f;
 
-	private LayerMask obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
+	private LayerMask obstacleMask;
 
 	public void Explode(Matrix matrix)
 	{
+		obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
 		StartCoroutine(ExplosionRoutine(matrix));
 	}
 
 	private IEnumerator ExplosionRoutine(Matrix matrix)
 	{
+		Debug.Break();
 		var explosionCenter = transform.position.RoundToInt();
 
 		// First - play boom sound and shake ground
@@ -85,6 +87,9 @@ public class Explosion : MonoBehaviour
 
 	public IEnumerator TimedEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
 	{
+		position.x -= 1;
+		position.y -= 1;
+
 		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
 		yield return WaitFor.Seconds(time);
 		tileChangeManager.RemoveTile(position, LayerType.Effects);
