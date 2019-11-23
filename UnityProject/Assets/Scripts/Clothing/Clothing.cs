@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Indicates that a given item functions as an article of clothing. Contains the data related to the clothing / how it looks.
 /// </summary>
-public class Clothing : NetworkBehaviour
+public class Clothing : NetworkBehaviour, IClothing
 {
 
 	[SyncVar(hook = nameof(SyncType))]
@@ -26,7 +27,9 @@ public class Clothing : NetworkBehaviour
 
 	public Dictionary<ClothingVariantType, int> VariantStore = new Dictionary<ClothingVariantType, int>();
 	public List<int> VariantList;
-	public SpriteData SpriteInfo;
+
+	[FormerlySerializedAs("SpriteInfo")]
+	public SpriteData spriteInfo;
 
 	private Pickupable pickupable;
 
@@ -145,9 +148,8 @@ public class Clothing : NetworkBehaviour
 				{this.name = clothingData.ItemAttributes.itemName;}
 				else {this.name = clothingData.name;}
 
-				var _Clothing = GetComponent<Clothing>();
 				var Item = GetComponent<ItemAttributes>();
-				_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothingData, this);
+				spriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothingData, this);
 				Item.SetUpFromClothingData(clothingData.Base, clothingData.ItemAttributes);
 
 				switch (Type)
@@ -180,7 +182,7 @@ public class Clothing : NetworkBehaviour
 				else {this.name = containerData.name;}
 
 				var Item = GetComponent<ItemAttributes>();
-				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
+				spriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 				Item.SetUpFromClothingData(containerData.Sprites, containerData.ItemAttributes);
 				Initialised = true;
 			}
@@ -193,7 +195,7 @@ public class Clothing : NetworkBehaviour
 
 				var Item = GetComponent<ItemAttributes>();
 				var Headset = GetComponent<Headset>();
-				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
+				spriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
 				Item.SetUpFromClothingData(headsetData.Sprites, headsetData.ItemAttributes);
 				Headset.EncryptionKey = headsetData.Key.EncryptionKey;
 				Initialised = true;
@@ -203,7 +205,10 @@ public class Clothing : NetworkBehaviour
 		RefreshAppearance();
 	}
 
-	public void SetClothingItem(ClothingItem clothingItem)
+	public SpriteData SpriteInfo => spriteInfo;
+	public int SpriteInfoState => ReturnSetState();
+
+	public void LinkClothingItem(ClothingItem clothingItem)
 	{
 		this.clothingItem = clothingItem;
 		RefreshClothingItem();

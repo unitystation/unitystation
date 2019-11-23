@@ -117,7 +117,7 @@ public class SpawnableCloth : Spawnable
 
 			var _Clothing = clothObj.GetComponent<Clothing>();
 			var Item = clothObj.GetComponent<ItemAttributes>();
-			_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothData, _Clothing);
+			_Clothing.spriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothData, _Clothing);
 			_Clothing.SetSynchronise(CD: clothData);
 			Item.SetUpFromClothingData(clothData.Base, clothData.ItemAttributes);
 			switch (clothingVariantType)
@@ -151,7 +151,7 @@ public class SpawnableCloth : Spawnable
 
 			var _Clothing = clothObj.GetComponent<Clothing>();
 			var Item = clothObj.GetComponent<ItemAttributes>();
-			_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
+			_Clothing.spriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 			Item.SetUpFromClothingData(containerData.Sprites, containerData.ItemAttributes);
 			_Clothing.SetSynchronise(ConD: containerData);
 			return clothObj;
@@ -166,7 +166,7 @@ public class SpawnableCloth : Spawnable
 			var _Clothing = clothObj.GetComponent<Clothing>();
 			var Item = clothObj.GetComponent<ItemAttributes>();
 			var Headset = clothObj.GetComponent<Headset>();
-			_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
+			_Clothing.spriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
 			_Clothing.SetSynchronise(HD: headsetData);
 			Item.SetUpFromClothingData(headsetData.Sprites, headsetData.ItemAttributes);
 			Headset.EncryptionKey = headsetData.Key.EncryptionKey;

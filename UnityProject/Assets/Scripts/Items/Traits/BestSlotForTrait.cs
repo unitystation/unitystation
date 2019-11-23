@@ -50,7 +50,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		}
 
 		var side = CustomNetworkManager.IsServer ? NetworkSide.Server : NetworkSide.Client;
-		var itemAttrs = toCheck.GetComponent<ItemAttributes>();
+		var itemAttrs = toCheck.GetComponent<IItemAttributes>();
 		if (itemAttrs == null)
 		{
 			Logger.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +

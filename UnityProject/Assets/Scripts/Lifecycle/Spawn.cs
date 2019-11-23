@@ -178,6 +178,27 @@ public static class Spawn
 	}
 
 	/// <summary>
+	/// Spawn the specified prefab, syncing it to all clients
+	/// </summary>
+	/// <param name="prefab">Prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
+	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented necessary lifecycle methods.</param>
+	/// <param name="destination">destination to spawn at</param>
+	/// <param name="count">number of instances to spawn, defaults to 1</param>
+	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
+	/// null (no scatter).</param>
+	/// <returns>the newly created GameObject</returns>
+	public static SpawnResult ServerPrefab(GameObject prefab, SpawnDestination destination, int count = 1, float? scatterRadius = null)
+	{
+		return Server(
+			SpawnInfo.Spawnable(
+				SpawnablePrefab.For(prefab),
+				destination,
+				count, scatterRadius));
+	}
+
+	/// <summary>
 	/// Spawn the specified prefab locally, for this client only.
 	/// </summary>
 	/// <param name="prefab">Prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't

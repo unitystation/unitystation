@@ -13,7 +13,7 @@ public class ReagentContainer : Container, IRightClickable {
 
 	private void Awake()
 	{
-		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.ReagentContainer);
+		GetComponent<IItemAttributes>().AddTrait(CommonTraits.Instance.ReagentContainer);
 	}
 
 	void Start() //Initialise the contents if there are any

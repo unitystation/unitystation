@@ -94,7 +94,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
+		IItemAttributes weaponAttr = weapon.GetComponent<IItemAttributes>();
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
@@ -108,7 +108,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			if (tileMapDamage != null)
 			{
 				//Wire cutters should snip the grills instead:
-				if (weaponAttr.itemName == "wirecutters" &&
+				if (weaponAttr.ItemName == "wirecutters" &&
 					tileMapDamage.Layer.LayerType == LayerType.Grills)
 				{
 					tileMapDamage.WireCutGrill((Vector2) transform.position + stabDirection);
@@ -117,7 +117,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				}
 
 				tileMapDamage.DoMeleeDamage((Vector2) transform.position + stabDirection,
-					gameObject, (int) weaponAttr.hitDamage);
+					gameObject, (int) weaponAttr.ServerHitDamage);
 
 				playerMove.allowInput = false;
 				RpcMeleeAttackLerp(stabDirection, weapon);
@@ -166,18 +166,18 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (integrity != null)
 		{
 			//damaging an object
-			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType);
+			integrity.ApplyDamage((int)weaponAttr.ServerHitDamage, AttackType.Melee, weaponAttr.ServerDamageType);
 		}
 		else
 		{
 			//damaging a living thing
-			victimHealth.ApplyDamageToBodypart(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
+			victimHealth.ApplyDamageToBodypart(gameObject, (int) weaponAttr.ServerHitDamage, AttackType.Melee, weaponAttr.ServerDamageType, damageZone);
 		}
 
-		SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
+		SoundManager.PlayNetworkedAtPos(weaponAttr.ServerHitSound, transform.position);
 
 
-		if (weaponAttr.hitDamage > 0)
+		if (weaponAttr.ServerHitDamage > 0)
 		{
 			Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon);
 		}

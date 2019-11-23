@@ -211,9 +211,9 @@ public partial class Chat : MonoBehaviour
 
 			if (item)
 			{
-				var itemAttributes = item.GetComponent<ItemAttributes>();
-				attackVerb = itemAttributes.attackVerb.GetRandom() ?? "attacked";
-				attack = $" with {itemAttributes.itemName}";
+				var itemAttributes = item.GetComponent<IItemAttributes>();
+				attackVerb = itemAttributes.ServerAttackVerbs.PickRandom() ?? "attacked";
+				attack = $" with {itemAttributes.ItemName}";
 			}
 			else
 			{
@@ -310,7 +310,7 @@ public partial class Chat : MonoBehaviour
 			}
 
 			var message =
-				$"{victim.ExpensiveName()} has been hit by {item.Item()?.itemName ?? item.name}{InTheZone(hitZone)}";
+				$"{victim.ExpensiveName()} has been hit by {item.Item()?.ItemName ?? item.name}{InTheZone(hitZone)}";
 			Instance.addChatLogServer.Invoke(new ChatEvent
 			{
 				channels = ChatChannel.Combat,
