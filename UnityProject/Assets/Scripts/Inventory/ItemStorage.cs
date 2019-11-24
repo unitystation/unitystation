@@ -412,4 +412,23 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return serverObserverPlayers.Contains(observer);
 	}
 
+	public void SetUpFromClothingData(ItemStorageStructure structure, ItemStorageCapacity capacity,
+		ItemStoragePopulator populator)
+	{
+		if (structure != null)
+		{
+			itemStorageStructure = structure;
+		}
+
+		if (capacity != null)
+		{
+			itemStorageCapacity = capacity;
+		}
+
+		if (populator != null)
+		{
+			itemStoragePopulator = populator;
+		}
+	}
+
 }

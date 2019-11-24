@@ -78,7 +78,17 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdRequestMeleeAttack(GameObject victim, GameObject weapon, Vector2 stabDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
-		if (!Validations.CanApply(playerScript, victim, NetworkSide.Server)) return;
+		var tiles = victim.GetComponent<InteractableTiles>();
+		if (tiles)
+		{
+			//validate based on position of target vector
+			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: stabDirection)) return;
+		}
+		else
+		{
+			//validate based on position of target object
+			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server)) return;
+		}
 
 		if (!playerMove.allowInput ||
 		    playerScript.IsGhost ||
@@ -194,7 +204,17 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command]
 	public void CmdRequestPunchAttack(GameObject victim, Vector2 punchDirection, BodyPartType damageZone)
 	{
-		if (!Validations.CanApply(playerScript, victim, NetworkSide.Server)) return;
+		var tiles = victim.GetComponent<InteractableTiles>();
+		if (tiles)
+		{
+			//validate based on position of target vector
+			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: punchDirection)) return;
+		}
+		else
+		{
+			//validate based on position of target object
+			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server)) return;
+		}
 
 		var victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 		var victimRegisterTile = victim.GetComponent<RegisterTile>();

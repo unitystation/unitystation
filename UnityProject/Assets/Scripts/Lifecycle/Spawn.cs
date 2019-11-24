@@ -34,6 +34,7 @@ public static class Spawn
 	public static Dictionary<string, PlayerTextureData> RaceData = new Dictionary<string, PlayerTextureData>();
 	public static Dictionary<string, ClothingData> ClothingStoredData = new Dictionary<string, ClothingData>();
 	public static Dictionary<string, ContainerData> BackpackStoredData = new Dictionary<string, ContainerData>();
+	public static Dictionary<string, BeltData> BeltStoredData = new Dictionary<string, BeltData>();
 	public static Dictionary<string, HeadsetData> HeadSetStoredData = new Dictionary<string, HeadsetData>();
 	public static Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> PlayerCustomisationData =
 		new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
@@ -51,6 +52,9 @@ public static class Spawn
 		BackpackStoredData.TryGetValue(name, out var backpackResult);
 		if (backpackResult != null) return backpackResult;
 
+		BeltStoredData.TryGetValue(name, out var beltResult);
+		if (beltResult != null) return beltResult;
+
 		HeadSetStoredData.TryGetValue(name, out var headsetResult);
 		if (headsetResult != null) return headsetResult;
 
@@ -61,7 +65,10 @@ public static class Spawn
 	/// All known spawnable cloth data.
 	/// </summary>
 	public static IEnumerable<BaseClothData> AllClothData =>
-		ClothingStoredData.Values.Concat<BaseClothData>(BackpackStoredData.Values).Concat(HeadSetStoredData.Values);
+		ClothingStoredData.Values
+			.Concat<BaseClothData>(BackpackStoredData.Values)
+			.Concat(HeadSetStoredData.Values)
+			.Concat(BeltStoredData.Values);
 
 	/// <summary>
 	/// Default scatter radius when spawning multiple things

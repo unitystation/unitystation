@@ -182,7 +182,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Grenade
   itemDescription: It's a metal can with a pretty ring attached to it.
-  initialTraits: []
+  initialTraits:
+  - {fileID: 11400000, guid: 6bbea9c4e0a1b4840bde0835b8db0b2a, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -468,5 +469,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 200bde3ddfd65ea4db701f0fa1c81f6c
+  m_AssetId: 29d17c6e33a25434ca93edfb29f82cb7
   m_SceneId: 0

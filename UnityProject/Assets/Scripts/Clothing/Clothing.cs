@@ -18,6 +18,7 @@ public class Clothing : NetworkBehaviour, IClothing
 
 	public ClothingData clothingData;
 	public ContainerData containerData;
+	public BeltData beltData;
 	public HeadsetData headsetData;
 
 	public bool Initialised;
@@ -56,6 +57,11 @@ public class Clothing : NetworkBehaviour, IClothing
 		else if (Spawn.BackpackStoredData.ContainsKey(syncString))
 		{
 			containerData = Spawn.BackpackStoredData[syncString];
+			TryInit();
+		}
+		else if (Spawn.BeltStoredData.ContainsKey(syncString))
+		{
+			beltData = Spawn.BeltStoredData[syncString];
 			TryInit();
 		}
 		else if (Spawn.HeadSetStoredData.ContainsKey(syncString))
@@ -112,7 +118,7 @@ public class Clothing : NetworkBehaviour, IClothing
 		return (0);
 	}
 
-	public void SetSynchronise(ClothingData CD = null, ContainerData ConD = null, HeadsetData HD = null)
+	public void SetSynchronise(ClothingData CD = null, ContainerData ConD = null, BeltData Bd = null, HeadsetData HD = null)
 	{
 		if (CD != null)
 		{
@@ -129,9 +135,13 @@ public class Clothing : NetworkBehaviour, IClothing
 			SynchronisedString = HD.name;
 			headsetData = HD;
 		}
+		else if (Bd != null)
+		{
+			SynchronisedString = Bd.name;
+			beltData = Bd;
+		}
 		RefreshAppearance();
 	}
-
 
 	void Start() {
 		TryInit();
@@ -184,6 +194,27 @@ public class Clothing : NetworkBehaviour, IClothing
 				var Item = GetComponent<ItemAttributes>();
 				spriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 				Item.SetUpFromClothingData(containerData.Sprites, containerData.ItemAttributes);
+				Initialised = true;
+			}
+			else if (beltData != null)
+			{
+				if (beltData.ItemAttributes.itemName != "")
+				{
+					name = beltData.ItemAttributes.itemName;
+				}
+				else
+				{
+					name = beltData.name;
+				}
+
+				var item = GetComponent<ItemAttributes>();
+				item.SetUpFromClothingData(beltData.sprites, beltData.ItemAttributes);
+
+				var storage = GetComponent<ItemStorage>();
+				storage.SetUpFromClothingData(beltData.structure, beltData.capacity, beltData.populator);
+
+				SpriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
+
 				Initialised = true;
 			}
 			else if (headsetData != null)
