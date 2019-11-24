@@ -37,7 +37,21 @@ public class DefaultPlantData : ScriptableObject
 	}
 
 	public void Awake()
-	{
+	{	
+#if UNITY_EDITOR
+		{
+			if (DefaultPlantDataSOs.Instance == null)
+			{
+				Resources.LoadAll<DefaultPlantDataSOs>("ScriptableObjects/SOs singletons");
+			}
+			if (!DefaultPlantDataSOs.Instance.DefaultPlantDatas.Contains(this))
+			{
+				DefaultPlantDataSOs.Instance.DefaultPlantDatas.Add(this);
+			}
+
+		}
+
+#endif
 		InitializePool();
 	}
 

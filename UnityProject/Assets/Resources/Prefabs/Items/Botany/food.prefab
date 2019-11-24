@@ -16,11 +16,13 @@ GameObject:
   - component: {fileID: 114208883059431984}
   - component: {fileID: 114556432234894168}
   - component: {fileID: 114417366729828038}
-  - component: {fileID: 114375257364619298}
-  - component: {fileID: 114619782298203830}
-  - component: {fileID: 8015536195001892144}
   - component: {fileID: -1256564506844683021}
   - component: {fileID: 7175800046361583346}
+  - component: {fileID: 114273922828647914}
+  - component: {fileID: 114499026947524380}
+  - component: {fileID: 1920082862656044705}
+  - component: {fileID: 5215751682783047895}
+  - component: {fileID: 5113648241220904242}
   m_Layer: 10
   m_Name: food
   m_TagString: Untagged
@@ -175,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114499026947524380
+--- !u!114 &-1256564506844683021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,9 +186,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: c536c1bbdc4263a4ab8dd33df4c77f6d
+  m_SceneId: 0
+--- !u!114 &7175800046361583346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 1
+    Serialized: []
+  spriteList:
+  - {fileID: 21300002, guid: a5abf011893bf954c8b8f4afbeb1ab62, type: 3}
+  - {fileID: 21300002, guid: 111c29fd486c7fb48aa3ac95d7120075, type: 3}
 --- !u!114 &114273922828647914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +252,7 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &8015536195001892144
+--- !u!114 &114499026947524380
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,14 +261,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sound: ClownHonk
-  Cooldown: 0.2
-  CritChance: 0.1
-  CritDamage: 5
---- !u!114 &-1256564506844683021
+--- !u!114 &1920082862656044705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,14 +273,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverOnly: 0
-  localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2612934968
---- !u!114 &7175800046361583346
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &5215751682783047895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,17 +289,67 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 1
-    Serialized: []
-  spriteList:
-  - {fileID: 21300002, guid: a5abf011893bf954c8b8f4afbeb1ab62, type: 3}
-  - {fileID: 21300002, guid: 111c29fd486c7fb48aa3ac95d7120075, type: 3}
+  Temperature: 293.15
+  MaxCapacity: 100
+  MoveAmount: 0
+  InSolidForm: 0
+  Reagents: []
+  Amounts: []
+--- !u!114 &5113648241220904242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62eb19bca4bfc5c48be147510edfe6ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  SeedPacket: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
+  SpriteSizeAdjustment: {fileID: 212850123619449406}
+  SpriteHandler: {fileID: 4041446291273095235}
+  plantData:
+    ProduceObject: {fileID: 0}
+    Name: 
+    Plantname: 
+    Description: 
+    PacketsSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    GrowthSprites: []
+    FullyGrownSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    WeedResistance: 5
+    WeedGrowthRate: 1
+    GrowthSpeed: 6
+    Potency: 15
+    Endurance: 15
+    Yield: 4
+    Lifespan: 25
+    PlantTrays: 
+    ReagentProduction: []
+    MutatesInTo: []
+  reagentContainer: {fileID: 5215751682783047895}
+  PlantSyncString: 
+  SizeScale: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +444,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -377,3 +457,4 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0

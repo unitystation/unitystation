@@ -89,7 +89,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 			seedPacket.SyncPlant(plantData.Name);
 
 			var slot = interaction.HandSlot;
-			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.Despawn);
+			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DespawnOther);
 		}
 
 	

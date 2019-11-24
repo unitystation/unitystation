@@ -85,7 +85,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			if (SyncNutrimentNotifier != _SyncNutrimentNotifier)
 			{
-				Logger.Log(_SyncNutrimentNotifier.ToString());
 				SyncNutrimentNotifier = _SyncNutrimentNotifier;
 				if (SyncNutrimentNotifier)
 				{
@@ -105,8 +104,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	public void SyncStage(PlantSpriteStage _PlantSyncStage)
 	{
-
-		Logger.Log(_PlantSyncStage.ToString());
 		PlantSyncStage = _PlantSyncStage;
 		switch (PlantSyncStage)
 		{
@@ -137,7 +134,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	{
 		if (GrowingPlantStage != _GrowingPlantStage)
 		{
-			Logger.Log(_GrowingPlantStage.ToString());
 			GrowingPlantStage = _GrowingPlantStage;
 			PlantTrayMessage.Send(gameObject, PlantSyncString, GrowingPlantStage, PlantSyncStage);
 		}
@@ -151,7 +147,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	{
 		if (!isServer)
 		{
-			Logger.LogError("DDDDDDDDDDDDDDDDDD");
 			if (_PlantSyncString != PlantSyncString)
 			{
 				PlantSyncString = _PlantSyncString;
@@ -299,7 +294,7 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				//Logger.Log("plantData.weed > " + plantData.PlantHealth);
 			}
 
-			//Logger.Log(WeedLevel.ToString());
+
 			if (reagentContainer.Contents.ContainsKey("water"))
 			{
 				if (reagentContainer.Contents["water"] > 0)
@@ -310,6 +305,7 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				{
 					PlantHealth = PlantHealth + (((plantData.Endurance - 101f) / 100f) * 1);
 				}
+				Logger.Log(reagentContainer.Contents["water"].ToString());
 			}
 			else if (!plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
 			{
@@ -340,17 +336,14 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 								NutritionLevel = 0;
 							}
 						}
-						Logger.Log("TT");
 						if ((GrowingPlantStage + 1) < plantData.GrowthSprites.Count)
 						{
 							SyncGrowingPlantStage(GrowingPlantStage + 1);
 							SyncStage(PlantSpriteStage.Growing);
 						}
 						else {
-							Logger.Log("NOOOOOOOOO");
 							if (!ReadyToHarvest)
 							{
-								Logger.Log("YESSSSS");
 								NaturalMutation();
 								SyncStage(PlantSpriteStage.FullyGrown);
 								ReadyToHarvest = true;
@@ -549,7 +542,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			var food = _Object.GetComponent<GrownFood>();
 			if (food != null)
 			{
-				Logger.LogError("OGOGOGGO");
 				food.plantData = new PlantData();
 				food.plantData.SetValues(plantData);
 				food.SetUpFood();
@@ -583,7 +575,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		Logger.Log("-B");
 		var slot = interaction.HandSlot;
 		var ObjectContainer = slot?.Item?.GetComponent<ReagentContainer>();
 		if (hasplant)
@@ -612,9 +603,17 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				return;
 			}
 
+			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Bucket)) {
+				reagentContainer.Contents["water"] = 100f;
+				return;
+			}
+
 			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Trowel))
 			{
-				CropDeath();
+				if (hasplant)
+				{
+					CropDeath();
+				}
 				SyncStage(PlantSpriteStage.None);
 				return;
 			}
@@ -625,8 +624,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			NutritionLevel = NutritionLevel + FoodObject.plantData.Potency;
 			return;
 		}
-
-		Logger.Log("-A");
 		var Object = slot?.Item?.GetComponent<SeedPacket>();
 		if (Object != null)
 		{
@@ -640,13 +637,10 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			return;
 		}
 		else {
-			Logger.Log("A");
 			if (plantData != null)
 			{
-				Logger.Log("B");
 				if (ReadyToHarvest)
 				{
-					Logger.Log("C");
 					for (int i = 0; i < ReadyProduce.Count; i++)
 					{
 						CustomNetTransform netTransform = ReadyProduce[i].GetComponent<CustomNetTransform>();
