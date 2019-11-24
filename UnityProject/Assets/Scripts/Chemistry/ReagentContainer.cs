@@ -23,7 +23,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		}
 	}
 
-	public ItemAttributes itemAttributes;
+	public IItemAttributes itemAttributes;
 	private FloatEvent OnCurrentCapacityChange = new FloatEvent();
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
@@ -51,8 +51,8 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 	private void Awake()
 	{
-		itemAttributes = GetComponent<ItemAttributes>();
-		if ( itemAttributes )
+		itemAttributes = GetComponent<IItemAttributes>();
+		if ( itemAttributes != null )
 		{
 			itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
 		}

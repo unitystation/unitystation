@@ -15,15 +15,10 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 	[Header("Being used for TDM")] public int healAmount;
 
 	public int healHungerAmount;
-	protected ItemAttributes itemAttributes;
 
 	private void Awake()
 	{
-		if (!itemAttributes)
-		{
-			itemAttributes = GetComponent<ItemAttributes>();
-		}
-		itemAttributes.AddTrait(CommonTraits.Instance.Food);
+		GetComponent<IItemAttributes>().AddTrait(CommonTraits.Instance.Food);
 	}
 
 	public virtual void TryEat()

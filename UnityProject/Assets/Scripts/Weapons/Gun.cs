@@ -125,7 +125,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void Awake()
 	{
-		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.Gun);
+		GetComponent<IItemAttributes>().AddTrait(CommonTraits.Instance.Gun);
 		itemStorage = GetComponent<ItemStorage>();
 		magSlot = itemStorage.GetIndexedItemSlot(0);
 		registerTile = GetComponent<RegisterTile>();

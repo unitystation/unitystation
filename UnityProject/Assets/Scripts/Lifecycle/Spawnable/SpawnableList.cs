@@ -9,6 +9,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SpawnableList", menuName = "Spawnable/SpawnableList")]
 public class SpawnableList : Spawnable
 {
+	[Tooltip("Prefabs to spawn.")]
+	[SerializeField]
+	private List<GameObject> contents;
+
 	[Tooltip("Things to spawn.")]
 	[SerializeField]
 	private List<Spawnable> spawnables;
@@ -23,6 +27,11 @@ public class SpawnableList : Spawnable
 		foreach (var spawnable in spawnables)
 		{
 			var result = spawnable.SpawnAt(destination);
+			spawned.AddRange(result.GameObjects);
+		}
+		foreach (var prefab in contents)
+		{
+			var result = Spawn.ServerPrefab(prefab, destination);
 			spawned.AddRange(result.GameObjects);
 		}
 

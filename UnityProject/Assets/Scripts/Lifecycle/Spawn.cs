@@ -34,6 +34,7 @@ public static class Spawn
 	public static Dictionary<string, PlayerTextureData> RaceData = new Dictionary<string, PlayerTextureData>();
 	public static Dictionary<string, ClothingData> ClothingStoredData = new Dictionary<string, ClothingData>();
 	public static Dictionary<string, ContainerData> BackpackStoredData = new Dictionary<string, ContainerData>();
+	public static Dictionary<string, BeltData> BeltStoredData = new Dictionary<string, BeltData>();
 	public static Dictionary<string, HeadsetData> HeadSetStoredData = new Dictionary<string, HeadsetData>();
 	public static Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> PlayerCustomisationData =
 		new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
@@ -51,6 +52,9 @@ public static class Spawn
 		BackpackStoredData.TryGetValue(name, out var backpackResult);
 		if (backpackResult != null) return backpackResult;
 
+		BeltStoredData.TryGetValue(name, out var beltResult);
+		if (beltResult != null) return beltResult;
+
 		HeadSetStoredData.TryGetValue(name, out var headsetResult);
 		if (headsetResult != null) return headsetResult;
 
@@ -61,7 +65,10 @@ public static class Spawn
 	/// All known spawnable cloth data.
 	/// </summary>
 	public static IEnumerable<BaseClothData> AllClothData =>
-		ClothingStoredData.Values.Concat<BaseClothData>(BackpackStoredData.Values).Concat(HeadSetStoredData.Values);
+		ClothingStoredData.Values
+			.Concat<BaseClothData>(BackpackStoredData.Values)
+			.Concat(HeadSetStoredData.Values)
+			.Concat(BeltStoredData.Values);
 
 	/// <summary>
 	/// Default scatter radius when spawning multiple things
@@ -174,6 +181,27 @@ public static class Spawn
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab),
 				SpawnDestination.At(worldPosition, parent, rotation, cancelIfImpassable),
+				count, scatterRadius));
+	}
+
+	/// <summary>
+	/// Spawn the specified prefab, syncing it to all clients
+	/// </summary>
+	/// <param name="prefab">Prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
+	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented necessary lifecycle methods.</param>
+	/// <param name="destination">destination to spawn at</param>
+	/// <param name="count">number of instances to spawn, defaults to 1</param>
+	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
+	/// null (no scatter).</param>
+	/// <returns>the newly created GameObject</returns>
+	public static SpawnResult ServerPrefab(GameObject prefab, SpawnDestination destination, int count = 1, float? scatterRadius = null)
+	{
+		return Server(
+			SpawnInfo.Spawnable(
+				SpawnablePrefab.For(prefab),
+				destination,
 				count, scatterRadius));
 	}
 

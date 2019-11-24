@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -34,4 +33,57 @@ public class ItemAttributesData
 	public string hitSound = "GenericHit";
 
 	public List<string> attackVerb = new List<string>();
+
+	public void Combine(ItemAttributesData parent)
+	{
+		if (string.IsNullOrEmpty(itemName))
+		{
+			itemName = parent.itemName;
+		}
+
+		if (string.IsNullOrEmpty(itemDescription))
+		{
+			itemDescription = parent.itemDescription;
+		}
+
+		if (itemType == ItemType.None)
+		{
+			itemType = parent.itemType;
+		}
+
+		if (size == ItemSize.None)
+		{
+			size = parent.size;
+		}
+
+		if (hitDamage.Equals(-1))
+		{
+			hitDamage = parent.hitDamage;
+		}
+
+		if (throwDamage.Equals(-1))
+		{
+			throwDamage = parent.throwDamage;
+		}
+
+		if (throwSpeed.Equals(-1))
+		{
+			throwSpeed = parent.throwSpeed;
+		}
+
+		if (throwRange.Equals(-1))
+		{
+			throwRange = parent.throwRange;
+		}
+
+		if (hitSound != null)
+		{
+			hitSound = parent.hitSound;
+		}
+
+		if (attackVerb.Count > 0)
+		{
+			attackVerb = parent.attackVerb;
+		}
+	}
 }

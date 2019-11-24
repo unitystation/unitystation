@@ -93,7 +93,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 			}
 		}
 
-		var attrs = slot.Item?.GetComponent<ItemAttributes>();
+		var attrs = slot.Item?.GetComponent<IItemAttributes>();
 		var tool = slot.Item?.GetComponent<Tool>();
 		if (attrs == null || tool == null)
 		{
@@ -161,7 +161,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		}
 
 		var tool = slot.Item?.GetComponent<Tool>();
-		var attrs = slot.Item?.GetComponent<ItemAttributes>();
+		var attrs = slot.Item?.GetComponent<IItemAttributes>();
 		if (tool == null || attrs == null)
 		{
 			return (false);
@@ -212,7 +212,7 @@ public class ConstructionHandler : NetworkBehaviour, ICheckedInteractable<HandAp
 		}
 	}
 
-	public void JumpLanding(Tool tool, ItemAttributes attrs)
+	public void JumpLanding(Tool tool, IItemAttributes attrs)
 	{
 		foreach (var trait in attrs.GetTraits())
 		{

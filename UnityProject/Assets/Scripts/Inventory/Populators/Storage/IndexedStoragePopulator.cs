@@ -23,9 +23,15 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 	}
 
 	[SerializeField]
+	[Tooltip("Prefabs to spawn in each indexed storage slot (index in list corresponds" +
+	         " to slot index that it will populate).")]
+	private GameObject[] Contents;
+
+	[SerializeField]
 	[Tooltip("Populator to use for each indexed storage slot (index in list corresponds" +
 	         " to slot index that it will populate).")]
 	private SlotPopulator[] SlotPopulators;
+
 
 	[SerializeField]
 	[Tooltip("What to do if the storage already has an item in a particular slot.")]
@@ -62,6 +68,25 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 				Inventory.ServerDespawn(slot);
 			}
 			SlotPopulators[i].PopulateSlot(slot, context);
+		}
+		for (var i = start; i < Contents.Length; i++)
+		{
+			var slot = toPopulate.GetIndexedItemSlot(i);
+			if (slot == null)
+			{
+				Logger.LogErrorFormat("Storage {0} does not have a slot with index {1}. Please ensure" +
+				                      " the Contents don't exceed the number of slots in the ItemStorage.", Category.Inventory,
+					toPopulate, i);
+				return;
+			}
+
+			if (slot.Item != null && MergeMode == IndexedMergeMode.Overwrite)
+			{
+				Inventory.ServerDespawn(slot);
+			}
+
+			var spawned = Spawn.ServerPrefab(Contents[i]).GameObject;
+			Inventory.ServerAdd(spawned, slot);
 		}
 	}
 }

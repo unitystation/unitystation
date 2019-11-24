@@ -181,7 +181,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: cigarettes
   itemDescription: 
-  initialTraits: []
+  initialTraits:
+  - {fileID: 11400000, guid: de743c06b981846cb8d8457970385934, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0

@@ -18,7 +18,7 @@ public class EmptyFullContainer : NetworkBehaviour
 	public string FullName;
 	[SyncVar(hook = nameof(SyncSprite))] public EmptyFullStatus spriteSync;
 	private Pickupable pickupable;
-	private ItemAttributes itemAttributes;
+	private IItemAttributes itemAttributes;
 	private SpriteRenderer spriteRenderer;
 	
 	public void Awake()
@@ -33,9 +33,9 @@ public class EmptyFullContainer : NetworkBehaviour
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		}
 
-		if ( !itemAttributes )
+		if ( itemAttributes == null )
 		{
-			itemAttributes = GetComponentInChildren<ItemAttributes>();
+			itemAttributes = GetComponentInChildren<IItemAttributes>();
 		}
 		
 		//aid for lazy people. you don't have to fill out fields for name and sprite in their default state
@@ -49,10 +49,10 @@ public class EmptyFullContainer : NetworkBehaviour
 		
 		if (spriteSync == EmptyFullStatus.Empty && EmptyName == null)
 		{
-			EmptyName = itemAttributes.itemName;
+			EmptyName = itemAttributes.ItemName;
 		} else if (spriteSync == EmptyFullStatus.Full && FullName == null)
 		{
-			FullName = itemAttributes.itemName;
+			FullName = itemAttributes.ItemName;
 		}
 	}
 	public void SyncSprite(EmptyFullStatus value)
@@ -62,7 +62,7 @@ public class EmptyFullContainer : NetworkBehaviour
 		
 		if (!string.IsNullOrEmpty(EmptyName) && !string.IsNullOrEmpty(FullName))
 		{
-			itemAttributes.SetItemName( spriteSync == EmptyFullStatus.Empty ? EmptyName : FullName );
+			itemAttributes.ServerSetItemName( spriteSync == EmptyFullStatus.Empty ? EmptyName : FullName );
 		}
 		
 		pickupable.RefreshUISlotImage();

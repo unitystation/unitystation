@@ -90,25 +90,31 @@ public class SpawnableCloth : Spawnable
 				Logger.LogError("Cannot spawn, cloth data is null", Category.ItemSpawn);
 				return null;
 			}
+
 			if (clothData is HeadsetData headsetData)
 			{
 				return CreateHeadsetCloth(headsetData, destination);
 			}
-			else if (clothData is ContainerData containerData)
+
+			if (clothData is ContainerData containerData)
 			{
 				return CreateBackpackCloth(containerData, destination);
 			}
-			else if (clothData is ClothingData clothingData)
+
+			if (clothData is BeltData beltData)
+			{
+				return CreateBelt(beltData, destination);
+			}
+
+			if (clothData is ClothingData clothingData)
 			{
 				return CreateCloth(clothingData, destination);
 			}
-			else
-			{
-				Logger.LogErrorFormat("Unrecognize BaseClothData subtype {0}, please add logic" +
-				                      " to ClothFactory to handle spawning this type.", Category.ItemSpawn,
-					clothData.GetType().Name);
-				return null;
-			}
+
+			Logger.LogErrorFormat("Unrecognize BaseClothData subtype {0}, please add logic" +
+			                      " to ClothFactory to handle spawning this type.", Category.ItemSpawn,
+				clothData.GetType().Name);
+			return null;
 		}
 
 		private GameObject CreateCloth(ClothingData clothData, SpawnDestination destination)
@@ -117,7 +123,7 @@ public class SpawnableCloth : Spawnable
 
 			var _Clothing = clothObj.GetComponent<Clothing>();
 			var Item = clothObj.GetComponent<ItemAttributes>();
-			_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothData, _Clothing);
+			_Clothing.spriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothData, _Clothing);
 			_Clothing.SetSynchronise(CD: clothData);
 			Item.SetUpFromClothingData(clothData.Base, clothData.ItemAttributes);
 			switch (clothingVariantType)
@@ -151,13 +157,27 @@ public class SpawnableCloth : Spawnable
 
 			var _Clothing = clothObj.GetComponent<Clothing>();
 			var Item = clothObj.GetComponent<ItemAttributes>();
-			_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
+			_Clothing.spriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 			Item.SetUpFromClothingData(containerData.Sprites, containerData.ItemAttributes);
 			_Clothing.SetSynchronise(ConD: containerData);
 			return clothObj;
 		}
 
+		private GameObject CreateBelt(BeltData beltData, SpawnDestination destination)
+		{
+			var clothObj = SpawnCloth("Belt", destination);
+			if (clothObj == null)
+			{
+				return null;
+			}
 
+			var clothing = clothObj.GetComponent<Clothing>();
+			var item = clothObj.GetComponent<ItemAttributes>();
+			clothing.spriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
+			item.SetUpFromClothingData(beltData.sprites, beltData.ItemAttributes);
+			clothing.SetSynchronise(Bd: beltData);
+			return clothObj;
+		}
 
 		private GameObject CreateHeadsetCloth(HeadsetData headsetData, SpawnDestination destination)
 		{
@@ -166,7 +186,7 @@ public class SpawnableCloth : Spawnable
 			var _Clothing = clothObj.GetComponent<Clothing>();
 			var Item = clothObj.GetComponent<ItemAttributes>();
 			var Headset = clothObj.GetComponent<Headset>();
-			_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
+			_Clothing.spriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
 			_Clothing.SetSynchronise(HD: headsetData);
 			Item.SetUpFromClothingData(headsetData.Sprites, headsetData.ItemAttributes);
 			Headset.EncryptionKey = headsetData.Key.EncryptionKey;

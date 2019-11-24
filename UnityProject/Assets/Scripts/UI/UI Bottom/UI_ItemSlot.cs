@@ -38,7 +38,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
-	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributes>().itemName;
+	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<IItemAttributes>().ItemName;
 
 	/// set back to the slot name since the pointer is still over the slot background
 	public override string ExitTooltip => hoverName;
