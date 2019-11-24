@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
+  m_Name: glowshroom
+  m_EditorClassIdentifier: 
+  plantData:
+    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+      type: 3}
+    plantType: 0
+    Name: glowshroom
+    Plantname: Glowshrooms
+    Description: This mycelium -glows- into mushrooms!
+    PacketsSprite:
+      Texture: {fileID: 2800000, guid: d225df297be78714bba6bd855de27684, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: d225df297be78714bba6bd855de27684, type: 3}
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 2800000, guid: 03b4c70b2a4a982458a4cf71c930c9e3, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 03b4c70b2a4a982458a4cf71c930c9e3, type: 3}
+      EquippedData: {fileID: 0}
+    GrowthSprites:
+    - Texture: {fileID: 2800000, guid: 64a96aecc91674c40b1004d4f75c7c59, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 64a96aecc91674c40b1004d4f75c7c59, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 14f337cab6b9f614786857619b1cda63, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 14f337cab6b9f614786857619b1cda63, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 8497f182c4ae96b44a526b54da35f0e2, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 8497f182c4ae96b44a526b54da35f0e2, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: b27687760f2814c44bb743b9363026b5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b27687760f2814c44bb743b9363026b5, type: 3}
+      EquippedData: {fileID: 0}
+    FullyGrownSprite:
+      Texture: {fileID: 2800000, guid: b27687760f2814c44bb743b9363026b5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b27687760f2814c44bb743b9363026b5, type: 3}
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 2800000, guid: 8fb42f3766cabbe438bb8a74dfd4f7f1, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 8fb42f3766cabbe438bb8a74dfd4f7f1, type: 3}
+      EquippedData: {fileID: 0}
+    WeedResistance: 5
+    WeedGrowthRate: 1
+    GrowthSpeed: 1
+    Potency: 30
+    Endurance: 30
+    Yield: 3
+    Lifespan: 100
+    PlantTrays: 0d00000002000000
+    ReagentProduction:
+    - String: radium
+      Int: 10
+    - String: phosphorus
+      Int: 10
+    - String: nutriment
+      Int: 3
+    MutatesInTo:
+    - {fileID: 11400000, guid: b66b4832a50905445b989c15f6978ea6, type: 2}
+    - {fileID: 11400000, guid: d6105e6c076365e4e93a55f5442a765f, type: 2}
+  WeedResistanceChange: 0
+  WeedGrowthRateChange: 0
+  GrowthSpeedChange: 0
+  PotencyChange: 0
+  EnduranceChange: 0
+  YieldChange: 0
+  LifespanChange: 0
+  PlantTrays: 
+  ReagentProduction: []
+  RemovePlantTrays: 
+  RemoveReagentProduction: []

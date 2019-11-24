@@ -185,8 +185,13 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn, I
 
 	private void OnEnable()
 	{
-		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
-		InventoryIcon = GetComponentInChildren<SpriteHandler>();
+		if (spriteDataHandler == null) { 
+			spriteDataHandler = GetComponent<SpriteDataHandler>();
+		}
+		if (InventoryIcon == null) { 
+			InventoryIcon = GetComponentInChildren<SpriteHandler>();
+		}
+
 	}
 
 

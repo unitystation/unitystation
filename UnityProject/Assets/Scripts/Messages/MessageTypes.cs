@@ -25,7 +25,7 @@ internal enum MessageTypes : short
 	PaperUpdateMessage = 1021,
 	StorageObjectSyncMessage = 1022,
 	MobMeleeLerpMessage = 1023,
-	// = 1024, unused, replace at will
+	PlantTrayMessage = 1024, //is temporary Will be replaced by Network sprites Animations 
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,
 	HealthOverallStats = 1027,

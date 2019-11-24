@@ -44,7 +44,7 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 			var BaseSerialiseObject = property.serializedObject.targetObject;
 			GetAttributes(BaseSerialiseObject as object);
 		}
-		EditorGUI.PropertyField(new Rect(1000,1000,1,1), property.FindPropertyRelative("Sprites"), GUIContent.none);
+		EditorGUI.PropertyField(new Rect(1000, 1000, 1, 1), property.FindPropertyRelative("Sprites"), GUIContent.none);
 		EditorGUI.PropertyField(new Rect(1001, 1001, 1, 1), property.FindPropertyRelative("EquippedData"), GUIContent.none);
 		property.serializedObject.ApplyModifiedProperties();
 		EditorGUI.indentLevel = indent;
@@ -57,55 +57,58 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 		Depth++;
 		//if (Depth <= 10)
 		//{
-			//Logger.Log("1");
-			Type monoType = Script.GetType();
-			foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		//Logger.Log("1");
+		Type monoType = Script.GetType();
+		foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		{
+			//Logger.Log("2");
+			if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 			{
-				//Logger.Log("2");
-				if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+				//Logger.Log("3 " + Field.FieldType);
+				if (Field.FieldType == typeof(SpriteSheetAndData))
 				{
-					//Logger.Log("3 " + Field.FieldType);
-					if (Field.FieldType == typeof(SpriteSheetAndData))
+					//Logger.Log("4");
+					(Field.GetValue(Script) as SpriteSheetAndData).setSprites();
+				}
+				//Logger.Log("5");
+
+				ReflectionSpriteSheetAndData(Field.FieldType, Script, Info: Field, Depth: Depth);
+			}
+		}
+		if (TupleTypeReference == monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
+		{
+			foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+			{
+				if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+				{
+					if (Properties.PropertyType == typeof(SpriteSheetAndData))
 					{
-						//Logger.Log("4");
-						(Field.GetValue(Script) as SpriteSheetAndData).setSprites();
+						(Properties.GetValue(Script) as SpriteSheetAndData).setSprites();
 					}
-					//Logger.Log("5");
-
-					ReflectionSpriteSheetAndData(Field.FieldType, Script, Info: Field, Depth: Depth);
-
+					ReflectionSpriteSheetAndData(Properties.PropertyType, Script, PInfo: Properties, Depth: Depth);
 				}
 			}
-			if (TupleTypeReference == monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
-			{
-				foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
-				{
-					if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
-					{
-						if (Properties.PropertyType == typeof(SpriteSheetAndData))
-						{
-							(Properties.GetValue(Script) as SpriteSheetAndData).setSprites();
-						}
-						ReflectionSpriteSheetAndData(Properties.PropertyType, Script, PInfo: Properties, Depth: Depth);
-					}
-				}
-			}
+		}
 		//}
 	}
 	public void ReflectionSpriteSheetAndData(Type VariableType, object Script, FieldInfo Info = null, PropertyInfo PInfo = null, int Depth = 0)
 	{
-		//Logger.Log("6");
 		if (Info == null && PInfo == null)
 		{
+			if (VariableType == typeof(SpriteSheetAndData))
+			{
+				(Script as SpriteSheetAndData).setSprites();
+			}
+
 			foreach (FieldInfo method in VariableType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 			{
+				if (method.FieldType == typeof(SpriteSheetAndData))
+				{
+					(method.GetValue(Script) as SpriteSheetAndData).setSprites();
+				}
+
 				if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
-					if (method.FieldType == typeof(SpriteSheetAndData))
-					{
-						(method.GetValue(Script) as SpriteSheetAndData).setSprites();
-					}
-
 					if (method.FieldType.IsGenericType)
 					{
 						IEnumerable list = method.GetValue(Script) as IEnumerable;
@@ -113,14 +116,13 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 						{
 							foreach (var c in list)
 							{
-								
 								Type valueType = c.GetType();
 								ReflectionSpriteSheetAndData(c.GetType(), c);
 
 							}
 						}
 					}
-					else if (VariableType.IsClass && VariableType  != typeof(string))
+					else if (VariableType.IsClass && VariableType != typeof(string))
 					{
 						if (method.GetValue(Script) != null)
 						{
@@ -132,10 +134,8 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 			}
 		}
 		else {
-			//Logger.Log("7");
 			if (Info == null)
 			{
-				//Logger.Log("8" + PInfo.PropertyType);
 				if (PInfo.PropertyType == typeof(SpriteSheetAndData))
 				{
 					(PInfo.GetValue(Script) as SpriteSheetAndData).setSprites();
@@ -143,7 +143,6 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 			}
 			else
 			{
-				//Logger.Log("8" + Info.FieldType);
 				if (Info.FieldType == typeof(SpriteSheetAndData))
 				{
 					(Info.GetValue(Script) as SpriteSheetAndData).setSprites();
@@ -153,7 +152,6 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 
 			if (VariableType.IsGenericType)
 			{
-				//Logger.Log("9");
 				IEnumerable list;
 				Type TType;
 				if (Info == null)
@@ -181,7 +179,6 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 				{
 					if (PInfo.GetValue(Script) != null)
 					{
-						//Logger.Log(VariableType.ToString());
 						GetAttributes(PInfo.GetValue(Script), Depth);
 					}
 				}
@@ -189,7 +186,6 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 				{
 					if (Info.GetValue(Script) != null)
 					{
-						//Logger.Log(VariableType.ToString());
 						GetAttributes(Info.GetValue(Script), Depth);
 					}
 				}

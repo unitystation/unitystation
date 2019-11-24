@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class SpriteData
 {
+	public SpriteSheetAndData SpriteAndData;
 	public List<List<List<SpriteHandler.SpriteInfo>>> List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 	public int spriteIndex;
 	public int VariantIndex;
@@ -98,7 +99,9 @@ public class SpriteData
 			}
 			i++;
 		}
-		if (List.Count == 0) {
+		if (SpriteAndData?.Texture != null) {			List.Add(StaticSpriteHandler.CompleteSpriteSetup(SpriteAndData));
+		}
+		else if (List.Count == 0) {
 			List.Add(new List<List<SpriteHandler.SpriteInfo>>());
 			List[0].Add(new List<SpriteHandler.SpriteInfo>());
 			List[0][0].Add(new SpriteHandler.SpriteInfo());

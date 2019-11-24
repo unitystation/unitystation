@@ -46,6 +46,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 	}
 	public override void PowerUpdateStructureChange() {
+		ControllingNode.Node.FlushConnectionAndUp();
 		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
