@@ -17,7 +17,7 @@ using Random = System.Random;
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
+public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn, IItemAttributes
 {
 	/// <summary>
 	/// Remember in hands is Left then right so [0] = Left, [1] = right
@@ -49,8 +49,9 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <summary>
 	/// True if this is a mask that can connect to a tank
 	/// </summary>
+	[FormerlySerializedAs("CanConnectToTank")]
 	[FormerlySerializedAs("ConnectedToTank")]
-	public bool CanConnectToTank;
+	public bool canConnectToTank;
 
 	/// throw-related fields
 	[Tooltip("Damage when we click someone with harm intent")] [Range(0, 100)]
@@ -74,16 +75,74 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	///</Summary>
 	public bool IsEVACapable { get; private set; }
 
+	public bool CanConnectToTank { get; private set; }
+	public SpriteDataHandler SpriteDataHandler => spriteDataHandler;
+
 	public List<string> attackVerb = new List<string>();
 
-	public void SetItemName(string newName)
+	public string ItemName => itemName;
+
+	public void ServerSetSize(ItemSize newSize)
 	{
-		SyncItemName(newName);
+		//NOTE: This isn't synced to client, ItemAttributesV2 is more robust about this
+		size = newSize;
 	}
 
-	public void SetItemDescription(string newDescription)
+	public float ServerHitDamage
 	{
-		SyncItemDescription(newDescription);
+		get => hitDamage;
+		set => hitDamage = value;
+	}
+
+	public DamageType ServerDamageType
+	{
+		get => damageType;
+		set => damageType = value;
+	}
+
+	[Server]
+	public void ServerSetItemDescription(string desc)
+	{
+		SyncItemDescription(desc);
+	}
+
+	public ItemSize Size
+	{
+		get => size;
+		set => size = value;
+	}
+	public float ServerThrowSpeed
+	{
+		get => throwSpeed;
+		set => throwSpeed = value;
+	}
+	public float ServerThrowRange
+	{
+		get => throwRange;
+		set => throwRange = value;
+	}
+	public float ServerThrowDamage
+	{
+		get => throwDamage;
+		set => throwDamage = value;
+	}
+	public string ServerHitSound
+	{
+		get => hitSound;
+		set => hitSound = value;
+	}
+
+	public IEnumerable<string> ServerAttackVerbs
+	{
+		get => attackVerb;
+		set => attackVerb = new List<string>(value);
+	}
+
+
+	[Server]
+	public void ServerSetItemName(string newName)
+	{
+		SyncItemName(newName);
 	}
 
 	private void SyncItemName(string newName)

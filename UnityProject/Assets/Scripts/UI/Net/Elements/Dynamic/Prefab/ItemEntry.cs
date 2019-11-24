@@ -21,8 +21,8 @@ public class ItemEntry : DynamicEntry {
 			Logger.Log( "ItemEntry: no prefab found, not doing init",Category.NetUI );
 			return;
 		}
-		var itemAttributes = Prefab.GetComponent<ItemAttributes>();
-		if ( !itemAttributes ) {
+		var itemAttributes = Prefab.GetComponent<IItemAttributes>();
+		if ( itemAttributes != null) {
 			Logger.LogWarning( $"No attributes found for prefab {Prefab}",Category.NetUI );
 			return;
 		}
@@ -30,14 +30,14 @@ public class ItemEntry : DynamicEntry {
 			string nameBeforeIndex = element.name.Split( DELIMITER )[0];
 			switch ( nameBeforeIndex ) {
 					case "ItemName":
-						element.Value = itemAttributes.name;
+						element.Value = (itemAttributes as Component).name;
 						break;
 					case "ItemIcon":
-						element.Value = itemAttributes.gameObject.name;
+						element.Value = (itemAttributes as Component).gameObject.name;
 //						element.Value = itemAttributes.GetComponentInChildren<SpriteRenderer>()?.sprite.name;
 						break;
 				}
 		}
-		Logger.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}",Category.NetUI );
+		Logger.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={(itemAttributes as Component).name}, ItemIcon={(itemAttributes as Component).gameObject.name}",Category.NetUI );
 	}
 }

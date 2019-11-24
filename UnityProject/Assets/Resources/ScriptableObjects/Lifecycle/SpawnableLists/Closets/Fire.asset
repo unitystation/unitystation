@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f29623cd914027a05edc41eae8af3c, type: 3}
   m_Name: Fire
   m_EditorClassIdentifier: 
-  spawnables:
-  - {fileID: 11400000, guid: 65d3fdf0c8a9d47fa9519e1d984c4ea1, type: 2}
-  - {fileID: 11400000, guid: 65d3fdf0c8a9d47fa9519e1d984c4ea1, type: 2}
-  - {fileID: 11400000, guid: 62465cdc7f28f40cb84b841f7986956d, type: 2}
+  contents:
+  - {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 3}
+  - {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 3}
+  - {fileID: 1869747887731904, guid: 9c91a985c48aef648b219b1d267a9cab, type: 3}
+  spawnables: []

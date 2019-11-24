@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f29623cd914027a05edc41eae8af3c, type: 3}
   m_Name: Syndicate
   m_EditorClassIdentifier: 
-  spawnables:
-  - {fileID: 11400000, guid: c1a211ff2f167443f9a7ea46ebf567cf, type: 2}
-  - {fileID: 11400000, guid: fb1f4b6bbf3b34096aaee7b7e83e8d96, type: 2}
-  - {fileID: 11400000, guid: 1105d415d927e4b0cabc4f43ad9913eb, type: 2}
-  - {fileID: 11400000, guid: 1105d415d927e4b0cabc4f43ad9913eb, type: 2}
-  - {fileID: 11400000, guid: fd95733663a6d4f55bbb5f7d69cf5c47, type: 2}
+  contents:
+  - {fileID: 1296620499762930, guid: 054d4c5d3f4b74caa87d549779ef4bf0, type: 3}
+  - {fileID: 1269203658156660, guid: 6e5bac62a83bd4e8e9764f3f7d48beaa, type: 3}
+  - {fileID: 1570589854574774, guid: ea8c66b49b7384edaa57106fd2a385a5, type: 3}
+  - {fileID: 1570589854574774, guid: ea8c66b49b7384edaa57106fd2a385a5, type: 3}
+  - {fileID: 1837689547681116, guid: 5c6f9e9e80c8a4b5a84d0376fb69f876, type: 3}
+  spawnables: []

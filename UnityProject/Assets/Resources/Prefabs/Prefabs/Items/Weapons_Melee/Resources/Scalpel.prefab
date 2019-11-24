@@ -181,7 +181,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Scalpel
   itemDescription: A specialist Surgery knife, hellish sharp
-  initialTraits: []
+  initialTraits:
+  - {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -333,5 +334,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 70e9a72b546334103b60c8b557fc6a8d
+  m_AssetId: 29d17c6e33a25434ca93edfb29f82cb7
   m_SceneId: 0

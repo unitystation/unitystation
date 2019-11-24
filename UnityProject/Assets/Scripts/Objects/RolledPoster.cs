@@ -1,10 +1,11 @@
 
 using System;
 using System.Collections.Generic;
+using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IServerSpawn
 {
 	public GameObject wallPrefab;
 	public PosterBehaviour.Posters posterVariant;
@@ -22,7 +23,7 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 		}
 
 		sprite = GetComponentInChildren<SpriteRenderer>();
-		var attributes = GetComponent<ItemAttributes>();
+		var attributes = GetComponent<IItemAttributes>();
 		var poster = Globals.Posters[posterVariant.ToString()];
 		string posterName;
 		string desc;
@@ -49,8 +50,42 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 			icon = poster.Type == PosterBehaviour.PosterType.Contraband ? contrabandSprite : legitSprite;
 		}
 
-		attributes.SetItemName(posterName);
-		attributes.SetItemDescription(desc);
+		attributes.ServerSetItemName(posterName);
+		attributes.ServerSetItemDescription(desc);
+		sprite.sprite = icon;
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		var attributes = GetComponent<IItemAttributes>();
+		var poster = Globals.Posters[posterVariant.ToString()];
+		string posterName;
+		string desc;
+		Sprite icon;
+
+		if (posterVariant == PosterBehaviour.Posters.RandomContraband)
+		{
+			posterName = "Contraband Poster";
+			desc =
+				"This poster comes with its own automatic adhesive mechanism, for easy pinning to any vertical surface. Its vulgar themes have marked it as contraband aboard Nanotrasen space facilities.";
+			icon = contrabandSprite;
+		}
+		else if (posterVariant == PosterBehaviour.Posters.RandomOfficial)
+		{
+			posterName = "Motivational Poster";
+			desc =
+				"An official Nanotrasen-issued poster to foster a compliant and obedient workforce. It comes with state-of-the-art adhesive backing, for easy pinning to any vertical surface.";
+			icon = legitSprite;
+		}
+		else
+		{
+			posterName = poster.Name;
+			desc = poster.Description;
+			icon = poster.Type == PosterBehaviour.PosterType.Contraband ? contrabandSprite : legitSprite;
+		}
+
+		attributes.ServerSetItemName(posterName);
+		attributes.ServerSetItemDescription(desc);
 		sprite.sprite = icon;
 	}
 
@@ -119,4 +154,6 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 		public static bool IsInitialised = false;
 		public static Dictionary<string, PosterBehaviour.Poster> Posters = new Dictionary<string, PosterBehaviour.Poster>();
 	}
+
+
 }

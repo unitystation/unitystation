@@ -182,7 +182,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Medical Scanner
   itemDescription: Used to check somebody's health.
-  initialTraits: []
+  initialTraits:
+  - {fileID: 11400000, guid: 1c44fee67ad484b37b2c4e4999a925e3, type: 2}
   size: 1
   spriteType: 0
   CanConnectToTank: 0

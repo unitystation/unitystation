@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: StandardSmallBoxPopulator
   m_EditorClassIdentifier: 
-  SlotPopulators:
-  - {fileID: 11400000, guid: 58071f4cf39354a6fa7642d6008868ba, type: 2}
-  - {fileID: 11400000, guid: df8bc0abb3b89432b9a2ab5fe71dd1e6, type: 2}
+  Contents:
+  - {fileID: 1639223380925416, guid: 611c366b2d389b94193a817e11987cdc, type: 3}
+  - {fileID: 1277678737481138, guid: f99902d04c3b1fe47b0e4e4ec36b7971, type: 3}
+  SlotPopulators: []
+  MergeMode: 0
