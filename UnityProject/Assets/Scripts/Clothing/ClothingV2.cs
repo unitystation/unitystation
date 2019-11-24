@@ -101,6 +101,12 @@ public class ClothingV2 : MonoBehaviour, IClothing
 			this.spriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 			SetUpFromClothingData(containerData.Sprites);
 		}
+		else if (clothData is BeltData beltData)
+		{
+			var Item = GetComponent<ItemAttributesV2>();
+			this.spriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
+			SetUpFromClothingData(beltData.sprites);
+		}
 		else if (clothData is HeadsetData headsetData)
 		{
 			var Item = GetComponent<ItemAttributesV2>();

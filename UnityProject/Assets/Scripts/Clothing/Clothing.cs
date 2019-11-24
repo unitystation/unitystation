@@ -210,10 +210,7 @@ public class Clothing : NetworkBehaviour, IClothing
 				var item = GetComponent<ItemAttributes>();
 				item.SetUpFromClothingData(beltData.sprites, beltData.ItemAttributes);
 
-				var storage = GetComponent<ItemStorage>();
-				storage.SetUpFromClothingData(beltData.structure, beltData.capacity, beltData.populator);
-
-				SpriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
+				spriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
 
 				Initialised = true;
 			}

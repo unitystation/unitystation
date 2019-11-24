@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrefabVariant: {fileID: 0}
   ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 0
-    size: 0
-    spriteType: 0
+    itemName: security belt
+    itemDescription: Can hold security gear like handcuffs and flashes.
+    itemType: 10
+    size: 3
+    spriteType: 1
     CanConnectToTank: 0
     IsEVACapable: 0
     hitDamage: 0
@@ -28,24 +28,33 @@ MonoBehaviour:
     throwRange: 7
     hitSound: GenericHit
     attackVerb: []
-  parent: {fileID: 0}
   sprites:
     Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 7f720b3d6d9cde949ad85eccb420d192, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7f720b3d6d9cde949ad85eccb420d192, type: 3}
+      - {fileID: 21300002, guid: 7f720b3d6d9cde949ad85eccb420d192, type: 3}
+      - {fileID: 21300004, guid: 7f720b3d6d9cde949ad85eccb420d192, type: 3}
+      - {fileID: 21300006, guid: 7f720b3d6d9cde949ad85eccb420d192, type: 3}
+      EquippedData: {fileID: 4900000, guid: 1d1859944b754854ba06c9e02b701e76, type: 3}
     InHandsLeft:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: beb5808ebd008c1439884a9d4f30cc7a, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: beb5808ebd008c1439884a9d4f30cc7a, type: 3}
+      - {fileID: 21300002, guid: beb5808ebd008c1439884a9d4f30cc7a, type: 3}
+      - {fileID: 21300004, guid: beb5808ebd008c1439884a9d4f30cc7a, type: 3}
+      - {fileID: 21300006, guid: beb5808ebd008c1439884a9d4f30cc7a, type: 3}
+      EquippedData: {fileID: 4900000, guid: e9c2bf8ef8a84214588c58bcf61554b8, type: 3}
     InHandsRight:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 85b34afbfcb8d6543b875673ff0292b0, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 85b34afbfcb8d6543b875673ff0292b0, type: 3}
+      - {fileID: 21300002, guid: 85b34afbfcb8d6543b875673ff0292b0, type: 3}
+      - {fileID: 21300004, guid: 85b34afbfcb8d6543b875673ff0292b0, type: 3}
+      - {fileID: 21300006, guid: 85b34afbfcb8d6543b875673ff0292b0, type: 3}
+      EquippedData: {fileID: 4900000, guid: 4db6250856b22d64d9e49bddd6cb43fc, type: 3}
     ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: f45c6c0a6056969498548382b09b036f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: f45c6c0a6056969498548382b09b036f, type: 3}
       EquippedData: {fileID: 0}
-  structure: {fileID: 0}
-  capacity: {fileID: 0}
-  populator: {fileID: 0}

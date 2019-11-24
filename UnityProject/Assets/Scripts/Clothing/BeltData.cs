@@ -5,9 +5,6 @@ using UnityEngine;
 public class BeltData : BaseClothData
 {
 	public EquippedData sprites;
-	public ItemStorageStructure structure;
-	public ItemStorageCapacity capacity;
-	public ItemStoragePopulator populator;
 
 	public override Sprite SpawnerIcon()
 	{
@@ -16,30 +13,6 @@ public class BeltData : BaseClothData
 
 	public override void InitializePool()
 	{
-		if (parent != null)
-		{
-			var parentBelt = parent as BeltData;
-			if (parentBelt != null)
-			{
-				sprites.Combine(parentBelt.sprites);
-
-				if (structure == null)
-				{
-					structure = parentBelt.structure;
-				}
-
-				if (capacity == null)
-				{
-					capacity = parentBelt.capacity;
-				}
-
-				if (populator == null)
-				{
-					populator = parentBelt.populator;
-				}
-			}
-		}
-
 		if (Spawn.BeltStoredData.ContainsKey(name) && Spawn.BeltStoredData[name] != this)
 		{
 			Logger.LogError("a BeltData has the same name as another one; name " + name + ". Please rename one of them to a different name");

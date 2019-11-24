@@ -173,7 +173,7 @@ public class SpawnableCloth : Spawnable
 
 			var clothing = clothObj.GetComponent<Clothing>();
 			var item = clothObj.GetComponent<ItemAttributes>();
-			clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
+			clothing.spriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
 			item.SetUpFromClothingData(beltData.sprites, beltData.ItemAttributes);
 			clothing.SetSynchronise(Bd: beltData);
 			return clothObj;
