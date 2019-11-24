@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Construction : MonoBehaviour
+public class ConstructionHelper : MonoBehaviour
 {
 	//Prefab fields:
 	public GameObject uniFloorTilePrefab;

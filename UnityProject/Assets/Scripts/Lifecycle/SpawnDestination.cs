@@ -70,6 +70,23 @@ public class SpawnDestination
 	}
 
 	/// <summary>
+	/// Creates less garbage than using GameObject. Use this if you can get the register tile.
+	///
+	/// Creates a spawn destination at the existing object's position, with the same parent
+	/// and rotation.
+	/// </summary>
+	/// <param name="existingObject">existing object to use to determine the destination</param>
+	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
+	/// <returns></returns>
+	public static SpawnDestination At(RegisterTile existingRegisterTile, bool cancelIfImpassable = false)
+	{
+		var position = existingRegisterTile.WorldPositionServer;
+		var parent = existingRegisterTile.transform.parent;
+		var rotation = existingRegisterTile.transform.rotation;
+		return At(position, parent, rotation, cancelIfImpassable);
+	}
+
+	/// <summary>
 	/// Spawn at hiddenpos, the place where invisible / not on stage stuff goes.
 	/// </summary>
 	/// <returns></returns>

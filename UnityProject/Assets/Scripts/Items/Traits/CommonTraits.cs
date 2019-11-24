@@ -19,4 +19,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Crowbar;
 	public ItemTrait Screwdriver;
 	public ItemTrait Multitool;
+	public ItemTrait Metal;
 }

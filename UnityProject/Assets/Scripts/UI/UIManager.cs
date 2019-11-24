@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UI.UI_Bottom;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
 	public Text pingDisplay;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
+	public BuildMenu buildMenu;
 	public ZoneSelector zoneSelector;
 	public bool ttsToggle;
 	public static GamePad GamePad => Instance.gamePad;
@@ -110,6 +112,7 @@ public class UIManager : MonoBehaviour
 
 	public static DisplayManager DisplayManager => Instance.displayManager;
 	public static UI_StorageHandler StorageHandler => Instance.storageHandler;
+	public static BuildMenu BuildMenu => Instance.buildMenu;
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
 	public static string SetToolTip

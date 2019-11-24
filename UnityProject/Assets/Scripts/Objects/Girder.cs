@@ -33,7 +33,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench or metal in their hand
-		if (!Validations.HasComponent<Metal>(interaction.HandObject) &&
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal) &&
 		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
 		return true;
 	}
@@ -42,7 +42,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (interaction.TargetObject != gameObject) return;
 
-		if (Validations.HasComponent<Metal>(interaction.HandObject)){
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal)){
 			var progressFinishAction = new ProgressCompleteAction(() =>
 						ConstructWall(interaction));
 			UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
