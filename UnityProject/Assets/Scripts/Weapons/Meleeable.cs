@@ -40,7 +40,7 @@ public class Meleeable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 		//NOTE that for meleeing tiles, this is invoked from InteractableTiles.
 		if (interaction.HandObject != null)
 		{
-			var handItem = interaction.HandObject.GetComponent<ItemAttributes>();
+			var handItem = interaction.HandObject;
 
 			//special case
 			//We don't melee if we are wielding a gun with ammo and clicking ourselves (we will instead shoot ourselves)

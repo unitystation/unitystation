@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.SceneManagement;
-using System.IO;
 using System;
 
 //[InitializeOnLoad]
@@ -66,4 +62,27 @@ public class EquippedData
 	public SpriteSheetAndData InHandsLeft;
 	public SpriteSheetAndData InHandsRight;
 	public SpriteSheetAndData ItemIcon;
+
+	public void Combine(EquippedData parent)
+	{
+		if (Equipped.Texture == null)
+		{
+			Equipped = parent.Equipped;
+		}
+
+		if (InHandsLeft.Texture == null)
+		{
+			InHandsLeft = parent.InHandsLeft;
+		}
+
+		if (InHandsRight.Texture == null)
+		{
+			InHandsRight = parent.InHandsRight;
+		}
+
+		if (ItemIcon.Texture == null)
+		{
+			ItemIcon = parent.ItemIcon;
+		}
+	}
 }

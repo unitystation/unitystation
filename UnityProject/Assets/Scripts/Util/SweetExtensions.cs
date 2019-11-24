@@ -12,15 +12,15 @@ public static class SweetExtensions
 		var connectedPlayer = PlayerList.Instance?.Get(go);
 		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
 	}
-	public static ItemAttributes Item(this GameObject go)
+	public static IItemAttributes Item(this GameObject go)
 	{
-		return go.GetComponent<ItemAttributes>();
+		return go.GetComponent<IItemAttributes>();
 	}
 
 	public static string ExpensiveName(this GameObject go)
 	{
 		var item = go.Item();
-		if (item != null && !String.IsNullOrWhiteSpace(item.itemName)) return item.itemName;
+		if (item != null && !String.IsNullOrWhiteSpace(item.ItemName)) return item.ItemName;
 
 		var player = go.Player();
 		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;

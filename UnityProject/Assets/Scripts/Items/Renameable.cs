@@ -16,17 +16,17 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 		private set => SetCustomName( value );
 	}
 
-	private ItemAttributes attributes;
+	private IItemAttributes attributes;
 
 	public override void OnStartClient()
 	{
-		attributes = gameObject.GetComponent<ItemAttributes>();
+		attributes = gameObject.GetComponent<IItemAttributes>();
 		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
-		attributes = gameObject.GetComponent<ItemAttributes>();
+		attributes = gameObject.GetComponent<IItemAttributes>();
 		base.OnStartServer();
 	}
 
@@ -36,7 +36,7 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 
 		if (itemName.IsNullOrEmpty())
 		{
-			itemName = attributes.itemName;
+			itemName = attributes.ItemName;
 			originalName = itemName;
 		}
 
@@ -47,7 +47,7 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 			itemName += " - '" + custom + "'";
 		}
 
-		attributes.SetItemName(itemName);
+		attributes.ServerSetItemName(itemName);
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)

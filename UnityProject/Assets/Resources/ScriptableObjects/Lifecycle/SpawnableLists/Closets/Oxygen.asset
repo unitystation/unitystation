@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f29623cd914027a05edc41eae8af3c, type: 3}
   m_Name: Oxygen
   m_EditorClassIdentifier: 
-  spawnables:
-  - {fileID: 11400000, guid: df8bc0abb3b89432b9a2ab5fe71dd1e6, type: 2}
-  - {fileID: 11400000, guid: df8bc0abb3b89432b9a2ab5fe71dd1e6, type: 2}
-  - {fileID: 11400000, guid: 58071f4cf39354a6fa7642d6008868ba, type: 2}
-  - {fileID: 11400000, guid: 58071f4cf39354a6fa7642d6008868ba, type: 2}
-  - {fileID: 11400000, guid: 76c63b5c33ffc4295aae11e8a5082e67, type: 2}
+  contents:
+  - {fileID: 1277678737481138, guid: f99902d04c3b1fe47b0e4e4ec36b7971, type: 3}
+  - {fileID: 1277678737481138, guid: f99902d04c3b1fe47b0e4e4ec36b7971, type: 3}
+  - {fileID: 1639223380925416, guid: 611c366b2d389b94193a817e11987cdc, type: 3}
+  - {fileID: 1639223380925416, guid: 611c366b2d389b94193a817e11987cdc, type: 3}
+  - {fileID: 1277678737481138, guid: 4661484912df68a4192af5d6c9a8cd58, type: 3}
+  spawnables: []

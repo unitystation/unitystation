@@ -14,8 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Entries:
   - NamedSlot: 12
-    SlotPopulator: {fileID: 11400000, guid: cb487e2e21a7645029cdac807bc96b03, type: 2}
+    Prefab: {fileID: 835768756810601639, guid: 3d08b6dbf08774e8681378945dec4edf, type: 3}
+    SlotPopulator: {fileID: 0}
   - NamedSlot: 10
-    SlotPopulator: {fileID: 11400000, guid: 31be4df491436437caf90c5a380b2827, type: 2}
+    Prefab: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49,
+      type: 3}
+    SlotPopulator: {fileID: 0}
   - NamedSlot: 15
+    Prefab: {fileID: 0}
     SlotPopulator: {fileID: 11400000, guid: 8721b93832fe04367926c946f632fa6b, type: 2}

@@ -33,7 +33,7 @@ public static class Validations
 	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
 		if (toCheck == null) return false;
-		var attrs = toCheck.GetComponent<ItemAttributes>();
+		var attrs = toCheck.GetComponent<IItemAttributes>();
 		if (attrs == null) return false;
 		return attrs.HasTrait(expectedTrait);
 	}

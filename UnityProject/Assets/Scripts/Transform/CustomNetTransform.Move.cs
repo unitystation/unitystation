@@ -304,8 +304,8 @@ public partial class CustomNetTransform
 	{
 		SetPosition(info.OriginPos, false);
 
-		float throwSpeed = ItemAttributes.throwSpeed * 10; //tiles per second
-		float throwRange = ItemAttributes.throwRange;
+		float throwSpeed = ItemAttributes.ServerThrowSpeed * 10; //tiles per second
+		float throwRange = ItemAttributes.ServerThrowRange;
 
 		Vector2 impulse = info.Trajectory.normalized;
 
@@ -328,7 +328,7 @@ public partial class CustomNetTransform
 		serverState.Impulse = impulse;
 		if (info.SpinMode != SpinMode.None)
 		{
-			serverState.SpinFactor = (sbyte)(Mathf.Clamp(throwSpeed * (2f / (int)ItemAttributes.size + 1), sbyte.MinValue, sbyte.MaxValue) *
+			serverState.SpinFactor = (sbyte)(Mathf.Clamp(throwSpeed * (2f / (int)ItemAttributes.Size + 1), sbyte.MinValue, sbyte.MaxValue) *
 				(info.SpinMode == SpinMode.Clockwise ? 1 : -1));
 		}
 		serverState.ActiveThrow = correctedInfo;
@@ -539,7 +539,7 @@ public partial class CustomNetTransform
 	/// </summary>
 	protected virtual void OnHit(Vector3Int pos, ThrowInfo info, List<LivingHealthBehaviour> objects, List<TilemapDamage> tiles)
 	{
-		if (!ItemAttributes)
+		if (ItemAttributes != null)
 		{
 			Logger.LogWarningFormat("{0}: Tried to hit stuff at pos {1} but have no ItemAttributes.", Category.Throwing, gameObject.name, pos);
 			return;
@@ -548,7 +548,7 @@ public partial class CustomNetTransform
 		for (var i = 0; i < tiles.Count; i++)
 		{
 			var tileDmg = tiles[i];
-			var damage = (int)(ItemAttributes.throwDamage * 2);
+			var damage = (int)(ItemAttributes.ServerThrowDamage * 2);
 			tileDmg.DoThrowDamage(pos, info, damage);
 		}
 
@@ -558,7 +558,7 @@ public partial class CustomNetTransform
 			for (var i = 0; i < objects.Count; i++)
 			{
 				//Remove cast to int when moving health values to float
-				var damage = (int)(ItemAttributes.throwDamage * 2);
+				var damage = (int)(ItemAttributes.ServerThrowDamage * 2);
 				var hitZone = info.Aim.Randomize();
 				objects[i].ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 				Chat.AddThrowHitMsgToChat(gameObject,objects[i].gameObject, hitZone);

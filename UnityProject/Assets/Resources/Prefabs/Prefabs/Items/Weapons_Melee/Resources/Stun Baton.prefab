@@ -81,6 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &7616748501444034581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +100,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Stun baton
   itemDescription: A stun baton for incapacitating people with.
-  itemType: 0
+  initialTraits:
+  - {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5, type: 2}
   size: 3
   spriteType: 0
   CanConnectToTank: 0
@@ -124,9 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7617698541931878523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: fcd09c3dfb3c3954cac1623e1c37bac3
+  m_AssetId: 29d17c6e33a25434ca93edfb29f82cb7
   m_SceneId: 0
 --- !u!1 &7503752899205498039
 GameObject:

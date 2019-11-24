@@ -18,7 +18,7 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 
 	private void Awake()
 	{
-		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.Food);
+		GetComponent<IItemAttributes>().AddTrait(CommonTraits.Instance.Food);
 	}
 
 	public virtual void TryEat()
