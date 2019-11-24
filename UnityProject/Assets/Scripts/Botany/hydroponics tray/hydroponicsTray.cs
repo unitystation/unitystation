@@ -237,7 +237,8 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	void Start()
 	{
-		if (IsSoilPile) { 
+		if (IsSoilPile)
+		{
 			hasplant = false;
 			plantData = new PlantData();
 			plantData.SetValues(DefaultPlantData.PlantDictionary.Values.PickRandom());
@@ -305,7 +306,6 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				{
 					PlantHealth = PlantHealth + (((plantData.Endurance - 101f) / 100f) * 1);
 				}
-				Logger.Log(reagentContainer.Contents["water"].ToString());
 			}
 			else if (!plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
 			{
@@ -476,13 +476,14 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 	}
 
-	public int CheckMutation(int num ,int min, int max)
+	public int CheckMutation(int num, int min, int max)
 	{
 		if (num < min)
 		{
-			return(min);
+			return (min);
 		}
-		else if (num > max) { 
+		else if (num > max)
+		{
 			return (max);
 		}
 		return (num);
@@ -597,13 +598,15 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			}
 		}
 		var ObjectItemAttributes = slot?.Item?.GetComponent<ItemAttributes>();
-		if (ObjectItemAttributes != null) {
-			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Cultivator)) {
+		if (ObjectItemAttributes != null)
+		{
+			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Cultivator))
+			{
 				WeedLevel = 0;
 				return;
 			}
-
-			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Bucket)) {
+			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Bucket))
+			{
 				reagentContainer.Contents["water"] = 100f;
 				return;
 			}
@@ -620,7 +623,8 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 		}
 		var FoodObject = slot?.Item?.GetComponent<GrownFood>();
-		if (FoodObject != null) { 
+		if (FoodObject != null)
+		{
 			NutritionLevel = NutritionLevel + FoodObject.plantData.Potency;
 			return;
 		}
@@ -661,6 +665,7 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 						plantData = null;
 						hasplant = false;
+						ReadyToHarvest = false;
 						SyncStage(PlantSpriteStage.None);
 						SyncHarvest(false);
 					}
