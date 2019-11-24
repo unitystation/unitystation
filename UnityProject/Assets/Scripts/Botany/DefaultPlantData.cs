@@ -69,10 +69,10 @@ public class DefaultPlantData : ScriptableObject
 
 	public void InitializePool()
 	{
-		if (PlantDictionary.ContainsKey(plantData.Name))
-		{
-			Logger.LogError("a DefaultPlantData Has the same name as another one name " + plantData.Name + " Please rename one of them to a different name");
-		}
+		//if (PlantDictionary.ContainsKey(plantData.Name))
+		//{
+			//Logger.LogError("a DefaultPlantData Has the same name as another one name " + plantData.Name + " Please rename one of them to a different name");
+		//}
 		PlantDictionary[plantData.Name] = this;
 	}
 
