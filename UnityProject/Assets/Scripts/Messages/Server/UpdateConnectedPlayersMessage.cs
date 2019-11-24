@@ -14,10 +14,14 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 //		Logger.Log("Processed " + ToString());
 
 		PlayerList.Instance.ClientConnectedPlayers.Clear();
-		for ( var i = 0; i < Players.Length; i++ )
+		if (Players != null)
 		{
-			PlayerList.Instance.ClientConnectedPlayers.Add(Players[i]);
+			for (var i = 0; i < Players.Length; i++)
+			{
+				PlayerList.Instance.ClientConnectedPlayers.Add(Players[i]);
+			}
 		}
+
 		PlayerList.Instance.RefreshPlayerListText();
 		yield return null;
 	}

@@ -17,7 +17,6 @@ public abstract class BaseClothData : ScriptableObject
 	/// </summary>
 	public ItemAttributesData ItemAttributes;
 
-
 	/// <summary>
 	/// Return the sprite to show for this in the dev spawner
 	/// </summary>
@@ -41,10 +40,7 @@ public abstract class BaseClothData : ScriptableObject
 		}
 
 #endif
-		//Logger.Log(name + " Awake");
-		//if (name == "test"){
-		//	Logger.LogError("noooooooooo");
-		//}
+
 		InitializePool();
 	}
 

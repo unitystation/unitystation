@@ -57,7 +57,7 @@ namespace Antagonists
 
 			// Pick a random item and add it to the targeted list
 			var itemEntry = possibleItems.PickRandom();
-			ItemName = itemEntry.Key.Item().itemName;
+			ItemName = itemEntry.Key.Item().ItemName;
 			Amount = itemEntry.Value;
 			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
 			// TODO randomise amount based on range/weightings?
@@ -70,7 +70,7 @@ namespace Antagonists
 			foreach (var slot in Owner.body.ItemStorage.GetItemSlotTree())
 			{
 				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributes>()?.itemName == ItemName)
+				if (slot.ItemObject != null && slot.ItemObject.GetComponent<IItemAttributes>()?.ItemName == ItemName)
 				{
 					count++;
 				}

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f29623cd914027a05edc41eae8af3c, type: 3}
   m_Name: Janitor
   m_EditorClassIdentifier: 
-  spawnables:
-  - {fileID: 11400000, guid: ea49eb70b626b49dc85ab531081b2b39, type: 2}
-  - {fileID: 11400000, guid: ea49eb70b626b49dc85ab531081b2b39, type: 2}
-  - {fileID: 11400000, guid: fb9670e87a50444d8abe7e0cbf735ac9, type: 2}
-  - {fileID: 11400000, guid: fb9670e87a50444d8abe7e0cbf735ac9, type: 2}
-  - {fileID: 11400000, guid: fb9670e87a50444d8abe7e0cbf735ac9, type: 2}
+  contents:
+  - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
+  - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
+  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
+  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
+  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
+  spawnables: []

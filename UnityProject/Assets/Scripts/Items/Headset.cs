@@ -14,7 +14,7 @@ public class Headset : NetworkBehaviour
 
 	private void getEncryptionTypeFromHier()
 	{
-		ItemAttributes attr = GetComponent<ItemAttributes>();
+		IItemAttributes attr = GetComponent<IItemAttributes>();
 
 		//switch (attr.hierarchy)
 		//{

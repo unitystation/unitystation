@@ -141,11 +141,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			{
 				return ItemSize.Huge;
 			}
-			if ( ItemAttributes.size == 0 )
+			if ( ItemAttributes.Size == 0 )
 			{
 				return ItemSize.Tiny;
 			}
-			return ItemAttributes.size;
+			return ItemAttributes.Size;
 		}
 	}
 
@@ -205,15 +205,15 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 
-	private ItemAttributes ItemAttributes {
+	private IItemAttributes ItemAttributes {
 		get {
 			if ( itemAttributes == null ) {
-				itemAttributes = GetComponent<ItemAttributes>();
+				itemAttributes = GetComponent<IItemAttributes>();
 			}
 			return itemAttributes;
 		}
 	}
-	private ItemAttributes itemAttributes;
+	private IItemAttributes itemAttributes;
 
 	private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
 	private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
@@ -231,7 +231,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		itemAttributes = GetComponent<ItemAttributes>();
+		itemAttributes = GetComponent<IItemAttributes>();
 		var _pushPull = PushPull; //init
 		OnUpdateRecieved().AddListener( Poke );
 	}

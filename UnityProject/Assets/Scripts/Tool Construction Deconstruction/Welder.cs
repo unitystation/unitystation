@@ -38,7 +38,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 
 	private string currentHand;
 
-	private ItemAttributes itemAtts;
+	private IItemAttributes itemAtts;
 	private RegisterTile registerTile;
 	private Pickupable pickupable;
 
@@ -77,10 +77,10 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 
 	void Awake()
 	{
-		itemAtts = GetComponent<ItemAttributes>();
+		itemAtts = GetComponent<IItemAttributes>();
 		registerTile = GetComponent<RegisterTile>();
 
-		damageOff = itemAtts.hitDamage;
+		damageOff = itemAtts.ServerHitDamage;
 
 		//leftHandOriginal = itemAtts.inHandReferenceLeft;
 		//rightHandOriginal = itemAtts.inHandReferenceRight;
@@ -116,8 +116,8 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 			//itemAtts.inHandReferenceLeft = leftHandFlame;
 			//itemAtts.inHandReferenceRight = rightHandFlame;
 			isBurning = true;
-			itemAtts.damageType = DamageType.Burn;
-			itemAtts.hitDamage = damageOn;
+			itemAtts.ServerDamageType = DamageType.Burn;
+			itemAtts.ServerHitDamage = damageOn;
 			flameRenderer.sprite = flameSprites[0];
 			if (coBurnFuel == null)
 				coBurnFuel = StartCoroutine(BurnFuel());
@@ -134,8 +134,8 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 				StopCoroutine(coBurnFuel);
 				coBurnFuel = null;
 			}
-			itemAtts.damageType = DamageType.Brute;
-			itemAtts.hitDamage = damageOff;
+			itemAtts.ServerDamageType = DamageType.Brute;
+			itemAtts.ServerHitDamage = damageOff;
 			flameRenderer.sprite = null;
 		}
 

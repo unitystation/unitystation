@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	ICheckedInteractable<InventoryApply>
 {
-	public ItemAttributes itemAttributes;
+	public IItemAttributes itemAttributes;
 	public SpriteHandler spriteHandler;
 	public PlayerLightControl playerLightControl;
 	public LightSprite worldLight;
@@ -197,28 +197,28 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	{
 		if (originalVerbs.Count == 0)
 		{ // Get the initial values before we replace
-			originalHitDamage = itemAttributes.hitDamage;
-			originalThrowDamage = itemAttributes.throwDamage;
-			originalVerbs = itemAttributes.attackVerb;
-			originalSize = itemAttributes.size;
-			originalHitSound = itemAttributes.hitSound;
+			originalHitDamage = itemAttributes.ServerHitDamage;
+			originalThrowDamage = itemAttributes.ServerThrowDamage;
+			originalVerbs = new List<string>(itemAttributes.ServerAttackVerbs);
+			originalSize = itemAttributes.Size;
+			originalHitSound = itemAttributes.ServerHitSound;
 		}
 
 		if (activated)
 		{
-			itemAttributes.hitDamage = activatedHitDamage;
-			itemAttributes.throwDamage = activatedThrowDamage;
-			itemAttributes.attackVerb = activatedVerbs;
-			itemAttributes.size = activatedSize;
-			itemAttributes.hitSound = activatedHitSound;
+			itemAttributes.ServerHitDamage = activatedHitDamage;
+			itemAttributes.ServerThrowDamage = activatedThrowDamage;
+			itemAttributes.ServerAttackVerbs = activatedVerbs;
+			itemAttributes.ServerSetSize(activatedSize);
+			itemAttributes.ServerHitSound = activatedHitSound;
 		}
 		else
 		{
-			itemAttributes.hitDamage = originalHitDamage;
-			itemAttributes.throwDamage = originalThrowDamage;
-			itemAttributes.attackVerb = originalVerbs;
-			itemAttributes.size = originalSize;
-			itemAttributes.hitSound = originalHitSound;
+			itemAttributes.ServerHitDamage = originalHitDamage;
+			itemAttributes.ServerThrowDamage = originalThrowDamage;
+			itemAttributes.ServerAttackVerbs = originalVerbs;
+			itemAttributes.ServerSetSize(originalSize);
+			itemAttributes.ServerHitSound = originalHitSound;
 		}
 	}
 
