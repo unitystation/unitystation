@@ -25,6 +25,8 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 	public IItemAttributes itemAttributes;
 	private FloatEvent OnCurrentCapacityChange = new FloatEvent();
+	public bool InSolidForm;
+
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
 	public List<ItemTrait> AcceptedTraits;
@@ -126,6 +128,18 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		}
 
 		return result;
+	}
+
+	public bool Contains(string Chemical, float Amount)
+	{
+		if (Contents.ContainsKey(Chemical))
+		{
+			if (Contents[Chemical] >= Amount)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public TransferResult AddReagents(Dictionary<string, float> reagents, float temperatureContainer)

@@ -16,6 +16,7 @@ public class ResourceTracker : MonoBehaviour
 	public List<BeltData> DataBeltData = new List<BeltData>();
 	public List<HeadsetData> DataHeadsetData = new List<HeadsetData>();
 	public List<PlayerTextureData> DataRaceData = new List<PlayerTextureData>();
+	public List<DefaultPlantData> DataDefaultPlantData = new List<DefaultPlantData>();
 
 	public void GatherData()
 	{
@@ -25,5 +26,6 @@ public class ResourceTracker : MonoBehaviour
 		BeltData.GetBeltData(DataBeltData);
 		HeadsetData.getHeadsetData(DataHeadsetData);
 		PlayerTextureData.getClothingDatas(DataRaceData);
+		DefaultPlantData.getDatas(DataDefaultPlantData);
 	}
 }

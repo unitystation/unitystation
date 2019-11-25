@@ -204,6 +204,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 	public void UpObjectStateChange(ObjectState tState) {
+		if (tState == ObjectState.Normal) {
+			ElectricalSynchronisation.StructureChange = true;
+		}
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ObjectStateChange))
 		{
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ObjectStateChange])

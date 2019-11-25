@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
+  m_Name: kudzu
+  m_EditorClassIdentifier: 
+  plantData:
+    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+      type: 3}
+    plantType: 0
+    Name: kudzu
+    Plantname: Kudzu
+    Description: These seeds grow into a weed that grows incredibly fast.
+    PacketsSprite:
+      Texture: {fileID: 2800000, guid: bf04229f2071a194f8b50006c31341b6, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: bf04229f2071a194f8b50006c31341b6, type: 3}
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 2800000, guid: 452ec1814b4b1bb47973bdf7a71dd63b, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 452ec1814b4b1bb47973bdf7a71dd63b, type: 3}
+      EquippedData: {fileID: 0}
+    GrowthSprites:
+    - Texture: {fileID: 2800000, guid: aa606050fcca0f449bc6f3f3fc552d36, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: aa606050fcca0f449bc6f3f3fc552d36, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 07943aeddfa23da42a7143734ddb4021, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 07943aeddfa23da42a7143734ddb4021, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: f1f6526835942004f9a9f330a9c35d0e, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: f1f6526835942004f9a9f330a9c35d0e, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 80bafe17590c4f7499218b13219a114a, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 80bafe17590c4f7499218b13219a114a, type: 3}
+      EquippedData: {fileID: 0}
+    FullyGrownSprite:
+      Texture: {fileID: 2800000, guid: 7d2958d585406c44db35e9b728ebe4a5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7d2958d585406c44db35e9b728ebe4a5, type: 3}
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 2800000, guid: 783df3920edb0894eb691de2338b66f4, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 783df3920edb0894eb691de2338b66f4, type: 3}
+      EquippedData: {fileID: 0}
+    WeedResistance: 5
+    WeedGrowthRate: 1
+    GrowthSpeed: 6
+    Potency: 10
+    Endurance: 10
+    Yield: 4
+    Lifespan: 20
+    PlantTrays: 0000000001000000
+    ReagentProduction:
+    - String: charcoal
+      Int: 3
+    - String: nutriment
+      Int: 1
+    MutatesInTo: []
+  WeedResistanceChange: 0
+  WeedGrowthRateChange: 0
+  GrowthSpeedChange: 0
+  PotencyChange: 0
+  EnduranceChange: 0
+  YieldChange: 0
+  LifespanChange: 0
+  PlantTrays: 
+  ReagentProduction: []
+  RemovePlantTrays: 
+  RemoveReagentProduction: []
