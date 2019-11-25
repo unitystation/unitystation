@@ -7,7 +7,6 @@ public class ConnectedPlayer
 	private string username;
 	private string name;
 	private JobType job;
-	private ulong steamId;
 	private GameObject gameObject;
 	private PlayerScript playerScript;
 	private JoinedViewer viewerScript;
@@ -20,8 +19,6 @@ public class ConnectedPlayer
 	//Name that is used if the client's character name is empty
 	private const string DEFAULT_NAME = "Anonymous Spessman";
 
-	public bool IsAuthenticated => steamId != 0;
-
 	public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
 	{
 		connection = new NetworkConnection("0.0.0.0"),
@@ -29,7 +26,6 @@ public class ConnectedPlayer
 		username = null,
 		name = "kek",
 		job = JobType.NULL,
-		steamId = 0,
 		synced = true,
 		clientID = ""
 	};
@@ -43,7 +39,6 @@ public class ConnectedPlayer
 			username = player.Username,
 			name = player.Name,
 			job = player.Job,
-			steamId = player.SteamId,
 			synced = player.synced,
 			clientID = player.clientID
 		};
@@ -87,19 +82,6 @@ public class ConnectedPlayer
 		{
 			TryChangeName(value);
 			TrySendUpdate();
-		}
-	}
-
-	public ulong SteamId
-	{
-		get { return steamId; }
-		set
-		{
-			if ( value != 0 )
-			{
-				steamId = value;
-				Logger.Log( $"Updated steamID! {this}" , Category.Steam);
-			}
 		}
 	}
 
@@ -207,6 +189,6 @@ public class ConnectedPlayer
 
 	public override string ToString()
 	{
-		return $"[conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|steamId={steamId}|synced={synced}]";
+		return $"[conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|synced={synced}]";
 	}
 }

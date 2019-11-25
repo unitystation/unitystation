@@ -1,5 +1,4 @@
-﻿using Facepunch.Steamworks;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,10 +28,7 @@ public class GUI_PlayerOptions : MonoBehaviour
 		screen_ConnectTo.SetActive(false);
 		string steamName = "";
 		string prefsName;
-		if (Client.Instance != null)
-		{
-			steamName = Client.Instance.Username;
-		}
+
 		if (!string.IsNullOrEmpty(steamName))
 		{
 			prefsName = steamName;

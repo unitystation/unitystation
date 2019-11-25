@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using DatabaseAPI;
-using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
@@ -358,11 +357,6 @@ namespace Lobby
 		{
 			string steamName = "";
 			string prefsName;
-
-			if (Client.Instance != null)
-			{
-				steamName = Client.Instance.Username;
-			}
 
 			if (!string.IsNullOrEmpty(steamName))
 			{

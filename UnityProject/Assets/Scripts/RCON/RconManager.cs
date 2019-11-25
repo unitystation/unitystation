@@ -337,7 +337,6 @@ public class Players
 			var playerEntry = new PlayerDetails()
 			{
 				playerName = player.Name,
-					steamID = player.SteamId,
 					job = player.Job.ToString()
 			};
 			players.Add(playerEntry);

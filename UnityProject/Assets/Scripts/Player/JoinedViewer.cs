@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Facepunch.Steamworks;
 using UnityEngine;
 using Mirror;
 
@@ -23,19 +22,11 @@ public class JoinedViewer : NetworkBehaviour
 			PlayerPrefs.Save();
 		}
 
-		// Send steamId to server for player setup.
-		if (BuildPreferences.isSteamServer)
-		{
-			CmdServerSetupPlayer(Client.Instance.SteamId, PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
-		}
-		else
-		{
-			CmdServerSetupPlayer(0, PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
-		}
+		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(ulong steamId, string clientID, string username)
+	private void CmdServerSetupPlayer(string clientID, string username)
 	{
 		var connPlayer = new ConnectedPlayer
 		{
@@ -43,7 +34,6 @@ public class JoinedViewer : NetworkBehaviour
 			GameObject = gameObject,
 			Username = username,
 			Job = JobType.NULL,
-			SteamId = steamId,
 			ClientId = clientID
 		};
 		//Add player to player list
@@ -88,12 +78,6 @@ public class JoinedViewer : NetworkBehaviour
 		PlayerManager.SetViewerForControl(this);
 		UIManager.ResetAllUI();
 
-		if (BuildPreferences.isSteamServer)
-		{
-			//Send request to be authenticated by the server
-			StartCoroutine(WaitUntilServerInit());
-		}
-
 		// Determine what to do depending on the state of the round
 		switch (roundState)
 		{
@@ -115,25 +99,6 @@ public class JoinedViewer : NetworkBehaviour
 					CmdRejoin(loggedOffPlayer);
 				}
 				break;
-		}
-	}
-
-	//Just ensures connected player record is set on the server first before Auth req is sent
-	IEnumerator WaitUntilServerInit()
-	{
-		yield return WaitFor.EndOfFrame;
-		if (Client.Instance != null)
-		{
-			Logger.Log("Client Requesting Auth", Category.Steam);
-			// Generate authentication Ticket
-			var ticket = Client.Instance.Auth.GetAuthSessionTicket();
-			var ticketBinary = ticket.Data;
-			// Send Clientmessage to authenticate
-			RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
-		}
-		else
-		{
-			Logger.Log("Client NOT requesting auth", Category.Steam);
 		}
 	}
 
