@@ -166,42 +166,13 @@ public class PlayerList : NetworkBehaviour
 			existingPlayer.GameObject = player.GameObject;
 			existingPlayer.Name = player.Name; //Note that name won't be changed to empties/nulls
 			existingPlayer.Job = player.Job;
-			existingPlayer.SteamId = player.SteamId;
 		}
 		else
 		{
 			values.Add(player);
 			Logger.LogFormat("Added {0}. Total:{1}; {2}", Category.Connections, player, values.Count, string.Join(";", values));
-			//Adding kick timer for new players only
-			StartCoroutine(KickTimer(player));
 		}
 		CheckRcon();
-	}
-
-	private IEnumerator KickTimer(ConnectedPlayer player)
-	{
-		if ( IsConnWhitelisted( player ) || !BuildPreferences.isForRelease )
-		{
-//			Logger.Log( "Ignoring kick timer for invalid connection" );
-			yield break;
-		}
-		int tries = 10; // 10 second wait, just incase of slow loading on lower end machines
-		while (!player.IsAuthenticated)
-		{
-			if (tries-- < 0)
-			{
-				CustomNetworkManager.Kick(player, "Auth timed out");
-				yield break;
-			}
-			yield return WaitFor.Seconds(1);
-		}
-	}
-
-	public static bool IsConnWhitelisted( ConnectedPlayer player )
-	{
-		return player.Connection == null ||
-			   player.Connection == ConnectedPlayer.Invalid.Connection ||
-			   !player.Connection.isConnected;
 	}
 
 	[Server]
@@ -252,12 +223,6 @@ public class PlayerList : NetworkBehaviour
 	public ConnectedPlayer Get(GameObject byGameObject, bool lookupOld = false)
 	{
 		return getInternal(player => player.GameObject == byGameObject, lookupOld);
-	}
-
-	[Server]
-	public ConnectedPlayer Get(ulong bySteamId, bool lookupOld = false)
-	{
-		return getInternal(player => player.SteamId == bySteamId, lookupOld);
 	}
 
 	private ConnectedPlayer getInternal(Func<ConnectedPlayer,bool> condition, bool lookupOld = false)
