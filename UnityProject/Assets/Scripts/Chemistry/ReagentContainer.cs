@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using WebSocketSharp;
 
 [RequireComponent(typeof(RightClickAppearance))]
-public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
+public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
 	ICheckedInteractable<HandActivate>, //Activate to change transfer amount
 	ICheckedInteractable<InventoryApply> //Transfer: active hand <-> other hand
@@ -27,28 +28,31 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 	private FloatEvent OnCurrentCapacityChange = new FloatEvent();
 	public bool InSolidForm;
 
+	//Initial values for reagents:
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
-	public List<ItemTrait> AcceptedTraits;
-	public bool TraitFilterOn => AcceptedTraits.Count > 0;
-	public List<string> AcceptedReagents;
-	public bool ReagentsFilterOn => AcceptedReagents.Count > 0;
+
+	[FormerlySerializedAs("AcceptedTraits")]
+	public List<ItemTrait> TraitWhitelist;
+	public bool TraitWhitelistOn => TraitWhitelist.Count > 0;
+	[FormerlySerializedAs("AcceptedReagents")]
+	public List<string> ReagentWhitelist;
+	public bool ReagentWhitelistOn => ReagentWhitelist.Count > 0;
 
 	public TransferMode TransferMode = TransferMode.Normal;
 
 	public bool IsFull => CurrentCapacity >= MaxCapacity;
 	public bool IsEmpty => CurrentCapacity <= 0f;
 
-	/// <summary>
-	/// Server only
-	/// </summary>
-	[Range(1,100)]
-	public float TransferAmount = 20;
+	public float TransferAmount { get; private set; } = 20;
+
+	[Range(1,100)] [SerializeField] [FormerlySerializedAs(nameof(TransferAmount))]
+	private float InitialTransferAmount = 20;
 
 	public List<float> PossibleTransferAmounts;
 
 	private RegisterTile registerTile;
-	private EmptyFullContainer containerSprite;
+	private EmptyFullSync containerSprite;
 	private float currentCapacity;
 
 	private void Awake()
@@ -60,11 +64,11 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		}
 		OnCurrentCapacityChange.AddListener(newCapacity =>
 		{
-			if (containerSprite == null)
+			if (containerSprite == null || !CustomNetworkManager.IsServer)
 			{
 				return;
 			}
-			containerSprite.SyncSprite(IsEmpty ? EmptyFullStatus.Empty : EmptyFullStatus.Full);
+			containerSprite.SetState(IsEmpty ? EmptyFullStatus.Empty : EmptyFullStatus.Full);
 		});
 	}
 
@@ -84,12 +88,22 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		var customNetTransform = GetComponent<CustomNetTransform>();
 		if (customNetTransform != null)
 		{
-			customNetTransform.OnThrowEnd.AddListener(CheckSpill);
+			customNetTransform.OnThrowEnd.AddListener(throwInfo =>
+			{ //check spill on throw
+				if (Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow))
+				{
+					if (IsEmpty)
+					{
+						return;
+					}
+					SpillAll(thrown: true);
+				}
+			});
 		}
 
 		if (containerSprite == null)
 		{
-			containerSprite = GetComponent<EmptyFullContainer>();
+			containerSprite = GetComponent<EmptyFullSync>();
 		}
 
 		var integrity = GetComponent<Integrity>();
@@ -99,16 +113,9 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		}
 	}
 
-	private void CheckSpill(ThrowInfo throwInfo)
+	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow))
-		{
-			if (IsEmpty)
-			{
-				return;
-			}
-			SpillAll(true);
-		}
+		TransferAmount = InitialTransferAmount;
 	}
 
 	public RightClickableResult GenerateRightClickOptions()
@@ -142,14 +149,41 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		return false;
 	}
 
-	public TransferResult AddReagents(Dictionary<string, float> reagents, float temperatureContainer = 20f)
+	/// <summary>
+	/// Add reagents
+	/// </summary>
+	/// <param name="reagents">Reagents to add</param>
+	/// <returns>Result of transfer. Can see how much was actually transferred, if any</returns>
+	public TransferResult AddReagents(Dictionary<string, float> reagents)
+	{
+		return AddReagentsKelvin(reagents);
+	}
+
+	/// <summary>
+	/// Add reagents
+	/// </summary>
+	/// <param name="reagents">Reagents to add</param>
+	/// <param name="addTemperature">CELSIUS temperature of added reagents, default equals to 20°C</param>
+	/// <returns>Result of transfer. Can see how much was actually transferred, if any</returns>
+	public TransferResult AddReagentsCelsius(Dictionary<string, float> reagents, float addTemperature = 20f)
+	{
+		return AddReagentsKelvin(reagents, addTemperature + ZERO_CELSIUS_IN_KELVIN);
+	}
+
+	/// <summary>
+	/// Add reagents
+	/// </summary>
+	/// <param name="reagents">Reagents to add</param>
+	/// <param name="addTemperature">KELVIN temperature of added reagents, default equals to 20°C</param>
+	/// <returns>Result of transfer. Can see how much was actually transferred, if any</returns>
+	public TransferResult AddReagentsKelvin(Dictionary<string, float> reagents, float addTemperature = 293.15f)
 	{
 
-		if ( ReagentsFilterOn )
+		if ( ReagentWhitelistOn )
 		{
 			foreach ( var reagent in reagents.Keys )
 			{
-				if ( !AcceptedReagents.Contains( reagent ) )
+				if ( !ReagentWhitelist.Contains( reagent ) )
 				{
 					return new TransferResult {Success = false, Message = "You can't transfer this into "+gameObject.ExpensiveName()};
 				}
@@ -172,11 +206,23 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		}
 
 		float oldCapacity = CurrentCapacity;
-		Contents = Calculations.Reactions(Contents, Temperature);
-		CurrentCapacity = AmountOfReagents(Contents);
-		Temperature = ((CurrentCapacity - oldCapacity) * temperatureContainer) + (oldCapacity * Temperature) / CurrentCapacity;
 
-		return new TransferResult{ Success = true, TransferAmount = totalToAdd };
+		//Reactions happen here
+		Contents = Calculations.Reactions(Contents, TemperatureKelvin);
+		CurrentCapacity = AmountOfReagents(Contents);
+
+		string message = string.Empty;
+		if (CurrentCapacity > MaxCapacity)
+		{ //Reaction ends up in more reagents than container can hold
+			var excessCapacity = CurrentCapacity;
+			Contents = Calculations.RemoveExcess(Contents, MaxCapacity);
+			CurrentCapacity = AmountOfReagents(Contents);
+			message = $"Reaction caused excess ({excessCapacity}/{MaxCapacity}), current capacity is {CurrentCapacity}";
+		}
+
+		TemperatureKelvin = (((CurrentCapacity - oldCapacity) * addTemperature) + (oldCapacity * TemperatureKelvin)) / CurrentCapacity;
+
+		return new TransferResult{ Success = true, TransferAmount = totalToAdd, Message = message};
 	}
 
 	/// <summary>
@@ -215,7 +261,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 		if ( target != null )
 		{
-			transferResult = target.AddReagents(transferredReagents, Temperature);
+			transferResult = target.AddReagentsKelvin(transferredReagents, TemperatureKelvin);
 			if ( !transferResult.Success )
 			{ //don't consume contents if transfer failed
 				return transferResult;
@@ -303,46 +349,8 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		var spilledReagents = TakeReagents(AmountOfReagents(Contents));
 		MatrixManager.ReagentReact(spilledReagents, worldPos);
 
-
-
-//todo: half decent regs spread
-//		if (amountOfReagents <= REGS_PER_TILE)
-//		{
-//			return;
-//		}
-//
-//		//assuming one tile can hold REGS_PER_TILE units of regs
-//		var tilesToCover = Mathf.Clamp(amountOfReagents / REGS_PER_TILE, 1, int.MaxValue);
-//		var spillArea = registerTile.WorldPositionServer.BoundsAround();
-//		while ( (spillArea.size.x * spillArea.size.y) < tilesToCover )
-//		{
-//			spillArea = spillArea.Extend(1);
-//		}
-//
-//		var positions = spillArea.allPositionsWithin.ToIEnumerable().ToList();
-//		int count = positions.Count;
-//
-//		var spillPerTile = spilledReagents.ToDictionary(
-//			reagent => reagent.Key,
-//			reagent => reagent.Value / tilesToCover
-//		);
-//
-//		StartCoroutine(SpillRegs(positions, tilesToCover, spillPerTile));
+	//todo: half decent regs spread
 	}
-
-//	private IEnumerator SpillRegs(List<Vector3Int> positions, float tilesToCover, Dictionary<string, float> spillPerTile)
-//	{
-//		int halfCount = positions.Count / 2;
-//
-//		//1234567 -> 4,5,3,6,2,7,1. but no more than tilesToCover
-//		for (int i = halfCount, j = 0; i < positions.Count && i >= 0 && j < tilesToCover; ++j, i = (i > halfCount ? -j : j) + i)
-//		{
-//			var worldPos = positions[i];
-//			var localPos = MatrixManager.Instance.WorldToLocalInt(worldPos, registerTile.Matrix);
-//			registerTile.Matrix.MetaDataLayer.ReagentReact(spillPerTile, worldPos, localPos);
-//			yield return WaitFor.Seconds(0.05f);
-//		}
-//	}
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
@@ -404,11 +412,11 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 		if (side == NetworkSide.Server)
 		{
-			if (srcContainer.TraitFilterOn && !Validations.HasAnyTrait(dstObject, srcContainer.AcceptedTraits))
+			if (srcContainer.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, srcContainer.TraitWhitelist))
 			{
 				return false;
 			}
-			if (dstContainer.TraitFilterOn && !Validations.HasAnyTrait(dstObject, srcContainer.AcceptedTraits))
+			if (dstContainer.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, srcContainer.TraitWhitelist))
 			{
 				return false;
 			}
@@ -607,19 +615,14 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 
 	public override string ToString()
 	{
-		return $"[ |{gameObject.ExpensiveName()}|" +
+		return $"[{gameObject.ExpensiveName()}" +
+		       $" |{CurrentCapacity}/{MaxCapacity}|" +
+		       $" ({string.Join(",",Contents)})" +
 		       $" Mode: {TransferMode}," +
-		       $" Amount: {TransferAmount}," +
-		       $" Capacity: {CurrentCapacity}/{MaxCapacity}," +
+		       $" TransferAmount: {TransferAmount}," +
 		       $" {nameof( IsEmpty )}: {IsEmpty}," +
 		       $" {nameof( IsFull )}: {IsFull}" +
 		       "]";
-	}
-
-	public void OnDespawnServer(DespawnInfo info){}
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		//todo: check if special treatment is needed
 	}
 }
 

@@ -15,4 +15,5 @@
 	Entertainers,
 	CMO,
 	Chemist,
+	Botany,
 }

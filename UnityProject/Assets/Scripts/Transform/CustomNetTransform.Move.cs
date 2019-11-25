@@ -553,7 +553,7 @@ public partial class CustomNetTransform
 	/// </summary>
 	protected virtual void OnHit(Vector3Int pos, ThrowInfo info, List<LivingHealthBehaviour> objects, List<TilemapDamage> tiles)
 	{
-		if (ItemAttributes != null)
+		if (ItemAttributes == null)
 		{
 			Logger.LogWarningFormat("{0}: Tried to hit stuff at pos {1} but have no ItemAttributes.", Category.Throwing, gameObject.name, pos);
 			return;
