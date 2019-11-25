@@ -62,28 +62,32 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		{
 			itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
 		}
-		OnCurrentCapacityChange.AddListener(newCapacity =>
+		
+		this.WaitForNetworkManager(() =>
 		{
-			if (containerSprite == null || !CustomNetworkManager.IsServer)
+			if (!CustomNetworkManager.IsServer)
 			{
 				return;
 			}
-			containerSprite.SetState(IsEmpty ? EmptyFullStatus.Empty : EmptyFullStatus.Full);
+			
+			OnCurrentCapacityChange.AddListener(newCapacity =>
+			{
+				if (containerSprite == null)
+				{
+					return;
+				}
+				containerSprite.SetState(IsEmpty ? EmptyFullStatus.Empty : EmptyFullStatus.Full);
+			});
 		});
 	}
 
-	void Start() //Initialise the contents if there are any
+	void Start() 
 	{
-		if(Reagents == null)
+		if (!CustomNetworkManager.IsServer)
 		{
 			return;
 		}
-		for (int i = 0; i < Reagents.Count; i++)
-		{
-			Contents[Reagents[i]] = Amounts[i];
-		}
-		CurrentCapacity = AmountOfReagents(Contents);
-
+		
 		registerTile = GetComponent<RegisterTile>();
 		var customNetTransform = GetComponent<CustomNetTransform>();
 		if (customNetTransform != null)
@@ -113,9 +117,23 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		}
 	}
 
+	/// <summary>
+	/// (Re)initialise the contents if there are any
+	/// </summary>
+	protected override void ResetContents()
+	{
+		base.ResetContents();
+		for (int i = 0; i < Reagents.Count; i++)
+		{
+			Contents[Reagents[i]] = Amounts[i];
+		}
+		CurrentCapacity = AmountOfReagents(Contents);
+	}
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		TransferAmount = InitialTransferAmount;
+		ResetContents();
 	}
 
 	public RightClickableResult GenerateRightClickOptions()

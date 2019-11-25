@@ -34,6 +34,11 @@ public class Container : MonoBehaviour
 		}
 	}
 
+	protected virtual void ResetContents()
+	{
+		Contents = new Dictionary<string, float>();
+	}
+
 	[SerializeField] [FormerlySerializedAs(nameof(Contents))]
 	private Dictionary<string, float> contents = new Dictionary<string, float>();
 
