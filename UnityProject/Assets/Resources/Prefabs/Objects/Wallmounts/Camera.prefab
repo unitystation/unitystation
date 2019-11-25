@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012664116732}
   - component: {fileID: 212000013919365814}
-  m_Layer: 11
+  m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,8 +66,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayerID: -932335445
+  m_SortingLayer: 16
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 9a0b93c92ce12554e976d346f6bd4d48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -251,5 +251,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 78c5c1682869400f88094a093ea097b8
+  m_AssetId: 
   m_SceneId: 0

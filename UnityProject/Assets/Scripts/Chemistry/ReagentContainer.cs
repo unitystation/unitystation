@@ -142,7 +142,7 @@ public class ReagentContainer : Container, IRightClickable, IServerLifecycle,
 		return false;
 	}
 
-	public TransferResult AddReagents(Dictionary<string, float> reagents, float temperatureContainer)
+	public TransferResult AddReagents(Dictionary<string, float> reagents, float temperatureContainer = 20f)
 	{
 
 		if ( ReagentsFilterOn )
