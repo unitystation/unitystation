@@ -277,12 +277,6 @@ namespace Lobby
 
 		public void OnApplyBtn()
 		{
-			if (onCloseAction != null)
-			{
-				onCloseAction.Invoke();
-				onCloseAction = null;
-			}
-
 			DisplayErrorText("");
 			try
 			{
@@ -298,7 +292,15 @@ namespace Lobby
 			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
 			if (ServerData.Auth.CurrentUser != null)
 			{
-				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
+				if (onCloseAction != null)
+				{
+					onCloseAction.Invoke();
+					onCloseAction = null;
+				}
+				else
+				{
+					LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
+				}
 			}
 			else
 			{
@@ -315,7 +317,15 @@ namespace Lobby
 			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
 			if (ServerData.Auth.CurrentUser != null)
 			{
-				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
+				if (onCloseAction != null)
+				{
+					onCloseAction.Invoke();
+					onCloseAction = null;
+				}
+				else
+				{
+					LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
+				}
 			}
 			else
 			{

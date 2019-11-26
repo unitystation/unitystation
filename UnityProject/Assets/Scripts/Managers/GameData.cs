@@ -9,6 +9,7 @@ using Firebase.Extensions;
 using Lobby;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
@@ -109,7 +110,7 @@ public class GameData : MonoBehaviour
 	private async void HubToServerConnect(string ip, string port, string uid, string token)
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
-		
+
 		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
 
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
@@ -120,7 +121,8 @@ public class GameData : MonoBehaviour
 		refreshToken.refreshToken = token;
 		refreshToken.userID = uid;
 
-		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, JsonUtility.ToJson(refreshToken));
+		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, "https://api.unitystation.org/validatetoken?data="
+		                                                              + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
 
 		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
@@ -168,6 +170,7 @@ public class GameData : MonoBehaviour
 				if (success)
 				{
 					Logger.Log("Signed in successfully with valid token", Category.Hub);
+					LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
 				}
 				else
 				{
@@ -175,8 +178,6 @@ public class GameData : MonoBehaviour
 						"Unknown error occured when verifying character settings on the server");
 				}
 			});
-
-		LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
 	}
 
 	void OnCharacterScreenCloseFromHubConnect()

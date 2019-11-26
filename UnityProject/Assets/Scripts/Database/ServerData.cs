@@ -81,7 +81,7 @@ namespace DatabaseAPI
 
 		void Update()
 		{
-			if (connectedToHub)
+			if (config != null)
 			{
 				MonitorServerStatus();
 			}
