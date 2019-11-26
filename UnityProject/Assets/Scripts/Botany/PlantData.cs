@@ -30,6 +30,8 @@ public class PlantData
 
 	public void MutateTo(DefaultPlantData _DefaultPlantData)
 	{
+		Plantname = _DefaultPlantData.plantData.Plantname;
+		Description = _DefaultPlantData.plantData.Description;
 		Name = _DefaultPlantData.plantData.Name;
 		ProduceObject = _DefaultPlantData.plantData.ProduceObject;
 		PacketsSprite = _DefaultPlantData.plantData.PacketsSprite;
@@ -55,6 +57,8 @@ public class PlantData
 
 	public void SetValues(PlantData _PlantData)
 	{
+		Plantname = _PlantData.Plantname;
+		Description = _PlantData.Description;
 		Name = _PlantData.Name;
 		ProduceObject = _PlantData.ProduceObject;
 		PacketsSprite = _PlantData.PacketsSprite;
@@ -79,7 +83,8 @@ public class PlantData
 	{
 		var _PlantData = DefaultPlantData.plantData;
 		Name = _PlantData.Name;
-
+		Plantname = _PlantData.Plantname;
+		Description = _PlantData.Description;
 		if (ProduceObject == null)
 		{
 			ProduceObject = _PlantData.ProduceObject;
@@ -113,6 +118,8 @@ public class PlantData
 		Endurance = _PlantData.Endurance;
 		Yield = _PlantData.Yield;
 		Lifespan = _PlantData.Lifespan;
+
+
 
 		PlantTrays = (_PlantData.PlantTrays.Union(PlantTrays)).ToList();
 		MutatesInTo = (_PlantData.MutatesInTo.Union(MutatesInTo)).ToList();
