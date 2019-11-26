@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 
 /// <summary>
 ///     Request from client to deconstruct a tile
 /// </summary>
+[Obsolete]
 public class RequestTileDeconstructMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RequestTileDeconstructMessage;
@@ -12,24 +14,22 @@ public class RequestTileDeconstructMessage : ClientMessage
 	public uint Player;
 	public uint MatrixRoot;
 	public int TileType;
-	public Vector3 CellPos;
 	public Vector3 CellWorldPos;
 
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Player, MatrixRoot);
 		CraftingManager.Deconstruction.ProcessDeconstructRequest(NetworkObjects[0], NetworkObjects[1],
-			(TileType) TileType, CellPos, CellWorldPos);
+			(TileType) TileType, CellWorldPos.CutToInt());
 	}
 
-	public static RequestTileDeconstructMessage Send(GameObject player, GameObject matrixRoot, TileType tileType, Vector3 cellPos, Vector3 cellWorldPos)
+	public static RequestTileDeconstructMessage Send(GameObject player, GameObject matrixRoot, TileType tileType, Vector3 cellWorldPos)
 	{
 		RequestTileDeconstructMessage msg = new RequestTileDeconstructMessage
 		{
 			Player = player.GetComponent<NetworkIdentity>().netId,
 				MatrixRoot = matrixRoot.GetComponent<NetworkIdentity>().netId,
 				TileType = (int) tileType,
-				CellPos = cellPos,
 				CellWorldPos = cellWorldPos
 		};
 		msg.Send();
@@ -42,7 +42,6 @@ public class RequestTileDeconstructMessage : ClientMessage
 		Player = reader.ReadUInt32();
 		MatrixRoot = reader.ReadUInt32();
 		TileType = reader.ReadInt32();
-		CellPos = reader.ReadVector3();
 		CellWorldPos = reader.ReadVector3();
 	}
 
@@ -52,7 +51,6 @@ public class RequestTileDeconstructMessage : ClientMessage
 		writer.WriteUInt32(Player);
 		writer.WriteUInt32(MatrixRoot);
 		writer.WriteInt32(TileType);
-		writer.WriteVector3(CellPos);
 		writer.WriteVector3(CellWorldPos);
 	}
 }

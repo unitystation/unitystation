@@ -48,7 +48,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	}
 
 	public bool Interact(PositionalHandApply interaction)
-	{
+	{ //todo: refactor to IF2!
 		if (!DefaultWillInteract.PositionalHandApply(interaction, NetworkSide.Client)) return false;
 
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
@@ -125,8 +125,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 						if (welder.isOn)
 						{
 							//Request to deconstruct from the server:
-							RequestTileDeconstructMessage.Send(interaction.Performer, gameObject, TileType.Wall,
-								cellPos, interaction.WorldPositionTarget);
+							RequestTileDeconstructMessage.Send(interaction.Performer, gameObject, TileType.Wall, interaction.WorldPositionTarget);
 							return true;
 						}
 					}
