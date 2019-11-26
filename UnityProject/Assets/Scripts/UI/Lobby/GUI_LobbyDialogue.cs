@@ -270,11 +270,6 @@ namespace Lobby
 		{
 			SoundManager.Play("Click01");
 
-			if (!connectionPanel.activeInHierarchy)
-			{
-				return;
-			}
-
 			// Return if no network address is specified
 			if (string.IsNullOrEmpty(serverAddressInput.text))
 			{

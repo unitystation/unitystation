@@ -1,6 +1,9 @@
 ﻿using UnityEditor;
 using System.Linq;
 using System;
+using System.IO;
+using DatabaseAPI;
+using UnityEngine;
 
 static class BuildScript
 {
@@ -16,6 +19,11 @@ static class BuildScript
 	}
 	private static void PerformWindowsBuild()
 	{
+		//Always build windows client first so that build info can increment the build number
+		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+		buildInfo.BuildNumber++;
+		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
+
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
@@ -44,7 +52,7 @@ static class BuildScript
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
-	
+
 	// Command Line Arg Build Methods
 	// ===============================
 	static string GetArgument (string name)
