@@ -56,6 +56,19 @@ public static class Inventory
 	}
 
 	/// <summary>
+	/// Inventory move in which the object (assumed to be in a slot) is despawned directly from inventory and doesn't reappear
+	/// in the world.
+	/// </summary>
+	/// <param name="objectInSlot">object to despawn from inventory. Will be despawned normally if not in slot.</param>
+	/// <returns>true if successful</returns>
+	public static bool ServerDespawn(GameObject objectInSlot)
+	{
+		var pu = objectInSlot.GetComponent<Pickupable>();
+		if (pu == null || pu.ItemSlot == null) Despawn.ServerSingle(objectInSlot);
+		return ServerDespawn(pu.ItemSlot);
+	}
+
+	/// <summary>
 	/// Inventory move in which the object in the slot is dropped into the world at the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>

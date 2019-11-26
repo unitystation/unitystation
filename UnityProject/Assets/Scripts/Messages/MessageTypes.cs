@@ -74,5 +74,6 @@ internal enum MessageTypes : short
 	RequestInteraction = 2030,
 	RequestSlotTransferMessage = 2031,
 	SpawnMessage = 2032,
-	DespawnMessage = 2033
+	DespawnMessage = 2033,
+	RequestConstructionMessage = 2034
 }
