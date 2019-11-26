@@ -9,7 +9,7 @@ public class Reaction
 	public string Name { get; set; }
 
 	/// <summary>
-	/// Example "Reagent Name":2, "Reagent Name2":1, Will return the amount specified if all Reagents are present for ReagentsAndRatio 
+	/// Example "Reagent Name":2, "Reagent Name2":1, Will return the amount specified if all Reagents are present for ReagentsAndRatio
 	/// </summary>
 	public Dictionary<string, float> Results { get; set; }
 
@@ -171,7 +171,7 @@ public static class Calculations
 			}
 
 			foreach (var reaction in ChemistryGlobals.reactionsStoreDictionary[reagent])
-			{ 
+			{
 				if (temperature >= reaction.MinimumTemperature && ReactionComponentsPresent(reagents, reaction))
 				{
 					return reaction;
@@ -220,13 +220,43 @@ public static class Calculations
 	/// <summary>
 	/// Rounds reagents to nearest significant decimal point
 	/// </summary>
-	public static Dictionary<string, float> RoundReagents(Dictionary<string, float> reagents) // 
+	public static Dictionary<string, float> RoundReagents(Dictionary<string, float> reagents) //
 	{
 		Dictionary<string, float> modifiedReagents = new Dictionary<string, float>(reagents);
 		foreach (var reagent in reagents)
 		{
 			modifiedReagents[reagent.Key] = Mathf.Round(reagents[reagent.Key] * Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS)) / Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS);
 		}
+		return modifiedReagents;
+	}
+
+	private static float AmountOfReagents(Dictionary<string, float> reagents)
+	{
+		return reagents.Select(reagent => reagent.Value).Sum();
+	}
+
+	/// <summary>
+	/// Removes excess if reagent capacity is more than provided max capacity
+	/// </summary>
+	/// <param name="reagents"></param>
+	/// <param name="maxCapacity"></param>
+	/// <returns></returns>
+	public static Dictionary<string,float> RemoveExcess(Dictionary<string,float> reagents, float maxCapacity)
+	{
+		var amountOfReagents = AmountOfReagents(reagents);
+		if (amountOfReagents <= maxCapacity)
+		{
+			return reagents;
+		}
+
+		Dictionary<string, float> modifiedReagents = new Dictionary<string, float>(reagents);
+
+		var multiplier = maxCapacity/amountOfReagents;
+		foreach (var reagent in reagents)
+		{
+			modifiedReagents[reagent.Key] = reagents[reagent.Key] * multiplier;
+		}
+
 		return modifiedReagents;
 	}
 }

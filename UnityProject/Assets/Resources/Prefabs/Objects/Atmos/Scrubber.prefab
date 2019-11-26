@@ -147,7 +147,7 @@ MonoBehaviour:
   initialTraits: []
   size: 1
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -201,9 +201,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114172504531317518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +277,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -299,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f0270cf6e570475a8317f8d04139e54f
+  m_AssetId: 
   m_SceneId: 0
 --- !u!1 &3223271260076572928
 GameObject:
@@ -367,10 +368,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayerID: -24161425
+  m_SortingLayer: 4
   m_SortingOrder: 70
-  m_Sprite: {fileID: 21300000, guid: 63c8ba67c26cdd746abffc10e1546233, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 320ec0ebfcc2f234c85188ef36b2de8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

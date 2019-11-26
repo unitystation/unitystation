@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Facepunch.Steamworks;
 using UnityEngine;
 using ConnectionConfig = UnityEngine.Networking.ConnectionConfig;
 using Mirror;
@@ -18,7 +17,6 @@ public class CustomNetworkManager : NetworkManager
 
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] public bool spawnableListReady;
-	private Server server;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 
@@ -88,10 +86,6 @@ public class CustomNetworkManager : NetworkManager
 
 	private void OnDisable()
 	{
-		if (_isServer && server != null && server.IsValid)
-		{
-			server.Auth.OnAuthChange -= AuthChange;
-		}
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
@@ -100,74 +94,10 @@ public class CustomNetworkManager : NetworkManager
 		_isServer = true;
 		base.OnStartServer();
 		this.RegisterServerHandlers();
-		if (BuildPreferences.isSteamServer)
-		{
-			SteamServerStart();
-		}
 		// Fixes loading directly into the station scene
 		if (GameManager.Instance.LoadedDirectlyToStation)
 		{
 			GameManager.Instance.PreRoundStart();
-		}
-	}
-
-	public void SteamServerStart()
-	{
-		// init the SteamServer needed for authentication of players
-		//
-		Config.ForUnity(Application.platform.ToString());
-		string path = Path.GetFullPath(".");
-		string folderName = Path.GetFileName(Path.GetDirectoryName(path));
-		ServerInit options = new ServerInit(folderName, "Unitystation");
-		server = new Server(801140, options);
-
-		if (server != null)
-		{
-			if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
-			{
-				server.DedicatedServer = true;
-			}
-			server.LogOnAnonymous();
-			server.ServerName = "Unitystation Official";
-			// Set required settings for dedicated server
-
-			Logger.Log("Setting up Auth hook", Category.Steam);
-			//Process callback data for authentication
-			server.Auth.OnAuthChange = AuthChange;
-		}
-		// confirm in log if server is actually registered or not
-		if (server.IsValid)
-		{
-			Logger.Log("Server registered", Category.Steam);
-		}
-		else
-		{
-			Logger.Log("Server NOT registered", Category.Steam);
-		}
-
-	}
-
-	/// Processes the callback data when authentication statuses change
-	public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
-	{
-		var player = PlayerList.Instance.Get(steamid);
-		if (player == ConnectedPlayer.Invalid)
-		{
-			Logger.LogWarning($"Steam gave us a {status} ticket response for unconnected id {steamid}", Category.Steam);
-			return;
-		}
-
-		if (status == ServerAuth.Status.OK)
-		{
-			Logger.LogWarning($"Steam gave us a 'ok' ticket response for already connected id {steamid}", Category.Steam);
-			return;
-		}
-
-		// Disconnect logging
-		if (status == ServerAuth.Status.VACCheckTimedOut)
-		{
-			Logger.LogWarning($"The SteamID '{steamid}' left the server. ({status})", Category.Steam);
-			return;
 		}
 	}
 
@@ -212,32 +142,6 @@ public class CustomNetworkManager : NetworkManager
 	{
 		yield return WaitFor.Seconds(1f);
 		OnServerAddPlayerInternal(conn);
-	}
-
-	void Update()
-	{
-		// This code makes sure the steam server is updated
-		if (server == null)
-			return;
-		try
-		{
-			Profiler.BeginSample("Steam Server Update");
-			server.Update();
-		}
-		finally
-		{
-			Profiler.EndSample();
-		}
-	}
-
-	private void OnDestroy()
-	{
-		// This code makes sure the steam server is disposed when the CNM is destroyed
-		if (server != null)
-		{
-			server.Dispose();
-			server = null;
-		}
 	}
 
 	private void OnServerAddPlayerInternal(NetworkConnection conn)

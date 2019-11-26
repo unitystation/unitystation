@@ -11,6 +11,7 @@ public class ItemAttributesData
 	public SpriteType spriteType;
 	public bool CanConnectToTank;
 	public bool IsEVACapable;
+	public List<ItemTrait> traits = new List<ItemTrait>();
 
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]

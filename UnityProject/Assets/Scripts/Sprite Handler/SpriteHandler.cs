@@ -23,10 +23,6 @@ public class SpriteHandler : SpriteDataHandler
 		SynchroniseVariant =
 			true; //Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
 
-	public override void OnEnable()
-	{
-	}
-
 	void OnDisable()
 	{
 		TryToggleAnimationState(false);
@@ -45,6 +41,11 @@ public class SpriteHandler : SpriteDataHandler
 			Infos.DeSerializeT();
 			initialized = true;
 		}
+	}
+
+	public void PushClear() { 
+		spriteRenderer.sprite = null;
+		TryToggleAnimationState(false);
 	}
 
 	public void PushTexture()

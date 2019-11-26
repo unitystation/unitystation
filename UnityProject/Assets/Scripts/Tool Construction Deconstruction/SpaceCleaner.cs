@@ -6,12 +6,13 @@ using Mirror;
 [RequireComponent(typeof(Pickupable))]
 public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 {
-	int travelDistance = 6;
+	public int travelDistance = 6;
 	public ReagentContainer reagentContainer;
-	public RegisterItem registerItem;
+	private float travelTime => 1f / travelDistance;
 
-	public ParticleSystem particleSystem;
-	[SyncVar(hook = nameof(SyncParticles))] public float particleSync;
+	[SerializeField]
+	[Range(1,50)]
+	private int reagentsPerUse = 5;
 
 	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
@@ -24,17 +25,16 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (reagentContainer.CurrentCapacity >= 5)
+		if (reagentContainer.CurrentCapacity >= reagentsPerUse)
 		{
-			Vector2 startPos = interaction.Performer.transform.position;
+			Vector2 startPos = gameObject.AssumedWorldPosServer();
 			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x), Mathf.RoundToInt(interaction.WorldPositionTarget.y));
 			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
 			StartCoroutine(Fire(positionList));
 
-			var angle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * 180 / Mathf.PI;
-			particleSync = angle;
+			Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
-			reagentContainer.MoveReagentsTo(5);
+			reagentContainer.TakeReagents(reagentsPerUse);
 			SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
 		}
 	}
@@ -44,24 +44,15 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		for (int i = 0; i < positionList.Count; i++)
 		{
 			SprayTile(positionList[i]);
-			yield return WaitFor.Seconds(0.1f);
+			yield return WaitFor.Seconds(travelTime);
 		}
 	}
 
 	void SprayTile(Vector3Int worldPos)
 	{
-		var matrix = MatrixManager.AtPoint(worldPos, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPos, matrix);
-		matrix.MetaDataLayer.ReagentReact(reagentContainer.Contents, worldPos, localPosInt);
-	}
-
-	public void SyncParticles(float value)
-	{
-		particleSystem.transform.position = registerItem.WorldPositionClient;
-		particleSystem.transform.rotation = Quaternion.Euler(0, 0, value);
-		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
-		renderer.enabled = true;
-		particleSystem.Play();
+		//it actually uses remaining contents of the bottle to react with world
+		//instead of the sprayed ones. not sure if this is right
+		MatrixManager.ReagentReact(reagentContainer.Contents, worldPos);
 	}
 
 }

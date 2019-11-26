@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114850502447124420}
   - component: {fileID: 114596150240161284}
   - component: {fileID: 796791569133690926}
+  - component: {fileID: 5816278035955022612}
   m_Layer: 10
   m_Name: scanning module
   m_TagString: Untagged
@@ -324,3 +325,19 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &5816278035955022612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 1efec61511b50c844868cb49d1a711a1
+  m_SceneId: 0

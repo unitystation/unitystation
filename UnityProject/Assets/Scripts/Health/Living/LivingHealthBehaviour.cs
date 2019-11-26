@@ -226,6 +226,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
+	public void Extinguish()
+	{
+		SyncFireStacks(0);
+	}
+
 	private void SyncFireStacks(float newValue)
 	{
 		this.fireStacks = Math.Max(0,newValue);

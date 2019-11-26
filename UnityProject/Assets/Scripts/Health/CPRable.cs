@@ -21,7 +21,6 @@ public class CPRable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 		    !targetPlayerHealth ||
 		    interaction.HandObject != null ||
 		    performerRegisterPlayer.IsDown ||
-		    performerRegisterPlayer.IsStunnedClient ||
 		    performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
 		    interaction.Performer == interaction.TargetObject)
 		{

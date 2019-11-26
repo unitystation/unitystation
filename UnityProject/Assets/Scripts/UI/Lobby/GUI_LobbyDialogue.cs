@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using DatabaseAPI;
-using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
@@ -271,11 +270,6 @@ namespace Lobby
 		{
 			SoundManager.Play("Click01");
 
-			if (!connectionPanel.activeInHierarchy)
-			{
-				return;
-			}
-
 			// Return if no network address is specified
 			if (string.IsNullOrEmpty(serverAddressInput.text))
 			{
@@ -358,11 +352,6 @@ namespace Lobby
 		{
 			string steamName = "";
 			string prefsName;
-
-			if (Client.Instance != null)
-			{
-				steamName = Client.Instance.Username;
-			}
 
 			if (!string.IsNullOrEmpty(steamName))
 			{

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114296532116783838}
   - component: {fileID: 114225936998993750}
   - component: {fileID: 114675233434202750}
+  - component: {fileID: 3266362895114989803}
   m_Layer: 10
   m_Name: Empty glass
   m_TagString: Untagged
@@ -83,12 +84,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
+  spriteDataHandler: {fileID: 114225936998993750}
   InventoryIcon: {fileID: 0}
-  itemName: Empty glass
+  itemName: empty glass
   itemDescription: 
   initialTraits:
   - {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58, type: 2}
+  - {fileID: 11400000, guid: 55917bb83c64bdc41acf0a60f284366c, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -145,9 +147,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,8 +176,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Temperature: 20
   MaxCapacity: 50
+  itemAttributes: {fileID: 0}
   Reagents: []
   Amounts: []
+  AcceptedTraits: []
+  AcceptedReagents: []
+  TransferMode: 0
+  TransferAmount: 20
+  PossibleTransferAmounts: []
 --- !u!114 &114179647736667158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,9 +259,83 @@ MonoBehaviour:
   Infos:
     spriteIndex: 0
     VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+    AID: 19
+    Serialized:
+    - inlistID: 2
+      listID: 3
+      sprite: {fileID: 21300000, guid: e884ee644c1f77541ac7ea8b0a2945c5, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 2
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 4
+      listID: 5
+      sprite: {fileID: 21300002, guid: e884ee644c1f77541ac7ea8b0a2945c5, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 4
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 6
+      listID: 7
+      sprite: {fileID: 21300004, guid: e884ee644c1f77541ac7ea8b0a2945c5, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 6
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 8
+      listID: 9
+      sprite: {fileID: 21300006, guid: e884ee644c1f77541ac7ea8b0a2945c5, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 8
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 1
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 11
+      listID: 12
+      sprite: {fileID: 21300000, guid: bea28f6bd9f324f4c88b07f7740ea2a6, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 11
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 13
+      listID: 14
+      sprite: {fileID: 21300002, guid: bea28f6bd9f324f4c88b07f7740ea2a6, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 13
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 15
+      listID: 16
+      sprite: {fileID: 21300004, guid: bea28f6bd9f324f4c88b07f7740ea2a6, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 15
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 17
+      listID: 18
+      sprite: {fileID: 21300006, guid: bea28f6bd9f324f4c88b07f7740ea2a6, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 17
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 10
+      sprite: {fileID: 0}
+      waitTime: 0
+  spriteList:
+  - {fileID: 21300000, guid: e884ee644c1f77541ac7ea8b0a2945c5, type: 3}
+  - {fileID: 21300000, guid: bea28f6bd9f324f4c88b07f7740ea2a6, type: 3}
 --- !u!114 &114675233434202750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,8 +350,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 50334239d541e7643a2b9d5c8cb43430
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &3266362895114989803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66bdfc0b43384851bcf23cb6754755e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  EmptySprite: {fileID: 0}
+  FullSprite: {fileID: 21300000, guid: 2bf661949122ccf468e9a699282f67c4, type: 3}
+  EmptyName: 
+  FullName: glass
+  spriteSync: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

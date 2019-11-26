@@ -30,8 +30,7 @@ public class Meleeable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 
 		// Only melee while conscious, and not while down or stunned.
 		if (localPlayerhealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    localRegisterPlayer.IsDown ||
-		    localRegisterPlayer.IsStunnedClient)
+		    localRegisterPlayer.IsDown)
 			return false;
 
 		//meleeable is only checked on the target of a melee interaction

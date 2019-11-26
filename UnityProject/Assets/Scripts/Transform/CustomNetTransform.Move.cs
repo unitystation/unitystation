@@ -162,6 +162,11 @@ public partial class CustomNetTransform
         serverState.Impulse = Vector2.zero;
         serverState.SpinRotation = transform.localRotation.eulerAngles.z;
         serverState.SpinFactor = 0;
+
+        if ( IsBeingThrown )
+        {
+			OnThrowEnd.Invoke(serverState.ActiveThrow);
+        }
         serverState.ActiveThrow = ThrowInfo.NoThrow;
         if ( notify )
         {
@@ -302,6 +307,8 @@ public partial class CustomNetTransform
 	[Server]
 	public void Throw(ThrowInfo info)
 	{
+		OnThrowStart.Invoke(info);
+
 		SetPosition(info.OriginPos, false);
 
 		float throwSpeed = ItemAttributes.ServerThrowSpeed * 10; //tiles per second
@@ -474,6 +481,7 @@ public partial class CustomNetTransform
 		if (IsBeingThrown && ShouldStopThrow)
 		{
 			//			Logger.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
+			OnThrowEnd.Invoke(serverState.ActiveThrow);
 			serverState.ActiveThrow = ThrowInfo.NoThrow;
 			//Change spin when we hit the ground. Zero was kinda dull
 			serverState.SpinFactor = (sbyte)(-serverState.SpinFactor * 0.2f);
@@ -484,6 +492,12 @@ public partial class CustomNetTransform
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
 		if (!IsBeingThrown && !MatrixManager.IsNoGravityAt(Vector3Int.RoundToInt(tempOrigin), isServer : true))
 		{
+			//slippity slip
+			if (MatrixManager.IsSlipperyAt(tempOrigin.CutToInt()))
+			{
+				return;
+			}
+
 			//on-ground resistance
 
 			//no slide inertia for tile snapped objects like closets
@@ -539,7 +553,7 @@ public partial class CustomNetTransform
 	/// </summary>
 	protected virtual void OnHit(Vector3Int pos, ThrowInfo info, List<LivingHealthBehaviour> objects, List<TilemapDamage> tiles)
 	{
-		if (ItemAttributes != null)
+		if (ItemAttributes == null)
 		{
 			Logger.LogWarningFormat("{0}: Tried to hit stuff at pos {1} but have no ItemAttributes.", Category.Throwing, gameObject.name, pos);
 			return;

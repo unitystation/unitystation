@@ -2,7 +2,7 @@ internal enum MessageTypes : short
 {
 	//Server messages - 1xxx
 	GibMessage = 1000,
-	RunMethodMessage = 1001,
+	PlayParticleMessage = 1001,
 	UpdateChatMessage = 1002,
 	UpdateConnectedPlayersMessage = 1003,
 	UpdateRoundTimeMessage = 1004,
@@ -25,7 +25,7 @@ internal enum MessageTypes : short
 	PaperUpdateMessage = 1021,
 	StorageObjectSyncMessage = 1022,
 	MobMeleeLerpMessage = 1023,
-	// = 1024, unused, replace at will
+	PlantTrayMessage = 1024, //is temporary Will be replaced by Network sprites Animations
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,
 	HealthOverallStats = 1027,
@@ -56,7 +56,7 @@ internal enum MessageTypes : short
 	OpenPageValueNetMessage = 2004,
 	SimpleInteractMessage = 2005,
 	RequestSyncMessage = 2006,
-	RequestAuthMessage = 2007,
+	// 2007 is free to use
 	RequestMoveMessage = 2008,
 	RequestShootMessage = 2009,
 	TabInteractMessage = 2010,

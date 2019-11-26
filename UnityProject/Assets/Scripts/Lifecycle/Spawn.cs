@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Facepunch.Steamworks;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -358,8 +357,7 @@ public static class Spawn
 
 	private static bool IsTotallyImpassable(Vector3Int tileWorldPosition)
 	{
-		return!MatrixManager.IsPassableAt(tileWorldPosition,true)
-		      &&!MatrixManager.IsAtmosPassableAt(tileWorldPosition,true);
+		return MatrixManager.IsTotallyImpassable(tileWorldPosition,true);
 	}
 
 	/// <summary>

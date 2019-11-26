@@ -33,7 +33,6 @@ namespace DatabaseAPI
         }
         private BuildInfo buildInfo;
 
-        private bool connectedToHub = false;
         private string hubCookie;
         private const string hubRoot = "https://api.unitystation.org";
         private const string hubLogin = hubRoot + "/login?data=";
@@ -51,7 +50,7 @@ namespace DatabaseAPI
             {
                 activeTransport = FindObjectOfType<TelepathyTransport>();
                 config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
-                AttemptHubConnection();
+                Instance.StartCoroutine(Instance.SendServerStatus());
             }
             else
             {
@@ -59,59 +58,11 @@ namespace DatabaseAPI
             }
         }
 
-        //Attempts to auth with api.unitystation.org for server status updates
-        void AttemptHubConnection()
-        {
-            if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
-            {
-                Logger.Log("Invalid Hub creds found, aborting HUB connection", Category.DatabaseAPI);
-                return;
-            }
-
-            var loginReq = new HubLoginReq
-            {
-                username = config.HubUser,
-                password = config.HubPass
-            };
-
-            Instance.StartCoroutine(Instance.TryHubLogin(loginReq));
-        }
-
-        IEnumerator TryHubLogin(HubLoginReq loginRequest)
-        {
-            var requestData = JsonUtility.ToJson(loginRequest);
-            UnityWebRequest r = UnityWebRequest.Get(hubLogin + UnityWebRequest.EscapeURL(requestData));
-            yield return r.SendWebRequest();
-            if (r.error != null)
-            {
-                Logger.Log("Hub Login request failed: " + r.error, Category.DatabaseAPI);
-                yield break;
-            }
-            else
-            {
-                var response = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
-                if (response.errorCode == 0)
-                {
-                    string s = r.GetResponseHeader("set-cookie");
-                    hubCookie = s.Split(';') [0];
-                    Logger.Log("Hub connected successfully", Category.DatabaseAPI);
-                    r = UnityWebRequest.Get("http://ipinfo.io/ip");
-                    yield return r.SendWebRequest();
-                    publicIP = Regex.Replace(r.downloadHandler.text, @"\t|\n|\r", "");
-                    connectedToHub = true;
-                }
-                else
-                {
-                    Logger.Log("Hub Login request failed: " + response.errorMsg, Category.DatabaseAPI);
-                }
-            }
-        }
-
         void MonitorServerStatus()
         {
-            updateWait += Time.deltaTime;
-            //Update the hub every 5 seconds
-            if (updateWait >= 5f)
+	        updateWait += Time.deltaTime;
+            //Update the hub every 10 seconds
+            if (updateWait >= 10f)
             {
                 updateWait = 0f;
                 Instance.StartCoroutine(Instance.SendServerStatus());
@@ -120,6 +71,35 @@ namespace DatabaseAPI
 
         IEnumerator SendServerStatus()
         {
+	        if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
+	        {
+		        Logger.Log("Invalid Hub creds found, aborting HUB connection", Category.DatabaseAPI);
+		        config = null;
+		        yield break;
+	        }
+
+	        var loginRequest = new HubLoginReq
+	        {
+		        username = config.HubUser,
+		        password = config.HubPass
+	        };
+
+	        var requestData = JsonUtility.ToJson(loginRequest);
+	        UnityWebRequest req = UnityWebRequest.Get(hubLogin + UnityWebRequest.EscapeURL(requestData));
+	        yield return req.SendWebRequest();
+	        if (req.error == null)
+	        {
+		        var response = JsonUtility.FromJson<ApiResponse>(req.downloadHandler.text);
+		        if (response.errorCode == 0)
+		        {
+			        string s = req.GetResponseHeader("set-cookie");
+			        hubCookie = s.Split(';') [0];
+			        req = UnityWebRequest.Get("http://ipinfo.io/ip");
+			        yield return req.SendWebRequest();
+			        publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
+		        }
+	        }
+
             var status = new ServerStatus();
             status.ServerName = config.ServerName;
             status.ForkName = buildInfo.ForkName;

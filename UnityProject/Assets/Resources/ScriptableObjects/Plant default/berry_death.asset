@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
+  m_Name: berry_death
+  m_EditorClassIdentifier: 
+  plantData:
+    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+      type: 3}
+    plantType: 0
+    Name: berry_death
+    Plantname: Death Berry Bush
+    Description: These seeds grow into death berries.
+    PacketsSprite:
+      Texture: {fileID: 2800000, guid: a9810f37ac64cbc47b922e306f00acdf, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: a9810f37ac64cbc47b922e306f00acdf, type: 3}
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 2800000, guid: 02da5c95347ffa94b9817757272cafb7, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 02da5c95347ffa94b9817757272cafb7, type: 3}
+      EquippedData: {fileID: 0}
+    GrowthSprites:
+    - Texture: {fileID: 2800000, guid: 5ecb65581e1f8f949918ce925292c860, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 5ecb65581e1f8f949918ce925292c860, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 86b21379c06e0e74bae6505365f7ed03, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 86b21379c06e0e74bae6505365f7ed03, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 2b93d8326a6e9d8468e77d257819082c, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 2b93d8326a6e9d8468e77d257819082c, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 8fd04243957f3d14d87295749b94825d, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 8fd04243957f3d14d87295749b94825d, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 7eb23165121c3ab4995ff99f4e1df1e6, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7eb23165121c3ab4995ff99f4e1df1e6, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 92b1d6b87e873754f8013f6663ea6503, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 92b1d6b87e873754f8013f6663ea6503, type: 3}
+      EquippedData: {fileID: 0}
+    FullyGrownSprite:
+      Texture: {fileID: 2800000, guid: 6ad3f42c0f9fb2743ac16d8b9ea0ece4, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6ad3f42c0f9fb2743ac16d8b9ea0ece4, type: 3}
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 2800000, guid: 1e30a2665677fb44a817d064260a82a9, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 1e30a2665677fb44a817d064260a82a9, type: 3}
+      EquippedData: {fileID: 0}
+    WeedResistance: 3
+    WeedGrowthRate: 1
+    GrowthSpeed: 37
+    Potency: 6
+    Endurance: 4
+    Yield: 2
+    Lifespan: 22
+    PlantTrays: 00000000
+    ReagentProduction:
+    - String: coniine
+      Int: 7
+    - String: tirizene
+      Int: 10
+    - String: vitamin
+      Int: 3
+    - String: nutriment
+      Int: 10
+    MutatesInTo: []
+  WeedResistanceChange: 0
+  WeedGrowthRateChange: 0
+  GrowthSpeedChange: 0
+  PotencyChange: 10
+  EnduranceChange: 0
+  YieldChange: 0
+  LifespanChange: 20
+  PlantTrays: 
+  ReagentProduction:
+  - String: coniine
+    Int: 7
+  - String: tirizene
+    Int: 10
+  - String: vitamin
+    Int: 3
+  - String: nutriment
+    Int: 10
+  RemovePlantTrays: 
+  RemoveReagentProduction:
+  - String: cyanide
+    Int: 15
+  - String: tirizene
+    Int: 20
+  - String: vitamin
+    Int: 3
+  - String: nutriment
+    Int: 10

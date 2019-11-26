@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &5908745450454926434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,9 +67,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Cleanable: 1
-  SecondsUntilDisappear: -1
+  CanDryUp: 0
   PossibleSprites:
-  - {fileID: 21300142, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  - {fileID: 21300000, guid: 5db8ccb65e818b44fbf7afee4d6598d5, type: 3}
 --- !u!114 &114595774069620348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,9 +86,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 1
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114262681174990446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +101,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 1
 --- !u!114 &114758807010794188
 MonoBehaviour:
@@ -133,7 +130,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 489022831
+  m_SceneId: 0
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +200,7 @@ SpriteRenderer:
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300142, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 114567163244394598}
   - component: {fileID: 114441573294268492}
   - component: {fileID: 114321264871015286}
+  - component: {fileID: -4141852985515784285}
+  - component: {fileID: 5199146694513484801}
   m_Layer: 10
   m_Name: Mop
   m_TagString: Untagged
@@ -181,18 +183,22 @@ MonoBehaviour:
   spriteDataHandler: {fileID: 114441573294268492}
   InventoryIcon: {fileID: 0}
   itemName: mop
-  itemDescription: A Mop
+  itemDescription: The world of janitalia wouldn't be complete without a mop.
   initialTraits: []
-  size: 2
+  size: 3
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 8
   damageType: 0
   throwDamage: 10
   throwSpeed: 2
   throwRange: 7
   hitSound: GenericHit
-  attackVerb: []
+  attackVerb:
+  - mopped
+  - bashed
+  - bludgeoned
+  - whacked
 --- !u!114 &114694404974510270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b87744c775a7b0469420b69b02cfc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reagentsPerUse: 5
+  useTime: 5
 --- !u!114 &114284267982980302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,9 +245,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114657433043358150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +312,7 @@ MonoBehaviour:
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 0
+    Flammable: 1
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
@@ -327,6 +332,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 19
@@ -420,5 +429,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 882710f093d1c5f4c9f1dbd99b8dd790
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-4141852985515784285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801347380884054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &5199146694513484801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801347380884054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 25
+  InSolidForm: 0
+  Reagents: []
+  Amounts: []
+  AcceptedTraits:
+  - {fileID: 11400000, guid: 40bbe2f167fff41efb1c05e17fb43e88, type: 2}
+  AcceptedReagents: []
+  TransferMode: 3
+  TransferAmount: 25
+  PossibleTransferAmounts: []
