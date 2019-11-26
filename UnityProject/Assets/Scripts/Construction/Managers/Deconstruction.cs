@@ -1,16 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+//TODO: This should be refactored to use IF2 so validations can be used, we shouldn't need a custom net message for deconstruction
 public class Deconstruction : MonoBehaviour
 {
 	public GameObject wallGirderPrefab;
 	public GameObject metalPrefab;
 
 	//Server only:
-	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3 cellPos, Vector3 worldPos)
+	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3Int worldPos)
 	{
-		var cellPosInt = Vector3Int.RoundToInt(cellPos);
+		var cellPosInt = MatrixManager.WorldToLocalInt(worldPos, MatrixManager.AtPoint(worldPos, true));
 		switch (tileType)
 		{
 			case TileType.Wall:
@@ -21,11 +24,8 @@ public class Deconstruction : MonoBehaviour
 	}
 
 	//Server only
-	public void ProcessDeconstructRequest(GameObject player, GameObject matrixRoot, TileType tileType,
-		Vector3 cellPos, Vector3 worldCellPos)
+	public void ProcessDeconstructRequest(GameObject player, GameObject matrixRoot, TileType tileType, Vector3Int worldCellPos)
 	{
-		//TODO: This should probably be refactored to use IF2 so validations can be used, we shouldn't need
-		// a custom net message for deconstruction
 
 		//Process Wall deconstruct request:
 		if (tileType == TileType.Wall)
@@ -35,13 +35,13 @@ public class Deconstruction : MonoBehaviour
 				() =>
 				{
 					SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, 0.8f);
-					CraftingManager.Deconstruction.TryTileDeconstruct(
-						matrixRoot.GetComponent<TileChangeManager>(), tileType, cellPos, worldCellPos);
+					TryTileDeconstruct(
+						matrixRoot.GetComponent<TileChangeManager>(), tileType, worldCellPos);
 				}
 			);
 
 			//Start the progress bar:
-			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, Vector3Int.RoundToInt(worldCellPos),
+			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, worldCellPos,
 				10f, progressFinishAction, player);
 			if (bar != null)
 			{
@@ -61,8 +61,8 @@ public class Deconstruction : MonoBehaviour
 		tcm.RemoveTile(cellPos, LayerType.Walls);
 		SoundManager.PlayNetworkedAtPos("Deconstruct", worldPos, 1f);
 
-		Spawn.ServerPrefab(metalPrefab, worldPos, tcm.transform);
-		Spawn.ServerPrefab(wallGirderPrefab, worldPos, tcm.transform);
+		Spawn.ServerPrefab(metalPrefab, worldPos);
+		Spawn.ServerPrefab(wallGirderPrefab, worldPos);
 	}
 
 }
