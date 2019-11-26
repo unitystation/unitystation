@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 114236039428710784}
   - component: {fileID: 114642636968297428}
   - component: {fileID: 114993261486505718}
+  - component: {fileID: -8225494683323972620}
+  - component: {fileID: -1628430995505873405}
   m_Layer: 10
   m_Name: Pepper Shaker
   m_TagString: Untagged
@@ -143,9 +145,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114591536286367976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,8 +252,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 5d017514ecdb1cb4b91d054838c247b3
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 715087708
+--- !u!114 &-8225494683323972620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651733465195328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &-1628430995505873405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651733465195328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 20
+  Reagents:
+  - blackpepper
+  Amounts:
+  - 20
+  AcceptedReagents: []
+  TransferMode: 0
+  TransferAmount: 1
+  PossibleTransferAmounts:
+  - 1
+  - 20
 --- !u!1 &1972471344932026
 GameObject:
   m_ObjectHideFlags: 0

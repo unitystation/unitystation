@@ -165,7 +165,7 @@ public struct Orientation
 		}
 	}
 
-	private static float AngleFromUp(Vector2 dir)
+	public static float AngleFromUp(Vector2 dir)
 	{
 		float angle = Vector2.Angle(Vector2.up, dir);
 

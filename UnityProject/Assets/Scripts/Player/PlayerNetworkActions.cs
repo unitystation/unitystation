@@ -410,30 +410,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
-	{
-		if (!Validations.CanApply(playerScript, weldingTank, NetworkSide.Server)) return;
-
-		//Double check reach just in case:
-		if (playerScript.IsInReach(weldingTank, true))
-		{
-			var w = welder.GetComponent<Welder>();
-
-			//is the welder on?
-			if (w.isOn)
-			{ //fixme: ExplodeWhenShot is removed for good
-//				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
-			}
-			else
-			{
-				//Refuel!
-				w.Refuel();
-				RpcPlayerSoundAtPos("Refill", transform.position, true);
-			}
-		}
-	}
-
-	[Command]
 	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;

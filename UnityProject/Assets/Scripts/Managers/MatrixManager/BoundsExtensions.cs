@@ -40,18 +40,20 @@ public static class BoundsExtensions
 	}
 
 	private static readonly Vector3Int ZOneVector3Int = new Vector3Int(0,0,1);
+	private static readonly Vector3Int Vector3IntOneCut = new Vector3Int(1,1,0);
+
 	public static BoundsInt ToBoundsInt( this Rect rect )
 	{ //Bounds are 3d and require Z of at least 1 to work, so it's Z 0 -> 1 here
 		return new BoundsInt(rect.min.RoundToInt(), rect.size.RoundToInt() + ZOneVector3Int);
 	}
 
 	/// <summary>
-	/// Extend/shrink bounds on all sides by integer amount
+	/// Extend/shrink bounds on x,y sides by integer amount
 	/// </summary>
 	public static BoundsInt Extend( this BoundsInt bounds, int amount )
 	{
-		var min = bounds.min - ( Vector3Int.one * amount );
-		var max = bounds.max + ( Vector3Int.one * amount );
+		var min = bounds.min - ( Vector3IntOneCut * amount );
+		var max = bounds.max + ( Vector3IntOneCut * amount );
 		return new BoundsInt(min, max - min);
 	}
 

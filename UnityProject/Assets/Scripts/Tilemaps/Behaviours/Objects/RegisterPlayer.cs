@@ -18,8 +18,6 @@ public class RegisterPlayer : RegisterTile
 	public bool IsDownClient { get; private set; }
 	public bool IsDownServer { get; set; }
 
-	public bool IsStunnedClient => IsSlippingServer;
-
 	/// <summary>
 	/// True when the player is slipping
 	/// </summary>

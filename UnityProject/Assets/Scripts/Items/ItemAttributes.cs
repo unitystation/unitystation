@@ -207,11 +207,26 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn, I
 	/// <summary>
 	/// Returns true iff this itemattributes has the specified trait
 	/// </summary>
-	/// <param name="toCheck"></param>
 	/// <returns></returns>
 	public bool HasTrait(ItemTrait toCheck)
 	{
 		return traits.Contains(toCheck);
+	}
+	/// <summary>
+	/// Returns true iff this itemattributes has any of the specified traits
+	/// </summary>
+	/// <returns></returns>
+	public bool HasAnyTrait(IEnumerable<ItemTrait> toCheck)
+	{
+		return traits.Any(toCheck.Contains);
+	}
+	/// <summary>
+	/// Returns true iff this itemattributes has all the of the specified traits
+	/// </summary>
+	/// <returns></returns>
+	public bool HasAllTraits(IEnumerable<ItemTrait> toCheck)
+	{
+		return traits.All(toCheck.Contains);
 	}
 
 	/// <summary>
@@ -247,11 +262,21 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn, I
 	{
 		SyncItemName(ItemAttributes.itemName);
 		SyncItemDescription(ItemAttributes.itemDescription);
+
 		var trait = TypeToTrait(ItemAttributes.itemType);
 		if (trait != null)
 		{
 			traits.Add(trait);
 		}
+
+		foreach ( var clothDataTrait in ItemAttributes.traits )
+		{
+			if ( clothDataTrait != null )
+			{
+				traits.Add( clothDataTrait );
+			}
+		}
+
 		size = ItemAttributes.size;
 		spriteType = ItemAttributes.spriteType;
 		CanConnectToTank = ItemAttributes.CanConnectToTank;

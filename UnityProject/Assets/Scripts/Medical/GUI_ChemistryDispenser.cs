@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GUI_ChemistryDispenser : NetTab {
 
-	public float HeaterTemperature = 20;
-	public float DispensedTemperature = 30;
+	[FormerlySerializedAs("HeaterTemperature")]
+	public float HeaterTemperatureCelsius = 20;
+
+	[FormerlySerializedAs("DispensedTemperature")]
+	public float DispensedTemperatureCelsius = 30;
+
 	public int DispensedNumber = 20;
 	public bool HeaterOn = false;
 
@@ -38,7 +43,7 @@ public class GUI_ChemistryDispenser : NetTab {
 		"sulfur",
 		"water",
 		"welding_fuel",
-		"space_cleaner"
+		"cleaner"
 	};
 
 	private List<string> DispenseAmounts = new List<string>(){ //Some security bizz
@@ -81,8 +86,8 @@ public class GUI_ChemistryDispenser : NetTab {
 			//Makes sure it connects with the dispenser properly
 			ChemistryDispenser = Provider.GetComponentInChildren<ChemistryDispenser> ();
 			//Subscribe to change event from ChemistryDispenser.cs
-			ChemistryDispenser.changeEvent += Updateall;
-			Updateall ();
+			ChemistryDispenser.changeEvent += UpdateAll;
+			UpdateAll ();
 		}
 
 	}
@@ -103,16 +108,16 @@ public class GUI_ChemistryDispenser : NetTab {
 		}
 
 		//Logger.Log (DispensedNumber.ToString ());
-		Updateall ();
+		UpdateAll ();
 	}
 	public void RemoveAmount(int Number)
 	{
 		if (ChemistryDispenser.Container != null) {
 
 			//Logger.Log (Number.ToString ());
-			ChemistryDispenser.Container.MoveReagentsTo (Number);
+			ChemistryDispenser.Container.TakeReagents(Number);
 		}
-		Updateall ();
+		UpdateAll ();
 	}
 
 	public void DispenseChemical(string Chemical )
@@ -127,10 +132,10 @@ public class GUI_ChemistryDispenser : NetTab {
 					[Chemical] = DispensedNumber
 				};
 
-				ChemistryDispenser.Container.AddReagents (AddE, DispensedTemperature);
+				ChemistryDispenser.Container.AddReagentsCelsius (AddE, DispensedTemperatureCelsius);
 			}
 		}
-		Updateall ();
+		UpdateAll ();
 	}
 
 	//Turns off and on the heater
@@ -138,7 +143,7 @@ public class GUI_ChemistryDispenser : NetTab {
 	{
 		HeaterOn = !HeaterOn;
 		Logger.LogFormat("Heater turned {0}.", Category.Chemistry, HeaterOn ? "on" : "off");
-		Updateall ();
+		UpdateAll ();
 	}
 
 	public void EjectContainer(){
@@ -146,7 +151,7 @@ public class GUI_ChemistryDispenser : NetTab {
 		{
 			ChemistryDispenser.EjectContainer();
 		}
-		Updateall ();
+		UpdateAll ();
 	}
 	public void CloseTab()
 	{
@@ -154,13 +159,12 @@ public class GUI_ChemistryDispenser : NetTab {
 	}
 	public void SetHeaterTemperature(string TheString )
 	{
-		int mev;
-		if (int.TryParse (TheString, out mev))
+		if (int.TryParse (TheString, out var temp))
 		{
-			HeaterTemperature = int.Parse( TheString);
+			HeaterTemperatureCelsius = temp;
 		}
 
-		Updateall ();
+		UpdateAll ();
 	}
 	public void HeatingUpdate()
 	{
@@ -168,11 +172,12 @@ public class GUI_ChemistryDispenser : NetTab {
 		{
 			if (HeaterOn)
 			{
-				ChemistryDispenser.Container.Temperature = HeaterTemperature; //Sets the temperature of the liquid could be more smooth gradual change
+				//Sets the temperature of the liquid. Could be more smooth/gradual change
+				ChemistryDispenser.Container.TemperatureCelsius = HeaterTemperatureCelsius;
 			}
 		}
 	}
-	public void Updateall()
+	public void UpdateAll()
 	{
 		HeatingUpdate ();
 		UpdateDisplay ();
@@ -185,13 +190,15 @@ public class GUI_ChemistryDispenser : NetTab {
 			var roundedReagents = Calculations.RoundReagents(ChemistryDispenser.Container.Contents); // Round the contents to look better in the UI
 			foreach (KeyValuePair<string,float> Chemical in roundedReagents)
 			{
-				newListOfReagents = newListOfReagents + char.ToUpper (Chemical.Key [0]) + Chemical.Key.Substring (1) + " - " + Chemical.Value.ToString () + " U \n";
+				newListOfReagents =
+					$"{newListOfReagents}{char.ToUpper(Chemical.Key[0])}{Chemical.Key.Substring(1)} - {Chemical.Value} U \n";
 			}
-			TotalAndTemperature.SetValue = ChemistryDispenser.Container.AmountOfReagents(roundedReagents).ToString () + " U @ " + ChemistryDispenser.Container.Temperature.ToString () + "C° ";
+			TotalAndTemperature.SetValue =
+				$"{ChemistryDispenser.Container.AmountOfReagents(roundedReagents)}U @ {(ChemistryDispenser.Container.TemperatureCelsius)}°C";
 		}
 		else
 		{
-			newListOfReagents = "Current contain a nonexistent";
+			newListOfReagents = "No reagents";
 			TotalAndTemperature.SetValue = "No container inserted";
 		}
 		ListOfReagents.SetValue = newListOfReagents;
@@ -199,6 +206,6 @@ public class GUI_ChemistryDispenser : NetTab {
 	public void OnDestroy()
 	{
 		//Unsubscribe container update event
-		ChemistryDispenser.changeEvent -= Updateall;
+		ChemistryDispenser.changeEvent -= UpdateAll;
 	}
 }

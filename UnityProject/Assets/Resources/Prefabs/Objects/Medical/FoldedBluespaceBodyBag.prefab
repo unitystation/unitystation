@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!50 &8370574110460076425
 Rigidbody2D:
   serializedVersion: 4
@@ -203,7 +204,7 @@ MonoBehaviour:
   itemName: Bluespace Body bag
   itemDescription: A folded bluespace body bag designed for the storage and transportation
     of cadavers.
-  itemType: 0
+  initialTraits: []
   size: 2
   spriteType: 0
   CanConnectToTank: 0
@@ -246,9 +247,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8030091416075537494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,9 +261,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3912772081314498544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,12 +314,13 @@ MonoBehaviour:
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 0
+    Flammable: 1
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &9011093994975062449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &3601667555067628660
 MonoBehaviour:

@@ -251,9 +251,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114336348675555448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +330,7 @@ MonoBehaviour:
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 0
+    Flammable: 1
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
@@ -372,7 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f41055628add8412baae5e935a97980c
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &7117549763075892957
 MonoBehaviour:

@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 114710030649419254}
   - component: {fileID: 114005261357320888}
   - component: {fileID: 114000507018836526}
+  - component: {fileID: 8573282411850685554}
+  - component: {fileID: -4570603144365229597}
   m_Layer: 10
   m_Name: Salt Shaker
   m_TagString: Untagged
@@ -158,9 +160,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114116176735104048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,8 +252,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: dd31a44e0061599419dba34dd9e7fff7
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2784019809
+--- !u!114 &8573282411850685554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &-4570603144365229597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Temperature: 20
+  MaxCapacity: 20
+  Reagents:
+  - sodiumchloride
+  Amounts:
+  - 20
+  AcceptedReagents: []
+  TransferMode: 0
+  TransferAmount: 1
+  PossibleTransferAmounts:
+  - 1
+  - 20
 --- !u!1 &1894594285269404
 GameObject:
   m_ObjectHideFlags: 0

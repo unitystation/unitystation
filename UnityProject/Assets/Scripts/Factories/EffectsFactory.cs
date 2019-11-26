@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public static class EffectsFactory
 {
@@ -11,6 +12,7 @@ public static class EffectsFactory
 	private static GameObject largeAshTile;
 	private static GameObject smallAshTile;
 	private static GameObject waterTile;
+	private static GameObject chemTile;
 
 	private static GameObject smallXenoBloodTile;
 	private static GameObject medXenoBloodTile;
@@ -28,6 +30,7 @@ public static class EffectsFactory
 			largeAshTile = Resources.Load("LargeAsh") as GameObject;
 			smallAshTile = Resources.Load("SmallAsh") as GameObject;
 			waterTile = Resources.Load("WaterSplat") as GameObject;
+			chemTile = Resources.Load("ChemSplat") as GameObject;
 			smallXenoBloodTile = Resources.Load("SmallXenoBloodSplat") as GameObject;
 			medXenoBloodTile = Resources.Load("MedXenoBloodSplat") as GameObject;
 			largeXenoBloodTile = Resources.Load("LargeXenoBloodSplat") as GameObject;
@@ -110,10 +113,23 @@ public static class EffectsFactory
 			MatrixManager.AtPoint(worldTilePos.To3Int(), true).Objects);
 	}
 
-	public static void WaterSplat(Vector3 worldPos)
+	public static void WaterSplat(Vector3Int worldPos)
+	{
+		if (MatrixManager.IsSpaceAt(worldPos, true))
+		{
+			return;
+		}
+		//don't do multiple splats
+		if (MatrixManager.GetAt<FloorDecal>(worldPos, isServer: true).Any(decal => decal.CanDryUp))
+		{
+			return;
+		}
+		EnsureInit();
+		Spawn.ServerPrefab(waterTile, worldPos,	MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+	}
+	public static void ChemSplat(Vector3Int worldPos)
 	{
 		EnsureInit();
-		Spawn.ServerPrefab(waterTile, worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Objects, Quaternion.identity);
+		Spawn.ServerPrefab(chemTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
 	}
 }

@@ -357,8 +357,7 @@ public static class Spawn
 
 	private static bool IsTotallyImpassable(Vector3Int tileWorldPosition)
 	{
-		return!MatrixManager.IsPassableAt(tileWorldPosition,true)
-		      &&!MatrixManager.IsAtmosPassableAt(tileWorldPosition,true);
+		return MatrixManager.IsTotallyImpassable(tileWorldPosition,true);
 	}
 
 	/// <summary>

@@ -17,9 +17,7 @@ public class FloorDecal : NetworkBehaviour
 	[Tooltip("Whether this decal can be cleaned up by janitorial actions like mopping.")]
 	public bool Cleanable = true;
 
-	[Tooltip("Object will disappear automatically after this many seconds have passed. Leave at" +
-	         "zero or negative value to prevent this.")]
-	public float SecondsUntilDisappear = -1f;
+	public bool CanDryUp = false;
 
 	[Tooltip("Possible appearances of this decal. One will randomly be chosen when the decal appears." +
 	         " This can be left empty, in which case the prefab's sprite renderer sprite will " +
@@ -43,21 +41,11 @@ public class FloorDecal : NetworkBehaviour
 		{
 			chosenSprite = Random.Range(0, PossibleSprites.Length);
 		}
-		//set lifetime
-		if (SecondsUntilDisappear > 0)
-		{
-			StartCoroutine(DisappearAfterLifetime());
-		}
 	}
 
 	public override void OnStartClient()
 	{
 		SyncChosenSprite(chosenSprite);
-	}
-
-	private IEnumerator DisappearAfterLifetime(){
-		yield return WaitFor.Seconds(SecondsUntilDisappear);
-		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 
 	private void SyncChosenSprite(int _chosenSprite)

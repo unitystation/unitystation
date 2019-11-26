@@ -79,8 +79,19 @@ public partial class PlayerSync
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => registerPlayer.IsSlippingServer && MatrixManager.IsNoGravityAt(serverState.WorldPosition.RoundToInt(), true)
-	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(serverState.WorldPosition.RoundToInt(), true);
+	public bool IsNonStickyServer
+	{
+		get
+		{
+			if (registerPlayer.IsSlippingServer)
+			{
+				return MatrixManager.IsNoGravityAt(serverState.WorldPosition.RoundToInt(), true)
+				    || MatrixManager.IsSlipperyAt(serverState.WorldPosition.RoundToInt());
+			}
+			return !playerScript.IsGhost && MatrixManager.IsNonStickyAt(serverState.WorldPosition.RoundToInt(), true);
+		}
+	}
+
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
 
@@ -728,27 +739,33 @@ public partial class PlayerSync
 
 	private void Cross(Vector3Int position)
 	{
-		CheckTileSlip();
-
 		if (PlayerUtils.IsGhost(gameObject))
 		{
 			return;
 		}
-		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position, true);
-		// Removes player from object list
-		objects.Remove(gameObject.GetComponent<RegisterItem>());
-		for (int i = 0; i < objects.Count; i++)
+
+		CheckTileSlip();
+
+		var crossedItems = MatrixManager.GetAt<ItemAttributes>(position, true);
+		foreach ( var crossedItem in crossedItems )
 		{
-			objects[i].Cross(registerPlayer);
+			if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
+			{
+				registerPlayer.Slip( slipWhileWalking: true );
+			}
 		}
 	}
 
 	public void CheckTileSlip()
 	{
-		var position = serverState.Position.CutToInt();
+
 		var matrix = MatrixManager.Get(serverState.MatrixId);
 
-		if (matrix.MetaDataLayer.IsSlipperyAt(position))
+		var shoeSlot = playerScript.ItemStorage.GetNamedItemSlot( NamedSlot.feet );
+
+		bool slipProtection = !shoeSlot.IsEmpty && shoeSlot.ItemAttributes.HasTrait( CommonTraits.Instance.NoSlip );
+
+		if (matrix.MetaDataLayer.IsSlipperyAt(ServerLocalPosition) && !slipProtection)
 		{
 			registerPlayer.Slip();
 		}

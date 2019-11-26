@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 114690376875817604}
   - component: {fileID: 114503468551468690}
   - component: {fileID: 114385515256601920}
-  - component: {fileID: 1475805937030201275}
   - component: {fileID: 114632274079759252}
   - component: {fileID: 114268903903400682}
   - component: {fileID: 114269914628471680}
@@ -184,7 +183,8 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Banana peel
   itemDescription: A peel from a banana.
-  initialTraits: []
+  initialTraits:
+  - {fileID: 11400000, guid: 63ebb1ff93c93354994ab009bc8ccf7d, type: 2}
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -273,18 +273,6 @@ MonoBehaviour:
   leavings: {fileID: 0}
   healAmount: 2
   healHungerAmount: 5
---- !u!114 &1475805937030201275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79a1bf864b750f74a9b2df67e95245aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114632274079759252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,5 +365,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f55ea2147f7e49449a11c6d0063822f6
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 966381198

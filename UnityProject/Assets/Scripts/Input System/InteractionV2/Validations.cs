@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -24,9 +25,7 @@ public static class Validations
 		return toCheck != null && toCheck.GetComponent(typeof(T)) != null;
 	}
 
-	/// <summary>
-	/// Checks if the game object has the specified trait
-	/// </summary>
+	/// <inheritdoc cref="ItemAttributes.HasTrait"/>
 	/// <param name="toCheck">object to check, can be null</param>
 	/// <param name="expectedTrait"></param>
 	/// <returns></returns>
@@ -36,6 +35,30 @@ public static class Validations
 		var attrs = toCheck.GetComponent<IItemAttributes>();
 		if (attrs == null) return false;
 		return attrs.HasTrait(expectedTrait);
+	}
+
+	/// <inheritdoc cref="ItemAttributes.HasAnyTrait"/>
+	/// <param name="toCheck">object to check, can be null</param>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public static bool HasAnyTrait(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
+	{
+		if (toCheck == null) return false;
+		var attrs = toCheck.GetComponent<ItemAttributes>();
+		if (attrs == null) return false;
+		return attrs.HasAnyTrait(expectedTraits);
+	}
+
+	/// <inheritdoc cref="ItemAttributes.HasAllTraits"/>
+	/// <param name="toCheck">object to check, can be null</param>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public static bool HasAllTraits(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
+	{
+		if (toCheck == null) return false;
+		var attrs = toCheck.GetComponent<ItemAttributes>();
+		if (attrs == null) return false;
+		return attrs.HasAllTraits(expectedTraits);
 	}
 
 	/// <summary>

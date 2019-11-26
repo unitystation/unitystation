@@ -20,7 +20,8 @@ public class SpawnPoint : NetworkStartPosition
 	        {JobDepartment.Engineering, new[] {JobType.AI, JobType.ATMOSTECH, JobType.CHIEF_ENGINEER, JobType.ENGINEER, JobType.ENGSEC}},
 	        {JobDepartment.Janitor, new[] {JobType.JANITOR}},
 	        {JobDepartment.Entertainers, new[] {JobType.CLOWN, JobType.MIME}},
-	        {JobDepartment.Personnel, new[] {JobType.CURATOR, JobType.COOK, JobType.CHAPLAIN, JobType.BOTANIST, JobType.BARTENDER}},
+	        {JobDepartment.Personnel, new[] {JobType.CURATOR, JobType.COOK, JobType.CHAPLAIN, JobType.BARTENDER}},
+	        {JobDepartment.Botany, new[] {JobType.BOTANIST}},
 	        {JobDepartment.Syndicate, new[] {JobType.SYNDICATE}},
 	};
 

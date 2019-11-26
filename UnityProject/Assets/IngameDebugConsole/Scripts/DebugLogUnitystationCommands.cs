@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Atmospherics;
 using PathFinding;
 using UnityEngine;
 using Mirror;
@@ -315,6 +316,46 @@ namespace IngameDebugConsole
 
 			}
 		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Incinerate local player")]
+#endif
+		private static void Incinerate()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				var playerScript = PlayerManager.LocalPlayerScript;
+				var matrix = MatrixManager.Get(playerScript.registerTile.Matrix);
+
+				foreach (var worldPos in playerScript.WorldPos.BoundsAround().allPositionsWithin)
+				{
+					var localPos = MatrixManager.WorldToLocalInt(worldPos, matrix);
+					var gasMix = matrix.MetaDataLayer.Get(localPos).GasMix;
+					gasMix.AddGas(Gas.Plasma, 100);
+					gasMix.AddGas(Gas.Oxygen, 100);
+					matrix.ReactionManager.ExposeHotspot(localPos, 1000, .2f);
+				}
+			}
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Heal up local player")]
+#endif
+		private static void HealUp()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				var playerScript = PlayerManager.LocalPlayerScript;
+				var health = playerScript.playerHealth;
+				foreach (var bodyPart in health.BodyParts)
+				{
+					bodyPart.HealDamage(200, DamageType.Brute);
+					bodyPart.HealDamage(200, DamageType.Burn);
+				}
+				playerScript.registerTile.GetUp();
+			}
+		}
+
 #if UNITY_EDITOR
 		[MenuItem("Networking/Spawn Rods")]
 #endif
