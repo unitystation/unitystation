@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4645335817288720}
   - component: {fileID: 61202592083071704}
-  - component: {fileID: 114828422824226692}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
@@ -23,6 +22,7 @@ GameObject:
   - component: {fileID: 1920082862656044705}
   - component: {fileID: 5215751682783047895}
   - component: {fileID: 5113648241220904242}
+  - component: {fileID: 7992913776653634697}
   m_Layer: 10
   m_Name: food
   m_TagString: Untagged
@@ -71,35 +71,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114828422824226692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 7175800046361583346}
-  InventoryIcon: {fileID: 0}
-  itemName: bike horn
-  itemDescription: A horn off of a bicycle.
-  initialTraits: []
-  size: 1
-  spriteType: 0
-  CanConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114931546224579044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,9 +103,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,12 +260,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Temperature: 293.15
+  temperatureKelvin: 293.15
   MaxCapacity: 100
-  MoveAmount: 0
   InSolidForm: 0
   Reagents: []
   Amounts: []
+  TraitWhitelist: []
+  ReagentWhitelist: []
+  TransferMode: 0
+  InitialTransferAmount: 20
+  PossibleTransferAmounts: []
 --- !u!114 &5113648241220904242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,8 +320,36 @@ MonoBehaviour:
     ReagentProduction: []
     MutatesInTo: []
   reagentContainer: {fileID: 5215751682783047895}
+  ItemAttributesV2: {fileID: 0}
   PlantSyncString: 
   SizeScale: 0
+--- !u!114 &7992913776653634697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: 
+  initialDescription: 
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0
