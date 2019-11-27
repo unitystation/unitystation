@@ -15,7 +15,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	public SpriteHandler SpriteHandler;
 	public PlantData plantData;
 	public ReagentContainer reagentContainer;
-
+	public ItemAttributesV2 ItemAttributesV2;
 
 	[SyncVar(hook = nameof(SyncPlant))]
 	public string PlantSyncString;
@@ -25,7 +25,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		PlantSyncString = _PlantSyncString;
 		if (!isServer)
 		{
-			
+
 			if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
 			{
 				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
@@ -33,6 +33,15 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		}
 		SpriteHandler.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
+		if (ItemAttributesV2 == null) {
+			ItemAttributesV2 = this.GetComponent<ItemAttributesV2>();
+		}
+		if (isServer && ItemAttributesV2 != null) { 
+			ItemAttributesV2.ServerSetItemDescription(plantData.Description);
+			ItemAttributesV2.ServerSetItemName(plantData.Plantname);
+		}
+		this.name = plantData.Plantname;
+			
 	}
 
 
@@ -63,9 +72,12 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	}
 
 
-	public void SetupChemicalContents() {
-		if (plantData.ReagentProduction.Count > 0) {			var ChemicalDictionary = new Dictionary<string, float>();
-			foreach (var Chemical in plantData.ReagentProduction) {
+	public void SetupChemicalContents()
+	{
+		if (plantData.ReagentProduction.Count > 0)
+		{			var ChemicalDictionary = new Dictionary<string, float>();
+			foreach (var Chemical in plantData.ReagentProduction)
+			{
 				ChemicalDictionary[Chemical.String] = (Chemical.Int * (plantData.Potency / 100f));
 			}
 			reagentContainer.AddReagents(ChemicalDictionary);
@@ -73,16 +85,12 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		}
 	}
 
-    // Start is called before the first frame update
+	// Start is called before the first frame update
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		Logger.Log("HEY!!!!!");
 		if (plantData != null)
 		{
-			if (SeedPacket == null) {
-				Logger.LogError("help!!");
-			}
-			var _Object = Spawn.ServerPrefab(SeedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject; 
+			var _Object = Spawn.ServerPrefab(SeedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject;
 			var seedPacket = _Object.GetComponent<SeedPacket>();
 			seedPacket.plantData = plantData;
 
@@ -92,13 +100,13 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DespawnOther);
 		}
 
-	
+
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Update is called once per frame
+	void Update()
+	{
+
+	}
 }
 
