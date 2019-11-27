@@ -230,8 +230,8 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 	{
 		// Show the parenthesis for an item's description only if the item has a description
 		UIManager.SetToolTip =
-			initialName +
-			(String.IsNullOrEmpty(initialDescription) ? "" : $" ({initialDescription})");
+			itemName +
+			(String.IsNullOrEmpty(itemDescription) ? "" : $" ({itemDescription})");
 	}
 
 	public void OnHoverEnd()
