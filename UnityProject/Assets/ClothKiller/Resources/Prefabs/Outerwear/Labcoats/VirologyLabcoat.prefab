@@ -17,6 +17,24 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
+    - target: {fileID: 7931175119129480439, guid: ed1b2998d2c424811881ca9c2cad1226,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 46e25e807862993468a589987f25683d,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: ed1b2998d2c424811881ca9c2cad1226,
+        type: 3}
+      propertyPath: initialDescription
+      value: A suit that protects against minor chemical spills. Offers slightly more
+        protection against biohazards than the standard model. Has a green stripe
+        on the shoulder.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: ed1b2998d2c424811881ca9c2cad1226,
+        type: 3}
+      propertyPath: initialName
+      value: virologist labcoat
+      objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,29 +90,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3495234765619245072, guid: ed1b2998d2c424811881ca9c2cad1226,
-        type: 3}
-      propertyPath: initialDescription
-      value: A suit that protects against minor chemical spills. Offers slightly more
-        protection against biohazards than the standard model. Has a green stripe
-        on the shoulder.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3495234765619245072, guid: ed1b2998d2c424811881ca9c2cad1226,
-        type: 3}
-      propertyPath: initialName
-      value: virologist labcoat
-      objectReference: {fileID: 0}
     - target: {fileID: 4033042375367942854, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 7931175119129480439, guid: ed1b2998d2c424811881ca9c2cad1226,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 46e25e807862993468a589987f25683d,
-        type: 2}
     - target: {fileID: 3791466462619397166, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
       propertyPath: m_Sprite

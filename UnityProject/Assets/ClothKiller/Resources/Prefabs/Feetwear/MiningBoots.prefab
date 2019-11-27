@@ -17,6 +17,12 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e5b9d5d568d0aa24db5b41adcbcd2a0d,
+        type: 2}
     - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,6 +78,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: initialName
@@ -83,22 +99,6 @@ PrefabInstance:
       value: Steel-toed mining boots for mining in hazardous environments. Very good
         at keeping toes uncrushed.
       objectReference: {fileID: 0}
-    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: e5b9d5d568d0aa24db5b41adcbcd2a0d,
-        type: 2}
     - target: {fileID: 1950443690361248320, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_Sprite

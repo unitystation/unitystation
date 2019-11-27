@@ -459,14 +459,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Temperature: 20
+  temperatureKelvin: 293.15
   MaxCapacity: 25
   InSolidForm: 0
   Reagents: []
   Amounts: []
-  AcceptedTraits:
+  TraitWhitelist:
   - {fileID: 11400000, guid: 40bbe2f167fff41efb1c05e17fb43e88, type: 2}
-  AcceptedReagents: []
+  ReagentWhitelist: []
   TransferMode: 3
-  TransferAmount: 25
+  InitialTransferAmount: 25
   PossibleTransferAmounts: []

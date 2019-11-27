@@ -169,6 +169,7 @@ MonoBehaviour:
   syncInterval: 0.1
   travelDistance: 3
   reagentContainer: {fileID: 4953889069794681373}
+  reagentsPerUse: 5
 --- !u!114 &4953889069794681373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,17 +182,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Temperature: 20
+  temperatureKelvin: 293.15
   MaxCapacity: 100
-  itemAttributes: {fileID: 0}
+  InSolidForm: 0
   Reagents:
   - cleaner
   Amounts:
   - 100
-  AcceptedTraits: []
-  AcceptedReagents: []
+  TraitWhitelist: []
+  ReagentWhitelist: []
   TransferMode: 0
-  TransferAmount: 20
+  InitialTransferAmount: 20
   PossibleTransferAmounts: []
 --- !u!114 &114875290499615288
 MonoBehaviour:
@@ -229,7 +230,7 @@ MonoBehaviour:
   initialTraits: []
   size: 2
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -384,6 +385,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 19

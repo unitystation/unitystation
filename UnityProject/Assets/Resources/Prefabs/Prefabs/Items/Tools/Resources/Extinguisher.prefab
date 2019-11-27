@@ -171,6 +171,7 @@ MonoBehaviour:
   reagentContainer: {fileID: 4953889069794681373}
   registerItem: {fileID: 114690376875817604}
   pickupable: {fileID: 7891530486730515463}
+  reagentsPerUse: 5
   spriteRenderer: {fileID: 212125191403727516}
   spriteSync: 0
   spriteList:
@@ -188,16 +189,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Temperature: 20
+  temperatureKelvin: 293.15
   MaxCapacity: 50
+  InSolidForm: 0
   Reagents:
   - water
   Amounts:
   - 50
-  AcceptedReagents:
+  TraitWhitelist: []
+  ReagentWhitelist:
   - water
   TransferMode: 3
-  TransferAmount: 20
+  InitialTransferAmount: 20
+  PossibleTransferAmounts: []
 --- !u!114 &114875290499615288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,7 +239,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4b8500f0a3b33429b927e6db755bf25a, type: 2}
   size: 2
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 10
   damageType: 0
   throwDamage: 10
@@ -392,7 +396,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2994561493
+  m_SceneId: 0
 --- !u!114 &5519721869088170442
 MonoBehaviour:
   m_ObjectHideFlags: 0

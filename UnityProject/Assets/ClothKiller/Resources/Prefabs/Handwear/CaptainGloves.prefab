@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: CaptainGloves
       objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900,
+        type: 2}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,6 +73,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: initialName
@@ -78,17 +89,6 @@ PrefabInstance:
       value: Regal blue gloves, with a nice gold trim, a diamond anti-shock coating,
         and an integrated thermal barrier. Swanky.
       objectReference: {fileID: 0}
-    - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900,
-        type: 2}
     - target: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_Sprite

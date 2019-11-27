@@ -67,7 +67,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Cleanable: 1
-  SecondsUntilDisappear: -1
+  CanDryUp: 0
   PossibleSprites:
   - {fileID: 21300000, guid: 7c6fec4440518ae4680181d6f93269d9, type: 3}
   - {fileID: 21300000, guid: 366ed9f2fa47be148a0c301021dd7ec6, type: 3}
@@ -90,9 +90,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 1
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114262681174990446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e4b5330dc21e94b0494056c5ef239d49
+  m_AssetId: 
   m_SceneId: 0
 --- !u!1 &1230737790073880
 GameObject:

@@ -257,9 +257,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114383244954830430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +330,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 19
@@ -426,7 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 78d9125d50217497cbcd4a18ffe2e3e4
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &1418731889289770694
 MonoBehaviour:

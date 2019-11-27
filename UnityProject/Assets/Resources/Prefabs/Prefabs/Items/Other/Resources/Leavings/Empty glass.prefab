@@ -93,7 +93,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 55917bb83c64bdc41acf0a60f284366c, type: 2}
   size: 0
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -174,15 +174,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Temperature: 20
+  temperatureKelvin: 293.15
   MaxCapacity: 50
-  itemAttributes: {fileID: 0}
+  InSolidForm: 0
   Reagents: []
   Amounts: []
-  AcceptedTraits: []
-  AcceptedReagents: []
+  TraitWhitelist: []
+  ReagentWhitelist: []
   TransferMode: 0
-  TransferAmount: 20
+  InitialTransferAmount: 20
   PossibleTransferAmounts: []
 --- !u!114 &114179647736667158
 MonoBehaviour:
@@ -257,6 +257,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 19
@@ -370,7 +374,7 @@ MonoBehaviour:
   FullSprite: {fileID: 21300000, guid: 2bf661949122ccf468e9a699282f67c4, type: 3}
   EmptyName: 
   FullName: glass
-  spriteSync: 0
+  initialState: 0
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

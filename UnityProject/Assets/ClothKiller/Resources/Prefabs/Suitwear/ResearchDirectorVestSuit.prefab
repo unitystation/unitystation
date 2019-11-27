@@ -17,6 +17,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700669166950225366, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4664486816029168918, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -83,26 +103,6 @@ PrefabInstance:
       value: It's a suit worn by those with the know-how to achieve the position of
         "Research Director". Its fabric provides minor protection from biological
         contaminants.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
-        type: 3}
-      propertyPath: Armor.Bio
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4700669166950225366, guid: de234d793cfd842599c9c8726207f217,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}

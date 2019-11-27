@@ -183,7 +183,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f6f122bac4fb34653b5921cfbf89d313, type: 2}
   size: 2
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -237,9 +237,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2092252848639280625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,5 +288,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 5eb99a314f588b54c8e187fccf082399
+  m_AssetId: 
   m_SceneId: 0
