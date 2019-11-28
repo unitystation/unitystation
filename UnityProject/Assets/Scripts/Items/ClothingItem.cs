@@ -107,7 +107,7 @@ public class ClothingItem : MonoBehaviour
 			}
 			else
 			{
-				var equippedClothing = Item.GetComponent<IClothing>();
+				var equippedClothing = Item.GetComponent<ClothingV2>();
 				equippedClothing?.LinkClothingItem(this);
 			}
 		}
@@ -115,7 +115,7 @@ public class ClothingItem : MonoBehaviour
 		UpdateReferenceOffset();
 	}
 
-	public void RefreshFromClothing(IClothing clothing)
+	public void RefreshFromClothing(ClothingV2 clothing)
 	{
 		spriteHandler.Infos = clothing.SpriteInfo;
 		spriteHandler.ChangeSprite(clothing.SpriteInfoState);

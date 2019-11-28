@@ -40,23 +40,7 @@ public abstract class BaseClothData : ScriptableObject
 		}
 
 #endif
-
-		InitializePool();
 	}
-
-	private void OnEnable()
-	{
-		//Logger.Log(name + " OnEnable");
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
-
-	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
-		InitializePool();
-	}
-
-	public abstract void InitializePool();
 
 
 }

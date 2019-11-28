@@ -302,8 +302,8 @@ namespace IngameDebugConsole
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
 
-					var helmet = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit helmet"]).GameObject;
-					var suit = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit"]).GameObject;
+					var helmet = Spawn.ServerPrefab("MiningHardsuitHelmet").GameObject;
+					var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
 					var mask = Spawn.ServerPrefab(maskPrefab).GameObject;
 					var oxyTank = Spawn.ServerPrefab(oxyTankPrefab).GameObject;
 
