@@ -92,11 +92,11 @@ GameObject:
   - component: {fileID: 61000012096311666}
   - component: {fileID: 114904595007707188}
   - component: {fileID: 114000012876358140}
+  - component: {fileID: 114128851276751572}
   - component: {fileID: 114186698601475536}
   - component: {fileID: 114457471827933586}
   - component: {fileID: 114292337180728850}
   - component: {fileID: 114947022705203854}
-  - component: {fileID: 114128851276751572}
   - component: {fileID: 114571013473895252}
   - component: {fileID: 114436229020972412}
   - component: {fileID: 114137801701363466}
@@ -193,6 +193,18 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &114128851276751572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114186698601475536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,18 +264,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114128851276751572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011622113908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114571013473895252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,5 +335,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: b3c9185918b6a40848954ead4b67f0e4
   m_SceneId: 0

@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 4699640297835872}
   - component: {fileID: 61988555908928504}
   - component: {fileID: 61740141861229380}
+  - component: {fileID: 114376483752658618}
   - component: {fileID: 114006670304239386}
   - component: {fileID: 114394273069994774}
   - component: {fileID: 114179810639766388}
   - component: {fileID: 114759381464305984}
-  - component: {fileID: 114376483752658618}
   - component: {fileID: 114723009705901262}
   - component: {fileID: 114460770380257942}
   m_Layer: 11
@@ -94,6 +94,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114376483752658618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418031129727510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114006670304239386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,18 +167,6 @@ MonoBehaviour:
   shipMatrixMove: {fileID: 0}
   particleFX: {fileID: 0}
   particleRateMultiplier: 4
---- !u!114 &114376483752658618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418031129727510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114723009705901262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: fa26dc8a7e76973489beed18bc59d792
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!1 &1649971036973084
 GameObject:

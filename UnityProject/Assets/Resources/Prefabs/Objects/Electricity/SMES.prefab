@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 61366423541260584}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
+  - component: {fileID: -6323473989204236853}
   - component: {fileID: 114705152130084640}
   - component: {fileID: 1302529419740996430}
   - component: {fileID: 2683382063024116834}
@@ -100,7 +101,6 @@ GameObject:
   - component: {fileID: 2504760058904090374}
   - component: {fileID: 114897658894920132}
   - component: {fileID: 114429980035310924}
-  - component: {fileID: -6323473989204236853}
   - component: {fileID: 3432798136324343086}
   m_Layer: 11
   m_Name: SMES
@@ -211,6 +211,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
+--- !u!114 &-6323473989204236853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114705152130084640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,20 +421,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2883979192
---- !u!114 &-6323473989204236853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_SceneId: 0
 --- !u!114 &3432798136324343086
 MonoBehaviour:
   m_ObjectHideFlags: 0

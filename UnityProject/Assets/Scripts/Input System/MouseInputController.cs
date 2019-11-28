@@ -341,7 +341,7 @@ public class MouseInputController : MonoBehaviour
 			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
-			foreach (var handAppliable in handAppliables)
+			foreach (var handAppliable in handAppliables.Reverse())
 			{
 				var interacted = false;
 				if (handAppliable is IBaseInteractable<HandApply>)
@@ -368,7 +368,7 @@ public class MouseInputController : MonoBehaviour
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
 			.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-		foreach (var targetHandAppliable in targetHandAppliables)
+		foreach (var targetHandAppliable in targetHandAppliables.Reverse())
 		{
 			var interacted = false;
 			if (targetHandAppliable is IBaseInteractable<HandApply>)

@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 61728060443877980}
   - component: {fileID: 114341119007412586}
   - component: {fileID: 499351249353511896}
+  - component: {fileID: 114326413956932616}
   - component: {fileID: 114734890905785284}
   - component: {fileID: 114182420558184634}
   - component: {fileID: 114776788309089574}
   - component: {fileID: 114577415631634126}
-  - component: {fileID: 114326413956932616}
   - component: {fileID: 114883521337486670}
   - component: {fileID: 114077084986960180}
   - component: {fileID: 114738972662350094}
@@ -110,6 +110,18 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &114326413956932616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114734890905785284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,9 +168,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114577415631634126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,18 +181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114326413956932616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011433845357754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114883521337486670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +229,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -251,7 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: a7abba22164ce49f0bf9b9b219f39298
+  m_AssetId: 15adb8ff4b5062d41a3738e0a52ea01c
   m_SceneId: 0
 --- !u!1 &1344926539164060
 GameObject:

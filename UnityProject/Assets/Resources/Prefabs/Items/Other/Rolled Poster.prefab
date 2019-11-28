@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 8658991325822499239}
   - component: {fileID: 7136161543135492653}
   - component: {fileID: 3287447661704391586}
+  - component: {fileID: 6436908355588305388}
   - component: {fileID: 7492156942702919239}
   - component: {fileID: 5457341699463035650}
-  - component: {fileID: 6436908355588305388}
   - component: {fileID: 4868340152356198127}
   - component: {fileID: 325157265441756014}
   - component: {fileID: 1683984791003869720}
@@ -201,7 +201,7 @@ MonoBehaviour:
   initialTraits: []
   size: 2
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -238,6 +238,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &6436908355588305388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074129411573611090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7492156942702919239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,18 +282,6 @@ MonoBehaviour:
   sprite: {fileID: 0}
   legitSprite: {fileID: 21300000, guid: e3686f4fd49b3da478b3e180a674bd37, type: 3}
   contrabandSprite: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a, type: 3}
---- !u!114 &6436908355588305388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5074129411573611090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4868340152356198127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 96145b3165f5248b78302cd49658b0b2
   m_SceneId: 0
 --- !u!114 &1683984791003869720
 MonoBehaviour:
@@ -346,6 +346,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 1

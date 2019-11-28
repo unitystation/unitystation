@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
-  - component: {fileID: 114880268731048502}
-  - component: {fileID: 32985149106417025}
-  - component: {fileID: 114939607469885962}
-  - component: {fileID: 114489376111717858}
   - component: {fileID: 114841374748085900}
+  - component: {fileID: 114939607469885962}
+  - component: {fileID: 32985149106417025}
+  - component: {fileID: 114880268731048502}
+  - component: {fileID: 114489376111717858}
   - component: {fileID: 114184226298934880}
   - component: {fileID: 114217141058855336}
   - component: {fileID: 114551520272498954}
@@ -146,7 +146,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114880268731048502
+--- !u!114 &114841374748085900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,14 +155,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a522f189bd3d44f9b962f977bec7a0a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114939607469885962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  leavings: {fileID: 0}
-  healAmount: 5
-  healHungerAmount: 5
 --- !u!114 &32985149106417025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +196,7 @@ MonoBehaviour:
   TransferMode: 0
   InitialTransferAmount: 20
   PossibleTransferAmounts: []
---- !u!114 &114939607469885962
+--- !u!114 &114880268731048502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,11 +205,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Script: {fileID: 11500000, guid: a522f189bd3d44f9b962f977bec7a0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  leavings: {fileID: 0}
+  healAmount: 5
+  healHungerAmount: 5
 --- !u!114 &114489376111717858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,18 +226,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114841374748085900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114184226298934880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: d4b80359e4f4b40868cfc0bd10b94ae1
   m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:

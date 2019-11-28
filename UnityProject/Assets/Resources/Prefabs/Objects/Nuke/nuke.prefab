@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -91,13 +92,13 @@ GameObject:
   - component: {fileID: 61248892928775766}
   - component: {fileID: 61315118008336824}
   - component: {fileID: 114558280790144458}
+  - component: {fileID: 114966510063373710}
   - component: {fileID: 114958218028397826}
   - component: {fileID: 114970301685184636}
   - component: {fileID: 114285602872890758}
   - component: {fileID: 3598894608692613034}
   - component: {fileID: 8332996165049030563}
   - component: {fileID: 114093552067593536}
-  - component: {fileID: 114966510063373710}
   - component: {fileID: 114554877333081812}
   - component: {fileID: 114138874156132524}
   m_Layer: 11
@@ -192,6 +193,18 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &114966510063373710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114958218028397826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114285602872890758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +264,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &8332996165049030563
 MonoBehaviour:
@@ -278,18 +291,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114966510063373710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1754288526301548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114554877333081812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +325,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114138874156132524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,5 +340,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 113069566
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_SceneId: 0

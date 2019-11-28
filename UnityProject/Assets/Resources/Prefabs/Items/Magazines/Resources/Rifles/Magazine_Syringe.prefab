@@ -94,10 +94,10 @@ GameObject:
   - component: {fileID: 114321033702020154}
   - component: {fileID: 114319963738854120}
   - component: {fileID: 114797802676123676}
+  - component: {fileID: 114680659831034650}
   - component: {fileID: 114656900756177718}
   - component: {fileID: 114541784541101990}
   - component: {fileID: 114855648352423478}
-  - component: {fileID: 114680659831034650}
   - component: {fileID: 114011475389698314}
   - component: {fileID: 114483982261721994}
   - component: {fileID: 114625575897845998}
@@ -205,7 +205,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f46f13d516624e6883db235a840f575, type: 2}
   size: 0
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -229,6 +229,18 @@ MonoBehaviour:
   syncInterval: 0.1
   ammoType: Syringe
   magazineSize: 1
+--- !u!114 &114680659831034650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570589854574774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114656900756177718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,18 +284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114680659831034650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570589854574774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114011475389698314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +332,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 19
@@ -425,8 +429,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3263003343
+  m_AssetId: 4f70cbcabed4746aea197770f764551d
+  m_SceneId: 0
 --- !u!114 &8673378308319568878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,13 +459,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Temperature: 20
+  temperatureKelvin: 293.15
   MaxCapacity: 15
+  InSolidForm: 0
   Reagents: []
   Amounts: []
-  AcceptedReagents: []
+  TraitWhitelist: []
+  ReagentWhitelist: []
   TransferMode: 1
-  TransferAmount: 5
+  InitialTransferAmount: 5
   PossibleTransferAmounts:
   - 5
   - 10
@@ -484,4 +490,4 @@ MonoBehaviour:
   FullSprite: {fileID: 21300000, guid: f1299495679e8f3439d3c0f467d18ea2, type: 3}
   EmptyName: 
   FullName: 
-  spriteSync: 0
+  initialState: 0

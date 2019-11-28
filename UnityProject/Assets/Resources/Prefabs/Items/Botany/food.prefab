@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
+  - component: {fileID: 114499026947524380}
   - component: {fileID: 114556432234894168}
   - component: {fileID: 114417366729828038}
   - component: {fileID: -1256564506844683021}
   - component: {fileID: 7175800046361583346}
   - component: {fileID: 114273922828647914}
-  - component: {fileID: 114499026947524380}
   - component: {fileID: 1920082862656044705}
   - component: {fileID: 5215751682783047895}
   - component: {fileID: 5113648241220904242}
@@ -118,6 +118,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &114499026947524380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114556432234894168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,18 +232,6 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &114499026947524380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1920082862656044705
 MonoBehaviour:
   m_ObjectHideFlags: 0

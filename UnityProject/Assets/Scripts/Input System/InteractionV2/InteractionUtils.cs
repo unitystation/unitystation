@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -29,7 +30,8 @@ public static class InteractionUtils
 	}
 
 	/// <summary>
-	/// Client side interaction checking logic. Goes through each interactable component and checks for triggered interactions, returning the first one that
+	/// Client side interaction checking logic. Goes through each interactable component (starting from the bottom of the object's
+	/// component list) and checks for triggered interactions, returning the first one that
 	/// triggers an interaction, null if none are triggered. Messages the server to request an interaction for the interaction that
 	/// was triggered (if any).
 	/// </summary>
@@ -43,7 +45,7 @@ public static class InteractionUtils
 	{
 		Logger.LogTraceFormat("Checking {0} interactions",
 			Category.Interaction, typeof(T).Name);
-		foreach (var interactable in interactables)
+		foreach (var interactable in interactables.Reverse())
 		{
 			if (interactable.CheckInteract(interaction, NetworkSide.Client))
 			{

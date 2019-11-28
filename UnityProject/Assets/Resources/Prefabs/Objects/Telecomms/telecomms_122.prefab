@@ -91,11 +91,11 @@ GameObject:
   - component: {fileID: 4576255724643104}
   - component: {fileID: 61421824090989700}
   - component: {fileID: 61574834943858018}
+  - component: {fileID: 114557922893529782}
   - component: {fileID: 114345268826788508}
   - component: {fileID: 114076061302827320}
   - component: {fileID: 114187567739723964}
   - component: {fileID: 114602736169690456}
-  - component: {fileID: 114557922893529782}
   - component: {fileID: 114292576415758794}
   - component: {fileID: 114573418655668454}
   m_Layer: 11
@@ -172,6 +172,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114557922893529782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172751996906224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114345268826788508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,18 +244,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114557922893529782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172751996906224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114292576415758794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,5 +293,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b8993f031a81a486382671bd2183e0d8
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0

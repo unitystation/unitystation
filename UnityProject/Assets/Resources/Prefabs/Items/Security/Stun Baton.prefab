@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 7616869219281013817}
   - component: {fileID: 7617698541931878523}
   - component: {fileID: 7617608173269680123}
-  - component: {fileID: 6417518545994622246}
   - component: {fileID: 3232839523659743446}
+  - component: {fileID: 6417518545994622246}
   - component: {fileID: 114857257376150830}
   - component: {fileID: 114500601568321508}
   m_Layer: 10
@@ -104,7 +104,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5, type: 2}
   size: 3
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 10
   damageType: 0
   throwDamage: 7
@@ -158,9 +158,20 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &3232839523659743446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503752898315862941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc379e328bc3bd44a6541cd4f3e5a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 14
+  stunSound: EGloves
 --- !u!114 &6417518545994622246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,20 +191,6 @@ MonoBehaviour:
   spriteActive: {fileID: 21300000, guid: 0e5edf73e36bedf4b8b621aff4559d78, type: 3}
   spriteInactive: {fileID: 21300000, guid: d692e3351e1ae8443a57daf8b9695ddd, type: 3}
   active: 0
---- !u!114 &3232839523659743446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7503752898315862941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bc379e328bc3bd44a6541cd4f3e5a57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunTime: 14
-  stunSound: EGloves
 --- !u!114 &114857257376150830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +204,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -226,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 29d17c6e33a25434ca93edfb29f82cb7
+  m_AssetId: fcd09c3dfb3c3954cac1623e1c37bac3
   m_SceneId: 0
 --- !u!1 &7503752899205498039
 GameObject:

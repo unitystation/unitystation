@@ -93,11 +93,11 @@ GameObject:
   - component: {fileID: 1829736207480276922}
   - component: {fileID: 6441605053452467712}
   - component: {fileID: 2677451350077854373}
-  - component: {fileID: 4089351644393261817}
+  - component: {fileID: 4321281566600050422}
   - component: {fileID: 146779046979709823}
+  - component: {fileID: 4089351644393261817}
   - component: {fileID: 4149125379476819137}
   - component: {fileID: 2818992286365646655}
-  - component: {fileID: 4321281566600050422}
   - component: {fileID: 781523606564751371}
   - component: {fileID: 8918271915433250682}
   - component: {fileID: 5600470873996663622}
@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &6441605053452467712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,10 +200,10 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Paper Bin
   itemDescription: Contains all the paper you'll never need.
-  InitialTraits: []
+  initialTraits: []
   size: 3
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -210,6 +211,32 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &4321281566600050422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258242089137662919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &146779046979709823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258242089137662919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &4089351644393261817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,20 +253,6 @@ MonoBehaviour:
   syncInterval: 0.1
   initialPaperCount: 20
   blankPaper: {fileID: 1320386684021000, guid: 4ad202d5ed2ef44f0b3363b5fd90a066, type: 3}
---- !u!114 &146779046979709823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6258242089137662919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &4149125379476819137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,21 +282,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4321281566600050422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6258242089137662919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &781523606564751371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +330,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -365,11 +367,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemStorageStructure: {fileID: 11400000, guid: 27a302783a0494da280ad36e91b8752d,
+  itemStorageStructure: {fileID: 11400000, guid: 27a302783a0494da280ad36e91b8752d,
     type: 2}
-  ItemStorageCapacity: {fileID: 11400000, guid: f0cf26da94f1b4520a902840eebe5eb8,
+  itemStorageCapacity: {fileID: 11400000, guid: f0cf26da94f1b4520a902840eebe5eb8,
     type: 2}
-  ItemStoragePopulator: {fileID: 0}
+  itemStoragePopulator: {fileID: 0}
 --- !u!1 &6541166396586915311
 GameObject:
   m_ObjectHideFlags: 0

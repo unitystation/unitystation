@@ -93,11 +93,11 @@ GameObject:
   - component: {fileID: 114342755618585978}
   - component: {fileID: 114288380597099474}
   - component: {fileID: 114267664904661214}
+  - component: {fileID: 5842428873926595982}
   - component: {fileID: 114330809230976920}
   - component: {fileID: 3305593915559126072}
   - component: {fileID: 114892679667736192}
   - component: {fileID: 114550202335981176}
-  - component: {fileID: 5842428873926595982}
   - component: {fileID: 7044729721047615613}
   - component: {fileID: 114964623363075472}
   - component: {fileID: 114436548366995844}
@@ -209,6 +209,18 @@ MonoBehaviour:
   throwRange: 1
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &5842428873926595982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277678737481138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114330809230976920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,18 +287,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
---- !u!114 &5842428873926595982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277678737481138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7044729721047615613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,5 +432,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 4661484912df68a4192af5d6c9a8cd58
   m_SceneId: 0

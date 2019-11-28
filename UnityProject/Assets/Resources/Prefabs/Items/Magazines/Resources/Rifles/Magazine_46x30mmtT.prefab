@@ -94,10 +94,10 @@ GameObject:
   - component: {fileID: 114802394935135262}
   - component: {fileID: 114788448572266270}
   - component: {fileID: 114831615385714540}
+  - component: {fileID: 114050879831496896}
   - component: {fileID: 114851554163762622}
   - component: {fileID: 114905923286005146}
   - component: {fileID: 114391569944684062}
-  - component: {fileID: 114050879831496896}
   - component: {fileID: 114734624565663374}
   - component: {fileID: 114937405476664458}
   - component: {fileID: 114840722703133820}
@@ -226,6 +226,18 @@ MonoBehaviour:
   syncInterval: 0.1
   ammoType: 46x30mmtT
   magazineSize: 35
+--- !u!114 &114050879831496896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976442409144630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114851554163762622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,18 +281,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114050879831496896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1976442409144630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114734624565663374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,5 +352,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 9f7dff7070ba74fe8a7a56096104813b
   m_SceneId: 0

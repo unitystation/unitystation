@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 2849084297104663897}
   - component: {fileID: 2005314267733314395}
   - component: {fileID: 842841108259978593}
-  - component: {fileID: 7154680421102874471}
   - component: {fileID: 5636789531504822047}
+  - component: {fileID: 7154680421102874471}
   - component: {fileID: 1721604302402341619}
   - component: {fileID: 1567170016700135650}
   m_Layer: 19
@@ -141,6 +141,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &5636789531504822047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466995241280763689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7154680421102874471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,18 +171,6 @@ MonoBehaviour:
   rolledPosterPrefab: {fileID: 5074129411573611090, guid: 96145b3165f5248b78302cd49658b0b2,
     type: 3}
   posterVariant: 85
---- !u!114 &5636789531504822047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5466995241280763689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1721604302402341619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!1 &5583455716784618316
 GameObject:

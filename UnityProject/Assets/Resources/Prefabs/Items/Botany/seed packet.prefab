@@ -107,6 +107,7 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+  test: 0
 --- !u!1 &1519710982558066
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,10 +122,10 @@ GameObject:
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
   - component: {fileID: 114287030664492144}
+  - component: {fileID: 114850502447124420}
   - component: {fileID: 114079509811454882}
   - component: {fileID: 1012120877556218973}
   - component: {fileID: 114943451087304478}
-  - component: {fileID: 114850502447124420}
   - component: {fileID: 114596150240161284}
   - component: {fileID: 114171556259583268}
   - component: {fileID: 7775367136764396337}
@@ -195,10 +196,10 @@ MonoBehaviour:
   InventoryIcon: {fileID: 6508592049166286711}
   itemName: seed packet
   itemDescription: a packet of seeds
-  itemType: 0
+  initialTraits: []
   size: 1
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -238,9 +239,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114287030664492144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +253,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
+--- !u!114 &114850502447124420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114079509811454882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,9 +280,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1012120877556218973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,18 +315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114850502447124420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114596150240161284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +349,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114171556259583268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,7 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 1efec61511b50c844868cb49d1a711a1
+  m_AssetId: 61fbb88e43b8b4f48a44b030453bdedc
   m_SceneId: 0
 --- !u!114 &7775367136764396337
 MonoBehaviour:
@@ -381,10 +378,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8e8b7b55bea56498ef51fca8eaec51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Sprite: {fileID: 6508592049166286711}
   plantData:
     ProduceObject: {fileID: 0}
-    plantType: 0
     Name: 
     Plantname: 
     Description: 
@@ -416,6 +414,7 @@ MonoBehaviour:
     ReagentProduction: []
     MutatesInTo: []
   defaultPlantData: {fileID: 0}
+  PlantSyncString: 
 --- !u!114 &1635926354344122938
 MonoBehaviour:
   m_ObjectHideFlags: 0
