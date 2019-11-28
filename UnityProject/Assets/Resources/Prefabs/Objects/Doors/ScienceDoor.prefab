@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -167,6 +168,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -373,6 +375,7 @@ GameObject:
   - component: {fileID: 4748612260957174}
   - component: {fileID: 61064916821730822}
   - component: {fileID: 114116368055496416}
+  - component: {fileID: 114218133984102536}
   - component: {fileID: 114636056436692218}
   - component: {fileID: 114746668465746426}
   - component: {fileID: 114487638215291910}
@@ -380,7 +383,6 @@ GameObject:
   - component: {fileID: 114933752625763360}
   - component: {fileID: 114144917001484400}
   - component: {fileID: 114628056186747552}
-  - component: {fileID: 114218133984102536}
   - component: {fileID: 114542259333970298}
   - component: {fileID: 114505900221247960}
   m_Layer: 17
@@ -465,6 +467,18 @@ MonoBehaviour:
   openSFX: {fileID: 82585580305196082}
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &114218133984102536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703130924713270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114636056436692218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,6 +732,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114628056186747552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,18 +746,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114218133984102536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1703130924713270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114542259333970298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,6 +780,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114505900221247960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,8 +795,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 748884229
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_SceneId: 0
 --- !u!1 &1780058016609078
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,6 +1025,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

@@ -175,9 +175,9 @@ GameObject:
   - component: {fileID: 114310873128946770}
   - component: {fileID: 114142617040337854}
   - component: {fileID: 2263657787625324565}
-  - component: {fileID: 3288341768066379701}
-  - component: {fileID: 6121755517172193553}
   - component: {fileID: 114077426834687316}
+  - component: {fileID: 6121755517172193553}
+  - component: {fileID: 3288341768066379701}
   - component: {fileID: 114756124129542138}
   - component: {fileID: 6354374949080783350}
   - component: {fileID: 114302809726908850}
@@ -290,6 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114142617040337854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +326,7 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   State: 2
---- !u!114 &3288341768066379701
+--- !u!114 &114077426834687316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1832449994204696}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 294d2b1b66f24ff8befbc4e71f48652f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6121755517172193553
@@ -350,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 11
---- !u!114 &114077426834687316
+--- !u!114 &3288341768066379701
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -359,7 +360,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1832449994204696}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Script: {fileID: 11500000, guid: 294d2b1b66f24ff8befbc4e71f48652f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114756124129542138
@@ -439,7 +440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!114 &8020537792279011488
 MonoBehaviour:

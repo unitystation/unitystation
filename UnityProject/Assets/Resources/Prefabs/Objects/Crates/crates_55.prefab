@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 61510480500321770}
   - component: {fileID: 61761375012810014}
   - component: {fileID: 114176581051234016}
+  - component: {fileID: 114550382447619690}
   - component: {fileID: 114111814946665734}
   - component: {fileID: 6707346723057253345}
   - component: {fileID: 114158540661954676}
   - component: {fileID: 114214447182105028}
-  - component: {fileID: 114550382447619690}
   - component: {fileID: 114132199755193898}
   - component: {fileID: 114986165515162306}
   m_Layer: 11
@@ -109,6 +109,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &114550382447619690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158274957469326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114111814946665734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,10 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents:
-  - {fileID: 5134582746904691057, guid: 200bde3ddfd65ea4db701f0fa1c81f6c, type: 3}
-  - {fileID: 5134582746904691057, guid: 200bde3ddfd65ea4db701f0fa1c81f6c, type: 3}
-  - {fileID: 5134582746904691057, guid: 200bde3ddfd65ea4db701f0fa1c81f6c, type: 3}
+  initialContents: {fileID: 0}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -184,18 +193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114550382447619690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158274957469326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114132199755193898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 0c90c295e1ca14b9d8891720b5d3ba64
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!1 &1382922708889030
 GameObject:

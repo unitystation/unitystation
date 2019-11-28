@@ -203,11 +203,11 @@ GameObject:
   - component: {fileID: 61007529738442410}
   - component: {fileID: 61116065849539486}
   - component: {fileID: 114569148275177306}
+  - component: {fileID: 114747560364237798}
   - component: {fileID: 114835786064520692}
   - component: {fileID: 5340951544890428132}
   - component: {fileID: 114092939811341892}
   - component: {fileID: 114301095212362376}
-  - component: {fileID: 114747560364237798}
   - component: {fileID: 114211058334962584}
   - component: {fileID: 114452926348086496}
   m_Layer: 11
@@ -300,6 +300,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &114747560364237798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967120683374944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114835786064520692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,12 +326,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents:
-  - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
-  - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
-  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
-  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
-  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
   initialContents: {fileID: 11400000, guid: 625920d375152449caf40d27d3f220c4, type: 2}
   IsClosed: 0
   IsLocked: 0
@@ -378,18 +384,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114747560364237798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967120683374944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114211058334962584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,5 +433,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 625294219
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_SceneId: 0

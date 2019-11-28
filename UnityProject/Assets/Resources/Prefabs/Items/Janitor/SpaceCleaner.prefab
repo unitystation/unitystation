@@ -90,16 +90,16 @@ GameObject:
   m_Component:
   - component: {fileID: 4827893193398430}
   - component: {fileID: 61818042941755762}
-  - component: {fileID: 7075596509325728911}
-  - component: {fileID: 4953889069794681373}
   - component: {fileID: 114875290499615288}
   - component: {fileID: 114567485071167784}
+  - component: {fileID: 114147643764008260}
   - component: {fileID: 7891530486730515463}
+  - component: {fileID: 4953889069794681373}
+  - component: {fileID: 7075596509325728911}
   - component: {fileID: 114335573703485954}
   - component: {fileID: 114690376875817604}
   - component: {fileID: 114503468551468690}
   - component: {fileID: 114941767276165962}
-  - component: {fileID: 114147643764008260}
   - component: {fileID: 114229085023085202}
   - component: {fileID: 2076902986949784288}
   - component: {fileID: 5672786685678995422}
@@ -153,47 +153,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7075596509325728911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96edd14bb3cb38c4fac108e8865c1afd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  travelDistance: 3
-  reagentContainer: {fileID: 4953889069794681373}
-  reagentsPerUse: 5
---- !u!114 &4953889069794681373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 100
-  InSolidForm: 0
-  Reagents:
-  - cleaner
-  Amounts:
-  - 100
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 0
-  InitialTransferAmount: 20
-  PossibleTransferAmounts: []
 --- !u!114 &114875290499615288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +197,18 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &114147643764008260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7891530486730515463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +223,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &4953889069794681373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperatureKelvin: 293.15
+  MaxCapacity: 100
+  InSolidForm: 0
+  Reagents:
+  - cleaner
+  Amounts:
+  - 100
+  TraitWhitelist: []
+  ReagentWhitelist: []
+  TransferMode: 0
+  InitialTransferAmount: 20
+  PossibleTransferAmounts: []
+--- !u!114 &7075596509325728911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96edd14bb3cb38c4fac108e8865c1afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  travelDistance: 3
+  reagentContainer: {fileID: 4953889069794681373}
+  reagentsPerUse: 5
 --- !u!114 &114335573703485954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,18 +321,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114147643764008260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114229085023085202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 95adc0cf36af55d46baf1b7d4ef71eef
   m_SceneId: 0
 --- !u!1 &7396984611411425534
 GameObject:

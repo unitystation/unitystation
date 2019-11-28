@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 61530228178202146}
   - component: {fileID: 61039049282667628}
   - component: {fileID: 114334495745331238}
+  - component: {fileID: 114453459472189996}
   - component: {fileID: 114310759356319872}
   - component: {fileID: 3322568146411332710}
   - component: {fileID: 114590671685477684}
   - component: {fileID: 114485981991692948}
-  - component: {fileID: 114453459472189996}
   - component: {fileID: 114536317024912758}
   - component: {fileID: 114250652878325724}
   m_Layer: 11
@@ -109,6 +109,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &114453459472189996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000522475151462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114310759356319872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  initialContents: {fileID: 0}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -181,18 +193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114453459472189996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000522475151462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114536317024912758
 MonoBehaviour:
   m_ObjectHideFlags: 0

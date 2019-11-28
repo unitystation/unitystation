@@ -455,6 +455,7 @@ GameObject:
   - component: {fileID: 4033324952160438}
   - component: {fileID: 61790059268313222}
   - component: {fileID: 114059249025983974}
+  - component: {fileID: 114054792819298036}
   - component: {fileID: 114566587194028974}
   - component: {fileID: 114030775671006844}
   - component: {fileID: 114602670746664174}
@@ -462,7 +463,6 @@ GameObject:
   - component: {fileID: 114150526163596710}
   - component: {fileID: 114403590302997272}
   - component: {fileID: 114369509130701644}
-  - component: {fileID: 114054792819298036}
   - component: {fileID: 114948840395722872}
   - component: {fileID: 114646079871242220}
   m_Layer: 17
@@ -547,6 +547,18 @@ MonoBehaviour:
   openSFX: {fileID: 82119343689486036}
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &114054792819298036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636844411894304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114566587194028974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,18 +826,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114054792819298036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1636844411894304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114948840395722872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,7 +875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!1 &1811374188611904
 GameObject:

@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
-  - component: {fileID: 114880268731048502}
-  - component: {fileID: 4687294820448930692}
-  - component: {fileID: 114062940496879486}
-  - component: {fileID: 114723923594695084}
   - component: {fileID: 114502775186044806}
+  - component: {fileID: 114062940496879486}
+  - component: {fileID: 4687294820448930692}
+  - component: {fileID: 114880268731048502}
+  - component: {fileID: 114723923594695084}
   - component: {fileID: 114701331756403066}
   - component: {fileID: 114875846473893238}
   - component: {fileID: 114298002486922380}
@@ -88,12 +88,10 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   itemName: Clown's Tears
   itemDescription: 
-  Traits:
-  - {fileID: 11400000, guid: fe7314825ebf744c3b651ca76d282adc, type: 2}
-  itemType: 14
+  initialTraits: []
   size: 0
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -133,9 +131,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +145,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
+--- !u!114 &114502775186044806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114062940496879486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &4687294820448930692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperatureKelvin: 293.15
+  MaxCapacity: 50
+  InSolidForm: 0
+  Reagents:
+  - clown_tears
+  Amounts:
+  - 0
+  TraitWhitelist: []
+  ReagentWhitelist: []
+  TransferMode: 0
+  InitialTransferAmount: 20
+  PossibleTransferAmounts: []
 --- !u!114 &114880268731048502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,38 +213,6 @@ MonoBehaviour:
   leavings: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
   healAmount: 5
   healHungerAmount: 5
---- !u!114 &4687294820448930692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Temperature: 20
-  MaxCapacity: 50
-  Reagents:
-  - clown_tears
-  Amounts:
-  - 0
---- !u!114 &114062940496879486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &114723923594695084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,18 +226,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114502775186044806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114701331756403066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +274,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -291,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
+  m_AssetId: d1da6c61a5caf46239177ab9d0b96c03
   m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:

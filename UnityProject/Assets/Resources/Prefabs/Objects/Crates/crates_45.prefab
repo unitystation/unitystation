@@ -92,11 +92,11 @@ GameObject:
   - component: {fileID: 61563282651521928}
   - component: {fileID: 61358298278567270}
   - component: {fileID: 114439906662283016}
+  - component: {fileID: 114053198053435132}
   - component: {fileID: 114168612985768984}
   - component: {fileID: 3312694908317578026}
   - component: {fileID: 114602900905777840}
   - component: {fileID: 114489996226808170}
-  - component: {fileID: 114053198053435132}
   - component: {fileID: 114152464543914716}
   - component: {fileID: 114142304136326718}
   m_Layer: 11
@@ -189,6 +189,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &114053198053435132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502243171082208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114168612985768984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  initialContents: {fileID: 0}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -261,18 +273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114053198053435132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1502243171082208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114152464543914716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 50e0c4bcff9f848a1ad1329119954556
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!1 &1657152118737778
 GameObject:

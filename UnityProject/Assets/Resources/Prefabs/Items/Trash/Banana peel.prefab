@@ -92,13 +92,13 @@ GameObject:
   - component: {fileID: 61818042941755762}
   - component: {fileID: 114875290499615288}
   - component: {fileID: 114567485071167784}
+  - component: {fileID: 114268903903400682}
   - component: {fileID: 114229897149472310}
   - component: {fileID: 114335573703485954}
   - component: {fileID: 114690376875817604}
   - component: {fileID: 114503468551468690}
   - component: {fileID: 114385515256601920}
   - component: {fileID: 114632274079759252}
-  - component: {fileID: 114268903903400682}
   - component: {fileID: 114269914628471680}
   - component: {fileID: 114091489206424360}
   - component: {fileID: 114858167124748228}
@@ -187,7 +187,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 63ebb1ff93c93354994ab009bc8ccf7d, type: 2}
   size: 0
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -195,6 +195,18 @@ MonoBehaviour:
   throwRange: 7
   hitSound: Slip
   attackVerb: []
+--- !u!114 &114268903903400682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114229897149472310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,9 +253,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114503468551468690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,18 +295,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114268903903400682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114269914628471680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +343,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -365,5 +366,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 966381198
+  m_AssetId: f55ea2147f7e49449a11c6d0063822f6
+  m_SceneId: 0

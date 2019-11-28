@@ -90,16 +90,16 @@ GameObject:
   m_Component:
   - component: {fileID: 4827893193398430}
   - component: {fileID: 61818042941755762}
-  - component: {fileID: 1769529668165702070}
-  - component: {fileID: 4953889069794681373}
   - component: {fileID: 114875290499615288}
   - component: {fileID: 114567485071167784}
+  - component: {fileID: 114147643764008260}
   - component: {fileID: 7891530486730515463}
+  - component: {fileID: 4953889069794681373}
+  - component: {fileID: 1769529668165702070}
   - component: {fileID: 114335573703485954}
   - component: {fileID: 114690376875817604}
   - component: {fileID: 114503468551468690}
   - component: {fileID: 114941767276165962}
-  - component: {fileID: 114147643764008260}
   - component: {fileID: 114229085023085202}
   - component: {fileID: 114462233250351786}
   - component: {fileID: 114923660035280294}
@@ -153,55 +153,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1769529668165702070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df14585efc20d2f4c9f0b66982db3b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  travelDistance: 6
-  reagentContainer: {fileID: 4953889069794681373}
-  registerItem: {fileID: 114690376875817604}
-  pickupable: {fileID: 7891530486730515463}
-  reagentsPerUse: 5
-  spriteRenderer: {fileID: 212125191403727516}
-  spriteSync: 0
-  spriteList:
-  - {fileID: 21300000, guid: 65bae883a79671342ba887b2c584674c, type: 3}
-  - {fileID: 21300000, guid: ea2cd872d96348440a1d6a65e802dc62, type: 3}
---- !u!114 &4953889069794681373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 50
-  InSolidForm: 0
-  Reagents:
-  - water
-  Amounts:
-  - 50
-  TraitWhitelist: []
-  ReagentWhitelist:
-  - water
-  TransferMode: 3
-  InitialTransferAmount: 20
-  PossibleTransferAmounts: []
 --- !u!114 &114875290499615288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +198,18 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &114147643764008260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7891530486730515463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +224,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &4953889069794681373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperatureKelvin: 293.15
+  MaxCapacity: 50
+  InSolidForm: 0
+  Reagents:
+  - water
+  Amounts:
+  - 50
+  TraitWhitelist: []
+  ReagentWhitelist:
+  - water
+  TransferMode: 3
+  InitialTransferAmount: 20
+  PossibleTransferAmounts: []
+--- !u!114 &1769529668165702070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df14585efc20d2f4c9f0b66982db3b8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  travelDistance: 6
+  reagentContainer: {fileID: 4953889069794681373}
+  registerItem: {fileID: 114690376875817604}
+  pickupable: {fileID: 7891530486730515463}
+  reagentsPerUse: 5
+  spriteRenderer: {fileID: 212125191403727516}
+  spriteSync: 0
+  spriteList:
+  - {fileID: 21300000, guid: 65bae883a79671342ba887b2c584674c, type: 3}
+  - {fileID: 21300000, guid: ea2cd872d96348440a1d6a65e802dc62, type: 3}
 --- !u!114 &114335573703485954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,18 +330,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114147643764008260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114229085023085202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 7920a824df456044381e381e90277a5d
   m_SceneId: 0
 --- !u!114 &5519721869088170442
 MonoBehaviour:

@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 2901372144461622397}
   - component: {fileID: 1614627787898670548}
   - component: {fileID: 5060467795803936097}
-  - component: {fileID: 3450189410044159233}
-  - component: {fileID: 7629511162276542851}
-  - component: {fileID: 7192021640817197183}
   - component: {fileID: 4826798589450700602}
+  - component: {fileID: 7629511162276542851}
+  - component: {fileID: 3450189410044159233}
+  - component: {fileID: 7192021640817197183}
   - component: {fileID: 3016635445816934449}
   - component: {fileID: 5355802478405648676}
   - component: {fileID: 8782089620930079623}
@@ -107,7 +107,7 @@ MonoBehaviour:
   initialTraits: []
   size: 4
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 12
   damageType: 0
   throwDamage: 12
@@ -148,10 +148,7 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3450189410044159233
+--- !u!114 &4826798589450700602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,7 +157,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2261239356000419554}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7629511162276542851
@@ -177,6 +174,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &3450189410044159233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261239356000419554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7192021640817197183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,18 +199,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &4826798589450700602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2261239356000419554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3016635445816934449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +247,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -269,8 +270,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2956743437
+  m_AssetId: 41b3fb480b523437288fe18998445d00
+  m_SceneId: 0
 --- !u!114 &3112443706636641109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +398,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0

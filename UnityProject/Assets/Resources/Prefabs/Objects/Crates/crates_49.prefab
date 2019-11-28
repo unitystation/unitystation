@@ -253,11 +253,11 @@ GameObject:
   - component: {fileID: 61354511301467718}
   - component: {fileID: 61090429304919756}
   - component: {fileID: 114798688265202516}
+  - component: {fileID: 114226781320182858}
   - component: {fileID: 114999291194090438}
   - component: {fileID: 2330541816643088886}
   - component: {fileID: 114452331490182166}
   - component: {fileID: 114594932833701242}
-  - component: {fileID: 114226781320182858}
   - component: {fileID: 114097639001149906}
   - component: {fileID: 114669540274702640}
   m_Layer: 11
@@ -350,6 +350,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &114226781320182858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907093438119012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114999291194090438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  initialContents: {fileID: 0}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -422,18 +434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114226781320182858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907093438119012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114097639001149906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,5 +483,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: c3c698df4321844769d83ff6cd426675
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0

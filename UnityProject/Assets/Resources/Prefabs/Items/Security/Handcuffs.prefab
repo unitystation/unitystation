@@ -93,9 +93,9 @@ GameObject:
   - component: {fileID: 2664584551837523162}
   - component: {fileID: 2664584551837523603}
   - component: {fileID: 2664584551837520220}
+  - component: {fileID: 2092252848639280625}
   - component: {fileID: 2664584551837523149}
   - component: {fileID: 2664584551837519923}
-  - component: {fileID: 2092252848639280625}
   - component: {fileID: 114187339857744694}
   - component: {fileID: 114857360014702054}
   m_Layer: 10
@@ -205,6 +205,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &2092252848639280625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664584551837519869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040e908e0ede8564f8fddfce81867825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyTime: 3
+  removeTime: 3
+  sound: Handcuffs
 --- !u!114 &2664584551837523149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,21 +252,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
---- !u!114 &2092252848639280625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2664584551837519869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 040e908e0ede8564f8fddfce81867825, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  applyTime: 3
-  removeTime: 3
-  sound: Handcuffs
 --- !u!114 &114187339857744694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,5 +288,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 5eb99a314f588b54c8e187fccf082399
   m_SceneId: 0

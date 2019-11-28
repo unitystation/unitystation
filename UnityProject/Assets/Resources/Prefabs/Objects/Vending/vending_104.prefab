@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -90,12 +91,12 @@ GameObject:
   - component: {fileID: 4464733428291126}
   - component: {fileID: 61710048005940208}
   - component: {fileID: 61729624970629904}
+  - component: {fileID: 114556184854979150}
   - component: {fileID: 114524211834867648}
   - component: {fileID: 114775534740125254}
   - component: {fileID: 114548594117427474}
   - component: {fileID: 2380203876078740111}
   - component: {fileID: 114532474132266400}
-  - component: {fileID: 114556184854979150}
   - component: {fileID: 114146302605864432}
   - component: {fileID: 114503800418262852}
   m_Layer: 11
@@ -172,6 +173,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114556184854979150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538438828928774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114524211834867648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,8 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   VendorContent: []
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -222,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &2380203876078740111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,18 +260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114556184854979150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538438828928774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114146302605864432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +294,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114503800418262852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,5 +309,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1552578654
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_SceneId: 0

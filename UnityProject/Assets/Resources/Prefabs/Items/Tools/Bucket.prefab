@@ -94,14 +94,14 @@ GameObject:
   - component: {fileID: 114364506355654784}
   - component: {fileID: 114284267982980302}
   - component: {fileID: 114098538090098490}
-  - component: {fileID: 114657433043358150}
-  - component: {fileID: 114062470574361688}
   - component: {fileID: 114788874549882356}
+  - component: {fileID: 114657433043358150}
+  - component: {fileID: 5199146694513484801}
+  - component: {fileID: 114062470574361688}
   - component: {fileID: 114567163244394598}
   - component: {fileID: 114441573294268492}
   - component: {fileID: 114321264871015286}
   - component: {fileID: -4141852985515784285}
-  - component: {fileID: 5199146694513484801}
   m_Layer: 10
   m_Name: Bucket
   m_TagString: Untagged
@@ -228,6 +228,18 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
+--- !u!114 &114788874549882356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801347380884054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114657433043358150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +254,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &5199146694513484801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801347380884054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperatureKelvin: 293.15
+  MaxCapacity: 70
+  InSolidForm: 0
+  Reagents: []
+  Amounts: []
+  TraitWhitelist: []
+  ReagentWhitelist: []
+  TransferMode: 0
+  InitialTransferAmount: 20
+  PossibleTransferAmounts:
+  - 10
+  - 15
+  - 20
+  - 25
+  - 30
+  - 50
+  - 70
 --- !u!114 &114062470574361688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,18 +296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114788874549882356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801347380884054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114567163244394598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 2b30815126120534d823a2f2fdf0a26d
   m_SceneId: 0
 --- !u!114 &-4141852985515784285
 MonoBehaviour:
@@ -430,32 +459,3 @@ MonoBehaviour:
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
---- !u!114 &5199146694513484801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801347380884054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 70
-  InSolidForm: 0
-  Reagents: []
-  Amounts: []
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 0
-  InitialTransferAmount: 20
-  PossibleTransferAmounts:
-  - 10
-  - 15
-  - 20
-  - 25
-  - 30
-  - 50
-  - 70

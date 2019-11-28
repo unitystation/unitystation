@@ -92,12 +92,12 @@ GameObject:
   - component: {fileID: 61854855548246012}
   - component: {fileID: 114664589915332152}
   - component: {fileID: 114593161572524446}
+  - component: {fileID: 114624031663187154}
   - component: {fileID: 114716302871911692}
   - component: {fileID: 114922150393857528}
   - component: {fileID: 114065903958209818}
   - component: {fileID: 2672431944032583097}
   - component: {fileID: 114020482039318460}
-  - component: {fileID: 114624031663187154}
   - component: {fileID: 114120840063401562}
   - component: {fileID: 114011298045296396}
   m_Layer: 10
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114593161572524446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +185,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8ddc1bf1d79674344b6b5c7cf6b3f1ee, type: 2}
   size: 0
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -192,6 +193,18 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &114624031663187154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114716302871911692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,9 +251,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2672431944032583097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToolType: 6
   SuccessChance: 100
   IsSyndicateVariant: 0
   SpeedMultiplier: 1
@@ -270,18 +279,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114624031663187154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1748120534729806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114120840063401562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +327,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0

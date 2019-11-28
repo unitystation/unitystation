@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -92,10 +93,10 @@ GameObject:
   - component: {fileID: 61687826196341392}
   - component: {fileID: 114959292841992252}
   - component: {fileID: 114489178862107254}
-  - component: {fileID: 114660502884524074}
-  - component: {fileID: 290742843891720739}
-  - component: {fileID: 5763908275250210171}
   - component: {fileID: 114779478609998338}
+  - component: {fileID: 290742843891720739}
+  - component: {fileID: 114660502884524074}
+  - component: {fileID: 5763908275250210171}
   - component: {fileID: 114671522045060476}
   - component: {fileID: 114341681926248934}
   m_Layer: 11
@@ -205,7 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &114660502884524074
+  IsFixedMatrix: 0
+--- !u!114 &114779478609998338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,16 +216,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1413862099450234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ShuttleMatrixMove: {fileID: 0}
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: TabStateEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &290742843891720739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +232,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 1
+--- !u!114 &114660502884524074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413862099450234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShuttleMatrixMove: {fileID: 0}
+  OnStateChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5763908275250210171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,18 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114779478609998338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413862099450234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114671522045060476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +295,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114341681926248934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,8 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1510216014
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_SceneId: 0
 --- !u!1 &1529566477441902
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +368,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

@@ -9,15 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4391181751561356}
-  - component: {fileID: 114625618949545954}
   - component: {fileID: 114194510371795276}
   - component: {fileID: 114455019697819228}
   - component: {fileID: 114208499505719652}
   - component: {fileID: 114469368480071740}
   - component: {fileID: 61430955032025016}
-  - component: {fileID: 114624743037909254}
-  - component: {fileID: 114197504116165090}
   - component: {fileID: 114002554109735238}
+  - component: {fileID: 114624743037909254}
+  - component: {fileID: 114625618949545954}
+  - component: {fileID: 114197504116165090}
   - component: {fileID: 114018975004714514}
   - component: {fileID: 114794553342207796}
   - component: {fileID: 114563246730424860}
@@ -43,19 +43,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114625618949545954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417416714511440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aeeb3afb58744a528b5a88d40de80c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FloorTileType: Floor
 --- !u!114 &114194510371795276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +146,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114002554109735238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417416714511440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114624743037909254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +172,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &114625618949545954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417416714511440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aeeb3afb58744a528b5a88d40de80c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FloorTileType: Floor
 --- !u!114 &114197504116165090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,18 +198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114002554109735238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417416714511440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114018975004714514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!1 &1485591792757996
 GameObject:

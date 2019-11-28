@@ -90,13 +90,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4715117052207926}
   - component: {fileID: 61404138305600890}
+  - component: {fileID: 114529692711081598}
   - component: {fileID: 9128197607768152992}
   - component: {fileID: 114657711786529776}
   - component: {fileID: 5322609074420117545}
   - component: {fileID: 2464575245303528366}
   - component: {fileID: 5293454678208234974}
   - component: {fileID: 114532654656294352}
-  - component: {fileID: 114529692711081598}
   - component: {fileID: 114039584032850022}
   - component: {fileID: 390125877411094447}
   - component: {fileID: 4585042576726451927}
@@ -149,6 +149,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114529692711081598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9128197607768152992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  initialContents: {fileID: 0}
   IsClosed: 1
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -259,18 +271,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114529692711081598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114039584032850022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +319,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 27
@@ -476,5 +480,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2395452554
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_SceneId: 0
