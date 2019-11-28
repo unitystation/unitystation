@@ -87,7 +87,7 @@ MonoBehaviour:
   initialTraits: []
   size: 2
   spriteType: 0
-  CanConnectToTank: 0
+  canConnectToTank: 0
   hitDamage: 1
   damageType: 0
   throwDamage: 3
@@ -144,9 +144,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 8c2952660a46d90479f70105bc1cbab8
+  m_AssetId: 
   m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:

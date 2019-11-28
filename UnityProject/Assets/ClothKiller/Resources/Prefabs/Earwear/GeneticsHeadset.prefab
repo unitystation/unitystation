@@ -17,6 +17,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: serverOnly
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6205322156016085922, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -81,16 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A headset that is a result of the mating between medical and science.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: serverOnly
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}

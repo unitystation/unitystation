@@ -17,6 +17,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialName
+      value: chef's apron
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialDescription
+      value: An apron-jacket used by a high class chef.
+      objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -71,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: initialName
-      value: chef's apron
-      objectReference: {fileID: 0}
-    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: initialDescription
-      value: An apron-jacket used by a high class chef.
       objectReference: {fileID: 0}
     - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}

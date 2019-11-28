@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: FingerlessGloves
       objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 635f4b881af45ee4db6f8403c0c4b14d,
+        type: 2}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,6 +73,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: initialName
@@ -77,17 +88,6 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Plain black gloves without fingertips for the hard working.
       objectReference: {fileID: 0}
-    - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 635f4b881af45ee4db6f8403c0c4b14d,
-        type: 2}
     - target: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_Sprite

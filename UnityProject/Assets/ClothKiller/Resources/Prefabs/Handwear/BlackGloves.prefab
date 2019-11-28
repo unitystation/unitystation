@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlackGloves
       objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 90875af41838ba343a8bde75046a1b5e,
+        type: 2}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,6 +73,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: initialName
@@ -77,16 +88,5 @@ PrefabInstance:
       propertyPath: initialDescription
       value: These gloves are fire-resistant.
       objectReference: {fileID: 0}
-    - target: {fileID: 5989403931701021034, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 90875af41838ba343a8bde75046a1b5e,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f819cf8b4a0534ec59570563e52c8508, type: 3}
