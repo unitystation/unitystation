@@ -6,9 +6,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Drag and drop component, for use in the UI only.
+/// Drag and drop component, for use in the UI only. Renamed from DragAndDrop to avoid conflict
+/// with AssetUsageDetector plugin
 /// </summary>
-public class DragAndDrop : MonoBehaviour
+public class UIDragAndDrop : MonoBehaviour
 {
 	public Image dragDummy;
 	private bool isDragging = false;
