@@ -53,7 +53,7 @@ public class ItemSlot
 	/// <summary>
 	/// ItemAttributes of item in this slot, null if no item or item doesn't have any attributes.
 	/// </summary>
-	public IItemAttributes ItemAttributes => item != null ? item.GetComponent<IItemAttributes>() : null;
+	public ItemAttributesV2 ItemAttributes => item != null ? item.GetComponent<ItemAttributesV2>() : null;
 
 	/// <summary>
 	/// GameObject of item in this slot, null if no item in slot

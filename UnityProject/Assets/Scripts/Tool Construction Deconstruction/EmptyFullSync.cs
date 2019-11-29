@@ -25,7 +25,7 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 
 	private Pickupable pickupable;
-	private IItemAttributes itemAttributes;
+	private ItemAttributesV2 itemAttributes;
 	private SpriteRenderer spriteRenderer;
 
 	#region SyncVar boilerplate
@@ -57,7 +57,7 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 		if ( itemAttributes == null )
 		{
-			itemAttributes = GetComponentInChildren<IItemAttributes>();
+			itemAttributes = GetComponentInChildren<ItemAttributesV2>();
 		}
 
 		//aid for lazy people. you don't have to fill out fields for name and sprite in their default state

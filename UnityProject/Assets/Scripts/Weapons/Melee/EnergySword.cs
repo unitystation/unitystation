@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	ICheckedInteractable<InventoryApply>
 {
-	public IItemAttributes itemAttributes;
+	public ItemAttributesV2 itemAttributes;
 	public SpriteHandler spriteHandler;
 	public PlayerLightControl playerLightControl;
 	public LightSprite worldLight;

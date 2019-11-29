@@ -23,7 +23,7 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 		}
 
 		sprite = GetComponentInChildren<SpriteRenderer>();
-		var attributes = GetComponent<IItemAttributes>();
+		var attributes = GetComponent<ItemAttributesV2>();
 		var poster = Globals.Posters[posterVariant.ToString()];
 		string posterName;
 		string desc;
@@ -57,7 +57,7 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		var attributes = GetComponent<IItemAttributes>();
+		var attributes = GetComponent<ItemAttributesV2>();
 		var poster = Globals.Posters[posterVariant.ToString()];
 		string posterName;
 		string desc;

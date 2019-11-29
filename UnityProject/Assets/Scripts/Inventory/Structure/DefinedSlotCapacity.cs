@@ -41,7 +41,7 @@ public class DefinedSlotCapacity : SlotCapacity
 		if (toCheck == null) return false;
 		Logger.LogTraceFormat("Checking if {0} can fit", Category.Inventory, toCheck.name);
 		ItemSize size = ItemSize.Huge;
-		var itemAttrs = toCheck.GetComponent<IItemAttributes>();
+		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (itemAttrs != null)
 		{
 			size = itemAttrs.Size;

@@ -88,7 +88,7 @@ public class ClothingItem : MonoBehaviour
 			GameObjectReference = Item;
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
-				var equippedAttributes = Item.GetComponent<IItemAttributes>();
+				var equippedAttributes = Item.GetComponent<ItemAttributesV2>();
 				SHD = equippedAttributes?.SpriteDataHandler;
 				if (SHD != null)
 				{
