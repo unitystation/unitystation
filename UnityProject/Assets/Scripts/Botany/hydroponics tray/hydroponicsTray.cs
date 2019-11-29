@@ -602,11 +602,16 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Cultivator))
 			{
+				if (WeedLevel > 0)
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"You remove the weeds from the {gameObject.ExpensiveName()}.", $"{interaction.Performer.name} uproots the weeds.");
+				}
 				WeedLevel = 0;
 				return;
 			}
 			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Bucket))
 			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"You water the {gameObject.ExpensiveName()}.", $"{interaction.Performer.name} waters the tray.");
 				reagentContainer.Contents["water"] = 100f;
 				return;
 			}
@@ -615,6 +620,7 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			{
 				if (hasplant)
 				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"You dig out all of the {gameObject.ExpensiveName()}'s plants!", $"{interaction.Performer.name} digs out the plants in the {gameObject.ExpensiveName()}!");
 					CropDeath();
 				}
 				SyncStage(PlantSpriteStage.None);

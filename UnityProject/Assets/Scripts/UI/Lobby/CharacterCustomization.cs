@@ -752,7 +752,21 @@ public class CharacterSettings
 		}
 	}
 
-
+	/// <summary>
+	/// Returns a possessive string (i.e. "its", "his", "her") for the provided gender enum.
+	/// </summary>
+	public string PossessivePronoun()
+	{
+		switch (Gender)
+		{
+			case Gender.Male:
+				return "his";
+			case Gender.Female:
+				return "her";
+			default:
+				return "its";
+		}
+	}
 }
 
 public enum Gender
