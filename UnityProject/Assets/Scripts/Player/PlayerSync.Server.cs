@@ -746,7 +746,7 @@ public partial class PlayerSync
 
 		CheckTileSlip();
 
-		var crossedItems = MatrixManager.GetAt<ItemAttributes>(position, true);
+		var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(position, true);
 		foreach ( var crossedItem in crossedItems )
 		{
 			if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )

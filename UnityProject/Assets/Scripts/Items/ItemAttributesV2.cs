@@ -15,7 +15,6 @@ using Random = System.Random;
 /// New and improved, removes need for UniCloth type stuff, works
 /// well with using prefab variants.
 /// </summary>
-[RequireComponent(typeof(SpriteDataHandler))]
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
@@ -152,6 +151,27 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 		return traits.Contains(toCheck);
 	}
 
+
+	/// <summary>
+	/// Does it have any of the given traits?
+	/// </summary>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public bool HasAnyTrait(IEnumerable<ItemTrait> expectedTraits)
+	{
+		return traits.Any(expectedTraits.Contains);
+	}
+
+	/// <summary>
+	/// Does it have all of the given traits?
+	/// </summary>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public bool HasAllTraits(IEnumerable<ItemTrait> expectedTraits)
+	{
+		return traits.All(expectedTraits.Contains);
+	}
+
 	/// <summary>
 	/// Adds the trait dynamically
 	/// NOTE: Not synced between client / server
@@ -187,33 +207,6 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 	{
 		traits.Remove(toRemove);
 	}
-
-#if UNITY_EDITOR
-	public void AttributesFromCD(ItemAttributesData ItemAttributes)
-	{
-		initialName = ItemAttributes.itemName;
-		initialDescription = ItemAttributes.itemDescription;
-		var trait = TypeToTrait(ItemAttributes.itemType);
-		if (trait != null)
-		{
-			traits.Add(trait);
-		}
-		initialSize = ItemAttributes.size;
-		canConnectToTank = ItemAttributes.CanConnectToTank;
-		hitDamage = ItemAttributes.hitDamage;
-		damageType = ItemAttributes.damageType;
-		throwDamage = ItemAttributes.throwDamage;
-		throwSpeed = ItemAttributes.throwSpeed;
-		throwRange = ItemAttributes.throwRange;
-		hitSound = ItemAttributes.hitSound;
-		attackVerbs = ItemAttributes.attackVerb;
-		isEVACapable = ItemAttributes.IsEVACapable;
-	}
-	private ItemTrait TypeToTrait(ItemType itemType)
-	{
-		return ItemTypeToTraitMapping.Instance.GetTrait(itemType);
-	}
-#endif
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)
 	{
@@ -336,20 +329,4 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 		set => hitSound = value;
 	}
 
-	public void MigrateFromOld(ItemAttributes itemAttributes)
-	{
-		this.initialSize = itemAttributes.size;
-		this.initialTraits = itemAttributes.InitialTraits;
-		this.attackVerbs = itemAttributes.attackVerb;
-		this.damageType = itemAttributes.damageType;
-		this.hitDamage = itemAttributes.hitDamage;
-		this.hitSound = itemAttributes.hitSound;
-		this.initialDescription = itemAttributes.itemDescription;
-		this.initialName = itemAttributes.itemName;
-		this.throwDamage = itemAttributes.throwDamage;
-		this.throwRange = itemAttributes.throwRange;
-		this.throwSpeed = itemAttributes.throwSpeed;
-		this.canConnectToTank = itemAttributes.canConnectToTank;
-		this.isEVACapable = itemAttributes.IsEVACapable;
-	}
 }

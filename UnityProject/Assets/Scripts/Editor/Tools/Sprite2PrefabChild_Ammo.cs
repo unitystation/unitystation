@@ -31,7 +31,7 @@ public class Sprite2PrefabChild_Ammo_MenuItem
 			parent.AddComponent<BoxCollider2D>();
 			parent.AddComponent<NetworkIdentity>();
 			parent.AddComponent<NetworkTransform>();
-			parent.AddComponent<ItemAttributes>();
+			parent.AddComponent<ItemAttributesV2>();
 			parent.AddComponent<MagazineBehaviour>();
 			parent.AddComponent<ObjectBehaviour>();
 			parent.AddComponent<RegisterItem>();

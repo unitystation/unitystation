@@ -505,7 +505,8 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	public void CropDeath()
 	{
 		if (plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
-		{			NutritionLevel = NutritionLevel + plantData.Potency;
+		{
+			NutritionLevel = NutritionLevel + plantData.Potency;
 			if (NutritionLevel > 100)
 			{
 				NutritionLevel = 100;
@@ -597,7 +598,7 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				}
 			}
 		}
-		var ObjectItemAttributes = slot?.Item?.GetComponent<ItemAttributes>();
+		var ObjectItemAttributes = slot?.Item?.GetComponent<ItemAttributesV2>();
 		if (ObjectItemAttributes != null)
 		{
 			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Cultivator))

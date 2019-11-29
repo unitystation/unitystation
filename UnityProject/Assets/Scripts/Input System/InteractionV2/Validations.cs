@@ -44,7 +44,7 @@ public static class Validations
 	public static bool HasAnyTrait(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
 	{
 		if (toCheck == null) return false;
-		var attrs = toCheck.GetComponent<ItemAttributes>();
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
 		return attrs.HasAnyTrait(expectedTraits);
 	}
@@ -56,7 +56,7 @@ public static class Validations
 	public static bool HasAllTraits(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
 	{
 		if (toCheck == null) return false;
-		var attrs = toCheck.GetComponent<ItemAttributes>();
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
 		return attrs.HasAllTraits(expectedTraits);
 	}

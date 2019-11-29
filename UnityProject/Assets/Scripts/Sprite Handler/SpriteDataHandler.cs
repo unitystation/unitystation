@@ -104,11 +104,6 @@ public class SpriteDataHandler : MonoBehaviour
 		}
 
 		Infos.SerializeT();
-		var IA = this.GetComponent<ItemAttributes>();
-		if (IA != null)
-		{
-			IA.spriteDataHandler = this;
-		}
 
 		var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
 		if (prefabStage != null)
