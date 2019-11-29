@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5335341827054386356}
   - component: {fileID: 8267928415466736549}
   - component: {fileID: 2959146656708143528}
-  - component: {fileID: 132348641917229106}
   - component: {fileID: 8301933286516629790}
   - component: {fileID: 7887144931197074431}
   - component: {fileID: 2010458303386780433}
@@ -21,6 +20,7 @@ GameObject:
   - component: {fileID: 490726123092147132}
   - component: {fileID: 3118628355925246483}
   - component: {fileID: 925564419828475077}
+  - component: {fileID: -7234190806406616334}
   m_Layer: 10
   m_Name: Rack Parts
   m_TagString: Untagged
@@ -100,35 +100,6 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isNotPushable: 0
---- !u!114 &132348641917229106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6034371561869202664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 925564419828475077}
-  InventoryIcon: {fileID: 0}
-  itemName: Rack Parts
-  itemDescription: Parts of a rack.
-  initialTraits: []
-  size: 3
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &8301933286516629790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &925564419828475077
 MonoBehaviour:
@@ -345,6 +316,33 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300000, guid: 72e2469af48db1a4d9bcde31113fbc5f, type: 3}
   - {fileID: 21300000, guid: 322c32785aded4c4d93edb1591a2ef79, type: 3}
+--- !u!114 &-7234190806406616334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6034371561869202664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Rack Parts
+  initialDescription: Parts of a rack.
+  initialTraits: []
+  initialSize: 3
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &9210611658135231461
 GameObject:
   m_ObjectHideFlags: 0

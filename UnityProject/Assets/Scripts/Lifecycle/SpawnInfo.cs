@@ -145,22 +145,12 @@ public class SpawnInfo
 	/// <returns></returns>
 	public static SpawnInfo Mapped(GameObject mappedObject)
 	{
-		//is it a prefab or cloth?
-		var clothing = mappedObject.GetComponent<Clothing>();
 		var destination = SpawnDestination.At(mappedObject);
-		if (clothing == null)
-		{
-			//assume prefab
-			var prefab = Spawn.DeterminePrefab(mappedObject);
-			var spawnable = SpawnablePrefab.For(prefab);
-			return new SpawnInfo(SpawnType.Mapped, spawnable, destination, null, 1, null);
-		}
-		else
-		{
-			//assume cloth
-			var spawnable = SpawnableCloth.For(clothing);
-			return new SpawnInfo(SpawnType.Mapped, spawnable, destination, null, 1, null);
-		}
+		//assume prefab
+		var prefab = Spawn.DeterminePrefab(mappedObject);
+		var spawnable = SpawnablePrefab.For(prefab);
+		return new SpawnInfo(SpawnType.Mapped, spawnable, destination, null, 1, null);
+
 	}
 
 	private static Transform DefaultParent(Transform parent, Vector3? worldPos)

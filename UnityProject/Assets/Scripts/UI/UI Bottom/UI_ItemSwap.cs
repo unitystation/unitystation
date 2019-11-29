@@ -53,7 +53,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	{
 		if (data.button == PointerEventData.InputButton.Left && itemSlot.Item != null)
 		{
-			UIManager.DragAndDrop.UI_ItemDrag(itemSlot);
+			UIManager.UiDragAndDrop.UI_ItemDrag(itemSlot);
 		}
 	}
 
@@ -90,9 +90,9 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	public void OnDrop(PointerEventData data)
 	{
 		//something was dropped onto this slot
-		if (UIManager.DragAndDrop.FromSlotCache != null && UIManager.DragAndDrop.DraggedItem != null)
+		if (UIManager.UiDragAndDrop.FromSlotCache != null && UIManager.UiDragAndDrop.DraggedItem != null)
 		{
-			var fromSlot = UIManager.DragAndDrop.DraggedItem.GetComponent<Pickupable>().ItemSlot;
+			var fromSlot = UIManager.UiDragAndDrop.DraggedItem.GetComponent<Pickupable>().ItemSlot;
 
 			//if there's an item in the target slot, try inventory apply interaction
 			var targetItem = itemSlot.ItemSlot.ItemObject;
@@ -106,8 +106,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 						.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 					if (InteractionUtils.ClientCheckAndTrigger(fromInteractables, invApply) != null)
 					{
-						UIManager.DragAndDrop.DropInteracted = true;
-						UIManager.DragAndDrop.StopDrag();
+						UIManager.UiDragAndDrop.DropInteracted = true;
+						UIManager.UiDragAndDrop.StopDrag();
 						return;
 					}
 
@@ -118,24 +118,24 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 				if (InteractionUtils.ClientCheckAndTrigger(targetInteractables, invApply) != null)
 				{
-					UIManager.DragAndDrop.DropInteracted = true;
-					UIManager.DragAndDrop.StopDrag();
+					UIManager.UiDragAndDrop.DropInteracted = true;
+					UIManager.UiDragAndDrop.StopDrag();
 					return;
 				}
 			}
 			else
 			{
-				UIManager.DragAndDrop.DropInteracted = true;
-				UIManager.DragAndDrop.StopDrag();
+				UIManager.UiDragAndDrop.DropInteracted = true;
+				UIManager.UiDragAndDrop.StopDrag();
 				Inventory.ClientRequestTransfer(fromSlot, itemSlot.ItemSlot);
 			}
 		}
-		UIManager.DragAndDrop.StopDrag();
+		UIManager.UiDragAndDrop.StopDrag();
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
 		//dragging this slot ended somewhere
-		UIManager.DragAndDrop.StopDrag();
+		UIManager.UiDragAndDrop.StopDrag();
 	}
 }

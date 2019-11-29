@@ -70,7 +70,7 @@ namespace Antagonists
 			foreach (var slot in Owner.body.ItemStorage.GetItemSlotTree())
 			{
 				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-				if (slot.ItemObject != null && slot.ItemObject.GetComponent<IItemAttributes>()?.ItemName == ItemName)
+				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.ItemName == ItemName)
 				{
 					count++;
 				}

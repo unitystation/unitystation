@@ -4,6 +4,7 @@ using System.Linq;
 using UI.UI_Bottom;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -12,7 +13,7 @@ public class UIManager : MonoBehaviour
 	public GUI_VariableViewer VariableViewer;
 	public BookshelfViewer BookshelfViewer;
 	public ControlAction actionControl;
-	public DragAndDrop dragAndDrop;
+	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
 	public DisplayManager displayManager;
@@ -101,7 +102,7 @@ public class UIManager : MonoBehaviour
 
 	public static ControlAction Action => Instance.actionControl;
 
-	public static DragAndDrop DragAndDrop => Instance.dragAndDrop;
+	public static UIDragAndDrop UiDragAndDrop => Instance.uiDragAndDrop;
 
 	public static ControlWalkRun WalkRun => Instance.walkRunControl;
 

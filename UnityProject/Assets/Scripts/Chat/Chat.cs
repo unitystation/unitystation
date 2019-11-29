@@ -211,7 +211,7 @@ public partial class Chat : MonoBehaviour
 
 			if (item)
 			{
-				var itemAttributes = item.GetComponent<IItemAttributes>();
+				var itemAttributes = item.GetComponent<ItemAttributesV2>();
 				attackVerb = itemAttributes.ServerAttackVerbs.PickRandom() ?? "attacked";
 				attack = $" with {itemAttributes.ItemName}";
 			}

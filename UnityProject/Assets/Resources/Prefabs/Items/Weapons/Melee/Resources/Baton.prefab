@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4000013877075750}
   - component: {fileID: 61000012096311666}
   - component: {fileID: 114904595007707188}
-  - component: {fileID: 114000012876358140}
   - component: {fileID: 114128851276751572}
   - component: {fileID: 114186698601475536}
   - component: {fileID: 114457471827933586}
@@ -100,6 +99,7 @@ GameObject:
   - component: {fileID: 114571013473895252}
   - component: {fileID: 114436229020972412}
   - component: {fileID: 114137801701363466}
+  - component: {fileID: 4945342864386517049}
   m_Layer: 10
   m_Name: Baton
   m_TagString: Untagged
@@ -163,36 +163,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114000012876358140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011622113908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Baton
-  itemDescription: A wooden truncheon for beating criminal scum.
-  initialTraits:
-  - {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5, type: 2}
-  size: 2
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 12
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114128851276751572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,5 +305,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b3c9185918b6a40848954ead4b67f0e4
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &4945342864386517049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Baton
+  initialDescription: A wooden truncheon for beating criminal scum.
+  initialTraits:
+  - {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5, type: 2}
+  initialSize: 2
+  hitDamage: 12
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

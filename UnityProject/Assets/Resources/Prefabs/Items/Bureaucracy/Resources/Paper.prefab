@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61178295307230726}
   - component: {fileID: 114680268422892540}
   - component: {fileID: 114646101893439272}
-  - component: {fileID: 114741019056190926}
   - component: {fileID: 1551927132294530552}
   - component: {fileID: 114930140412175382}
   - component: {fileID: 7616435447516161641}
@@ -23,6 +22,7 @@ GameObject:
   - component: {fileID: 9141838167646105436}
   - component: {fileID: 114689926834821060}
   - component: {fileID: 114831345842512288}
+  - component: {fileID: 3372947118560507376}
   m_Layer: 10
   m_Name: Paper
   m_TagString: Untagged
@@ -102,36 +102,6 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isNotPushable: 0
---- !u!114 &114741019056190926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320386684021000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Paper
-  itemDescription: A piece of paper
-  initialTraits:
-  - {fileID: 11400000, guid: 24632eaec5a984a9f95155bf676a95bc, type: 2}
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 1
-  throwRange: 1
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &1551927132294530552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,8 +278,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 549f7d7203498874bafc385496a54fb5
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &3372947118560507376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320386684021000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Paper
+  initialDescription: A piece of paper
+  initialTraits:
+  - {fileID: 11400000, guid: 24632eaec5a984a9f95155bf676a95bc, type: 2}
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 1
+  throwRange: 1
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1731708282254700
 GameObject:
   m_ObjectHideFlags: 0

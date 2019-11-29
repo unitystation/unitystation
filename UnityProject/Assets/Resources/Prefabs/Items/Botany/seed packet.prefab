@@ -118,7 +118,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4949321775558472}
   - component: {fileID: 61000259733276454}
-  - component: {fileID: 796791569133690926}
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
   - component: {fileID: 114287030664492144}
@@ -130,6 +129,7 @@ GameObject:
   - component: {fileID: 114171556259583268}
   - component: {fileID: 7775367136764396337}
   - component: {fileID: 1635926354344122938}
+  - component: {fileID: -1649124960678938281}
   m_Layer: 10
   m_Name: seed packet
   m_TagString: Untagged
@@ -178,35 +178,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &796791569133690926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 1012120877556218973}
-  InventoryIcon: {fileID: 6508592049166286711}
-  itemName: seed packet
-  itemDescription: a packet of seeds
-  initialTraits: []
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114998062039538404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 61fbb88e43b8b4f48a44b030453bdedc
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &7775367136764396337
 MonoBehaviour:
@@ -427,3 +398,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1649124960678938281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: seed packet
+  initialDescription: a packet of seeds
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

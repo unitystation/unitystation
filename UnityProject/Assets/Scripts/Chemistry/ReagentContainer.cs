@@ -24,7 +24,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		}
 	}
 
-	public IItemAttributes itemAttributes;
+	public ItemAttributesV2 itemAttributes;
 	private FloatEvent OnCurrentCapacityChange = new FloatEvent();
 	public bool InSolidForm;
 
@@ -57,19 +57,19 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 
 	private void Awake()
 	{
-		itemAttributes = GetComponent<IItemAttributes>();
+		itemAttributes = GetComponent<ItemAttributesV2>();
 		if ( itemAttributes != null )
 		{
 			itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
 		}
-		
+
 		this.WaitForNetworkManager(() =>
 		{
 			if (!CustomNetworkManager.IsServer)
 			{
 				return;
 			}
-			
+
 			OnCurrentCapacityChange.AddListener(newCapacity =>
 			{
 				if (containerSprite == null)
@@ -81,13 +81,13 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		});
 	}
 
-	void Start() 
+	void Start()
 	{
 		if (!CustomNetworkManager.IsServer)
 		{
 			return;
 		}
-		
+
 		registerTile = GetComponent<RegisterTile>();
 		var customNetTransform = GetComponent<CustomNetTransform>();
 		if (customNetTransform != null)

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4144746312250480}
   - component: {fileID: 61407840183886398}
   - component: {fileID: 114978996244486278}
-  - component: {fileID: 114924791543060820}
   - component: {fileID: 114772652558381996}
   - component: {fileID: 114585774385155144}
   - component: {fileID: 114826983953154742}
@@ -21,6 +20,7 @@ GameObject:
   - component: {fileID: 114083583662208312}
   - component: {fileID: 114651201226394076}
   - component: {fileID: 114641587775406066}
+  - component: {fileID: -1898717360350403020}
   m_Layer: 10
   m_Name: Magazine_357
   m_TagString: Untagged
@@ -84,36 +84,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114924791543060820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427151582832622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: 357 Magnum Magazine
-  itemDescription: Magazine for normal revolvers
-  initialTraits:
-  - {fileID: 11400000, guid: 5efceb855c11841ad9af3f0510b3dbb8, type: 2}
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114772652558381996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +242,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 5d777f4b7c82a4b1eba964db405a1a46
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-1898717360350403020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427151582832622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: 357 Magnum Magazine
+  initialDescription: Magazine for normal revolvers
+  initialTraits:
+  - {fileID: 11400000, guid: 5efceb855c11841ad9af3f0510b3dbb8, type: 2}
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1993948941500644
 GameObject:
   m_ObjectHideFlags: 0

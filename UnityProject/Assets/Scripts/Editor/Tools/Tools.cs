@@ -136,4 +136,39 @@ public class Tools : Editor
 
 			return null;
 		}
+
+		//for migrating from Old ItemAttributes to ItemAttributesV2
+//		[MenuItem("Prefabs/Migrate Item Attributes")]
+//		private static void MigrateItemAttributes()
+//		{
+//			//scan for prefabs which contain OldItemAttributes
+//			var prefabGUIDS = AssetDatabase.FindAssets("t:Prefab");
+//			foreach (var prefabGUID in prefabGUIDS)
+//			{
+//				var path = AssetDatabase.GUIDToAssetPath(prefabGUID);
+//				var toCheck = AssetDatabase.LoadAllAssetsAtPath(path);
+//
+//				//find the root gameobject
+//				var rootPrefabGO = GetRootPrefabGOFromAssets(toCheck);
+//
+//				if (rootPrefabGO == null)
+//				{
+//					continue;
+//				}
+//				//does component exist in it or any children?
+//				if (rootPrefabGO.GetComponent<ItemAttributesV2>() == null)
+//				{
+//					continue;
+//				}
+//
+//				//Found one that has OldItemAttributes, now create ItemAttributesV2 and migrate the
+//				//fields
+//				var addedAttributes = rootPrefabGO.AddComponent<ItemAttributesV2>();
+//				var oldAttributes = rootPrefabGO.GetComponent<ItemAttributes>();
+//				addedAttributes.MigrateFromOld(rootPrefabGO.GetComponent<ItemAttributes>());
+//				Logger.Log("Modified " + rootPrefabGO.name);
+//				DestroyImmediate(oldAttributes,true);
+//				PrefabUtility.SavePrefabAsset(rootPrefabGO);
+//			}
+//		}
 	}

@@ -31,43 +31,8 @@ public static class Spawn
 	private static GameObject uniBackpack;
 	private static GameObject uniHeadSet;
 	public static Dictionary<string, PlayerTextureData> RaceData = new Dictionary<string, PlayerTextureData>();
-	public static Dictionary<string, ClothingData> ClothingStoredData = new Dictionary<string, ClothingData>();
-	public static Dictionary<string, ContainerData> BackpackStoredData = new Dictionary<string, ContainerData>();
-	public static Dictionary<string, BeltData> BeltStoredData = new Dictionary<string, BeltData>();
-	public static Dictionary<string, HeadsetData> HeadSetStoredData = new Dictionary<string, HeadsetData>();
 	public static Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> PlayerCustomisationData =
 		new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
-
-	/// <summary>
-	/// Tries to get the cloth data with the given name. Null if not found
-	/// </summary>
-	/// <param name="name"></param>
-	/// <returns></returns>
-	public static BaseClothData GetClothDataNamed(string name)
-	{
-		ClothingStoredData.TryGetValue(name, out var clothResult);
-		if (clothResult != null) return clothResult;
-
-		BackpackStoredData.TryGetValue(name, out var backpackResult);
-		if (backpackResult != null) return backpackResult;
-
-		BeltStoredData.TryGetValue(name, out var beltResult);
-		if (beltResult != null) return beltResult;
-
-		HeadSetStoredData.TryGetValue(name, out var headsetResult);
-		if (headsetResult != null) return headsetResult;
-
-		return null;
-	}
-
-	/// <summary>
-	/// All known spawnable cloth data.
-	/// </summary>
-	public static IEnumerable<BaseClothData> AllClothData =>
-		ClothingStoredData.Values
-			.Concat<BaseClothData>(BackpackStoredData.Values)
-			.Concat(HeadSetStoredData.Values)
-			.Concat(BeltStoredData.Values);
 
 	/// <summary>
 	/// Default scatter radius when spawning multiple things
@@ -128,33 +93,6 @@ public static class Spawn
 		return nameToSpawnablePrefab.Values.ToList();
 	}
 
-	/// <summary>
-	/// Spawns the cloth with the specifeid cloth data on the server, syncing it to clients
-	/// </summary>
-	/// <param name="clothData">cloth data describing the cloth, should be a subtype of BaseClothData</param>
-	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="CVT">variant type to spawn this cloth as, defaults to Default</param>
-	/// <param name="variantIndex">variant index to spawn this cloth as, defaults to -1</param>
-	/// <param name="prefabOverride">prefab to use instead of this cloth's default</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <param name="count">number of instances to spawn, defaults to 1</param>
-	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
-	/// null (no scatter).</param>
-	/// <returns></returns>
-	public static SpawnResult ServerCloth(BaseClothData clothData, Vector3? worldPosition = null,
-		ClothingVariantType CVT = ClothingVariantType.Default, int variantIndex = -1, GameObject prefabOverride = null,
-		Transform parent = null, Quaternion? rotation = null,
-		int count = 1, float? scatterRadius = null)
-	{
-		return Server(
-			SpawnInfo.Spawnable(
-				SpawnableCloth.For(clothData, CVT, variantIndex, prefabOverride),
-				SpawnDestination.At(worldPosition, parent, rotation),
-				count, scatterRadius));
-	}
 
 	/// <summary>
 	/// Spawn the specified prefab, syncing it to all clients
@@ -585,23 +523,11 @@ public static class Spawn
 				cnt.ReInitServerState();
 				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
 			}
-
-			SpawnInfo spawnInfo = null;
-			//cloth or prefab?
-			var clothing = target.GetComponent<Clothing>();
 			var prefab = DeterminePrefab(target);
-			if (clothing != null)
-			{
-				spawnInfo = SpawnInfo.Spawnable(
-					SpawnableCloth.For(clothing),
-					destination);
-			}
-			else
-			{
-				spawnInfo = SpawnInfo.Spawnable(
-					SpawnablePrefab.For(prefab),
-					destination);
-			}
+			SpawnInfo spawnInfo = SpawnInfo.Spawnable(
+				SpawnablePrefab.For(prefab),
+				destination);
+
 
 			_ServerFireClientServerSpawnHooks(SpawnResult.Single(spawnInfo, target));
 			return target;

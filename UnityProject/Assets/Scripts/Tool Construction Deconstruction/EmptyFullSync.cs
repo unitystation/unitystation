@@ -7,7 +7,6 @@ using UnityEngine.Serialization;
 /// Syncs Empty/Full sprites and names for you
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-[RequireComponent(typeof(ItemAttributes))]
 public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 {
 	[Header("No need to fill sprite/name for initial state")]
@@ -26,7 +25,7 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 
 	private Pickupable pickupable;
-	private IItemAttributes itemAttributes;
+	private ItemAttributesV2 itemAttributes;
 	private SpriteRenderer spriteRenderer;
 
 	#region SyncVar boilerplate
@@ -58,7 +57,7 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 		if ( itemAttributes == null )
 		{
-			itemAttributes = GetComponentInChildren<IItemAttributes>();
+			itemAttributes = GetComponentInChildren<ItemAttributesV2>();
 		}
 
 		//aid for lazy people. you don't have to fill out fields for name and sprite in their default state

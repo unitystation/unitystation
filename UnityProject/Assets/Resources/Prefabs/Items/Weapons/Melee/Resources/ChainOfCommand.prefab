@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4000013877075750}
   - component: {fileID: 61000012096311666}
   - component: {fileID: 114904595007707188}
-  - component: {fileID: 114000012876358140}
   - component: {fileID: 114541965729379946}
   - component: {fileID: 114186698601475536}
   - component: {fileID: 114457471827933586}
@@ -100,6 +99,7 @@ GameObject:
   - component: {fileID: 114910247208891402}
   - component: {fileID: 114720253695277612}
   - component: {fileID: 114235674755919370}
+  - component: {fileID: -1468996016570158645}
   m_Layer: 10
   m_Name: ChainOfCommand
   m_TagString: Untagged
@@ -163,39 +163,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114000012876358140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011622113908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Chain Of Command
-  itemDescription: Chain Of Command
-  initialTraits: []
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 10
-  damageType: 0
-  throwDamage: 7
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb:
-  - flogged
-  - whipped
-  - lashed
-  - disciplined
 --- !u!114 &114541965729379946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,5 +305,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: b94d86ac9713fce4cb3b8311d44212cf
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-1468996016570158645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Chain Of Command
+  initialDescription: Chain Of Command
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 10
+  damageType: 0
+  throwDamage: 7
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs:
+  - flogged
+  - whipped
+  - lashed
+  - disciplined

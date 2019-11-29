@@ -104,7 +104,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		IItemAttributes weaponAttr = weapon.GetComponent<IItemAttributes>();
+		ItemAttributesV2 weaponAttr = weapon.GetComponent<ItemAttributesV2>();
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)

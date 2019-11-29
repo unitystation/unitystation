@@ -15,12 +15,11 @@ using Random = System.Random;
 /// New and improved, removes need for UniCloth type stuff, works
 /// well with using prefab variants.
 /// </summary>
-[RequireComponent(typeof(SpriteDataHandler))]
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn, IItemAttributes
+public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 {
 
 	[Tooltip("Display name of this item when spawned.")]
@@ -31,6 +30,10 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 	/// </summary>
 	[SyncVar(hook=nameof(SyncItemName))]
 	private string itemName;
+	/// <summary>
+	/// Item's current name
+	/// </summary>
+	public string ItemName => itemName;
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
@@ -54,46 +57,107 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 	/// </summary>
 	[SyncVar(hook=nameof(SyncSize))]
 	private ItemSize size;
+	/// <summary>
+	/// Current size
+	/// </summary>
+	public ItemSize Size => size;
 
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]
 	[SerializeField]
 	private float hitDamage = 0;
+	/// <summary>
+	/// Damage when we click someone with harm intent, tracked server side only.
+	/// </summary>
+	public float ServerHitDamage
+	{
+		get => hitDamage;
+		set => hitDamage = value;
+	}
 
 	[Tooltip("Type of damage done when this is thrown or used for melee.")]
 	[SerializeField]
 	private DamageType damageType = DamageType.Brute;
+	/// <summary>
+	/// Type of damage done when this is thrown or used for melee, tracked server side only.
+	/// </summary>
+	public DamageType ServerDamageType
+	{
+		get => damageType;
+		set => damageType = value;
+	}
 
 	[Tooltip("How painful it is when someone throws it at you")]
 	[Range(0, 100)]
 	[SerializeField]
 	private float throwDamage = 0;
+	/// <summary>
+	/// Amout of damage done when this is thrown, tracked server side only.
+	/// </summary>
+	public float ServerThrowDamage
+	{
+		get => throwDamage;
+		set => throwDamage = value;
+	}
 
 	[Tooltip("How many tiles to move per 0.1s when being thrown")]
 	[SerializeField]
 	private float throwSpeed = 2;
+	/// <summary>
+	/// How many tiles to move per 0.1s when being thrown
+	/// </summary>
+	public float ThrowSpeed => throwSpeed;
 
 	[Tooltip("Max throw distance")]
 	[SerializeField]
 	private float throwRange = 7;
+	/// <summary>
+	/// Max throw distance
+	/// </summary>
+	public float ThrowRange => throwRange;
 
 	[Tooltip("Sound to be played when we click someone with harm intent")]
 	[SerializeField]
 	private string hitSound = "GenericHit";
+	/// <summary>
+	/// Sound to be played when we click someone with harm intent, tracked server side only
+	/// </summary>
+	public string ServerHitSound
+	{
+		get => hitSound;
+		set => hitSound = value;
+	}
 
-	//TODO: These fields should probably be migrated to a different component as they are very specific to clothing, particularly
+	//TODO: tank / eva fields should probably be migrated to a different component as they are very specific to clothing, particularly
 	//suits and masks. Probably belong in the Clothing component.
 	[Tooltip("Is this a mask that can connect to a tank?")]
 	[SerializeField]
 	private bool canConnectToTank;
+	/// <summary>
+	/// Whether this item can connect to a gas tank.
+	/// </summary>
+	public bool CanConnectToTank => canConnectToTank;
+
 
 	[Tooltip("Can this item protect humans against spess?")]
 	[SerializeField]
 	private bool isEVACapable;
+	/// <summary>
+	/// Can this item protect humans against spess?
+	/// </summary>
+	public bool IsEVACapable => isEVACapable;
 
 	[Tooltip("Possible verbs used to describe the attack when this is used for melee.")]
 	[SerializeField]
 	private List<string> attackVerbs;
+	/// <summary>
+	/// Possible verbs used to describe the attack when this is used for melee, tracked server side only.
+	/// </summary>
+	public IEnumerable<string> ServerAttackVerbs
+	{
+		get => attackVerbs;
+		set => attackVerbs = new List<string>(value);
+	}
 
 	/// <summary>
 	/// Actual current traits, accounting for dynamic add / remove. Note that these adds / removes
@@ -152,6 +216,27 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 		return traits.Contains(toCheck);
 	}
 
+
+	/// <summary>
+	/// Does it have any of the given traits?
+	/// </summary>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public bool HasAnyTrait(IEnumerable<ItemTrait> expectedTraits)
+	{
+		return traits.Any(expectedTraits.Contains);
+	}
+
+	/// <summary>
+	/// Does it have all of the given traits?
+	/// </summary>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public bool HasAllTraits(IEnumerable<ItemTrait> expectedTraits)
+	{
+		return traits.All(expectedTraits.Contains);
+	}
+
 	/// <summary>
 	/// Adds the trait dynamically
 	/// NOTE: Not synced between client / server
@@ -187,33 +272,6 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 	{
 		traits.Remove(toRemove);
 	}
-
-#if UNITY_EDITOR
-	public void AttributesFromCD(ItemAttributesData ItemAttributes)
-	{
-		initialName = ItemAttributes.itemName;
-		initialDescription = ItemAttributes.itemDescription;
-		var trait = TypeToTrait(ItemAttributes.itemType);
-		if (trait != null)
-		{
-			traits.Add(trait);
-		}
-		initialSize = ItemAttributes.size;
-		canConnectToTank = ItemAttributes.CanConnectToTank;
-		hitDamage = ItemAttributes.hitDamage;
-		damageType = ItemAttributes.damageType;
-		throwDamage = ItemAttributes.throwDamage;
-		throwSpeed = ItemAttributes.throwSpeed;
-		throwRange = ItemAttributes.throwRange;
-		hitSound = ItemAttributes.hitSound;
-		attackVerbs = ItemAttributes.attackVerb;
-		isEVACapable = ItemAttributes.IsEVACapable;
-	}
-	private ItemTrait TypeToTrait(ItemType itemType)
-	{
-		return ItemTypeToTraitMapping.Instance.GetTrait(itemType);
-	}
-#endif
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)
 	{
@@ -268,28 +326,21 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 			.AddElement("Examine", OnExamine);
 	}
 
-	public string ItemName => name;
 
-	public float ServerHitDamage
-	{
-		get => hitDamage;
-		set => hitDamage = value;
-	}
-
-	public DamageType ServerDamageType
-	{
-		get => damageType;
-		set => damageType = value;
-	}
-
-	public bool CanConnectToTank { get; }
-
+	/// <summary>
+	/// Change this item's name and sync it to clients.
+	/// </summary>
+	/// <param name="newName"></param>
+	[Server]
 	public void ServerSetItemName(string newName)
 	{
 		SyncItemName(newName);
 	}
 
-
+	/// <summary>
+	/// Change this item's description and sync it to clients.
+	/// </summary>
+	/// <param name="newName"></param>
 	[Server]
 	public void ServerSetItemDescription(string desc)
 	{
@@ -297,42 +348,14 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 	}
 
 	/// <summary>
-	/// NOTE: Not synced between client / server
+	/// CHange this item's size and sync it to clients
 	/// </summary>
-	public ItemSize Size => size;
-
+	/// <param name="newSize"></param>
 	[Server]
 	public void ServerSetSize(ItemSize newSize)
 	{
 		SyncSize(newSize);
 	}
 
-	public float ServerThrowSpeed
-	{
-		get => throwSpeed;
-		set => throwSpeed = value;
-	}
-	public float ServerThrowRange
-	{
-		get => throwRange;
-		set => throwRange = value;
-	}
-	public float ServerThrowDamage
-	{
-		get => throwDamage;
-		set => throwDamage = value;
-	}
-	public IEnumerable<string> ServerAttackVerbs
-	{
-		get => attackVerbs;
-		set => attackVerbs = new List<string>(value);
-	}
 
-	public bool IsEVACapable => isEVACapable;
-
-	public string ServerHitSound
-	{
-		get => hitSound;
-		set => hitSound = value;
-	}
 }

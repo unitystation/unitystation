@@ -16,7 +16,7 @@ public class ItemList : NetUIDynamicList {
 
 	public bool AddItem( GameObject prefab )
 	{
-		if ( !prefab || prefab.GetComponent<IItemAttributes>() != null ) {
+		if ( !prefab || prefab.GetComponent<ItemAttributesV2>() != null ) {
 			Logger.LogWarning( $"No valid prefab found: {prefab}",Category.ItemSpawn );
 			return false;
 		}

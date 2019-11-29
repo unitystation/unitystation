@@ -25,7 +25,7 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		IItemAttributes attr = interaction.HandObject.GetComponent<IItemAttributes>();
+		ItemAttributesV2 attr = interaction.HandObject.GetComponent<ItemAttributesV2>();
 
 		Ingredient ingredient = new Ingredient(attr.ItemName);
 

@@ -31,7 +31,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
-	
+
 	public ThrowEvent OnThrowStart = new ThrowEvent();
 	public ThrowEvent OnThrowEnd = new ThrowEvent();
 
@@ -113,15 +113,15 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 
-	private IItemAttributes ItemAttributes {
+	private ItemAttributesV2 ItemAttributes {
 		get {
 			if ( itemAttributes == null ) {
-				itemAttributes = GetComponent<IItemAttributes>();
+				itemAttributes = GetComponent<ItemAttributesV2>();
 			}
 			return itemAttributes;
 		}
 	}
-	private IItemAttributes itemAttributes;
+	private ItemAttributesV2 itemAttributes;
 
 	private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
 	private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
@@ -139,7 +139,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		itemAttributes = GetComponent<IItemAttributes>();
+		itemAttributes = GetComponent<ItemAttributesV2>();
 		var _pushPull = PushPull; //init
 		OnUpdateRecieved().AddListener( Poke );
 	}

@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4949321775558472}
   - component: {fileID: 61000259733276454}
   - component: {fileID: 114287030664492144}
-  - component: {fileID: 114909773131868738}
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
   - component: {fileID: 114850502447124420}
@@ -101,6 +100,7 @@ GameObject:
   - component: {fileID: 114596150240161284}
   - component: {fileID: 114976959642827926}
   - component: {fileID: 114877070699459104}
+  - component: {fileID: 6728781016911355850}
   m_Layer: 10
   m_Name: Trowel
   m_TagString: Untagged
@@ -164,36 +164,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114909773131868738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 114976959642827926}
-  InventoryIcon: {fileID: 0}
-  itemName: Trowel
-  itemDescription: A Trowel
-  initialTraits:
-  - {fileID: 11400000, guid: 6f1dc4e7ed40b8841958f8a373261742, type: 2}
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 7
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114998062039538404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,5 +395,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 549f7d7203498874bafc385496a54fb5
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &6728781016911355850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Trowel
+  initialDescription: A Trowel
+  initialTraits:
+  - {fileID: 11400000, guid: 6f1dc4e7ed40b8841958f8a373261742, type: 2}
+  initialSize: 1
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 7
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

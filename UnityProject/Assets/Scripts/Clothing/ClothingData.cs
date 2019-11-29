@@ -11,20 +11,6 @@ public class ClothingData : BaseClothData
 	public EquippedData DressVariant; //humm yeah Dresses
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
-	public override Sprite SpawnerIcon()
-	{
-		return Base.ItemIcon.Sprites[0];
-	}
-
-	public override void  InitializePool()
-	{
-		if (Spawn.ClothingStoredData.ContainsKey(this.name) && Spawn.ClothingStoredData[this.name] != this)
-		{
-			Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
-		}
-		Spawn.ClothingStoredData[this.name] = this;
-	}
-
 	public static void getClothingDatas(List<ClothingData> DataPCD)
 	{
 		DataPCD.Clear();
