@@ -211,7 +211,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 
 		ItemAttributesV2 headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
-		ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit).ItemAttributes;
+		ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear).ItemAttributes;
 
 		if (headItem != null && suitItem != null)
 		{
