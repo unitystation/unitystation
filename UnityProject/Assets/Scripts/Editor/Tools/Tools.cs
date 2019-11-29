@@ -167,10 +167,8 @@ public class Tools : Editor
 				var oldAttributes = rootPrefabGO.GetComponent<ItemAttributes>();
 				addedAttributes.MigrateFromOld(rootPrefabGO.GetComponent<ItemAttributes>());
 				Logger.Log("Modified " + rootPrefabGO.name);
-				DestroyImmediate(oldAttributes);
+				DestroyImmediate(oldAttributes,true);
 				PrefabUtility.SavePrefabAsset(rootPrefabGO);
-				//only do one for testing purposes.
-				return;
 			}
 		}
 	}

@@ -38,6 +38,8 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn, I
 	[FormerlySerializedAs("InitialTraits")] [Tooltip("Traits of this item.")]
 	private List<ItemTrait> initialTraits;
 
+	public List<ItemTrait> InitialTraits => initialTraits;
+
 	public ItemSize size;
 	public SpriteType spriteType;
 
@@ -185,10 +187,10 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable, IServerSpawn, I
 
 	private void OnEnable()
 	{
-		if (spriteDataHandler == null) { 
+		if (spriteDataHandler == null) {
 			spriteDataHandler = GetComponent<SpriteDataHandler>();
 		}
-		if (InventoryIcon == null) { 
+		if (InventoryIcon == null) {
 			InventoryIcon = GetComponentInChildren<SpriteHandler>();
 		}
 

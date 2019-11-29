@@ -7,7 +7,6 @@ using UnityEngine.Serialization;
 /// Syncs Empty/Full sprites and names for you
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-[RequireComponent(typeof(ItemAttributes))]
 public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 {
 	[Header("No need to fill sprite/name for initial state")]

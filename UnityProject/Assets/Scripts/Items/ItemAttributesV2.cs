@@ -339,7 +339,7 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 	public void MigrateFromOld(ItemAttributes itemAttributes)
 	{
 		this.initialSize = itemAttributes.size;
-		this.initialTraits = itemAttributes.GetTraits().ToList();
+		this.initialTraits = itemAttributes.InitialTraits;
 		this.attackVerbs = itemAttributes.attackVerb;
 		this.damageType = itemAttributes.damageType;
 		this.hitDamage = itemAttributes.hitDamage;
