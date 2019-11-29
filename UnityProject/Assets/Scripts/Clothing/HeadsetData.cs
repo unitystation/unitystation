@@ -12,11 +12,6 @@ public class HeadsetData : BaseClothData
 	public EquippedData Sprites;
 	public HeadsetKyes Key;
 
-	public override Sprite SpawnerIcon()
-	{
-		return Sprites.ItemIcon.Sprites[0];
-	}
-
 	public static void getHeadsetData(List<HeadsetData> DataPCD)
 	{
 		DataPCD.Clear();

@@ -6,11 +6,6 @@ public class BeltData : BaseClothData
 {
 	public EquippedData sprites;
 
-	public override Sprite SpawnerIcon()
-	{
-		return sprites.ItemIcon.Sprites[0];
-	}
-
 	public static void GetBeltData(List<BeltData> dataPcd)
 	{
 		dataPcd.Clear();

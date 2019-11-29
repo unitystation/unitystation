@@ -13,11 +13,6 @@ public class ContainerData : BaseClothData
 	public EquippedData Sprites;
 	public StorageObjectData StorageData;
 
-	public override Sprite SpawnerIcon()
-	{
-		return Sprites.Equipped.Sprites[0];
-	}
-
 	public static void getContainerData(List<ContainerData> DataPCD)
 	{
 		DataPCD.Clear();
