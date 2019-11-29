@@ -8,5 +8,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemTrait", menuName = "Traits/ItemTrait")]
 public class ItemTrait : ScriptableObject
 {
-	//no fields necessary at the moment
+	[TextArea]
+	[SerializeField] string traitDescription = "Describe me!"; // A short description of the trait and what it does
 }
