@@ -335,4 +335,21 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn,
 		get => hitSound;
 		set => hitSound = value;
 	}
+
+	public void MigrateFromOld(ItemAttributes itemAttributes)
+	{
+		this.initialSize = itemAttributes.size;
+		this.initialTraits = itemAttributes.GetTraits().ToList();
+		this.attackVerbs = itemAttributes.attackVerb;
+		this.damageType = itemAttributes.damageType;
+		this.hitDamage = itemAttributes.hitDamage;
+		this.hitSound = itemAttributes.hitSound;
+		this.initialDescription = itemAttributes.itemDescription;
+		this.initialName = itemAttributes.itemName;
+		this.throwDamage = itemAttributes.throwDamage;
+		this.throwRange = itemAttributes.throwRange;
+		this.throwSpeed = itemAttributes.throwSpeed;
+		this.canConnectToTank = itemAttributes.canConnectToTank;
+		this.isEVACapable = itemAttributes.IsEVACapable;
+	}
 }
