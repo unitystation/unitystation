@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4705958541863164}
   - component: {fileID: 61026622852363448}
   - component: {fileID: 114608108995866314}
-  - component: {fileID: 114132912066377716}
   - component: {fileID: 114390494628489026}
   - component: {fileID: 114811499986229406}
   - component: {fileID: 114738722789782520}
@@ -22,6 +21,7 @@ GameObject:
   - component: {fileID: 114905685680163770}
   - component: {fileID: 114162268071507282}
   - component: {fileID: 4995470330489264669}
+  - component: {fileID: 5905734704759348973}
   m_Layer: 10
   m_Name: C20rSMG_Ballistic
   m_TagString: Untagged
@@ -87,35 +87,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114132912066377716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1296620499762930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 114905685680163770}
-  InventoryIcon: {fileID: 0}
-  itemName: C20rSMG
-  itemDescription: 
-  initialTraits: []
-  size: 2
-  spriteType: 2
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114390494628489026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 054d4c5d3f4b74caa87d549779ef4bf0
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &4995470330489264669
 MonoBehaviour:
@@ -382,6 +353,33 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
+--- !u!114 &5905734704759348973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296620499762930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: C20rSMG
+  initialDescription: 
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1992156404503320
 GameObject:
   m_ObjectHideFlags: 0

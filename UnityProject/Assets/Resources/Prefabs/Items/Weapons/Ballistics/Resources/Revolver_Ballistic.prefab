@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4843565723770438}
   - component: {fileID: 61950167428446886}
   - component: {fileID: 114184990726307632}
-  - component: {fileID: 114461506418144158}
   - component: {fileID: 114529648990615742}
   - component: {fileID: 114451834042202350}
   - component: {fileID: 114117284983500122}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114223204492019564}
   - component: {fileID: 114486861544395548}
   - component: {fileID: -8555182458423160289}
+  - component: {fileID: -6606399988660029472}
   m_Layer: 10
   m_Name: Revolver_Ballistic
   m_TagString: Untagged
@@ -165,35 +165,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114461506418144158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1863058284462694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Revolver
-  itemDescription: 
-  initialTraits: []
-  size: 0
-  spriteType: 2
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114529648990615742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: d3a2dbd5e0f5c49e7a462e9ed90887fe
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-8555182458423160289
 MonoBehaviour:
@@ -386,3 +357,30 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
+--- !u!114 &-6606399988660029472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863058284462694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Revolver
+  initialDescription: 
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

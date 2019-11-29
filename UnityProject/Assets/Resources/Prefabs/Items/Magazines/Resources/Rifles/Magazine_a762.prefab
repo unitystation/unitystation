@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61602209282024572}
   - component: {fileID: 114130984761276122}
   - component: {fileID: 114631740818005732}
-  - component: {fileID: 114110166021715606}
   - component: {fileID: 114496109277905418}
   - component: {fileID: 114378085277235960}
   - component: {fileID: 114129525222004082}
@@ -21,6 +20,7 @@ GameObject:
   - component: {fileID: 114167938732693570}
   - component: {fileID: 114216756564057812}
   - component: {fileID: 114004966505690078}
+  - component: {fileID: 2045027039866350147}
   m_Layer: 10
   m_Name: Magazine_a762
   m_TagString: Untagged
@@ -100,36 +100,6 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isNotPushable: 0
---- !u!114 &114110166021715606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1505511589050458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: A762 Magazine
-  itemDescription: 
-  initialTraits:
-  - {fileID: 11400000, guid: 5344f7d34a67046a19f7955f984f8ea0, type: 2}
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114496109277905418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +242,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 5d777f4b7c82a4b1eba964db405a1a46
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &2045027039866350147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505511589050458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: A762 Magazine
+  initialDescription: 
+  initialTraits:
+  - {fileID: 11400000, guid: 5344f7d34a67046a19f7955f984f8ea0, type: 2}
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1645393414742414
 GameObject:
   m_ObjectHideFlags: 0

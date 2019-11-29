@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4000013738803548}
   - component: {fileID: 61702131476188450}
   - component: {fileID: 114716961639846354}
-  - component: {fileID: 114000011671410446}
   - component: {fileID: 114127346376007556}
   - component: {fileID: 114935930822245516}
   - component: {fileID: 114130006931618576}
@@ -100,6 +99,7 @@ GameObject:
   - component: {fileID: 114395634636241260}
   - component: {fileID: 114353477829979338}
   - component: {fileID: 114698266538233354}
+  - component: {fileID: 4216538150112584188}
   m_Layer: 10
   m_Name: RollingPin
   m_TagString: Untagged
@@ -163,35 +163,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114000011671410446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012939332086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Rolling_Pin
-  itemDescription: A RollingPin to roll dough
-  initialTraits: []
-  size: 2
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 8
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 3
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114127346376007556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,5 +305,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 04684ac0ef7f4d938957d3420c0d938f
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &4216538150112584188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012939332086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Rolling_Pin
+  initialDescription: A RollingPin to roll dough
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 8
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 3
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

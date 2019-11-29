@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4847026064450114}
   - component: {fileID: 61854855548246012}
   - component: {fileID: 114664589915332152}
-  - component: {fileID: 114593161572524446}
   - component: {fileID: 114624031663187154}
   - component: {fileID: 114716302871911692}
   - component: {fileID: 114922150393857528}
@@ -100,6 +99,8 @@ GameObject:
   - component: {fileID: 114020482039318460}
   - component: {fileID: 114120840063401562}
   - component: {fileID: 114011298045296396}
+  - component: {fileID: -7503759915182138908}
+  - component: {fileID: -1737393765068986544}
   m_Layer: 10
   m_Name: Emag
   m_TagString: Untagged
@@ -163,36 +164,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114593161572524446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1748120534729806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Cryptographic sequencer
-  itemDescription: It's a card with a magnetic strip attached to some circuitry.
-  initialTraits:
-  - {fileID: 11400000, guid: 8ddc1bf1d79674344b6b5c7cf6b3f1ee, type: 2}
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114624031663187154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,3 +309,47 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300000, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
   - {fileID: 21300000, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
+--- !u!114 &-7503759915182138908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 0
+--- !u!114 &-1737393765068986544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Cryptographic sequencer
+  initialDescription: It's a card with a magnetic strip attached to some circuitry.
+  initialTraits:
+  - {fileID: 11400000, guid: 8ddc1bf1d79674344b6b5c7cf6b3f1ee, type: 2}
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

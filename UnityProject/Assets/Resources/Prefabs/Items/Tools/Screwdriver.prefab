@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 61000259733276454}
   - component: {fileID: 114287030664492144}
   - component: {fileID: 50080775290529754}
-  - component: {fileID: 114909773131868738}
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
   - component: {fileID: 2621837288423225324}
@@ -103,6 +102,8 @@ GameObject:
   - component: {fileID: 114784546776582578}
   - component: {fileID: 114013628232825724}
   - component: {fileID: 114660200964279046}
+  - component: {fileID: -1190028257943365882}
+  - component: {fileID: 3487381449095993906}
   m_Layer: 10
   m_Name: Screwdriver
   m_TagString: Untagged
@@ -188,36 +189,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &114909773131868738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: yellow screwdriver
-  itemDescription: A screwdriver
-  initialTraits:
-  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114998062039538404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,8 +348,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: daa925ae33eab5d4988f8182a1ce33ac
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-1190028257943365882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+--- !u!114 &3487381449095993906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: yellow screwdriver
+  initialDescription: A screwdriver
+  initialTraits:
+  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  initialSize: 0
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &5751769075716656209
 GameObject:
   m_ObjectHideFlags: 0

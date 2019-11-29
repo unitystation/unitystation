@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6657732680924003677}
   - component: {fileID: 2401822177850928980}
   - component: {fileID: 383978776849132018}
-  - component: {fileID: 2901372144461622397}
   - component: {fileID: 1614627787898670548}
   - component: {fileID: 5060467795803936097}
   - component: {fileID: 4826798589450700602}
@@ -23,6 +22,7 @@ GameObject:
   - component: {fileID: 8782089620930079623}
   - component: {fileID: 3112443706636641109}
   - component: {fileID: 1768174954408027260}
+  - component: {fileID: 6569725370997129311}
   m_Layer: 10
   m_Name: Toolbox
   m_TagString: Untagged
@@ -86,36 +86,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &2901372144461622397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2261239356000419554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 5355802478405648676}
-  InventoryIcon: {fileID: 6897929259373619906}
-  itemName: toolbox
-  itemDescription: Danger. Very robust.
-  initialTraits: []
-  size: 4
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 12
-  damageType: 0
-  throwDamage: 12
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb:
-  - robusted
 --- !u!114 &1614627787898670548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 41b3fb480b523437288fe18998445d00
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &3112443706636641109
 MonoBehaviour:
@@ -304,6 +274,34 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+--- !u!114 &6569725370997129311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261239356000419554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: toolbox
+  initialDescription: Danger. Very robust.
+  initialTraits: []
+  initialSize: 4
+  hitDamage: 12
+  damageType: 0
+  throwDamage: 12
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs:
+  - robusted
 --- !u!1 &8124923591362471050
 GameObject:
   m_ObjectHideFlags: 0

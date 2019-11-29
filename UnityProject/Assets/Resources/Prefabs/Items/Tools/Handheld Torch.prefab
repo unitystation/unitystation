@@ -188,7 +188,6 @@ GameObject:
   - component: {fileID: 4423461996505646}
   - component: {fileID: 61977213358184168}
   - component: {fileID: 114275114568249138}
-  - component: {fileID: 114086199267058162}
   - component: {fileID: 114660078625858576}
   - component: {fileID: 114546715207081156}
   - component: {fileID: 114189442814561830}
@@ -198,6 +197,7 @@ GameObject:
   - component: {fileID: 114651961981478966}
   - component: {fileID: 114500040489965280}
   - component: {fileID: 114400107952342984}
+  - component: {fileID: -3339322490579092172}
   m_Layer: 10
   m_Name: Handheld Torch
   m_TagString: Untagged
@@ -262,35 +262,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114086199267058162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869747887731904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 114500040489965280}
-  InventoryIcon: {fileID: 0}
-  itemName: Lamp
-  itemDescription: A Lamp
-  initialTraits: []
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114660078625858576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,5 +502,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 9c91a985c48aef648b219b1d267a9cab
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-3339322490579092172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869747887731904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Lamp
+  initialDescription: A Lamp
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

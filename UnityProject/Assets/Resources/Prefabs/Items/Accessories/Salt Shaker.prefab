@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4153443880121968}
   - component: {fileID: 61874701466316104}
   - component: {fileID: 114983458888184870}
-  - component: {fileID: 114217803941579194}
   - component: {fileID: 114033844433843342}
   - component: {fileID: 114811898791686074}
   - component: {fileID: 114200006776994880}
@@ -22,6 +21,7 @@ GameObject:
   - component: {fileID: 114000507018836526}
   - component: {fileID: 8573282411850685554}
   - component: {fileID: -4570603144365229597}
+  - component: {fileID: 728413877483132174}
   m_Layer: 10
   m_Name: Salt Shaker
   m_TagString: Untagged
@@ -85,35 +85,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114217803941579194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1036141445992816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Salt Shaker
-  itemDescription: Shakes salt, or become salty and hit someone.
-  initialTraits: []
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114033844433843342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: dd31a44e0061599419dba34dd9e7fff7
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &8573282411850685554
 MonoBehaviour:
@@ -300,6 +271,33 @@ MonoBehaviour:
   PossibleTransferAmounts:
   - 1
   - 20
+--- !u!114 &728413877483132174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Salt Shaker
+  initialDescription: Shakes salt, or become salty and hit someone.
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1894594285269404
 GameObject:
   m_ObjectHideFlags: 0
