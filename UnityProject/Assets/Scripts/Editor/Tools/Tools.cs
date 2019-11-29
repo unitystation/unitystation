@@ -164,8 +164,10 @@ public class Tools : Editor
 				//Found one that has OldItemAttributes, now create ItemAttributesV2 and migrate the
 				//fields
 				var addedAttributes = rootPrefabGO.AddComponent<ItemAttributesV2>();
+				var oldAttributes = rootPrefabGO.GetComponent<ItemAttributes>();
 				addedAttributes.MigrateFromOld(rootPrefabGO.GetComponent<ItemAttributes>());
 				Logger.Log("Modified " + rootPrefabGO.name);
+				DestroyImmediate(oldAttributes);
 				PrefabUtility.SavePrefabAsset(rootPrefabGO);
 				//only do one for testing purposes.
 				return;
