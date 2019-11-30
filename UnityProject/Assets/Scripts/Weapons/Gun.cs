@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ItemStorage))]
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
-	 IClientInteractable<InventoryApply>, IServerInventoryMove
+	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
@@ -655,6 +655,17 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	}
 
 	#endregion
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		//populate with a full mag on spawn
+		Logger.LogTraceFormat("Trying to auto-populate magazine for {0}", Category.Inventory, name);
+
+		var ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
+		Logger.LogTraceFormat("Populating with ammo prefab {0}", Category.Inventory, ammoPrefab?.name);
+		GameObject m = Spawn.ServerPrefab(ammoPrefab).GameObject;
+		Inventory.ServerAdd(m, magSlot);
+	}
 }
 
  /// <summary>
