@@ -25,6 +25,8 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
 	private string initialName;
+	public string InitialName => initialName;
+
 	/// <summary>
 	/// Current name
 	/// </summary>
@@ -158,6 +160,16 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 		get => attackVerbs;
 		set => attackVerbs = new List<string>(value);
 	}
+
+	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
+	[SerializeField]
+	private int ExportCost; // Use GetExportCost to obtain!
+
+	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
+	public string ExportName;
+
+	[Tooltip("Additional message to display in the cargo console report.")]
+	public string ExportMessage;
 
 	/// <summary>
 	/// Actual current traits, accounting for dynamic add / remove. Note that these adds / removes
@@ -357,5 +369,15 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 		SyncSize(newSize);
 	}
 
+	public int GetExportCost()
+	{
+		var stackable = GetComponent<Stackable>();
 
+		if (stackable != null)
+		{
+			return ExportCost * stackable.Amount;
+		}
+
+		return ExportCost;
+	}
 }

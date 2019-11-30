@@ -258,7 +258,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 2025934988
 --- !u!114 &2060794053325888610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: LaserGun
+  initialName: laser gun
   initialDescription: 
   initialTraits: []
   initialSize: 1
@@ -304,6 +304,9 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  ExportCost: 200
+  ExportName: 
+  ExportMessage: 
 --- !u!1 &1940283646410426
 GameObject:
   m_ObjectHideFlags: 0
