@@ -37,8 +37,8 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 			ItemAttributesV2 = this.GetComponent<ItemAttributesV2>();
 		}
 		if (isServer && ItemAttributesV2 != null) { 
-			ItemAttributesV2.ServerSetItemDescription(plantData.Description);
-			ItemAttributesV2.ServerSetItemName(plantData.Plantname);
+			ItemAttributesV2.ServerSetArticleDescription(plantData.Description);
+			ItemAttributesV2.ServerSetArticleName(plantData.Plantname);
 		}
 		this.name = plantData.Plantname;
 			
