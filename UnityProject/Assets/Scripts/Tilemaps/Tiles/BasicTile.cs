@@ -93,7 +93,7 @@ public abstract class BasicTile : LayerTile
 	/// <returns></returns>
 	public bool CanDeconstruct(PositionalHandApply interaction)
 	{
-		switch (deconstructionType)
+		switch (DeconstructionType)
 		{
 			case DeconstructionType.Crowbar:
 				return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar);
@@ -121,26 +121,26 @@ public abstract class BasicTile : LayerTile
 		var cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 
 
-		if (deconstructionType == DeconstructionType.Crowbar)
+		if (DeconstructionType == DeconstructionType.Crowbar)
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("Crowbar", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
 			DoSpawnOnDeconstruct(interaction);
 
 		}
-		else if (deconstructionType == DeconstructionType.Wirecutters)
+		else if (DeconstructionType == DeconstructionType.Wirecutters)
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("WireCutter", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
 			DoSpawnOnDeconstruct(interaction);
 		}
-		else if (deconstructionType == DeconstructionType.Wrench)
+		else if (DeconstructionType == DeconstructionType.Wrench)
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
 			DoSpawnOnDeconstruct(interaction);
 		}
-		else if (deconstructionType == DeconstructionType.NormalWall)
+		else if (DeconstructionType == DeconstructionType.NormalWall)
 		{
 			//unweld to a girder
 			var progressFinishAction = new ProgressCompleteAction(
@@ -165,6 +165,7 @@ public abstract class BasicTile : LayerTile
 				SoundManager.PlayNetworkedAtPos("Weld", interaction.WorldPositionTarget, Random.Range(0.9f, 1.1f));
 			}
 		}
+		//TODO: Deconstruct reinforced wall, will spawn a prefab to handle deconstruction, not yet implemented
 	}
 
 	private void DoSpawnOnDeconstruct(PositionalHandApply interaction)
@@ -172,8 +173,8 @@ public abstract class BasicTile : LayerTile
 		if (SpawnOnDeconstruct != null)
 		{
 			//always spawn at least one floor tile.
-			var amount = TileType == TileType.Floor ? Mathf.Min(1, spawnAmountOnDeconstruct) : spawnAmountOnDeconstruct;
-        	Spawn.ServerPrefab(spawnOnDeconstruct, interaction.WorldPositionTarget, count: amount);
+			var amount = TileType == TileType.Floor ? Math.Max(1, spawnAmountOnDeconstruct) : spawnAmountOnDeconstruct;
+        	Spawn.ServerPrefab(SpawnOnDeconstruct, interaction.WorldPositionTarget, count: amount);
         }
 	}
 
@@ -213,6 +214,7 @@ public enum DeconstructionType
 	//dismantle with wrench
 	Wrench = 3,
 	//cut with to turn into girder
-	NormalWall = 4
-	//TODO: Deconstruct reinforced wall, will spawn a prefab to handle deconstruction
+	NormalWall = 4,
+	//elaborate reinforced wall logic
+	ReinforcedWall = 5
 }

@@ -19,13 +19,15 @@ MonoBehaviour:
   AtmosPassable: 0
   IsSealed: 0
   Passable: 0
+  Mineable: 0
   PassableException:
     m_keys: 
     m_values: 
   MaxHealth: 0
   HealthStates: []
-  ItemSpawn: {fileID: 0}
-  amount: 0
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 0
+  deconstructionType: 4
   DestroyedTile: {fileID: 0}
   connectCategory: 0
   connectType: 1
