@@ -2,7 +2,7 @@
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
-/// Allows an object to be attacked by melee. Supports being placed on tilemap layers for meleeing tiles
+/// Allows an object to be attacked by melee. Not used anymore for meleeing tiles (now done in InteractableTiles)
 /// TODO: Refactor to use IF2 rather than PNA
 /// </summary>
 public class Meleeable : MonoBehaviour, IClientInteractable<PositionalHandApply>
@@ -37,7 +37,6 @@ public class Meleeable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 		//meleeable is only checked on the target of a melee interaction
 		if (interaction.UsedObject == gameObject) return false;
 
-		//NOTE that for meleeing tiles, this is invoked from InteractableTiles.
 		if (interaction.HandObject != null)
 		{
 			var handItem = interaction.HandObject;

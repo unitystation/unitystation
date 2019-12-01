@@ -25,7 +25,8 @@ MonoBehaviour:
     m_values: 00
   MaxHealth: 0
   HealthStates: []
-  ItemSpawn: {fileID: 0}
-  amount: 0
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 0
+  deconstructionType: 1
   DestroyedTile: {fileID: 0}
   sprite: {fileID: 21300000, guid: fdf5da49d7a60094aa8416c767242b61, type: 3}

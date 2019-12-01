@@ -24,8 +24,10 @@ MonoBehaviour:
     m_values: 00
   MaxHealth: 0
   HealthStates: []
-  ItemSpawn: {fileID: 0}
-  amount: 0
+  spawnOnDeconstruct: {fileID: 1645856876941636, guid: 8012b966850884ea3bea010004dedb96,
+    type: 3}
+  spawnAmountOnDeconstruct: 2
+  deconstructionType: 2
   DestroyedTile: {fileID: 0}
   connectCategory: 3
   connectType: 2

@@ -21,23 +21,32 @@ public abstract class BasicTile : LayerTile
 	public float MaxHealth;
 	public TileState[] HealthStates;
 
-	[Tooltip("What object to spawn when it's deconstructed or destroyed. Ignored if" +
+	[Tooltip("What object to spawn when it's deconstructed or destroyed. " +
+	         "Can leave blank for floors to use default floor tile. Ignored if" +
 	         " this tile is a wall.")]
 	[SerializeField]
 	private GameObject spawnOnDeconstruct;
 	/// <summary>
-	/// Object to spawn when deconstructed.
+	/// Object to spawn when deconstructed. Defaults to a standard tile for this layer if not specified
+	/// for this particular basictile.
 	/// </summary>
-	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct;
+	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct ? spawnOnDeconstruct : DefaultSpawnOnDeconstruct();
 
-	[Tooltip("How much of the object to spawn when it's deconstructed. Ignored if" +
+	[Tooltip("How much of the object to spawn when it's deconstructed. Can leave at 0 for floor tiles to use the" +
+	         " default of 1. Ignored if" +
 	         " this tile is a wall.")]
 	[SerializeField]
 	private int spawnAmountOnDeconstruct;
 
-	[Tooltip("Deconstruction logic to use for this tile.")]
+	[Tooltip("Deconstruction logic to use for this tile. Can leave as None for floor tiles to use" +
+	         " default floor deconstruction logic.")]
 	[SerializeField]
 	private DeconstructionType deconstructionType;
+
+	private DeconstructionType DeconstructionType => deconstructionType != DeconstructionType.None
+		? deconstructionType
+		: DefaultDeconstructionType();
+
 
 
 	public LayerTile DestroyedTile;
@@ -110,23 +119,26 @@ public abstract class BasicTile : LayerTile
 		var tileChangeManager = interactableTiles.TileChangeManager;
 		LayerTile tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
 		var cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
+
+
 		if (deconstructionType == DeconstructionType.Crowbar)
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("Crowbar", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
-			Spawn.ServerPrefab(spawnOnDeconstruct, interaction.WorldPositionTarget, count: spawnAmountOnDeconstruct);
+			DoSpawnOnDeconstruct(interaction);
+
 		}
 		else if (deconstructionType == DeconstructionType.Wirecutters)
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("WireCutter", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
-			Spawn.ServerPrefab(spawnOnDeconstruct, interaction.WorldPositionTarget, count: spawnAmountOnDeconstruct);
+			DoSpawnOnDeconstruct(interaction);
 		}
 		else if (deconstructionType == DeconstructionType.Wrench)
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
-			Spawn.ServerPrefab(spawnOnDeconstruct, interaction.WorldPositionTarget, count: spawnAmountOnDeconstruct);
+			DoSpawnOnDeconstruct(interaction);
 		}
 		else if (deconstructionType == DeconstructionType.NormalWall)
 		{
@@ -137,7 +149,6 @@ public abstract class BasicTile : LayerTile
 					SoundManager.PlayNetworkedAtPos("Weld", interaction.WorldPositionTarget, 0.8f);
 					tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
 					SoundManager.PlayNetworkedAtPos("Deconstruct", interaction.WorldPositionTarget, 1f);
-					Spawn.ServerPrefab(spawnOnDeconstruct, interaction.WorldPositionTarget, count: spawnAmountOnDeconstruct);
 
 					//girder / metal always appears in place of deconstructed wall
 					Spawn.ServerPrefab(CommonPrefabs.Instance.Girder, interaction.WorldPositionTarget);
@@ -155,6 +166,37 @@ public abstract class BasicTile : LayerTile
 			}
 		}
 	}
+
+	private void DoSpawnOnDeconstruct(PositionalHandApply interaction)
+	{
+		if (SpawnOnDeconstruct != null)
+		{
+			//always spawn at least one floor tile.
+			var amount = TileType == TileType.Floor ? Mathf.Min(1, spawnAmountOnDeconstruct) : spawnAmountOnDeconstruct;
+        	Spawn.ServerPrefab(spawnOnDeconstruct, interaction.WorldPositionTarget, count: amount);
+        }
+	}
+
+	private GameObject DefaultSpawnOnDeconstruct()
+	{
+		if (LayerType == LayerType.Floors)
+		{
+			return CommonPrefabs.Instance.FloorTile;
+		}
+
+		return null;
+	}
+
+
+	private DeconstructionType DefaultDeconstructionType()
+	{
+		if (LayerType == LayerType.Floors)
+		{
+			return DeconstructionType.Crowbar;
+		}
+
+		return DeconstructionType.None;
+	}
 }
 
 /// <summary>
@@ -162,13 +204,15 @@ public abstract class BasicTile : LayerTile
 /// </summary>
 public enum DeconstructionType
 {
+	//can't deconstruct
+	None = 0,
 	//pry off with crowbar
-	Crowbar = 0,
+	Crowbar = 1,
 	//snip with wirecutters
-	Wirecutters = 1,
+	Wirecutters = 2,
 	//dismantle with wrench
-	Wrench = 2,
+	Wrench = 3,
 	//cut with to turn into girder
-	NormalWall = 3
+	NormalWall = 4
 	//TODO: Deconstruct reinforced wall, will spawn a prefab to handle deconstruction
 }
