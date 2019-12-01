@@ -12,5 +12,7 @@ public class CommonPrefabs : SingletonScriptableObject<CommonPrefabs>
 	public GameObject Girder;
 	public GameObject Metal;
 	public GameObject FloorTile;
+	public GameObject Mask;
+	public GameObject EmergencyOxygenTank;
 
 }

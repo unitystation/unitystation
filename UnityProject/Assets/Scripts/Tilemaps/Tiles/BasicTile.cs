@@ -125,6 +125,7 @@ public abstract class BasicTile : LayerTile
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("Crowbar", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
+			tileChangeManager.SubsystemManager.UpdateAt(cellPos);
 			DoSpawnOnDeconstruct(interaction);
 
 		}
@@ -132,12 +133,14 @@ public abstract class BasicTile : LayerTile
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("WireCutter", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
+			tileChangeManager.SubsystemManager.UpdateAt(cellPos);
 			DoSpawnOnDeconstruct(interaction);
 		}
 		else if (DeconstructionType == DeconstructionType.Wrench)
 		{
 			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
+			tileChangeManager.SubsystemManager.UpdateAt(cellPos);
 			DoSpawnOnDeconstruct(interaction);
 		}
 		else if (DeconstructionType == DeconstructionType.NormalWall)

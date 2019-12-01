@@ -64,6 +64,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 			}
 		}
 
+		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 		Inventory.ServerConsume(interaction.HandSlot, 1);
 	}
 
