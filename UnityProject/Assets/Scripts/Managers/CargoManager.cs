@@ -127,7 +127,7 @@ public class CargoManager : MonoBehaviour
 
 				if (!string.IsNullOrEmpty(entry.Value.ExportMessage) && string.IsNullOrEmpty(entry.Value.ExportName))
 				{ // Special handling for items that don't want pluralisation after
-					CentcomMessage += $" { entry.Value.ExportMessage }";
+					CentcomMessage += $" { entry.Value.ExportMessage }\n";
 				}
 				else
 				{
@@ -300,7 +300,7 @@ public class CargoManager : MonoBehaviour
 			return 0;
 		}
 
-		return attributes.GetExportCost();
+		return attributes.ExportCost;
 	}
 
 	private class ExportedItem

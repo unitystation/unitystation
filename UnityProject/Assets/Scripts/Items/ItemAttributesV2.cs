@@ -163,13 +163,32 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
 	[SerializeField]
-	private int ExportCost; // Use GetExportCost to obtain!
+	private int exportCost;
+	public int ExportCost
+	{
+		get
+		{
+			var stackable = GetComponent<Stackable>();
+
+			if (stackable != null)
+			{
+				return exportCost * stackable.Amount;
+			}
+
+			return exportCost;
+		}
+
+	}
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
-	public string ExportName;
+	[SerializeField]
+	private string exportName;
+	public string ExportName => exportName;
 
 	[Tooltip("Additional message to display in the cargo console report.")]
-	public string ExportMessage;
+	[SerializeField]
+	private string exportMessage;
+	public string ExportMessage => exportMessage;
 
 	/// <summary>
 	/// Actual current traits, accounting for dynamic add / remove. Note that these adds / removes
@@ -367,17 +386,5 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 	public void ServerSetSize(ItemSize newSize)
 	{
 		SyncSize(newSize);
-	}
-
-	public int GetExportCost()
-	{
-		var stackable = GetComponent<Stackable>();
-
-		if (stackable != null)
-		{
-			return ExportCost * stackable.Amount;
-		}
-
-		return ExportCost;
 	}
 }
