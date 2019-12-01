@@ -9,9 +9,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
+      propertyPath: entries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
       propertyPath: layerTile
       value: 
       objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
+        type: 2}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: entries.Array.data[0].layerTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
+        type: 2}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: entries.Array.data[0].placeableOn
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: entries.Array.data[0].placeableOnlyOnTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
         type: 2}
     - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
