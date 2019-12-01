@@ -170,7 +170,7 @@ public class CargoManager : MonoBehaviour
 		{
 			if (string.IsNullOrEmpty(attributes.ExportName))
 			{
-				exportName = attributes.InitialName;
+				exportName = attributes.ArticleName;
 			}
 			else
 			{

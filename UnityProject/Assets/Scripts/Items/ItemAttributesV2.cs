@@ -135,35 +135,6 @@ public class ItemAttributesV2 : Attributes
 		set => attackVerbs = new List<string>(value);
 	}
 
-	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
-	[SerializeField]
-	private int exportCost;
-	public int ExportCost
-	{
-		get
-		{
-			var stackable = GetComponent<Stackable>();
-
-			if (stackable != null)
-			{
-				return exportCost * stackable.Amount;
-			}
-
-			return exportCost;
-		}
-
-	}
-
-	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
-	[SerializeField]
-	private string exportName;
-	public string ExportName => exportName;
-
-	[Tooltip("Additional message to display in the cargo console report.")]
-	[SerializeField]
-	private string exportMessage;
-	public string ExportMessage => exportMessage;
-
 	/// <summary>
 	/// Actual current traits, accounting for dynamic add / remove. Note that these adds / removes
 	/// are not currently synced between client / server.
