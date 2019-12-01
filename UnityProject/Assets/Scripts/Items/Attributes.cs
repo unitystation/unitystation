@@ -20,7 +20,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <summary>
 	/// Current name
 	/// </summary>
-	[FormerlySerializedAs("itemName")]
+	[HideInInspector]
 	[SyncVar(hook = nameof(SyncArticleName))]
 	public string ArticleName;
 
@@ -31,7 +31,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// Current description
 	/// </summary>
 
-	[FormerlySerializedAs("itemDescription")]
+	[HideInInspector]
 	[SyncVar(hook = nameof(SyncArticleDescription))]
 	public string ArticleDescription;
 
