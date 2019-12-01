@@ -432,4 +432,17 @@ public static class Validations
 			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS || registerPlayer.IsSlippingServer || playerMove.IsCuffed;
 		}
 	}
+
+	/// <summary>
+	/// Returns true iff both objects are Stackable and toAdd can be added to stack.
+	/// </summary>
+	public static bool CanStack(GameObject stack, GameObject toAdd)
+	{
+		if (stack == null || toAdd == null) return false;
+		var stack1 = stack.GetComponent<Stackable>();
+		var stack2 = toAdd.GetComponent<Stackable>();
+		if (stack1 == null || stack2 == null) return false;
+
+		return stack1.CanAccommodate(stack2);
+	}
 }

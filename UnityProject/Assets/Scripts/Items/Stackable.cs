@@ -55,15 +55,8 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		//if we are being pulled, combine the stacks with any on the ground under us.
 		if (pushPull.IsBeingPulled)
 		{
-			foreach (var stackable in registerTile.Matrix.Get<Stackable>(newLocalPos, true))
-			{
-				if (stackable == this) continue;
-				if (stackable.prefab == prefab)
-				{
-					//combine
-					ServerCombine(stackable);
-				}
-			}
+			//check for stacking with things on the ground
+			ServerStackOnGround(newLocalPos);
 		}
 	}
 
@@ -80,6 +73,22 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		SyncAmount(initialAmount);
+		//check for stacking with things on the ground
+		ServerStackOnGround(registerTile.LocalPositionServer);
+	}
+
+	private void ServerStackOnGround(Vector3Int localPosition)
+	{
+		//stacks with things on the same tile
+		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
+		{
+			if (stackable == this) continue;
+			if (stackable.prefab == prefab)
+			{
+				//combine
+				ServerCombine(stackable);
+			}
+		}
 	}
 
 	private void SyncAmount(int newAmount)
@@ -131,11 +140,26 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		SyncAmount(amount + amountToConsume);
 	}
 
-	private bool CanCombine(GameObject toAdd)
+	/// <summary>
+	/// Returns true iff other can be added to this stackable.
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
+	public bool CanAccommodate(GameObject other)
+	{
+		if (other == null) return false;
+		return CanAccommodate(other.GetComponent<Stackable>());
+
+	}
+	/// <summary>
+	/// Returns true iff toAdd can be added to this stackable.
+	/// </summary>
+	/// <param name="toAdd"></param>
+	/// <returns></returns>
+	public bool CanAccommodate(Stackable toAdd)
 	{
 		if (toAdd == null) return false;
-		var otherStack = toAdd.GetComponent<Stackable>();
-		return otherStack != null && otherStack.prefab == prefab && amount < maxAmount;
+		return toAdd != null && toAdd.prefab == prefab && amount < maxAmount;
 	}
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -150,7 +174,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && amount > 1) return true;
 
 		//combining another stack with this stack.
-		if (CanCombine(interaction.UsedObject)) return true;
+		if (CanAccommodate(interaction.UsedObject)) return true;
 
 		return false;
 	}
@@ -167,7 +191,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 			Inventory.ServerAdd(single, interaction.FromSlot);
 			ServerConsume(1);
 		}
-		else if (CanCombine(interaction.UsedObject))
+		else if (CanAccommodate(interaction.UsedObject))
 		{
 			//combining the stacks
 			var sourceStackable = interaction.UsedObject.GetComponent<Stackable>();
@@ -184,7 +208,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		//same type is being targeted
 		if (interaction.HandObject != gameObject) return false;
 
-		if (CanCombine(interaction.TargetObject)) return true;
+		if (CanAccommodate(interaction.TargetObject)) return true;
 
 		return false;
 	}

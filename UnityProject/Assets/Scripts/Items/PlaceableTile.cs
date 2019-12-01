@@ -18,6 +18,10 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.HandObject != gameObject) return false;
 
+		//it's annoying to place something when you're trying to pick up instead to add to your current stack,
+		//so if it's possible to stack what is being targeted with what's in your hand, we will defer to that
+		if (Validations.CanStack(interaction.HandObject, interaction.TargetObject)) return false;
+
 		//check if we are clicking a spot we can place a tile on
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, side);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
