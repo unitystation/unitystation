@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class MouseDrop : TargetedInteraction
 {
-	private static readonly MouseDrop Invalid = new MouseDrop(null, null, null, null);
+	private static readonly MouseDrop Invalid = new MouseDrop(null, null, null, null, Intent.Help);
 
 	/// <summary>
 	/// If dragging and dropping from inventory, slot it is being dragged from. Null otherwise.
@@ -29,8 +29,8 @@ public class MouseDrop : TargetedInteraction
 	/// <param name="droppedObject">Object that was being dragged and is now being dropped</param>
 	/// <param name="targetObject">Object that the dropped object is being dropped on</param>
 	/// <param name="fromSlot">if dragging from inventory, slot it is being dragged from</param>
-	private MouseDrop(GameObject performer, GameObject droppedObject, GameObject targetObject, ItemSlot fromSlot) :
-		base(performer, droppedObject, targetObject)
+	private MouseDrop(GameObject performer, GameObject droppedObject, GameObject targetObject, ItemSlot fromSlot, Intent intent) :
+		base(performer, droppedObject, targetObject, intent)
 	{
 		FromSlot = fromSlot;
 	}
@@ -50,11 +50,11 @@ public class MouseDrop : TargetedInteraction
 		var pu = droppedObject.GetComponent<Pickupable>();
 		if (pu != null)
 		{
-			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, pu.ItemSlot);
+			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, pu.ItemSlot, UIManager.CurrentIntent);
 		}
 		else
 		{
-			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, null);
+			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, null, UIManager.CurrentIntent);
 		}
 	}
 
@@ -65,16 +65,16 @@ public class MouseDrop : TargetedInteraction
 	/// <param name="droppedObject">object client is dropping (may be currently in inventory).</param>
 	/// <param name="targetObject">object being dropped upon.</param>
 	/// <returns>a mouse drop by the client, targeting the specified object with the dropped object</returns>
-	public static MouseDrop ByClient(GameObject clientPlayer, GameObject droppedObject, GameObject targetObject)
+	public static MouseDrop ByClient(GameObject clientPlayer, GameObject droppedObject, GameObject targetObject, Intent intent)
 	{
 		var pu = droppedObject.GetComponent<Pickupable>();
 		if (pu != null)
 		{
-			return new MouseDrop(clientPlayer, droppedObject, targetObject, pu.ItemSlot);
+			return new MouseDrop(clientPlayer, droppedObject, targetObject, pu.ItemSlot, intent);
 		}
 		else
 		{
-			return new MouseDrop(clientPlayer, droppedObject, targetObject, null);
+			return new MouseDrop(clientPlayer, droppedObject, targetObject, null, intent);
 		}
 
 	}

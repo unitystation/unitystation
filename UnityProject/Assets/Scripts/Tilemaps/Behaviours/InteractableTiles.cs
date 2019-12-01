@@ -2,7 +2,8 @@
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Component which allows all the tiles of a matrix to be interacted with.
+/// Component which allows all the tiles of a matrix to be interacted with. Has interaction logic for construction /
+/// deconstruction of tiles. Melee is handled in Meleeable.
 /// </summary>
 public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
@@ -118,8 +119,12 @@ public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalH
 				case TileType.Window:
 				case TileType.Grill:
 				{
-					//melee or deconstruct with item in hand
-					return true;
+					//deconstruct with item in hand on non-harm intent
+					if (tile is BasicTile basicTile && interaction.Intent != Intent.Harm)
+					{
+						return basicTile.CanDeconstruct(interaction);
+					}
+					break;
 				}
 			}
 		}
@@ -148,28 +153,15 @@ public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalH
 				case TileType.Window:
 				case TileType.Grill:
 				{
-					//possibly deconstruct
+					//deconstruct
 					if (tile is BasicTile basicTile)
 					{
 						if (basicTile.CanDeconstruct(interaction))
 						{
 							basicTile.ServerDeconstruct(interaction);
-							break;
 						}
 					}
-					//melee if we didn't deconstruct
-					// Direction of attack towards the attack target.
-					Vector2 dir = ((Vector3)interaction.WorldPositionTarget - interaction.Performer.WorldPosServer())
-						.normalized;
-					var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
-					if (interaction.HandObject == null)
-					{
-						wna.CmdRequestPunchAttack(gameObject, dir, BodyPartType.None);
-					}
-					else
-					{
-						wna.CmdRequestMeleeAttack(gameObject, interaction.HandObject, dir, BodyPartType.None, tile.LayerType);
-					}
+
 					break;
 				}
 			}

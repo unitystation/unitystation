@@ -23,10 +23,17 @@ public class TileChangeManager : NetworkBehaviour
 	/// </summary>
 	public SubsystemManager SubsystemManager => subsystemManager;
 
+	private InteractableTiles interactableTiles;
+	/// <summary>
+	/// interactable tiles component for these tiles.
+	/// </summary>
+	public InteractableTiles InteractableTiles => interactableTiles;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		subsystemManager = GetComponent<SubsystemManager>();
+		interactableTiles = GetComponent<InteractableTiles>();
 	}
 
 	public void InitServerSync(string data)
