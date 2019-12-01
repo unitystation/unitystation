@@ -47,6 +47,56 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		CacheTileMaps();
 	}
 
+	/// <summary>
+	/// Gets the interactable tiles for the matrix at the indicated world position. Never returns null - always
+	/// returns the interactable tiles for the appropriate matrix.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public static InteractableTiles GetAt(Vector2 worldPos, bool isServer)
+	{
+		var matrixInfo = MatrixManager.AtPoint(worldPos.RoundToInt(), isServer);
+		var matrix = matrixInfo.Matrix;
+		var tileChangeManager = matrix.GetComponentInParent<TileChangeManager>();
+		return tileChangeManager.GetComponent<InteractableTiles>();
+	}
+
+	/// <summary>
+	/// Gets the interactable tiles for the matrix at the indicated world position. Never returns null - always
+	/// returns the interactable tiles for the appropriate matrix.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public static InteractableTiles GetAt(Vector2 worldPos, NetworkSide side)
+	{
+		return GetAt(worldPos, side == NetworkSide.Server);
+	}
+
+	/// <summary>
+	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public LayerTile LayerTileAt(Vector2 worldPos)
+	{
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
+
+		return metaTileMap.GetTile(pos);
+	}
+
+
+	/// <summary>
+	/// Converts the world position to a cell position on these tiles.
+	/// </summary>
+	/// <param name="worldPosition"></param>
+	/// <returns></returns>
+	public Vector3Int WorldToCell(Vector2 worldPosition)
+	{
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPosition).RoundToInt();
+		pos.z = 0;
+		return baseLayer.WorldToCell(worldPosition);
+	}
+
 	public bool Interact(PositionalHandApply interaction)
 	{ //todo: refactor to IF2!
 		if (!DefaultWillInteract.PositionalHandApply(interaction, NetworkSide.Client)) return false;
@@ -57,7 +107,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		pos.z = 0;
 		Vector3Int cellPos = baseLayer.WorldToCell(interaction.WorldPositionTarget);
 
-		LayerTile tile = metaTileMap.GetTile(pos);
+		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
 
 		if (tile != null)
 		{
@@ -85,7 +135,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				}
 				case TileType.Base:
 				{
-					if (Validations.HasComponent<UniFloorTile>(interaction.HandObject))
+					if (Validations.HasComponent<PlaceableTile>(interaction.HandObject))
 					{
 						pna.CmdPlaceFloorTile(interaction.Performer,
 							new Vector2(cellPos.x, cellPos.y), interaction.HandObject);
@@ -168,6 +218,5 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			}
 		}
 	}
-
 
 }

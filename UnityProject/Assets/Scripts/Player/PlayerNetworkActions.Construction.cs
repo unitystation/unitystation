@@ -30,9 +30,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogError("TileChangeManager not found", Category.Construction);
 			return;
 		}
-		UniFloorTile floorTile = tileToPlace.GetComponent<UniFloorTile>();
+		var floorTile = tileToPlace.GetComponent<PlaceableTile>();
 
-		tm.UpdateTile(Vector3Int.RoundToInt(cellPos), TileType.Floor, floorTile.FloorTileType );
+		tm.UpdateTile(Vector3Int.RoundToInt(cellPos), floorTile.LayerTile);
 
 		Inventory.ServerDespawn(tileToPlace.GetComponent<Pickupable>().ItemSlot);
 		RpcPlayerSoundAtPos("Deconstruct", transform.position, false);

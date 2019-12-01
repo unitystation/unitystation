@@ -66,6 +66,20 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+
+	[Server]
+	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile)
+	{
+		if (IsDifferent(cellPosition, layerTile))
+		{
+			InternalUpdateTile(cellPosition, layerTile);
+
+			RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
+
+			AddToChangeList(cellPosition, layerTile);
+		}
+	}
+
 	[Server]
 	public void RemoveTile( Vector3Int cellPosition )
 	{
@@ -157,6 +171,18 @@ public class TileChangeManager : NetworkBehaviour
 		metaTileMap.SetTile(p, layerTile);
 	}
 
+	private void InternalUpdateTile(Vector3 position, LayerTile layerTile)
+	{
+		if (layerTile.TileType == TileType.WindowDamaged)
+		{
+			position.z -= 1;
+		}
+
+		Vector3Int p = position.RoundToInt();
+
+		metaTileMap.SetTile(p, layerTile);
+	}
+
 	private void AddToChangeList(Vector3 position, LayerType layerType=LayerType.None, TileType tileType=TileType.None, string tileName=null, bool removeAll = false)
 	{
 		changeList.List.Add(new TileChangeEntry()
@@ -169,10 +195,27 @@ public class TileChangeManager : NetworkBehaviour
 		});
 	}
 
+	private void AddToChangeList(Vector3 position, LayerTile layerTile, LayerType layerType=LayerType.None, bool removeAll = false)
+	{
+		changeList.List.Add(new TileChangeEntry()
+		{
+			Position = position,
+			LayerType = layerType,
+			TileType = layerTile.TileType,
+			TileName = layerTile.name,
+			RemoveAll = removeAll
+		});
+	}
+
 	private bool IsDifferent(Vector3Int position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
+		return metaTileMap.GetTile(position, layerTile.LayerType) != layerTile;
+	}
+
+	private bool IsDifferent(Vector3Int position, LayerTile layerTile)
+	{
 		return metaTileMap.GetTile(position, layerTile.LayerType) != layerTile;
 	}
 }

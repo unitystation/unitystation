@@ -10,7 +10,7 @@ public abstract class TargetedInteraction: Interaction
 	private readonly GameObject targetObject;
 
 	/// <summary>
-	/// Object that is targeted by the interaction
+	/// Object that is targeted by the interaction. Null if clicking on open space.
 	/// </summary>
 	public GameObject TargetObject => targetObject;
 

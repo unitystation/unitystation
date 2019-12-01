@@ -5,7 +5,7 @@ using UnityEngine;
 /// HandApply but with a vector2 which indicates the exact position the player
 /// is trying to click (transmitted as a target vector pointing from the player to the
 /// spot they are clicking). Useful for objects which have different logic based on where you click,
-/// such as InteractableTiles).
+/// such as InteractableTiles). Also fires when clicking on empty / open space.
 /// </summary>
 public class PositionalHandApply : TargetedInteraction
 {
