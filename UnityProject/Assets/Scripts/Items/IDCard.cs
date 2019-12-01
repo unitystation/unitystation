@@ -63,10 +63,12 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 	private bool isInit;
 	//To switch the card sprites when the type changes
 	private SpriteRenderer spriteRenderer;
+	private Pickupable pickupable;
 
 	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		pickupable = GetComponent<Pickupable>();
 	}
 
 	public override void OnStartServer()
@@ -129,7 +131,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 		//Set all the synced properties for the card
 		SyncName(name);
 		this.jobType = jobType;
-		this.idCardType = idCardType;
+		SyncIDCardType(idCardType);
 		ServerAddAccess(allowedAccess);
 	}
 
@@ -194,6 +196,9 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 				spriteRenderer.sprite = captainSprite;
 				break;
 		}
+
+		pickupable.RefreshUISlotImage();
+
 	}
 
 	public void OnExamine()
