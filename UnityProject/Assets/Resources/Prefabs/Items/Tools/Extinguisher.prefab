@@ -209,6 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temperatureKelvin: 293.15
   MaxCapacity: 50
+  itemAttributes: {fileID: 0}
   InSolidForm: 0
   Reagents:
   - water
@@ -367,7 +368,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 697385888
 --- !u!114 &5519721869088170442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,6 +434,9 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  exportCost: 15
+  exportName: fire extinguisher
+  exportMessage: 
 --- !u!1 &1645206611696558437
 GameObject:
   m_ObjectHideFlags: 0
