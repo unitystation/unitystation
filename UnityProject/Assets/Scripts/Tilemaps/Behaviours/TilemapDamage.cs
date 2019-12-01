@@ -372,10 +372,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 		else if (data.Damage >= MAX_FLOOR_DAMAGE)
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
+			var removed = tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
 			if ( Random.value < 0.25f )
 			{
-				CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), null); // TODO parent ?
+				if (removed is BasicTile basicTile)
+				{
+					var toSpawn = basicTile.SpawnOnDeconstruct;
+					Spawn.ServerPrefab(toSpawn, worldPos);
+				}
 			}
 
 //			SoundManager.PlayNetworkedAtPos("FloorHit", worldPos, 1f);

@@ -17,9 +17,16 @@ public class TileChangeManager : NetworkBehaviour
 
 	public Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
+	private SubsystemManager subsystemManager;
+	/// <summary>
+	/// subsystem manager for these tiles
+	/// </summary>
+	public SubsystemManager SubsystemManager => subsystemManager;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
+		subsystemManager = GetComponent<SubsystemManager>();
 	}
 
 	public void InitServerSync(string data)
@@ -90,8 +97,9 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public bool RemoveTile(Vector3Int cellPosition, LayerType layerType)
+	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType)
 	{
+		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
 			InternalRemoveTile(cellPosition, layerType, false);
@@ -104,10 +112,10 @@ public class TileChangeManager : NetworkBehaviour
 			{
 				OnFloorOrPlatingRemoved.Invoke( cellPosition );
 			}
-			return true;
+			return layerTile;
 		}
 
-		return false;
+		return layerTile;
 	}
 
 	[Server]

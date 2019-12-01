@@ -117,15 +117,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
-				//Wire cutters should snip the grills instead:
-				if (weaponAttr.ItemName == "wirecutters" &&
-					tileMapDamage.Layer.LayerType == LayerType.Grills)
-				{
-					tileMapDamage.WireCutGrill((Vector2) transform.position + stabDirection);
-					StartCoroutine(AttackCoolDown());
-					return;
-				}
-
 				tileMapDamage.DoMeleeDamage((Vector2) transform.position + stabDirection,
 					gameObject, (int) weaponAttr.ServerHitDamage);
 

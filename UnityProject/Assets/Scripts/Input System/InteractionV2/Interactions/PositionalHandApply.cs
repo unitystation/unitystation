@@ -50,7 +50,7 @@ public class PositionalHandApply : TargetedInteraction
 	/// <summary>
 	/// Creates a PositionalHandApply interaction performed by the local player targeting the specified object.
 	/// </summary>
-	/// <param name="targetObject">object targeted by the interaction</param>
+	/// <param name="targetObject">object targeted by the interaction, null to target empty space</param>
 	/// <param name="targetVector">vector pointing from player to the position they are targeting, defaults
 	/// to where the mouse currently is.</param>
 	/// <returns></returns>

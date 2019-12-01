@@ -18,6 +18,10 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	[SerializeField]
 	private LayerType placeableOn;
 
+	[Tooltip("Particular tile this is placeable on. Leave empty to allow placing on any tile.")]
+	[SerializeField]
+	private LayerTile placeableOnlyOnTile;
+
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -28,9 +32,9 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, side);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
 		//open space
-		if (tileAtPosition == null) return placeableOn == LayerType.None;
+		if (tileAtPosition == null) return placeableOn == LayerType.None && placeableOnlyOnTile == null;
 		// placing on an existing tile
-		else return tileAtPosition.LayerType == placeableOn;
+		else return tileAtPosition.LayerType == placeableOn && (placeableOnlyOnTile == null || placeableOnlyOnTile == tileAtPosition);
 	}
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)

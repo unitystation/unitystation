@@ -3,6 +3,7 @@
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
 /// Allows an object to be attacked by melee. Supports being placed on tilemap layers for meleeing tiles
+/// TODO: Refactor to use IF2 rather than PNA
 /// </summary>
 public class Meleeable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
