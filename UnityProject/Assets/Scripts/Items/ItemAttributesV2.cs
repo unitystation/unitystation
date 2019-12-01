@@ -18,7 +18,7 @@ using Random = System.Random;
 [RequireComponent(typeof(Pickupable))] //Inventory interaction
 [RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 [RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-public class ItemAttributesV2 : Attributes, IItemAttributes
+public class ItemAttributesV2 : Attributes
 {
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
@@ -274,21 +274,6 @@ public class ItemAttributesV2 : Attributes, IItemAttributes
 		}
 	}
 	public string ItemName => name;
-
-	public float ServerHitDamage
-	{
-		get => hitDamage;
-		set => hitDamage = value;
-	}
-
-	public DamageType ServerDamageType
-	{
-		get => damageType;
-		set => damageType = value;
-	}
-
-	public bool CanConnectToTank { get; }
-
 
 	/// <summary>
 	/// CHange this item's size and sync it to clients
