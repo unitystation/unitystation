@@ -553,12 +553,15 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 	}
 
-	public void Mutation()
-	{
-		var tint = random.Next(plantData.MutatesInTo.Count);
-		var Data = plantData.MutatesInTo[tint];
-		plantData.MutateTo(Data);
-		SyncPlant(plantData.Name);
+    public void Mutation()
+ 	{
+		if (plantData.MutatesInTo.Count > 0)
+		{
+			var tint = random.Next(plantData.MutatesInTo.Count);
+			var Data = plantData.MutatesInTo[tint];
+			plantData.MutateTo(Data);
+			SyncPlant(plantData.Name);
+		}
 	}
 
 
