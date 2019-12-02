@@ -50,8 +50,8 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 			icon = poster.Type == PosterBehaviour.PosterType.Contraband ? contrabandSprite : legitSprite;
 		}
 
-		attributes.ServerSetItemName(posterName);
-		attributes.ServerSetItemDescription(desc);
+		attributes.ServerSetArticleName(posterName);
+		attributes.ServerSetArticleDescription(desc);
 		sprite.sprite = icon;
 	}
 
@@ -84,8 +84,8 @@ public class RolledPoster : MonoBehaviour, ICheckedInteractable<PositionalHandAp
 			icon = poster.Type == PosterBehaviour.PosterType.Contraband ? contrabandSprite : legitSprite;
 		}
 
-		attributes.ServerSetItemName(posterName);
-		attributes.ServerSetItemDescription(desc);
+		attributes.ServerSetArticleName(posterName);
+		attributes.ServerSetArticleDescription(desc);
 		sprite.sprite = icon;
 	}
 

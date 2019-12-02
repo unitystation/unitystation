@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 114299846275532744}
   - component: {fileID: 114400856156292984}
   - component: {fileID: 2295344816234763317}
+  - component: {fileID: 4389882494446682887}
+  - component: {fileID: -8093174316653623854}
   m_Layer: 10
   m_Name: Wet floor sign
   m_TagString: Untagged
@@ -177,7 +179,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 1949817233
 --- !u!114 &2295344816234763317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +195,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Wet floor sign
+  ArticleName: 
   initialDescription: Caution! Wet Floor!
+  ArticleDescription: 
   initialTraits: []
   initialSize: 2
   hitDamage: 1
@@ -208,6 +212,53 @@ MonoBehaviour:
   - warned
   - cautioned
   - smashed
+--- !u!114 &4389882494446682887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8093174316653623854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+  initialIntegrity: 100
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0
