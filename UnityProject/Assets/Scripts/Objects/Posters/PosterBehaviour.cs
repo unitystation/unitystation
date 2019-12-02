@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Mirror;
 using Newtonsoft.Json;
@@ -13,6 +14,10 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	[SyncVar (hook = nameof(SyncPosterType))]
 	public Posters posterVariant = Posters.Random;
+
+	public List<Poster> OfficialPosters = new List<Poster>();
+	public List<Poster> ContrabandPosters = new List<Poster>();
+	public List<Poster> OtherPosters = new List<Poster>();
 
 	private void Awake()
 	{
@@ -78,7 +83,8 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	private static void JsonImportInitialization()
+	[ContextMenu("Load all posters")]
+	private void JsonImportInitialization()
 	{
 		var json = (Resources.Load (@"Metadata\Posters") as TextAsset)?.ToString();
 		var jsonPosters = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, System.Object>>>(json);
@@ -102,19 +108,26 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 				poster.Type = (PosterType)int.Parse(entry.Value["type"].ToString());
 			}
 
+			poster.sprite = PosterSpriteLoader(poster.Icon);
+
 			switch (poster.Type)
 			{
 				case PosterType.None:
-					Globals.OtherPosters.Add(entry.Key, poster);
+					OtherPosters.Add(poster);
 					break;
 				case PosterType.Official:
-					Globals.OfficialPosters.Add(entry.Key, poster);
+					OfficialPosters.Add(poster);
 					break;
 				case PosterType.Contraband:
-					Globals.ContrabandPosters.Add(entry.Key, poster);
+					ContrabandPosters.Add(poster);
 					break;
 			}
 		}
+	}
+
+	Sprite PosterSpriteLoader(string icon)
+	{
+		return UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/objects/contraband/contraband_{icon}.png");
 	}
 
 	// Only interact with empty hands and wirecutter
@@ -176,119 +189,12 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		SyncPosterType(Posters.Ripped);
 	}
 
-
-	public class Poster
-	{
-		public string Name;
-		public string Description;
-		public string Icon;
-		public PosterType Type = PosterType.None;
-	}
-
 	private static class Globals
 	{
 		public static bool IsInitialised = false;
 		public static Dictionary<string, Poster> OfficialPosters = new Dictionary<string, Poster>();
 		public static Dictionary<string, Poster> ContrabandPosters = new Dictionary<string, Poster>();
 		public static Dictionary<string, Poster> OtherPosters = new Dictionary<string, Poster>();
-	}
-
-	public enum PosterType
-	{
-		None = -1,
-		Official = 0,
-		Contraband = 1
-	}
-
-	public enum Posters
-	{
-		Ripped,
-		Random,
-		RandomOfficial,
-		RandomContraband,
-		HereForYourSafety,
-		NanotrasenLogo,
-		Cleanliness,
-		HelpOthers,
-		Build,
-		BlessThisSpess,
-		Science,
-		Ian,
-		Obey,
-		Walk,
-		StateLaws,
-		LoveIan,
-		SpaceCops,
-		UeNo,
-		GetYourLegs,
-		DoNotQuestion,
-		WorkForAFuture,
-		SoftCapPopArt,
-		SafetyInternals,
-		SafetyEyeProtection,
-		SafetyReport,
-		ReportCrimes,
-		IonRifle,
-		FoamForceAd,
-		CohibaRobustoAd,
-		AnniversaryVintageReprint,
-		FruitBowl,
-		PdaAd,
-		Enlist,
-		NanomichiAd,
-		TwelveGauge,
-		HighClassMartini,
-		TheOwl,
-		NoErp,
-		WtfIsCo2,
-		FreeTonto,
-		AtmosiaIndependence,
-		FunPolice,
-		LustyXenomorph,
-		SyndicateRecruitment,
-		Clown,
-		Smoke,
-		GreyTide,
-		MissingGloves,
-		HackingGuide,
-		RipBadger,
-		AmbrosiaVulgaris,
-		DonutCorp,
-		Eat,
-		Tools,
-		Power,
-		SpaceCube,
-		CommunistState,
-		Lamarr,
-		BorgFancy1,
-		BorgFancy2,
-		Kss13,
-		RebelsUnite,
-		C20r,
-		HaveAPuff,
-		Revolver,
-		DDayPromo,
-		SyndicatePistol,
-		EnergySwords,
-		RedRum,
-		CC64kAd,
-		PunchShit,
-		TheGriffin,
-		Lizard,
-		FreeDrone,
-		BustyBackdoorXenoBabes6,
-		RobustSoftdrinks,
-		ShamblersJuice,
-		PwrGame,
-		SunKist,
-		SpaceCola,
-		SpaceUp,
-		Kudzu,
-		MaskedMen,
-		FreeKey,
-		BountyHunters,
-		UnityUniteToday,
-		UnityPlanet
 	}
 }
 
