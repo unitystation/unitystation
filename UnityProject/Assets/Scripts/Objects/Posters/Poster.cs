@@ -8,6 +8,7 @@ public class Poster
 	public string Description;
 	public string Icon;
 	public Sprite sprite;
+	public Posters PosterName;
 	public PosterType Type = PosterType.None;
 }
 

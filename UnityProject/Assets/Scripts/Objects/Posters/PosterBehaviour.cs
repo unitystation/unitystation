@@ -1,10 +1,6 @@
 
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Mirror;
-using Newtonsoft.Json;
 using UnityEngine;
 
 public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
@@ -19,115 +15,67 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public List<Poster> ContrabandPosters = new List<Poster>();
 	public List<Poster> OtherPosters = new List<Poster>();
 
-	private void Awake()
-	{
-		if (!Globals.IsInitialised)
-		{
-			JsonImportInitialization();
-			Globals.IsInitialised = true;
-		}
-	}
-
 	public override void OnStartClient()
 	{
-		SyncPosterType(this.posterVariant);
+		SyncPosterType(posterVariant);
 		base.OnStartClient();
-	}
-
-	public override void OnStartServer()
-	{
-		SyncPosterType(this.posterVariant);
-		base.OnStartServer();
 	}
 
 	private void SyncPosterType(Posters p)
 	{
 		posterVariant = p;
 
-		var posters = new List<string>();
-		if (posterVariant == Posters.RandomOfficial
-		    || posterVariant == Posters.Random)
-		{
-			posters.AddRange(Globals.OfficialPosters.Keys.ToList());
-		}
-		if (posterVariant == Posters.RandomContraband
-		    || posterVariant == Posters.Random)
-		{
-			posters.AddRange(Globals.ContrabandPosters.Keys.ToList());
-		}
-
-		if (posters.Count > 0)
-		{
-			Enum.TryParse(posters[UnityEngine.Random.Range(0, posters.Count)], out Posters variant);
-			posterVariant = variant;
-		}
-
-		Poster poster = null;
-		var posterName = posterVariant.ToString();
-		if (Globals.OfficialPosters.ContainsKey(posterName))
-		{
-			poster = Globals.OfficialPosters[posterName];
-		}
-		else if (Globals.ContrabandPosters.ContainsKey(posterName))
-		{
-			poster = Globals.ContrabandPosters[posterName];
-		}
-		else if (Globals.OtherPosters.ContainsKey(posterName))
-		{
-			poster = Globals.OtherPosters[posterName];
-		}
-
+		var poster = GetPoster(p);
 		if (poster != null)
 		{
-			sprite.sprite = Resources.Load<Sprite>("textures/objects/contraband/contraband_" + poster.Icon);
+			sprite.sprite = poster.sprite;
 		}
 	}
 
-	[ContextMenu("Load all posters")]
-	private void JsonImportInitialization()
+	public Poster GetPoster(Posters p)
 	{
-		var json = (Resources.Load (@"Metadata\Posters") as TextAsset)?.ToString();
-		var jsonPosters = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, System.Object>>>(json);
-		foreach (KeyValuePair<string, Dictionary<string, System.Object>> entry in jsonPosters)
+		if (p == Posters.Ripped)
 		{
-			var poster = new Poster();
-			if (entry.Value.ContainsKey("name"))
-			{
-				poster.Name = entry.Value["name"].ToString();
-			}
-			if (entry.Value.ContainsKey("desc"))
-			{
-				poster.Description = entry.Value["desc"].ToString();
-			}
-			if (entry.Value.ContainsKey("icon"))
-			{
-				poster.Icon = entry.Value["icon"].ToString();
-			}
-			if (entry.Value.ContainsKey("type"))
-			{
-				poster.Type = (PosterType)int.Parse(entry.Value["type"].ToString());
-			}
+			return OtherPosters[0];
+		}
 
-			poster.sprite = PosterSpriteLoader(poster.Icon);
-
-			switch (poster.Type)
+		if (p == Posters.Random)
+		{
+			if (Random.value < 0.5f)
 			{
-				case PosterType.None:
-					OtherPosters.Add(poster);
-					break;
-				case PosterType.Official:
-					OfficialPosters.Add(poster);
-					break;
-				case PosterType.Contraband:
-					ContrabandPosters.Add(poster);
-					break;
+				return OfficialPosters[Random.Range(0, OfficialPosters.Count - 1)];
+			}
+			else
+			{
+				return ContrabandPosters[Random.Range(0, OfficialPosters.Count - 1)];
 			}
 		}
-	}
 
-	Sprite PosterSpriteLoader(string icon)
-	{
-		return UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Textures/objects/contraband/contraband_{icon}.png");
+		if (p == Posters.RandomOfficial)
+		{
+			return OfficialPosters[Random.Range(0, OfficialPosters.Count - 1)];
+		}
+
+		if (p == Posters.RandomContraband)
+		{
+			return ContrabandPosters[Random.Range(0, OfficialPosters.Count - 1)];
+		}
+
+		var index = OfficialPosters.FindIndex(x => x.PosterName == p);
+		if (index != -1)
+		{
+			return OfficialPosters[index];
+		}
+		else
+		{
+			index = ContrabandPosters.FindIndex(x => x.PosterName == p);
+			if (index != -1)
+			{
+				return ContrabandPosters[index];
+			}
+		}
+
+		return null;
 	}
 
 	// Only interact with empty hands and wirecutter
@@ -187,14 +135,6 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		SoundManager.PlayNetworkedAtPos("PosterRipped", pos);
 
 		SyncPosterType(Posters.Ripped);
-	}
-
-	private static class Globals
-	{
-		public static bool IsInitialised = false;
-		public static Dictionary<string, Poster> OfficialPosters = new Dictionary<string, Poster>();
-		public static Dictionary<string, Poster> ContrabandPosters = new Dictionary<string, Poster>();
-		public static Dictionary<string, Poster> OtherPosters = new Dictionary<string, Poster>();
 	}
 }
 
