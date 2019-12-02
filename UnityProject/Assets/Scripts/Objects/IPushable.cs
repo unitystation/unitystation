@@ -10,6 +10,13 @@ public interface IPushable {
 	/// <returns>true if push was successful</returns>
 	bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
 	bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false );
+
+	/// <summary>
+	/// Push this in provided direction if it's under no gravity (or on a frictionless floor)
+	/// </summary>
+	/// <param name="direction"></param>
+	/// <param name="speed"></param>
+	void NewtonianMove(Vector2Int direction, float speed = Single.NaN);
 	/// Notify players about up-to-date state
 	void NotifyPlayers();
 	bool VisibleState { get; set; }

@@ -248,7 +248,8 @@ public static class Inventory
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
 		var holder = fromSlot.GetRootStorage();
-		var parentContainer = holder.GetComponent<ObjectBehaviour>()?.parentContainer;
+		var holderPushPull = holder.GetComponent<PushPull>();
+		var parentContainer = holderPushPull == null ? null : holderPushPull.parentContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
 		{
 			Logger.LogTraceFormat("throwing from slot {0} while in container {1}. Will drop instead.", Category.Inventory,
@@ -279,7 +280,7 @@ public static class Inventory
 					Logger.LogWarningFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
 					                      "Currently only ClosetControl is supported. Please add code to handle this case.", Category.Inventory,
 						fromSlot,
-						holder.GetComponent<ObjectBehaviour>().parentContainer.name);
+						holderPushPull.parentContainer.name);
 					return false;
 				}
 				//vanish it and set its parent container
@@ -290,7 +291,7 @@ public static class Inventory
 					Logger.LogTraceFormat("Dropping object {0} while in container {1}, but dropped object had" +
 					                      " no object behavior. Cannot drop.", Category.Inventory,
 						pickupable,
-						holder.GetComponent<ObjectBehaviour>().parentContainer.name);
+						holderPushPull.parentContainer.name);
 					return false;
 				}
 				closetControl.AddItem(objBehavior);
@@ -332,11 +333,7 @@ public static class Inventory
 			cnt.Throw(throwInfo);
 
 			//Simplified counter-impulse for players in space
-			var ps = holder.GetComponent<PlayerSync>();
-			if (ps != null && ps.IsWeightlessServer)
-			{
-				ps.Push(Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized));
-			}
+			holderPushPull.Pushable.NewtonianMove((-throwInfo.Trajectory).NormalizeTo2Int());
 		}
 		//NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		//already been removed from the inventory system.

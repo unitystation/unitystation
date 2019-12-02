@@ -62,26 +62,30 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (reagentContainer.CurrentCapacity >= reagentsPerUse && !safety)
+		if ( reagentContainer.CurrentCapacity < reagentsPerUse || safety )
 		{
-			Vector2	startPos = gameObject.AssumedWorldPosServer();
-			Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
-			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
-			StartCoroutine(Fire(positionList));
-
-			var points = GetParallelPoints(startPos, targetPos, true);
-			positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
-			StartCoroutine(Fire(positionList));
-
-			points = GetParallelPoints(startPos, targetPos, false);
-			positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
-			StartCoroutine(Fire(positionList));
-
-			Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
-
-			SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
-			reagentContainer.TakeReagents(reagentsPerUse);
+			return;
 		}
+
+		Vector2	startPos = gameObject.AssumedWorldPosServer();
+		Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
+		List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
+		StartCoroutine(Fire(positionList));
+
+		var points = GetParallelPoints(startPos, targetPos, true);
+		positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
+		StartCoroutine(Fire(positionList));
+
+		points = GetParallelPoints(startPos, targetPos, false);
+		positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
+		StartCoroutine(Fire(positionList));
+
+		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
+
+		SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
+		reagentContainer.TakeReagents(reagentsPerUse);
+
+		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}
 
 	/// <summary>

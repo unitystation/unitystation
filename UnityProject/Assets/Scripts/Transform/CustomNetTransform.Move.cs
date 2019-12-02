@@ -59,20 +59,44 @@ public partial class CustomNetTransform
 		}
 	}
 
+	public void NewtonianMove(Vector2Int direction, float speed = Single.NaN)
+	{
+		PushInternal(direction, true, speed);
+	}
+
+	/// <summary>
+	/// Push this thing in provided direction
+	/// </summary>
+	/// <param name="direction"></param>
+	/// <param name="speed"></param>
+	/// <param name="followMode">flag used when object is following its puller
+	/// (turns on tile snapping and removes player collision check)</param>
+	/// <returns>true if push was successful</returns>
 	[Server]
 	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
 	{
-		Vector3Int origin = Vector3Int.RoundToInt((Vector2)serverState.WorldPosition);
-		var roundedTarget = ((Vector2)serverState.WorldPosition + direction).RoundToInt();
+		return PushInternal(direction, isNewtonian: false, speed: speed, followMode: followMode);
+	}
+
+	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN,	bool followMode = false)
+	{
+		Vector3Int clampedDir = direction.NormalizeTo3Int();
+		Vector3Int origin = ServerPosition;
+		Vector3Int roundedTarget = origin + clampedDir;
 
 		if (!MatrixManager.IsPassableAt(origin, roundedTarget, true, includingPlayers: !followMode))
 		{
 			return false;
 		}
 
+		if (isNewtonian && !MatrixManager.IsSlipperyOrNoGravityAt(roundedTarget))
+		{
+			return false;
+		}
+
 		if (!followMode && MatrixManager.IsEmptyAt(roundedTarget, true))
 		{
-			serverState.Impulse = direction;
+			serverState.Impulse = (Vector3)clampedDir;
 		}
 		else
 		{
@@ -490,22 +514,15 @@ public partial class CustomNetTransform
 
 		serverState.WorldPosition = tempGoal;
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
-		if (!IsBeingThrown && !MatrixManager.IsNoGravityAt(Vector3Int.RoundToInt(tempOrigin), isServer : true))
+		if (!IsBeingThrown && !MatrixManager.IsSlipperyOrNoGravityAt(Vector3Int.RoundToInt(tempOrigin)))
 		{
-			//slippity slip
-			if (MatrixManager.IsSlipperyAt(tempOrigin.CutToInt()))
-			{
-				return;
-			}
-
-			//on-ground resistance
-
 			//no slide inertia for tile snapped objects like closets
 			if (IsTileSnap)
 			{
 				Stop();
 				return;
 			}
+			//on-ground resistance
 			serverState.Speed = serverState.Speed - (serverState.Speed * (Time.deltaTime * 10));
 			if (serverState.Speed <= 0.05f)
 			{

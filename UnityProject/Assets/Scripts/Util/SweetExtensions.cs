@@ -7,6 +7,11 @@ using Random = UnityEngine.Random;
 
 public static class SweetExtensions
 {
+	public static IPushable Pushable(this GameObject go)
+	{
+		return go.GetComponent<IPushable>();
+	}
+
 	public static ConnectedPlayer Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);

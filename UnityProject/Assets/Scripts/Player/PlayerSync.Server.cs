@@ -170,26 +170,48 @@ public partial class PlayerSync
 			DisappearFromWorldServer();
 		}
 	}
+	public void NewtonianMove(Vector2Int direction, float speed = Single.NaN)
+	{
+		PushInternal(direction, true, speed);
+	}
 
+	/// <summary>
 	/// Push player in direction.
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
+	/// </summary>
+	/// <param name="direction"></param>
+	/// <param name="speed"></param>
+	/// <param name="followMode">used when object is following its puller
+	/// (turns on tile snapping and removes player collision check)</param>
+	/// <returns>true if push was successful</returns>
 	[Server]
-	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false )
-	{ //player speed change not implemented yet
+	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
+	{
+		return PushInternal(direction, false, speed, followMode);
+	}
+
+	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false )
+	{
+		Vector3Int clampedDir = direction.NormalizeTo3Int();
 		if (direction == Vector2Int.zero)		{
 			return false;
 		}
 
-		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
-		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
+		Vector3Int origin = ServerPosition;
+		Vector3Int pushGoal = origin + clampedDir;
 
 		if ( !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
+		if (isNewtonian && !MatrixManager.IsSlipperyOrNoGravityAt(pushGoal))
+		{
+			return false;
+		}
+
 		if ( followMode ) {
-			playerDirectional.FaceDirection(Orientation.From(direction));
+			playerDirectional.FaceDirection(Orientation.From((Vector3)clampedDir));
 			//force directional update of client, since it can't predict where it's being pulled
 			var conn = playerScript.connectionToClient;
 			if (conn != null)
@@ -209,7 +231,7 @@ public partial class PlayerSync
 		//Note the client queue reset
 		var newState = new PlayerState {
 			MoveNumber = 0,
-			Impulse = direction,
+			Impulse = (Vector3)clampedDir,
 			MatrixId = newMatrix.Id,
 			WorldPosition = pushGoal,
 			ImportantFlightUpdate = true,
@@ -217,7 +239,7 @@ public partial class PlayerSync
 			IsFollowUpdate = followMode,
 			Speed = !float.IsNaN( speed ) && speed > 0 ? speed : PushPull.DEFAULT_PUSH_SPEED
 		};
-		serverLastDirection = direction;
+		serverLastDirection = (Vector3)clampedDir;
 		ServerState = newState;
 		SyncMatrix();
 		OnStartMove().Invoke( origin, pushGoal );
