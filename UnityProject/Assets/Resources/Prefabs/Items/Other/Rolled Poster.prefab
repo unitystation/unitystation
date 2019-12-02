@@ -247,10 +247,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12aa9f5931c4146a22a84bd038fa5b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   wallPrefab: {fileID: 5466995241280763689, guid: f421de3b3604142099b272d77faafeb6,
     type: 3}
   posterVariant: 1
-  sprite: {fileID: 0}
+  spriteRend: {fileID: 856240420534071871}
   legitSprite: {fileID: 21300000, guid: e3686f4fd49b3da478b3e180a674bd37, type: 3}
   contrabandSprite: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a, type: 3}
 --- !u!114 &4868340152356198127
@@ -302,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 96145b3165f5248b78302cd49658b0b2
   m_SceneId: 0
 --- !u!114 &1683984791003869720
 MonoBehaviour:
@@ -341,7 +343,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Poster
+  ArticleName: 
   initialDescription: A large piece of space-resistant printed paper.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+  ArticleDescription: 
   initialTraits: []
   initialSize: 2
   hitDamage: 0
