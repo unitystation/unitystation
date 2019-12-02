@@ -308,7 +308,7 @@ namespace IngameDebugConsole
 					var oxyTank = Spawn.ServerPrefab(oxyTankPrefab).GameObject;
 
 					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.DropOther);
-					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
 					player.Script.Equipment.IsInternalsEnabled = true;

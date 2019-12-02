@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  initialContents: {fileID: 0}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: ad3a97b221bc04fbcbb639ae96b48066
+  m_AssetId: 
   m_SceneId: 0
 --- !u!1 &1660108514398418
 GameObject:
