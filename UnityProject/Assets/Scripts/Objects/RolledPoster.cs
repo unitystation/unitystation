@@ -12,6 +12,8 @@ public class RolledPoster : NetworkBehaviour, ICheckedInteractable<PositionalHan
 
 	public override void OnStartServer()
 	{
+		var startPoster = wallPrefab.GetComponent<PosterBehaviour>().GetPoster(posterVariant);
+		posterVariant = startPoster.PosterName;
 		SyncPosterType(posterVariant);
 		base.OnStartServer();
 	}

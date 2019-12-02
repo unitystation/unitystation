@@ -17,6 +17,8 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public override void OnStartClient()
 	{
+		var starterPoster = GetPoster(posterVariant);
+		posterVariant = starterPoster.PosterName;
 		SyncPosterType(posterVariant);
 		base.OnStartClient();
 	}
