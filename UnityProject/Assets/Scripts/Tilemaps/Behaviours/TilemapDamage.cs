@@ -231,7 +231,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		DoMeleeDamage(new Vector2(worldTargetPos.x, worldTargetPos.y), throwInfo.ThrownBy, dmgAmt);
 	}
 
-	//Only works serverside:
+	/// <summary>
+	/// Only works server side, applies the indicated melee damage to the tile, respecting armor.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <param name="originator"></param>
+	/// <param name="dmgAmt"></param>
 	public void DoMeleeDamage(Vector2 worldPos, GameObject originator, int dmgAmt)
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(worldPos);
@@ -243,10 +248,22 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return DoDamageInternal( cellPos, dmgAmt, worldPos, AttackType.Melee ); //idk if collision can be classified as "melee"
 	}
 
-	/// <returns>Unapplied damage</returns>
+	/// <returns>Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled
+	/// damage done.</returns>
 	private float DoDamageInternal( Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType )
 	{
 		MetaDataNode data = metaDataLayer.Get( cellPos );
+
+		//look up layer tile so we can calculate damage
+		var layerTile = metaTileMap.GetTile(cellPos);
+		if (layerTile is BasicTile basicTile)
+		{
+			//TODO: Incorporate more resistance, not just indestructible
+			//determine damage resistance
+			if (basicTile.Resistances.Indestructable) return 0;
+			dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
+		}
+
 
 		if ( Layer.LayerType == LayerType.Walls )
 		{
@@ -372,10 +389,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 		else if (data.Damage >= MAX_FLOOR_DAMAGE)
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
+			var removed = tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
 			if ( Random.value < 0.25f )
 			{
-				CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), null); // TODO parent ?
+				if (removed is BasicTile basicTile)
+				{
+					var toSpawn = basicTile.SpawnOnDeconstruct;
+					Spawn.ServerPrefab(toSpawn, worldPos);
+				}
 			}
 
 //			SoundManager.PlayNetworkedAtPos("FloorHit", worldPos, 1f);

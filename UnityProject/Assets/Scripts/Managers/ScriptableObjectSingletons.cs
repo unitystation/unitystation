@@ -15,4 +15,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public PlayerCustomisationDataSOs PlayerCustomisationDataSOs;
 	public PlayerTextureDataSOs PlayerTextureDataSOs;
 	public DefaultPlantDataSOs DefaultPlantDataSOs;
+	public CommonPrefabs CommonPrefabs;
 }

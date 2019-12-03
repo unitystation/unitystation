@@ -19,14 +19,8 @@ public class DevSpawnMessage : ClientMessage
 		//TODO: Validate if player is allowed to spawn things, check if they have admin privs.
 		//For now we will let anyone spawn.
 
-		var pos = WorldPosition.RoundToInt();
-		var isPassable = MatrixManager.IsPassableAt(pos, true);
-		var isTableAt = MatrixManager.IsTableAt(pos, true);
-
-		if (isPassable || isTableAt)
-		{
-			Spawn.ServerPrefab(Name, WorldPosition);
-		}
+		//no longer checks impassability, spawn anywhere, go hog wild.
+		Spawn.ServerPrefab(Name, WorldPosition);
 
 		yield return null;
 	}

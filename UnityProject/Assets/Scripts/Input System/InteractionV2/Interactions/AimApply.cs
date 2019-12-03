@@ -53,8 +53,8 @@ public class AimApply : Interaction
 	/// or ending.</param>
 	/// <param name="targetVector">vector pointing from shooter to the spot they are targeting - should NOT be normalized. Set to
 	/// Vector2.zero if aiming at self.</param>
-	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState, Vector2 targetVector) :
-		base(performer, handObject)
+	private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState, Vector2 targetVector, Intent intent) :
+		base(performer, handObject, intent)
 	{
 		this.targetVector = targetVector;
 		this.handSlot = handSlot;
@@ -88,7 +88,7 @@ public class AimApply : Interaction
 		return new AimApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
 			UIManager.Hands.CurrentSlot.ItemSlot,
 			buttonState,
-			selfAim ? Vector2.zero : targetVector);
+			selfAim ? Vector2.zero : targetVector, UIManager.CurrentIntent);
 	}
 
 	/// <summary>
@@ -104,9 +104,10 @@ public class AimApply : Interaction
 	/// the message processing logic. Should match HandSlot.ForName(SentByPlayer.Script.playerNetworkActions.activeHand).</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	/// <param name="mouseButtonState">state of the mouse button</param>
-	public static AimApply ByClient(GameObject clientPlayer, Vector2 targetVector, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState)
+	public static AimApply ByClient(GameObject clientPlayer, Vector2 targetVector, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState,
+		Intent intent)
 	{
-		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, targetVector);
+		return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, targetVector, intent);
 	}
 }
 

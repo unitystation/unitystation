@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {
-	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null);
+	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, Intent.Help);
 
 	private ItemSlot fromSlot;
 	private ItemSlot targetSlot;
@@ -45,8 +45,8 @@ public class InventoryApply : TargetedInteraction
 	/// <param name="targetSlot">object that the player applying the used object to</param>
 	/// <param name="fromSlot">hand slot if clicking on something in inventory, otherwise slot
 	/// the item is being dragged from</param>
-	private InventoryApply(GameObject performer, ItemSlot targetSlot, ItemSlot fromSlot) :
-		base(performer, fromSlot?.ItemObject, targetSlot?.ItemObject)
+	private InventoryApply(GameObject performer, ItemSlot targetSlot, ItemSlot fromSlot, Intent intent) :
+		base(performer, fromSlot?.ItemObject, targetSlot?.ItemObject, intent)
 	{
 		this.fromSlot = fromSlot;
 		this.targetSlot = targetSlot;
@@ -66,7 +66,7 @@ public class InventoryApply : TargetedInteraction
 			return Invalid;
 		}
 		return new InventoryApply(PlayerManager.LocalPlayer,
-			targetObjectSlot, fromSlot);
+			targetObjectSlot, fromSlot, UIManager.CurrentIntent);
 	}
 
 	/// <summary>
@@ -83,8 +83,8 @@ public class InventoryApply : TargetedInteraction
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 
 	public static InventoryApply ByClient(GameObject clientPlayer, ItemSlot targetObjectSlot,
-		ItemSlot fromSlot)
+		ItemSlot fromSlot, Intent intent)
 	{
-		return new InventoryApply(clientPlayer, targetObjectSlot, fromSlot);
+		return new InventoryApply(clientPlayer, targetObjectSlot, fromSlot, intent);
 	}
 }

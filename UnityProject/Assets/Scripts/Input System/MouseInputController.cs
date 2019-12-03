@@ -321,6 +321,14 @@ public class MouseInputController : MonoBehaviour
 			{
 				if (CheckHandApply(applyTarget)) return true;
 			}
+			//check empty space positional hand apply
+			var posHandApply = PositionalHandApply.ByLocalPlayer(null);
+			if (posHandApply.HandObject != null)
+			{
+				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()
+					.Where(c => c != null && (c as MonoBehaviour).enabled);
+				if (InteractionUtils.ClientCheckAndTrigger(handAppliables, posHandApply) != null) return true;
+			}
 		}
 
 		return false;

@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
 /// </summary>
-public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>
+public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>
 {
 	[Tooltip("Amount initially in the stack when this is spawned.")]
 	[SerializeField]
@@ -26,6 +26,9 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 	/// </summary>
 	[SyncVar(hook = nameof(SyncAmount))]
 	private int amount;
+	//server side, indicates if our amount been initialized after our initial spawn yet,
+	//used so auto-stacking works for things when they are spawned simultaneously on top of each other
+	private bool amountInit;
 
 	private Pickupable pickupable;
 	private GameObject prefab;
@@ -55,15 +58,8 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		//if we are being pulled, combine the stacks with any on the ground under us.
 		if (pushPull.IsBeingPulled)
 		{
-			foreach (var stackable in registerTile.Matrix.Get<Stackable>(newLocalPos, true))
-			{
-				if (stackable == this) continue;
-				if (stackable.prefab == prefab)
-				{
-					//combine
-					ServerCombine(stackable);
-				}
-			}
+			//check for stacking with things on the ground
+			ServerStackOnGround(newLocalPos);
 		}
 	}
 
@@ -79,13 +75,39 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
+		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
 		SyncAmount(initialAmount);
+		amountInit = true;
+		//check for stacking with things on the ground
+		ServerStackOnGround(registerTile.LocalPositionServer);
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		Logger.LogTraceFormat("Despawning {0}", Category.Inventory, GetInstanceID());
+		amountInit = false;
+	}
+
+	private void ServerStackOnGround(Vector3Int localPosition)
+	{
+		//stacks with things on the same tile
+		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
+		{
+			if (stackable == this) continue;
+			if (stackable.prefab == prefab && stackable.amountInit)
+			{
+				//combine
+				ServerCombine(stackable);
+			}
+		}
 	}
 
 	private void SyncAmount(int newAmount)
 	{
+		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Inventory, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
+
 	}
 
 	/// <summary>
@@ -126,16 +148,31 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		}
 		var amountToConsume = Math.Min(toAdd.amount, maxAmount - amount);
 		if (amountToConsume <= 0) return;
-
+		Logger.LogTraceFormat("Combining {0} <- {1}", Category.Inventory, GetInstanceID(), toAdd.GetInstanceID());
 		toAdd.ServerConsume(amountToConsume);
 		SyncAmount(amount + amountToConsume);
 	}
 
-	private bool CanCombine(GameObject toAdd)
+	/// <summary>
+	/// Returns true iff other can be added to this stackable.
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
+	public bool CanAccommodate(GameObject other)
+	{
+		if (other == null) return false;
+		return CanAccommodate(other.GetComponent<Stackable>());
+
+	}
+	/// <summary>
+	/// Returns true iff toAdd can be added to this stackable.
+	/// </summary>
+	/// <param name="toAdd"></param>
+	/// <returns></returns>
+	public bool CanAccommodate(Stackable toAdd)
 	{
 		if (toAdd == null) return false;
-		var otherStack = toAdd.GetComponent<Stackable>();
-		return otherStack != null && otherStack.prefab == prefab && amount < maxAmount;
+		return toAdd != null && toAdd.prefab == prefab && amount < maxAmount;
 	}
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -150,7 +187,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && amount > 1) return true;
 
 		//combining another stack with this stack.
-		if (CanCombine(interaction.UsedObject)) return true;
+		if (CanAccommodate(interaction.UsedObject)) return true;
 
 		return false;
 	}
@@ -167,7 +204,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 			Inventory.ServerAdd(single, interaction.FromSlot);
 			ServerConsume(1);
 		}
-		else if (CanCombine(interaction.UsedObject))
+		else if (CanAccommodate(interaction.UsedObject))
 		{
 			//combining the stacks
 			var sourceStackable = interaction.UsedObject.GetComponent<Stackable>();
@@ -184,7 +221,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		//same type is being targeted
 		if (interaction.HandObject != gameObject) return false;
 
-		if (CanCombine(interaction.TargetObject)) return true;
+		if (CanAccommodate(interaction.TargetObject)) return true;
 
 		return false;
 	}
