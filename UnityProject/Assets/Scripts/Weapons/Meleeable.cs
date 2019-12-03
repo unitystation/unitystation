@@ -8,16 +8,23 @@ using UnityEngine;
 public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	/// <summary>
-	/// Which layers are allowed to be attacked on tiles
+	/// Which layers are allowed to be attacked on tiles regardless of intent
 	/// </summary>
 	private static readonly HashSet<LayerType> attackableLayers = new HashSet<LayerType>(
 	new[] {
-		LayerType.Base,
-		LayerType.Floors,
 		LayerType.Grills,
 		LayerType.Walls,
 		LayerType.Windows
 	});
+
+	/// <summary>
+	/// Which layers are allowed to be attacked on tiles only on harm intent
+	/// </summary>
+	private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>(
+		new[] {
+			LayerType.Base,
+			LayerType.Floors
+		});
 
 	//Cache these on start for checking at runtime
 	private GameObject gameObjectRoot;
@@ -49,7 +56,10 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		if (interactableTiles != null)
 		{
 			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
-			return attackableLayers.Contains(tileAt.LayerType);
+			if (!attackableLayers.Contains(tileAt.LayerType))
+			{
+				return interaction.Intent == Intent.Harm && harmIntentOnlyAttackableLayers.Contains(tileAt.LayerType);
+			}
 		}
 
 		return true;

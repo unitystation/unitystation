@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
 /// </summary>
-public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>
+public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>
 {
 	[Tooltip("Amount initially in the stack when this is spawned.")]
 	[SerializeField]
@@ -26,6 +26,9 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 	/// </summary>
 	[SyncVar(hook = nameof(SyncAmount))]
 	private int amount;
+	//server side, indicates if our amount been initialized after our initial spawn yet,
+	//used so auto-stacking works for things when they are spawned simultaneously on top of each other
+	private bool amountInit;
 
 	private Pickupable pickupable;
 	private GameObject prefab;
@@ -72,9 +75,17 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
+		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
 		SyncAmount(initialAmount);
+		amountInit = true;
 		//check for stacking with things on the ground
 		ServerStackOnGround(registerTile.LocalPositionServer);
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		Logger.LogTraceFormat("Despawning {0}", Category.Inventory, GetInstanceID());
+		amountInit = false;
 	}
 
 	private void ServerStackOnGround(Vector3Int localPosition)
@@ -83,7 +94,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
 		{
 			if (stackable == this) continue;
-			if (stackable.prefab == prefab)
+			if (stackable.prefab == prefab && stackable.amountInit)
 			{
 				//combine
 				ServerCombine(stackable);
@@ -93,8 +104,10 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 
 	private void SyncAmount(int newAmount)
 	{
+		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Inventory, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
+
 	}
 
 	/// <summary>
@@ -135,7 +148,7 @@ public class Stackable : NetworkBehaviour, IServerSpawn, ICheckedInteractable<In
 		}
 		var amountToConsume = Math.Min(toAdd.amount, maxAmount - amount);
 		if (amountToConsume <= 0) return;
-
+		Logger.LogTraceFormat("Combining {0} <- {1}", Category.Inventory, GetInstanceID(), toAdd.GetInstanceID());
 		toAdd.ServerConsume(amountToConsume);
 		SyncAmount(amount + amountToConsume);
 	}

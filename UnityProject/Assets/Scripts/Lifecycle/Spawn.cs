@@ -276,20 +276,28 @@ public static class Spawn
 						}
 					}
 				}
-
-				//fire hooks for all spawned objects
-				if (spawnedObjects.Count == 1)
-				{
-					_ServerFireClientServerSpawnHooks(SpawnResult.Single(info, spawnedObjects[0]));
-				}
-				else
-				{
-					_ServerFireClientServerSpawnHooks(SpawnResult.Multiple(info, spawnedObjects));
-				}
+			}
+			else
+			{
+				return SpawnResult.Fail(info);
 			}
 		}
 
-		return SpawnResult.Multiple(info, spawnedObjects);
+		//fire hooks for all spawned objects
+		SpawnResult spawnResult = null;
+		if (spawnedObjects.Count == 1)
+		{
+			spawnResult = SpawnResult.Single(info, spawnedObjects[0]);
+
+		}
+		else
+		{
+			spawnResult = SpawnResult.Multiple(info, spawnedObjects);
+		}
+
+		_ServerFireClientServerSpawnHooks(spawnResult);
+
+		return spawnResult;
 
 	}
 
@@ -401,6 +409,7 @@ public static class Spawn
 			//pool exists and has unused instances
 			int index = pools[prefab].Count - 1;
 			tempObject = pools[prefab][index];
+			Logger.LogTraceFormat("Loading {0} from pool Pooled:{1} Index:{2}", Category.ItemSpawn, tempObject.GetInstanceID(), pools[prefab].Count, index);
 			pools[prefab].RemoveAt(index);
 			tempObject.SetActive(true);
 
@@ -460,6 +469,7 @@ public static class Spawn
 		}
 
 		pools[prefab].Add(target);
+		Logger.LogTraceFormat("Added {0} to pool, Pooled: {1} Index:{2}", Category.ItemSpawn, target.GetInstanceID(), pools[prefab].Count, pools[prefab].Count-1);
 	}
 
 

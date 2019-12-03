@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -9,9 +10,10 @@ using UnityEngine.Tilemaps;
 public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 
+	[FormerlySerializedAs("entries")]
 	[Tooltip("Defines each possible way this item can be placed as a tile.")]
 	[SerializeField]
-	private List<PlaceableTileEntry> entries;
+	private List<PlaceableTileEntry> waysToPlace;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -26,7 +28,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, side);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
 
-		foreach (var entry in entries)
+		foreach (var entry in waysToPlace)
 		{
 			//open space
 			if (tileAtPosition == null && entry.placeableOn == LayerType.None && entry.placeableOnlyOnTile == null)
@@ -51,7 +53,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
 		//which way are we placing it
-		foreach (var entry in entries)
+		foreach (var entry in waysToPlace)
 		{
 			//open space
 			if (tileAtPosition == null && entry.placeableOn == LayerType.None && entry.placeableOnlyOnTile == null)

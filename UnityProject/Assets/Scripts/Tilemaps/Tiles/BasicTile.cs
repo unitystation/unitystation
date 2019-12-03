@@ -21,6 +21,9 @@ public abstract class BasicTile : LayerTile
 	public float MaxHealth;
 	public TileState[] HealthStates;
 
+	public Resistances Resistances;
+	public Armor Armor;
+
 	[Tooltip("What object to spawn when it's deconstructed or destroyed. " +
 	         "Can leave blank for floors to use default floor tile. Ignored if" +
 	         " this tile is a wall.")]

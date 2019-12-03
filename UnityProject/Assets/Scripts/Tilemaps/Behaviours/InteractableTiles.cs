@@ -93,8 +93,6 @@ public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalH
 	/// <returns></returns>
 	public Vector3Int WorldToCell(Vector2 worldPosition)
 	{
-		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPosition).RoundToInt();
-		pos.z = 0;
 		return baseLayer.WorldToCell(worldPosition);
 	}
 

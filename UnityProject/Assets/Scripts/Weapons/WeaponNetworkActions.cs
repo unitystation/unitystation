@@ -132,10 +132,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			if (tileMapDamage != null)
 			{
 				var worldPos = (Vector2) transform.position + attackDirection;
+				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
 				tileMapDamage.DoMeleeDamage(worldPos,
 					gameObject, (int) damage);
 				didHit = true;
-				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
+
 			}
 		}
 		else

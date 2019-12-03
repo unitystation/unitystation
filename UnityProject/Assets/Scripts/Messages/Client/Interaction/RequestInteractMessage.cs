@@ -266,6 +266,7 @@ public class RequestInteractMessage : ClientMessage
 			var casted = interaction as PositionalHandApply;
 			msg.TargetObject = casted.TargetObject.NetId();
 			msg.TargetVector = casted.TargetVector;
+			msg.TargetBodyPart = casted.TargetBodyPart;
 		}
 		else if (typeof(T) == typeof(HandApply))
 		{
