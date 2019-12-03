@@ -77,7 +77,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			{
 				EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 				string descriptor = player.Script.characterSettings.PossessivePronoun();
-				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", (Vector3)TransformState.HiddenPos);
+				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", (Vector3)registerPlayer.WorldPositionServer);
 			}
 
 			PlayerDeathMessage.Send(gameObject);
