@@ -352,8 +352,8 @@ public static class Inventory
 			//Inertia drop works only if player has external impulse (space floating etc.)
 			cnt.Throw(throwInfo);
 
-			//Simplified counter-impulse for players in space
-			holderPushPull.Pushable.NewtonianMove((-throwInfo.Trajectory).NormalizeTo2Int());
+			//Counter-impulse for players in space
+			holderPushPull.Pushable.NewtonianMove((-throwInfo.Trajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
 		}
 		//NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		//already been removed from the inventory system.

@@ -27,14 +27,8 @@ public partial class PlayerSync
 	/// Last move direction, used for space walking simulation
 	private Vector2 LastDirection
 	{
-		get { return lastDirection; }
-		set
-		{
-			//				if ( value == Vector2.zero ) {
-			//					Logger.Log( $"Setting client LastDirection to {value}!" );
-			//				}
-			lastDirection = value;
-		}
+		get => lastDirection;
+		set => lastDirection = value.NormalizeToInt();
 	}
 
 	public bool CanPredictPush => ClientPositionReady;
@@ -597,7 +591,7 @@ public partial class PlayerSync
 				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
-					CheckAndDoSwap(worldPos, lastDirection*-1, isServer: false);
+					CheckAndDoSwap(worldPos, LastDirection*-1, isServer: false);
 				}
 
 			}

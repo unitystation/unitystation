@@ -193,25 +193,78 @@ public partial class PlayerSync
 
 	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false )
 	{
-		Vector3Int clampedDir = direction.NormalizeTo3Int();
-		if (direction == Vector2Int.zero)		{
+		if (!float.IsNaN(speed) && speed <= 0)
+		{
+			return false;
+		}
+
+		speed = float.IsNaN( speed ) ? PushPull.DEFAULT_PUSH_SPEED : speed;
+
+		direction = direction.Normalize();
+
+		if (direction == Vector2Int.zero)
+		{
 			return false;
 		}
 
 		Vector3Int origin = ServerPosition;
-		Vector3Int pushGoal = origin + clampedDir;
+		Vector3Int pushGoal = origin + direction.To3Int();
 
 		if ( !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
-		if (isNewtonian && !MatrixManager.IsSlipperyOrNoGravityAt(pushGoal))
+		float uncorrectedSpeed = speed;
+
+		if (isNewtonian)
 		{
-			return false;
+			if (!MatrixManager.IsSlipperyOrNoGravityAt(pushGoal))
+			{
+				return false;
+			}
+
+			if (consideredFloatingServer)
+			{
+				//Correct direction and speed if already flying:
+				//speed and directions are combined in Newtonian movement
+				var currentFlyingDirection = serverState.Impulse;
+				var currentFlyingSpeed = serverState.speed;
+
+				Vector2 correctedDirAndSpeed = (Vector2)direction*speed + currentFlyingDirection*currentFlyingSpeed;
+				Vector2Int correctedDirection = Vector2Int.FloorToInt(correctedDirAndSpeed).Normalize();
+
+				float correctedSpeed = currentFlyingSpeed;
+
+				bool xChanged = direction.x != 0;
+				bool yChanged = direction.y != 0;
+
+				if (xChanged && yChanged)
+				{
+					correctedSpeed = (Mathf.Abs(correctedDirAndSpeed.x) + Mathf.Abs(correctedDirAndSpeed.y)) / 2f;
+				}
+				else
+				{
+					if (xChanged)
+					{
+						correctedSpeed = Mathf.Abs(correctedDirAndSpeed.x);
+					}
+					if (yChanged)
+					{
+						correctedSpeed = Mathf.Abs(correctedDirAndSpeed.y);
+					}
+				}
+
+
+				Logger.LogTraceFormat("Combined {0}@{1} with current {2}@{3} into {4}@{5}", Category.PushPull,
+					direction, speed, currentFlyingDirection, currentFlyingSpeed, correctedDirection, correctedSpeed
+					);
+				direction = correctedDirection;
+				speed = correctedSpeed;
+			}
 		}
 
 		if ( followMode ) {
-			playerDirectional.FaceDirection(Orientation.From((Vector3)clampedDir));
+			playerDirectional.FaceDirection(Orientation.From(direction));
 			//force directional update of client, since it can't predict where it's being pulled
 			var conn = playerScript.connectionToClient;
 			if (conn != null)
@@ -220,7 +273,7 @@ public partial class PlayerSync
 			}
 
 		}
-		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
+		else if ( uncorrectedSpeed >= playerMove.PushFallSpeed )
 		{
 			registerPlayer.Slip(true);
 		}
@@ -231,15 +284,15 @@ public partial class PlayerSync
 		//Note the client queue reset
 		var newState = new PlayerState {
 			MoveNumber = 0,
-			Impulse = (Vector3)clampedDir,
+			Impulse = direction,
 			MatrixId = newMatrix.Id,
 			WorldPosition = pushGoal,
 			ImportantFlightUpdate = true,
 			ResetClientQueue = true,
 			IsFollowUpdate = followMode,
-			Speed = !float.IsNaN( speed ) && speed > 0 ? speed : PushPull.DEFAULT_PUSH_SPEED
+			Speed = speed
 		};
-		serverLastDirection = (Vector3)clampedDir;
+		serverLastDirection = direction;
 		ServerState = newState;
 		SyncMatrix();
 		OnStartMove().Invoke( origin, pushGoal );

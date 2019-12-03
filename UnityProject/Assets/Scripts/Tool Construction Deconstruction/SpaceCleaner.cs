@@ -25,7 +25,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (!(reagentContainer.CurrentCapacity >= reagentsPerUse))
+		if (reagentContainer.CurrentCapacity < reagentsPerUse)
 		{
 			return;
 		}
@@ -40,7 +40,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		reagentContainer.TakeReagents(reagentsPerUse);
 		SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
 
-		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
+		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}
 
 	private IEnumerator Fire(List<Vector3Int> positionList)

@@ -80,6 +80,11 @@ public partial class CustomNetTransform
 
 	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN,	bool followMode = false)
 	{
+		if (!float.IsNaN(speed) && speed <= 0)
+		{
+			return false;
+		}
+
 		Vector3Int clampedDir = direction.NormalizeTo3Int();
 		Vector3Int origin = ServerPosition;
 		Vector3Int roundedTarget = origin + clampedDir;
