@@ -290,8 +290,6 @@ namespace IngameDebugConsole
 				}
 			}
 		}
-		private static GameObject maskPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Clothing/Resources/BreathMask");
-		private static GameObject oxyTankPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Other/Resources/Emergency Oxygen Tank");
 #if UNITY_EDITOR
 		[MenuItem("Networking/Make players EVA-ready")]
 #endif
@@ -302,13 +300,13 @@ namespace IngameDebugConsole
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
 
-					var helmet = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit helmet"]).GameObject;
-					var suit = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit"]).GameObject;
-					var mask = Spawn.ServerPrefab(maskPrefab).GameObject;
-					var oxyTank = Spawn.ServerPrefab(oxyTankPrefab).GameObject;
+					var helmet = Spawn.ServerPrefab("MiningHardsuitHelmet").GameObject;
+					var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
+					var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
+					var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
 
 					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.DropOther);
-					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
 					player.Script.Equipment.IsInternalsEnabled = true;

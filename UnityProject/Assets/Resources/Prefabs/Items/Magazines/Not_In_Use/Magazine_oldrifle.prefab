@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61745597898944472}
   - component: {fileID: 114619027798038404}
   - component: {fileID: 114261316733659766}
-  - component: {fileID: 114599757676237080}
   - component: {fileID: 114439136676832456}
   - component: {fileID: 114816926707057784}
   - component: {fileID: 114538894782590636}
@@ -21,6 +20,8 @@ GameObject:
   - component: {fileID: 114523532891372538}
   - component: {fileID: 114925558378131202}
   - component: {fileID: 114196176522137120}
+  - component: {fileID: -1562096348055188030}
+  - component: {fileID: 1023684866978935987}
   m_Layer: 10
   m_Name: Magazine_oldrifle
   m_TagString: Untagged
@@ -83,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114261316733659766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,37 +100,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
---- !u!114 &114599757676237080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647818612575464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: 
-  itemDescription: 
-  itemType: 0
-  size: 0
-  spriteType: 0
-  CanConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114439136676832456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,11 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114538894782590636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +146,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114571543457170334
 MonoBehaviour:
@@ -197,10 +163,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114968006932527866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +222,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114196176522137120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,14 +235,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &-1562096348055188030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647818612575464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 0
+--- !u!114 &1023684866978935987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647818612575464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: 
+  initialDescription: 
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1700503947155756
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +344,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

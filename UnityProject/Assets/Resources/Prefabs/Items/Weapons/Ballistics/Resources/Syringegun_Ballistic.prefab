@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4398252719161996}
   - component: {fileID: 61480942362878350}
   - component: {fileID: 114897772918556958}
-  - component: {fileID: 114422418503778170}
   - component: {fileID: 114968577397713170}
   - component: {fileID: 114431891858334274}
   - component: {fileID: 114157249458066654}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114400617428878908}
   - component: {fileID: 114509340295563454}
   - component: {fileID: 8061477873092044181}
+  - component: {fileID: -2076332915920908079}
   m_Layer: 10
   m_Name: Syringegun_Ballistic
   m_TagString: Untagged
@@ -165,35 +165,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114422418503778170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1858738269464528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Syringegun
-  itemDescription: 
-  initialTraits: []
-  size: 1
-  spriteType: 2
-  canConnectToTank: 0
-  hitDamage: 4
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114968577397713170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 1c3f22cd692e64fb3b8686f0a767adbe
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &8061477873092044181
 MonoBehaviour:
@@ -386,3 +357,30 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
+--- !u!114 &-2076332915920908079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858738269464528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Syringegun
+  initialDescription: 
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 4
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

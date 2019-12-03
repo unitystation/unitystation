@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61971947700175018}
   - component: {fileID: 114984338183234520}
   - component: {fileID: 114430572169083370}
-  - component: {fileID: 114513551998188914}
   - component: {fileID: 114025015166426706}
   - component: {fileID: 114875793717811474}
   - component: {fileID: 114411233989225362}
@@ -22,6 +21,7 @@ GameObject:
   - component: {fileID: 114005969231585682}
   - component: {fileID: 114539844613875522}
   - component: {fileID: 114752513315490410}
+  - component: {fileID: 8138016183734406879}
   m_Layer: 10
   m_Name: Magazine_10mmbox
   m_TagString: Untagged
@@ -101,35 +101,6 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isNotPushable: 0
---- !u!114 &114513551998188914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1299393041543980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: 
-  itemDescription: 
-  initialTraits: []
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114025015166426706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,8 +259,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: a4779946f30fe4608ad9a8a35f2c26be
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &8138016183734406879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299393041543980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: 
+  initialDescription: 
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1829793713612658
 GameObject:
   m_ObjectHideFlags: 0

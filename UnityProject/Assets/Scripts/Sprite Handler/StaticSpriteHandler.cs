@@ -8,41 +8,6 @@ using Newtonsoft.Json;
 
 public static class StaticSpriteHandler
 {
-	public static SpriteData SetUpSheetForClothingData(ClothingData ClothingData, Clothing Clothing)
-	{
-		var SpriteInfos = new SpriteData();
-		SpriteInfos.List = new List<List<List<SpriteDataHandler.SpriteInfo>>>();
-		int c = 0;
-
-		SpriteInfos.List.Add(CompleteSpriteSetup(ClothingData.Base.Equipped));
-		Clothing.VariantStore[ClothingVariantType.Default] = c;
-		c++;
-
-		if (ClothingData.Base_Adjusted.Equipped.Texture != null)
-		{
-			SpriteInfos.List.Add(CompleteSpriteSetup(ClothingData.Base_Adjusted.Equipped));
-			Clothing.VariantStore[ClothingVariantType.Tucked] = c;
-			c++;
-		}
-
-		if (ClothingData.DressVariant.Equipped.Texture != null)
-		{
-			SpriteInfos.List.Add(CompleteSpriteSetup(ClothingData.DressVariant.Equipped));
-			Clothing.VariantStore[ClothingVariantType.Skirt] = c;
-			c++;
-		}
-		if (ClothingData.Variants.Count > 0)
-		{
-			foreach (var Variant in ClothingData.Variants)
-			{
-				SpriteInfos.List.Add(CompleteSpriteSetup(Variant.Equipped));
-				Clothing.VariantStore[ClothingVariantType.Skirt] = c;
-				c++;
-			}
-		}
-		return (SpriteInfos);
-	}
-
 	public static List<List<SpriteDataHandler.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
 	{
 		var SpriteInfos = new List<List<SpriteDataHandler.SpriteInfo>>();

@@ -311,8 +311,8 @@ public partial class CustomNetTransform
 
 		SetPosition(info.OriginPos, false);
 
-		float throwSpeed = ItemAttributes.ServerThrowSpeed * 10; //tiles per second
-		float throwRange = ItemAttributes.ServerThrowRange;
+		float throwSpeed = ItemAttributes.ThrowSpeed * 10; //tiles per second
+		float throwRange = ItemAttributes.ThrowRange;
 
 		Vector2 impulse = info.Trajectory.normalized;
 

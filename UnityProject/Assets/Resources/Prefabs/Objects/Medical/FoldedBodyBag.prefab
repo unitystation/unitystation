@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2262913868457682}
   - component: {fileID: 4893292591833977352}
   - component: {fileID: 8126115436672341094}
-  - component: {fileID: 645373707633738118}
   - component: {fileID: 2750812223248454435}
   - component: {fileID: 8719630062288667462}
   - component: {fileID: 6487628113956004103}
@@ -21,6 +20,8 @@ GameObject:
   - component: {fileID: 6444598946028513662}
   - component: {fileID: 8213862876224306985}
   - component: {fileID: 1687833025890641942}
+  - component: {fileID: 4274852872579407831}
+  - component: {fileID: 5261460021321915552}
   m_Layer: 10
   m_Name: FoldedBodyBag
   m_TagString: Untagged
@@ -105,35 +106,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &645373707633738118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5620111257449852176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Body bag
-  itemDescription: A folded bag designed for the storage and transportation of cadavers.
-  initialTraits: []
-  size: 2
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &2750812223248454435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &1687833025890641942
 MonoBehaviour:
@@ -270,6 +242,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabVariant: {fileID: 529109779100470021, guid: d6dc9ea3e3540427bb4c073d115b0137,
     type: 3}
+--- !u!114 &4274852872579407831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620111257449852176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+--- !u!114 &5261460021321915552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620111257449852176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Body bag
+  initialDescription: A folded bag designed for the storage and transportation of
+    cadavers.
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &7754123291158947504
 GameObject:
   m_ObjectHideFlags: 0

@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 1184034389280667621}
   - component: {fileID: 1829736207480276922}
   - component: {fileID: 6441605053452467712}
-  - component: {fileID: 2677451350077854373}
   - component: {fileID: 4321281566600050422}
   - component: {fileID: 146779046979709823}
   - component: {fileID: 4089351644393261817}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 8918271915433250682}
   - component: {fileID: 5600470873996663622}
   - component: {fileID: 3020621940116538036}
+  - component: {fileID: 7446953171933753842}
   m_Layer: 10
   m_Name: Paper Bin
   m_TagString: Untagged
@@ -182,35 +182,6 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isNotPushable: 0
---- !u!114 &2677451350077854373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6258242089137662919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Paper Bin
-  itemDescription: Contains all the paper you'll never need.
-  initialTraits: []
-  size: 3
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 3
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &4321281566600050422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,7 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 3bd2990f951e6461199f678384ca1866
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &3020621940116538036
 MonoBehaviour:
@@ -372,6 +343,33 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: f0cf26da94f1b4520a902840eebe5eb8,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+--- !u!114 &7446953171933753842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258242089137662919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Paper Bin
+  initialDescription: Contains all the paper you'll never need.
+  initialTraits: []
+  initialSize: 3
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 3
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &6541166396586915311
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public enum ObjectType
 /// Also tracks the Matrix the object is in.
 /// </summary>
 [ExecuteInEditMode]
-public abstract class RegisterTile : NetworkBehaviour, IServerDespawn
+public class RegisterTile : NetworkBehaviour, IServerDespawn
 {
 	//relationships which only need to be checked when UpdatePosition methods are called
 	private List<BaseSpatialRelationship> sameMatrixRelationships;

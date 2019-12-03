@@ -17,9 +17,23 @@ public class TileChangeManager : NetworkBehaviour
 
 	public Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
+	private SubsystemManager subsystemManager;
+	/// <summary>
+	/// subsystem manager for these tiles
+	/// </summary>
+	public SubsystemManager SubsystemManager => subsystemManager;
+
+	private InteractableTiles interactableTiles;
+	/// <summary>
+	/// interactable tiles component for these tiles.
+	/// </summary>
+	public InteractableTiles InteractableTiles => interactableTiles;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
+		subsystemManager = GetComponent<SubsystemManager>();
+		interactableTiles = GetComponent<InteractableTiles>();
 	}
 
 	public void InitServerSync(string data)
@@ -66,6 +80,20 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+
+	[Server]
+	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile)
+	{
+		if (IsDifferent(cellPosition, layerTile))
+		{
+			InternalUpdateTile(cellPosition, layerTile);
+
+			RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
+
+			AddToChangeList(cellPosition, layerTile);
+		}
+	}
+
 	[Server]
 	public void RemoveTile( Vector3Int cellPosition )
 	{
@@ -76,8 +104,9 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public bool RemoveTile(Vector3Int cellPosition, LayerType layerType)
+	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType)
 	{
+		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
 			InternalRemoveTile(cellPosition, layerType, false);
@@ -90,10 +119,10 @@ public class TileChangeManager : NetworkBehaviour
 			{
 				OnFloorOrPlatingRemoved.Invoke( cellPosition );
 			}
-			return true;
+			return layerTile;
 		}
 
-		return false;
+		return layerTile;
 	}
 
 	[Server]
@@ -157,6 +186,18 @@ public class TileChangeManager : NetworkBehaviour
 		metaTileMap.SetTile(p, layerTile);
 	}
 
+	private void InternalUpdateTile(Vector3 position, LayerTile layerTile)
+	{
+		if (layerTile.TileType == TileType.WindowDamaged)
+		{
+			position.z -= 1;
+		}
+
+		Vector3Int p = position.RoundToInt();
+
+		metaTileMap.SetTile(p, layerTile);
+	}
+
 	private void AddToChangeList(Vector3 position, LayerType layerType=LayerType.None, TileType tileType=TileType.None, string tileName=null, bool removeAll = false)
 	{
 		changeList.List.Add(new TileChangeEntry()
@@ -169,10 +210,27 @@ public class TileChangeManager : NetworkBehaviour
 		});
 	}
 
+	private void AddToChangeList(Vector3 position, LayerTile layerTile, LayerType layerType=LayerType.None, bool removeAll = false)
+	{
+		changeList.List.Add(new TileChangeEntry()
+		{
+			Position = position,
+			LayerType = layerType,
+			TileType = layerTile.TileType,
+			TileName = layerTile.name,
+			RemoveAll = removeAll
+		});
+	}
+
 	private bool IsDifferent(Vector3Int position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
+		return metaTileMap.GetTile(position, layerTile.LayerType) != layerTile;
+	}
+
+	private bool IsDifferent(Vector3Int position, LayerTile layerTile)
+	{
 		return metaTileMap.GetTile(position, layerTile.LayerType) != layerTile;
 	}
 }

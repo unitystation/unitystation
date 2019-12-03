@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4827893193398430}
   - component: {fileID: 61818042941755762}
   - component: {fileID: 114875290499615288}
-  - component: {fileID: 114567485071167784}
   - component: {fileID: 114147643764008260}
   - component: {fileID: 7891530486730515463}
   - component: {fileID: 4953889069794681373}
@@ -104,6 +103,7 @@ GameObject:
   - component: {fileID: 2076902986949784288}
   - component: {fileID: 5672786685678995422}
   - component: {fileID: 4521264886572805174}
+  - component: {fileID: -5577253182213218272}
   m_Layer: 10
   m_Name: SpaceCleaner
   m_TagString: Untagged
@@ -168,35 +168,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114567485071167784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907679543779350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 5672786685678995422}
-  InventoryIcon: {fileID: 0}
-  itemName: Space Cleaner
-  itemDescription: BLAM!-brand non-foaming space cleaner!
-  initialTraits: []
-  size: 2
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 3
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114147643764008260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temperatureKelvin: 293.15
   MaxCapacity: 100
+  itemAttributes: {fileID: 0}
   InSolidForm: 0
   Reagents:
   - cleaner
@@ -482,8 +454,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 95adc0cf36af55d46baf1b7d4ef71eef
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-5577253182213218272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Space Cleaner
+  initialDescription: BLAM!-brand non-foaming space cleaner!
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 3
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &7396984611411425534
 GameObject:
   m_ObjectHideFlags: 0

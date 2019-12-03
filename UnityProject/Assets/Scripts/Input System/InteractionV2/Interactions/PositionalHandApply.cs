@@ -5,11 +5,12 @@ using UnityEngine;
 /// HandApply but with a vector2 which indicates the exact position the player
 /// is trying to click (transmitted as a target vector pointing from the player to the
 /// spot they are clicking). Useful for objects which have different logic based on where you click,
-/// such as InteractableTiles).
+/// such as InteractableTiles). Also fires when clicking on empty / open space.
 /// </summary>
-public class PositionalHandApply : TargetedInteraction
+public class PositionalHandApply : BodyPartTargetedInteraction
 {
-	private static readonly PositionalHandApply Invalid = new PositionalHandApply(null, null, null, Vector2.zero, null);
+	private static readonly PositionalHandApply Invalid = new PositionalHandApply(null, null,
+		null, Vector2.zero, null, Intent.Help, BodyPartType.None);
 
 	private readonly ItemSlot handSlot;
 
@@ -40,8 +41,9 @@ public class PositionalHandApply : TargetedInteraction
 	/// <param name="targetVector">vector pointing from performer position to the spot they are targeting</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
-	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetVector, ItemSlot handSlot) :
-		base(performer, handObject, targetObject)
+	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetVector,
+		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart) :
+		base(performer, handObject, targetObject, targetBodyPart, intent)
 	{
 		this.targetVector = targetVector;
 		this.handSlot = handSlot;
@@ -50,7 +52,7 @@ public class PositionalHandApply : TargetedInteraction
 	/// <summary>
 	/// Creates a PositionalHandApply interaction performed by the local player targeting the specified object.
 	/// </summary>
-	/// <param name="targetObject">object targeted by the interaction</param>
+	/// <param name="targetObject">object targeted by the interaction, null to target empty space</param>
 	/// <param name="targetVector">vector pointing from player to the position they are targeting, defaults
 	/// to where the mouse currently is.</param>
 	/// <returns></returns>
@@ -66,7 +68,7 @@ public class PositionalHandApply : TargetedInteraction
 			UIManager.Hands.CurrentSlot.ItemObject,
 			targetObject,
 			targetVec,
-			UIManager.Instance.hands.CurrentSlot.ItemSlot);
+			UIManager.Instance.hands.CurrentSlot.ItemSlot, UIManager.CurrentIntent, UIManager.DamageZone);
 	}
 
 	/// <summary>
@@ -84,8 +86,8 @@ public class PositionalHandApply : TargetedInteraction
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static PositionalHandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject,
 		Vector2 targetVector,
-		ItemSlot handSlot)
+		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart)
 	{
-		return new PositionalHandApply(clientPlayer, handObject, targetObject, targetVector, handSlot);
+		return new PositionalHandApply(clientPlayer, handObject, targetObject, targetVector, handSlot, intent, targetBodyPart);
 	}
 }

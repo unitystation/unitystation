@@ -21,7 +21,7 @@ public class ItemEntry : DynamicEntry {
 			Logger.Log( "ItemEntry: no prefab found, not doing init",Category.NetUI );
 			return;
 		}
-		var itemAttributes = Prefab.GetComponent<IItemAttributes>();
+		var itemAttributes = Prefab.GetComponent<ItemAttributesV2>();
 		if ( itemAttributes != null) {
 			Logger.LogWarning( $"No attributes found for prefab {Prefab}",Category.NetUI );
 			return;

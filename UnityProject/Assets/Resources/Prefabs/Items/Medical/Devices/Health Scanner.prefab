@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4575179997365768}
   - component: {fileID: 61823647137541954}
   - component: {fileID: 114012578210888208}
-  - component: {fileID: 114509519296518920}
   - component: {fileID: 114250079265950594}
   - component: {fileID: 114537529964992312}
   - component: {fileID: 114025370655937082}
@@ -101,6 +100,7 @@ GameObject:
   - component: {fileID: 114642887816301950}
   - component: {fileID: 114997751103220020}
   - component: {fileID: 114348424157646214}
+  - component: {fileID: -8893354247755516363}
   m_Layer: 10
   m_Name: Health Scanner
   m_TagString: Untagged
@@ -164,36 +164,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114509519296518920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862150311813888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Medical Scanner
-  itemDescription: Used to check somebody's health.
-  initialTraits:
-  - {fileID: 11400000, guid: 1c44fee67ad484b37b2c4e4999a925e3, type: 2}
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114250079265950594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,5 +318,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: d1b135e5a46c6f4408972d504eaebc4b
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-8893354247755516363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862150311813888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Medical Scanner
+  initialDescription: Used to check somebody's health.
+  initialTraits:
+  - {fileID: 11400000, guid: 1c44fee67ad484b37b2c4e4999a925e3, type: 2}
+  initialSize: 1
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

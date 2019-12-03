@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4034068025653032}
   - component: {fileID: 61410536502075844}
   - component: {fileID: 114648251949022334}
-  - component: {fileID: 114973869889094088}
   - component: {fileID: 114871361044904486}
   - component: {fileID: 114970828739563012}
   - component: {fileID: 114005371888987122}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114625798901129294}
   - component: {fileID: 114089431332120224}
   - component: {fileID: -4411417169104200506}
+  - component: {fileID: -8407103554718982479}
   m_Layer: 10
   m_Name: Saber_Ballistic
   m_TagString: Untagged
@@ -165,35 +165,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114973869889094088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404025141166736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Saber
-  itemDescription: 
-  initialTraits: []
-  size: 1
-  spriteType: 2
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114871361044904486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 0f34b20493ec445019f248dfd446e424
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-4411417169104200506
 MonoBehaviour:
@@ -386,3 +357,30 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
+--- !u!114 &-8407103554718982479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404025141166736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Saber
+  initialDescription: 
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

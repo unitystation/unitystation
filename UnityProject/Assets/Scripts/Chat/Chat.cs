@@ -203,15 +203,16 @@ public partial class Chat : MonoBehaviour
 		/// <param name="hitZone">zone that was damaged</param>
 		/// <param name="item">optional gameobject with an itemattributes, representing the item the attack was made with</param>
 		/// <param name="customAttackVerb">If you want to override the attack verb then pass the verb here</param>
+		/// <param name="attackedTile">If attacking a particular tile, the layer tile being attacked</param>
 		public static void AddAttackMsgToChat(GameObject attacker, GameObject victim,
-			BodyPartType hitZone = BodyPartType.None, GameObject item = null, string customAttackVerb = "")
+			BodyPartType hitZone = BodyPartType.None, GameObject item = null, string customAttackVerb = "", LayerTile attackedTile = null)
 		{
 			string attackVerb;
 			string attack;
 
 			if (item)
 			{
-				var itemAttributes = item.GetComponent<IItemAttributes>();
+				var itemAttributes = item.GetComponent<ItemAttributesV2>();
 				attackVerb = itemAttributes.ServerAttackVerbs.PickRandom() ?? "attacked";
 				attack = $" with {itemAttributes.ItemName}";
 			}
@@ -259,6 +260,11 @@ public partial class Chat : MonoBehaviour
 				{
 					victimNameOthers = "itself";
 				}
+			}
+			else if (attackedTile != null)
+			{
+				victimName = attackedTile.DisplayName;
+				victimNameOthers = victimName;
 			}
 			else
 			{

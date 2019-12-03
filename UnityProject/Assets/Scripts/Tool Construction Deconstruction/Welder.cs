@@ -38,7 +38,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 
 	private string currentHand;
 
-	private IItemAttributes itemAtts;
+	private ItemAttributesV2 itemAtts;
 	private RegisterTile registerTile;
 	private Pickupable pickupable;
 
@@ -77,7 +77,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 
 	void Awake()
 	{
-		itemAtts = GetComponent<IItemAttributes>();
+		itemAtts = GetComponent<ItemAttributesV2>();
 		registerTile = GetComponent<RegisterTile>();
 
 		damageOff = itemAtts.ServerHitDamage;

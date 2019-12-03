@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4951941870120558}
   - component: {fileID: 61613220426325940}
   - component: {fileID: 114696358063239130}
-  - component: {fileID: 114853416549807176}
   - component: {fileID: 114355234130924692}
   - component: {fileID: 114975342974608640}
   - component: {fileID: 114671987430861900}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114773453504398434}
   - component: {fileID: 114417339752912292}
   - component: {fileID: -3062290403037341712}
+  - component: {fileID: 2007817281242109593}
   m_Layer: 10
   m_Name: Revolver_Detective_Ballistic
   m_TagString: Untagged
@@ -165,35 +165,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114853416549807176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589781730870112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Black Detective revolver
-  itemDescription: 
-  initialTraits: []
-  size: 0
-  spriteType: 2
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114355234130924692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: aa0d300c4a5b04dfd95c5e0790207b3b
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-3062290403037341712
 MonoBehaviour:
@@ -386,3 +357,30 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
+--- !u!114 &2007817281242109593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589781730870112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Black Detective revolver
+  initialDescription: 
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

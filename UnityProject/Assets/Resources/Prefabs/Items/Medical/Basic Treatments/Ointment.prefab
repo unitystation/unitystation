@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61875377032878256}
   - component: {fileID: 114005167837307954}
   - component: {fileID: 3072383976012457327}
-  - component: {fileID: 114212368612829520}
   - component: {fileID: 114012095212642768}
   - component: {fileID: 114424771078077746}
   - component: {fileID: 114903920813708458}
@@ -22,6 +21,7 @@ GameObject:
   - component: {fileID: 114274718917655540}
   - component: {fileID: 114449365742732602}
   - component: {fileID: 114965978575096838}
+  - component: {fileID: -5159162159379035589}
   m_Layer: 10
   m_Name: Ointment
   m_TagString: Untagged
@@ -101,35 +101,6 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 6
   maxAmount: 6
---- !u!114 &114212368612829520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1408536760214900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Ointment
-  itemDescription: Used to cure burn damage.
-  initialTraits: []
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114012095212642768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,8 +256,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f181c8eb8ce8b8949b1ab571c8318f6f
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-5159162159379035589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408536760214900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Ointment
+  initialDescription: Used to cure burn damage.
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1581002665316100
 GameObject:
   m_ObjectHideFlags: 0

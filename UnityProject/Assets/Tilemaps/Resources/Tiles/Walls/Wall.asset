@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: Wall
   m_EditorClassIdentifier: 
+  displayName: wall
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -19,13 +20,15 @@ MonoBehaviour:
   AtmosPassable: 0
   IsSealed: 0
   Passable: 0
+  Mineable: 0
   PassableException:
     m_keys: 
     m_values: 
   MaxHealth: 0
   HealthStates: []
-  ItemSpawn: {fileID: 0}
-  amount: 0
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 0
+  deconstructionType: 4
   DestroyedTile: {fileID: 0}
   connectCategory: 0
   connectType: 1

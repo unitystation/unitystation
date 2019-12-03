@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4645335817288720}
   - component: {fileID: 61202592083071704}
-  - component: {fileID: 114828422824226692}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
@@ -21,6 +20,7 @@ GameObject:
   - component: {fileID: 114619782298203830}
   - component: {fileID: 114551020561031558}
   - component: {fileID: 114110746493297532}
+  - component: {fileID: -6563968391737718934}
   m_Layer: 10
   m_Name: 4no raisins
   m_TagString: Untagged
@@ -69,35 +69,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114828422824226692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 114551020561031558}
-  InventoryIcon: {fileID: 0}
-  itemName: 4no raisins
-  itemDescription: Best raisins in the universe. Not sure why.
-  initialTraits: []
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114931546224579044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +243,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 37525b624e2b1134fb3d2efdc22f2f0a
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-6563968391737718934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: 4no raisins
+  initialDescription: Best raisins in the universe. Not sure why.
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

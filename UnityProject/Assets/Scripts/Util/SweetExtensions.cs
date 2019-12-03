@@ -12,9 +12,9 @@ public static class SweetExtensions
 		var connectedPlayer = PlayerList.Instance?.Get(go);
 		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
 	}
-	public static IItemAttributes Item(this GameObject go)
+	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.GetComponent<IItemAttributes>();
+		return go.GetComponent<ItemAttributesV2>();
 	}
 
 	public static string ExpensiveName(this GameObject go)
@@ -256,7 +256,7 @@ public static class SweetExtensions
 
 		return null;
 	}
-	
+
 	public static IEnumerable<T> ToIEnumerable<T>(this IEnumerator<T> enumerator) {
 		while ( enumerator.MoveNext() ) {
 			yield return enumerator.Current;

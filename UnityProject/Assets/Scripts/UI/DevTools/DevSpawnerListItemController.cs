@@ -24,7 +24,6 @@ public class DevSpawnerListItemController : MonoBehaviour
 	public GameObject cursorPrefab;
 	// prefab to spawn
 	private GameObject prefab;
-	private BaseClothData clothingData;
 
 	// sprite under cursor for showing what will be spawned
 	private GameObject cursorObject;
@@ -47,32 +46,15 @@ public class DevSpawnerListItemController : MonoBehaviour
 	/// <param name="resultDoc">document to display</param>
 	public void Initialize(Document resultDoc)
 	{
-		if (resultDoc.Get("isClothing").Equals("0"))
+		prefab = Spawn.GetPrefabByName(resultDoc.Get("name"));
+		Sprite toUse = prefab.GetComponentInChildren<SpriteRenderer>()?.sprite;
+		if (toUse != null)
 		{
-			prefab = Spawn.GetPrefabByName(resultDoc.Get("name"));
-			Sprite toUse = prefab.GetComponentInChildren<SpriteRenderer>()?.sprite;
-			if (toUse != null)
-			{
-				image.sprite = toUse;
-			}
-
-			detailText.text = "Prefab";
+			image.sprite = toUse;
 		}
-		else
-		{
-			var newClothingData = Spawn.GetClothDataNamed(resultDoc.Get("name"));
-			if (newClothingData != null)
-			{
-				detailText.text = $"{newClothingData.name}";
-				clothingData = newClothingData;
-				image.sprite = newClothingData.SpawnerIcon();
-			}
-			else
-			{
-				detailText.text = "ERROR";
-			}
 
-		}
+		detailText.text = "Prefab";
+
 		titleText.text = resultDoc.Get("name");
 	}
 
@@ -135,41 +117,20 @@ public class DevSpawnerListItemController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Tries to spawn at the specified position, does not spawn if position is not valid (impassable)
+	/// Tries to spawn at the specified position. Lets you spawn anywhere, even impassable places. Go hog wild!
 	/// </summary>
 	private void TrySpawn()
 	{
 		Vector3Int position = cursorObject.transform.position.RoundToInt();
 		position.z = 0;
 
-		if (!MatrixManager.IsPassableAt(position, true) && !MatrixManager.IsTableAt(position, true))
-		{
-			return;
-		}
-
 		if (CustomNetworkManager.IsServer)
 		{
-			if (clothingData != null)
-			{
-				Spawn.ServerCloth(clothingData, position);
-			}
-			else
-			{
-				Spawn.ServerPrefab(prefab, position);
-			}
-
+			Spawn.ServerPrefab(prefab, position);
 		}
 		else
 		{
-			if (clothingData != null)
-			{
-				DevSpawnMessage.Send(clothingData.name, true, (Vector3) position);
-			}
-			else
-			{
-				DevSpawnMessage.Send(prefab.name, false, (Vector3) position);
-			}
-
+			DevSpawnMessage.Send(prefab.name, (Vector3) position);
 		}
 	}
 }

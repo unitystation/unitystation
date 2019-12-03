@@ -13,20 +13,6 @@ public class ContainerData : BaseClothData
 	public EquippedData Sprites;
 	public StorageObjectData StorageData;
 
-	public override Sprite SpawnerIcon()
-	{
-		return Sprites.Equipped.Sprites[0];
-	}
-
-	public override void  InitializePool()
-	{
-		if (Spawn.BackpackStoredData.ContainsKey(this.name) && Spawn.BackpackStoredData[this.name] != this)
-		{
-			Logger.LogError("a ContainerData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
-		}
-		Spawn.BackpackStoredData[this.name] = this;
-
-	}
 	public static void getContainerData(List<ContainerData> DataPCD)
 	{
 		DataPCD.Clear();

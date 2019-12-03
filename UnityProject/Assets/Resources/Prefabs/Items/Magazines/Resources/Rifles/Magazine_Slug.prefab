@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 61306522520246328}
   - component: {fileID: 114173007663886346}
   - component: {fileID: 114313499704245640}
-  - component: {fileID: 114106706923861624}
   - component: {fileID: 114268989769706622}
   - component: {fileID: 114934153916549252}
   - component: {fileID: 114052493599766462}
@@ -101,6 +100,7 @@ GameObject:
   - component: {fileID: 114902066457782140}
   - component: {fileID: 114839477089038664}
   - component: {fileID: 114711689750648596}
+  - component: {fileID: 9216926201335315330}
   m_Layer: 10
   m_Name: Magazine_Slug
   m_TagString: Untagged
@@ -180,36 +180,6 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isNotPushable: 0
---- !u!114 &114106706923861624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560639281521250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Shutgun Slug
-  itemDescription: 
-  initialTraits:
-  - {fileID: 11400000, guid: c5ea118354e234f9fa2e1e18ce0adff8, type: 2}
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114268989769706622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,5 +322,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: afa5cc272972d406eac7e8e62bcb5e4b
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &9216926201335315330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560639281521250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Shutgun Slug
+  initialDescription: 
+  initialTraits:
+  - {fileID: 11400000, guid: c5ea118354e234f9fa2e1e18ce0adff8, type: 2}
+  initialSize: 0
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

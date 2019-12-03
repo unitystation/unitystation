@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4078685264655768}
   - component: {fileID: 61418684701184482}
   - component: {fileID: 114855409686197490}
-  - component: {fileID: 114840681176295264}
   - component: {fileID: 114859515791178996}
   - component: {fileID: 114422233424066394}
   - component: {fileID: 114343556704672746}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114132764856491264}
   - component: {fileID: 114792794626882886}
   - component: {fileID: -4641284061545249848}
+  - component: {fileID: -8580147716651336527}
   m_Layer: 10
   m_Name: Detective_Gold_Ballistic
   m_TagString: Untagged
@@ -165,35 +165,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114840681176295264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946347799520078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Golden Revolver
-  itemDescription: 
-  initialTraits: []
-  size: 0
-  spriteType: 2
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114859515791178996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,7 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f89dd1a3681f542849c3eb187dcb751f
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-4641284061545249848
 MonoBehaviour:
@@ -388,3 +359,30 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
+--- !u!114 &-8580147716651336527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946347799520078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Golden Revolver
+  initialDescription: 
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

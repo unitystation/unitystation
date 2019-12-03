@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4000013877075750}
   - component: {fileID: 61000012096311666}
   - component: {fileID: 114904595007707188}
-  - component: {fileID: 114000012876358140}
   - component: {fileID: 114755748058443534}
   - component: {fileID: 114186698601475536}
   - component: {fileID: 114457471827933586}
@@ -100,6 +99,7 @@ GameObject:
   - component: {fileID: 114131277222387852}
   - component: {fileID: 114490681255588058}
   - component: {fileID: 114753571382319690}
+  - component: {fileID: -3265783037222653648}
   m_Layer: 10
   m_Name: Scalpel
   m_TagString: Untagged
@@ -163,36 +163,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114000012876358140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011622113908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Scalpel
-  itemDescription: A specialist Surgery knife, hellish sharp
-  initialTraits:
-  - {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
-  size: 0
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 10
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 3
-  throwRange: 5
-  hitSound: BladeSlice
-  attackVerb: []
 --- !u!114 &114755748058443534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,5 +305,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 70e9a72b546334103b60c8b557fc6a8d
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-3265783037222653648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Scalpel
+  initialDescription: A specialist Surgery knife, hellish sharp
+  initialTraits:
+  - {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c, type: 2}
+  initialSize: 0
+  hitDamage: 10
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 3
+  throwRange: 5
+  hitSound: BladeSlice
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

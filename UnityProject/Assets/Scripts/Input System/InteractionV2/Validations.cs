@@ -32,7 +32,7 @@ public static class Validations
 	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
 		if (toCheck == null) return false;
-		var attrs = toCheck.GetComponent<IItemAttributes>();
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
 		return attrs.HasTrait(expectedTrait);
 	}
@@ -44,7 +44,7 @@ public static class Validations
 	public static bool HasAnyTrait(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
 	{
 		if (toCheck == null) return false;
-		var attrs = toCheck.GetComponent<ItemAttributes>();
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
 		return attrs.HasAnyTrait(expectedTraits);
 	}
@@ -56,7 +56,7 @@ public static class Validations
 	public static bool HasAllTraits(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
 	{
 		if (toCheck == null) return false;
-		var attrs = toCheck.GetComponent<ItemAttributes>();
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
 		return attrs.HasAllTraits(expectedTraits);
 	}
@@ -431,5 +431,18 @@ public static class Validations
 			if (playerHealth == null || playerMove == null || registerPlayer == null) return false;
 			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS || registerPlayer.IsSlippingServer || playerMove.IsCuffed;
 		}
+	}
+
+	/// <summary>
+	/// Returns true iff both objects are Stackable and toAdd can be added to stack.
+	/// </summary>
+	public static bool CanStack(GameObject stack, GameObject toAdd)
+	{
+		if (stack == null || toAdd == null) return false;
+		var stack1 = stack.GetComponent<Stackable>();
+		var stack2 = toAdd.GetComponent<Stackable>();
+		if (stack1 == null || stack2 == null) return false;
+
+		return stack1.CanAccommodate(stack2);
 	}
 }

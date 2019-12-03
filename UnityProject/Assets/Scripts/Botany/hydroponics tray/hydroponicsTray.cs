@@ -505,7 +505,8 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	public void CropDeath()
 	{
 		if (plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
-		{			NutritionLevel = NutritionLevel + plantData.Potency;
+		{
+			NutritionLevel = NutritionLevel + plantData.Potency;
 			if (NutritionLevel > 100)
 			{
 				NutritionLevel = 100;
@@ -552,12 +553,15 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 	}
 
-	public void Mutation()
-	{
-		var tint = random.Next(plantData.MutatesInTo.Count);
-		var Data = plantData.MutatesInTo[tint];
-		plantData.MutateTo(Data);
-		SyncPlant(plantData.Name);
+  public void Mutation()
+ 	{
+		if (plantData.MutatesInTo.Count > 0)
+		{
+			var tint = random.Next(plantData.MutatesInTo.Count);
+			var Data = plantData.MutatesInTo[tint];
+			plantData.MutateTo(Data);
+			SyncPlant(plantData.Name);
+		}
 	}
 
 
@@ -597,7 +601,7 @@ public class hydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				}
 			}
 		}
-		var ObjectItemAttributes = slot?.Item?.GetComponent<ItemAttributes>();
+		var ObjectItemAttributes = slot?.Item?.GetComponent<ItemAttributesV2>();
 		if (ObjectItemAttributes != null)
 		{
 			if (ObjectItemAttributes.HasTrait(CommonTraits.Instance.Cultivator))

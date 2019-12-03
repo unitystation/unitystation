@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 61321219257688126}
   - component: {fileID: 114675370128025870}
   - component: {fileID: 4017417275112362406}
-  - component: {fileID: 114836435796936700}
   - component: {fileID: 114849399154925666}
   - component: {fileID: 114007797438959630}
   - component: {fileID: 114923609856049834}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114652567487495318}
   - component: {fileID: 114739776609663992}
   - component: {fileID: 1418731889289770694}
+  - component: {fileID: -6058787925107608327}
   m_Layer: 10
   m_Name: Metal
   m_TagString: Untagged
@@ -181,36 +181,6 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 1
   maxAmount: 50
---- !u!114 &114836435796936700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 114652567487495318}
-  InventoryIcon: {fileID: 0}
-  itemName: Metal Sheet
-  itemDescription: 
-  initialTraits:
-  - {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 10
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114849399154925666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,8 +397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 78d9125d50217497cbcd4a18ffe2e3e4
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2422933096
 --- !u!114 &1418731889289770694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,3 +412,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildList: {fileID: 11400000, guid: c4fd831915c844aeaaa984024e8a67e1, type: 2}
+--- !u!114 &-6058787925107608327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Metal Sheet
+  initialDescription: 
+  initialTraits:
+  - {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+  initialSize: 1
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 10
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
+  exportCost: 5
+  exportName: 
+  exportMessage: cm3 of metal

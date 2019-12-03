@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 61823647137541954}
   - component: {fileID: 114012578210888208}
   - component: {fileID: 8010059544309744433}
-  - component: {fileID: 114509519296518920}
   - component: {fileID: 114250079265950594}
   - component: {fileID: 114537529964992312}
   - component: {fileID: 114426671417458994}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114077547693365806}
   - component: {fileID: 114504877800374682}
   - component: {fileID: 114143379017786812}
+  - component: {fileID: -1687807933076633124}
   m_Layer: 10
   m_Name: Bruise Pack
   m_TagString: Untagged
@@ -181,35 +181,6 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 6
   maxAmount: 6
---- !u!114 &114509519296518920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862150311813888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Bruise Pack
-  itemDescription: Used to cure brute damage.
-  initialTraits: []
-  size: 1
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114250079265950594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,5 +336,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 269d6c8129e05ee4396165bb84083f19
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-1687807933076633124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862150311813888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Bruise Pack
+  initialDescription: Used to cure brute damage.
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

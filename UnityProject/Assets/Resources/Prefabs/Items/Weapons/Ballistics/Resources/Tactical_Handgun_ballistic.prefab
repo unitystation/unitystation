@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 4108350868953640}
   - component: {fileID: 61090493587581480}
   - component: {fileID: 114891975767188244}
-  - component: {fileID: 114700499034651752}
   - component: {fileID: 114797067235565718}
   - component: {fileID: 114700230624298448}
   - component: {fileID: 114544937745920048}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114434005769023190}
   - component: {fileID: 114840319352200170}
   - component: {fileID: -8165870982048707367}
+  - component: {fileID: -5494381567859251892}
   m_Layer: 10
   m_Name: Tactical_Handgun_ballistic
   m_TagString: Untagged
@@ -166,35 +166,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114700499034651752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713052969755012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Tactical Handgun
-  itemDescription: 
-  initialTraits: []
-  size: 0
-  spriteType: 2
-  canConnectToTank: 0
-  hitDamage: 5
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114797067235565718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,7 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: fcc504f413695462b9c698e4a1d7fafe
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-8165870982048707367
 MonoBehaviour:
@@ -387,6 +358,33 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
     type: 2}
+--- !u!114 &-5494381567859251892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713052969755012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Tactical Handgun
+  initialDescription: 
+  initialTraits: []
+  initialSize: 0
+  hitDamage: 5
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &3279499030044190819
 GameObject:
   m_ObjectHideFlags: 0

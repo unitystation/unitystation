@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 408926014310295690}
   - component: {fileID: 3109837416043258077}
   - component: {fileID: 1404733437279316623}
-  - component: {fileID: 8658991325822499239}
   - component: {fileID: 7136161543135492653}
   - component: {fileID: 3287447661704391586}
   - component: {fileID: 6436908355588305388}
@@ -101,6 +100,7 @@ GameObject:
   - component: {fileID: 4868340152356198127}
   - component: {fileID: 325157265441756014}
   - component: {fileID: 1683984791003869720}
+  - component: {fileID: -7241935446329469275}
   m_Layer: 10
   m_Name: Rolled Poster
   m_TagString: Untagged
@@ -180,35 +180,6 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isNotPushable: 0
---- !u!114 &8658991325822499239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5074129411573611090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 1683984791003869720}
-  InventoryIcon: {fileID: 0}
-  itemName: Poster
-  itemDescription: A large piece of space-resistant printed paper.
-  initialTraits: []
-  size: 2
-  spriteType: 0
-  canConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &7136161543135492653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,10 +247,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12aa9f5931c4146a22a84bd038fa5b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   wallPrefab: {fileID: 5466995241280763689, guid: f421de3b3604142099b272d77faafeb6,
     type: 3}
   posterVariant: 1
-  sprite: {fileID: 0}
+  spriteRend: {fileID: 856240420534071871}
   legitSprite: {fileID: 21300000, guid: e3686f4fd49b3da478b3e180a674bd37, type: 3}
   contrabandSprite: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a, type: 3}
 --- !u!114 &4868340152356198127
@@ -355,3 +328,35 @@ MonoBehaviour:
     AID: 1
     Serialized: []
   spriteList: []
+--- !u!114 &-7241935446329469275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074129411573611090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Poster
+  ArticleName: 
+  initialDescription: A large piece of space-resistant printed paper.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+  ArticleDescription: 
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

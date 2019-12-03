@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1582174772363745797}
   - component: {fileID: 3532698894242862567}
   - component: {fileID: 5706223321362097460}
-  - component: {fileID: 2965006825698581140}
   - component: {fileID: 8222802791334115685}
   - component: {fileID: 2235153191463270199}
   - component: {fileID: 3458854947390775118}
@@ -19,6 +18,9 @@ GameObject:
   - component: {fileID: 1392001915968205448}
   - component: {fileID: 9042494921291395745}
   - component: {fileID: 3402021847467364173}
+  - component: {fileID: -8156440884396565647}
+  - component: {fileID: 6636634815165553524}
+  - component: {fileID: -576237993289438406}
   m_Layer: 10
   m_Name: Energy Sword
   m_TagString: Untagged
@@ -82,37 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &2965006825698581140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2441959944937580424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 9042494921291395745}
-  InventoryIcon: {fileID: 0}
-  itemName: Energy Sword
-  itemDescription: May the force be within you.
-  itemType: 0
-  size: 2
-  spriteType: 0
-  CanConnectToTank: 0
-  hitDamage: 3
-  damageType: 0
-  throwDamage: 5
-  throwSpeed: 3
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb:
-  - tapped
-  - poked
+  IsFixedMatrix: 0
 --- !u!114 &8222802791334115685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,9 +99,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2235153191463270199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,9 +131,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &590885865959768347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,8 +145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: bec78bed401ff4928b015b5999dbb629
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 68218150
 --- !u!114 &1392001915968205448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  itemAttributes: {fileID: 2965006825698581140}
+  itemAttributes: {fileID: 0}
   spriteHandler: {fileID: 9042494921291395745}
   playerLightControl: {fileID: 3402021847467364173}
   worldLight: {fileID: 5606819191890342215}
@@ -229,6 +195,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 262
@@ -1325,6 +1295,84 @@ MonoBehaviour:
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 12
+--- !u!114 &-8156440884396565647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441959944937580424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Energy Sword
+  ArticleName: 
+  initialDescription: May the force be within you.
+  ArticleDescription: 
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 3
+  damageType: 0
+  throwDamage: 5
+  throwSpeed: 3
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs:
+  - tapped
+  - poked
+--- !u!114 &6636634815165553524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441959944937580424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-576237993289438406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441959944937580424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+  initialIntegrity: 100
 --- !u!1 &3416958144752250266
 GameObject:
   m_ObjectHideFlags: 0

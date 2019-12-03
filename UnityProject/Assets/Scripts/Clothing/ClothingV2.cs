@@ -9,7 +9,7 @@ using Mirror;
 /// New and improved, removes need for UniCloth type stuff, works
 /// well with using prefab variants.
 /// </summary>
-public class ClothingV2 : MonoBehaviour, IClothing
+public class ClothingV2 : MonoBehaviour
 {
 
 	//TODO: This can probably be migrated to this component rather than using a separate SO, since
@@ -178,4 +178,11 @@ public class ClothingV2 : MonoBehaviour, IClothing
 			clothingItem.RefreshFromClothing(this);
 		}
 	}
+}
+
+public enum ClothingVariantType
+{
+	Default = 0,
+	Tucked = 1,
+	Skirt = 2
 }
