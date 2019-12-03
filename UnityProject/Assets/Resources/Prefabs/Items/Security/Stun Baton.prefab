@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 114857257376150830}
   - component: {fileID: 114500601568321508}
   - component: {fileID: -2084047483786155350}
+  - component: {fileID: 6844177341262931842}
+  - component: {fileID: 1296343294318339506}
   m_Layer: 10
   m_Name: Stun Baton
   m_TagString: Untagged
@@ -198,7 +200,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3907065497
+  m_SceneId: 1879362044
 --- !u!114 &-2084047483786155350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +216,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Stun baton
+  ArticleName: 
   initialDescription: A stun baton for incapacitating people with.
+  ArticleDescription: 
   initialTraits:
   - {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5, type: 2}
   initialSize: 3
@@ -230,6 +234,53 @@ MonoBehaviour:
   exportCost: 100
   exportName: stun baton
   exportMessage: 
+--- !u!114 &6844177341262931842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503752898315862941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1296343294318339506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503752898315862941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+  initialIntegrity: 100
 --- !u!1 &7503752899205498039
 GameObject:
   m_ObjectHideFlags: 0

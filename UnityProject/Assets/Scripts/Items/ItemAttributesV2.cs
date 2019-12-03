@@ -15,37 +15,11 @@ using Random = System.Random;
 /// New and improved, removes need for UniCloth type stuff, works
 /// well with using prefab variants.
 /// </summary>
-[RequireComponent(typeof(Pickupable))]
-[RequireComponent(typeof(ObjectBehaviour))]
-[RequireComponent(typeof(RegisterItem))]
-[RequireComponent(typeof(CustomNetTransform))]
-public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
+[RequireComponent(typeof(Pickupable))] //Inventory interaction
+[RequireComponent(typeof(ObjectBehaviour))] //pull and Push
+[RequireComponent(typeof(RegisterItem))] //Registry with subsistence
+public class ItemAttributesV2 : Attributes
 {
-
-	[Tooltip("Display name of this item when spawned.")]
-	[SerializeField]
-	private string initialName;
-	public string InitialName => initialName;
-
-	/// <summary>
-	/// Current name
-	/// </summary>
-	[SyncVar(hook=nameof(SyncItemName))]
-	private string itemName;
-	/// <summary>
-	/// Item's current name
-	/// </summary>
-	public string ItemName => itemName;
-
-	[Tooltip("Description of this item when spawned.")]
-	[SerializeField]
-	private string initialDescription;
-	/// <summary>
-	/// Current description
-	/// </summary>
-	[SyncVar(hook=nameof(SyncItemDescription))]
-	private string itemDescription;
-
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
 	private List<ItemTrait> initialTraits;
@@ -161,35 +135,6 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 		set => attackVerbs = new List<string>(value);
 	}
 
-	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
-	[SerializeField]
-	private int exportCost;
-	public int ExportCost
-	{
-		get
-		{
-			var stackable = GetComponent<Stackable>();
-
-			if (stackable != null)
-			{
-				return exportCost * stackable.Amount;
-			}
-
-			return exportCost;
-		}
-
-	}
-
-	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
-	[SerializeField]
-	private string exportName;
-	public string ExportName => exportName;
-
-	[Tooltip("Additional message to display in the cargo console report.")]
-	[SerializeField]
-	private string exportMessage;
-	public string ExportMessage => exportMessage;
-
 	/// <summary>
 	/// Actual current traits, accounting for dynamic add / remove. Note that these adds / removes
 	/// are not currently synced between client / server.
@@ -214,17 +159,14 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	public override void OnStartClient()
 	{
-		SyncItemName(this.name);
 		SyncSize(this.size);
-		SyncItemDescription(this.itemDescription);
 		base.OnStartClient();
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	public override void OnSpawnServer(SpawnInfo info)
 	{
-		SyncItemName(initialName);
 		SyncSize(initialSize);
-		SyncItemDescription(initialDescription);
+		base.OnSpawnServer(info);
 	}
 
 	/// <summary>
@@ -278,21 +220,10 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 		traits.Add(toAdd);
 	}
 
-	private void SyncItemName(string newName)
-	{
-		itemName = newName;
-	}
-
 	private void SyncSize(ItemSize newSize)
 	{
 		size = newSize;
 	}
-
-	private void SyncItemDescription(string newDescription)
-	{
-		itemDescription = newDescription;
-	}
-
 
 	/// <summary>
 	/// Removes the trait dynamically
@@ -313,70 +244,7 @@ public class ItemAttributesV2 : NetworkBehaviour, IRightClickable, IServerSpawn
 			default: return "items";
 		}
 	}
-
-
-	public void OnHoverStart()
-	{
-		// Show the parenthesis for an item's description only if the item has a description
-		UIManager.SetToolTip =
-			itemName +
-			(String.IsNullOrEmpty(itemDescription) ? "" : $" ({itemDescription})");
-	}
-
-	public void OnHoverEnd()
-	{
-		UIManager.SetToolTip = String.Empty;
-	}
-
-	// Sends examine event to all monobehaviors on gameobject
-	public void SendExamine()
-	{
-		SendMessage("OnExamine");
-	}
-
-	// When right clicking on an item, examine the item
-	public void OnHover()
-	{
-		if (CommonInput.GetMouseButtonDown(1))
-		{
-			SendExamine();
-		}
-	}
-
-	private void OnExamine()
-	{
-		if (!string.IsNullOrEmpty(initialDescription))
-		{
-			Chat.AddExamineMsgToClient(initialDescription);
-		}
-	}
-
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		return RightClickableResult.Create()
-			.AddElement("Examine", OnExamine);
-	}
-
-
-	/// <summary>
-	/// Change this item's name and sync it to clients.
-	/// </summary>
-	/// <param name="newName"></param>
-	[Server]
-	public void ServerSetItemName(string newName)
-	{
-		SyncItemName(newName);
-	}
-
-	/// <summary>
-	/// Change this item's description and sync it to clients.
-	/// </summary>
-	/// <param name="newName"></param>
-	[Server]
-	public void ServerSetItemDescription(string desc)
-	{
-		SyncItemDescription(desc);
-	}
+	public string ItemName => name;
 
 	/// <summary>
 	/// CHange this item's size and sync it to clients

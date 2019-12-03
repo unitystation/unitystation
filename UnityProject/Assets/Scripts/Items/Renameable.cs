@@ -47,7 +47,7 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 			itemName += " - '" + custom + "'";
 		}
 
-		attributes.ServerSetItemName(itemName);
+		attributes.ServerSetArticleName(itemName);
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)

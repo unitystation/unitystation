@@ -91,7 +91,7 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 		if (!string.IsNullOrEmpty(EmptyName) && !string.IsNullOrEmpty(FullName))
 		{
-			itemAttributes.ServerSetItemName( spriteSync == EmptyFullStatus.Empty ? EmptyName : FullName );
+			itemAttributes.ServerSetArticleName( spriteSync == EmptyFullStatus.Empty ? EmptyName : FullName );
 		}
 
 		pickupable.RefreshUISlotImage();
