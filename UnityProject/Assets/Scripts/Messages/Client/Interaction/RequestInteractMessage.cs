@@ -20,6 +20,8 @@ public class RequestInteractMessage : ClientMessage
 	public Type InteractionType;
 	//object that will process the interaction
 	public uint ProcessorObject;
+	//player's intent
+	public Intent Intent;
 
 	//note: below, some of these will be populated depending on the interaction type
 
@@ -101,7 +103,7 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot);
+			var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot, Intent, TargetBodyPart);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(HandApply))
@@ -112,7 +114,7 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot);
+			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(AimApply))
@@ -122,7 +124,7 @@ public class RequestInteractMessage : ClientMessage
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 			yield return WaitFor(ProcessorObject);
 			var processorObj = NetworkObject;
-			var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState);
+			var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(MouseDrop))
@@ -131,7 +133,7 @@ public class RequestInteractMessage : ClientMessage
 			var usedObj = NetworkObjects[0];
 			var targetObj = NetworkObjects[1];
 			var processorObj = NetworkObjects[2];
-			var interaction = MouseDrop.ByClient(performer, usedObj, targetObj);
+			var interaction = MouseDrop.ByClient(performer, usedObj, targetObj, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(HandActivate))
@@ -143,7 +145,7 @@ public class RequestInteractMessage : ClientMessage
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-			var interaction = HandActivate.ByClient(performer, usedObject, usedSlot);
+			var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(InventoryApply))
@@ -173,7 +175,7 @@ public class RequestInteractMessage : ClientMessage
 			{
 				fromSlot = usedObj.GetComponent<Pickupable>().ItemSlot;
 			}
-			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot);
+			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 
@@ -256,13 +258,15 @@ public class RequestInteractMessage : ClientMessage
 		{
 			ComponentType = interactableComponent.GetType(),
 			InteractionType = typeof(T),
-			ProcessorObject = comp.GetComponent<NetworkIdentity>().netId
+			ProcessorObject = comp.GetComponent<NetworkIdentity>().netId,
+			Intent = interaction.Intent
 		};
 		if (typeof(T) == typeof(PositionalHandApply))
 		{
 			var casted = interaction as PositionalHandApply;
 			msg.TargetObject = casted.TargetObject.NetId();
 			msg.TargetVector = casted.TargetVector;
+			msg.TargetBodyPart = casted.TargetBodyPart;
 		}
 		else if (typeof(T) == typeof(HandApply))
 		{
@@ -300,11 +304,13 @@ public class RequestInteractMessage : ClientMessage
 		ComponentType = componentIDToComponentType[reader.ReadUInt16()];
 		InteractionType = interactionIDToInteractionType[reader.ReadByte()];
 		ProcessorObject = reader.ReadUInt32();
+		Intent = (Intent) reader.ReadByte();
 
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			TargetObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
+			TargetBodyPart = (BodyPartType) reader.ReadUInt32();
 		}
 		else if (InteractionType == typeof(HandApply))
 		{
@@ -336,11 +342,13 @@ public class RequestInteractMessage : ClientMessage
 		writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
 		writer.WriteByte(interactionTypeToInteractionID[InteractionType]);
 		writer.WriteUInt32(ProcessorObject);
+		writer.WriteByte((byte) Intent);
 
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			writer.WriteUInt32(TargetObject);
 			writer.WriteVector2(TargetVector);
+			writer.WriteInt32((int) TargetBodyPart);
 		}
 		else if (InteractionType == typeof(HandApply))
 		{

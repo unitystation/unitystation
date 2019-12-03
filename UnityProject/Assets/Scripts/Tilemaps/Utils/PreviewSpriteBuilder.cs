@@ -50,6 +50,11 @@ using UnityEngine;
 			return SaveSpriteToEditorPath(sprites, metaTile);
 		}
 
+		public static Sprite GetSpriteWithoutSaving(GameObject gameObject)
+		{
+			return MergeSprites(GetObjectSprites(gameObject));
+		}
+
 		private static IReadOnlyList<Sprite> GetObjectSprites(GameObject gameObject)
 		{
 			List<Sprite> sprites = new List<Sprite>();

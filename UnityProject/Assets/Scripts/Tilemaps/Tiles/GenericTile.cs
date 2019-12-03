@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public abstract class GenericTile : TileBase
 {
-	public virtual Sprite PreviewSprite { get; protected set; }
+	public virtual Sprite PreviewSprite { get; set; }
 
 	public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 	{

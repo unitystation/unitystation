@@ -117,17 +117,12 @@ public class DevSpawnerListItemController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Tries to spawn at the specified position, does not spawn if position is not valid (impassable)
+	/// Tries to spawn at the specified position. Lets you spawn anywhere, even impassable places. Go hog wild!
 	/// </summary>
 	private void TrySpawn()
 	{
 		Vector3Int position = cursorObject.transform.position.RoundToInt();
 		position.z = 0;
-
-		if (!MatrixManager.IsPassableAt(position, true) && !MatrixManager.IsTableAt(position, true))
-		{
-			return;
-		}
 
 		if (CustomNetworkManager.IsServer)
 		{

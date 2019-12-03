@@ -3,42 +3,33 @@ using Mirror;
 using UnityEngine;
 
 /// <summary>
-/// Spawns an indicated prefab. Can also be used as a slot populator.
+/// Spawns an indicated prefab.
 /// </summary>
-[CreateAssetMenu(fileName = "SpawnablePrefab", menuName = "Spawnable/SpawnablePrefab")]
-public class SpawnablePrefab : Spawnable, IClientSpawnable
+public class SpawnablePrefab : ISpawnable, IClientSpawnable
 {
-	[SerializeField]
-	[Tooltip("Prefab to instantiate and populate in the slot. Must have Pickupable.")]
-	private GameObject Prefab;
+	private readonly GameObject prefab;
 
-	public override SpawnableResult SpawnIt(SpawnDestination destination)
+	private SpawnablePrefab(GameObject prefab)
 	{
-		return new Spawnable(Prefab).SpawnAt(destination);
-	}
-
-
-	public SpawnableResult ClientSpawnAt(SpawnDestination destination)
-	{
-		return new Spawnable(Prefab).ClientSpawnAt(destination);
+		this.prefab = prefab;
 	}
 
 	/// <summary>
-	/// Gets a spawnable for spawning the indicated prefab.
+	/// Spawnable for spawning the indicated prefab
 	/// </summary>
-	/// <param name="prefab">prefab this spawnable should spawn</param>
+	/// <param name="prefab"></param>
 	/// <returns></returns>
-	public static ISpawnable For(GameObject prefab)
+	public static SpawnablePrefab For(GameObject prefab)
 	{
-		return new Spawnable(prefab);
+		return new SpawnablePrefab(prefab);
 	}
 
 	/// <summary>
-	/// Gets a spawnable for spawning the indicated prefab.
+	/// Spawnable for spawning the prefab with the given name
 	/// </summary>
-	/// <param name="prefabName">name of prefab this spawnable should spawn</param>
+	/// <param name="prefabName"></param>
 	/// <returns></returns>
-	public static ISpawnable For(string prefabName)
+	public static SpawnablePrefab For(string prefabName)
 	{
 		GameObject prefab = Spawn.GetPrefabByName(prefabName);
 		if (prefab == null)
@@ -47,59 +38,45 @@ public class SpawnablePrefab : Spawnable, IClientSpawnable
 			                      " is a prefab which is not spawnable. Request to spawn will be ignored.", Category.ItemSpawn, prefabName);
 			return null;
 		}
-		return new Spawnable(prefab);
+		return new SpawnablePrefab(prefab);
 	}
 
-	/// <summary>
-	/// Used internally so we don't need to create an asset at runtime when we want to spawn a prefab
-	/// by name or prefab reference (rather than using a predefined SpawnablePrefab asset).
-	/// Private so we don't expose this implementation detail / clutter the namespace.
-	/// </summary>
-	private class Spawnable : ISpawnable, IClientSpawnable
+	public SpawnableResult SpawnAt(SpawnDestination destination)
 	{
-		private readonly GameObject prefab;
+		if (!SpawnableUtils.IsValidDestination(destination)) return SpawnableResult.Fail(destination);
 
-		public Spawnable(GameObject prefab)
+		if (prefab == null)
 		{
-			this.prefab = prefab;
+			Logger.LogError("Cannot spawn, prefab to use is null", Category.ItemSpawn);
+			return SpawnableResult.Fail(destination);
+		}
+		Logger.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);
+
+		bool isPooled;
+
+		GameObject tempObject = Spawn._PoolInstantiate(prefab, destination,
+			out isPooled);
+
+		if (!isPooled)
+		{
+			Logger.LogTrace("Prefab to spawn was not pooled, spawning new instance.", Category.ItemSpawn);
+			NetworkServer.Spawn(tempObject);
+			tempObject.GetComponent<CustomNetTransform>()
+				?.NotifyPlayers(); //Sending clientState for newly spawned items
+		}
+		else
+		{
+			Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
 		}
 
-		public SpawnableResult SpawnAt(SpawnDestination destination)
-		{
-			if (prefab == null)
-			{
-				Logger.LogError("Cannot spawn, prefab to use is null", Category.ItemSpawn);
-				return SpawnableResult.Fail(destination);
-			}
-			Logger.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);
-
-			bool isPooled;
-
-			GameObject tempObject = Spawn._PoolInstantiate(prefab, destination,
-				out isPooled);
-
-			if (!isPooled)
-			{
-				Logger.LogTrace("Prefab to spawn was not pooled, spawning new instance.", Category.ItemSpawn);
-				NetworkServer.Spawn(tempObject);
-				tempObject.GetComponent<CustomNetTransform>()
-					?.NotifyPlayers(); //Sending clientState for newly spawned items
-			}
-			else
-			{
-				Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
-			}
-
-			return SpawnableResult.Single(tempObject, destination);
-		}
-
-		public SpawnableResult ClientSpawnAt(SpawnDestination destination)
-		{
-			bool isPooled; // not used for Client-only instantiation
-			var go = Spawn._PoolInstantiate(prefab, destination, out isPooled);
-
-			return SpawnableResult.Single(go, destination);
-		}
+		return SpawnableResult.Single(tempObject, destination);
 	}
 
+	public SpawnableResult ClientSpawnAt(SpawnDestination destination)
+	{
+		bool isPooled; // not used for Client-only instantiation
+		var go = Spawn._PoolInstantiate(prefab, destination, out isPooled);
+
+		return SpawnableResult.Single(go, destination);
+	}
 }

@@ -23,12 +23,7 @@ public class CraftingManager : MonoBehaviour
 
 	public Techweb techweb;
 	public Designs designs;
-	public ConstructionHelper construction;
-	public Deconstruction deconstruction;
 
-
-	public static ConstructionHelper Construction => Instance.construction;
-	public static Deconstruction Deconstruction => Instance.deconstruction;
 	public static Designs Designs => Instance.designs;
 	public static Techweb TechWeb => Instance.techweb;
 }

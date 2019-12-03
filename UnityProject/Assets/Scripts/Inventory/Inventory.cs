@@ -56,6 +56,26 @@ public static class Inventory
 	}
 
 	/// <summary>
+	/// Consume the indicated amount of the object in the slot if it is stackable, otherwise despawn it.
+	/// </summary>
+	/// <param name="fromSlot"></param>
+	/// <returns>true if successful</returns>
+	public static bool ServerConsume(ItemSlot fromSlot, int amountToConsume)
+	{
+		if (fromSlot.ItemObject == null) return false;
+		var stackable = fromSlot.ItemObject.GetComponent<Stackable>();
+		if (stackable != null)
+		{
+			stackable.ServerConsume(amountToConsume);
+			return true;
+		}
+		else
+		{
+			return ServerPerform(InventoryMove.Despawn(fromSlot));
+		}
+	}
+
+	/// <summary>
 	/// Inventory move in which the object (assumed to be in a slot) is despawned directly from inventory and doesn't reappear
 	/// in the world.
 	/// </summary>

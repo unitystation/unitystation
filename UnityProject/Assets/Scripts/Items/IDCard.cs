@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 /// <summary>
 ///     ID card properties
 /// </summary>
-public class IDCard : NetworkBehaviour
+public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 {
 
 	[Tooltip("Sprite to use when the card is a normal card")]
@@ -34,6 +34,12 @@ public class IDCard : NetworkBehaviour
 	[SerializeField]
 	private IDCardType manuallyAssignCardType;
 
+	[Tooltip("If true, will initialize itself with the correct access list, name, job, etc...based on the" +
+	         " first player whose inventory it is added to. Used for initial loadout.")]
+	[SerializeField]
+	private bool autoInitOnPickup;
+	private bool hasAutoInit;
+
 
 	public JobType JobType => jobType;
 	public Occupation Occupation => OccupationList.Instance.Get(JobType);
@@ -57,10 +63,12 @@ public class IDCard : NetworkBehaviour
 	private bool isInit;
 	//To switch the card sprites when the type changes
 	private SpriteRenderer spriteRenderer;
+	private Pickupable pickupable;
 
 	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		pickupable = GetComponent<Pickupable>();
 	}
 
 	public override void OnStartServer()
@@ -76,6 +84,41 @@ public class IDCard : NetworkBehaviour
 		base.OnStartClient();
 	}
 
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		hasAutoInit = false;
+	}
+
+	public void OnInventoryMoveServer(InventoryMove info)
+	{
+		if (!hasAutoInit && autoInitOnPickup)
+		{
+			//auto init if being added to a player's inventory
+			if (info.ToPlayer != null)
+			{
+				var ps = info.ToPlayer.GetComponent<PlayerScript>();
+				var occupation = info.ToPlayer.GetComponent<PlayerScript>().mind.occupation;
+				if (occupation == null) return;
+				var charSettings = ps.characterSettings;
+				var jobType = occupation.JobType;
+				if (jobType == JobType.CAPTAIN)
+				{
+					Initialize(IDCardType.captain, jobType, occupation.AllowedAccess, charSettings.Name);
+				}
+				else if (jobType == JobType.HOP || jobType == JobType.HOS || jobType == JobType.CMO || jobType == JobType.RD ||
+				         jobType == JobType.CHIEF_ENGINEER)
+				{
+					Initialize(IDCardType.command, jobType, occupation.AllowedAccess, charSettings.Name);
+				}
+				else
+				{
+					Initialize(IDCardType.standard, jobType, occupation.AllowedAccess, charSettings.Name);
+				}
+			}
+		}
+	}
+
+
 	/// <summary>
 	/// Configures the ID card with the specified settings
 	/// </summary>
@@ -83,12 +126,12 @@ public class IDCard : NetworkBehaviour
 	/// <param name="jobType">job on the card</param>
 	/// <param name="allowedAccess">what the card can access</param>
 	/// <param name="name">name listed on card</param>
-	public void Initialize(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name)
+	private void Initialize(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name)
 	{
 		//Set all the synced properties for the card
 		SyncName(name);
 		this.jobType = jobType;
-		this.idCardType = idCardType;
+		SyncIDCardType(idCardType);
 		ServerAddAccess(allowedAccess);
 	}
 
@@ -153,6 +196,9 @@ public class IDCard : NetworkBehaviour
 				spriteRenderer.sprite = captainSprite;
 				break;
 		}
+
+		pickupable.RefreshUISlotImage();
+
 	}
 
 	public void OnExamine()
@@ -249,4 +295,5 @@ public class IDCard : NetworkBehaviour
 	{
 		SyncName(newName);
 	}
+
 }

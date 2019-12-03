@@ -11,6 +11,7 @@ public abstract class Interaction
 {
 	private readonly GameObject usedObject;
 	private readonly GameObject performer;
+	private readonly Intent intent;
 
 	/// <summary>
 	/// The gameobject of the player performing the interaction
@@ -27,6 +28,11 @@ public abstract class Interaction
 	public GameObject UsedObject => usedObject;
 
 	/// <summary>
+	/// Intent of the player for this interaction.
+	/// </summary>
+	public Intent Intent => intent;
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the interaction</param>
@@ -36,9 +42,10 @@ public abstract class Interaction
 	/// For combine - object that was dragged to another slot.
 	/// For activate - the object being activated
 	/// For mouse drop - the object being dragged and dropped.</param>
-	public Interaction(GameObject performer, GameObject usedObject)
+	public Interaction(GameObject performer, GameObject usedObject, Intent intent)
 	{
 		this.performer = performer;
 		this.usedObject = usedObject;
+		this.intent = intent;
 	}
 }

@@ -2,9 +2,10 @@
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Component which allows all the tiles of a matrix to be interacted with.
+/// Component which allows all the tiles of a matrix to be interacted with. Has interaction logic for construction /
+/// deconstruction of tiles. Melee is handled in Meleeable.
 /// </summary>
-public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -47,87 +48,79 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		CacheTileMaps();
 	}
 
-	public bool Interact(PositionalHandApply interaction)
-	{ //todo: refactor to IF2!
-		if (!DefaultWillInteract.PositionalHandApply(interaction, NetworkSide.Client)) return false;
+	/// <summary>
+	/// Gets the interactable tiles for the matrix at the indicated world position. Never returns null - always
+	/// returns the interactable tiles for the appropriate matrix.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public static InteractableTiles GetAt(Vector2 worldPos, bool isServer)
+	{
+		var matrixInfo = MatrixManager.AtPoint(worldPos.RoundToInt(), isServer);
+		var matrix = matrixInfo.Matrix;
+		var tileChangeManager = matrix.GetComponentInParent<TileChangeManager>();
+		return tileChangeManager.GetComponent<InteractableTiles>();
+	}
 
-		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+	/// <summary>
+	/// Gets the interactable tiles for the matrix at the indicated world position. Never returns null - always
+	/// returns the interactable tiles for the appropriate matrix.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public static InteractableTiles GetAt(Vector2 worldPos, NetworkSide side)
+	{
+		return GetAt(worldPos, side == NetworkSide.Server);
+	}
 
-		Vector3Int pos = objectLayer.transform.InverseTransformPoint(interaction.WorldPositionTarget).RoundToInt();
-		pos.z = 0;
-		Vector3Int cellPos = baseLayer.WorldToCell(interaction.WorldPositionTarget);
+	/// <summary>
+	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public LayerTile LayerTileAt(Vector2 worldPos)
+	{
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
 
-		LayerTile tile = metaTileMap.GetTile(pos);
+		return metaTileMap.GetTile(pos);
+	}
 
+
+	/// <summary>
+	/// Converts the world position to a cell position on these tiles.
+	/// </summary>
+	/// <param name="worldPosition"></param>
+	/// <returns></returns>
+	public Vector3Int WorldToCell(Vector2 worldPosition)
+	{
+		return baseLayer.WorldToCell(worldPosition);
+	}
+
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.PositionalHandApply(interaction, side)) return false;
+
+		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
+		//check for melee / deconstruction
 		if (tile != null)
 		{
 			switch (tile.TileType)
 			{
 				case TileType.Table:
 				{
-					Vector3 targetPosition = interaction.WorldPositionTarget;
-					targetPosition.z = -0.2f;
-					pna.CmdPlaceItem(interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none),
-						targetPosition, interaction.Performer, true);
-					return true;
-				}
-				case TileType.Floor:
-				{
-					//Crowbar
-					if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
-					{
-						pna.CmdCrowBarRemoveFloorTile(interaction.Performer, LayerType.Floors,
-							new Vector2(cellPos.x, cellPos.y), interaction.WorldPositionTarget);
-						return true;
-					}
-
-					break;
+					//place on table
+					return interaction.HandObject != null;
 				}
 				case TileType.Base:
-				{
-					if (Validations.HasComponent<UniFloorTile>(interaction.HandObject))
-					{
-						pna.CmdPlaceFloorTile(interaction.Performer,
-							new Vector2(cellPos.x, cellPos.y), interaction.HandObject);
-						return true;
-					}
-
-					break;
-				}
+				case TileType.Floor:
+				case TileType.Wall:
 				case TileType.Window:
-				{
-					//Check Melee:
-					Meleeable melee = windowLayer.gameObject.GetComponent<Meleeable>();
-					if (melee != null &&
-					    melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject)))
-					{
-						return true;
-					}
-
-					break;
-				}
 				case TileType.Grill:
 				{
-					//Check Melee:
-					Meleeable melee = grillTileMap.gameObject.GetComponent<Meleeable>();
-					if (melee != null && melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject)))
+					//deconstruct with item in hand on non-harm intent
+					if (tile is BasicTile basicTile && interaction.Intent != Intent.Harm)
 					{
-						return true;
-					}
-
-					break;
-				}
-				case TileType.Wall:
-				{
-					Welder welder = interaction.HandObject != null ? interaction.HandObject.GetComponent<Welder>() : null;
-					if (welder != null)
-					{
-						if (welder.isOn)
-						{
-							//Request to deconstruct from the server:
-							RequestTileDeconstructMessage.Send(interaction.Performer, gameObject, TileType.Wall, interaction.WorldPositionTarget);
-							return true;
-						}
+						return basicTile.CanDeconstruct(interaction);
 					}
 					break;
 				}
@@ -136,6 +129,44 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 		return false;
 	}
+
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint(interaction.WorldPositionTarget).RoundToInt();
+		pos.z = 0;
+		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
+		if (tile != null)
+		{
+			switch (tile.TileType)
+			{
+				case TileType.Table:
+				{
+					//place item
+					Inventory.ServerDrop(interaction.HandSlot, interaction.WorldPositionTarget);
+					break;
+				}
+				case TileType.Base:
+				case TileType.Floor:
+				case TileType.Wall:
+				case TileType.Window:
+				case TileType.Grill:
+				{
+					//deconstruct
+					if (tile is BasicTile basicTile)
+					{
+						if (basicTile.CanDeconstruct(interaction))
+						{
+							basicTile.ServerDeconstruct(interaction);
+						}
+					}
+
+					break;
+				}
+			}
+		}
+	}
+
+
 
 	void CacheTileMaps()
 	{
