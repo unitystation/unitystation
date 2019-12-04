@@ -43,7 +43,7 @@ public partial class PlayerSync
 	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
-	private Vector2 serverLastDirection;
+	private Vector2 lastDirectionServer;
 
 	private RegisterPlayer registerPlayer;
 
@@ -225,40 +225,29 @@ public partial class PlayerSync
 
 			if (consideredFloatingServer)
 			{
-				//Correct direction and speed if already flying:
-				//speed and directions are combined in Newtonian movement
 				var currentFlyingDirection = serverState.Impulse;
 				var currentFlyingSpeed = serverState.speed;
 
-				Vector2 correctedDirAndSpeed = (Vector2)direction*speed + currentFlyingDirection*currentFlyingSpeed;
-				Vector2Int correctedDirection = Vector2Int.FloorToInt(correctedDirAndSpeed).Normalize();
+				float correctedSpeed = speed;
 
-				float correctedSpeed = currentFlyingSpeed;
+				bool isOppositeDirection = direction == -currentFlyingDirection;
+				bool isSameDirection = direction == currentFlyingDirection;
 
-				bool xChanged = direction.x != 0;
-				bool yChanged = direction.y != 0;
-
-				if (xChanged && yChanged)
+				if (isOppositeDirection)
 				{
-					correctedSpeed = (Mathf.Abs(correctedDirAndSpeed.x) + Mathf.Abs(correctedDirAndSpeed.y)) / 2f;
-				}
-				else
-				{
-					if (xChanged)
-					{
-						correctedSpeed = Mathf.Abs(correctedDirAndSpeed.x);
-					}
-					if (yChanged)
-					{
-						correctedSpeed = Mathf.Abs(correctedDirAndSpeed.y);
-					}
+					Logger.LogTrace("got counter impulse, stopping", Category.PushPull);
+					Stop();
+					return true;
 				}
 
+				if (isSameDirection)
+				{
+					correctedSpeed = Mathf.Clamp(speed + currentFlyingSpeed, currentFlyingSpeed, PushPull.MAX_NEWTONIAN_SPEED);
+				}
 
-				Logger.LogTraceFormat("Combined {0}@{1} with current {2}@{3} into {4}@{5}", Category.PushPull,
-					direction, speed, currentFlyingDirection, currentFlyingSpeed, correctedDirection, correctedSpeed
+				Logger.LogTraceFormat("proposed: {0}@{1}, current: {2}@{3}, result: {4}@{5}", Category.PushPull,
+					direction, speed, currentFlyingDirection, currentFlyingSpeed, direction, correctedSpeed
 					);
-				direction = correctedDirection;
 				speed = correctedSpeed;
 			}
 		}
@@ -292,7 +281,7 @@ public partial class PlayerSync
 			IsFollowUpdate = followMode,
 			Speed = speed
 		};
-		serverLastDirection = direction;
+		lastDirectionServer = direction;
 		ServerState = newState;
 		SyncMatrix();
 		OnStartMove().Invoke( origin, pushGoal );
@@ -455,11 +444,11 @@ public partial class PlayerSync
 
 		var newPos = nextState.WorldPosition;
 		var oldPos = serverState.WorldPosition;
-		serverLastDirection = Vector2Int.RoundToInt(newPos - oldPos);
+		lastDirectionServer = Vector2Int.RoundToInt(newPos - oldPos);
 		ServerState = nextState;
 		//In case positions already match
 		TryNotifyPlayers();
-		if ( serverLastDirection != Vector2.zero ) {
+		if ( lastDirectionServer != Vector2.zero ) {
 			CheckMovementServer();
 			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 		}
@@ -669,10 +658,10 @@ public partial class PlayerSync
 		//Space walk checks
 		if ( IsNonStickyServer )
 		{
-			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
+			if (serverState.Impulse == Vector2.zero && lastDirectionServer != Vector2.zero)
 			{ //fixme: serverLastDirection is unreliable. maybe rethink notion of impulse
 				//server initiated space dive.
-				serverState.Impulse = serverLastDirection;
+				serverState.Impulse = lastDirectionServer;
 				serverState.ImportantFlightUpdate = true;
 				serverState.ResetClientQueue = true;
 			}
@@ -771,7 +760,7 @@ public partial class PlayerSync
 				}
 			}
 			//removing lastDirection when we hit an obstacle in space
-			serverLastDirection = Vector2.zero;
+			lastDirectionServer = Vector2.zero;
 
 			//finish floating. players will be notified as soon as serverState catches up
 			serverState.Impulse = Vector2.zero;
@@ -804,7 +793,7 @@ public partial class PlayerSync
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
 			if (!playerScript.IsGhost)
 			{
-				CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection * -1, isServer: true);
+				CheckAndDoSwap(targetPos.RoundToInt(), lastDirectionServer * -1, isServer: true);
 			}
 		}
 		if ( TryNotifyPlayers() ) {
