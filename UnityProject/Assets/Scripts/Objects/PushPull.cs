@@ -125,7 +125,27 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	}
 
 	[SyncVar]
-	public bool isNotPushable = false;
+	private bool isNotPushable = false;
+
+	/// <summary>
+	/// Checks if there is anything preventing this from being pushed regardless of direction
+	/// (basically if it's anchored)
+	/// </summary>
+	public bool IsPushable => !isNotPushable;
+	/// <summary>
+	/// Opposite of IsPushable
+	/// </summary>
+	public bool IsNotPushable => isNotPushable;
+
+	/// <summary>
+	/// Toggle whether this is pushable. Valid server side only.
+	/// </summary>
+	/// <param name="isPushable"></param>
+	[Server]
+	public void ServerSetPushable(bool isPushable)
+	{
+		isNotPushable = !isPushable;
+	}
 
 	private IPushable pushableTransform;
 

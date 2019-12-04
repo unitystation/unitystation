@@ -45,6 +45,8 @@ public class RequestInteractMessage : ClientMessage
 	//named slot targeted in storage
 	public NamedSlot NamedSlot;
 
+	public int TileInteractionIndex;
+
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
 	private static readonly Dictionary<byte, Type> interactionIDToInteractionType = new Dictionary<byte, Type>();
@@ -82,7 +84,8 @@ public class RequestInteractMessage : ClientMessage
 
 		return Assembly.GetExecutingAssembly()
 			.GetTypes()
-			.Where(t => ImplementsGenericType(t, genericType));
+			.Where(t => ImplementsGenericType(t, genericType))
+			.Where(t => typeof(Component).IsAssignableFrom(t));
 	}
 
 	private static bool ImplementsGenericType(Type toCheck, Type genericType)
@@ -178,6 +181,16 @@ public class RequestInteractMessage : ClientMessage
 			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
+		else if (InteractionType == typeof(TileApply))
+		{
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+			yield return WaitFor(ProcessorObject);
+			var processorObj = NetworkObject;
+			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
+				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent);
+		}
 
 
 	}
@@ -224,6 +237,11 @@ public class RequestInteractMessage : ClientMessage
 	public static void Send<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
 	{
+		if (typeof(T) == typeof(TileApply))
+		{
+			Logger.LogError("Cannot use Send with TileApply, please use SendTileApply instead.", Category.Interaction);
+			return;
+		}
 		//never send anything for client-side-only interactions
 		if (interactableComponent is IClientInteractable<T> && !(interactableComponent is IInteractable<T>))
 		{
@@ -297,6 +315,36 @@ public class RequestInteractMessage : ClientMessage
 		msg.Send();
 	}
 
+	//only intended to be used by core if2 classes
+	public static void SendTileApply(TileApply tileApply, InteractableTiles interactableTiles, TileInteraction tileInteraction, int tileInteractionIndex)
+	{
+		//if we are client and the interaction has client prediction, trigger it.
+		//Note that client prediction is not triggered for server player.
+		if (!CustomNetworkManager.IsServer)
+		{
+			Logger.LogTraceFormat("Predicting TileApply interaction {0}", Category.Interaction, tileApply);
+			tileInteraction.ClientPredictInteraction(tileApply);
+		}
+		if (!tileApply.Performer.Equals(PlayerManager.LocalPlayer))
+		{
+			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
+			                " This is not allowed. Client can only perform an interaction as themselves. Message" +
+			                " will not be sent.", Category.NetMessage);
+			return;
+		}
+
+		var msg = new RequestInteractMessage()
+		{
+			ComponentType = typeof(InteractableTiles),
+			InteractionType = typeof(TileApply),
+			ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+			Intent = tileApply.Intent,
+			TargetVector = tileApply.TargetVector,
+			TileInteractionIndex = tileInteractionIndex
+		};
+		msg.Send();
+	}
+
 	public override void Deserialize(NetworkReader reader)
 	{
 
@@ -333,6 +381,11 @@ public class RequestInteractMessage : ClientMessage
 			Storage = reader.ReadUInt32();
 			SlotIndex = reader.ReadInt32();
 			NamedSlot = (NamedSlot) reader.ReadInt32();
+		}
+		else if (InteractionType == typeof(TileApply))
+		{
+			TargetVector = reader.ReadVector2();
+			TileInteractionIndex = reader.ReadByte();
 		}
 	}
 
@@ -372,5 +425,11 @@ public class RequestInteractMessage : ClientMessage
 			writer.WriteInt32(SlotIndex);
 			writer.WriteInt32((int) NamedSlot);
 		}
+		else if (InteractionType == typeof(InventoryApply))
+		{
+			writer.WriteVector2(TargetVector);
+			writer.WriteByte((byte) TileInteractionIndex);
+		}
 	}
+
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Mirror;
 
 /// <summary>
@@ -9,19 +10,20 @@ using Mirror;
 public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private TileChangeManager tileChangeManager;
-	public GameObject metalPrefab;
 
 	private RegisterObject registerObject;
+	private ObjectBehaviour objectBehaviour;
 
 	private void Start(){
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
 			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 	}
 
@@ -32,9 +34,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
-		//only try to interact if the user has a wrench or metal in their hand
+		//only try to interact if the user has a wrench, screwdriver, or metal in their hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal) &&
-		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
+		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
+		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return false;
 		return true;
 	}
 
@@ -42,35 +45,97 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (interaction.TargetObject != gameObject) return;
 
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal)){
-			var progressFinishAction = new ProgressCompleteAction(() =>
-						ConstructWall(interaction));
-			UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal))
+		{
+			//TODO: false walls
+			if (objectBehaviour.IsPushable)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "You've temporarily forgotten how to build false walls.");
+			}
+			else
+			{
+				if (!Validations.HasAtLeast(interaction.HandObject, 2))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "You need two sheets of metal to finish a wall!");
+					return;
+				}
+
+				var progressFinishAction = new ProgressCompleteAction(() =>
+					ConstructWall(interaction));
+				Chat.AddActionMsgToChat(interaction.Performer, $"You start adding plating...",
+					$"{interaction.Performer.ExpensiveName()} begins adding plating...");
+				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+			}
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
-
-			var progressFinishAction = new ProgressCompleteAction(Disassemble);
-			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
-			if (bar != null)
+			ProgressBar bar = null;
+			if (objectBehaviour.IsPushable)
 			{
-				SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
+				//secure it if there's floor
+				if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the girder!");
+					return;
+				}
+				Chat.AddActionMsgToChat(interaction.Performer, $"You start securing the girder...",
+					$"{interaction.Performer.ExpensiveName()} starts securing the girder...");
+				var progressFinishAction = new ProgressCompleteAction(() => objectBehaviour.ServerSetPushable(false));
+				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+			}
+			else
+			{
+				//unsecure it
+				Chat.AddActionMsgToChat(interaction.Performer, $"You start unsecuring the girder...",
+					$"{interaction.Performer.ExpensiveName()} starts unsecuring the girder...");
+				var progressFinishAction = new ProgressCompleteAction(() => objectBehaviour.ServerSetPushable(true));
+				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+			}
+			//play sound if we started progress
+			if (bar != null)
+            {
+            	SoundManager.PlayNetworkedAtPos("Wrench", registerObject.WorldPositionServer, 1f);
+            }
+
+		}
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+		{
+			//disassemble if it's unanchored
+			if (objectBehaviour.IsPushable)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"You start to disassemble the girder...",
+					$"{interaction.Performer.ExpensiveName()} disassembles the girder.");
+				var progressFinishAction = new ProgressCompleteAction(() => Disassemble(interaction));
+				var bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+				if (bar != null)
+				{
+					SoundManager.PlayNetworkedAtPos("screwdriver#", registerObject.WorldPositionServer, 1f);
+				}
+
+			}
+			else
+			{
+				Chat.AddExamineMsg(interaction.Performer, "You must unsecure it first.");
 			}
 		}
 	}
 
 	[Server]
-	private void Disassemble()
+	private void Disassemble(HandApply interaction)
 	{
-		Spawn.ServerPrefab(metalPrefab, registerObject.WorldPositionServer);
+		Chat.AddActionMsgToChat(interaction.Performer, "You disassemble the girder.",
+			$"{interaction.Performer.ExpensiveName()} disassembles the girder.");
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerObject.WorldPositionServer, count: 2);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 
 	[Server]
-	private void ConstructWall(HandApply interaction){
+	private void ConstructWall(HandApply interaction)
+	{
+		Chat.AddActionMsgToChat(interaction.Performer, "You add the plating.",
+			$"{interaction.Performer.ExpensiveName()} adds the plating.");
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
-		interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
-
 }

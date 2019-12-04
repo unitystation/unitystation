@@ -2,10 +2,13 @@
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// Component which allows all the tiles of a matrix to be interacted with. Has interaction logic for construction /
-/// deconstruction of tiles. Melee is handled in Meleeable.
+/// Main entry point for Tile Interaction system.
+/// Component which allows all the tiles of a matrix to be interacted with using their configured
+/// TileInteractions.
+///
+/// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -96,78 +99,6 @@ public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalH
 		return baseLayer.WorldToCell(worldPosition);
 	}
 
-	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.PositionalHandApply(interaction, side)) return false;
-
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
-		//check for melee / deconstruction
-		if (tile != null)
-		{
-			switch (tile.TileType)
-			{
-				case TileType.Table:
-				{
-					//place on table
-					return interaction.HandObject != null;
-				}
-				case TileType.Base:
-				case TileType.Floor:
-				case TileType.Wall:
-				case TileType.Window:
-				case TileType.Grill:
-				{
-					//deconstruct with item in hand on non-harm intent
-					if (tile is BasicTile basicTile && interaction.Intent != Intent.Harm)
-					{
-						return basicTile.CanDeconstruct(interaction);
-					}
-					break;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	public void ServerPerformInteraction(PositionalHandApply interaction)
-	{
-		Vector3Int pos = objectLayer.transform.InverseTransformPoint(interaction.WorldPositionTarget).RoundToInt();
-		pos.z = 0;
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
-		if (tile != null)
-		{
-			switch (tile.TileType)
-			{
-				case TileType.Table:
-				{
-					//place item
-					Inventory.ServerDrop(interaction.HandSlot, interaction.WorldPositionTarget);
-					break;
-				}
-				case TileType.Base:
-				case TileType.Floor:
-				case TileType.Wall:
-				case TileType.Window:
-				case TileType.Grill:
-				{
-					//deconstruct
-					if (tile is BasicTile basicTile)
-					{
-						if (basicTile.CanDeconstruct(interaction))
-						{
-							basicTile.ServerDeconstruct(interaction);
-						}
-					}
-
-					break;
-				}
-			}
-		}
-	}
-
-
-
 	void CacheTileMaps()
 	{
 		var tilemaps = GetComponentsInChildren<Layer>(true);
@@ -201,4 +132,66 @@ public class InteractableTiles : MonoBehaviour, ICheckedInteractable<PositionalH
 	}
 
 
+	public bool Interact(PositionalHandApply interaction)
+	{
+		//translate to the tile interaction system
+
+		//pass the interaction down to the basic tile
+		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
+		if (tile is BasicTile basicTile)
+		{
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+				(Vector2Int) WorldToCell(interaction.WorldPositionTarget), this, basicTile, interaction.HandSlot,
+				interaction.TargetVector);
+
+			var i = 0;
+			foreach (var tileInteraction in basicTile.TileInteractions)
+			{
+				if (tileInteraction.WillInteract(tileApply, NetworkSide.Client))
+				{
+					//request the tile interaction with this index
+					RequestInteractMessage.SendTileApply(tileApply, this, tileInteraction, i);
+					return true;
+				}
+
+				i++;
+			}
+		}
+
+		return false;
+	}
+
+
+	//for internal IF2 usages only, does server side logic for processing tileapply
+	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent)
+	{
+		//find the indicated tile interaction
+		var success = false;
+		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
+		//pass the interaction down to the basic tile
+		LayerTile tile = LayerTileAt(worldPosTarget);
+		if (tile is BasicTile basicTile)
+		{
+			if (tileInteractionIndex > basicTile.TileInteractions.Count)
+			{
+				Logger.LogErrorFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
+					Category.Interaction, tileInteractionIndex, basicTile.name);
+			}
+
+			var tileInteraction = basicTile.TileInteractions[tileInteractionIndex];
+			var tileApply = new TileApply(performer, usedObject, intent,
+				(Vector2Int) WorldToCell(worldPosTarget), this, basicTile, usedSlot,
+				targetVector);
+
+			if (tileInteraction.WillInteract(tileApply, NetworkSide.Server))
+			{
+				//perform
+				tileInteraction.ServerPerformInteraction(tileApply);
+			}
+			else
+			{
+				tileInteraction.ServerRollbackClient(tileApply);
+			}
+		}
+	}
 }

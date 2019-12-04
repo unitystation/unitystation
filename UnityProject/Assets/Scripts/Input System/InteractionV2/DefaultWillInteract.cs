@@ -108,4 +108,12 @@ public static class DefaultWillInteract
 		return Validations.CanApply(interaction, side);
 	}
 
+	/// <summary>
+	/// Default WIllInteract logic for TileApply interactions
+	/// </summary>
+	public static bool TileApply(TileApply interaction, NetworkSide side)
+	{
+		return Validations.CanApply(interaction, side);
+	}
+
 }

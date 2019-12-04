@@ -287,7 +287,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		}
 		PlayerScript.pushPull.CmdStopFollowing();
 		PlayerScript.pushPull.CmdStopPulling();
-		PlayerScript.pushPull.isNotPushable = true;
+		PlayerScript.pushPull.ServerSetPushable(false);
 		onUnbuckled = unbuckledAction;
 
 		//sync position to ensure they buckle to the correct spot
@@ -326,7 +326,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		OnBuckledChangedHook(NetId.Invalid);
 		//we can be pushed / pulled again
-		PlayerScript.pushPull.isNotPushable = false;
+		PlayerScript.pushPull.ServerSetPushable(true);
 		PlayerUprightMessage.SendToAll(gameObject, !registerPlayer.IsDownServer, false); //fall or get up depending if the player can stand
 		onUnbuckled?.Invoke();
 	}
@@ -413,7 +413,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		if (!cuffed || !uncuffingPlayer)
 			return;
-		
+
 		if (!Validations.CanApply(uncuffingPlayer, gameObject, NetworkSide.Server))
 			return;
 
