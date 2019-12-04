@@ -150,7 +150,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			// }
 			if (KeyboardInputManager.CheckMoveAction(moveList[i]))
 			{
-				if(allowInput && !IsBuckled && !IsCuffed){
+				/// <summary>
+				/// Checks if the input is allowed and if the player isnt buckled,if true then the action is added to the moveList
+				/// <summary>
+				if(allowInput && !IsBuckled){
 					actionKeys.Add((int)moveList[i]);
 				}
 				else
