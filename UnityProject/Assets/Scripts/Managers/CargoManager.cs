@@ -154,6 +154,27 @@ public class CargoManager : MonoBehaviour
 
 	public void DestroyItem(ObjectBehaviour item)
 	{
+		var storage = item.GetComponent<InteractableStorage>();
+		if (storage)
+		{
+			foreach (var slot in storage.ItemStorage.GetItemSlots())
+			{
+				if (slot.Item)
+				{
+					DestroyItem(slot.Item.GetComponent<ObjectBehaviour>());
+				}
+			}
+		}
+
+		var closet = item.GetComponent<ClosetControl>();
+		if (closet)
+		{
+			foreach (var closetItem in closet.ServerHeldItems)
+			{
+				DestroyItem(closetItem);
+			}
+		}
+
 		// If there is no bounty for the item - we dont destroy it.
 		var credits = Instance.GetSellPrice(item);
 		if (credits <= 0f)
