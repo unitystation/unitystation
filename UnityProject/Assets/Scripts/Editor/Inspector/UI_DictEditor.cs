@@ -74,15 +74,18 @@ public class UI_DictEditor : PropertyDrawer
 		{
 			keyArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
 			var keyProperty = keyArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
-			SetPropertyValue(keyProperty, conflictState.conflictKey);
-			keyProperty.isExpanded = conflictState.conflictKeyPropertyExpanded;
-
-			if (valueArrayProperty != null)
+			if (keyProperty != null)
 			{
-				valueArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
-				var valueProperty = valueArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
-				SetPropertyValue(valueProperty, conflictState.conflictValue);
-				valueProperty.isExpanded = conflictState.conflictValuePropertyExpanded;
+				SetPropertyValue(keyProperty, conflictState.conflictKey);
+				keyProperty.isExpanded = conflictState.conflictKeyPropertyExpanded;
+
+				if (valueArrayProperty != null)
+				{
+					valueArrayProperty.InsertArrayElementAtIndex(conflictState.conflictIndex);
+					var valueProperty = valueArrayProperty.GetArrayElementAtIndex(conflictState.conflictIndex);
+					SetPropertyValue(valueProperty, conflictState.conflictValue);
+					valueProperty.isExpanded = conflictState.conflictValuePropertyExpanded;
+				}
 			}
 		}
 

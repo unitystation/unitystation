@@ -81,13 +81,14 @@ public abstract class BasicTile : LayerTile
 	/// </summary>
 	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct;
 
-	[Tooltip("How much of the object to spawn when it's deconstructed.")]
+	[Tooltip("How much of the object to spawn when it's deconstructed. Defaults to 1 if" +
+	         " an object is specified and this is 0.")]
 	[SerializeField]
-	private int spawnAmountOnDeconstruct;
+	private int spawnAmountOnDeconstruct = 1;
 	/// <summary>
 	/// How many of the object to spawn when it's deconstructed.
 	/// </summary>
-	public int SpawnAmountOnDeconstruct => spawnAmountOnDeconstruct;
+	public int SpawnAmountOnDeconstruct => SpawnOnDeconstruct == null ? 0 : Mathf.Max(1, spawnAmountOnDeconstruct);
 
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{
