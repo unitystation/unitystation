@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -13,17 +14,56 @@ public struct TileState
 
 public abstract class BasicTile : LayerTile
 {
-	public bool AtmosPassable;
-	public bool IsSealed;
-	public bool Passable;
-	public bool Mineable;
-	public PassableDictionary PassableException;
+	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
+	[FormerlySerializedAs("AtmosPassable")]
+	[SerializeField]
+	private bool atmosPassable;
 
-	public float MaxHealth;
-	public TileState[] HealthStates;
+	[Tooltip("Does this tile form a seal against the floor?")]
+	[FormerlySerializedAs("IsSealed")] [SerializeField]
+	private bool isSealed;
 
-	public Resistances Resistances;
-	public Armor Armor;
+	[Tooltip("Does this tile allow items / objects to pass through it?")]
+	[FormerlySerializedAs("Passable")] [SerializeField]
+	private bool passable;
+
+	[Tooltip("Can this tile be mined?")]
+	[FormerlySerializedAs("Mineable")] [SerializeField]
+	private bool mineable;
+	/// <summary>
+	/// Can this tile be mined?
+	/// </summary>
+	public bool Mineable => mineable;
+
+	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
+	[FormerlySerializedAs("PassableException")] [SerializeField]
+	private PassableDictionary passableException;
+
+
+	[Tooltip("What is this tile's max health?")]
+	[FormerlySerializedAs("MaxHealth")] [SerializeField]
+	private float maxHealth;
+
+
+	[Tooltip("How does the tile change as its health changes?")]
+	[FormerlySerializedAs("HealthStates")] [SerializeField]
+	private TileState[] healthStates;
+
+	[Tooltip("Resistances of this tile.")]
+	[FormerlySerializedAs("Resistances")] [SerializeField]
+	private Resistances resistances;
+	/// <summary>
+	/// Resistances of this tile.
+	/// </summary>
+	public Resistances Resistances => resistances;
+
+	[Tooltip("Armor of this tile")]
+	[FormerlySerializedAs("Armor")] [SerializeField]
+	private Armor armor;
+	/// <summary>
+	/// Armor of this tile
+	/// </summary>
+	public Armor Armor => armor;
 
 	[Tooltip("Interactions which can occur on this tile.")]
 	[SerializeField]
@@ -49,10 +89,6 @@ public abstract class BasicTile : LayerTile
 	/// </summary>
 	public int SpawnAmountOnDeconstruct => spawnAmountOnDeconstruct;
 
-
-
-	public LayerTile DestroyedTile;
-
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{
 		foreach (Vector3Int p in new BoundsInt(-1, -1, 0, 3, 3, 1).allPositionsWithin)
@@ -69,22 +105,22 @@ public abstract class BasicTile : LayerTile
 	/// <returns>IsPassable</returns>
 	public bool IsPassable(CollisionType colliderType)
 	{
-		if (PassableException.ContainsKey(colliderType))
+		if (passableException.ContainsKey(colliderType))
 		{
-			return PassableException[colliderType];
+			return passableException[colliderType];
 		} else
 		{
-			return Passable;
+			return passable;
 		}
 	}
 
 	public bool IsAtmosPassable()
 	{
-		return AtmosPassable;
+		return atmosPassable;
 	}
 
 	public bool IsSpace()
 	{
-		return IsAtmosPassable() && !IsSealed;
+		return IsAtmosPassable() && !isSealed;
 	}
 }
