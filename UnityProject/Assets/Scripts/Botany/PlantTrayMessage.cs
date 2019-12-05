@@ -10,6 +10,10 @@ public class PlantTrayMessage : ServerMessage
 	public string PlantSyncString;
 	public int GrowingPlantStage;
 	public PlantSpriteStage PlantSyncStage;
+	public bool SyncHarvestNotifier;
+	public bool SyncWeedNotifier;
+	public bool SyncWaterNotifier;
+	public bool SyncNutrimentNotifier;
 
 	public uint Tray;
 
@@ -20,22 +24,30 @@ public class PlantTrayMessage : ServerMessage
 		if (NetworkObject != null)
 		{
 			NetworkObject.GetComponent<HydroponicsTray>()
-				?.ReceiveMessage(PlantSyncString, GrowingPlantStage, PlantSyncStage);
+				?.ReceiveMessage(PlantSyncString, GrowingPlantStage, PlantSyncStage,
+					SyncHarvestNotifier, SyncWeedNotifier, SyncWaterNotifier, SyncNutrimentNotifier);
 		}
 
 		yield return null;
 	}
 
-	public static PlantTrayMessage Send(GameObject tray, string plant, int growingStage, PlantSpriteStage spriteStage)
+	public static PlantTrayMessage SendToNearbyPlayers(GameObject tray,
+		string plant, int growingStage, PlantSpriteStage spriteStage,
+		bool harvestNotifier, bool weedNotifier, bool waterNotifier,
+		bool nutrimentNotifier)
 	{
 		PlantTrayMessage msg = new PlantTrayMessage
 		{
 			Tray = tray.NetId(),
 			PlantSyncString = plant,
 			GrowingPlantStage = growingStage,
-			PlantSyncStage = spriteStage
+			PlantSyncStage = spriteStage,
+			SyncHarvestNotifier = harvestNotifier,
+			SyncNutrimentNotifier = nutrimentNotifier,
+			SyncWaterNotifier = waterNotifier,
+			SyncWeedNotifier = weedNotifier
 		};
-		msg.SendToAll();
+		msg.SendToNearbyPlayers(tray.transform.position);
 		return msg;
 	}
 }

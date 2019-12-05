@@ -3,15 +3,15 @@ using UnityEngine;
 using System;
 using Mirror;
 
+/// <summary>
+/// Where the magic happens in botany. This tray grows all of the plants
+/// </summary>
 public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 {
-	[SyncVar(hook = nameof(SyncHarvest))] public bool syncHarvestNotifier;
-
-	[SyncVar(hook = nameof(SyncWeed))] public bool syncWeedNotifier;
-
-	[SyncVar(hook = nameof(SyncWater))] public bool syncWaterNotifier;
-
-	[SyncVar(hook = nameof(SyncNutriment))] public bool syncNutrimentNotifier;
+	public bool syncHarvestNotifier;
+	public bool syncWeedNotifier;
+	public bool syncWaterNotifier;
+	public bool syncNutrimentNotifier;
 
 	private RegisterTile registerTile;
 
@@ -37,22 +37,13 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	public float tickRate = 0.1f;
 	public float tickCount;
-	public float weedLevel = 0; //10
-	public float pestLevel;
-	public float toxicityLevel;
+	public float weedLevel; //10
 	public float nutritionLevel = 100;
 
-	public int maxWeedLevel = 10;
-	public int maxPestLevel = 10;
-	public int maxToxicityLevel = 100;
-	public int maxNutritionLevel = 10;
-
-	public int numberOfUpdatesAlive = 0;
-	public int plantAge = 0;
-	public int plantSubStage = 0;
+	public int numberOfUpdatesAlive;
+	public int plantSubStage;
 	public float plantHealth = 100;
-	public bool readyToHarvest = false;
-	public bool hasFullyGrown = false;
+	public bool readyToHarvest;
 
 	public override void OnStartServer()
 	{
@@ -66,19 +57,8 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			NaturalMutation();
 			SyncStage(PlantSpriteStage.FullyGrown);
 			readyToHarvest = true;
-			hasFullyGrown = true;
 			ProduceCrop();
-			SyncHarvest(true);
 		}
-	}
-
-	public override void OnStartClient()
-	{
-		SyncNutriment(syncNutrimentNotifier);
-		SyncWater(syncWaterNotifier);
-		SyncWeed(syncWeedNotifier);
-		SyncHarvest(syncHarvestNotifier);
-		base.OnStartClient();
 	}
 
 	public void OnEnable()
@@ -179,7 +159,6 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 								NaturalMutation();
 								SyncStage(PlantSpriteStage.FullyGrown);
 								readyToHarvest = true;
-								hasFullyGrown = true;
 								ProduceCrop();
 								SyncHarvest(true);
 							}
@@ -259,13 +238,21 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			SyncWeed(false);
 		}
+
+		SendUpdateToNearbyPlayers();
+	}
+
+	[Server]
+	private void SendUpdateToNearbyPlayers()
+	{
+		PlantTrayMessage.SendToNearbyPlayers(gameObject, plantSyncString, growingPlantStage, plantSyncStage,
+			syncHarvestNotifier, syncWeedNotifier, syncWaterNotifier, syncNutrimentNotifier);
 	}
 
 	private void SyncHarvest(bool newNotifier)
 	{
-		if (isSoilPile) return;
-
-		if (syncHarvestNotifier == newNotifier) return;
+		if (isSoilPile
+		    || newNotifier == syncHarvestNotifier) return;
 
 		syncHarvestNotifier = newNotifier;
 		if (syncHarvestNotifier)
@@ -280,9 +267,8 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	private void SyncWeed(bool newNotifier)
 	{
-		if (isSoilPile) return;
-
-		if (syncWeedNotifier == newNotifier) return;
+		if (isSoilPile ||
+		    newNotifier == syncWaterNotifier) return;
 
 		syncWeedNotifier = newNotifier;
 		if (syncWeedNotifier)
@@ -297,9 +283,8 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	private void SyncWater(bool newNotifier)
 	{
-		if (isSoilPile) return;
-
-		if (syncWaterNotifier == newNotifier) return;
+		if (isSoilPile ||
+		    newNotifier == syncWaterNotifier) return;
 
 		syncWaterNotifier = newNotifier;
 		if (syncWaterNotifier)
@@ -314,9 +299,8 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	private void SyncNutriment(bool newNotifier)
 	{
-		if (isSoilPile) return;
-
-		if (syncNutrimentNotifier == newNotifier) return;
+		if (isSoilPile ||
+		    newNotifier == syncNutrimentNotifier) return;
 
 		syncNutrimentNotifier = newNotifier;
 		if (syncNutrimentNotifier)
@@ -331,6 +315,8 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	private void SyncStage(PlantSpriteStage newStage)
 	{
+		if (newStage == plantSyncStage) return;
+
 		plantSyncStage = newStage;
 		switch (plantSyncStage)
 		{
@@ -351,22 +337,11 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				plantSprite.PushTexture();
 				break;
 		}
-
-		if (isServer)
-		{
-			PlantTrayMessage.Send(gameObject, plantSyncString, growingPlantStage, plantSyncStage);
-		}
 	}
 
 	private void SyncGrowingPlantStage(int newStage)
 	{
-		if (growingPlantStage == newStage) return;
-
 		growingPlantStage = newStage;
-		if (isServer)
-		{
-			PlantTrayMessage.Send(gameObject, plantSyncString, growingPlantStage, plantSyncStage);
-		}
 	}
 
 	private void SyncPlant(string newPlantString)
@@ -379,16 +354,18 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			plantData = DefaultPlantData.PlantDictionary[plantSyncString].plantData;
 		}
-
-		if (isServer)
-		{
-			PlantTrayMessage.Send(gameObject, plantSyncString, growingPlantStage, plantSyncStage);
-		}
 	}
 
-	public void ReceiveMessage(string plantString, int growingStage, PlantSpriteStage spriteStage)
+	public void ReceiveMessage(string plantString, int growingStage, PlantSpriteStage spriteStage,
+		bool harvestSync, bool weedSync, bool waterSync, bool nutrimentSync)
 	{
 		plantSyncString = plantString;
+
+		SyncHarvest(harvestSync);
+		SyncWeed(weedSync);
+		SyncWater(waterSync);
+		SyncNutriment(nutrimentSync);
+
 		if (DefaultPlantData.PlantDictionary.ContainsKey(plantSyncString))
 		{
 			plantData = DefaultPlantData.PlantDictionary[plantSyncString].plantData;
@@ -512,12 +489,10 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			reagentContainer.AddReagents(reagent);
 		}
 
-		plantAge = 0;
 		SyncGrowingPlantStage(0);
 		plantSubStage = 0;
 		plantHealth = 100;
 		readyToHarvest = false;
-		hasFullyGrown = false;
 		numberOfUpdatesAlive = 0;
 		SyncStage(PlantSpriteStage.Dead);
 		plantData = null;
