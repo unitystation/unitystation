@@ -80,7 +80,12 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 				}
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start securing the girder...",
 					$"{interaction.Performer.ExpensiveName()} starts securing the girder...");
-				var progressFinishAction = new ProgressCompleteAction(() => objectBehaviour.ServerSetPushable(false));
+				var progressFinishAction = new ProgressCompleteAction(() =>
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"You secure the girder.",
+						$"{interaction.Performer.ExpensiveName()} secures the girder.");
+					objectBehaviour.ServerSetPushable(false);
+				});
 				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
 			}
 			else
@@ -88,7 +93,12 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 				//unsecure it
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start unsecuring the girder...",
 					$"{interaction.Performer.ExpensiveName()} starts unsecuring the girder...");
-				var progressFinishAction = new ProgressCompleteAction(() => objectBehaviour.ServerSetPushable(true));
+				var progressFinishAction = new ProgressCompleteAction(() =>
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"You unsecure the girder.",
+						$"{interaction.Performer.ExpensiveName()} unsecures the girder.");
+					objectBehaviour.ServerSetPushable(true);
+				});
 				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
 			}
 			//play sound if we started progress

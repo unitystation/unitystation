@@ -39,6 +39,10 @@ public static class DefaultWillInteract
 		{
 			return InventoryApply(interaction as InventoryApply, side);
 		}
+		else if (typeof(T) == typeof(TileApply))
+		{
+			return TileApply(interaction as TileApply, side);
+		}
 		Logger.LogError("Unable to recognize interaction type.");
 		return false;
 	}

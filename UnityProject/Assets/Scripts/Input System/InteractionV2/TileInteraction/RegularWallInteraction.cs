@@ -26,8 +26,10 @@ public class RegularWallInteraction : TileInteraction
 
 				//girder / metal always appears in place of deconstructed wall
 				Spawn.ServerPrefab(CommonPrefabs.Instance.Girder, interaction.WorldPositionTarget);
-				Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.WorldPositionTarget);
+				Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.WorldPositionTarget, count: 2);
 				interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
+				Chat.AddActionMsgToChat(interaction.Performer, "You remove the outer plating..",
+					$"{interaction.Performer} removes the outer plating.");
 			}
 		);
 
@@ -37,6 +39,8 @@ public class RegularWallInteraction : TileInteraction
 		if (bar != null)
 		{
 			SoundManager.PlayNetworkedAtPos("Weld", interaction.WorldPositionTarget, Random.Range(0.9f, 1.1f));
+			Chat.AddActionMsgToChat(interaction.Performer, "You begin slicing through the outer plating...",
+				$"{interaction.Performer} begins slicing through the outer plating...");
 		}
 	}
 }

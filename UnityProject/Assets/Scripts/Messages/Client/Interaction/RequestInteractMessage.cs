@@ -63,6 +63,9 @@ public class RequestInteractMessage : ClientMessage
 			componentTypeToComponentID.Add(componentType, i);
 			i++;
 		}
+		//needed for tile apply, since it is a client-side only interaction it doesn't implement IInteractable<>
+		componentIDToComponentType.Add(i, typeof(InteractableTiles));
+		componentTypeToComponentID.Add(typeof(InteractableTiles), i);
 
 		var alphabeticalInteractionTypes =
 			typeof(Interaction).Assembly.GetTypes()
@@ -425,7 +428,7 @@ public class RequestInteractMessage : ClientMessage
 			writer.WriteInt32(SlotIndex);
 			writer.WriteInt32((int) NamedSlot);
 		}
-		else if (InteractionType == typeof(InventoryApply))
+		else if (InteractionType == typeof(TileApply))
 		{
 			writer.WriteVector2(TargetVector);
 			writer.WriteByte((byte) TileInteractionIndex);
