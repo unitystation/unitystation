@@ -32,6 +32,9 @@ public class SpriteMatrixRotation : MonoBehaviour
 			SetSpritesUpright();
 		}
 	}
+
+	private bool registeredUpdate = false;
+
 	private Quaternion extraRotation = Quaternion.identity;
 
 	//cached spriteRenderers of this gameobject
@@ -67,6 +70,21 @@ public class SpriteMatrixRotation : MonoBehaviour
 		SetSpritesUpright();
 	}
 
+	private void OnDisable()
+	{
+		if (registeredUpdate)
+		{
+			UpdateManager.Instance.Remove(SetSpritesUpright);
+			registeredUpdate = false;
+		}
+
+		if (registerTile.MatrixIsMovable)
+		{
+			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
+			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
+		}
+	}
+
 	private void SetSpritesUpright()
 	{
 		if (spriteRenderers != null)
@@ -78,14 +96,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 		}
 	}
 
-	private void OnDisable()
-	{
-		if (registerTile.MatrixIsMovable)
-		{
-			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
-			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-		}
-	}
+
 
 	//invoked when our parent matrix is being changed or initially set
 	private void OnMatrixWillChange(Matrix newMatrix)
@@ -116,6 +127,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 		{
 			UpdateManager.Instance.Add(SetSpritesUpright);
+			registeredUpdate = true;
 		}
 	}
 
@@ -129,6 +141,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 		{
 			//stop reorienting to face upright
 			UpdateManager.Instance.Remove(SetSpritesUpright);
+			registeredUpdate = false;
 		}
 
 		SetSpritesUpright();

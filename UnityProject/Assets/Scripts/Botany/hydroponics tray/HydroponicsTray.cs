@@ -618,6 +618,9 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			SyncGrowingPlantStage(0);
 			SyncStage(PlantSpriteStage.Growing);
 			Inventory.ServerVanish(slot);
+
+			//Force a quick refresh:
+			SendUpdateToNearbyPlayers();
 			return;
 		}
 
