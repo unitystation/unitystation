@@ -263,6 +263,9 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			harvestNotifier.PushClear();
 		}
+
+		//Force a refresh on nearby clients
+		if(isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncWeed(bool newNotifier)
