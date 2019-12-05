@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,9 @@ public class GameData : MonoBehaviour
 
 	public static string LoggedInUsername { get; set; }
 
+	public static int BuildNumber { get; private set; }
+	public static string ForkName { get; private set; }
+
 	public static GameData Instance
 	{
 		get
@@ -47,6 +51,10 @@ public class GameData : MonoBehaviour
 
 	private void Init()
 	{
+		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+		BuildNumber = buildInfo.BuildNumber;
+		ForkName = buildInfo.ForkName;
+		
 		CheckHeadlessState();
 
 		if (IsTestMode)
