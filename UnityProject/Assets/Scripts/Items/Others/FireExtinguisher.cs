@@ -5,7 +5,9 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
-public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, ICheckedInteractable<AimApply>
+public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
+	IInteractable<HandActivate>,
+	ICheckedInteractable<AimApply>
 {
 	bool safety = true;
 	public int travelDistance = 6;
@@ -34,6 +36,12 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		{
 			pickupable = GetComponent<Pickupable>();
 		}
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		safety = true;
+		SyncSprite(0);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
