@@ -122,6 +122,11 @@ public class CargoManager : MonoBehaviour
 
 			foreach(var entry in exportedItems)
 			{
+				if (entry.Value.TotalValue <= 0)
+				{
+					continue;
+				}
+
 				CentcomMessage += $"+{ entry.Value.TotalValue } credits: " +
 				                  $"{ entry.Value.Count }";
 
@@ -177,15 +182,10 @@ public class CargoManager : MonoBehaviour
 
 		// If there is no bounty for the item - we dont destroy it.
 		var credits = Instance.GetSellPrice(item);
-		if (credits <= 0f)
-		{
-			return;
-		}
-
 		Credits += credits;
 		OnCreditsUpdate?.Invoke();
 
-		var attributes = item.gameObject.GetComponent<ItemAttributesV2>();
+		var attributes = item.gameObject.GetComponent<Attributes>();
 		string exportName;
 		if (attributes)
 		{
@@ -314,8 +314,7 @@ public class CargoManager : MonoBehaviour
 			return 0;
 		}
 
-		var attributes = item.GetComponent<ItemAttributesV2>();
-
+		var attributes = item.GetComponent<Attributes>();
 		if (attributes == null)
 		{
 			return 0;

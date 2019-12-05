@@ -36,7 +36,7 @@ public class ExportScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private Tuple<bool, int> GetPrice(GameObject pricedObject)
 	{
-		var attributes = pricedObject.GetComponent<ItemAttributesV2>();
+		var attributes = pricedObject.GetComponent<Attributes>();
 		var price = attributes ? attributes.ExportCost : 0;
 
 		var containedContents = false;
@@ -49,7 +49,7 @@ public class ExportScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 				{
 					continue;
 				}
-				
+
 				containedContents = true;
 				price += GetPrice(slot.Item.gameObject).Item2;
 			}

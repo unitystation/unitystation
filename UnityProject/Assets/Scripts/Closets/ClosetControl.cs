@@ -330,7 +330,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 	}
 
-
 	private void OpenPlayerHandling()
 	{
 		foreach (ObjectBehaviour player in heldPlayers)
