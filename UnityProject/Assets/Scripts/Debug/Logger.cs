@@ -244,7 +244,8 @@ public enum Category
 	Interaction,
 	Antags,
 	Hub,
-	SpatialRelationship
+	SpatialRelationship,
+	MLAgents
 }
 
 [Serializable]

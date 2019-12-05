@@ -284,8 +284,10 @@ namespace MLAgents
             catch
             {
                 communicator = null;
+                Logger.Log("No Communicator", Category.MLAgents);
                 if (controlledBrains.ToList().Count > 0)
                 {
+	                Logger.Log($"Controlled Brains Found: {controlledBrains.ToList().Count}", Category.MLAgents);
                     communicator = new RpcCommunicator(
                         new CommunicatorParameters
                         {
