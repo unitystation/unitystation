@@ -257,7 +257,13 @@ MonoBehaviour:
   growingPlantStage: 0
   plantSyncString: 
   isSoilPile: 0
-  potentialWeeds: []
+  potentialWeeds:
+  - {fileID: 11400000, guid: 375fdb78e44a16f44bd8fed477aec2fa, type: 2}
+  - {fileID: 11400000, guid: 8381b65b5721d454cbe2b03391fd34c4, type: 2}
+  - {fileID: 11400000, guid: 4d0e5cc6d51fa0446b4907df06c35a48, type: 2}
+  - {fileID: 11400000, guid: c5c8c48fefd6af742a194210057456e6, type: 2}
+  - {fileID: 11400000, guid: e08fe974797d87d49980a832c69354ff, type: 2}
+  - {fileID: 11400000, guid: 53bb9f10c65e1dd4fa5b856a06b91f91, type: 2}
   readyProduce: []
   modification: 0
   reagentContainer: {fileID: 3468170437254342443}
