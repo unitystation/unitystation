@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,9 @@ public class GameData : MonoBehaviour
 
 	public static string LoggedInUsername { get; set; }
 
+	public static int BuildNumber { get; private set; }
+	public static string ForkName { get; private set; }
+
 	public static GameData Instance
 	{
 		get
@@ -47,6 +51,12 @@ public class GameData : MonoBehaviour
 
 	private void Init()
 	{
+		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+		BuildNumber = buildInfo.BuildNumber;
+		ForkName = buildInfo.ForkName;
+		
+		CheckHeadlessState();
+
 		if (IsTestMode)
 		{
 			return;
@@ -223,10 +233,7 @@ public class GameData : MonoBehaviour
 		if (CustomNetworkManager.Instance.isNetworkActive)
 		{
 			//Reset stuff
-			if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
-			{
-				IsHeadlessServer = true;
-			}
+			CheckHeadlessState();
 
 			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
 			{
@@ -237,7 +244,7 @@ public class GameData : MonoBehaviour
 		}
 
 		//Check if running in batchmode (headless server)
-		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+		if (CheckHeadlessState())
 		{
 			float calcFrameRate = 1f / Time.deltaTime;
 			Application.targetFrameRate = (int) calcFrameRate;
@@ -253,6 +260,17 @@ public class GameData : MonoBehaviour
 				Logger.Log("Start rcon server", Category.Rcon);
 			}
 		}
+	}
+
+	bool CheckHeadlessState()
+	{
+		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+		{
+			IsHeadlessServer = true;
+			return true;
+		}
+
+		return false;
 	}
 
 	private IEnumerator WaitToStartServer()
