@@ -54,7 +54,7 @@ public class GameData : MonoBehaviour
 		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
-		
+
 		CheckHeadlessState();
 
 		if (IsTestMode)
@@ -101,6 +101,8 @@ public class GameData : MonoBehaviour
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
+		if (LobbyManager.Instance == null) return;
+		
 		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
 
 		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
