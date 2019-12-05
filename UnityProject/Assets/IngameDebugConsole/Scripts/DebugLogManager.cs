@@ -502,7 +502,6 @@ namespace IngameDebugConsole
 		public void HideButtonPressed()
 		{
 			Hide();
-			popupManager.Show();
 		}
 
 		/// <summary>
