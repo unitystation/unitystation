@@ -56,6 +56,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	public override void OnStartServer()
 	{
+		UpdateManager.Instance.Add(ServerUpdate);
 		if (isSoilPile)
 		{
 			hasPlant = false;
@@ -83,10 +84,6 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	public void OnEnable()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		if (isServer)
-		{
-			UpdateManager.Instance.Add(ServerUpdate);
-		}
 	}
 
 	public void OnDisable()
