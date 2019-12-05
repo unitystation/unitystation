@@ -47,6 +47,8 @@ public class GameData : MonoBehaviour
 
 	private void Init()
 	{
+		CheckHeadlessState();
+
 		if (IsTestMode)
 		{
 			return;
@@ -223,10 +225,7 @@ public class GameData : MonoBehaviour
 		if (CustomNetworkManager.Instance.isNetworkActive)
 		{
 			//Reset stuff
-			if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
-			{
-				IsHeadlessServer = true;
-			}
+			CheckHeadlessState();
 
 			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
 			{
@@ -237,7 +236,7 @@ public class GameData : MonoBehaviour
 		}
 
 		//Check if running in batchmode (headless server)
-		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+		if (CheckHeadlessState())
 		{
 			float calcFrameRate = 1f / Time.deltaTime;
 			Application.targetFrameRate = (int) calcFrameRate;
@@ -253,6 +252,17 @@ public class GameData : MonoBehaviour
 				Logger.Log("Start rcon server", Category.Rcon);
 			}
 		}
+	}
+
+	bool CheckHeadlessState()
+	{
+		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+		{
+			IsHeadlessServer = true;
+			return true;
+		}
+
+		return false;
 	}
 
 	private IEnumerator WaitToStartServer()
