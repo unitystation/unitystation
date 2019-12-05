@@ -33,14 +33,8 @@ public class RegularWallInteraction : TileInteraction
 			}
 		);
 
-		//Start the progress bar:
-		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget,
-			10f, progressFinishAction, interaction.Performer);
-		if (bar != null)
-		{
-			SoundManager.PlayNetworkedAtPos("Weld", interaction.WorldPositionTarget, Random.Range(0.9f, 1.1f));
-			Chat.AddActionMsgToChat(interaction.Performer, "You begin slicing through the outer plating...",
-				$"{interaction.Performer} begins slicing through the outer plating...");
-		}
+		Chat.AddActionMsgToChat(interaction.Performer, "You begin slicing through the outer plating...",
+			$"{interaction.Performer} begins slicing through the outer plating...");
+		ToolUtils.UseTool(interaction, 10f, progressFinishAction);
 	}
 }

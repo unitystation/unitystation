@@ -5,20 +5,30 @@ using Mirror;
 /// <summary>
 /// The main girder component
 /// </summary>
-[RequireComponent(typeof(RegisterObject))]
-[RequireComponent(typeof(Pickupable))]
-public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 {
 	private TileChangeManager tileChangeManager;
 
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
 
+	[Tooltip("Reinforced girder prefab.")]
+	[SerializeField]
+	private GameObject reinforcedGirder;
+
+	//tracked server side only
+	private int plasteelSheetCount;
+
 	private void Start(){
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		plasteelSheetCount = 0;
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
@@ -34,8 +44,9 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
-		//only try to interact if the user has a wrench, screwdriver, or metal in their hand
+		//only try to interact if the user has a wrench, screwdriver, metal, or plasteel in their hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal) &&
+			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Plasteel) &&
 		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
 		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return false;
 		return true;
@@ -67,9 +78,31 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
 			}
 		}
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Plasteel))
+		{
+			//TODO: false reinforced walls
+			if (objectBehaviour.IsPushable)
+			{
+				if (!Validations.HasAtLeast(interaction.HandObject, 2))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "You need at least two sheets to create a false wall!");
+					return;
+				}
+				Chat.AddExamineMsg(interaction.Performer, "You've temporarily forgotten how to build reinforced false walls.");
+			}
+			else
+			{
+				//add plasteel for constructing reinforced girder
+				var progressFinishAction = new ProgressCompleteAction(() =>
+					ReinforceGirder(interaction));
+				Chat.AddActionMsgToChat(interaction.Performer, $"You start reinforcing the girder...",
+					$"{interaction.Performer.ExpensiveName()} starts reinforcing the girder...");
+				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 6f,
+					progressFinishAction, interaction.Performer);
+			}
+		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
-			ProgressBar bar = null;
 			if (objectBehaviour.IsPushable)
 			{
 				//secure it if there's floor
@@ -86,7 +119,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 						$"{interaction.Performer.ExpensiveName()} secures the girder.");
 					objectBehaviour.ServerSetPushable(false);
 				});
-				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
 			}
 			else
 			{
@@ -99,13 +132,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 						$"{interaction.Performer.ExpensiveName()} unsecures the girder.");
 					objectBehaviour.ServerSetPushable(true);
 				});
-				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
 			}
-			//play sound if we started progress
-			if (bar != null)
-            {
-            	SoundManager.PlayNetworkedAtPos("Wrench", registerObject.WorldPositionServer, 1f);
-            }
 
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
@@ -116,12 +144,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start to disassemble the girder...",
 					$"{interaction.Performer.ExpensiveName()} disassembles the girder.");
 				var progressFinishAction = new ProgressCompleteAction(() => Disassemble(interaction));
-				var bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
-				if (bar != null)
-				{
-					SoundManager.PlayNetworkedAtPos("screwdriver#", registerObject.WorldPositionServer, 1f);
-				}
-
+				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
 			}
 			else
 			{
@@ -148,4 +171,16 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
+
+	[Server]
+	private void ReinforceGirder(HandApply interaction)
+	{
+		Chat.AddActionMsgToChat(interaction.Performer, "You reinforce the girder.",
+			$"{interaction.Performer.ExpensiveName()} reinforces the girder.");
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
+		Spawn.ServerPrefab(reinforcedGirder, SpawnDestination.At(gameObject));
+		Despawn.ServerSingle(gameObject);
+	}
+
+
 }
