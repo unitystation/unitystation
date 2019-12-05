@@ -14,6 +14,10 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	private bool strutsUnsecured;
 
+	[Tooltip("Normal girder prefab.")]
+	[SerializeField]
+	private GameObject girder;
+
 	private void Start(){
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
@@ -34,9 +38,10 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
-		//only try to interact if the user has plasteel or screwdriver
+		//only try to interact if the user has plasteel, screwdriver, or wirecutter
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Plasteel) &&
-		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return false;
+		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver) &&
+		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter)) return false;
 		return true;
 	}
 
@@ -67,7 +72,7 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 				});
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start unsecuring the support struts...",
 					$"{interaction.Performer.ExpensiveName()} starts unsecuring the support struts...");
-				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
 			}
 			else
 			{
@@ -79,7 +84,23 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 				});
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start securing the support struts...",
 					$"{interaction.Performer.ExpensiveName()} starts securing the support struts...");
-				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
+			}
+		}
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter))
+		{
+			if (strutsUnsecured)
+			{
+				var progressFinishAction = new ProgressCompleteAction(() =>
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"You remove the inner grille.",
+						$"{interaction.Performer.ExpensiveName()} removes the inner grille.");
+					Spawn.ServerPrefab(girder, SpawnDestination.At(gameObject));
+					Despawn.ServerSingle(gameObject);
+				});
+				Chat.AddActionMsgToChat(interaction.Performer, $"You start removing the inner grille...",
+					$"{interaction.Performer.ExpensiveName()} starts removing the inner grille...");
+				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
 			}
 		}
 	}

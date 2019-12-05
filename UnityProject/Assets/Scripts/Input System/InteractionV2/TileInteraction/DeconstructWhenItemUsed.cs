@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 /// Deconstruct the tile and spawn its deconstruction prefab (if defined) when an item with a particular
 /// trait is used on the tile.
 /// </summary>
-[CreateAssetMenu(fileName = "DeconstructWhenToolUsed", menuName = "Interaction/TileInteraction/DeconstructWhenToolUsed")]
-public class DeconstructWhenToolUsed : TileInteraction
+[CreateAssetMenu(fileName = "DeconstructWhenItemUsed", menuName = "Interaction/TileInteraction/DeconstructWhenItemUsed")]
+public class DeconstructWhenItemUsed : TileInteraction
 {
 	[Tooltip("Trait required on the used item in order to deconstruct the tile.")]
 	[SerializeField]
@@ -23,7 +23,7 @@ public class DeconstructWhenToolUsed : TileInteraction
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
 		interaction.TileChangeManager.RemoveTile(interaction.TargetCellPos, interaction.BasicTile.LayerType);
-		ToolUtils.UseTool(interaction);
+		ToolUtils.ServerUseTool(interaction);
 		interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
 
 		if (interaction.BasicTile.SpawnOnDeconstruct != null && interaction.BasicTile.SpawnAmountOnDeconstruct > 0)

@@ -119,7 +119,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 						$"{interaction.Performer.ExpensiveName()} secures the girder.");
 					objectBehaviour.ServerSetPushable(false);
 				});
-				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
 			}
 			else
 			{
@@ -132,7 +132,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 						$"{interaction.Performer.ExpensiveName()} unsecures the girder.");
 					objectBehaviour.ServerSetPushable(true);
 				});
-				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
 			}
 
 		}
@@ -144,7 +144,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start to disassemble the girder...",
 					$"{interaction.Performer.ExpensiveName()} disassembles the girder.");
 				var progressFinishAction = new ProgressCompleteAction(() => Disassemble(interaction));
-				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
 			}
 			else
 			{

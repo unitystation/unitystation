@@ -2,8 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Component that indicates an object can be used as a tool. Various other components
-/// have interaction logic that checks if a certain kind of tool is being used on them.
+/// Component that indicates an object's tool usage stats.
 /// </summary>
 public class Tool : MonoBehaviour
 {

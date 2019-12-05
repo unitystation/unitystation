@@ -8,6 +8,7 @@ public static class ToolUtils
 {
 	/// <summary>
 	/// Performs common tool usage logic, such as playing the correct sound.
+	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>
 	/// <param name="performer">player using the tool</param>
 	/// <param name="tool">tool being used</param>
@@ -15,7 +16,7 @@ public static class ToolUtils
 	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start or this was instant</returns>
-	public static ProgressBar UseTool(GameObject performer, GameObject tool, Vector2 worldTilePos, float seconds, ProgressCompleteAction progressCompleteAction)
+	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, Vector2 worldTilePos, float seconds, ProgressCompleteAction progressCompleteAction)
 	{
 		//check item attributes of used object to determine sound to play
 		string soundName = null;
@@ -63,43 +64,46 @@ public static class ToolUtils
 
 	/// <summary>
 	/// Performs common tool usage logic, such as playing the correct sound.
+	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>
 	/// <param name="positionalHandApply">positional hand apply causing the tool usage</param>
 	/// <param name="seconds">seconds taken to perform the action</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar UseTool(PositionalHandApply positionalHandApply, float seconds=0,
+	public static ProgressBar ServerUseTool(PositionalHandApply positionalHandApply, float seconds=0,
 		ProgressCompleteAction progressCompleteAction=null)
 	{
-		return UseTool(positionalHandApply.Performer, positionalHandApply.HandObject,
+		return ServerUseTool(positionalHandApply.Performer, positionalHandApply.HandObject,
 			positionalHandApply.WorldPositionTarget, seconds, progressCompleteAction);
 	}
 
 	/// <summary>
 	/// Performs common tool usage logic, such as playing the correct sound.
+	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>
 	/// <param name="handApply">hand apply causing the tool usage</param>
 	/// <param name="seconds">seconds taken to perform the action</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar UseTool(HandApply handApply, float seconds=0,
+	public static ProgressBar ServerUseTool(HandApply handApply, float seconds=0,
 		ProgressCompleteAction progressCompleteAction=null)
 	{
-		return UseTool(handApply.Performer, handApply.HandObject,
+		return ServerUseTool(handApply.Performer, handApply.HandObject,
 			handApply.TargetObject.TileWorldPosition(), seconds, progressCompleteAction);
 	}
 
 	/// <summary>
 	/// Performs common tool usage logic, such as playing the correct sound.
+	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>
 	/// <param name="tileApply">tile apply causing the tool usage</param>
 	/// <param name="seconds">seconds taken to perform the action</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
-	public static ProgressBar UseTool(TileApply tileApply, float seconds=0,
+	public static ProgressBar ServerUseTool(TileApply tileApply, float seconds=0,
 		ProgressCompleteAction progressCompleteAction=null)
 	{
-		return UseTool(tileApply.Performer, tileApply.HandObject,
+		return ServerUseTool(tileApply.Performer, tileApply.HandObject,
 			tileApply.WorldPositionTarget, seconds, progressCompleteAction);
 	}
 }

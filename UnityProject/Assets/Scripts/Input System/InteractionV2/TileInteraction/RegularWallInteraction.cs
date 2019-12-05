@@ -35,6 +35,6 @@ public class RegularWallInteraction : TileInteraction
 
 		Chat.AddActionMsgToChat(interaction.Performer, "You begin slicing through the outer plating...",
 			$"{interaction.Performer} begins slicing through the outer plating...");
-		ToolUtils.UseTool(interaction, 10f, progressFinishAction);
+		ToolUtils.ServerUseTool(interaction, 10f, progressFinishAction);
 	}
 }
