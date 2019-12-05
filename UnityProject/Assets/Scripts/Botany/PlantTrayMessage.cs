@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
 /// <summary>
 /// Used to synchronise all the sprites of the PlantTray
@@ -12,6 +10,10 @@ public class PlantTrayMessage : ServerMessage
 	public string PlantSyncString;
 	public int GrowingPlantStage;
 	public PlantSpriteStage PlantSyncStage;
+	public bool SyncHarvestNotifier;
+	public bool SyncWeedNotifier;
+	public bool SyncWaterNotifier;
+	public bool SyncNutrimentNotifier;
 
 	public uint Tray;
 
@@ -19,23 +21,33 @@ public class PlantTrayMessage : ServerMessage
 	{
 		yield return WaitFor(Tray);
 
-		if ( NetworkObject != null)
+		if (NetworkObject != null)
 		{
-			NetworkObject.GetComponent<hydroponicsTray>()?.ReceiveMessage(PlantSyncString,GrowingPlantStage,PlantSyncStage);
+			NetworkObject.GetComponent<HydroponicsTray>()
+				?.ReceiveMessage(PlantSyncString, GrowingPlantStage, PlantSyncStage,
+					SyncHarvestNotifier, SyncWeedNotifier, SyncWaterNotifier, SyncNutrimentNotifier);
 		}
+
 		yield return null;
 	}
 
-	public static PlantTrayMessage Send(GameObject Tray, string Plant, int  _GrowingPlantStage,  PlantSpriteStage _PlantSyncStage )
+	public static PlantTrayMessage SendToNearbyPlayers(GameObject tray,
+		string plant, int growingStage, PlantSpriteStage spriteStage,
+		bool harvestNotifier, bool weedNotifier, bool waterNotifier,
+		bool nutrimentNotifier)
 	{
 		PlantTrayMessage msg = new PlantTrayMessage
 		{
-			Tray = Tray.NetId(),
-			PlantSyncString = Plant,
-			GrowingPlantStage = _GrowingPlantStage,
-			PlantSyncStage = _PlantSyncStage
+			Tray = tray.NetId(),
+			PlantSyncString = plant,
+			GrowingPlantStage = growingStage,
+			PlantSyncStage = spriteStage,
+			SyncHarvestNotifier = harvestNotifier,
+			SyncNutrimentNotifier = nutrimentNotifier,
+			SyncWaterNotifier = waterNotifier,
+			SyncWeedNotifier = weedNotifier
 		};
-		msg.SendToAll();
+		msg.SendToNearbyPlayers(tray.transform.position);
 		return msg;
 	}
 }

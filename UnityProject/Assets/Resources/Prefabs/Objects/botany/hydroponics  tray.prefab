@@ -224,6 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temperatureKelvin: 293.15
   MaxCapacity: 200
+  itemAttributes: {fileID: 0}
   InSolidForm: 0
   Reagents:
   - water
@@ -248,29 +249,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SyncHarvestNotifier: 0
-  SyncWeedNotifier: 0
-  SyncWaterNotifier: 0
-  SyncNutrimentNotifier: 0
-  PlantSyncStage: 0
-  GrowingPlantStage: 0
-  PlantSyncString: 
-  IsSoilPile: 0
-  PotentialWeeds:
+  syncHarvestNotifier: 0
+  syncWeedNotifier: 0
+  syncWaterNotifier: 0
+  syncNutrimentNotifier: 0
+  plantSyncStage: 0
+  growingPlantStage: 0
+  plantSyncString: 
+  isSoilPile: 0
+  potentialWeeds:
   - {fileID: 11400000, guid: 375fdb78e44a16f44bd8fed477aec2fa, type: 2}
   - {fileID: 11400000, guid: 8381b65b5721d454cbe2b03391fd34c4, type: 2}
   - {fileID: 11400000, guid: 4d0e5cc6d51fa0446b4907df06c35a48, type: 2}
   - {fileID: 11400000, guid: c5c8c48fefd6af742a194210057456e6, type: 2}
   - {fileID: 11400000, guid: e08fe974797d87d49980a832c69354ff, type: 2}
   - {fileID: 11400000, guid: 53bb9f10c65e1dd4fa5b856a06b91f91, type: 2}
-  ReadyProduce: []
-  Modification: 0
+  readyProduce: []
+  modification: 0
   reagentContainer: {fileID: 3468170437254342443}
-  PlantSprite: {fileID: 6974158223068387757}
-  HarvestNotifier: {fileID: 4430441488956415440}
-  WeedNotifier: {fileID: 7881375107564956764}
-  WaterNotifier: {fileID: 1254092131188494499}
-  NutrimentNotifier: {fileID: 2269397715240448978}
+  plantSprite: {fileID: 6974158223068387757}
+  harvestNotifier: {fileID: 4430441488956415440}
+  weedNotifier: {fileID: 7881375107564956764}
+  waterNotifier: {fileID: 1254092131188494499}
+  nutrimentNotifier: {fileID: 2269397715240448978}
   plantData:
     ProduceObject: {fileID: 0}
     Name: 
@@ -303,23 +304,23 @@ MonoBehaviour:
     PlantTrays: 
     ReagentProduction: []
     MutatesInTo: []
-  hasplant: 0
+  hasPlant: 0
   tickRate: 1
   tickCount: 0
-  WeedLevel: 0
-  PestLevel: 0
-  ToxicityLevel: 0
-  NutritionLevel: 100
-  MaxWeedLevel: 10
-  MaxPestLevel: 10
-  MaxToxicityLevel: 100
-  MaxNutritionLevel: 10
-  NumberOfUpdatesAlive: 0
-  PlantAge: 0
-  PlantSubStage: 0
-  PlantHealth: 100
-  ReadyToHarvest: 0
-  HasFullyGrown: 0
+  weedLevel: 0
+  pestLevel: 0
+  toxicityLevel: 0
+  nutritionLevel: 100
+  maxWeedLevel: 10
+  maxPestLevel: 10
+  maxToxicityLevel: 100
+  maxNutritionLevel: 10
+  numberOfUpdatesAlive: 0
+  plantAge: 0
+  plantSubStage: 0
+  plantHealth: 100
+  readyToHarvest: 0
+  hasFullyGrown: 0
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: db8717f3f2a8a4170a0d870dcc9662e1
+  m_AssetId: 1efec61511b50c844868cb49d1a711a1
   m_SceneId: 0
 --- !u!114 &17410868912263334
 MonoBehaviour:
