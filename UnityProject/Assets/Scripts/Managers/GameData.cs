@@ -102,7 +102,7 @@ public class GameData : MonoBehaviour
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
 		if (LobbyManager.Instance == null) return;
-		
+
 		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
 
 		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
@@ -248,9 +248,12 @@ public class GameData : MonoBehaviour
 		//Check if running in batchmode (headless server)
 		if (CheckHeadlessState())
 		{
-			float calcFrameRate = 1f / Time.deltaTime;
-			Application.targetFrameRate = (int) calcFrameRate;
-			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+//			float calcFrameRate = 1f / Time.deltaTime;
+//			Application.targetFrameRate = (int) calcFrameRate;
+//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+//				Category.Server);
+
+			Logger.Log($"FrameRate limiting has been disabled on Headless Server",
 				Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
