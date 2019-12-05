@@ -57,7 +57,6 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
-			ProgressBar bar = null;
 			if (!strutsUnsecured)
 			{
 				var progressFinishAction = new ProgressCompleteAction(() =>
@@ -68,7 +67,7 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 				});
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start unsecuring the support struts...",
 					$"{interaction.Performer.ExpensiveName()} starts unsecuring the support struts...");
-				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
 			}
 			else
 			{
@@ -80,11 +79,7 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 				});
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start securing the support struts...",
 					$"{interaction.Performer.ExpensiveName()} starts securing the support struts...");
-				bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
-			}
-			if (bar != null)
-			{
-				SoundManager.PlayNetworkedAtPos("screwdriver#", registerObject.WorldPositionServer, 1f);
+				ToolUtils.UseTool(interaction, 4f, progressFinishAction);
 			}
 		}
 	}
