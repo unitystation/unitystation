@@ -16,16 +16,16 @@ MonoBehaviour:
   LayerType: 2
   TileType: 4
   RequiredTiles: []
-  AtmosPassable: 1
-  IsSealed: 0
-  Passable: 0
-  Mineable: 0
-  PassableException:
+  atmosPassable: 1
+  isSealed: 0
+  passable: 0
+  mineable: 0
+  passableException:
     m_keys: 
     m_values: 
-  MaxHealth: 0
-  HealthStates: []
-  Resistances:
+  maxHealth: 0
+  healthStates: []
+  resistances:
     LavaProof: 0
     FireProof: 0
     Flammable: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  Armor:
+  armor:
     Melee: 0
     Bullet: 0
     Laser: 0
@@ -44,11 +44,10 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
-  tileInteractions: []
+  tileInteractions:
+  - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
-  deconstructionType: 0
-  DestroyedTile: {fileID: 0}
   connectCategory: 2
   connectType: 1
   spriteSheet:
