@@ -180,7 +180,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
 --- !u!114 &114422233424066394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,8 +357,7 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: db8446be2958d46af9535e986cb7d8fb,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
-    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!114 &-8580147716651336527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,9 +373,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Golden Revolver
+  ArticleName: 
   initialDescription: 
-  initialTraits: []
-  initialSize: 0
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+  ArticleDescription: 
+  initialTraits:
+  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
+  - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
+  initialSize: 2
   hitDamage: 5
   damageType: 0
   throwDamage: 5
