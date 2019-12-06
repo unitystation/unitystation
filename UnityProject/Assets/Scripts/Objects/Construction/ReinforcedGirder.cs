@@ -18,6 +18,10 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 	[SerializeField]
 	private GameObject girder;
 
+	[Tooltip("Tile to spawn when wall is constructed.")]
+	[SerializeField]
+	private BasicTile reinforcedWallTile;
+
 	private void Start(){
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
@@ -115,7 +119,7 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		Chat.AddActionMsgToChat(interaction.Performer, "You fully reinforce the wall.",
 			$"{interaction.Performer.ExpensiveName()} fully reinforces the wall.");
-		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "ReinforcedWall");
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), reinforcedWallTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
 		Despawn.ServerSingle(gameObject);
 	}

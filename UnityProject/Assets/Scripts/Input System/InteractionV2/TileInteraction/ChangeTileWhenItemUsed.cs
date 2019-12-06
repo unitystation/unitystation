@@ -1,5 +1,6 @@
 
 using System;
+using NUnit.Framework.Internal;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,19 +12,19 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(fileName = "ChangeTileWhenItemUsed", menuName = "Interaction/TileInteraction/ChangeTileWhenItemUsed")]
 public class ChangeTileWhenItemUsed : TileInteraction
 {
-	[Tooltip("Trait required on the used item in order to deconstruct the tile.")]
+	[Tooltip("Trait required on the used item in order to deconstruct the tile. If welder, checks if it's on.")]
 	[SerializeField]
 	private ItemTrait requiredTrait;
 
 	[Tooltip("Action message to performer when they begin this interaction.")]
 	[SerializeField]
-	private string performerStartActionMessage = "";
+	private string performerStartActionMessage;
 
-	[Tooltip("Use {performer} for perform name. Action message to others when the performer begins this interaction.")]
+	[Tooltip("Use {performer} for performer name. Action message to others when the performer begins this interaction.")]
 	[SerializeField]
-	private string othersStartActionMessage = "";
+	private string othersStartActionMessage;
 
-	[Tooltip("Seconds taken to perform this action.")]
+	[Tooltip("Seconds taken to perform this action. Leave at 0 for instant.")]
 	[SerializeField]
 	private float seconds;
 
@@ -33,26 +34,34 @@ public class ChangeTileWhenItemUsed : TileInteraction
 
 	[Tooltip("Action message to performer when they finish this interaction.")]
 	[SerializeField]
-	private string performerFinishActionMessage = "";
+	private string performerFinishActionMessage;
 
-	[Tooltip("Use {performer} for perform name. Action message to others when performer finishes this interaction.")]
+	[Tooltip("Use {performer} for performer name. Action message to others when performer finishes this interaction.")]
 	[SerializeField]
-	private string othersFinishActionMessage = "";
+	private string othersFinishActionMessage;
 
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (requiredTrait == CommonTraits.Instance.Welder)
+		{
+			var welder = interaction.HandObject.GetComponent<Welder>();
+			if (welder == null) return false;
+			return welder.isOn;
+		}
 		return Validations.HasItemTrait(interaction.HandObject, requiredTrait);
 	}
 
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
-		var othersStartMessage = othersStartActionMessage.Replace("{performer}", interaction.Performer.ExpensiveName());
-		Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage, othersStartMessage);
+		Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage,
+			Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer));
 		var progressFinishAction = new ProgressCompleteAction(() =>
 		{
-			var othersFinishMessage = othersFinishActionMessage.Replace("{performer}", interaction.Performer.ExpensiveName());
-			Chat.AddActionMsgToChat(interaction.Performer, performerFinishActionMessage, othersFinishMessage);
+			Chat.AddActionMsgToChat(interaction.Performer, performerFinishActionMessage,
+				Chat.ReplacePerformer(othersFinishActionMessage, interaction.Performer));
+
 			interaction.TileChangeManager.UpdateTile(interaction.TargetCellPos, toTile);
 			interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
 		});

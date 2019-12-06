@@ -65,7 +65,7 @@ public abstract class BasicTile : LayerTile
 	/// </summary>
 	public Armor Armor => armor;
 
-	[Tooltip("Interactions which can occur on this tile.")]
+	[Tooltip("Interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
 	[SerializeField]
 	private List<TileInteraction> tileInteractions;
 	/// <summary>

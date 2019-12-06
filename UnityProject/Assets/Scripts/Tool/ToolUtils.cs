@@ -14,7 +14,7 @@ public static class ToolUtils
 	/// <param name="tool">tool being used</param>
 	/// <param name="worldTilePos">tile position the action is being performed on</param>
 	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
-	/// <param name="progressCompleteAction">completion callback</param>
+	/// <param name="progressCompleteAction">completion callback (will also be called instantly if completion is instant)</param>
 	/// <returns>progress bar spawned, null if progress did not start or this was instant</returns>
 	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, Vector2 worldTilePos, float seconds, ProgressCompleteAction progressCompleteAction)
 	{
@@ -54,7 +54,8 @@ public static class ToolUtils
 
 		if (seconds <= 0f)
 		{
-			SoundManager.PlayNetworkedAtPos("screwdriver#", worldTilePos, Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f));
+			progressCompleteAction.OnEnd(ProgressEndReason.COMPLETED);
 			return null;
 		}
 		else
@@ -62,7 +63,7 @@ public static class ToolUtils
 			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, worldTilePos, seconds, progressCompleteAction, performer);
 			if (bar != null && soundName != null)
 			{
-				SoundManager.PlayNetworkedAtPos("screwdriver#", worldTilePos, Random.Range(0.8f, 1.2f));
+				SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f));
 			}
 
 			return bar;
@@ -74,7 +75,7 @@ public static class ToolUtils
 	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>
 	/// <param name="positionalHandApply">positional hand apply causing the tool usage</param>
-	/// <param name="seconds">seconds taken to perform the action</param>
+	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
 	public static ProgressBar ServerUseTool(PositionalHandApply positionalHandApply, float seconds=0,
@@ -89,7 +90,7 @@ public static class ToolUtils
 	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>
 	/// <param name="handApply">hand apply causing the tool usage</param>
-	/// <param name="seconds">seconds taken to perform the action</param>
+	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
 	public static ProgressBar ServerUseTool(HandApply handApply, float seconds=0,
@@ -104,7 +105,7 @@ public static class ToolUtils
 	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>
 	/// <param name="tileApply">tile apply causing the tool usage</param>
-	/// <param name="seconds">seconds taken to perform the action</param>
+	/// <param name="seconds">seconds taken to perform the action, 0 for instant.</param>
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
 	public static ProgressBar ServerUseTool(TileApply tileApply, float seconds=0,

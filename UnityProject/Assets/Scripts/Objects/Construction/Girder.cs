@@ -16,6 +16,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[SerializeField]
 	private GameObject reinforcedGirder;
 
+	[Tooltip("Tile to spawn when wall is constructed.")]
+	[SerializeField]
+	private BasicTile wallTile;
+
 	//tracked server side only
 	private int plasteelSheetCount;
 
@@ -166,7 +170,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	{
 		Chat.AddActionMsgToChat(interaction.Performer, "You add the plating.",
 			$"{interaction.Performer.ExpensiveName()} adds the plating.");
-		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), wallTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
