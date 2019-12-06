@@ -9,10 +9,8 @@ using UnityEngine;
 public class CommonPrefabs : SingletonScriptableObject<CommonPrefabs>
 {
 
-	public GameObject Girder;
 	public GameObject Metal;
 	public GameObject Plasteel;
-	public GameObject FloorTile;
 	public GameObject Mask;
 	public GameObject EmergencyOxygenTank;
 
