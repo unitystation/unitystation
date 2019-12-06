@@ -75,7 +75,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 					ConstructWall(interaction));
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start adding plating...",
 					$"{interaction.Performer.ExpensiveName()} begins adding plating...");
-				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 4f, progressFinishAction, interaction.Performer);
+				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
 			}
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Plasteel))
@@ -97,8 +97,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 					ReinforceGirder(interaction));
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start reinforcing the girder...",
 					$"{interaction.Performer.ExpensiveName()} starts reinforcing the girder...");
-				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 6f,
-					progressFinishAction, interaction.Performer);
+				ToolUtils.ServerUseTool(interaction, 6f, progressFinishAction);
 			}
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))

@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// The main reinforced girder component
 /// </summary>
-public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 {
 	private TileChangeManager tileChangeManager;
 
@@ -23,6 +23,11 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 		registerObject = GetComponent<RegisterObject>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		strutsUnsecured = false;
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
@@ -57,7 +62,7 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 					ConstructReinforcedWall(interaction));
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start finalizing the reinforced wall...",
 					$"{interaction.Performer.ExpensiveName()} starts finalizing the reinforced wall...");
-				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+				ToolUtils.ServerUseTool(interaction, 5f, progressFinishAction);
 			}
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Utilities for working with tools
+/// Utilities for working with tools / materials. Respects the Tool component settings when performing actions.
 /// </summary>
 public static class ToolUtils
 {
@@ -43,6 +43,13 @@ public static class ToolUtils
 			{
 				soundName = "Weld";
 			}
+		}
+
+		//check tool stats
+		var toolStats = tool.GetComponent<Tool>();
+		if (toolStats != null)
+		{
+			seconds /= toolStats.SpeedMultiplier;
 		}
 
 		if (seconds <= 0f)
