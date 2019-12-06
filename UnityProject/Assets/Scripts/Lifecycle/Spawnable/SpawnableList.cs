@@ -25,7 +25,15 @@ public class SpawnableList : ScriptableObject, ISpawnable
 		foreach (var prefab in contents)
 		{
 			var result = Spawn.ServerPrefab(prefab, destination);
-			spawned.AddRange(result.GameObjects);
+			if (!result.Successful)
+			{
+				Logger.LogWarningFormat("An item in SpawnableList {0} is missing, please fix prefab reference.", Category.ItemSpawn,
+					name);
+			}
+			else
+			{
+				spawned.AddRange(result.GameObjects);
+			}
 		}
 
 		return SpawnableResult.Multiple(spawned, destination);

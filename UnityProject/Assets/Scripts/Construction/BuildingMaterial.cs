@@ -20,6 +20,9 @@ namespace Construction
 
 		public bool Interact(HandActivate interaction)
 		{
+			//nothing to show
+			if (buildList == null) return false;
+
 			//client-side only since it merely displays a menu - the request is sent to the
 			//server in a net message indicating what was chosen.
 			UIManager.BuildMenu.ShowBuildMenu(this);

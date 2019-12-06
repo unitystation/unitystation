@@ -309,7 +309,7 @@ public class MetaTileMap : MonoBehaviour
 							return o.IsPassable(isServer);
 						}
 
-						if (pushPull.isNotPushable)
+						if (pushPull.IsNotPushable)
 						{
 							return false;
 						}

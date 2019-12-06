@@ -25,6 +25,27 @@ MonoBehaviour:
     m_values: 00
   MaxHealth: 0
   HealthStates: []
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  tileInteractions:
+  - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
   spawnOnDeconstruct: {fileID: 1645856876941636, guid: 8012b966850884ea3bea010004dedb96,
     type: 3}
   spawnAmountOnDeconstruct: 1

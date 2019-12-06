@@ -43,9 +43,6 @@ public class ElectricalModuleInheritance : MonoBehaviour, IServerDespawn
 	public virtual void PotentialDestroyed(){
 	}
 
-	public virtual void ObjectStateChange(ObjectState tState) {
-	}
-
 	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalNodeControl ComplexPassOn){
 	}
 

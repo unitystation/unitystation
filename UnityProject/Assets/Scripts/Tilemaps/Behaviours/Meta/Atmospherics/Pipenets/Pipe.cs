@@ -136,7 +136,7 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 	public virtual void SetAnchored(bool value)
 	{
 		anchored = value;
-		objectBehaviour.isNotPushable = value;
+		objectBehaviour.ServerSetPushable(!value);
 		//now that it's anchored, it can't be picked up
 		//TODO: This is getting called client side when joining, which is bad because it's only meant
 		//to be called server side. Most likely late joining clients have the wrong

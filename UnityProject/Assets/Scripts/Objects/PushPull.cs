@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PushPull : NetworkBehaviour, IRightClickable {
+public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
@@ -124,8 +125,34 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		return pos;
 	}
 
-	[SyncVar]
-	public bool isNotPushable = false;
+
+	[Tooltip("Whether this should be initially not pushable when it spawns")]
+	[FormerlySerializedAs("isNotPushable")]
+	[SerializeField]
+	private bool isInitiallyNotPushable;
+
+	[SyncVar(hook=nameof(SyncIsNotPushable))]
+	private bool isNotPushable;
+
+	/// <summary>
+	/// Checks if there is anything preventing this from being pushed regardless of direction
+	/// (basically if it's anchored)
+	/// </summary>
+	public bool IsPushable => !isNotPushable;
+	/// <summary>
+	/// Opposite of IsPushable
+	/// </summary>
+	public bool IsNotPushable => isNotPushable;
+
+	/// <summary>
+	/// Toggle whether this is pushable. Valid server side only.
+	/// </summary>
+	/// <param name="isPushable"></param>
+	[Server]
+	public void ServerSetPushable(bool isPushable)
+	{
+		SyncIsNotPushable(!isPushable);
+	}
 
 	private IPushable pushableTransform;
 
@@ -148,6 +175,23 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			}
 			return pushable;
 		}
+	}
+
+
+
+	private void SyncIsNotPushable(bool isNowNotPushable)
+	{
+		this.isNotPushable = isNowNotPushable;
+	}
+
+	public override void OnStartClient()
+	{
+		SyncIsNotPushable(this.isNotPushable);
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		SyncIsNotPushable(isInitiallyNotPushable);
 	}
 
 	private void OnHighSpeedCollision( CollisionInfo collision )
@@ -903,4 +947,5 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		}
 	}
 #endif
+
 }

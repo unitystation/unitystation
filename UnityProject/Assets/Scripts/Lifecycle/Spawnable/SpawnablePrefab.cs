@@ -47,7 +47,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 
 		if (prefab == null)
 		{
-			Logger.LogError("Cannot spawn, prefab to use is null", Category.ItemSpawn);
+			Logger.LogWarning("Cannot spawn, prefab to use is null", Category.ItemSpawn);
 			return SpawnableResult.Fail(destination);
 		}
 		Logger.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);

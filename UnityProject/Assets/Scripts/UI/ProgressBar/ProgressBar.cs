@@ -304,8 +304,8 @@ public class ProgressBar : MonoBehaviour
 		}
 		else
 		{
-			//inform client
 			ProgressBarMessage.SendUpdate(registerPlayer.gameObject, COMPLETE_INDEX, id);
+
 			//destroy server's local copy
 			DestroyProgressBar();
 		}

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -12,47 +14,81 @@ public struct TileState
 
 public abstract class BasicTile : LayerTile
 {
-	public bool AtmosPassable;
-	public bool IsSealed;
-	public bool Passable;
-	public bool Mineable;
-	public PassableDictionary PassableException;
+	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
+	[FormerlySerializedAs("AtmosPassable")]
+	[SerializeField]
+	private bool atmosPassable;
 
-	public float MaxHealth;
-	public TileState[] HealthStates;
+	[Tooltip("Does this tile form a seal against the floor?")]
+	[FormerlySerializedAs("IsSealed")] [SerializeField]
+	private bool isSealed;
 
-	public Resistances Resistances;
-	public Armor Armor;
+	[Tooltip("Does this tile allow items / objects to pass through it?")]
+	[FormerlySerializedAs("Passable")] [SerializeField]
+	private bool passable;
 
-	[Tooltip("What object to spawn when it's deconstructed or destroyed. " +
-	         "Can leave blank for floors to use default floor tile. Ignored if" +
-	         " this tile is a wall.")]
+	[Tooltip("Can this tile be mined?")]
+	[FormerlySerializedAs("Mineable")] [SerializeField]
+	private bool mineable;
+	/// <summary>
+	/// Can this tile be mined?
+	/// </summary>
+	public bool Mineable => mineable;
+
+	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
+	[FormerlySerializedAs("PassableException")] [SerializeField]
+	private PassableDictionary passableException;
+
+
+	[Tooltip("What is this tile's max health?")]
+	[FormerlySerializedAs("MaxHealth")] [SerializeField]
+	private float maxHealth;
+
+
+	[Tooltip("How does the tile change as its health changes?")]
+	[FormerlySerializedAs("HealthStates")] [SerializeField]
+	private TileState[] healthStates;
+
+	[Tooltip("Resistances of this tile.")]
+	[FormerlySerializedAs("Resistances")] [SerializeField]
+	private Resistances resistances;
+	/// <summary>
+	/// Resistances of this tile.
+	/// </summary>
+	public Resistances Resistances => resistances;
+
+	[Tooltip("Armor of this tile")]
+	[FormerlySerializedAs("Armor")] [SerializeField]
+	private Armor armor;
+	/// <summary>
+	/// Armor of this tile
+	/// </summary>
+	public Armor Armor => armor;
+
+	[Tooltip("Interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
+	[SerializeField]
+	private List<TileInteraction> tileInteractions;
+	/// <summary>
+	/// Interactions which can occur on this tile.
+	/// </summary>
+	public List<TileInteraction> TileInteractions => tileInteractions;
+
+	[Tooltip("What object to spawn when it's deconstructed or destroyed.")]
 	[SerializeField]
 	private GameObject spawnOnDeconstruct;
 	/// <summary>
-	/// Object to spawn when deconstructed. Defaults to a standard tile for this layer if not specified
-	/// for this particular basictile.
+	/// Object to spawn when deconstructed.
 	/// </summary>
-	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct ? spawnOnDeconstruct : DefaultSpawnOnDeconstruct();
+	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct;
 
-	[Tooltip("How much of the object to spawn when it's deconstructed. Can leave at 0 for floor tiles to use the" +
-	         " default of 1. Ignored if" +
-	         " this tile is a wall.")]
+	[Tooltip("How much of the object to spawn when it's deconstructed. Defaults to 1 if" +
+	         " an object is specified and this is 0.")]
 	[SerializeField]
-	private int spawnAmountOnDeconstruct;
-
-	[Tooltip("Deconstruction logic to use for this tile. Can leave as None for floor tiles to use" +
-	         " default floor deconstruction logic.")]
-	[SerializeField]
-	private DeconstructionType deconstructionType;
-
-	private DeconstructionType DeconstructionType => deconstructionType != DeconstructionType.None
-		? deconstructionType
-		: DefaultDeconstructionType();
-
-
-
-	public LayerTile DestroyedTile;
+	private int spawnAmountOnDeconstruct = 1;
+	/// <summary>
+	/// How many of the object to spawn when it's deconstructed.
+	/// </summary>
+	public int SpawnAmountOnDeconstruct => SpawnOnDeconstruct == null ? 0 : Mathf.Max(1, spawnAmountOnDeconstruct);
 
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{
@@ -70,157 +106,22 @@ public abstract class BasicTile : LayerTile
 	/// <returns>IsPassable</returns>
 	public bool IsPassable(CollisionType colliderType)
 	{
-		if (PassableException.ContainsKey(colliderType))
+		if (passableException.ContainsKey(colliderType))
 		{
-			return PassableException[colliderType];
+			return passableException[colliderType];
 		} else
 		{
-			return Passable;
+			return passable;
 		}
 	}
 
 	public bool IsAtmosPassable()
 	{
-		return AtmosPassable;
+		return atmosPassable;
 	}
 
 	public bool IsSpace()
 	{
-		return IsAtmosPassable() && !IsSealed;
+		return IsAtmosPassable() && !isSealed;
 	}
-
-	/// <summary>
-	/// Returns true iff this tile can be deconstructed by the indicated interaction
-	/// </summary>
-	/// <param name="interaction"></param>
-	/// <returns></returns>
-	public bool CanDeconstruct(PositionalHandApply interaction)
-	{
-		switch (DeconstructionType)
-		{
-			case DeconstructionType.Crowbar:
-				return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar);
-			case DeconstructionType.Wirecutters:
-				return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter);
-			case DeconstructionType.Wrench:
-				return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench);
-			case DeconstructionType.NormalWall:
-				var welder = interaction.HandObject?.GetComponent<Welder>();
-				return welder != null && welder.isOn;
-		}
-
-		return false;
-	}
-
-	/// <summary>
-	/// Performs the deconstruction for this tile depending on its deconstruction type
-	/// </summary>
-	/// <param name="interaction"></param>
-	public void ServerDeconstruct(PositionalHandApply interaction)
-	{
-		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, true);
-		var tileChangeManager = interactableTiles.TileChangeManager;
-		LayerTile tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
-		var cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
-
-
-		if (DeconstructionType == DeconstructionType.Crowbar)
-		{
-			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
-			SoundManager.PlayNetworkedAtPos("Crowbar", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
-			tileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			DoSpawnOnDeconstruct(interaction);
-
-		}
-		else if (DeconstructionType == DeconstructionType.Wirecutters)
-		{
-			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
-			SoundManager.PlayNetworkedAtPos("WireCutter", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
-			tileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			DoSpawnOnDeconstruct(interaction);
-		}
-		else if (DeconstructionType == DeconstructionType.Wrench)
-		{
-			tileChangeManager.RemoveTile(Vector3Int.RoundToInt(cellPos), tile.LayerType);
-			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, Random.Range(0.8f, 1.2f));
-			tileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			DoSpawnOnDeconstruct(interaction);
-		}
-		else if (DeconstructionType == DeconstructionType.NormalWall)
-		{
-			//unweld to a girder
-			var progressFinishAction = new ProgressCompleteAction(
-				() =>
-				{
-					SoundManager.PlayNetworkedAtPos("Weld", interaction.WorldPositionTarget, 0.8f);
-					tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-					SoundManager.PlayNetworkedAtPos("Deconstruct", interaction.WorldPositionTarget, 1f);
-
-					//girder / metal always appears in place of deconstructed wall
-					Spawn.ServerPrefab(CommonPrefabs.Instance.Girder, interaction.WorldPositionTarget);
-					Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.WorldPositionTarget);
-					tileChangeManager.SubsystemManager.UpdateAt(cellPos);
-				}
-			);
-
-			//Start the progress bar:
-			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget,
-				10f, progressFinishAction, interaction.Performer);
-			if (bar != null)
-			{
-				SoundManager.PlayNetworkedAtPos("Weld", interaction.WorldPositionTarget, Random.Range(0.9f, 1.1f));
-			}
-		}
-		//TODO: Deconstruct reinforced wall, will spawn a prefab to handle deconstruction, not yet implemented
-	}
-
-	private void DoSpawnOnDeconstruct(PositionalHandApply interaction)
-	{
-		if (SpawnOnDeconstruct != null)
-		{
-			//always spawn at least one floor tile.
-			var amount = TileType == TileType.Floor ? Math.Max(1, spawnAmountOnDeconstruct) : spawnAmountOnDeconstruct;
-        	Spawn.ServerPrefab(SpawnOnDeconstruct, interaction.WorldPositionTarget, count: amount);
-        }
-	}
-
-	private GameObject DefaultSpawnOnDeconstruct()
-	{
-		if (LayerType == LayerType.Floors)
-		{
-			return CommonPrefabs.Instance.FloorTile;
-		}
-
-		return null;
-	}
-
-
-	private DeconstructionType DefaultDeconstructionType()
-	{
-		if (LayerType == LayerType.Floors)
-		{
-			return DeconstructionType.Crowbar;
-		}
-
-		return DeconstructionType.None;
-	}
-}
-
-/// <summary>
-/// Identifies the deconstruction logic that should be used for this tile
-/// </summary>
-public enum DeconstructionType
-{
-	//can't deconstruct
-	None = 0,
-	//pry off with crowbar
-	Crowbar = 1,
-	//snip with wirecutters
-	Wirecutters = 2,
-	//dismantle with wrench
-	Wrench = 3,
-	//cut with to turn into girder
-	NormalWall = 4,
-	//elaborate reinforced wall logic
-	ReinforcedWall = 5
 }

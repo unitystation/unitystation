@@ -276,6 +276,18 @@ public static class Validations
 		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, toValidate.TargetVector);
 
 	/// <summary>
+	/// Validates if the performer is in range and not in crit for a TileApply interaction.
+	/// Range check is based on the target vector of toValidate, not the distance to the object.
+	/// </summary>
+	/// <param name="toValidate">interaction to validate</param>
+	/// <param name="side">side of the network this is being checked on</param>
+	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
+	/// <param name="reachRange">range to allow</param>
+	/// <returns></returns>
+	public static bool CanApply(TileApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard) =>
+		CanApply(toValidate.Performer, toValidate.TargetInteractableTiles.gameObject, side, allowSoftCrit, reachRange, toValidate.TargetVector);
+
+	/// <summary>
 	/// Validates if the performer is in range and not in crit for a MouseDrop interaction.
 	/// </summary>
 	/// <param name="toValidate">interaction to validate</param>
@@ -444,5 +456,20 @@ public static class Validations
 		if (stack1 == null || stack2 == null) return false;
 
 		return stack1.CanAccommodate(stack2);
+	}
+
+	/// <summary>
+	/// Checks if the provided object is stackable and has the required minimum amount in the stack.
+	/// </summary>
+	/// <param name="stack"></param>
+	/// <param name="minAmount"></param>
+	/// <returns></returns>
+	/// <exception cref="NotImplementedException"></exception>
+	public static bool HasAtLeast(GameObject stack, int minAmount)
+	{
+		if (stack == null) return false;
+		var stackable = stack.GetComponent<Stackable>();
+		if (stackable == null) return false;
+		return stackable.Amount >= minAmount;
 	}
 }
