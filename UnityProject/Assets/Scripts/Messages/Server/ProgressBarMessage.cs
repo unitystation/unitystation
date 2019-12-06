@@ -20,14 +20,16 @@ public class ProgressBarMessage : ServerMessage
 
 		var bar = UIManager.GetProgressBar(ProgressBarID);
 
-		//bar not found, so create it
-		if (bar == null)
+		//bar not found, so create it unless we are the server (in which case it would already be created)
+		if (bar == null && !CustomNetworkManager.IsServer)
 		{
 			bar = UIManager.CreateProgressBar(OffsetFromPlayer, ProgressBarID);
 		}
 
-
-		bar.ClientUpdateProgress(SpriteIndex);
+		if (bar != null)
+		{
+			bar.ClientUpdateProgress(SpriteIndex);
+		}
 	}
 
 	/// <summary>
