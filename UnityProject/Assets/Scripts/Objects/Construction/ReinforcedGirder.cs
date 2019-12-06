@@ -60,7 +60,7 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Plasteel))
 		{
-			if (!objectBehaviour.IsPushable)
+			if (!strutsUnsecured)
 			{
 				var progressFinishAction = new ProgressCompleteAction(() =>
 					ConstructReinforcedWall(interaction));
@@ -105,6 +105,7 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 					Chat.AddActionMsgToChat(interaction.Performer, $"You remove the inner grille.",
 						$"{interaction.Performer.ExpensiveName()} removes the inner grille.");
 					Spawn.ServerPrefab(girder, SpawnDestination.At(gameObject));
+					Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject));
 					Despawn.ServerSingle(gameObject);
 				});
 				Chat.AddActionMsgToChat(interaction.Performer, $"You start removing the inner grille...",
