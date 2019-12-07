@@ -118,6 +118,8 @@ public abstract class ServerMessage : GameMessageBase
 
 		foreach (ConnectedPlayer player in players)
 		{
+			if (player.Script == null) continue;
+
 			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
 			{
 				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);
