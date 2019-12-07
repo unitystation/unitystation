@@ -13,23 +13,22 @@ using Random = System.Random;
 [RequireComponent(typeof(CustomNetTransform))]
 public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 {
-	
+
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
-	public string initialName;
+	private string initialName;
+
+	[SyncVar(hook = nameof(SyncArticleName))]
+	private string articleName;
 	/// <summary>
 	/// Current name
 	/// </summary>
-	[HideInInspector]
-	[SyncVar(hook = nameof(SyncArticleName))]
-	public string ArticleName;
+	public string ArticleName => articleName;
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
-	public string initialDescription;
-	/// <summary>
-	/// Current description
-	/// </summary>
+	private string initialDescription;
+
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
 	[SerializeField]
@@ -60,14 +59,18 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	private string exportMessage;
 	public string ExportMessage => exportMessage;
 
-	[HideInInspector]
 	[SyncVar(hook = nameof(SyncArticleDescription))]
-	public string ArticleDescription;
+	private string articleDescription;
+
+	/// <summary>
+	/// Current description
+	/// </summary>
+	public string ArticleDescription => articleDescription;
 
     public override void OnStartClient()
 	{
 		SyncArticleName(this.name);
-		SyncArticleDescription(this.ArticleDescription);
+		SyncArticleDescription(this.articleDescription);
 		base.OnStartClient();
 	}
 
@@ -80,12 +83,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	private void SyncArticleName(string newName)
 	{
-		ArticleName = newName;
+		articleName = newName;
 	}
 
 	private void SyncArticleDescription(string newDescription)
 	{
-		ArticleDescription = newDescription;
+		articleDescription = newDescription;
 	}
 
 	public void OnHoverStart()
@@ -93,7 +96,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		// Show the parenthesis for an item's description only if the item has a description
 		UIManager.SetToolTip =
 			initialName +
-			(String.IsNullOrEmpty(ArticleDescription) ? "" : $" ({ArticleDescription})");
+			(String.IsNullOrEmpty(articleDescription) ? "" : $" ({articleDescription})");
 	}
 
 	public void OnHoverEnd()

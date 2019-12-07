@@ -7,7 +7,7 @@ using UnityEngine;
 /// Component which can take on an arbitrary state from a list of possible states, and the state is synced
 /// over the network.
 /// </summary>
-public class Stateful : NetworkBehaviour
+public class Stateful : NetworkBehaviour, IServerSpawn
 {
 
 	[Tooltip("Required. Initial state when this object spawns. Must reference a state which exists in States.")]
@@ -59,7 +59,10 @@ public class Stateful : NetworkBehaviour
 	private void SyncCurrentStateIndex(int newStateIndex)
 	{
 		currentStateIndex = newStateIndex;
-		currentState = states[currentStateIndex];
+		if (currentStateIndex >= 0)
+		{
+			currentState = states[currentStateIndex];
+		}
 	}
 
 	/// <summary>

@@ -27,7 +27,7 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 	{
 		ItemAttributesV2 attr = interaction.HandObject.GetComponent<ItemAttributesV2>();
 
-		Ingredient ingredient = new Ingredient(attr.ItemName);
+		Ingredient ingredient = new Ingredient(attr.ArticleName);
 
 		GameObject meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> {ingredient});
 

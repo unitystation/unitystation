@@ -71,10 +71,10 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 		if (initialState == EmptyFullStatus.Empty && string.IsNullOrEmpty(EmptyName))
 		{
-			EmptyName = itemAttributes.ItemName;
+			EmptyName = itemAttributes.ArticleName;
 		} else if (initialState == EmptyFullStatus.Full && string.IsNullOrEmpty(FullName))
 		{
-			FullName = itemAttributes.ItemName;
+			FullName = itemAttributes.ArticleName;
 		}
 	}
 

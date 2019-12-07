@@ -244,7 +244,6 @@ public class ItemAttributesV2 : Attributes
 			default: return "items";
 		}
 	}
-	public string ItemName => name;
 
 	/// <summary>
 	/// CHange this item's size and sync it to clients

@@ -36,7 +36,7 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 
 		if (itemName.IsNullOrEmpty())
 		{
-			itemName = attributes.ItemName;
+			itemName = attributes.ArticleName;
 			originalName = itemName;
 		}
 
