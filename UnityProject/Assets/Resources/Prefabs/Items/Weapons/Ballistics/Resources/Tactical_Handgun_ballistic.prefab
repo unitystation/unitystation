@@ -181,7 +181,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
 --- !u!114 &114700230624298448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,8 +356,7 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 8e0cc4c3368734e6ca16fd5ab6045fb2,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
-    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!114 &-5494381567859251892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,8 +372,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Tactical Handgun
+  ArticleName: 
   initialDescription: 
-  initialTraits: []
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+  ArticleDescription: 
+  initialTraits:
+  - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
+  - {fileID: 11400000, guid: 4fbd68bd00efb44529aea7a89057a257, type: 2}
   initialSize: 0
   hitDamage: 5
   damageType: 0
