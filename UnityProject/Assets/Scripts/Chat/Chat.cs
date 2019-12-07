@@ -160,6 +160,9 @@ public partial class Chat : MonoBehaviour
 		{
 			if (!IsServer()) return;
 
+			//dont send message if originator message is blank
+			if (string.IsNullOrWhiteSpace(originatorMessage)) return;
+
 			Instance.addChatLogServer.Invoke(new ChatEvent
 			{
 				channels = ChatChannel.Action,
@@ -469,6 +472,21 @@ public partial class Chat : MonoBehaviour
 					AddExamineMsgFromServer(recipient, message);
 					break;
 			}
+		}
+
+		/// <summary>
+		/// replaces the provided string occurence's of {performer} with the performer's name
+		/// </summary>
+		/// <param name="toReplace"></param>
+		/// <returns></returns>
+		public static string ReplacePerformer(string toReplace, GameObject performer)
+		{
+			if (!string.IsNullOrWhiteSpace(toReplace))
+			{
+				return toReplace.Replace("{performer}", performer.ExpensiveName());
+			}
+
+			return toReplace;
 		}
 
 		/// <summary>

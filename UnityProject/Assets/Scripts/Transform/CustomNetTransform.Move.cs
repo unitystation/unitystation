@@ -379,7 +379,7 @@ public partial class CustomNetTransform
 	[Server]
 	public void Nudge( NudgeInfo info ) {
 
-		if ( PushPull.isNotPushable )
+		if ( PushPull.IsNotPushable )
         {
             return;
         }

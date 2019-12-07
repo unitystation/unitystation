@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 114475937421885612}
   - component: {fileID: 114590610092742494}
   - component: {fileID: 114876689548865824}
+  - component: {fileID: 8501056774758602355}
   m_Layer: 11
   m_Name: Girder
   m_TagString: Untagged
@@ -204,8 +205,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  metalPrefab: {fileID: 1645856876941636, guid: 78d9125d50217497cbcd4a18ffe2e3e4,
+  reinforcedGirder: {fileID: 4943491835017597119, guid: 2fd10ec3332f84282b64353660ace1f9,
     type: 3}
+  wallTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
 --- !u!114 &114475937421885612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +255,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 200
 --- !u!114 &114876689548865824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,3 +272,19 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &8501056774758602355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  isInitiallyNotPushable: 1

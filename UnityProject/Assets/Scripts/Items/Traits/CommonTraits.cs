@@ -27,4 +27,6 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Trowel;
 	public ItemTrait Bucket;
 	public ItemTrait Metal;
+	public ItemTrait Plasteel;
+	public ItemTrait Welder;
 }

@@ -33,9 +33,12 @@ public class NPCSpawner : MonoBehaviour
 	//Is ready on the server:
 	void OnStartServer()
 	{
-		if (spawnerType == SpawnerType.roundStartRandom)
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			DoRandomSpawn();
+			if (spawnerType == SpawnerType.roundStartRandom)
+			{
+				DoRandomSpawn();
+			}
 		}
 	}
 

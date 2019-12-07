@@ -114,7 +114,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		isSecured = _isSecured;
 		if (isServer)
 		{
-			objectBehaviour.isNotPushable = isSecured;
+			objectBehaviour.ServerSetPushable(!isSecured);
 		}
 
 		SoundManager.PlayAtPosition("Wrench", transform.position);

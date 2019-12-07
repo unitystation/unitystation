@@ -91,7 +91,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	void ToggleAnchored(bool value)
 	{
-		objectBehaviour.isNotPushable = value;
+		objectBehaviour.ServerSetPushable(!value);
 		anchored = value;
 	}
 

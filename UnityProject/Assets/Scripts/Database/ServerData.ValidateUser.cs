@@ -13,6 +13,9 @@ namespace DatabaseAPI
 		public static async Task<bool> ValidateUser(FirebaseUser user, Action<string> successAction,
 			Action<string> errorAction)
 		{
+
+			if (GameData.IsHeadlessServer) return false;
+			
 			await user.ReloadAsync();
 
 			if (!user.IsEmailVerified)

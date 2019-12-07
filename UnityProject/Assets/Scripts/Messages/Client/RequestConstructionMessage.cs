@@ -36,15 +36,11 @@ public class RequestConstructionMessage : ClientMessage
 			}
 		});
 
-
-		var progressBar = UIManager.ServerStartProgress(ProgressAction.Construction, SentByPlayer.Script.registerTile.WorldPositionServer, entry.BuildTime,
-			finishProgressAction, SentByPlayer.GameObject);
-
-		if (progressBar != null)
-		{
-			Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You begin building the {entry.Name}...",
-				$"{SentByPlayer.GameObject.ExpensiveName()} begins building the {entry.Name}...");
-		}
+		Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You begin building the {entry.Name}...",
+			$"{SentByPlayer.GameObject.ExpensiveName()} begins building the {entry.Name}...");
+		ToolUtils.ServerUseTool(SentByPlayer.GameObject, usedSlot.ItemObject,
+			SentByPlayer.Script.registerTile.WorldPositionServer.To2Int(), entry.BuildTime,
+			finishProgressAction);
 	}
 
 	/// <summary>
