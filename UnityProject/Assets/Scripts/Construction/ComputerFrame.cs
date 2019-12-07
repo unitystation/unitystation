@@ -79,7 +79,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
-					if (objectBehaviour.ServerValidateIsAnchorable(interaction.Performer))
+					if (!ServerValidations.IsAnchorBlocked(interaction))
 					{
 						//wrench in place
 						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,

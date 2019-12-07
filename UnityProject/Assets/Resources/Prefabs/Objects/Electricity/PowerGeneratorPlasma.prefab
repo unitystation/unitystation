@@ -366,6 +366,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -5106,6 +5107,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -5116,7 +5118,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 16
+  m_SortingLayer: 15
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0
@@ -5243,6 +5245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114093731737732554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5288,8 +5291,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 114738137265545768}
-  parentContainer: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 1
 --- !u!114 &7281671087508858390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5410,4 +5412,4 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1361673648
+  m_SceneId: 0

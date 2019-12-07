@@ -116,7 +116,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 					return;
 				}
 
-				if (objectBehaviour.ServerValidateIsAnchorable(interaction.Performer))
+				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start securing the girder...",

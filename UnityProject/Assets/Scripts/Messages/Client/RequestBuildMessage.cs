@@ -52,13 +52,10 @@ public class RequestBuildMessage : ClientMessage
 
 			if (builtObjectIsImpassable)
 			{
-				//cannot build if there's anything in the way (other than the builder).
-				if (thingAtPosition.gameObject != SentByPlayer.GameObject)
-				{
-					Chat.AddExamineMsg(SentByPlayer.GameObject, $"{thingAtPosition.gameObject.ExpensiveName()} is in the way.");
-					yield break;
-
-				}
+				//if the object we are building is itself impassable, we should check if anything blocks construciton.
+				//otherwise it's fine to add it to the pile on the tile
+				if (ServerValidations.IsConstructionBlocked(SentByPlayer.GameObject, null,
+					SentByPlayer.GameObject.TileWorldPosition())) yield break;
 			}
 		}
 
