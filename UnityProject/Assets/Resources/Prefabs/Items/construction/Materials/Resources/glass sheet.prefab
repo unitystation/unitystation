@@ -221,7 +221,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
 --- !u!114 &114185907784239616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1747070716
+  m_SceneId: 0
 --- !u!114 &-2672449906344805648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,8 +339,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: glass sheet
+  ArticleName: 
   initialDescription: 
-  initialTraits: []
+  exportCost: 5
+  exportName: 
+  exportMessage: cm3 of glass
+  ArticleDescription: 
+  initialTraits:
+  - {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}
   initialSize: 1
   hitDamage: 5
   damageType: 0
@@ -351,6 +357,3 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 5
-  exportName: 
-  exportMessage: cm3 of glass
