@@ -79,9 +79,9 @@ public class Matrix : MonoBehaviour
 		}
 	}
 
-	public bool IsPassableAt(Vector3Int position, bool isServer)
+	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true)
 	{
-		return IsPassableAt(position, position, isServer);
+		return IsPassableAt(position, position, isServer, includingPlayers: includingPlayers);
 	}
 
 	/// <summary>

@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 7180073561033371851}
   - component: {fileID: 114577545745324966}
   - component: {fileID: 8597459946000449771}
+  - component: {fileID: -5931044004430091604}
   m_Layer: 11
   m_Name: Id_Console
   m_TagString: Untagged
@@ -378,7 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &8597459946000449771
 MonoBehaviour:
@@ -397,6 +398,23 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 6151cf8fb4f9c4bf890b69fad47b155b,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+--- !u!114 &-5931044004430091604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514185242108095534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f545e0e45814b2a97a059ae8975a2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  framePrefab: {fileID: 5458395581066390877, guid: 1be8a69cf08a1499a9e722a88cc274ab,
+    type: 3}
+  circuitBoardPrefab: {fileID: 728401503887791882, guid: 5bcdb263d27704d17bee5ce7e474f028,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!1 &5514342282601624932
 GameObject:
   m_ObjectHideFlags: 0

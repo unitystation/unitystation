@@ -116,12 +116,15 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 					return;
 				}
 
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
-					"You start securing the girder...",
-					$"{interaction.Performer.ExpensiveName()} starts securing the girder...",
-					"You secure the girder.",
-					$"{interaction.Performer.ExpensiveName()} secures the girder.",
-					() => objectBehaviour.ServerSetPushable(false));
+				if (objectBehaviour.ServerValidateIsAnchorable(interaction.Performer))
+				{
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+						"You start securing the girder...",
+						$"{interaction.Performer.ExpensiveName()} starts securing the girder...",
+						"You secure the girder.",
+						$"{interaction.Performer.ExpensiveName()} secures the girder.",
+						() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
+				}
 			}
 			else
 			{
@@ -131,7 +134,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 					$"{interaction.Performer.ExpensiveName()} starts unsecuring the girder...",
 					"You unsecure the girder.",
 					$"{interaction.Performer.ExpensiveName()} unsecures the girder.",
-					() => objectBehaviour.ServerSetPushable(true));
+					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 			}
 
 		}

@@ -6,7 +6,7 @@ using UnityEngine;
 /// please ensure this component is placed below them, otherwise the tab open/close will
 /// be the interaction that always takes precedence.
 /// </summary>
-public class HasNetworkTab : MonoBehaviour, IInteractable<HandApply>
+public class HasNetworkTab : MonoBehaviour, IInteractable<HandApply>, IServerDespawn
 {
 	[Tooltip("Network tab to display.")]
 	public NetTabType NetTabType = NetTabType.None;
@@ -14,5 +14,10 @@ public class HasNetworkTab : MonoBehaviour, IInteractable<HandApply>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType, TabAction.Open );
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
 	}
 }

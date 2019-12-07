@@ -73,7 +73,7 @@ namespace UI.UI_Bottom
 
 		public void OnClick()
 		{
-			RequestConstructionMessage.Send(entry, buildingMaterial);
+			RequestBuildMessage.Send(entry, buildingMaterial);
 			UIManager.BuildMenu.CloseBuildMenu();
 		}
 	}

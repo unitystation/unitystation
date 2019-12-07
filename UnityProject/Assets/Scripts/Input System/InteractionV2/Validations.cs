@@ -526,7 +526,8 @@ public static class Validations
 		if (interaction.UsedObject == null) return false;
 		var welder = interaction.UsedObject.GetComponent<Welder>();
 		if (welder == null) return false;
-		return welder.isOn;
+		return welder.IsOn;
 	}
+
 
 }

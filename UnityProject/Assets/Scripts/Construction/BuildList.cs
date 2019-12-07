@@ -70,6 +70,14 @@ namespace Construction
 			/// </summary>
 			public int SpawnAmount => spawnAmount;
 
+			[Tooltip("Is only one allowed to be built on a given tile?")]
+			[SerializeField]
+			private bool onePerTile = true;
+			/// <summary>
+			/// Is only one allowed to be built on a given tile?
+			/// </summary>
+			public bool OnePerTile => onePerTile;
+
 			/// <summary>
 			/// build this at the indicated location.
 			/// </summary>

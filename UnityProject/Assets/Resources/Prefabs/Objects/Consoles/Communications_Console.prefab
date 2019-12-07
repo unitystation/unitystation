@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 6354374949080783350}
   - component: {fileID: 114302809726908850}
   - component: {fileID: 8020537792279011488}
+  - component: {fileID: 5552848702212947011}
   m_Layer: 11
   m_Name: Communications_Console
   m_TagString: Untagged
@@ -440,7 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &8020537792279011488
 MonoBehaviour:
@@ -459,6 +460,23 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 6151cf8fb4f9c4bf890b69fad47b155b,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+--- !u!114 &5552848702212947011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832449994204696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f545e0e45814b2a97a059ae8975a2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  framePrefab: {fileID: 5458395581066390877, guid: 1be8a69cf08a1499a9e722a88cc274ab,
+    type: 3}
+  circuitBoardPrefab: {fileID: 728401503887791882, guid: dc64d6882f0124382be990196fae4fbc,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!1 &3145195423426570531
 GameObject:
   m_ObjectHideFlags: 0

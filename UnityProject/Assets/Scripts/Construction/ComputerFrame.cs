@@ -79,13 +79,16 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>
 			{
 				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
-					//wrench in place
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-						"You start wrenching the frame into place...",
-						$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
-						"You wrench the frame into place.",
-						$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
-						() => objectBehaviour.ServerSetPushable(false));
+					if (objectBehaviour.ServerValidateIsAnchorable(interaction.Performer))
+					{
+						//wrench in place
+						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+							"You start wrenching the frame into place...",
+							$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
+							"You wrench the frame into place.",
+							$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
+							() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
+					}
 				}
 				else if (Validations.HasUsedActiveWelder(interaction))
 				{
@@ -113,7 +116,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>
 						$"{interaction.Performer.ExpensiveName()} starts to unfasten the frame...",
 						"You unfasten the frame.",
 						$"{interaction.Performer.ExpensiveName()} unfastens the frame.",
-						() => objectBehaviour.ServerSetPushable(true));
+						() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 				}
 				else if (Validations.HasUsedComponent<ComputerCircuitboard>(interaction) && circuitBoardSlot.IsEmpty)
 				{

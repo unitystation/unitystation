@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -10,6 +11,8 @@ using Random = UnityEngine.Random;
 public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
+
+	private LayerMask floorLayer;
 
 	public RegisterTile registerTile;
 
@@ -152,6 +155,56 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public void ServerSetPushable(bool isPushable)
 	{
 		SyncIsNotPushable(!isPushable);
+	}
+
+	/// <summary>
+	/// Like ServerSetPushable, but has logic for preventing things from being anchored
+	/// if there is something on the same tile (not in the floor) and sends an examine message to performer if it's blocked.
+	/// </summary>
+	/// <param name="isAnchored"></param>
+	/// <param name="performer">player performing the anchoring, will be messaged if anchoring fails</param>
+	/// <param name="allowed">If defined, will be used to check each other registertile at the position. It should return
+	/// true if this object is allowed to be anchored on top of the given register tile, otherwise false.
+	/// If unspecified, all registertiles will be considered as blockers at the indicated position</param>
+	[Server]
+	public void ServerSetAnchored(bool isAnchored, GameObject performer, Func<RegisterTile, bool> allowed = null)
+	{
+		//check if blocked
+		if (isAnchored)
+		{
+			if (!ServerValidateIsAnchorable(performer, allowed)) return;
+		}
+
+		SyncIsNotPushable(isAnchored);
+	}
+
+	/// <summary>
+	/// Checks if this is anchorable to its current position, if nothing is blocking it from being anchored.
+	/// If blocked, messages the performer telling them what's in the way.
+	/// </summary>
+	/// <param name="performer">player performing the anchoring, will be messaged if anchoring fails</param>
+	/// <param name="allowed">If defined, will be used to check each other registertile at the position. It should return
+	/// true if this object is allowed to be anchored on top of the given register tile, otherwise false.
+	/// If unspecified, all non-floor registertiles will be considered as blockers at the indicated position</param>
+	[Server]
+	public bool ServerValidateIsAnchorable(GameObject performer, Func<RegisterTile, bool> allowed = null)
+	{
+		if (allowed == null) allowed = (rt) => false;
+		var blocker =
+			MatrixManager.GetAt<RegisterTile>(registerTile.WorldPositionServer, true)
+				.Where(rt => rt.gameObject != gameObject)
+				//ignore stuff in floor
+				.Where(rt => rt.gameObject.layer != floorLayer)
+				.FirstOrDefault(rt => !allowed.Invoke(rt));
+		if (blocker != null)
+		{
+			//cannot build if there's anything in the way (other than the builder).
+			Chat.AddExamineMsg(performer,
+				$"{blocker.gameObject.ExpensiveName()} is in the way.");
+			return false;
+		}
+
+		return true;
 	}
 
 	private IPushable pushableTransform;
@@ -388,6 +441,8 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	}
 
 	protected void Awake() {
+
+		floorLayer = LayerMask.NameToLayer("Floor");
 		registerTile = GetComponent<RegisterTile>();
 
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^

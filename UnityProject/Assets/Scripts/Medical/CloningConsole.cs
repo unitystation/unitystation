@@ -1,22 +1,57 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
-/// Main component for cloning console
+/// Main component for cloning console.
 /// </summary>
-public class CloningConsole : MonoBehaviour
+public class CloningConsole : MonoBehaviour, IServerSpawn
 {
 	public delegate void ChangeEvent();
 	public static event ChangeEvent changeEvent;
 
-	public List<CloningRecord> CloningRecords = new List<CloningRecord>();
-	public DNAscanner scanner;
-	public CloningPod cloningPod;
-	public GUI_Cloning consoleGUI;
+	private List<CloningRecord> cloningRecords;
 
-	private void Start()
+	private DNAscanner scanner;
+	/// <summary>
+	/// Scanner this is attached to. Null if none found.
+	/// </summary>
+	public DNAscanner Scanner => scanner;
+
+	private CloningPod cloningPod;
+	/// <summary>
+	/// Cloning pod this is attached to. Null if none found.
+	/// </summary>
+	public CloningPod CloningPod => cloningPod;
+
+	private GUI_Cloning consoleGUI;
+	private RegisterTile registerTile;
+
+	/// <summary>
+	/// Saved cloning records.
+	/// </summary>
+	public IEnumerable<CloningRecord> CloningRecords => cloningRecords;
+
+	private void Awake()
 	{
+		registerTile = GetComponent<RegisterTile>();
+	}
+
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		scanner = null;
+		cloningPod = null;
+		consoleGUI = null;
+		//TODO: Support persistance of this info somewhere, such as to a circuit board.
+		cloningRecords = new List<CloningRecord>();
+		//scan for adjacent dna scanner and cloning pod
+		scanner = MatrixManager.GetAdjacent<DNAscanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
+		cloningPod = MatrixManager.GetAdjacent<CloningPod>(registerTile.WorldPositionServer, true).FirstOrDefault();
+
 		if (cloningPod)
 		{
 			cloningPod.console = this;
@@ -42,9 +77,9 @@ public class CloningConsole : MonoBehaviour
 			{
 				return;
 			}
-			for (int i = 0; i < CloningRecords.Count; i++)
+			for (int i = 0; i < cloningRecords.Count; i++)
 			{
-				var record = CloningRecords[i];
+				var record = cloningRecords[i];
 				if (mobID == record.mobID)
 				{
 					record.UpdateRecord(mob, playerScript);
@@ -64,7 +99,7 @@ public class CloningConsole : MonoBehaviour
 			if(record.mind.ConfirmClone(record.mobID))
 			{
 				cloningPod.ServerStartCloning(record);
-				CloningRecords.Remove(record);
+				cloningRecords.Remove(record);
 			}
 			else
 			{
@@ -77,9 +112,23 @@ public class CloningConsole : MonoBehaviour
 	{
 		var record = new CloningRecord();
 		record.UpdateRecord(mob, playerScript);
-		CloningRecords.Add(record);
+		cloningRecords.Add(record);
 	}
 
+	public void UpdateDisplay()
+	{
+		consoleGUI.UpdateDisplay();
+	}
+
+	public void RegisterConsoleGUI(GUI_Cloning guiCloning)
+	{
+		consoleGUI = guiCloning;
+	}
+
+	public void RemoveRecord(CloningRecord specificRecord)
+	{
+		cloningRecords.Remove(specificRecord);
+	}
 }
 
 public class CloningRecord
