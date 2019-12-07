@@ -25,18 +25,22 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (reagentContainer.CurrentCapacity >= reagentsPerUse)
+		if (reagentContainer.CurrentCapacity < reagentsPerUse)
 		{
-			Vector2 startPos = gameObject.AssumedWorldPosServer();
-			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x), Mathf.RoundToInt(interaction.WorldPositionTarget.y));
-			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
-			StartCoroutine(Fire(positionList));
-
-			Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
-
-			reagentContainer.TakeReagents(reagentsPerUse);
-			SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
+			return;
 		}
+
+		Vector2 startPos = gameObject.AssumedWorldPosServer();
+		Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x), Mathf.RoundToInt(interaction.WorldPositionTarget.y));
+		List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
+		StartCoroutine(Fire(positionList));
+
+		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
+
+		reagentContainer.TakeReagents(reagentsPerUse);
+		SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
+
+		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}
 
 	private IEnumerator Fire(List<Vector3Int> positionList)

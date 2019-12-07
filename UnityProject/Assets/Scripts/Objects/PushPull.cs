@@ -9,6 +9,10 @@ using Random = UnityEngine.Random;
 
 public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public const float DEFAULT_PUSH_SPEED = 6;
+	/// <summary>
+	/// Maximum speed player can reach by throwing stuff in space
+	/// </summary>
+	public const float MAX_NEWTONIAN_SPEED = 12;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
 	public RegisterTile registerTile;

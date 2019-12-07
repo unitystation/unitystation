@@ -445,6 +445,9 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			//tell all the clients to display the shot
 			ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
 
+			//kickback
+			shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
+
 			if (SpawnsCaseing)
 			{
 				if (casingPrefab == null)

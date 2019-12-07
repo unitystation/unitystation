@@ -304,12 +304,12 @@ public class MetaTileMap : MonoBehaviour
 					if (o is RegisterObject)
 					{
 						PushPull pushPull = o.GetComponent<PushPull>();
-						if (!pushPull)
+						if (pushPull == null && !o.IsPassable(isServer))
 						{
-							return o.IsPassable(isServer);
+							return false;
 						}
 
-						if (pushPull.IsNotPushable)
+						if (pushPull != null && pushPull.IsNotPushable)
 						{
 							return false;
 						}

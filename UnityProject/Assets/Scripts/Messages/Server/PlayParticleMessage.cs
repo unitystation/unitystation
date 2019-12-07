@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -37,7 +38,16 @@ public class PlayParticleMessage : ServerMessage
 			yield break;
 		}
 
+
 		ParticleSystem particleSystem = particleObject.GetComponentInChildren<ParticleSystem>();
+
+		var reclaimer = particleObject.GetComponent<ParentReclaimer>();
+
+		if (particleSystem == null && reclaimer != null)
+		{ //if it's already parented to something else
+			reclaimer.ReclaimNow();
+			particleSystem = particleObject.GetComponentInChildren<ParticleSystem>();
+		}
 
 		if ( particleSystem == null )
 		{
@@ -45,7 +55,6 @@ public class PlayParticleMessage : ServerMessage
 			yield break;
 		}
 
-		//?
 		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
 		renderer.enabled = true;
 
@@ -54,7 +63,21 @@ public class PlayParticleMessage : ServerMessage
 			particleSystem.transform.rotation = Quaternion.Euler(0, 0, -Angle+90);
 		}
 
-		particleSystem.transform.position = parentObject ? parentObject.WorldPosClient() : particleObject.WorldPosClient();
+		if (parentObject != null)
+		{
+			//temporary change of parent, but setting it back after playback ends!
+			if (reclaimer == null)
+			{
+				reclaimer = particleObject.AddComponent<ParentReclaimer>();
+			}
+
+			reclaimer.ReclaimWithDelay(particleSystem.main.duration, particleSystem, particleObject.transform);
+
+			particleSystem.transform.SetParent(parentObject.transform, false);
+		}
+
+		particleSystem.transform.localPosition = Vector3.zero;
+
 		//only needs to run on the clients other than the shooter
 		particleSystem.Play();
 	}
@@ -81,8 +104,48 @@ public class PlayParticleMessage : ServerMessage
 		return msg;
 	}
 
-//	public override string ToString()
-//	{
-//		return " ";
-//	}
+}
+
+/// <summary>
+/// Sets provided component to certain parent after a delay
+/// </summary>
+public class ParentReclaimer : MonoBehaviour
+{
+	private Coroutine handle;
+	private Component lastComponent;
+	private Transform lastParent;
+
+	private IEnumerator ReclaimParent(float delaySec, Component componentToParent, Transform parent)
+	{
+		lastComponent = componentToParent;
+		lastParent = parent;
+		yield return WaitFor.Seconds(delaySec);
+		ReclaimNow();
+	}
+
+	/// <summary>
+	/// Starts a coroutine to set proper parent for component in question after a delay
+	/// </summary>
+	/// <param name="delaySec"></param>
+	/// <param name="componentToParent"></param>
+	/// <param name="parent"></param>
+	public void ReclaimWithDelay(float delaySec, Component componentToParent, Transform parent)
+	{
+		this.RestartCoroutine( ReclaimParent(delaySec, componentToParent, parent), ref handle );
+	}
+
+	/// <summary>
+	/// Stops coroutine and sets parent immediately
+	/// </summary>
+	public void ReclaimNow()
+	{
+		this.TryStopCoroutine(ref handle);
+		if (lastComponent == null || lastParent == null)
+		{
+			return;
+		}
+		lastComponent.transform.SetParent(lastParent, false);
+		lastComponent = null;
+		lastParent = null;
+	}
 }

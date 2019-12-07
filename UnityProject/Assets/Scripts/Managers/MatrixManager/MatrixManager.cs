@@ -84,6 +84,15 @@ public partial class MatrixManager : MonoBehaviour
 		return AllMatchInternal(mat => mat.Matrix.IsNoGravityAt(WorldToLocalInt(worldPos, mat), isServer ));
 	}
 
+	/// <summary>
+	/// Server only.
+	/// Returns true if it's slippery or no gravity at provided position.
+	/// </summary>
+	public static bool IsSlipperyOrNoGravityAt(Vector3Int worldPos)
+	{
+		return IsSlipperyAt(worldPos) || IsNoGravityAt(worldPos, isServer: true);
+	}
+
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject[],UnityEngine.Vector3Int,bool)"/>
 	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos, bool isServer)

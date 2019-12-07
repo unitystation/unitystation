@@ -43,7 +43,7 @@ public partial class PlayerSync
 	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
-	private Vector2 serverLastDirection;
+	private Vector2 lastDirectionServer;
 
 	private RegisterPlayer registerPlayer;
 
@@ -170,22 +170,86 @@ public partial class PlayerSync
 			DisappearFromWorldServer();
 		}
 	}
+	public void NewtonianMove(Vector2Int direction, float speed = Single.NaN)
+	{
+		PushInternal(direction, true, speed);
+	}
 
+	/// <summary>
 	/// Push player in direction.
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
+	/// </summary>
+	/// <param name="direction"></param>
+	/// <param name="speed"></param>
+	/// <param name="followMode">used when object is following its puller
+	/// (turns on tile snapping and removes player collision check)</param>
+	/// <returns>true if push was successful</returns>
 	[Server]
-	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false )
-	{ //player speed change not implemented yet
-		if (direction == Vector2Int.zero)		{
+	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
+	{
+		return PushInternal(direction, false, speed, followMode);
+	}
+
+	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false )
+	{
+		if (!float.IsNaN(speed) && speed <= 0)
+		{
 			return false;
 		}
 
-		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
-		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
+		speed = float.IsNaN( speed ) ? PushPull.DEFAULT_PUSH_SPEED : speed;
+
+		direction = direction.Normalize();
+
+		if (direction == Vector2Int.zero)
+		{
+			return false;
+		}
+
+		Vector3Int origin = ServerPosition;
+		Vector3Int pushGoal = origin + direction.To3Int();
 
 		if ( !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
 			return false;
+		}
+
+		float uncorrectedSpeed = speed;
+
+		if (isNewtonian)
+		{
+			if (!MatrixManager.IsSlipperyOrNoGravityAt(pushGoal))
+			{
+				return false;
+			}
+
+			if (consideredFloatingServer)
+			{
+				var currentFlyingDirection = serverState.Impulse;
+				var currentFlyingSpeed = serverState.speed;
+
+				float correctedSpeed = speed;
+
+				bool isOppositeDirection = direction == -currentFlyingDirection;
+				bool isSameDirection = direction == currentFlyingDirection;
+
+				if (isOppositeDirection)
+				{
+					Logger.LogTrace("got counter impulse, stopping", Category.PushPull);
+					Stop();
+					return true;
+				}
+
+				if (isSameDirection)
+				{
+					correctedSpeed = Mathf.Clamp(speed + currentFlyingSpeed, currentFlyingSpeed, PushPull.MAX_NEWTONIAN_SPEED);
+				}
+
+				Logger.LogTraceFormat("proposed: {0}@{1}, current: {2}@{3}, result: {4}@{5}", Category.PushPull,
+					direction, speed, currentFlyingDirection, currentFlyingSpeed, direction, correctedSpeed
+					);
+				speed = correctedSpeed;
+			}
 		}
 
 		if ( followMode ) {
@@ -198,7 +262,7 @@ public partial class PlayerSync
 			}
 
 		}
-		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
+		else if ( uncorrectedSpeed >= playerMove.PushFallSpeed )
 		{
 			registerPlayer.Slip(true);
 		}
@@ -215,9 +279,9 @@ public partial class PlayerSync
 			ImportantFlightUpdate = true,
 			ResetClientQueue = true,
 			IsFollowUpdate = followMode,
-			Speed = !float.IsNaN( speed ) && speed > 0 ? speed : PushPull.DEFAULT_PUSH_SPEED
+			Speed = speed
 		};
-		serverLastDirection = direction;
+		lastDirectionServer = direction;
 		ServerState = newState;
 		SyncMatrix();
 		OnStartMove().Invoke( origin, pushGoal );
@@ -380,11 +444,11 @@ public partial class PlayerSync
 
 		var newPos = nextState.WorldPosition;
 		var oldPos = serverState.WorldPosition;
-		serverLastDirection = Vector2Int.RoundToInt(newPos - oldPos);
+		lastDirectionServer = Vector2Int.RoundToInt(newPos - oldPos);
 		ServerState = nextState;
 		//In case positions already match
 		TryNotifyPlayers();
-		if ( serverLastDirection != Vector2.zero ) {
+		if ( lastDirectionServer != Vector2.zero ) {
 			CheckMovementServer();
 			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 		}
@@ -594,10 +658,10 @@ public partial class PlayerSync
 		//Space walk checks
 		if ( IsNonStickyServer )
 		{
-			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
+			if (serverState.Impulse == Vector2.zero && lastDirectionServer != Vector2.zero)
 			{ //fixme: serverLastDirection is unreliable. maybe rethink notion of impulse
 				//server initiated space dive.
-				serverState.Impulse = serverLastDirection;
+				serverState.Impulse = lastDirectionServer;
 				serverState.ImportantFlightUpdate = true;
 				serverState.ResetClientQueue = true;
 			}
@@ -696,7 +760,7 @@ public partial class PlayerSync
 				}
 			}
 			//removing lastDirection when we hit an obstacle in space
-			serverLastDirection = Vector2.zero;
+			lastDirectionServer = Vector2.zero;
 
 			//finish floating. players will be notified as soon as serverState catches up
 			serverState.Impulse = Vector2.zero;
@@ -729,7 +793,7 @@ public partial class PlayerSync
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
 			if (!playerScript.IsGhost)
 			{
-				CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection * -1, isServer: true);
+				CheckAndDoSwap(targetPos.RoundToInt(), lastDirectionServer * -1, isServer: true);
 			}
 		}
 		if ( TryNotifyPlayers() ) {

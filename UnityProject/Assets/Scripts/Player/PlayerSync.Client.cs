@@ -22,19 +22,13 @@ public partial class PlayerSync
 	private PlayerState predictedState;
 
 	private Queue<PlayerAction> pendingActions;
-	private Vector2 lastDirection;
+	private Vector2 lastDirectionClient;
 
 	/// Last move direction, used for space walking simulation
-	private Vector2 LastDirection
+	private Vector2 LastDirectionClient
 	{
-		get { return lastDirection; }
-		set
-		{
-			//				if ( value == Vector2.zero ) {
-			//					Logger.Log( $"Setting client LastDirection to {value}!" );
-			//				}
-			lastDirection = value;
-		}
+		get => lastDirectionClient;
+		set => lastDirectionClient = value.NormalizeToInt();
 	}
 
 	public bool CanPredictPush => ClientPositionReady;
@@ -134,7 +128,7 @@ public partial class PlayerSync
 					//move freely
 					pendingActions.Enqueue(action);
 
-					LastDirection = action.Direction();
+					LastDirectionClient = action.Direction();
 					UpdatePredictedState();
 				}
 				else if (clientBump == BumpType.HelpIntent)
@@ -149,7 +143,7 @@ public partial class PlayerSync
 
 					//move freely
 					pendingActions.Enqueue(action);
-					LastDirection = action.Direction();
+					LastDirectionClient = action.Direction();
 					UpdatePredictedState();
 				}
 				else
@@ -261,7 +255,7 @@ public partial class PlayerSync
 			Lerp();
 		}
 
-		LastDirection = direction;
+		LastDirectionClient = direction;
 		return true;
 	}
 
@@ -297,12 +291,12 @@ public partial class PlayerSync
 			var newPos = tempState.WorldPosition;
 			var oldPos = state.WorldPosition;
 
-			LastDirection = Vector2Int.RoundToInt(newPos - oldPos);
+			LastDirectionClient = Vector2Int.RoundToInt(newPos - oldPos);
 
-			if (LastDirection != Vector2.zero)
+			if (LastDirectionClient != Vector2.zero)
 			{
 				OnClientStartMove().Invoke(oldPos.RoundToInt(), newPos.RoundToInt());
-				playerDirectional.FaceDirection(Orientation.From(LastDirection));
+				playerDirectional.FaceDirection(Orientation.From(LastDirectionClient));
 			}
 
 
@@ -398,7 +392,7 @@ public partial class PlayerSync
 		}
 		if (isFloatingClient)
 		{
-			LastDirection = playerState.Impulse;
+			LastDirectionClient = playerState.Impulse;
 		}
 
 		//don't reset predicted state if it guessed impulse correctly
@@ -418,7 +412,7 @@ public partial class PlayerSync
 				ClearQueueClient();
 				RollbackPrediction();
 
-				OnClientStartMove().Invoke( newWorldPos-LastDirection.RoundToInt(), newWorldPos );
+				OnClientStartMove().Invoke( newWorldPos-LastDirectionClient.RoundToInt(), newWorldPos );
 			}
 			return;
 		}
@@ -524,7 +518,7 @@ public partial class PlayerSync
 				//Logger.Log( "Stopped clientside floating to avoid going through walls" );
 
 				//Zeroing lastDirection after hitting an obstacle
-				LastDirection = Vector2.zero;
+				LastDirectionClient = Vector2.zero;
 
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
 				predictedState.Impulse = Vector2.zero;
@@ -542,17 +536,17 @@ public partial class PlayerSync
 		}
 		else
 		{
-			if (predictedState.Impulse == Vector2.zero && LastDirection != Vector2.zero)
+			if (predictedState.Impulse == Vector2.zero && LastDirectionClient != Vector2.zero)
 			{
 				if (pendingActions == null || pendingActions.Count == 0)
 				{
 					//						not initiating predictive spacewalk without queued actions
-					LastDirection = Vector2.zero;
+					LastDirectionClient = Vector2.zero;
 					return;
 				}
 				//client initiated space dive.
-				predictedState.Impulse = LastDirection;
-				Logger.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}", Category.Movement);
+				predictedState.Impulse = LastDirectionClient;
+				Logger.Log($"Client init floating with impulse {LastDirectionClient}. FC={isFloatingClient},PFC={isPseudoFloatingClient}", Category.Movement);
 			}
 
 			//Perpetual floating sim
@@ -597,7 +591,7 @@ public partial class PlayerSync
 				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
-					CheckAndDoSwap(worldPos, lastDirection*-1, isServer: false);
+					CheckAndDoSwap(worldPos, LastDirectionClient*-1, isServer: false);
 				}
 
 			}
