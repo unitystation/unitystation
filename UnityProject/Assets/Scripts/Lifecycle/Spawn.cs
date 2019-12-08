@@ -573,6 +573,11 @@ public static class Spawn
 			clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
 		}
 	}
+
+	public static void _ClearPools()
+	{
+		pools.Clear();
+	}
 }
 
 //not used for clients unless it is a client side pool object only

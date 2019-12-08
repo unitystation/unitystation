@@ -8,51 +8,36 @@ public class AccessRestrictions : MonoBehaviour
 
 	public bool CheckAccess(GameObject Player)
 	{
-		IDCard card;
-		ItemStorage playerStorage = Player.GetComponent<ItemStorage>();
 
-		//this isn't a player. It could be an npc:
-		if (playerStorage == null)
-		{
-			if ((int) restriction == 0)
-			{
-				return true;
-			}
-			return false;
-		}
-
-		// Check for an ID card
-		var idId = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
-		var handId = playerStorage.GetActiveHandSlot().ItemObject;
-		if (idId != null && idId.GetComponent<IDCard>() != null)
-		{
-			card = idId.GetComponent<IDCard>();
-		}
-		else if (handId != null &&
-		         handId.GetComponent<IDCard>() != null)
-		{
-			card = handId.GetComponent<IDCard>();
-		}
-		else
-		{
-			// If there isn't one, see if we even need one
-			if ((int) restriction == 0)
-			{
-				return true;
-			}
-			// If there isn't one and we don't need one, we don't open the door
-			return false;
-		}
-
-		// If we have an ID, make sure we have access
+		// If there isn't any restriction, grant access right away
 		if ((int) restriction == 0)
 		{
 			return true;
 		}
-		if (card.HasAccess(restriction))
+
+
+		ItemStorage playerStorage = Player.GetComponent<ItemStorage>();
+		//this isn't a player. It could be an npc. No NPC access logic at the moment
+		if (playerStorage == null)
+		{
+			return false;
+		}
+
+
+		//check if active hand or equipped id cards have access
+		if (CheckAccessCard(playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject))
 		{
 			return true;
 		}
-		return false;
+
+		return CheckAccessCard(playerStorage.GetActiveHandSlot().ItemObject);
+	}
+
+	private bool CheckAccessCard(GameObject idCardObj)
+	{
+		if (idCardObj == null) return false;
+		var idcard = idCardObj.GetComponent<IDCard>();
+		if (idcard == null) return false;
+		return idcard.HasAccess(restriction);
 	}
 }

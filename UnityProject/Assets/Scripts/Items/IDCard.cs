@@ -96,6 +96,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 			//auto init if being added to a player's inventory
 			if (info.ToPlayer != null)
 			{
+				hasAutoInit = true;
 				var ps = info.ToPlayer.GetComponent<PlayerScript>();
 				var occupation = info.ToPlayer.GetComponent<PlayerScript>().mind.occupation;
 				if (occupation == null) return;

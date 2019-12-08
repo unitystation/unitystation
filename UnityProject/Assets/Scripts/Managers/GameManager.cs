@@ -164,6 +164,8 @@ public partial class GameManager : MonoBehaviour
 		{
 			PreRoundStart();
 		}
+		//reset pools
+		Spawn._ClearPools();
 	}
 
 	public void SyncTime(string currentTime)
