@@ -166,6 +166,8 @@ public partial class GameManager : MonoBehaviour
 		}
 		//reset pools
 		Spawn._ClearPools();
+		//reset inventory system
+		ItemSlot.EmptyPool();
 	}
 
 	public void SyncTime(string currentTime)
