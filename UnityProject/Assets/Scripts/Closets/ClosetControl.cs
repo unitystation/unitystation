@@ -21,6 +21,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	//Inventory
 	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+	public IEnumerable<ObjectBehaviour> ServerHeldItems => heldItems;
 	protected List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
 	public bool IsClosed;
@@ -328,7 +329,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			item.VisibleState = false;
 		}
 	}
-
 
 	private void OpenPlayerHandling()
 	{

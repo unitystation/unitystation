@@ -122,6 +122,11 @@ public class CargoManager : MonoBehaviour
 
 			foreach(var entry in exportedItems)
 			{
+				if (entry.Value.TotalValue <= 0)
+				{
+					continue;
+				}
+
 				CentcomMessage += $"+{ entry.Value.TotalValue } credits: " +
 				                  $"{ entry.Value.Count }";
 
@@ -154,17 +159,33 @@ public class CargoManager : MonoBehaviour
 
 	public void DestroyItem(ObjectBehaviour item)
 	{
-		// If there is no bounty for the item - we dont destroy it.
-		var credits = Instance.GetSellPrice(item);
-		if (credits <= 0f)
+		var storage = item.GetComponent<InteractableStorage>();
+		if (storage)
 		{
-			return;
+			foreach (var slot in storage.ItemStorage.GetItemSlots())
+			{
+				if (slot.Item)
+				{
+					DestroyItem(slot.Item.GetComponent<ObjectBehaviour>());
+				}
+			}
 		}
 
+		var closet = item.GetComponent<ClosetControl>();
+		if (closet)
+		{
+			foreach (var closetItem in closet.ServerHeldItems)
+			{
+				DestroyItem(closetItem);
+			}
+		}
+
+		// If there is no bounty for the item - we dont destroy it.
+		var credits = Instance.GetSellPrice(item);
 		Credits += credits;
 		OnCreditsUpdate?.Invoke();
 
-		var attributes = item.gameObject.GetComponent<ItemAttributesV2>();
+		var attributes = item.gameObject.GetComponent<Attributes>();
 		string exportName;
 		if (attributes)
 		{
@@ -293,8 +314,7 @@ public class CargoManager : MonoBehaviour
 			return 0;
 		}
 
-		var attributes = item.GetComponent<ItemAttributesV2>();
-
+		var attributes = item.GetComponent<Attributes>();
 		if (attributes == null)
 		{
 			return 0;
