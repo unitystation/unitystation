@@ -45,13 +45,10 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		{
 			SoundManager.PlayNetworkedAtPos("BreakStone", interaction.WorldPositionTarget);
 			var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
+
+			var ttile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
+			Spawn.ServerPrefab(ttile.SpawnOnDeconstruct, interaction.WorldPositionTarget ,  count : ttile.SpawnAmountOnDeconstruct);
 			interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-			if (Random.value > PLASMA_SPAWN_CHANCE)
-			{
-				//spawn plasma
-				Spawn.ServerPrefab("SolidPlasma", interaction.WorldPositionTarget, count: 1,
-					scatterRadius: Spawn.DefaultScatterRadius);
-			}
 		}
 	}
 }

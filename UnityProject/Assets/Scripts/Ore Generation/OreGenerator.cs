@@ -46,7 +46,6 @@ public class OreGenerator : MonoBehaviour
 
 			BoundsInt bounds = WallTilemap.cellBounds;
 			Logger.Log(bounds.ToString());
-			TileBase[] allTiles = WallTilemap.GetTilesBlock(bounds);
 			List<TileAndLocation> MiningTiles = new List<TileAndLocation>();
 			//Logger.Log(Matrix.CompressAllBounds() cellBounds.ToString());
 
