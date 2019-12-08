@@ -192,16 +192,19 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				}
 			}
 
-			if (weedLevel >= 10 && !plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
+			if (plantData != null)
 			{
-				var data = potentialWeeds[random.Next(potentialWeeds.Count)];
-				plantData = new PlantData();
-				plantData.SetValues(data.plantData);
-				SyncPlant(plantData.Name);
-				SyncGrowingPlantStage(0);
-				SyncStage(PlantSpriteStage.Growing);
-				weedLevel = 0;
-				hasPlant = true;
+				if (weedLevel >= 10 && !plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
+				{
+					var data = potentialWeeds[random.Next(potentialWeeds.Count)];
+					plantData = new PlantData();
+					plantData.SetValues(data.plantData);
+					SyncPlant(plantData.Name);
+					SyncGrowingPlantStage(0);
+					SyncStage(PlantSpriteStage.Growing);
+					weedLevel = 0;
+					hasPlant = true;
+				}
 			}
 		}
 
