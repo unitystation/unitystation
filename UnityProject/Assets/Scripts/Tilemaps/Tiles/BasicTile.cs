@@ -23,6 +23,11 @@ public abstract class BasicTile : LayerTile
 	[FormerlySerializedAs("IsSealed")] [SerializeField]
 	private bool isSealed;
 
+	public OreCategorie OreCategorie;
+
+	public float MaxHealth;
+	public TileState[] HealthStates;
+
 	[Tooltip("Does this tile allow items / objects to pass through it?")]
 	[FormerlySerializedAs("Passable")] [SerializeField]
 	private bool passable;
