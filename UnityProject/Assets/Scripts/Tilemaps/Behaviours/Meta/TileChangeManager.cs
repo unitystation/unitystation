@@ -61,9 +61,8 @@ public class TileChangeManager : NetworkBehaviour
 		if (changeList.List.Count > 0)
 		{
 			Logger.LogFormat("Request all updates: ", Category.TileMaps, requestedBy.name);
-			string jsondata = JsonUtility.ToJson (changeList);
 
-			TileChangesNewClientSync.Send(gameObject, requestedBy, jsondata);
+			TileChangesNewClientSync.Send(gameObject, requestedBy, changeList);
 		}
 	}
 
@@ -239,6 +238,15 @@ public class TileChangeManager : NetworkBehaviour
 public class TileChangeList
 {
 	public List<TileChangeEntry> List = new List<TileChangeEntry>();
+
+	public static TileChangeList FromList(IEnumerable<TileChangeEntry> entry)
+	{
+		return new TileChangeList()
+		{
+			List = entry.ToList()
+		};
+	}
+
 }
 
 [System.Serializable]
