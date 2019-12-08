@@ -39,7 +39,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private void Awake()
 	{
 		pickupable = GetComponent<Pickupable>();
-		prefab = Spawn.DeterminePrefab(gameObject);
 		amount = initialAmount;
 		pushPull = GetComponent<PushPull>();
 		registerTile = GetComponent<RegisterTile>();
@@ -65,6 +64,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public override void OnStartClient()
 	{
+		prefab = Spawn.DeterminePrefab(gameObject);
 		SyncAmount(this.amount);
 	}
 
@@ -76,6 +76,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
+		prefab = Spawn.DeterminePrefab(gameObject);
 		SyncAmount(initialAmount);
 		amountInit = true;
 		//check for stacking with things on the ground
