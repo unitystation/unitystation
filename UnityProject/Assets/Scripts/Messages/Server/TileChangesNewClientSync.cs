@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 
 //long name I know. This is for syncing new clients when they join to all of the tile changes
 public class TileChangesNewClientSync : ServerMessage
 {
+	//just a best guess, try increasing it until the message exceeds mirror's limit
+	private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
+
 	public static short MessageType = (short) MessageTypes.TileChangesNewClientSync;
+
 	public string data;
 	public uint ManagerSubject;
 
@@ -17,16 +22,23 @@ public class TileChangesNewClientSync : ServerMessage
 		tm.InitServerSync(data);
 	}
 
-	public static TileChangesNewClientSync Send(GameObject managerSubject, GameObject recipient, string jsondata)
+	public static void Send(GameObject managerSubject, GameObject recipient, TileChangeList changeList)
 	{
-		TileChangesNewClientSync msg =
-			new TileChangesNewClientSync
-			{ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
-			data = jsondata
-			};
 
-		msg.SendTo(recipient);
-		return msg;
+		if (changeList == null || changeList.List.Count == 0) return;
+		foreach (var changeChunk in changeList.List.Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
+		{
+			string jsondata = JsonUtility.ToJson (changeChunk);
+
+			TileChangesNewClientSync msg =
+				new TileChangesNewClientSync
+				{ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
+					data = jsondata
+				};
+
+			msg.SendTo(recipient);
+
+		}
 	}
 
 	public override string ToString()
