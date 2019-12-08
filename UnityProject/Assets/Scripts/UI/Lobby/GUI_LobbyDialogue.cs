@@ -219,6 +219,7 @@ namespace Lobby
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			ServerData.Auth.SignOut();
+			NetworkClient.Disconnect();
 			PlayerPrefs.SetString("username", "");
 			PlayerPrefs.SetString("cookie", "");
 			PlayerPrefs.SetInt("autoLogin", 0);
