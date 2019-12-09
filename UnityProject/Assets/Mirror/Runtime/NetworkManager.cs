@@ -324,6 +324,8 @@ namespace Mirror
                 StopServer();
                 print("OnApplicationQuit: stopped server");
             }
+
+            Transport.activeTransport.Shutdown();
         }
 
         /// <summary>
