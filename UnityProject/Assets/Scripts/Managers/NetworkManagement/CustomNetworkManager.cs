@@ -16,7 +16,6 @@ public class CustomNetworkManager : NetworkManager
 	public static CustomNetworkManager Instance;
 
 	[HideInInspector] public bool _isServer;
-	[HideInInspector] public bool spawnableListReady;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 
@@ -63,8 +62,6 @@ public class CustomNetworkManager : NetworkManager
 				loadFolder(subdir);
 			}
 		}
-
-		spawnableListReady = true;
 	}
 
 	private void loadFolder(string folderpath)
@@ -118,17 +115,71 @@ public class CustomNetworkManager : NetworkManager
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
-		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
-		base.OnServerAddPlayer(conn, extraMessage);
+		//This spawns the player prefab
+		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
+		{
+			//this is a headless server || testing headless (it removes the server player for localClient)
+			if (conn.address != "localClient")
+			{
+				StartCoroutine(WaitToSpawnPlayer(conn));
+			}
+		}
+		else
+		{
+			//This is a host server (keep the server player as it is for the host player)
+			StartCoroutine(WaitToSpawnPlayer(conn));
+		}
 
-		//Tell them what the current round time is
-		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
-		//TODO: Why not send them all the syncPlayerData stuff here?
+		if (_isServer)
+		{
+			//Tell them what the current round time is
+			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
+		}
+	}
+
+	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn)
+	{
+		yield return WaitFor.Seconds(1f);
+		OnServerAddPlayerInternal(conn);
+	}
+
+	private void OnServerAddPlayerInternal(NetworkConnection conn)
+	{
+		if (playerPrefab == null)
+		{
+			if (!LogFilter.Debug)
+			{
+				return;
+			}
+			Logger.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", Category.Connections);
+		}
+		else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
+		{
+			if (!LogFilter.Debug)
+			{
+				return;
+			}
+			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Category.Connections);
+		}
+		// else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
+		// 	conn.playerControllers[playerControllerId].gameObject != null)
+		// {
+		// 	if (!LogFilter.Debug)  FIXME!! - need a way to determine if player has already spawned before this round
+		// 	{
+		// 		return;
+		// 	}
+		// 	Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.Connections);
+		// }
+		else
+		{
+			PlayerSpawn.ServerSpawnViewer(conn);
+		}
 	}
 
 	//called on client side when client first connects to the server
 	public override void OnClientConnect(NetworkConnection conn)
 	{
+		Logger.LogFormat("We (the client) connected to the server {0}", Category.Connections, conn);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		this.RegisterClientHandlers(conn);
 

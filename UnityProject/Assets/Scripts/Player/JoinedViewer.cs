@@ -16,11 +16,15 @@ public class JoinedViewer : NetworkBehaviour
 	{
 		base.OnStartLocalPlayer();
 
+
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ClientID))
 		{
 			PlayerPrefs.SetString(PlayerPrefKeys.ClientID, "");
 			PlayerPrefs.Save();
 		}
+
+		Logger.LogFormat("JoinedViewer on this client calling CmdServerSetupPlayer, our clientID: {0} username: {1}", Category.Connections,
+			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 
 		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 	}
@@ -28,6 +32,8 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	private void CmdServerSetupPlayer(string clientID, string username)
 	{
+		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, clientID: {0} username: {1}", Category.Connections,
+			clientID, username);
 		var connPlayer = new ConnectedPlayer
 		{
 			Connection = connectionToClient,
