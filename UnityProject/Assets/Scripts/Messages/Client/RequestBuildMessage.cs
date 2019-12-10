@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Linq;
 using Construction;
+using UnityEngine;
 
 /// <summary>
 /// Client requests to construct something using the material in their active hand.
 /// </summary>
-public class RequestConstructionMessage : ClientMessage
+public class RequestBuildMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestConstructionMessage;
+	public static short MessageType = (short) MessageTypes.RequestBuildMessage;
 
 	//index of the entry in the ConstructionList.
 	public byte EntryIndex;
@@ -25,6 +26,38 @@ public class RequestConstructionMessage : ClientMessage
 		var entry = hasConstructionMenu.BuildList.Entries.ToArray()[EntryIndex];
 
 		if (!entry.CanBuildWith(hasConstructionMenu)) yield break;
+
+		//check if the space to construct on is passable
+		if (!MatrixManager.IsPassableAt((Vector3Int) SentByPlayer.GameObject.TileWorldPosition(), true, includingPlayers: false))
+		{
+			Chat.AddExamineMsg(SentByPlayer.GameObject, "It won't fit here.");
+			yield break;
+		}
+
+		//if we are building something impassable, check if there is anything on the space other than the performer.
+		var atPosition =
+			MatrixManager.GetAt<RegisterTile>((Vector3Int) SentByPlayer.GameObject.TileWorldPosition(), true);
+		var builtObjectIsImpassable = !entry.Prefab.GetComponent<RegisterTile>().IsPassable(true);
+		foreach (var thingAtPosition in atPosition)
+		{
+			if (entry.OnePerTile)
+			{
+				//can only build one of this on a given tile
+				if (entry.Prefab.Equals(Spawn.DeterminePrefab(thingAtPosition.gameObject)))
+				{
+					Chat.AddExamineMsg(SentByPlayer.GameObject, $"There's already one here.");
+					yield break;
+				}
+			}
+
+			if (builtObjectIsImpassable)
+			{
+				//if the object we are building is itself impassable, we should check if anything blocks construciton.
+				//otherwise it's fine to add it to the pile on the tile
+				if (ServerValidations.IsConstructionBlocked(SentByPlayer.GameObject, null,
+					SentByPlayer.GameObject.TileWorldPosition())) yield break;
+			}
+		}
 
 		//build and consume
 		var finishProgressAction = new ProgressCompleteAction(() =>
@@ -50,12 +83,12 @@ public class RequestConstructionMessage : ClientMessage
 	/// <param name="hasMenu">has construction menu component of the object being used to
 	/// construct.</param>
 	/// <returns></returns>
-	public static RequestConstructionMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu)
+	public static RequestBuildMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu)
 	{
 		byte entryIndex = (byte) hasMenu.BuildList.Entries.ToList().IndexOf(entry);
 		if (entryIndex == -1) return null;
 
-		RequestConstructionMessage msg = new RequestConstructionMessage
+		RequestBuildMessage msg = new RequestBuildMessage
 		{
 			EntryIndex = entryIndex
 		};

@@ -12,6 +12,7 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public MatrixMove ShuttleMatrixMove;
 	private RegisterTile registerTile;
+	private HasNetworkTab hasNetworkTab;
 
     public TabStateEvent OnStateChange;
     private TabState state = TabState.Normal;
@@ -34,6 +35,8 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	    {
 		    registerTile = GetComponent<RegisterTile>();
 	    }
+
+	    hasNetworkTab = GetComponent<HasNetworkTab>();
     }
 
     private void OnEnable()
@@ -59,11 +62,17 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 
         if ( ShuttleMatrixMove == null )
         {
-            Logger.LogError( $"{this} has no reference to MatrixMove, current matrix doesn't seem to have it either", Category.Matrix );
+            Logger.Log( $"{this} is not on a movable matrix, so won't function.", Category.Matrix );
+            hasNetworkTab.enabled = false;
         }
         else
         {
             Logger.Log( $"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically", Category.Matrix );
+        }
+
+        if (ShuttleMatrixMove != null)
+        {
+	        hasNetworkTab.enabled = true;
         }
     }
 

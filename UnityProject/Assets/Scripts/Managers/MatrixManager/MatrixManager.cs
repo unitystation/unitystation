@@ -368,9 +368,9 @@ public partial class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer)
+	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer, bool includingPlayers = true)
 	{
-		return AllMatchInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
+		return AllMatchInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldTarget, mat), isServer, includingPlayers: includingPlayers));
 	}
 
 	/// <summary>
@@ -398,6 +398,30 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		return t;
+	}
+
+	/// <summary>
+	/// checks all tiles adjacent to the indicated world position for objects with the indicated component.
+	/// Probably pretty expensive.
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <param name="isServer"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static List<T> GetAdjacent<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	{
+		List<T> result = new List<T>();
+
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.right, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.right + Vector3Int.up, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.up, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.up + Vector3Int.left, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.left, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.left + Vector3Int.down, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.down, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.down + Vector3Int.right, isServer));
+
+		return result;
 	}
 
 	//shorthand for calling GetAt at the targeted object's position

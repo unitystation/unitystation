@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using WebSocketSharp;
 
+/// <summary>
+/// Note that pretty much all the methods in this component work server-side only, but aren't
+/// prefixed with "Server"
+/// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
 public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
@@ -313,6 +317,17 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	}
 
 	public float AmountOfReagents(Dictionary<string, float> Reagents) => Reagents.Select(reagent => reagent.Value).Sum();
+
+	/// <summary>
+	/// Gets the amount of a particular reagent. 0 if it doesn't have this reagent.
+	/// </summary>
+	/// <param name="reagentName"></param>
+	/// <returns></returns>
+	public float AmountOfReagent(string reagentName)
+	{
+		Contents.TryGetValue(reagentName, out var amount);
+		return amount;
+	}
 
 	private void LogReagents()
 	{

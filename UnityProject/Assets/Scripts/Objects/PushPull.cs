@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -156,6 +157,28 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public void ServerSetPushable(bool isPushable)
 	{
 		SyncIsNotPushable(!isPushable);
+	}
+
+	/// <summary>
+	/// Like ServerSetPushable, but has logic for preventing things from being anchored
+	/// if there is something on the same tile (not in the floor) and sends an examine message to performer if it's blocked.
+	/// </summary>
+	/// <param name="isAnchored"></param>
+	/// <param name="performer">player performing the anchoring, will be messaged if anchoring fails</param>
+	/// <param name="allowed">If defined, will be used to check each other registertile at the position. It should return
+	/// true if this object is allowed to be anchored on top of the given register tile, otherwise false.
+	/// If unspecified, all registertiles will be considered as blockers at the indicated position</param>
+	[Server]
+	public void ServerSetAnchored(bool isAnchored, GameObject performer, Func<RegisterTile, bool> allowed = null)
+	{
+		//check if blocked
+		if (isAnchored)
+		{
+			if (ServerValidations.IsConstructionBlocked(performer, gameObject,
+				(Vector2Int) registerTile.WorldPositionServer, allowed)) return;
+		}
+
+		SyncIsNotPushable(isAnchored);
 	}
 
 	private IPushable pushableTransform;

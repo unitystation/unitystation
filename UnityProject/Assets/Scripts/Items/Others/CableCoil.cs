@@ -133,6 +133,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 					}
 				}
 				BuildCable(roundTargetWorldPosition, interaction.Performer.transform.parent, WireEndB);
+				Inventory.ServerConsume(interaction.HandSlot, 1);
 			}
 		}
 	}

@@ -42,7 +42,7 @@ public class CloningPod : NetworkBehaviour
 		statusString  = "Cloning process complete.";
 		if (console)
 		{
-			console.consoleGUI.UpdateDisplay();
+			console.UpdateDisplay();
 		}
 		if(record.mind.IsOnline(record.mind.GetCurrentMob()))
 		{

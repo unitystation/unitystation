@@ -46,25 +46,23 @@ public class ChangeTileWhenItemUsed : TileInteraction
 
 		if (requiredTrait == CommonTraits.Instance.Welder)
 		{
-			var welder = interaction.HandObject.GetComponent<Welder>();
-			if (welder == null) return false;
-			return welder.isOn;
+			return Validations.HasUsedActiveWelder(interaction);
 		}
 		return Validations.HasItemTrait(interaction.HandObject, requiredTrait);
 	}
 
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
-		Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage,
-			Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer));
-		var progressFinishAction = new ProgressCompleteAction(() =>
-		{
-			Chat.AddActionMsgToChat(interaction.Performer, performerFinishActionMessage,
-				Chat.ReplacePerformer(othersFinishActionMessage, interaction.Performer));
 
-			interaction.TileChangeManager.UpdateTile(interaction.TargetCellPos, toTile);
-			interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
-		});
-		ToolUtils.ServerUseTool(interaction, seconds, progressFinishAction);
+		ToolUtils.ServerUseToolWithActionMessages(interaction, seconds,
+			performerStartActionMessage,
+			Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer),
+			performerFinishActionMessage,
+			Chat.ReplacePerformer(othersFinishActionMessage, interaction.Performer),
+			() =>
+			{
+				interaction.TileChangeManager.UpdateTile(interaction.TargetCellPos, toTile);
+				interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
+			});
 	}
 }

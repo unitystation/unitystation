@@ -49,8 +49,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench, screwdriver, metal, or plasteel in their hand
-		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal) &&
-			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Plasteel) &&
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet) &&
+			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet) &&
 		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
 		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return false;
 		return true;
@@ -60,7 +60,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	{
 		if (interaction.TargetObject != gameObject) return;
 
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Metal))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 		{
 			//TODO: false walls
 			if (objectBehaviour.IsPushable)
@@ -74,15 +74,15 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 					Chat.AddExamineMsg(interaction.Performer, "You need two sheets of metal to finish a wall!");
 					return;
 				}
-
-				var progressFinishAction = new ProgressCompleteAction(() =>
-					ConstructWall(interaction));
-				Chat.AddActionMsgToChat(interaction.Performer, $"You start adding plating...",
-					$"{interaction.Performer.ExpensiveName()} begins adding plating...");
-				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+					"You start adding plating...",
+					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+					"You add the plating.",
+					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					() => ConstructWall(interaction));
 			}
 		}
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Plasteel))
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 		{
 			//TODO: false reinforced walls
 			if (objectBehaviour.IsPushable)
@@ -97,11 +97,12 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 			else
 			{
 				//add plasteel for constructing reinforced girder
-				var progressFinishAction = new ProgressCompleteAction(() =>
-					ReinforceGirder(interaction));
-				Chat.AddActionMsgToChat(interaction.Performer, $"You start reinforcing the girder...",
-					$"{interaction.Performer.ExpensiveName()} starts reinforcing the girder...");
-				ToolUtils.ServerUseTool(interaction, 6f, progressFinishAction);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 6f,
+					"You start reinforcing the girder...",
+					$"{interaction.Performer.ExpensiveName()} starts reinforcing the girder...",
+					"You reinforce the girder.",
+					$"{interaction.Performer.ExpensiveName()} reinforces the girder.",
+					() => ReinforceGirder(interaction));
 			}
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
@@ -114,28 +115,26 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 					Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the girder!");
 					return;
 				}
-				Chat.AddActionMsgToChat(interaction.Performer, $"You start securing the girder...",
-					$"{interaction.Performer.ExpensiveName()} starts securing the girder...");
-				var progressFinishAction = new ProgressCompleteAction(() =>
+
+				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"You secure the girder.",
-						$"{interaction.Performer.ExpensiveName()} secures the girder.");
-					objectBehaviour.ServerSetPushable(false);
-				});
-				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+						"You start securing the girder...",
+						$"{interaction.Performer.ExpensiveName()} starts securing the girder...",
+						"You secure the girder.",
+						$"{interaction.Performer.ExpensiveName()} secures the girder.",
+						() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
+				}
 			}
 			else
 			{
 				//unsecure it
-				Chat.AddActionMsgToChat(interaction.Performer, $"You start unsecuring the girder...",
-					$"{interaction.Performer.ExpensiveName()} starts unsecuring the girder...");
-				var progressFinishAction = new ProgressCompleteAction(() =>
-				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"You unsecure the girder.",
-						$"{interaction.Performer.ExpensiveName()} unsecures the girder.");
-					objectBehaviour.ServerSetPushable(true);
-				});
-				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+					"You start unsecuring the girder...",
+					$"{interaction.Performer.ExpensiveName()} starts unsecuring the girder...",
+					"You unsecure the girder.",
+					$"{interaction.Performer.ExpensiveName()} unsecures the girder.",
+					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 			}
 
 		}
@@ -144,10 +143,12 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 			//disassemble if it's unanchored
 			if (objectBehaviour.IsPushable)
 			{
-				Chat.AddActionMsgToChat(interaction.Performer, $"You start to disassemble the girder...",
-					$"{interaction.Performer.ExpensiveName()} disassembles the girder.");
-				var progressFinishAction = new ProgressCompleteAction(() => Disassemble(interaction));
-				ToolUtils.ServerUseTool(interaction, 4f, progressFinishAction);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+					"You start to disassemble the girder...",
+					$"{interaction.Performer.ExpensiveName()} starts to disassemble the girder...",
+					"You disassemble the girder.",
+					$"{interaction.Performer.ExpensiveName()} disassembles the girder.",
+					() => Disassemble(interaction));
 			}
 			else
 			{
@@ -159,8 +160,6 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void Disassemble(HandApply interaction)
 	{
-		Chat.AddActionMsgToChat(interaction.Performer, "You disassemble the girder.",
-			$"{interaction.Performer.ExpensiveName()} disassembles the girder.");
 		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerObject.WorldPositionServer, count: 2);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
@@ -168,8 +167,6 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructWall(HandApply interaction)
 	{
-		Chat.AddActionMsgToChat(interaction.Performer, "You add the plating.",
-			$"{interaction.Performer.ExpensiveName()} adds the plating.");
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), wallTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
@@ -178,8 +175,6 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ReinforceGirder(HandApply interaction)
 	{
-		Chat.AddActionMsgToChat(interaction.Performer, "You reinforce the girder.",
-			$"{interaction.Performer.ExpensiveName()} reinforces the girder.");
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
 		Spawn.ServerPrefab(reinforcedGirder, SpawnDestination.At(gameObject));
 		Despawn.ServerSingle(gameObject);

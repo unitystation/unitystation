@@ -6,7 +6,7 @@ using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
-public class Welder : NetworkBehaviour, IInteractable<HandActivate>
+public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
 {
 	//TODO: Update the sprites from the array below based on how much fuel is left
 	//TODO: gas readout in stats
@@ -26,10 +26,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 	private int leftHandFlame;
 	private int rightHandFlame;
 
-	//Fuel
-	private float serverFuelAmt = 100; //About 4mins of burn time
-
-	[SyncVar] public float clientFuelAmt;
 	private bool isBurning = false;
 	private float burnRate = 0.2f;
 
@@ -42,41 +38,24 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 	private RegisterTile registerTile;
 	private Pickupable pickupable;
 
-	[SyncVar(hook = nameof(UpdateState))] public bool isOn;
+	[SyncVar(hook = nameof(SyncIsOn))]
+	private bool isOn;
+
+	/// <summary>
+	/// Is welder on?
+	/// </summary>
+	public bool IsOn => isOn;
 
 	private Coroutine coBurnFuel;
 
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-		clientFuelAmt = serverFuelAmt;
-	}
+	private ReagentContainer reagentContainer;
 
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		UpdateState(isOn);
-	}
-
-	[Server]
-	public void Refuel()
-	{
-		serverFuelAmt = 100f;
-		clientFuelAmt = 100f;
-	}
-
-	private void Start()
-	{
-		pickupable = GetComponent<Pickupable>();
-	}
-
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		ToggleWelder(interaction.Performer);
-	}
+	private float FuelAmount => reagentContainer.AmountOfReagent("welding_fuel");
 
 	void Awake()
 	{
+		pickupable = GetComponent<Pickupable>();
+		reagentContainer = GetComponent<ReagentContainer>();
 		itemAtts = GetComponent<ItemAttributesV2>();
 		registerTile = GetComponent<RegisterTile>();
 
@@ -89,42 +68,67 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 		rightHandFlame = rightHandOriginal + 4;
 	}
 
-	[Server]
-	public void ToggleWelder(GameObject originator)
+	public override void OnStartClient()
 	{
-		UpdateState(!isOn);
+		SyncIsOn(isOn);
 	}
 
-	void UpdateState(bool _isOn)
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		SyncIsOn(false);
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		ServerToggleWelder(interaction.Performer);
+	}
+
+	[Server]
+	public void ServerToggleWelder(GameObject originator)
+	{
+		SyncIsOn(!isOn);
+	}
+
+	private void SyncIsOn(bool _isOn)
 	{
 		if (isServer)
 		{
-			if (serverFuelAmt <= 0f)
+			if (FuelAmount <= 0f)
 			{
-				isOn = false;
+				_isOn = false;
 			}
 		}
 
 		isOn = _isOn;
-		ToggleWelder();
-	}
 
-	void ToggleWelder()
-	{
-		if (isOn && !isBurning && clientFuelAmt > 0f)
+		if (isServer)
+		{
+			//update damage stats when on / off
+			if (isOn)
+			{
+				itemAtts.ServerDamageType = DamageType.Burn;
+				itemAtts.ServerHitDamage = damageOn;
+			}
+			else
+			{
+				itemAtts.ServerDamageType = DamageType.Brute;
+				itemAtts.ServerHitDamage = damageOff;
+			}
+		}
+
+		//update appearance / animation when on / off
+		if (isOn)
 		{
 			//itemAtts.inHandReferenceLeft = leftHandFlame;
 			//itemAtts.inHandReferenceRight = rightHandFlame;
 			isBurning = true;
-			itemAtts.ServerDamageType = DamageType.Burn;
-			itemAtts.ServerHitDamage = damageOn;
 			flameRenderer.sprite = flameSprites[0];
 			if (coBurnFuel == null)
 				coBurnFuel = StartCoroutine(BurnFuel());
 
 		}
-
-		if (!isOn || clientFuelAmt <= 0f)
+		else
 		{
 			//itemAtts.inHandReferenceLeft = leftHandOriginal;
 			//itemAtts.inHandReferenceRight = rightHandOriginal;
@@ -134,8 +138,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 				StopCoroutine(coBurnFuel);
 				coBurnFuel = null;
 			}
-			itemAtts.ServerDamageType = DamageType.Brute;
-			itemAtts.ServerHitDamage = damageOff;
 			flameRenderer.sprite = null;
 		}
 
@@ -162,7 +164,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 	IEnumerator BurnFuel()
 	{
 		int spriteIndex = 0;
-		int serverFuelCheck = (int)serverFuelAmt;
 		while (isBurning)
 		{
 			//Flame animation:
@@ -176,21 +177,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 			//Server fuel burning:
 			if (isServer)
 			{
-				serverFuelAmt -= 0.041f;
-
-				//This is so that the syncvar isn't being updated every DeciSecond:
-				if ((int)serverFuelAmt != serverFuelCheck)
-				{
-					serverFuelCheck = (int)serverFuelAmt;
-					clientFuelAmt = serverFuelAmt;
-				}
+				reagentContainer.TakeReagents(.041f);
 
 				//Ran out of fuel
-				if (serverFuelAmt < 0f)
+				if (FuelAmount < 0f)
 				{
-					serverFuelAmt = 0f;
-					clientFuelAmt = 0f;
-					UpdateState(false);
+					SyncIsOn(false);
 				}
 
 				Vector2Int position = gameObject.TileWorldPosition();
@@ -201,4 +193,5 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>
 			yield return WaitFor.Seconds(.1f);
 		}
 	}
+
 }

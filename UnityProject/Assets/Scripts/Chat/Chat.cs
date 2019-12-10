@@ -174,6 +174,16 @@ public partial class Chat : MonoBehaviour
 			});
 		}
 
+		/// <see cref="Chat.AddActionMsgToChat"/>
+		/// <param name="interaction"> The interaction which caused this action (performer will be originator)</param>
+		/// <param name="originatorMessage"> The message that should be given to the originator only (i.e you hugged ian) </param>
+		/// <param name="othersMessage"> The message that will be shown to other players (i.e. Cuban Pete hugged ian)</param>
+		public static void AddActionMsgToChat(Interaction interaction, string originatorMessage,
+			string othersMessage)
+		{
+			AddActionMsgToChat(interaction.Performer, originatorMessage, othersMessage);
+		}
+
 		/// <summary>
 		/// Use this for general combat messages
 		/// </summary>
@@ -217,7 +227,7 @@ public partial class Chat : MonoBehaviour
 			{
 				var itemAttributes = item.GetComponent<ItemAttributesV2>();
 				attackVerb = itemAttributes.ServerAttackVerbs.PickRandom() ?? "attacked";
-				attack = $" with {itemAttributes.ItemName}";
+				attack = $" with {itemAttributes.ArticleName}";
 			}
 			else
 			{
@@ -319,7 +329,7 @@ public partial class Chat : MonoBehaviour
 			}
 
 			var message =
-				$"{victim.ExpensiveName()} has been hit by {item.Item()?.ItemName ?? item.name}{InTheZone(hitZone)}";
+				$"{victim.ExpensiveName()} has been hit by {item.Item()?.ArticleName ?? item.name}{InTheZone(hitZone)}";
 			Instance.addChatLogServer.Invoke(new ChatEvent
 			{
 				channels = ChatChannel.Combat,

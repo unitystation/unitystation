@@ -44,37 +44,31 @@ public class DeconstructWhenItemUsed : TileInteraction
 
 		if (requiredTrait == CommonTraits.Instance.Welder)
 		{
-			var welder = interaction.HandObject.GetComponent<Welder>();
-			if (welder == null) return false;
-			return welder.isOn;
+			return Validations.HasUsedActiveWelder(interaction);
 		}
 		return Validations.HasItemTrait(interaction.HandObject, requiredTrait);
 	}
 
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
-		Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage,
-			Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer));
-		var progressFinishAction = new ProgressCompleteAction(() =>
-		{
-			Chat.AddActionMsgToChat(interaction.Performer, performerFinishActionMessage,
-				Chat.ReplacePerformer(othersFinishActionMessage, interaction.Performer));
-
-			interaction.TileChangeManager.RemoveTile(interaction.TargetCellPos, interaction.BasicTile.LayerType);
-
-			//spawn things that need to be spawned
-			if (interaction.BasicTile.SpawnOnDeconstruct != null && interaction.BasicTile.SpawnAmountOnDeconstruct > 0)
+		ToolUtils.ServerUseToolWithActionMessages(interaction, seconds,
+			performerStartActionMessage,
+			Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer),
+			performerFinishActionMessage,
+			Chat.ReplacePerformer(othersFinishActionMessage, interaction.Performer),
+			() =>
 			{
-				Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget, count: interaction.BasicTile.SpawnAmountOnDeconstruct);
-			}
-			if (objectsToSpawn != null)
-			{
-				objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));
-			}
-			interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
-		});
-		ToolUtils.ServerUseTool(interaction, seconds, progressFinishAction);
-
-
+				interaction.TileChangeManager.RemoveTile(interaction.TargetCellPos, interaction.BasicTile.LayerType);
+				//spawn things that need to be spawned
+				if (interaction.BasicTile.SpawnOnDeconstruct != null && interaction.BasicTile.SpawnAmountOnDeconstruct > 0)
+				{
+					Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget, count: interaction.BasicTile.SpawnAmountOnDeconstruct);
+				}
+				if (objectsToSpawn != null)
+				{
+					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));
+				}
+				interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
+			});
 	}
 }

@@ -183,6 +183,8 @@ GameObject:
   - component: {fileID: 114200423442709530}
   - component: {fileID: 4692721297068657182}
   - component: {fileID: 6506900197632260092}
+  - component: {fileID: -158957673221721185}
+  - component: {fileID: 5968523195747671203}
   m_Layer: 10
   m_Name: SpeedyWelder
   m_TagString: Untagged
@@ -352,9 +354,7 @@ MonoBehaviour:
   - {fileID: 21300002, guid: d1b1a5061af11bd4c9b692d8a2da7c98, type: 3}
   welderRenderer: {fileID: 6305012668375315437}
   flameRenderer: {fileID: 212351652085156724}
-  clientFuelAmt: 0
   damageOn: 15
-  isOn: 0
 --- !u!114 &114973183945482710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,12 +530,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: speedy welder
-  ArticleName: 
   initialDescription: Faster for testing construction
   exportCost: 5
   exportName: welding tool
   exportMessage: 
-  ArticleDescription: 
   initialTraits:
   - {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
   initialSize: 1
@@ -561,6 +559,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedMultiplier: 10
+--- !u!114 &-158957673221721185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &5968523195747671203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperatureKelvin: 293.15
+  MaxCapacity: 100
+  itemAttributes: {fileID: 0}
+  InSolidForm: 0
+  Reagents:
+  - welding_fuel
+  Amounts:
+  - 100
+  TraitWhitelist: []
+  ReagentWhitelist:
+  - welding_fuel
+  TransferMode: 3
+  InitialTransferAmount: 100
+  PossibleTransferAmounts: []
 --- !u!1 &8596341256241081698
 GameObject:
   m_ObjectHideFlags: 0

@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 114424193572042698}
   - component: {fileID: 114254690631665046}
   - component: {fileID: 114135642198018370}
+  - component: {fileID: -2597783202017228440}
   m_Layer: 11
   m_Name: Cloning_Console
   m_TagString: Untagged
@@ -196,7 +197,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581020911112336}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 65, y: 62, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4177104383273522}
@@ -457,9 +458,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ab2691c833e4d47acba80181e7ebd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanner: {fileID: 0}
-  cloningPod: {fileID: 0}
-  consoleGUI: {fileID: 0}
 --- !u!114 &114424193572042698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,8 +520,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-2597783202017228440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581020911112336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f545e0e45814b2a97a059ae8975a2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  framePrefab: {fileID: 5458395581066390877, guid: 1be8a69cf08a1499a9e722a88cc274ab,
+    type: 3}
+  circuitBoardPrefab: {fileID: 728401503887791882, guid: 4117d380a9c804997afd57025c6d47b2,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!1 &1753008131445868
 GameObject:
   m_ObjectHideFlags: 0

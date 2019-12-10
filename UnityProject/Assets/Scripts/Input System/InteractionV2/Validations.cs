@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +26,17 @@ public static class Validations
 		return toCheck != null && toCheck.GetComponent(typeof(T)) != null;
 	}
 
+	/// <summary>
+	/// Checks if the used game object has the indicated component
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static bool HasUsedComponent<T>(Interaction interaction) where T : Component
+	{
+		return HasComponent<T>(interaction.UsedObject);
+	}
+
 	/// <inheritdoc cref="ItemAttributes.HasTrait"/>
 	/// <param name="toCheck">object to check, can be null</param>
 	/// <param name="expectedTrait"></param>
@@ -35,6 +47,17 @@ public static class Validations
 		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
 		return attrs.HasTrait(expectedTrait);
+	}
+
+	/// <summary>
+	/// Checks if the used object has the indicated trait
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <param name="expectedTrait"></param>
+	/// <returns></returns>
+	public static bool HasUsedItemTrait(Interaction interaction, ItemTrait expectedTrait)
+	{
+		return HasItemTrait(interaction.UsedObject, expectedTrait);
 	}
 
 	/// <inheritdoc cref="ItemAttributes.HasAnyTrait"/>
@@ -464,7 +487,6 @@ public static class Validations
 	/// <param name="stack"></param>
 	/// <param name="minAmount"></param>
 	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
 	public static bool HasAtLeast(GameObject stack, int minAmount)
 	{
 		if (stack == null) return false;
@@ -472,4 +494,40 @@ public static class Validations
 		if (stackable == null) return false;
 		return stackable.Amount >= minAmount;
 	}
+
+	/// <summary>
+	/// Checks if the used object is stackable and has the required minimum amount in the stack.
+	/// </summary>
+	/// <param name="stack"></param>
+	/// <param name="minAmount"></param>
+	/// <returns></returns>
+	public static bool HasUsedAtLeast(Interaction interaction, int minAmount)
+	{
+		return HasAtLeast(interaction.UsedObject, minAmount);
+	}
+
+	/// <summary>
+	/// Checks if the indicated game object is the target.
+	/// </summary>
+	/// <param name="gameObject"></param>
+	/// <param name="interaction"></param>
+	/// <returns></returns>
+	public static bool IsTarget(GameObject gameObject, TargetedInteraction interaction)
+	{
+		return gameObject == interaction.TargetObject;
+	}
+
+	/// <summary>
+	/// Checks if a welder which is on is being used
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <returns></returns>
+	public static bool HasUsedActiveWelder(Interaction interaction)
+	{
+		if (interaction.UsedObject == null) return false;
+		var welder = interaction.UsedObject.GetComponent<Welder>();
+		if (welder == null) return false;
+		return welder.IsOn;
+	}
+
 }

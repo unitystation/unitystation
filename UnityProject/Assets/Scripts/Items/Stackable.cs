@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 
@@ -16,6 +18,12 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[SerializeField]
 	private int maxAmount = 50;
 
+	[Tooltip("Other prefabs which can stack with this object. By default a stackable can stack with its own" +
+	         " prefab, but if you create any variants which have a different initial amount you can assign them" +
+	         " in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
+	[SerializeField]
+	private List<GameObject> stacksWith;
+
 	/// <summary>
 	/// Amount of things in this stack.
 	/// </summary>
@@ -31,15 +39,14 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private bool amountInit;
 
 	private Pickupable pickupable;
-	private GameObject prefab;
 	private PushPull pushPull;
 	private RegisterTile registerTile;
+	private GameObject prefab;
 
 
 	private void Awake()
 	{
 		pickupable = GetComponent<Pickupable>();
-		prefab = Spawn.DeterminePrefab(gameObject);
 		amount = initialAmount;
 		pushPull = GetComponent<PushPull>();
 		registerTile = GetComponent<RegisterTile>();
@@ -65,7 +72,18 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public override void OnStartClient()
 	{
+		InitStacksWith();
 		SyncAmount(this.amount);
+	}
+
+	private void InitStacksWith()
+	{
+		if (stacksWith == null) stacksWith = new List<GameObject>();
+		prefab = Spawn.DeterminePrefab(gameObject);
+		if (prefab != null && !stacksWith.Contains(prefab))
+		{
+			stacksWith.Add(prefab);
+		}
 	}
 
 	public override void OnStartServer()
@@ -76,6 +94,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
+		InitStacksWith();
 		SyncAmount(initialAmount);
 		amountInit = true;
 		//check for stacking with things on the ground
@@ -94,7 +113,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
 		{
 			if (stackable == this) continue;
-			if (stackable.prefab == prefab && stackable.amountInit)
+			if (StacksWith(stackable) && stackable.amountInit)
 			{
 				//combine
 				ServerCombine(stackable);
@@ -140,10 +159,11 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Server]
 	public void ServerCombine(Stackable toAdd)
 	{
-		if (toAdd.prefab != prefab)
+		if (!StacksWith(toAdd))
 		{
-			Logger.LogErrorFormat("toAdd {0} with prefab {1} doesn't match this {2} with prefab {3}, cannot comine.",
-				Category.Inventory, toAdd, toAdd.prefab, this, prefab);
+			Logger.LogErrorFormat("toAdd {0} doesn't stack with this {2}, cannot combine. Consider adding" +
+			                      " this prefab to stacksWith if these really should be stackable.",
+				Category.Inventory, toAdd, this);
 			return;
 		}
 		var amountToConsume = Math.Min(toAdd.amount, maxAmount - amount);
@@ -172,7 +192,20 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public bool CanAccommodate(Stackable toAdd)
 	{
 		if (toAdd == null) return false;
-		return toAdd != null && toAdd.prefab == prefab && amount < maxAmount;
+		return toAdd != null && StacksWith(toAdd) && amount < maxAmount;
+	}
+
+	/// <summary>
+	/// returns tru iff toCheck is allowed to be combined with this stackable. Does not check
+	/// the current stacked amount.
+	/// </summary>
+	/// <param name="toCheck"></param>
+	/// <returns></returns>
+	private bool StacksWith(Stackable toCheck)
+	{
+		if (toCheck == null) return false;
+
+		return stacksWith.Intersect(toCheck.stacksWith).Any();
 	}
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)

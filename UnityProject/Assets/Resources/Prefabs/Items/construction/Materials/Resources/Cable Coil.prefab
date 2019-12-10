@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114936631704074404}
   - component: {fileID: 114577166391521898}
   - component: {fileID: -897230659919145859}
+  - component: {fileID: 7067172405330353696}
   m_Layer: 10
   m_Name: Cable Coil
   m_TagString: Untagged
@@ -179,7 +180,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
 --- !u!114 &114185907784239616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,7 +415,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Medium power cable
+  ArticleName: 
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+  ArticleDescription: 
   initialTraits:
   - {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
   initialSize: 1
@@ -427,3 +433,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &7067172405330353696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialAmount: 30
+  maxAmount: 30
