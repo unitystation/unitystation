@@ -317,6 +317,7 @@ public static class PlayerSpawn
 			{
 				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
 			}
+
 			//no longer can observe their inventory
 			oldBody.GetComponent<ItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
 		}
@@ -335,13 +336,12 @@ public static class PlayerSpawn
 			{
 				NetworkServer.ReplacePlayerForConnection(new NetworkConnection("0.0.0.0"), oldBody);
 			}
-			TriggerEventMessage.Send(newBody, eventType);
+			//mirrorworkaround: only added setLocal/unsetlocal for workaround for https://github.com/vis2k/Mirror/issues/962
+			TriggerEventMessage.Send(newBody, eventType, oldBody, newBody);
 
 			//can observe their new inventory
 			newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);
 		}
-
-
 
 		var playerScript = newBody.GetComponent<PlayerScript>();
 		if (playerScript.PlayerSync != null)

@@ -992,10 +992,14 @@ namespace Mirror
 			OnDeserializeAllSafely(payload.payloadReader, payload.initialPayload);
 		}
 
-		//Temp fix until issue is resolved: https://github.com/vis2k/Mirror/issues/962
+		//mirrorworkaround: Temp fix until issue is resolved: https://github.com/vis2k/Mirror/issues/962
 		public void SetLocal()
 		{
 			isLocalPlayer = true;
+		}
+		public void UnsetLocal()
+		{
+			isLocalPlayer = false;
 		}
 
 		internal void SetLocalPlayer()

@@ -215,10 +215,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		var body = playerScript.mind.body.gameObject;
-		//player gets inventory slot updates again
-		foreach (var slot in itemStorage.GetItemSlotTree())
+		if (itemStorage != null)
 		{
-			slot.ServerAddObserverPlayer(body);
+			//player gets inventory slot updates again
+			foreach (var slot in itemStorage.GetItemSlotTree())
+			{
+				slot.ServerAddObserverPlayer(body);
+			}
 		}
 	}
 
@@ -342,7 +345,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
 			return;
 		}
-		if ( body.WorldPos == TransformState.HiddenPos )
+
+		//body might be in a container, reentering should still be allowed in that case
+		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos )
 		{
 			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
 			return;
