@@ -183,8 +183,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		if (solidPlasma != null)
 		{
 			plasmaFuel.Add(solidPlasma);
-			//we just destroy the plasma because we consume it
-			Inventory.ServerDespawn(interaction.HandSlot);
+			Inventory.ServerConsume(interaction.HandSlot, 1);
 			return;
 		}
 
