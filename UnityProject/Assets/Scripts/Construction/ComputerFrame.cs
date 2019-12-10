@@ -128,8 +128,8 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && circuitBoardSlot.IsOccupied)
 				{
 					//screw in the circuit board
-					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
-						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
+					Chat.AddActionMsgToChat(interaction, $"You screw {interaction.UsedObject.ExpensiveName()} into place.",
+						$"{interaction.Performer.ExpensiveName()} screws {interaction.UsedObject.ExpensiveName()} into place.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					stateful.ServerChangeState(circuitScrewedState);
 				}

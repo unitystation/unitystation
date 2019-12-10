@@ -412,4 +412,15 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return serverObserverPlayers.Contains(observer);
 	}
 
+	/// <summary>
+	/// Drops all items in all slots at our current position.
+	/// </summary>
+	/// <exception cref="NotImplementedException"></exception>
+	public void ServerDropAll()
+	{
+		foreach (var itemSlot in GetItemSlots())
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+	}
 }

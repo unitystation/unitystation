@@ -43,6 +43,12 @@ public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>
 			$"{interaction.Performer.ExpensiveName()} disconnects the monitor.",
 			() =>
 			{
+				//drop all our contents
+				var itemStorage = GetComponent<ItemStorage>();
+				if (itemStorage != null)
+				{
+					itemStorage.ServerDropAll();
+				}
 				var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
 				frame.GetComponent<ComputerFrame>().ServerInitFromComputer(this);
 				Despawn.ServerSingle(gameObject);

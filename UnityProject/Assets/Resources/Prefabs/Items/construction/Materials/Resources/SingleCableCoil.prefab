@@ -62,8 +62,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7067172405330353696, guid: 02204992fb099c145843af5f85a10d7d,
         type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067172405330353696, guid: 02204992fb099c145843af5f85a10d7d,
+        type: 3}
       propertyPath: initialAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7067172405330353696, guid: 02204992fb099c145843af5f85a10d7d,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 1645856876941636, guid: 02204992fb099c145843af5f85a10d7d,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02204992fb099c145843af5f85a10d7d, type: 3}
