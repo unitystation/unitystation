@@ -220,6 +220,11 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		HealthOverallMessage.Send(requestor, gameObject, livingHealthBehaviour.OverallHealth);
 	}
 
+	void SendConsciousUpdate(GameObject requestor)
+	{
+		HealthConsciousMessage.Send(requestor, gameObject, livingHealthBehaviour.ConsciousState);
+	}
+
 	void SendBloodUpdate(GameObject requestor)
 	{
 		HealthBloodMessage.Send(requestor, gameObject, heartRateCache, bloodLevelCache,
@@ -267,6 +272,10 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	/// </summary>
 	IEnumerator ControlledClientUpdate(GameObject requestor)
 	{
+		SendConsciousUpdate(requestor);
+
+		yield return WaitFor.Seconds(.1f);
+
 		SendOverallUpdate(requestor);
 
 		yield return WaitFor.Seconds(.1f);
