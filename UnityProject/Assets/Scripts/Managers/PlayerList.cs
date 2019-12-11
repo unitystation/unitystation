@@ -152,17 +152,21 @@ public class PlayerList : NetworkBehaviour
 		});
 
 	[Server]
-	private void TryAdd(ConnectedPlayer player)
+	public void Add(ConnectedPlayer player)
 	{
 		if ( player.Equals(ConnectedPlayer.Invalid) )
 		{
-			Logger.Log("Refused to add invalid connected player", Category.Connections);
+			Logger.Log("Refused to add invalid connected player to this server's player list", Category.Connections);
 			return;
 		}
 		if ( ContainsConnection(player.Connection) )
 		{
 //			Logger.Log($"Updating {Get(player.Connection)} with {player}");
+
 			ConnectedPlayer existingPlayer = Get(player.Connection);
+			Logger.LogFormat("ConnectedPlayer {0} already exists in this server's PlayerList as {1}. Will update GameObject," +
+				" Name, and Job for the existing player instead of adding this new connected player.", Category.Connections, player, existingPlayer);
+			//TODO: Are we sure these are the only things that need to be updated?
 			existingPlayer.GameObject = player.GameObject;
 			existingPlayer.Name = player.Name; //Note that name won't be changed to empties/nulls
 			existingPlayer.Job = player.Job;
@@ -170,7 +174,7 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			values.Add(player);
-			Logger.LogFormat("Added {0}. Total:{1}; {2}", Category.Connections, player, values.Count, string.Join(";", values));
+			Logger.LogFormat("Added to this server's PlayerList {0}. Total:{1}; {2}", Category.Connections, player, values.Count, string.Join(";", values));
 		}
 		CheckRcon();
 	}
@@ -185,9 +189,6 @@ public class PlayerList : NetworkBehaviour
 		UpdateConnectedPlayersMessage.Send();
 		CheckRcon();
 	}
-
-	[Server]
-	public void Add(ConnectedPlayer player) => TryAdd(player);
 
 	[Server]
 	public bool ContainsConnection(NetworkConnection connection)
@@ -306,4 +307,6 @@ public struct ClientConnectedPlayer
 	{
 		return $"[{nameof( Name )}='{Name}', {nameof( Job )}={Job}]";
 	}
+
+
 }

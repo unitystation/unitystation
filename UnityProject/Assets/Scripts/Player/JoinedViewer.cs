@@ -42,7 +42,7 @@ public class JoinedViewer : NetworkBehaviour
 			Job = JobType.NULL,
 			ClientId = clientID
 		};
-		//Add player to player list
+		//Add player to player list (logging code exists in PlayerList so no need for extra logging here)
 		PlayerList.Instance.Add(connPlayer);
 
 		// Sync all player data and the connected player count

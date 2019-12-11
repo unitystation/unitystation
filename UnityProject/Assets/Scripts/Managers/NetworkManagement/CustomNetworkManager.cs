@@ -190,6 +190,7 @@ public class CustomNetworkManager : NetworkManager
 	/// Warning: sending a lot of data, make sure client receives it only once
 	public void SyncPlayerData(GameObject playerGameObject)
 	{
+		Logger.LogFormat("SyncPlayerData (the big one). This server sending a bunch of sync data to new client {0}", Category.Connections, playerGameObject);
 		//All matrices
 		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
 		for (var i = 0; i < matrices.Length; i++)
