@@ -15,6 +15,7 @@ public class JoinedViewer : NetworkBehaviour
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
+		PlayerManager.SetViewerForControl(this);
 
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ClientID))
 		{
@@ -22,35 +23,44 @@ public class JoinedViewer : NetworkBehaviour
 			PlayerPrefs.Save();
 		}
 
+		Logger.LogFormat("JoinedViewer on this client calling CmdServerSetupPlayer, our clientID: {0} username: {1}", Category.Connections,
+			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
+
 		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 	}
 
 	[Command]
 	private void CmdServerSetupPlayer(string clientID, string username)
 	{
-		var connPlayer = new ConnectedPlayer
+		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, clientID: {0} username: {1}", Category.Connections,
+			clientID, username);
+
+		// Check if they have a player to rejoin. If not, assign them a new client ID
+		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
+		if (loggedOffPlayer == null)
+		{
+			//This is the players first time connecting to this round, assign them a Client ID;
+			var oldID = clientID;
+			clientID = System.Guid.NewGuid().ToString();
+			Logger.LogFormat("This server did not find a logged off player with clientID {0}, assigning" +
+			                 " joined viewer a new ID {1}", Category.Connections, oldID, clientID);
+
+		}
+		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
+		var connPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
 		{
 			Connection = connectionToClient,
 			GameObject = gameObject,
 			Username = username,
 			Job = JobType.NULL,
 			ClientId = clientID
-		};
-		//Add player to player list
-		PlayerList.Instance.Add(connPlayer);
+		});
 
 		// Sync all player data and the connected player count
 		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
 		UpdateConnectedPlayersMessage.Send();
 
-		// If they have a player to rejoin send the client the player to rejoin, otherwise send a null gameobject.
-		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
-		if (loggedOffPlayer == null)
-		{
-			//This is the players first time connecting to this round, assign them a Client ID;
-			clientID = System.Guid.NewGuid().ToString();
-			connPlayer.ClientId = clientID;
-		}
+
 
 		// Only sync the pre-round countdown if it's already started
 		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
@@ -65,17 +75,36 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		TargetLocalPlayerSetupPlayer(connectionToClient, loggedOffPlayer, clientID, GameManager.Instance.CurrentRoundState);
+		//if there's a logged off player, we will force them to rejoin. Previous logic allowed client to reenter
+		//their body or not, which should not be up to the client!
+		if (loggedOffPlayer != null)
+		{
+			PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+		}
+		else
+		{
+			TargetLocalPlayerSetupNewPlayer(connectionToClient, connPlayer.ClientId, GameManager.Instance.CurrentRoundState);
+		}
 	}
 
+	/// <summary>
+	/// Target which tells this joined viewer they are a new player, tells them what their ID is,
+	/// and tells them what round state the game is on
+	/// </summary>
+	/// <param name="target">this connection</param>
+	/// <param name="serverClientID">client ID server</param>
+	/// <param name="roundState"></param>
 	[TargetRpc]
-	private void TargetLocalPlayerSetupPlayer(NetworkConnection target, GameObject loggedOffPlayer,
+	private void TargetLocalPlayerSetupNewPlayer(NetworkConnection target,
 		string serverClientID, RoundState roundState)
 	{
+		Logger.LogFormat("JoinedViewer on this client updating our client id to what server tells us, from {0} to {1}", Category.Connections,
+			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), serverClientID);
+		//save our ID so we can rejoin
 		PlayerPrefs.SetString(PlayerPrefKeys.ClientID, serverClientID);
 		PlayerPrefs.Save();
 
-		PlayerManager.SetViewerForControl(this);
+		//clear our UI because we're about to change it based on the round state
 		UIManager.ResetAllUI();
 
 		// Determine what to do depending on the state of the round
@@ -88,16 +117,9 @@ public class JoinedViewer : NetworkBehaviour
 			// case RoundState.Started:
 			// TODO spawn a ghost if round has already ended?
 			default:
-				// If player is joining for the first time let them pick a job, otherwise rejoin character.
-				if (loggedOffPlayer == null)
-				{
-					UIManager.Display.SetScreenForJobSelect();
-				}
-				else
-				{
-					loggedOffPlayer.GetComponent<NetworkIdentity>().SetLocal();
-					CmdRejoin(loggedOffPlayer);
-				}
+				// occupation select
+				UIManager.Display.SetScreenForJobSelect();
+
 				break;
 		}
 	}
@@ -110,16 +132,6 @@ public class JoinedViewer : NetworkBehaviour
 	{
 		PlayerSpawn.ServerSpawnPlayer(this, GameManager.Instance.GetRandomFreeOccupation(jobType),
 			characterSettings);
-	}
-
-	/// <summary>
-	/// Asks the server to let the client rejoin into a logged off character.
-	/// </summary>
-	/// <param name="loggedOffPlayer">The character to be rejoined into.</param>
-	[Command]
-	public void CmdRejoin(GameObject loggedOffPlayer)
-	{
-		PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
 	}
 
 	/// <summary>

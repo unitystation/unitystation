@@ -131,7 +131,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private PlayerScript playerScript;
 	private Directional playerDirectional;
 
-	private Matrix Matrix => registerTile != null ? registerTile.Matrix : null;
+	private Matrix Matrix => registerPlayer != null ? registerPlayer.Matrix : null;
 
 	private RaycastHit2D[] rayHit;
 
@@ -143,8 +143,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
-
-	private RegisterTile registerTile;
 
 	public void Nudge(NudgeInfo info)
 	{
@@ -436,25 +434,29 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	#endregion
 
-	private void Start()
+	private void Awake()
 	{
-		playerState.WorldPosition = transform.localPosition;
-		//Init pending actions queue for your local player
-		if (isLocalPlayer)
-		{
-			setLocalPlayer();
-		}
-
-		//Init pending actions queue for server
-		if (isServer)
-		{
-			serverPendingActions = new Queue<PlayerAction>();
-		}
-
 		playerScript = GetComponent<PlayerScript>();
-		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
 		playerDirectional = GetComponent<Directional>();
+		registerPlayer = GetComponent<RegisterPlayer>();
+	}
+
+	public override void OnStartClient()
+	{
+		//prevents player temporarily showing up at 0,0 when they spawn before they receive their first position
+		playerState.WorldPosition = transform.localPosition;
+	}
+
+	public override void OnStartServer()
+	{
+		serverPendingActions = new Queue<PlayerAction>();
+		InitServerState();
+	}
+
+	public override void OnStartLocalPlayer()
+	{
+		setLocalPlayer();
 	}
 
 	private void OnEnable()
@@ -563,14 +565,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		//Registering
-		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position))
+		if (registerPlayer.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position))
 		{
-			registerTile.UpdatePositionClient();
+			registerPlayer.UpdatePositionClient();
 		}
 
-		if (registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position))
+		if (registerPlayer.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position))
 		{
-			registerTile.UpdatePositionServer();
+			registerPlayer.UpdatePositionServer();
 		}
 	}
 
@@ -643,12 +645,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		//registerTile S pos
 		Gizmos.color = color7;
-		Vector3 regPosS = registerTile.WorldPositionServer;
+		Vector3 regPosS = registerPlayer.WorldPositionServer;
 		Gizmos.DrawCube(regPosS, size5);
 
 		//registerTile C pos
 		Gizmos.color = color0;
-		Vector3 regPosC = registerTile.WorldPositionClient;
+		Vector3 regPosC = registerPlayer.WorldPositionClient;
 		Gizmos.DrawCube(regPosC, size2);
 
 		//serverState

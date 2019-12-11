@@ -16,7 +16,6 @@ public class CustomNetworkManager : NetworkManager
 	public static CustomNetworkManager Instance;
 
 	[HideInInspector] public bool _isServer;
-	[HideInInspector] public bool spawnableListReady;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 
@@ -63,8 +62,6 @@ public class CustomNetworkManager : NetworkManager
 				loadFolder(subdir);
 			}
 		}
-
-		spawnableListReady = true;
 	}
 
 	private void loadFolder(string folderpath)
@@ -115,6 +112,7 @@ public class CustomNetworkManager : NetworkManager
 		player.Connection.Dispose();
 	}
 
+	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
 		//This spawns the player prefab
@@ -138,6 +136,7 @@ public class CustomNetworkManager : NetworkManager
 			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 		}
 	}
+
 	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn)
 	{
 		yield return WaitFor.Seconds(1f);
@@ -177,8 +176,10 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
+	//called on client side when client first connects to the server
 	public override void OnClientConnect(NetworkConnection conn)
 	{
+		Logger.LogFormat("We (the client) connected to the server {0}", Category.Connections, conn);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		this.RegisterClientHandlers(conn);
 
@@ -189,6 +190,7 @@ public class CustomNetworkManager : NetworkManager
 	/// Warning: sending a lot of data, make sure client receives it only once
 	public void SyncPlayerData(GameObject playerGameObject)
 	{
+		Logger.LogFormat("SyncPlayerData (the big one). This server sending a bunch of sync data to new client {0}", Category.Connections, playerGameObject);
 		//All matrices
 		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
 		for (var i = 0; i < matrices.Length; i++)
@@ -239,6 +241,10 @@ public class CustomNetworkManager : NetworkManager
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
+		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
+		//we want to keep the object around so player can rejoin and reenter their body.
+
+
 		var player = PlayerList.Instance.Get(conn);
 		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);

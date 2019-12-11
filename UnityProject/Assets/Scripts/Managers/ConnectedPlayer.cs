@@ -189,6 +189,6 @@ public class ConnectedPlayer
 
 	public override string ToString()
 	{
-		return $"[conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|synced={synced}]";
+		return $"[clientID={ClientId}|conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|synced={synced}]";
 	}
 }

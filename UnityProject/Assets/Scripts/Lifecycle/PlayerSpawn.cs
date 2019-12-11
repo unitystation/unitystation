@@ -376,7 +376,6 @@ public static class PlayerSpawn
 		}
 	}
 
-
 	/// <summary>
 	/// Spawns a viewer for the specified connection and transfer the connection to this viewer.
 	/// </summary>

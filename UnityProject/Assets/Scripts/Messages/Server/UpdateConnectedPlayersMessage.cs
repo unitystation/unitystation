@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Internal;
 
 /// <summary>
 ///     Message that tells clients what their ConnectedPlayers list should contain
@@ -12,6 +13,9 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 //		Logger.Log("Processed " + ToString());
+
+		Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections,
+			string.Join(",", Players));
 
 		PlayerList.Instance.ClientConnectedPlayers.Clear();
 		if (Players != null)
@@ -28,6 +32,8 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 	public static UpdateConnectedPlayersMessage Send()
 	{
+		Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
+			string.Join(",", PlayerList.Instance.AllPlayers));
 		UpdateConnectedPlayersMessage msg = new UpdateConnectedPlayersMessage();
 		var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
 

@@ -104,12 +104,6 @@ public partial class PlayerSync
 	/// Do current and target server positions match?
 	private bool ServerPositionsMatch => serverState.WorldPosition == serverLerpState.WorldPosition;
 
-	public override void OnStartServer()
-		{
-			base.OnStartServer();
-			InitServerState();
-			registerPlayer = GetComponent<RegisterPlayer>();
-		}
 
 	///
 		[Server]
@@ -335,7 +329,7 @@ public partial class PlayerSync
 	[Server]
 	private void SyncMatrix()
 	{
-		registerTile.ParentNetId = MatrixManager.Get(serverState.MatrixId).NetID;
+		registerPlayer.ParentNetId = MatrixManager.Get(serverState.MatrixId).NetID;
 	}
 
 	/// Send current serverState to just one player
