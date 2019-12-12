@@ -15,8 +15,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// </summary>
 	public CharacterSettings characterSettings = new CharacterSettings();
 
-	private float pingUpdate;
-
 	[SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
 	public PlayerNetworkActions playerNetworkActions { get; set; }
@@ -148,18 +146,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 			//				Request sync to get all the latest transform data
 			new RequestSyncMessage().Send();
 			EventManager.Broadcast(EVENT.UpdateChatChannels);
-		}
-	}
-
-	public override void UpdateMe()
-	{
-		//Read out of ping in toolTip
-		pingUpdate += Time.deltaTime;
-		if (pingUpdate >= 5f)
-		{
-			pingUpdate = 0f;
-			int ping = (int)NetworkTime.rtt;
-			UIManager.SetPingDisplay = string.Format("ping: {0,-5:D}", ping);
 		}
 	}
 

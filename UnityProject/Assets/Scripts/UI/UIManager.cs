@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using UI.UI_Bottom;
 using UnityEditor;
 using UnityEngine;
@@ -116,14 +118,12 @@ public class UIManager : MonoBehaviour
 	public static BuildMenu BuildMenu => Instance.buildMenu;
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
+
+	private float pingUpdate;
+
 	public static string SetToolTip
 	{
 		set { Instance.toolTip.text = value; }
-	}
-
-	public static string SetPingDisplay
-	{
-		set { Instance.pingDisplay.text = value; }
 	}
 
 	/// <summary>
@@ -173,6 +173,18 @@ public class UIManager : MonoBehaviour
 		else
 		{
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
+		}
+	}
+
+	private void Update()
+	{
+		//Read out of ping in toolTip
+		pingUpdate += Time.deltaTime;
+		if (pingUpdate >= 5f)
+		{
+			pingUpdate = 0f;
+			int ping = (int)NetworkTime.rtt;
+			pingDisplay.text = string.Format("ping: {0,-5:D}", ping);
 		}
 	}
 
