@@ -29,7 +29,7 @@ public class Directional : NetworkBehaviour
 	/// </summary>
 	public Orientation InitialOrientation => Orientation.FromEnum(InitialDirection);
 
-	[SyncVar(hook = nameof(ServerDirectionChangeHook))]
+	[SyncVar(hook = nameof(SyncServerDirection))]
 	private Orientation serverDirection;
 	private Orientation clientDirection;
 
@@ -68,7 +68,7 @@ public class Directional : NetworkBehaviour
 		{
 			if (!value)
 			{
-				SyncDirection();
+				ForceClientDirectionFromServer();
 			}
 			ignoreServerUpdates = value;
 		}
@@ -83,7 +83,7 @@ public class Directional : NetworkBehaviour
 		set
 		{
 			lockDirection = value;
-			SyncDirection();
+			ForceClientDirectionFromServer();
 		}
 	}
 	private bool lockDirection;
@@ -150,7 +150,7 @@ public class Directional : NetworkBehaviour
 
 	public override void OnStartServer()
     {
-	    ServerDirectionChangeHook(InitialOrientation);
+	    SyncServerDirection(InitialOrientation);
     }
 
 
@@ -167,7 +167,7 @@ public class Directional : NetworkBehaviour
 		    //we ignore server updates (unless forced) for our local player
 		    IgnoreServerUpdates = true;
 	    }
-	    SyncDirection();
+	    ForceClientDirectionFromServer();
     }
 
 
@@ -178,32 +178,6 @@ public class Directional : NetworkBehaviour
 	    {
 			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
 	    }
-    }
-
-    /// <summary>
-    /// Invoked when receiving rotation event from our current matrix's matrixmove
-    /// </summary>
-    //invoked when matrix rotation is ending
-    private void OnMatrixRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
-    {
-	    if (ChangeDirectionWithMatrix && !LockDirection)
-	    {
-		    //entirely client side - update rotation value stored on this client and
-		    //display the new resulting rotation. Don't update any of our Orientation variables.
-		    clientMatrixRotationOffset = clientMatrixRotationOffset.Rotate(fromCurrent);
-		    OnDirectionChange.Invoke(CurrentDirection);
-	    }
-    }
-
-    /// <summary>
-    ///Force this object to face the direction currently set on the server for this object.
-    /// </summary>
-    private void SyncDirection()
-    {
-	    //reset rotation offset since we are getting explicit absolute direction from server
-	    clientMatrixRotationOffset = RotationOffset.Same;
-	    clientDirection = serverDirection;
-	    OnDirectionChange.Invoke(clientDirection);
     }
 
     /// <summary>
@@ -225,7 +199,7 @@ public class Directional : NetworkBehaviour
 		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
 	    if (isServer)
 	    {
-		    ServerDirectionChangeHook(newDir);
+		    SyncServerDirection(newDir);
 	    }
 	    clientDirection = newDir;
 	    if (IsLocalPlayer)
@@ -234,6 +208,7 @@ public class Directional : NetworkBehaviour
 	    }
 	    OnDirectionChange.Invoke(clientDirection);
     }
+
 
     /// <summary>
     /// Force the clients object to face the current server direction, even if IgnoreServerUpdates = true
@@ -249,8 +224,35 @@ public class Directional : NetworkBehaviour
     [TargetRpc]
     private void TargetForceSyncDirection(NetworkConnection target, Orientation direction)
     {
-	    ServerDirectionChangeHook(direction);
-	    SyncDirection();
+	    SyncServerDirection(direction);
+	    ForceClientDirectionFromServer();
+    }
+
+
+    /// <summary>
+    /// Invoked when receiving rotation event from our current matrix's matrixmove
+    /// </summary>
+    //invoked when matrix rotation is ending
+    private void OnMatrixRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
+    {
+	    if (ChangeDirectionWithMatrix && !LockDirection)
+	    {
+		    //entirely client side - update rotation value stored on this client and
+		    //display the new resulting rotation. Don't update any of our Orientation variables.
+		    clientMatrixRotationOffset = clientMatrixRotationOffset.Rotate(fromCurrent);
+		    OnDirectionChange.Invoke(CurrentDirection);
+	    }
+    }
+
+    /// <summary>
+    ///Force this object to face the direction currently set on the server for this object.
+    /// </summary>
+    private void ForceClientDirectionFromServer()
+    {
+	    //reset rotation offset since we are getting explicit absolute direction from server
+	    clientMatrixRotationOffset = RotationOffset.Same;
+	    clientDirection = serverDirection;
+	    OnDirectionChange.Invoke(clientDirection);
     }
 
 
@@ -258,11 +260,11 @@ public class Directional : NetworkBehaviour
     [Command]
     private void CmdChangeDirection(Orientation direction)
     {
-	    ServerDirectionChangeHook(direction);
+	    SyncServerDirection(direction);
     }
 
     //syncvar hook invoked when server sends a client the new direction for this object
-    private void ServerDirectionChangeHook(Orientation dir)
+    private void SyncServerDirection(Orientation dir)
     {
 	    serverDirection = dir;
 	    if (!IgnoreServerUpdates)
