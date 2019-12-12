@@ -41,6 +41,12 @@ public class TileChangeManager : NetworkBehaviour
 		//Unpacking the data example (and then run action change)
 		changeList = JsonUtility.FromJson<TileChangeList>(data);
 
+		Logger.LogError(" in !! " + changeList.List.Count.ToString());
+		foreach (var bob in changeList.List)
+		{
+			Logger.LogError(" in !! "  + bob.TileName);
+		}
+
 		foreach (TileChangeEntry entry in changeList.List)
 		{
 			// load tile & apply
@@ -50,6 +56,7 @@ public class TileChangeManager : NetworkBehaviour
 			}
 			else
 			{
+				Logger.Log(entry.Position + " " + entry.TileType + " " + entry.TileName);
 				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName);
 			}
 		}
@@ -58,6 +65,10 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public void NotifyPlayer (GameObject requestedBy)
 	{
+		Logger.LogError(changeList.List.Count.ToString());
+		foreach (var bob in changeList.List) {
+			Logger.LogError(bob.TileName);
+		}
 		if (changeList.List.Count > 0)
 		{
 			Logger.LogFormat("Request all updates: ", Category.TileMaps, requestedBy.name);

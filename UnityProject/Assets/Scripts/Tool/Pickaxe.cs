@@ -49,6 +49,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 			var ttile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
 			Spawn.ServerPrefab(ttile.SpawnOnDeconstruct, interaction.WorldPositionTarget ,  count : ttile.SpawnAmountOnDeconstruct);
 			interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+			interactableTiles.TileChangeManager.RemoveEffect(cellPos, LayerType.Effects);
 		}
 	}
 }

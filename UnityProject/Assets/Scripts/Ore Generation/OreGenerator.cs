@@ -6,7 +6,7 @@ using System;
 
 public class OreGenerator : MonoBehaviour
 {
-	List<OreCategorie> WeightedList = new List<OreCategorie>();
+	List<WeightNStrength> WeightedList = new List<WeightNStrength>();
 
 	List<Vector3Int> Directions = new List<Vector3Int>() {
 		Vector3Int.up,
@@ -33,16 +33,9 @@ public class OreGenerator : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer != false)
 		{
-
-			AddElementList(OreCategorie.Iron, Data.IronBlockWeight);
-			AddElementList(OreCategorie.Plasma, Data.PlasmaBlockWeight);
-			AddElementList(OreCategorie.Silver, Data.SilverBlockWeight);
-			AddElementList(OreCategorie.Gold, Data.GoldBlockWeight);
-			AddElementList(OreCategorie.Uranium, Data.UraniumBlockWeight);
-			AddElementList(OreCategorie.BlueSpace, Data.BlueSpaceBlockWeight);
-			AddElementList(OreCategorie.Titanium, Data.TitaniumBlockWeight);
-			AddElementList(OreCategorie.Diamond, Data.DiamondBlockWeight);
-			AddElementList(OreCategorie.Bananium, Data.BananiumBlockWeight);
+			foreach (var Ores in Data.FullList) { 
+				AddElementList(Ores);
+			}
 
 			BoundsInt bounds = WallTilemap.cellBounds;
 			Logger.Log(bounds.ToString());
@@ -84,83 +77,48 @@ public class OreGenerator : MonoBehaviour
 			{
 				var OreTile = MiningTiles[random.Next(MiningTiles.Count)];
 				var OreCategorie = WeightedList[random.Next(WeightedList.Count)];
-				switch (OreCategorie)
-				{
-					case OreCategorie.Iron:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Iron);
-						NodeScatter(OreTile.Location, Data.IronBlockWeight, Data.Iron);
-						break;
-					case OreCategorie.Plasma:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Plasma);
-						NodeScatter(OreTile.Location, Data.PlasmaBlockWeight, Data.Plasma);
-						break;
-					case OreCategorie.Silver:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Silver);
-						NodeScatter(OreTile.Location, Data.SilverBlockWeight, Data.Silver);
+				//case OreCategorie.Bananium:
+				//		TileChangeManager.UpdateTile(OreTile.Location, Data.Bananium);
+				//;
+				//break;
+				TileChangeManager.UpdateTile(OreTile.Location, OreCategorie.Tile);
+				var intLocation = OreTile.Location + Vector3Int.zero;
+				intLocation.z = -1;
+				TileChangeManager.UpdateTile(intLocation, OreCategorie.OverlayTile);
 
-						break;
-					case OreCategorie.Gold:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Gold);
-						NodeScatter(OreTile.Location, Data.GoldBlockWeight, Data.Gold);
-						break;
-					case OreCategorie.Uranium:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Uranium);
-						NodeScatter(OreTile.Location, Data.UraniumBlockWeight, Data.Uranium);
-						break;
-
-					case OreCategorie.BlueSpace:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.BlueSpace);
-						NodeScatter(OreTile.Location, Data.BlueSpaceBlockWeight, Data.BlueSpace);
-						break;
-
-					case OreCategorie.Titanium:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Titanium);
-						NodeScatter(OreTile.Location, Data.TitaniumBlockWeight, Data.Titanium);
-						break;
-
-					case OreCategorie.Diamond:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Diamond);
-						NodeScatter(OreTile.Location, Data.TitaniumBlockWeight, Data.Diamond);
-						break;
-					case OreCategorie.Bananium:
-						TileChangeManager.UpdateTile(OreTile.Location, Data.Bananium);
-						NodeScatter(OreTile.Location, Data.BananiumBlockWeight, Data.Bananium);
-						break;
-				}
+				NodeScatter(OreTile.Location, OreCategorie);
 			}
 		}
 	}
 
-	void NodeScatter(Vector3Int Location, WeightNStrength InWeightNStrength, LayerTile MaterialSpecified)
+	void NodeScatter(Vector3Int Location, WeightNStrength MaterialSpecified)
 	{
 
 
 		var Locations = new List<Vector3Int>() {
 			Location,
 		};
-		var Strength = InWeightNStrength.NumberBlocks[random.Next(InWeightNStrength.NumberBlocks.Count)];
+		var Strength = MaterialSpecified.NumberBlocks[random.Next(MaterialSpecified.NumberBlocks.Count)];
 		while (Strength > 0)
 		{
 			var ChosenLocation = Locations[random.Next(Locations.Count)];
 			var ranLocation = Location + Directions[random.Next(Directions.Count)];
 			if (WallTilemap.GetTile(ranLocation) != null)
 			{
-				TileChangeManager.UpdateTile(ranLocation, MaterialSpecified);
+				TileChangeManager.UpdateTile(ranLocation, MaterialSpecified.Tile);
 				Locations.Add(ranLocation);
+				ranLocation.z = -1;
+				TileChangeManager.UpdateTile(ranLocation, MaterialSpecified.OverlayTile);
 			}
 			Strength--;
 		}
-
-
-
-
 	}
 
-	void AddElementList(OreCategorie Ore, WeightNStrength num)
+	void AddElementList(WeightNStrength num)
 	{
 		for (int i = 0; i < num.BlockWeight; i++)
 		{
-			WeightedList.Add(Ore);
+			WeightedList.Add(num);
 		}
 	}
 }
@@ -179,9 +137,11 @@ public struct TileAndLocation
 [Serializable]
 public class WeightNStrength
 {
+	public LayerTile Tile;
+	public LayerTile OverlayTile;
+
 	public int BlockWeight;
 	public int BlockStrength;
-
 	public List<int> NumberBlocks = new List<int>();
 
 }

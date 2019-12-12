@@ -10,13 +10,14 @@ public class TileChangesNewClientSync : ServerMessage
 	//just a best guess, try increasing it until the message exceeds mirror's limit
 	private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
 
-	public static short MessageType = (short) MessageTypes.TileChangesNewClientSync;
+	public static short MessageType = (short)MessageTypes.TileChangesNewClientSync;
 
 	public string data;
 	public uint ManagerSubject;
 
 	public override IEnumerator Process()
 	{
+		Logger.LogError("Received!!");
 		yield return WaitFor(ManagerSubject);
 		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
 		tm.InitServerSync(data);
@@ -26,20 +27,35 @@ public class TileChangesNewClientSync : ServerMessage
 	{
 
 		if (changeList == null || changeList.List.Count == 0) return;
-		foreach (var changeChunk in changeList.List.Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
+		foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
 		{
-			string jsondata = JsonUtility.ToJson (changeChunk);
+			string jsondata = JsonUtility.ToJson(changeChunk);
+			Logger.LogError("Sending!!");
+			TileChangesNewClientSync.InternalSend(jsondata, managerSubject.GetComponent<NetworkIdentity>().netId, recipient);
+			//TileChangesNewClientSync msg =
+			//	new TileChangesNewClientSync
+			//	{
+			//		ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
+			//		data = jsondata
+			//	};
 
-			TileChangesNewClientSync msg =
-				new TileChangesNewClientSync
-				{ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
-					data = jsondata
-				};
-
-			msg.SendTo(recipient);
+			//msg.SendTo(recipient);
 
 		}
 	}
+
+
+	public static void InternalSend(string _data, uint _ManagerSubject, GameObject recipient)
+	{
+		TileChangesNewClientSync msg =
+			new TileChangesNewClientSync
+			{
+				ManagerSubject = _ManagerSubject,
+				data = _data
+			};
+		msg.SendTo(recipient);
+	}
+
 
 	public override string ToString()
 	{
