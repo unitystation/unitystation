@@ -57,6 +57,7 @@ public class Directional : NetworkBehaviour
 	private bool IsLocalPlayer => PlayerManager.LocalPlayer == gameObject;
 
 	/// <summary>
+	/// NOTE: Has no effect on local player - local player is always predictive.
 	/// Turn this on when doing client prediction - this Directional will completely ignore server
 	/// direction updates and only perform direction changes when they are made locally. When this
 	/// is turned back off, direction will be synced with server.
@@ -156,21 +157,9 @@ public class Directional : NetworkBehaviour
 
     public override void OnStartClient()
     {
-	    StartCoroutine(WaitForClientLoad());
-    }
-
-    private IEnumerator WaitForClientLoad()
-    {
-	    yield return WaitFor.EndOfFrame;
-	    if (PlayerManager.LocalPlayer == gameObject)
-	    {
-		    //we ignore server updates (unless forced) for our local player
-		    IgnoreServerUpdates = true;
-	    }
+	    SyncServerDirection(serverDirection);
 	    ForceClientDirectionFromServer();
     }
-
-
 
     private void OnDisable()
     {
@@ -195,7 +184,7 @@ public class Directional : NetworkBehaviour
 
 	    //reset rotation offset since we are being told to face an absolute direction
 	    clientMatrixRotationOffset = RotationOffset.Same;
-	    Logger.LogTraceFormat("{0} FaceDirection newDir {1} IsLocalPlayer {2} ignoreServerUpdates {3} clientDir {4} serverDir {5} ", Category.Movement,
+	    Logger.LogTraceFormat("{0} FaceDirection newDir {1} IsLocalPlayer {2} ignoreServerUpdates {3} clientDir {4} serverDir {5} ", Category.Direction,
 		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
 	    if (isServer)
 	    {
@@ -267,7 +256,9 @@ public class Directional : NetworkBehaviour
     private void SyncServerDirection(Orientation dir)
     {
 	    serverDirection = dir;
-	    if (!IgnoreServerUpdates)
+	    //we only change our direction if we're not local player (local player is always predictive)
+	    //and not explicitly ignoring server updates.
+	    if (!IgnoreServerUpdates && !IsLocalPlayer)
 	    {
 		    //reset rotation offset since we are being told to face an absolute direction
 		    clientMatrixRotationOffset = RotationOffset.Same;
