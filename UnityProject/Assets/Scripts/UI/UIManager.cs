@@ -182,8 +182,7 @@ public class UIManager : MonoBehaviour
 		if (pingUpdate >= 5f)
 		{
 			pingUpdate = 0f;
-			int ping = (int)NetworkTime.rtt;
-			pingDisplay.text = string.Format("ping: {0,-5:D}", ping);
+			pingDisplay.text = $"ping: {(NetworkTime.rtt*1000):0}ms";
 		}
 	}
 
