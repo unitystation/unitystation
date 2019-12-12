@@ -17,7 +17,6 @@ public class TileChangesNewClientSync : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		Logger.LogError("Received!!");
 		yield return WaitFor(ManagerSubject);
 		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
 		tm.InitServerSync(data);
@@ -29,33 +28,24 @@ public class TileChangesNewClientSync : ServerMessage
 		if (changeList == null || changeList.List.Count == 0) return;
 		foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
 		{
-			string jsondata = JsonUtility.ToJson(changeChunk);
-			Logger.LogError("Sending!!");
-			TileChangesNewClientSync.InternalSend(jsondata, managerSubject.GetComponent<NetworkIdentity>().netId, recipient);
-			//TileChangesNewClientSync msg =
-			//	new TileChangesNewClientSync
-			//	{
-			//		ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
-			//		data = jsondata
-			//	};
+			foreach (var entry in changeChunk.List)
+			{
+				Logger.LogTraceFormat("Sending update for {0} layer {1}", Category.TileMaps, entry.Position,
+					entry.LayerType);
+			}
 
-			//msg.SendTo(recipient);
+			string jsondata = JsonUtility.ToJson (changeChunk);
+
+			TileChangesNewClientSync msg =
+				new TileChangesNewClientSync
+				{ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,
+					data = jsondata
+				};
+
+			msg.SendTo(recipient);
 
 		}
 	}
-
-
-	public static void InternalSend(string _data, uint _ManagerSubject, GameObject recipient)
-	{
-		TileChangesNewClientSync msg =
-			new TileChangesNewClientSync
-			{
-				ManagerSubject = _ManagerSubject,
-				data = _data
-			};
-		msg.SendTo(recipient);
-	}
-
 
 	public override string ToString()
 	{
