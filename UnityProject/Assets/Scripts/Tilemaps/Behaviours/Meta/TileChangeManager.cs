@@ -40,6 +40,11 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		//Unpacking the data example (and then run action change)
 		changeList = JsonUtility.FromJson<TileChangeList>(data);
+		foreach (var entry in changeList.List)
+		{
+			Logger.LogTraceFormat("Received update for {0} layer {1}", Category.TileMaps, entry.Position,
+				entry.LayerType);
+		}
 
 		foreach (TileChangeEntry entry in changeList.List)
 		{
