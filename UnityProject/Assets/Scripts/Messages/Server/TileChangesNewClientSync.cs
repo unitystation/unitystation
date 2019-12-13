@@ -10,13 +10,14 @@ public class TileChangesNewClientSync : ServerMessage
 	//just a best guess, try increasing it until the message exceeds mirror's limit
 	private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
 
-	public static short MessageType = (short) MessageTypes.TileChangesNewClientSync;
+	public static short MessageType = (short)MessageTypes.TileChangesNewClientSync;
 
 	public string data;
 	public uint ManagerSubject;
 
 	public override IEnumerator Process()
 	{
+		if (CustomNetworkManager.IsServer) yield break;
 		yield return WaitFor(ManagerSubject);
 		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
 		tm.InitServerSync(data);
@@ -26,7 +27,7 @@ public class TileChangesNewClientSync : ServerMessage
 	{
 
 		if (changeList == null || changeList.List.Count == 0) return;
-		foreach (var changeChunk in changeList.List.Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
+		foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
 		{
 			string jsondata = JsonUtility.ToJson (changeChunk);
 

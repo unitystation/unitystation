@@ -38,10 +38,11 @@ public class TileChangeManager : NetworkBehaviour
 
 	public void InitServerSync(string data)
 	{
+		//server doesn't ever need to run this because this will replay its own changes
+		if (CustomNetworkManager.IsServer) return;
 		//Unpacking the data example (and then run action change)
-		changeList = JsonUtility.FromJson<TileChangeList>(data);
-
-		foreach (TileChangeEntry entry in changeList.List)
+		var dataList = JsonUtility.FromJson<TileChangeList>(data);
+		foreach (TileChangeEntry entry in dataList.List)
 		{
 			// load tile & apply
 			if (entry.TileType.Equals(TileType.None))
@@ -60,8 +61,6 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if (changeList.List.Count > 0)
 		{
-			Logger.LogFormat("Request all updates: ", Category.TileMaps, requestedBy.name);
-
 			TileChangesNewClientSync.Send(gameObject, requestedBy, changeList);
 		}
 	}

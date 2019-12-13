@@ -100,7 +100,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
 --- !u!114 &114349735982439280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,8 +257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1176855723
+  m_AssetId: 1449a7168a66e544c8929677c8ba5938
+  m_SceneId: 0
 --- !u!114 &877203043203998857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,8 +274,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: SolidPlasma
+  ArticleName: 
   initialDescription: A solid plasma
-  initialTraits: []
+  exportCost: 200
+  exportName: 
+  exportMessage: cm3 of plasma
+  ArticleDescription: 
+  initialTraits:
+  - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
   initialSize: 1
   hitDamage: 5
   damageType: 0
@@ -286,9 +292,6 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 200
-  exportName: 
-  exportMessage: cm3 of plasma
 --- !u!1 &1668617562811696
 GameObject:
   m_ObjectHideFlags: 0
