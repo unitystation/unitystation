@@ -234,7 +234,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		playerScript.registerTile.IsDownServer = newState != ConsciousState.CONSCIOUS;
 		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
@@ -543,7 +542,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
 		if (5 >= rng.Next(1, 100))
 		{
-			disarmedPlayerRegister.Stun(6f, false);
+			disarmedPlayerRegister.ServerStun(6f, false);
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",

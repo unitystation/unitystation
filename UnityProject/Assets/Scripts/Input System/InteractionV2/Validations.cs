@@ -455,7 +455,7 @@ public static class Validations
 			var registerPlayer = playerScript.registerTile;
 			var playerMove = playerScript.playerMove;
 			if (registerPlayer == null || playerMove == null) return false;
-			return registerPlayer.IsDown || playerMove.IsCuffed;
+			return registerPlayer.IsLayingDown || playerMove.IsCuffed;
 		}
 		else
 		{

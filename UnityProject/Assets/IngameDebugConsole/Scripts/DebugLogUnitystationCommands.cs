@@ -350,7 +350,7 @@ namespace IngameDebugConsole
 					bodyPart.HealDamage(200, DamageType.Brute);
 					bodyPart.HealDamage(200, DamageType.Burn);
 				}
-				playerScript.registerTile.GetUp();
+				playerScript.registerTile.ServerStandUp();
 			}
 		}
 
@@ -371,7 +371,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.registerTile.Slip( true );
+				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
 			}
 		}
 		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]

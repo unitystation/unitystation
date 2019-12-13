@@ -258,7 +258,7 @@ public partial class PlayerSync
 		}
 		else if ( uncorrectedSpeed >= playerMove.PushFallSpeed )
 		{
-			registerPlayer.Slip(true);
+			registerPlayer.ServerSlip(true);
 		}
 
 		Logger.LogTraceFormat( "{1}: Server push to {0}", Category.PushPull, pushGoal, gameObject.name );
@@ -340,7 +340,6 @@ public partial class PlayerSync
 	{
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.Send(recipient, gameObject, serverState);
-		PlayerUprightMessage.Sync(recipient, gameObject);
 		Logger.LogTraceFormat("Sent {0}", Category.Movement, msg);
 	}
 
@@ -809,7 +808,7 @@ public partial class PlayerSync
 		{
 			if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
 			{
-				registerPlayer.Slip( slipWhileWalking: true );
+				registerPlayer.ServerSlip( slipWhileWalking: true );
 			}
 		}
 	}
@@ -825,7 +824,7 @@ public partial class PlayerSync
 
 		if (matrix.MetaDataLayer.IsSlipperyAt(ServerLocalPosition) && !slipProtection)
 		{
-			registerPlayer.Slip();
+			registerPlayer.ServerSlip();
 		}
 	}
 }
