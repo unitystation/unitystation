@@ -204,7 +204,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
-			var destructInfo = new DestructionInfo(lastDamageType);
+			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
 
 			if (onFire)
@@ -295,9 +295,15 @@ public class DestructionInfo
 	/// </summary>
 	public readonly DamageType DamageType;
 
-	public DestructionInfo(DamageType damageType)
+	/// <summary>
+	/// Integrity of the object that was destroyed.
+	/// </summary>
+	public readonly Integrity Destroyed;
+
+	public DestructionInfo(DamageType damageType, Integrity destroyed)
 	{
 		DamageType = damageType;
+		Destroyed = destroyed;
 	}
 }
 

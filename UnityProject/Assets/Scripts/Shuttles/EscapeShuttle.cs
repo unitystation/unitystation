@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -74,11 +76,40 @@ public class EscapeShuttle : MonoBehaviour
 	/// </summary>
 	private Coroutine timerHandle;
 
+	/// <summary>
+	/// tracks the thrusters we have so we can check for game over when it's immobilized.
+	/// Note it's not currently possible to construct thrusters. This is only stored server side.
+	/// Thrusters are removed from this when destroyed
+	/// </summary>
+	private List<ShipThruster> thrusters;
+
 	private void Awake()
 	{
 		mm = GetComponent<MatrixMove>();
 
 		OnShuttleUpdate.AddListener( RemovePark );
+
+		if (CustomNetworkManager.IsServer)
+		{
+			thrusters = GetComponentsInChildren<ShipThruster>().ToList();
+			//subscribe to their integrity events so we can update when they are destroyed
+			foreach (var thruster in thrusters)
+			{
+				var integrity = GetComponent<Integrity>();
+				integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
+			}
+		}
+	}
+
+	//called when each thruster is destroyed
+	private void OnWillDestroyThruster(DestructionInfo destruction)
+	{
+		thrusters.Remove(destruction.Destroyed.GetComponent<ShipThruster>());
+
+		if (thrusters.Count == 0)
+		{
+			//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
+		}
 	}
 
 	private void Update()
