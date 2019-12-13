@@ -38,10 +38,7 @@ public class OreGenerator : MonoBehaviour
 			}
 
 			BoundsInt bounds = WallTilemap.cellBounds;
-			Logger.Log(bounds.ToString());
 			List<TileAndLocation> MiningTiles = new List<TileAndLocation>();
-			//Logger.Log(Matrix.CompressAllBounds() cellBounds.ToString());
-
 
 			for (int n = bounds.xMin; n < bounds.xMax; n++)
 			{
@@ -56,31 +53,11 @@ public class OreGenerator : MonoBehaviour
 				}
 			}
 
-			//if (allTiles != null)
-			//{
-			//	foreach (var _Tile in allTiles)
-			//	{
-			//		if (_Tile != null && (_Tile is BasicTile))
-			//		{
-			//			var basicWallTile = _Tile as BasicTile;
-			//			if (basicWallTile.Mineable)
-			//			{
-			//				Logger.Log(basicWallTile.ToString());
-			//				MiningTiles.Add(basicWallTile);
-			//				//basicWallTile.
-			//			}
-			//		}
-			//	}
-			//}
 			int NumberOfTiles = (int)((MiningTiles.Count / 100f) * Data.Density);
 			for (int i = 0; i < NumberOfTiles; i++)
 			{
 				var OreTile = MiningTiles[random.Next(MiningTiles.Count)];
 				var OreCategorie = WeightedList[random.Next(WeightedList.Count)];
-				//case OreCategorie.Bananium:
-				//		TileChangeManager.UpdateTile(OreTile.Location, Data.Bananium);
-				//;
-				//break;
 				TileChangeManager.UpdateTile(OreTile.Location, OreCategorie.Tile);
 				var intLocation = OreTile.Location + Vector3Int.zero;
 				intLocation.z = -1;
@@ -141,7 +118,6 @@ public class WeightNStrength
 	public LayerTile OverlayTile;
 
 	public int BlockWeight;
-	public int BlockStrength;
 	public List<int> NumberBlocks = new List<int>();
 
 }
