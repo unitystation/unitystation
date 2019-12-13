@@ -2,44 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
 
+/// <summary>
+/// Causes object to consume ore on the tile above it and produce materials on the tile below it. Temporary
+/// until ORM UI is implemented.
+/// </summary>
 public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
 {
-	public List<OreToMaterial> ExpectedOres;
-	 
-	public SpriteHandler SpriteHandler;
+	[SerializeField]
+	private List<OreToMaterial> expectedOres;
 
-	private RegisterObject RegisterObject;
+	private SpriteHandler spriteHandler;
+
+	private RegisterObject registerObject;
 
 	public void OnEnable()
 	{
-		RegisterObject = GetComponent<RegisterObject>();
+		registerObject = GetComponent<RegisterObject>();
 	}
 
     void Start()
     {
-		SpriteHandler.PushTexture();
+	    spriteHandler = GetComponentInChildren<SpriteHandler>();
+		spriteHandler.PushTexture();
     }
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		Logger.Log("1");// 
-		var localPosInt = MatrixManager.Instance.WorldToLocalInt(RegisterObject.WorldPositionServer, RegisterObject.Matrix);
-		var OreItems = RegisterObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
+		var localPosInt = MatrixManager.Instance.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
+		var OreItems = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
 
-		foreach (var Ore in OreItems) {
-			Logger.Log("2" + Ore.ToString());
-			foreach (var exOre in ExpectedOres) {
-				Logger.Log("3");
+		foreach (var Ore in OreItems)
+		{
+			foreach (var exOre in expectedOres)
+			{
 				if (Ore != null)
 				{
-					if (Ore.HasTrait(exOre.Tray))
+					if (Ore.HasTrait(exOre.Trait))
 					{
-						Logger.Log("4");
 						var inStackable = Ore.gameObject.GetComponent<Stackable>();
-						Spawn.ServerPrefab(exOre.Material, RegisterObject.WorldPositionServer + Vector3Int.down, transform.parent, count: inStackable.Amount );
+						Spawn.ServerPrefab(exOre.Material, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: inStackable.Amount );
 						Despawn.ServerSingle(Ore.transform.gameObject);
-						continue;
 					}
 				}
 			}
@@ -49,6 +53,7 @@ public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
 
 [Serializable]
 public class OreToMaterial {
-	public ItemTrait Tray;
+	[FormerlySerializedAs("Tray")]
+	public ItemTrait Trait;
 	public GameObject Material;
 }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using UnityEngine.Serialization;
 
+/// <summary>
+/// Component which should go on a Matrix and which generates ore tiles in any mineable tiles of that matrix.
+/// </summary>
 public class OreGenerator : MonoBehaviour
 {
-	List<WeightNStrength> WeightedList = new List<WeightNStrength>();
-
-	List<Vector3Int> Directions = new List<Vector3Int>() {
+	private static readonly List<Vector3Int> DIRECTIONS = new List<Vector3Int>() {
 		Vector3Int.up,
 		Vector3Int.down,
 		Vector3Int.right,
@@ -19,26 +21,34 @@ public class OreGenerator : MonoBehaviour
 		Vector3Int.down + Vector3Int.left
 	};
 
-	public OreGeneratorScriptableObject Data;
+	[FormerlySerializedAs("Data")] [SerializeField]
+	private OreGeneratorConfig config;
 
 
-	public static System.Random random = new System.Random();
+	private static readonly System.Random RANDOM = new System.Random();
 
-	public Tilemap WallTilemap;
-	public Matrix Matrix;
+	private Tilemap wallTilemap;
+	private TileChangeManager tileChangeManager;
 
-	public TileChangeManager TileChangeManager;
 	// Start is called before the first frame update
 	void Start()
 	{
-		if (CustomNetworkManager.Instance._isServer != false)
+		var metaTileMap = GetComponentInChildren<MetaTileMap>();
+		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
+		tileChangeManager = GetComponent<TileChangeManager>();
+
+		if (CustomNetworkManager.IsServer)
 		{
-			foreach (var Ores in Data.FullList) { 
-				AddElementList(Ores);
+			List<OreProbability> weightedList = new List<OreProbability>();
+			foreach (var ores in config.OreProbabilities) {
+				for (int i = 0; i < ores.SpawnChance; i++)
+				{
+					weightedList.Add(ores);
+				}
 			}
 
-			BoundsInt bounds = WallTilemap.cellBounds;
-			List<TileAndLocation> MiningTiles = new List<TileAndLocation>();
+			BoundsInt bounds = wallTilemap.cellBounds;
+			List<Vector3Int> miningTiles = new List<Vector3Int>();
 
 			for (int n = bounds.xMin; n < bounds.xMax; n++)
 			{
@@ -46,84 +56,78 @@ public class OreGenerator : MonoBehaviour
 				{
 					Vector3Int localPlace = (new Vector3Int(n, p, 0));
 
-					if (WallTilemap.HasTile(localPlace))
+					if (wallTilemap.HasTile(localPlace))
 					{
-						MiningTiles.Add(new TileAndLocation(WallTilemap.GetTile(localPlace) as BasicTile, localPlace));
+						miningTiles.Add(localPlace);
 					}
 				}
 			}
 
-			int NumberOfTiles = (int)((MiningTiles.Count / 100f) * Data.Density);
-			for (int i = 0; i < NumberOfTiles; i++)
+			int numberOfTiles = (int)((miningTiles.Count / 100f) * config.Density);
+			for (int i = 0; i < numberOfTiles; i++)
 			{
-				var OreTile = MiningTiles[random.Next(MiningTiles.Count)];
-				var OreCategorie = WeightedList[random.Next(WeightedList.Count)];
-				TileChangeManager.UpdateTile(OreTile.Location, OreCategorie.Tile);
-				var intLocation = OreTile.Location + Vector3Int.zero;
+				var oreTile = miningTiles[RANDOM.Next(miningTiles.Count)];
+				var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
+				tileChangeManager.UpdateTile(oreTile, oreCategory.WallTile);
+				var intLocation = oreTile + Vector3Int.zero;
 				intLocation.z = -1;
-				TileChangeManager.UpdateTile(intLocation, OreCategorie.OverlayTile);
+				tileChangeManager.UpdateTile(intLocation, oreCategory.OverlayTile);
 
-				NodeScatter(OreTile.Location, OreCategorie);
+				NodeScatter(oreTile, oreCategory);
 			}
 		}
 	}
 
-	void NodeScatter(Vector3Int Location, WeightNStrength MaterialSpecified)
+	private void NodeScatter(Vector3Int location, OreProbability materialSpecified)
 	{
-
-
-		var Locations = new List<Vector3Int>() {
-			Location,
+		var locations = new List<Vector3Int>() {
+			location,
 		};
-		var Strength = MaterialSpecified.NumberBlocks[random.Next(MaterialSpecified.NumberBlocks.Count)];
-		while (Strength > 0)
+		var strength = materialSpecified.PossibleClusterSizes[RANDOM.Next(materialSpecified.PossibleClusterSizes.Count)];
+		while (strength > 0)
 		{
-			var ChosenLocation = Locations[random.Next(Locations.Count)];
-			var ranLocation = Location + Directions[random.Next(Directions.Count)];
-			if (WallTilemap.GetTile(ranLocation) != null)
+			var chosenLocation = locations[RANDOM.Next(locations.Count)];
+			var ranLocation = location + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
+			if (wallTilemap.GetTile(ranLocation) != null)
 			{
-				TileChangeManager.UpdateTile(ranLocation, MaterialSpecified.Tile);
-				Locations.Add(ranLocation);
+				tileChangeManager.UpdateTile(ranLocation, materialSpecified.WallTile);
+				locations.Add(ranLocation);
 				ranLocation.z = -1;
-				TileChangeManager.UpdateTile(ranLocation, MaterialSpecified.OverlayTile);
+				tileChangeManager.UpdateTile(ranLocation, materialSpecified.OverlayTile);
 			}
-			Strength--;
-		}
-	}
-
-	void AddElementList(WeightNStrength num)
-	{
-		for (int i = 0; i < num.BlockWeight; i++)
-		{
-			WeightedList.Add(num);
+			strength--;
 		}
 	}
 }
 
-
-public struct TileAndLocation
-{
-	public TileAndLocation(BasicTile _Tile, Vector3Int _Location)
-	{
-		Tile = _Tile;
-		Location = _Location;
-	}
-	public BasicTile Tile;	public Vector3Int Location;
-}
-
+/// <summary>
+/// Defines the probability logic of generating a given type of ore
+/// </summary>
 [Serializable]
-public class WeightNStrength
+public class OreProbability
 {
-	public LayerTile Tile;
+	[Tooltip("Wall tile to use for this ore tile")]
+	[FormerlySerializedAs("Tile")]
+	public LayerTile WallTile;
+
+	[Tooltip("Overlay (Effects layer) tile to use for this ore tile")]
 	public LayerTile OverlayTile;
 
-	public int BlockWeight;
-	public List<int> NumberBlocks = new List<int>();
+	[Tooltip("How likely this ore is to spawn compared to the others in the list. Think of each entry in the  as" +
+	         " being a chit in a bag. This defines the number of chits to add representing this tile.")]
+	[FormerlySerializedAs("BlockWeight")]
+	public int SpawnChance;
+
+
+	[Tooltip("Possible sizes of clusters this ore can spawn. An entry is randomly chosen from this list when" +
+	         " an ore cluster of this type is spawned, and the value determines roughly the number of ore tiles that will" +
+	         " spawn in this cluster.")]
+	[FormerlySerializedAs("NumberBlocks")] public List<int> PossibleClusterSizes = new List<int>();
 
 }
 
 
-public enum OreCategorie
+public enum OreCategory
 {
 	None,
 	Iron,

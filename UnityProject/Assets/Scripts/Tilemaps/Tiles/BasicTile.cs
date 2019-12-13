@@ -23,7 +23,9 @@ public abstract class BasicTile : LayerTile
 	[FormerlySerializedAs("IsSealed")] [SerializeField]
 	private bool isSealed;
 
-	public OreCategorie OreCategorie;
+	[FormerlySerializedAs("OreCategorie")]
+	[SerializeField]
+	private OreCategory oreCategory;
 
 	public float MaxHealth;
 	public TileState[] HealthStates;
