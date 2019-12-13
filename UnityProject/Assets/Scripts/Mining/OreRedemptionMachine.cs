@@ -10,6 +10,7 @@ using UnityEngine.Serialization;
 /// </summary>
 public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
 {
+	[FormerlySerializedAs("ExpectedOres")]
 	[SerializeField]
 	private List<OreToMaterial> expectedOres;
 
