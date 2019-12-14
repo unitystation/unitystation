@@ -238,7 +238,7 @@ public static class PlayerSpawn
 
 		var ghost = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, Quaternion.identity,
 			parentTransform);
-		ghost.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
+		ghost.GetComponent<PlayerScript>().registerTile.ServerSetParentMatrixNetID(parentNetId);
 
 		forMind.Ghosting(ghost);
 
@@ -292,7 +292,7 @@ public static class PlayerSpawn
 		var player = Object.Instantiate(CustomNetworkManager.Instance.humanPlayerPrefab,
 			spawnPosition, Quaternion.identity,
 			parentTransform);
-		player.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
+		player.GetComponent<PlayerScript>().registerTile.ServerSetParentMatrixNetID(parentNetId);
 
 
 

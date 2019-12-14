@@ -8,7 +8,7 @@ using UnityEngine;
 /// simply omit this component from the object.
 /// </summary>
 [RequireComponent(typeof(RegisterTile))]
-public class SpriteMatrixRotation : MonoBehaviour
+public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 {
 	/// <summary>
 	/// Defines how this object's sprites should rotate when its parent matrix rotates.
@@ -33,50 +33,31 @@ public class SpriteMatrixRotation : MonoBehaviour
 		}
 	}
 
-	private bool registeredUpdate = false;
-
 	private Quaternion extraRotation = Quaternion.identity;
 
-	//cached spriteRenderers of this gameobject
-	protected SpriteRenderer[] spriteRenderers;
-	// cached registertile
+	private SpriteRenderer[] spriteRenderers;
 	private RegisterTile registerTile;
 
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		//cache the sprite renderers
-		if (spriteRenderers == null)
-		{
-			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-			//orient upright
-			SetSpritesUpright();
+		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+	}
 
-		}
+	public void OnSpawnClient(ClientSpawnInfo info)
+	{
+		//orient upright
+		SetSpritesUpright();
 
 		//subscribe to matrix rotations
 		registerTile.OnMatrixWillChange.AddListener(OnMatrixWillChange);
 		OnMatrixWillChange(registerTile.Matrix);
 	}
 
-	private void OnBecameVisible()
-	{
-		//fail safe
-		SetSpritesUpright();
-	}
 
-	private void OnEnable()
+	public void OnDespawnClient(ClientDespawnInfo info)
 	{
-		SetSpritesUpright();
-	}
-
-	private void OnDisable()
-	{
-		if (registeredUpdate)
-		{
-			UpdateManager.Instance.Remove(SetSpritesUpright);
-			registeredUpdate = false;
-		}
+		UpdateManager.Instance.Remove(SetSpritesUpright);
 
 		if (registerTile.MatrixIsMovable)
 		{
@@ -87,15 +68,13 @@ public class SpriteMatrixRotation : MonoBehaviour
 
 	private void SetSpritesUpright()
 	{
-		if (spriteRenderers != null)
+		Logger.LogTraceFormat("Setting sprites upright for {0}", Category.Matrix, this);
+		if (spriteRenderers == null) return;
+		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
-			foreach (SpriteRenderer renderer in spriteRenderers)
-			{
-				renderer.transform.rotation = ExtraRotation;
-			}
+			renderer.transform.rotation = ExtraRotation;
 		}
 	}
-
 
 
 	//invoked when our parent matrix is being changed or initially set
@@ -105,6 +84,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 		//unsub from old matrix
 		if (registerTile.MatrixIsMovable)
 		{
+			Logger.LogTraceFormat("{0} unsubbed from matrix rotations for {1}", Category.Matrix, this, registerTile.Matrix);
 			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
 			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
 		}
@@ -114,6 +94,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 		{
 			if (newMatrix.MatrixMove != null)
 			{
+				Logger.LogTraceFormat("{0} subbed to matrix rotations for {1}", Category.Matrix, this, newMatrix);
 				newMatrix.MatrixMove.OnRotateStart.AddListener(OnMatrixRotationStart);
 				newMatrix.MatrixMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
 			}
@@ -126,8 +107,8 @@ public class SpriteMatrixRotation : MonoBehaviour
 	{
 		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 		{
+			Logger.LogTraceFormat("{0} matrix rotation starting on {1}, forcing upright", Category.Matrix, this, registerTile.Matrix);
 			UpdateManager.Instance.Add(SetSpritesUpright);
-			registeredUpdate = true;
 		}
 	}
 
@@ -140,12 +121,13 @@ public class SpriteMatrixRotation : MonoBehaviour
 		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 		{
 			//stop reorienting to face upright
+			Logger.LogTraceFormat("{0} matrix rotation ending on {1}, stop forcing upright", Category.Matrix, this, registerTile.Matrix);
 			UpdateManager.Instance.Remove(SetSpritesUpright);
-			registeredUpdate = false;
 		}
 
 		SetSpritesUpright();
 	}
+
 }
 
 

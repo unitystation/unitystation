@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -95,7 +96,7 @@ public class EscapeShuttle : MonoBehaviour
 			//subscribe to their integrity events so we can update when they are destroyed
 			foreach (var thruster in thrusters)
 			{
-				var integrity = GetComponent<Integrity>();
+				var integrity = thruster.GetComponent<Integrity>();
 				integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
 			}
 		}
@@ -109,8 +110,43 @@ public class EscapeShuttle : MonoBehaviour
 		if (thrusters.Count == 0)
 		{
 			//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
+			RpcEscapeImpossibleEnd();
+			StartCoroutine(WaitForGameOver());
+			GameManager.Instance.RespawnCurrentlyAllowed = false;
 		}
 	}
+
+	IEnumerator WaitForGameOver()
+	{
+		yield return WaitFor.Seconds(15f);
+		// Trigger end of round
+		GameManager.Instance.RoundEnd();
+	}
+
+	[ClientRpc]
+	private void RpcEscapeImpossibleEnd()
+	{
+		//turning off all the UI except for the right panel
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
+		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
+		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
+		ChatUI.Instance.CloseChatWindow();
+
+		//TODO: Custom ending animation for this type of game over, don't reuse nuke ending
+		//Playing the video
+		UIManager.Display.PlayNukeDetVideo();
+
+		//Playing the sound
+		StartCoroutine(PlayNukeDetSound());
+	}
+
+	IEnumerator PlayNukeDetSound()
+	{
+		// Wait for 1 second so audio syncs up
+		yield return WaitFor.Seconds(1f);
+		SoundManager.Play("SelfDestruct");
+	}
+
 
 	private void Update()
 	{

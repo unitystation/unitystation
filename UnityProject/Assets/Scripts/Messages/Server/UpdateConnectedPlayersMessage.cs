@@ -14,12 +14,11 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 	{
 //		Logger.Log("Processed " + ToString());
 
-		Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections,
-			string.Join(",", Players));
-
 		PlayerList.Instance.ClientConnectedPlayers.Clear();
 		if (Players != null)
 		{
+			Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections,
+				string.Join(",", Players));
 			for (var i = 0; i < Players.Length; i++)
 			{
 				PlayerList.Instance.ClientConnectedPlayers.Add(Players[i]);

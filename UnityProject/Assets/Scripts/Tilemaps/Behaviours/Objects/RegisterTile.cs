@@ -3,8 +3,9 @@
  using UnityEngine;
  using UnityEngine.Events;
  using Mirror;
+ using UnityEngine.Serialization;
 
-public enum ObjectType
+ public enum ObjectType
 {
 	Item,
 	Object,
@@ -21,17 +22,28 @@ public enum ObjectType
 /// Also tracks the Matrix the object is in.
 /// </summary>
 [ExecuteInEditMode]
-public class RegisterTile : NetworkBehaviour, IServerDespawn
+public class RegisterTile : NetworkBehaviour, IServerLifecycle, IClientLifecycle
 {
 	//relationships which only need to be checked when UpdatePosition methods are called
 	private List<BaseSpatialRelationship> sameMatrixRelationships;
 	//relationships which need to be checked via polling due to being on different matrices
 	private List<BaseSpatialRelationship> crossMatrixRelationships;
-	private bool hasInit = false;
+	private bool hasInit;
 
-	public ObjectLayer layer;
 
-	public ObjectType ObjectType;
+	private ObjectLayer objectLayer;
+	/// <summary>
+	/// Object layer this gameobject is in (all registertiles live in an object layer).
+	/// </summary>
+	public ObjectLayer ObjectObjectLayer => objectLayer;
+
+	[Tooltip("The kind of object this is.")]
+	[FormerlySerializedAs("ObjectType")] [SerializeField]
+	private ObjectType objectType;
+	/// <summary>
+	/// The kind of object this is.
+	/// </summary>
+	public ObjectType ObjectType => objectType;
 
 	private PushPull customTransform;
 	public PushPull CustomTransform => customTransform ? customTransform : (customTransform = GetComponent<PushPull>());
@@ -61,22 +73,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private Matrix matrix;
 	public bool MatrixIsMovable => Matrix && Matrix.MatrixMove;
 
-	public uint ParentNetId
-	{
-		get { return parentNetId; }
-		set
-		{
-			// update parent if it changed
-			if (value != parentNetId)
-			{
-				parentNetId = value;
-				SetParent(parentNetId);
-			}
-		}
-	}
-	// Note that syncvar only runs on the client, so server must ensure SetParent
-	// is invoked.
-	[SyncVar(hook = nameof(SetParent))] private uint parentNetId;
+
+	[SyncVar(hook = nameof(SyncParentMatrixNetId))]
+	private uint parentMatrixNetId;
+	/// <summary>
+	/// NetId of our current parent matrix.
+	/// </summary>
+	protected uint ParentMatrixNetId => parentMatrixNetId;
 
 	/// <summary>
 	/// Returns the correct client/server version of world position depending on if this is
@@ -100,14 +103,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public Vector3Int LocalPositionServer
 	{
 		get => serverLocalPosition;
-		protected set
+		private set
 		{
-			if (layer)
+			if (objectLayer)
 			{
-				layer.ServerObjects.Remove(serverLocalPosition, this);
+				objectLayer.ServerObjects.Remove(serverLocalPosition, this);
 				if ( value != TransformState.HiddenPos )
 				{
-					layer.ServerObjects.Add(value, this);
+					objectLayer.ServerObjects.Add(value, this);
 				}
 			}
 
@@ -119,14 +122,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public Vector3Int LocalPositionClient
 	{
 		get => clientLocalPosition;
-		protected set
+		private set
 		{
-			if (layer)
+			if (objectLayer)
 			{
-				layer.ClientObjects.Remove(clientLocalPosition, this);
+				objectLayer.ClientObjects.Remove(clientLocalPosition, this);
 				if ( value != TransformState.HiddenPos )
 				{
-					layer.ClientObjects.Add( value, this );
+					objectLayer.ClientObjects.Add( value, this );
 				}
 			}
 
@@ -142,28 +145,120 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[NonSerialized]
 	public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
 
+	//we have lifecycle methods from lifecycle system, but lots of stuff depends on this register tile having
+	//the matrix set as soon as possible, so we still have this OnEnable / OnDisable logic
+	private void OnEnable()
+	{
+		ForceRegister();
+	}
+	private void OnDisable()
+	{
+		UnregisterClient();
+		UnregisterServer();
+	}
+
+	public override void OnStartClient()
+	{
+		SyncParentMatrixNetId(parentMatrixNetId);
+	}
+
+	public void OnSpawnClient(ClientSpawnInfo info)
+	{
+		OnSpawnClientAndServer();
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		if (transform.parent != null)
+		{
+			SyncParentMatrixNetId(transform.parent.GetComponentInParent<NetworkIdentity>().netId);
+		}
+
+		OnSpawnClientAndServer();
+	}
+
+	private void OnSpawnClientAndServer()
+	{
+		ForceRegister();
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		OnDespawnClientAndServer();
+		//cancel all relationships
+		if (sameMatrixRelationships != null)
+		{
+			foreach (var relationship in sameMatrixRelationships)
+			{
+				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
+				SpatialRelationship.ServerEnd(relationship);
+			}
+		}
+		if (crossMatrixRelationships != null)
+		{
+			foreach (var relationship in crossMatrixRelationships)
+			{
+				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
+				SpatialRelationship.ServerEnd(relationship);
+			}
+		}
+	}
+
+
+
+	public void OnDespawnClient(ClientDespawnInfo info)
+	{
+		OnDespawnClientAndServer();
+	}
+
+	private void OnDespawnClientAndServer()
+	{
+		if (objectLayer)
+		{
+			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
+			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
+		}
+		UnregisterClient();
+		UnregisterServer();
+		hasInit = false;
+	}
+
+
+	/// <summary>
+	/// Set our parent matrix net ID to this.
+	/// </summary>
+	/// <param name="newParentMatrixNetID"></param>
+	[Server]
+	public void ServerSetParentMatrixNetID(uint newParentMatrixNetID)
+	{
+		SyncParentMatrixNetId(newParentMatrixNetID);
+	}
+
 	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
 	/// applies the change by moving this object to live in the same objectlayer and matrix as that
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
-	/// <param name="netId">uint of the new parent</param>
-	private void SetParent(uint netId)
+	/// <param name="newParentMatrixNetID">uint of the new parent</param>
+	private void SyncParentMatrixNetId(uint newParentMatrixNetID)
 	{
-		GameObject parent = ClientScene.FindLocalObject(netId);
-		if (parent == null)
+		this.parentMatrixNetId = newParentMatrixNetID;
+
+		if (newParentMatrixNetID == NetId.Invalid) return;
+		NetworkIdentity.spawned.TryGetValue(newParentMatrixNetID, out var parentMatrix);
+		if (parentMatrix == null)
 		{
 			//nothing found
 			return;
 		}
 
 		//remove from current parent layer
-		layer?.ClientObjects.Remove(LocalPositionClient, this);
-		layer?.ServerObjects.Remove(LocalPositionServer, this);
-		layer = parent.GetComponentInChildren<ObjectLayer>();
-		Matrix = parent.GetComponentInChildren<Matrix>();
-		transform.SetParent( layer.transform, true );
+		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
+		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
+		objectLayer = parentMatrix.GetComponentInChildren<ObjectLayer>();
+		Matrix = parentMatrix.GetComponentInChildren<Matrix>();
+		transform.SetParent( objectLayer.transform, true );
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
 		if (LocalPositionClient != TransformState.HiddenPos)
 		{
@@ -182,45 +277,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	}
 
-
-	public override void OnStartClient()
-	{
-		if (parentNetId != NetId.Invalid)
-		{
-			SetParent(parentNetId);
-		}
-	}
-
-	public override void OnStartServer()
-	{
-		if (transform.parent != null)
-		{
-			ParentNetId = transform.parent.GetComponentInParent<NetworkIdentity>().netId;
-		}
-
-		base.OnStartServer();
-	}
-
-	public void OnDestroy()
-	{
-		if (layer)
-		{
-			layer.ServerObjects.Remove(LocalPositionServer, this);
-			layer.ClientObjects.Remove(LocalPositionClient, this);
-		}
-	}
-
-	private void OnEnable()
-	{
-		ForceRegister();
-	}
-
 	[ContextMenu("Force Register")]
 	private void ForceRegister()
 	{
 		if (transform.parent != null)
 		{
-			layer = transform.parent.GetComponentInParent<ObjectLayer>();
+			objectLayer = transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
@@ -235,12 +297,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UnregisterServer()
 	{
 		LocalPositionServer = TransformState.HiddenPos;
-	}
-
-	private void OnDisable()
-	{
-		UnregisterClient();
-		UnregisterServer();
 	}
 
 	public virtual void UpdatePositionServer()
@@ -462,27 +518,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		//cancel all relationships
-		if (sameMatrixRelationships != null)
-		{
-			foreach (var relationship in sameMatrixRelationships)
-			{
-				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
-				SpatialRelationship.ServerEnd(relationship);
-			}
-		}
-		if (crossMatrixRelationships != null)
-		{
-			foreach (var relationship in crossMatrixRelationships)
-			{
-				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
-				SpatialRelationship.ServerEnd(relationship);
-			}
-		}
-	}
-
 	/// <summary>
 	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
 	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent
@@ -515,6 +550,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		return true;
 	}
+
 }
 
  /// <summary>
