@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1892107992577685649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735666357076621607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1afb988e22a0445a9ebcf788bf0110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExpectedOres:
+  - Tray: {fileID: 11400000, guid: 3d402a2b597113b4a97ee3710288b408, type: 2}
+    Material: {fileID: 1645856876941636, guid: 78d9125d50217497cbcd4a18ffe2e3e4, type: 3}
+  - Tray: {fileID: 11400000, guid: b6d7aeb207e8c9d47a7744da79141799, type: 2}
+    Material: {fileID: 1791647728409730387, guid: 4d229442f3c656d458217e0172bf9090,
+      type: 3}
+  - Tray: {fileID: 11400000, guid: b52339a75d4b045469c79bd102bc98ea, type: 2}
+    Material: {fileID: 1791647728409730387, guid: 8ea5e42912db82c4cad8634141c800f8,
+      type: 3}
+  - Tray: {fileID: 11400000, guid: 9f843295728958e48bcfe5215296ee90, type: 2}
+    Material: {fileID: 1042464433060550, guid: 1449a7168a66e544c8929677c8ba5938, type: 3}
+  - Tray: {fileID: 11400000, guid: 1e8921a11f65f9640afc3446c7cb9320, type: 2}
+    Material: {fileID: 1791647728409730387, guid: 011fcd3b4e1818d4f9c80954a3af7904,
+      type: 3}
+  - Tray: {fileID: 11400000, guid: e76a2305b1eac4c4786986115a5eb555, type: 2}
+    Material: {fileID: 1791647728409730387, guid: 53d11633a701a7c4a8a16c62a64461cd,
+      type: 3}
+  - Tray: {fileID: 11400000, guid: d3b5f22c1469bf34a81e377227b2acf5, type: 2}
+    Material: {fileID: 1791647728409730387, guid: e520fd72ff2a73b4d80693fb7fe23fdf,
+      type: 3}
+  SpriteHandler: {fileID: 7207538277679673550}
+--- !u!114 &7207538277679673550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7537901516811143965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    SpriteAndData:
+      Texture: {fileID: 2800000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      - {fileID: 21300002, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      - {fileID: 21300004, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      - {fileID: 21300006, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      - {fileID: 21300008, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      - {fileID: 21300010, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      - {fileID: 21300012, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      - {fileID: 21300014, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+      EquippedData: {fileID: 4900000, guid: cbe20f1541f640d408cb8185d77f9f95, type: 3}
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 1978891904548199728}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1
+  test: 0
+--- !u!1001 &2473681083921268590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Name
+      value: Ore Redemption Machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: Ore Redemption Machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialDescription
+      value: The thing that does the ores
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportCost
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300014, guid: 7cd232d70698e2d4b856d70b22d3f223,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!1 &1735666357076621607 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 2473681083921268590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7537901516811143965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 2473681083921268590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1978891904548199728 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 2473681083921268590}
+  m_PrefabAsset: {fileID: 0}

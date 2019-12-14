@@ -26,6 +26,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		//Start the progress bar:
 		//technically pickaxe is deconstruction, so it would interrupt any construction / deconstruction being done
 		//on that tile
+		//TODO: Refactor this to use ToolUtils once that's merged in
 		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
 			5f, progressFinishAction, interaction.Performer);
 		if (bar != null)
@@ -45,13 +46,11 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		{
 			SoundManager.PlayNetworkedAtPos("BreakStone", interaction.WorldPositionTarget);
 			var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
+
+			var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;
+			Spawn.ServerPrefab(tile.SpawnOnDeconstruct, interaction.WorldPositionTarget ,  count : tile.SpawnAmountOnDeconstruct);
 			interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-			if (Random.value > PLASMA_SPAWN_CHANCE)
-			{
-				//spawn plasma
-				Spawn.ServerPrefab("SolidPlasma", interaction.WorldPositionTarget, count: 1,
-					scatterRadius: Spawn.DefaultScatterRadius);
-			}
+			interactableTiles.TileChangeManager.RemoveEffect(cellPos, LayerType.Effects);
 		}
 	}
 }

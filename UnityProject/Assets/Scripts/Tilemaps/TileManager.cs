@@ -53,6 +53,7 @@ public class TileManager : MonoBehaviour
 				LayerTile[] loadedTiles = Resources.LoadAll<LayerTile>(path);
 				loadedTiles.ToList().ForEach(x => tiles[tileType, x.name] = x);
 			}
+
 		}
 	}
 

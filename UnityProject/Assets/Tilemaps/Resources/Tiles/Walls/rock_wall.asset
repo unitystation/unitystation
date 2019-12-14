@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: rock_wall
   m_EditorClassIdentifier: 
+  displayName: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -23,10 +24,31 @@ MonoBehaviour:
   PassableException:
     m_keys: 
     m_values: 
+  OreCategorie: 2
   MaxHealth: 0
   HealthStates: []
-  ItemSpawn: {fileID: 0}
-  amount: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 0
+  deconstructionType: 0
   DestroyedTile: {fileID: 0}
   connectCategory: 0
   connectType: 1
