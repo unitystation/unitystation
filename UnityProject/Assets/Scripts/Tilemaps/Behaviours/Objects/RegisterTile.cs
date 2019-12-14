@@ -22,7 +22,7 @@
 /// Also tracks the Matrix the object is in.
 /// </summary>
 [ExecuteInEditMode]
-public class RegisterTile : NetworkBehaviour, IServerLifecycle, IClientLifecycle
+public class RegisterTile : NetworkBehaviour, IServerDespawn
 {
 	//relationships which only need to be checked when UpdatePosition methods are called
 	private List<BaseSpatialRelationship> sameMatrixRelationships;
@@ -145,8 +145,8 @@ public class RegisterTile : NetworkBehaviour, IServerLifecycle, IClientLifecycle
 	[NonSerialized]
 	public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
 
-	//we have lifecycle methods from lifecycle system, but lots of stuff depends on this register tile having
-	//the matrix set as soon as possible, so we still have this OnEnable / OnDisable logic
+	//we have lifecycle methods from lifecycle system, but lots of things currently depend on peculiarities
+	//of how register tile worked before lifecycle system so we still have this OnEnable / OnDisable / OnStartServer / OnStartServer logic
 	private void OnEnable()
 	{
 		ForceRegister();
@@ -156,35 +156,29 @@ public class RegisterTile : NetworkBehaviour, IServerLifecycle, IClientLifecycle
 		UnregisterClient();
 		UnregisterServer();
 	}
-
 	public override void OnStartClient()
 	{
 		SyncParentMatrixNetId(parentMatrixNetId);
 	}
-
-	public void OnSpawnClient(ClientSpawnInfo info)
-	{
-		OnSpawnClientAndServer();
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
+	public override void OnStartServer()
 	{
 		if (transform.parent != null)
 		{
 			SyncParentMatrixNetId(transform.parent.GetComponentInParent<NetworkIdentity>().netId);
 		}
-
-		OnSpawnClientAndServer();
 	}
 
-	private void OnSpawnClientAndServer()
+	public void OnDestroy()
 	{
-		ForceRegister();
+		if (objectLayer)
+		{
+			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
+			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
+		}
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
-		OnDespawnClientAndServer();
 		//cancel all relationships
 		if (sameMatrixRelationships != null)
 		{
@@ -206,24 +200,6 @@ public class RegisterTile : NetworkBehaviour, IServerLifecycle, IClientLifecycle
 
 
 
-	public void OnDespawnClient(ClientDespawnInfo info)
-	{
-		OnDespawnClientAndServer();
-	}
-
-	private void OnDespawnClientAndServer()
-	{
-		if (objectLayer)
-		{
-			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
-			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
-		}
-		UnregisterClient();
-		UnregisterServer();
-		hasInit = false;
-	}
-
-
 	/// <summary>
 	/// Set our parent matrix net ID to this.
 	/// </summary>
@@ -243,9 +219,10 @@ public class RegisterTile : NetworkBehaviour, IServerLifecycle, IClientLifecycle
 	/// <param name="newParentMatrixNetID">uint of the new parent</param>
 	private void SyncParentMatrixNetId(uint newParentMatrixNetID)
 	{
-		this.parentMatrixNetId = newParentMatrixNetID;
-
+		if (this.parentMatrixNetId == newParentMatrixNetID) return;
 		if (newParentMatrixNetID == NetId.Invalid) return;
+
+		this.parentMatrixNetId = newParentMatrixNetID;
 		NetworkIdentity.spawned.TryGetValue(newParentMatrixNetID, out var parentMatrix);
 		if (parentMatrix == null)
 		{
