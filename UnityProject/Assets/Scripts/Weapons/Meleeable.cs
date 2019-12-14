@@ -20,19 +20,18 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles only on harm intent
 	/// </summary>
-	private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>(
-		new[] {
-			LayerType.Base,
-			LayerType.Floors
-		});
+	/// NOTE: Not allowing attacking base or floors now because it's annoying during combat when you misclick
+	// private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>(
+	// 	new[] {
+	// 		LayerType.Base,
+	// 		LayerType.Floors
+	// 	});
+	private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>();
 
-	//Cache these on start for checking at runtime
-	private GameObject gameObjectRoot;
 	private InteractableTiles interactableTiles;
 
 	private void Start()
 	{
-		gameObjectRoot = transform.root.gameObject;
 		interactableTiles = GetComponent<InteractableTiles>();
 	}
 
