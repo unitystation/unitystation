@@ -128,8 +128,8 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && circuitBoardSlot.IsOccupied)
 				{
 					//screw in the circuit board
-					Chat.AddActionMsgToChat(interaction, $"You screw {interaction.UsedObject.ExpensiveName()} into place.",
-						$"{interaction.Performer.ExpensiveName()} screws {interaction.UsedObject.ExpensiveName()} into place.");
+					Chat.AddActionMsgToChat(interaction, $"You screw {circuitBoardSlot.ItemObject.ExpensiveName()} into place.",
+						$"{interaction.Performer.ExpensiveName()} screws {circuitBoardSlot.ItemObject.ExpensiveName()} into place.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					stateful.ServerChangeState(circuitScrewedState);
 				}
@@ -137,8 +137,8 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>
 				         circuitBoardSlot.IsOccupied)
 				{
 					//wrench out the circuit board
-					Chat.AddActionMsgToChat(interaction, $"You remove the {interaction.UsedObject.ExpensiveName()} from the frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the {interaction.UsedObject.ExpensiveName()} from the frame.");
+					Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Inventory.ServerDrop(circuitBoardSlot);
 				}

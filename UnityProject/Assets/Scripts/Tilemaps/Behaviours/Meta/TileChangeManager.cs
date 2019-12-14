@@ -40,10 +40,13 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		//server doesn't ever need to run this because this will replay its own changes
 		if (CustomNetworkManager.IsServer) return;
+
 		//Unpacking the data example (and then run action change)
 		var dataList = JsonUtility.FromJson<TileChangeList>(data);
 		foreach (TileChangeEntry entry in dataList.List)
 		{
+			Logger.LogTraceFormat("Received update for {0} layer {1}", Category.TileMaps, entry.Position,
+				entry.LayerType);
 			// load tile & apply
 			if (entry.TileType.Equals(TileType.None))
 			{
