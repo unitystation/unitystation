@@ -17,7 +17,9 @@ public class TileChangesNewClientSync : ServerMessage
 
 	public override IEnumerator Process()
 	{
+		//server doesn't need this message, it messes with its own tiles.
 		if (CustomNetworkManager.IsServer) yield break;
+
 		yield return WaitFor(ManagerSubject);
 		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
 		tm.InitServerSync(data);
@@ -29,6 +31,12 @@ public class TileChangesNewClientSync : ServerMessage
 		if (changeList == null || changeList.List.Count == 0) return;
 		foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
 		{
+			foreach (var entry in changeChunk.List)
+			{
+				Logger.LogTraceFormat("Sending update for {0} layer {1}", Category.TileMaps, entry.Position,
+					entry.LayerType);
+			}
+
 			string jsondata = JsonUtility.ToJson (changeChunk);
 
 			TileChangesNewClientSync msg =

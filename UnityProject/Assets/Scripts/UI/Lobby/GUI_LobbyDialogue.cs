@@ -10,7 +10,7 @@ namespace Lobby
 {
 	public class GUI_LobbyDialogue : MonoBehaviour
 	{
-		private const string DefaultServerAddress = "localhost";
+		private const string DefaultServerAddress = "127.0.0.1";
 		private const ushort DefaultServerPort = 7777;
 		private const string UserNamePlayerPref = "PlayerName";
 

@@ -29,7 +29,7 @@ public class Directional : NetworkBehaviour
 	/// </summary>
 	public Orientation InitialOrientation => Orientation.FromEnum(InitialDirection);
 
-	[SyncVar(hook = nameof(ServerDirectionChangeHook))]
+	[SyncVar(hook = nameof(SyncServerDirection))]
 	private Orientation serverDirection;
 	private Orientation clientDirection;
 
@@ -57,6 +57,7 @@ public class Directional : NetworkBehaviour
 	private bool IsLocalPlayer => PlayerManager.LocalPlayer == gameObject;
 
 	/// <summary>
+	/// NOTE: Has no effect on local player - local player is always predictive.
 	/// Turn this on when doing client prediction - this Directional will completely ignore server
 	/// direction updates and only perform direction changes when they are made locally. When this
 	/// is turned back off, direction will be synced with server.
@@ -68,7 +69,7 @@ public class Directional : NetworkBehaviour
 		{
 			if (!value)
 			{
-				SyncDirection();
+				ForceClientDirectionFromServer();
 			}
 			ignoreServerUpdates = value;
 		}
@@ -83,7 +84,7 @@ public class Directional : NetworkBehaviour
 		set
 		{
 			lockDirection = value;
-			SyncDirection();
+			ForceClientDirectionFromServer();
 		}
 	}
 	private bool lockDirection;
@@ -150,27 +151,15 @@ public class Directional : NetworkBehaviour
 
 	public override void OnStartServer()
     {
-	    ServerDirectionChangeHook(InitialOrientation);
+	    SyncServerDirection(InitialOrientation);
     }
 
 
     public override void OnStartClient()
     {
-	    StartCoroutine(WaitForClientLoad());
+	    SyncServerDirection(serverDirection);
+	    ForceClientDirectionFromServer();
     }
-
-    private IEnumerator WaitForClientLoad()
-    {
-	    yield return WaitFor.EndOfFrame;
-	    if (PlayerManager.LocalPlayer == gameObject)
-	    {
-		    //we ignore server updates (unless forced) for our local player
-		    IgnoreServerUpdates = true;
-	    }
-	    SyncDirection();
-    }
-
-
 
     private void OnDisable()
     {
@@ -179,6 +168,55 @@ public class Directional : NetworkBehaviour
 			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
 	    }
     }
+
+    /// <summary>
+    /// Cause the object to face the specified direction. On server, syncs the direction to all clients.
+    /// On client, if this object IsLocalPlayer, requests the direction change from the server and
+    /// locally predicts it. On a client object that is not the local player, this locally predicts the change (when
+    /// the next value is received from server it will switch to that).
+    ///
+    /// No effect if LockDirection = true;
+    /// </summary>
+    /// <param name="newDir"></param>
+    public void FaceDirection(Orientation newDir)
+    {
+	    if (LockDirection) return;
+
+	    //reset rotation offset since we are being told to face an absolute direction
+	    clientMatrixRotationOffset = RotationOffset.Same;
+	    Logger.LogTraceFormat("{0} FaceDirection newDir {1} IsLocalPlayer {2} ignoreServerUpdates {3} clientDir {4} serverDir {5} ", Category.Direction,
+		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
+	    if (isServer)
+	    {
+		    SyncServerDirection(newDir);
+	    }
+	    clientDirection = newDir;
+	    if (IsLocalPlayer)
+	    {
+		    CmdChangeDirection(newDir);
+	    }
+	    OnDirectionChange.Invoke(clientDirection);
+    }
+
+
+    /// <summary>
+    /// Force the clients object to face the current server direction, even if IgnoreServerUpdates = true
+    /// </summary>
+    public void TargetForceSyncDirection(NetworkConnection target)
+    {
+	    //note: doing it this way (internal TargetRpc passing serverDirection)
+	    //so we are guaranteed that the client has the correct
+	    //server direction when we force them to sync to it.
+	    TargetForceSyncDirection(target, serverDirection);
+    }
+
+    [TargetRpc]
+    private void TargetForceSyncDirection(NetworkConnection target, Orientation direction)
+    {
+	    SyncServerDirection(direction);
+	    ForceClientDirectionFromServer();
+    }
+
 
     /// <summary>
     /// Invoked when receiving rotation event from our current matrix's matrixmove
@@ -198,7 +236,7 @@ public class Directional : NetworkBehaviour
     /// <summary>
     ///Force this object to face the direction currently set on the server for this object.
     /// </summary>
-    private void SyncDirection()
+    private void ForceClientDirectionFromServer()
     {
 	    //reset rotation offset since we are getting explicit absolute direction from server
 	    clientMatrixRotationOffset = RotationOffset.Same;
@@ -206,66 +244,21 @@ public class Directional : NetworkBehaviour
 	    OnDirectionChange.Invoke(clientDirection);
     }
 
-    /// <summary>
-    /// Cause the object to face the specified direction. On server, syncs the direction to all clients.
-    /// On client, if this object IsLocalPlayer, requests the direction change from the server and
-    /// locally predicts it. On a client object that is not the local player, this locally predicts the change (when
-    /// the next value is received from server it will switch to that).
-    ///
-    /// No effect if LockDirection = true;
-    /// </summary>
-    /// <param name="newDir"></param>
-    public void FaceDirection(Orientation newDir)
-    {
-	    if (LockDirection) return;
-
-	    //reset rotation offset since we are being told to face an absolute direction
-	    clientMatrixRotationOffset = RotationOffset.Same;
-	    Logger.LogTraceFormat("{0} FaceDirection newDir {1} IsLocalPlayer {2} ignoreServerUpdates {3} clientDir {4} serverDir {5} ", Category.Movement,
-		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
-	    if (isServer)
-	    {
-		    ServerDirectionChangeHook(newDir);
-	    }
-	    clientDirection = newDir;
-	    if (IsLocalPlayer)
-	    {
-		    CmdChangeDirection(newDir);
-	    }
-	    OnDirectionChange.Invoke(clientDirection);
-    }
-
-    /// <summary>
-    /// Force the clients object to face the current server direction, even if IgnoreServerUpdates = true
-    /// </summary>
-    public void TargetForceSyncDirection(NetworkConnection target)
-    {
-	    //note: doing it this way (internal TargetRpc passing serverDirection)
-	    //so we are guaranteed that the client has the correct
-	    //server direction when we force them to sync to it.
-	    TargetForceSyncDirection(target, serverDirection);
-    }
-
-    [TargetRpc]
-    private void TargetForceSyncDirection(NetworkConnection target, Orientation direction)
-    {
-	    ServerDirectionChangeHook(direction);
-	    SyncDirection();
-    }
-
 
     //client requests the server to change serverDirection
     [Command]
     private void CmdChangeDirection(Orientation direction)
     {
-	    ServerDirectionChangeHook(direction);
+	    SyncServerDirection(direction);
     }
 
     //syncvar hook invoked when server sends a client the new direction for this object
-    private void ServerDirectionChangeHook(Orientation dir)
+    private void SyncServerDirection(Orientation dir)
     {
 	    serverDirection = dir;
-	    if (!IgnoreServerUpdates)
+	    //we only change our direction if we're not local player (local player is always predictive)
+	    //and not explicitly ignoring server updates.
+	    if (!IgnoreServerUpdates && !IsLocalPlayer)
 	    {
 		    //reset rotation offset since we are being told to face an absolute direction
 		    clientMatrixRotationOffset = RotationOffset.Same;
