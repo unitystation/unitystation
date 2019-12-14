@@ -64,8 +64,6 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if (changeList.List.Count > 0)
 		{
-			Logger.LogFormat("Request all updates: ", Category.TileMaps, requestedBy.name);
-
 			TileChangesNewClientSync.Send(gameObject, requestedBy, changeList);
 		}
 	}
