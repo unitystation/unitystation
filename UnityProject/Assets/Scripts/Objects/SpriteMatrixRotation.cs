@@ -42,9 +42,10 @@ public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 	{
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+		InitOnSpawn();
 	}
 
-	public void OnSpawnClient(ClientSpawnInfo info)
+	private void InitOnSpawn()
 	{
 		//orient upright
 		SetSpritesUpright();
@@ -52,6 +53,16 @@ public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 		//subscribe to matrix rotations
 		registerTile.OnMatrixWillChange.AddListener(OnMatrixWillChange);
 		OnMatrixWillChange(registerTile.Matrix);
+	}
+
+	private void OnEnable()
+	{
+		InitOnSpawn();
+	}
+
+	public void OnSpawnClient(ClientSpawnInfo info)
+	{
+		InitOnSpawn();
 	}
 
 

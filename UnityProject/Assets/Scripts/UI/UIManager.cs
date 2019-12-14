@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UI.UI_Bottom;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -409,6 +407,7 @@ public class UIManager : MonoBehaviour
 			yield return null;
 		}
 
+		SoundManager.StopAmbient();
 		Display.PlayStrandedVideo();
 		StartCoroutine(WaitForStrandedVideoEnd());
 	}
@@ -420,6 +419,7 @@ public class UIManager : MonoBehaviour
 		Camera.main.orthographicSize = originalZoom;
 		//turn everything back on
 		yield return null;
+		SoundManager.PlayAmbience();
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{

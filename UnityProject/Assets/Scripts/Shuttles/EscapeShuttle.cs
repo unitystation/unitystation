@@ -70,6 +70,12 @@ public class EscapeShuttle : NetworkBehaviour
 			Logger.LogTrace( gameObject.name + " EscapeShuttle status changed to " + internalStatus );
 		}
 	}
+
+	/// <summary>
+	/// True iff this shuttle has at least one functional thruster.
+	/// </summary>
+	public bool HasWorkingThrusters => thrusters != null && thrusters.Count > 0;
+
 	[SerializeField] private ShuttleStatus internalStatus = ShuttleStatus.DockedCentcom;
 
 	/// <summary>
