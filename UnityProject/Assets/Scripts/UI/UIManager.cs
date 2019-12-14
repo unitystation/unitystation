@@ -369,6 +369,7 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+	private float originalZoom = 5f;
 	public void PlayStrandedAnimation()
 	{
 		//turning off all the UI except for the right panel
@@ -397,6 +398,7 @@ public class UIManager : MonoBehaviour
 		var camera = Camera.main;
 		float time = 0f;
 		float end = strandedZoomOutCurve[strandedZoomOutCurve.length - 1].time;
+		originalZoom = camera.orthographicSize;
 
 		while (time < end)
 		{
@@ -413,19 +415,27 @@ public class UIManager : MonoBehaviour
 
 	private IEnumerator WaitForStrandedVideoEnd()
 	{
-		yield return WaitFor.Seconds(15f);
-		//turn UI back on
+		yield return WaitFor.Seconds(11f);
+		//so we don't freak out the lighting system
+		Camera.main.orthographicSize = originalZoom;
+		//turn everything back on
+		yield return null;
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
-		UIManager.Display.hudBottomHuman.gameObject.SetActive(true);
-		UIManager.Display.hudBottomGhost.gameObject.SetActive(true);
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			UIManager.Display.hudBottomGhost.gameObject.SetActive(true);
+		}
+		else
+		{
+			UIManager.Display.hudBottomHuman.gameObject.SetActive(true);
+		}
 		ChatUI.Instance.OpenChatWindow();
-
-		//needed so performance is still okay when zooming
 		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
 		lightingSystem.enabled = true;
 		var zoomButtons = GetComponentInChildren<ZoomButtons>();
 		zoomButtons.enabled = true;
 		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
 		camera2dfollow.enabled = true;
+
 	}
 }

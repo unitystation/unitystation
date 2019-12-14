@@ -66,6 +66,18 @@ public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 		}
 	}
 
+	//makes sure it's removed from update manager at end of round since currently updatemanager is not
+	//reset on round end.
+	private void OnDisable()
+	{
+		UpdateManager.Instance.Remove(SetSpritesUpright);
+		if (registerTile.MatrixIsMovable)
+		{
+			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
+			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
+		}
+	}
+
 	private void SetSpritesUpright()
 	{
 		Logger.LogTraceFormat("Setting sprites upright for {0}", Category.Matrix, this);

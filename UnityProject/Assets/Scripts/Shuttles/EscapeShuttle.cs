@@ -90,21 +90,21 @@ public class EscapeShuttle : NetworkBehaviour
 
 		OnShuttleUpdate.AddListener( RemovePark );
 
-		if (CustomNetworkManager.IsServer)
+		//note:
+		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
+		//subscribe to their integrity events so we can update when they are destroyed
+		foreach (var thruster in thrusters)
 		{
-			thrusters = GetComponentsInChildren<ShipThruster>().ToList();
-			//subscribe to their integrity events so we can update when they are destroyed
-			foreach (var thruster in thrusters)
-			{
-				var integrity = thruster.GetComponent<Integrity>();
-				integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
-			}
+			var integrity = thruster.GetComponent<Integrity>();
+			integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
 		}
+
 	}
 
 	//called when each thruster is destroyed
 	private void OnWillDestroyThruster(DestructionInfo destruction)
 	{
+		if (!CustomNetworkManager.IsServer) return;
 		thrusters.Remove(destruction.Destroyed.GetComponent<ShipThruster>());
 
 		if (thrusters.Count == 0)
@@ -118,7 +118,7 @@ public class EscapeShuttle : NetworkBehaviour
 
 	IEnumerator WaitForGameOver()
 	{
-		yield return WaitFor.Seconds(15f);
+		yield return WaitFor.Seconds(25f);
 		// Trigger end of round
 		GameManager.Instance.RoundEnd();
 	}

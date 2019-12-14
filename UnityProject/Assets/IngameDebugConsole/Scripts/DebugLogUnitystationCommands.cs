@@ -398,13 +398,21 @@ namespace IngameDebugConsole
 		}
 
 #if UNITY_EDITOR
-		[MenuItem("Networking/Play Escape Impossible Ending")]
+		[MenuItem("Networking/Trigger Stranded Ending")]
 #endif
-		private static void PlayEscapeImpossibleEnding()
+		private static void PlayStrandedEnding()
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				UIManager.Instance.PlayStrandedAnimation();
+				//blow up the engines to trigger stranded ending for everyone
+				var escapeShuttle = GameObject.FindObjectOfType<EscapeShuttle>();
+				if (escapeShuttle != null)
+				{
+					foreach (var thruster in escapeShuttle.GetComponentsInChildren<ShipThruster>())
+					{
+						thruster.GetComponent<Integrity>().ApplyDamage(99999999, AttackType.Internal, DamageType.Brute);
+					}
+				}
 			}
 		}
 
