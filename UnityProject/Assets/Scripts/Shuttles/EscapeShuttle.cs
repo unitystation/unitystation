@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 /// <summary>
 /// Non-unique escape shuttle. Serverside methods only
 /// </summary>
-public class EscapeShuttle : MonoBehaviour
+public class EscapeShuttle : NetworkBehaviour
 {
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
@@ -110,7 +110,7 @@ public class EscapeShuttle : MonoBehaviour
 		if (thrusters.Count == 0)
 		{
 			//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
-			RpcEscapeImpossibleEnd();
+			RpcStrandedEnd();
 			StartCoroutine(WaitForGameOver());
 			GameManager.Instance.RespawnCurrentlyAllowed = false;
 		}
@@ -124,29 +124,10 @@ public class EscapeShuttle : MonoBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcEscapeImpossibleEnd()
+	private void RpcStrandedEnd()
 	{
-		//turning off all the UI except for the right panel
-		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
-		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
-		ChatUI.Instance.CloseChatWindow();
-
-		//TODO: Custom ending animation for this type of game over, don't reuse nuke ending
-		//Playing the video
-		UIManager.Display.PlayNukeDetVideo();
-
-		//Playing the sound
-		StartCoroutine(PlayNukeDetSound());
+		UIManager.Instance.PlayStrandedAnimation();
 	}
-
-	IEnumerator PlayNukeDetSound()
-	{
-		// Wait for 1 second so audio syncs up
-		yield return WaitFor.Seconds(1f);
-		SoundManager.Play("SelfDestruct");
-	}
-
 
 	private void Update()
 	{

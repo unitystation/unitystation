@@ -145,27 +145,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[NonSerialized]
 	public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
 
-	//we have lifecycle methods from lifecycle system, but lots of things currently depend on peculiarities
-	//of how register tile worked before lifecycle system so we still have this OnEnable / OnDisable / OnStartServer / OnStartServer logic
+	//we have lifecycle methods from lifecycle system, but lots of things currently depend on this register tile
+	//being initialized as early as possible so we still have this in place.
 	private void OnEnable()
 	{
 		ForceRegister();
 	}
-	private void OnDisable()
-	{
-		UnregisterClient();
-		UnregisterServer();
-	}
+
 	public override void OnStartClient()
 	{
 		SyncParentMatrixNetId(parentMatrixNetId);
-	}
-	public override void OnStartServer()
-	{
-		if (transform.parent != null)
-		{
-			SyncParentMatrixNetId(transform.parent.GetComponentInParent<NetworkIdentity>().netId);
-		}
 	}
 
 	public void OnDestroy()

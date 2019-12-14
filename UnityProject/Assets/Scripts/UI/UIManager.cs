@@ -4,9 +4,11 @@ using System.Linq;
 using Mirror;
 using UI.UI_Bottom;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Unitystation.Options;
 
 public class UIManager : MonoBehaviour
 {
@@ -32,6 +34,7 @@ public class UIManager : MonoBehaviour
 	public bool ttsToggle;
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
+	public AnimationCurve strandedZoomOutCurve;
 	[HideInInspector]
 	//map from progress bar id to actual progress bar component.
 	private Dictionary<int, ProgressBar> progressBars = new Dictionary<int, ProgressBar>();
@@ -364,5 +367,65 @@ public class UIManager : MonoBehaviour
 		{
 			uiSlot.LinkToLocalPlayer();
 		}
+	}
+
+	public void PlayStrandedAnimation()
+	{
+		//turning off all the UI except for the right panel
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
+		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
+		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
+		ChatUI.Instance.CloseChatWindow();
+
+		//needed so performance is still okay when zooming
+		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
+		lightingSystem.enabled = false;
+		var zoomButtons = GetComponentInChildren<ZoomButtons>();
+		zoomButtons.enabled = false;
+		// var cameraResizer = Camera.main.GetComponent<CameraResizer>();
+		// cameraResizer.enabled = false;
+		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
+		camera2dfollow.enabled = false;
+
+		//start zooming out
+		StartCoroutine(StrandedZoomOut());
+
+	}
+
+	private IEnumerator StrandedZoomOut()
+	{
+		var camera = Camera.main;
+		float time = 0f;
+		float end = strandedZoomOutCurve[strandedZoomOutCurve.length - 1].time;
+
+		while (time < end)
+		{
+			var curVal = strandedZoomOutCurve.Evaluate(time);
+			camera.orthographicSize = curVal;
+			time += Time.deltaTime;
+
+			yield return null;
+		}
+
+		Display.PlayStrandedVideo();
+		StartCoroutine(WaitForStrandedVideoEnd());
+	}
+
+	private IEnumerator WaitForStrandedVideoEnd()
+	{
+		yield return WaitFor.Seconds(15f);
+		//turn UI back on
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		UIManager.Display.hudBottomHuman.gameObject.SetActive(true);
+		UIManager.Display.hudBottomGhost.gameObject.SetActive(true);
+		ChatUI.Instance.OpenChatWindow();
+
+		//needed so performance is still okay when zooming
+		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
+		lightingSystem.enabled = true;
+		var zoomButtons = GetComponentInChildren<ZoomButtons>();
+		zoomButtons.enabled = true;
+		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
+		camera2dfollow.enabled = true;
 	}
 }

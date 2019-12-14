@@ -311,7 +311,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void CloseItemHandling()
 	{
-		var itemsOnCloset = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
+		var itemsOnCloset = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+			.Where(ob => ob != null && ob.gameObject != gameObject);
 		if (heldItems != null)
 		{
 			heldItems = heldItems.Concat(itemsOnCloset);

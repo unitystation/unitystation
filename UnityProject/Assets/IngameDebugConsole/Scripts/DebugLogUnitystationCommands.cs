@@ -397,5 +397,16 @@ namespace IngameDebugConsole
 			Antagonists.AntagManager.Instance.ShowAntagStatusReport();
 		}
 
+#if UNITY_EDITOR
+		[MenuItem("Networking/Play Escape Impossible Ending")]
+#endif
+		private static void PlayEscapeImpossibleEnding()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				UIManager.Instance.PlayStrandedAnimation();
+			}
+		}
+
 	}
 }

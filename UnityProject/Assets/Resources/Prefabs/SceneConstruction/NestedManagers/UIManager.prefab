@@ -614,6 +614,30 @@ MonoBehaviour:
   zoneSelector: {fileID: 8587720124485941055}
   ttsToggle: 0
   gamePad: {fileID: 3869768115897617313}
+  strandedZoomOutCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0034360364
+      value: 5.0085993
+      inSlope: 25.675732
+      outSlope: 25.675732
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.1032798
+    - serializedVersion: 3
+      time: 14
+      value: 5000
+      inSlope: 1162.4418
+      outSlope: 1162.4418
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08282283
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   isInputFocus: 0
 --- !u!114 &8587641789623873495
 MonoBehaviour:
@@ -1694,7 +1718,7 @@ PrefabInstance:
     - target: {fileID: 5310848962886298822, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 409.3001
+      value: 409.30002
       objectReference: {fileID: 0}
     - target: {fileID: 5379966297430430422, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -1719,12 +1743,12 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0.00000008719308
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Value
-      value: -0.00000037280202
+      value: 0.00000052192286
       objectReference: {fileID: 0}
     - target: {fileID: 5420804678553840072, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}

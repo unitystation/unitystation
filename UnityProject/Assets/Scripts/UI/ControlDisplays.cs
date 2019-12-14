@@ -172,4 +172,8 @@ public class ControlDisplays : MonoBehaviour
 		uiAnimator.Play("NukeDetVideo");
 	}
 
+	public void PlayStrandedVideo()
+	{
+		uiAnimator.Play("StrandedVideo");
+	}
 }
