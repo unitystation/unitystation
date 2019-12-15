@@ -98,6 +98,8 @@ GameObject:
   - component: {fileID: 114776570642640068}
   - component: {fileID: 114509864500058834}
   - component: {fileID: 114493828767894876}
+  - component: {fileID: 2380196287676553691}
+  - component: {fileID: 3755953624558224349}
   m_Layer: 11
   m_Name: Shuttle_engine_W
   m_TagString: Untagged
@@ -213,8 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  objectType: 1
   AtmosPassable: 0
   Passable: 0
 --- !u!114 &114542493565802846
@@ -298,6 +299,35 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &2380196287676553691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846819303320804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InitialDirection: 3
+  ChangeDirectionWithMatrix: 1
+--- !u!114 &3755953624558224349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846819303320804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c7afb8a6dc4ed8bf0f983b7ff65e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabSpriteOrientation: 3
 --- !u!1 &1875447609467830
 GameObject:
   m_ObjectHideFlags: 0

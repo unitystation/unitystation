@@ -160,7 +160,7 @@ public class CargoShuttle : MonoBehaviour
 		{
 			for (int j = -shuttleWidth; j <= shuttleWidth; j++)
 			{
-				pos = mm.State.Position.RoundToInt();
+				pos = mm.ServerState.Position.RoundToInt();
 				//i + 1 because cargo shuttle center is offseted by 1
 				pos += new Vector3Int(j, i + 1, 0);
 				if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)

@@ -34,7 +34,7 @@ public class ShuttleFuelSystem : ManagedNetworkBehaviour
 
 		if (Connector.canister != null)
 		{
-			FuelConsumption =  MatrixMove.State.Speed / 25f;
+			FuelConsumption =  MatrixMove.ServerState.Speed / 25f;
 			if (MatrixMove.IsMovingServer && MatrixMove.RequiresFuel)
 			{
 				FuelCalculations();

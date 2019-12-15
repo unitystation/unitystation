@@ -150,7 +150,7 @@ public class GUI_ShuttleControl : NetTab
 			return;
 		}
 		//Mind the ship's actual position
-		Waypoint.transform.position = (Vector2)proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
+		Waypoint.transform.position = (Vector2)proposedPos + Vector2Int.RoundToInt(MatrixMove.ServerState.Position);
 
 		EntryList.UpdateExclusive(Waypoint);
 

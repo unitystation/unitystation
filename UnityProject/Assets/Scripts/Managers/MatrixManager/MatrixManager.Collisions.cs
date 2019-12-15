@@ -464,7 +464,7 @@ public partial class MatrixManager
 				0.1f,
 				0.95f
 				);
-			float speed = ( info.MatrixMove.State.Speed * slowdownFactor ) - 0.07f;
+			float speed = ( info.MatrixMove.ServerState.Speed * slowdownFactor ) - 0.07f;
 			if ( speed <= 1f )
 			{
 				info.MatrixMove.StopMovement();

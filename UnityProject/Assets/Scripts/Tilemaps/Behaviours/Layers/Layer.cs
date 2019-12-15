@@ -104,6 +104,9 @@ using UnityEngine.Tilemaps;
 			if (matrixMove != null)
 			{
 				matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
+				//initialize from current rotation
+				OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, true));
+				OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, false));
 			}
 
 

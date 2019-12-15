@@ -58,10 +58,22 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			if (value)
 			{
+				if (matrix != null && matrix.MatrixMove != null)
+				{
+					matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
+				}
+
 				matrix = value;
+				if (matrix != null && matrix.MatrixMove != null)
+				{
+					matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
+				}
 			}
+
 		}
 	}
+
+
 	private Matrix matrix;
 	public bool MatrixIsMovable => Matrix && Matrix.MatrixMove;
 
@@ -136,6 +148,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	[NonSerialized]
 	public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
+
+	private IMatrixRotation[] matrixRotationHooks;
+
+	protected virtual void Awake()
+	{
+		matrixRotationHooks = GetComponents<IMatrixRotation>();
+	}
+
 
 	//we have lifecycle methods from lifecycle system, but lots of things currently depend on this register tile
 	//being initialized as early as possible so we still have this in place.
@@ -255,6 +275,17 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UnregisterServer()
 	{
 		LocalPositionServer = TransformState.HiddenPos;
+	}
+
+
+	private void OnRotate(MatrixRotationInfo info)
+	{
+		if (matrixRotationHooks == null) return;
+		//pass rotation event on to our children
+		foreach (var matrixRotationHook in matrixRotationHooks)
+		{
+			matrixRotationHook.OnMatrixRotate(info);
+		}
 	}
 
 	public virtual void UpdatePositionServer()

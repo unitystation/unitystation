@@ -21,7 +21,7 @@ public class EscapeShuttle : NetworkBehaviour
 	public Destination StationDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 49, 6 ), ApproachReversed = true};
 	private Destination currentDestination;
 
-	public float DistanceToDestination => Vector2.Distance( mm.State.Position, currentDestination.Position );
+	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
 
 	/// <summary>
 	/// Seconds for shuttle call
@@ -143,7 +143,7 @@ public class EscapeShuttle : NetworkBehaviour
 		}
 
 		//arrived to destination
-		if ( mm.State.IsMoving )
+		if ( mm.ServerState.IsMoving )
 		{
 
 			if ( DistanceToDestination < 2 )
@@ -182,7 +182,7 @@ public class EscapeShuttle : NetworkBehaviour
 		if ( !isReverse )
 		{
 			isReverse = true;
-			mm.ChangeFlyingDirection( mm.State.FlyingDirection.Rotate( 2 ) );
+			mm.ChangeFlyingDirection( mm.ServerState.FlyingDirection.Rotate( 2 ) );
 		}
 	}
 
@@ -190,7 +190,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		if ( parkingMode )
 		{
-			mm.ChangeFlyingDirection( mm.State.FlyingDirection.Rotate( 2 ) );
+			mm.ChangeFlyingDirection( mm.ServerState.FlyingDirection.Rotate( 2 ) );
 			isReverse = false;
 		}
 
@@ -308,7 +308,7 @@ public class EscapeShuttle : NetworkBehaviour
 			while ( Status == ShuttleStatus.OnRouteCentcom )
 			{
 				yield return WaitFor.Seconds( 1.5f );
-				mm.SetSpeed( mm.State.Speed * 1.5f );
+				mm.SetSpeed( mm.ServerState.Speed * 1.5f );
 			}
 		}
 	}

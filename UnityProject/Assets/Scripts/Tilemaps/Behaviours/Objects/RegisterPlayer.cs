@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Directional))]
-[RequireComponent(typeof(SpriteMatrixRotation))]
+[RequireComponent(typeof(UprightSprites))]
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile, IServerSpawn
 {
@@ -33,7 +33,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 
 	private PlayerScript playerScript;
 	private Directional playerDirectional;
-	private SpriteMatrixRotation spriteMatrixRotation;
+	private UprightSprites uprightSprites;
 
 	/// <summary>
 	/// Returns whether this player is blocking other players from occupying the space, using the
@@ -48,11 +48,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 
 	private void Awake()
 	{
+		base.Awake();
 		playerScript = GetComponent<PlayerScript>();
-		spriteMatrixRotation = GetComponent<SpriteMatrixRotation>();
+		uprightSprites = GetComponent<UprightSprites>();
 		playerDirectional = GetComponent<Directional>();
 		playerDirectional.ChangeDirectionWithMatrix = false;
-		spriteMatrixRotation.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
+		uprightSprites.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
 		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 	}
 
@@ -112,7 +113,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		this.isLayingDown = isDown;
 		if (isDown)
 		{
-			spriteMatrixRotation.ExtraRotation = Quaternion.Euler(0, 0, -90);
+			uprightSprites.ExtraRotation = Quaternion.Euler(0, 0, -90);
 			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{
@@ -124,7 +125,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 		else
 		{
-			spriteMatrixRotation.ExtraRotation = Quaternion.identity;
+			uprightSprites.ExtraRotation = Quaternion.identity;
 			//back to original layer
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{

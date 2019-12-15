@@ -51,4 +51,13 @@ public class MatrixRotationInfo
 		NetworkSide = networkSide;
 		IsStart = isStart;
 	}
+
+	/// <summary>
+	/// Matrix rotation info where a rotation is performed from the matrixmove's initial facing to its current facing.
+	/// </summary>
+	/// <returns></returns>
+	public static MatrixRotationInfo FromInitialRotation(MatrixMove matrixMove, NetworkSide side, bool isStart)
+	{
+		return new MatrixRotationInfo(matrixMove, matrixMove.ClientState.FacingOffsetFromInitial(matrixMove), side, isStart);
+	}
 }

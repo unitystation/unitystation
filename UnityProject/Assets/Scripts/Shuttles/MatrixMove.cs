@@ -62,7 +62,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public readonly MatrixMoveEvents MatrixMoveEvents = new MatrixMoveEvents();
 
 	//server-only values
-	public MatrixState State => serverState;
+	public MatrixState ServerState => serverState;
 	public bool IsMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	//client-only values
 	public MatrixState ClientState => clientState;
@@ -85,14 +85,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool IsRotatingServer => NeedsRotation; //todo: calculate rotation time on server instead
+	private bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
 	private bool IsAutopilotEngaged => Target != TransformState.HiddenPos;
 	private bool IsMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 	/// <summary>
-	/// Does current transform rotation not yet match the target rotation, and thus this matrix's transform needs to
+	/// Does current transform rotation not yet match the client matrix state rotation, and thus this matrix's transform needs to
 	/// be rotated to match the target?
 	/// </summary>
-	private bool NeedsRotation =>
+	private bool NeedsRotationClient =>
 		Quaternion.Angle(transform.rotation, InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion) != 0;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 
@@ -104,15 +104,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// future state that collects all changes
 	private MatrixState serverTargetState = MatrixState.Invalid;
 	private Coroutine floatingSyncHandle;
-	/// <summary>
-	/// Tracks whether we've recieved our initial settings from the server.
-	/// </summary>
-	private bool clientInitialized;
 	/// Is only present to match server's flight routines
 	private MatrixState clientTargetState = MatrixState.Invalid;
-	private List<ShipThruster> thrusters = new List<ShipThruster>();
 	///client's transform, can get dirty/predictive
 	private MatrixState clientState = MatrixState.Invalid;
+
+	private List<ShipThruster> thrusters = new List<ShipThruster>();
+
 	private Vector3Int[] SensorPositions;
 	private GameObject[] RotationSensors;
 	private GameObject rotationSensorContainerObject;
@@ -158,6 +156,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		serverState.FlyingDirection = InitialFacing;
 		serverState.FacingDirection = InitialFacing;
+		Logger.LogTraceFormat("{0} server initial facing / flying {1}", Category.Matrix, this, InitialFacing);
 
 		Vector3Int initialPositionInt =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
@@ -214,7 +213,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			SensorPositions = sensors.Select(sensor => Vector3Int.RoundToInt(sensor.transform.localPosition)).ToArray();
 
 			Logger.Log($"Initialized sensors at {string.Join(",", SensorPositions)}," +
-			           $" direction is {State.FlyingDirection}", Category.Matrix);
+			           $" direction is {ServerState.FlyingDirection}", Category.Matrix);
 		}
 
 		if (RotationSensors == null)
@@ -236,7 +235,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		IEnumerator StopWithDelay( float delay )
 		{
-			SetSpeed( State.Speed / 2 );
+			SetSpeed( ServerState.Speed / 2 );
 			yield return WaitFor.Seconds( delay );
 			Logger.LogFormat( "{0}: Stopping due to missing thrusters!", Category.Transform, matrixInfo.Matrix.name );
 			StopMovement();
@@ -289,7 +288,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public override void LateUpdateMe()
 	{
 		//finish rotation now that the transform should finally be rotated
-		if (!NeedsRotation && inProgressRotation != null)
+		if (!NeedsRotationClient && inProgressRotation != null)
 		{
 			//client and server logic happens here because server also must wait for the rotation to finish lerping.
 			if (isServer)
@@ -391,6 +390,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public void ChangeFlyingDirection(Orientation newFlyingDirection)
 	{
 		serverTargetState.FlyingDirection = newFlyingDirection;
+		Logger.LogTraceFormat("{0} server target flying {1}", Category.Matrix, this, newFlyingDirection);
 	}
 
 	/// Call to stop chasing target
@@ -452,12 +452,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// </summary>
 	private void AnimateMovement()
 	{
+
+
 		if (Equals(clientState, MatrixState.Invalid))
 		{
 			return;
 		}
 
-		if (NeedsRotation)
+		if (NeedsRotationClient)
 		{
 			//rotate our transform to our new facing direction
 			if (clientState.RotationTime != 0)
@@ -465,13 +467,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 				//animate rotation
 				transform.rotation =
 					Quaternion.RotateTowards(transform.rotation,
-						inProgressRotation.Value.Quaternion,
+						 InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion,
 						Time.deltaTime * clientState.RotationTime);
 			}
 			else
 			{
 				//rotate instantly
-				transform.rotation = inProgressRotation.Value.Quaternion;
+				transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
 			}
 		}
 		else if (IsMovingClient)
@@ -481,10 +483,10 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 
 		//finish rotation (rotation event will be fired in lateupdate
-		if (!NeedsRotation && inProgressRotation != null)
+		if (!NeedsRotationClient && inProgressRotation != null)
 		{
 			// Finishes the job of Lerp and straightens the ship with exact angle value
-			transform.rotation = inProgressRotation.Value.Quaternion;
+			transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
 		}
 
 		//Lerp
@@ -599,7 +601,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		// Feign a rotation using GameObjects for reference
 		Transform rotationSensorContainerTransform = rotationSensorContainerObject.transform;
 		rotationSensorContainerTransform.rotation = new Quaternion();
-		rotationSensorContainerTransform.Rotate(0f, 0f, 90f * State.FlyingDirection.RotationsTo(flyingDirection));
+		rotationSensorContainerTransform.Rotate(0f, 0f, 90f * ServerState.FlyingDirection.RotationsTo(flyingDirection));
 
 		for (var i = 0; i < RotationSensors.Length; i++)
 		{
@@ -644,16 +646,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		clientState = newState;
 		clientTargetState = newState;
+		Logger.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Matrix, this, newState);
+
 
 		if (!Equals(oldState.FacingDirection, newState.FacingDirection))
 		{
 			inProgressRotation = oldState.FacingDirection.OffsetTo(newState.FacingDirection);
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, true));
-		}
-
-		if (!clientInitialized)
-		{
-			clientInitialized = true;
+			Logger.LogTraceFormat("{0} starting rotation progress to {1}", Category.Matrix, this, newState.FacingDirection);
 		}
 
 		if (!oldState.IsMoving && newState.IsMoving)
@@ -684,7 +684,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 					clientState.Speed * Time.deltaTime);
 		}
 
-		if (IsMovingClient && !NeedsRotation)
+		if (IsMovingClient && !NeedsRotationClient)
 		{
 			Vector3Int goal = Vector3Int.RoundToInt(clientState.Position + clientTargetState.FlyingDirection.Vector);
 			//keep moving
@@ -713,6 +713,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 //				When serverState reaches its planned destination,
 //				embrace all other updates like changed speed and rotation
 			serverState = serverTargetState;
+			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Matrix, this, serverState);
 			NotifyPlayers();
 		}
 	}
@@ -780,11 +781,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		if (CanRotateTo(desiredOrientation))
 		{
-			inProgressRotation = serverState.FacingDirection.OffsetTo(desiredOrientation);
 			serverTargetState.FacingDirection = desiredOrientation;
 			serverTargetState.FlyingDirection = desiredOrientation;
+			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Matrix, this, desiredOrientation);
 
-			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Server, true));
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, true));
 
 			RequestNotify();
 			return true;

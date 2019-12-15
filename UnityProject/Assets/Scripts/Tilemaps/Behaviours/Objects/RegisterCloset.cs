@@ -40,6 +40,7 @@ public class RegisterCloset : RegisterObject
 
 	private void Awake()
 	{
+		base.Awake();
 		closetControl = GetComponent<ClosetControl>();
 	}
 
