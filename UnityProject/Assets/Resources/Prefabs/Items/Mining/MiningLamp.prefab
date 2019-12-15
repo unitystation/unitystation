@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0.93725497, b: 0.6745098, a: 0.69803923}
+  Color: {r: 1, g: 1, b: 1, a: 0.69803923}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -277,7 +277,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
 --- !u!114 &114546715207081156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +336,7 @@ MonoBehaviour:
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   Intensity: 0.7
-  Colour: {r: 1, g: 0.93727976, b: 0.6745283, a: 1}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
   EnumSprite: 0
   Size: 8
   PlayerLightData:
@@ -502,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 2c99ab6482de84a4b8225f17e97d3ef4
   m_SceneId: 0
 --- !u!114 &-4242111489278807957
 MonoBehaviour:
@@ -520,6 +520,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Lamp
   initialDescription: A Lamp
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 2
   hitDamage: 0

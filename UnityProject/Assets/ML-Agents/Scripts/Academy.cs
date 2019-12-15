@@ -267,7 +267,7 @@ namespace MLAgents
                 var brain = (LearningBrain)brain1;
                 brain.SetToControlledExternally();
             }
-
+            
             if (!BuildPreferences.isForRelease)
             {
 	            // Try to launch the communicator by usig the arguments passed at launch
@@ -297,18 +297,19 @@ namespace MLAgents
 				            });
 		            }
 	            }
-	            m_BrainBatcher = new Batcher(communicator);
-
-	            foreach (var trainingBrain in exposedBrains)
-	            {
-		            trainingBrain.SetBatcher(m_BrainBatcher);
-	            }
             }
             else
             {
 	            communicator = null;
             }
-            
+
+            m_BrainBatcher = new Batcher(communicator);
+
+            foreach (var trainingBrain in exposedBrains)
+            {
+	            trainingBrain.SetBatcher(m_BrainBatcher);
+            }
+
             if (communicator != null)
             {
                 m_IsCommunicatorOn = true;

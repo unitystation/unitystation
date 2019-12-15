@@ -50,6 +50,7 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 	private void ServerInit()
 	{
 		pickupable.ServerSetCanPickup(!anchored);
+		CalculateDirection();
 	}
 
 	public override void OnStartServer()
