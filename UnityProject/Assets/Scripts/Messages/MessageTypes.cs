@@ -47,6 +47,7 @@ internal enum MessageTypes : short
 	SubBookshelfNetMessage = 1043,
 	UpdateCountdownMessage = 1044,
 	ObserveInteractableStorage = 1045,
+	ServerToClientEvents = 1046,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
