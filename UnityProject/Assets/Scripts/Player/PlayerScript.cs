@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 
-public class PlayerScript : ManagedNetworkBehaviour
+public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -312,21 +312,19 @@ public class PlayerScript : ManagedNetworkBehaviour
 		UIManager.SetToolTip = "";
 	}
 
-	//MatrixMove is rotating (broadcast via MatrixMove)
-	public void MatrixMoveStartRotation()
+	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
-		if (PlayerManager.LocalPlayer == gameObject)
+		//We need to handle lighting stuff for matrix rotations for local player:
+		if (PlayerManager.LocalPlayer == gameObject && rotationInfo.IsClientside)
 		{
-			//We need to handle lighting stuff for matrix rotations for local player:
-			Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
-		}
-	}
-	public void MatrixMoveStopRotation()
-	{
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			//We need to handle lighting stuff for matrix rotations for local player:
-			Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
+			if (rotationInfo.IsStart)
+			{
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
+			}
+			else
+			{
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
+			}
 		}
 	}
 }

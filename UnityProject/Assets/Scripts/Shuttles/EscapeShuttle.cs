@@ -182,7 +182,7 @@ public class EscapeShuttle : NetworkBehaviour
 		if ( !isReverse )
 		{
 			isReverse = true;
-			mm.ChangeDir( mm.State.Direction.Rotate( 2 ) );
+			mm.ChangeFlyingDirection( mm.State.FlyingDirection.Rotate( 2 ) );
 		}
 	}
 
@@ -190,7 +190,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		if ( parkingMode )
 		{
-			mm.ChangeDir( mm.State.Direction.Rotate( 2 ) );
+			mm.ChangeFlyingDirection( mm.State.FlyingDirection.Rotate( 2 ) );
 			isReverse = false;
 		}
 
@@ -300,7 +300,7 @@ public class EscapeShuttle : NetworkBehaviour
 		currentDestination = Destination.Invalid;
 		mm.SetSpeed( 1 );
 		mm.StartMovement();
-		mm.maxSpeed = float.MaxValue; //hehe
+		mm.MaxSpeed = float.MaxValue; //hehe
 
 		StartCoroutine(LosingMyFavouriteGame());
 		IEnumerator LosingMyFavouriteGame()

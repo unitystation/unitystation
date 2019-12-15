@@ -24,10 +24,10 @@ using UnityEngine.Tilemaps;
 		private Coroutine recalculateBoundsHandle;
 
 		public TileChangeEvent OnTileChanged = new TileChangeEvent();
-			/// <summary>
-		/// Current offset from our initial orientation. This is used by tiles within the tilemap
-		/// to determine what sprite to display. We could store it on each individual tile but it would
-		/// be entirely the same across a tilemap so no point in duplicating it.
+		/// <summary>
+		/// Current offset from our initially mapped orientation. This is used by tiles within the tilemap
+		/// to determine what sprite to display. This could be retrieved directly from MatrixMove but
+		/// it's faster to cache it here and update when rotation happens.
 		/// </summary>
 		public RotationOffset RotationOffset { get; private set; }
 
@@ -103,23 +103,19 @@ using UnityEngine.Tilemaps;
 			matrixMove = transform.root.GetComponent<MatrixMove>();
 			if (matrixMove != null)
 			{
-				if (ROTATE_AT_END)
-				{
-					matrixMove.OnRotateEnd.AddListener(OnRotate);
-				}
-				else
-				{
-					matrixMove.OnRotateStart.AddListener(OnRotate);
-				}
+				matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 			}
 
 
 		}
 
-		private void OnRotate(RotationOffset fromCurrent, bool isInitialRotation)
+		private void OnRotate(MatrixRotationInfo info)
 		{
-			RotationOffset = RotationOffset.Rotate(fromCurrent);
-			tilemap.RefreshAllTiles();
+			if ((ROTATE_AT_END && info.IsEnd) || (!ROTATE_AT_END && info.IsStart))
+			{
+				RotationOffset = info.RotationOffsetFromInitial;
+				tilemap.RefreshAllTiles();
+			}
 		}
 
 		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool isServer,

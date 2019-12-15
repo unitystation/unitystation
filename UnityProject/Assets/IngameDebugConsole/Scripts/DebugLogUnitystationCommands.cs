@@ -261,7 +261,7 @@ namespace IngameDebugConsole
 					mm.SetPosition( appearPos );
 					mm.RequiresFuel = false;
 					mm.SafetyProtocolsOn = false;
-					mm.RotateTo( Orientation.Right );
+					mm.SteerTo( Orientation.Right );
 					mm.SetSpeed( 15 );
 					mm.StartMovement();
 

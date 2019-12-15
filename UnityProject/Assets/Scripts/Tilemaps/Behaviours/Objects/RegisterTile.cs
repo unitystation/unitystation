@@ -48,13 +48,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private PushPull customTransform;
 	public PushPull CustomTransform => customTransform ? customTransform : (customTransform = GetComponent<PushPull>());
 
-
-	/// <summary>
-	/// Invoked when parent matrix is going to change, just before the matrix is actually changed. Passes
-	/// the new matrix.
-	/// </summary>
-	public MatrixChangeEvent OnMatrixWillChange = new MatrixChangeEvent();
-
 	/// <summary>
 	/// Matrix this object lives in
 	/// </summary>
@@ -65,7 +58,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			if (value)
 			{
-				OnMatrixWillChange.Invoke(value);
 				matrix = value;
 			}
 		}

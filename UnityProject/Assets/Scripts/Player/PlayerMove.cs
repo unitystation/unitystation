@@ -229,7 +229,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		if (matrixInfo.MatrixMove)
 		{
 			// Converting world direction to local direction
-			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.QuaternionInverted *
+			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
 			                                  direction);
 		}
 

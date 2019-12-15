@@ -145,7 +145,7 @@ public class ProgressBar : MonoBehaviour
 		matrixMove = GetComponentInParent<MatrixMove>();
 		if (matrixMove != null)
 		{
-			matrixMove.OnRotateEnd.AddListener(OnRotationEnd);
+			matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotationEnd);
 		}
 
 		anim = 0f;
@@ -161,10 +161,13 @@ public class ProgressBar : MonoBehaviour
 		}
 	}
 
-	private void OnRotationEnd(RotationOffset arg0, bool arg1)
+	private void OnRotationEnd(MatrixRotationInfo info)
 	{
-		//reset orientation to upright
-		transform.rotation = Quaternion.identity;
+		if (info.IsClientside && info.IsEnd)
+		{
+			//reset orientation to upright
+			transform.rotation = Quaternion.identity;
+		}
 	}
 
 
@@ -180,7 +183,7 @@ public class ProgressBar : MonoBehaviour
 
 		if (matrixMove != null)
 		{
-			matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
+			matrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotationEnd);
 		}
 		UIManager.DestroyProgressBar(id);
 	}

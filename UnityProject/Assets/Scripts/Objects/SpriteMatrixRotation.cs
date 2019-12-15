@@ -7,8 +7,7 @@ using UnityEngine;
 ///  and matrix rotations. If you want something to always stay rotated along with the matrix (such as shuttle thrusters),
 /// simply omit this component from the object.
 /// </summary>
-[RequireComponent(typeof(RegisterTile))]
-public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
+public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle, IMatrixRotation
 {
 	/// <summary>
 	/// Defines how this object's sprites should rotate when its parent matrix rotates.
@@ -49,10 +48,6 @@ public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 	{
 		//orient upright
 		SetSpritesUpright();
-
-		//subscribe to matrix rotations
-		registerTile.OnMatrixWillChange.AddListener(OnMatrixWillChange);
-		OnMatrixWillChange(registerTile.Matrix);
 	}
 
 	private void OnEnable()
@@ -69,12 +64,6 @@ public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 	public void OnDespawnClient(ClientDespawnInfo info)
 	{
 		UpdateManager.Instance.Remove(SetSpritesUpright);
-
-		if (registerTile.MatrixIsMovable)
-		{
-			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
-			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-		}
 	}
 
 	//makes sure it's removed from update manager at end of round since currently updatemanager is not
@@ -82,11 +71,6 @@ public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 	private void OnDisable()
 	{
 		UpdateManager.Instance.Remove(SetSpritesUpright);
-		if (registerTile.MatrixIsMovable)
-		{
-			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
-			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-		}
 	}
 
 	private void SetSpritesUpright()
@@ -99,58 +83,32 @@ public class SpriteMatrixRotation : MonoBehaviour, IClientLifecycle
 		}
 	}
 
-
-	//invoked when our parent matrix is being changed or initially set
-	private void OnMatrixWillChange(Matrix newMatrix)
+	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
-		//add our listeners
-		//unsub from old matrix
-		if (registerTile.MatrixIsMovable)
+		//this component is clientside only
+		if (rotationInfo.IsClientside)
 		{
-			Logger.LogTraceFormat("{0} unsubbed from matrix rotations for {1}", Category.Matrix, this, registerTile.Matrix);
-			registerTile.Matrix.MatrixMove.OnRotateStart.RemoveListener(OnMatrixRotationStart);
-			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-		}
-
-		//sub to new matrix
-		if (newMatrix != null)
-		{
-			if (newMatrix.MatrixMove != null)
+			if (rotationInfo.IsStart)
 			{
-				Logger.LogTraceFormat("{0} subbed to matrix rotations for {1}", Category.Matrix, this, newMatrix);
-				newMatrix.MatrixMove.OnRotateStart.AddListener(OnMatrixRotationStart);
-				newMatrix.MatrixMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
+				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
+				{
+					Logger.LogTraceFormat("{0} matrix rotation starting on {1}, forcing upright", Category.Matrix, this, registerTile.Matrix);
+					UpdateManager.Instance.Add(SetSpritesUpright);
+				}
 			}
-			//changed matrices, so we have to re-orient as well (esp if this is the first matrix we subscribed to)
-			SetSpritesUpright();
+			else
+			{
+				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
+				{
+					//stop reorienting to face upright
+					Logger.LogTraceFormat("{0} matrix rotation ending on {1}, stop forcing upright", Category.Matrix, this, registerTile.Matrix);
+					UpdateManager.Instance.Remove(SetSpritesUpright);
+				}
+
+				SetSpritesUpright();
+			}
 		}
 	}
-
-	private void OnMatrixRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
-		{
-			Logger.LogTraceFormat("{0} matrix rotation starting on {1}, forcing upright", Category.Matrix, this, registerTile.Matrix);
-			UpdateManager.Instance.Add(SetSpritesUpright);
-		}
-	}
-
-	/// <summary>
-	/// Invoked when receiving rotation event from our current matrix's matrixmove
-	/// </summary>
-	//invoked when matrix rotation is ending
-	private void OnMatrixRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
-		{
-			//stop reorienting to face upright
-			Logger.LogTraceFormat("{0} matrix rotation ending on {1}, stop forcing upright", Category.Matrix, this, registerTile.Matrix);
-			UpdateManager.Instance.Remove(SetSpritesUpright);
-		}
-
-		SetSpritesUpright();
-	}
-
 }
 
 

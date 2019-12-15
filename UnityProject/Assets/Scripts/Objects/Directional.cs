@@ -18,7 +18,7 @@ using Mirror;
 /// This component should be used for all components which have some sort of directional behavior.
 /// </summary>
 [RequireComponent(typeof(RegisterTile))]
-public class Directional : NetworkBehaviour
+public class Directional : NetworkBehaviour, IMatrixRotation
 {
 
 	[Tooltip("Direction of this object in the scene, used as the initial direction when the map loads.")]
@@ -32,13 +32,6 @@ public class Directional : NetworkBehaviour
 	[SyncVar(hook = nameof(SyncServerDirection))]
 	private Orientation serverDirection;
 	private Orientation clientDirection;
-
-	//tracks the current offset due to matrix rotations - entirely client side so that
-	//rotations are displayed at the correct moment for the client (at the end of matrix rotation) and
-	//don't occur too late / early due to lag from server telling us the new direction.
-	//Any time our direction is set to a specific value, this is reset to RotationOffset.Same to maintain
-	//sync with the server.
-	private RotationOffset clientMatrixRotationOffset = RotationOffset.Same;
 
 	/// <summary>
 	/// If true, direction will be changed at the end of
@@ -102,38 +95,7 @@ public class Directional : NetworkBehaviour
 	/// Current direction the object should be shown facing.
 	/// </summary>
 	public Orientation CurrentDirection =>
-		(isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection)
-		.Rotate(clientMatrixRotationOffset);
-
-	// cached registertile
-	private RegisterTile registerTile;
-	//cached spriteRenderers of this gameobject
-	protected SpriteRenderer[] spriteRenderers;
-
-	private void Awake()
-	{
-		this.registerTile = GetComponent<RegisterTile>();
-		//subscribe to matrix rotations (even on client side so we can predict them)
-		registerTile.OnMatrixWillChange.AddListener(OnMatrixWillChange);
-		OnMatrixWillChange(registerTile.Matrix);
-	}
-
-	//invoked when our parent matrix is being changed or initially set
-	private void OnMatrixWillChange(Matrix newMatrix)
-	{
-		//add our listeners
-		//unsub from old matrix
-		if (registerTile.MatrixIsMovable)
-		{
-			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-		}
-
-		//sub to new matrix
-		if (newMatrix != null && newMatrix.MatrixMove != null)
-		{
-			newMatrix.MatrixMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
-		}
-	}
+		(isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection);
 
 	void OnDrawGizmos ()
 	{
@@ -161,19 +123,10 @@ public class Directional : NetworkBehaviour
 	    ForceClientDirectionFromServer();
     }
 
-    private void OnDisable()
-    {
-	    if (registerTile.MatrixIsMovable)
-	    {
-			registerTile.Matrix.MatrixMove.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
-	    }
-    }
-
     /// <summary>
     /// Cause the object to face the specified direction. On server, syncs the direction to all clients.
     /// On client, if this object IsLocalPlayer, requests the direction change from the server and
-    /// locally predicts it. On a client object that is not the local player, this locally predicts the change (when
-    /// the next value is received from server it will switch to that).
+    /// locally predicts it. On a client object that is not the local player, just locally predicts the change
     ///
     /// No effect if LockDirection = true;
     /// </summary>
@@ -182,8 +135,6 @@ public class Directional : NetworkBehaviour
     {
 	    if (LockDirection) return;
 
-	    //reset rotation offset since we are being told to face an absolute direction
-	    clientMatrixRotationOffset = RotationOffset.Same;
 	    Logger.LogTraceFormat("{0} FaceDirection newDir {1} IsLocalPlayer {2} ignoreServerUpdates {3} clientDir {4} serverDir {5} ", Category.Direction,
 		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
 	    if (isServer)
@@ -217,19 +168,25 @@ public class Directional : NetworkBehaviour
 	    ForceClientDirectionFromServer();
     }
 
-
-    /// <summary>
-    /// Invoked when receiving rotation event from our current matrix's matrixmove
-    /// </summary>
-    //invoked when matrix rotation is ending
-    private void OnMatrixRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
+    public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
     {
-	    if (ChangeDirectionWithMatrix && !LockDirection)
+	    if (rotationInfo.IsEnd)
 	    {
-		    //entirely client side - update rotation value stored on this client and
-		    //display the new resulting rotation. Don't update any of our Orientation variables.
-		    clientMatrixRotationOffset = clientMatrixRotationOffset.Rotate(fromCurrent);
-		    OnDirectionChange.Invoke(CurrentDirection);
+		    if (ChangeDirectionWithMatrix && !LockDirection)
+		    {
+			    if (rotationInfo.IsClientside)
+			    {
+				    //predict
+				    clientDirection = CurrentDirection.Rotate(rotationInfo.RotationOffset);
+			    }
+			    else
+			    {
+				    //change server side and sync to clients
+				    SyncServerDirection(CurrentDirection.Rotate(rotationInfo.RotationOffset));
+			    }
+
+			    OnDirectionChange.Invoke(CurrentDirection);
+		    }
 	    }
     }
 
@@ -239,7 +196,6 @@ public class Directional : NetworkBehaviour
     private void ForceClientDirectionFromServer()
     {
 	    //reset rotation offset since we are getting explicit absolute direction from server
-	    clientMatrixRotationOffset = RotationOffset.Same;
 	    clientDirection = serverDirection;
 	    OnDirectionChange.Invoke(clientDirection);
     }
@@ -260,8 +216,7 @@ public class Directional : NetworkBehaviour
 	    //and not explicitly ignoring server updates.
 	    if (!IgnoreServerUpdates && !IsLocalPlayer)
 	    {
-		    //reset rotation offset since we are being told to face an absolute direction
-		    clientMatrixRotationOffset = RotationOffset.Same;
+		    clientDirection = dir;
 		    OnDirectionChange.Invoke(serverDirection);
 	    }
     }

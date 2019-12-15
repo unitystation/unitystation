@@ -57,15 +57,15 @@ public class GUI_ShuttleControl : NetTab
 		Trigger = Provider.GetComponent<ShuttleConsole>();
 		Trigger.OnStateChange.AddListener(OnStateChange);
 
-		MatrixMove.coordReadoutScript = CoordReadout;
+		MatrixMove.RegisterCoordReadoutScript(CoordReadout);
 
 		//Not doing this for clients
 		if (IsServer)
 		{
 			EntryList.Origin = MatrixMove;
 			//Init listeners
-			MatrixMove.OnStart.AddListener(() => this["StartButton"].SetValue = "1");
-			MatrixMove.OnStop.AddListener(() =>
+			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => this["StartButton"].SetValue = "1");
+			MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(() =>
 		   {
 			   this["StartButton"].SetValue = "0";
 			   HideWaypoint();
@@ -209,15 +209,15 @@ public class GUI_ShuttleControl : NetTab
 		}
 		EntryList.RefreshTrackedPos();
 		//Logger.Log((MatrixMove.shuttleFuelSystem.FuelLevel * 100).ToString());
-		if (MatrixMove.shuttleFuelSystem == null)
+		if (MatrixMove.ShuttleFuelSystem == null)
 		{
-			if (this["FuelGauge"].Value != "100") { 
+			if (this["FuelGauge"].Value != "100") {
 				this["FuelGauge"].SetValue = (100).ToString();
 			}
 
 		}
-		else { 
-			this["FuelGauge"].SetValue = Math.Round((MatrixMove.shuttleFuelSystem.FuelLevel * 100)).ToString();
+		else {
+			this["FuelGauge"].SetValue = Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString();
 		}
 		yield return WaitFor.Seconds(2f);
 
@@ -346,7 +346,7 @@ public class GUI_ShuttleControl : NetTab
 	/// <param name="speedMultiplier"></param>
 	public void SetSpeed(float speedMultiplier)
 	{
-		float speed = speedMultiplier * (MatrixMove.maxSpeed - 1) + 1;
+		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
 		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 		MatrixMove.SetSpeed(speed);
 	}
