@@ -28,11 +28,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	[Tooltip("Initial facing of the ship. Very important to set this correctly!")]
 	[SerializeField]
-	private Orientation initialFacing;
+	private OrientationEnum initialFacing;
 	/// <summary>
 	/// Initial facing of the ship as mapped in the editor.
 	/// </summary>
-	public Orientation InitialFacing => initialFacing;
+	public Orientation InitialFacing => Orientation.FromEnum(initialFacing);
 
 	[Tooltip("Max flying speed of this matrix.")]
 	[FormerlySerializedAs("maxSpeed")]
@@ -93,7 +93,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// be rotated to match the target?
 	/// </summary>
 	private bool NeedsRotation =>
-		Quaternion.Angle(transform.rotation, initialFacing.OffsetTo(clientState.FacingDirection).Quaternion) != 0;
+		Quaternion.Angle(transform.rotation, InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion) != 0;
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 
 
@@ -156,8 +156,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	private void InitServerState()
 	{
-		serverState.FlyingDirection = initialFacing;
-		serverState.FacingDirection = initialFacing;
+		serverState.FlyingDirection = InitialFacing;
+		serverState.FacingDirection = InitialFacing;
 
 		Vector3Int initialPositionInt =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
