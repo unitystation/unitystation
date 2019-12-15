@@ -432,16 +432,24 @@ public partial class GameManager : MonoBehaviour
 		return OccupationList.Instance.Get(JobType.ASSISTANT);
 	}
 
+	//Only called on the server
 	public void RestartRound()
 	{
 		waitForRestart = false;
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			//TODO allow map change from admin portal
-
-			CurrentRoundState = RoundState.Ended;
-			EventManager.Broadcast(EVENT.RoundEnded);
-			CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
+			StartCoroutine(ServerRoundRestart());
 		}
+	}
+
+	IEnumerator ServerRoundRestart()
+	{
+		CurrentRoundState = RoundState.Ended;
+		//Notify all clients that the round has ended
+		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
+		
+		yield return WaitFor.Seconds(0.2f);
+
+		CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
 	}
 }

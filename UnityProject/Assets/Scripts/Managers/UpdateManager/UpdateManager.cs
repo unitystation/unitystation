@@ -87,6 +87,7 @@ public class UpdateManager : MonoBehaviour
 		UpdateMe = null;
 		FixedUpdateMe = null;
 		LateUpdateMe = null;
+		UpdateAction = null;
 	}
 
 	private void Update()

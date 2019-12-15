@@ -425,7 +425,7 @@ namespace Mirror
         {
             if (NetworkIdentity.spawned.TryGetValue(netId, out NetworkIdentity identity))
             {
-                return identity.gameObject;
+	            if(identity != null) return identity.gameObject;
             }
             return null;
         }
