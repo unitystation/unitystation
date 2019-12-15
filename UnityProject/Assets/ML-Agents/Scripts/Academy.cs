@@ -268,41 +268,47 @@ namespace MLAgents
                 brain.SetToControlledExternally();
             }
 
-            // Try to launch the communicator by usig the arguments passed at launch
-            try
+            if (!BuildPreferences.isForRelease)
             {
-                communicator = new RpcCommunicator(
-                    new CommunicatorParameters
-                    {
-                        port = ReadArgs()
-                    });
+	            // Try to launch the communicator by usig the arguments passed at launch
+	            try
+	            {
+		            communicator = new RpcCommunicator(
+			            new CommunicatorParameters
+			            {
+				            port = ReadArgs()
+			            });
+	            }
+	            // If it fails, we check if there are any external brains in the scene
+	            // If there are : Launch the communicator on the default port
+	            // If there arn't, there is no need for a communicator and it is set
+	            // to null
+	            catch
+	            {
+		            communicator = null;
+		            Logger.Log("No Communicator", Category.MLAgents);
+		            if (controlledBrains.ToList().Count > 0)
+		            {
+			            Logger.Log($"Controlled Brains Found: {controlledBrains.ToList().Count}", Category.MLAgents);
+			            communicator = new RpcCommunicator(
+				            new CommunicatorParameters
+				            {
+					            port = 5005
+				            });
+		            }
+	            }
+	            m_BrainBatcher = new Batcher(communicator);
+
+	            foreach (var trainingBrain in exposedBrains)
+	            {
+		            trainingBrain.SetBatcher(m_BrainBatcher);
+	            }
             }
-            // If it fails, we check if there are any external brains in the scene
-            // If there are : Launch the communicator on the default port
-            // If there arn't, there is no need for a communicator and it is set
-            // to null
-            catch
+            else
             {
-                communicator = null;
-                Logger.Log("No Communicator", Category.MLAgents);
-                if (controlledBrains.ToList().Count > 0)
-                {
-	                Logger.Log($"Controlled Brains Found: {controlledBrains.ToList().Count}", Category.MLAgents);
-                    communicator = new RpcCommunicator(
-                        new CommunicatorParameters
-                        {
-                            port = 5005
-                        });
-                }
+	            communicator = null;
             }
-
-            m_BrainBatcher = new Batcher(communicator);
-
-            foreach (var trainingBrain in exposedBrains)
-            {
-                trainingBrain.SetBatcher(m_BrainBatcher);
-            }
-
+            
             if (communicator != null)
             {
                 m_IsCommunicatorOn = true;
