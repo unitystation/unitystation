@@ -30,6 +30,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private List<BaseSpatialRelationship> crossMatrixRelationships;
 	private bool hasInit;
 
+	//TODO: for debugging only, delete later
+	public bool tracking;
+	private void LogTracking(string log)
+	{
+		if (tracking)
+		{
+			Logger.Log(log, Category.Matrix);
+		}
+	}
+
 
 	private ObjectLayer objectLayer;
 	/// <summary>
@@ -58,6 +68,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			if (value)
 			{
+				LogTracking($"Matrix set from {matrix} to {value}");
 				if (matrix != null && matrix.MatrixMove != null)
 				{
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
@@ -66,6 +77,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				matrix = value;
 				if (matrix != null && matrix.MatrixMove != null)
 				{
+					LogTracking($"Registered OnRotate to {matrix}");
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 				}
 			}
@@ -81,7 +93,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[SyncVar(hook = nameof(SyncParentMatrixNetId))]
 	private uint parentMatrixNetId;
 	/// <summary>
-	/// NetId of our current parent matrix.
+	/// NetId of our current parent matrix (note this id is on the parent of the
+	/// Matrix gameObject, i.e. the one with InteractableTiles).
 	/// </summary>
 	protected uint ParentMatrixNetId => parentMatrixNetId;
 
@@ -161,12 +174,24 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	//being initialized as early as possible so we still have this in place.
 	private void OnEnable()
 	{
+		LogTracking("OnEnable");
 		ForceRegister();
 	}
 
 	public override void OnStartClient()
 	{
+		LogTracking("OnStartClient");
 		SyncParentMatrixNetId(parentMatrixNetId);
+	}
+
+	public override void OnStartServer()
+	{
+		LogTracking("OnStartServer");
+		ForceRegister();
+		if (Matrix != null)
+		{
+			SyncParentMatrixNetId(Matrix.transform.parent.gameObject.NetId());
+		}
 	}
 
 	public void OnDestroy()
@@ -208,6 +233,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[Server]
 	public void ServerSetParentMatrixNetID(uint newParentMatrixNetID)
 	{
+		LogTracking("ServerSetParentMatrixNetID");
 		SyncParentMatrixNetId(newParentMatrixNetID);
 	}
 
@@ -220,16 +246,21 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="newParentMatrixNetID">uint of the new parent</param>
 	private void SyncParentMatrixNetId(uint newParentMatrixNetID)
 	{
-		if (this.parentMatrixNetId == newParentMatrixNetID) return;
-		if (newParentMatrixNetID == NetId.Invalid) return;
+		LogTracking($"Sync parent net id {parentMatrixNetId}");
+		//TODO: Maybe?
+//		if (this.parentMatrixNetId == newParentMatrixNetID) return;
+		if (newParentMatrixNetID == NetId.Invalid || newParentMatrixNetID == NetId.Empty) return;
 
 		this.parentMatrixNetId = newParentMatrixNetID;
+
 		NetworkIdentity.spawned.TryGetValue(newParentMatrixNetID, out var parentMatrix);
 		if (parentMatrix == null)
 		{
 			//nothing found
+			LogTracking($"Parent not found with id {parentMatrixNetId}");
 			return;
 		}
+		LogTracking($"Parent found with id {parentMatrixNetId}");
 
 		//remove from current parent layer
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
@@ -258,6 +289,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[ContextMenu("Force Register")]
 	private void ForceRegister()
 	{
+		LogTracking("ForceRegister");
 		if (transform.parent != null)
 		{
 			objectLayer = transform.parent.GetComponentInParent<ObjectLayer>();
@@ -297,11 +329,15 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 			CheckSameMatrixRelationships();
 		}
+		LogTracking($"Server position from {prevPosition} to {LocalPositionServer}");
 	}
 
 	public virtual void UpdatePositionClient()
 	{
+
+		var prevPosition = LocalPositionClient;
 		LocalPositionClient = CustomTransform ? CustomTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
+		LogTracking($"Client position from {LocalPositionClient} to {prevPosition}");
 		CheckSameMatrixRelationships();
 	}
 

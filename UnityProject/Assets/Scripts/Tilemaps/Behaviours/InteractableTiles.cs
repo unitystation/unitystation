@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -8,7 +9,7 @@ using UnityEngine.Tilemaps;
 ///
 /// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -41,6 +42,17 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	public ObjectLayer ObjectLayer => objectLayer;
 
 	private Layer grillTileMap;
+
+	//TODO: Only doing this to solve matrix init issues, this should be split out into
+	//a separate component
+	public override void OnStartServer()
+	{
+		var myNetId = gameObject.NetId();
+		foreach (var rt in GetComponentsInChildren<RegisterTile>())
+		{
+			rt.ServerSetParentMatrixNetID(myNetId);
+		}
+	}
 
 	private void Start()
 	{
