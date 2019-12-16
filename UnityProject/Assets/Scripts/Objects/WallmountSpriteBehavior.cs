@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 /// <summary>
@@ -22,6 +23,11 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		wallmountBehavior = GetComponentInParent<WallmountBehavior>();
+		//some of the mapped ones have duplicates of this, this ensures they're removed
+		foreach (var wsb in GetComponents<WallmountSpriteBehavior>())
+		{
+			if (wsb != this) Destroy(wsb);
+		}
 	}
 
 	// Handles rendering logic, only runs when this sprite is on camera
@@ -32,9 +38,6 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 		{
 			return;
 		}
-		//Allows getting parent's assumed position if inside object
-		ObjectBehaviour objectBehaviour = PlayerManager.LocalPlayerScript.pushPull;
-
 
 		//recalculate if it is facing the player
 		bool visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
