@@ -50,6 +50,7 @@ public class ShipThruster : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 		shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.AddListener(UpdateEngineState);
 		shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.AddListener(UpdateEngineState);
+		//TODO: Refactor to use Directional
 		shipMatrixMove.MatrixMoveEvents.OnRotate.AddListener(RotateFX);
 		shipMatrixMove.MatrixMoveEvents.OnSpeedChange.AddListener(SpeedChange);
 	}

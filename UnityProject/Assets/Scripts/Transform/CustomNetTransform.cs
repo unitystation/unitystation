@@ -493,7 +493,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			return;
 		}
 
-		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );;
+		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );
 	}
 
 	/// <summary>

@@ -28,7 +28,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private List<BaseSpatialRelationship> sameMatrixRelationships;
 	//relationships which need to be checked via polling due to being on different matrices
 	private List<BaseSpatialRelationship> crossMatrixRelationships;
-	private bool hasInit;
+	private bool initialized;
 
 	[Tooltip("For debug purposes only. Logs trace-level debug messages in " +
 	         "Matrix logging category for this particular" +
@@ -87,6 +87,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private Matrix matrix;
 	public bool MatrixIsMovable => Matrix && Matrix.MatrixMove;
+
+	/// <summary>
+	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
+	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent
+	/// matrix, position, object layer, and parent matrix move if one is present in the matrix).
+	/// Allows components to respond to this event and do additional processing
+	/// based on the new parent net ID.
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnParentChangeComplete = new UnityEvent();
 
 
 	[SyncVar(hook = nameof(SyncGrandparentMatrixNetId))]
@@ -175,6 +185,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void OnEnable()
 	{
 		LogMatrixDebug("OnEnable");
+		initialized = false;
 		ForceRegister();
 	}
 
@@ -263,11 +274,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
 
 		//remove from current parent layer
+		bool hadParent = transform.parent != null;
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
 		objectLayer = grandparentMatrix.GetComponentInChildren<ObjectLayer>();
 		Matrix = grandparentMatrix.GetComponentInChildren<Matrix>();
 		transform.SetParent( objectLayer.transform, true );
+		//if we are going from having no parent to having a parent, we should always be upright
+		//(as is the case for newly spawned objects but not for mapped ones which should preserve their rotation)
+		if (!hadParent) transform.localRotation = Quaternion.identity;
+
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
 		if (LocalPositionClient != TransformState.HiddenPos)
 		{
@@ -277,11 +293,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			UpdatePositionServer();
 		}
-		OnParentChangeComplete();
+		OnParentChangeComplete.Invoke();
 
-		if (!hasInit)
+		if (!initialized)
 		{
-			hasInit = true;
+			initialized = true;
 		}
 
 	}
@@ -541,17 +557,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				}
 			}
 		}
-	}
-
-	/// <summary>
-	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
-	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent
-	/// matrix, position, object layer, and parent matrix move if one is present in the matrix).
-	/// Allows subclasses to respond to this event and do additional processing
-	/// based on the new parent net ID.
-	/// </summary>
-	protected virtual void OnParentChangeComplete()
-	{
 	}
 
 	public virtual bool IsPassable(bool isServer)

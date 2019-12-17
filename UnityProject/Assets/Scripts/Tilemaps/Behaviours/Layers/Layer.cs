@@ -113,7 +113,7 @@ using UnityEngine.Tilemaps;
 
 		private void OnRotate(MatrixRotationInfo info)
 		{
-			if ((ROTATE_AT_END && info.IsEnding) || (!ROTATE_AT_END && info.IsStarting) || info.IsObjectBeingRegistered)
+			if (info.IsEnding || info.IsObjectBeingRegistered)
 			{
 				RotationOffset = info.RotationOffsetFromInitial;
 				tilemap.RefreshAllTiles();

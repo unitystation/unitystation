@@ -31,12 +31,21 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 
 	private SpriteRenderer[] spriteRenderers;
 	private RegisterTile registerTile;
+	private CustomNetTransform cnt;
 
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+		cnt = GetComponent<CustomNetTransform>();
+		registerTile.OnParentChangeComplete.AddListener(OnParentChangeComplete);
 		InitOnSpawn();
+	}
+
+	private void OnParentChangeComplete()
+	{
+		//if our parent changed, our local rotation might've changed so make sure our sprites are still upright
+		SetSpritesUpright();
 	}
 
 	private void InitOnSpawn()

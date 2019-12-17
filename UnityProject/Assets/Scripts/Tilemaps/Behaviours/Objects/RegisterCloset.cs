@@ -42,9 +42,10 @@ public class RegisterCloset : RegisterObject
 	{
 		base.Awake();
 		closetControl = GetComponent<ClosetControl>();
+		OnParentChangeComplete.AddListener(ReparentContainedObjectsOnParentChangeComplete);
 	}
 
-	protected override void OnParentChangeComplete()
+	private void ReparentContainedObjectsOnParentChangeComplete()
 	{
 		if (closetControl != null)
 		{
