@@ -16,9 +16,7 @@ public class HealthBrainMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EntityToUpdate);
-		//perhaps object has not initialized yet
-		if (NetworkObject == null) yield break;
-		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(IsHusk, BrainDamage);
+		if(NetworkObject != null) NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(IsHusk, BrainDamage);
 	}
 
 	public static HealthBrainMessage Send(GameObject recipient, GameObject entityToUpdate, bool isHusk, int brainDamage)

@@ -20,25 +20,4 @@ public class ShuttleHeater : AdvancedPipe
 		anchored = value;
 		pickupable.ServerSetCanPickup(!value);
 	}
-
-	public override void DirectionEast()		//shuttle sprites are upside down, turn direction
-	{
-		direction = Direction.WEST;
-	}
-
-	public override void DirectionNorth()
-	{
-		direction = Direction.SOUTH;
-	}
-
-	public override void DirectionWest()
-	{
-		direction = Direction.WEST;
-	}
-
-	public override void DirectionSouth()
-	{
-		direction = Direction.SOUTH;
-	}
-
 }
