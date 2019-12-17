@@ -30,16 +30,10 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private List<BaseSpatialRelationship> crossMatrixRelationships;
 	private bool hasInit;
 
-	//TODO: for debugging only, delete later
-	public bool tracking;
-	private void LogTracking(string log)
-	{
-		if (tracking)
-		{
-			Logger.Log(log, Category.Matrix);
-		}
-	}
-
+	[Tooltip("For debug purposes only. Logs trace-level debug messages in " +
+	         "Matrix logging category for this particular" +
+	         " object so it's easier to see what's happening to it.")]
+	public bool matrixDebugLogging;
 
 	private ObjectLayer objectLayer;
 	/// <summary>
@@ -68,7 +62,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			if (value)
 			{
-				LogTracking($"Matrix set from {matrix} to {value}");
+				LogMatrixDebug($"Matrix set from {matrix} to {value}");
 				if (matrix != null && matrix.MatrixMove != null)
 				{
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
@@ -77,7 +71,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				matrix = value;
 				if (matrix != null && matrix.MatrixMove != null)
 				{
-					LogTracking($"Registered OnRotate to {matrix}");
+					LogMatrixDebug($"Registered OnRotate to {matrix}");
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 					if (isServer)
 					{
@@ -180,19 +174,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	//being initialized as early as possible so we still have this in place.
 	private void OnEnable()
 	{
-		LogTracking("OnEnable");
+		LogMatrixDebug("OnEnable");
 		ForceRegister();
 	}
 
 	public override void OnStartClient()
 	{
-		LogTracking("OnStartClient");
+		LogMatrixDebug("OnStartClient");
 		SyncGrandparentMatrixNetId(grandparentMatrixNetId);
 	}
 
 	public override void OnStartServer()
 	{
-		LogTracking("OnStartServer");
+		LogMatrixDebug("OnStartServer");
 		ForceRegister();
 		if (Matrix != null)
 		{
@@ -239,7 +233,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[Server]
 	public void ServerSetGrandparentMatrixNetID(uint newGrandparentMatrixNetID)
 	{
-		LogTracking("ServerSetGrandparentMatrixNetID");
+		LogMatrixDebug("ServerSetGrandparentMatrixNetID");
 		SyncGrandparentMatrixNetId(newGrandparentMatrixNetID);
 	}
 
@@ -252,21 +246,21 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="newGrandparentMatrixNetID">uint of the new parent</param>
 	private void SyncGrandparentMatrixNetId(uint newGrandparentMatrixNetID)
 	{
-		LogTracking($"Sync parent net id {grandparentMatrixNetId}");
+		LogMatrixDebug($"Sync parent net id {grandparentMatrixNetId}");
 		//TODO: Maybe?
-//		if (this.parentMatrixNetId == newParentMatrixNetID) return;
+		if (this.grandparentMatrixNetId == newGrandparentMatrixNetID) return;
 		if (newGrandparentMatrixNetID == NetId.Invalid || newGrandparentMatrixNetID == NetId.Empty) return;
-
-		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
 
 		NetworkIdentity.spawned.TryGetValue(newGrandparentMatrixNetID, out var parentMatrix);
 		if (parentMatrix == null)
 		{
 			//nothing found
-			LogTracking($"Parent not found with id {grandparentMatrixNetId}");
+			LogMatrixDebug($"Parent not found with id {grandparentMatrixNetId}");
 			return;
 		}
-		LogTracking($"Parent found with id {grandparentMatrixNetId}");
+		LogMatrixDebug($"Parent found with id {grandparentMatrixNetId}");
+
+		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
 
 		//remove from current parent layer
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
@@ -295,7 +289,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[ContextMenu("Force Register")]
 	private void ForceRegister()
 	{
-		LogTracking("ForceRegister");
+		LogMatrixDebug("ForceRegister");
 		if (transform.parent != null)
 		{
 			objectLayer = transform.parent.GetComponentInParent<ObjectLayer>();
@@ -335,7 +329,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 			CheckSameMatrixRelationships();
 		}
-		LogTracking($"Server position from {prevPosition} to {LocalPositionServer}");
+		LogMatrixDebug($"Server position from {prevPosition} to {LocalPositionServer}");
 	}
 
 	public virtual void UpdatePositionClient()
@@ -343,7 +337,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		var prevPosition = LocalPositionClient;
 		LocalPositionClient = CustomTransform ? CustomTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
-		LogTracking($"Client position from {LocalPositionClient} to {prevPosition}");
+		LogMatrixDebug($"Client position from {LocalPositionClient} to {prevPosition}");
 		CheckSameMatrixRelationships();
 	}
 
@@ -580,6 +574,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public virtual bool IsAtmosPassable(Vector3Int from, bool isServer)
 	{
 		return true;
+	}
+
+	/// <summary>
+	/// Logs a message to Matrix logging category only if
+	/// matrixDebugLogging is turned on.
+	/// </summary>
+	/// <param name="log"></param>
+	private void LogMatrixDebug(string log)
+	{
+		if (matrixDebugLogging)
+		{
+			Logger.Log(log, Category.Matrix);
+		}
 	}
 
 }
