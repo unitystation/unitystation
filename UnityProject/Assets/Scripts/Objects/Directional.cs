@@ -178,7 +178,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 			    {
 				    //predict
 				    clientDirection = CurrentDirection.Rotate(rotationInfo.RotationOffset);
-				    OnDirectionChange.Invoke(CurrentDirection);
+				    OnDirectionChange.Invoke(clientDirection);
 			    }
 			    else if (rotationInfo.IsServerside && isServer)
 			    {

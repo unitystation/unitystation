@@ -43,17 +43,6 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	private Layer grillTileMap;
 
-	//TODO: Only doing this to solve matrix init issues, this should be split out into
-	//a separate component
-	public override void OnStartServer()
-	{
-		var myNetId = gameObject.NetId();
-		foreach (var rt in GetComponentsInChildren<RegisterTile>())
-		{
-			rt.ServerSetGrandparentMatrixNetID(myNetId);
-		}
-	}
-
 	private void Start()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
