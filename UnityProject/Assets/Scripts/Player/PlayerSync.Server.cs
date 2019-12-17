@@ -329,7 +329,7 @@ public partial class PlayerSync
 	[Server]
 	private void SyncMatrix()
 	{
-		registerPlayer.ServerSetParentMatrixNetID(MatrixManager.Get(serverState.MatrixId).NetID);
+		registerPlayer.ServerSetGrandparentMatrixNetID(MatrixManager.Get(serverState.MatrixId).NetID);
 	}
 
 	/// Send current serverState to just one player

@@ -79,6 +79,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				{
 					LogTracking($"Registered OnRotate to {matrix}");
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
+					if (isServer)
+					{
+						OnRotate(new MatrixRotationInfo(matrix.MatrixMove, matrix.MatrixMove.FacingOffsetFromInitial, NetworkSide.Server, RotationEvent.Register));
+					}
+					OnRotate(new MatrixRotationInfo(matrix.MatrixMove, matrix.MatrixMove.FacingOffsetFromInitial, NetworkSide.Client, RotationEvent.Register));
 				}
 			}
 
@@ -90,13 +95,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public bool MatrixIsMovable => Matrix && Matrix.MatrixMove;
 
 
-	[SyncVar(hook = nameof(SyncParentMatrixNetId))]
-	private uint parentMatrixNetId;
+	[SyncVar(hook = nameof(SyncGrandparentMatrixNetId))]
+	private uint grandparentMatrixNetId;
 	/// <summary>
-	/// NetId of our current parent matrix (note this id is on the parent of the
-	/// Matrix gameObject, i.e. the one with InteractableTiles).
+	/// NetId of our current parent matrix. Note this id is on the parent of the
+	/// Matrix gameObject, i.e. the one with InteractableTiles not the one with Matrix, hence calling
+	/// it "grandparent matrix".
 	/// </summary>
-	protected uint ParentMatrixNetId => parentMatrixNetId;
+	protected uint GrandparentMatrixNetId => grandparentMatrixNetId;
 
 	/// <summary>
 	/// Returns the correct client/server version of world position depending on if this is
@@ -181,7 +187,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public override void OnStartClient()
 	{
 		LogTracking("OnStartClient");
-		SyncParentMatrixNetId(parentMatrixNetId);
+		SyncGrandparentMatrixNetId(grandparentMatrixNetId);
 	}
 
 	public override void OnStartServer()
@@ -190,7 +196,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			SyncParentMatrixNetId(Matrix.transform.parent.gameObject.NetId());
+			SyncGrandparentMatrixNetId(Matrix.transform.parent.gameObject.NetId());
 		}
 	}
 
@@ -229,12 +235,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <summary>
 	/// Set our parent matrix net ID to this.
 	/// </summary>
-	/// <param name="newParentMatrixNetID"></param>
+	/// <param name="newGrandparentMatrixNetID"></param>
 	[Server]
-	public void ServerSetParentMatrixNetID(uint newParentMatrixNetID)
+	public void ServerSetGrandparentMatrixNetID(uint newGrandparentMatrixNetID)
 	{
-		LogTracking("ServerSetParentMatrixNetID");
-		SyncParentMatrixNetId(newParentMatrixNetID);
+		LogTracking("ServerSetGrandparentMatrixNetID");
+		SyncGrandparentMatrixNetId(newGrandparentMatrixNetID);
 	}
 
 	/// <summary>
@@ -243,24 +249,24 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
-	/// <param name="newParentMatrixNetID">uint of the new parent</param>
-	private void SyncParentMatrixNetId(uint newParentMatrixNetID)
+	/// <param name="newGrandparentMatrixNetID">uint of the new parent</param>
+	private void SyncGrandparentMatrixNetId(uint newGrandparentMatrixNetID)
 	{
-		LogTracking($"Sync parent net id {parentMatrixNetId}");
+		LogTracking($"Sync parent net id {grandparentMatrixNetId}");
 		//TODO: Maybe?
 //		if (this.parentMatrixNetId == newParentMatrixNetID) return;
-		if (newParentMatrixNetID == NetId.Invalid || newParentMatrixNetID == NetId.Empty) return;
+		if (newGrandparentMatrixNetID == NetId.Invalid || newGrandparentMatrixNetID == NetId.Empty) return;
 
-		this.parentMatrixNetId = newParentMatrixNetID;
+		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
 
-		NetworkIdentity.spawned.TryGetValue(newParentMatrixNetID, out var parentMatrix);
+		NetworkIdentity.spawned.TryGetValue(newGrandparentMatrixNetID, out var parentMatrix);
 		if (parentMatrix == null)
 		{
 			//nothing found
-			LogTracking($"Parent not found with id {parentMatrixNetId}");
+			LogTracking($"Parent not found with id {grandparentMatrixNetId}");
 			return;
 		}
-		LogTracking($"Parent found with id {parentMatrixNetId}");
+		LogTracking($"Parent found with id {grandparentMatrixNetId}");
 
 		//remove from current parent layer
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);

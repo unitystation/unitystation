@@ -170,7 +170,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 
     public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
     {
-	    if (rotationInfo.IsEnd)
+	    if (rotationInfo.IsEnding)
 	    {
 		    if (ChangeDirectionWithMatrix && !LockDirection)
 		    {

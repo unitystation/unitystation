@@ -105,8 +105,7 @@ using UnityEngine.Tilemaps;
 			{
 				matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 				//initialize from current rotation
-				OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, true));
-				OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, false));
+				OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
 			}
 
 
@@ -114,7 +113,7 @@ using UnityEngine.Tilemaps;
 
 		private void OnRotate(MatrixRotationInfo info)
 		{
-			if ((ROTATE_AT_END && info.IsEnd) || (!ROTATE_AT_END && info.IsStart))
+			if ((ROTATE_AT_END && info.IsEnding) || (!ROTATE_AT_END && info.IsStarting) || info.IsObjectBeingRegistered)
 			{
 				RotationOffset = info.RotationOffsetFromInitial;
 				tilemap.RefreshAllTiles();

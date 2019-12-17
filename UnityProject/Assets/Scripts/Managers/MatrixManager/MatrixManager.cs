@@ -777,7 +777,7 @@ public partial class MatrixManager : MonoBehaviour
 			return worldPos - matrix.Offset;
 		}
 
-		return (matrix.MatrixMove.ClientState.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
+		return (matrix.MatrixMove.FacingOffsetFromInitial.QuaternionInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
 		       matrix.MatrixMove.Pivot;
 	}
 

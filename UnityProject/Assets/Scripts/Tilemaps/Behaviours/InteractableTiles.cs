@@ -50,7 +50,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		var myNetId = gameObject.NetId();
 		foreach (var rt in GetComponentsInChildren<RegisterTile>())
 		{
-			rt.ServerSetParentMatrixNetID(myNetId);
+			rt.ServerSetGrandparentMatrixNetID(myNetId);
 		}
 	}
 

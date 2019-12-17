@@ -387,12 +387,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		foreach (ObjectBehaviour objectBehaviour in heldItems)
 		{
-			objectBehaviour.registerTile.ServerSetParentMatrixNetID(parentNetId);
+			objectBehaviour.registerTile.ServerSetGrandparentMatrixNetID(parentNetId);
 		}
 
 		foreach (ObjectBehaviour objectBehaviour in heldPlayers)
 		{
-			objectBehaviour.registerTile.ServerSetParentMatrixNetID(parentNetId);
+			objectBehaviour.registerTile.ServerSetGrandparentMatrixNetID(parentNetId);
 		}
 	}
 

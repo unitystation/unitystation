@@ -70,6 +70,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public MatrixInfo MatrixInfo => matrixInfo;
 	private ShuttleFuelSystem shuttleFuelSystem;
 	public ShuttleFuelSystem ShuttleFuelSystem => shuttleFuelSystem;
+	/// <summary>
+	/// Gets the rotation offset this matrix has from its initial mapped
+	/// facing.
+	/// </summary>
+	public RotationOffset FacingOffsetFromInitial => ClientState.FacingOffsetFromInitial(this);
 
 	/// <summary>
 	/// If it is currently fuelled
@@ -293,9 +298,9 @@ public class MatrixMove : ManagedNetworkBehaviour
 			//client and server logic happens here because server also must wait for the rotation to finish lerping.
 			if (isServer)
 			{
-				MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Server, false));
+				MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Server, RotationEvent.End));
 			}
-			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, false));
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.End));
 			inProgressRotation = null;
 		}
 
@@ -652,7 +657,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (!Equals(oldState.FacingDirection, newState.FacingDirection))
 		{
 			inProgressRotation = oldState.FacingDirection.OffsetTo(newState.FacingDirection);
-			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, true));
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.Start));
 			Logger.LogTraceFormat("{0} starting rotation progress to {1}", Category.Matrix, this, newState.FacingDirection);
 		}
 
@@ -785,7 +790,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			serverTargetState.FlyingDirection = desiredOrientation;
 			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Matrix, this, desiredOrientation);
 
-			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, true));
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, RotationEvent.Start));
 
 			RequestNotify();
 			return true;

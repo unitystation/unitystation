@@ -77,19 +77,25 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 		}
 	}
 
+	private void OnMatrixChange(Matrix oldMatrix, Matrix newMatrix)
+	{
+		//make sure we switch upright when the matrix changes, because
+		//we can't always be sure our OnMatrixRotate fired
+	}
+
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
 		//this component is clientside only
 		if (rotationInfo.IsClientside)
 		{
-			if (rotationInfo.IsStart)
+			if (rotationInfo.IsStarting)
 			{
 				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 				{
 					UpdateManager.Instance.Add(SetSpritesUpright);
 				}
 			}
-			else
+			else if (rotationInfo.IsEnding)
 			{
 				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 				{
@@ -97,6 +103,11 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 					UpdateManager.Instance.Remove(SetSpritesUpright);
 				}
 
+				SetSpritesUpright();
+			}
+			else if (rotationInfo.IsObjectBeingRegistered)
+			{
+				//failsafe to ensure we go upright regardless of what happened during init.
 				SetSpritesUpright();
 			}
 		}

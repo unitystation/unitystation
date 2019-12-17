@@ -317,11 +317,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		//We need to handle lighting stuff for matrix rotations for local player:
 		if (PlayerManager.LocalPlayer == gameObject && rotationInfo.IsClientside)
 		{
-			if (rotationInfo.IsStart)
+			if (rotationInfo.IsStarting)
 			{
 				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
 			}
-			else
+			else if (rotationInfo.IsEnding)
 			{
 				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
 			}

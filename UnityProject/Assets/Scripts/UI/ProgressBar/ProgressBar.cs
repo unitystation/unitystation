@@ -163,7 +163,7 @@ public class ProgressBar : MonoBehaviour
 
 	private void OnRotationEnd(MatrixRotationInfo info)
 	{
-		if (info.IsClientside && info.IsEnd)
+		if (info.IsClientside && info.IsEnding)
 		{
 			//reset orientation to upright
 			transform.rotation = Quaternion.identity;

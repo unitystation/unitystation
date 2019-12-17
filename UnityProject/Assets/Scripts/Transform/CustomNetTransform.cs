@@ -328,7 +328,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	private void SyncMatrix() {
 		if ( registerTile && !serverState.IsUninitialized) {
-			registerTile.ServerSetParentMatrixNetID(MatrixManager.Get( serverState.MatrixId ).NetID);
+			registerTile.ServerSetGrandparentMatrixNetID(MatrixManager.Get( serverState.MatrixId ).NetID);
 		}
 	}
 
