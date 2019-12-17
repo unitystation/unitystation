@@ -93,7 +93,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private uint grandparentMatrixNetId;
 	/// <summary>
 	/// NetId of our current parent matrix. Note this id is on the parent of the
-	/// Matrix gameObject, i.e. the one with InteractableTiles not the one with Matrix, hence calling
+	/// Matrix gameObject, i.e. the one with GrandparentMatrix not the one with Matrix, hence calling
 	/// it "grandparent matrix".
 	/// </summary>
 	protected uint GrandparentMatrixNetId => grandparentMatrixNetId;
@@ -251,8 +251,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (this.grandparentMatrixNetId == newGrandparentMatrixNetID) return;
 		if (newGrandparentMatrixNetID == NetId.Invalid || newGrandparentMatrixNetID == NetId.Empty) return;
 
-		NetworkIdentity.spawned.TryGetValue(newGrandparentMatrixNetID, out var parentMatrix);
-		if (parentMatrix == null)
+		NetworkIdentity.spawned.TryGetValue(newGrandparentMatrixNetID, out var grandparentMatrix);
+		if (grandparentMatrix == null)
 		{
 			//nothing found
 			LogMatrixDebug($"Parent not found with id {grandparentMatrixNetId}");
@@ -265,8 +265,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//remove from current parent layer
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
-		objectLayer = parentMatrix.GetComponentInChildren<ObjectLayer>();
-		Matrix = parentMatrix.GetComponentInChildren<Matrix>();
+		objectLayer = grandparentMatrix.GetComponentInChildren<ObjectLayer>();
+		Matrix = grandparentMatrix.GetComponentInChildren<Matrix>();
 		transform.SetParent( objectLayer.transform, true );
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
 		if (LocalPositionClient != TransformState.HiddenPos)
