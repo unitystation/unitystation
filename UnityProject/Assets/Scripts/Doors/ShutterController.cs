@@ -14,10 +14,7 @@ public class ShutterController : ObjectTrigger
 	private int openLayer;
 	private int openSortingLayer;
 
-	private bool tempStateCache;
-
-	//For network sync reliability
-	private bool waitToCheckState;
+	[SyncVar(hook = "SetState")] private bool closedState;
 
 	public bool IsClosed { get; private set; }
 
@@ -33,35 +30,21 @@ public class ShutterController : ObjectTrigger
 		openSortingLayer = SortingLayer.NameToID("Doors Closed");
 	}
 
-	public void Start()
+	public override void OnStartServer()
 	{
-		// Close or open the door depending on Register Door Script's "Is Closed" flag at object creation
-		Trigger(registerTile.IsClosed);
+		base.OnStartServer();
+		closedState = registerTile.IsClosed;
+	}
 
-		// If the animator has not yet initialized for the object, try again
-		if (waitToCheckState)
-		{
-			WaitToTryAgain();
-		}
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		SetState(closedState);
 	}
 
 	public override void Trigger(bool isClosed)
 	{
-		if (waitToCheckState)
-		{
-			return;
-		}
-
-		if (animator == null)
-		{
-			// Store isClosed as a property for non-initialized animator
-			tempStateCache = isClosed;
-
-			waitToCheckState = true;
-			return;
-		}
-
-		SetState(isClosed);
+		closedState = isClosed;
 	}
 
 	/// <summary>
@@ -111,29 +94,5 @@ public class ShutterController : ObjectTrigger
 		{
 			healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
 		}
-	}
-
-	//Handle network spawn sync failure
-	private IEnumerator WaitToTryAgain()
-	{
-		yield return WaitFor.Seconds(0.2f);
-		if (animator == null)
-		{
-			animator = GetComponentInChildren<Animator>();
-			if (animator != null)
-			{
-				SetState(tempStateCache);
-			}
-			else
-			{
-				Logger.LogWarning("ShutterController still failing Animator sync", Category.Shutters);
-			}
-		}
-		else
-		{
-			SetState(tempStateCache);
-		}
-
-		waitToCheckState = false;
 	}
 }

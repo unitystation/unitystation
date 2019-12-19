@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000014063601880}
   - component: {fileID: 61000011364772196}
-  - component: {fileID: 95341735492961758}
   - component: {fileID: 114857803639874670}
   - component: {fileID: 114640096819736908}
   - component: {fileID: 114056072402202090}
@@ -67,25 +66,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!95 &95341735492961758
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010316053548}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4a7f29bac7e2edc48a0deff98e2a76ed, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114857803639874670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114254577639162406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: f131c934ddb24725affb571a69845bc7
   m_SceneId: 0
 --- !u!1 &1000014037698914
 GameObject:
