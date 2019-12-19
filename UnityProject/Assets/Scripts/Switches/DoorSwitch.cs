@@ -57,7 +57,7 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	//Stops spamming from players
 	IEnumerator CoolDown()
 	{
-		yield return WaitFor.Seconds(2f);
+		yield return WaitFor.Seconds(1.2f);
 		buttonCoolDown = false;
 	}
 
