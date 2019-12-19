@@ -12,7 +12,7 @@ public partial class PlayerList
 	{
 		if (clientVersion != GameData.BuildNumber)
 		{
-			StartCoroutine(KickPlayer(playerConn,$"Invalid Client Version! You need version {GameData.BuildNumber}"))
+			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}"));
 			return false;
 		}
 		return true;
@@ -40,6 +40,7 @@ public partial class PlayerList
 			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Connections);
 			yield break;
 		}
+
 		Logger.Log($"Kicking {connPlayer.Name} : {message}", Category.Connections);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 		//Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
