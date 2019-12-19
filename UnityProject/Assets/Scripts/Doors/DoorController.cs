@@ -26,6 +26,9 @@ using Mirror;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
 		public DoorType doorType;
 
+		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
+		public bool damageOnClose = false;
+
 		public bool IsOpened;
 		[HideInInspector] public bool isPerformingAction;
 		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
@@ -187,6 +190,10 @@ using Mirror;
 			IsOpened = false;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
+				if (damageOnClose)
+				{
+					DamageOnClose();
+				}
 			}
 		}
 
@@ -229,8 +236,19 @@ using Mirror;
 			}
 		}
 
+		[Server]
+		private void DamageOnClose()
+		{
+			foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
+			{
+				healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
+			}
+		}
+
 		private void ResetWaiting()
 		{
+			if (maxTimeOpen == -1) return;
+			
 			if (coWaitOpened != null)
 			{
 				StopCoroutine(coWaitOpened);

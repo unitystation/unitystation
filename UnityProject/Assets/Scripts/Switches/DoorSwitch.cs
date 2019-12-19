@@ -7,17 +7,19 @@ using Mirror;
 /// </summary>
 public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	private Animator animator;
 	private SpriteRenderer spriteRenderer;
+	public Sprite onSprite;
+	public Sprite offSprite;
 
 	public DoorController[] doorControllers;
+
+	private bool buttonCoolDown = false;
 
 	private void Start()
 	{
 		//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
 		gameObject.layer = LayerMask.NameToLayer("WallMounts");
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		animator = GetComponent<Animator>();
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -27,8 +29,9 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 		//press button while it's animating.
 		if (side == NetworkSide.Client)
 		{
-			//if the button is idle and not animating it can be pressed
-			return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+			if (buttonCoolDown) return false;
+			buttonCoolDown = true;
+			StartCoroutine(CoolDown());
 		}
 
 		return true;
@@ -42,13 +45,47 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 			{
 				doorControllers[i].Open();
 			}
+			else
+			{
+				doorControllers[i].Close();
+			}
 		}
+
 		RpcPlayButtonAnim();
+	}
+
+	//Stops spamming from players
+	IEnumerator CoolDown()
+	{
+		yield return WaitFor.Seconds(2f);
+		buttonCoolDown = false;
 	}
 
 	[ClientRpc]
 	public void RpcPlayButtonAnim()
 	{
-		animator.SetTrigger("activated");
+		StartCoroutine(ButtonFlashAnim());
+	}
+
+	IEnumerator ButtonFlashAnim()
+	{
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		}
+
+		for (int i = 0; i < 6; i++)
+		{
+			if (spriteRenderer.sprite == onSprite)
+			{
+				spriteRenderer.sprite = offSprite;
+			}
+			else
+			{
+				spriteRenderer.sprite = onSprite;
+			}
+
+			yield return WaitFor.Seconds(0.2f);
+		}
 	}
 }
