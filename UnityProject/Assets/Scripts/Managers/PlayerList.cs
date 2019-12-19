@@ -15,7 +15,6 @@ public partial class PlayerList : NetworkBehaviour
 
 	private static List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
 
-
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
 
@@ -294,7 +293,7 @@ public partial class PlayerList : NetworkBehaviour
 		}
 		return null;
 	}
-
+	
 	[Server]
 	public void UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody){
 		for (int i = 0; i < loggedOff.Count; i++)

@@ -36,14 +36,15 @@ public class JoinedViewer : NetworkBehaviour
 		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, clientID: {0} username: {1}", Category.Connections,
 			clientID, username);
 
-		var connPlayer = new ConnectedPlayer
+		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
+		var connPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
 		{
 			Connection = connectionToClient,
 			GameObject = gameObject,
 			Username = username,
 			Job = JobType.NULL,
 			ClientId = clientID
-		};
+		});
 
 		if (!PlayerList.Instance.ValidatePlayer(clientID, username, userid, clientVersion, connPlayer))
 		{
@@ -61,9 +62,6 @@ public class JoinedViewer : NetworkBehaviour
 			                 " joined viewer a new ID {1}", Category.Connections, oldID, clientID);
 
 		}
-
-		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
-		PlayerList.Instance.AddOrUpdate(connPlayer);
 
 		// Sync all player data and the connected player count
 		CustomNetworkManager.Instance.SyncPlayerData(gameObject);

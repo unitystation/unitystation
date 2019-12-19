@@ -22,6 +22,7 @@ public partial class PlayerList
 		bool ban = false, int banLengthInMinutes = 0)
 	{
 		string message = "";
+		string clientID = connPlayer.ClientId;
 		if (ban)
 		{
 			message = $"You have been banned for {banLengthInMinutes}" +
@@ -41,10 +42,16 @@ public partial class PlayerList
 			yield break;
 		}
 
-		Logger.Log($"Kicking {connPlayer.Name} : {message}", Category.Connections);
+		Logger.Log($"Kicking client {clientID} : {message}", Category.Connections);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 		//Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
 		connPlayer.Connection.Disconnect();
 		connPlayer.Connection.Dispose();
+
+		while (!loggedOff.Contains(connPlayer))
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		loggedOff.Remove(connPlayer);
 	}
 }
