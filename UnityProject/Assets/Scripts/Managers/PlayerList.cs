@@ -7,14 +7,13 @@ using Mirror;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
-public class PlayerList : NetworkBehaviour
+public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
 	private static List<ConnectedPlayer> values = new List<ConnectedPlayer>();
 	private static List<ConnectedPlayer> oldValues = new List<ConnectedPlayer>();
 
 	private static List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
-
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -294,7 +293,7 @@ public class PlayerList : NetworkBehaviour
 		}
 		return null;
 	}
-
+	
 	[Server]
 	public void UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody){
 		for (int i = 0; i < loggedOff.Count; i++)
