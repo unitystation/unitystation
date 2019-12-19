@@ -127,6 +127,26 @@ public class Tools : Editor
 			}
 		}
 
+		//they should always be upright unless they are directional.
+		[MenuItem("Tools/Set All non-directional Wallmount Sprite Rotations to Upright")]
+		private static void SetAllNonDirectionalWallmountSpriteRotationsUpright()
+		{
+			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
+				{
+					if (wallmount.GetComponent<DirectionalRotationSprites>() != null) continue;
+					foreach (var spriteRenderer in wallmount.GetComponentsInChildren<SpriteRenderer>())
+					{
+						var transform = new SerializedObject(spriteRenderer.transform);
+						var localRotation = transform.FindProperty("m_LocalRotation");
+						localRotation.quaternionValue = Quaternion.identity;
+						transform.ApplyModifiedPropertiesWithoutUndo();
+					}
+				}
+			}
+		}
+
 		//this is for fixing some prefabs that have duplicate Meleeable components
 		[MenuItem("Prefabs/Remove Duplicate Meleeable")]
 		private static void RemoveDuplicateMeleeable()
