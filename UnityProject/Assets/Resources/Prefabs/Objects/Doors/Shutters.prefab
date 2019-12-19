@@ -205,12 +205,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorController: {fileID: 2415801389328985729}
   spritePath: icons/obj/doors/shutters
-  animFrames: 01000000020000000300000004000000050000000600000007000000
+  animFrames: 07000000060000000500000004000000030000000200000001000000
   closeFrame: 8
   deniedFrame: 0
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 0
+  sprites: []
 --- !u!114 &2415801389328985729
 MonoBehaviour:
   m_ObjectHideFlags: 0
