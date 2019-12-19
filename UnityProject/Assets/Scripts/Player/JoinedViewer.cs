@@ -26,14 +26,30 @@ public class JoinedViewer : NetworkBehaviour
 		Logger.LogFormat("JoinedViewer on this client calling CmdServerSetupPlayer, our clientID: {0} username: {1}", Category.Connections,
 			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 
-		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
+		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID),
+			PlayerManager.CurrentCharacterSettings.username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber);
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(string clientID, string username)
+	private void CmdServerSetupPlayer(string clientID, string username, string userid, int clientVersion)
 	{
 		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, clientID: {0} username: {1}", Category.Connections,
 			clientID, username);
+
+		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
+		var connPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
+		{
+			Connection = connectionToClient,
+			GameObject = gameObject,
+			Username = username,
+			Job = JobType.NULL,
+			ClientId = clientID
+		});
+
+		if (!PlayerList.Instance.ValidatePlayer(clientID, username, userid, clientVersion, connPlayer))
+		{
+			return;
+		}
 
 		// Check if they have a player to rejoin. If not, assign them a new client ID
 		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
@@ -46,15 +62,6 @@ public class JoinedViewer : NetworkBehaviour
 			                 " joined viewer a new ID {1}", Category.Connections, oldID, clientID);
 
 		}
-		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
-		var connPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
-		{
-			Connection = connectionToClient,
-			GameObject = gameObject,
-			Username = username,
-			Job = JobType.NULL,
-			ClientId = clientID
-		});
 
 		// Sync all player data and the connected player count
 		CustomNetworkManager.Instance.SyncPlayerData(gameObject);

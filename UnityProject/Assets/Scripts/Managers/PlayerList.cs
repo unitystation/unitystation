@@ -7,7 +7,7 @@ using Mirror;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
-public class PlayerList : NetworkBehaviour
+public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
 	private static List<ConnectedPlayer> values = new List<ConnectedPlayer>();

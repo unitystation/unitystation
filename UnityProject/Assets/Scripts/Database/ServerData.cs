@@ -46,6 +46,7 @@ namespace DatabaseAPI
 			new Dictionary<string, Firebase.Auth.FirebaseUser>();
 
 		private Firebase.Auth.FirebaseUser user = null;
+		public static string UserID => Instance.user.UserId;
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
