@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseAPI;
@@ -40,11 +41,15 @@ public class GameData : MonoBehaviour
 			if (!gameData)
 			{
 				gameData = FindObjectOfType<GameData>();
-				gameData.Init();
 			}
 
 			return gameData;
 		}
+	}
+
+	void Awake()
+	{
+		Init();
 	}
 
 	public bool IsTestMode => SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
@@ -54,7 +59,7 @@ public class GameData : MonoBehaviour
 		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
-
+		Logger.Log($"Build Version is: {BuildNumber}");
 		CheckHeadlessState();
 
 		if (IsTestMode)
