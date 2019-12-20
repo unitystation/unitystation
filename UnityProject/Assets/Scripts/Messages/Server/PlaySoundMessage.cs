@@ -42,6 +42,25 @@ public class PlaySoundMessage : ServerMessage
 		}
 	}
 
+	public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos, float pitch,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+	{
+		PlaySoundMessage msg = new PlaySoundMessage
+		{
+			SoundName = sndName,
+			Position = pos,
+			Pitch = pitch,
+			ShakeGround = shakeGround,
+			ShakeIntensity = shakeIntensity,
+			ShakeRange = shakeRange,
+			Polyphonic = polyphonic
+		};
+
+		msg.SendToNearbyPlayers(pos);
+		return msg;
+	}
+
 	public static PlaySoundMessage SendToAll( string sndName, Vector3 pos, float pitch,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {

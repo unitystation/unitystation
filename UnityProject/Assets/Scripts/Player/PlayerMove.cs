@@ -233,6 +233,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			                                  direction);
 		}
 
+
+
 		return direction;
 	}
 
