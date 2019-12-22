@@ -2,7 +2,8 @@
 using UnityEngine;
 
 /// <summary>
-///     Message that tells client to add a ChatEvent to their chat
+/// Allows the client to use admin only features. A valid admin token is required
+/// to use admin tools.
 /// </summary>
 public class AdminEnableMessage : ServerMessage
 {
