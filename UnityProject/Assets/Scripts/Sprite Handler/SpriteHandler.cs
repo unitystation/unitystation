@@ -43,7 +43,8 @@ public class SpriteHandler : SpriteDataHandler
 		}
 	}
 
-	public void PushClear() { 
+	public void PushClear()
+	{
 		spriteRenderer.sprite = null;
 		TryToggleAnimationState(false);
 	}
@@ -61,8 +62,16 @@ public class SpriteHandler : SpriteDataHandler
 			{
 				if (VariantIndex < Infos.List[spriteIndex].Count)
 				{
-					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-					TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
+					if (animationIndex < Infos.List[spriteIndex][VariantIndex].Count)
+					{
+						SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+						TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
+					}
+					else
+					{
+						spriteRenderer.sprite = null;
+						TryToggleAnimationState(false);
+					}
 				}
 				else
 				{
@@ -73,6 +82,7 @@ public class SpriteHandler : SpriteDataHandler
 			else
 			{
 				spriteRenderer.sprite = null;
+				TryToggleAnimationState(false);
 			}
 		}
 		else
@@ -140,7 +150,8 @@ public class SpriteHandler : SpriteDataHandler
 			{
 				if (VariantIndex != SpriteVariant)
 				{
-					if (Infos.List[spriteIndex][SpriteVariant].Count <= animationIndex) {
+					if (Infos.List[spriteIndex][SpriteVariant].Count <= animationIndex)
+					{
 						animationIndex = 0;
 					}
 					SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
