@@ -138,25 +138,13 @@ public class GameData : MonoBehaviour
 		refreshToken.refreshToken = token;
 		refreshToken.userID = uid;
 
-		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, "https://api.unitystation.org/validatetoken?data="
-		                                                              + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
+		var response = await ServerData.ValidateToken(refreshToken);
 
-		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
-
-		HttpResponseMessage res;
-		try
+		if (response == null)
 		{
-			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
-		}
-		catch(Exception e)
-		{
-			Logger.LogError($"Something went wrong with hub token validation {e.Message}", Category.Hub);
-			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {e.Message}");
+			LobbyManager.Instance.lobbyDialogue.LoginError($"Unknown server error. Please check your logs for more information by press F5");
 			return;
 		}
-
-		string msg = await res.Content.ReadAsStringAsync();
-		var response = JsonUtility.FromJson<ApiResponse>(msg);
 
 		if (!string.IsNullOrEmpty(response.errorMsg))
 		{

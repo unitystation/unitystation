@@ -49,6 +49,7 @@ internal enum MessageTypes : short
 	ObserveInteractableStorage = 1045,
 	ServerToClientEvents = 1046,
 	SendClientLog = 1047,
+	AdminEnableMessage = 1048,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,

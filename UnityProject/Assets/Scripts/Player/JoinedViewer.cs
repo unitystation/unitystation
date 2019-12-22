@@ -23,17 +23,28 @@ public class JoinedViewer : NetworkBehaviour
 			PlayerPrefs.Save();
 		}
 
-		Logger.LogFormat("JoinedViewer on this client calling CmdServerSetupPlayer, our clientID: {0} username: {1}", Category.Connections,
+		Logger.LogFormat("JoinedViewer on this client calling CmdServerSetupPlayer, our clientID: {0} username: {1}",
+			Category.Connections,
 			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 
 		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID),
-			PlayerManager.CurrentCharacterSettings.username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber);
+			PlayerManager.CurrentCharacterSettings.username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
+			DatabaseAPI.ServerData.IdToken);
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(string clientID, string username, string userid, int clientVersion)
+	private void CmdServerSetupPlayer(string clientID, string username,
+		string userid, int clientVersion, string token)
 	{
-		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, clientID: {0} username: {1}", Category.Connections,
+		ServerSetUpPlayer(clientID, username, userid, clientVersion, token);
+	}
+
+	[Server]
+	private async void ServerSetUpPlayer(string clientID, string username, string userid, int clientVersion,
+		string token)
+	{
+		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, clientID: {0} username: {1}",
+			Category.Connections,
 			clientID, username);
 
 		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
@@ -43,13 +54,13 @@ public class JoinedViewer : NetworkBehaviour
 			GameObject = gameObject,
 			Username = username,
 			Job = JobType.NULL,
-			ClientId = clientID
+			ClientId = clientID,
+			UserId = userid
 		});
 
-		if (!PlayerList.Instance.ValidatePlayer(clientID, username, userid, clientVersion, connPlayer))
-		{
-			return;
-		}
+		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(clientID, username,
+			userid, clientVersion, connPlayer, token);
+		if (!isValidPlayer) return;
 
 		// Check if they have a player to rejoin. If not, assign them a new client ID
 		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
@@ -60,7 +71,6 @@ public class JoinedViewer : NetworkBehaviour
 			clientID = System.Guid.NewGuid().ToString();
 			Logger.LogFormat("This server did not find a logged off player with clientID {0}, assigning" +
 			                 " joined viewer a new ID {1}", Category.Connections, oldID, clientID);
-
 		}
 
 		// Sync all player data and the connected player count
@@ -68,13 +78,13 @@ public class JoinedViewer : NetworkBehaviour
 		UpdateConnectedPlayersMessage.Send();
 
 
-
 		// Only sync the pre-round countdown if it's already started
 		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 		{
 			if (GameManager.Instance.waitForStart)
 			{
-				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, GameManager.Instance.startTime);
+				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
+					GameManager.Instance.startTime);
 			}
 			else
 			{
@@ -90,7 +100,8 @@ public class JoinedViewer : NetworkBehaviour
 		}
 		else
 		{
-			TargetLocalPlayerSetupNewPlayer(connectionToClient, connPlayer.ClientId, GameManager.Instance.CurrentRoundState);
+			TargetLocalPlayerSetupNewPlayer(connectionToClient, connPlayer.ClientId,
+				GameManager.Instance.CurrentRoundState);
 		}
 	}
 
@@ -105,7 +116,8 @@ public class JoinedViewer : NetworkBehaviour
 	private void TargetLocalPlayerSetupNewPlayer(NetworkConnection target,
 		string serverClientID, RoundState roundState)
 	{
-		Logger.LogFormat("JoinedViewer on this client updating our client id to what server tells us, from {0} to {1}", Category.Connections,
+		Logger.LogFormat("JoinedViewer on this client updating our client id to what server tells us, from {0} to {1}",
+			Category.Connections,
 			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), serverClientID);
 		//save our ID so we can rejoin
 		PlayerPrefs.SetString(PlayerPrefKeys.ClientID, serverClientID);
@@ -148,6 +160,7 @@ public class JoinedViewer : NetworkBehaviour
 	private void TargetSyncCountdown(NetworkConnection target, bool started, float countdownTime)
 	{
 		Logger.Log("Syncing countdown!", Category.Round);
-		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, countdownTime);
+		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>()
+			.SyncCountdown(started, countdownTime);
 	}
 }
