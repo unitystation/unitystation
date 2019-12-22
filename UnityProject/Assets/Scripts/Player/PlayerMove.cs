@@ -144,13 +144,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 				return new PlayerAction {moveActions = actionKeys.ToArray()};
 			}
 
-			// if (CommonInput.GetKey(moveList[i]) && allowInput)
-			// {
-			// 	actionKeys.Add((int)moveList[i]);
-			// }
+			// If player attempts to move
 			if (KeyboardInputManager.CheckMoveAction(moveList[i]))
 			{
-				if(allowInput && !IsBuckled && !IsCuffed){
+				bool beingDraggedWithCuffs = IsCuffed && PlayerScript.pushPull.IsBeingPulledClient;
+				
+				if (allowInput && !IsBuckled && !beingDraggedWithCuffs){
 					actionKeys.Add((int)moveList[i]);
 				}
 				else
