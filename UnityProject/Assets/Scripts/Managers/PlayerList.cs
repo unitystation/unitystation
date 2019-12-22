@@ -46,6 +46,12 @@ public partial class PlayerList : NetworkBehaviour
 		}
 	}
 
+	public override void OnStartServer()
+	{
+		base.OnStartServer();
+		InitAdminController();
+	}
+
 	/// Allowing players to sync after round restart
 	public void ResetSyncedState() {
 		for ( var i = 0; i < values.Count; i++ ) {
@@ -293,7 +299,7 @@ public partial class PlayerList : NetworkBehaviour
 		}
 		return null;
 	}
-	
+
 	[Server]
 	public void UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody){
 		for (int i = 0; i < loggedOff.Count; i++)

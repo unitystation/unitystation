@@ -92,7 +92,7 @@ namespace DatabaseAPI
 			HttpResponseMessage res;
 			try
 			{
-				res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
+				res = await HttpClient.SendAsync(r, cancellationToken);
 			}
 			catch(Exception e)
 			{

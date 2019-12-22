@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +10,25 @@ using UnityEngine;
 /// </summary>
 public partial class PlayerList
 {
+	private FileSystemWatcher adminListWatcher;
+	private List<string> adminUsers = new List<string>();
+
+	[Server]
+	void InitAdminController()
+	{
+		adminListWatcher = new FileSystemWatcher();
+		adminListWatcher.Path = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
+		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		adminListWatcher.Changed += LoadCurrentAdmins;
+	}
+
+	void LoadCurrentAdmins(object source, FileSystemEventArgs e)
+	{
+		adminUsers.Clear();
+		adminUsers = new List<string>(File.ReadAllLines(Path.Combine(Application.streamingAssetsPath,
+			"admin", "admins.txt")));
+	}
+
 	public bool ValidatePlayer(string clientID, string username,
 		string userid, int clientVersion, ConnectedPlayer playerConn)
 	{
