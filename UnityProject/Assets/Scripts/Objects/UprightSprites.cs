@@ -38,32 +38,26 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 		cnt = GetComponent<CustomNetTransform>();
-		registerTile.OnParentChangeComplete.AddListener(OnParentChangeComplete);
-		InitOnSpawn();
+		registerTile.OnParentChangeComplete.AddListener(OnAppearOrChangeMatrix);
+		registerTile.OnAppearClient.AddListener(OnAppearOrChangeMatrix);
+		SetSpritesUpright();
 	}
 
-	private void OnParentChangeComplete()
+	private void OnAppearOrChangeMatrix()
 	{
 		//if our parent changed, our local rotation might've changed so make sure our sprites are still upright
 		SetSpritesUpright();
 	}
 
-	private void InitOnSpawn()
-	{
-		//orient upright
-		SetSpritesUpright();
-	}
-
 	private void OnEnable()
 	{
-		InitOnSpawn();
+		SetSpritesUpright();
 	}
 
 	public void OnSpawnClient(ClientSpawnInfo info)
 	{
-		InitOnSpawn();
+		SetSpritesUpright();
 	}
-
 
 	public void OnDespawnClient(ClientDespawnInfo info)
 	{
@@ -80,16 +74,13 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 	private void SetSpritesUpright()
 	{
 		if (spriteRenderers == null) return;
+		//if the object has rotation (due to spinning), don't set sprites upright, this
+		//avoids it suddenly flicking upright when it crosses a matrix or matrix rotates
+		if (Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
 		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
 			renderer.transform.rotation = ExtraRotation;
 		}
-	}
-
-	private void OnMatrixChange(Matrix oldMatrix, Matrix newMatrix)
-	{
-		//make sure we switch upright when the matrix changes, because
-		//we can't always be sure our OnMatrixRotate fired
 	}
 
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)

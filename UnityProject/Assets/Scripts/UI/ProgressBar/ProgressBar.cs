@@ -71,6 +71,8 @@ public class ProgressBar : MonoBehaviour
 	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		//always upright in world space
+		transform.rotation = Quaternion.identity;
 	}
 
 	/// <summary>
@@ -140,6 +142,8 @@ public class ProgressBar : MonoBehaviour
 
 	private void CommonStartProgress()
 	{
+		//always upright in world space
+		transform.rotation = Quaternion.identity;
 		done = false;
 		//common logic used between client / server progress start logic
 		matrixMove = GetComponentInParent<MatrixMove>();

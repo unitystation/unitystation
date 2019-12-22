@@ -98,6 +98,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[NonSerialized]
 	public UnityEvent OnParentChangeComplete = new UnityEvent();
 
+	/// <summary>
+	/// Invoked clientside when object is in the world (not at hidden pos) and then disappears for whatever reason
+	/// (registered to hidden pos)
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnDisappearClient = new UnityEvent();
+	/// <summary>
+	/// Invoked clientside when object is invisible to client (at hidden pos) and then becomes visible
+	/// (not at hidden pos)
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnAppearClient = new UnityEvent();
+
 
 	[SyncVar(hook = nameof(SyncGrandparentMatrixNetId))]
 	private uint grandparentMatrixNetId;
@@ -151,6 +164,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		get => clientLocalPosition;
 		private set
 		{
+			bool appeared = clientLocalPosition == TransformState.HiddenPos && value != TransformState.HiddenPos;
+			bool disappeared = clientLocalPosition != TransformState.HiddenPos && value == TransformState.HiddenPos;
 			if (objectLayer)
 			{
 				objectLayer.ClientObjects.Remove(clientLocalPosition, this);
@@ -161,6 +176,15 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			}
 
 			clientLocalPosition = value;
+
+			if (appeared)
+			{
+				OnAppearClient.Invoke();
+			}
+			if (disappeared)
+			{
+				OnDisappearClient.Invoke();
+			}
 
 		}
 	}
@@ -273,16 +297,28 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
 
-		//remove from current parent layer
-		bool hadParent = transform.parent != null;
+		//remove from current parent layer.
+		//if we had any spin rotation, preserve it (currently only CNT.SpinRotation should cause this,
+		//otherwise all objects should always have upright local rotation)
+		var rotation = transform.rotation;
+		bool hadSpinRotation = Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
 		objectLayer = grandparentMatrix.GetComponentInChildren<ObjectLayer>();
-		Matrix = grandparentMatrix.GetComponentInChildren<Matrix>();
 		transform.SetParent( objectLayer.transform, true );
-		//if we are going from having no parent to having a parent, we should always be upright
-		//(as is the case for newly spawned objects but not for mapped ones which should preserve their rotation)
-		if (!hadParent) transform.localRotation = Quaternion.identity;
+		//preserve absolute rotation if there was spin rotation
+		if (hadSpinRotation)
+		{
+			transform.rotation = rotation;
+		}
+		else
+		{
+			//objects are always upright w.r.t. parent matrix
+			transform.localRotation = Quaternion.identity;
+		}
+		//this will fire parent change hooks so we do it last
+		Matrix = grandparentMatrix.GetComponentInChildren<Matrix>();
+
 
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
 		if (LocalPositionClient != TransformState.HiddenPos)

@@ -372,7 +372,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	#region Hiding/Unhiding
 
 	[Server]
-	public void DisappearFromWorldServer()
+	public void DisappearFromWorldServer(bool resetRotation = false)
 	{
 		OnPullInterrupt().Invoke();
 		if (IsFloatingServer)
@@ -382,6 +382,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
+
+		if (resetRotation)
+		{
+			transform.localRotation = Quaternion.identity;
+			//no spinning
+			serverState.SpinFactor = 0;
+			serverLerpState.SpinFactor = 0;
+			serverState.SpinRotation = 0;
+			serverLerpState.SpinRotation = 0;
+		}
 
 		NotifyPlayers();
 		UpdateActiveStatusServer();

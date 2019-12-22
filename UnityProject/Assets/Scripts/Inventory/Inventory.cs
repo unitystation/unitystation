@@ -416,7 +416,7 @@ public static class Inventory
 		}
 
 		//go poof, it's in inventory now.
-		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
 
 		//no longer inside any PushPull
 		pickupable.GetComponent<ObjectBehaviour>().parentContainer = null;
