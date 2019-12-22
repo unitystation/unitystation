@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using DatabaseAPI;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 
 /// <summary>
 /// Admin Controller for players
@@ -12,16 +15,24 @@ public partial class PlayerList
 {
 	private FileSystemWatcher adminListWatcher;
 	private List<string> adminUsers = new List<string>();
+	private BanList banList;
 	private string adminsPath;
+	private string banPath;
 
 	[Server]
 	void InitAdminController()
 	{
 		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
+		banPath = Path.Combine(Application.streamingAssetsPath, "admin", "banlist.json");
 
 		if (!File.Exists(adminsPath))
 		{
 			File.CreateText(adminsPath);
+		}
+
+		if (!File.Exists(banPath))
+		{
+			File.WriteAllText(banPath, JsonUtility.ToJson(new BanList()));
 		}
 
 		adminListWatcher = new FileSystemWatcher();
@@ -30,8 +41,13 @@ public partial class PlayerList
 		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
 		adminListWatcher.Changed += LoadCurrentAdmins;
 		adminListWatcher.EnableRaisingEvents = true;
-
+		LoadBanList();
 		LoadCurrentAdmins();
+	}
+
+	void LoadBanList()
+	{
+		banList = JsonUtility.FromJson<BanList>(File.ReadAllText(banPath));
 	}
 
 	void LoadCurrentAdmins(object source, FileSystemEventArgs e)
@@ -45,14 +61,43 @@ public partial class PlayerList
 		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
 	}
 
-	public bool ValidatePlayer(string clientID, string username,
-		string userid, int clientVersion, ConnectedPlayer playerConn)
+	public async Task<bool> ValidatePlayer(string clientID, string username,
+		string userid, int clientVersion, ConnectedPlayer playerConn,
+		string token)
 	{
+		var validAccount = await CheckUserState(userid, token, playerConn);
+
+		if (!validAccount)
+		{
+			return false;
+		}
+
 		if (clientVersion != GameData.BuildNumber)
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}"));
 			return false;
 		}
+
+		return true;
+	}
+
+	//Check if tokens match and if the player is an admin or is banned
+	private async Task<bool> CheckUserState(string userid, string token, ConnectedPlayer playerConn)
+	{
+		//Only do the account check on release builds as its not important when developing
+		if (BuildPreferences.isForRelease)
+		{
+			var refresh = new RefreshToken {userID = userid, refreshToken = token};
+			var response = await ServerData.ValidateToken(refresh);
+
+			if (response.errorCode == 1)
+			{
+				StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
+				return false;
+			}
+		}
+
+
 
 		return true;
 	}
@@ -94,4 +139,20 @@ public partial class PlayerList
 
 		loggedOff.Remove(connPlayer);
 	}
+}
+
+[Serializable]
+public class BanList
+{
+	public List<BanEntry> banEntries = new List<BanEntry>();
+}
+
+[Serializable]
+public class BanEntry
+{
+	public string userId;
+	public string userName;
+	public long minutes;
+	public string dateTimeOfBan;
+	public string reason;
 }
