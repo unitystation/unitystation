@@ -540,6 +540,7 @@ MonoBehaviour:
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 15
+  damageOnClose: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 1
@@ -562,7 +563,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorController: {fileID: 114029210237443714}
+  spritePath: icons/obj/doors/windoor
+  animFrames: 3000000024000000200000001c0000001400000010000000
+  closeFrame: 76
+  deniedFrame: 80
+  openFrame: 0
   direction: 0
+  IncludeAccessDeniedAnim: 1
 --- !u!114 &114476203546729768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,7 +630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114320171668943648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,7 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: aec802ad975d3418d9b782880452b7bf
   m_SceneId: 0
 --- !u!1 &1811994644492090
 GameObject:

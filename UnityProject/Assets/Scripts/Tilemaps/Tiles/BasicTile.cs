@@ -14,13 +14,17 @@ public struct TileState
 
 public abstract class BasicTile : LayerTile
 {
+	[Tooltip("What it sounds like when walked over")]
+	public FloorSound WalkingSoundCategory =  FloorSound.floor;
+
 	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
 	[FormerlySerializedAs("AtmosPassable")]
 	[SerializeField]
 	private bool atmosPassable;
 
 	[Tooltip("Does this tile form a seal against the floor?")]
-	[FormerlySerializedAs("IsSealed")] [SerializeField]
+	[FormerlySerializedAs("IsSealed")]
+	[SerializeField]
 	private bool isSealed;
 
 	[FormerlySerializedAs("OreCategorie")]
@@ -31,11 +35,13 @@ public abstract class BasicTile : LayerTile
 	public TileState[] HealthStates;
 
 	[Tooltip("Does this tile allow items / objects to pass through it?")]
-	[FormerlySerializedAs("Passable")] [SerializeField]
+	[FormerlySerializedAs("Passable")]
+	[SerializeField]
 	private bool passable;
 
 	[Tooltip("Can this tile be mined?")]
-	[FormerlySerializedAs("Mineable")] [SerializeField]
+	[FormerlySerializedAs("Mineable")]
+	[SerializeField]
 	private bool mineable;
 	/// <summary>
 	/// Can this tile be mined?
@@ -43,21 +49,25 @@ public abstract class BasicTile : LayerTile
 	public bool Mineable => mineable;
 
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
-	[FormerlySerializedAs("PassableException")] [SerializeField]
+	[FormerlySerializedAs("PassableException")]
+	[SerializeField]
 	private PassableDictionary passableException;
 
 
 	[Tooltip("What is this tile's max health?")]
-	[FormerlySerializedAs("MaxHealth")] [SerializeField]
+	[FormerlySerializedAs("MaxHealth")]
+	[SerializeField]
 	private float maxHealth;
 
 
 	[Tooltip("How does the tile change as its health changes?")]
-	[FormerlySerializedAs("HealthStates")] [SerializeField]
+	[FormerlySerializedAs("HealthStates")]
+	[SerializeField]
 	private TileState[] healthStates;
 
 	[Tooltip("Resistances of this tile.")]
-	[FormerlySerializedAs("Resistances")] [SerializeField]
+	[FormerlySerializedAs("Resistances")]
+	[SerializeField]
 	private Resistances resistances;
 	/// <summary>
 	/// Resistances of this tile.
@@ -65,7 +75,8 @@ public abstract class BasicTile : LayerTile
 	public Resistances Resistances => resistances;
 
 	[Tooltip("Armor of this tile")]
-	[FormerlySerializedAs("Armor")] [SerializeField]
+	[FormerlySerializedAs("Armor")]
+	[SerializeField]
 	private Armor armor;
 	/// <summary>
 	/// Armor of this tile
@@ -89,7 +100,7 @@ public abstract class BasicTile : LayerTile
 	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct;
 
 	[Tooltip("How much of the object to spawn when it's deconstructed. Defaults to 1 if" +
-	         " an object is specified and this is 0.")]
+			 " an object is specified and this is 0.")]
 	[SerializeField]
 	private int spawnAmountOnDeconstruct = 1;
 	/// <summary>
@@ -116,7 +127,8 @@ public abstract class BasicTile : LayerTile
 		if (passableException.ContainsKey(colliderType))
 		{
 			return passableException[colliderType];
-		} else
+		}
+		else
 		{
 			return passable;
 		}

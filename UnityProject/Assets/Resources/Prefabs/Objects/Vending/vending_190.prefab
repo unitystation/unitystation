@@ -198,7 +198,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VendorContent:
-  - Item: {fileID: 1011433845357754, guid: 4cdd8f9f4402a4b0fa1a55527ec0ab11, type: 3}
+  - Item: {fileID: 3011710637427380133, guid: c842b429251c54792a95e292b838d034, type: 3}
+    Stock: 5
+  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+    Stock: 5
+  - Item: {fileID: 3011710637427380133, guid: 57b4739d8947544f387d028cd2dd59b9, type: 3}
+    Stock: 5
+  - Item: {fileID: 3011710637427380133, guid: 82223aa9f2653409893db380f44262de, type: 3}
+    Stock: 5
+  - Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
+    Stock: 5
+  - Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
+    Stock: 5
+  - Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+    Stock: 5
+  - Item: {fileID: 3921521694364753778, guid: 625759ec27e444592b12922a179ac340, type: 3}
+    Stock: 5
+  - Item: {fileID: 3921521694364753778, guid: 4dddb342829e74925b4e0ca0d8cc5150, type: 3}
+    Stock: 5
+  - Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
     Stock: 5
   HullColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   EjectObjects: 0
@@ -311,5 +329,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: be4108548be50497ba7d8db84c6853e8
   m_SceneId: 0

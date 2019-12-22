@@ -212,7 +212,8 @@ public enum DoorType
 	shuttle,
 	airLock,
 	glass,
-	sliding
+	sliding,
+	shutter
 }
 
 public enum BloodSplatSize

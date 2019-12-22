@@ -97,21 +97,7 @@ public class CustomNetworkManager : NetworkManager
 			GameManager.Instance.PreRoundStart();
 		}
 	}
-
-	public static void Kick(ConnectedPlayer player, string raisins = "4 no raisins")
-	{
-		if (!player.Connection.isConnected)
-		{
-			Logger.Log($"Not kicking, already disconnected: {player}", Category.Connections);
-			return;
-		}
-		Logger.Log($"Kicking {player} : {raisins}", Category.Connections);
-		InfoWindowMessage.Send(player.GameObject, $"Kicked: {raisins}", "Kicked");
-		Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
-		player.Connection.Disconnect();
-		player.Connection.Dispose();
-	}
-
+	
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{

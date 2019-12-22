@@ -138,31 +138,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot, worldPos);
 	}
-
-	[Command]
-	public void CmdToggleShutters(GameObject switchObj)
-	{
-		if (!Validations.CanApply(playerScript, switchObj, NetworkSide.Server)) return;
-
-		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
-		{
-			ShutterSwitch s = switchObj.GetComponent<ShutterSwitch>();
-			if (s.IsClosed)
-			{
-				s.IsClosed = false;
-			}
-			else
-			{
-				s.IsClosed = true;
-			}
-		}
-		else
-		{
-			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
-			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
-		}
-	}
-
+	
 	[Command]
 	public void CmdToggleLightSwitch(GameObject switchObj)
 	{

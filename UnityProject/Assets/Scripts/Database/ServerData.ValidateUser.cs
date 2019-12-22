@@ -4,7 +4,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Lobby;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace DatabaseAPI
 {
@@ -15,7 +17,7 @@ namespace DatabaseAPI
 		{
 
 			if (GameData.IsHeadlessServer) return false;
-			
+
 			await user.ReloadAsync();
 
 			if (!user.IsEmailVerified)
@@ -78,6 +80,28 @@ namespace DatabaseAPI
 			PlayerPrefs.SetString("lastLogin", user.Email);
 			PlayerPrefs.Save();
 			return true;
+		}
+
+		public static async Task<ApiResponse> ValidateToken(RefreshToken refreshToken)
+		{
+			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, "https://api.unitystation.org/validatetoken?data="
+			                                                              + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
+
+			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
+
+			HttpResponseMessage res;
+			try
+			{
+				res = await HttpClient.SendAsync(r, cancellationToken);
+			}
+			catch(Exception e)
+			{
+				Logger.LogError($"Something went wrong with token validation {e.Message}", Category.Hub);
+				return null;
+			}
+
+			string msg = await res.Content.ReadAsStringAsync();
+			return JsonUtility.FromJson<ApiResponse>(msg);
 		}
 	}
 }

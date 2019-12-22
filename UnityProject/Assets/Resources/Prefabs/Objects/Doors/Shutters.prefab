@@ -10,16 +10,16 @@ GameObject:
   m_Component:
   - component: {fileID: 4000014063601880}
   - component: {fileID: 61000011364772196}
-  - component: {fileID: 95341735492961758}
   - component: {fileID: 114857803639874670}
-  - component: {fileID: 114640096819736908}
   - component: {fileID: 114056072402202090}
   - component: {fileID: 114820902694638386}
   - component: {fileID: 114639175160094770}
   - component: {fileID: 114254577639162406}
   - component: {fileID: 114878883059172016}
   - component: {fileID: 114072514322392988}
-  m_Layer: 16
+  - component: {fileID: 7037579127031050856}
+  - component: {fileID: 2415801389328985729}
+  m_Layer: 17
   m_Name: Shutters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,25 +67,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!95 &95341735492961758
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010316053548}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4a7f29bac7e2edc48a0deff98e2a76ed, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114857803639874670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,20 +79,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114640096819736908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010316053548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3e79b1b3e974214482328792b14c76d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &114056072402202090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +96,7 @@ MonoBehaviour:
   layer: {fileID: 0}
   ObjectType: 1
   OneDirectionRestricted: 0
-  isClosed: 0
+  isClosed: 1
 --- !u!114 &114820902694638386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114254577639162406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,8 +189,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: f131c934ddb24725affb571a69845bc7
   m_SceneId: 0
+--- !u!114 &7037579127031050856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2cf30704fd754096ad1a718fc9b2782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorController: {fileID: 2415801389328985729}
+  spritePath: icons/obj/doors/shutters
+  animFrames: 07000000060000000500000004000000030000000200000001000000
+  closeFrame: 8
+  deniedFrame: 0
+  openFrame: 0
+  direction: 0
+  IncludeAccessDeniedAnim: 0
+  sprites: []
+--- !u!114 &2415801389328985729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  closeSFX: {fileID: 0}
+  doorAnimationSize: 6
+  doorAnimator: {fileID: 7037579127031050856}
+  DoorDeniedSpriteOffset: 12
+  DoorCoverSpriteOffset: 0
+  DoorLightSpriteOffset: 0
+  DoorSpriteOffset: 0
+  doorType: 16
+  damageOnClose: 1
+  IsOpened: 0
+  isPerformingAction: 0
+  isWindowedDoor: 0
+  useSimpleLightAnimation: 0
+  useSimpleDeniedAnimation: 0
+  maxTimeOpen: -1
+  openSFX: {fileID: 0}
+  openingDirection: 1
+  spriteRenderer: {fileID: 0}
 --- !u!1 &1000014037698914
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,8 +254,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011098651594}
   - component: {fileID: 212000011093762314}
-  m_Layer: 16
-  m_Name: Sprite
+  m_Layer: 17
+  m_Name: DoorBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

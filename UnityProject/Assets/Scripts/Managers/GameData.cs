@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseAPI;
@@ -40,11 +41,15 @@ public class GameData : MonoBehaviour
 			if (!gameData)
 			{
 				gameData = FindObjectOfType<GameData>();
-				gameData.Init();
 			}
 
 			return gameData;
 		}
+	}
+
+	void Awake()
+	{
+		Init();
 	}
 
 	public bool IsTestMode => SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
@@ -54,7 +59,7 @@ public class GameData : MonoBehaviour
 		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
-
+		Logger.Log($"Build Version is: {BuildNumber}");
 		CheckHeadlessState();
 
 		if (IsTestMode)
@@ -133,25 +138,13 @@ public class GameData : MonoBehaviour
 		refreshToken.refreshToken = token;
 		refreshToken.userID = uid;
 
-		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, "https://api.unitystation.org/validatetoken?data="
-		                                                              + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
+		var response = await ServerData.ValidateToken(refreshToken);
 
-		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
-
-		HttpResponseMessage res;
-		try
+		if (response == null)
 		{
-			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
-		}
-		catch(Exception e)
-		{
-			Logger.LogError($"Something went wrong with hub token validation {e.Message}", Category.Hub);
-			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {e.Message}");
+			LobbyManager.Instance.lobbyDialogue.LoginError($"Unknown server error. Please check your logs for more information by press F5");
 			return;
 		}
-
-		string msg = await res.Content.ReadAsStringAsync();
-		var response = JsonUtility.FromJson<ApiResponse>(msg);
 
 		if (!string.IsNullOrEmpty(response.errorMsg))
 		{
