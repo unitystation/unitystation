@@ -74,10 +74,10 @@ public partial class PlayerSync
 	private float predictedSpeedClient;
 
 	///Does server claim this client is floating rn?
-	public bool isFloatingClient => playerState.Impulse != Vector2.zero;
+	public bool isFloatingClient => playerState.WorldImpulse != Vector2.zero;
 
 	/// Does your client think you should be floating rn? (Regardless of what server thinks)
-	private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
+	private bool isPseudoFloatingClient => predictedState.WorldImpulse != Vector2.zero;
 
 	/// Measure to avoid lerping back and forth in a lagspike
 	/// where player simulated entire spacewalk (start and stop) without getting server's answer yet
@@ -372,7 +372,7 @@ public partial class PlayerSync
 			PlayerState crossMatrixState = predictedState;
 			crossMatrixState.MatrixId = playerState.MatrixId;
 			crossMatrixState.WorldPosition = predictedState.WorldPosition;
-			crossMatrixState.Impulse = playerState.Impulse;
+			crossMatrixState.WorldImpulse = playerState.WorldImpulse;
 			predictedState = crossMatrixState;
 		}
 
@@ -392,7 +392,7 @@ public partial class PlayerSync
 		}
 		if (isFloatingClient)
 		{
-			LastDirectionClient = playerState.Impulse;
+			LastDirectionClient = playerState.WorldImpulse;
 		}
 
 		//don't reset predicted state if it guessed impulse correctly
@@ -400,14 +400,17 @@ public partial class PlayerSync
 		if (isFloatingClient || isPseudoFloatingClient)
 		{
 			//rollback prediction if either wrong impulse on given step OR both impulses are non-zero and point in different directions
-			bool spacewalkReset = predictedState.Impulse != playerState.Impulse
+			bool spacewalkReset = predictedState.WorldImpulse != playerState.WorldImpulse
 							 && ((predictedState.MoveNumber == playerState.MoveNumber && !pushPull.IsPullingSomethingClient)
-								  || playerState.Impulse != Vector2.zero && predictedState.Impulse != Vector2.zero);
+								  || playerState.WorldImpulse != Vector2.zero && predictedState.WorldImpulse != Vector2.zero);
 			bool wrongFloatDir = playerState.MoveNumber < predictedState.MoveNumber &&
-							playerState.Impulse != Vector2.zero &&
-							playerState.Impulse.normalized != (Vector2)(predictedState.Position - playerState.Position).normalized;
+							playerState.WorldImpulse != Vector2.zero &&
+							//note: since the Positions used below are local, we must use LocalImpulse to see if the prediction is actually wrong
+							playerState.LocalImpulse(this).normalized != (Vector2)(predictedState.Position - playerState.Position).normalized;
 			if (spacewalkReset || wrongFloatDir)
 			{
+				//NOTE: This is currently generated when client is slipping indoors because there's no way for client
+				//to know if a tile is slippery, thus they can never predict it correctly
 				Logger.LogWarning($"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}", Category.Movement);
 				ClearQueueClient();
 				RollbackPrediction();
@@ -517,11 +520,15 @@ public partial class PlayerSync
 			{
 				//Logger.Log( "Stopped clientside floating to avoid going through walls" );
 
+				//NOTE: This is currently being reached when client is slipping indoors because there's no way for client
+				//to know if a tile is slippery, thus they always think they will stop slipping and keep incorrectly
+				//setting their prediced impulse to zero.
+
 				//Zeroing lastDirection after hitting an obstacle
 				LastDirectionClient = Vector2.zero;
 
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
-				predictedState.Impulse = Vector2.zero;
+				predictedState.WorldImpulse = Vector2.zero;
 				//Stopping spacewalk increases move number
 				predictedState.MoveNumber++;
 
@@ -536,7 +543,7 @@ public partial class PlayerSync
 		}
 		else
 		{
-			if (predictedState.Impulse == Vector2.zero && LastDirectionClient != Vector2.zero)
+			if (predictedState.WorldImpulse == Vector2.zero && LastDirectionClient != Vector2.zero)
 			{
 				if (pendingActions == null || pendingActions.Count == 0)
 				{
@@ -545,7 +552,7 @@ public partial class PlayerSync
 					return;
 				}
 				//client initiated space dive.
-				predictedState.Impulse = LastDirectionClient;
+				predictedState.WorldImpulse = LastDirectionClient;
 				Logger.Log($"Client init floating with impulse {LastDirectionClient}. FC={isFloatingClient},PFC={isPseudoFloatingClient}", Category.Movement);
 			}
 
@@ -555,7 +562,8 @@ public partial class PlayerSync
 				var oldPos = predictedState.WorldPosition;
 
 				//Extending prediction by one tile if player's transform reaches previously set goal
-				Vector3Int newGoal = Vector3Int.RoundToInt(predictedState.Position + (Vector3)predictedState.Impulse);
+				//note: position is local, so we must use local impulse to predict the new position
+				Vector3Int newGoal = Vector3Int.RoundToInt(predictedState.Position + (Vector3)predictedState.LocalImpulse(this));
 				predictedState.Position = newGoal;
 
 				var newPos = predictedState.WorldPosition;
