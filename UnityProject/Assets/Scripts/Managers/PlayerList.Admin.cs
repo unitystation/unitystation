@@ -15,9 +15,12 @@ public partial class PlayerList
 {
 	private FileSystemWatcher adminListWatcher;
 	private List<string> adminUsers = new List<string>();
+	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
 	private BanList banList;
 	private string adminsPath;
 	private string banPath;
+	private bool thisClientIsAdmin;
+	private string adminToken;
 
 	[Server]
 	void InitAdminController()
@@ -65,7 +68,7 @@ public partial class PlayerList
 		string userid, int clientVersion, ConnectedPlayer playerConn,
 		string token)
 	{
-		var validAccount = await CheckUserState(userid, token, playerConn);
+		var validAccount = await CheckUserState(userid, token, playerConn, clientID);
 
 		if (!validAccount)
 		{
@@ -82,7 +85,7 @@ public partial class PlayerList
 	}
 
 	//Check if tokens match and if the player is an admin or is banned
-	private async Task<bool> CheckUserState(string userid, string token, ConnectedPlayer playerConn)
+	private async Task<bool> CheckUserState(string userid, string token, ConnectedPlayer playerConn, string clientID)
 	{
 		//Only do the account check on release builds as its not important when developing
 		if (BuildPreferences.isForRelease)
@@ -93,13 +96,68 @@ public partial class PlayerList
 			if (response.errorCode == 1)
 			{
 				StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
+				Logger.Log($"A spoof attempt was recorded. " +
+				           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+					Category.Admin);
 				return false;
 			}
 		}
 
+		var banEntry = banList.CheckForEntry(userid);
+		if (banEntry != null)
+		{
+			DateTime entryTime;
+			DateTime.TryParse(banEntry.dateTimeOfBan, out entryTime);
+			if (entryTime.AddMinutes(banEntry.minutes) < DateTime.Now)
+			{
+				//Old ban, remove it
+				banList.banEntries.Remove(banEntry);
+				SaveBanList();
+				Logger.Log($"{playerConn.Username} ban has expired and the user has logged back in.", Category.Admin);
+			}
+			else
+			{
+				//User is still banned:
+				StartCoroutine(KickPlayer(playerConn, $"Server Error: This account is banned. " +
+				                                      $"Check your initial ban message for expiry time"));
+				Logger.Log($"{playerConn.Username} tried to log back in but the account is banned. " +
+				           $"IP: {playerConn.Connection.address}", Category.Admin);
+				return false;
+			}
+		}
 
+		if (adminUsers.Contains(userid))
+		{
+			//This is an admin, send admin notify to the users client
+			Logger.Log($"{playerConn.Username} logged in as Admin. " +
+			           $"IP: {playerConn.Connection.address}", Category.Admin);
+			var newToken = System.Guid.NewGuid().ToString();
+			loggedInAdmins.Add(userid, newToken);
+			AdminEnableMessage.Send(playerConn.GameObject, newToken);
+		}
 
 		return true;
+	}
+
+	void CheckForLoggedOffAdmin(string userid, string userName)
+	{
+		if (loggedInAdmins.ContainsKey(userid))
+		{
+			Logger.Log($"Admin {userName} logged off.", Category.Admin);
+			loggedInAdmins.Remove(userid);
+		}
+	}
+
+	public void SetClientAsAdmin(string _adminToken)
+	{
+		thisClientIsAdmin = true;
+		adminToken = _adminToken;
+		Logger.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
+	}
+
+	void SaveBanList()
+	{
+		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
 	}
 
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
@@ -145,6 +203,14 @@ public partial class PlayerList
 public class BanList
 {
 	public List<BanEntry> banEntries = new List<BanEntry>();
+
+	public BanEntry CheckForEntry(string userId)
+	{
+		var index = banEntries.FindIndex(x => x.userId == userId);
+		if (index == -1) return null;
+
+		return banEntries[index];
+	}
 }
 
 [Serializable]
@@ -152,7 +218,7 @@ public class BanEntry
 {
 	public string userId;
 	public string userName;
-	public long minutes;
+	public double minutes;
 	public string dateTimeOfBan;
 	public string reason;
 }

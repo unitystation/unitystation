@@ -246,7 +246,8 @@ public enum Category
 	Hub,
 	SpatialRelationship,
 	MLAgents,
-	Direction
+	Direction,
+	Admin
 }
 
 [Serializable]

@@ -283,6 +283,7 @@ public partial class PlayerList : NetworkBehaviour
 	public void Remove(NetworkConnection connection)
 	{
 		ConnectedPlayer connectedPlayer = Get(connection);
+		CheckForLoggedOffAdmin(connectedPlayer.UserId, connectedPlayer.Username);
 		if (connectedPlayer.Equals(ConnectedPlayer.Invalid))
 		{
 			Logger.LogError($"Cannot remove by {connection}, not found", Category.Connections);

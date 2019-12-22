@@ -54,7 +54,8 @@ public class JoinedViewer : NetworkBehaviour
 			GameObject = gameObject,
 			Username = username,
 			Job = JobType.NULL,
-			ClientId = clientID
+			ClientId = clientID,
+			UserId = userid
 		});
 
 		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(clientID, username,

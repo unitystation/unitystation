@@ -12,6 +12,7 @@ public class ConnectedPlayer
 	private JoinedViewer viewerScript;
 	private NetworkConnection connection;
 	private string clientID;
+	private string userID;
 
 	/// Flags if player received a bunch of sync messages upon joining
 	private bool synced;
@@ -27,7 +28,8 @@ public class ConnectedPlayer
 		name = "kek",
 		job = JobType.NULL,
 		synced = true,
-		clientID = ""
+		clientID = "",
+		userID = ""
 	};
 
 	public static ConnectedPlayer ArchivedPlayer( ConnectedPlayer player )
@@ -40,7 +42,8 @@ public class ConnectedPlayer
 			name = player.Name,
 			job = player.Job,
 			synced = player.synced,
-			clientID = player.clientID
+			clientID = player.clientID,
+			userID = player.userID
 		};
 	}
 
@@ -104,6 +107,12 @@ public class ConnectedPlayer
 	{
 		get => clientID;
 		set => clientID = value;
+	}
+
+	public string UserId
+	{
+		get => userID;
+		set => userID = value;
 	}
 
 	public bool HasNoName()
