@@ -12,21 +12,37 @@ public partial class PlayerList
 {
 	private FileSystemWatcher adminListWatcher;
 	private List<string> adminUsers = new List<string>();
+	private string adminsPath;
 
 	[Server]
 	void InitAdminController()
 	{
+		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
+
+		if (!File.Exists(adminsPath))
+		{
+			File.CreateText(adminsPath);
+		}
+
 		adminListWatcher = new FileSystemWatcher();
-		adminListWatcher.Path = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
+		adminListWatcher.Path = Path.GetDirectoryName(adminsPath);
+		adminListWatcher.Filter = Path.GetFileName(adminsPath);
 		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
 		adminListWatcher.Changed += LoadCurrentAdmins;
+		adminListWatcher.EnableRaisingEvents = true;
+
+		LoadCurrentAdmins();
 	}
 
 	void LoadCurrentAdmins(object source, FileSystemEventArgs e)
 	{
+		LoadCurrentAdmins();
+	}
+
+	void LoadCurrentAdmins()
+	{
 		adminUsers.Clear();
-		adminUsers = new List<string>(File.ReadAllLines(Path.Combine(Application.streamingAssetsPath,
-			"admin", "admins.txt")));
+		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
 	}
 
 	public bool ValidatePlayer(string clientID, string username,
@@ -37,6 +53,7 @@ public partial class PlayerList
 			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}"));
 			return false;
 		}
+
 		return true;
 	}
 
@@ -74,6 +91,7 @@ public partial class PlayerList
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+
 		loggedOff.Remove(connPlayer);
 	}
 }
