@@ -112,10 +112,12 @@ public class LightSource : ObjectTrigger
 		}
 	}
 
+	//this is the method broadcast invoked by LightSwitch to tell this light source what switch is driving it.
+	//it is buggy and unreliable especially when client joins on a rotated matrix, client and server do not agree
+	//on which switch owns which light
 	public void Received(LightSwitchData Received)
 	{
 		//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
-		// Leo Note: Some sync magic happening here. Decided not to touch it.
 		tempStateCache = Received.state;
 
 		if (waitToCheckState)
