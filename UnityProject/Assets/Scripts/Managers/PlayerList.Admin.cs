@@ -50,7 +50,7 @@ public partial class PlayerList
 
 	void LoadBanList()
 	{
-		banList = JsonUtility.FromJson<BanList>(File.ReadAllText(banPath));
+		StartCoroutine(LoadBans());
 	}
 
 	void LoadCurrentAdmins(object source, FileSystemEventArgs e)
@@ -60,6 +60,20 @@ public partial class PlayerList
 
 	void LoadCurrentAdmins()
 	{
+		StartCoroutine(LoadAdmins());
+	}
+
+	IEnumerator LoadBans()
+	{
+		//ensure any writing has finished
+		yield return WaitFor.EndOfFrame;
+		banList = JsonUtility.FromJson<BanList>(File.ReadAllText(banPath));
+	}
+
+	IEnumerator LoadAdmins()
+	{
+		//ensure any writing has finished
+		yield return WaitFor.EndOfFrame;
 		adminUsers.Clear();
 		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
 	}
@@ -90,6 +104,15 @@ public partial class PlayerList
 		//Only do the account check on release builds as its not important when developing
 		if (BuildPreferences.isForRelease)
 		{
+			if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid))
+			{
+				StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
+				Logger.Log($"A user tried to connect with null userid or token value" +
+				           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+					Category.Admin);
+				return false;
+			}
+			
 			var refresh = new RefreshToken {userID = userid, refreshToken = token};
 			var response = await ServerData.ValidateToken(refresh);
 
