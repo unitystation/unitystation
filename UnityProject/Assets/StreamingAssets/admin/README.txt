@@ -1,0 +1,2 @@
+To manually add an admin to the list, simply add the UserID of the players account to a new line in admins.txt.
+This can be done at runtime. Alternatively you can use admin commands in RCON or the console to add a new admin.

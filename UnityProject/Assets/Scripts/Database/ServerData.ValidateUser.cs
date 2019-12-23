@@ -82,10 +82,15 @@ namespace DatabaseAPI
 			return true;
 		}
 
-		public static async Task<ApiResponse> ValidateToken(RefreshToken refreshToken)
+		public static async Task<ApiResponse> ValidateToken(RefreshToken refreshToken, bool doNotGenerateAccessToken = false)
 		{
-			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, "https://api.unitystation.org/validatetoken?data="
-			                                                              + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
+			var url = "https://api.unitystation.org/validatetoken?data=";
+
+			if (doNotGenerateAccessToken)
+			{
+				url = "https://api.unitystation.org/validateuser?data=";
+			}
+			HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, url + UnityWebRequest.EscapeURL(JsonUtility.ToJson(refreshToken)));
 
 			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
