@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Component which causes an object's sprites to rotate based on its
 /// current direction.
-/// Use this for things like thrusters which should change their direction based on the rotation
+/// Use this for things like shuttle heaters and wall protrusions which should change their sprite direction based on the rotation
 /// of their parent matrix.
 /// </summary>
 [ExecuteInEditMode]
