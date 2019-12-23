@@ -197,9 +197,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
 
 	private IMatrixRotation[] matrixRotationHooks;
+	private CustomNetTransform cnt;
 
 	protected virtual void Awake()
 	{
+		cnt = GetComponent<CustomNetTransform>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 	}
 
@@ -282,7 +284,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void SyncGrandparentMatrixNetId(uint newGrandparentMatrixNetID)
 	{
 		LogMatrixDebug($"Sync parent net id {grandparentMatrixNetId}");
-		//TODO: Maybe?
 		if (this.grandparentMatrixNetId == newGrandparentMatrixNetID) return;
 		if (newGrandparentMatrixNetID == NetId.Invalid || newGrandparentMatrixNetID == NetId.Empty) return;
 
@@ -298,10 +299,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
 
 		//remove from current parent layer.
-		//if we had any spin rotation, preserve it (currently only CNT.SpinRotation should cause this,
-		//otherwise all objects should always have upright local rotation)
+		//if we had any spin rotation, preserve it,
+		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
-		bool hadSpinRotation = Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
+		//only CNTs can have spin rotation
+		bool hadSpinRotation = cnt && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
 		objectLayer = grandparentMatrix.GetComponentInChildren<ObjectLayer>();

@@ -174,7 +174,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	    {
 		    if (ChangeDirectionWithMatrix && !LockDirection)
 		    {
-			    if (rotationInfo.IsClientside && !isServer)
+			    if (rotationInfo.IsClientside && !isServer && rotationInfo.MatrixMove.Initialized)
 			    {
 				    //predict
 				    clientDirection = CurrentDirection.Rotate(rotationInfo.RotationOffset);

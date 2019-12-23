@@ -25,9 +25,9 @@ public class GrandparentMatrix : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		//make sure layer orientations are refreshed now that this matrix is initialized
-		foreach (var tilemap in GetComponentsInChildren<Tilemap>())
+		foreach (var layer in GetComponentsInChildren<Layer>())
 		{
-			tilemap.RefreshAllTiles();
+			layer.InitFromMatrix();
 		}
 	}
 }

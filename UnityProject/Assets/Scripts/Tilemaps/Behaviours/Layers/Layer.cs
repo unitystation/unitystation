@@ -99,16 +99,20 @@ using UnityEngine.Tilemaps;
 
 			}
 
+			InitFromMatrix();
+		}
+
+		public void InitFromMatrix()
+		{
 			RotationOffset = RotationOffset.Same;
 			matrixMove = transform.root.GetComponent<MatrixMove>();
 			if (matrixMove != null)
 			{
+				Logger.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
 				matrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 				//initialize from current rotation
 				OnRotate(MatrixRotationInfo.FromInitialRotation(matrixMove, NetworkSide.Client, RotationEvent.Register));
 			}
-
-
 		}
 
 		private void OnRotate(MatrixRotationInfo info)
@@ -116,6 +120,7 @@ using UnityEngine.Tilemaps;
 			if (info.IsEnding || info.IsObjectBeingRegistered)
 			{
 				RotationOffset = info.RotationOffsetFromInitial;
+				Logger.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove, RotationOffset);
 				tilemap.RefreshAllTiles();
 			}
 		}

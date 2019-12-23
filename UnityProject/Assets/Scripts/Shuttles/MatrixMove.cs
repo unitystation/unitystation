@@ -133,10 +133,16 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private int moveCur = -1;
 	private int moveLimit = -1;
 
+	//tracks status of initializing this matrix move
+	private bool clientStarted;
+	private bool receivedInitialState;
+	public bool Initialized => clientStarted && receivedInitialState;
+
 	public override void OnStartClient()
 	{
 		SyncPivot(pivot);
 		SyncInitialPosition(initialPosition);
+		clientStarted = true;
 	}
 
 	public override void OnStartServer()
@@ -296,6 +302,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (!NeedsRotationClient && inProgressRotation != null)
 		{
 			//client and server logic happens here because server also must wait for the rotation to finish lerping.
+			Logger.LogTraceFormat("{0} ending rotation progress to {1}", Category.Matrix, this, inProgressRotation.Value);
 			if (isServer)
 			{
 				MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Server, RotationEvent.End));
@@ -649,8 +656,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (!Equals(oldState.FacingDirection, newState.FacingDirection))
 		{
 			inProgressRotation = oldState.FacingDirection.OffsetTo(newState.FacingDirection);
-			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.Start));
 			Logger.LogTraceFormat("{0} starting rotation progress to {1}", Category.Matrix, this, newState.FacingDirection);
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.Start));
 		}
 
 		if (!oldState.IsMoving && newState.IsMoving)
@@ -667,6 +674,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			MatrixMoveEvents.OnSpeedChange.Invoke(oldState.Speed, newState.Speed);
 		}
+
+		receivedInitialState = true;
 	}
 
 	///predictive perpetual flying
