@@ -70,7 +70,7 @@ public class MouseDraggable : MonoBehaviour
 		//shadowObject.transform.localScale -= new Vector3(0.5f,0.5f, 0);
 	}
 
-	private void Update()
+	private void LateUpdate()
 	{
 		if (shadowObject == null)
 		{
