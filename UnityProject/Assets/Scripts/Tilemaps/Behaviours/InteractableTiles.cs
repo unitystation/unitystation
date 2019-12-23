@@ -173,7 +173,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		LayerTile tile = LayerTileAt(worldPosTarget);
 		if (tile is BasicTile basicTile)
 		{
-			if (tileInteractionIndex > basicTile.TileInteractions.Count)
+			if (tileInteractionIndex >= basicTile.TileInteractions.Count)
 			{
 				Logger.LogErrorFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
 					Category.Interaction, tileInteractionIndex, basicTile.name);
