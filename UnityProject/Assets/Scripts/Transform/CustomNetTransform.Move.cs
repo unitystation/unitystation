@@ -30,11 +30,11 @@ public partial class CustomNetTransform
 	public bool CanPredictPush => !IsClientLerping;
 	public bool IsMovingClient => IsClientLerping;
 	public bool IsMovingServer => IsServerLerping;
-	public Vector2 ServerImpulse => serverState.Impulse;
+	public Vector2 ServerImpulse => serverState.WorldImpulse;
 	public float SpeedServer => ServerState.speed;
 	public float SpeedClient => PredictedState.speed;
-	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f && !IsBeingPulledServer;
-	public bool IsFloatingClient => predictedState.Impulse != Vector2.zero && predictedState.Speed > 0f && !IsBeingPulledClient;
+	public bool IsFloatingServer => serverState.WorldImpulse != Vector2.zero && serverState.Speed > 0f && !IsBeingPulledServer;
+	public bool IsFloatingClient => predictedState.WorldImpulse != Vector2.zero && predictedState.Speed > 0f && !IsBeingPulledClient;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals(ThrowInfo.NoThrow);
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
@@ -50,7 +50,7 @@ public partial class CustomNetTransform
 			}
 
 			bool shouldStop =
-				Vector3.Distance(serverState.ActiveThrow.OriginPos, serverState.WorldPosition) >= serverState.ActiveThrow.Trajectory.magnitude;
+				Vector3.Distance(serverState.ActiveThrow.OriginWorldPos, serverState.WorldPosition) >= serverState.ActiveThrow.WorldTrajectory.magnitude;
 			//			if ( shouldStop ) {
 			//				Logger.Log( $"Should stop throw: {Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition )}" +
 			//				           $" >= {trajectory.magnitude}" );
@@ -101,11 +101,11 @@ public partial class CustomNetTransform
 
 		if (!followMode && MatrixManager.IsEmptyAt(roundedTarget, true))
 		{
-			serverState.Impulse = (Vector3)clampedDir;
+			serverState.WorldImpulse = (Vector3)clampedDir;
 		}
 		else
 		{
-			serverState.Impulse = Vector2.zero;
+			serverState.WorldImpulse = Vector2.zero;
 		}
 
 		if (!float.IsNaN(speed) && speed > 0)
@@ -144,11 +144,11 @@ public partial class CustomNetTransform
 
 		if (!followMode && MatrixManager.IsEmptyAt(target3int, false))
 		{
-			predictedState.Impulse = target - currentPos.To2Int();
+			predictedState.WorldImpulse = target - currentPos.To2Int();
 		}
 		else
 		{
-			predictedState.Impulse = Vector2.zero;
+			predictedState.WorldImpulse = Vector2.zero;
 		}
 
 		if (!float.IsNaN(speed) && speed > 0)
@@ -188,7 +188,7 @@ public partial class CustomNetTransform
         {
         	serverState.Speed = 0;
         }
-        serverState.Impulse = Vector2.zero;
+        serverState.WorldImpulse = Vector2.zero;
         serverState.SpinRotation = transform.localRotation.eulerAngles.z;
         serverState.SpinFactor = 0;
 
@@ -234,7 +234,7 @@ public partial class CustomNetTransform
 		Vector3 moveDelta;
 		if (!isRecursive)
 		{ //Normal delta if not recursive
-			moveDelta = (Vector3)predictedState.Impulse * predictedState.Speed * Time.deltaTime;
+			moveDelta = (Vector3)predictedState.WorldImpulse * predictedState.Speed * Time.deltaTime;
 		}
 		else
 		{ //Artificial delta if recursive
@@ -247,7 +247,7 @@ public partial class CustomNetTransform
 		if (distance > 1)
 		{
 			//limit goal to just one tile away and run this method recursively afterwards
-			newGoal = worldPos + (Vector3)predictedState.Impulse;
+			newGoal = worldPos + (Vector3)predictedState.WorldImpulse;
 		}
 		else
 		{
@@ -266,7 +266,7 @@ public partial class CustomNetTransform
 			//stop
 			Logger.LogTraceFormat(PREDICTIVE_STOP_TO, Category.Transform, gameObject.name, worldPos, intGoal);
 			//			clientState.Speed = 0f;
-			predictedState.Impulse = Vector2.zero;
+			predictedState.WorldImpulse = Vector2.zero;
 			predictedState.SpinFactor = 0;
 		}
 
@@ -326,7 +326,7 @@ public partial class CustomNetTransform
 	public void InertiaDrop(Vector3 initialPos, float speed, Vector2 impulse)
 	{
 		SetPosition(initialPos, false);
-		serverState.Impulse = impulse;
+		serverState.WorldImpulse = impulse;
 		serverState.Speed = Mathf.Clamp(Random.Range(-1.5f, -0.1f) + speed, 0, float.MaxValue);
 		NotifyPlayers();
 	}
@@ -338,18 +338,18 @@ public partial class CustomNetTransform
 	{
 		OnThrowStart.Invoke(info);
 
-		SetPosition(info.OriginPos, false);
+		SetPosition(info.OriginWorldPos, false);
 
 		float throwSpeed = ItemAttributes.ThrowSpeed * 10; //tiles per second
 		float throwRange = ItemAttributes.ThrowRange;
 
-		Vector2 impulse = info.Trajectory.normalized;
+		Vector2 worldImpulse = info.WorldTrajectory.normalized;
 
 		var correctedInfo = info;
 		//limit throw range here
-		if (Vector2.Distance(info.OriginPos, info.TargetPos) > throwRange)
+		if (info.WorldTrajectory.magnitude > throwRange)
 		{
-			correctedInfo.TargetPos = info.OriginPos + ((Vector3)impulse * throwRange);
+			correctedInfo.WorldTrajectory = Vector3.ClampMagnitude(info.WorldTrajectory, throwRange);
 			//			Logger.Log( $"Throw distance clamped to {correctedInfo.Trajectory.magnitude}, " +
 			//			           $"target changed {info.TargetPos}->{correctedInfo.TargetPos}" );
 		}
@@ -357,11 +357,11 @@ public partial class CustomNetTransform
 		//add player momentum
 		float playerMomentum = 0f;
 		//If throwing nearby, do so at 1/2 speed (looks clunky otherwise)
-		float speedMultiplier = Mathf.Clamp(correctedInfo.Trajectory.magnitude / (throwRange <= 0 ? 1 : throwRange), 0.6f, 1f);
+		float speedMultiplier = Mathf.Clamp(correctedInfo.WorldTrajectory.magnitude / (throwRange <= 0 ? 1 : throwRange), 0.6f, 1f);
 		serverState.Speed = (Random.Range(-0.2f, 0.2f) + throwSpeed + playerMomentum) * speedMultiplier;
 		correctedInfo.InitialSpeed = serverState.Speed;
 
-		serverState.Impulse = impulse;
+		serverState.WorldImpulse = worldImpulse;
 		if (info.SpinMode != SpinMode.None)
 		{
 			serverState.SpinFactor = (sbyte)(Mathf.Clamp(throwSpeed * (2f / (int)ItemAttributes.Size + 1), sbyte.MinValue, sbyte.MaxValue) *
@@ -388,7 +388,7 @@ public partial class CustomNetTransform
 
 		serverState.Speed = info.InitialSpeed;
 
-		serverState.Impulse = impulse;
+		serverState.WorldImpulse = impulse;
 		if (info.SpinMode != SpinMode.None)
 		{
 			if (info.SpinMultiplier <= 0)
@@ -413,7 +413,7 @@ public partial class CustomNetTransform
 		Vector3Int newGoal = CeilWithContext(serverState.WorldPosition, impulse);
 		if (MatrixManager.IsNoGravityAt(newGoal, isServer : true))
 		{
-			serverState.Impulse = impulse;
+			serverState.WorldImpulse = impulse;
 			serverState.Speed = Random.Range(0.2f, 2f);
 		}
 
@@ -446,7 +446,7 @@ public partial class CustomNetTransform
 
 		if (!isRecursive)
 		{ //Normal delta if not recursive
-			moveDelta = (Vector3)serverState.Impulse * serverState.Speed * Time.deltaTime;
+			moveDelta = (Vector3)serverState.WorldImpulse * serverState.Speed * Time.deltaTime;
 		}
 		else
 		{ //Artificial delta if recursive
@@ -460,7 +460,7 @@ public partial class CustomNetTransform
 		if (distance > 1)
 		{
 			//limit goal to just one tile away and run this method recursively afterwards
-			newGoal = worldPosition + (Vector3)serverState.Impulse;
+			newGoal = worldPosition + (Vector3)serverState.WorldImpulse;
 		}
 		else
 		{
@@ -642,7 +642,7 @@ public partial class CustomNetTransform
 	private bool HittingSomething(Vector3Int atPos, GameObject thrownBy, out List<LivingHealthBehaviour> victims)
 	{
 		//Not damaging anything at launch tile
-		if (Vector3Int.RoundToInt(serverState.ActiveThrow.OriginPos) == atPos)
+		if (Vector3Int.RoundToInt(serverState.ActiveThrow.OriginWorldPos) == atPos)
 		{
 			victims = null;
 			return false;

@@ -272,7 +272,7 @@ public static class Validations
 
 	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state)
 	{
-		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.Impulse, true, 1.75f);
+		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f);
 	}
 
 	/// <summary>

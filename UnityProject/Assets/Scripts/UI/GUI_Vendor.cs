@@ -137,8 +137,8 @@ public class GUI_Vendor : NetTab
 			{
 				ThrownBy = gameObject,
 				Aim = BodyPartType.Chest,
-				OriginPos = spawnPos,
-				TargetPos = spawnPos + offset,
+				OriginWorldPos = spawnPos,
+				WorldTrajectory = offset,
 				SpinMode = (vendor.EjectDirection == EjectDirection.Random) ? SpinMode.Clockwise : SpinMode.None
 			});
 		}

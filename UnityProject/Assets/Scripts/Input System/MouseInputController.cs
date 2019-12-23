@@ -526,11 +526,15 @@ public class MouseInputController : MonoBehaviour
 			{
 				return false;
 			}
-			Vector3 position = MouseWorldPosition;
-			position.z = 0f;
+			Vector3 targetPosition = MouseWorldPosition;
+			targetPosition.z = 0f;
+
+			//using transform position instead of registered position
+			//so target is still correct when lerping on a matrix (since registered world position is rounded)
+			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.NamedSlot,
-				position, (int)UIManager.DamageZone);
+				targetVector, (int)UIManager.DamageZone);
 
 			//Disabling throw button
 			UIManager.Action.Throw();

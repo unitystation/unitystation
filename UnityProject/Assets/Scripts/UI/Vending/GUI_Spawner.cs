@@ -110,8 +110,8 @@ public class GUI_Spawner : NetTab
 		spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
 			ThrownBy = Provider,
 			Aim = BodyPartType.Chest,
-			OriginPos = originPos,
-			TargetPos = nearestPlayerPos, //haha
+			OriginWorldPos = originPos,
+			WorldTrajectory = nearestPlayerPos - originPos, //haha
 			SpinMode = SpinMode.CounterClockwise
 		} );
 	}

@@ -118,14 +118,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetPos, int aim)
+	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetVector, int aim)
 	{
 		//only allowed to throw from hands
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		Inventory.ServerThrow(slot, worldTargetPos,
+		Inventory.ServerThrow(slot, worldTargetVector,
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
 	}
 
@@ -138,7 +138,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot, worldPos);
 	}
-	
+
 	[Command]
 	public void CmdToggleLightSwitch(GameObject switchObj)
 	{
