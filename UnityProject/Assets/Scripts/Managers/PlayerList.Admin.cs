@@ -112,9 +112,9 @@ public partial class PlayerList
 					Category.Admin);
 				return false;
 			}
-			
+
 			var refresh = new RefreshToken {userID = userid, refreshToken = token};
-			var response = await ServerData.ValidateToken(refresh);
+			var response = await ServerData.ValidateToken(refresh, true);
 
 			if (response.errorCode == 1)
 			{
@@ -158,6 +158,9 @@ public partial class PlayerList
 			loggedInAdmins.Add(userid, newToken);
 			AdminEnableMessage.Send(playerConn.GameObject, newToken);
 		}
+
+		Logger.Log($"{playerConn.Username} logged in successfully. " +
+		           $"userid: {userid}", Category.Admin);
 
 		return true;
 	}
