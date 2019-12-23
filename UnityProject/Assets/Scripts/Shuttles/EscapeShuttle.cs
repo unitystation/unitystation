@@ -182,7 +182,7 @@ public class EscapeShuttle : NetworkBehaviour
 		if ( !isReverse )
 		{
 			isReverse = true;
-			mm.ChangeFlyingDirection( mm.ServerState.FlyingDirection.Rotate( 2 ) );
+			mm.ChangeFacingDirection(mm.ServerState.FacingDirection.Rotate(2));
 		}
 	}
 
@@ -190,7 +190,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		if ( parkingMode )
 		{
-			mm.ChangeFlyingDirection( mm.ServerState.FlyingDirection.Rotate( 2 ) );
+			mm.ChangeFlyingDirection(mm.ServerState.FacingDirection);
 			isReverse = false;
 		}
 

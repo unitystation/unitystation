@@ -390,14 +390,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 		return true;
 	}
 
-	/// Changes flying direction without rotating the shuttle, for use in reversing in EscapeShuttle.cs
-	[Server]
-	public void ChangeFlyingDirection(Orientation newFlyingDirection)
-	{
-		serverTargetState.FlyingDirection = newFlyingDirection;
-		Logger.LogTraceFormat("{0} server target flying {1}", Category.Matrix, this, newFlyingDirection);
-	}
-
 	/// Call to stop chasing target
 	[Server]
 	public void DisableAutopilotTarget()
@@ -791,6 +783,32 @@ public class MatrixMove : ManagedNetworkBehaviour
 			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Matrix, this, desiredOrientation);
 
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, RotationEvent.Start));
+
+			RequestNotify();
+			return true;
+		}
+		return false;
+	}
+
+
+	/// Changes flying direction without rotating the shuttle, for use in reversing in EscapeShuttle
+	[Server]
+	public void ChangeFlyingDirection(Orientation newFlyingDirection)
+	{
+		serverTargetState.FlyingDirection = newFlyingDirection;
+		Logger.LogTraceFormat("{0} server target flying {1}", Category.Matrix, this, newFlyingDirection);
+	}
+
+	/// Changes facing direction without changing flying direction, for use in reversing in EscapeShuttle
+	[Server]
+	public bool ChangeFacingDirection(Orientation newFacingDirection)
+	{
+		if (CanRotateTo(newFacingDirection))
+		{
+			serverTargetState.FacingDirection = newFacingDirection;
+			Logger.LogTraceFormat("{0} server target facing  {1}", Category.Matrix, this, newFacingDirection);
+
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(newFacingDirection), NetworkSide.Server, RotationEvent.Start));
 
 			RequestNotify();
 			return true;
