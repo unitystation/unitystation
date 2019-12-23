@@ -177,6 +177,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			{
 				Logger.LogErrorFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
 					Category.Interaction, tileInteractionIndex, basicTile.name);
+				return;
 			}
 
 			var tileInteraction = basicTile.TileInteractions[tileInteractionIndex];
