@@ -22,6 +22,10 @@ internal enum LightState
 
 	TypeCount,
 }
+/// <summary>
+/// Light source, such as a light bar. Note that for wall protrusion lights such as light tubes / light bars,
+/// LightSwitch automatically sets their RelatedAPC if it's looking in their general direction
+/// </summary>
 [ExecuteInEditMode]
 public class LightSource : ObjectTrigger
 {
@@ -57,6 +61,8 @@ public class LightSource : ObjectTrigger
 		}
 	}
 
+	///Note that for wall protrusion lights such as light tubes / light bars,
+	// LightSwitch automatically sets this if it's looking in their general direction
 	public APC RelatedAPC;
 	public LightSwitch relatedLightSwitch;
 	public Color customColor; //Leave null if you want default light color.

@@ -6,6 +6,7 @@ using UnityEngine;
 /// Client side component. Keeps object's sprites upright no matter the orientation of their parent matrix.
 /// Allows defining what should happen to the sprites during a matrix rotation,
 /// </summary>
+[ExecuteInEditMode]
 public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 {
 	[Tooltip("Defines how this object's sprites should behave during a matrix rotation")]
@@ -68,7 +69,10 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 	//reset on round end.
 	private void OnDisable()
 	{
-		UpdateManager.Instance.Remove(SetSpritesUpright);
+		if (UpdateManager.Instance)
+		{
+			UpdateManager.Instance.Remove(SetSpritesUpright);
+		}
 	}
 
 	private void SetSpritesUpright()
@@ -112,6 +116,20 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 			}
 		}
 	}
+	//changes the rendered sprite in editor so its always upright
+#if UNITY_EDITOR
+	private void Update()
+	{
+		if (Application.isEditor && !Application.isPlaying)
+		{
+			foreach (var spriteRenderer in spriteRenderers)
+			{
+				spriteRenderer.transform.rotation = Quaternion.identity;
+			}
+		}
+	}
+#endif
+
 }
 
 
