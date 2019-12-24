@@ -34,6 +34,9 @@ public class ControlDisplays : MonoBehaviour
 
 	void RejoinedEvent()
 	{
+		//for some reason this is getting called when ControlDisplays is already destroyed when client rejoins while
+		//a ghost, this check prevents a MRE
+		if (!this) return;
 		StartCoroutine(DetermineRejoinUI());
 	}
 

@@ -347,6 +347,7 @@ public partial class MatrixManager : MonoBehaviour
 		foreach (PlayerMove playerMove in playerMoves)
 		{
 			if (playerMove
+			    && !playerMove.PlayerScript.IsGhost
 				&& playerMove.IsHelpIntent
 			    && !playerMove.PlayerScript.playerHealth.IsDead
 			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)

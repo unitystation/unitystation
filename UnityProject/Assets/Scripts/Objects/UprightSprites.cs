@@ -80,7 +80,8 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 		if (spriteRenderers == null) return;
 		//if the object has rotation (due to spinning), don't set sprites upright, this
 		//avoids it suddenly flicking upright when it crosses a matrix or matrix rotates
-		if (Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
+		//note only CNTs can have spin rotation
+		if (cnt != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
 		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
 			renderer.transform.rotation = ExtraRotation;
