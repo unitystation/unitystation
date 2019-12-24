@@ -21,6 +21,16 @@ public class EscapeShuttle : NetworkBehaviour
 	public Destination StationDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 49, 6 ), ApproachReversed = true};
 	private Destination currentDestination;
 
+	[Tooltip("If escape shuttle movement is blocked for longer than this amount of time, will end the round" +
+	         " with the escape impossible ending.")]
+	[SerializeField]
+	private int escapeBlockTimeLimit = 10;
+
+	///tracks how long escape shuttle movement has been blocked to see if ending should be triggered.
+	private float escapeBlockedTime;
+	private bool isBlocked;
+
+
 	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
 
 	/// <summary>
@@ -115,11 +125,17 @@ public class EscapeShuttle : NetworkBehaviour
 
 		if (thrusters.Count == 0)
 		{
-			//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
-			RpcStrandedEnd();
-			StartCoroutine(WaitForGameOver());
-			GameManager.Instance.RespawnCurrentlyAllowed = false;
+			ServerStartStrandedEnd();
 		}
+	}
+
+	private void ServerStartStrandedEnd()
+	{
+		//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
+		currentDestination = Destination.Invalid;
+		RpcStrandedEnd();
+		StartCoroutine(WaitForGameOver());
+		GameManager.Instance.RespawnCurrentlyAllowed = false;
 	}
 
 	IEnumerator WaitForGameOver()
@@ -162,6 +178,43 @@ public class EscapeShuttle : NetworkBehaviour
 				TryPark();
 			}
 		}
+
+		//check if we're trying to move but are unable to
+		if (!isBlocked)
+		{
+			if (Status != ShuttleStatus.DockedCentcom && Status != ShuttleStatus.DockedStation)
+			{
+				if (!mm.ServerState.IsMoving || mm.ServerState.Speed < 1f)
+				{
+					Logger.LogTrace("Escape shuttle is blocked.", Category.Matrix);
+					isBlocked = true;
+					escapeBlockedTime = 0f;
+				}
+			}
+		}
+		else
+		{
+			//currently blocked, check if we are unblocked
+			if (Status == ShuttleStatus.DockedCentcom || Status == ShuttleStatus.DockedStation ||
+			    (mm.ServerState.IsMoving && mm.ServerState.Speed >= 1f))
+			{
+				Logger.LogTrace("Escape shuttle is unblocked.", Category.Matrix);
+				isBlocked = false;
+				escapeBlockedTime = 0f;
+			}
+			else
+			{
+				//continue being blocked
+				escapeBlockedTime += Time.deltaTime;
+				if (escapeBlockedTime > escapeBlockTimeLimit)
+				{
+					Logger.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Matrix, escapeBlockTimeLimit);
+					//can't escape
+					ServerStartStrandedEnd();
+				}
+			}
+		}
+
 	}
 
 	//sorry, not really clean, robust or universal
