@@ -175,7 +175,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		{
 			if (tileInteractionIndex >= basicTile.TileInteractions.Count)
 			{
-				Logger.LogErrorFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
+				//this sometimes happens due to lag, so bumping it down to trace
+				Logger.LogTraceFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
 					Category.Interaction, tileInteractionIndex, basicTile.name);
 				return;
 			}

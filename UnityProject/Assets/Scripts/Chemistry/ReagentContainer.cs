@@ -150,7 +150,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 			result.AddElement("Contents", LogReagents);
 
 			//Pour / add can only be done if in reach
-			if ( PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
+			if ( Validations.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
 			{
 				result.AddElement( "PourOut", () => SpillAll());
 			}

@@ -179,40 +179,14 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	///  <inheritdoc cref="IsInReach(Vector3,float)"/>
 	public bool IsInReach(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance)
 	{
-		return IsInReach(registerTile, otherObject, isServer, interactDist);
+		return Validations.IsInReach(registerTile, otherObject, isServer, interactDist);
 	}
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance)
 	{
-		return IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
-	}
-
-	///Smart way to detect reach, supports high speeds in ships. Should use it more!
-	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = interactionDistance)
-	{
-		if ( isServer )
-		{
-			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionServer, to.LocalPositionServer, interactDist) ||
-			IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
-		}
-		else
-		{
-			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionClient, to.LocalPositionClient, interactDist) ||
-		       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
-		}
-	}
-
-	public static bool IsInReach( Vector3 targetVector, float interactDist = interactionDistance )
-	{
-		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
-	}
-
-	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)
-	{
-		var targetVector = from - to;
-		return IsInReach( targetVector );
+		return Validations.IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)

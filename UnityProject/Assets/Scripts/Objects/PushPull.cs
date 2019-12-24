@@ -323,7 +323,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 			return;
 		}
 
-		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile, true )
+		if ( Validations.IsInReach( pullable.registerTile, this.registerTile, true )
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
@@ -404,7 +404,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		else
 		{
 			//check if in range for pulling
-			if (PlayerScript.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			if (Validations.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
 			{
 				return RightClickableResult.Create()
 					.AddElement("Pull", TryPullThis);
@@ -573,7 +573,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
 
 		//if puller can reach this + not trying to pull himself + not being pulled
-		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile, true )
+		if ( Validations.IsInReach( attachTo.registerTile, this.registerTile, true )
 		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
 		{
 			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
@@ -613,7 +613,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
-		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
+		if ( Validations.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
@@ -725,12 +725,12 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
+			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
 			{
 				StopFollowing();
 			}
 			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
+			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
 			{
 				ReleaseControl();
 			}

@@ -171,9 +171,12 @@ public static class Validations
 	/// <param name="reachRange">range to allow</param>
 	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
 	/// if specified will use this to determine if in range rather than target object position.</param>
+	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
+	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
+	/// creating garbage.</param>
 	/// <returns></returns>
 	public static bool CanApply(PlayerScript playerScript, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null)
+		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
 	{
 		if (playerScript == null) return false;
 		var playerObjBehavior = playerScript.pushPull;
@@ -201,7 +204,6 @@ public static class Validations
 					: null;
 				return parentObj == target;
 			}
-
 		}
 
 		var result = false;
@@ -211,9 +213,7 @@ public static class Validations
 		}
 		else if (reachRange == ReachRange.Standard)
 		{
-			var targetWorldPosition =
-				targetVector != null ? playerScript.transform.position + targetVector : target.transform.position;
-			result = playerScript.IsInReach((Vector3) targetWorldPosition, side == NetworkSide.Server);
+			result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
 		}
 		else if (reachRange == ReachRange.ExtendedServer)
 		{
@@ -227,10 +227,7 @@ public static class Validations
 				var cnt = target.GetComponent<CustomNetTransform>();
 				if (cnt == null)
 				{
-					var targetWorldPosition =
-						targetVector != null ? playerScript.transform.position + targetVector : target.transform.position;
-					//fallback to standard range check if there is no CNT
-					result = playerScript.IsInReach((Vector3) targetWorldPosition, side == NetworkSide.Server);
+					result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
 				}
 				else
 				{
@@ -251,6 +248,82 @@ public static class Validations
 	}
 
 	/// <summary>
+	/// Figures out what method of reach checking to use based on the parameters.
+	/// </summary>
+	/// <param name="playerScript"></param>
+	/// <param name="target"></param>
+	/// <param name="side"></param>
+	/// <param name="targetVector"></param>
+	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
+	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
+	/// creating garbage.</param>
+	/// <returns></returns>
+	private static bool IsInReachInternal(PlayerScript playerScript, GameObject target, NetworkSide side, Vector2? targetVector,
+		RegisterTile targetRegisterTile)
+	{
+		bool result;
+		if (targetVector == null)
+		{
+			var regTarget = targetRegisterTile == null ? target.RegisterTile() : targetRegisterTile;
+			//Use the smart range check which works better on moving matrices
+			if (regTarget != null)
+			{
+				result = IsInReach(playerScript.registerTile, regTarget, side == NetworkSide.Server);
+			}
+			else
+			{
+				//use transform position because we don't have a registered position for the target,
+				//this should happen almost never
+				//note: we use transform position for both player and target (rather than registered position) because
+				//registered position and transform positions can be out of sync with each other esp. on moving matrices
+				result = IsInReach(playerScript.transform.position, target.transform.position);
+			}
+
+		}
+		else
+		{
+			//use target vector based range check
+			result = IsInReach((Vector3) targetVector);
+		}
+
+		return result;
+	}
+
+	public static bool IsInReach( Vector3 targetVector, float interactDist = PlayerScript.interactionDistance )
+	{
+		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
+	}
+
+	public static bool IsInReach(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance)
+	{
+		var targetVector = fromWorldPos - toWorldPos;
+		return IsInReach( targetVector );
+	}
+
+
+	/// <summary>
+	/// Smart way to detect reach, supports high speeds in ships. Should use it more!
+	/// </summary>
+	/// <param name="from"></param>
+	/// <param name="to"></param>
+	/// <param name="isServer"></param>
+	/// <param name="interactDist"></param>
+	/// <returns></returns>
+	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = PlayerScript.interactionDistance)
+	{
+		if ( isServer )
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionServer, to.LocalPositionServer, interactDist) ||
+			       IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
+		}
+		else
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionClient, to.LocalPositionClient, interactDist) ||
+			       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
+		}
+	}
+
+	/// <summary>
 	/// Validates if the performer is in range and capable of interaction -  all the typical requirements for all
 	/// various interactions. Works properly even if player is hidden in a ClosetControl. Can also optionally allow soft crit.
 	///
@@ -262,12 +335,16 @@ public static class Validations
 	/// <param name="reachRange">range to allow</param>
 	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
 	/// if specified will use this to determine if in range rather than target object position.</param>
+	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
+	/// if you can do so without using GetComponent, especially if you are calling this frequently.
+	/// This is an optimization so GetComponent call can be avoided to avoid
+	/// creating garbage.</param>
 	/// <returns></returns>
 	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null)
+		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
 	{
 		if (player == null) return false;
-		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector);
+		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector, targetRegisterTile);
 	}
 
 	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state)
