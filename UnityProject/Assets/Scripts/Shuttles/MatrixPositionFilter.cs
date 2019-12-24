@@ -47,6 +47,7 @@ public class MatrixPositionFilter
 	/// <param name="position"></param>
 	public void SetPosition(Vector3 position)
 	{
-
+		mPreviousPosition = position;
+		mPreviousFilteredPosition = position;
 	}
 }
