@@ -274,6 +274,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		SyncGrandparentMatrixNetId(newGrandparentMatrixNetID);
 	}
 
+
 	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
 	/// applies the change by moving this object to live in the same objectlayer and matrix as that
@@ -287,18 +288,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (this.grandparentMatrixNetId == newGrandparentMatrixNetID) return;
 		if (newGrandparentMatrixNetID == NetId.Invalid || newGrandparentMatrixNetID == NetId.Empty) return;
 
-		NetworkIdentity.spawned.TryGetValue(newGrandparentMatrixNetID, out var grandparentMatrix);
-		if (grandparentMatrix == null)
-		{
-			//nothing found
-			LogMatrixDebug($"Parent not found with id {grandparentMatrixNetId}");
-			return;
-		}
-		LogMatrixDebug($"Parent found with id {grandparentMatrixNetId}");
-
 		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
 
-		//remove from current parent layer.
+		GrandparentMatrix.InvokeWhenInitialized(grandparentMatrixNetId, FinishGrandparentRegistration);
+	}
+
+	private void FinishGrandparentRegistration(GrandparentMatrix grandparentMatrix)
+	{
 		//if we had any spin rotation, preserve it,
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
@@ -337,7 +333,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			initialized = true;
 		}
-
 	}
 
 	[ContextMenu("Force Register")]

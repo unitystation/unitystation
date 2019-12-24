@@ -164,10 +164,22 @@ public partial class GameManager : MonoBehaviour
 		{
 			PreRoundStart();
 		}
+		ResetStaticsOnNewRound();
+	}
+
+	/// <summary>
+	/// Resets client and server side static fields to empty / round start values.
+	/// If you have any static pools / caches / fields, add logic here to reset them to ensure they'll be properly
+	/// cleared when a new round begins.
+	/// </summary>
+	private void ResetStaticsOnNewRound()
+	{
 		//reset pools
 		Spawn._ClearPools();
 		//reset inventory system
 		ItemSlot.EmptyPool();
+		//reset matrix init events
+		GrandparentMatrix._ClearInitEvents();
 	}
 
 	public void SyncTime(string currentTime)
@@ -447,7 +459,7 @@ public partial class GameManager : MonoBehaviour
 		CurrentRoundState = RoundState.Ended;
 		//Notify all clients that the round has ended
 		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
-		
+
 		yield return WaitFor.Seconds(0.2f);
 
 		CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);

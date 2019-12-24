@@ -7,6 +7,7 @@ using Mirror;
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
+	//I think this is valid server side only
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
 		set => SetVisibleServer( value );
