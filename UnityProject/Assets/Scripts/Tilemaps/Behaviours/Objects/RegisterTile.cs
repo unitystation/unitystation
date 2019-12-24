@@ -112,14 +112,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public UnityEvent OnAppearClient = new UnityEvent();
 
 
-	[SyncVar(hook = nameof(SyncGrandparentMatrixNetId))]
-	private uint grandparentMatrixNetId;
+	[SyncVar(hook = nameof(SyncNetworkedMatrixNetId))]
+	private uint networkedMatrixNetId;
 	/// <summary>
-	/// NetId of our current parent matrix. Note this id is on the parent of the
-	/// Matrix gameObject, i.e. the one with GrandparentMatrix not the one with Matrix, hence calling
-	/// it "grandparent matrix".
+	/// NetId of our current networked matrix. Note this id is on the parent of the
+	/// Matrix gameObject, i.e. the one with NetworkedMatrix not the one with Matrix, hence calling
+	/// it "networked matrix".
 	/// </summary>
-	protected uint GrandparentMatrixNetId => grandparentMatrixNetId;
+	protected uint NetworkedMatrixNetId => networkedMatrixNetId;
 
 	/// <summary>
 	/// Returns the correct client/server version of world position depending on if this is
@@ -218,7 +218,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public override void OnStartClient()
 	{
 		LogMatrixDebug("OnStartClient");
-		SyncGrandparentMatrixNetId(grandparentMatrixNetId);
+		SyncNetworkedMatrixNetId(networkedMatrixNetId);
 	}
 
 	public override void OnStartServer()
@@ -227,7 +227,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			SyncGrandparentMatrixNetId(Matrix.transform.parent.gameObject.NetId());
+			SyncNetworkedMatrixNetId(Matrix.transform.parent.gameObject.NetId());
 		}
 	}
 
@@ -266,12 +266,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <summary>
 	/// Set our parent matrix net ID to this.
 	/// </summary>
-	/// <param name="newGrandparentMatrixNetID"></param>
+	/// <param name="newNetworkedMatrixNetID"></param>
 	[Server]
-	public void ServerSetGrandparentMatrixNetID(uint newGrandparentMatrixNetID)
+	public void ServerSetNetworkedMatrixNetID(uint newNetworkedMatrixNetID)
 	{
-		LogMatrixDebug("ServerSetGrandparentMatrixNetID");
-		SyncGrandparentMatrixNetId(newGrandparentMatrixNetID);
+		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
+		SyncNetworkedMatrixNetId(newNetworkedMatrixNetID);
 	}
 
 
@@ -281,19 +281,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
-	/// <param name="newGrandparentMatrixNetID">uint of the new parent</param>
-	private void SyncGrandparentMatrixNetId(uint newGrandparentMatrixNetID)
+	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
+	private void SyncNetworkedMatrixNetId(uint newNetworkedMatrixNetID)
 	{
-		LogMatrixDebug($"Sync parent net id {grandparentMatrixNetId}");
-		if (this.grandparentMatrixNetId == newGrandparentMatrixNetID) return;
-		if (newGrandparentMatrixNetID == NetId.Invalid || newGrandparentMatrixNetID == NetId.Empty) return;
+		LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
+		if (this.networkedMatrixNetId == newNetworkedMatrixNetID) return;
+		if (newNetworkedMatrixNetID == NetId.Invalid || newNetworkedMatrixNetID == NetId.Empty) return;
 
-		this.grandparentMatrixNetId = newGrandparentMatrixNetID;
+		this.networkedMatrixNetId = newNetworkedMatrixNetID;
 
-		GrandparentMatrix.InvokeWhenInitialized(grandparentMatrixNetId, FinishGrandparentRegistration);
+		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration);
 	}
 
-	private void FinishGrandparentRegistration(GrandparentMatrix grandparentMatrix)
+	private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
 	{
 		//if we had any spin rotation, preserve it,
 		//otherwise all objects should always have upright local rotation
@@ -302,7 +302,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		bool hadSpinRotation = cnt && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
 		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
-		objectLayer = grandparentMatrix.GetComponentInChildren<ObjectLayer>();
+		objectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		transform.SetParent( objectLayer.transform, true );
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)
@@ -315,7 +315,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			transform.localRotation = Quaternion.identity;
 		}
 		//this will fire parent change hooks so we do it last
-		Matrix = grandparentMatrix.GetComponentInChildren<Matrix>();
+		Matrix = networkedMatrix.GetComponentInChildren<Matrix>();
 
 
 		//if we are hidden, remain hidden, otherwise update because we have a new parent

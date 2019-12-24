@@ -50,7 +50,7 @@ public class RegisterCloset : RegisterObject
 		if (closetControl != null)
 		{
 			// update the parent of each of the items in the closet
-			closetControl.OnParentChangeComplete(GrandparentMatrixNetId);
+			closetControl.OnParentChangeComplete(NetworkedMatrixNetId);
 		}
 	}
 }

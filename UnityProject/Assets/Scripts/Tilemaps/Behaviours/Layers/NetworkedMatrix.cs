@@ -7,69 +7,70 @@ using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 /// <summary>
-/// This component lives on the parent transform of Matrix, aka the grandparent matrix. The only purpose is to solve
-/// issues related to net ID initialization. There are some circumstances where the other components which depend
+/// This component lives on the parent of the object that has the Matrix component, same one that has the actual NetworkIdentity of the matrix
+/// (the object that has the Matrix component.
+/// The only purpose is to solve issues related to net ID initialization. There are some circumstances where the other components which depend
 /// on this object's net ID are initialized
 /// before the NetId of this object is assigned, so this component ensures that each register tile and
 /// other dependent objects are informed
 /// of the correct parent matrix net ID as soon as it becomes available.
 /// </summary>
-public class GrandparentMatrix : NetworkBehaviour
+public class NetworkedMatrix : NetworkBehaviour
 {
 
 	/// <summary>
-	/// Mapping from grandparent matrix net ID to the events that should be invoked for that net ID when
+	/// Mapping from networked matrix net ID to the events that should be invoked for that net ID when
 	/// networking is initialized for that matrix. Events will be cleared after firing once.
 	/// </summary>
-	private static readonly Dictionary<uint, GrandparentMatrixInitEvent> NetInitActions = new Dictionary<uint, GrandparentMatrixInitEvent>();
+	private static readonly Dictionary<uint, NetworkedMatrixInitEvent> NetInitActions = new Dictionary<uint, NetworkedMatrixInitEvent>();
 
 	/// <summary>
-	/// Contains the IDs of all grandparent matrices which have already initialized.
+	/// Contains the IDs of all networked matrices which have already initialized.
 	/// </summary>
-	private static readonly Dictionary<uint, GrandparentMatrix> InitializedMatrices = new Dictionary<uint, GrandparentMatrix>();
+	private static readonly Dictionary<uint, NetworkedMatrix> InitializedMatrices = new Dictionary<uint, NetworkedMatrix>();
 
 	/// <summary>
 	/// Gets a unity event that the caller can subscribe to which will be fired once
 	/// the networking for this matrix is initialized.
 	/// </summary>
-	/// <param name="grandparentMatrixNetId"></param>
+	/// <param name="networkedMatrixNetId"></param>
 	/// <returns></returns>
-	private static GrandparentMatrixInitEvent WaitForNetworkingInit(uint grandparentMatrixNetId)
+	private static NetworkedMatrixInitEvent WaitForNetworkingInit(uint networkedMatrixNetId)
 	{
-		NetInitActions.TryGetValue(grandparentMatrixNetId, out var unityEvent);
+		NetInitActions.TryGetValue(networkedMatrixNetId, out var unityEvent);
 		if (unityEvent == null)
 		{
-			unityEvent = new GrandparentMatrixInitEvent();
-			NetInitActions[grandparentMatrixNetId] = unityEvent;
+			unityEvent = new NetworkedMatrixInitEvent();
+			NetInitActions[networkedMatrixNetId] = unityEvent;
 		}
 
 		return unityEvent;
 	}
 
 	/// <summary>
-	/// Calls toInvoke when the grandparent matrix with the given net ID is fully initialized. Will be called
+	/// Calls toInvoke when the networked matrix with the given net ID is fully initialized. Will be called
 	/// immediately if it's already initialized.
 	/// </summary>
-	/// <param name="grandparentMatrixNetId"></param>
+	/// <param name="networkedMatrixNetId"></param>
 	/// <param name="toInvoke"></param>
-	public static void InvokeWhenInitialized(uint grandparentMatrixNetId, Action<GrandparentMatrix> toInvoke)
+	public static void InvokeWhenInitialized(uint networkedMatrixNetId, Action<NetworkedMatrix> toInvoke)
 	{
-		if (grandparentMatrixNetId == NetId.Empty || grandparentMatrixNetId == NetId.Invalid)
+		if (networkedMatrixNetId == NetId.Empty || networkedMatrixNetId == NetId.Invalid)
 		{
-			Logger.LogWarning("Attempted to wait on invalid / empty grandparent matrix net ID. This might be a bug.");
+			Logger.LogWarning("Attempted to wait on invalid / empty networked matrix net ID. This might be a bug.");
 			return;
 		}
 
 		//fire immediately if matrix is already initialized
-		InitializedMatrices.TryGetValue(grandparentMatrixNetId, out var grandparentMatrix);
-		if (grandparentMatrix != null)
+		InitializedMatrices.TryGetValue(networkedMatrixNetId, out var networkedMatrix);
+		if (networkedMatrix != null)
 		{
-			toInvoke.Invoke(grandparentMatrix);
+			toInvoke.Invoke(networkedMatrix);
 		}
 		else
 		{
 			//wait until initialized
-			WaitForNetworkingInit(grandparentMatrixNetId).AddListener(toInvoke.Invoke);
+			WaitForNetworkingInit(networkedMatrixNetId).AddListener(toInvoke.Invoke);
 		}
 	}
 
@@ -107,7 +108,7 @@ public class GrandparentMatrix : NetworkBehaviour
 		//ensure all register tiles in this matrix have the correct net id
 		foreach (var rt in GetComponentsInChildren<RegisterTile>())
 		{
-			rt.ServerSetGrandparentMatrixNetID(netId);
+			rt.ServerSetNetworkedMatrixNetID(netId);
 		}
 
 		FireInitEvents();
@@ -129,6 +130,6 @@ public class GrandparentMatrix : NetworkBehaviour
 	}
 }
 
-class GrandparentMatrixInitEvent : UnityEvent<GrandparentMatrix>
+class NetworkedMatrixInitEvent : UnityEvent<NetworkedMatrix>
 {
 }

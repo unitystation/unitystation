@@ -179,7 +179,7 @@ public partial class GameManager : MonoBehaviour
 		//reset inventory system
 		ItemSlot.EmptyPool();
 		//reset matrix init events
-		GrandparentMatrix._ClearInitEvents();
+		NetworkedMatrix._ClearInitEvents();
 	}
 
 	public void SyncTime(string currentTime)
