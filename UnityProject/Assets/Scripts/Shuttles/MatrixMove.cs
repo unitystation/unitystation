@@ -82,10 +82,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[NonSerialized]
 	public bool IsFueled;
 
-	/// <summary>
-	/// Requires Fuel
-	/// </summary>
-	[NonSerialized]
+	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
 
 
