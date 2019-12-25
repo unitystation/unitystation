@@ -450,7 +450,7 @@ public partial class PlayerSync
 		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 	}
 
-	/// NextState that also subscribes player to matrix rotations
+	/// Main server movement processing / validation logic.
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{

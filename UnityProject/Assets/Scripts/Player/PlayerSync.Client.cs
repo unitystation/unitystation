@@ -103,6 +103,7 @@ public partial class PlayerSync
 		return false;
 	}
 
+	//main client prediction and validation logic lives here
 	private IEnumerator DoProcess(PlayerAction action)
 	{
 		MoveCooldown = true;
@@ -113,9 +114,10 @@ public partial class PlayerSync
 			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
 				action.Direction(), pendingActions.Count, ClientState, predictedState );
 
-			//experiment: not enqueueing or processing action if floating, unless we are stopped.
-			//arguably it shouldn't really be like that in the future
 			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false);
+			bool cancelMove = false;
+			//note that this would return true when client is stopped in space (due to !IsMovingClient).
+			//we check isGrounded again depending on bump type to validate if they are still allowed to move
 			if ((isGrounded || playerScript.IsGhost || !IsMovingClient) && playerState.Active)
 			{
 				//RequestMoveMessage.Send(action);
@@ -123,7 +125,8 @@ public partial class PlayerSync
 
 				action.isRun = UIManager.WalkRun.running;
 
-				if (clientBump == BumpType.None || playerScript.IsGhost)
+				//can only move freely if we are grounded or adjacent to another player
+				if (CanMoveFreely(isGrounded, clientBump))
 				{
 					//move freely
 					pendingActions.Enqueue(action);
@@ -133,6 +136,8 @@ public partial class PlayerSync
 				}
 				else if (clientBump == BumpType.HelpIntent)
 				{
+					//note we don't check isgrounded here, client is allowed to swap with another player when
+					//they are both stopped in space
 					if (!isServer)
 					{
 						//only client performs this check, otherwise it would be performed twice by server
@@ -146,9 +151,12 @@ public partial class PlayerSync
 					LastDirectionClient = action.Direction();
 					UpdatePredictedState();
 				}
-				else
+				else if (clientBump != BumpType.None)
 				{
-					//cannot move -> tell server we're just bumping in that direction
+					//we are bumping something.
+
+					//cannot move -> tell server we're just bumping in that direction.
+					//this is also allowed even when stopped in space
 					action.isBump = true;
 					if (pendingActions == null || pendingActions.Count == 0)
 					{
@@ -165,22 +173,45 @@ public partial class PlayerSync
 						}
 					}
 				}
+				else
+				{
+					//cannot move but it's not due to bumping, so don't even send it.
+					cancelMove = true;
+					Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
+						, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
+				}
 			}
 			else
 			{
 				action.isNonPredictive = true;
 			}
 			//Sending action for server approval
-			CmdProcessAction(action);
+			if (!cancelMove)
+			{
+				CmdProcessAction(action);
+			}
+
 		}
 		else
 		{
+			//don't even check the bump, just cancel the move
 			Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
 				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
 		}
 
 		yield return WaitFor.Seconds(.1f);
 		MoveCooldown = false;
+	}
+
+	//only for internal use in DoProcess. Avoids expensive IsAroundPushables unless absolutely necessary
+	private bool CanMoveFreely(bool isGrounded, BumpType clientBump)
+	{
+		if (playerScript.IsGhost) return true;
+		if (clientBump != BumpType.None) return false;
+		if (isGrounded) return true;
+		//we aren't grounded but are stopped in space, the only situation
+		//we are allowed to move if we are adjacent to pushable so we can push off them
+		return IsAroundPushables(predictedState, false);
 	}
 
 
