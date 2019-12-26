@@ -392,7 +392,6 @@ public static class Inventory
 			    && pickupable.GetComponent<Stackable>() != null 
 			    && toSlot.Item.GetComponent<ItemAttributesV2>().HasAllTraits(pickupable.GetComponent<ItemAttributesV2>().GetTraits()))
 			{
-				Logger.Log("YO");
 				toSlot.Item.GetComponent<Stackable>().ServerCombine(pickupable.GetComponent<Stackable>());
 				return false;
 			}			else {
