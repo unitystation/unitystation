@@ -15,7 +15,8 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 
 	public PlayerScript Player;
 	public ItemStorage Storage;
-	void Awake()
+
+	void Awake()
 	{
 		Storage = this.GetComponent<ItemStorage>();
 

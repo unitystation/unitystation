@@ -394,7 +394,8 @@ public static class Inventory
 			{
 				toSlot.Item.GetComponent<Stackable>().ServerCombine(pickupable.GetComponent<Stackable>());
 				return false;
-			}			else {
+			}
+			else {
 				switch (toPerform.ReplacementStrategy)
 				{
 					case ReplacementStrategy.DespawnOther:
