@@ -15,7 +15,8 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 
 	public PlayerScript Player;
 	public ItemStorage Storage;
-	void Awake() {
+	void Awake()
+	{
 		Storage = this.GetComponent<ItemStorage>();
 
 	}
@@ -39,7 +40,8 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 		}
 	}
 
-	public void TileReached(Vector3 worldPos) {
+	public void TileReached(Vector3 worldPos)
+	{
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), true);
 		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
 		var crossedItems = matrix.Matrix.Get<ItemAttributesV2>(locPos, true);
