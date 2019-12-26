@@ -16,7 +16,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	[Tooltip("Max amount allowed in the stack.")]
 	[SerializeField]
-	private int maxAmount = 50;
+	public int maxAmount = 50;
 
 	[Tooltip("Other prefabs which can stack with this object. By default a stackable can stack with its own" +
 	         " prefab, but if you create any variants which have a different initial amount you can assign them" +

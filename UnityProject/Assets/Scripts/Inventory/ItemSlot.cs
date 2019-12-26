@@ -305,7 +305,7 @@ public class ItemSlot
 	/// <returns></returns>
 	public bool CanFit(Pickupable toStore, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
-		if (!ignoreOccupied && item != null) return false;
+
 		if (toStore == null) return false;
 		//go through this slot's ancestors and make sure none of them ARE toStore,
 		//as that would create a loop in the inventory hierarchy
@@ -332,6 +332,28 @@ public class ItemSlot
 			else
 			{
 				storageToCheck = null;
+			}
+		}
+
+		if (!ignoreOccupied && item != null)
+		{
+			if (item.GetComponent<Stackable>() != null
+				&& toStore.GetComponent<Stackable>() != null
+				&& item.GetComponent<ItemAttributesV2>().HasAllTraits(toStore.GetComponent<ItemAttributesV2>().GetTraits())
+			   )
+			{
+				var _Stackable = item.GetComponent<Stackable>();
+
+				if (_Stackable.Amount == _Stackable.maxAmount)
+				{
+										return false;
+				}
+				else { 
+					return true;
+				}
+			}
+			else {
+				return false;
 			}
 		}
 
@@ -369,7 +391,7 @@ public class ItemSlot
 		if (pu == null)
 		{
 			Logger.LogWarningFormat("{0} has no pickupable, thus can't fit anywhere. It's probably a bug that" +
-			                      " this was even attempted.", Category.Inventory, pickupable.name);
+								  " this was even attempted.", Category.Inventory, pickupable.name);
 			return false;
 		}
 
