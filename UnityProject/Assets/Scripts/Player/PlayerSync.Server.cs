@@ -523,6 +523,7 @@ public partial class PlayerSync
 		PlayerState nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
+		playerScript.OnTileReached().Invoke(nextState.WorldPosition);
 		SoundManager.FootstepAtPosition(nextState.WorldPosition);
 		return nextState;
 	}

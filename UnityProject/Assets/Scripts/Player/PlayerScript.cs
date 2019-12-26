@@ -58,6 +58,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private static bool verified;
 	private static ulong SteamID;
 
+	private Vector3Event onTileReached = new Vector3Event();
+	public Vector3Event OnTileReached() => onTileReached;
+
 	public override void OnStartClient()
 	{
 		Init();
