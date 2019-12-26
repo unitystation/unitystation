@@ -6079,6 +6079,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82911923507476304, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 45da663569100c944a3d1807fa315462, type: 3}
+    - target: {fileID: 82527346793861930, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c9a6cea5af8c8744aa53c56fe29b907e, type: 3}
+    - target: {fileID: 82732549383835258, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 781b47cfa9e91374e8a60d8ef446e44a, type: 3}
+    - target: {fileID: 5006868616393617836, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 027e3abcca5fb5341822446fc71b5155, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
 --- !u!1 &495160934
@@ -10740,7 +10760,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: b1fe00956ece1a94a85f3d166a1e7871, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4649c913777e17c4aaff7105650ce2f8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

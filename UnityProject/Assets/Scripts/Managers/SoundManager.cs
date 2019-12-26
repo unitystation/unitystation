@@ -378,7 +378,7 @@ public class SoundManager : MonoBehaviour
 			currentLobbyAudioSource = Instance.musicTracks[randTrack];
 			currentLobbyAudioSource.volume = Instance.MusicVolume;
 			currentLobbyAudioSource.Play();
-			songInfo = currentLobbyAudioSource.clip.name.Split('-'); // Spliting to get the song and artist name
+			songInfo = currentLobbyAudioSource.clip.name.Split('_'); // Spliting to get the song and artist name
 		}
 		else
 		{
@@ -386,15 +386,15 @@ public class SoundManager : MonoBehaviour
 			//Tracker music
 			var trackerMusic = new[]
 			{
-				"Spaceman-HERB.xm",
+				"Spaceman_HERB.xm",
 				"Echo sound.xm",
-				"Tintin on the Moon-Jeroen Tel.xm"
+				"Tintin on the Moon_Jeroen Tel.xm"
 			};
 			var songPicked = trackerMusic.Wrap(Random.Range(1, 100));
 			var vol = 255 * Instance.MusicVolume;
 			Synth.Instance.PlayMusic(songPicked, false, (byte)(int)vol);
 			songPicked = songPicked.Split('.')[0]; // Throwing away the .xm extension in the string
-			songInfo = songPicked.Split('-'); // Spliting to get the song and artist name
+			songInfo = songPicked.Split('_'); // Spliting to get the song and artist name
 		}
 		return songInfo;
 	}
