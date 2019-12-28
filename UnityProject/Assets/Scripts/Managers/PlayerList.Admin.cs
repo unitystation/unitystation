@@ -91,7 +91,9 @@ public partial class PlayerList
 
 		if (clientVersion != GameData.BuildNumber)
 		{
-			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}"));
+			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}" +
+			                          " This can be acquired through the station launcher or from the github of the code base" +
+			                          " ( this step requires unity to compile, Ask appropriate maintainers of Code base on how to do this )"));
 			return false;
 		}
 
@@ -198,7 +200,7 @@ public partial class PlayerList
 		}
 		else
 		{
-			message = $"You have kicked. Reason: {reason}";
+			message = $"You have been kicked. Reason: {reason}";
 		}
 
 		SendClientLogMessage.SendLogToClient(connPlayer.GameObject, message, Category.Connections, true);
@@ -213,13 +215,14 @@ public partial class PlayerList
 		Logger.Log($"Kicking client {clientID} : {message}", Category.Connections);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 		//Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
-		connPlayer.Connection.Disconnect();
-		connPlayer.Connection.Dispose();
 
 		while (!loggedOff.Contains(connPlayer))
 		{
-			yield return WaitFor.EndOfFrame;
+			yield return WaitFor.Seconds(1);
 		}
+
+		connPlayer.Connection.Disconnect();
+		connPlayer.Connection.Dispose();
 
 		loggedOff.Remove(connPlayer);
 	}
