@@ -92,8 +92,7 @@ public partial class PlayerList
 		if (clientVersion != GameData.BuildNumber)
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}" +
-			                          " This can be acquired through the station launcher or from the github of the code base" +
-			                          " ( this step requires unity to compile, Ask appropriate maintainers of Code base on how to do this )"));
+			                          " This can be acquired through the station launcher or you can ask maintainers of the code base for the up-to-date version of the client"));
 			return false;
 		}
 
