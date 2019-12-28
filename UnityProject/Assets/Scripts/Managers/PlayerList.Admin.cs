@@ -215,14 +215,14 @@ public partial class PlayerList
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 		//Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
 
-		while (!loggedOff.Contains(connPlayer))
-		{
-			yield return WaitFor.Seconds(1);
-		}
-
 		connPlayer.Connection.Disconnect();
 		connPlayer.Connection.Dispose();
-
+		
+		while (!loggedOff.Contains(connPlayer))
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		
 		loggedOff.Remove(connPlayer);
 	}
 }
