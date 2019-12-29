@@ -18,7 +18,12 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 	private float removeTime;
 	public float RemoveTime => removeTime;
 
-	// TODO: Add time it takes to resist out of handcuffs
+	/// <summary>
+	/// How long it takes for self to remove the restraints
+	/// </summary>
+	[SerializeField]
+	private float resistTime;
+	public float ResistTime => resistTime;
 
 	/// <summary>
 	/// Sound to be played when applying restraints
