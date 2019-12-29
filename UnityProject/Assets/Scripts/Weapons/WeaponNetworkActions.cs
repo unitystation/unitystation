@@ -79,8 +79,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
 	[Command]
-	public void CmdRequestMeleeAttack(GameObject victim, Vector2 attackDirection,
-		BodyPartType damageZone, LayerType layerType)
+	public void CmdRequestMeleeInteraction(GameObject victim, Vector2 attackDirection,
+				BodyPartType damageZone, LayerType layerType, Intent intent)
 	{
 		var weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 
@@ -133,9 +133,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			{
 				var worldPos = (Vector2) transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
-				tileMapDamage.DoMeleeDamage(worldPos,
-					gameObject, (int) damage);
-				didHit = true;
+				tileMapDamage.DoMeleeInteraction(worldPos,
+					gameObject, (int) damage, intent);
+				if (intent == Intent.Harm) { 
+					didHit = true;
+				}
+
 
 			}
 		}

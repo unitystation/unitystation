@@ -232,7 +232,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		}
 		foreach ( var tile in MatrixManager.GetDamageableTilemapsAt( collision.CollisionTile ) )
 		{
-			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
+			tile.DoMeleeInteraction( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
 			collided = true;
 		}
 

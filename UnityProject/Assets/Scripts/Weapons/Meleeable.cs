@@ -48,9 +48,6 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			return false;
 		}
 
-		//not punching unless harm intent
-		if (interaction.HandObject == null && interaction.Intent != Intent.Harm) return false;
-
 		//if attacking tiles, only some layers are allowed to be attacked
 		if (interactableTiles != null)
 		{
@@ -71,12 +68,12 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		{
 			//attacking tiles
 			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
-			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
+			wna.CmdRequestMeleeInteraction(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType, interaction.Intent);
 		}
 		else
 		{
 			//attacking objects
-			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+			wna.CmdRequestMeleeInteraction(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None, interaction.Intent);
 		}
 	}
 }
