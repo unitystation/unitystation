@@ -131,11 +131,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
-				var worldPos = (Vector2) transform.position + attackDirection;
+				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
 				tileMapDamage.DoMeleeInteraction(worldPos,
-					gameObject, (int) damage, intent);
-				if (intent == Intent.Harm) { 
+					gameObject, (int)damage, intent);
+				if (intent == Intent.Harm)
+				{
 					didHit = true;
 				}
 
@@ -144,57 +145,60 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 		else
 		{
-			//a regular object being attacked
+			if (intent == Intent.Harm)
+			{
+				//a regular object being attacked
 
-			//butchering
-			//TODO: Move butchering logic to IF2, it should be a progress action done on corpses (make a Corpse component probably)
-			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-			if (victimHealth != null && victimHealth.IsDead && isWeapon && weaponAttr.HasTrait(KnifeTrait))
-			{
-				if (victim.GetComponent<SimpleAnimal>())
+				//butchering
+				//TODO: Move butchering logic to IF2, it should be a progress action done on corpses (make a Corpse component probably)
+				LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+				if (victimHealth != null && victimHealth.IsDead && isWeapon && weaponAttr.HasTrait(KnifeTrait))
 				{
-					SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
-					RpcMeleeAttackLerp(attackDirection, weapon);
-					playerMove.allowInput = false;
-					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
+					if (victim.GetComponent<SimpleAnimal>())
+					{
+						SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
+						RpcMeleeAttackLerp(attackDirection, weapon);
+						playerMove.allowInput = false;
+						attackTarget.Harvest();
+						SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
+					}
+					else
+					{
+						PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
+						RpcMeleeAttackLerp(attackDirection, weapon);
+						playerMove.allowInput = false;
+						attackTarget.Harvest();
+						SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
+					}
 				}
-				else
-				{
-					PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
-					RpcMeleeAttackLerp(attackDirection, weapon);
-					playerMove.allowInput = false;
-					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
-				}
-			}
 
-			var integrity = victim.GetComponent<Integrity>();
-			if (integrity != null)
-			{
-				//damaging an object
-				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
-				didHit = true;
-			}
-			else
-			{
-				//damaging a living thing
-				var rng = new System.Random();
-				// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
-				// Punches have 90% chance to hit, otherwise it is a miss.
-				if (isWeapon || 90 >= rng.Next(1, 100))
+				var integrity = victim.GetComponent<Integrity>();
+				if (integrity != null)
 				{
-					// The attack hit.
-					victimHealth.ApplyDamageToBodypart(gameObject, (int) damage, AttackType.Melee, damageType, damageZone);
+					//damaging an object
+					integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
 					didHit = true;
 				}
 				else
 				{
-					// The punch missed.
-					string victimName = victim.Player()?.Name;
-					SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
-					Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
-						$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
+					//damaging a living thing
+					var rng = new System.Random();
+					// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
+					// Punches have 90% chance to hit, otherwise it is a miss.
+					if (isWeapon || 90 >= rng.Next(1, 100))
+					{
+						// The attack hit.
+						victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
+						didHit = true;
+					}
+					else
+					{
+						// The punch missed.
+						string victimName = victim.Player()?.Name;
+						SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
+						Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
+							$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
+					}
 				}
 			}
 		}
