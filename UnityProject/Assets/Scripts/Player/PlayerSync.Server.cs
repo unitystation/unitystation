@@ -522,11 +522,11 @@ public partial class PlayerSync
 		PlayerState nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
-    if (!playerScript.IsGhost)
+		if (!playerScript.IsGhost)
 		{
-      playerScript.OnTileReached().Invoke(nextState.WorldPosition);
-      SoundManager.FootstepAtPosition(nextState.WorldPosition);
-    }
+			playerScript.OnTileReached().Invoke(nextState.WorldPosition);
+			SoundManager.FootstepAtPosition(nextState.WorldPosition);
+		}
 
 		return nextState;
 	}
