@@ -12,7 +12,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 	private CustomNetworkManager networkManager;
 	public GameObject screen_Jobs;
 	public Text title;
-
+	
 	private void Update()
 	{
 		//We only want the job selection screen to show up once
@@ -29,6 +29,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
 		UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(false);
 		hasPickedAJob = true;
+		SoundManager.SongTracker.Stop();
 	}
 
 	private void UpdateJobsList()

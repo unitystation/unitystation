@@ -21,7 +21,6 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject jobSelectWindow;
 	public GameObject preRoundWindow;
 	public GameObject teamSelectionWindow;
-	public GameObject songTracker;
 	public RectTransform panelRight;
 
 	[SerializeField] private Animator uiAnimator;
@@ -122,10 +121,8 @@ public class ControlDisplays : MonoBehaviour
 	public void SetScreenForLobby()
 	{
 		SoundManager.StopAmbient();
-		string[] songInfo = SoundManager.PlayRandomTrack(); //Gimme dat slap bass
+		SoundManager.SongTracker.StartPlayingRandomPlaylist();
 		ResetUI(); //Make sure UI is back to default for next play
-		SongTracker.trackPlayingSong(songInfo); //Tracks the song being played
-		songTracker.gameObject.SetActive(true); //Enables the panel that shows the current song
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.gameObject.SetActive(false);
 		hudBottomGhost.gameObject.SetActive(false);
@@ -137,20 +134,16 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
-		songTracker.gameObject.SetActive(false); //Disables the panel that shows the current song
 		hudBottomHuman.gameObject.SetActive(false);
 		hudBottomGhost.gameObject.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		uiAnimator.Play("idle");
-
-		SoundManager.StopMusic();
 	}
 
 	public void SetScreenForPreRound()
 	{
 		ResetUI(); //Make sure UI is back to default for next play
-		songTracker.gameObject.SetActive(false); //Disables the panel that shows the current song
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.gameObject.SetActive(false);
 		hudBottomGhost.gameObject.SetActive(false);
@@ -162,14 +155,12 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForTeamSelect()
 	{
-		songTracker.gameObject.SetActive(false); //Disables the panel that shows the current song
 		preRoundWindow.SetActive(false);
 		teamSelectionWindow.SetActive(true);
 	}
 
 	public void SetScreenForJobSelect()
 	{
-		songTracker.gameObject.SetActive(false); //Disables the panel that shows the current song
 		preRoundWindow.SetActive(false);
 		jobSelectWindow.SetActive(true);
 	}

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DatabaseAPI;
 using Mirror;
@@ -91,8 +92,8 @@ public partial class PlayerList
 
 		if (clientVersion != GameData.BuildNumber)
 		{
-			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}" +
-			                          " This can be acquired through the station launcher or you can ask maintainers of the code base for the up-to-date version of the client"));
+			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}." +
+			                                      " This can be acquired through the station hub."));
 			return false;
 		}
 
@@ -156,8 +157,11 @@ public partial class PlayerList
 			Logger.Log($"{playerConn.Username} logged in as Admin. " +
 			           $"IP: {playerConn.Connection.address}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
-			loggedInAdmins.Add(userid, newToken);
-			AdminEnableMessage.Send(playerConn.GameObject, newToken);
+			if (!loggedInAdmins.ContainsKey(userid))
+			{
+				loggedInAdmins.Add(userid, newToken);
+				AdminEnableMessage.Send(playerConn.GameObject, newToken);
+			}
 		}
 
 		Logger.Log($"{playerConn.Username} logged in successfully. " +
@@ -217,12 +221,12 @@ public partial class PlayerList
 
 		connPlayer.Connection.Disconnect();
 		connPlayer.Connection.Dispose();
-		
+
 		while (!loggedOff.Contains(connPlayer))
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		
+
 		loggedOff.Remove(connPlayer);
 	}
 }
