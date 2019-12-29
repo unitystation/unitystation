@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
 	public AlertUI alertUI;
 	public Text toolTip;
 	public Text pingDisplay;
+	public GUI_Info infoWindow;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
 	public BuildMenu buildMenu;
@@ -117,6 +118,9 @@ public class UIManager : MonoBehaviour
 	public static UI_StorageHandler StorageHandler => Instance.storageHandler;
 	public static BuildMenu BuildMenu => Instance.buildMenu;
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
+
+	public static GUI_Info InfoWindow => Instance.infoWindow;
+
 
 
 	private float pingUpdate;

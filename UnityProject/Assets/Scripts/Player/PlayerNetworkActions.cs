@@ -182,6 +182,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ReenterBodyUpdates()
 	{
 		UpdateInventorySlots();
+		TargetStopMusic(connectionToClient);
+	}
+
+	[TargetRpc]
+	public void TargetStopMusic(NetworkConnection target)
+	{
+		SoundManager.SongTracker.Stop();
 	}
 
 	/// <summary>

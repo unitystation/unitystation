@@ -149,7 +149,6 @@ public class JoinedViewer : NetworkBehaviour
 			default:
 				// occupation select
 				UIManager.Display.SetScreenForJobSelect();
-
 				break;
 		}
 	}
