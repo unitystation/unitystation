@@ -138,7 +138,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot, worldPos);
 	}
-	
+
 	[Command]
 	public void CmdToggleLightSwitch(GameObject switchObj)
 	{
@@ -182,6 +182,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ReenterBodyUpdates()
 	{
 		UpdateInventorySlots();
+		TargetStopMusic(connectionToClient);
+	}
+
+	[TargetRpc]
+	public void TargetStopMusic(NetworkConnection target)
+	{
+		SoundManager.SongTracker.Stop();
 	}
 
 	/// <summary>

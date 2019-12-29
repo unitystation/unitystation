@@ -61,6 +61,13 @@ public class SoundManager : MonoBehaviour
 	//public AudioSource[] sounds;
 	public List<AudioSource> musicTracks = new List<AudioSource>();
 
+	[SerializeField]
+	private SongTracker songTracker;
+	/// <summary>
+	/// For controlling the song play list. Includes random shuffle and auto play
+	/// </summary>
+	public static SongTracker SongTracker => soundManager.songTracker;
+
 	public static SoundManager Instance
 	{
 		get
@@ -424,7 +431,7 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks if music in lobby is being played or not. 
+	/// Checks if music in lobby is being played or not.
 	/// <returns> true if music is being played.</returns>
 	/// </summary>
 	public static bool isLobbyMusicPlaying()
@@ -437,7 +444,7 @@ public class SoundManager : MonoBehaviour
 	}
 }
 
-public enum FloorSound { 
+public enum FloorSound {
 		floor,
 		asteroid,
 		carpet,
