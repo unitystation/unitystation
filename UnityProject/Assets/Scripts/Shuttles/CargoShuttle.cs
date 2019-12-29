@@ -42,7 +42,7 @@ public class CargoShuttle : MonoBehaviour
 	/// </summary>
 	public void MoveToStation()
 	{
-		mm.ChangeDir(Orientation.Down);
+		mm.ChangeFlyingDirection(Orientation.Down);
 		MoveTo(StationDest);
 	}
 
@@ -52,7 +52,7 @@ public class CargoShuttle : MonoBehaviour
 	/// </summary>
 	public void MoveToCentcom()
 	{
-		mm.ChangeDir(Orientation.Up);
+		mm.ChangeFlyingDirection(Orientation.Up);
 		MoveTo(centcomDest);
 	}
 
@@ -76,11 +76,11 @@ public class CargoShuttle : MonoBehaviour
 			moving = false;
 			mm.SetPosition(destination);
 			mm.StopMovement();
-			mm.RotateTo(Orientation.Up);
+			mm.SteerTo(Orientation.Up);
 
 			if (CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteStation)
 			{
-				mm.ChangeDir(Orientation.Down);
+				mm.ChangeFlyingDirection(Orientation.Down);
 				StartCoroutine(ReverseIntoStation());
 			}
 		}
@@ -160,7 +160,7 @@ public class CargoShuttle : MonoBehaviour
 		{
 			for (int j = -shuttleWidth; j <= shuttleWidth; j++)
 			{
-				pos = mm.State.Position.RoundToInt();
+				pos = mm.ServerState.Position.RoundToInt();
 				//i + 1 because cargo shuttle center is offseted by 1
 				pos += new Vector3Int(j, i + 1, 0);
 				if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)

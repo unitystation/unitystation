@@ -7,6 +7,7 @@ using Mirror;
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
+	//I think this is valid server side only
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
 		set => SetVisibleServer( value );
@@ -328,7 +329,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	private void SyncMatrix() {
 		if ( registerTile && !serverState.IsUninitialized) {
-			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetID;
+			registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get( serverState.MatrixId ).NetID);
 		}
 	}
 
@@ -347,9 +348,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, oldMatrix, newMatrix );
 
 			if ( oldMatrix.IsMovable
-			     && oldMatrix.MatrixMove.isMovingServer )
+			     && oldMatrix.MatrixMove.IsMovingServer )
 			{
-				Push( oldMatrix.MatrixMove.State.Direction.Vector.To2Int(), oldMatrix.Speed );
+				Push( oldMatrix.MatrixMove.ServerState.FlyingDirection.Vector.To2Int(), oldMatrix.Speed );
 				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Transform, gameObject );
 				return;
 			}
@@ -372,7 +373,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	#region Hiding/Unhiding
 
 	[Server]
-	public void DisappearFromWorldServer()
+	public void DisappearFromWorldServer(bool resetRotation = false)
 	{
 		OnPullInterrupt().Invoke();
 		if (IsFloatingServer)
@@ -382,6 +383,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
+
+		if (resetRotation)
+		{
+			transform.localRotation = Quaternion.identity;
+			//no spinning
+			serverState.SpinFactor = 0;
+			serverLerpState.SpinFactor = 0;
+			serverState.SpinRotation = 0;
+			serverLerpState.SpinRotation = 0;
+		}
 
 		NotifyPlayers();
 		UpdateActiveStatusServer();
@@ -493,7 +504,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			return;
 		}
 
-		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );;
+		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );
 	}
 
 	/// <summary>

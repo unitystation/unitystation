@@ -13,8 +13,8 @@ public struct TransformState {
 		set { speed = value < 0 ? 0 : value; }
 	}
 
-	///Direction of throw
-	public Vector2 Impulse;
+	///Direction of throw in world space
+	public Vector2 WorldImpulse;
 
 	/// Server-only active throw information
 	[NonSerialized]
@@ -83,13 +83,13 @@ public struct TransformState {
 		else if (Position == HiddenPos)
 		{
 			return  $"[{nameof( Position )}: Hidden, {nameof( WorldPosition )}: Hidden, " +
-			        $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
+			        $"{nameof( Speed )}: {Speed}, {nameof( WorldImpulse )}: {WorldImpulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
 			        $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
 		}
 		else
 		{
 			return  $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
-			        $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
+			        $"{nameof( Speed )}: {Speed}, {nameof( WorldImpulse )}: {WorldImpulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
 			        $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
 		}
 

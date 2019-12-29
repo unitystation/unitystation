@@ -5,9 +5,12 @@ using Mirror;
 using System;
 
 /// <summary>
-/// Main component for light switch
+/// Main component for light switch.
+/// Automatically determines what lights it is hooked up to based on its facing direction (set in Directional)
+/// on startup and sets their RelatedAPC to this light switch's related apc.
 /// </summary>
 [ExecuteInEditMode]
+[RequireComponent(typeof(Directional))]
 public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 {
 
@@ -42,12 +45,16 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 	public bool SelfPowered = false;
 	public List<LightSource> SelfPowerLights = new List<LightSource>();
 
+	private Directional directional;
+
 	private void Awake()
 	{
 		if (!Application.isPlaying)
 		{
 			return;
 		}
+
+		this.directional = GetComponent<Directional>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		clickSFX = GetComponent<AudioSource>();
@@ -202,6 +209,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 			return;
 		}
 		Vector2 startPos = GetCastPos();
+		//figure out which lights this switch is hooked up to based on proximity and facing
 		int length = Physics2D.OverlapCircleNonAlloc(startPos, radius, lightSpriteColliders, lightingMask);
 		for (int i = 0; i < length; i++)
 		{
@@ -239,7 +247,8 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 
 	private Vector2 GetCastPos()
 	{
-		Vector2 newPos = transform.position + ((spriteRenderer.transform.position - transform.position).normalized);
+		//position is adjusted based on directional facing
+		Vector2 newPos = transform.position + directional.CurrentDirection.Vector.normalized;
 		return newPos;
 	}
 

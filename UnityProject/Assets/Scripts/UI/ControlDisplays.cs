@@ -34,6 +34,9 @@ public class ControlDisplays : MonoBehaviour
 
 	void RejoinedEvent()
 	{
+		//for some reason this is getting called when ControlDisplays is already destroyed when client rejoins while
+		//a ghost, this check prevents a MRE
+		if (!this) return;
 		StartCoroutine(DetermineRejoinUI());
 	}
 
@@ -121,7 +124,7 @@ public class ControlDisplays : MonoBehaviour
 	public void SetScreenForLobby()
 	{
 		SoundManager.StopAmbient();
-		SoundManager.PlayRandomTrack(); //Gimme dat slap bass
+		SoundManager.SongTracker.StartPlayingRandomPlaylist();
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.gameObject.SetActive(false);
@@ -139,8 +142,6 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		uiAnimator.Play("idle");
-
-		SoundManager.StopMusic();
 	}
 
 	public void SetScreenForPreRound()
@@ -172,4 +173,8 @@ public class ControlDisplays : MonoBehaviour
 		uiAnimator.Play("NukeDetVideo");
 	}
 
+	public void PlayStrandedVideo()
+	{
+		uiAnimator.Play("StrandedVideo");
+	}
 }

@@ -12,7 +12,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 	private CustomNetworkManager networkManager;
 	public GameObject screen_Jobs;
 	public Text title;
-
+	
 	private void Update()
 	{
 		//We only want the job selection screen to show up once
@@ -29,6 +29,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
 		UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(false);
 		hasPickedAJob = true;
+		SoundManager.SongTracker.Stop();
 	}
 
 	private void UpdateJobsList()
@@ -46,11 +47,14 @@ public class GUI_PlayerJobs : MonoBehaviour
 		{
 			JobType jobType = occupation.JobType;
 
+			//NOTE: Commenting this out because it can actually be changed just by editing allowed occupation list,
+			//doesn't need manual removal and this allows direct spawning as syndie for testing just by adding them
+			//to that list
 			// For nuke ops mode, syndis spawn via a different button
-			if (jobType == JobType.SYNDICATE)
-			{
-				continue;
-			}
+			// if (jobType == JobType.SYNDICATE)
+			// {
+			// 	continue;
+			// }
 
 			int active = GameManager.Instance.GetOccupationsCount(jobType);
 			int available = GameManager.Instance.GetOccupationMaxCount(jobType);

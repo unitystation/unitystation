@@ -96,10 +96,10 @@ public partial class PlayerSync
 
 
 	public bool IsMovingServer => consideredFloatingServer || !ServerPositionsMatch;
-	public Vector2 ServerImpulse => serverState.Impulse;
+	public Vector2 ServerImpulse => serverState.WorldImpulse;
 
 	/// Whether player is considered to be floating on server
-	private bool consideredFloatingServer => serverState.Impulse != Vector2.zero /*&& !IsBeingPulledServer*/;
+	private bool consideredFloatingServer => serverState.WorldImpulse != Vector2.zero /*&& !IsBeingPulledServer*/;
 
 	/// Do current and target server positions match?
 	private bool ServerPositionsMatch => serverState.WorldPosition == serverLerpState.WorldPosition;
@@ -219,7 +219,7 @@ public partial class PlayerSync
 
 			if (consideredFloatingServer)
 			{
-				var currentFlyingDirection = serverState.Impulse;
+				var currentFlyingDirection = serverState.WorldImpulse;
 				var currentFlyingSpeed = serverState.speed;
 
 				float correctedSpeed = speed;
@@ -258,7 +258,7 @@ public partial class PlayerSync
 		}
 		else if ( uncorrectedSpeed >= playerMove.PushFallSpeed )
 		{
-			registerPlayer.Slip(true);
+			registerPlayer.ServerSlip(true);
 		}
 
 		Logger.LogTraceFormat( "{1}: Server push to {0}", Category.PushPull, pushGoal, gameObject.name );
@@ -267,7 +267,7 @@ public partial class PlayerSync
 		//Note the client queue reset
 		var newState = new PlayerState {
 			MoveNumber = 0,
-			Impulse = direction,
+			WorldImpulse = direction,
 			MatrixId = newMatrix.Id,
 			WorldPosition = pushGoal,
 			ImportantFlightUpdate = true,
@@ -329,7 +329,7 @@ public partial class PlayerSync
 	[Server]
 	private void SyncMatrix()
 	{
-		registerPlayer.ParentNetId = MatrixManager.Get(serverState.MatrixId).NetID;
+		registerPlayer.ServerSetNetworkedMatrixNetID(MatrixManager.Get(serverState.MatrixId).NetID);
 	}
 
 	/// Send current serverState to just one player
@@ -340,7 +340,6 @@ public partial class PlayerSync
 	{
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.Send(recipient, gameObject, serverState);
-		PlayerUprightMessage.Sync(recipient, gameObject);
 		Logger.LogTraceFormat("Sent {0}", Category.Movement, msg);
 	}
 
@@ -365,7 +364,7 @@ public partial class PlayerSync
 		bool isPullNudge = pushPull
 						&& pushPull.IsBeingPulled
 						&& !serverState.IsFollowUpdate
-						&& serverState.Impulse != Vector2.zero;
+						&& serverState.WorldImpulse != Vector2.zero;
 		if ( isPullNudge ) {
 			//temporarily "break" pull so that puller would get the update
 			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, null );
@@ -451,7 +450,7 @@ public partial class PlayerSync
 		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 	}
 
-	/// NextState that also subscribes player to matrix rotations
+	/// Main server movement processing / validation logic.
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
@@ -523,8 +522,12 @@ public partial class PlayerSync
 		PlayerState nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
-		playerScript.OnTileReached().Invoke(nextState.WorldPosition);
-		SoundManager.FootstepAtPosition(nextState.WorldPosition);
+    if (!playerScript.IsGhost)
+		{
+      playerScript.OnTileReached().Invoke(nextState.WorldPosition);
+      SoundManager.FootstepAtPosition(nextState.WorldPosition);
+    }
+
 		return nextState;
 	}
 
@@ -653,10 +656,10 @@ public partial class PlayerSync
 		//Space walk checks
 		if ( IsNonStickyServer )
 		{
-			if (serverState.Impulse == Vector2.zero && lastDirectionServer != Vector2.zero)
+			if (serverState.WorldImpulse == Vector2.zero && lastDirectionServer != Vector2.zero)
 			{ //fixme: serverLastDirection is unreliable. maybe rethink notion of impulse
 				//server initiated space dive.
-				serverState.Impulse = lastDirectionServer;
+				serverState.WorldImpulse = lastDirectionServer;
 				serverState.ImportantFlightUpdate = true;
 				serverState.ResetClientQueue = true;
 			}
@@ -678,7 +681,9 @@ public partial class PlayerSync
 					var oldPos = serverState.WorldPosition;
 
 					//Extending prediction by one tile if player's transform reaches previously set goal
-					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.Impulse);
+					//note: since this is a local position, the impulse needs to be converted to a local rotation,
+					//hence the multiplication
+					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.LocalImpulse(this));
 					serverState.Position = newGoal;
 					ClearQueueServer();
 
@@ -699,7 +704,7 @@ public partial class PlayerSync
 
 		if ( consideredFloatingServer && !IsWeightlessServer ) {
 			var worldOrigin = ServerPosition;
-			var worldTarget = worldOrigin + serverState.Impulse.RoundToInt();
+			var worldTarget = worldOrigin + serverState.WorldImpulse.RoundToInt();
 			if ( registerPlayer.IsSlippingServer && MatrixManager.IsPassableAt( worldOrigin, worldTarget, true ) )
 			{
 				Logger.LogFormat( "Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget );
@@ -746,7 +751,7 @@ public partial class PlayerSync
 			if ( IsAroundPushables( serverState, isServer: true, out spaceObjToGrab ) && spaceObjToGrab.IsSolidServer ) {
 				//some hacks to avoid space closets stopping out of player's reach
 				var cnt = spaceObjToGrab.GetComponent<CustomNetTransform>();
-				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.Impulse) == Vector2Int.RoundToInt(serverState.Impulse) )
+				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.WorldImpulse) == Vector2Int.RoundToInt(serverState.WorldImpulse) )
 				{
 					Logger.LogTraceFormat( "Caught {0} at {1} (registered at {2})", Category.Movement, spaceObjToGrab.gameObject.name,
 							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPositionServer );
@@ -758,7 +763,7 @@ public partial class PlayerSync
 			lastDirectionServer = Vector2.zero;
 
 			//finish floating. players will be notified as soon as serverState catches up
-			serverState.Impulse = Vector2.zero;
+			serverState.WorldImpulse = Vector2.zero;
 			serverState.ResetClientQueue = true;
 
 			//Stopping spacewalk increases move number
@@ -810,7 +815,7 @@ public partial class PlayerSync
 		{
 			if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
 			{
-				registerPlayer.Slip( slipWhileWalking: true );
+				registerPlayer.ServerSlip( slipWhileWalking: true );
 			}
 		}
 	}
@@ -826,7 +831,7 @@ public partial class PlayerSync
 
 		if (matrix.MetaDataLayer.IsSlipperyAt(ServerLocalPosition) && !slipProtection)
 		{
-			registerPlayer.Slip();
+			registerPlayer.ServerSlip();
 		}
 	}
 }

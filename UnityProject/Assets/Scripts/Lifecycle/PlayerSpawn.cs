@@ -236,9 +236,11 @@ public static class PlayerSpawn
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
-		var ghost = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, Quaternion.identity,
+		//using parentTransform.rotation rather than Quaternion.identity because objects should always
+		//be upright w.r.t.  localRotation, NOT world rotation
+		var ghost = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
-		ghost.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
+		ghost.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		forMind.Ghosting(ghost);
 
@@ -289,10 +291,12 @@ public static class PlayerSpawn
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
+		//using parentTransform.rotation rather than Quaternion.identity because objects should always
+		//be upright w.r.t.  localRotation, NOT world rotation
 		var player = Object.Instantiate(CustomNetworkManager.Instance.humanPlayerPrefab,
-			spawnPosition, Quaternion.identity,
+			spawnPosition, parentTransform.rotation,
 			parentTransform);
-		player.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
+		player.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 
 

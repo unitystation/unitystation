@@ -7,23 +7,26 @@ public struct ThrowInfo
 {
 	/// Null object, means that there's no throw in progress
 	public static readonly ThrowInfo NoThrow =
-		new ThrowInfo{ OriginPos = TransformState.HiddenPos, TargetPos = TransformState.HiddenPos };
-	public Vector3 OriginPos;
-	public Vector3 TargetPos;
+		new ThrowInfo{ OriginWorldPos = TransformState.HiddenPos, WorldTrajectory = TransformState.HiddenPos };
+	public Vector3 OriginWorldPos;
+	/// <summary>
+	/// Trajectory in world space, vector pointing from origin to the targeted position of the throw.
+	/// </summary>
+	public Vector3 WorldTrajectory;
 	public GameObject ThrownBy;
 	public BodyPartType Aim;
 	public float InitialSpeed;
 	public SpinMode SpinMode;
-	public Vector3 Trajectory => TargetPos - OriginPos;
+
 
 	public override string ToString() {
 		return Equals(NoThrow) ? "[No throw]" :
-			$"[{nameof( OriginPos )}: {OriginPos}, {nameof( TargetPos )}: {TargetPos}, {nameof( ThrownBy )}: {ThrownBy}, " +
+			$"[{nameof( OriginWorldPos )}: {OriginWorldPos}, {nameof( WorldTrajectory )}: {WorldTrajectory}, {nameof( ThrownBy )}: {ThrownBy}, " +
 			$"{nameof( Aim )}: {Aim}, {nameof( InitialSpeed )}: {InitialSpeed}, {nameof( SpinMode )}: {SpinMode}]";
 	}
 
 	public bool Equals( ThrowInfo other ) {
-		return OriginPos.Equals( other.OriginPos ) && TargetPos.Equals( other.TargetPos );
+		return OriginWorldPos.Equals( other.OriginWorldPos ) && WorldTrajectory.Equals( other.WorldTrajectory );
 	}
 
 	public override bool Equals( object obj ) {
@@ -36,7 +39,7 @@ public struct ThrowInfo
 
 	public override int GetHashCode() {
 		unchecked {
-			return ( OriginPos.GetHashCode() * 397 ) ^ TargetPos.GetHashCode();
+			return ( OriginWorldPos.GetHashCode() * 397 ) ^ WorldTrajectory.GetHashCode();
 		}
 	}
 }

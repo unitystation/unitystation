@@ -6,6 +6,9 @@ using Mirror;
 using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 
+//TODO: These need to be reworked to make proper use of Directional and DirectionalRotationSprite.
+//Currently they try to manage the sprite rotation themselves. They should actually work
+//more like wires and be different objects when anchored.
 [RequireComponent(typeof(Pickupable))]
 public class Pipe : NetworkBehaviour, IServerSpawn
 {
@@ -43,7 +46,8 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		directional = GetComponent<Directional>();
-		directional.OnDirectionChange.AddListener(OnDirectionChange);
+		//TODO: This component needs to be reworked to use Directional / DirectionalRotationSprites
+		//directional.OnDirectionChange.AddListener(OnDirectionChange);
 		pickupable = GetComponent<Pickupable>();
 	}
 

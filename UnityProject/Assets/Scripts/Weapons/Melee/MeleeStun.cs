@@ -62,7 +62,7 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		// Stun the victim. We checke whether the baton is activated in WillInteract
 		if (registerPlayerVictim)
 		{
-			registerPlayerVictim.Stun(stunTime);
+			registerPlayerVictim.ServerStun(stunTime);
 			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position);
 
 			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)

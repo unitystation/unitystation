@@ -18,9 +18,9 @@ public class SpawnDestination
 	public readonly Transform Parent;
 
 	/// <summary>
-	/// Rotation to spawn with. Defaults to Quaterion.identity.
+	/// Local rotation to spawn with. Defaults to Quaterion.identity (upright in parent matrix).
 	/// </summary>
-	public readonly Quaternion Rotation;
+	public readonly Quaternion LocalRotation;
 
 	/// <summary>
 	/// if true, the spawn will be cancelled if the location being spawned into is totally impassable.
@@ -29,12 +29,12 @@ public class SpawnDestination
 
 
 
-	private SpawnDestination(Vector3 worldPosition, Transform parent, Quaternion rotation,
+	private SpawnDestination(Vector3 worldPosition, Transform parent, Quaternion localRotation,
 		bool cancelIfImpassable)
 	{
 		WorldPosition = worldPosition;
 		Parent = parent;
-		Rotation = rotation;
+		LocalRotation = localRotation;
 		CancelIfImpassable = cancelIfImpassable;
 	}
 
@@ -65,8 +65,8 @@ public class SpawnDestination
 	{
 		var position = existingObject.WorldPosServer();
 		var parent = existingObject.transform.parent;
-		var rotation = existingObject.transform.rotation;
-		return At(position, parent, rotation, cancelIfImpassable);
+		var localRotation = existingObject.transform.localRotation;
+		return At(position, parent, localRotation, cancelIfImpassable);
 	}
 
 	/// <summary>
@@ -82,8 +82,8 @@ public class SpawnDestination
 	{
 		var position = existingRegisterTile.WorldPositionServer;
 		var parent = existingRegisterTile.transform.parent;
-		var rotation = existingRegisterTile.transform.rotation;
-		return At(position, parent, rotation, cancelIfImpassable);
+		var localRotation = existingRegisterTile.transform.localRotation;
+		return At(position, parent, localRotation, cancelIfImpassable);
 	}
 
 	/// <summary>
@@ -113,7 +113,7 @@ public class SpawnDestination
 
 	public override string ToString()
 	{
-		return $"{nameof(WorldPosition)}: {WorldPosition}, {nameof(Parent)}: {Parent}, {nameof(Rotation)}: " +
-		       $"{Rotation}, {nameof(CancelIfImpassable)}: {CancelIfImpassable}";
+		return $"{nameof(WorldPosition)}: {WorldPosition}, {nameof(Parent)}: {Parent}, {nameof(LocalRotation)}: " +
+		       $"{LocalRotation}, {nameof(CancelIfImpassable)}: {CancelIfImpassable}";
 	}
 }

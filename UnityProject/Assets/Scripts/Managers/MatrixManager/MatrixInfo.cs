@@ -22,12 +22,12 @@ public struct MatrixInfo
 	private Vector3 cachedPosition;
 
 	public Color Color => Matrix ? Matrix.Color : Color.red;
-	public float Speed => MatrixMove ? MatrixMove.State.Speed : 0f;
+	public float Speed => MatrixMove ? MatrixMove.ServerState.Speed : 0f;
 
 	//todo: placeholder, should depend on solid tiles count instead (and use caching)
 	public float Mass => Bounds.size.sqrMagnitude/1000f;
 	public bool IsMovable => MatrixMove != null;
-	public Vector2Int MovementVector => ( IsMovable && MatrixMove.isMovingServer ) ? MatrixMove.State.Direction.VectorInt : Vector2Int.zero;
+	public Vector2Int MovementVector => ( IsMovable && MatrixMove.IsMovingServer ) ? MatrixMove.ServerState.FlyingDirection.VectorInt : Vector2Int.zero;
 
 	/// <summary>
 	/// Transform containing all the physical objects on the map
@@ -62,7 +62,7 @@ public struct MatrixInfo
 		{
 			//if we moved, update cached offset
 			cachedPosition = state.Position;
-			CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPos);
+			CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPosition);
 		}
 
 		return CachedOffset;
@@ -93,7 +93,7 @@ public struct MatrixInfo
 	{
 		return Equals(Invalid)
 			? "[Invalid matrix]"
-			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetID}]";
+			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.ServerState},netId={NetID}]";
 	}
 
 	public bool Equals(MatrixInfo other)

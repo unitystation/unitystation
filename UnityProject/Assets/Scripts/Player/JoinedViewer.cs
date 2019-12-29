@@ -64,6 +64,17 @@ public class JoinedViewer : NetworkBehaviour
 
 		// Check if they have a player to rejoin. If not, assign them a new client ID
 		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
+
+		if (loggedOffPlayer != null)
+		{
+			var checkForViewer = loggedOffPlayer.GetComponent<JoinedViewer>();
+			if (checkForViewer)
+			{
+				Destroy(loggedOffPlayer);
+				loggedOffPlayer = null;
+			}
+		}
+
 		if (loggedOffPlayer == null)
 		{
 			//This is the players first time connecting to this round, assign them a Client ID;
@@ -138,7 +149,6 @@ public class JoinedViewer : NetworkBehaviour
 			default:
 				// occupation select
 				UIManager.Display.SetScreenForJobSelect();
-
 				break;
 		}
 	}

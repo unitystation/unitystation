@@ -59,7 +59,7 @@ public class Matrix : MonoBehaviour
 					{
 						continue;
 					}
-					player.registerTile.Slip(true);
+					player.registerTile.ServerSlip(true);
 				}
 				//maybe shake items somehow, too
 			}
@@ -266,7 +266,10 @@ public class Matrix : MonoBehaviour
 	{
 		if (ServerObjects != null)
 		{
-			return ServerObjects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null).Where(y => y.enabled);
+			return ServerObjects.Get(position)
+				.Select(x => x != null ? x.GetComponent<ElectricalOIinheritance>() : null)
+				.Where(x => x != null)
+				.Where(y => y.enabled);
 		}
 		else
 		{

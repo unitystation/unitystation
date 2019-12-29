@@ -34,7 +34,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	public bool IsBuckled => buckledObject != NetId.Invalid;
 
-	[SyncVar(hook=nameof(SyncCuffed))] private bool cuffed;
+	[SyncVar(hook = nameof(SyncCuffed))] private bool cuffed;
 
 	/// <summary>
 	/// Whether the character is restrained with handcuffs (or similar)
@@ -148,13 +148,14 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			if (KeyboardInputManager.CheckMoveAction(moveList[i]))
 			{
 				bool beingDraggedWithCuffs = IsCuffed && PlayerScript.pushPull.IsBeingPulledClient;
-				
-				if (allowInput && !IsBuckled && !beingDraggedWithCuffs){
-					actionKeys.Add((int)moveList[i]);
+
+				if (allowInput && !IsBuckled && !beingDraggedWithCuffs)
+				{
+					actionKeys.Add((int) moveList[i]);
 				}
 				else
 				{
-					if(PlayerScript.playerHealth.IsDead)
+					if (PlayerScript.playerHealth.IsDead)
 					{
 						pna.CmdSpawnPlayerGhost();
 					}
@@ -228,10 +229,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		if (matrixInfo.MatrixMove)
 		{
 			// Converting world direction to local direction
-			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.QuaternionInverted *
+			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
 			                                  direction);
 		}
-
 
 
 		return direction;
@@ -265,7 +265,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <param name="toObject">object to which they should be buckled, must have network instance id.</param>
 	/// <param name="unbuckledAction">callback to invoke when we become unbuckled</param>
 	[Server]
-	public void Buckle(GameObject toObject, Action unbuckledAction = null)
+	public void ServerBuckle(GameObject toObject, Action unbuckledAction = null)
 	{
 		var netid = toObject.NetId();
 		if (netid == NetId.Invalid)
@@ -277,7 +277,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		}
 
 		var buckleInteract = toObject.GetComponent<BuckleInteract>();
-		PlayerUprightMessage.SendToAll(gameObject, buckleInteract.forceUpright, true);
+		//no matter what, we stand up when buckled in
+		registerPlayer.ServerStandUp();
 
 		OnBuckledChangedHook(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
@@ -286,6 +287,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		{
 			PlayerScript.pushPull.PulledBy.CmdStopPulling();
 		}
+
 		PlayerScript.pushPull.CmdStopFollowing();
 		PlayerScript.pushPull.CmdStopPulling();
 		PlayerScript.pushPull.ServerSetPushable(false);
@@ -307,7 +309,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 		//force sync direction to current direction
 		playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
-
 	}
 
 	/// <summary>
@@ -328,7 +329,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		OnBuckledChangedHook(NetId.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.ServerSetPushable(true);
-		PlayerUprightMessage.SendToAll(gameObject, !registerPlayer.IsDownServer, false); //fall or get up depending if the player can stand
+		//decide if we should fall back down when unbuckled
+		registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
 		onUnbuckled?.Invoke();
 	}
 
@@ -350,6 +352,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
 			}
 		}
+
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
@@ -366,6 +369,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
 			}
 		}
+
 		//ensure we are in sync with server
 		playerScript?.PlayerSync?.RollbackPrediction();
 	}
@@ -376,13 +380,32 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		SyncCuffed(true);
 
 		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
-		//transfer cuffs to the special cuff slot (not exposed in UI ATM)
-		Inventory.ServerTransfer(interaction.HandSlot,
-			targetStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+
+		//transfer cuffs to the special cuff slot
+		ItemSlot handcuffSlot = targetStorage.GetNamedItemSlot(NamedSlot.handcuffs);
+		Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+
 		//drop hand items
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
 
+		TargetPlayerUIHandCuffToggle(connectionToClient, true);
+	}
+
+	[TargetRpc]
+	private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool activeState)
+	{
+		Sprite leftSprite = null;
+		Sprite rightSprite = null;
+
+		if (activeState)
+		{
+			leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
+			rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
+		}
+
+		UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
+		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
 	}
 
 	[Server]
@@ -391,6 +414,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		SyncCuffed(false);
 
 		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+		TargetPlayerUIHandCuffToggle(connectionToClient, false);
 	}
 
 	private void SyncCuffed(bool cuffed)
@@ -458,5 +482,4 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 /// </summary>
 public class CuffEvent : UnityEvent<bool, bool>
 {
-
 }

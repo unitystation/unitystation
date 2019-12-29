@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -8,7 +9,7 @@ using UnityEngine.Tilemaps;
 ///
 /// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -172,10 +173,12 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		LayerTile tile = LayerTileAt(worldPosTarget);
 		if (tile is BasicTile basicTile)
 		{
-			if (tileInteractionIndex > basicTile.TileInteractions.Count)
+			if (tileInteractionIndex >= basicTile.TileInteractions.Count)
 			{
-				Logger.LogErrorFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
+				//this sometimes happens due to lag, so bumping it down to trace
+				Logger.LogTraceFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
 					Category.Interaction, tileInteractionIndex, basicTile.name);
+				return;
 			}
 
 			var tileInteraction = basicTile.TileInteractions[tileInteractionIndex];

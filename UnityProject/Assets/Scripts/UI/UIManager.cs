@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UI.UI_Bottom;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Unitystation.Options;
 
 public class UIManager : MonoBehaviour
 {
@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
 	public AlertUI alertUI;
 	public Text toolTip;
 	public Text pingDisplay;
+	public GUI_Info infoWindow;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
 	public BuildMenu buildMenu;
@@ -32,6 +33,7 @@ public class UIManager : MonoBehaviour
 	public bool ttsToggle;
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
+	public AnimationCurve strandedZoomOutCurve;
 	[HideInInspector]
 	//map from progress bar id to actual progress bar component.
 	private Dictionary<int, ProgressBar> progressBars = new Dictionary<int, ProgressBar>();
@@ -116,6 +118,9 @@ public class UIManager : MonoBehaviour
 	public static UI_StorageHandler StorageHandler => Instance.storageHandler;
 	public static BuildMenu BuildMenu => Instance.buildMenu;
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
+
+	public static GUI_Info InfoWindow => Instance.infoWindow;
+
 
 
 	private float pingUpdate;
@@ -364,5 +369,77 @@ public class UIManager : MonoBehaviour
 		{
 			uiSlot.LinkToLocalPlayer();
 		}
+	}
+
+	private float originalZoom = 5f;
+	public void PlayStrandedAnimation()
+	{
+		//turning off all the UI except for the right panel
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
+		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
+		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
+		ChatUI.Instance.CloseChatWindow();
+
+		//needed so performance is still okay when zooming
+		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
+		lightingSystem.enabled = false;
+		var zoomButtons = GetComponentInChildren<ZoomButtons>();
+		zoomButtons.enabled = false;
+		// var cameraResizer = Camera.main.GetComponent<CameraResizer>();
+		// cameraResizer.enabled = false;
+		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
+		camera2dfollow.enabled = false;
+
+		//start zooming out
+		StartCoroutine(StrandedZoomOut());
+
+	}
+
+	private IEnumerator StrandedZoomOut()
+	{
+		var camera = Camera.main;
+		float time = 0f;
+		float end = strandedZoomOutCurve[strandedZoomOutCurve.length - 1].time;
+		originalZoom = camera.orthographicSize;
+
+		while (time < end)
+		{
+			var curVal = strandedZoomOutCurve.Evaluate(time);
+			camera.orthographicSize = curVal;
+			time += Time.deltaTime;
+
+			yield return null;
+		}
+
+		SoundManager.StopAmbient();
+		Display.PlayStrandedVideo();
+		StartCoroutine(WaitForStrandedVideoEnd());
+	}
+
+	private IEnumerator WaitForStrandedVideoEnd()
+	{
+		yield return WaitFor.Seconds(11f);
+		//so we don't freak out the lighting system
+		Camera.main.orthographicSize = originalZoom;
+		//turn everything back on
+		yield return null;
+		SoundManager.PlayAmbience();
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			UIManager.Display.hudBottomGhost.gameObject.SetActive(true);
+		}
+		else
+		{
+			UIManager.Display.hudBottomHuman.gameObject.SetActive(true);
+		}
+		ChatUI.Instance.OpenChatWindow();
+		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
+		lightingSystem.enabled = true;
+		var zoomButtons = GetComponentInChildren<ZoomButtons>();
+		zoomButtons.enabled = true;
+		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
+		camera2dfollow.enabled = true;
+
 	}
 }
