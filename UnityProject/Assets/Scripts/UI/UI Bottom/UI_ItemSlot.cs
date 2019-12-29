@@ -184,6 +184,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			return;
 		}
 
+		// If player is cuffed, a special icon appears on his hand slots, exit without changing it.
+		if ((namedSlot == NamedSlot.leftHand || namedSlot == NamedSlot.rightHand) &&
+			PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
+		{
+			return;
+		}
+
 		if (!nullItem)
 		{
 			//determine the sprites to display based on the new item

@@ -376,13 +376,22 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		SyncCuffed(true);
 
 		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
-		//transfer cuffs to the special cuff slot (not exposed in UI ATM)
-		Inventory.ServerTransfer(interaction.HandSlot,
-			targetStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+
+		//transfer cuffs to the special cuff slot
+		ItemSlot handcuffSlot = targetStorage.GetNamedItemSlot(NamedSlot.handcuffs);
+		Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+
 		//drop hand items
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
 
+		// Set a special sprite for player's hands.
+		UI_ItemSlot itemSlot;
+		itemSlot = targetStorage.GetNamedItemSlot(NamedSlot.leftHand).LocalUISlot;
+		itemSlot.SetSecondaryImage(itemSlot.GetComponentInParent<Handcuff>().HandcuffSprite);
+
+		itemSlot = targetStorage.GetNamedItemSlot(NamedSlot.rightHand).LocalUISlot;
+		itemSlot.SetSecondaryImage(itemSlot.GetComponentInParent<Handcuff>().HandcuffSprite);
 	}
 
 	[Server]

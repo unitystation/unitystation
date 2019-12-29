@@ -267,10 +267,6 @@ public class ItemSlot
 			}
 		}
 
-
-
-
-
 		UpdateItemSlotMessage.Send(serverObserverPlayers, this);
 	}
 
