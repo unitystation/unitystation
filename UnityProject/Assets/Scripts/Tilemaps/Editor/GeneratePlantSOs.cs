@@ -11,7 +11,7 @@ public class GeneratePlantSOs : EditorWindow
 	[MenuItem("Tools/GeneratePlantSOs")]
 	public static void Generate()
 	{
-		DirectoryInfo d = new DirectoryInfo(Application.dataPath + @"\Resources\textures\objects\hydroponics\growing");
+		DirectoryInfo d = new DirectoryInfo(Application.dataPath + @"\Textures\objects\hydroponics\growing");
 		FileInfo[] Files = d.GetFiles("*.png");// \\Getting Text files
 		var ListFiles = new List<string>();
 		var PlantDictionary = new Dictionary<string, DefaultPlantData>();
@@ -61,15 +61,15 @@ public class GeneratePlantSOs : EditorWindow
 			//Logger.Log("harvest_" + seed_packet);
 
 			plantdata.PacketsSprite = new SpriteSheetAndData();
-			plantdata.PacketsSprite.Texture = (Resources.Load(@"textures\objects\hydroponics\seeds\seeds_" + (plat["seed_packet"] as string), typeof(Texture2D)) as Texture2D);
+			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\seeds_" + (plat["seed_packet"] as string)+ ".png", typeof(Texture2D)) as Texture2D);
 			plantdata.PacketsSprite.setSprites();
 
 			plantdata.ProduceSprite = new SpriteSheetAndData();
-			plantdata.ProduceSprite.Texture = (Resources.Load(@"textures\objects\hydroponics\harvest\harvest_" + seed_packet, typeof(Texture2D)) as Texture2D);
+			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet+ ".png", typeof(Texture2D)) as Texture2D);
 
 			//Application.dataPath
 			if (plantdata.ProduceSprite.Texture == null) { 
-				plantdata.ProduceSprite.Texture = (Resources.Load(@"textures\objects\hydroponics\harvest\harvest_" + seed_packet+"pile", typeof(Texture2D)) as Texture2D);
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet+"pile"+ ".png", typeof(Texture2D)) as Texture2D);
 			}
 			if (plantdata.ProduceSprite.Texture == null)
 			{
@@ -82,13 +82,13 @@ public class GeneratePlantSOs : EditorWindow
 				{
 					EEEseed_packet = EEEseed_packet.Replace("mycelium-", "");
 				}
-				plantdata.ProduceSprite.Texture = (Resources.Load(@"textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet, typeof(Texture2D)) as Texture2D);
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet+ ".png", typeof(Texture2D)) as Texture2D);
 				if (plantdata.ProduceSprite.Texture == null)
-				{					plantdata.ProduceSprite.Texture = (Resources.Load(@"textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet+"s", typeof(Texture2D)) as Texture2D);
+				{					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet+"s"+ ".png", typeof(Texture2D)) as Texture2D);
 				}
 				if (plantdata.ProduceSprite.Texture == null)
 				{
-					plantdata.ProduceSprite.Texture = (Resources.Load(@"textures\objects\hydroponics\harvest\harvest_" + seed_packet + "s", typeof(Texture2D)) as Texture2D);
+					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "s"+".png", typeof(Texture2D)) as Texture2D);
 				}
 			}
 			plantdata.ProduceSprite.setSprites();
@@ -114,11 +114,11 @@ public class GeneratePlantSOs : EditorWindow
 						{
 							if (!ListFile.Contains("-harvest"))
 							{
-								var _ListFile = ListFile.Replace(".png", "");
+								//var _ListFile = ListFile.Replace(".png", "");
 								//\\Growingsprites.Add(ListFile);
 								//\Assets\Resources\textures\objects\hydroponics\growing\growing_ambrosia_gaia-grow6.png
 								var _SpriteSheetAndData = new SpriteSheetAndData();
-								_SpriteSheetAndData.Texture = (Resources.Load(@"textures\objects\hydroponics\growing\" + _ListFile, typeof(Texture2D)) as Texture2D);
+								_SpriteSheetAndData.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + ListFile, typeof(Texture2D)) as Texture2D);
 								_SpriteSheetAndData.setSprites();
 								plantdata.GrowthSprites.Add(_SpriteSheetAndData);
 
@@ -127,9 +127,9 @@ public class GeneratePlantSOs : EditorWindow
 							else
 							{
 								//Logger.Log("got harvest");
-								var _ListFile = ListFile.Replace(".png", "");
+
 								var _SpriteSheetAndData = new SpriteSheetAndData();
-								_SpriteSheetAndData.Texture = (Resources.Load(@"textures\objects\hydroponics\growing\" + _ListFile, typeof(Texture2D)) as Texture2D);
+								_SpriteSheetAndData.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + ListFile, typeof(Texture2D)) as Texture2D);
 								_SpriteSheetAndData.setSprites();
 								plantdata.FullyGrownSprite = _SpriteSheetAndData;
 							}
@@ -138,9 +138,9 @@ public class GeneratePlantSOs : EditorWindow
 						else {
 							//Logger.Log("got DeadSprite");
 
-							var _ListFile = ListFile.Replace(".png", "");
+							//var _ListFile = ListFile.Replace(".png", "");
 							var _SpriteSheetAndData = new SpriteSheetAndData();
-							_SpriteSheetAndData.Texture = (Resources.Load(@"textures\objects\hydroponics\growing\" + _ListFile, typeof(Texture2D)) as Texture2D);
+							_SpriteSheetAndData.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + ListFile, typeof(Texture2D)) as Texture2D);
 							_SpriteSheetAndData.setSprites();
 							plantdata.DeadSprite = _SpriteSheetAndData;
 						}
@@ -148,7 +148,12 @@ public class GeneratePlantSOs : EditorWindow
 					}
 
 				}
-
+				if (plantdata.FullyGrownSprite == null){
+					if (plantdata.GrowthSprites.Count > 0)
+					{
+						plantdata.FullyGrownSprite = plantdata.GrowthSprites[plantdata.GrowthSprites.Count - 1];
+					}
+				}
 			}
 			plantdata.WeedResistance = int.Parse(plat["weed_resistance"].ToString());
 			plantdata.WeedGrowthRate = int.Parse(plat["weed_growth_rate"].ToString());

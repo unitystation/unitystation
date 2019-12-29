@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: lemon
     Plantname: Lemon Tree
     Description: These are sour seeds.
@@ -29,40 +28,16 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: ecc8dce7cf9ea0248997018d2aa7fdb2, type: 3}
       EquippedData: {fileID: 0}
-    GrowthSprites:
-    - Texture: {fileID: 2800000, guid: e9d18d53ddc02c54c947ad28bd07bded, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: e9d18d53ddc02c54c947ad28bd07bded, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: b6be0e7a2bdb80944a9f73aadbdb77ac, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: b6be0e7a2bdb80944a9f73aadbdb77ac, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 96026cb75be45c94fb134d1c890e7b0a, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 96026cb75be45c94fb134d1c890e7b0a, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 5d439ef1f15a0ed4e89b6fcd8de6dbd9, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 5d439ef1f15a0ed4e89b6fcd8de6dbd9, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 225e0273ce4664e40b1d57d22d4fbafc, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 225e0273ce4664e40b1d57d22d4fbafc, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 1e048177284ef6b42bcb6b34efb3f41d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 1e048177284ef6b42bcb6b34efb3f41d, type: 3}
-      EquippedData: {fileID: 0}
+    GrowthSprites: []
     FullyGrownSprite:
       Texture: {fileID: 2800000, guid: 165ab9bef92b5f645b847c552f0b6e74, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 165ab9bef92b5f645b847c552f0b6e74, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: bb166f600611fcc49858990450d20cbf, type: 3}
+      Texture: {fileID: 2800000, guid: d4b46fd80b396d444aa5ecffcd4f0245, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: bb166f600611fcc49858990450d20cbf, type: 3}
+      - {fileID: 21300000, guid: d4b46fd80b396d444aa5ecffcd4f0245, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 5
     WeedGrowthRate: 1
@@ -78,7 +53,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 5
     MutatesInTo:
-    - {fileID: 11400000, guid: 2b12a8a694ad1344eac44283986f9f12, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

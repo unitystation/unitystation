@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: plump
     Plantname: Plump-Helmet Mushrooms
     Description: This mycelium grows into helmets... maybe.
@@ -25,8 +24,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 0dfb4bf7dfe1edf40885d6781de7ee7d, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: f3f7a1901039e6b48bf190c6f1b54c5f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: f3f7a1901039e6b48bf190c6f1b54c5f, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
@@ -42,9 +42,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: c337823b22c8e024cae1a4865f4dbda7, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: c337823b22c8e024cae1a4865f4dbda7, type: 3}
+      Texture: {fileID: 2800000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: c337823b22c8e024cae1a4865f4dbda7, type: 3}
+      - {fileID: 21300000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
       Texture: {fileID: 2800000, guid: 6ff228960d280e74cb8ca3e842718fe9, type: 3}
@@ -65,7 +65,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 10
     MutatesInTo:
-    - {fileID: 11400000, guid: 0a47c9c3d7837ba48bb6b23d704d716d, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0
