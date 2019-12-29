@@ -24,6 +24,7 @@ public static class ServerValidations
 		bool messagePerformer = true)
 	{
 		var floorLayer = LayerMask.NameToLayer("Floor");
+		var wallmountLayer = LayerMask.NameToLayer("WallMounts");
 		if (allowed == null) allowed = (rt) => false;
 		var blocker =
 			MatrixManager.GetAt<RegisterTile>(worldPosition.To3Int(), true)
@@ -31,8 +32,8 @@ public static class ServerValidations
 				.Where(rt => rt.gameObject != anchoredObject)
 				//ignore performer
 				.Where(rt => rt.gameObject != performer)
-				//ignore stuff in floor
-				.Where(rt => rt.gameObject.layer != floorLayer)
+				//ignore stuff in floor and wallmounts
+				.Where(rt => rt.gameObject.layer != floorLayer && rt.gameObject.layer != wallmountLayer)
 				.FirstOrDefault(rt => !allowed.Invoke(rt));
 		if (blocker != null)
 		{

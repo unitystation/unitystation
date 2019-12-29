@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -4487154595025906358}
   - component: {fileID: -2051729626694222704}
   - component: {fileID: -3038391285617089312}
+  - component: {fileID: 2975738231047666242}
   m_Layer: 19
   m_Name: Collision Sensor
   m_TagString: Untagged
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: c0760b4fcab625b41a604576e37ca584
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &493828552897054551
 MonoBehaviour:
@@ -81,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &5745080215759849378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,8 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  objectType: 0
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &-8848886095367057909
@@ -174,6 +175,19 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
+--- !u!114 &2975738231047666242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395871990776010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c7afb8a6dc4ed8bf0f983b7ff65e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabSpriteOrientation: 1
 --- !u!1 &1587334133710578
 GameObject:
   m_ObjectHideFlags: 0

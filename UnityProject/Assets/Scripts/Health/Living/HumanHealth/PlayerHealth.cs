@@ -132,14 +132,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
-		if (newState != ConsciousState.CONSCIOUS)
-		{
-			registerPlayer.LayDown();
-		}
-		else
-		{
-			registerPlayer.GetUp();
-		}
-
+		//we stay upright if buckled or conscious
+		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || playerMove.IsBuckled);
 	}
 }

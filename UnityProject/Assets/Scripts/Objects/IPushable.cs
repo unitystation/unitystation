@@ -19,6 +19,7 @@ public interface IPushable {
 	void NewtonianMove(Vector2Int direction, float speed = Single.NaN);
 	/// Notify players about up-to-date state
 	void NotifyPlayers();
+	//I think this is valid server side only
 	bool VisibleState { get; set; }
 	Vector3IntEvent OnUpdateRecieved();
 	DualVector3IntEvent OnStartMove();

@@ -85,7 +85,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 		OnDirectionChanged(directional.CurrentDirection);
 	}
 
-	public void OnDirectionChanged(Orientation newDir)
+	private void OnDirectionChanged(Orientation newDir)
 	{
 		if (newDir == Orientation.Up)
 		{

@@ -61,7 +61,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
 		if(cnt != null)
 		{
-			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.Impulse);
+			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.WorldImpulse);
 		} else {
 			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
 		}

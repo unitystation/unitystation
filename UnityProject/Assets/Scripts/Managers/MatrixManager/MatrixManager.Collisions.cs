@@ -38,7 +38,7 @@ public partial class MatrixManager
 
 		foreach ( var movableMatrix in MovableMatrices )
 		{
-			movableMatrix.MatrixMove.OnStart.AddListener( () =>
+			movableMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
 			{
 				if ( !movingMatrices.Contains( movableMatrix ) )
 				{
@@ -46,12 +46,12 @@ public partial class MatrixManager
 				}
 			} );
 
-			movableMatrix.MatrixMove.OnStop.AddListener( () =>
+			movableMatrix.MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener( () =>
 			{
 				if ( movingMatrices.Contains( movableMatrix ) )
 				{
 					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == movableMatrix );
-					movableMatrix.MatrixMove.OnClientFullStop.AddListener( CollideBeforeStop( movableMatrix, participatingIntersections ) );
+					movableMatrix.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( movableMatrix, participatingIntersections ) );
 					movingMatrices.Remove( movableMatrix );
 					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == movableMatrix );
 				}
@@ -448,11 +448,11 @@ public partial class MatrixManager
 
 	private void SlowDown( MatrixIntersection i, int collisions )
 	{
-		if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.isMovingServer )
+		if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.IsMovingServer )
 		{
 			InternalSlowDown( i.Matrix1 );
 		}
-		if ( i.Matrix2.IsMovable && i.Matrix2.MatrixMove.isMovingServer )
+		if ( i.Matrix2.IsMovable && i.Matrix2.MatrixMove.IsMovingServer )
 		{
 			InternalSlowDown( i.Matrix2 );
 		}
@@ -464,7 +464,7 @@ public partial class MatrixManager
 				0.1f,
 				0.95f
 				);
-			float speed = ( info.MatrixMove.State.Speed * slowdownFactor ) - 0.07f;
+			float speed = ( info.MatrixMove.ServerState.Speed * slowdownFactor ) - 0.07f;
 			if ( speed <= 1f )
 			{
 				info.MatrixMove.StopMovement();

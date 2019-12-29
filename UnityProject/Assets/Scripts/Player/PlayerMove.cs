@@ -14,7 +14,8 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 {
-	[SerializeField] private PlayerScript playerScript;
+	[SerializeField]
+	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
 
 	public bool diagonalMovement;
@@ -43,7 +44,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
 	/// </summary>
-	[NonSerialized] public CuffEvent OnCuffChangeServer = new CuffEvent();
+	[NonSerialized]
+	public CuffEvent OnCuffChangeServer = new CuffEvent();
 
 	/// <summary>
 	/// Tracks the server's idea of whether we have help intent
@@ -227,7 +229,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		if (matrixInfo.MatrixMove)
 		{
 			// Converting world direction to local direction
-			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.QuaternionInverted *
+			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
 			                                  direction);
 		}
 
@@ -263,7 +265,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <param name="toObject">object to which they should be buckled, must have network instance id.</param>
 	/// <param name="unbuckledAction">callback to invoke when we become unbuckled</param>
 	[Server]
-	public void Buckle(GameObject toObject, Action unbuckledAction = null)
+	public void ServerBuckle(GameObject toObject, Action unbuckledAction = null)
 	{
 		var netid = toObject.NetId();
 		if (netid == NetId.Invalid)
@@ -275,7 +277,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		}
 
 		var buckleInteract = toObject.GetComponent<BuckleInteract>();
-		PlayerUprightMessage.SendToAll(gameObject, buckleInteract.forceUpright, true);
+		//no matter what, we stand up when buckled in
+		registerPlayer.ServerStandUp();
 
 		OnBuckledChangedHook(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
@@ -326,8 +329,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		OnBuckledChangedHook(NetId.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.ServerSetPushable(true);
-		PlayerUprightMessage.SendToAll(gameObject, !registerPlayer.IsDownServer,
-			false); //fall or get up depending if the player can stand
+		//decide if we should fall back down when unbuckled
+		registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
 		onUnbuckled?.Invoke();
 	}
 

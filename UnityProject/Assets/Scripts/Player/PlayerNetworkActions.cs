@@ -118,14 +118,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetPos, int aim)
+	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetVector, int aim)
 	{
 		//only allowed to throw from hands
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		Inventory.ServerThrow(slot, worldTargetPos,
+		Inventory.ServerThrow(slot, worldTargetVector,
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
 	}
 
@@ -217,7 +217,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		playerScript.registerTile.IsDownServer = newState != ConsciousState.CONSCIOUS;
 		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
@@ -526,7 +525,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
 		if (5 >= rng.Next(1, 100))
 		{
-			disarmedPlayerRegister.Stun(6f, false);
+			disarmedPlayerRegister.ServerStun(6f, false);
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",

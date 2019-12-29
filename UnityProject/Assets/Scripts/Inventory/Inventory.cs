@@ -92,11 +92,12 @@ public static class Inventory
 	/// Inventory move in which the object in the slot is dropped into the world at the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>
-	/// <param name="targetWorldPosition">world position to drop at, leave null to drop at holder's position</param>
+	/// <param name="worldTargetVector">world space vector pointing from origin to targeted position to throw, leave null
+	/// to drop at holder's position</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerDrop(ItemSlot fromSlot, Vector2? targetWorldPosition = null)
+	public static bool ServerDrop(ItemSlot fromSlot, Vector2? worldTargetVector = null)
 	{
-		return ServerPerform(InventoryMove.Drop(fromSlot, targetWorldPosition));
+		return ServerPerform(InventoryMove.Drop(fromSlot, worldTargetVector));
 	}
 
 	/// <summary>
@@ -119,13 +120,13 @@ public static class Inventory
 	/// Inventory move in which the object in the slot is thrown into the world from the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>
-	/// <param name="targetWorldPosition">world position being targeted by the throw</param>
+	/// <param name="worldTargetVector">world space vector pointing from origin to targeted position to throw</param>
 	/// <param name="spinMode"></param>
 	/// <param name="aim">body part to target</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerThrow(ItemSlot fromSlot, Vector2 targetWorldPosition, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
+	public static bool ServerThrow(ItemSlot fromSlot, Vector2 worldTargetVector, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
 	{
-		return ServerPerform(InventoryMove.Throw(fromSlot, targetWorldPosition, spinMode, aim));
+		return ServerPerform(InventoryMove.Throw(fromSlot, worldTargetVector, spinMode, aim));
 	}
 
 	/// <summary>
@@ -321,7 +322,8 @@ public static class Inventory
 
 			var holderPlayer = holder.GetComponent<PlayerSync>();
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			Vector3 targetWorldPos = toPerform.TargetWorldPos.GetValueOrDefault(holder.gameObject.AssumedWorldPosServer());
+			var holderPosition = holder.gameObject.AssumedWorldPosServer();
+			Vector3 targetWorldPos = holderPosition + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
 			if (holderPlayer != null)
 			{
 				//dropping from player
@@ -340,12 +342,13 @@ public static class Inventory
 			//throw / eject
 			//determine where it will be thrown from
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
+			var assumedWorldPosServer = holder.gameObject.AssumedWorldPosServer();
 			var throwInfo = new ThrowInfo
 			{
 				ThrownBy = holder.gameObject,
 				Aim = toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest),
-				OriginPos = holder.gameObject.AssumedWorldPosServer(),
-				TargetPos = (Vector3) toPerform.TargetWorldPos,
+				OriginWorldPos = assumedWorldPosServer,
+				WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero),
 				SpinMode = toPerform.ThrowSpinMode.GetValueOrDefault(SpinMode.Clockwise)
 			};
 			//dropping from player
@@ -353,7 +356,7 @@ public static class Inventory
 			cnt.Throw(throwInfo);
 
 			//Counter-impulse for players in space
-			holderPushPull.Pushable.NewtonianMove((-throwInfo.Trajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
+			holderPushPull.Pushable.NewtonianMove((-throwInfo.WorldTrajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
 		}
 		//NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		//already been removed from the inventory system.
@@ -416,7 +419,7 @@ public static class Inventory
 		}
 
 		//go poof, it's in inventory now.
-		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
 
 		//no longer inside any PushPull
 		pickupable.GetComponent<ObjectBehaviour>().parentContainer = null;

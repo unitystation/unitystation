@@ -66,6 +66,9 @@ GameObject:
   - component: {fileID: 114736272981376494}
   - component: {fileID: 114987107583708958}
   - component: {fileID: 114993487225253824}
+  - component: {fileID: 5303129370152436876}
+  - component: {fileID: 758924461821250246}
+  - component: {fileID: 5228185771092616738}
   m_Layer: 13
   m_Name: emergency_lights
   m_TagString: EmergencyLight
@@ -103,8 +106,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &8902598492986650915
@@ -121,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114065967972627576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +241,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114993487225253824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +257,48 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 523487682
+  m_SceneId: 0
+--- !u!114 &5303129370152436876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa17625094f8479ab08dbcfbdec01da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &758924461821250246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InitialDirection: 0
+  ChangeDirectionWithMatrix: 1
+--- !u!114 &5228185771092616738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c7afb8a6dc4ed8bf0f983b7ff65e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabSpriteOrientation: 0
 --- !u!1 &1892682482372664
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +323,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892682482372664}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -309,6 +355,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -319,7 +366,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300006, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

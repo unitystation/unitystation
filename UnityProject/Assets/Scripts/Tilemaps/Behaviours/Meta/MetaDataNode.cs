@@ -54,6 +54,9 @@ public class MetaDataNode: IGasMixContainer
 	private float damage;
 	private float previousDamage;
 
+	/// <summary>
+	/// Direction of wind in local coordinates
+	/// </summary>
 	public Vector2Int 	WindDirection 	= Vector2Int.zero;
 	public float		WindForce 		= 0;
 

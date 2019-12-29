@@ -145,6 +145,27 @@ public struct RotationOffset
 		return From((Vector2) vector);
 	}
 
+
+	/// <summary>
+	/// Gets a rotation offset matching the quaternion's clockwise rotation about the z axis.
+	/// </summary>
+	/// <param name="quaternion"></param>
+	/// <returns></returns>
+	public static RotationOffset From(Quaternion quaternion)
+	{
+		var angle = NormalizeAngle(quaternion.eulerAngles.z);
+		return From(angle);
+	}
+
+	private static float NormalizeAngle (float angle)
+	{
+		while (angle>360)
+			angle -= 360;
+		while (angle<0)
+			angle += 360;
+		return angle;
+	}
+
 	/// <summary>
 	/// Get the offset which would be 90 degrees clockwise from current rotation offset.
 	/// </summary>
@@ -237,4 +258,5 @@ public struct RotationOffset
 		return Orientation.Up.OffsetTo(Orientation.Up.Rotate(this)
 			.Rotate(rotationToAdd));
 	}
+
 }

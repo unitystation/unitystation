@@ -32,6 +32,7 @@
 
 		private void Awake()
 		{
+			base.Awake();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 			//Doors/airlocks aren't supposed to switch matrices
 			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
