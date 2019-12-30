@@ -58,8 +58,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	private static bool verified;
 	private static ulong SteamID;
 
-	private Vector3Event onTileReached = new Vector3Event();
-	public Vector3Event OnTileReached() => onTileReached;
+	private Vector3IntEvent onTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnTileReached() => onTileReached;
 
 	public override void OnStartClient()
 	{

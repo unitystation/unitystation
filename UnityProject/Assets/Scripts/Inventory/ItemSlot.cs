@@ -336,13 +336,12 @@ public class ItemSlot
 			if (item.GetComponent<Stackable>() != null
 				&& toStore.GetComponent<Stackable>() != null
 				&& item.GetComponent<ItemAttributesV2>().HasAllTraits(toStore.GetComponent<ItemAttributesV2>().GetTraits())
-			   )
+			   ) 
 			{
 				var _Stackable = item.GetComponent<Stackable>();
 
-				if (_Stackable.Amount == _Stackable.maxAmount)
-				{
-										return false;
+				if (_Stackable.IsFull())
+				{					return false;
 				}
 				else { 
 					return true;

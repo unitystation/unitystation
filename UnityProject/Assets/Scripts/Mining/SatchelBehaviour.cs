@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
+public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>
 {
 
 	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
@@ -13,8 +13,8 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 	};
 
 
-	public PlayerScript Player;
-	public ItemStorage Storage;
+	private PlayerScript Player;
+	private ItemStorage Storage;
 
 	void Awake()
 	{
@@ -41,15 +41,45 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 		}
 	}
 
-	public void TileReached(Vector3 worldPos)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), true);
-		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
-		var crossedItems = matrix.Matrix.Get<ItemAttributesV2>(locPos, true);
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (interaction.UsedObject == null) return false;
+
+		if (interaction.TargetObject == this) return false;
+		return true;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		AttemptToStore(interaction.TargetObject);
+	}
+
+	public void TileReached(Vector3Int worldPos)
+	{
+		var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(worldPos, true);
 		foreach (var crossedItem in crossedItems)
 		{
-			Pickupable Pickup = crossedItem.GetComponent<Pickupable>();
-			if (Pickup != null)
+			AttemptToStore(crossedItem.gameObject);
+		}
+	}
+
+	private void AttemptToStore(GameObject thing) { 
+	
+		Pickupable Pickup = thing.GetComponent<Pickupable>();
+		if (Pickup != null)
+		{
+			if (Storage.GetBestSlotFor(Pickup) != null)
+			{
+				if (Storage.ItemStorageCapacity.CanFit(Pickup, Storage.GetBestSlotFor(Pickup).SlotIdentifier))
+				{
+					Inventory.ServerAdd(Pickup, Storage.GetBestSlotFor(Pickup), ReplacementStrategy.DropOther);
+				}
+			}
+			var Stack = Pickup.GetComponent<Stackable>();
+
+			if (Stack != null && Stack.Amount > 0)
 			{
 				if (Storage.GetBestSlotFor(Pickup) != null)
 				{
