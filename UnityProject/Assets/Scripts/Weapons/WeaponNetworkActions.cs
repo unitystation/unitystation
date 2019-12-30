@@ -59,7 +59,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		Gun gun = gunObject.GetComponent<Gun>();
 
 		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
-		if(cnt != null)
+		if (cnt != null)
 		{
 			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.WorldImpulse);
 		} else {
@@ -79,8 +79,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
 	[Command]
-	public void CmdRequestMeleeInteraction(GameObject victim, Vector2 attackDirection,
-				BodyPartType damageZone, LayerType layerType, Intent intent)
+	public void CmdRequestMeleeAttack(GameObject victim, Vector2 attackDirection,
+		BodyPartType damageZone, LayerType layerType)
 	{
 		var weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 
@@ -97,9 +97,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		if (!playerMove.allowInput ||
-		    playerScript.IsGhost ||
-		    !victim ||
-		    !playerScript.playerHealth.serverPlayerConscious
+			playerScript.IsGhost ||
+			!victim ||
+			!playerScript.playerHealth.serverPlayerConscious
 		)
 		{
 			return;
@@ -133,72 +133,65 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			{
 				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
-				tileMapDamage.DoMeleeInteraction(worldPos,
-					gameObject, (int)damage, intent);
-				if (intent == Intent.Harm)
-				{
-					didHit = true;
-				}
-
+				tileMapDamage.DoMeleeDamage(worldPos,
+					gameObject, (int)damage);
+				didHit = true;
 
 			}
 		}
 		else
 		{
-			if (intent == Intent.Harm)
+			//a regular object being attacked
+
+			//butchering
+			//TODO: Move butchering logic to IF2, it should be a progress action done on corpses (make a Corpse component probably)
+			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+			if (victimHealth != null && victimHealth.IsDead && isWeapon && weaponAttr.HasTrait(KnifeTrait))
 			{
-				//a regular object being attacked
-
-				//butchering
-				//TODO: Move butchering logic to IF2, it should be a progress action done on corpses (make a Corpse component probably)
-				LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-				if (victimHealth != null && victimHealth.IsDead && isWeapon && weaponAttr.HasTrait(KnifeTrait))
+				if (victim.GetComponent<SimpleAnimal>())
 				{
-					if (victim.GetComponent<SimpleAnimal>())
-					{
-						SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
-						RpcMeleeAttackLerp(attackDirection, weapon);
-						playerMove.allowInput = false;
-						attackTarget.Harvest();
-						SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
-					}
-					else
-					{
-						PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
-						RpcMeleeAttackLerp(attackDirection, weapon);
-						playerMove.allowInput = false;
-						attackTarget.Harvest();
-						SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
-					}
+					SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
+					RpcMeleeAttackLerp(attackDirection, weapon);
+					playerMove.allowInput = false;
+					attackTarget.Harvest();
+					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 				}
-
-				var integrity = victim.GetComponent<Integrity>();
-				if (integrity != null)
+				else
 				{
-					//damaging an object
-					integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
+					PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
+					RpcMeleeAttackLerp(attackDirection, weapon);
+					playerMove.allowInput = false;
+					attackTarget.Harvest();
+					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
+				}
+			}
+
+			var integrity = victim.GetComponent<Integrity>();
+			if (integrity != null)
+			{
+				//damaging an object
+				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
+				didHit = true;
+			}
+			else
+			{
+				//damaging a living thing
+				var rng = new System.Random();
+				// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
+				// Punches have 90% chance to hit, otherwise it is a miss.
+				if (isWeapon || 90 >= rng.Next(1, 100))
+				{
+					// The attack hit.
+					victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
 					didHit = true;
 				}
 				else
 				{
-					//damaging a living thing
-					var rng = new System.Random();
-					// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
-					// Punches have 90% chance to hit, otherwise it is a miss.
-					if (isWeapon || 90 >= rng.Next(1, 100))
-					{
-						// The attack hit.
-						victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
-						didHit = true;
-					}
-					else
-					{
-						// The punch missed.
-						string victimName = victim.Player()?.Name;
-						SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
-						Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
-							$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
-					}
+					// The punch missed.
+					string victimName = victim.Player()?.Name;
+					SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
+					Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
+						$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
 				}
 			}
 		}

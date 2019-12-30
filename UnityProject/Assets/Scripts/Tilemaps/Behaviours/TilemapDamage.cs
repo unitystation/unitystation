@@ -156,16 +156,16 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		tileChangeManager.OnFloorOrPlatingRemoved.RemoveAllListeners();
 		tileChangeManager.OnFloorOrPlatingRemoved.AddListener(cellPos =>
-		{ //Poke items when both floor and plating are gone
-		 //As t[hey might want to change matrix
-		   if (!metaTileMap.HasTile(cellPos, LayerType.Floors, true)
-			&& !metaTileMap.HasTile(cellPos, LayerType.Base, true)
-			&& metaTileMap.HasTile(cellPos, LayerType.Objects, true)
-			)
+	   { //Poke items when both floor and plating are gone
+		 //As they might want to change matrix
+			if (!metaTileMap.HasTile(cellPos, LayerType.Floors, true)
+			 && !metaTileMap.HasTile(cellPos, LayerType.Base, true)
+			 && metaTileMap.HasTile(cellPos, LayerType.Objects, true)
+			 )
 		   {
-			   //				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(metaTileMap.CellToWorld( cellPos ), matrix);
-			   //				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( localPos, true ) )
-			   foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
+				//				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(metaTileMap.CellToWorld( cellPos ), matrix);
+				//				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( localPos, true ) )
+				foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
 			   {
 				   customNetTransform.CheckMatrixSwitch();
 			   }
@@ -228,7 +228,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public void DoThrowDamage(Vector3Int worldTargetPos, ThrowInfo throwInfo, int dmgAmt)
 	{
-		DoMeleeInteraction(new Vector2(worldTargetPos.x, worldTargetPos.y), throwInfo.ThrownBy, dmgAmt);
+		DoMeleeDamage(new Vector2(worldTargetPos.x, worldTargetPos.y), throwInfo.ThrownBy, dmgAmt);
 	}
 
 	/// <summary>
@@ -237,20 +237,20 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <param name="worldPos"></param>
 	/// <param name="originator"></param>
 	/// <param name="dmgAmt"></param>
-	public void DoMeleeInteraction(Vector2 worldPos, GameObject originator, int dmgAmt, Intent intent = Intent.Harm)
+	public void DoMeleeDamage(Vector2 worldPos, GameObject originator, int dmgAmt)
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(worldPos);
-		DoInteractionInternal(cellPos, dmgAmt, worldPos, AttackType.Melee, intent);
+		DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee);
 	}
 
 	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos)
 	{
-		return DoInteractionInternal(cellPos, dmgAmt, worldPos, AttackType.Melee); //idk if collision can be classified as "melee"
+		return DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee); //idk if collision can be classified as "melee"
 	}
 
 	/// <returns>Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled
 	/// damage done.</returns>
-	private float DoInteractionInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType, Intent intent = Intent.Harm)
+	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
@@ -269,11 +269,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Walls, true))
 			{
-				if (intent == Intent.Harm)
-				{
-					//SoundManager.PlayNetworkedAtPos( "WallHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-					return AddWallDamage(dmgAmt, data, cellPos, worldPos, attackType);
-				}
+				//				SoundManager.PlayNetworkedAtPos( "WallHit", worldPos, Random.Range( 0.9f, 1.1f ) );
+				return AddWallDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
@@ -281,15 +278,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				Logger.Log("this!");
-				if (intent == Intent.Harm)
-				{
-					SoundManager.PlayNetworkedAtPos("GlassHit", worldPos, Random.Range(0.9f, 1.1f));
-					return AddWindowDamage(dmgAmt, data, cellPos, worldPos, attackType);
-				}
-				else {
-					SoundManager.GlassknockAtPosition(worldPos);
-				}
+				SoundManager.PlayNetworkedAtPos("GlassHit", worldPos, Random.Range(0.9f, 1.1f));
+				return AddWindowDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
@@ -300,11 +290,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
-					if (intent == Intent.Harm)
-					{
-						SoundManager.PlayNetworkedAtPos("GrillHit", worldPos, Random.Range(0.9f, 1.1f));
-						return AddGrillDamage(dmgAmt, data, cellPos, worldPos, attackType);
-					}
+					SoundManager.PlayNetworkedAtPos("GrillHit", worldPos, Random.Range(0.9f, 1.1f));
+					return AddGrillDamage(dmgAmt, data, cellPos, worldPos, attackType);
 				}
 			}
 		}
@@ -314,10 +301,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (metaTileMap.GetTile(cellPos, LayerType.Objects)?.TileType == TileType.Table)
 			{
 				//				SoundManager.PlayNetworkedAtPos( "TableHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				if (intent == Intent.Harm)
-				{
-					return AddTableDamage(dmgAmt, data, cellPos, worldPos, attackType);
-				}
+				return AddTableDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
@@ -326,10 +310,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (metaTileMap.HasTile(cellPos, LayerType.Floors, true))
 			{
 				//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				if (intent == Intent.Harm)
-				{
-					return AddFloorDamage(dmgAmt, data, cellPos, worldPos, attackType);
-				}
+				return AddFloorDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
@@ -338,10 +319,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (metaTileMap.HasTile(cellPos, LayerType.Base, true))
 			{
 				//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				if (intent == Intent.Harm)
-				{
-					return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
-				}
+				return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
