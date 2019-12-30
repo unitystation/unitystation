@@ -5,7 +5,7 @@ using UnityEngine;
 public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>
 {
 
-	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
+	private HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
 		NamedSlot.leftHand,
 		NamedSlot.rightHand,
 		NamedSlot.suitStorage,
