@@ -143,21 +143,6 @@ public static class Inventory
 			return false;
 		}
 
-		if (toPerform.FromSlot != null && toPerform.FromSlot.Invalid)
-		{
-			Logger.LogErrorFormat("Inventory move attempted with invalid slot {0}. This slot reference should've" +
-			                      " been cleaned up when the round restarted yet somehow didn't.", Category.Inventory,
-				toPerform.FromSlot);
-			return false;
-		}
-		if (toPerform.ToSlot != null && toPerform.ToSlot.Invalid)
-		{
-			Logger.LogErrorFormat("Inventory move attempted with invalid slot {0}. This slot reference should've" +
-			                      " been cleaned up when the round restarted yet somehow didn't.", Category.Inventory,
-				toPerform.ToSlot);
-			return false;
-		}
-
 		//figure out which kind of move to do
 		if (toPerform.InventoryMoveType == InventoryMoveType.Add)
 		{
