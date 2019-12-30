@@ -391,14 +391,14 @@ public static class Inventory
 
 		if (toSlot.Item != null)
 		{
-			if (toSlot.Item.GetComponent<Stackable>() != null 
-			    && pickupable.GetComponent<Stackable>() != null 
-			    && toSlot.Item.GetComponent<ItemAttributesV2>().HasAllTraits(pickupable.GetComponent<ItemAttributesV2>().GetTraits()))
+			var stackableTarget = toSlot.Item.GetComponent<Stackable>();
+			if (stackableTarget != null && stackableTarget.CanAccommodate(pickupable.gameObject))
 			{
 				toSlot.Item.GetComponent<Stackable>().ServerCombine(pickupable.GetComponent<Stackable>());
 				return false;
 			}
-			else {
+			else
+			{
 				switch (toPerform.ReplacementStrategy)
 				{
 					case ReplacementStrategy.DespawnOther:

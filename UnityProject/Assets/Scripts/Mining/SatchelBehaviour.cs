@@ -5,38 +5,41 @@ using UnityEngine;
 public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>
 {
 
-	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
+	/// <summary>
+	/// slots in which satchel is able to perform its function.
+	/// </summary>
+	private HashSet<NamedSlot> compatibleSlots = new HashSet<NamedSlot>() {
 		NamedSlot.leftHand,
 		NamedSlot.rightHand,
 		NamedSlot.suitStorage,
 		NamedSlot.belt,
 	};
 
-
-	private PlayerScript Player;
-	private ItemStorage Storage;
+	//player currently holding this satchel (if any)
+	private PlayerScript holderPlayer;
+	private ItemStorage storage;
 
 	void Awake()
 	{
-		Storage = this.GetComponent<ItemStorage>();
+		storage = this.GetComponent<ItemStorage>();
 
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
 		//was it transferred from a player's visible inventory?
-		if (info.FromPlayer != null && Player != null)
+		if (info.FromPlayer != null && holderPlayer != null)
 		{
-			Player.OnTileReached().RemoveListener(TileReached);
-			Player = null;
+			holderPlayer.OnTileReached().RemoveListener(TileReachedServer);
+			holderPlayer = null;
 		}
 
 		if (info.ToPlayer != null)
 		{
-			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
+			if (compatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
-				Player = info.ToPlayer.GetComponent<PlayerScript>();
-				Player.OnTileReached().AddListener(TileReached);
+				holderPlayer = info.ToPlayer.GetComponent<PlayerScript>();
+				holderPlayer.OnTileReached().AddListener(TileReachedServer);
 			}
 		}
 	}
@@ -47,7 +50,7 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInt
 
 		if (interaction.UsedObject == null) return false;
 
-		if (interaction.TargetObject == this) return false;
+		if (interaction.TargetObject == this.gameObject) return false;
 		return true;
 	}
 
@@ -56,7 +59,7 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInt
 		AttemptToStore(interaction.TargetObject);
 	}
 
-	public void TileReached(Vector3Int worldPos)
+	private void TileReachedServer(Vector3Int worldPos)
 	{
 		var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(worldPos, true);
 		foreach (var crossedItem in crossedItems)
@@ -65,27 +68,27 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInt
 		}
 	}
 
-	private void AttemptToStore(GameObject thing) { 
-	
-		Pickupable Pickup = thing.GetComponent<Pickupable>();
-		if (Pickup != null)
+	private void AttemptToStore(GameObject thing) {
+
+		Pickupable pickup = thing.GetComponent<Pickupable>();
+		if (pickup != null)
 		{
-			if (Storage.GetBestSlotFor(Pickup) != null)
+			if (storage.GetBestSlotFor(pickup) != null)
 			{
-				if (Storage.ItemStorageCapacity.CanFit(Pickup, Storage.GetBestSlotFor(Pickup).SlotIdentifier))
+				if (storage.ItemStorageCapacity.CanFit(pickup, storage.GetBestSlotFor(pickup).SlotIdentifier))
 				{
-					Inventory.ServerAdd(Pickup, Storage.GetBestSlotFor(Pickup), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(pickup, storage.GetBestSlotFor(pickup), ReplacementStrategy.DropOther);
 				}
 			}
-			var Stack = Pickup.GetComponent<Stackable>();
+			var stack = pickup.GetComponent<Stackable>();
 
-			if (Stack != null && Stack.Amount > 0)
+			if (stack != null && stack.Amount > 0)
 			{
-				if (Storage.GetBestSlotFor(Pickup) != null)
+				if (storage.GetBestSlotFor(pickup) != null)
 				{
-					if (Storage.ItemStorageCapacity.CanFit(Pickup, Storage.GetBestSlotFor(Pickup).SlotIdentifier))
+					if (storage.ItemStorageCapacity.CanFit(pickup, storage.GetBestSlotFor(pickup).SlotIdentifier))
 					{
-						Inventory.ServerAdd(Pickup, Storage.GetBestSlotFor(Pickup), ReplacementStrategy.DropOther);
+						Inventory.ServerAdd(pickup, storage.GetBestSlotFor(pickup), ReplacementStrategy.DropOther);
 					}
 				}
 			}
