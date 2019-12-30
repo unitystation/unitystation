@@ -645,6 +645,13 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 
 		bool success = Pushable.Push( dir, speed, true );
 		if ( success ) {
+			// Pulling a directional component should change it's orientation to match the one that pulls it
+			Directional directionalComponent;
+			if (TryGetComponent(out directionalComponent))
+			{
+				directionalComponent.FaceDirection(PulledBy.GetComponent<Directional>().CurrentDirection);
+			}
+
 			pushTarget = target;
 //			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
 		}
