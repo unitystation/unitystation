@@ -423,7 +423,6 @@ public class UIManager : MonoBehaviour
 		Camera.main.orthographicSize = originalZoom;
 		//turn everything back on
 		yield return null;
-		SoundManager.PlayAmbience();
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
