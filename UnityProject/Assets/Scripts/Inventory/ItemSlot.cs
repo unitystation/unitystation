@@ -341,7 +341,8 @@ public class ItemSlot
 				var _Stackable = item.GetComponent<Stackable>();
 
 				if (_Stackable.IsFull())
-				{					return false;
+				{
+					return false;
 				}
 				else { 
 					return true;
@@ -391,6 +392,7 @@ public class ItemSlot
 		}
 
 		return CanFit(pu, ignoreOccupied);
+		
 	}
 
 	/// <summary>
