@@ -176,8 +176,8 @@ public partial class GameManager : MonoBehaviour
 	{
 		//reset pools
 		Spawn._ClearPools();
-		//clean up inventory system
-		ItemSlot.Cleanup();
+		//reset inventory system
+		ItemSlot.EmptyPool();
 		//reset matrix init events
 		NetworkedMatrix._ClearInitEvents();
 	}

@@ -25,6 +25,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	private void Awake()
 	{
 		//we have an item storage with only 1 slot.
+		//TODO: Populate with fire extinguisher in item storage config
 		storageObject = GetComponent<ItemStorage>();
 		slot = storageObject.GetIndexedItemSlot(0);
 		//TODO: Can probably refactor this component to rely more on ItemStorage and do less of its own logic.
