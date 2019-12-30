@@ -91,15 +91,9 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		SyncAmount(this.amount);
 	}
 
-	public bool IsFull() {
-		if (Amount >= maxAmount)
-		{
-			return (true);
-		}
-		else {
-			return (false);
-		}
-
+	public bool IsFull()
+	{
+		return Amount >= maxAmount;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -185,7 +179,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	}
 
 	/// <summary>
-	/// Returns true iff other can be added to this stackable.
+	/// Returns true iff other can be added to this stackable, as long as there is space for at least
+	/// one item.
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
@@ -196,7 +191,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	}
 	/// <summary>
-	/// Returns true iff toAdd can be added to this stackable.
+	/// Returns true iff toAdd can be added to this stackable, as long as there is space for at least
+	/// one item.
 	/// </summary>
 	/// <param name="toAdd"></param>
 	/// <returns></returns>
