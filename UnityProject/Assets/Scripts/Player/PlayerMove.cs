@@ -47,48 +47,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	[NonSerialized]
 	public CuffEvent OnCuffChangeServer = new CuffEvent();
 
-	/// <summary>
-	/// Tracks the server's idea of whether we have help intent
-	/// </summary>
-	[SyncVar] private bool serverIsHelpIntent = true;
-
-	/// <summary>
-	/// Tracks our idea of whether we have help intent so we can use it for client prediction
-	/// </summary>
-	private bool localIsHelpIntent = true;
-
-	/// <summary>
-	/// True iff this player is set to help intent, thus should swap places with players
-	/// that they collide with if the other player also has help intent
-	/// </summary>
-	public bool IsHelpIntent
-	{
-		get
-		{
-			if (isLocalPlayer)
-			{
-				return localIsHelpIntent;
-			}
-			else
-			{
-				return serverIsHelpIntent;
-			}
-		}
-		set
-		{
-			if (isLocalPlayer)
-			{
-				localIsHelpIntent = value;
-				//tell the server we want this to be our setting
-				CmdChangeHelpIntent(value);
-			}
-			else
-			{
-				//accept what the server is telling us about someone other than our local player
-				serverIsHelpIntent = value;
-			}
-		}
-	}
+	//TODO: Implement this instead of IsHelpIntent stuff
+	public bool IsSwappable => true;
 
 	private readonly List<MoveAction> moveActionList = new List<MoveAction>();
 
@@ -125,12 +85,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	{
 		SyncCuffed(this.cuffed);
 		base.OnStartClient();
-	}
-
-	[Command]
-	private void CmdChangeHelpIntent(bool isHelpIntent)
-	{
-		serverIsHelpIntent = isHelpIntent;
 	}
 
 	public PlayerAction SendAction()

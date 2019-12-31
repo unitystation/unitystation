@@ -475,11 +475,11 @@ public partial class PlayerSync
 
 		//we only lerp back if the client thinks it's passable  but server does not...if client
 		//thinks it's not passable and server thinks it's passable, then it's okay to let the client continue
-		if (!isClientBump && serverBump != BumpType.None && serverBump != BumpType.HelpIntent) {
+		if (!isClientBump && serverBump != BumpType.None && serverBump != BumpType.Swappable) {
 			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, serverBump != BumpType.None );
 			RollbackPosition();
 		}
-		if ( isClientBump || (serverBump != BumpType.None && serverBump != BumpType.HelpIntent)) {
+		if ( isClientBump || (serverBump != BumpType.None && serverBump != BumpType.Swappable)) {
 			// we bumped something, an interaction might occur
 			// try pushing things / opening doors
 			if ( Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true) || serverBump == BumpType.ClosedDoor )
@@ -499,7 +499,7 @@ public partial class PlayerSync
 
 		//check for a swap
 		bool swapped = false;
-		if (serverBump == BumpType.HelpIntent)
+		if (serverBump == BumpType.Swappable)
 		{
 			swapped = CheckAndDoSwap(state.WorldPosition.RoundToInt() + action.Direction().To3Int(), action.Direction() * -1
 				, isServer: true);
