@@ -57,12 +57,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	[SyncVar]
 	private bool isSwappable;
 
-	//server side only, tracks whether this player has indicated they are on help intent.
+	/// <summary>
+	/// server side only, tracks whether this player has indicated they are on help intent. Used
+	/// for checking for swaps.
+	/// </summary>
+	public bool IsHelpIntentServer => isHelpIntentServer;
 	//starts true because all players spawn with help intent.
 	private bool isHelpIntentServer = true;
 
 	/// <summary>
-	/// Whether this player meets all the conditions for being swapped with.
+	/// Whether this player meets all the conditions for being swapped with (being the swapee).
 	/// </summary>
 	public bool IsSwappable
 	{

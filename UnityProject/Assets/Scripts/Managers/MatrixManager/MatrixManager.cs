@@ -178,9 +178,23 @@ public partial class MatrixManager : MonoBehaviour
 	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, PlayerMove bumper, bool isServer)
 	{
 		Vector3Int targetPos = worldOrigin + dir.To3Int();
-		if (bumper.IsSwappable)
+
+
+		bool hasHelpIntent = false;
+		if (bumper.gameObject == PlayerManager.LocalPlayer && !isServer)
 		{
-			//check for other players with help intent
+			//locally predict based on our set intent.
+			hasHelpIntent = UIManager.CurrentIntent == Intent.Help;
+		}
+		if (isServer)
+		{
+			//use value known to server
+			hasHelpIntent = bumper.IsHelpIntentServer;
+		}
+
+		if (hasHelpIntent)
+		{
+			//check for other players we can swap with
 			PlayerMove other = GetSwappableAt(targetPos, bumper.gameObject, isServer);
 			if (other != null)
 			{
