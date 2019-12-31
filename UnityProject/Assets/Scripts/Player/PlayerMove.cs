@@ -64,13 +64,31 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <summary>
 	/// Whether this player meets all the conditions for being swapped with.
 	/// </summary>
-	public bool IsSwappable => isSwappable
-	                           //don't swap with ghosts
-	                           && !PlayerScript.IsGhost
-	                           //pass through players if we can
-	                           && !registerPlayer.IsPassable(isServer)
-	                           //can't swap with buckled players, they're strapped down
-	                           && !IsBuckled;
+	public bool IsSwappable
+	{
+		get
+		{
+			bool canSwap;
+			if (isLocalPlayer && !isServer)
+			{
+				//locally predict
+				canSwap = UIManager.CurrentIntent == Intent.Help
+				          && !PlayerScript.pushPull.IsPullingSomething;
+			}
+			else
+			{
+				//rely on server synced value
+				canSwap = isSwappable;
+			}
+			return canSwap
+			       //don't swap with ghosts
+			       && !PlayerScript.IsGhost
+			       //pass through players if we can
+			       && !registerPlayer.IsPassable(isServer)
+			       //can't swap with buckled players, they're strapped down
+			       && !IsBuckled;
+		}
+	}
 
 	private readonly List<MoveAction> moveActionList = new List<MoveAction>();
 
