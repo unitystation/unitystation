@@ -1,11 +1,11 @@
-﻿
+
 using UnityEngine;
 
 /// <summary>
-/// Interaction logic for table tiles. Simply places the item on the table.
+/// Interaction logic for windows. Knocks on them when empty handed and non-harm.
 /// </summary>
-[CreateAssetMenu(fileName = "InteractionWindowKnock", menuName = "Interaction/TileInteraction/InteractionWindowKnock")]
-public class InteractionWindowKnock : TileInteraction
+[CreateAssetMenu(fileName = "KnockWindow", menuName = "Interaction/TileInteraction/KnockWindow")]
+public class KnockWindow : TileInteraction
 {
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
@@ -16,7 +16,9 @@ public class InteractionWindowKnock : TileInteraction
 
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
-		//place item
+		Chat.AddActionMsgToChat(interaction.Performer,
+			$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.ExpensiveName()} knocks on the {interaction.BasicTile.DisplayName}.");
 		SoundManager.GlassknockAtPosition(interaction.WorldPositionTarget);
 	}
+
 }
