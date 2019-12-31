@@ -341,29 +341,18 @@ public class ItemSlot
 			}
 		}
 
+		//if the slot already has an item, it's allowed to stack only if the item to add can stack with
+		//the existing item.
 		if (!ignoreOccupied && item != null)
 		{
-			if (item.GetComponent<Stackable>() != null
-				&& toStore.GetComponent<Stackable>() != null
-				&& item.GetComponent<ItemAttributesV2>().HasAllTraits(toStore.GetComponent<ItemAttributesV2>().GetTraits())
-			   )
-			{
-				var _Stackable = item.GetComponent<Stackable>();
-
-				if (_Stackable.IsFull())
-				{
-					return false;
-				}
-				else {
-					return true;
-				}
-			}
-			else {
-				return false;
-			}
+			var thisStackable = item.GetComponent<Stackable>();
+			var otherStackable = toStore.GetComponent<Stackable>();
+			return thisStackable != null && otherStackable != null &&
+			       thisStackable.CanAccommodate(otherStackable);
 		}
 
-		//no loop created, check if this storage can fit this according to its specific capacity logic
+		//no item in slot and no inventory loop created,
+		//check if this storage can fit this according to its specific capacity logic
 		var canFit = itemStorage.ItemStorageCapacity.CanFit(toStore, this.slotIdentifier);
 		if (canFit) return true;
 		if (examineRecipient)
