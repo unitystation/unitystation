@@ -453,11 +453,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	}
 
 	/// <summary>
-	/// Checks if the server-only conditions for swappability are met and updates the syncvar.
+	/// Checks if the conditions for swappability that aren't
+	/// known by clients are met and updates the syncvar.
 	/// </summary>
 	private void ServerUpdateIsSwappable()
 	{
-		isSwappable = isHelpIntentServer && PlayerScript.pushPull.IsPullingSomethingServer;
+		isSwappable = isHelpIntentServer && !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
 	/// <summary>

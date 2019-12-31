@@ -478,6 +478,17 @@ public partial class PlayerSync
 		if (!isClientBump && serverBump != BumpType.None && serverBump != BumpType.Swappable) {
 			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, serverBump != BumpType.None );
 			RollbackPosition();
+			//laggy client may have predicted a swap with another player,
+			//in which case they must also roll back that player
+			if (serverBump == BumpType.Push || serverBump == BumpType.Blocked)
+			{
+				var worldTarget = state.WorldPosition.RoundToInt() + (Vector3Int) action.Direction();
+				var swapee = MatrixManager.GetAt<PlayerSync>(worldTarget, true);
+				if (swapee != null && swapee.Count > 0)
+				{
+					swapee[0].RollbackPosition();
+				}
+			}
 		}
 		if ( isClientBump || (serverBump != BumpType.None && serverBump != BumpType.Swappable)) {
 			// we bumped something, an interaction might occur
