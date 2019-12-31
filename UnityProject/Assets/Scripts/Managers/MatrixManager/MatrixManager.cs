@@ -345,15 +345,7 @@ public partial class MatrixManager : MonoBehaviour
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			//TODO: Incorporate all this logic into IsSwappable syncvar so it's the only needed check
-			if (playerMove
-			    && !playerMove.PlayerScript.IsGhost
-				&& playerMove.IsSwappable
-			    && !playerMove.PlayerScript.playerHealth.IsDead
-			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)
-			    && playerMove.gameObject != mover
-			    && !playerMove.PlayerScript.pushPull.IsPullingSomething
-			    && !playerMove.IsBuckled)
+			if (playerMove && playerMove.IsSwappable && playerMove.gameObject != mover)
 			{
 				return playerMove;
 			}

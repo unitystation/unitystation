@@ -275,7 +275,22 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public PushPull PulledObject => isServer ? PulledObjectServer : PulledObjectClient;
 
 	public bool IsPullingSomethingServer => PulledObjectServer != null;
-	public PushPull PulledObjectServer { get; private set; }
+
+	/// <summary>
+	/// Invoked server side only when this object starts / stops pulling something, after the change is made.
+	/// </summary>
+	public UnityEvent OnPullingSomethingChangedServer = new UnityEvent();
+
+	public PushPull PulledObjectServer
+	{
+		get => pulledObjectServer;
+		private set
+		{
+			pulledObjectServer = value;
+			OnPullingSomethingChangedServer.Invoke();
+		}
+	}
+	private PushPull pulledObjectServer;
 
 	public bool IsPullingSomethingClient => PulledObjectClient != null;
 	public PushPull PulledObjectClient { get; set; }
