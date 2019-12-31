@@ -524,6 +524,7 @@ public partial class PlayerSync
 		nextState.Speed = SpeedServer;
 		if (!playerScript.IsGhost)
 		{
+			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
 			SoundManager.FootstepAtPosition(nextState.WorldPosition);
 		}
 
