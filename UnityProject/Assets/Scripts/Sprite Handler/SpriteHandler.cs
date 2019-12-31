@@ -108,6 +108,10 @@ public class SpriteHandler : SpriteDataHandler
 				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 			}
 		}
+		if (!isAnimation) { 
+			UpdateManager.Instance.Remove(UpdateMe);
+			spriteRenderer.sprite = null;
+		}
 	}
 
 	void SetSprite(SpriteInfo animationStills)

@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: tea
     Plantname: Tea Aspera Plant
     Description: These seeds grow into tea plants.
@@ -56,9 +55,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 70d0c095827f26045ae2e5e1bf4c79e9, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 7ab67defb02bce44696e08d6e19cdf90, type: 3}
+      Texture: {fileID: 2800000, guid: cf666d81cf8a491478cc8990ddda4bf3, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 7ab67defb02bce44696e08d6e19cdf90, type: 3}
+      - {fileID: 21300000, guid: cf666d81cf8a491478cc8990ddda4bf3, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 5
     WeedGrowthRate: 1
@@ -74,7 +73,7 @@ MonoBehaviour:
     - String: teapowder
       Int: 10
     MutatesInTo:
-    - {fileID: 11400000, guid: 6bdf2723df352844c8a324e09a2b348d, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

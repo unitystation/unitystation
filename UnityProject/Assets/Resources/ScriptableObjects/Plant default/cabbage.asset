@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: cabbage
     Plantname: Cabbages
     Description: These seeds grow into cabbages.
@@ -58,7 +57,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 10
     MutatesInTo:
-    - {fileID: 11400000, guid: 6f49aeb7c454e9a4aacaa8ec970c9268, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

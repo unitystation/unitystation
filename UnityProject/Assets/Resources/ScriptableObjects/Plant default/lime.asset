@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: lime
     Plantname: Lime Tree
     Description: These are very sour seeds.
@@ -78,7 +77,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 5
     MutatesInTo:
-    - {fileID: 11400000, guid: d4ff8baf6f9df4147a5b248d3e4571fa, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

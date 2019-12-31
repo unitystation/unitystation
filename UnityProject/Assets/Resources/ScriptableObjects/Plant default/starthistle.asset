@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: starthistle
     Plantname: Starthistle
     Description: A robust species of weed that often springs up in-between the cracks
@@ -26,32 +25,31 @@ MonoBehaviour:
       - {fileID: 21300000, guid: ab86e359aed5082409f695b57d8094b9, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 2800000, guid: ab86e359aed5082409f695b57d8094b9, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: ab86e359aed5082409f695b57d8094b9, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: e2f43950cb130d649b6e4617752dab3b, type: 3}
+    - Texture: {fileID: 2800000, guid: a87b82bacc60c1145ade6312816643eb, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: e2f43950cb130d649b6e4617752dab3b, type: 3}
+      - {fileID: 21300000, guid: a87b82bacc60c1145ade6312816643eb, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 5610abf0bd8b1df49819336c12b9fbde, type: 3}
+    - Texture: {fileID: 2800000, guid: ccaa13664f988664ead2d4711b16d35e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5610abf0bd8b1df49819336c12b9fbde, type: 3}
+      - {fileID: 21300000, guid: ccaa13664f988664ead2d4711b16d35e, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: dd71f8a3c80ac4a45b00b4b07c7d09ba, type: 3}
+    - Texture: {fileID: 2800000, guid: 659a337763d27b147a6391cdbe68f101, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: dd71f8a3c80ac4a45b00b4b07c7d09ba, type: 3}
+      - {fileID: 21300000, guid: 659a337763d27b147a6391cdbe68f101, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: ec9e063182345a54eb94bdc3d09664aa, type: 3}
+      Texture: {fileID: 2800000, guid: a19f8564c69aca14f83f230cd6363914, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ec9e063182345a54eb94bdc3d09664aa, type: 3}
+      - {fileID: 21300000, guid: a19f8564c69aca14f83f230cd6363914, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: c3b492a823d2cae4d86308c903e2a615, type: 3}
+      Texture: {fileID: 2800000, guid: 9503df4a4267a2444b3d713023ad131a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: c3b492a823d2cae4d86308c903e2a615, type: 3}
+      - {fileID: 21300000, guid: 9503df4a4267a2444b3d713023ad131a, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 5
     WeedGrowthRate: 1
