@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114356069699078412}
   - component: {fileID: 3792903731296891434}
   - component: {fileID: 656301501147598195}
+  - component: {fileID: 3665939516804425690}
   m_Layer: 11
   m_Name: office_chair
   m_TagString: Untagged
@@ -82,8 +83,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114376184931329912
@@ -189,7 +190,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1357261361
+  m_SceneId: 0
 --- !u!114 &3792903731296891434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +231,26 @@ MonoBehaviour:
   OccupiedLeft: {fileID: 21300004, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
   OccupiedUp: {fileID: 0}
   spriteRendererFront: {fileID: 1777337980524091836}
+--- !u!114 &3665939516804425690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289257713136752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: ChairRoll
+  soundDelayTime: 500
+  soundMinimumPitchVariance: 0.65
+  soundMaximumPitchVariance: 1
 --- !u!1 &1922606341189806
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +275,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1922606341189806}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
