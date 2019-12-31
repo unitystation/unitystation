@@ -247,6 +247,10 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isInitiallyNotPushable: 0
+  pushPullSound: ChairRoll
+  soundDelayTime: 500
+  soundMinimumPitchVariance: 0.65
+  soundMaximumPitchVariance: 1
 --- !u!1 &1922606341189806
 GameObject:
   m_ObjectHideFlags: 0

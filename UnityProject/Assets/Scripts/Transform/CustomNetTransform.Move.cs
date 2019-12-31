@@ -127,6 +127,7 @@ public partial class CustomNetTransform
 		{
 			SetPosition(roundedTarget);
 		}
+
 		return true;
 	}
 

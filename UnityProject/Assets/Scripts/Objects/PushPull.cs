@@ -160,6 +160,24 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		SyncIsNotPushable(!isPushable);
 	}
 
+	[Tooltip("The sound to play when pushed/pulled")]
+    [SerializeField]
+	private string pushPullSound = null;
+
+	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
+	[SerializeField]
+	private int soundDelayTime = 0;
+
+	[Tooltip("A minimum pitch variance from original sound for random effect (ex: 0.5 = 50% normal pitch)")]
+	[SerializeField]
+	private float soundMinimumPitchVariance = 1;
+
+	[Tooltip("A maximum pitch variance from original sound for random effect (ex: 0.5 = 50% normal pitch)")]
+	[SerializeField]
+	private float soundMaximumPitchVariance = 1;
+
+	private float lastPlayedSoundTime;
+
 	/// <summary>
 	/// Like ServerSetPushable, but has logic for preventing things from being anchored
 	/// if there is something on the same tile (not in the floor) and sends an examine message to performer if it's blocked.
@@ -652,6 +670,16 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 				directionalComponent.FaceDirection(PulledBy.GetComponent<Directional>().CurrentDirection);
 			}
 
+			// Call the OnStartMove event for any handlers to react to this movement
+			Pushable.OnStartMove().Invoke(from, target);
+
+			// If there is a sound to be played
+			if (!string.IsNullOrWhiteSpace(pushPullSound) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
+			{
+				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance));
+				lastPlayedSoundTime = Time.time * 1000;
+			}
+
 			pushTarget = target;
 //			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
 		}
@@ -983,4 +1011,9 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	}
 #endif
 
+	private void OnValidate()
+	{
+		if (soundMinimumPitchVariance > soundMaximumPitchVariance)
+			soundMinimumPitchVariance = soundMaximumPitchVariance;
+	}
 }
