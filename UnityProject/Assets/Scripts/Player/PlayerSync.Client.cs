@@ -134,7 +134,7 @@ public partial class PlayerSync
 					LastDirectionClient = action.Direction();
 					UpdatePredictedState();
 				}
-				else if (clientBump == BumpType.HelpIntent)
+				else if (clientBump == BumpType.Swappable)
 				{
 					//note we don't check isgrounded here, client is allowed to swap with another player when
 					//they are both stopped in space

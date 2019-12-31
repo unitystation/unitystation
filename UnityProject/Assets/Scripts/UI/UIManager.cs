@@ -139,10 +139,11 @@ public class UIManager : MonoBehaviour
 		set
 		{
 			currentIntent = value;
-			//update the intent of the player so it can be synced
+
+			//update the intent of the player on server so server knows we are swappable or not
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.IsHelpIntent = value == global::Intent.Help;
+				PlayerManager.LocalPlayerScript.playerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
 			}
 		}
 	}
