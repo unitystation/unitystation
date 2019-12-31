@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,7 +30,7 @@ public class ItemSlot
 	private readonly int itemStorageNetId;
 
 	/// <summary>
-	/// ItemStorage which contains this slot
+	/// ItemStorage which contains this slot. Every slot has an item storage (except Invalid ones).
 	/// </summary>
 	public ItemStorage ItemStorage => itemStorage;
 	private readonly ItemStorage itemStorage;
@@ -99,6 +100,15 @@ public class ItemSlot
 
 	private Pickupable item;
 	private UI_ItemSlot localUISlot;
+
+	/// <summary>
+	/// True if this slot is no longer valid for any use, this only happens
+	/// when the slot pool is cleaned up when a new round begins. It should not be possible to
+	/// obtain a reference to an invalid slot since this happens on scene change, but this is here
+	/// as a safeguard.
+	/// </summary>
+	public bool Invalid => invalid;
+	private bool invalid;
 
 	/// <summary>
 	/// Server-side only. Players server thinks are currently looking at this slot (and thus will receive
@@ -301,7 +311,7 @@ public class ItemSlot
 	/// <returns></returns>
 	public bool CanFit(Pickupable toStore, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
-		if (!ignoreOccupied && item != null) return false;
+
 		if (toStore == null) return false;
 		//go through this slot's ancestors and make sure none of them ARE toStore,
 		//as that would create a loop in the inventory hierarchy
@@ -331,7 +341,18 @@ public class ItemSlot
 			}
 		}
 
-		//no loop created, check if this storage can fit this according to its specific capacity logic
+		//if the slot already has an item, it's allowed to stack only if the item to add can stack with
+		//the existing item.
+		if (!ignoreOccupied && item != null)
+		{
+			var thisStackable = item.GetComponent<Stackable>();
+			var otherStackable = toStore.GetComponent<Stackable>();
+			return thisStackable != null && otherStackable != null &&
+			       thisStackable.CanAccommodate(otherStackable);
+		}
+
+		//no item in slot and no inventory loop created,
+		//check if this storage can fit this according to its specific capacity logic
 		var canFit = itemStorage.ItemStorageCapacity.CanFit(toStore, this.slotIdentifier);
 		if (canFit) return true;
 		if (examineRecipient)
@@ -365,11 +386,12 @@ public class ItemSlot
 		if (pu == null)
 		{
 			Logger.LogWarningFormat("{0} has no pickupable, thus can't fit anywhere. It's probably a bug that" +
-			                      " this was even attempted.", Category.Inventory, pickupable.name);
+								  " this was even attempted.", Category.Inventory, pickupable.name);
 			return false;
 		}
 
 		return CanFit(pu, ignoreOccupied);
+
 	}
 
 	/// <summary>
@@ -402,11 +424,54 @@ public class ItemSlot
 	}
 
 	/// <summary>
-	/// Completely clears out the slot pool.
+	/// Removes entries from the pool for objects that no longer exist.
+	/// Some components cache slots in their Awake methods so we can't simply delete the entire pool
+	/// or those objects will be left with a reference to an invalid slot
 	/// </summary>
-	public static void EmptyPool()
+	public static void Cleanup()
 	{
-		slots = new Dictionary<int, Dictionary<SlotIdentifier, ItemSlot>>();
+		var instanceIdsToRemove = new List<int>();
+		//find existing storage instance IDs which have no slots or which are for no longer existing objects
+		foreach (var instanceIdToSlots in slots)
+		{
+			var instanceID = instanceIdToSlots.Key;
+			if (instanceIdToSlots.Value == null || instanceIdToSlots.Value.Keys.Count == 0)
+			{
+				instanceIdsToRemove.Add(instanceID);
+				continue;
+			}
+
+			//The dictionary doesn't have a mapping to ItemStorage objects, and
+			//we can't use the instance ID to look up the game object except in editor,
+			//so we instead figure out which game object this instance ID maps to by looking at
+			//one of its slots and getting its item storage field
+			var slotWithStorage = instanceIdToSlots.Value.Values
+				.Where(slot => slot.itemStorage != null)
+				.Select(slot => slot.itemStorage).FirstOrDefault();
+
+			//we only keep the slot if it is for an object that actually exists,
+			//i.e. the ItemStorage is not null and the ItemStorage gameObject is not null
+			//since unity null check on game objects will tell us if object still exists.
+			if (slotWithStorage == null || slotWithStorage.gameObject == null)
+			{
+				instanceIdsToRemove.Add(instanceID);
+				continue;
+			}
+		}
+
+		//now perform the actual removals and mark removed slots as invalid.
+		foreach (var instanceId in instanceIdsToRemove)
+		{
+			var slotDict = slots[instanceId];
+			//mark the slots as invalid
+			foreach (var slot in slotDict.Values)
+			{
+				slot.invalid = true;
+			}
+			//delete
+			slotDict.Clear();
+			slots.Remove(instanceId);
+		}
 	}
 
 	/// <summary>

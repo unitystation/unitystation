@@ -44,14 +44,6 @@ public class SoundManager : MonoBehaviour
 			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }}
 	};
 
-	private readonly List<int> PitchSteps = new List<int>(){
-		-2,
-		-1,
-		0,
-		1,
-		2,
-	};
-
 	private static bool Step;
 
 	private List<AudioSource> ambientTracks = new List<AudioSource>();
@@ -280,7 +272,7 @@ public class SoundManager : MonoBehaviour
 
 
 	/// <summary>
-	/// Play sound locally at given world position.
+	/// Play Footstep at given world position.
 	/// </summary>
 	public static void FootstepAtPosition(Vector3 worldPos)
 	{
@@ -293,15 +285,20 @@ public class SoundManager : MonoBehaviour
 			if (Step)
 			{
 				PlayNetworkedAtPos(Instance.FootSteps[tile.WalkingSoundCategory][RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
-								   worldPos, Instance.PitchSteps[RANDOM.Next(Instance.PitchSteps.Count)],
+				                   worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
 								   Global: false, polyphonic: true);
 			}
 			Step = !Step;
 		}
+	}
 
-
-
-
+	/// <summary>
+	/// Play Glassknock at given world position.
+	/// </summary>
+	public static void GlassknockAtPosition(Vector3 worldPos)
+	{
+		PlayNetworkedAtPos("GlassKnock", worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d), 
+						   Global: false, polyphonic: true);
 	}
 
 
@@ -442,16 +439,24 @@ public class SoundManager : MonoBehaviour
 
 		return false;
 	}
+
+	public double GetRandomNumber(double minimum, double maximum)
+	{
+		return  RANDOM.NextDouble() * (maximum - minimum) + minimum;
+	}
+
 }
 
-public enum FloorSound {
-		floor,
-		asteroid,
-		carpet,
-		catwalk,
-		grass,
-		lava,
-		plating,
-		wood,
+public enum FloorSound
+{
+	floor,
+	asteroid,
+	carpet,
+	catwalk,
+	grass,
+	lava,
+	plating,
+	wood,
+
 
 }

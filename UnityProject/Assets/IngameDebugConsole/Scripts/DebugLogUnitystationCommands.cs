@@ -73,6 +73,30 @@ namespace IngameDebugConsole
 			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			GameManager.Instance.RestartRound();
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Start now")]
+#endif
+		[ConsoleMethod("start-now", "Bypass start countdown and start immediately. Server only cmd.")]
+		public static void StartNow()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
+			{
+				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.", Category.DebugConsole);
+				GameManager.Instance.RoundStart();
+			}
+			else
+			{
+				Logger.LogError("Can only execute during pre-round / countdown.", Category.DebugConsole);
+				return;
+			}
+
+		}
 
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
 		public static void CallEscapeShuttle()

@@ -552,7 +552,7 @@ public partial class CustomNetTransform
 		Vector3Int intOrigin = Vector3Int.RoundToInt(origin);
 		Vector3Int intGoal = Vector3Int.RoundToInt(goal);
 		var info = serverState.ActiveThrow;
-		List<LivingHealthBehaviour> hitDamageables;
+		List<LivingHealthBehaviour> hitDamageables = null;
 
 		if (serverState.Speed > SpeedHitThreshold && HittingSomething(intGoal, info.ThrownBy, out hitDamageables))
 		{
@@ -565,7 +565,9 @@ public partial class CustomNetTransform
 
 		if (CanDriftTo(intOrigin, intGoal, isServer : true))
 		{
-			return (registerTile && registerTile.IsPassable(true));
+			//if we can keep drifting and didn't hit anything, keep floating. If we did hit something, only stop if we are impassable (we bonked something),
+			//otherwise keep drifting through (we sliced / glanced off them)
+			return (hitDamageables == null || hitDamageables.Count == 0) ||  (registerTile && registerTile.IsPassable(true));
 		}
 
 		return false;

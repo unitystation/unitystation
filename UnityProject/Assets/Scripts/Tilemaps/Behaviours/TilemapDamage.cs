@@ -24,12 +24,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public float Integrity(Vector3Int pos)
 	{
-		if ( !Layer.HasTile( pos, true ) )
+		if (!Layer.HasTile(pos, true))
 		{
 			return 0;
 		}
 		int maxDamage = 0;
-		switch ( Layer.LayerType )
+		switch (Layer.LayerType)
 		{
 			case LayerType.Walls:
 				maxDamage = MAX_WALL_DAMAGE;
@@ -38,7 +38,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				maxDamage = MAX_WINDOW_DAMAGE;
 				break;
 			case LayerType.Objects:
-				if ( metaTileMap.IsTileTypeAt( pos, isServer: true, TileType.Table ) )
+				if (metaTileMap.IsTileTypeAt(pos, isServer: true, TileType.Table))
 				{
 					maxDamage = MAX_TABLE_DAMAGE;
 				}
@@ -58,7 +58,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				break;
 		}
 
-		return Mathf.Clamp(maxDamage - metaDataLayer.Get( pos ).Damage, 0, float.MaxValue);
+		return Mathf.Clamp(maxDamage - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
 	}
 
 	private TileChangeManager tileChangeManager;
@@ -155,22 +155,22 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		matrix = GetComponentInParent<Matrix>();
 
 		tileChangeManager.OnFloorOrPlatingRemoved.RemoveAllListeners();
-		tileChangeManager.OnFloorOrPlatingRemoved.AddListener( cellPos =>
-		{ //Poke items when both floor and plating are gone
-		  //As they might want to change matrix
-			if ( !metaTileMap.HasTile( cellPos, LayerType.Floors, true )
-			  && !metaTileMap.HasTile( cellPos, LayerType.Base, true )
-			  &&  metaTileMap.HasTile( cellPos, LayerType.Objects, true )
-			  )
-			{
-//				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(metaTileMap.CellToWorld( cellPos ), matrix);
-//				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( localPos, true ) )
-				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( cellPos, true ) )
-				{
-					customNetTransform.CheckMatrixSwitch();
-				}
-			}
-		} );
+		tileChangeManager.OnFloorOrPlatingRemoved.AddListener(cellPos =>
+	   { //Poke items when both floor and plating are gone
+		 //As they might want to change matrix
+			if (!metaTileMap.HasTile(cellPos, LayerType.Floors, true)
+			 && !metaTileMap.HasTile(cellPos, LayerType.Base, true)
+			 && metaTileMap.HasTile(cellPos, LayerType.Objects, true)
+			 )
+		   {
+				//				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(metaTileMap.CellToWorld( cellPos ), matrix);
+				//				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( localPos, true ) )
+				foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
+			   {
+				   customNetTransform.CheckMatrixSwitch();
+			   }
+		   }
+	   });
 	}
 
 	//Server Only:
@@ -181,7 +181,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return;
 		}
 		ContactPoint2D firstContact = coll.GetContact(0);
-		Vector2 dirOfForce = (firstContact.point - (Vector2) coll.transform.position).normalized;
+		Vector2 dirOfForce = (firstContact.point - (Vector2)coll.transform.position).normalized;
 		DetermineAction(coll.gameObject, dirOfForce, firstContact.point);
 	}
 
@@ -240,19 +240,19 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void DoMeleeDamage(Vector2 worldPos, GameObject originator, int dmgAmt)
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(worldPos);
-		DoDamageInternal( cellPos, dmgAmt, worldPos, AttackType.Melee );
+		DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee);
 	}
 
-	public float ApplyDamage( Vector3Int cellPos, float dmgAmt, Vector3Int worldPos )
+	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos)
 	{
-		return DoDamageInternal( cellPos, dmgAmt, worldPos, AttackType.Melee ); //idk if collision can be classified as "melee"
+		return DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee); //idk if collision can be classified as "melee"
 	}
 
 	/// <returns>Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled
 	/// damage done.</returns>
-	private float DoDamageInternal( Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType )
+	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
-		MetaDataNode data = metaDataLayer.Get( cellPos );
+		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		//look up layer tile so we can calculate damage
 		var layerTile = metaTileMap.GetTile(cellPos);
@@ -265,68 +265,68 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 
-		if ( Layer.LayerType == LayerType.Walls )
+		if (Layer.LayerType == LayerType.Walls)
 		{
-			if ( metaTileMap.HasTile( cellPos, LayerType.Walls, true ) )
+			if (metaTileMap.HasTile(cellPos, LayerType.Walls, true))
 			{
-//				SoundManager.PlayNetworkedAtPos( "WallHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				return AddWallDamage( dmgAmt, data, cellPos, worldPos, attackType );
+				//				SoundManager.PlayNetworkedAtPos( "WallHit", worldPos, Random.Range( 0.9f, 1.1f ) );
+				return AddWallDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
-		if ( Layer.LayerType == LayerType.Windows )
+		if (Layer.LayerType == LayerType.Windows)
 		{
-			if ( metaTileMap.HasTile( cellPos, LayerType.Windows, true ) )
+			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				SoundManager.PlayNetworkedAtPos( "GlassHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				return AddWindowDamage( dmgAmt, data, cellPos, worldPos, attackType );
+				SoundManager.PlayNetworkedAtPos("GlassHit", worldPos, Random.Range(0.9f, 1.1f));
+				return AddWindowDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
-		if ( Layer.LayerType == LayerType.Grills )
+		if (Layer.LayerType == LayerType.Grills)
 		{
 			//Make sure a window is not protecting it first:
-			if ( !metaTileMap.HasTile( cellPos, LayerType.Windows, true ) )
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if ( metaTileMap.HasTile( cellPos, LayerType.Grills, true ) )
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
-					SoundManager.PlayNetworkedAtPos( "GrillHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-					return AddGrillDamage( dmgAmt, data, cellPos, worldPos, attackType );
+					SoundManager.PlayNetworkedAtPos("GrillHit", worldPos, Random.Range(0.9f, 1.1f));
+					return AddGrillDamage(dmgAmt, data, cellPos, worldPos, attackType);
 				}
 			}
 		}
 
-		if ( Layer.LayerType == LayerType.Objects )
+		if (Layer.LayerType == LayerType.Objects)
 		{
-			if ( metaTileMap.GetTile( cellPos, LayerType.Objects )?.TileType == TileType.Table )
+			if (metaTileMap.GetTile(cellPos, LayerType.Objects)?.TileType == TileType.Table)
 			{
-//				SoundManager.PlayNetworkedAtPos( "TableHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				return AddTableDamage( dmgAmt, data, cellPos, worldPos, attackType );
+				//				SoundManager.PlayNetworkedAtPos( "TableHit", worldPos, Random.Range( 0.9f, 1.1f ) );
+				return AddTableDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
-		if ( Layer.LayerType == LayerType.Floors )
+		if (Layer.LayerType == LayerType.Floors)
 		{
-			if ( metaTileMap.HasTile( cellPos, LayerType.Floors, true ) )
+			if (metaTileMap.HasTile(cellPos, LayerType.Floors, true))
 			{
-//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				return AddFloorDamage( dmgAmt, data, cellPos, worldPos, attackType );
+				//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
+				return AddFloorDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
-		if ( Layer.LayerType == LayerType.Base )
+		if (Layer.LayerType == LayerType.Base)
 		{
-			if ( metaTileMap.HasTile( cellPos, LayerType.Base, true ) )
+			if (metaTileMap.HasTile(cellPos, LayerType.Base, true))
 			{
-//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
-				return AddPlatingDamage( dmgAmt, data, cellPos, worldPos, attackType );
+				//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
+				return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
 		return dmgAmt;
 	}
 
-	private float AddTableDamage( float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType )
+	private float AddTableDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += TABLE_ARMOR.GetDamage(dmgAmt, attackType);
 
@@ -335,14 +335,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			//watch out! must not accidentally destroy other objects like player!
 			tileChangeManager.RemoveTile(cellPos, LayerType.Objects);
 
-//			SoundManager.PlayNetworkedAtPos("TableHit", worldPos, 1f);
+			//			SoundManager.PlayNetworkedAtPos("TableHit", worldPos, 1f);
 
 			//Spawn remains:
-			if ( Random.value < 0.25f )
+			if (Random.value < 0.25f)
 			{
 				SpawnRods(worldPos);
 			}
-			else if ( Random.value > 0.75f )
+			else if (Random.value > 0.75f)
 			{
 				SpawnMetal(worldPos);
 			}
@@ -353,7 +353,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return 0;
 	}
 
-	private float AddWallDamage( float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType )
+	private float AddWallDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += WALL_ARMOR.GetDamage(dmgAmt, attackType);
 
@@ -361,14 +361,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
 
-//			SoundManager.PlayNetworkedAtPos("WallHit", worldPos, 1f);
+			//			SoundManager.PlayNetworkedAtPos("WallHit", worldPos, 1f);
 
 			//Spawn remains:
-			if ( Random.value < 0.05f )
+			if (Random.value < 0.05f)
 			{
 				SpawnRods(worldPos);
 			}
-			else if ( Random.value > 0.95f )
+			else if (Random.value > 0.95f)
 			{
 				SpawnMetal(worldPos);
 			}
@@ -379,18 +379,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return 0;
 	}
 
-	private float AddFloorDamage( float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType )
+	private float AddFloorDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += FLOOR_ARMOR.GetDamage(dmgAmt, attackType);
 
-		if ( data.Damage >= 30 && data.Damage < 70 )
+		if (data.Damage >= 30 && data.Damage < 70)
 		{
-			TryScorch( cellPos );
+			TryScorch(cellPos);
 		}
 		else if (data.Damage >= MAX_FLOOR_DAMAGE)
 		{
 			var removed = tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
-			if ( Random.value < 0.25f )
+			if (Random.value < 0.25f)
 			{
 				if (removed is BasicTile basicTile)
 				{
@@ -399,7 +399,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				}
 			}
 
-//			SoundManager.PlayNetworkedAtPos("FloorHit", worldPos, 1f);
+			//			SoundManager.PlayNetworkedAtPos("FloorHit", worldPos, 1f);
 
 			return data.ResetDamage() - MAX_FLOOR_DAMAGE;
 		}
@@ -415,28 +415,28 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <param name="cellPos"></param>
 	/// <param name="worldPos"></param>
 	/// <param name="attackType"></param>
-	private float AddPlatingDamage( float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType )
+	private float AddPlatingDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += BASE_ARMOR.GetDamage(dmgAmt, attackType);
 
-		if ( data.Damage >= 30 && data.Damage < MAX_PLATING_DAMAGE )
+		if (data.Damage >= 30 && data.Damage < MAX_PLATING_DAMAGE)
 		{
-			TryScorch( cellPos );
+			TryScorch(cellPos);
 		}
 		else if (data.Damage >= MAX_PLATING_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Base);
 			//Spawn remains:
-			if ( Random.value < 0.25f )
+			if (Random.value < 0.25f)
 			{
 				SpawnRods(worldPos);
 			}
-			else if ( Random.value > 0.75f )
+			else if (Random.value > 0.75f)
 			{
 				SpawnMetal(worldPos);
 			}
 
-//			SoundManager.PlayNetworkedAtPos("PlatingHit", worldPos, 1f);
+			//			SoundManager.PlayNetworkedAtPos("PlatingHit", worldPos, 1f);
 
 			return data.ResetDamage() - MAX_PLATING_DAMAGE;
 		}
@@ -496,7 +496,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
 			//Spawn rods:
-			if ( Random.value < 0.4f )
+			if (Random.value < 0.4f)
 			{
 				SpawnRods(bulletHitTarget);
 			}
@@ -562,7 +562,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (!(exposure.Temperature > TILE_MIN_SCORCH_TEMPERATURE)) return;
 
 			if (!metaTileMap.HasTile(cellPos, true)) return;
-			TryScorch( cellPos );
+			TryScorch(cellPos);
 		}
 		else if (Layer.LayerType == LayerType.Windows)
 		{
@@ -590,21 +590,21 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 	}
 
-	public void TryScorch( Vector3Int cellPos )
+	public void TryScorch(Vector3Int cellPos)
 	{
 		//is it already scorched
-		var metaData = metaDataLayer.Get( cellPos );
-		if ( metaData.IsScorched )
+		var metaData = metaDataLayer.Get(cellPos);
+		if (metaData.IsScorched)
 			return;
 
 		//TODO: This should be done using an overlay system which hasn't been implemented yet, this replaces the tile's original appearance
-		if ( metaTileMap.HasTile( cellPos, LayerType.Floors, true ) )
+		if (metaTileMap.HasTile(cellPos, LayerType.Floors, true))
 		{ //Scorch floors
-			tileChangeManager.UpdateTile( cellPos, TileType.Floor, "floorscorched"+Random.Range( 1,3 ) );
+			tileChangeManager.UpdateTile(cellPos, TileType.Floor, "floorscorched" + Random.Range(1, 3));
 		}
 		else
 		{ //Scorch base
-			tileChangeManager.UpdateTile( cellPos, TileType.Base, "platingdmg"+Random.Range( 1,4 ) );
+			tileChangeManager.UpdateTile(cellPos, TileType.Base, "platingdmg" + Random.Range(1, 4));
 		}
 
 		metaData.IsScorched = true;

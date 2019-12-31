@@ -143,6 +143,21 @@ public static class Inventory
 			return false;
 		}
 
+		if (toPerform.FromSlot != null && toPerform.FromSlot.Invalid)
+		{
+			Logger.LogErrorFormat("Inventory move attempted with invalid slot {0}. This slot reference should've" +
+			                      " been cleaned up when the round restarted yet somehow didn't.", Category.Inventory,
+				toPerform.FromSlot);
+			return false;
+		}
+		if (toPerform.ToSlot != null && toPerform.ToSlot.Invalid)
+		{
+			Logger.LogErrorFormat("Inventory move attempted with invalid slot {0}. This slot reference should've" +
+			                      " been cleaned up when the round restarted yet somehow didn't.", Category.Inventory,
+				toPerform.ToSlot);
+			return false;
+		}
+
 		//figure out which kind of move to do
 		if (toPerform.InventoryMoveType == InventoryMoveType.Add)
 		{
@@ -391,23 +406,32 @@ public static class Inventory
 
 		if (toSlot.Item != null)
 		{
-			switch (toPerform.ReplacementStrategy)
+			var stackableTarget = toSlot.Item.GetComponent<Stackable>();
+			if (stackableTarget != null && stackableTarget.CanAccommodate(pickupable.gameObject))
 			{
-				case ReplacementStrategy.DespawnOther:
-					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
-					                      " Item in slot will be despawned first.", Category.Inventory, pickupable.name, toSlot);
-					ServerDespawn(toSlot);
-					break;
-				case ReplacementStrategy.DropOther:
-					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
-					                      " Item in slot will be dropped first.", Category.Inventory, pickupable.name, toSlot);
-					ServerDrop(toSlot);
-					break;
-				case  ReplacementStrategy.Cancel:
-				default:
-					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
-					                      " Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
-					return false;
+				toSlot.Item.GetComponent<Stackable>().ServerCombine(pickupable.GetComponent<Stackable>());
+				return false;
+			}
+			else
+			{
+				switch (toPerform.ReplacementStrategy)
+				{
+					case ReplacementStrategy.DespawnOther:
+						Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+											  " Item in slot will be despawned first.", Category.Inventory, pickupable.name, toSlot);
+						ServerDespawn(toSlot);
+						break;
+					case ReplacementStrategy.DropOther:
+						Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+											  " Item in slot will be dropped first.", Category.Inventory, pickupable.name, toSlot);
+						ServerDrop(toSlot);
+						break;
+					case ReplacementStrategy.Cancel:
+					default:
+						Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+											  " Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
+						return false;
+				}
 			}
 		}
 

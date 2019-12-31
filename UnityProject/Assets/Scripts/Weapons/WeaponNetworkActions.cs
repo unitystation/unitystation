@@ -59,7 +59,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		Gun gun = gunObject.GetComponent<Gun>();
 
 		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
-		if(cnt != null)
+		if (cnt != null)
 		{
 			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.WorldImpulse);
 		} else {
@@ -97,9 +97,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		if (!playerMove.allowInput ||
-		    playerScript.IsGhost ||
-		    !victim ||
-		    !playerScript.playerHealth.serverPlayerConscious
+			playerScript.IsGhost ||
+			!victim ||
+			!playerScript.playerHealth.serverPlayerConscious
 		)
 		{
 			return;
@@ -131,10 +131,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
-				var worldPos = (Vector2) transform.position + attackDirection;
+				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
 				tileMapDamage.DoMeleeDamage(worldPos,
-					gameObject, (int) damage);
+					gameObject, (int)damage);
 				didHit = true;
 
 			}
@@ -154,7 +154,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 					RpcMeleeAttackLerp(attackDirection, weapon);
 					playerMove.allowInput = false;
 					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
+					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 				}
 				else
 				{
@@ -162,7 +162,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 					RpcMeleeAttackLerp(attackDirection, weapon);
 					playerMove.allowInput = false;
 					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
+					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 				}
 			}
 
@@ -182,7 +182,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				if (isWeapon || 90 >= rng.Next(1, 100))
 				{
 					// The attack hit.
-					victimHealth.ApplyDamageToBodypart(gameObject, (int) damage, AttackType.Melee, damageType, damageZone);
+					victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
 					didHit = true;
 				}
 				else
