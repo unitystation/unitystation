@@ -10,7 +10,7 @@ using Mirror;
 public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
-	private static List<ConnectedPlayer> values = new List<ConnectedPlayer>();
+	public static List<ConnectedPlayer> values = new List<ConnectedPlayer>();
 	private static List<ConnectedPlayer> oldValues = new List<ConnectedPlayer>();
 
 	private static List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
