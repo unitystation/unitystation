@@ -59,17 +59,6 @@ public partial class PlayerList : NetworkBehaviour
 		InitAdminController();
 	}
 
-
-	/// <summary>
-	/// Gets the connected player From providing the game object of the player.
-	/// </summary>
-	/// <returns>The connected player.</returns>
-	/// <param name="Objectively">Game object of the player.</param>
-	public static ConnectedPlayer GetConnectedPlayer(GameObject Objectively)
-	{
-		return (PlayerList.Instance.AllPlayers.First(x => x.GameObject == Objectively));
-	}
-
 	/// Allowing players to sync after round restart
 	public void ResetSyncedState()
 	{

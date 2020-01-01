@@ -41,9 +41,6 @@ public static class PlayerSpawn
 			{
 				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
 			}
-			var Element = PlayerList.GetConnectedPlayer(newPlayer);
-			Element.Job = occupation.JobType;
-			PlayerList.Instance.AddOrUpdate(Element);
 		}
 	}
 
@@ -147,6 +144,7 @@ public static class PlayerSpawn
 		var ps = newPlayer.GetComponent<PlayerScript>();
 		var connectedPlayer = PlayerList.Instance.Get(connection);
 		connectedPlayer.Name = ps.playerName;
+		connectedPlayer.Job = ps.mind.occupation.JobType;
 		UpdateConnectedPlayersMessage.Send();
 
 		//fire all hooks
