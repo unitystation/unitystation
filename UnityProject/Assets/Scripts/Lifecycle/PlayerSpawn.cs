@@ -41,9 +41,6 @@ public static class PlayerSpawn
 			{
 				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
 			}
-			var Element = PlayerList.GetConnectedPlayer(newPlayer);
-			Element.Job = occupation.JobType;
-			PlayerList.Instance.AddOrUpdate(Element);
 		}
 	}
 
