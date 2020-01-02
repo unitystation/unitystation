@@ -58,7 +58,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		});
 
 		//Start the progress bar:
-		if (UIManager.ServerStartProgress(ProgressAction.Mop, interaction.WorldPositionTarget.RoundToInt(),
+		if (UIManager.ServerStartProgress(OldProgressAction.Mop, interaction.WorldPositionTarget.RoundToInt(),
 			useTime, progressFinishAction, interaction.Performer))
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,

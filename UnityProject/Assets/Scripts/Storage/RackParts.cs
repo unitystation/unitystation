@@ -69,7 +69,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			}
 		);
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
+		var bar = UIManager.ServerStartProgress(OldProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
 			5f, progressFinishAction, interaction.Performer);
 		if (bar != null)
 		{

@@ -27,7 +27,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		//technically pickaxe is deconstruction, so it would interrupt any construction / deconstruction being done
 		//on that tile
 		//TODO: Refactor this to use ToolUtils once that's merged in
-		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
+		var bar = UIManager.ServerStartProgress(OldProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
 			5f, progressFinishAction, interaction.Performer);
 		if (bar != null)
 		{

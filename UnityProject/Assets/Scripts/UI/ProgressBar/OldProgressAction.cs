@@ -2,19 +2,19 @@
 /// <summary>
 /// Defines each of the possible progress actions.
 /// </summary>
-public sealed class ProgressAction
+public sealed class OldProgressAction
 {
 	/// <summary>
 	/// Includes construction / deconstruction. Anything that does something of this nature should
 	/// use this (like mining).
 	/// </summary>
-	public static readonly ProgressAction Construction = new ProgressAction(allowMultiple: true);
-	public static readonly ProgressAction Restrain = new ProgressAction();
-	public static readonly ProgressAction Uncuff = new ProgressAction();
-	public static readonly ProgressAction SelfHeal = new ProgressAction();
-	public static readonly ProgressAction CPR = new ProgressAction();
-	public static readonly ProgressAction Disrobe = new ProgressAction();
-	public static readonly ProgressAction Mop = new ProgressAction(false, allowMultiple: true);
+	public static readonly OldProgressAction Construction = new OldProgressAction(allowMultiple: true);
+	public static readonly OldProgressAction Restrain = new OldProgressAction();
+	public static readonly OldProgressAction Uncuff = new OldProgressAction();
+	public static readonly OldProgressAction SelfHeal = new OldProgressAction();
+	public static readonly OldProgressAction CPR = new OldProgressAction();
+	public static readonly OldProgressAction Disrobe = new OldProgressAction();
+	public static readonly OldProgressAction Mop = new OldProgressAction(false, allowMultiple: true);
 
 	/// <summary>
 	/// When this is true, and 2 players do the same ProgressAction on the same tile, when one player
@@ -39,7 +39,7 @@ public sealed class ProgressAction
 	public readonly bool AllowMultiple;
 
 
-	private ProgressAction(bool interruptsOverlapping = true, bool allowTurning = true, bool allowMultiple = false)
+	private OldProgressAction(bool interruptsOverlapping = true, bool allowTurning = true, bool allowMultiple = false)
 	{
 		InterruptsOverlapping = interruptsOverlapping;
 		AllowTurning = allowTurning;

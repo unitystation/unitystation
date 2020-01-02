@@ -42,14 +42,17 @@ public class ProgressBar : MonoBehaviour
 	//registerPlayer of player who initiated it
 	private RegisterPlayer registerPlayer;
 
-	private ProgressAction progressAction;
+	private OldProgressAction oldProgressAction;
 	/// <summary>
 	/// registerPlayer of player who initiated it
 	/// </summary>
 	public RegisterPlayer RegisterPlayer => registerPlayer;
 
-	//playerSync of player who initiated it
+	//playerSync, move, and health of player who initiated it
 	private PlayerSync playerSync;
+	private PlayerMove playerMove;
+	private PlayerHealth playerHealth;
+	private ConsciousState initialConsciousState;
 	//directional of the player who initiated it
 	private Directional playerDirectional;
 	//slot being used to perform the action, will be interrupted if slot contents change
@@ -63,7 +66,7 @@ public class ProgressBar : MonoBehaviour
 	private int lastSpriteIndex = 0;
 	private bool timeToNotifyPlayer { get { return lastSpriteIndex != spriteIndex; } }
 
-	public ProgressAction ProgressAction => progressAction;
+	public OldProgressAction OldProgressAction => oldProgressAction;
 
 	//matrix move the progress bar is on, null if none.
 	private MatrixMove matrixMove;
@@ -79,11 +82,11 @@ public class ProgressBar : MonoBehaviour
 	/// Initiate this progress bar's behavior on server side. Assumes position is already set to where the progress
 	/// bar should appear.
 	/// </summary>
-	/// <param name="progressAction">progress action being performed</param>
+	/// <param name="oldProgressAction">progress action being performed</param>
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
 	/// <param name="progressEndAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
-	public void ServerStartProgress(ProgressAction progressAction, float timeForCompletion,
+	public void ServerStartProgress(OldProgressAction oldProgressAction, float timeForCompletion,
 		IProgressEndAction progressEndAction, GameObject player)
 	{
 		done = true;
@@ -95,13 +98,22 @@ public class ProgressBar : MonoBehaviour
 		facingDirectionCache = playerDirectional.CurrentDirection;
 		registerPlayer = player.GetComponent<RegisterPlayer>();
 		playerSync = player.GetComponent<PlayerSync>();
-		this.progressAction = progressAction;
+		this.oldProgressAction = oldProgressAction;
 		id = GetInstanceID();
 
 		//interrupt if hand contents are changed
 		var activeSlot = player.Player().Script.ItemStorage.GetActiveHandSlot();
 		activeSlot.OnSlotContentsChangeServer.AddListener(ServerInterruptOnInvChange);
 		this.usedSlot = activeSlot;
+
+		//interrupt if there is a change in consciousness, being cuffed, or slipped
+		playerMove = player.GetComponent<PlayerMove>();
+		playerHealth = player.GetComponent<PlayerHealth>();
+
+		playerMove.OnCuffChangeServer.AddListener(OnCuffChangeServer);
+		registerPlayer.OnSlipChangeServer.AddListener(OnSlipChangeServer);
+		playerHealth.OnConsciousStateChangeServer.AddListener(OnConsciousStateChangeServer);
+		initialConsciousState = playerHealth.ConsciousState;
 
 
 		if (player != PlayerManager.LocalPlayer)
@@ -121,6 +133,28 @@ public class ProgressBar : MonoBehaviour
 		//note: using transform position for the offset, because progress bar has no register tile and
 		//otherwise it would give an incorrect offset if player is on moving matrix
 		ProgressBarMessage.SendCreate(player, 0, (transform.position - player.transform.position).To2Int(), id);
+	}
+
+	private void OnConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
+	{
+		if (!CanPlayerStillProgress()) ServerInterruptProgress();
+	}
+
+	private void OnSlipChangeServer(bool wasSlipped, bool nowSlipped)
+	{
+		if (!CanPlayerStillProgress()) ServerInterruptProgress();
+	}
+
+	private void OnCuffChangeServer(bool wasCuffed, bool nowCuffed)
+	{
+		if (!CanPlayerStillProgress()) ServerInterruptProgress();
+	}
+
+	private bool CanPlayerStillProgress()
+	{
+		return playerHealth.ConsciousState == initialConsciousState &&
+		       !playerMove.IsCuffed &&
+		       !registerPlayer.IsSlippingServer;
 	}
 
 	private void ServerInterruptOnInvChange()
@@ -254,10 +288,10 @@ public class ProgressBar : MonoBehaviour
 		if (progress >= timeToFinish)
 		{
 			completedEndAction.OnEnd(ProgressEndReason.COMPLETED);
-			if (progressAction.InterruptsOverlapping)
+			if (oldProgressAction.InterruptsOverlapping)
 			{
 				//interrupt all other progress actions of this type at this location
-				UIManager.ServerInterruptProgress(this, progressAction, transform.localPosition, transform.parent);
+				UIManager.ServerInterruptProgress(this, oldProgressAction, transform.localPosition, transform.parent);
 
 			}
 			ServerCloseProgressBar();
@@ -286,7 +320,7 @@ public class ProgressBar : MonoBehaviour
 
 	private bool TurnInterrupt()
 	{
-		return !progressAction.AllowTurning && playerDirectional.CurrentDirection != facingDirectionCache;
+		return !oldProgressAction.AllowTurning && playerDirectional.CurrentDirection != facingDirectionCache;
 	}
 
 	/// <summary>

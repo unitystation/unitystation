@@ -284,22 +284,22 @@ public class UIManager : MonoBehaviour
 	/// Tries to create and begin animating a progress bar for a specific player. Returns null
 	/// if progress did not begin for some reason.
 	/// </summary>
-	/// <param name="progressAction">progress action being performed</param>
+	/// <param name="oldProgressAction">progress action being performed</param>
 	/// <param name="worldTilePos">tile position the action is being performed on</param>
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
 	/// <param name="progressEndAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
 	/// <returns>progress bar associated with this action (can use this to interrupt progress). Null if
 	/// progress was not started for some reason (such as already in progress for this action on the specified tile).</returns>
-	public static ProgressBar ServerStartProgress(ProgressAction progressAction, Vector3 worldTilePos, float timeForCompletion,
+	public static ProgressBar ServerStartProgress(OldProgressAction oldProgressAction, Vector3 worldTilePos, float timeForCompletion,
 		IProgressEndAction progressEndAction, GameObject player)
 	{
-		if (!progressAction.AllowMultiple)
+		if (!oldProgressAction.AllowMultiple)
 		{
 			//check if we are already doing this action anywhere else
 			var existingAction = Instance.progressBars.Values
 				.Where(pb => pb.RegisterPlayer.gameObject == player)
-				.FirstOrDefault(pb => pb.ProgressAction == progressAction);
+				.FirstOrDefault(pb => pb.OldProgressAction == oldProgressAction);
 			if (existingAction != null)
 			{
 				//already doing this action, and multiple is not allowed
@@ -332,7 +332,7 @@ public class UIManager : MonoBehaviour
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
 		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
-		progressBar.ServerStartProgress(progressAction, timeForCompletion, progressEndAction, player);
+		progressBar.ServerStartProgress(oldProgressAction, timeForCompletion, progressEndAction, player);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
 
 		return progressBar;
@@ -342,14 +342,14 @@ public class UIManager : MonoBehaviour
 	/// Interrupts all other actions of the given progressaction at the specified local position in the specified parent.
 	/// </summary>
 	/// <param name="progressBar">progressbar which is causing the interruption</param>
-	/// <param name="progressAction">action type to interrupt</param>
+	/// <param name="oldProgressAction">action type to interrupt</param>
 	/// <param name="transformLocalPosition">local position to interrupt at</param>
 	/// <param name="transformParent">parent to check children of for progress actions</param>
-	public static void ServerInterruptProgress(ProgressBar cause, ProgressAction progressAction, Vector3 transformLocalPosition, Transform transformParent)
+	public static void ServerInterruptProgress(ProgressBar cause, OldProgressAction oldProgressAction, Vector3 transformLocalPosition, Transform transformParent)
 	{
 		var existingBars = Instance.progressBars.Values
 			.Where(pb => pb != cause)
-			.Where(pb => pb.ProgressAction == progressAction)
+			.Where(pb => pb.OldProgressAction == oldProgressAction)
 			.Where(pb => pb.transform.parent == transformParent)
 			.Where(pb => Vector3.Distance(pb.transform.localPosition, transformLocalPosition) < 0.1)
 			.ToList();

@@ -57,7 +57,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			}
 		);
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.Restrain,  target.transform.position, applyTime, progressFinishAction, performer);
+		var bar = UIManager.ServerStartProgress(OldProgressAction.Restrain,  target.transform.position, applyTime, progressFinishAction, performer);
 		if (bar != null)
 		{
 			SoundManager.PlayNetworkedAtPos(sound, target.transform.position);

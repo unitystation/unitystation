@@ -56,6 +56,6 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 	private void ServerSelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
 	{
 		var progressFinishAction = new ProgressCompleteAction(() => ServerApplyHeal(targetBodyPart));
-		UIManager.ServerStartProgress(ProgressAction.SelfHeal, originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
+		UIManager.ServerStartProgress(OldProgressAction.SelfHeal, originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
 	}
 }

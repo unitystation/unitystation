@@ -42,7 +42,7 @@ public class RequestUncuffMessage : ClientMessage
 			{
 				var finishProgressAction = new ProgressCompleteAction(() =>
 					playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor));
-				UIManager.ServerStartProgress(ProgressAction.Uncuff, actor.transform.position, restraint.RemoveTime,
+				UIManager.ServerStartProgress(OldProgressAction.Uncuff, actor.transform.position, restraint.RemoveTime,
 					finishProgressAction, actor);
 			}
 		}

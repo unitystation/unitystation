@@ -110,7 +110,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				Inventory.ServerDrop(itemSlot);
 			}
 		});
-		UIManager.ServerStartProgress(ProgressAction.Disrobe, toDisrobe.transform.position, timeTaken,
+		UIManager.ServerStartProgress(OldProgressAction.Disrobe, toDisrobe.transform.position, timeTaken,
 			finishProgressAction, gameObject);
 	}
 
@@ -486,7 +486,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		var progressFinishAction = new ProgressCompleteAction(() => DoCPR(playerScript.gameObject, cardiacArrestPlayer));
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.CPR, cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
+		var bar = UIManager.ServerStartProgress(OldProgressAction.CPR, cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
 			playerScript.gameObject);
 
 		if (bar != null)

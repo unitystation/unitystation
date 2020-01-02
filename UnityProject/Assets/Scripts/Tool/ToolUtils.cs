@@ -123,7 +123,7 @@ public static class ToolUtils
 		}
 		else
 		{
-			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, worldTilePos, seconds, progressCompleteAction, performer);
+			var bar = UIManager.ServerStartProgress(OldProgressAction.Construction, worldTilePos, seconds, progressCompleteAction, performer);
 			if (bar != null)
 			{
 				ServerPlayToolSound(tool, worldTilePos);
