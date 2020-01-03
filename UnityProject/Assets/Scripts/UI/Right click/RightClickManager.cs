@@ -14,7 +14,7 @@ using UnityEngine.EventSystems;
 ///
 /// Refer to documentation at https://github.com/unitystation/unitystation/wiki/Right-Click-Menu
 /// </summary>
-public class RightclickManager : MonoBehaviour
+public class RightClickManager : MonoBehaviour
 {
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;
