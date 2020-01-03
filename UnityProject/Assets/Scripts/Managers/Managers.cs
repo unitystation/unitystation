@@ -13,8 +13,6 @@ public class Managers : MonoBehaviour
 		if (instance == null)
 		{
 			instance = this;
-			//Spawn the Options Screen Object
-			Instantiate(Resources.Load("OptionsScreen"));
 		}
 		else
 		{
