@@ -188,7 +188,7 @@ public class MouseInputController : MonoBehaviour
 			//If we are possibly dragging and have exceeded the drag distance, initiate the drag
 			if (potentialDraggable != null)
 			{
-				if (UIManager.CurrentIntent != Intent.Harm)
+				if (!(UIManager.CurrentIntent == Intent.Harm) && !(UIManager.CurrentIntent == Intent.Disarm))
 				{
 					var currentOffset = MouseWorldPosition - potentialDraggable.transform.position;
 					if (((Vector2)currentOffset - dragStartOffset).magnitude > MouseDragDeadzone)
