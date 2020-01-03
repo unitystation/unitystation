@@ -340,7 +340,8 @@ public class LightingSystem : MonoBehaviour
 
 		if (mTextureDataRequest != null)
 		{
-			mTextureDataRequest.DeallocateOnClose();
+			mTextureDataRequest.Dispose();
+			mTextureDataRequest = null;
 		}
 	}
 
