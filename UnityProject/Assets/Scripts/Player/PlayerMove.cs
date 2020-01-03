@@ -307,8 +307,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
 		}
 
-		//force sync direction to current direction
-		playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
+		//force sync direction to current direction (If it is a real player and not a NPC)
+		if (PlayerScript.connectionToClient != null)
+			playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 	}
 
 	/// <summary>
@@ -340,13 +341,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		playerDirectional.FaceDirection(newDir);
 	}
 
-	//invoked when buckledTo changes position, so we can update our position
-	private void OnBuckledObjectPositionChange(Vector3Int oldPosition, Vector3Int newPosition)
-	{
-		//sync position to ensure they buckle to the correct spot
-		playerScript.PlayerSync.SetPosition(newPosition);
-	}
-
 	//syncvar hook invoked client side when the buckledTo changes
 	private void OnBuckledChangedHook(uint newBuckledTo)
 	{
@@ -357,12 +351,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
-			}
-
-			IPushable pushable = null;
-			if (NetworkIdentity.spawned[buckledObject].TryGetComponent(out pushable))
-			{
-				pushable.OnStartMove().RemoveListener(OnBuckledObjectPositionChange);
 			}
 		}
 
@@ -380,13 +368,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
-			}
-
-			// Hook a change of position event handler for when the buckled-to object change position (the object is pushed or pulled)
-			IPushable pushable = null;			
-			if (NetworkIdentity.spawned[buckledObject].TryGetComponent(out pushable))
-			{
-				pushable.OnStartMove().AddListener(OnBuckledObjectPositionChange);
 			}
 		}
 

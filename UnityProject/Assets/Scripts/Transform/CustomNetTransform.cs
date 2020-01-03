@@ -484,6 +484,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
+		// If the object has an occupant (ex: a chair), Update its transform at the same time
+		UpdateOccupant();
+
 		//Ignore "Follow Updates" if you're pulling it
 		if ( newState.Active
 			&& newState.IsFollowUpdate
@@ -541,6 +544,22 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private void AdminRespawn()
 	{
 		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
+	}
+
+	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)
+	private void UpdateOccupant()
+	{
+		// Since we are at the transform level, we go up one level to get the parent
+		OccupiableDirectionalSprite occupiableDirectionalSprite = GetComponentInParent<OccupiableDirectionalSprite>();
+		if ((occupiableDirectionalSprite != null) && (occupiableDirectionalSprite.Occupant > 0))
+		{
+			NetworkIdentity networkIdentity = NetworkIdentity.spawned[occupiableDirectionalSprite.Occupant];
+			if (networkIdentity != null && networkIdentity.TryGetComponent<PlayerMove>(out var playerMove))
+			{
+				//sync position to ensure they buckle to the correct spot
+				playerMove.PlayerScript.PlayerSync.SetPosition(occupiableDirectionalSprite.gameObject.TileWorldPosition().To3Int());
+			}
+		}		
 	}
 }
 

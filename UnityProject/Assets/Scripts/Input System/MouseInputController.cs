@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -236,10 +237,22 @@ public class MouseInputController : MonoBehaviour
 
 		if (topObject != null)
 		{
-			var pushPull = topObject.GetComponent<PushPull>();
+			PushPull pushPull = null;
+
+			// If the topObject has a PlayerMove, we check if he is buckled
+			// The PushPull object we want in this case, is the chair/object on which he is buckled to
+			if (topObject.TryGetComponent<PlayerMove>(out var playerMove) && playerMove.IsBuckled)
+			{
+				pushPull = NetworkIdentity.spawned[playerMove.buckledObject].GetComponent<PushPull>();
+			}
+			else
+			{
+				pushPull = topObject.GetComponent<PushPull>();
+			}
+
 			if (pushPull != null)
 			{
-				topObject.GetComponent<PushPull>().TryPullThis();
+				pushPull.TryPullThis();
 			}
 		}
 	}

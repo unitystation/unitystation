@@ -50,8 +50,10 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	[Tooltip("sprite renderer on which to render the front sprites")]
 	public SpriteRenderer spriteRendererFront;
 
-	[SyncVar(hook=nameof(SyncIsOccupied))]
-	private bool isOccupied;
+	[SyncVar(hook=nameof(SyncOccupant))]
+	private uint occupant;
+
+	public uint Occupant => occupant;
 
 	private const string BASE_SPRITE_LAYER_NAME = "Machines";
 	private const string FRONT_SPRITE_LAYER_NAME = "OverPlayers";
@@ -69,7 +71,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	private void OnWillDestroyServer(DestructionInfo info)
 	{
 		//release the player
-		if (isOccupied)
+		if (occupant > 0)
 		{
 			//fixme: InvalidOperationException - Sequence contains no matching element
 			var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
@@ -81,7 +83,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		//must invoke this because SyncVar hooks are not called on client init
-		SyncIsOccupied(isOccupied);
+		SyncOccupant(occupant);
 		OnDirectionChanged(directional.CurrentDirection);
 	}
 
@@ -113,7 +115,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	{
 		if (spriteRendererFront)
 		{
-			if (isOccupied)
+			if (occupant > 0)
 			{
 				if (directional.CurrentDirection == Orientation.Up)
 				{
@@ -138,18 +140,19 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Set whether this object should render itself as if it is occupied or vacant.
+	/// Set the occupant of this object (also indicate if the object should render itself as if it is occupied or vacant).
 	/// </summary>
 	[Server]
-	public void RenderOccupied(bool renderOccupied)
+	public void SetOccupant(uint occupant)
 	{
-		SyncIsOccupied(renderOccupied);
+		SyncOccupant(occupant);
 	}
 
-	//syncvar hook for isOccupied
-	private void SyncIsOccupied(bool newValue)
+	//syncvar hook for occupant
+	private void SyncOccupant(uint occupantNewValue)
 	{
-		isOccupied = newValue;
+		occupant = occupantNewValue;
+
 		UpdateFrontSprite();
 		EnsureSpriteLayer();
 	}
@@ -157,7 +160,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	//ensures we are rendering in the correct sprite layer
 	private void EnsureSpriteLayer()
 	{
-		if (directional.CurrentDirection == Orientation.Up && isOccupied)
+		if (directional.CurrentDirection == Orientation.Up && occupant > 0)
 		{
 			spriteRenderer.sortingLayerName = FRONT_SPRITE_LAYER_NAME;
 		}
