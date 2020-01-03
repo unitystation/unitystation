@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Atmospherics;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Pickupable))]
 public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
@@ -19,6 +20,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	public SpriteRenderer welderRenderer;
 
 	public SpriteRenderer flameRenderer;
+
+	/// <summary>
+	/// Invoked server side when welder turns off for any reason.
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnWelderOffServer = new UnityEvent();
 
 	//Inhands
 	private int leftHandOriginal;
@@ -73,7 +80,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 		SyncIsOn(isOn);
 	}
 
-
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		SyncIsOn(false);
@@ -114,6 +120,8 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 			{
 				itemAtts.ServerDamageType = DamageType.Brute;
 				itemAtts.ServerHitDamage = damageOff;
+				//stop all progress
+				OnWelderOffServer.Invoke();
 			}
 		}
 

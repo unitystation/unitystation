@@ -237,6 +237,9 @@ public class ProgressBar : MonoBehaviour
 	/// <param name="progressEndReason">reason progress was interrupted</param>
 	public void ServerInterruptProgress()
 	{
+		//already closed?
+		if (done) return;
+
 		progressAction.OnServerEndProgress(new EndProgressInfo(false));
 		ServerCloseProgressBar();
 	}

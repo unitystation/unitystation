@@ -26,14 +26,17 @@ public class StandardProgressAction : IProgressAction
 	private StartProgressInfo startProgressInfo;
 	//is this a cross matrix action
 	private bool crossMatrix;
+	//is this for a weld action? null if not
+	private Welder welder;
 
 	//so we don't try to reuse this object for multiple actions.
 	private bool used;
 
-	private StandardProgressAction(StandardProgressActionConfig progressActionConfig, Action onCompletion)
+	private StandardProgressAction(StandardProgressActionConfig progressActionConfig, Action onCompletion, Welder welder = null)
 	{
 		this.progressActionConfig = progressActionConfig;
 		this.onCompletion = onCompletion;
+		this.welder = welder;
 	}
 
 	/// <summary>
@@ -47,6 +50,18 @@ public class StandardProgressAction : IProgressAction
 		Action onCompletion)
 	{
 		return new StandardProgressAction(progressActionConfig, onCompletion);
+	}
+
+	/// <summary>
+	/// Just like Create, but will auto-interrupt progress if the welder runs out of fuel.
+	/// </summary>
+	/// <param name="progressActionConfig"></param>
+	/// <param name="onCompletion"></param>
+	/// <returns></returns>
+	public static StandardProgressAction CreateForWelder(StandardProgressActionConfig progressActionConfig,
+		Action onCompletion, Welder welder)
+	{
+		return new StandardProgressAction(progressActionConfig, onCompletion, welder);
 	}
 
 	public bool OnServerStartProgress(StartProgressInfo info)
@@ -112,6 +127,11 @@ public class StandardProgressAction : IProgressAction
 
 	private void RegisterHooks()
 	{
+		//interrupt if welder turns off
+		if (welder)
+		{
+			welder.OnWelderOffServer.AddListener(InterruptProgress);
+		}
 		//interrupt if active hand slot changes
 		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
 		activeSlot.OnSlotContentsChangeServer.AddListener(InterruptProgress);
@@ -138,6 +158,10 @@ public class StandardProgressAction : IProgressAction
 
 	private void UnregisterHooks()
 	{
+		if (welder)
+		{
+			welder.OnWelderOffServer.RemoveListener(InterruptProgress);
+		}
 		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
 		if (usedSlot != null)
 		{

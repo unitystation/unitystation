@@ -125,8 +125,19 @@ public static class ToolUtils
 		}
 		else
 		{
-			var bar = StandardProgressAction.Create(ProgressConfig, progressCompleteAction)
-				.ServerStartProgress(worldTilePos, seconds, performer);
+			var welder = tool.GetComponent<Welder>();
+			ProgressBar bar;
+			if (welder != null)
+			{
+				bar = StandardProgressAction.CreateForWelder(ProgressConfig, progressCompleteAction, welder)
+					.ServerStartProgress(worldTilePos, seconds, performer);
+			}
+			else
+			{
+				bar = StandardProgressAction.Create(ProgressConfig, progressCompleteAction)
+					.ServerStartProgress(worldTilePos, seconds, performer);
+			}
+
 			if (bar != null)
 			{
 				ServerPlayToolSound(tool, worldTilePos);
