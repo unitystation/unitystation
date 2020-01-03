@@ -3,7 +3,8 @@ using UnityEngine;
 using Mirror;
 
 /// <summary>
-/// Allows Microwave to be interacted with. Can put something in it and it will start cooking.
+/// Allows Microwave to be interacted with. Player can put food in the microwave to cook it.
+/// The microwave can be interacted with to, for example, check the remaining time.
 /// </summary>
 [RequireComponent(typeof(Microwave))]
 public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApply>
@@ -19,23 +20,43 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject == null) return false;
 		return true;
 	}
 
+	/// <summary>
+	/// Players can check the remaining microwave time or insert something into the microwave.
+	/// </summary>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		ItemAttributesV2 attr = interaction.HandObject.GetComponent<ItemAttributesV2>();
-
-		Ingredient ingredient = new Ingredient(attr.ArticleName);
-
-		GameObject meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> {ingredient});
-
-		if (meal)
+		if (microwave.microwaveTimer > 0)
 		{
-			microwave.ServerSetOutputMeal(meal.name);
-			Despawn.ServerSingle(interaction.HandObject);
-			microwave.RpcStartCooking();
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"{microwave.microwaveTimer:0} seconds until the {microwave.meal} is cooked.");
+		}
+		else if (interaction.HandObject != null)
+		{
+			// Check if the player is holding food that can be cooked
+			ItemAttributesV2 attr = interaction.HandObject.GetComponent<ItemAttributesV2>();
+			Ingredient ingredient = new Ingredient(attr.ArticleName);
+			GameObject meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> { ingredient });
+
+			if (meal)
+			{
+				microwave.ServerSetOutputMeal(meal.name);
+				Despawn.ServerSingle(interaction.HandObject);
+				microwave.RpcStartCooking();
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You microwave the {microwave.meal} for {microwave.COOK_TIME} seconds.");
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The microwave can not cook your {attr.ArticleName}.");
+				// Alternative suggestions:
+				// "$"The microwave is not programmed to cook your {attr.ArticleName}."
+				// "$"The microwave does not know how to cook your{attr.ArticleName}."
+			}
+		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "The microwave is empty.");
 		}
 	}
 }
