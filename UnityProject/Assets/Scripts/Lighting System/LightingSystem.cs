@@ -486,7 +486,7 @@ public class LightingSystem : MonoBehaviour
 	/// <param name="iRequest">requested callback to wrap.</param>
 	private void AsyncReadCallback(AsyncGPUReadbackRequest iRequest)
 	{
-		if (iRequest.hasError || iRequest.done == false)
+		if (iRequest.hasError || iRequest.done == false || mTextureDataRequest == null)
 		{
 			return;
 		}
