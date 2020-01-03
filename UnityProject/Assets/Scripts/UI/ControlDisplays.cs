@@ -23,6 +23,9 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject teamSelectionWindow;
 	public RectTransform panelRight;
 
+	[SerializeField]
+	private GameObject rightClickManager;
+
 	[SerializeField] private Animator uiAnimator;
 
 	void OnEnable()
@@ -69,22 +72,24 @@ public class ControlDisplays : MonoBehaviour
 	{
 		if (hudBottomHuman != null && hudBottomGhost != null)
 		{
-			hudBottomHuman.gameObject.SetActive(true);
-			hudBottomGhost.gameObject.SetActive(false);
+			hudBottomHuman.SetActive(true);
+			hudBottomGhost.SetActive(false);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(true);
 	}
 
 	void GhostUI()
 	{
 		if (hudBottomHuman != null && hudBottomGhost != null)
 		{
-			hudBottomHuman.gameObject.SetActive(false);
-			hudBottomGhost.gameObject.SetActive(true);
+			hudBottomHuman.SetActive(false);
+			hudBottomGhost.SetActive(true);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(true);
 	}
 
 	/// <summary>
@@ -134,9 +139,10 @@ public class ControlDisplays : MonoBehaviour
 		SoundManager.SongTracker.StartPlayingRandomPlaylist();
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(false);
+		hudBottomHuman.SetActive(false);
+		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
+		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(false);
@@ -144,10 +150,11 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(false);
+		hudBottomHuman.SetActive(false);
+		hudBottomGhost.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(false);
 		uiAnimator.Play("idle");
 	}
 
@@ -155,9 +162,10 @@ public class ControlDisplays : MonoBehaviour
 	{
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(false);
+		hudBottomHuman.SetActive(false);
+		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
+		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(true);

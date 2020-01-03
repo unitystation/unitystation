@@ -38,19 +38,7 @@ public class KeyboardInputManager : MonoBehaviour
 			// Perform escape key action
 			if (CommonInput.GetKeyDown(KeyCode.Escape))
 			{
-				if(EscapeKeyTarget.TargetStack.Count > 0)
-				{
-					EscapeKeyTarget escapeKeyTarget = EscapeKeyTarget.TargetStack.Peek().GetComponent<EscapeKeyTarget>();
-					escapeKeyTarget.OnEscapeKey.Invoke();
-					if (escapeKeyTarget.DisableOnEscape)
-					{
-						GUI_IngameMenu.Instance.CloseMenuPanel(EscapeKeyTarget.TargetStack.Peek());
-					}
-				}
-				else
-				{
-					GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
-				}
+				EscapeKeyTarget.HandleEscapeKey();
 			}
 
 			// Perform the checks for all key actions which have functions defined here
