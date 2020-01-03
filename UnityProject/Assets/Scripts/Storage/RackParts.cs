@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Construction, allowMultiple: true);
 
 	public GameObject rackPrefab;
 
@@ -58,19 +60,18 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			return;
 		}
 
-		var progressFinishAction = new ProgressCompleteAction(() =>
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You assemble a rack.");
-				Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
-					interaction.Performer.transform.parent);
-				var handObj = interaction.HandObject;
-				Inventory.ServerDespawn(interaction.HandSlot);
-			}
-		);
+		void ProgressComplete()
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer,
+					"You assemble a rack.");
+			Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
+				interaction.Performer.transform.parent);
+			var handObj = interaction.HandObject;
+			Inventory.ServerDespawn(interaction.HandSlot);
+		}
 
-		var bar = UIManager.ServerStartProgress(OldProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer);
+		var bar = StandardProgressAction.Create(ProgressConfig, ProgressComplete)
+			.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(), 5f, interaction.Performer);
 		if (bar != null)
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You start constructing a rack...");

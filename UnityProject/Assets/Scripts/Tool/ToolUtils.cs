@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 /// </summary>
 public static class ToolUtils
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
 
 	/// <summary>
 	/// Performs common tool usage logic and also sends start / end action messages, and invokes a callback on success.
@@ -27,13 +29,13 @@ public static class ToolUtils
 	{
 		Chat.AddActionMsgToChat(performer, performerStartActionMessage,
 			othersStartActionMessage);
-		var progressFinishAction = new ProgressCompleteAction(() =>
+		void ProgressComplete()
 		{
 			Chat.AddActionMsgToChat(performer, performerFinishActionMessage,
 				othersFinishActionMessage);
 			onSuccessfulCompletion.Invoke();
-		});
-		ServerUseTool(performer, tool, worldTilePos, seconds, progressFinishAction);
+		}
+		ServerUseTool(performer, tool, worldTilePos, seconds, ProgressComplete);
 	}
 
 	/// <summary>
@@ -106,7 +108,7 @@ public static class ToolUtils
 	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
 	/// <param name="progressCompleteAction">completion callback (will also be called instantly if completion is instant)</param>
 	/// <returns>progress bar spawned, null if progress did not start or this was instant</returns>
-	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, Vector2 worldTilePos, float seconds, ProgressCompleteAction progressCompleteAction)
+	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, Vector2 worldTilePos, float seconds, Action progressCompleteAction)
 	{
 		//check tool stats
 		var toolStats = tool.GetComponent<Tool>();
@@ -118,12 +120,13 @@ public static class ToolUtils
 		if (seconds <= 0f)
 		{
 			ServerPlayToolSound(tool, worldTilePos);
-			progressCompleteAction.OnEnd(ProgressEndReason.COMPLETED);
+			progressCompleteAction.Invoke();
 			return null;
 		}
 		else
 		{
-			var bar = UIManager.ServerStartProgress(OldProgressAction.Construction, worldTilePos, seconds, progressCompleteAction, performer);
+			var bar = StandardProgressAction.Create(ProgressConfig, progressCompleteAction)
+				.ServerStartProgress(worldTilePos, seconds, performer);
 			if (bar != null)
 			{
 				ServerPlayToolSound(tool, worldTilePos);
@@ -210,7 +213,7 @@ public static class ToolUtils
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
 	public static ProgressBar ServerUseTool(PositionalHandApply positionalHandApply, float seconds=0,
-		ProgressCompleteAction progressCompleteAction=null)
+		Action progressCompleteAction=null)
 	{
 		return ServerUseTool(positionalHandApply.Performer, positionalHandApply.HandObject,
 			positionalHandApply.WorldPositionTarget, seconds, progressCompleteAction);
@@ -225,7 +228,7 @@ public static class ToolUtils
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
 	public static ProgressBar ServerUseTool(HandApply handApply, float seconds=0,
-		ProgressCompleteAction progressCompleteAction=null)
+		Action progressCompleteAction=null)
 	{
 		return ServerUseTool(handApply.Performer, handApply.HandObject,
 			handApply.TargetObject.TileWorldPosition(), seconds, progressCompleteAction);
@@ -240,7 +243,7 @@ public static class ToolUtils
 	/// <param name="progressCompleteAction">completion callback</param>
 	/// <returns>progress bar spawned, null if progress did not start</returns>
 	public static ProgressBar ServerUseTool(TileApply tileApply, float seconds=0,
-		ProgressCompleteAction progressCompleteAction=null)
+		Action progressCompleteAction=null)
 	{
 		return ServerUseTool(tileApply.Performer, tileApply.HandObject,
 			tileApply.WorldPositionTarget, seconds, progressCompleteAction);

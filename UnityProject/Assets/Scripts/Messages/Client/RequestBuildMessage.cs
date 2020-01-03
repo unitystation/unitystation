@@ -60,20 +60,20 @@ public class RequestBuildMessage : ClientMessage
 		}
 
 		//build and consume
-		var finishProgressAction = new ProgressCompleteAction(() =>
+		void ProgressComplete()
 		{
 			if (entry.ServerBuild(SpawnDestination.At(SentByPlayer.Script.registerTile), hasConstructionMenu))
 			{
 				Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You finish building the {entry.Name}.",
 					$"{SentByPlayer.GameObject.ExpensiveName()} finishes building the {entry.Name}.");
 			}
-		});
+		}
 
 		Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You begin building the {entry.Name}...",
 			$"{SentByPlayer.GameObject.ExpensiveName()} begins building the {entry.Name}...");
 		ToolUtils.ServerUseTool(SentByPlayer.GameObject, usedSlot.ItemObject,
 			SentByPlayer.Script.registerTile.WorldPositionServer.To2Int(), entry.BuildTime,
-			finishProgressAction);
+			ProgressComplete);
 	}
 
 	/// <summary>

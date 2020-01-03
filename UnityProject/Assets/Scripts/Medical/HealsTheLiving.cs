@@ -10,6 +10,9 @@ using Mirror;
 [RequireComponent(typeof(Stackable))]
 public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.SelfHeal);
+
 	public DamageType healType;
 	private Stackable stackable;
 
@@ -55,7 +58,12 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private void ServerSelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
 	{
-		var progressFinishAction = new ProgressCompleteAction(() => ServerApplyHeal(targetBodyPart));
-		UIManager.ServerStartProgress(OldProgressAction.SelfHeal, originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
+		void ProgressComplete()
+		{
+			ServerApplyHeal(targetBodyPart);
+		}
+
+		StandardProgressAction.Create(ProgressConfig, ProgressComplete)
+			.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, originator);
 	}
 }
