@@ -48,7 +48,7 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 			}
 			else
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The microwave can not cook your {attr.ArticleName}.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Your {attr.ArticleName} can not be microwaved.");
 				// Alternative suggestions:
 				// "$"The microwave is not programmed to cook your {attr.ArticleName}."
 				// "$"The microwave does not know how to cook your{attr.ArticleName}."

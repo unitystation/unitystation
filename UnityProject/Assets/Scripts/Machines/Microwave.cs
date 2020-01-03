@@ -34,7 +34,17 @@ public class Microwave : NetworkBehaviour
 	/// <summary>
 	/// AudioSource for playing the celebratory "ding" when cooking is finished.
 	/// </summary>
-	private AudioSource audioSource;
+	private AudioSource audioSourceDing;
+
+	/// <summary>
+	/// Amount of time the "ding" audio source will start playing before the microwave has finished cooking (in seconds).
+	/// </summary>
+	private static float dingPlayTime = 1.54f;
+
+	/// <summary>
+	/// True if the microwave has already played the "ding" sound for the current meal.
+	/// </summary>
+	private bool dingHasPlayed = false;
 
 	/// <summary>
 	/// Set up the microwave sprite and the AudioSource.
@@ -42,7 +52,7 @@ public class Microwave : NetworkBehaviour
 	private void Start()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		audioSource = GetComponent<AudioSource>();
+		audioSourceDing = GetComponent<AudioSource>();
 		SPRITE_OFF = spriteRenderer.sprite;
 	}
 
@@ -54,6 +64,12 @@ public class Microwave : NetworkBehaviour
 		if (microwaveTimer > 0)
 		{
 			microwaveTimer = Mathf.Max(0, microwaveTimer - Time.deltaTime);
+
+			if (!dingHasPlayed && microwaveTimer <= dingPlayTime)
+			{
+				audioSourceDing.Play();
+				dingHasPlayed = true;
+			}
 
 			if (microwaveTimer <= 0)
 			{
@@ -75,15 +91,15 @@ public class Microwave : NetworkBehaviour
 	{
 		microwaveTimer = COOK_TIME;
 		spriteRenderer.sprite = SPRITE_ON;
+		dingHasPlayed = false;
 	}
 
 	/// <summary>
-	/// Finish cooking the microwaved meal and play a 'ding'-sound.
+	/// Finish cooking the microwaved meal.
 	/// </summary>
 	private void FinishCooking()
 	{
 		spriteRenderer.sprite = SPRITE_OFF;
-		audioSource.Play();
 		if (isServer)
 		{
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
