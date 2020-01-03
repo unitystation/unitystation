@@ -117,7 +117,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		StandardProgressAction.Create(DisrobeProgressConfig, ProgressComplete)
-			.ServerStartProgress(toDisrobe.transform.position, timeTaken, gameObject);
+			.ServerStartProgress(toDisrobe.RegisterTile(), timeTaken, gameObject);
 	}
 
 	/// <summary>
@@ -496,7 +496,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		var bar = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
-			.ServerStartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, playerScript.gameObject);
+			.ServerStartProgress(cardiacArrestPlayerRegister, 5f, playerScript.gameObject);
 		if (bar != null)
 		{
 			Chat.AddActionMsgToChat(playerScript.gameObject, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",

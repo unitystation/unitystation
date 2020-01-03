@@ -16,14 +16,14 @@ public static class ToolUtils
 	/// </summary>
 	/// <param name="performer">player using the tool</param>
 	/// <param name="tool">tool being used</param>
-	/// <param name="worldTilePos">tile position the action is being performed on</param>
+	/// <param name="actionTarget">target of the action</param>
 	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
 	/// <param name="performerStartActionMessage">message to show performer when action begins.</param>
 	/// <param name="othersStartActionMessage">message to show others when action begins.</param>
 	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
 	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
 	/// <param name="onSuccessfulCompletion">called when action is completed</param>
-	public static void ServerUseToolWithActionMessages(GameObject performer, GameObject tool, Vector2 worldTilePos,
+	public static void ServerUseToolWithActionMessages(GameObject performer, GameObject tool, ActionTarget actionTarget,
 		float seconds, string performerStartActionMessage, string othersStartActionMessage, string performerFinishActionMessage,
 		string othersFinishActionMessage, Action onSuccessfulCompletion)
 	{
@@ -35,7 +35,7 @@ public static class ToolUtils
 				othersFinishActionMessage);
 			onSuccessfulCompletion.Invoke();
 		}
-		ServerUseTool(performer, tool, worldTilePos, seconds, ProgressComplete);
+		ServerUseTool(performer, tool, actionTarget, seconds, ProgressComplete);
 	}
 
 	/// <summary>
@@ -54,7 +54,7 @@ public static class ToolUtils
 		string othersFinishActionMessage, Action onSuccessfulCompletion)
 	{
 		ServerUseToolWithActionMessages(handApply.Performer, handApply.HandObject,
-			handApply.TargetObject.TileWorldPosition(), seconds, performerStartActionMessage, othersStartActionMessage,
+			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, performerStartActionMessage, othersStartActionMessage,
 			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
 	}
 
@@ -74,7 +74,7 @@ public static class ToolUtils
 		string othersFinishActionMessage, Action onSuccessfulCompletion)
 	{
 		ServerUseToolWithActionMessages(tileApply.Performer, tileApply.HandObject,
-			tileApply.WorldPositionTarget, seconds, performerStartActionMessage, othersStartActionMessage,
+			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, performerStartActionMessage, othersStartActionMessage,
 			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
 	}
 
@@ -94,7 +94,7 @@ public static class ToolUtils
 		string othersFinishActionMessage, Action onSuccessfulCompletion)
 	{
 		ServerUseToolWithActionMessages(handApply.Performer, handApply.HandObject,
-			handApply.WorldPositionTarget, seconds, performerStartActionMessage, othersStartActionMessage,
+			ActionTarget.Tile(handApply.WorldPositionTarget), seconds, performerStartActionMessage, othersStartActionMessage,
 			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion);
 	}
 
@@ -104,11 +104,11 @@ public static class ToolUtils
 	/// </summary>
 	/// <param name="performer">player using the tool</param>
 	/// <param name="tool">tool being used</param>
-	/// <param name="worldTilePos">tile position the action is being performed on</param>
+	/// <param name="actionTarget">target of the action</param>
 	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
 	/// <param name="progressCompleteAction">completion callback (will also be called instantly if completion is instant)</param>
 	/// <returns>progress bar spawned, null if progress did not start or this was instant</returns>
-	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, Vector2 worldTilePos, float seconds, Action progressCompleteAction)
+	public static ProgressBar ServerUseTool(GameObject performer, GameObject tool, ActionTarget actionTarget, float seconds, Action progressCompleteAction)
 	{
 		//check tool stats
 		var toolStats = tool.GetComponent<Tool>();
@@ -119,7 +119,7 @@ public static class ToolUtils
 
 		if (seconds <= 0f)
 		{
-			ServerPlayToolSound(tool, worldTilePos);
+			ServerPlayToolSound(tool, actionTarget.TargetWorldPosition);
 			progressCompleteAction.Invoke();
 			return null;
 		}
@@ -130,17 +130,17 @@ public static class ToolUtils
 			if (welder != null)
 			{
 				bar = StandardProgressAction.CreateForWelder(ProgressConfig, progressCompleteAction, welder)
-					.ServerStartProgress(worldTilePos, seconds, performer);
+					.ServerStartProgress(actionTarget, seconds, performer);
 			}
 			else
 			{
 				bar = StandardProgressAction.Create(ProgressConfig, progressCompleteAction)
-					.ServerStartProgress(worldTilePos, seconds, performer);
+					.ServerStartProgress(actionTarget, seconds, performer);
 			}
 
 			if (bar != null)
 			{
-				ServerPlayToolSound(tool, worldTilePos);
+				ServerPlayToolSound(tool, actionTarget.TargetWorldPosition);
 			}
 
 			return bar;
@@ -227,7 +227,7 @@ public static class ToolUtils
 		Action progressCompleteAction=null)
 	{
 		return ServerUseTool(positionalHandApply.Performer, positionalHandApply.HandObject,
-			positionalHandApply.WorldPositionTarget, seconds, progressCompleteAction);
+			ActionTarget.Tile(positionalHandApply.WorldPositionTarget), seconds, progressCompleteAction);
 	}
 
 	/// <summary>
@@ -242,7 +242,7 @@ public static class ToolUtils
 		Action progressCompleteAction=null)
 	{
 		return ServerUseTool(handApply.Performer, handApply.HandObject,
-			handApply.TargetObject.TileWorldPosition(), seconds, progressCompleteAction);
+			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, progressCompleteAction);
 	}
 
 	/// <summary>
@@ -257,6 +257,6 @@ public static class ToolUtils
 		Action progressCompleteAction=null)
 	{
 		return ServerUseTool(tileApply.Performer, tileApply.HandObject,
-			tileApply.WorldPositionTarget, seconds, progressCompleteAction);
+			ActionTarget.Tile(tileApply.WorldPositionTarget), seconds, progressCompleteAction);
 	}
 }

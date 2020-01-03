@@ -99,11 +99,11 @@ public class StandardProgressAction : IProgressAction
 		}
 
 		//check if there is already progress of this type at this location by this player
-		var targetParent = info.TargetMatrixInfo.Objects;
+		var targetParent = info.Target.TargetMatrixInfo.Objects;
 		var existingBar = UIManager.Instance.ProgressBars
 			.Where(pb => pb.RegisterPlayer.gameObject == info.Performer)
 			.Where(pb => pb.transform.parent == targetParent)
-			.FirstOrDefault(pb => Vector3.Distance(pb.transform.localPosition, info.TargetLocalPosition) < 0.1);
+			.FirstOrDefault(pb => Vector3.Distance(pb.transform.localPosition, info.Target.TargetLocalPosition) < 0.1);
 		if (existingBar != null)
 		{
 			//progress already started by this player at this position
@@ -112,9 +112,9 @@ public class StandardProgressAction : IProgressAction
 
 		//is this cross matrix? if so, don't start progress if matrix is moving
 		var performerMatrix = playerScript.registerTile.Matrix;
-		crossMatrix = performerMatrix != info.TargetMatrixInfo.Matrix;
-		if (crossMatrix && info.TargetMatrixInfo.MatrixMove != null &&
-		    info.TargetMatrixInfo.MatrixMove.IsMovingServer)
+		crossMatrix = performerMatrix != info.Target.TargetMatrixInfo.Matrix;
+		if (crossMatrix && info.Target.TargetMatrixInfo.MatrixMove != null &&
+		    info.Target.TargetMatrixInfo.MatrixMove.IsMovingServer)
 		{
 			return false;
 		}
@@ -132,6 +132,11 @@ public class StandardProgressAction : IProgressAction
 		{
 			welder.OnWelderOffServer.AddListener(InterruptProgress);
 		}
+		//if targeting an object, interrupt if object moves away
+		if (startProgressInfo.Target.IsObject)
+		{
+			startProgressInfo.Target.Target.OnLocalPositionChangedServer.AddListener(OnLocalPositionChanged);
+		}
 		//interrupt if active hand slot changes
 		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
 		activeSlot.OnSlotContentsChangeServer.AddListener(InterruptProgress);
@@ -143,16 +148,16 @@ public class StandardProgressAction : IProgressAction
 		//interrupt if conscious state changes
 		playerScript.playerHealth.OnConsciousStateChangeServer.AddListener(OnConsciousStateChange);
 		initialConsciousState = playerScript.playerHealth.ConsciousState;
-		//interrupt if player moves away
-		playerScript.PlayerSync.OnTileReached().AddListener(OnTileReached);
+		//interrupt if player moves at all
+		playerScript.registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChanged);
 		//interrupt if player turns away and turning is not allowed
 		playerScript.playerDirectional.OnDirectionChange.AddListener(OnDirectionChanged);
 		initialDirection = playerScript.playerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and moves / rotates away from player
-		if (crossMatrix && startProgressInfo.TargetMatrixInfo.MatrixMove != null)
+		if (crossMatrix && startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
 		{
-			startProgressInfo.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(InterruptProgress);
-			startProgressInfo.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
+			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(InterruptProgress);
+			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
 		}
 	}
 
@@ -162,6 +167,10 @@ public class StandardProgressAction : IProgressAction
 		{
 			welder.OnWelderOffServer.RemoveListener(InterruptProgress);
 		}
+		if (startProgressInfo.Target.IsObject)
+		{
+			startProgressInfo.Target.Target.OnLocalPositionChangedServer.RemoveListener(OnLocalPositionChanged);
+		}
 		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
 		if (usedSlot != null)
 		{
@@ -170,12 +179,12 @@ public class StandardProgressAction : IProgressAction
 		playerScript.playerMove.OnCuffChangeServer.RemoveListener(OnCuffChange);
 		playerScript.registerTile.OnSlipChangeServer.RemoveListener(OnSlipChange);
 		playerScript.playerHealth.OnConsciousStateChangeServer.RemoveListener(OnConsciousStateChange);
-		playerScript.PlayerSync.OnTileReached().RemoveListener(OnTileReached);
+		playerScript.PlayerSync.OnTileReached().RemoveListener(OnLocalPositionChanged);
 		playerScript.playerDirectional.OnDirectionChange.RemoveListener(OnDirectionChanged);
-		if (crossMatrix && startProgressInfo.TargetMatrixInfo.MatrixMove != null)
+		if (crossMatrix && startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
 		{
-			startProgressInfo.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(InterruptProgress);
-			startProgressInfo.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
+			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(InterruptProgress);
+			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
 		}
 	}
 
@@ -193,11 +202,11 @@ public class StandardProgressAction : IProgressAction
 		{
 			//interrupt other progress bars of the same action type on the same location
 			var existingBars = UIManager.Instance.ProgressBars
-				.Where(pb => pb.ServerProgressAction is StandardProgressAction)
+				.Where(pb => pb != startProgressInfo.ProgressBar && pb.ServerProgressAction is StandardProgressAction)
 				.Where(pb =>
 					((StandardProgressAction) pb.ServerProgressAction).progressActionConfig.StandardProgressActionType == progressActionConfig.StandardProgressActionType)
 				.Where(pb => pb.transform.parent == startProgressInfo.ProgressBar.transform.parent)
-				.Where(pb => Vector3.Distance(pb.transform.localPosition, startProgressInfo.TargetLocalPosition) < 0.1)
+				.Where(pb => Vector3.Distance(pb.transform.localPosition, startProgressInfo.Target.TargetLocalPosition) < 0.1)
 				.ToList();
 
 			foreach (var existingBar in existingBars)
@@ -207,6 +216,7 @@ public class StandardProgressAction : IProgressAction
 		}
 
 		UnregisterHooks();
+		onCompletion?.Invoke();
 	}
 
 	private void InterruptProgress()
@@ -225,13 +235,19 @@ public class StandardProgressAction : IProgressAction
 		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
 		       !playerScript.playerMove.IsCuffed &&
 		       !playerScript.registerTile.IsSlippingServer &&
-		       (progressActionConfig.AllowTurning || playerScript.playerDirectional.CurrentDirection != initialDirection) &&
-		       !playerScript.PlayerSync.IsMoving;
+		       (progressActionConfig.AllowTurning ||
+		        playerScript.playerDirectional.CurrentDirection != initialDirection) &&
+		       !playerScript.PlayerSync.IsMoving &&
+		       //make sure we're still in range
+		       Validations.IsInReach(playerScript.registerTile.WorldPositionServer,
+			       startProgressInfo.Target.TargetWorldPosition);
+			;
 	}
 
-	private void OnTileReached(Vector3Int arg0)
+	private void OnLocalPositionChanged(Vector3Int arg0)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress();
+		//if player or target moves at all, interrupt
+		InterruptProgress();
 	}
 
 	private void OnConsciousStateChange(ConsciousState oldState, ConsciousState newState)

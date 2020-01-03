@@ -64,6 +64,6 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 
 		StandardProgressAction.Create(ProgressConfig, ProgressComplete)
-			.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, originator);
+			.ServerStartProgress(originator.RegisterTile(), 5f, originator);
 	}
 }

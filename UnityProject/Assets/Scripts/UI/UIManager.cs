@@ -292,16 +292,16 @@ public class UIManager : MonoBehaviour
 	/// if progress did not begin for some reason.
 	/// </summary>
 	/// <param name="progressAction">progress action being performed</param>
-	/// <param name="worldTilePos">tile position the action is being performed on</param>
+	/// <param name="actionTarget">target of the progress action</param>
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
 	/// <param name="player">player performing the action</param>
 	/// <returns>progress bar associated with this action (can use this to interrupt progress). Null if
 	/// progress was not started for some reason (such as already in progress for this action on the specified tile).</returns>
-	public static ProgressBar _ServerStartProgress(IProgressAction progressAction, Vector3 worldTilePos, float timeForCompletion,
+	public static ProgressBar _ServerStartProgress(IProgressAction progressAction, ActionTarget actionTarget, float timeForCompletion,
 		GameObject player)
 	{
 		//convert to an offset so local position ends up being correct even on moving matrix
-		var offsetFromPlayer = worldTilePos.To2Int() - player.TileWorldPosition();
+		var offsetFromPlayer = actionTarget.TargetWorldPosition.To2Int() - player.TileWorldPosition();
 		//convert to local position so it appears correct on moving matrix
 		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
 		var targetWorldPosition = player.transform.position + offsetFromPlayer.To3Int();
@@ -317,8 +317,7 @@ public class UIManager : MonoBehaviour
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
 		//make sure it should start and call start hooks
-		var startProgressInfo = new StartProgressInfo(timeForCompletion, targetWorldPosition,
-			targetLocalPosition, targetMatrixInfo, player, progressBar);
+		var startProgressInfo = new StartProgressInfo(timeForCompletion, actionTarget, player, progressBar);
 		if (!progressAction.OnServerStartProgress(startProgressInfo))
 		{
 			//stop it without even having started it

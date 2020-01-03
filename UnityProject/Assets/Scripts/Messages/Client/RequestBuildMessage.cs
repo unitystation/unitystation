@@ -72,7 +72,7 @@ public class RequestBuildMessage : ClientMessage
 		Chat.AddActionMsgToChat(SentByPlayer.GameObject, $"You begin building the {entry.Name}...",
 			$"{SentByPlayer.GameObject.ExpensiveName()} begins building the {entry.Name}...");
 		ToolUtils.ServerUseTool(SentByPlayer.GameObject, usedSlot.ItemObject,
-			SentByPlayer.Script.registerTile.WorldPositionServer.To2Int(), entry.BuildTime,
+			ActionTarget.Tile(SentByPlayer.Script.registerTile.WorldPositionServer), entry.BuildTime,
 			ProgressComplete);
 	}
 

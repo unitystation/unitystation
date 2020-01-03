@@ -12,19 +12,9 @@ public class StartProgressInfo
 	public readonly float TimeForCompletion;
 
 	/// <summary>
-	/// World position being targeted.
+	/// Target of the progress.
 	/// </summary>
-	public readonly Vector3 TargetWorldPosition;
-
-	/// <summary>
-	/// Local position being targeted, within the matrix being the targeted tile is on.
-	/// </summary>
-	public readonly Vector3Int TargetLocalPosition;
-
-	/// <summary>
-	/// Matrix info of the matrix containing the targeted tile.
-	/// </summary>
-	public readonly MatrixInfo TargetMatrixInfo;
+	public readonly ActionTarget Target;
 
 	/// <summary>
 	/// GameObject of the player performing the action.
@@ -36,14 +26,11 @@ public class StartProgressInfo
 	/// </summary>
 	public readonly ProgressBar ProgressBar;
 
-	public StartProgressInfo(float timeForCompletion, Vector3 targetWorldPosition, Vector3Int targetLocalPosition,
-		MatrixInfo targetMatrixInfo, GameObject performer,
+	public StartProgressInfo(float timeForCompletion, ActionTarget target, GameObject performer,
 		ProgressBar progressBar)
 	{
 		TimeForCompletion = timeForCompletion;
-		TargetWorldPosition = targetWorldPosition;
-		TargetLocalPosition = targetLocalPosition;
-		TargetMatrixInfo = targetMatrixInfo;
+		Target = target;
 		Performer = performer;
 		ProgressBar = progressBar;
 	}

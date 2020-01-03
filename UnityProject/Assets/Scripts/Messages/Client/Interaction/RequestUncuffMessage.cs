@@ -49,7 +49,7 @@ public class RequestUncuffMessage : ClientMessage
 				}
 
 				StandardProgressAction.Create(ProgressConfig, ProgressComplete)
-					.ServerStartProgress(actor.transform.position, restraint.RemoveTime, actor);
+					.ServerStartProgress(actor.RegisterTile(), restraint.RemoveTime, actor);
 			}
 		}
 	}
