@@ -34,12 +34,18 @@ public class RightClickManager : MonoBehaviour
 		public List<MethodInfo> AttributedMethods;
 	}
 
-	private void Start()
+	private void Awake()
 	{
-		lightingSystem = Camera.main.GetComponent<LightingSystem>();
-
 		//cache all known usages of the RightClickMethod annotation
 		attributedTypes = GetRightClickAttributedMethods();
+
+		// Will be enabled by ControlDisplays when needed
+		gameObject.SetActive(false);
+	}
+
+	private void OnEnable()
+	{
+		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
 	private  List<RightClickAttributedComponent> GetRightClickAttributedMethods()
