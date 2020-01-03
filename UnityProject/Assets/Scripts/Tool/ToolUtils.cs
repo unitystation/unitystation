@@ -27,15 +27,19 @@ public static class ToolUtils
 		float seconds, string performerStartActionMessage, string othersStartActionMessage, string performerFinishActionMessage,
 		string othersFinishActionMessage, Action onSuccessfulCompletion)
 	{
-		Chat.AddActionMsgToChat(performer, performerStartActionMessage,
-			othersStartActionMessage);
 		void ProgressComplete()
 		{
 			Chat.AddActionMsgToChat(performer, performerFinishActionMessage,
 				othersFinishActionMessage);
 			onSuccessfulCompletion.Invoke();
 		}
-		ServerUseTool(performer, tool, actionTarget, seconds, ProgressComplete);
+
+		//only play the start action message if progress actually started
+		if (ServerUseTool(performer, tool, actionTarget, seconds, ProgressComplete))
+		{
+			Chat.AddActionMsgToChat(performer, performerStartActionMessage,
+				othersStartActionMessage);
+		}
 	}
 
 	/// <summary>

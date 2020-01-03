@@ -216,7 +216,10 @@ public class StandardProgressAction : IProgressAction
 		}
 
 		UnregisterHooks();
-		onCompletion?.Invoke();
+		if (info.WasCompleted)
+		{
+			onCompletion?.Invoke();
+		}
 	}
 
 	private void InterruptProgress()
