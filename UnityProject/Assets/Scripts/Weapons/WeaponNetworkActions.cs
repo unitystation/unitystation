@@ -152,7 +152,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
 					RpcMeleeAttackLerp(attackDirection, weapon);
-					playerMove.allowInput = false;
+					//playerMove.allowInput = false;
 					attackTarget.Harvest();
 					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 				}
@@ -160,7 +160,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
 					RpcMeleeAttackLerp(attackDirection, weapon);
-					playerMove.allowInput = false;
+					//playerMove.allowInput = false;
 					attackTarget.Harvest();
 					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 				}
@@ -207,7 +207,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			if (victim != gameObject)
 			{
 				RpcMeleeAttackLerp(attackDirection, weapon);
-				playerMove.allowInput = false;
+				//playerMove.allowInput = false;
 			}
 		}
 
@@ -242,7 +242,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;
-		Vector3 lerpToWorld = lerpFromWorld + (Vector3)(stabDir * 0.5f);
+		Vector3 lerpToWorld = lerpFromWorld + (Vector3)(stabDir * 0.25f);
 		Vector3 lerpFromLocal = spritesObj.transform.parent.InverseTransformPoint(lerpFromWorld);
 		Vector3 lerpToLocal = spritesObj.transform.parent.InverseTransformPoint(lerpToWorld);
 		Vector3 localStabDir = lerpToLocal - lerpFromLocal;
