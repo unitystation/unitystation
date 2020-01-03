@@ -47,7 +47,7 @@ public class GUI_NukeOps : MonoBehaviour
 
 	public void NanoTrasenBtn()
 	{
-		UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+		UIManager.Display.jobSelectWindow.SetActive(true);
 		gameObject.SetActive(false);
 	}
 

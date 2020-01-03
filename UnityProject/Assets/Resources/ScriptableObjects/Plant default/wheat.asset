@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: wheat
     Plantname: Wheat Stalks
     Description: These may, or may not, grow into wheat.
@@ -76,8 +75,8 @@ MonoBehaviour:
     - String: nutriment
       Int: 3
     MutatesInTo:
-    - {fileID: 11400000, guid: 8c64bc9305f2ba44a825c5e1de04146e, type: 2}
-    - {fileID: 11400000, guid: 97563dc801c6edb458bb97ee6c296089, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

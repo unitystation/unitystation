@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: sunflower_novaflower
     Plantname: Novaflowers
     Description: These seeds grow into novaflowers.
@@ -30,27 +29,27 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 48766eb5d5f455546bd7c9725dc3d0ce, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: dc4a731832f0aac48a27b49caa6ea194, type: 3}
+    - Texture: {fileID: 2800000, guid: fa770df6673cd7544993dcd2b67b4b0a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: dc4a731832f0aac48a27b49caa6ea194, type: 3}
+      - {fileID: 21300000, guid: fa770df6673cd7544993dcd2b67b4b0a, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: b5f2577f963703d41a71980ce3665e4a, type: 3}
+    - Texture: {fileID: 2800000, guid: 7ae0d10668c223d4792d7f89854caf9e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b5f2577f963703d41a71980ce3665e4a, type: 3}
+      - {fileID: 21300000, guid: 7ae0d10668c223d4792d7f89854caf9e, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: ddb9b042d58b91d49a44cc022bd3bf0f, type: 3}
+    - Texture: {fileID: 2800000, guid: 68fa3cfa18d491d4aa276d3b99e67d7e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ddb9b042d58b91d49a44cc022bd3bf0f, type: 3}
+      - {fileID: 21300000, guid: 68fa3cfa18d491d4aa276d3b99e67d7e, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 8b5200021abe12f45a4b6bfce4248001, type: 3}
+      Texture: {fileID: 2800000, guid: dbfdae7807173204ba025a77d350ff06, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8b5200021abe12f45a4b6bfce4248001, type: 3}
+      - {fileID: 21300000, guid: dbfdae7807173204ba025a77d350ff06, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 5c76409f36a34e244bdc444407c43549, type: 3}
+      Texture: {fileID: 2800000, guid: 9b768b149d32ba54fa7c67d4805fb96b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5c76409f36a34e244bdc444407c43549, type: 3}
+      - {fileID: 21300000, guid: 9b768b149d32ba54fa7c67d4805fb96b, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 5
     WeedGrowthRate: 1

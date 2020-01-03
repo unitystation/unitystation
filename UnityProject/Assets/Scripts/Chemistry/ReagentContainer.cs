@@ -401,7 +401,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		var playerScript = interaction.Performer.GetComponent<PlayerScript>();
 		if (!playerScript) return false;
 
-		if (playerScript.playerMove.IsHelpIntent)
+		if (interaction.Intent == Intent.Help)
 		{ //checks if it's possible to transfer from container to container
 			if (!WillInteractHelp(interaction.HandObject, interaction.TargetObject, side)) return false;
 		}
@@ -472,7 +472,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	{
 		var srcPlayer = interaction.Performer.GetComponent<PlayerScript>();
 
-		if (srcPlayer.playerMove.IsHelpIntent)
+		if (interaction.Intent == Intent.Help)
 		{
 			var one = interaction.HandObject.GetComponent<ReagentContainer>();
 			var two = interaction.TargetObject.GetComponent<ReagentContainer>();

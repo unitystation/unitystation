@@ -48,45 +48,49 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	public CuffEvent OnCuffChangeServer = new CuffEvent();
 
 	/// <summary>
-	/// Tracks the server's idea of whether we have help intent
+	/// Whether this player meets all the conditions for being swapped with, but only
+	/// for the conditions the client is not allowed to know
+	/// (help intent, not pulling anything - clients aren't informed of these things for each player).
+	/// Doesn't incorporate any other conditions into this
+	/// flag, but IsSwappable does.
 	/// </summary>
-	[SyncVar] private bool serverIsHelpIntent = true;
+	[SyncVar]
+	private bool isSwappable;
 
 	/// <summary>
-	/// Tracks our idea of whether we have help intent so we can use it for client prediction
+	/// server side only, tracks whether this player has indicated they are on help intent. Used
+	/// for checking for swaps.
 	/// </summary>
-	private bool localIsHelpIntent = true;
+	public bool IsHelpIntentServer => isHelpIntentServer;
+	//starts true because all players spawn with help intent.
+	private bool isHelpIntentServer = true;
 
 	/// <summary>
-	/// True iff this player is set to help intent, thus should swap places with players
-	/// that they collide with if the other player also has help intent
+	/// Whether this player meets all the conditions for being swapped with (being the swapee).
 	/// </summary>
-	public bool IsHelpIntent
+	public bool IsSwappable
 	{
 		get
 		{
-			if (isLocalPlayer)
+			bool canSwap;
+			if (isLocalPlayer && !isServer)
 			{
-				return localIsHelpIntent;
+				//locally predict
+				canSwap = UIManager.CurrentIntent == Intent.Help
+				          && !PlayerScript.pushPull.IsPullingSomething;
 			}
 			else
 			{
-				return serverIsHelpIntent;
+				//rely on server synced value
+				canSwap = isSwappable;
 			}
-		}
-		set
-		{
-			if (isLocalPlayer)
-			{
-				localIsHelpIntent = value;
-				//tell the server we want this to be our setting
-				CmdChangeHelpIntent(value);
-			}
-			else
-			{
-				//accept what the server is telling us about someone other than our local player
-				serverIsHelpIntent = value;
-			}
+			return canSwap
+			       //don't swap with ghosts
+			       && !PlayerScript.IsGhost
+			       //pass through players if we can
+			       && !registerPlayer.IsPassable(isServer)
+			       //can't swap with buckled players, they're strapped down
+			       && !IsBuckled;
 		}
 	}
 
@@ -127,10 +131,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		base.OnStartClient();
 	}
 
-	[Command]
-	private void CmdChangeHelpIntent(bool isHelpIntent)
+	public override void OnStartServer()
 	{
-		serverIsHelpIntent = isHelpIntent;
+		base.OnStartServer();
+		//when pulling status changes, re-check whether client needs to be told if
+		//this is swappable.
+		playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+		ServerUpdateIsSwappable();
 	}
 
 	public PlayerAction SendAction()
@@ -452,6 +459,29 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	public void TryUncuffThis()
 	{
 		RequestUncuffMessage.Send(gameObject);
+	}
+
+	/// <summary>
+	/// Tell the server we are now on or not on help intent. This only affects
+	/// whether we are swappable or not. Other than this the client never tells the
+	/// server their current intent except when sending an interaction message.
+	/// A hacked client could lie about this but not a huge issue IMO.
+	/// </summary>
+	/// <param name="helpIntent">are we now on help intent</param>
+	[Command]
+	public void CmdSetHelpIntent(bool helpIntent)
+	{
+		isHelpIntentServer = helpIntent;
+		ServerUpdateIsSwappable();
+	}
+
+	/// <summary>
+	/// Checks if the conditions for swappability that aren't
+	/// known by clients are met and updates the syncvar.
+	/// </summary>
+	private void ServerUpdateIsSwappable()
+	{
+		isSwappable = isHelpIntentServer && !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
 	/// <summary>

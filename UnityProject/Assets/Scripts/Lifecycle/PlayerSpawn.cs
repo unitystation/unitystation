@@ -144,6 +144,7 @@ public static class PlayerSpawn
 		var ps = newPlayer.GetComponent<PlayerScript>();
 		var connectedPlayer = PlayerList.Instance.Get(connection);
 		connectedPlayer.Name = ps.playerName;
+		connectedPlayer.Job = ps.mind.occupation.JobType;
 		UpdateConnectedPlayersMessage.Send();
 
 		//fire all hooks

@@ -179,20 +179,34 @@ public partial class MatrixManager : MonoBehaviour
 	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, PlayerMove bumper, bool isServer)
 	{
 		Vector3Int targetPos = worldOrigin + dir.To3Int();
-		if (bumper.IsHelpIntent)
+
+
+		bool hasHelpIntent = false;
+		if (bumper.gameObject == PlayerManager.LocalPlayer && !isServer)
 		{
-			//check for other players with help intent
-			PlayerMove other = GetHelpIntentAt(targetPos, bumper.gameObject, isServer);
+			//locally predict based on our set intent.
+			hasHelpIntent = UIManager.CurrentIntent == Intent.Help;
+		}
+		if (isServer)
+		{
+			//use value known to server
+			hasHelpIntent = bumper.IsHelpIntentServer;
+		}
+
+		if (hasHelpIntent)
+		{
+			//check for other players we can swap with
+			PlayerMove other = GetSwappableAt(targetPos, bumper.gameObject, isServer);
 			if (other != null)
 			{
 				//if we are pulling something, we can only swap with that thing
 				if (bumper.PlayerScript.pushPull.IsPullingSomething && bumper.PlayerScript.pushPull.PulledObject == other.PlayerScript.pushPull)
 				{
-					return BumpType.HelpIntent;
+					return BumpType.Swappable;
 				}
 				else if (!bumper.PlayerScript.pushPull.IsPullingSomething)
 				{
-					return BumpType.HelpIntent;
+					return BumpType.Swappable;
 				}
 			}
 		}
@@ -351,25 +365,17 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Return the playermove if there is a non-passable player with help intent at the specified position who is
-	/// not pulling something and not restrained (it is not possible to swap with someone who is pulling something)
+	/// Gets the player move at the position which is currently able to be swapped with (if one exists).
 	/// </summary>
 	/// <param name="targetWorldPos">Position to check</param>
 	/// <param name="mover">gameobject of the thing attempting the move, only used to prevent itself from being checked</param>
-	/// <returns>the player move if they have help intent and are not passable, otherwise null</returns>
-	public static PlayerMove GetHelpIntentAt(Vector3Int targetWorldPos, GameObject mover, bool isServer)
+	/// <returns>the player move that is swappable, otherwise null</returns>
+	public static PlayerMove GetSwappableAt(Vector3Int targetWorldPos, GameObject mover, bool isServer)
 	{
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			if (playerMove
-			    && !playerMove.PlayerScript.IsGhost
-				&& playerMove.IsHelpIntent
-			    && !playerMove.PlayerScript.playerHealth.IsDead
-			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)
-			    && playerMove.gameObject != mover
-			    && !playerMove.PlayerScript.pushPull.IsPullingSomething
-			    && !playerMove.IsBuckled)
+			if (playerMove && playerMove.IsSwappable && playerMove.gameObject != mover)
 			{
 				return playerMove;
 			}
@@ -885,6 +891,6 @@ public enum BumpType
 	/// Bump which blocks movement and causes nothing else to happen
 	Blocked,
 
-	// A help intent player
-	HelpIntent
+	// Something we can swap places with
+	Swappable
 }

@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: cocoapod
     Plantname: Cocao Tree
     Description: These seeds grow into cacao trees. They look fattening.
@@ -74,7 +73,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 10
     MutatesInTo:
-    - {fileID: 11400000, guid: 01d66054fab82884d91317a45d96b3d1, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

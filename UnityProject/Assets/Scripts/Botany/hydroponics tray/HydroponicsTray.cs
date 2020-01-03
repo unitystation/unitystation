@@ -54,7 +54,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			plantData = new PlantData();
 			plantData.SetValues(DefaultPlantData.PlantDictionary.Values.PickRandom());
 			SyncPlant(plantData.Name);
-			NaturalMutation();
+			//NaturalMutation();
 			SyncStage(PlantSpriteStage.FullyGrown);
 			readyToHarvest = true;
 			ProduceCrop();
@@ -300,6 +300,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		else
 		{
 			waterNotifier.PushClear();
+
 		}
 	}
 
@@ -311,10 +312,12 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		syncNutrimentNotifier = newNotifier;
 		if (syncNutrimentNotifier)
 		{
+			
 			nutrimentNotifier.PushTexture();
 		}
 		else
 		{
+			
 			nutrimentNotifier.PushClear();
 		}
 	}

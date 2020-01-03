@@ -192,12 +192,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
 
-		if (bump1 == BumpType.None || bump1 == BumpType.HelpIntent)
+		if (bump1 == BumpType.None || bump1 == BumpType.Swappable)
 		{
 			newAction = PlayerAction.GetMoveAction(dir1);
 			newBump = bump1;
 		}
-		else if (bump2 == BumpType.None || bump2 == BumpType.HelpIntent)
+		else if (bump2 == BumpType.None || bump2 == BumpType.Swappable)
 		{
 			newAction = PlayerAction.GetMoveAction(dir2);
 			newBump = bump2;
@@ -377,7 +377,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <returns>true iff swap was performed</returns>
 	private bool CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection, bool isServer)
 	{
-		PlayerMove other = MatrixManager.GetHelpIntentAt(targetWorldPos, gameObject, isServer);
+		PlayerMove other = MatrixManager.GetSwappableAt(targetWorldPos, gameObject, isServer);
 		if (other != null)
 		{
 			// on server, must verify that position matches
@@ -689,11 +689,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		DebugGizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.WorldImpulse);
 		if (drawMoves) DebugGizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
 
-		//help intent
+		//swappable
 		Gizmos.color = isLocalPlayer ? color4 : color1;
-		if (playerMove.IsHelpIntent)
+		if (playerMove.IsSwappable)
 		{
-			DebugGizmoUtils.DrawText("Help", clientState + Vector3.up / 2, 15);
+			DebugGizmoUtils.DrawText("Swap", clientState + Vector3.up / 2, 15);
 		}
 	}
 #endif

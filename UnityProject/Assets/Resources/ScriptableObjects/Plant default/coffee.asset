@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: coffee
     Plantname: Coffee Arabica Bush
     Description: These seeds grow into coffee arabica bushes.
@@ -73,7 +72,7 @@ MonoBehaviour:
     - String: coffeepowder
       Int: 10
     MutatesInTo:
-    - {fileID: 11400000, guid: 15d43dbf3b561cc44a8e4ef4a3539e47, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

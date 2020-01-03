@@ -26,6 +26,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 		}
 
 		PlayerList.Instance.RefreshPlayerListText();
+		UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
 		yield return null;
 	}
 

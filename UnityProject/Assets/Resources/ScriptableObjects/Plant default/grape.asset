@@ -15,7 +15,6 @@ MonoBehaviour:
   plantData:
     ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
       type: 3}
-    plantType: 0
     Name: grape
     Plantname: Grape Vine
     Description: These seeds grow into grape vines.
@@ -64,7 +63,7 @@ MonoBehaviour:
     - String: sugar
       Int: 10
     MutatesInTo:
-    - {fileID: 11400000, guid: 9170aa9cc3b8a5a44bf8e70f3173f8a7, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0
