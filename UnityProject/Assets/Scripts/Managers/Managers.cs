@@ -26,15 +26,11 @@ public class Managers : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 	}
 
-	public async void SetScreenForGame()
+	public void SetScreenForGame()
 	{
 		//Called by GameData
 		UIParent.SetActive(true);
 		UIManager.Display.SetScreenForGame();
-
-		await Task.Delay(3000); //Wait a decent amount of time for startup of the scene (3s)
-
-		Instantiate (Resources.Load ("UI/GUI/Right click canvas"));
 	}
 
 	public void SetScreenForLobby()
