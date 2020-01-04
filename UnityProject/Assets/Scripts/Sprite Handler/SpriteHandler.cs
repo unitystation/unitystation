@@ -72,7 +72,7 @@ public class SpriteHandler : SpriteDataHandler
 				TryInit();
 			}
 
-			if (spriteIndex < Infos.List[spriteIndex].Count &&
+			if (spriteIndex < Infos.List.Count &&
 			    variantIndex < Infos.List[spriteIndex].Count &&
 			    animationIndex < Infos.List[spriteIndex][variantIndex].Count)
 			{
