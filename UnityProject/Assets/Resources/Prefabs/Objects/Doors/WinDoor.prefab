@@ -444,6 +444,8 @@ GameObject:
   - component: {fileID: 114743819203466024}
   - component: {fileID: 114320171668943648}
   - component: {fileID: 114317237157285656}
+  - component: {fileID: -7092553214334747997}
+  - component: {fileID: 7724401135494436923}
   m_Layer: 18
   m_Name: WinDoor
   m_TagString: Untagged
@@ -541,6 +543,7 @@ MonoBehaviour:
   DoorSpriteOffset: 2
   doorType: 15
   damageOnClose: 0
+  ignorePassableChecks: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 1
@@ -584,8 +587,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   OneDirectionRestricted: 1
   isClosed: 1
 --- !u!114 &114531569165117964
@@ -646,16 +649,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
+    Melee: 20
+    Bullet: 20
+    Laser: 50
+    Energy: 50
+    Bomb: 10
+    Rad: 100
+    Fire: 70
+    Acid: 100
     Magic: 0
-    Bio: 0
+    Bio: 100
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -665,7 +668,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 150
 --- !u!114 &114317237157285656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,8 +683,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: aec802ad975d3418d9b782880452b7bf
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-7092553214334747997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixDebugLogging: 0
+  objectType: 0
+  AtmosPassable: 1
+  Passable: 1
+--- !u!114 &7724401135494436923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: interior door
+  initialDescription: A strong see-though door.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1811994644492090
 GameObject:
   m_ObjectHideFlags: 0
