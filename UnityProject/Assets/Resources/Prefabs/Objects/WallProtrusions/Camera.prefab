@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 1452751339543537213}
   - component: {fileID: 3623774686747409773}
   - component: {fileID: 57138462155673126}
+  - component: {fileID: 6971350107984356223}
   m_Layer: 19
   m_Name: Camera
   m_TagString: Untagged
@@ -297,3 +298,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa17625094f8479ab08dbcfbdec01da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6971350107984356223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014018295980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: camera
+  initialDescription: A remotely viewable "safety" device.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
