@@ -6,11 +6,13 @@ using static KeybindManager;
 
 public class ControlSettingsMenu : MonoBehaviour
 {
-	public GameObject KeybindItemTemplate;
-	public GameObject KeybindHeadingTemplate;
-	public GameObject KeyCapturePanel;
-	[HideInInspector]
-	public KeybindDict tempKeybinds;
+	[SerializeField]
+	private GameObject KeybindItemTemplate;
+	[SerializeField]
+	private GameObject KeybindHeadingTemplate;
+	[SerializeField]
+	private GameObject KeyCapturePanel;
+	private KeybindDict tempKeybinds;
 	private int KeybindCount;
 	private int ActionTypeCount;
 	private List<GameObject> KeybindItemList = new List<GameObject>();
@@ -129,6 +131,11 @@ public class ControlSettingsMenu : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Changes the keybind for an action. Must be run as a coroutine!
+	/// </summary>
+	/// <param name="selectedAction">The action to change the keybinding of</param>
+	/// <param name="isPrimary">Is this a primary or a secondary keybinding?</param>
 	public IEnumerator ChangeKeybind(KeyAction selectedAction, bool isPrimary)
 	{
 		KeyValuePair<KeyAction, DualKeyCombo> conflictingKVP;
@@ -192,5 +199,16 @@ public class ControlSettingsMenu : MonoBehaviour
 				}
 			);
 		}
+	}
+
+	/// <summary>
+	/// Removes a keybind for an action. Auto-saves the change immediately
+	/// </summary>
+	/// <param name="selectedAction">The action to remove a keybinding from</param>
+	/// <param name="isPrimary">Remove the primary or secondary keybinding?</param>
+	public void RemoveKeybind(KeyAction selectedAction, bool isPrimary)
+	{
+		tempKeybinds.Remove(selectedAction, isPrimary);
+		keybindManager.SaveKeybinds(tempKeybinds);
 	}
 }
