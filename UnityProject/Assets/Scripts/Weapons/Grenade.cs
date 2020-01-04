@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpawn
+public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IClientSpawn
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -85,8 +85,22 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 		UpdateSprite(LOCKED_SPRITE);
 	}
 
+	public void ClientPredictInteraction(HandActivate interaction)
+	{
+		// Toggle the throw action after activation
+		UIManager.Action.Throw();
+	}
+
+	public void ServerRollbackClient(HandActivate interaction)
+	{
+	}
+
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		if (interaction.Performer == PlayerManager.LocalPlayer)
+		{
+			UIManager.Action.Throw();
+		}
 		StartCoroutine(TimeExplode(interaction.Performer));
 	}
 
@@ -96,7 +110,6 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 		{
 			timerRunning = true;
 			PlayPinSFX(originator.transform.position);
-			UIManager.Action.Throw();
 
 			if (unstableFuse)
 			{
