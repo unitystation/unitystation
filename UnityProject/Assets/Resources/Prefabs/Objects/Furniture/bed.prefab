@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114167651192437712}
   - component: {fileID: 684769290395936646}
   - component: {fileID: 114626364792080042}
+  - component: {fileID: -7767915788400301364}
   m_Layer: 11
   m_Name: bed
   m_TagString: Untagged
@@ -185,8 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114638872430197162
@@ -251,7 +252,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 300
 --- !u!114 &684769290395936646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,3 +285,22 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-7767915788400301364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609215198608670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: bed
+  initialDescription: For sleeping, lying and getting strapped onto.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
