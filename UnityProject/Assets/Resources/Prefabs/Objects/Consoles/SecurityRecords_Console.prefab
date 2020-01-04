@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 114695737729270508}
   - component: {fileID: 4106014234681766500}
   - component: {fileID: 3997893427699254148}
+  - component: {fileID: -3825119850302252834}
   m_Layer: 11
   m_Name: SecurityRecords_Console
   m_TagString: Untagged
@@ -290,8 +291,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &523872058597329049
@@ -522,6 +523,25 @@ MonoBehaviour:
   circuitBoardPrefab: {fileID: 728401503887791882, guid: 549cd6443fca249c3a3399a36f1197f0,
     type: 3}
   secondsToScrewdrive: 2
+--- !u!114 &-3825119850302252834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492998437866873883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: security records console
+  initialDescription: A digital log of criminal activity.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &493082733683129681
 GameObject:
   m_ObjectHideFlags: 0

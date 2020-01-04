@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114677277710574418}
   - component: {fileID: 114952505639166698}
   - component: {fileID: 114258074719940616}
+  - component: {fileID: -67410277551944801}
   m_Layer: 11
   m_Name: BODA
   m_TagString: Untagged
@@ -141,8 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114405417986018830
@@ -235,8 +236,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-67410277551944801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459620712919388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: BODA
+  initialDescription: Old sweet water vending machine.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1855299798957980
 GameObject:
   m_ObjectHideFlags: 0

@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 114577545745324966}
   - component: {fileID: 8597459946000449771}
   - component: {fileID: -5931044004430091604}
+  - component: {fileID: 7998553572197777696}
   m_Layer: 11
   m_Name: Id_Console
   m_TagString: Untagged
@@ -210,8 +211,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &5554068536061526188
@@ -415,6 +416,25 @@ MonoBehaviour:
   circuitBoardPrefab: {fileID: 728401503887791882, guid: 5bcdb263d27704d17bee5ce7e474f028,
     type: 3}
   secondsToScrewdrive: 2
+--- !u!114 &7998553572197777696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514185242108095534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: ID console
+  initialDescription: Edits the name and access level on an ID card.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &5514342282601624932
 GameObject:
   m_ObjectHideFlags: 0
