@@ -12,7 +12,8 @@ public class SpriteHandler : SpriteDataHandler
 	[SerializeField]
 	private int spriteIndex;
 
-	[SerializeField] [FormerlySerializedAs("VariantIndex")]
+	[SerializeField]
+	[FormerlySerializedAs("VariantIndex")]
 	private int variantIndex;
 
 	private SpriteJson spriteJson;
