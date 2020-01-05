@@ -231,8 +231,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114382407847818618
@@ -291,26 +291,26 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
+    Melee: 20
     Bullet: 0
     Laser: 0
     Energy: 0
     Bomb: 0
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: 50
+    Acid: 70
     Magic: 0
     Bio: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 0
+    Flammable: 1
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 100
+  HeatResistance: 500
+  initialIntegrity: 300
 --- !u!114 &114796018723647982
 MonoBehaviour:
   m_ObjectHideFlags: 0
