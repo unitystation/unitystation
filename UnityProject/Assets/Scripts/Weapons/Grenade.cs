@@ -22,7 +22,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpawn
+public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IClientSpawn
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -85,8 +85,22 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 		UpdateSprite(LOCKED_SPRITE);
 	}
 
+	public void ClientPredictInteraction(HandActivate interaction)
+	{
+		// Toggle the throw action after activation
+		UIManager.Action.Throw();
+	}
+
+	public void ServerRollbackClient(HandActivate interaction)
+	{
+	}
+
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		if (interaction.Performer == PlayerManager.LocalPlayer)
+		{
+			UIManager.Action.Throw();
+		}
 		StartCoroutine(TimeExplode(interaction.Performer));
 	}
 
@@ -96,6 +110,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 		{
 			timerRunning = true;
 			PlayPinSFX(originator.transform.position);
+
 			if (unstableFuse)
 			{
 				float fuseVariation = fuseLength / 4;
@@ -107,7 +122,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 				radius = Random.Range(radius - radiusVariation, radius + radiusVariation);
 			}
 			yield return WaitFor.Seconds(fuseLength);
-			Explode("explosion");
+			Explode();
 		}
 	}
 
@@ -140,7 +155,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 
 	}
 
-	public void Explode(string damagedBy)
+	public void Explode()
 	{
 		if (hasExploded)
 		{
@@ -151,7 +166,7 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 		{
 			PlaySoundAndShake();
 			CreateShape();
-			CalcAndApplyExplosionDamage(damagedBy);
+			CalcAndApplyExplosionDamage();
 			Despawn.ServerSingle(gameObject);
 		}
 	}
@@ -160,9 +175,8 @@ public class Grenade : NetworkBehaviour, IInteractable<HandActivate>, IClientSpa
 	/// Calculate and apply the damage that should be caused by the explosion, updating the server's state for the damaged
 	/// objects. Currently always uses a circle
 	/// </summary>
-	/// <param name="thanksTo">string of the entity that caused the explosion</param>
 	[Server]
-	public void CalcAndApplyExplosionDamage(string thanksTo)
+	public void CalcAndApplyExplosionDamage()
 	{
 		Vector2 explosionPos = objectBehaviour.AssumedWorldPositionServer().To2Int();
 		//trigger a hotspot caused by grenade explosion
