@@ -1,40 +1,54 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 ///	<summary>
 ///	Handles sprite syncing between server and clients and contains a custom animator
 ///	</summary>
 public class SpriteHandler : SpriteDataHandler
 {
-	public SpriteRenderer spriteRenderer;
+	[SerializeField]
+	private SpriteRenderer spriteRenderer;
 
-	public int spriteIndex;
+	[SerializeField]
+	private int spriteIndex;
 
-	public int VariantIndex;
+	[SerializeField]
+	[FormerlySerializedAs("VariantIndex")]
+	private int variantIndex;
 
 	private SpriteJson spriteJson;
+
 	private int animationIndex = 0;
 
 	private float timeElapsed = 0;
+
 	private float waitTime;
+
 	private bool initialized = false;
+
 	private bool isAnimation = false;
 
-	public bool
-		SynchroniseVariant =
-			true; //Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
+	[SerializeField]
+	private int test;
 
-	void OnDisable()
+	/// <summary>
+	/// Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
+	/// </summary>
+	[SerializeField]
+	[FormerlySerializedAs("SynchroniseVariant")]
+	private bool synchroniseVariant = true;
+
+	private void OnDisable()
 	{
 		TryToggleAnimationState(false);
 	}
 
 	public void SetColor(Color value)
 	{
-		//color = value;
 		spriteRenderer.color = value;
 	}
 
-	void TryInit()
+	private void TryInit()
 	{
 		if (!initialized)
 		{
@@ -58,139 +72,91 @@ public class SpriteHandler : SpriteDataHandler
 				TryInit();
 			}
 
-			if (spriteIndex < Infos.List.Count)
+			if (spriteIndex < Infos.List.Count &&
+			    variantIndex < Infos.List[spriteIndex].Count &&
+			    animationIndex < Infos.List[spriteIndex][variantIndex].Count)
 			{
-				if (VariantIndex < Infos.List[spriteIndex].Count)
-				{
-					if (animationIndex < Infos.List[spriteIndex][VariantIndex].Count)
-					{
-						SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-						TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
-					}
-					else
-					{
-						spriteRenderer.sprite = null;
-						TryToggleAnimationState(false);
-					}
-				}
-				else
-				{
-					spriteRenderer.sprite = null;
-					TryToggleAnimationState(false);
-				}
-			}
-			else
-			{
-				spriteRenderer.sprite = null;
-				TryToggleAnimationState(false);
+				SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
+				TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
+				return;
 			}
 		}
-		else
-		{
-			spriteRenderer.sprite = null;
-			TryToggleAnimationState(false);
-		}
+		spriteRenderer.sprite = null;
+		TryToggleAnimationState(false);
 	}
 
 	public void UpdateMe()
 	{
 		timeElapsed += Time.deltaTime;
-		if (Infos.List.Count > spriteIndex)
+		if (Infos.List.Count > spriteIndex &&
+		    timeElapsed >= waitTime)
 		{
-			if (timeElapsed >= waitTime)
+			animationIndex++;
+			if (animationIndex >= Infos.List[spriteIndex][variantIndex].Count)
 			{
-				animationIndex++;
-				if (animationIndex >= Infos.List[spriteIndex][VariantIndex].Count)
-				{
-					animationIndex = 0;
-				}
-
-				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+				animationIndex = 0;
 			}
+			SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
 		}
-		if (!isAnimation) { 
+		if (!isAnimation) {
 			UpdateManager.Instance.Remove(UpdateMe);
 			spriteRenderer.sprite = null;
 		}
 	}
 
-	void SetSprite(SpriteInfo animationStills)
+	private void SetSprite(SpriteInfo animationStills)
 	{
 		timeElapsed = 0;
 		waitTime = animationStills.waitTime;
 		spriteRenderer.sprite = animationStills.sprite;
 	}
 
-	public int test;
-
 	[ContextMenu("Test Change Sprite")]
-	void ChangeIt()
+	private void ChangeIt()
 	{
 		ChangeSprite(test);
 	}
 
 	public void ChangeSprite(int newSprites)
 	{
-		if ((newSprites < Infos.List.Count))
+		if (newSprites < Infos.List.Count &&
+		    spriteIndex != newSprites &&
+		    variantIndex < Infos.List[newSprites].Count)
 		{
-			if (spriteIndex != newSprites)
-			{
-				if ((VariantIndex < Infos.List[newSprites].Count))
-				{
-					spriteIndex = newSprites;
-					animationIndex = 0;
-					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-					TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
-				}
-			}
+			spriteIndex = newSprites;
+			animationIndex = 0;
+			SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
+			TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
 		}
 	}
 
-	public void ChangeSpriteVariant(int SpriteVariant)
+	public void ChangeSpriteVariant(int spriteVariant)
 	{
-		if ((spriteIndex < Infos.List.Count))
+		if (spriteIndex < Infos.List.Count &&
+		    spriteVariant < Infos.List[spriteIndex].Count &&
+		    variantIndex != spriteVariant)
 		{
-			if ((SpriteVariant < Infos.List[spriteIndex].Count))
+			if (Infos.List[spriteIndex][spriteVariant].Count <= animationIndex)
 			{
-				if (VariantIndex != SpriteVariant)
-				{
-					if (Infos.List[spriteIndex][SpriteVariant].Count <= animationIndex)
-					{
-						animationIndex = 0;
-					}
-					SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
-
-					VariantIndex = SpriteVariant;
-					TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
-				}
+				animationIndex = 0;
 			}
+			SetSprite(Infos.List[spriteIndex][spriteVariant][animationIndex]);
+			variantIndex = spriteVariant;
+			TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
 		}
 	}
 
-	void TryToggleAnimationState(bool turnOn)
+	private void TryToggleAnimationState(bool turnOn)
 	{
-		if (turnOn)
+		if (turnOn && !isAnimation)
 		{
-			if (!isAnimation)
-			{
-				UpdateManager.Instance.Add(UpdateMe);
-				isAnimation = true;
-			}
+			UpdateManager.Instance.Add(UpdateMe);
+			isAnimation = true;
 		}
-		else
+		else if (!turnOn && isAnimation)
 		{
-			if (isAnimation)
-			{
-				UpdateManager.Instance.Remove(UpdateMe);
-				isAnimation = false;
-			}
+			UpdateManager.Instance.Remove(UpdateMe);
+			isAnimation = false;
 		}
 	}
-
-#if UNITY_EDITOR
-	public override void SetUpSheet()
-	{
-		base.SetUpSheet();
-	}
-#endif
 }
