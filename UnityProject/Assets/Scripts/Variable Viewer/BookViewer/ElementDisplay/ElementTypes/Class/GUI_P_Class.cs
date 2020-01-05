@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class GUI_P_Class : PageElement
 {
 	public Button TButton;
-	public Text TText;
-	public ulong PageID;
-	public uint SentenceID;
+	public TMP_Text TText;
 	public bool IsSentence;
 	public bool iskey;
 
