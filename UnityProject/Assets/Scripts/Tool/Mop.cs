@@ -8,6 +8,9 @@ using UnityEngine;
 [RequireComponent(typeof(ReagentContainer))]
 public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Mop, true, false);
+
 	private ReagentContainer reagentContainer;
 
 	[SerializeField]
@@ -51,15 +54,17 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		}
 		//server is performing server-side logic for the interaction
 		//do the mopping
-		var progressFinishAction = new ProgressCompleteAction(() =>
+		void CompleteProgress()
 		{
 			CleanTile(interaction.WorldPositionTarget);
 			Chat.AddExamineMsg(interaction.Performer, "You finish mopping.");
-		});
+		}
 
 		//Start the progress bar:
-		if (UIManager.ServerStartProgress(ProgressAction.Mop, interaction.WorldPositionTarget.RoundToInt(),
-			useTime, progressFinishAction, interaction.Performer))
+		var bar = StandardProgressAction.Create(ProgressConfig, CompleteProgress)
+			.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
+				useTime, interaction.Performer);
+		if (bar)
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You begin to clean the floor with {gameObject.ExpensiveName()}...",

@@ -11,7 +11,7 @@ using Enum = Google.Protobuf.WellKnownTypes.Enum;
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
 public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable,
-	IServerSpawn
+	IServerLifecycle
 
 {
 	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
@@ -107,6 +107,16 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				}
 			}
 		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		//make sure we despawn what we are holding
+		foreach (var heldItem in heldItems)
+		{
+			Despawn.ServerSingle(heldItem.gameObject);
+		}
+		heldItems = Enumerable.Empty<ObjectBehaviour>();
 	}
 
 	public bool Contains(GameObject gameObject)

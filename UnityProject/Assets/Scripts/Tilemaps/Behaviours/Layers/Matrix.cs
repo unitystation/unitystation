@@ -31,6 +31,11 @@ public class Matrix : MonoBehaviour
 	public Color Color => colors.Wrap( Id ).WithAlpha( 0.7f );
 
 	/// <summary>
+	/// Does this have a matrix move and is that matrix move moving?
+	/// </summary>
+	public bool IsMovingServer => MatrixMove != null && MatrixMove.IsMovingServer;
+
+	/// <summary>
 	/// Invoked when some serious collision/explosion happens.
 	/// Should make people fall and shake items a bit
 	/// </summary>
