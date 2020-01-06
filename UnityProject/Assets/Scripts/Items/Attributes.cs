@@ -99,13 +99,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	public void OnHoverStart()
 	{
 		UIManager.SetToolTip =
-			initialName.First().ToString().ToUpper() + initialName.Substring(1) + 
-			(String.IsNullOrEmpty(articleDescription) ? "" : $" ({articleDescription})");
+			initialName.First().ToString().ToUpper() + initialName.Substring(1) +
+			(string.IsNullOrEmpty(articleDescription) ? "" : $" ({ articleDescription })");
 	}
 
 	public void OnHoverEnd()
 	{
-		UIManager.SetToolTip = String.Empty;
+		UIManager.SetToolTip = string.Empty;
 	}
 
 
