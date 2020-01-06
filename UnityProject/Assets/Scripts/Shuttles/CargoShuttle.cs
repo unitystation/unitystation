@@ -107,13 +107,18 @@ public class CargoShuttle : MonoBehaviour
 	void UnloadCargo()
 	{
 		//Destroy all items on the shuttle
+		//note: This scan also seems to find objects contained inside closets only if the object was placed
+		//into the crate after the crate was already on the cargo shuttle. Hence we are using alreadySold
+		//to avoid duplicate selling in lieu of a more thorough fix to closet held items logic.
 		Transform objectHolder = mm.MatrixInfo.Objects;
+		//track what we've already sold so it's not sold twice.
+		HashSet<GameObject> alreadySold = new HashSet<GameObject>();
 		for (int i = 0; i < objectHolder.childCount; i++)
 		{
 			ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
 			if (item != null)
 			{
-				CargoManager.Instance.DestroyItem(item);
+				CargoManager.Instance.DestroyItem(item, alreadySold);
 			}
 		}
 	}

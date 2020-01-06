@@ -98,8 +98,20 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	public void OnHoverStart()
 	{
+		string displayName = null;
+		if (string.IsNullOrWhiteSpace(initialName))
+		{
+			displayName = gameObject.ExpensiveName();
+		}
+		else
+		{
+			displayName = initialName;
+		}
+		//failsafe
+		if (string.IsNullOrWhiteSpace(displayName)) displayName = "error";
+
 		UIManager.SetToolTip =
-			initialName.First().ToString().ToUpper() + initialName.Substring(1) +
+			displayName.First().ToString().ToUpper() + displayName.Substring(1) +
 			(string.IsNullOrEmpty(articleDescription) ? "" : $" ({ articleDescription })");
 	}
 
