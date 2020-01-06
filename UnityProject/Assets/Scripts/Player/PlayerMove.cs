@@ -407,13 +407,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			{
 				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
 			}
-
-			// Hook a change of position event handler for when the buckled-to object change position (the object is pushed or pulled)
-			IPushable pushable = null;
-			if (NetworkIdentity.spawned[buckledObject].TryGetComponent(out pushable))
-			{
-				pushable.OnStartMove().AddListener(OnBuckledObjectPositionChange);
-			}
 		}
 
 		//ensure we are in sync with server

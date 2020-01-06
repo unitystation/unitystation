@@ -339,9 +339,9 @@ public partial class MatrixManager : MonoBehaviour
 
 			if ( pushPull && pushPull.gameObject != pusher && (isServer ? pushPull.IsSolidServer : pushPull.IsSolidClient) )
 			{
-				// If the PushPull parent object is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
+				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
 				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
-				PlayerMove playerMove = pushPull.GetComponentInParent<PlayerMove>();
+				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
 				if (playerMove && playerMove.IsBuckled)
 				{
 					NetworkIdentity networkIdentityBuckledObject = NetworkIdentity.spawned[playerMove.buckledObject];
