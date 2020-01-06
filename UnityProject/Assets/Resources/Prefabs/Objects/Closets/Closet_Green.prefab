@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 114237451671875158}
   - component: {fileID: 114183221725790220}
   - component: {fileID: 114406694185764888}
+  - component: {fileID: 7682140276589652989}
   m_Layer: 11
   m_Name: Closet_Green
   m_TagString: Untagged
@@ -351,7 +352,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114471672769914432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,8 +374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
   closetType: 0
@@ -399,14 +407,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
+    Melee: 20
+    Bullet: 10
+    Laser: 10
     Energy: 0
-    Bomb: 0
+    Bomb: 10
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: 70
+    Acid: 60
     Magic: 0
     Bio: 0
   Resistances:
@@ -417,8 +425,8 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 100
+  HeatResistance: 1370
+  initialIntegrity: 200
 --- !u!114 &114406694185764888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,3 +443,22 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &7682140276589652989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992679967695770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: closet
+  initialDescription: A regular metal A container made of metal.
+  exportCost: 200
+  exportName: closet
+  exportMessage: 

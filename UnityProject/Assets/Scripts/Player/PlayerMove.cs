@@ -77,7 +77,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			{
 				//locally predict
 				canSwap = UIManager.CurrentIntent == Intent.Help
-				          && !PlayerScript.pushPull.IsPullingSomething;
+						  && !PlayerScript.pushPull.IsPullingSomething;
 			}
 			else
 			{
@@ -85,12 +85,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 				canSwap = isSwappable;
 			}
 			return canSwap
-			       //don't swap with ghosts
-			       && !PlayerScript.IsGhost
-			       //pass through players if we can
-			       && !registerPlayer.IsPassable(isServer)
-			       //can't swap with buckled players, they're strapped down
-			       && !IsBuckled;
+				   //don't swap with ghosts
+				   && !PlayerScript.IsGhost
+				   //pass through players if we can
+				   && !registerPlayer.IsPassable(isServer)
+				   //can't swap with buckled players, they're strapped down
+				   && !IsBuckled;
 		}
 	}
 
@@ -140,27 +140,58 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		ServerUpdateIsSwappable();
 	}
 
+	/// <summary>
+	/// Processes currenlty held directional movement keys into a PlayerAction.
+	/// Opposite moves on the X or Y axis cancel out, not moving the player in that axis.
+	/// Moving while dead spawns the player's ghost.
+	/// </summary>
+	/// <returns> A PlayerAction containing up to two (non-opposite) movement directions.</returns>
 	public PlayerAction SendAction()
 	{
+		// Stores the directions the player will move in.
 		List<int> actionKeys = new List<int>();
 
-		for (int i = 0; i < moveList.Length; i++)
+		// Only move if player is out of UI
+		if (!(PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus))
 		{
-			if (PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus)
-			{
-				return new PlayerAction {moveActions = actionKeys.ToArray()};
-			}
+			bool moveL = KeyboardInputManager.CheckMoveAction(MoveAction.MoveLeft);
+			bool moveR = KeyboardInputManager.CheckMoveAction(MoveAction.MoveRight);
+			bool moveU = KeyboardInputManager.CheckMoveAction(MoveAction.MoveDown);
+			bool moveD = KeyboardInputManager.CheckMoveAction(MoveAction.MoveUp);
+			// Determine movement on each axis (cancelling opposite moves)
+			int moveX = (moveR ? 1 : 0) - (moveL ? 1 : 0);
+			int moveY = (moveD ? 1 : 0) - (moveU ? 1 : 0);
 
-			// If player attempts to move
-			if (KeyboardInputManager.CheckMoveAction(moveList[i]))
+			if (moveX != 0 || moveY != 0)
 			{
 				bool beingDraggedWithCuffs = IsCuffed && PlayerScript.pushPull.IsBeingPulledClient;
 
 				if (allowInput && !IsBuckled && !beingDraggedWithCuffs)
 				{
-					actionKeys.Add((int) moveList[i]);
+					switch (moveX)
+					{
+						case 1:
+							actionKeys.Add((int)MoveAction.MoveRight);
+							break;
+						case -1:
+							actionKeys.Add((int)MoveAction.MoveLeft);
+							break;
+						default:
+							break; // Left, Right cancelled or not pressed
+					}
+					switch (moveY)
+					{
+						case 1:
+							actionKeys.Add((int)MoveAction.MoveUp);
+							break;
+						case -1:
+							actionKeys.Add((int)MoveAction.MoveDown);
+							break;
+						default:
+							break; // Up, Down cancelled or not pressed
+					}
 				}
-				else
+				else // Player tried to move but isn't allowed
 				{
 					if (PlayerScript.playerHealth.IsDead)
 					{
@@ -170,7 +201,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			}
 		}
 
-		return new PlayerAction {moveActions = actionKeys.ToArray()};
+		return new PlayerAction { moveActions = actionKeys.ToArray() };
 	}
 
 	public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay,
@@ -209,11 +240,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 		for (int i = 0; i < moveList.Length; i++)
 		{
-			if (actionKeys.Contains((int) moveList[i]) && !moveActionList.Contains(moveList[i]))
+			if (actionKeys.Contains((int)moveList[i]) && !moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Add(moveList[i]);
 			}
-			else if (!actionKeys.Contains((int) moveList[i]) && moveActionList.Contains(moveList[i]))
+			else if (!actionKeys.Contains((int)moveList[i]) && moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Remove(moveList[i]);
 			}
@@ -231,13 +262,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 		direction.x = Mathf.Clamp(direction.x, -1, 1);
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
-//			Logger.LogTrace(direction.ToString(), Category.Movement);
+		//			Logger.LogTrace(direction.ToString(), Category.Movement);
 
 		if (matrixInfo.MatrixMove)
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-			                                  direction);
+											  direction);
 		}
 
 
@@ -278,7 +309,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		if (netid == NetId.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
-			                " can only be used on objects with a Net ID. Ensure this object has one.",
+							" can only be used on objects with a Net ID. Ensure this object has one.",
 				Category.Movement);
 			return;
 		}
@@ -390,7 +421,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			}
 
 			// Hook a change of position event handler for when the buckled-to object change position (the object is pushed or pulled)
-			IPushable pushable = null;			
+			IPushable pushable = null;
 			if (NetworkIdentity.spawned[buckledObject].TryGetComponent(out pushable))
 			{
 				pushable.OnStartMove().AddListener(OnBuckledObjectPositionChange);

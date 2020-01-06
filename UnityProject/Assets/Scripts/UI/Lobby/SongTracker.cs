@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -25,7 +26,7 @@ public class SongTracker : MonoBehaviour
 
 	void Update()
 	{
-		if (!PlayingRandomPlayList) return;
+		if (!PlayingRandomPlayList || CustomNetworkManager.isHeadless) return;
 
 		if (!SoundManager.isLobbyMusicPlaying())
 		{

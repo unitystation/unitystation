@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 114302809726908850}
   - component: {fileID: 8020537792279011488}
   - component: {fileID: 5552848702212947011}
+  - component: {fileID: -3459579923950945189}
   m_Layer: 11
   m_Name: Communications_Console
   m_TagString: Untagged
@@ -273,8 +274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114310873128946770
@@ -477,6 +478,25 @@ MonoBehaviour:
   circuitBoardPrefab: {fileID: 728401503887791882, guid: dc64d6882f0124382be990196fae4fbc,
     type: 3}
   secondsToScrewdrive: 2
+--- !u!114 &-3459579923950945189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832449994204696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Communications console
+  initialDescription: Call the shuttle or make announcements.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &3145195423426570531
 GameObject:
   m_ObjectHideFlags: 0

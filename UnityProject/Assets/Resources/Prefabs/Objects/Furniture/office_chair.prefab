@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 3792903731296891434}
   - component: {fileID: 656301501147598195}
   - component: {fileID: 3665939516804425690}
+  - component: {fileID: -3762999717013136981}
   m_Layer: 11
   m_Name: office_chair
   m_TagString: Untagged
@@ -174,7 +175,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 250
 --- !u!114 &114356069699078412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +252,28 @@ MonoBehaviour:
   soundDelayTime: 500
   soundMinimumPitchVariance: 0.65
   soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-3762999717013136981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289257713136752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: office char
+  initialDescription: For sitting down or getting strapped onto.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1922606341189806
 GameObject:
   m_ObjectHideFlags: 0

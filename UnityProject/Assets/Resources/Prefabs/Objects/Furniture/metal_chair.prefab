@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 8992642222336011252}
   - component: {fileID: 114176516835243776}
   - component: {fileID: 114383195819837994}
+  - component: {fileID: 9069528303500201551}
   m_Layer: 23
   m_Name: metal_chair
   m_TagString: Untagged
@@ -107,8 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114055517453558958
@@ -212,8 +213,8 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 100
+  HeatResistance: 1370
+  initialIntegrity: 250
 --- !u!114 &114383195819837994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +231,25 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &9069528303500201551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169897606440870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: metal chair
+  initialDescription: For sitting or getting strapped onto.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1581991274901662
 GameObject:
   m_ObjectHideFlags: 0

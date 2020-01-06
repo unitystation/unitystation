@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114025965859014540}
   - component: {fileID: 114028670144789054}
   - component: {fileID: 114273466404233338}
+  - component: {fileID: 1010492601580584528}
   m_Layer: 11
   m_Name: comfy_chair
   m_TagString: Untagged
@@ -78,8 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114677636749695840
@@ -156,7 +157,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 250
 --- !u!114 &114273466404233338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +174,25 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &1010492601580584528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126314898183668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: comfy chair
+  initialDescription: For sitting or getting strapped onto.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1572540097346634
 GameObject:
   m_ObjectHideFlags: 0
