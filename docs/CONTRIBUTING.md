@@ -2,11 +2,11 @@
 
 ### GIT Guidelines
 ***
-**New to GIT?**
+#### New to GIT
 
 If you have never used git before, you can look up our general reference on our wiki. 
 
-**GIT and You**
+#### Git and You
 
 GIT is a fantastic system, but while using it we have a few guidelines to keep it fantastic for everyone. 
 
@@ -22,8 +22,7 @@ GIT is a fantastic system, but while using it we have a few guidelines to keep i
 
 ### Structure Guidelines
 ***
-
-**Naming scheme**
+#### Naming scheme
 
 File and folder names are important and making mistakes in them may give conflicts an/or annoyance in the future. Remember, your garbage needs to be cleaned by someone sometime in the future! For that reason, we have a few guidelines in regards to naming files and folder.
 
@@ -31,7 +30,7 @@ File and folder names are important and making mistakes in them may give conflic
 * After every _ comes another Capital
 
 
-**Inclusion of files and folders**
+#### Inclusion of files and folders
 
 Although GIT is quite friendly in what it accepts in terms of files and folder changes in a commit, a reviewer's or bugfixer's time is not unlimited. For that reason, we have a few specific guidelines in regards to the inclusion of files and folders in your PR.
 
@@ -43,9 +42,8 @@ Although GIT is quite friendly in what it accepts in terms of files and folder c
 
 
 ### Code Guidelines
-
 ***
-**Your code, your style, my review**
+#### Your code, your style, my review
 
 Here at UnityStation, we value people having their own style. But your code needs to be reviewable and editable by others too. For that reason, we have a few basic coding guidelines
 
@@ -57,7 +55,6 @@ Here at UnityStation, we value people having their own style. But your code need
 
 
 ### Bounty Guidelines
-
 ***
 We all know your bounty program is awesome. But we need to be clear about it.
 

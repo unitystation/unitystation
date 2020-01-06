@@ -1,6 +1,6 @@
-**UnityStation Code of Conduct**
+# Code of Conduct
 
-**Intro**
+## Introduction
 
 This code of conduct outlines our expectations for participants within the  **UnityStation** community, as well as steps to reporting unacceptable behavior. We are committed to providing a welcoming and inspiring community for all and expect our code of conduct to be honored. Anyone who violates this code of conduct may be banned from the community.
 
@@ -13,7 +13,7 @@ Our open source community strives to:
 - **Be careful in the words that we choose** : we are a community of professionals, and we conduct ourselves professionally. Be kind to others. Do not insult or put down other participants. Harassment and other exclusionary behavior aren&#39;t acceptable.
 - **Try to understand why we disagree** : Disagreements, both social and technical, happen all the time. It is important that we resolve disagreements and differing views constructively. Remember that we&#39;re different. The strength of our community comes from its diversity, people from a wide range of backgrounds. Different people have different perspectives on issues. Being unable to understand why someone holds a viewpoint doesn&#39;t mean that they&#39;re wrong. Don&#39;t forget that it is human to err and blaming each other doesn&#39;t get us anywhere. Instead, focus on helping t resolve issues and learning from mistakes.
 
-## **Definitions**
+## Definitions
 
 Harassment includes, but is not limited to:
 
@@ -41,7 +41,7 @@ We encourage everyone to participate and are committed to building a community f
 
 Although this list cannot be exhaustive, we explicitly honor diversity in age, gender, gender identity or expression, culture, ethnicity, language, national origin, political beliefs, profession, race, religion, sexual orientation, socioeconomic status, and technical ability. We will not tolerate discrimination based on any of the protected characteristics above, including participants with disabilities.
 
-### **Reporting Issues**
+## Reporting Issues
 
 If you experience or witness unacceptable behavior—or have any other concerns—please report it contacting one of the community moderators, preferable of the platform involved. All reports will be handled with discretion. In your report please include:
 
