@@ -129,6 +129,11 @@ public class InventoryMove
 	/// <returns></returns>
 	public static InventoryMove Add(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
+		if (addedObject == null)
+		{
+			Logger.LogErrorFormat("Attempted to create inventory move to slot {0} for null object", Category.Inventory, toSlot);
+			return null;
+		}
 		var pu = addedObject.GetComponent<Pickupable>();
 		if (pu == null)
 		{

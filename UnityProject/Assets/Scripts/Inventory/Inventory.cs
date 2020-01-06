@@ -136,6 +136,11 @@ public static class Inventory
 	/// <returns>true if successful</returns>
 	public static bool ServerPerform(InventoryMove toPerform)
 	{
+		if (toPerform == null)
+		{
+			Logger.LogError("Inventory move null, likely it failed due to previous error.", Category.Inventory);
+			return false;
+		}
 		var pickupable = toPerform.MovedObject;
 		if (pickupable == null)
 		{

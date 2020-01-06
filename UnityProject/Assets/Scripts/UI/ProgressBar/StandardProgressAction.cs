@@ -110,11 +110,10 @@ public class StandardProgressAction : IProgressAction
 			return false;
 		}
 
-		//is this cross matrix? if so, don't start progress if matrix is moving
+		//is this cross matrix? if so, don't start progress if either matrix is moving
 		var performerMatrix = playerScript.registerTile.Matrix;
 		crossMatrix = performerMatrix != info.Target.TargetMatrixInfo.Matrix;
-		if (crossMatrix && info.Target.TargetMatrixInfo.MatrixMove != null &&
-		    info.Target.TargetMatrixInfo.MatrixMove.IsMovingServer)
+		if (crossMatrix && (performerMatrix.IsMovingServer || info.Target.TargetMatrixInfo.Matrix.IsMovingServer))
 		{
 			return false;
 		}
@@ -153,11 +152,22 @@ public class StandardProgressAction : IProgressAction
 		//interrupt if player turns away and turning is not allowed
 		playerScript.playerDirectional.OnDirectionChange.AddListener(OnDirectionChanged);
 		initialDirection = playerScript.playerDirectional.CurrentDirection;
-		//interrupt if tile is on different matrix and moves / rotates away from player
-		if (crossMatrix && startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
+		//interrupt if tile is on different matrix and either matrix moves / rotates
+		if (crossMatrix)
 		{
-			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(InterruptProgress);
-			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
+			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
+			{
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(InterruptProgress);
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
+			}
+
+			var performerMatrix = playerScript.registerTile.Matrix;
+			if (performerMatrix.MatrixMove != null)
+			{
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(InterruptProgress);
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
+			}
+
 		}
 	}
 
@@ -181,10 +191,20 @@ public class StandardProgressAction : IProgressAction
 		playerScript.playerHealth.OnConsciousStateChangeServer.RemoveListener(OnConsciousStateChange);
 		playerScript.PlayerSync.OnTileReached().RemoveListener(OnLocalPositionChanged);
 		playerScript.playerDirectional.OnDirectionChange.RemoveListener(OnDirectionChanged);
-		if (crossMatrix && startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
+		if (crossMatrix)
 		{
-			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(InterruptProgress);
-			startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
+			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
+			{
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(InterruptProgress);
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
+			}
+
+			var performerMatrix = playerScript.registerTile.Matrix;
+			if (performerMatrix.MatrixMove != null)
+			{
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(InterruptProgress);
+				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
+			}
 		}
 	}
 
