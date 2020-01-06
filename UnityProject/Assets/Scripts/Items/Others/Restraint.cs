@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+
 	/// <summary>
 	/// How long it takes to apply the restraints
 	/// </summary>
@@ -48,16 +51,16 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 		GameObject target = interaction.TargetObject;
 		GameObject performer = interaction.Performer;
 
-		var progressFinishAction = new ProgressCompleteAction(
-			() =>
+		void ProgressFinishAction()
+		{
+			if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false)
 			{
-				if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false) {
-					target.GetComponent<PlayerMove>().Cuff(interaction);
-				}
+				target.GetComponent<PlayerMove>().Cuff(interaction);
 			}
-		);
+		}
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.Restrain,  target.transform.position, applyTime, progressFinishAction, performer);
+		var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+			.ServerStartProgress(target.RegisterTile(), applyTime, performer);
 		if (bar != null)
 		{
 			SoundManager.PlayNetworkedAtPos(sound, target.transform.position);

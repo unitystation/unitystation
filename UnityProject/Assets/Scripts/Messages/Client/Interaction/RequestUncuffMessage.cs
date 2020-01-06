@@ -9,6 +9,9 @@ using Mirror;
 /// </summary>
 public class RequestUncuffMessage : ClientMessage
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+
 	//TODO: This class shouldn't be needed, IF2 can be used instead
 
 	public static short MessageType = (short)MessageTypes.RequestUncuffMessage;
@@ -40,10 +43,13 @@ public class RequestUncuffMessage : ClientMessage
 			var restraint = handcuffs.GetComponent<Restraint>();
 			if (restraint)
 			{
-				var finishProgressAction = new ProgressCompleteAction(() =>
-					playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor));
-				UIManager.ServerStartProgress(ProgressAction.Uncuff, actor.transform.position, restraint.RemoveTime,
-					finishProgressAction, actor);
+				void ProgressComplete()
+				{
+					playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor);
+				}
+
+				StandardProgressAction.Create(ProgressConfig, ProgressComplete)
+					.ServerStartProgress(playerToUncuff.RegisterTile(), restraint.RemoveTime, actor);
 			}
 		}
 	}
