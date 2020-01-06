@@ -7,7 +7,7 @@ using TMPro;
 
 public class GUI_P_Input : PageElement
 {
-	public TMP_InputField TInputField;
+	public InputFieldFocus TInputField;
 
 	public override bool IsThisType(Type TType)
 	{
