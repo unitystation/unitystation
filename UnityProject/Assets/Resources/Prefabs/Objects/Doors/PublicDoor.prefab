@@ -261,6 +261,8 @@ GameObject:
   - component: {fileID: 114246988198392272}
   - component: {fileID: 114120275764581544}
   - component: {fileID: 114852647110043552}
+  - component: {fileID: -454978302884392290}
+  - component: {fileID: -3331040946134907951}
   m_Layer: 18
   m_Name: PublicDoor
   m_TagString: Untagged
@@ -334,6 +336,8 @@ MonoBehaviour:
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 7
+  damageOnClose: 0
+  ignorePassableChecks: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 1
@@ -632,8 +636,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &114506160011368158
@@ -707,16 +711,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
+    Melee: 30
+    Bullet: 30
+    Laser: 20
+    Energy: 20
+    Bomb: 10
+    Rad: 100
+    Fire: 80
+    Acid: 70
     Magic: 0
-    Bio: 0
+    Bio: 100
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -726,7 +730,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 350
 --- !u!114 &114852647110043552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,8 +745,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-454978302884392290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013208201100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixDebugLogging: 0
+  objectType: 0
+  AtmosPassable: 1
+  Passable: 1
+--- !u!114 &-3331040946134907951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013208201100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: public door
+  initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1252112242230248
 GameObject:
   m_ObjectHideFlags: 0

@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114882900800809796}
   - component: {fileID: 114559353448256750}
   - component: {fileID: 114665692247917754}
+  - component: {fileID: -2234183320136273726}
   m_Layer: 11
   m_Name: vending_190
   m_TagString: Untagged
@@ -235,8 +236,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114102298114621054
@@ -329,5 +330,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: be4108548be50497ba7d8db84c6853e8
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-2234183320136273726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854253567727558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: UpperClothesMate
+  initialDescription: A vending machine for clothes.
+  exportCost: 0
+  exportName: 
+  exportMessage: 

@@ -91,11 +91,15 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		articleDescription = newDescription;
 	}
 
+	/// <summary>
+	/// When hovering over an object or item its name and description is shown as a tooltip on the bottom-left of the screen.
+	/// The first letter of the object's name is always capitalized if the object has been given a name.
+	/// If there is description it is shown in parentheses.
+	/// </summary>
 	public void OnHoverStart()
 	{
-		// Show the parenthesis for an item's description only if the item has a description
 		UIManager.SetToolTip =
-			initialName +
+			initialName.First().ToString().ToUpper() + initialName.Substring(1) + 
 			(String.IsNullOrEmpty(articleDescription) ? "" : $" ({articleDescription})");
 	}
 

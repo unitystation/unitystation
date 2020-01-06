@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114142356391403884}
   - component: {fileID: 114603204766106980}
   - component: {fileID: 114659495049121970}
+  - component: {fileID: 4136559804677086486}
   m_Layer: 11
   m_Name: Closet_Locker_Warden
   m_TagString: Untagged
@@ -241,7 +242,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114922293611875512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,8 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
   closetType: 0
@@ -289,14 +297,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
+    Melee: 30
+    Bullet: 50
+    Laser: 50
+    Energy: 100
     Bomb: 0
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: 80
+    Acid: 80
     Magic: 0
     Bio: 0
   Resistances:
@@ -307,8 +315,8 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 100
+  HeatResistance: 1370
+  initialIntegrity: 500
 --- !u!114 &114659495049121970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +333,25 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &4136559804677086486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Warden's locker
+  initialDescription: A very durable metal locker.
+  exportCost: 400
+  exportName: locker
+  exportMessage: 
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0

@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114791282851611692}
   - component: {fileID: 114714693557252334}
   - component: {fileID: 9199521041031586661}
+  - component: {fileID: 2610629250522052754}
   m_Layer: 19
   m_Name: FireExtinguisherCabinet
   m_TagString: Untagged
@@ -195,8 +196,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114185868468834516
@@ -324,3 +325,22 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: a9fd9d73994384a8d9fffc45898d5010,
     type: 2}
+--- !u!114 &2610629250522052754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014202525198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: fire extinguisher cabinet
+  initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
