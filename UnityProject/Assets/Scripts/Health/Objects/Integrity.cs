@@ -55,10 +55,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public Resistances Resistances = new Resistances();
 
 	/// <summary>
-	/// Below this temperature (in degrees Celsius) the object will take no damage from fire or heat and won't ignite.
+	/// Below this temperature (in Kelvin) the object will be unaffected by fire exposure.
 	/// </summary>
-	[Tooltip("Below this temperature (in degrees Celsius) the object will take no damage from fire or heat and" +
-	         " won't ignite.")]
+	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
 	public float initialIntegrity = 100f;
