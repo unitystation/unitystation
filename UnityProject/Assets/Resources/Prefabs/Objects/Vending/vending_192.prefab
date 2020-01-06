@@ -216,26 +216,26 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 20
+    Melee: 0
     Bullet: 0
     Laser: 0
     Energy: 0
     Bomb: 0
     Rad: 0
-    Fire: 50
-    Acid: 70
+    Fire: 0
+    Acid: 0
     Magic: 0
     Bio: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 1
+    Flammable: 0
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  HeatResistance: 500
-  initialIntegrity: 300
+  HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114804075063903570
 MonoBehaviour:
   m_ObjectHideFlags: 0
