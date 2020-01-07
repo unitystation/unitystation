@@ -32,6 +32,7 @@ public class PlayerChatBubble : MonoBehaviour
 	/// <summary>
 	/// Different types of chat bubbles, which might be displayed differently.
 	/// TODO Chat.Process.cs has to detect these types of text as well. This detection should be unified to unsure consistent detection.
+	/// In addition: ChatModifier exists and *could* be reused here.
 	/// </summary>
 	enum BubbleType
 	{
@@ -124,7 +125,6 @@ public class PlayerChatBubble : MonoBehaviour
 	/// <summary>
 	/// Determines the bubble type appropriate from the given message.
 	/// Refer to BubbleType for further information.
-	/// TODO Currently messages such as 
 	/// </summary>
 	/// <param name="msg"></param>
 	private BubbleType GetBubbleType(string msg)
@@ -132,8 +132,7 @@ public class PlayerChatBubble : MonoBehaviour
 		if (msg.Substring(0, 1).Equals("#")){
 			return BubbleType.whisper;
 		}
-		if (msg.Substring(0, msg.Length - 2).Equals("!!")
-			|| ((msg.ToUpper(CultureInfo.InvariantCulture) == msg) && msg.All(System.Char.IsLetter)))
+		if (msg.EndsWith("!!") || ((msg.ToUpper(CultureInfo.InvariantCulture) == msg) && msg.Any(System.Char.IsLetter)))
 		{
 			return BubbleType.caps;
 		}
@@ -222,8 +221,6 @@ public class PlayerChatBubble : MonoBehaviour
 	/// <param name="msg"> Player's chat message </param>
 	private void SetBubbleText(string msg)
 	{
-		chatBubble.SetActive(true);
-		bubbleText.text = msg;
 		bubbleType = GetBubbleType(msg);
 		switch (bubbleType)
 		{
@@ -232,6 +229,7 @@ public class PlayerChatBubble : MonoBehaviour
 				break;
 			case BubbleType.whisper:
 				bubbleSize = bubbleSizeWhisper;
+				msg = msg.Substring(1); // Remove #
 				break;
 			case BubbleType.clown:
 				// TODO Implement clown-specific bubble values.
@@ -243,6 +241,8 @@ public class PlayerChatBubble : MonoBehaviour
 				break;
 		}
 		updateChatBubbleScale();
+		chatBubble.SetActive(true);
+		bubbleText.text = msg;
 	}
 
 	/// <summary>

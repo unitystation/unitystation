@@ -313,9 +313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb1387213df4d54d9d8132a834b2fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubbleSizeNormal: 10
+  bubbleSizeNormal: 8
   bubbleSizeCaps: 14
-  bubbleSizeWhisper: 6
+  bubbleSizeWhisper: 4
   chatIcon: {fileID: 0}
   chatBubble: {fileID: 9125049156416715925}
   bubbleText: {fileID: 6646321096472486983}
@@ -481,7 +481,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

@@ -85,7 +85,7 @@ public partial class Chat
 
 		var verb = "says:";
 		// Yelling if all letters are capitalized and message contains at least one letter.
-		bool toUpperCheck = message == message.ToUpper(CultureInfo.InvariantCulture) && message.All(System.Char.IsLetter);
+		bool toUpperCheck = message == message.ToUpper(CultureInfo.InvariantCulture) && message.Any(System.Char.IsLetter);
 
 		if (message.Contains("!") && !toUpperCheck){
 			verb = "exclaims,";
