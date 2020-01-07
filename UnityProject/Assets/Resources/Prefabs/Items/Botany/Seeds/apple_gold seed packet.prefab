@@ -7,9 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1649124960678938281, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: initialName
+      value: pack of golden apple seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: -1649124960678938281, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into golden apple trees. Good thing there are no firebirds
+        in space.
+      objectReference: {fileID: 0}
     - target: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_Name
-      value: gold apple seed packet
+      value: apple_gold seed packet
       objectReference: {fileID: 0}
     - target: {fileID: 4949321775558472, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -60,6 +71,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212351652085156724, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b476b84bdf5bb8342b46a3a03d6a2be4,
+        type: 3}
     - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
         type: 3}
       propertyPath: defaultPlantData
