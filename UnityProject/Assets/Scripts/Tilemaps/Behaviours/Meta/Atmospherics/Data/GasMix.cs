@@ -25,14 +25,14 @@ namespace Atmospherics
 
 		public float TemperatureCache { get; private set; }
 
-		public float HeatCapacity
+		public float WholeHeatCapacity	//this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
 				float capacity = 0f;
 				foreach (Gas gas in Gas.All)
 				{
-					capacity += gas.SpecificHeat * Gases[gas];
+					capacity += gas.MolarHeatCapacity * Gases[gas];
 				}
 
 				return capacity;

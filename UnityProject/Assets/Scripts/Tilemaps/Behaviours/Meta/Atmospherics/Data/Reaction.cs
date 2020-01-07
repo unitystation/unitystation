@@ -42,7 +42,7 @@ namespace Atmospherics
 				// MINIMUM_HEAT_CAPACITY 0.0003
 				if (plasmaBurnRate > 0.0003)
 				{
-					float heatCapacity = gasMix.HeatCapacity;
+					float heatCapacity = gasMix.WholeHeatCapacity;
 
 					plasmaBurnRate = Mathf.Min(plasmaBurnRate, gasMix.GetMoles(Gas.Plasma), gasMix.GetMoles(Gas.Oxygen) / oxygenBurnRate);
 
@@ -53,9 +53,7 @@ namespace Atmospherics
 
 					gasMix.AddGas(Gas.CarbonDioxide, plasmaBurnRate);
 
-					float energyReleased = Reactions.FIRE_PLASMA_ENERGY_RELEASED * plasmaBurnRate;
-
-					gasMix.Temperature = (temperature * heatCapacity + energyReleased) / gasMix.HeatCapacity;
+					gasMix.Temperature = (temperature * heatCapacity + (Reactions.FIRE_PLASMA_ENERGY_RELEASED * plasmaBurnRate)) / gasMix.WholeHeatCapacity;
 
 					consumed = plasmaBurnRate + consumedOxygen;
 				}
