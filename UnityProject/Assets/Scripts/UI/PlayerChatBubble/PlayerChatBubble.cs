@@ -11,6 +11,10 @@ using UnityEngine.UI;
 public class PlayerChatBubble : MonoBehaviour
 {
 	[SerializeField]
+	[Tooltip("The size of the chat bubble, scaling chatBubble RectTransform.")]
+	private float bubbleSize = 8;
+
+	[SerializeField]
 	private ChatIcon chatIcon;
 	[SerializeField]
 	private GameObject chatBubble;
@@ -22,10 +26,16 @@ public class PlayerChatBubble : MonoBehaviour
 	private Queue<BubbleMsg> msgQueue = new Queue<BubbleMsg>();
 	private bool showingDialogue = false;
 
+	/// <summary>
+	/// A cache for the cache bubble rect transform. For performance!
+	/// </summary>
+	private RectTransform chatBubbleRectTransform;
+
 	void Start()
 	{
 		chatBubble.SetActive(false);
 		bubbleText.text = "";
+		chatBubbleRectTransform = chatBubble.GetComponent<RectTransform>();
 	}
 
 	void OnEnable()
@@ -40,6 +50,13 @@ public class PlayerChatBubble : MonoBehaviour
 
 	void Update()
 	{
+		if (showingDialogue)
+		{
+			int zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
+			float bubbleScale = bubbleSize / zoomLevel;
+			chatBubbleRectTransform.localScale = new Vector3(bubbleScale, bubbleScale, 1);
+		}
+		// TODO Add comment to the following code (or remove it). Bubbles seem to work fine without it.
 		if (transform.eulerAngles != Vector3.zero)
 		{
 			transform.eulerAngles = Vector3.zero;
@@ -71,6 +88,7 @@ public class PlayerChatBubble : MonoBehaviour
 			AddChatBubbleMsg(message, chatChannel);
 		}
 	}
+
 
 	private void AddChatBubbleMsg(string msg, ChatChannel channel)
 	{
