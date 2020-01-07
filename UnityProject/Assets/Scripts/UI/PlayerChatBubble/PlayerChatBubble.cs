@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +13,33 @@ using UnityEngine.UI;
 public class PlayerChatBubble : MonoBehaviour
 {
 	[SerializeField]
-	[Tooltip("The size of the chat bubble, scaling chatBubble RectTransform.")]
+	[Tooltip("The text size when the player speaks like a normal person.")]
+	private float bubbleSizeNormal = 8;
+
+	[SerializeField]
+	[Tooltip("The size of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
+	private float bubbleSizeCaps = 12;
+
+	[SerializeField]
+	[Tooltip("The size of the chat bubble when starts the sentence with #.")]
+	private float bubbleSizeWhisper = 6;
+
+	/// <summary>
+	/// The current size of the chat bubble, scaling chatBubble RectTransform.
+	/// </summary>
 	private float bubbleSize = 8;
+
+	/// <summary>
+	/// Different types of chat bubbles, which might be displayed differently.
+	/// TODO Chat.Process.cs has to detect these types of text as well. This detection should be unified to unsure consistent detection.
+	/// </summary>
+	enum BubbleType
+	{
+		normal, // Regular text -> Regular bubble
+		whisper, // # -> Smaller bubble
+		caps, // All caps (with at least 1 letter) OR end sentence with !! -> Bigger bubble
+		clown // Clown occupation -> Comic Sans. Which actually looks good on low resolutions. Hmm.
+	}
 
 	[SerializeField]
 	private ChatIcon chatIcon;
@@ -30,6 +57,11 @@ public class PlayerChatBubble : MonoBehaviour
 	/// A cache for the cache bubble rect transform. For performance!
 	/// </summary>
 	private RectTransform chatBubbleRectTransform;
+
+	/// <summary>
+	/// The type of the current chat bubble.
+	/// </summary>
+	private BubbleType bubbleType = BubbleType.normal;
 
 	void Start()
 	{
@@ -50,11 +82,11 @@ public class PlayerChatBubble : MonoBehaviour
 
 	void Update()
 	{
+		// Update scale of the chat bubble.
+		// TODO Optimization. Instead of doing this in update, it should be done when the player has changed the zoom level.
 		if (showingDialogue)
 		{
-			int zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
-			float bubbleScale = bubbleSize / zoomLevel;
-			chatBubbleRectTransform.localScale = new Vector3(bubbleScale, bubbleScale, 1);
+			updateChatBubbleScale();
 		}
 		// TODO Add comment to the following code (or remove it). Bubbles seem to work fine without it.
 		if (transform.eulerAngles != Vector3.zero)
@@ -87,6 +119,27 @@ public class PlayerChatBubble : MonoBehaviour
 		{
 			AddChatBubbleMsg(message, chatChannel);
 		}
+	}
+
+	/// <summary>
+	/// Determines the bubble type appropriate from the given message.
+	/// Refer to BubbleType for further information.
+	/// TODO Currently messages such as 
+	/// </summary>
+	/// <param name="msg"></param>
+	private BubbleType GetBubbleType(string msg)
+	{
+		if (msg.Substring(0, 1).Equals("#")){
+			return BubbleType.whisper;
+		}
+		if (msg.Substring(0, msg.Length - 2).Equals("!!")
+			|| ((msg.ToUpper(CultureInfo.InvariantCulture) == msg) && msg.All(System.Char.IsLetter)))
+		{
+			return BubbleType.caps;
+		}
+		// TODO Clown occupation check & Somic Sans.
+
+		return BubbleType.normal;
 	}
 
 
@@ -163,10 +216,43 @@ public class PlayerChatBubble : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 	}
 
+	/// <summary>
+	/// Sets the text of the bubble and updates the text bubble type.
+	/// </summary>
+	/// <param name="msg"> Player's chat message </param>
 	private void SetBubbleText(string msg)
 	{
 		chatBubble.SetActive(true);
 		bubbleText.text = msg;
+		bubbleType = GetBubbleType(msg);
+		switch (bubbleType)
+		{
+			case BubbleType.caps:
+				bubbleSize = bubbleSizeCaps;
+				break;
+			case BubbleType.whisper:
+				bubbleSize = bubbleSizeWhisper;
+				break;
+			case BubbleType.clown:
+				// TODO Implement clown-specific bubble values.
+				bubbleSize = bubbleSizeNormal;
+				break;
+			case BubbleType.normal:
+			default:
+				bubbleSize = bubbleSizeNormal;
+				break;
+		}
+		updateChatBubbleScale();
+	}
+
+	/// <summary>
+	/// Updates the scale of the chat bubble canvas using bubbleScale and the player's zoom level.
+	/// </summary>
+	private void updateChatBubbleScale()
+	{
+		int zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
+		float bubbleScale = bubbleSize / zoomLevel;
+		chatBubbleRectTransform.localScale = new Vector3(bubbleScale, bubbleScale, 1);
 	}
 
 	/// <summary>

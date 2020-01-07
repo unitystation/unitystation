@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6646321096472486983}
   - component: {fileID: 4702626506351311592}
   - component: {fileID: 1624380574270254611}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: ChatText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 3760792612656737900}
   - component: {fileID: 9037225966623426295}
   - component: {fileID: 1543087607631854189}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: Pointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3681712926237386885}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: PointerOffset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,8 +253,7 @@ GameObject:
   - component: {fileID: 8345773403373591837}
   - component: {fileID: 6868749942529127699}
   - component: {fileID: 5446372572591540552}
-  - component: {fileID: 1772205279911276651}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: ChatCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,6 +313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb1387213df4d54d9d8132a834b2fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bubbleSizeNormal: 10
+  bubbleSizeCaps: 14
+  bubbleSizeWhisper: 6
   chatIcon: {fileID: 0}
   chatBubble: {fileID: 9125049156416715925}
   bubbleText: {fileID: 6646321096472486983}
@@ -343,44 +345,6 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!23 &1772205279911276651
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8239968386569427463}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 0
-  m_MotionVectors: 2
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &9125049156416715925
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +359,7 @@ GameObject:
   - component: {fileID: 1463072989254136920}
   - component: {fileID: 3936218638427797587}
   - component: {fileID: 871159520536359220}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: ChatBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
