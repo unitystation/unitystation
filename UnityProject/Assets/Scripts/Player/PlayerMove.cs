@@ -531,7 +531,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	private void ServerUpdateIsSwappable()
 	{
-		isSwappable = isHelpIntentServer && !PlayerScript.pushPull.IsPullingSomethingServer;
+		isSwappable = isHelpIntentServer && PlayerScript != null &&
+		              PlayerScript.pushPull != null &&
+		              !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
 	/// <summary>
