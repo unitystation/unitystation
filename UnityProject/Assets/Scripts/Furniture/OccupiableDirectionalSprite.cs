@@ -50,7 +50,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	[Tooltip("sprite renderer on which to render the front sprites")]
 	public SpriteRenderer spriteRendererFront;
 
-	[SyncVar(hook=nameof(SyncOccupant))]
+	[SyncVar(hook = nameof(SyncOccupant))]
 	private uint occupant;
 
 	public uint Occupant => occupant;
@@ -59,6 +59,10 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	private const string FRONT_SPRITE_LAYER_NAME = "OverPlayers";
 
 	private Directional directional;
+
+	// The Cached PlayerScript of the Buckled player
+	private PlayerScript buckledPlayerScript;
+	public PlayerScript BuckledPlayerScript => buckledPlayerScript;
 
 	public void Awake()
 	{
@@ -151,7 +155,13 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	//syncvar hook for occupant
 	private void SyncOccupant(uint occupantNewValue)
 	{
-		occupant = occupantNewValue;
+		if (occupant != occupantNewValue)
+		{
+			occupant = occupantNewValue;
+
+			if (occupant != NetId.Empty)
+				buckledPlayerScript = NetworkIdentity.spawned[occupantNewValue].GetComponent<PlayerScript>();
+		}
 
 		UpdateFrontSprite();
 		EnsureSpriteLayer();

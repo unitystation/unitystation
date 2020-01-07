@@ -552,13 +552,12 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)
 	private void UpdateOccupant()
 	{				
-		if ((occupiableDirectionalSprite != null) && (occupiableDirectionalSprite.Occupant > 0))
+		if ((occupiableDirectionalSprite != null) && (occupiableDirectionalSprite.Occupant != NetId.Empty))
 		{
-			NetworkIdentity networkIdentity = NetworkIdentity.spawned[occupiableDirectionalSprite.Occupant];
-			if (networkIdentity != null && networkIdentity.TryGetComponent<PlayerMove>(out var playerMove))
+			if (occupiableDirectionalSprite.BuckledPlayerScript != null)
 			{
 				//sync position to ensure they buckle to the correct spot
-				playerMove.PlayerScript.PlayerSync.SetPosition(occupiableDirectionalSprite.gameObject.TileWorldPosition().To3Int());
+				occupiableDirectionalSprite.BuckledPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
 			}
 		}		
 	}
