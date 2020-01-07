@@ -1,0 +1,65 @@
+name: Build Project
+on: [push, pull_request]
+
+env:
+  UNITY_LICENSE: "<?xml version="1.0" encoding="UTF-8"?><root> <License id="Terms"> <MachineBindings> <Binding Key="1" Value="b86ff85313074b44bd974f9d9293f732"/> <Binding Key="2" Value="b86ff85313074b44bd974f9d9293f732"/> </MachineBindings> <MachineID Value="InPVeADQfTB7xmjzeGR4I9UKYwI="/> <SerialHash Value="7e174563b21ddc13560f7ad48db1d719ce655117"/> <Features> <Feature Value="33"/> <Feature Value="1"/> <Feature Value="12"/> <Feature Value="2"/> <Feature Value="24"/> <Feature Value="3"/> <Feature Value="36"/> <Feature Value="17"/> <Feature Value="19"/> <Feature Value="62"/> </Features> <DeveloperData Value="AQAAAEY0LUdQUDQtS0I2QS1GNFRCLVVHS0stOUJZNA=="/> <SerialMasked Value="F4-GPP4-KB6A-F4TB-UGKK-XXXX"/> <StartDate Value="2020-01-16T00:00:00"/> <UpdateDate Value="2020-02-01T10:40:06"/> <InitialActivationDate Value="2020-01-16T20:32:43"/> <LicenseVersion Value="6.x"/> <ClientProvidedVersion Value="2019.2.19f1"/> <AlwaysOnline Value="false"/> <Entitlements> <Entitlement Ns="unity_editor" Tag="UnityPersonal" Type="EDITOR" ValidTo="9999-12-31T00:00:00"/> </Entitlements> </License> <Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#Terms"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>ybG0ios6baIOH5LhtR5FFqRwxGU=</DigestValue></Reference></SignedInfo><SignatureValue>qjpLMiI2fo2xd7ia5q7iEv5FbNxsV7QHI11P9KiSXmA/LQ87pV01orFklgTIra5KWM1AX/qeRBuT DyQEsTlYPGnoMSiCAfrku2oRVPLrqw/pw8vCkOIzQgVxAQBr+n/h5P74GIa9d4qHb8a+dmjXBQcM R53E5DVRXQTW8QQTv6zlQE9HawnCYKedqeu4lJ6mNkT/UQ2pRfubdleMEveQp6FrlMShk7x0OHL9 YBDvCUckWsfagmtzE+PG/mFawTSvSew8hos+tLKz/ti5jI0ZMwzyx0x2n70iW4UZJ5wq4P/v+ESs GqO8qsTr5n9NvdT67ZL9uSlnGDNS0dUsm1f9QQ==</SignatureValue></Signature></root>"
+
+jobs:
+
+  # This job is only required to request a new activation file
+  # If you need a new one follow these steps:
+  #   - Uncomment this job and run it
+  #   - Download the manual activation file that now appeared as an artifact.
+  #   - Visit license.unity3d.com and upload it.
+  #   - You should now receive your license file (Unity_v20XX.x.ulf) as a download.
+  # requestManualActivationFile:
+  #   name: Request manual activation file
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # Request manual activation file
+  #     - name: Request manual activation file
+  #       uses: webbertakken/unity-request-manual-activation-file@v1
+  #       id: getManualLicenseFile
+
+  #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
+  #     - name: Expose as artifact
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+  #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+
+  performBuild:
+    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - UnityProject
+        unityVersion:
+          - 2019.2.11f1
+        targetPlatform:
+          - StandaloneWindows64
+          - StandaloneOSX
+          - StandaloneLinux64
+    steps:
+      # Checkout repository (required to test local actions)
+      - name: Checkout repository
+        uses: actions/checkout@v2.0.0
+
+      # Build the project
+      - name: Build project
+        uses: webbertakken/unity-builder@v0.8
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: UnityStation
+          buildMethod: BuildScript.BuildProject
+
+      # Upload distributables
+      - name: Upload Build
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ matrix.targetPlatform }} Build
+          path: build
