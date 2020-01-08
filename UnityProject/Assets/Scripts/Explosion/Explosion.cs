@@ -24,6 +24,10 @@ public class Explosion : MonoBehaviour
 
 	private LayerMask obstacleMask;
 
+	/// <summary>
+	/// Create explosion on selected matrix
+	/// </summary>
+	/// <param name="matrix"></param>
 	public void Explode(Matrix matrix)
 	{
 		obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
@@ -32,7 +36,6 @@ public class Explosion : MonoBehaviour
 
 	private IEnumerator ExplosionRoutine(Matrix matrix)
 	{
-		Debug.Break();
 		var explosionCenter = transform.position.RoundToInt();
 
 		// First - play boom sound and shake ground

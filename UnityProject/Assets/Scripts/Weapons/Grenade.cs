@@ -7,24 +7,12 @@ using UnityEngine.EventSystems;
 using Mirror;
 
 /// <summary>
-///     shape of explosion that occurs
-/// </summary>
-public enum ExplosionType
-{
-	Square, // radius is equal in all directions from center []
-
-	Diamond, // classic SS13 diagonals are reduced and angled <>
-	Bomberman, // plus +
-	Circle, // Diamond without tip
-}
-
-/// <summary>
 /// Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
 public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IClientSpawn
 {
-
+	[Tooltip("Explosion effect prefab, which creates when timer ends")]
 	public Explosion explosionPrefab;
 
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
@@ -32,20 +20,22 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 	[TooltipAttribute("fuse timer in seconds")]
 	public float fuseLength = 3;
 
-	[Tooltip("Used for animation")]
+	[Tooltip("SpriteHandler used for blinking animation")]
 	public SpriteHandler spriteHandler;
-	// Zero and one reserved for hands
+
+	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
 	private const int ARMED_SPRITE = 3;
 
-
 	//whether this object has exploded
 	private bool hasExploded;
-	//this object's registerObject
+
+	// is timer finished or was interupted?
 	[SyncVar(hook = nameof(UpdateTimer))]
 	private bool timerRunning = false;
-	private RegisterItem registerItem;
 
+	//this object's registerObject
+	private RegisterItem registerItem;
 	private ObjectBehaviour objectBehaviour;
 
 	private void Start()
@@ -75,10 +65,13 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		// Toggle the throw action after activation
 		if (interaction.Performer == PlayerManager.LocalPlayer)
 		{
 			UIManager.Action.Throw();
 		}
+
+		// Start timer
 		StartCoroutine(TimeExplode(interaction.Performer));
 	}
 
@@ -136,6 +129,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 			return;
 		}
 		hasExploded = true;
+		
 		if (isServer)
 		{
 			// Explosion here
