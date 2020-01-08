@@ -1,97 +1,82 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
-/// Allows an object to be attacked by melee. Supports being placed on tilemap layers for meleeing tiles
+/// Allows an object or tiles to be attacked by melee.
 /// </summary>
-public class Meleeable : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
-	//Cache these on start for checking at runtime
-	private Layer tileMapLayer;
-	private GameObject gameObjectRoot;
+	/// <summary>
+	/// Which layers are allowed to be attacked on tiles regardless of intent
+	/// </summary>
+	private static readonly HashSet<LayerType> attackableLayers = new HashSet<LayerType>(
+	new[] {
+		LayerType.Grills,
+		LayerType.Walls,
+		LayerType.Windows
+	});
+
+	/// <summary>
+	/// Which layers are allowed to be attacked on tiles only on harm intent
+	/// </summary>
+	/// NOTE: Not allowing attacking base or floors now because it's annoying during combat when you misclick
+	// private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>(
+	// 	new[] {
+	// 		LayerType.Base,
+	// 		LayerType.Floors
+	// 	});
+	private static readonly HashSet<LayerType> harmIntentOnlyAttackableLayers = new HashSet<LayerType>();
+
+	private InteractableTiles interactableTiles;
 
 	private void Start()
 	{
-		gameObjectRoot = transform.root.gameObject;
-
-		var layer = gameObject.GetComponent<Layer>();
-		if (layer != null)
-		{
-			//this is on a tilemap:
-			tileMapLayer = layer;
-		}
+		interactableTiles = GetComponent<InteractableTiles>();
 	}
 
-	public bool Interact(PositionalHandApply interaction)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-
-		var localRegisterPlayer = PlayerManager.LocalPlayer.GetComponent<RegisterPlayer>();
-		var localPlayerhealth = PlayerManager.LocalPlayer.GetComponent<PlayerHealth>();
-
-		// Only melee while conscious, and not while down or stunned.
-		if (localPlayerhealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    localRegisterPlayer.IsDown ||
-		    localRegisterPlayer.IsStunnedClient)
+		//are we in range
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		//must be targeting us
+		if (interaction.TargetObject != gameObject) return false;
+		//allowed to attack due to cooldown?
+		var playerScript = interaction.Performer.GetComponent<PlayerScript>();
+		if (!playerScript.weaponNetworkActions.AllowAttack)
+		{
 			return false;
-
-		//meleeable is only checked on the target of a melee interaction
-		if (interaction.UsedObject == gameObject) return false;
-
-		//NOTE that for meleeing tiles, this is invoked from InteractableTiles.
-		if (interaction.HandObject != null)
-		{
-			var handItem = interaction.HandObject.GetComponent<ItemAttributes>();
-
-			//special case
-			//We don't melee if we are wielding a gun with ammo and clicking ourselves (we will instead shoot ourselves)
-			if (interaction.TargetObject == interaction.Performer)
-			{
-				var gun = handItem.GetComponent<Gun>();
-				if (gun != null)
-				{
-					if (gun.CurrentMagazine?.ClientAmmoRemains > 0)
-					{
-						//we have ammo and are clicking ourselves - don't melee. Shoot instead.
-						return false;
-					}
-				}
-			}
-
-			// If they are not in attack range they should not attack.
-			if (!PlayerManager.LocalPlayerScript.IsInReach(interaction.WorldPositionTarget, false))
-				return false;
-
-			// Direction of attack towards the attack target.
-			Vector2 dir = ((Vector3)interaction.WorldPositionTarget - localRegisterPlayer.WorldPosition)
-				.normalized;
-
-			var lps = PlayerManager.LocalPlayerScript;
-
-			if (tileMapLayer == null)
-			{
-				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObject,
-					UIManager.Hands.CurrentSlot.NamedSlot, dir, UIManager.DamageZone, LayerType.None);
-			}
-			else
-			{
-				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObjectRoot,
-					UIManager.Hands.CurrentSlot.NamedSlot, dir, UIManager.DamageZone, tileMapLayer.LayerType);
-			}
-
-			return true;
-		}
-		// If the performer has an empty hand and harm intent request a punch.
-		else if (UIManager.CurrentIntent == Intent.Harm)
-		{
-			var lps = PlayerManager.LocalPlayerScript;
-			// Direction of attack towards the attack target.
-			Vector2 dir = ((Vector3)interaction.WorldPositionTarget - localRegisterPlayer.WorldPosition)
-				.normalized;
-
-			lps.weaponNetworkActions.CmdRequestPunchAttack(gameObject, dir, UIManager.DamageZone);
-			return true;
 		}
 
-		return false;
+		//not punching unless harm intent
+		if (interaction.HandObject == null && interaction.Intent != Intent.Harm) return false;
+
+		//if attacking tiles, only some layers are allowed to be attacked
+		if (interactableTiles != null)
+		{
+			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+			if (!attackableLayers.Contains(tileAt.LayerType))
+			{
+				return interaction.Intent == Intent.Harm && harmIntentOnlyAttackableLayers.Contains(tileAt.LayerType);
+			}
+		}
+
+		return true;
+	}
+
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
+		if (interactableTiles != null)
+		{
+			//attacking tiles
+			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
+		}
+		else
+		{
+			//attacking objects
+			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+		}
 	}
 }

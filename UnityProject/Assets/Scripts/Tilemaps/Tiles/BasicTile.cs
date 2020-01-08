@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public struct TileState
@@ -11,19 +14,99 @@ public struct TileState
 
 public abstract class BasicTile : LayerTile
 {
-	public bool AtmosPassable;
-	public bool IsSealed;
-	public bool Passable;
-	public bool Mineable;
-	public PassableDictionary PassableException;
+	[Tooltip("What it sounds like when walked over")]
+	public FloorSound WalkingSoundCategory =  FloorSound.floor;
+
+	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
+	[FormerlySerializedAs("AtmosPassable")]
+	[SerializeField]
+	private bool atmosPassable;
+
+	[Tooltip("Does this tile form a seal against the floor?")]
+	[FormerlySerializedAs("IsSealed")]
+	[SerializeField]
+	private bool isSealed;
+
+	[FormerlySerializedAs("OreCategorie")]
+	[SerializeField]
+	private OreCategory oreCategory;
 
 	public float MaxHealth;
 	public TileState[] HealthStates;
 
-	public GameObject ItemSpawn;
-	public int amount;
+	[Tooltip("Does this tile allow items / objects to pass through it?")]
+	[FormerlySerializedAs("Passable")]
+	[SerializeField]
+	private bool passable;
 
-	public LayerTile DestroyedTile;
+	[Tooltip("Can this tile be mined?")]
+	[FormerlySerializedAs("Mineable")]
+	[SerializeField]
+	private bool mineable;
+	/// <summary>
+	/// Can this tile be mined?
+	/// </summary>
+	public bool Mineable => mineable;
+
+	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
+	[FormerlySerializedAs("PassableException")]
+	[SerializeField]
+	private PassableDictionary passableException;
+
+
+	[Tooltip("What is this tile's max health?")]
+	[FormerlySerializedAs("MaxHealth")]
+	[SerializeField]
+	private float maxHealth;
+
+
+	[Tooltip("How does the tile change as its health changes?")]
+	[FormerlySerializedAs("HealthStates")]
+	[SerializeField]
+	private TileState[] healthStates;
+
+	[Tooltip("Resistances of this tile.")]
+	[FormerlySerializedAs("Resistances")]
+	[SerializeField]
+	private Resistances resistances;
+	/// <summary>
+	/// Resistances of this tile.
+	/// </summary>
+	public Resistances Resistances => resistances;
+
+	[Tooltip("Armor of this tile")]
+	[FormerlySerializedAs("Armor")]
+	[SerializeField]
+	private Armor armor;
+	/// <summary>
+	/// Armor of this tile
+	/// </summary>
+	public Armor Armor => armor;
+
+	[Tooltip("Interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
+	[SerializeField]
+	private List<TileInteraction> tileInteractions;
+	/// <summary>
+	/// Interactions which can occur on this tile.
+	/// </summary>
+	public List<TileInteraction> TileInteractions => tileInteractions;
+
+	[Tooltip("What object to spawn when it's deconstructed or destroyed.")]
+	[SerializeField]
+	private GameObject spawnOnDeconstruct;
+	/// <summary>
+	/// Object to spawn when deconstructed.
+	/// </summary>
+	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct;
+
+	[Tooltip("How much of the object to spawn when it's deconstructed. Defaults to 1 if" +
+			 " an object is specified and this is 0.")]
+	[SerializeField]
+	private int spawnAmountOnDeconstruct = 1;
+	/// <summary>
+	/// How many of the object to spawn when it's deconstructed.
+	/// </summary>
+	public int SpawnAmountOnDeconstruct => SpawnOnDeconstruct == null ? 0 : Mathf.Max(1, spawnAmountOnDeconstruct);
 
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{
@@ -41,22 +124,23 @@ public abstract class BasicTile : LayerTile
 	/// <returns>IsPassable</returns>
 	public bool IsPassable(CollisionType colliderType)
 	{
-		if (PassableException.ContainsKey(colliderType))
+		if (passableException.ContainsKey(colliderType))
 		{
-			return PassableException[colliderType];
-		} else
+			return passableException[colliderType];
+		}
+		else
 		{
-			return Passable;
+			return passable;
 		}
 	}
 
 	public bool IsAtmosPassable()
 	{
-		return AtmosPassable;
+		return atmosPassable;
 	}
 
 	public bool IsSpace()
 	{
-		return IsAtmosPassable() && !IsSealed;
+		return IsAtmosPassable() && !isSealed;
 	}
 }

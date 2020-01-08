@@ -46,10 +46,10 @@ public class InventoryMove
 	public readonly BodyPartType? ThrowAim;
 
 	/// <summary>
-	/// If InventoryRemoveType.Throw or Drop, what world position is being targeted by the throw / drop. If null
+	/// If InventoryRemoveType.Throw or Drop, world space vector pointing from the thrower/dropper to the position being targeted by the throw / drop. If null
 	/// and its a drop, it will drop at holder position.
 	/// </summary>
-	public readonly Vector2? TargetWorldPos;
+	public readonly Vector2? WorldTargetVector;
 
 	/// <summary>
 	/// If InventoryRemoveType.Throw, what spin mode to use for the object
@@ -80,7 +80,7 @@ public class InventoryMove
 
 
 	private InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
-		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? targetWorldPos = null, SpinMode? throwSpinMode = null,
+		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? worldTargetVector = null, SpinMode? throwSpinMode = null,
 		ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
 		InventoryMoveType = inventoryMoveType;
@@ -89,7 +89,7 @@ public class InventoryMove
 		ToSlot = slot;
 		RemoveType = removeType;
 		ThrowAim = throwAim;
-		TargetWorldPos = targetWorldPos;
+		WorldTargetVector = worldTargetVector;
 		ThrowSpinMode = throwSpinMode;
 		ReplacementStrategy = replacementStrategy;
 	}
@@ -129,6 +129,11 @@ public class InventoryMove
 	/// <returns></returns>
 	public static InventoryMove Add(GameObject addedObject, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{
+		if (addedObject == null)
+		{
+			Logger.LogErrorFormat("Attempted to create inventory move to slot {0} for null object", Category.Inventory, toSlot);
+			return null;
+		}
 		var pu = addedObject.GetComponent<Pickupable>();
 		if (pu == null)
 		{
@@ -152,11 +157,11 @@ public class InventoryMove
 	/// Inventory move in which the object in the slot is dropped into the world at the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>
-	/// <param name="targetWorldPosition">world position to drop at, leave null to drop at holder's position</param>
+	/// <param name="worldTargetVector">world space vector pointing from origin to targeted position to throw</param>
 	/// <returns></returns>
-	public static InventoryMove Drop(ItemSlot fromSlot, Vector2? targetWorldPosition = null)
+	public static InventoryMove Drop(ItemSlot fromSlot, Vector2? worldTargetVector = null)
 	{
-		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Drop, null, targetWorldPosition);
+		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Drop, null, worldTargetVector);
 	}
 
 	/// <summary>
@@ -177,13 +182,13 @@ public class InventoryMove
 	/// Inventory move in which the object in the slot is thrown into the world from the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>
-	/// <param name="targetWorldPosition">world position being targeted by the throw</param>
+	/// <param name="worldTargetVector">world space vector pointing from origin to targeted position to throw</param>
 	/// <param name="spinMode"></param>
 	/// <param name="aim">body part to target</param>
 	/// <returns></returns>
-	public static InventoryMove Throw(ItemSlot fromSlot, Vector2 targetWorldPosition, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
+	public static InventoryMove Throw(ItemSlot fromSlot, Vector2 worldTargetVector, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
 	{
-		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Throw, aim, targetWorldPosition, spinMode);
+		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Throw, aim, worldTargetVector, spinMode);
 	}
 }
 
@@ -239,13 +244,13 @@ public enum InventoryRemoveType
 public enum ReplacementStrategy
 {
 	/// <summary>
-	/// Despawn the item in the target slot
+	/// Despawn the item currently in the target slot
 	/// </summary>
-	Despawn,
+	DespawnOther,
 	/// <summary>
 	/// Drop the item currently in the target slot
 	/// </summary>
-	Drop,
+	DropOther,
 	/// <summary>
 	/// Cancel the inventory movement (default).
 	/// </summary>

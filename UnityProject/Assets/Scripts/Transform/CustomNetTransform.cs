@@ -1,107 +1,13 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
-/// Current state of transform, server modifies these and sends to clients.
-/// Clients can modify these as well for prediction
-public struct TransformState {
-	public bool Active => Position != HiddenPos;
-	///Don't set directly, use Speed instead.
-	///public in order to be serialized :\
-	public float speed;
-	public float Speed {
-		get { return speed; }
-		set { speed = value < 0 ? 0 : value; }
-	}
-
-	///Direction of throw
-	public Vector2 Impulse;
-
-	/// Server-only active throw information
-	[NonSerialized]
-	public ThrowInfo ActiveThrow;
-
-	public int MatrixId;
-
-	/// Local position on current matrix
-	public Vector3 Position;
-	/// World position, more expensive to use
-	public Vector3 WorldPosition
-	{
-		get
-		{
-			if ( !Active )
-			{
-				return HiddenPos;
-			}
-
-			return MatrixManager.LocalToWorld( Position, MatrixManager.Get( MatrixId ) );
-		}
-		set {
-			if (value == HiddenPos) {
-				Position = HiddenPos;
-			}
-			else
-			{
-				Position = MatrixManager.WorldToLocal( value, MatrixManager.Get( MatrixId ) );
-			}
-		}
-	}
-
-	/// Flag means that this update is a pull follow update,
-	/// So that puller could ignore them
-	public bool IsFollowUpdate;
-
-	/// <summary>
-	/// Degrees of rotation about the Z axis caused by spinning, using unity's convention for euler angles where positive = CCW.
-	/// This is only used for spinning objects such as thrown ones or ones drifting in space and as such should not
-	/// be used for determining actual facing. Only affects the transform.localRotation of an object (rotation relative
-	/// to parent transform).
-	/// </summary>
-	public float SpinRotation;
-	/// Spin direction and speed, if it should spin
-	public sbyte SpinFactor;
-
-	/// Means that this object is hidden
-	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
-	/// Should only be used for uninitialized transform states, should NOT be used for anything else.
-	public static readonly TransformState Uninitialized =
-		new TransformState{ Position = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = -1};
-
-
-	/// <summary>
-	/// Check if this represents the uninitialized state TransformState.Uninitialized
-	/// </summary>
-	/// <returns>true iff this is TransformState.Uninitialized</returns>
-	public bool IsUninitialized => MatrixId == -1;
-
-	public override string ToString()
-	{
-		if (Equals(Uninitialized))
-		{
-			return "[Uninitialized]";
-		}
-		else if (Position == HiddenPos)
-		{
-			return  $"[{nameof( Position )}: Hidden, {nameof( WorldPosition )}: Hidden, " +
-			        $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
-			        $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
-		}
-		else
-		{
-			return  $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
-			        $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( SpinRotation )}: {SpinRotation}, " +
-			        $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
-		}
-
-	}
-}
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
+	//I think this is valid server side only
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
 		set => SetVisibleServer( value );
@@ -127,6 +33,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 
+	public ThrowEvent OnThrowStart = new ThrowEvent();
+	public ThrowEvent OnThrowEnd = new ThrowEvent();
+
 	public bool IsFixedMatrix = false;
 
 	/// <summary>
@@ -141,11 +50,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			{
 				return ItemSize.Huge;
 			}
-			if ( ItemAttributes.size == 0 )
+			if ( ItemAttributes.Size == 0 )
 			{
 				return ItemSize.Tiny;
 			}
-			return ItemAttributes.size;
+			return ItemAttributes.Size;
 		}
 	}
 
@@ -205,15 +114,15 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 
-	private ItemAttributes ItemAttributes {
+	private ItemAttributesV2 ItemAttributes {
 		get {
 			if ( itemAttributes == null ) {
-				itemAttributes = GetComponent<ItemAttributes>();
+				itemAttributes = GetComponent<ItemAttributesV2>();
 			}
 			return itemAttributes;
 		}
 	}
-	private ItemAttributes itemAttributes;
+	private ItemAttributesV2 itemAttributes;
 
 	private TransformState serverState = TransformState.Uninitialized; //used for syncing with players, matters only for server
 	private TransformState serverLerpState = TransformState.Uninitialized; //used for simulating lerp on server
@@ -231,7 +140,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		itemAttributes = GetComponent<ItemAttributes>();
+		itemAttributes = GetComponent<ItemAttributesV2>();
 		var _pushPull = PushPull; //init
 		OnUpdateRecieved().AddListener( Poke );
 	}
@@ -420,7 +329,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	private void SyncMatrix() {
 		if ( registerTile && !serverState.IsUninitialized) {
-			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetID;
+			registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get( serverState.MatrixId ).NetID);
 		}
 	}
 
@@ -439,9 +348,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, oldMatrix, newMatrix );
 
 			if ( oldMatrix.IsMovable
-			     && oldMatrix.MatrixMove.isMovingServer )
+			     && oldMatrix.MatrixMove.IsMovingServer )
 			{
-				Push( oldMatrix.MatrixMove.State.Direction.Vector.To2Int(), oldMatrix.Speed );
+				Push( oldMatrix.MatrixMove.ServerState.FlyingDirection.Vector.To2Int(), oldMatrix.Speed );
 				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Transform, gameObject );
 				return;
 			}
@@ -464,7 +373,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	#region Hiding/Unhiding
 
 	[Server]
-	public void DisappearFromWorldServer()
+	public void DisappearFromWorldServer(bool resetRotation = false)
 	{
 		OnPullInterrupt().Invoke();
 		if (IsFloatingServer)
@@ -474,6 +383,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
+
+		if (resetRotation)
+		{
+			transform.localRotation = Quaternion.identity;
+			//no spinning
+			serverState.SpinFactor = 0;
+			serverLerpState.SpinFactor = 0;
+			serverState.SpinRotation = 0;
+			serverLerpState.SpinRotation = 0;
+		}
 
 		NotifyPlayers();
 		UpdateActiveStatusServer();
@@ -585,7 +504,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			return;
 		}
 
-		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );;
+		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );
 	}
 
 	/// <summary>
@@ -624,3 +543,5 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
 	}
 }
+
+public class ThrowEvent : UnityEvent<ThrowInfo> {}

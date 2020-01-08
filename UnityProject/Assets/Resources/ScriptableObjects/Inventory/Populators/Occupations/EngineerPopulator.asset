@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: EngineerPopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 3
+    Prefab: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15,
+      type: 3}
+    SlotPopulator: {fileID: 0}
+  - NamedSlot: 6
+    Prefab: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461,
+      type: 3}
+    SlotPopulator: {fileID: 0}
+  - NamedSlot: 12
+    Prefab: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
+    SlotPopulator: {fileID: 0}
+  - NamedSlot: 2
+    Prefab: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+      type: 3}
+    SlotPopulator: {fileID: 0}
+  - NamedSlot: 1
+    Prefab: {fileID: 20384307089368758, guid: 371b9c216382844659c05791957b28c8, type: 3}
+    SlotPopulator: {fileID: 0}

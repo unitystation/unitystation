@@ -773,7 +773,9 @@ public static class Librarian
 
 	public static Type UEGetType(string TypeName)
 	{
-
+		if (TypeName == null || TypeName == "") { 
+			return null;
+		}
 		// Try Type.GetType() first. This will work with types defined
 		// by the Mono runtime, in the same assembly as the caller, etc.
 		var type = Type.GetType(TypeName);

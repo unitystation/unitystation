@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 114425968640280296}
   - component: {fileID: 114691281576881648}
   - component: {fileID: 114696512283264994}
+  - component: {fileID: -837520135671368095}
   m_Layer: 19
   m_Name: NoSmokingSign
   m_TagString: Untagged
@@ -80,8 +81,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114984355352443168
@@ -139,6 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114425968640280296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +187,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114696512283264994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +203,26 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3022309987
+  m_SceneId: 0
+--- !u!114 &-837520135671368095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609320383952464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: no smoking sign
+  initialDescription: '"Or else!"'
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1771045921581124
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +279,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

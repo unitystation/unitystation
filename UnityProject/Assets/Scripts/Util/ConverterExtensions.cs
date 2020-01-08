@@ -35,6 +35,96 @@
 			return Vector3Int.RoundToInt( (Vector2)other );
 		}
 
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector2Int Normalize(this Vector2Int other)
+		{
+			return new Vector2Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1));
+		}
+
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// Z is always 0!
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector2Int NormalizeToInt(this Vector2 other)
+		{
+			return new Vector2Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
+				Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1));
+		}
+
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector2Int NormalizeTo2Int(this Vector3Int other)
+		{
+			return new Vector2Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1));
+		}
+
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector2Int NormalizeTo2Int(this Vector3 other)
+		{
+			return new Vector2Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
+				Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1));
+		}
+
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// Z is always 0!
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector3Int Normalize(this Vector3Int other)
+		{
+			return new Vector3Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1), 0);
+		}
+
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// Z is always 0!
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector3Int NormalizeToInt(this Vector3 other)
+		{
+			return new Vector3Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
+				Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1),
+				0);
+		}
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// Z is always 0!
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector3Int NormalizeTo3Int(this Vector2 other)
+		{
+			return new Vector3Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
+				Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1),
+				0);
+		}
+
+		/// <summary>
+		/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
+		/// Z is always 0!
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public static Vector3Int NormalizeTo3Int(this Vector2Int other)
+		{
+			return new Vector3Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1), 0);
+		}
+
 		public static Vector3 ToLocal( this Vector3 worldPos, Matrix matrix ) {
 			return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get( matrix ));
 		}

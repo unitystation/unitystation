@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4645335817288720}
   - component: {fileID: 61202592083071704}
-  - component: {fileID: 8870941927508842519}
   - component: {fileID: 114608524725813366}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
@@ -18,6 +17,9 @@ GameObject:
   - component: {fileID: 114471841111005130}
   - component: {fileID: 114299846275532744}
   - component: {fileID: 114400856156292984}
+  - component: {fileID: 2295344816234763317}
+  - component: {fileID: 4389882494446682887}
+  - component: {fileID: -8093174316653623854}
   m_Layer: 10
   m_Name: Wet floor sign
   m_TagString: Untagged
@@ -66,38 +68,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8870941927508842519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Wet floor sign
-  itemDescription: Caution! Wet Floor!
-  initialTraits: []
-  size: 2
-  spriteType: 0
-  CanConnectToTank: 0
-  hitDamage: 1
-  damageType: 0
-  throwDamage: 3
-  throwSpeed: 2
-  throwRange: 5
-  hitSound: GenericHit
-  attackVerb:
-  - warned
-  - cautioned
-  - smashed
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,9 +114,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +155,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -207,8 +178,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 8c2952660a46d90479f70105bc1cbab8
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1949817233
+--- !u!114 &2295344816234763317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Wet floor sign
+  ArticleName: 
+  initialDescription: Caution! Wet Floor!
+  ArticleDescription: 
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 1
+  damageType: 0
+  throwDamage: 3
+  throwSpeed: 2
+  throwRange: 5
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs:
+  - warned
+  - cautioned
+  - smashed
+--- !u!114 &4389882494446682887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8093174316653623854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+  initialIntegrity: 100
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

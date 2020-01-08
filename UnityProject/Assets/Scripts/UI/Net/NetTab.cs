@@ -26,6 +26,7 @@ public enum NetTabType {
 public class NetTab : Tab {
 	[HideInInspector]
 	public GameObject Provider;
+	public RegisterTile ProviderRegisterTile;
 	public NetTabType Type = NetTabType.None;
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor( Provider, Type );
 	/// Is current tab a server tab?
@@ -41,7 +42,7 @@ public class NetTab : Tab {
 	public HashSet<ConnectedPlayer> Peepers => peepers;
 	private HashSet<ConnectedPlayer> peepers = new HashSet<ConnectedPlayer>();
 	public bool IsUnobserved => Peepers.Count == 0;
-	
+
 	/// <summary>
 	/// Invoked when there is a new peeper to this tab
 	/// </summary>
@@ -192,7 +193,7 @@ public class NetTab : Tab {
 	{
         foreach ( var peeper in Peepers.ToArray() )
         {
-            bool validate = peeper.Script && !peeper.Script.canNotInteract() && peeper.Script.IsInReach( Provider, true );
+            bool validate = peeper.Script && Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
             if ( !validate ) {
                 TabUpdateMessage.Send( peeper.GameObject, Provider, Type, TabAction.Close );
             }

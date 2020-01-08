@@ -68,7 +68,7 @@ public class CorgiAI : MobAI
 		bool allowCommands = false;
 		foreach (JobType t in allowedToGiveCommands)
 		{
-			if (t == card.GetJobType) allowCommands = true;
+			if (t == card.JobType) allowCommands = true;
 		}
 
 		if (!allowCommands) return;

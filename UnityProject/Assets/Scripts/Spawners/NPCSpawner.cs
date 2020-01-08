@@ -27,30 +27,18 @@ public class NPCSpawner : MonoBehaviour
 	void Start()
 	{
 		transform.localPosition = Vector3Int.RoundToInt(transform.localPosition);
-		StartCoroutine(WaitForLoad());
-	}
-
-	IEnumerator WaitForLoad()
-	{
-		while (CustomNetworkManager.Instance == null)
-		{
-			yield return WaitFor.Seconds(1f);
-		}
-
-		yield return WaitFor.EndOfFrame;
-
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			OnStartServer();
-		}
+		this.WaitForNetworkManager(OnStartServer);
 	}
 
 	//Is ready on the server:
 	void OnStartServer()
 	{
-		if (spawnerType == SpawnerType.roundStartRandom)
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			DoRandomSpawn();
+			if (spawnerType == SpawnerType.roundStartRandom)
+			{
+				DoRandomSpawn();
+			}
 		}
 	}
 

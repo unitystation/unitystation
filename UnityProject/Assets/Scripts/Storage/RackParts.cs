@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Construction, allowMultiple: true);
 
 	public GameObject rackPrefab;
 
@@ -35,10 +37,13 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		}
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+		    || !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 		{
 			return false;
 		}
+
+		//only works if wrench is in hand
+		if (!interaction.IsFromHandSlot) return false;
 
 		return true;
 	}
@@ -55,19 +60,18 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			return;
 		}
 
-		var progressFinishAction = new ProgressCompleteAction(() =>
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You assemble a rack.");
-				Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
-					interaction.Performer.transform.parent);
-				var handObj = interaction.HandObject;
-				Inventory.ServerDespawn(interaction.HandSlot);
-			}
-		);
+		void ProgressComplete()
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer,
+					"You assemble a rack.");
+			Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
+				interaction.Performer.transform.parent);
+			var handObj = interaction.HandObject;
+			Inventory.ServerDespawn(interaction.HandSlot);
+		}
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer);
+		var bar = StandardProgressAction.Create(ProgressConfig, ProgressComplete)
+			.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(), 5f, interaction.Performer);
 		if (bar != null)
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You start constructing a rack...");
@@ -79,6 +83,6 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f);
 		Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
 			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
-		Inventory.ServerDespawn(interaction.HandSlot);
+		Inventory.ServerDespawn(interaction.FromSlot);
 	}
 }

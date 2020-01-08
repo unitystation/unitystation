@@ -92,15 +92,16 @@ GameObject:
   - component: {fileID: 5777081026246458499}
   - component: {fileID: 371729019257740104}
   - component: {fileID: 8370574110460076425}
-  - component: {fileID: 3708183737056045869}
   - component: {fileID: 8660130930388877041}
   - component: {fileID: 3608028946632254207}
+  - component: {fileID: 6131961916030040304}
   - component: {fileID: 8030091416075537494}
   - component: {fileID: 3912772081314498544}
-  - component: {fileID: 6131961916030040304}
   - component: {fileID: 232133090902815782}
   - component: {fileID: 9011093994975062449}
   - component: {fileID: 3601667555067628660}
+  - component: {fileID: 663066518842221541}
+  - component: {fileID: 5025413973297959848}
   m_Layer: 10
   m_Name: FoldedBluespaceBodyBag
   m_TagString: Untagged
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!50 &8370574110460076425
 Rigidbody2D:
   serializedVersion: 4
@@ -184,36 +186,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3708183737056045869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5474488674200563466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Bluespace Body bag
-  itemDescription: A folded bluespace body bag designed for the storage and transportation
-    of cadavers.
-  itemType: 0
-  size: 2
-  spriteType: 0
-  CanConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &8660130930388877041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,9 +218,18 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &6131961916030040304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474488674200563466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8030091416075537494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,9 +244,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3912772081314498544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,18 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &6131961916030040304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5474488674200563466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &232133090902815782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,12 +285,13 @@ MonoBehaviour:
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 0
+    Flammable: 1
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &9011093994975062449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 63c9a0ba448fa47b7aebb5e45f4b1167
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &3601667555067628660
 MonoBehaviour:
@@ -355,3 +322,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabVariant: {fileID: 3055497906850374734, guid: 5736469458c6a405da64ea8a2bd33784,
     type: 3}
+--- !u!114 &663066518842221541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474488674200563466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+--- !u!114 &5025413973297959848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474488674200563466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Bluespace Body bag
+  initialDescription: A folded bluespace body bag designed for the storage and transportation
+    of cadavers.
+  initialTraits: []
+  initialSize: 2
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []

@@ -119,15 +119,14 @@ public static class PlayerSpawn
 		}
 
 		//create the player object
-		var newPlayer = ServerCreatePlayer(spawnPos.GetValueOrDefault(),
-			occupation, characterSettings);
+		var newPlayer = ServerCreatePlayer(spawnPos.GetValueOrDefault());
 		var newPlayerScript = newPlayer.GetComponent<PlayerScript>();
 
 		//get the old body if they have one.
 		var oldBody = existingMind?.GetCurrentMob();
 
 		//transfer control to the player object
-		ServerTransferPlayer(connection, newPlayer, oldBody, EVENT.PlayerSpawned, characterSettings, occupation);
+		ServerTransferPlayer(connection, newPlayer, oldBody, EVENT.PlayerSpawned, characterSettings);
 
 
 		if (existingMind == null)
@@ -145,11 +144,12 @@ public static class PlayerSpawn
 		var ps = newPlayer.GetComponent<PlayerScript>();
 		var connectedPlayer = PlayerList.Instance.Get(connection);
 		connectedPlayer.Name = ps.playerName;
+		connectedPlayer.Job = ps.mind.occupation.JobType;
 		UpdateConnectedPlayersMessage.Send();
 
 		//fire all hooks
 		var info = SpawnInfo.Player(occupation, characterSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
-			spawnPos, naked: naked);
+			SpawnDestination.At(spawnPos), naked: naked);
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
 
 		return newPlayer;
@@ -170,7 +170,7 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(forConnection, body, fromObject, EVENT.PlayerRejoined, settings, occupation);
+		ServerTransferPlayer(forConnection, body, fromObject, EVENT.PlayerRejoined, settings);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 
 		if (oldGhost)
@@ -192,7 +192,7 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, EVENT.PlayerRejoined, settings, occupation);
+		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, EVENT.PlayerRejoined, settings);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 	}
 
@@ -237,19 +237,42 @@ public static class PlayerSpawn
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
-		var ghost = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, Quaternion.identity,
+		//using parentTransform.rotation rather than Quaternion.identity because objects should always
+		//be upright w.r.t.  localRotation, NOT world rotation
+		var ghost = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
-		ghost.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
+		ghost.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		forMind.Ghosting(ghost);
 
-		ServerTransferPlayer(connection, ghost, body, EVENT.GhostSpawned, settings, forMind.occupation);
+		ServerTransferPlayer(connection, ghost, body, EVENT.GhostSpawned, settings);
 
 
 		//fire all hooks
-		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab, spawnPosition,
-			parentTransform);
+		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab,
+			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
+	}
+
+
+	/// <summary>
+	/// Spawns an assistant dummy
+	/// </summary>
+	public static void ServerSpawnDummy()
+	{
+		Transform spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
+		if (spawnTransform != null)
+		{
+			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
+
+			ServerTransferPlayer(null, dummy, null, EVENT.PlayerSpawned, new CharacterSettings());
+
+
+			//fire all hooks
+			var info = SpawnInfo.Player(OccupationList.Instance.Get(JobType.ASSISTANT), new CharacterSettings(), CustomNetworkManager.Instance.humanPlayerPrefab,
+				SpawnDestination.At(spawnTransform.gameObject));
+			Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, dummy));
+		}
 	}
 
 	/// <summary>
@@ -261,7 +284,7 @@ public static class PlayerSpawn
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
 	/// <returns></returns>
-	private static GameObject ServerCreatePlayer(Vector3Int spawnWorldPosition, Occupation occupation, CharacterSettings settings)
+	private static GameObject ServerCreatePlayer(Vector3Int spawnWorldPosition)
 	{
 		//player is only spawned on server, we don't sync it to other players yet
 		var spawnPosition = spawnWorldPosition;
@@ -269,10 +292,12 @@ public static class PlayerSpawn
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
+		//using parentTransform.rotation rather than Quaternion.identity because objects should always
+		//be upright w.r.t.  localRotation, NOT world rotation
 		var player = Object.Instantiate(CustomNetworkManager.Instance.humanPlayerPrefab,
-			spawnPosition, Quaternion.identity,
+			spawnPosition, parentTransform.rotation,
 			parentTransform);
-		player.GetComponent<PlayerScript>().registerTile.ParentNetId = parentNetId;
+		player.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 
 
@@ -287,9 +312,8 @@ public static class PlayerSpawn
 	/// <param name="oldBody">The old body of the character.</param>
 	/// <param name="eventType">Event type for the player sync.</param>
 	/// <param name="characterSettings">settings, ignored if transferring to an existing player body</param>
-	/// <param name="occupation">occupation, ignored if transferring to an existing player body</param>
 	private static void ServerTransferPlayer(NetworkConnection conn, GameObject newBody, GameObject oldBody,
-		EVENT eventType, CharacterSettings characterSettings, Occupation occupation)
+		EVENT eventType, CharacterSettings characterSettings)
 	{
 		if (oldBody)
 		{
@@ -298,6 +322,7 @@ public static class PlayerSpawn
 			{
 				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
 			}
+
 			//no longer can observe their inventory
 			oldBody.GetComponent<ItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
 		}
@@ -305,20 +330,23 @@ public static class PlayerSpawn
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
-			Logger.LogErrorFormat("Cannot transfer player from {0} to {1}, networkconnection of player to transfer is not online.",
-				Category.ItemSpawn, oldBody, newBody);
-			return;
+			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
+			NetworkServer.Spawn(newBody);
 		}
-
-		PlayerList.Instance.UpdatePlayer(conn, newBody);
-		NetworkServer.ReplacePlayerForConnection(conn, newBody);
-		if (oldBody)
+		else
 		{
-			NetworkServer.ReplacePlayerForConnection(new NetworkConnection("0.0.0.0"), oldBody);
+			PlayerList.Instance.UpdatePlayer(conn, newBody);
+			NetworkServer.ReplacePlayerForConnection(conn, newBody);
+			if (oldBody)
+			{
+				NetworkServer.ReplacePlayerForConnection(new NetworkConnection("0.0.0.0"), oldBody);
+			}
+			//mirrorworkaround: only added setLocal/unsetlocal for workaround for https://github.com/vis2k/Mirror/issues/962
+			TriggerEventMessage.Send(newBody, eventType, oldBody, newBody);
+
+			//can observe their new inventory
+			newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);
 		}
-		TriggerEventMessage.Send(newBody, eventType);
-		//can observe their new inventory
-		newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);
 
 		var playerScript = newBody.GetComponent<PlayerScript>();
 		if (playerScript.PlayerSync != null)
@@ -353,7 +381,6 @@ public static class PlayerSpawn
 		}
 	}
 
-
 	/// <summary>
 	/// Spawns a viewer for the specified connection and transfer the connection to this viewer.
 	/// </summary>
@@ -377,26 +404,6 @@ public static class PlayerSpawn
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
 	}
 
-	//TODO: Not currently allowing dummy spawning
-//	public static void SpawnDummyPlayer(Occupation occupation)
-//	{
-//		//TODO: Not sure this still works
-//		GameObject playerPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
-//
-//		Transform spawnTransform = GetSpawnForJob(occupation.JobType);
-//
-//		GameObject dummy;
-//
-//		if (spawnTransform != null)
-//		{
-//			dummy = CreateMob(spawnTransform.gameObject, playerPrefab );
-//		}
-//		else
-//		{
-//			dummy = Object.Instantiate(playerPrefab);
-//		}
-//		TransferPlayer(null, dummy, null, EVENT.PlayerSpawned, null, occupation);
-//	}
 
 
 

@@ -85,6 +85,68 @@ public class Tools : Editor
 			}
 		}
 
+		//this is just for migrating from old way of setting wall protrusion directions to the new way
+		[MenuItem("Tools/Set WallProtrusion Directionals from Transforms")]
+		private static void FixWallProtrusionDirectionals()
+		{
+			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				foreach (var wallProtrusion in gameObject.GetComponentsInChildren<WallProtrusion>())
+				{
+					var directional = wallProtrusion.GetComponent<Directional>();
+					var directionalSO = new SerializedObject(directional);
+					var initialD = directionalSO.FindProperty("InitialDirection");
+
+					Vector3 facing = -wallProtrusion.transform.up;
+					var initialOrientation = Orientation.From(facing);
+					initialD.enumValueIndex = (int) initialOrientation.AsEnum();
+					directionalSO.ApplyModifiedPropertiesWithoutUndo();
+				}
+			}
+		}
+
+		/// <summary>
+		/// With the new way mapping works, now you should never have a situation where you've
+		/// mapped something with a transform rotation, they should always have a local rotation
+		/// of 0,0,0, and directional / rotation logic must be set using components.
+		///
+		/// This is a script for making sure that's the case
+		/// </summary>
+		[MenuItem("Tools/Set All Object Local Rotations to Upright")]
+		private static void SetAllObjectLocalRotationsUpright()
+		{
+			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				foreach (var registerTile in gameObject.GetComponentsInChildren<RegisterTile>())
+				{
+					var transform = new SerializedObject(registerTile.transform);
+					var localRotation = transform.FindProperty("m_LocalRotation");
+					localRotation.quaternionValue = Quaternion.identity;
+					transform.ApplyModifiedPropertiesWithoutUndo();
+				}
+			}
+		}
+
+		//they should always be upright unless they are directional.
+		[MenuItem("Tools/Set All non-directional Wallmount Sprite Rotations to Upright")]
+		private static void SetAllNonDirectionalWallmountSpriteRotationsUpright()
+		{
+			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
+				{
+					if (wallmount.GetComponent<DirectionalRotationSprites>() != null) continue;
+					foreach (var spriteRenderer in wallmount.GetComponentsInChildren<SpriteRenderer>())
+					{
+						var transform = new SerializedObject(spriteRenderer.transform);
+						var localRotation = transform.FindProperty("m_LocalRotation");
+						localRotation.quaternionValue = Quaternion.identity;
+						transform.ApplyModifiedPropertiesWithoutUndo();
+					}
+				}
+			}
+		}
+
 		//this is for fixing some prefabs that have duplicate Meleeable components
 		[MenuItem("Prefabs/Remove Duplicate Meleeable")]
 		private static void RemoveDuplicateMeleeable()
@@ -136,4 +198,39 @@ public class Tools : Editor
 
 			return null;
 		}
+
+		//for migrating from Old ItemAttributes to ItemAttributesV2
+//		[MenuItem("Prefabs/Migrate Item Attributes")]
+//		private static void MigrateItemAttributes()
+//		{
+//			//scan for prefabs which contain OldItemAttributes
+//			var prefabGUIDS = AssetDatabase.FindAssets("t:Prefab");
+//			foreach (var prefabGUID in prefabGUIDS)
+//			{
+//				var path = AssetDatabase.GUIDToAssetPath(prefabGUID);
+//				var toCheck = AssetDatabase.LoadAllAssetsAtPath(path);
+//
+//				//find the root gameobject
+//				var rootPrefabGO = GetRootPrefabGOFromAssets(toCheck);
+//
+//				if (rootPrefabGO == null)
+//				{
+//					continue;
+//				}
+//				//does component exist in it or any children?
+//				if (rootPrefabGO.GetComponent<ItemAttributesV2>() == null)
+//				{
+//					continue;
+//				}
+//
+//				//Found one that has OldItemAttributes, now create ItemAttributesV2 and migrate the
+//				//fields
+//				var addedAttributes = rootPrefabGO.AddComponent<ItemAttributesV2>();
+//				var oldAttributes = rootPrefabGO.GetComponent<ItemAttributes>();
+//				addedAttributes.MigrateFromOld(rootPrefabGO.GetComponent<ItemAttributes>());
+//				Logger.Log("Modified " + rootPrefabGO.name);
+//				DestroyImmediate(oldAttributes,true);
+//				PrefabUtility.SavePrefabAsset(rootPrefabGO);
+//			}
+//		}
 	}

@@ -46,6 +46,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 	}
 	public override void PowerUpdateStructureChange() {
+		ControllingNode.Node.FlushConnectionAndUp();
 		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
@@ -58,13 +59,6 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
-	}
-	public override void ObjectStateChange(ObjectState tState) {
-		if (tState == ObjectState.InConstruction) {
-			//TurnOffSupply();
-			ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
-			ControllingNode.Node.FlushSupplyAndUp(this.gameObject);
-		}
 	}
 
 	public override void OnDespawnServer(DespawnInfo info) {

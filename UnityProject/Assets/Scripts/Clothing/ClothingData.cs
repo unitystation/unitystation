@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using UnityEngine.SceneManagement;
-using System.IO;
 using System;
 
 //[InitializeOnLoad]
@@ -14,15 +10,6 @@ public class ClothingData : BaseClothData
 	public EquippedData Base_Adjusted; //Variant for if it is Worn differently
 	public EquippedData DressVariant; //humm yeah Dresses
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
-
-	public override void  InitializePool()
-	{
-		if (Spawn.ClothingStoredData.ContainsKey(this.name) && Spawn.ClothingStoredData[this.name] != this)
-		{
-			Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
-		}
-		Spawn.ClothingStoredData[this.name] = this;
-	}
 
 	public static void getClothingDatas(List<ClothingData> DataPCD)
 	{
@@ -50,6 +37,8 @@ public class ClothingData : BaseClothData
 	{
 		return $"{name}";
 	}
+
+
 }
 
 [System.Serializable]
@@ -59,4 +48,27 @@ public class EquippedData
 	public SpriteSheetAndData InHandsLeft;
 	public SpriteSheetAndData InHandsRight;
 	public SpriteSheetAndData ItemIcon;
+
+	public void Combine(EquippedData parent)
+	{
+		if (Equipped.Texture == null)
+		{
+			Equipped = parent.Equipped;
+		}
+
+		if (InHandsLeft.Texture == null)
+		{
+			InHandsLeft = parent.InHandsLeft;
+		}
+
+		if (InHandsRight.Texture == null)
+		{
+			InHandsRight = parent.InHandsRight;
+		}
+
+		if (ItemIcon.Texture == null)
+		{
+			ItemIcon = parent.ItemIcon;
+		}
+	}
 }

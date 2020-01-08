@@ -3,9 +3,12 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Put this on an object to allow it to be dragged by the mouse in the game world. This does
+/// Put this on an object to allow it to be dragged by the mouse in the game world (while it's
+/// not in inventory). This does
 /// not mean that any sort of interaction will occur when dropping the object on something,
-/// it merely allows the object to be dragged by the mouse.
+/// it merely allows the object to be dragged by the mouse. All objects in inventory can
+/// also be dragged out into the world so this is not needed unless the object needs to be draggable
+/// while it's outside of inventory.
 ///
 /// Upon being dragged, a sprite is placed under the mouse during the drag action indicating the
 /// object being dragged. It can then be released to "drop" the object on another object.
@@ -16,9 +19,6 @@ using UnityEngine;
 /// </summary>
 public class MouseDraggable : MonoBehaviour
 {
-	[Tooltip("Layers onto which this object can be dropped.")]
-	public LayerMask dropLayers;
-
 	[Tooltip("Sprite to draw under mouse when dragging. If unspecified, will use the first " +
 	         "SpriteRenderer encountered on this object or its children")]
 	public Sprite shadow;
@@ -70,7 +70,7 @@ public class MouseDraggable : MonoBehaviour
 		//shadowObject.transform.localScale -= new Vector3(0.5f,0.5f, 0);
 	}
 
-	private void Update()
+	private void LateUpdate()
 	{
 		if (shadowObject == null)
 		{
@@ -98,7 +98,7 @@ public class MouseDraggable : MonoBehaviour
 		//check what we dropped on, which may or may not have mousedrop interaction components
 		//can only drop on things that have a RegisterTile
 		var dropTargets =
-			MouseUtils.GetOrderedObjectsUnderMouse(dropLayers);
+			MouseUtils.GetOrderedObjectsUnderMouse();
 
 		//go through the stack of objects and call any drop components we find
 		foreach (GameObject dropTarget in dropTargets)

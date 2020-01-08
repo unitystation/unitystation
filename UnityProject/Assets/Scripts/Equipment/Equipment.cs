@@ -87,7 +87,7 @@ public class Equipment : NetworkBehaviour
 	{
 		var item = maskSlot?.Item;
 		if (item == null) return false;
-		var itemAttrs = item.GetComponent<ItemAttributes>();
+		var itemAttrs = item.GetComponent<ItemAttributesV2>();
 		if (itemAttrs == null) return false;
 
 		if (itemAttrs.HasTrait(CommonTraits.Instance.Mask))

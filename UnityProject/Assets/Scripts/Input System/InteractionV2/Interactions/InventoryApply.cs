@@ -4,41 +4,51 @@ using UnityEngine;
 /// <summary>
 /// Encapsulates all of the info needed for handling an inventory apply interaction.
 ///
-/// Like HandApply, but targeting something in the inventory rather than in the world.
-/// Triggers when clicking an item in the inventory. Triggers even when active hand has no item.
+/// Triggered by clicking an inventory slot (in which case the active hand will be the
+/// from slot even if it's empty) or dragging from one slot to another.
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {
-	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, null);
+	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, Intent.Help);
 
-	private ItemSlot handSlot;
+	private ItemSlot fromSlot;
 	private ItemSlot targetSlot;
 
 	/// <summary>
-	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand.
+	/// slot of the hand that is being used to perform the apply, or
+	/// slot the item was dragged from if dragging from one slot to another.
 	/// </summary>
-	public GameObject HandObject => UsedObject;
-
-	/// <summary>
-	/// slot of the hand that is being used to perform the apply.
-	/// </summary>
-	public ItemSlot HandSlot => handSlot;
+	public ItemSlot FromSlot => fromSlot;
 	/// <summary>
 	/// slot of object that the player is applying the used object to
 	/// </summary>
 	public ItemSlot TargetSlot => targetSlot;
 
 	/// <summary>
+	/// True iff the FromSlot is one of the performer's hands
+	/// </summary>
+	public bool IsFromHandSlot => fromSlot.ItemStorage.gameObject == Performer &&
+	                              (fromSlot.SlotIdentifier.NamedSlot == NamedSlot.leftHand ||
+	                              fromSlot.SlotIdentifier.NamedSlot == NamedSlot.rightHand);
+
+	/// <summary>
+	/// True iff the target slot is one of the performer's hands
+	/// </summary>
+	public bool IsToHandSlot => fromSlot.ItemStorage.gameObject == Performer &&
+	                              (targetSlot.SlotIdentifier.NamedSlot == NamedSlot.leftHand ||
+	                               targetSlot.SlotIdentifier.NamedSlot == NamedSlot.rightHand);
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the InventoryApply</param>
-	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetSlot">object that the player applying the used object to</param>
-	/// <param name="handSlot">hand slot of handObject</param>
-	private InventoryApply(GameObject performer, GameObject handObject, ItemSlot targetSlot, ItemSlot handSlot) :
-		base(performer, handObject, targetSlot?.ItemObject)
+	/// <param name="fromSlot">hand slot if clicking on something in inventory, otherwise slot
+	/// the item is being dragged from</param>
+	private InventoryApply(GameObject performer, ItemSlot targetSlot, ItemSlot fromSlot, Intent intent) :
+		base(performer, fromSlot?.ItemObject, targetSlot?.ItemObject, intent)
 	{
-		this.handSlot = handSlot;
+		this.fromSlot = fromSlot;
 		this.targetSlot = targetSlot;
 	}
 
@@ -46,15 +56,17 @@ public class InventoryApply : TargetedInteraction
 	/// Create a InventoryApply interaction performed by the local player using their active hand
 	/// </summary>
 	/// <param name="targetObjectSlot">slot of the object that the player is applying the active hand item to</param>
+	/// <param name="fromSlot">hand slot if clicking on something in inventory, otherwise slot
+	/// the item is being dragged from</param>
 	/// <returns></returns>
-	public static InventoryApply ByLocalPlayer(ItemSlot targetObjectSlot)
+	public static InventoryApply ByLocalPlayer(ItemSlot targetObjectSlot, ItemSlot fromSlot)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return Invalid;
 		}
-		return new InventoryApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.ItemObject,
-			targetObjectSlot, UIManager.Hands.CurrentSlot.ItemSlot);
+		return new InventoryApply(PlayerManager.LocalPlayer,
+			targetObjectSlot, fromSlot, UIManager.CurrentIntent);
 	}
 
 	/// <summary>
@@ -66,14 +78,13 @@ public class InventoryApply : TargetedInteraction
 	/// <param name="handObject">object in the player's active hand. This parameter is used so
 	/// it doesn't need to be looked up again, since it already should've been looked up in
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.GetActiveHandItem().</param>
-	/// <param name="handSlot">Player's active hand. This parameter is used so
-	/// it doesn't need to be looked up again, since it already should've been looked up in
-	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
+	/// <param name="fromSlot">hand slot if clicking on something in inventory, otherwise slot
+	/// the item is being dragged from</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 
 	public static InventoryApply ByClient(GameObject clientPlayer, ItemSlot targetObjectSlot,
-		GameObject handObject, ItemSlot handSlot)
+		ItemSlot fromSlot, Intent intent)
 	{
-		return new InventoryApply(clientPlayer, handObject, targetObjectSlot, handSlot);
+		return new InventoryApply(clientPlayer, targetObjectSlot, fromSlot, intent);
 	}
 }

@@ -56,9 +56,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 3
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114487159119372660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +264,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1202179623
+  m_SceneId: 0
 --- !u!1 &1282939714934272
 GameObject:
   m_ObjectHideFlags: 0
@@ -5076,7 +5073,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 16
+  m_SortingLayer: 15
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0
@@ -9829,7 +9826,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 16
+  m_SortingLayer: 15
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0

@@ -40,15 +40,17 @@ public class RegisterCloset : RegisterObject
 
 	private void Awake()
 	{
+		base.Awake();
 		closetControl = GetComponent<ClosetControl>();
+		OnParentChangeComplete.AddListener(ReparentContainedObjectsOnParentChangeComplete);
 	}
 
-	protected override void OnParentChangeComplete()
+	private void ReparentContainedObjectsOnParentChangeComplete()
 	{
 		if (closetControl != null)
 		{
 			// update the parent of each of the items in the closet
-			closetControl.OnParentChangeComplete(ParentNetId);
+			closetControl.OnParentChangeComplete(NetworkedMatrixNetId);
 		}
 	}
 }

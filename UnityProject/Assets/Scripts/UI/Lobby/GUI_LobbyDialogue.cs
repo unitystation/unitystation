@@ -1,16 +1,16 @@
-﻿using System.Collections;
-using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections;
 using DatabaseAPI;
-using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using Firebase.Auth;
 
 namespace Lobby
 {
 	public class GUI_LobbyDialogue : MonoBehaviour
 	{
-		private const string DefaultServerAddress = "localhost";
+		private const string DefaultServerAddress = "127.0.0.1";
 		private const ushort DefaultServerPort = 7777;
 		private const string UserNamePlayerPref = "PlayerName";
 
@@ -33,6 +33,7 @@ namespace Lobby
 		//Account login:
 		public GameObject loginNextButton;
 		public GameObject loginGoBackButton;
+		public Button resendEmailButton;
 
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
@@ -58,32 +59,13 @@ namespace Lobby
 			{
 				serverAddressInput.text = DefaultServerAddress;
 			}
+
 			serverPortInput.text = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port.ToString();
 
 			OnHostToggle();
 
 			// Init Lobby UI
 			InitPlayerName();
-			
-			//TODO: Enable auto login. If CharacterSettings have not been downloaded for this instance
-			// then you need to download them if the user is already logged in. Show a logging in status text
-			// when doing this
-			// if (ServerData.Auth.CurrentUser != null)
-			// {
-			// 	ShowConnectionPanel();
-			// }
-			// else
-			// {
-
-			//if (ServerData.Auth?.CurrentUser != null)
-			//{
-			//	ShowConnectionPanel();
-			//}
-			//else
-			//{
-
-			//	ShowLoginScreen();
-			//}
 		}
 
 		public void ShowLoginScreen()
@@ -101,16 +83,21 @@ namespace Lobby
 			dialogueTitle.text = "Create an Account";
 		}
 
-		public void ShowCharacterEditor()
+		public void ShowCharacterEditor(Action onCloseAction = null)
 		{
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
+			if (onCloseAction != null)
+			{
+				LobbyManager.Instance.characterCustomization.onCloseAction = onCloseAction;
+			}
 		}
 
-		private void Update() {
-			if ( Input.GetKeyDown( KeyCode.F6 ) )
-				if ( Input.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.F6))
+				if (Input.GetKeyDown(KeyCode.F6) && !BuildPreferences.isForRelease)
 				{
 					//skip login
 					HideAllPanels();
@@ -156,6 +143,7 @@ namespace Lobby
 					Logger.LogError("Failed to load users profile data", Category.DatabaseAPI);
 					break;
 				}
+
 				yield return WaitFor.EndOfFrame;
 			}
 
@@ -180,13 +168,14 @@ namespace Lobby
 
 		private void AccountCreationSuccess(CharacterSettings charSettings)
 		{
-			pleaseWaitCreationText.text = "Created Successfully";
+			pleaseWaitCreationText.text = $"Success! An email has been sent to {emailAddressInput.text}. " +
+			                              $"Please click the link in the email to verify " +
+			                              $"your account before signing in.";
 			PlayerManager.CurrentCharacterSettings = charSettings;
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			chosenPasswordInput.text = "";
 			chosenUsernameInput.text = "";
-
-			ShowCharacterEditor();
+			goBackCreationButton.SetActive(true);
 			PlayerPrefs.SetString("lastLogin", emailAddressInput.text);
 			PlayerPrefs.Save();
 			LobbyManager.Instance.accountLogin.userNameInput.text = emailAddressInput.text;
@@ -212,13 +201,17 @@ namespace Lobby
 				return;
 			}
 
+			ShowLoggingInStatus("Logging in..");
+			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError);
+		}
+
+		public void ShowLoggingInStatus(string status)
+		{
 			HideAllPanels();
 			loggingInPanel.SetActive(true);
-			loggingInText.text = "Logging in..";
+			loggingInText.text = status;
 			loginNextButton.SetActive(false);
 			loginGoBackButton.SetActive(false);
-
-			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError);
 		}
 
 		public void OnLogout()
@@ -226,6 +219,7 @@ namespace Lobby
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			ServerData.Auth.SignOut();
+			NetworkClient.Disconnect();
 			PlayerPrefs.SetString("username", "");
 			PlayerPrefs.SetString("cookie", "");
 			PlayerPrefs.SetInt("autoLogin", 0);
@@ -233,20 +227,37 @@ namespace Lobby
 			ShowLoginScreen();
 		}
 
-		private void LoginSuccess(string msg)
+		public void LoginSuccess(string msg)
 		{
 			loggingInText.text = "Login Success..";
-			var characterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(msg));
-			PlayerPrefs.SetString("currentcharacter", msg);
-			PlayerManager.CurrentCharacterSettings = characterSettings;
 			ShowConnectionPanel();
 		}
 
-		private void LoginError(string msg)
+		public void LoginError(string msg)
 		{
-			ServerData.Auth.SignOut(); //just incase
-			loggingInText.text = "Login failed:" + msg;
+			loggingInText.text = "Login failed: " + msg;
+			if (msg.Contains("Email Not Verified"))
+			{
+				resendEmailButton.gameObject.SetActive(true);
+				resendEmailButton.interactable = true;
+			}
+			else
+			{
+				resendEmailButton.gameObject.SetActive(false);
+				ServerData.Auth.SignOut();
+			}
+
 			loginGoBackButton.SetActive(true);
+		}
+
+		public void OnEmailResend()
+		{
+			resendEmailButton.interactable = false;
+			loggingInText.text =
+				$"A new verification email has been sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.";
+			SoundManager.Play("Click01");
+			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
+			FirebaseAuth.DefaultInstance.SignOut();
 		}
 
 		public void OnHostToggle()
@@ -259,11 +270,6 @@ namespace Lobby
 		public void OnStartGame()
 		{
 			SoundManager.Play("Click01");
-
-			if (!connectionPanel.activeInHierarchy)
-			{
-				return;
-			}
 
 			// Return if no network address is specified
 			if (string.IsNullOrEmpty(serverAddressInput.text))
@@ -308,7 +314,7 @@ namespace Lobby
 		}
 
 		// Game handlers
-		void ConnectToServer()
+		public void ConnectToServer()
 		{
 			// Set network address
 			string serverAddress = serverAddressInput.text;
@@ -318,6 +324,7 @@ namespace Lobby
 				{
 					serverAddress = Managers.instance.serverIP;
 				}
+
 				if (string.IsNullOrEmpty(serverAddress))
 				{
 					serverAddress = DefaultServerAddress;
@@ -330,12 +337,14 @@ namespace Lobby
 			{
 				ushort.TryParse(serverPortInput.text, out serverPort);
 			}
+
 			if (serverPort == 0)
 			{
 				serverPort = DefaultServerPort;
 			}
 
 			// Init network client
+			Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, serverAddress, serverPort);
 			networkManager.networkAddress = serverAddress;
 			networkManager.GetComponent<TelepathyTransport>().port = serverPort;
 			networkManager.StartClient();
@@ -345,11 +354,6 @@ namespace Lobby
 		{
 			string steamName = "";
 			string prefsName;
-
-			if (Client.Instance != null)
-			{
-				steamName = Client.Instance.Username;
-			}
 
 			if (!string.IsNullOrEmpty(steamName))
 			{
@@ -385,7 +389,7 @@ namespace Lobby
 			wrongVersionPanel.SetActive(true);
 		}
 
-		void HideAllPanels()
+		public void HideAllPanels()
 		{
 			//FIXME
 			//	startGamePanel.SetActive(false);

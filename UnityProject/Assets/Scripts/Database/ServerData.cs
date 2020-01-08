@@ -1,19 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Firebase;
+using System.Net.Http;
 using Firebase.Extensions;
-using Lobby;
 using UnityEngine;
-using Mirror;
 
 namespace DatabaseAPI
 {
 	public partial class ServerData : MonoBehaviour
 	{
-		class Status { public bool error = false; public bool profileSet = false; public bool charReceived = false; }
+		class Status
+		{
+			public bool error = false;
+			public bool profileSet = false;
+			public bool charReceived = false;
+		}
 
 		private static ServerData serverData;
+
 		public static ServerData Instance
 		{
 			get
@@ -22,19 +25,47 @@ namespace DatabaseAPI
 				{
 					serverData = FindObjectOfType<ServerData>();
 				}
+
 				return serverData;
 			}
 		}
 
-		private const string FirebaseRoot = "https://firestore.googleapis.com/v1/projects/unitystation-c6a53/databases/(default)/documents";
+		public static string UserFirestoreURL
+		{
+			get
+			{
+				return "https://firestore.googleapis.com/v1/projects/" +
+				       $"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
+			}
+		}
+
 		private Firebase.Auth.FirebaseAuth auth;
 		public static Firebase.Auth.FirebaseAuth Auth => Instance.auth;
-		private Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth = new Dictionary<string, Firebase.Auth.FirebaseUser>();
+
+		private Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth =
+			new Dictionary<string, Firebase.Auth.FirebaseUser>();
+
 		private Firebase.Auth.FirebaseUser user = null;
+
+		public static string UserID
+		{
+			get
+			{
+				if (Instance.user == null)
+				{
+					return "";
+				}
+
+				return Instance.user.UserId;
+			}
+		}
+
 		private bool fetchingToken = false;
-		public string token;
-		public string refreshToken;
-		public bool isFirstTime = false;
+		public string idToken;
+		public static string IdToken => Instance.idToken;
+		private HttpClient httpClient = new HttpClient();
+
+		public static HttpClient HttpClient => Instance.httpClient;
 
 		void Awake()
 		{
@@ -64,7 +95,7 @@ namespace DatabaseAPI
 
 		void Update()
 		{
-			if (connectedToHub)
+			if (config != null)
 			{
 				MonitorServerStatus();
 			}
@@ -97,16 +128,9 @@ namespace DatabaseAPI
 				{
 					Logger.Log("Signed out ", Category.DatabaseAPI);
 				}
+
 				user = senderAuth.CurrentUser;
 				userByAuth[senderAuth.App.Name] = user;
-				if (signedIn)
-				{
-					//TODO: Display name stuff
-					/* 
-					displayName = user.DisplayName ?? "";
-					DisplayDetailedUserInfo(user, 1);
-					*/
-				}
 			}
 		}
 
@@ -123,36 +147,52 @@ namespace DatabaseAPI
 
 		void SetToken(string result)
 		{
-			if (string.IsNullOrEmpty(token))
-			{
-				Instance.token = result;
-			}
-			else
-			{
-				Instance.token = result;
-				Instance.refreshToken = result;
-			}
-
-			if (isFirstTime)
-			{
-				isFirstTime = false;
-				UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings, NewCharacterSuccess, NewCharacterFailed);
-			}
+			Instance.idToken = result;
 		}
-
-		void NewCharacterSuccess(string msg) { }
-
-		void NewCharacterFailed(string msg) { }
 
 		public void OnLogOut()
 		{
 			auth.SignOut();
-			token = "";
-			refreshToken = "";
+			idToken = "";
 			PlayerPrefs.SetString("username", "");
 			PlayerPrefs.SetString("cookie", "");
 			PlayerPrefs.SetInt("autoLogin", 0);
 			PlayerPrefs.Save();
 		}
+	}
+
+	[Serializable]
+	public class RefreshToken
+	{
+		public string refreshToken;
+		public string userID;
+	}
+
+	[Serializable]
+	public class FireStoreResponse
+	{
+		public FireStoreError error;
+		public string name;
+		public FireStoreFields fields;
+	}
+
+	[Serializable]
+	public class FireStoreError
+	{
+		public ushort code;
+		public string message;
+		public string status;
+	}
+
+	[Serializable]
+	public class FireStoreFields
+	{
+		public FireStoreCharacter character;
+	}
+
+	[Serializable]
+	public class FireStoreCharacter
+	{
+		public string stringValue;
 	}
 }

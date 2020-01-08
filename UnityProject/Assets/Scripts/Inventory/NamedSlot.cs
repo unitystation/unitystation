@@ -11,11 +11,11 @@ public enum NamedSlot
 	//the ordinals and any new value you add must specify a new ordinal value
 
 	//player inventory stuff
-	exosuit = 0,
+	outerwear = 0,
 	belt = 1,
 	head = 2,
 	feet = 3,
-	face = 4,
+	//NOTE: I don't think this is used, and mask is used instead face = 4,
 	mask = 5,
 	uniform = 6,
 	leftHand = 7,

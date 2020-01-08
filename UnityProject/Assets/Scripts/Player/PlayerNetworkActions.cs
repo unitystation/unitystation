@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Mirror;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
+	private static readonly StandardProgressActionConfig DisrobeProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Disrobe);
+	private static readonly StandardProgressActionConfig CPRProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.CPR);
+
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
@@ -71,70 +77,78 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdDropItem(NamedSlot equipSlot)
 	{
+		//only allowed to drop from hands
+		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
+
+		//allowed to drop from hands while cuffed
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
+
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		if (playerScript.canNotInteract() || equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand ||
-		    slot.Item == null)
+		Inventory.ServerDrop(slot);
+	}
+
+	/// <summary>
+	/// Completely disrobes another player
+	/// </summary>
+	[Command]
+	public void CmdDisrobe(GameObject toDisrobe)
+	{
+		if (!Validations.CanApply(playerScript, toDisrobe, NetworkSide.Server)) return;
+		//only allowed if this player is an observer of the player to disrobe
+		var itemStorage = toDisrobe.GetComponent<ItemStorage>();
+		if (itemStorage == null) return;
+
+		//are we an observer of the player to disrobe?
+		if (!itemStorage.ServerIsObserver(gameObject)) return;
+
+		//disrobe each slot, taking .2s per each occupied slot
+		//calculate time
+		var occupiedSlots = itemStorage.GetItemSlots().Count(slot => slot.NamedSlot != NamedSlot.handcuffs && !slot.IsEmpty);
+		if (occupiedSlots == 0) return;
+		var timeTaken = occupiedSlots * .4f;
+		void ProgressComplete()
 		{
-			return;
+			foreach (var itemSlot in itemStorage.GetItemSlots())
+			{
+				//skip slots which have special uses
+				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
+				Inventory.ServerDrop(itemSlot);
+			}
 		}
 
-		Inventory.ServerDrop(slot);
+		StandardProgressAction.Create(DisrobeProgressConfig, ProgressComplete)
+			.ServerStartProgress(toDisrobe.RegisterTile(), timeTaken, gameObject);
 	}
 
 	/// <summary>
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetPos, int aim)
+	public void CmdThrow(NamedSlot equipSlot, Vector3 worldTargetVector, int aim)
 	{
-		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		if (playerScript.canNotInteract() || equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand ||
-		    slot.Item == null)
-		{
-			return;
-		}
+		//only allowed to throw from hands
+		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
-		Inventory.ServerThrow(slot, worldTargetPos,
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		Inventory.ServerThrow(slot, worldTargetVector,
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
 	}
 
 	[Command] //Remember with the parent you can only send networked objects:
-	public void CmdPlaceItem(NamedSlot equipSlot, Vector3 pos, GameObject newParent, bool isTileMap)
+	public void CmdPlaceItem(NamedSlot equipSlot, Vector3 worldPos, GameObject newParent, bool isTileMap)
 	{
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos, true))
-		{
-			return;
-		}
+		var targetVector = worldPos - gameObject.TileWorldPosition().To3Int();
+		if (!Validations.CanApply(playerScript, newParent, NetworkSide.Server, targetVector: targetVector)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		Inventory.ServerDrop(slot, pos);
-	}
-
-	[Command]
-	public void CmdToggleShutters(GameObject switchObj)
-	{
-		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
-		{
-			ShutterSwitch s = switchObj.GetComponent<ShutterSwitch>();
-			if (s.IsClosed)
-			{
-				s.IsClosed = false;
-			}
-			else
-			{
-				s.IsClosed = true;
-			}
-		}
-		else
-		{
-			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
-			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
-		}
+		Inventory.ServerDrop(slot, worldPos);
 	}
 
 	[Command]
 	public void CmdToggleLightSwitch(GameObject switchObj)
 	{
+		if (!Validations.CanApply(playerScript, switchObj, NetworkSide.Server)) return;
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
 			LightSwitch s = switchObj.GetComponent<LightSwitch>();
@@ -174,6 +188,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ReenterBodyUpdates()
 	{
 		UpdateInventorySlots();
+		TargetStopMusic(connectionToClient);
+	}
+
+	[TargetRpc]
+	public void TargetStopMusic(NetworkConnection target)
+	{
+		SoundManager.SongTracker.Stop();
 	}
 
 	/// <summary>
@@ -183,10 +204,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		var body = playerScript.mind.body.gameObject;
-		//player gets inventory slot updates again
-		foreach (var slot in itemStorage.GetItemSlotTree())
+		if (itemStorage != null)
 		{
-			slot.ServerAddObserverPlayer(body);
+			//player gets inventory slot updates again
+			foreach (var slot in itemStorage.GetItemSlotTree())
+			{
+				slot.ServerAddObserverPlayer(body);
+			}
 		}
 	}
 
@@ -199,7 +223,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		playerScript.registerTile.IsDownServer = newState != ConsciousState.CONSCIOUS;
 		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
@@ -310,7 +333,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
 			return;
 		}
-		if ( body.WorldPos == TransformState.HiddenPos )
+
+		//body might be in a container, reentering should still be allowed in that case
+		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos )
 		{
 			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
 			return;
@@ -334,6 +359,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEatFood(GameObject food, NamedSlot fromSlot, bool isDrink)
 	{
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+
 		var slot = itemStorage.GetNamedItemSlot(fromSlot);
 		if (slot.Item == null)
 		{
@@ -376,30 +403,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
-	{
-		//Double check reach just in case:
-		if (playerScript.IsInReach(weldingTank, true))
-		{
-			var w = welder.GetComponent<Welder>();
-
-			//is the welder on?
-			if (w.isOn)
-			{ //fixme: ExplodeWhenShot is removed for good
-//				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
-			}
-			else
-			{
-				//Refuel!
-				w.Refuel();
-				RpcPlayerSoundAtPos("Refill", transform.position, true);
-			}
-		}
-	}
-
-	[Command]
 	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
 	{
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+
 		//Validate paper edit request
 		//TODO Check for Pen
 		var leftHand = itemStorage.GetNamedItemSlot(NamedSlot.leftHand);
@@ -454,6 +461,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
 	{
+		//validate that hug can be done
+		if (!Validations.CanApply(playerScript, huggedPlayer, NetworkSide.Server)) return;
+
 		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
 		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
 		var lhbOther = huggedPlayer.GetComponent<LivingHealthBehaviour>();
@@ -473,21 +483,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	///	Performs a CPR action from one player to another.
 	/// </summary>
 	[Command]
-	public void CmdRequestCPR(GameObject rescuer, GameObject cardiacArrestPlayer)
+	public void CmdRequestCPR(GameObject cardiacArrestPlayer)
 	{
 		//TODO: Probably refactor this to IF2
+		if (!Validations.CanApply(playerScript, cardiacArrestPlayer, NetworkSide.Server)) return;
 
 		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
 
-		var progressFinishAction = new ProgressCompleteAction(() => DoCPR(rescuer, cardiacArrestPlayer));
+		void ProgressComplete()
+		{
+			DoCPR(playerScript.gameObject, cardiacArrestPlayer);
+		}
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.CPR, cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
-			rescuer);
-
+		var bar = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
+			.ServerStartProgress(cardiacArrestPlayerRegister, 5f, playerScript.gameObject);
 		if (bar != null)
 		{
-			Chat.AddActionMsgToChat(rescuer, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
-			$"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.");
+			Chat.AddActionMsgToChat(playerScript.gameObject, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
+			$"{playerScript.gameObject.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.");
 		}
 	}
 
@@ -504,10 +517,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Performs a disarm attempt from one player to another.
 	/// </summary>
 	[Command]
-	public void CmdRequestDisarm(GameObject disarmer, GameObject playerToDisarm)
+	public void CmdRequestDisarm(GameObject playerToDisarm)
 	{
+		if (!Validations.CanApply(playerScript, playerToDisarm, NetworkSide.Server)) return;
 		var rng = new System.Random();
-		string disarmerName = disarmer.Player()?.Name;
+		string disarmerName = playerScript.gameObject.Player()?.Name;
 		string playerToDisarmName = playerToDisarm.Player()?.Name;
 		var disarmStorage = playerToDisarm.GetComponent<ItemStorage>();
 		var leftHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.leftHand);
@@ -519,7 +533,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
 		if (5 >= rng.Next(1, 100))
 		{
-			disarmedPlayerRegister.Stun(6f, false);
+			disarmedPlayerRegister.ServerStun(6f, false);
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",

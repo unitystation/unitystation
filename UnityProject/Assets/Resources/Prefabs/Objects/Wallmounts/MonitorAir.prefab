@@ -11,14 +11,15 @@ GameObject:
   - component: {fileID: 4000010739918412}
   - component: {fileID: 61000010182535082}
   - component: {fileID: 114563030221050354}
+  - component: {fileID: 114477462743865550}
   - component: {fileID: 114616085156888826}
   - component: {fileID: 114757767275401014}
   - component: {fileID: 114342586569914630}
   - component: {fileID: 114308127417147816}
   - component: {fileID: 114354702658253172}
-  - component: {fileID: 114477462743865550}
   - component: {fileID: 114670731178714064}
   - component: {fileID: 114229560136497920}
+  - component: {fileID: 5625780481933121045}
   m_Layer: 19
   m_Name: MonitorAir
   m_TagString: Untagged
@@ -81,10 +82,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &114477462743865550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010568484738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114616085156888826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,18 +167,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114477462743865550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010568484738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114670731178714064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,8 +216,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 56c6161e9e0a4ac08ff26848e7c65019
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &5625780481933121045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010568484738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: air monitor
+  initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1000012059094926
 GameObject:
   m_ObjectHideFlags: 0

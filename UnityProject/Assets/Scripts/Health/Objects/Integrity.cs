@@ -55,10 +55,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public Resistances Resistances = new Resistances();
 
 	/// <summary>
-	/// Below this temperature, the object will take no damage from fire or heat and won't ignite.
+	/// Below this temperature (in Kelvin) the object will be unaffected by fire exposure.
 	/// </summary>
-	[Tooltip("Below this temperature, the object will take no damage from fire or heat and" +
-	         " won't ignite.")]
+	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
 	public float initialIntegrity = 100f;
@@ -115,7 +114,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (info.SpawnableType == SpawnableType.Clone)
+		if (info.SpawnType == SpawnType.Clone)
 		{
 			//cloned
 			var clonedIntegrity = info.ClonedFrom.GetComponent<Integrity>();
@@ -204,7 +203,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
-			var destructInfo = new DestructionInfo(lastDamageType);
+			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
 
 			if (onFire)
@@ -295,9 +294,15 @@ public class DestructionInfo
 	/// </summary>
 	public readonly DamageType DamageType;
 
-	public DestructionInfo(DamageType damageType)
+	/// <summary>
+	/// Integrity of the object that was destroyed.
+	/// </summary>
+	public readonly Integrity Destroyed;
+
+	public DestructionInfo(DamageType damageType, Integrity destroyed)
 	{
 		DamageType = damageType;
+		Destroyed = destroyed;
 	}
 }
 

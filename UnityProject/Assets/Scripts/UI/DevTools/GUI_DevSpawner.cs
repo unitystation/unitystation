@@ -41,23 +41,6 @@ public class GUI_DevSpawner : MonoBehaviour
 	    //get prefabs
 	    var toIndex = Spawn.SpawnablePrefabs().Select(DevSpawnerDocument.ForPrefab).ToList();
 
-	    //get clothing
-	    var data = Resources.FindObjectsOfTypeAll<ClothingData>();
-	    //force clothfactory to load all clothing data
-	    foreach (var clothData in data)
-	    {
-		    if (!Spawn.ClothingStoredData.ContainsKey(clothData.name))
-		    {
-			    Spawn.ClothingStoredData.Add(clothData.name, clothData);
-		    }
-		    if (!Spawn.ClothingStoredData.ContainsKey(clothData.name))
-		    {
-			    Spawn.ClothingStoredData.Add(clothData.name, clothData);
-		    }
-
-		    toIndex.Add(DevSpawnerDocument.ForClothing(clothData));
-	    }
-
 	    //start indexing
 	    StartCoroutine(lucene.IndexCoroutine(toIndex));
     }
@@ -142,7 +125,6 @@ public class GUI_DevSpawner : MonoBehaviour
 
 		    lucene.DefineIndexField<DevSpawnerDocument>("id", doc => doc.Name, IndexOptions.PrimaryKey);
 		    lucene.DefineIndexField<DevSpawnerDocument>("name", doc => doc.Name, IndexOptions.IndexTermsAndStore);
-		    lucene.DefineIndexField<DevSpawnerDocument>("isClothing", doc => doc.Type == SpawnableType.Cloth ? "1" : "0", IndexOptions.StoreOnly);
 	    }
     }
 

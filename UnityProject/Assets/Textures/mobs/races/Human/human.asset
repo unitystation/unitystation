@@ -1,0 +1,178 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68d1d80560b20d49acb813c16398145, type: 3}
+  m_Name: human
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Texture: {fileID: 2800000, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      - {fileID: 21300002, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      - {fileID: 21300004, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      - {fileID: 21300006, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      EquippedData: {fileID: 4900000, guid: 55ffc5f494efae84f9602cc3da09616a, type: 3}
+    Eyes:
+      Texture: {fileID: 2800000, guid: e49975726efd3424fb8f0ac02a0c3cae, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: e49975726efd3424fb8f0ac02a0c3cae, type: 3}
+      - {fileID: 21300002, guid: e49975726efd3424fb8f0ac02a0c3cae, type: 3}
+      - {fileID: 21300004, guid: e49975726efd3424fb8f0ac02a0c3cae, type: 3}
+      - {fileID: 21300006, guid: e49975726efd3424fb8f0ac02a0c3cae, type: 3}
+      EquippedData: {fileID: 4900000, guid: 44503300c22d0414390741ffa6863963, type: 3}
+    Torso:
+      Texture: {fileID: 2800000, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      - {fileID: 21300002, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      - {fileID: 21300004, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      - {fileID: 21300006, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      EquippedData: {fileID: 4900000, guid: a674310c66c584f4d867afdb403a65d5, type: 3}
+    ArmRight:
+      Texture: {fileID: 2800000, guid: b96d50be151356348854bdcff2a80449, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b96d50be151356348854bdcff2a80449, type: 3}
+      - {fileID: 21300002, guid: b96d50be151356348854bdcff2a80449, type: 3}
+      - {fileID: 21300004, guid: b96d50be151356348854bdcff2a80449, type: 3}
+      - {fileID: 21300006, guid: b96d50be151356348854bdcff2a80449, type: 3}
+      EquippedData: {fileID: 4900000, guid: 7846bb4596af74e4b971ad1e6f1e56a9, type: 3}
+    ArmLeft:
+      Texture: {fileID: 2800000, guid: 222c24fb2cec6c44fbcdedd812f8b7c5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 222c24fb2cec6c44fbcdedd812f8b7c5, type: 3}
+      - {fileID: 21300002, guid: 222c24fb2cec6c44fbcdedd812f8b7c5, type: 3}
+      - {fileID: 21300004, guid: 222c24fb2cec6c44fbcdedd812f8b7c5, type: 3}
+      - {fileID: 21300006, guid: 222c24fb2cec6c44fbcdedd812f8b7c5, type: 3}
+      EquippedData: {fileID: 4900000, guid: fe90ededa1e6b384eb4e6152ed76e439, type: 3}
+    HandRight:
+      Texture: {fileID: 2800000, guid: 66733098c1bfaee4aaf15cc910830d7e, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 66733098c1bfaee4aaf15cc910830d7e, type: 3}
+      - {fileID: 21300002, guid: 66733098c1bfaee4aaf15cc910830d7e, type: 3}
+      - {fileID: 21300004, guid: 66733098c1bfaee4aaf15cc910830d7e, type: 3}
+      - {fileID: 21300006, guid: 66733098c1bfaee4aaf15cc910830d7e, type: 3}
+      EquippedData: {fileID: 4900000, guid: eea777891deb1ac4d86a32710548f4cd, type: 3}
+    HandLeft:
+      Texture: {fileID: 2800000, guid: f53e51d88358dad48b3edd6a8c4128b8, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: f53e51d88358dad48b3edd6a8c4128b8, type: 3}
+      - {fileID: 21300002, guid: f53e51d88358dad48b3edd6a8c4128b8, type: 3}
+      - {fileID: 21300004, guid: f53e51d88358dad48b3edd6a8c4128b8, type: 3}
+      - {fileID: 21300006, guid: f53e51d88358dad48b3edd6a8c4128b8, type: 3}
+      EquippedData: {fileID: 4900000, guid: a14ef3dede54e6f4fae2d68d0a7b883d, type: 3}
+    LegRight:
+      Texture: {fileID: 2800000, guid: 9e29c50aebed3d44c815c2a562010692, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 9e29c50aebed3d44c815c2a562010692, type: 3}
+      - {fileID: 21300002, guid: 9e29c50aebed3d44c815c2a562010692, type: 3}
+      - {fileID: 21300004, guid: 9e29c50aebed3d44c815c2a562010692, type: 3}
+      - {fileID: 21300006, guid: 9e29c50aebed3d44c815c2a562010692, type: 3}
+      EquippedData: {fileID: 4900000, guid: d5d120e5de167ee4ab59aa48b0129f46, type: 3}
+    LegLeft:
+      Texture: {fileID: 2800000, guid: 8c9e872996b9ee747898aa01a80638e4, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 8c9e872996b9ee747898aa01a80638e4, type: 3}
+      - {fileID: 21300002, guid: 8c9e872996b9ee747898aa01a80638e4, type: 3}
+      - {fileID: 21300004, guid: 8c9e872996b9ee747898aa01a80638e4, type: 3}
+      - {fileID: 21300006, guid: 8c9e872996b9ee747898aa01a80638e4, type: 3}
+      EquippedData: {fileID: 4900000, guid: 358231e7d9a92584283916f8588daa38, type: 3}
+  Male:
+    Head:
+      Texture: {fileID: 2800000, guid: 435628dc8190a4d49bf9554f7c1aa8dc, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 435628dc8190a4d49bf9554f7c1aa8dc, type: 3}
+      - {fileID: 21300002, guid: 435628dc8190a4d49bf9554f7c1aa8dc, type: 3}
+      - {fileID: 21300004, guid: 435628dc8190a4d49bf9554f7c1aa8dc, type: 3}
+      - {fileID: 21300006, guid: 435628dc8190a4d49bf9554f7c1aa8dc, type: 3}
+      EquippedData: {fileID: 4900000, guid: 33cca0b35cc1c2b46ae09944fe3ff85b, type: 3}
+    Eyes:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Torso:
+      Texture: {fileID: 2800000, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      - {fileID: 21300002, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      - {fileID: 21300004, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      - {fileID: 21300006, guid: 37b233584f435ca40a077f430f53d386, type: 3}
+      EquippedData: {fileID: 4900000, guid: a674310c66c584f4d867afdb403a65d5, type: 3}
+    ArmRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ArmLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    HandRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    HandLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    LegRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    LegLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+  Female:
+    Head:
+      Texture: {fileID: 2800000, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      - {fileID: 21300002, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      - {fileID: 21300004, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      - {fileID: 21300006, guid: 62bfbe08ede436140ab4a950b0860693, type: 3}
+      EquippedData: {fileID: 4900000, guid: 55ffc5f494efae84f9602cc3da09616a, type: 3}
+    Eyes:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Torso:
+      Texture: {fileID: 2800000, guid: e3dd6ed17364f514d8c9e6f2a2fb789d, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: e3dd6ed17364f514d8c9e6f2a2fb789d, type: 3}
+      - {fileID: 21300002, guid: e3dd6ed17364f514d8c9e6f2a2fb789d, type: 3}
+      - {fileID: 21300004, guid: e3dd6ed17364f514d8c9e6f2a2fb789d, type: 3}
+      - {fileID: 21300006, guid: e3dd6ed17364f514d8c9e6f2a2fb789d, type: 3}
+      EquippedData: {fileID: 4900000, guid: e39a9694a6a602a42bb8f4f37bdf4b4f, type: 3}
+    ArmRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ArmLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    HandRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    HandLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    LegRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    LegLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+  Other: []

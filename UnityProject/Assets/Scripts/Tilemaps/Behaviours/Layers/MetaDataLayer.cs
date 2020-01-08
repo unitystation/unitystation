@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Atmospherics;
 using UnityEngine;
 
 /// <summary>
@@ -69,21 +70,37 @@ public class MetaDataLayer : MonoBehaviour
 		return Get(position, false).IsSlippery;
 	}
 
-	public void MakeSlipperyAt(Vector3Int position)
+	public void MakeSlipperyAt(Vector3Int position, bool canDryUp=true)
 	{
-		var tile = Get(position);
-		tile.IsSlippery = true;
-		if (tile.CurrentDrying != null)
+		var tile = Get(position, false);
+		if (tile == MetaDataNode.None || tile.IsSpace)
 		{
-			StopCoroutine(tile.CurrentDrying);
+			return;
 		}
-		tile.CurrentDrying = DryUp(tile);
-		StartCoroutine(tile.CurrentDrying);
+		tile.IsSlippery = true;
+		if ( canDryUp )
+		{
+			if (tile.CurrentDrying != null)
+			{
+				StopCoroutine(tile.CurrentDrying);
+			}
+			tile.CurrentDrying = DryUp(tile);
+			StartCoroutine(tile.CurrentDrying);
+		}
 	}
 
-
+	/// <summary>
+	/// Release reagents at provided coordinates, making them react with world
+	/// </summary>
 	public void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
+		if (MatrixManager.IsTotallyImpassable(worldPosInt, true))
+		{
+			return;
+		}
+
+		bool didSplat = false;
+
 		foreach (KeyValuePair<string, float> reagent in reagents)
 		{
 			if(reagent.Value < 1)
@@ -93,16 +110,46 @@ public class MetaDataLayer : MonoBehaviour
 			if (reagent.Key == "water")
 			{
 				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
-			} else if (reagent.Key == "space_cleaner")
+
+				foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+				{
+					livingHealthBehaviour.Extinguish();
+				}
+
+				Clean(worldPosInt, localPosInt, true);
+			}
+			else if (reagent.Key == "cleaner")
 			{
 				Clean(worldPosInt, localPosInt, false);
 			}
+			else if (reagent.Key == "welding_fuel")
+			{
+				//temporary: converting spilled fuel to plasma
+				Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
+			}
+			else if (reagent.Key == "lube")
+			{ //( ͡° ͜ʖ ͡°)
+				if (!Get(localPosInt).IsSlippery)
+				{
+					EffectsFactory.WaterSplat(worldPosInt);
+					MakeSlipperyAt(localPosInt, false);
+				}
+			}
+			else
+			{ //for all other things leave a chem splat
+				if (!didSplat)
+				{
+					EffectsFactory.ChemSplat(worldPosInt);
+					didSplat = true;
+				}
+			}
 		}
-
 	}
 
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
+		Get(localPosInt).IsSlippery = false;
+
 		var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
 		for (var i = 0; i < floorDecals.Count; i++)
@@ -122,8 +169,17 @@ public class MetaDataLayer : MonoBehaviour
 
 	private IEnumerator DryUp(MetaDataNode tile)
 	{
-		yield return WaitFor.Seconds(15f);
+		yield return WaitFor.Seconds(Random.Range(10,21));
 		tile.IsSlippery = false;
+
+		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
+		foreach ( var decal in floorDecals )
+		{
+			if ( decal.CanDryUp )
+			{
+				Despawn.ServerSingle(decal.gameObject);
+			}
+		}
 	}
 
 

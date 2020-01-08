@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ItemStorage))]
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
-	 IClientInteractable<InventoryApply>, IServerInventoryMove
+	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
@@ -125,7 +125,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void Awake()
 	{
-		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.Gun);
+		GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
 		itemStorage = GetComponent<ItemStorage>();
 		magSlot = itemStorage.GetIndexedItemSlot(0);
 		registerTile = GetComponent<RegisterTile>();
@@ -265,13 +265,20 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	public bool Interact(InventoryApply interaction)
 	{
-		//only reload if the gun is the target
-		if (interaction.TargetObject == gameObject)
+		//only reload if the gun is the target and mag is in hand slot
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 		{
-			TryReload(interaction.HandObject);
-			return true;
-		}
+			if (interaction.UsedObject != null)
+			{
+				MagazineBehaviour magazine = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+				if (magazine)
+				{
+					TryReload(magazine);
+					return true;
+				}
+			}
 
+		}
 		return false;
 	}
 
@@ -341,33 +348,26 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
-	private void TryReload(GameObject item)
+	private void TryReload(MagazineBehaviour magazine)
 	{
-		if (item != null)
+		if (CurrentMagazine == null)
 		{
-			MagazineBehaviour magazine = item.GetComponent<MagazineBehaviour>();
-			if (magazine)
+			//RELOAD
+			// If the item used on the gun is a magazine, check type and reload
+			string ammoType = magazine.ammoType;
+			if (AmmoType == ammoType)
 			{
-				if (CurrentMagazine == null)
-				{
-					//RELOAD
-					// If the item used on the gun is a magazine, check type and reload
-					string ammoType = magazine.ammoType;
-					if (AmmoType == ammoType)
-					{
-						var hand = UIManager.Hands.CurrentSlot.NamedSlot;
-						RequestReload(item, hand, true);
-					}
-					if (AmmoType != ammoType)
-					{
-						Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
-					}
-				}
-				else  if (AmmoType == magazine.ammoType)
-				{
-					Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
-				}
+				var hand = UIManager.Hands.CurrentSlot.NamedSlot;
+				RequestReload(magazine.gameObject, hand, true);
 			}
+			if (AmmoType != ammoType)
+			{
+				Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
+			}
+		}
+		else  if (AmmoType == magazine.ammoType)
+		{
+			Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
 		}
 	}
 
@@ -386,7 +386,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		var finalDirection = ApplyRecoil(target);
 		//don't enqueue the shot if the player is no longer able to shoot
 		PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
-		if ( shooter.canNotInteract() )
+		if (!Validations.CanInteract(shooter, NetworkSide.Server))
 		{
 			Logger.LogTrace("Server rejected shot: shooter cannot interact", Category.Firearms);
 			return;
@@ -444,6 +444,9 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 			//tell all the clients to display the shot
 			ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
+
+			//kickback
+			shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
 
 			if (SpawnsCaseing)
 			{
@@ -655,6 +658,17 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	}
 
 	#endregion
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		//populate with a full mag on spawn
+		Logger.LogTraceFormat("Trying to auto-populate magazine for {0}", Category.Inventory, name);
+
+		var ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
+		Logger.LogTraceFormat("Populating with ammo prefab {0}", Category.Inventory, ammoPrefab?.name);
+		GameObject m = Spawn.ServerPrefab(ammoPrefab).GameObject;
+		Inventory.ServerAdd(m, magSlot);
+	}
 }
 
  /// <summary>

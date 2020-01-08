@@ -7,6 +7,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
 	private readonly float speed = 7f;
 	private bool allowAttack = true;
+
+	/// <summary>
+	/// Is attack currently allowed due to cooldown?
+	/// </summary>
+	public bool AllowAttack => allowAttack;
+
 	float fistDamage = 5;
 
 	//muzzle flash
@@ -38,6 +44,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command]
 	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, NamedSlot hand)
 	{
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+
 		Gun gun = gunObject.GetComponent<Gun>();
 		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		gun.ServerHandleReloadRequest(networkID);
@@ -46,12 +54,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[Command]
 	public void CmdUnloadWeapon(GameObject gunObject)
 	{
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+
 		Gun gun = gunObject.GetComponent<Gun>();
 
 		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
-		if(cnt != null)
+		if (cnt != null)
 		{
-			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.Impulse);
+			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.WorldImpulse);
 		} else {
 			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
 		}
@@ -60,24 +70,36 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	/// <summary>
-	/// Utility function that gets the weapon for you
+	/// Requests a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
+	/// if weapon is null.
 	/// </summary>
+	/// <param name="victim"></param>
+	/// <param name="weapon">null for unarmed attack / punch</param>
+	/// <param name="attackDirection">vector pointing from attacker to the target</param>
+	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
+	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
 	[Command]
-	public void CmdRequestMeleeAttackSlot(GameObject victim, NamedSlot slot, Vector2 stabDirection,
-	BodyPartType damageZone, LayerType layerType)
-	{
-		var weapon = playerScript.ItemStorage.GetNamedItemSlot(slot).ItemObject;
-		CmdRequestMeleeAttack(victim, weapon, stabDirection, damageZone, layerType);
-	}
-
-	[Command]
-	public void CmdRequestMeleeAttack(GameObject victim, GameObject weapon, Vector2 stabDirection,
+	public void CmdRequestMeleeAttack(GameObject victim, Vector2 attackDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
+		var weapon = playerScript.playerNetworkActions.GetActiveHandItem();
+
+		var tiles = victim.GetComponent<InteractableTiles>();
+		if (tiles)
+		{
+			//validate based on position of target vector
+			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection)) return;
+		}
+		else
+		{
+			//validate based on position of target object
+			if (!Validations.CanApply(playerScript, victim, NetworkSide.Server)) return;
+		}
+
 		if (!playerMove.allowInput ||
-		    playerScript.IsGhost ||
-		    !victim ||
-		    !playerScript.playerHealth.serverPlayerConscious
+			playerScript.IsGhost ||
+			!victim ||
+			!playerScript.playerHealth.serverPlayerConscious
 		)
 		{
 			return;
@@ -88,7 +110,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
+		var isWeapon = weapon != null;
+		ItemAttributesV2 weaponAttr = isWeapon ? weapon.GetComponent<ItemAttributesV2>() : null;
+		var damage = isWeapon ? weaponAttr.ServerHitDamage : fistDamage;
+		var damageType = isWeapon ? weaponAttr.ServerDamageType : DamageType.Brute;
+		var attackSoundName = isWeapon ? weaponAttr.ServerHitSound : "Punch#";
+		LayerTile attackedTile = null;
+
+		bool didHit = false;
+
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
@@ -101,133 +131,88 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
-				//Wire cutters should snip the grills instead:
-				if (weaponAttr.itemName == "wirecutters" &&
-					tileMapDamage.Layer.LayerType == LayerType.Grills)
-				{
-					tileMapDamage.WireCutGrill((Vector2) transform.position + stabDirection);
-					StartCoroutine(AttackCoolDown());
-					return;
-				}
+				var worldPos = (Vector2)transform.position + attackDirection;
+				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
+				tileMapDamage.DoMeleeDamage(worldPos,
+					gameObject, (int)damage);
+				didHit = true;
 
-				tileMapDamage.DoMeleeDamage((Vector2) transform.position + stabDirection,
-					gameObject, (int) weaponAttr.hitDamage);
-
-				playerMove.allowInput = false;
-				RpcMeleeAttackLerp(stabDirection, weapon);
-				StartCoroutine(AttackCoolDown());
-				return;
 			}
-			return;
 		}
-
-		//This check cannot be used with TilemapDamage as the transform position is always far away
-		if (!playerScript.IsInReach(victim, true))
+		else
 		{
-			return;
-		}
+			//a regular object being attacked
 
-		// Consider moving this into a MeleeItemTrigger for knifes
-		//Meaty bodies:
-		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-		if (victimHealth != null && victimHealth.IsDead && weaponAttr.HasTrait(KnifeTrait))
-		{
-			if (victim.GetComponent<SimpleAnimal>())
+			//butchering
+			//TODO: Move butchering logic to IF2, it should be a progress action done on corpses (make a Corpse component probably)
+			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+			if (victimHealth != null && victimHealth.IsDead && isWeapon && weaponAttr.HasTrait(KnifeTrait))
 			{
-				SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
-				RpcMeleeAttackLerp(stabDirection, weapon);
-				playerMove.allowInput = false;
-				attackTarget.Harvest();
-				SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
+				if (victim.GetComponent<SimpleAnimal>())
+				{
+					SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
+					RpcMeleeAttackLerp(attackDirection, weapon);
+					//playerMove.allowInput = false;
+					attackTarget.Harvest();
+					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
+				}
+				else
+				{
+					PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
+					RpcMeleeAttackLerp(attackDirection, weapon);
+					//playerMove.allowInput = false;
+					attackTarget.Harvest();
+					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
+				}
+			}
+
+			var integrity = victim.GetComponent<Integrity>();
+			if (integrity != null)
+			{
+				//damaging an object
+				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
+				didHit = true;
 			}
 			else
 			{
-				PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
-				RpcMeleeAttackLerp(stabDirection, weapon);
-				playerMove.allowInput = false;
-				attackTarget.Harvest();
-				SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
+				//damaging a living thing
+				var rng = new System.Random();
+				// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
+				// Punches have 90% chance to hit, otherwise it is a miss.
+				if (isWeapon || 90 >= rng.Next(1, 100))
+				{
+					// The attack hit.
+					victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
+					didHit = true;
+				}
+				else
+				{
+					// The punch missed.
+					string victimName = victim.Player()?.Name;
+					SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
+					Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
+						$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
+				}
 			}
 		}
 
-		if (victim != gameObject)
+		//common logic to do if we hit something
+		if (didHit)
 		{
-			RpcMeleeAttackLerp(stabDirection, weapon);
-			playerMove.allowInput = false;
-		}
-
-		var integrity = victim.GetComponent<Integrity>();
-		if (integrity != null)
-		{
-			//damaging an object
-			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType);
-		}
-		else
-		{
-			//damaging a living thing
-			victimHealth.ApplyDamageToBodypart(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
-		}
-
-		SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
-
-
-		if (weaponAttr.hitDamage > 0)
-		{
-			Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon);
-		}
-
-
-		StartCoroutine(AttackCoolDown());
-	}
-
-	/// <summary>
-	/// Performs a punch attempt from one player to a target.
-	/// </summary>
-	/// <param name="punchDirection">The direction of the punch towards the victim.</param>
-	/// <param name="damageZone">The part of the body that is being punched.</param>
-	[Command]
-	public void CmdRequestPunchAttack(GameObject victim, Vector2 punchDirection, BodyPartType damageZone)
-	{
-		var victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-		var victimRegisterTile = victim.GetComponent<RegisterTile>();
-		var rng = new System.Random();
-
-		if (!playerScript.IsInReach(victim, true) || !victimHealth)
-		{
-			return;
-		}
-
-		// If the punch is not self inflicted, do the simple lerp attack animation.
-		if (victim != gameObject)
-		{
-			RpcMeleeAttackLerp(punchDirection, null);
-			playerMove.allowInput = false;
-		}
-
-		// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
-		// Punches have 90% chance to hit, otherwise it is a miss.
-		if (90 >= rng.Next(1, 100))
-		{
-			// The punch hit.
-			victimHealth.ApplyDamageToBodypart(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
-			if (fistDamage > 0)
+			SoundManager.PlayNetworkedAtPos(attackSoundName, transform.position);
+			if (damage > 0)
 			{
-				Chat.AddAttackMsgToChat(gameObject, victim, damageZone);
+				Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon, attackedTile: attackedTile);
 			}
-
-			// Make a random punch hit sound.
-			SoundManager.PlayNetworkedAtPos("Punch#", victimRegisterTile.WorldPosition);
-
-			StartCoroutine(AttackCoolDown());
+			if (victim != gameObject)
+			{
+				RpcMeleeAttackLerp(attackDirection, weapon);
+				//playerMove.allowInput = false;
+			}
 		}
-		else
-		{
-			// The punch missed.
-			string victimName = victim.Player()?.Name;
-			SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
-			Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
-				$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
-		}
+
+		//no matter what, start a cooldown for attacking again so they can't spam attack requests
+		StartCoroutine(AttackCoolDown());
 	}
 
 	private IEnumerator AttackCoolDown(float seconds = 0.5f)
@@ -257,7 +242,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;
-		Vector3 lerpToWorld = lerpFromWorld + (Vector3)(stabDir * 0.5f);
+		Vector3 lerpToWorld = lerpFromWorld + (Vector3)(stabDir * 0.25f);
 		Vector3 lerpFromLocal = spritesObj.transform.parent.InverseTransformPoint(lerpFromWorld);
 		Vector3 lerpToLocal = spritesObj.transform.parent.InverseTransformPoint(lerpToWorld);
 		Vector3 localStabDir = lerpToLocal - lerpFromLocal;

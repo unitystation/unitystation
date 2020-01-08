@@ -7,20 +7,18 @@ public class ConnectedPlayer
 	private string username;
 	private string name;
 	private JobType job;
-	private ulong steamId;
 	private GameObject gameObject;
 	private PlayerScript playerScript;
 	private JoinedViewer viewerScript;
 	private NetworkConnection connection;
 	private string clientID;
+	private string userID;
 
 	/// Flags if player received a bunch of sync messages upon joining
 	private bool synced;
 
 	//Name that is used if the client's character name is empty
 	private const string DEFAULT_NAME = "Anonymous Spessman";
-
-	public bool IsAuthenticated => steamId != 0;
 
 	public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
 	{
@@ -29,9 +27,9 @@ public class ConnectedPlayer
 		username = null,
 		name = "kek",
 		job = JobType.NULL,
-		steamId = 0,
 		synced = true,
-		clientID = ""
+		clientID = "",
+		userID = ""
 	};
 
 	public static ConnectedPlayer ArchivedPlayer( ConnectedPlayer player )
@@ -43,9 +41,9 @@ public class ConnectedPlayer
 			username = player.Username,
 			name = player.Name,
 			job = player.Job,
-			steamId = player.SteamId,
 			synced = player.synced,
-			clientID = player.clientID
+			clientID = player.clientID,
+			userID = player.userID
 		};
 	}
 
@@ -90,19 +88,6 @@ public class ConnectedPlayer
 		}
 	}
 
-	public ulong SteamId
-	{
-		get { return steamId; }
-		set
-		{
-			if ( value != 0 )
-			{
-				steamId = value;
-				Logger.Log( $"Updated steamID! {this}" , Category.Steam);
-			}
-		}
-	}
-
 	public JobType Job
 	{
 		get { return job; }
@@ -122,6 +107,12 @@ public class ConnectedPlayer
 	{
 		get => clientID;
 		set => clientID = value;
+	}
+
+	public string UserId
+	{
+		get => userID;
+		set => userID = value;
 	}
 
 	public bool HasNoName()
@@ -207,6 +198,6 @@ public class ConnectedPlayer
 
 	public override string ToString()
 	{
-		return $"[conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|steamId={steamId}|synced={synced}]";
+		return $"[clientID={ClientId}|conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|synced={synced}]";
 	}
 }

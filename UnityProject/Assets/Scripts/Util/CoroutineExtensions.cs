@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public static class CoroutineExtensions {
 	public static MonoBehaviour StartCoroutine( this MonoBehaviour script, IEnumerator routine, ref Coroutine handle ) {
 		if ( !script ) {
 #if UNITY_EDITOR
-			Logger.LogWarning( "A coroutine cannot run while it is null or being destroyed", Category.Threading ); 
+			Logger.LogWarning( "A coroutine cannot run while it is null or being destroyed", Category.Threading );
 #endif
 			return null;
 		}
@@ -48,4 +49,28 @@ public static class CoroutineExtensions {
 		return script.TryStopCoroutine( ref handle )
 			.StartCoroutine( routine, ref handle );
 	}
+
+	/// <summary>
+	/// Ensures CustomNetworkManager.Instance is not null, then executes your action
+	/// </summary>
+	public static void WaitForNetworkManager(this MonoBehaviour script, Action action)
+	{
+		if (CustomNetworkManager.Instance != null)
+		{ //Don't even start a coroutine if Instance exists
+			action.Invoke();
+		}
+
+		IEnumerator WaitForNetworkManager(Action a)
+		{
+			while (CustomNetworkManager.Instance == null)
+			{
+				yield return WaitFor.EndOfFrame;
+			}
+
+			a.Invoke();
+		}
+
+		script.StartCoroutine(WaitForNetworkManager(action));
+	}
+
 }

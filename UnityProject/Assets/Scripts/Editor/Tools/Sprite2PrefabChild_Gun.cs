@@ -31,7 +31,7 @@ public class Sprite2PrefabChild_Gun_MenuItem
 			parent.AddComponent<BoxCollider2D>();
 			parent.AddComponent<NetworkIdentity>();
 			parent.AddComponent<NetworkTransform>();
-			parent.AddComponent<ItemAttributes>();
+			parent.AddComponent<ItemAttributesV2>();
 			parent.AddComponent<Gun>();
 			parent.AddComponent<ObjectBehaviour>();
 			parent.AddComponent<RegisterItem>();

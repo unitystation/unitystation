@@ -28,7 +28,9 @@ public static class VVUIElementHandler
 				ValueType = Librarian.UEGetType(Sentence.ValueVariableType);
 			}
 		}
-
+		if (ValueType == null) {
+			return;
+		}
 		foreach (PageElementEnum _Enum in Enum.GetValues(typeof(PageElementEnum)))
 		{
 			if (AvailableElements[_Enum].IsThisType(ValueType))

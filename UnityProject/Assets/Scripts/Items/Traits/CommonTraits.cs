@@ -18,5 +18,17 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Emag;
 	public ItemTrait Crowbar;
 	public ItemTrait Screwdriver;
+	public ItemTrait NoSlip;
+	public ItemTrait Slippery;
 	public ItemTrait Multitool;
+	public ItemTrait SpillOnThrow;
+	public ItemTrait CanFillMop;
+	public ItemTrait Cultivator;
+	public ItemTrait Trowel;
+	public ItemTrait Bucket;
+	public ItemTrait MetalSheet;
+	public ItemTrait GlassSheet;
+	public ItemTrait PlasteelSheet;
+	public ItemTrait Cable;
+	public ItemTrait Welder;
 }

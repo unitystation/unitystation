@@ -52,7 +52,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	/// </summary>
 	public void ServerPerformInteraction( PositionalHandApply interaction )
 	{
-		bool inCloseRange = PlayerScript.IsInReach( interaction.TargetVector );
+		bool inCloseRange = Validations.IsInReach( interaction.TargetVector );
 		var targetHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 		bool isCrit = Random.Range( 0f, 1f ) <= CritChance;
 

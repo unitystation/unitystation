@@ -18,7 +18,7 @@ public class InfoWindowMessage : ServerMessage
 		//To be run on client
 //		Logger.Log($"Processed {this}");
 		yield return WaitFor(Recipient); //FIXME: broken
-//		UIManager.Display.infoWindow.GetComponent<GUI_Info>().Show(Text, Bwoink, string.IsNullOrEmpty(Title) ? "" : Title);
+		UIManager.InfoWindow.Show(Text, Bwoink, string.IsNullOrEmpty(Title) ? "" : Title);
 	}
 
 	public static InfoWindowMessage Send(GameObject recipient, string text, string title = "", bool bwoink = true)

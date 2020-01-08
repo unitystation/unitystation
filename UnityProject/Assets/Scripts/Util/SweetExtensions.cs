@@ -1,25 +1,37 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public static class SweetExtensions
 {
+	public static IPushable Pushable(this GameObject go)
+	{
+		return go.GetComponent<IPushable>();
+	}
+
 	public static ConnectedPlayer Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);
 		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
 	}
-	public static ItemAttributes Item(this GameObject go)
+	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.GetComponent<ItemAttributes>();
+		return go.GetComponent<ItemAttributesV2>();
 	}
 
 	public static string ExpensiveName(this GameObject go)
 	{
-		return go.Item()?.itemName ?? go.Player()?.Name ?? go.name.Replace("NPC_", "").Replace("_", " ");
+		var item = go.Item();
+		if (item != null && !String.IsNullOrWhiteSpace(item.ArticleName)) return item.ArticleName;
+
+		var player = go.Player();
+		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;
+
+		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
 	}
 
 	public static T GetRandom<T>(this List<T> list)
@@ -249,5 +261,34 @@ public static class SweetExtensions
 			return output.ToArray();
 
 		return null;
+	}
+
+	public static IEnumerable<T> ToIEnumerable<T>(this IEnumerator<T> enumerator) {
+		while ( enumerator.MoveNext() ) {
+			yield return enumerator.Current;
+		}
+	}
+
+	/// <summary>
+	/// Splits an enumerable into chunks of a specified size
+	/// Credit to: https://extensionmethod.net/csharp/ienumerable/ienumerable-chunk
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="chunkSize"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	/// <exception cref="ArgumentException"></exception>
+	public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> list, int chunkSize)
+	{
+		if (chunkSize <= 0)
+		{
+			throw new ArgumentException("chunkSize must be greater than 0.");
+		}
+
+		while (list.Any())
+		{
+			yield return list.Take(chunkSize);
+			list = list.Skip(chunkSize);
+		}
 	}
 }

@@ -61,11 +61,21 @@ public partial class GameManager : MonoBehaviour
 
 	public CentComm CentComm;
 
+	//whether the game was launched directly to a station, skipping lobby
+	private bool loadedDirectlyToStation;
+	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
+
 	private void Awake()
 	{
 		if (Instance == null)
 		{
 			Instance = this;
+			//if loading directly to outpost station, need to call pre round start once CustomNetworkManager
+			//starts because no scene change occurs to trigger it
+			if (SceneManager.GetActiveScene().name != "Lobby")
+			{
+				loadedDirectlyToStation = true;
+			}
 		}
 		else
 		{
@@ -74,6 +84,8 @@ public partial class GameManager : MonoBehaviour
 
 		//so respawn works when loading directly to outpost station
 		RespawnCurrentlyAllowed = RespawnAllowed;
+
+
 	}
 
 	private void OnEnable()
@@ -93,7 +105,7 @@ public partial class GameManager : MonoBehaviour
 	///</summary>
 	public void ServerSetSpaceBody(MatrixMove mm)
 	{
-		if (mm.State.Position == TransformState.HiddenPos)
+		if (mm.ServerState.Position == TransformState.HiddenPos)
 		{
 			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
 				"ready before calling ServerSetSpaceBody ", Category.Server);
@@ -152,6 +164,22 @@ public partial class GameManager : MonoBehaviour
 		{
 			PreRoundStart();
 		}
+		ResetStaticsOnNewRound();
+	}
+
+	/// <summary>
+	/// Resets client and server side static fields to empty / round start values.
+	/// If you have any static pools / caches / fields, add logic here to reset them to ensure they'll be properly
+	/// cleared when a new round begins.
+	/// </summary>
+	private void ResetStaticsOnNewRound()
+	{
+		//reset pools
+		Spawn._ClearPools();
+		//clean up inventory system
+		ItemSlot.Cleanup();
+		//reset matrix init events
+		NetworkedMatrix._ClearInitEvents();
 	}
 
 	public void SyncTime(string currentTime)
@@ -416,16 +444,24 @@ public partial class GameManager : MonoBehaviour
 		return OccupationList.Instance.Get(JobType.ASSISTANT);
 	}
 
+	//Only called on the server
 	public void RestartRound()
 	{
 		waitForRestart = false;
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			//TODO allow map change from admin portal
-
-			CurrentRoundState = RoundState.Ended;
-			EventManager.Broadcast(EVENT.RoundEnded);
-			CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
+			StartCoroutine(ServerRoundRestart());
 		}
+	}
+
+	IEnumerator ServerRoundRestart()
+	{
+		CurrentRoundState = RoundState.Ended;
+		//Notify all clients that the round has ended
+		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
+
+		yield return WaitFor.Seconds(0.2f);
+
+		CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
 	}
 }

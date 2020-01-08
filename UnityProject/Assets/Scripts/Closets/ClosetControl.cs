@@ -10,14 +10,18 @@ using Enum = Google.Protobuf.WellKnownTypes.Enum;
 /// Allows closet to be opened / closed / locked
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable
+public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable,
+	IServerLifecycle
 
 {
-	[Header("Contents that will spawn inside every locker of type")]
-	public List<GameObject> DefaultContents;
+	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
+	         " locker spawns.")]
+	[SerializeField]
+	private SpawnableList initialContents;
 
 	//Inventory
 	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+	public IEnumerable<ObjectBehaviour> ServerHeldItems => heldItems;
 	protected List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
 	public bool IsClosed;
@@ -74,10 +78,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	public override void OnStartServer()
 	{
 		StartCoroutine(WaitForServerReg());
-		foreach (GameObject itemPrefab in DefaultContents)
-		{
-			Spawn.ServerPrefab(itemPrefab, transform.position, parent: transform.parent);
-		}
 	}
 
 	private IEnumerator WaitForServerReg()
@@ -90,6 +90,33 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		SyncStatus( statusSync );
 		SetIsLocked(IsLocked);
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		if (initialContents != null)
+		{
+			//populate initial contents on spawn
+			var result = initialContents.SpawnAt(SpawnDestination.At(gameObject));
+			foreach (var spawned in result.GameObjects)
+			{
+				var objBehavior = spawned.GetComponent<ObjectBehaviour>();
+				if (objBehavior != null)
+				{
+					AddItem(objBehavior);
+				}
+			}
+		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		//make sure we despawn what we are holding
+		foreach (var heldItem in heldItems)
+		{
+			Despawn.ServerSingle(heldItem.gameObject);
+		}
+		heldItems = Enumerable.Empty<ObjectBehaviour>();
 	}
 
 	public bool Contains(GameObject gameObject)
@@ -222,26 +249,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 	}
 
-	public bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false)
-	{
-		var playerScript = originator.GetComponent<PlayerScript>();
-
-		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
-		{
-			return false;
-		}
-
-		if (!playerScript.IsInReach(position, false))
-		{
-			if(isServer && !Contains(originator))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -258,7 +265,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		if (interaction.HandObject != null && !IsClosed)
 		{
 			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			Inventory.ServerDrop(interaction.HandSlot, targetPosition);
+			Vector3 performerPosition = interaction.Performer.WorldPosServer();
+			Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 		}
 		else if (!IsLocked)
 		{
@@ -314,10 +322,22 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void CloseItemHandling()
 	{
-		heldItems = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
+		var itemsOnCloset = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+			.Where(ob => ob != null && ob.gameObject != gameObject);
+		if (heldItems != null)
+		{
+			heldItems = heldItems.Concat(itemsOnCloset);
+		}
+		else
+		{
+			heldItems = itemsOnCloset;
+		}
 		foreach (ObjectBehaviour item in heldItems)
 		{
-			item.parentContainer = PushPull;
+			var pipe = item.GetComponent<Pipe>();
+			//Checks to see if the item is anchored to the floor (i.e. a vent or a scrubber) before placing it in the locker
+			if (pipe != null && pipe.anchored) continue;
+			item.parentContainer = pushPull;
 			item.VisibleState = false;
 		}
 	}
@@ -378,12 +398,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		foreach (ObjectBehaviour objectBehaviour in heldItems)
 		{
-			objectBehaviour.registerTile.ParentNetId = parentNetId;
+			objectBehaviour.registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 		}
 
 		foreach (ObjectBehaviour objectBehaviour in heldPlayers)
 		{
-			objectBehaviour.registerTile.ParentNetId = parentNetId;
+			objectBehaviour.registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 		}
 	}
 
@@ -409,4 +429,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		return heldItems.Count() + heldPlayers.Count == 0;
 	}
+
+
 }

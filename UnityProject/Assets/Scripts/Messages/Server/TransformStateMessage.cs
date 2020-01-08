@@ -68,6 +68,6 @@ public class TransformStateMessage : ServerMessage
 	{
 		return
 			$"[TransformStateMessage Parameter={TransformedObject} Active={State.Active} WorldPos={State.WorldPosition} localPos={State.Position} " +
-			$"Spd={State.Speed} Imp={State.Impulse} Type={MessageType} Forced={ForceRefresh}]";
+			$"Spd={State.Speed} Imp={State.WorldImpulse} Type={MessageType} Forced={ForceRefresh}]";
 	}
 }

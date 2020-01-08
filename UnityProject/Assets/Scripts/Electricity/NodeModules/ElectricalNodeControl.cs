@@ -69,19 +69,6 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	public void ObjectStateChange(ObjectState tState)
-	{
-		if (tState == ObjectState.InConstruction)
-		{
-			Node.FlushConnectionAndUp();
-		}
-		else if (tState == ObjectState.Normal){
-			ElectricalSynchronisation.StructureChange = true;
-		}
-		UpObjectStateChange(tState);
-
-	}
-
 
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
@@ -199,16 +186,6 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.GoingOffStage])
 			{
 				UpdateDelegateDictionary[Module].OnDespawnServer(info);
-			}
-		}
-	}
-
-	public void UpObjectStateChange(ObjectState tState) {
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ObjectStateChange))
-		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ObjectStateChange])
-			{
-				UpdateDelegateDictionary[Module].ObjectStateChange(tState);
 			}
 		}
 	}

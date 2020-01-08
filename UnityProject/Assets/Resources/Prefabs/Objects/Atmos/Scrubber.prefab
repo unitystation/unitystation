@@ -11,17 +11,17 @@ GameObject:
   - component: {fileID: 4000013194526306}
   - component: {fileID: 61000011546092986}
   - component: {fileID: 5350485644128402302}
-  - component: {fileID: 6963528815061158835}
-  - component: {fileID: 114604783434980062}
-  - component: {fileID: 4696558778661555457}
+  - component: {fileID: 114172504531317518}
   - component: {fileID: 493655120697083372}
+  - component: {fileID: 114604783434980062}
+  - component: {fileID: 6963528815061158835}
   - component: {fileID: 3082018966209474044}
   - component: {fileID: 200003959481001672}
-  - component: {fileID: 114172504531317518}
   - component: {fileID: 114754654923298058}
   - component: {fileID: 5447043449243603668}
   - component: {fileID: 114519943041861588}
   - component: {fileID: 114276172641375114}
+  - component: {fileID: -1233506647488304563}
   m_Layer: 10
   m_Name: Scrubber
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &6963528815061158835
+--- !u!114 &114172504531317518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,9 +94,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011763452766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 027d1f2fae780624ebb2115cfc6e78af, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &493655120697083372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &114604783434980062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +140,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3335986396963275010}
   spriteSync: 0
   MinimumPressure: 101.325
---- !u!114 &4696558778661555457
+--- !u!114 &6963528815061158835
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,40 +149,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000011763452766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
+  m_Script: {fileID: 11500000, guid: 027d1f2fae780624ebb2115cfc6e78af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteDataHandler: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Scrubber
-  itemDescription: 
-  initialTraits: []
-  size: 1
-  spriteType: 0
-  CanConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
---- !u!114 &493655120697083372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011763452766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &3082018966209474044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,21 +184,6 @@ MonoBehaviour:
   syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &114172504531317518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011763452766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114754654923298058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +248,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Infos:
+    SpriteAndData:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
@@ -299,8 +271,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f0270cf6e570475a8317f8d04139e54f
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-1233506647488304563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Scrubber
+  initialDescription: 
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
 --- !u!1 &3223271260076572928
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,10 +366,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayerID: -24161425
+  m_SortingLayer: 4
   m_SortingOrder: 70
-  m_Sprite: {fileID: 21300000, guid: 63c8ba67c26cdd746abffc10e1546233, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 320ec0ebfcc2f234c85188ef36b2de8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

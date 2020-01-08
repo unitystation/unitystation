@@ -1,8 +1,11 @@
-﻿﻿using UnityEngine;
+﻿﻿using System;
+ using System.Collections.Generic;
+ using UnityEngine;
  using UnityEngine.Events;
  using Mirror;
+ using UnityEngine.Serialization;
 
-public enum ObjectType
+ public enum ObjectType
 {
 	Item,
 	Object,
@@ -19,23 +22,35 @@ public enum ObjectType
 /// Also tracks the Matrix the object is in.
 /// </summary>
 [ExecuteInEditMode]
-public abstract class RegisterTile : NetworkBehaviour
+public class RegisterTile : NetworkBehaviour, IServerDespawn
 {
-	private bool hasInit = false;
+	//relationships which only need to be checked when UpdatePosition methods are called
+	private List<BaseSpatialRelationship> sameMatrixRelationships;
+	//relationships which need to be checked via polling due to being on different matrices
+	private List<BaseSpatialRelationship> crossMatrixRelationships;
+	private bool initialized;
 
-	public ObjectLayer layer;
+	[Tooltip("For debug purposes only. Logs trace-level debug messages in " +
+	         "Matrix logging category for this particular" +
+	         " object so it's easier to see what's happening to it.")]
+	public bool matrixDebugLogging;
 
-	public ObjectType ObjectType;
+	private ObjectLayer objectLayer;
+	/// <summary>
+	/// Object layer this gameobject is in (all registertiles live in an object layer).
+	/// </summary>
+	public ObjectLayer ObjectObjectLayer => objectLayer;
+
+	[Tooltip("The kind of object this is.")]
+	[FormerlySerializedAs("ObjectType")] [SerializeField]
+	private ObjectType objectType;
+	/// <summary>
+	/// The kind of object this is.
+	/// </summary>
+	public ObjectType ObjectType => objectType;
 
 	private PushPull customTransform;
 	public PushPull CustomTransform => customTransform ? customTransform : (customTransform = GetComponent<PushPull>());
-
-
-	/// <summary>
-	/// Invoked when parent matrix is going to change, just before the matrix is actually changed. Passes
-	/// the new matrix.
-	/// </summary>
-	public MatrixChangeEvent OnMatrixWillChange = new MatrixChangeEvent();
 
 	/// <summary>
 	/// Matrix this object lives in
@@ -47,30 +62,64 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			if (value)
 			{
-				OnMatrixWillChange.Invoke(value);
+				LogMatrixDebug($"Matrix set from {matrix} to {value}");
+				if (matrix != null && matrix.MatrixMove != null)
+				{
+					matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
+				}
+
 				matrix = value;
+				if (matrix != null && matrix.MatrixMove != null)
+				{
+					LogMatrixDebug($"Registered OnRotate to {matrix}");
+					matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
+					if (isServer)
+					{
+						OnRotate(new MatrixRotationInfo(matrix.MatrixMove, matrix.MatrixMove.FacingOffsetFromInitial, NetworkSide.Server, RotationEvent.Register));
+					}
+					OnRotate(new MatrixRotationInfo(matrix.MatrixMove, matrix.MatrixMove.FacingOffsetFromInitial, NetworkSide.Client, RotationEvent.Register));
+				}
 			}
+
 		}
 	}
+
+
 	private Matrix matrix;
 	public bool MatrixIsMovable => Matrix && Matrix.MatrixMove;
 
-	public uint ParentNetId
-	{
-		get { return parentNetId; }
-		set
-		{
-			// update parent if it changed
-			if (value != parentNetId)
-			{
-				parentNetId = value;
-				SetParent(parentNetId);
-			}
-		}
-	}
-	// Note that syncvar only runs on the client, so server must ensure SetParent
-	// is invoked.
-	[SyncVar(hook = nameof(SetParent))] private uint parentNetId;
+	/// <summary>
+	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
+	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent
+	/// matrix, position, object layer, and parent matrix move if one is present in the matrix).
+	/// Allows components to respond to this event and do additional processing
+	/// based on the new parent net ID.
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnParentChangeComplete = new UnityEvent();
+
+	/// <summary>
+	/// Invoked clientside when object is in the world (not at hidden pos) and then disappears for whatever reason
+	/// (registered to hidden pos)
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnDisappearClient = new UnityEvent();
+	/// <summary>
+	/// Invoked clientside when object is invisible to client (at hidden pos) and then becomes visible
+	/// (not at hidden pos)
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnAppearClient = new UnityEvent();
+
+
+	[SyncVar(hook = nameof(SyncNetworkedMatrixNetId))]
+	private uint networkedMatrixNetId;
+	/// <summary>
+	/// NetId of our current networked matrix. Note this id is on the parent of the
+	/// Matrix gameObject, i.e. the one with NetworkedMatrix not the one with Matrix, hence calling
+	/// it "networked matrix".
+	/// </summary>
+	protected uint NetworkedMatrixNetId => networkedMatrixNetId;
 
 	/// <summary>
 	/// Returns the correct client/server version of world position depending on if this is
@@ -94,14 +143,14 @@ public abstract class RegisterTile : NetworkBehaviour
 	public Vector3Int LocalPositionServer
 	{
 		get => serverLocalPosition;
-		protected set
+		private set
 		{
-			if (layer)
+			if (objectLayer)
 			{
-				layer.ServerObjects.Remove(serverLocalPosition, this);
+				objectLayer.ServerObjects.Remove(serverLocalPosition, this);
 				if ( value != TransformState.HiddenPos )
 				{
-					layer.ServerObjects.Add(value, this);
+					objectLayer.ServerObjects.Add(value, this);
 				}
 			}
 
@@ -113,22 +162,118 @@ public abstract class RegisterTile : NetworkBehaviour
 	public Vector3Int LocalPositionClient
 	{
 		get => clientLocalPosition;
-		protected set
+		private set
 		{
-			if (layer)
+			bool appeared = clientLocalPosition == TransformState.HiddenPos && value != TransformState.HiddenPos;
+			bool disappeared = clientLocalPosition != TransformState.HiddenPos && value == TransformState.HiddenPos;
+			if (objectLayer)
 			{
-				layer.ClientObjects.Remove(clientLocalPosition, this);
+				objectLayer.ClientObjects.Remove(clientLocalPosition, this);
 				if ( value != TransformState.HiddenPos )
 				{
-					layer.ClientObjects.Add( value, this );
+					objectLayer.ClientObjects.Add( value, this );
 				}
 			}
 
 			clientLocalPosition = value;
 
+			if (appeared)
+			{
+				OnAppearClient.Invoke();
+			}
+			if (disappeared)
+			{
+				OnDisappearClient.Invoke();
+			}
+
 		}
 	}
 	private Vector3Int clientLocalPosition;
+
+	/// <summary>
+	/// Event invoked on server side when position changes. Passes the new local position in the matrix.
+	/// </summary>
+	[NonSerialized]
+	public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
+
+	private IMatrixRotation[] matrixRotationHooks;
+	private CustomNetTransform cnt;
+
+	protected virtual void Awake()
+	{
+		cnt = GetComponent<CustomNetTransform>();
+		matrixRotationHooks = GetComponents<IMatrixRotation>();
+	}
+
+
+	//we have lifecycle methods from lifecycle system, but lots of things currently depend on this register tile
+	//being initialized as early as possible so we still have this in place.
+	private void OnEnable()
+	{
+		LogMatrixDebug("OnEnable");
+		initialized = false;
+		ForceRegister();
+	}
+
+	public override void OnStartClient()
+	{
+		LogMatrixDebug("OnStartClient");
+		SyncNetworkedMatrixNetId(networkedMatrixNetId);
+	}
+
+	public override void OnStartServer()
+	{
+		LogMatrixDebug("OnStartServer");
+		ForceRegister();
+		if (Matrix != null)
+		{
+			SyncNetworkedMatrixNetId(Matrix.transform.parent.gameObject.NetId());
+		}
+	}
+
+	public void OnDestroy()
+	{
+		if (objectLayer)
+		{
+			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
+			objectLayer.ClientObjects.Remove(LocalPositionClient, this);
+		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		//cancel all relationships
+		if (sameMatrixRelationships != null)
+		{
+			foreach (var relationship in sameMatrixRelationships)
+			{
+				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
+				SpatialRelationship.ServerEnd(relationship);
+			}
+		}
+		if (crossMatrixRelationships != null)
+		{
+			foreach (var relationship in crossMatrixRelationships)
+			{
+				Logger.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.", Category.SpatialRelationship, relationship, this);
+				SpatialRelationship.ServerEnd(relationship);
+			}
+		}
+	}
+
+
+
+	/// <summary>
+	/// Set our parent matrix net ID to this.
+	/// </summary>
+	/// <param name="newNetworkedMatrixNetID"></param>
+	[Server]
+	public void ServerSetNetworkedMatrixNetID(uint newNetworkedMatrixNetID)
+	{
+		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
+		SyncNetworkedMatrixNetId(newNetworkedMatrixNetID);
+	}
+
 
 	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
@@ -136,22 +281,43 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
-	/// <param name="netId">uint of the new parent</param>
-	private void SetParent(uint netId)
+	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
+	private void SyncNetworkedMatrixNetId(uint newNetworkedMatrixNetID)
 	{
-		GameObject parent = ClientScene.FindLocalObject(netId);
-		if (parent == null)
-		{
-			//nothing found
-			return;
-		}
+		LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
+		if (this.networkedMatrixNetId == newNetworkedMatrixNetID) return;
+		if (newNetworkedMatrixNetID == NetId.Invalid || newNetworkedMatrixNetID == NetId.Empty) return;
 
-		//remove from current parent layer
-		layer?.ClientObjects.Remove(LocalPositionClient, this);
-		layer?.ServerObjects.Remove(LocalPositionServer, this);
-		layer = parent.GetComponentInChildren<ObjectLayer>();
-		Matrix = parent.GetComponentInChildren<Matrix>();
-		transform.SetParent( layer.transform, true );
+		this.networkedMatrixNetId = newNetworkedMatrixNetID;
+
+		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration);
+	}
+
+	private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
+	{
+		//if we had any spin rotation, preserve it,
+		//otherwise all objects should always have upright local rotation
+		var rotation = transform.rotation;
+		//only CNTs can have spin rotation
+		bool hadSpinRotation = cnt && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
+		objectLayer?.ClientObjects.Remove(LocalPositionClient, this);
+		objectLayer?.ServerObjects.Remove(LocalPositionServer, this);
+		objectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
+		transform.SetParent( objectLayer.transform, true );
+		//preserve absolute rotation if there was spin rotation
+		if (hadSpinRotation)
+		{
+			transform.rotation = rotation;
+		}
+		else
+		{
+			//objects are always upright w.r.t. parent matrix
+			transform.localRotation = Quaternion.identity;
+		}
+		//this will fire parent change hooks so we do it last
+		Matrix = networkedMatrix.GetComponentInChildren<Matrix>();
+
+
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
 		if (LocalPositionClient != TransformState.HiddenPos)
 		{
@@ -161,53 +327,21 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			UpdatePositionServer();
 		}
-		OnParentChangeComplete();
+		OnParentChangeComplete.Invoke();
 
-		if (!hasInit)
+		if (!initialized)
 		{
-			hasInit = true;
+			initialized = true;
 		}
-
-	}
-
-	public override void OnStartClient()
-	{
-		if (parentNetId != NetId.Invalid)
-		{
-			SetParent(parentNetId);
-		}
-	}
-
-	public override void OnStartServer()
-	{
-		if (transform.parent != null)
-		{
-			ParentNetId = transform.parent.GetComponentInParent<NetworkIdentity>().netId;
-		}
-
-		base.OnStartServer();
-	}
-
-	public void OnDestroy()
-	{
-		if (layer)
-		{
-			layer.ServerObjects.Remove(LocalPositionServer, this);
-			layer.ClientObjects.Remove(LocalPositionClient, this);
-		}
-	}
-
-	private void OnEnable()
-	{
-		ForceRegister();
 	}
 
 	[ContextMenu("Force Register")]
 	private void ForceRegister()
 	{
+		LogMatrixDebug("ForceRegister");
 		if (transform.parent != null)
 		{
-			layer = transform.parent.GetComponentInParent<ObjectLayer>();
+			objectLayer = transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
@@ -224,31 +358,238 @@ public abstract class RegisterTile : NetworkBehaviour
 		LocalPositionServer = TransformState.HiddenPos;
 	}
 
-	private void OnDisable()
+
+	private void OnRotate(MatrixRotationInfo info)
 	{
-		UnregisterClient();
-		UnregisterServer();
+		if (matrixRotationHooks == null) return;
+		//pass rotation event on to our children
+		foreach (var matrixRotationHook in matrixRotationHooks)
+		{
+			matrixRotationHook.OnMatrixRotate(info);
+		}
 	}
 
 	public virtual void UpdatePositionServer()
 	{
+		var prevPosition = LocalPositionServer;
 		LocalPositionServer = CustomTransform ? CustomTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
+		if (prevPosition != LocalPositionServer)
+		{
+			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
+			CheckSameMatrixRelationships();
+		}
+		LogMatrixDebug($"Server position from {prevPosition} to {LocalPositionServer}");
 	}
 
 	public virtual void UpdatePositionClient()
 	{
+
+		var prevPosition = LocalPositionClient;
 		LocalPositionClient = CustomTransform ? CustomTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
+		LogMatrixDebug($"Client position from {LocalPositionClient} to {prevPosition}");
+		CheckSameMatrixRelationships();
 	}
 
 	/// <summary>
-	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
-	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent
-	/// matrix, position, object layer, and parent matrix move if one is present in the matrix).
-	/// Allows subclasses to respond to this event and do additional processing
-	/// based on the new parent net ID.
+	/// For internal use by the relationship system only. Use SpatialRelationship.Activate instead to
+	/// activate a relationship between 2 register tiles
+	///
+	/// Adds a new spatial relationship which will be checked when this register tile moves relative to the other.
 	/// </summary>
-	protected virtual void OnParentChangeComplete()
+	public void _AddSpatialRelationship(BaseSpatialRelationship toAdd)
 	{
+		//are we across matrices?
+		if (toAdd.Other(this).matrix != Matrix)
+		{
+			AddCrossMatrixRelationship(toAdd);
+		}
+		else
+		{
+			AddSameMatrixRelationship(toAdd);
+		}
+	}
+
+	/// <summary>
+	/// For internal use by the relationship system only. Use SpatialRelationship.Cancel instead to
+	/// cancel a pre-existing relationship between 2 register tiles
+	///
+	/// removes the spatial relationship such that this registertile will no longer check it
+	/// </summary>
+	public void _RemoveSpatialRelationship(BaseSpatialRelationship toRemove)
+	{
+		RemoveSameMatrixRelationship(toRemove);
+		RemoveCrossMatrixRelationship(toRemove);
+	}
+
+	private void CheckSameMatrixRelationships()
+	{
+		//fires hooks for these relationships and checks if they should be switched to cross-matrix
+		if (sameMatrixRelationships != null)
+		{
+			//keeping null to avoid GC unless a switch happens, which should be rare
+			List<BaseSpatialRelationship> toSwitch = null;
+			List<BaseSpatialRelationship> toCancel = null;
+			foreach (var sameMatrixRelationship in sameMatrixRelationships)
+			{
+				var cancelled = sameMatrixRelationship.ShouldRelationshipEnd();
+				if (cancelled)
+				{
+					if (toCancel == null)
+					{
+						toCancel = new List<BaseSpatialRelationship>();
+					}
+					toCancel.Add(sameMatrixRelationship);
+				}
+				else
+				{
+					//not cancelled, check if we moved cross-matrix
+					if (sameMatrixRelationship.Other(this).Matrix != this.Matrix)
+					{
+						if (toSwitch == null)
+						{
+							toSwitch = new List<BaseSpatialRelationship>();
+						}
+						toSwitch.Add(sameMatrixRelationship);
+					}
+				}
+			}
+
+			if (toCancel != null)
+			{
+				foreach (var cancelled in toCancel)
+				{
+					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					                      " returned true.", Category.SpatialRelationship, cancelled);
+					SpatialRelationship.ServerEnd(cancelled);
+				}
+			}
+
+			if (toSwitch != null)
+			{
+				foreach (var switched in toSwitch)
+				{
+					Logger.LogTraceFormat("Switching spatial relationship {0} to cross matrix because" +
+					                      " objects moved to different matrices.", Category.SpatialRelationship, switched);
+					RemoveSameMatrixRelationship(switched);
+					AddCrossMatrixRelationship(switched);
+				}
+			}
+		}
+	}
+
+	private void AddSameMatrixRelationship(BaseSpatialRelationship toAdd)
+	{
+		if (sameMatrixRelationships == null)
+		{
+			sameMatrixRelationships = new List<BaseSpatialRelationship>();
+		}
+		Logger.LogTraceFormat("Adding same matrix relationship {0} on {1}",
+			Category.SpatialRelationship, toAdd, this);
+		sameMatrixRelationships.Add(toAdd);
+	}
+	private void AddCrossMatrixRelationship(BaseSpatialRelationship toAdd)
+	{
+		//we only check cross matrix relationships if we are the leader, since only
+		//one side needs to poll.
+		if (!toAdd.IsLeader(this))
+		{
+			Logger.LogTraceFormat("Not adding cross matrix relationship {0} on {1} because {1} is not the leader",
+				Category.SpatialRelationship, toAdd, this);
+			return;
+		}
+		Logger.LogTraceFormat("Adding cross matrix relationship {0} on {1}",
+			Category.SpatialRelationship, toAdd, this);
+
+		if (crossMatrixRelationships == null)
+		{
+			crossMatrixRelationships = new List<BaseSpatialRelationship>();
+			UpdateManager.Instance.Add(UpdatePollCrossMatrixRelationships);
+		}
+		crossMatrixRelationships.Add(toAdd);
+	}
+
+	private void RemoveSameMatrixRelationship(BaseSpatialRelationship toRemove)
+	{
+		if (sameMatrixRelationships == null) return;
+		Logger.LogTraceFormat("Removing same matrix relationship {0} from {1}",
+			Category.SpatialRelationship, toRemove, this);
+		sameMatrixRelationships.Remove(toRemove);
+		if (sameMatrixRelationships.Count == 0)
+		{
+			sameMatrixRelationships = null;
+		}
+	}
+
+	private void RemoveCrossMatrixRelationship(BaseSpatialRelationship toRemove)
+	{
+		if (crossMatrixRelationships == null) return;
+		Logger.LogTraceFormat("Removing cross matrix relationship {0} from {1}",
+			Category.SpatialRelationship, toRemove, this);
+		crossMatrixRelationships.Remove(toRemove);
+		if (crossMatrixRelationships.Count == 0)
+		{
+			UpdateManager.Instance.Remove(UpdatePollCrossMatrixRelationships);
+			crossMatrixRelationships = null;
+		}
+	}
+
+	private void UpdatePollCrossMatrixRelationships()
+	{
+		//used in update manager when there is a cross matrix relationship
+		//that this registertile is the leader for. Checks the relationship and switches it
+		//over to same matrix if they both end up on the same matrix
+
+		if (crossMatrixRelationships != null)
+		{
+			//keeping null to avoid GC unless a switch happens, which should be rare
+			List<BaseSpatialRelationship> toSwitch = null;
+			List<BaseSpatialRelationship> toCancel = null;
+			foreach (var crossMatrixRelationship in crossMatrixRelationships)
+			{
+				var cancelled = crossMatrixRelationship.ShouldRelationshipEnd();
+				if (cancelled)
+				{
+					if (toCancel == null)
+					{
+						toCancel = new List<BaseSpatialRelationship>();
+					}
+					toCancel.Add(crossMatrixRelationship);
+				}
+				else
+				{
+					//not cancelled, check if we moved to same matrix
+					if (crossMatrixRelationship.Other(this).Matrix == this.Matrix)
+					{
+						if (toSwitch == null)
+						{
+							toSwitch = new List<BaseSpatialRelationship>();
+						}
+						toSwitch.Add(crossMatrixRelationship);
+					}
+				}
+			}
+
+			if (toCancel != null)
+			{
+				foreach (var cancelled in toCancel)
+				{
+					Logger.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					                      " returned true.", Category.SpatialRelationship, cancelled);
+					SpatialRelationship.ServerEnd(cancelled);
+				}
+			}
+
+			if (toSwitch != null)
+			{
+				foreach (var switched in toSwitch)
+				{
+					Logger.LogTraceFormat("Switching spatial relationship {0} to same matrix because" +
+					                      " objects moved to the same matrix.", Category.SpatialRelationship, switched);
+					RemoveCrossMatrixRelationship(switched);
+					AddSameMatrixRelationship(switched);
+				}
+			}
+		}
 	}
 
 	public virtual bool IsPassable(bool isServer)
@@ -272,6 +613,20 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 		return true;
 	}
+
+	/// <summary>
+	/// Logs a message to Matrix logging category only if
+	/// matrixDebugLogging is turned on.
+	/// </summary>
+	/// <param name="log"></param>
+	private void LogMatrixDebug(string log)
+	{
+		if (matrixDebugLogging)
+		{
+			Logger.Log(log, Category.Matrix);
+		}
+	}
+
 }
 
  /// <summary>

@@ -1,5 +1,7 @@
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -25,17 +27,61 @@ public static class Validations
 	}
 
 	/// <summary>
-	/// Checks if the game object has the specified trait
+	/// Checks if the used game object has the indicated component
 	/// </summary>
+	/// <param name="interaction"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static bool HasUsedComponent<T>(Interaction interaction) where T : Component
+	{
+		return HasComponent<T>(interaction.UsedObject);
+	}
+
+	/// <inheritdoc cref="ItemAttributes.HasTrait"/>
 	/// <param name="toCheck">object to check, can be null</param>
 	/// <param name="expectedTrait"></param>
 	/// <returns></returns>
 	public static bool HasItemTrait(GameObject toCheck, ItemTrait expectedTrait)
 	{
 		if (toCheck == null) return false;
-		var attrs = toCheck.GetComponent<ItemAttributes>();
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (attrs == null) return false;
 		return attrs.HasTrait(expectedTrait);
+	}
+
+	/// <summary>
+	/// Checks if the used object has the indicated trait
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <param name="expectedTrait"></param>
+	/// <returns></returns>
+	public static bool HasUsedItemTrait(Interaction interaction, ItemTrait expectedTrait)
+	{
+		return HasItemTrait(interaction.UsedObject, expectedTrait);
+	}
+
+	/// <inheritdoc cref="ItemAttributes.HasAnyTrait"/>
+	/// <param name="toCheck">object to check, can be null</param>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public static bool HasAnyTrait(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
+	{
+		if (toCheck == null) return false;
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
+		if (attrs == null) return false;
+		return attrs.HasAnyTrait(expectedTraits);
+	}
+
+	/// <inheritdoc cref="ItemAttributes.HasAllTraits"/>
+	/// <param name="toCheck">object to check, can be null</param>
+	/// <param name="expectedTraits"></param>
+	/// <returns></returns>
+	public static bool HasAllTraits(GameObject toCheck, IEnumerable<ItemTrait> expectedTraits)
+	{
+		if (toCheck == null) return false;
+		var attrs = toCheck.GetComponent<ItemAttributesV2>();
+		if (attrs == null) return false;
+		return attrs.HasAllTraits(expectedTraits);
 	}
 
 	/// <summary>
@@ -63,19 +109,35 @@ public static class Validations
 
 	/// <summary>
 	/// Checks if a player is allowed to interact with things (based on this player's status, such
-	/// as being conscious).
-	///
-	/// This should be used instead of playerScript.canNotInteract as it handles more possible situations.
+	/// as being conscious, and not cuffed).
 	/// </summary>
 	/// <param name="player">player gameobject to check</param>
 	/// <param name="side">side of the network the check is being performed on</param>
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
+	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
 	/// <returns></returns>
-	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false)
+	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
 	{
 		if (player == null) return false;
-		var playerScript = player.GetComponent<PlayerScript>();
-		if (playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		return CanInteract(player.GetComponent<PlayerScript>(), side, allowSoftCrit, allowCuffed);
+	}
+
+	/// <summary>
+	/// Checks if a player is allowed to interact with things (based on this player's status, such
+	/// as being conscious, and not cuffed).
+	/// </summary>
+	/// <param name="playerScript">playerscript of the player to check</param>
+	/// <param name="side">side of the network the check is being performed on</param>
+	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
+	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
+	/// <returns></returns>
+	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
+	{
+		if (playerScript == null) return false;
+		if ((!allowCuffed && playerScript.playerMove.IsCuffed) ||
+		    playerScript.IsGhost ||
+		    !playerScript.playerMove.allowInput ||
+		    !CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side))
 		{
 			return false;
 		}
@@ -83,30 +145,43 @@ public static class Validations
 		return true;
 	}
 
+	private static bool CanInteractByConsciousState(PlayerHealth playerHealth, bool allowSoftCrit, NetworkSide side)
+	{
+		if (side == NetworkSide.Client)
+		{
+			//we only know our own conscious state, so assume true if it's not our local player
+			if (playerHealth.gameObject != PlayerManager.LocalPlayer) return true;
+		}
+
+		return playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+		       playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS && allowSoftCrit;
+	}
+
 	#region CanApply
 
 	/// <summary>
-	/// Validates if the performer is in range and not in crit, which are typical requirements for all
+	/// Validates if the performer is in range and capable of interaction -  all the typical requirements for all
 	/// various interactions. Works properly even if player is hidden in a ClosetControl. Can also optionally allow soft crit.
 	///
-	/// For PositionalHandApply, reach range is based on how far away they are clicking from themselves
 	/// </summary>
-	/// <param name="player">player performing the interaction</param>
+	/// <param name="playerScript">player script performing the interaction</param>
 	/// <param name="target">target object</param>
 	/// <param name="side">side of the network this is being checked on</param>
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
 	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
 	/// if specified will use this to determine if in range rather than target object position.</param>
+	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
+	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
+	/// creating garbage.</param>
 	/// <returns></returns>
-	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null)
+	public static bool CanApply(PlayerScript playerScript, GameObject target, NetworkSide side, bool allowSoftCrit = false,
+		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
 	{
-		if (player == null) return false;
-		var playerScript = player.GetComponent<PlayerScript>();
-		var playerObjBehavior = player.GetComponent<ObjectBehaviour>();
+		if (playerScript == null) return false;
+		var playerObjBehavior = playerScript.pushPull;
 
-		if (!CanInteract(player, side, allowSoftCrit))
+		if (!CanInteract(playerScript, side, allowSoftCrit))
 		{
 			return false;
 		}
@@ -129,7 +204,6 @@ public static class Validations
 					: null;
 				return parentObj == target;
 			}
-
 		}
 
 		var result = false;
@@ -139,9 +213,7 @@ public static class Validations
 		}
 		else if (reachRange == ReachRange.Standard)
 		{
-			var targetWorldPosition =
-				targetVector != null ? player.transform.position + targetVector : target.transform.position;
-			result = playerScript.IsInReach((Vector3) targetWorldPosition, side == NetworkSide.Server);
+			result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
 		}
 		else if (reachRange == ReachRange.ExtendedServer)
 		{
@@ -155,10 +227,7 @@ public static class Validations
 				var cnt = target.GetComponent<CustomNetTransform>();
 				if (cnt == null)
 				{
-					var targetWorldPosition =
-						targetVector != null ? player.transform.position + targetVector : target.transform.position;
-					//fallback to standard range check if there is no CNT
-					result = playerScript.IsInReach((Vector3) targetWorldPosition, side == NetworkSide.Server);
+					result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
 				}
 				else
 				{
@@ -172,15 +241,115 @@ public static class Validations
 			//client tried to do something out of range, report it
 			var cnt = target.GetComponent<CustomNetTransform>();
 			Logger.LogTraceFormat( "Not in reach! server pos:{0} player pos:{1} (floating={2})", Category.Security,
-				cnt.ServerState.WorldPosition, player.transform.position, cnt.IsFloatingServer);
+				cnt.ServerState.WorldPosition, playerScript.transform.position, cnt.IsFloatingServer);
 		}
 
 		return result;
 	}
 
+	/// <summary>
+	/// Figures out what method of reach checking to use based on the parameters.
+	/// </summary>
+	/// <param name="playerScript"></param>
+	/// <param name="target"></param>
+	/// <param name="side"></param>
+	/// <param name="targetVector"></param>
+	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
+	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
+	/// creating garbage.</param>
+	/// <returns></returns>
+	private static bool IsInReachInternal(PlayerScript playerScript, GameObject target, NetworkSide side, Vector2? targetVector,
+		RegisterTile targetRegisterTile)
+	{
+		bool result;
+		if (targetVector == null)
+		{
+			var regTarget = targetRegisterTile == null ? target.RegisterTile() : targetRegisterTile;
+			//Use the smart range check which works better on moving matrices
+			if (regTarget != null)
+			{
+				result = IsInReach(playerScript.registerTile, regTarget, side == NetworkSide.Server);
+			}
+			else
+			{
+				//use transform position because we don't have a registered position for the target,
+				//this should happen almost never
+				//note: we use transform position for both player and target (rather than registered position) because
+				//registered position and transform positions can be out of sync with each other esp. on moving matrices
+				result = IsInReach(playerScript.transform.position, target.transform.position);
+			}
+
+		}
+		else
+		{
+			//use target vector based range check
+			result = IsInReach((Vector3) targetVector);
+		}
+
+		return result;
+	}
+
+	public static bool IsInReach( Vector3 targetVector, float interactDist = PlayerScript.interactionDistance )
+	{
+		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
+	}
+
+	public static bool IsInReach(Vector3 fromWorldPos, Vector3 toWorldPos, float interactDist = PlayerScript.interactionDistance)
+	{
+		var targetVector = fromWorldPos - toWorldPos;
+		return IsInReach( targetVector );
+	}
+
+
+	/// <summary>
+	/// Smart way to detect reach, supports high speeds in ships. Should use it more!
+	/// </summary>
+	/// <param name="from"></param>
+	/// <param name="to"></param>
+	/// <param name="isServer"></param>
+	/// <param name="interactDist"></param>
+	/// <returns></returns>
+	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = PlayerScript.interactionDistance)
+	{
+		if ( isServer )
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionServer, to.LocalPositionServer, interactDist) ||
+			       IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
+		}
+		else
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionClient, to.LocalPositionClient, interactDist) ||
+			       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
+		}
+	}
+
+	/// <summary>
+	/// Validates if the performer is in range and capable of interaction -  all the typical requirements for all
+	/// various interactions. Works properly even if player is hidden in a ClosetControl. Can also optionally allow soft crit.
+	///
+	/// </summary>
+	/// <param name="player">player performing the interaction</param>
+	/// <param name="target">target object</param>
+	/// <param name="side">side of the network this is being checked on</param>
+	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
+	/// <param name="reachRange">range to allow</param>
+	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
+	/// if specified will use this to determine if in range rather than target object position.</param>
+	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
+	/// if you can do so without using GetComponent, especially if you are calling this frequently.
+	/// This is an optimization so GetComponent call can be avoided to avoid
+	/// creating garbage.</param>
+	/// <returns></returns>
+	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
+		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
+	{
+		if (player == null) return false;
+		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector, targetRegisterTile);
+	}
+
 	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state)
 	{
-		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.Impulse, true, 1.75f);
+		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f);
 	}
 
 	/// <summary>
@@ -205,6 +374,18 @@ public static class Validations
 	/// <returns></returns>
 	public static bool CanApply(PositionalHandApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard) =>
 		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, toValidate.TargetVector);
+
+	/// <summary>
+	/// Validates if the performer is in range and not in crit for a TileApply interaction.
+	/// Range check is based on the target vector of toValidate, not the distance to the object.
+	/// </summary>
+	/// <param name="toValidate">interaction to validate</param>
+	/// <param name="side">side of the network this is being checked on</param>
+	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
+	/// <param name="reachRange">range to allow</param>
+	/// <returns></returns>
+	public static bool CanApply(TileApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard) =>
+		CanApply(toValidate.Performer, toValidate.TargetInteractableTiles.gameObject, side, allowSoftCrit, reachRange, toValidate.TargetVector);
 
 	/// <summary>
 	/// Validates if the performer is in range and not in crit for a MouseDrop interaction.
@@ -254,54 +435,77 @@ public static class Validations
 	/// <param name="toCheck">item to check for fit</param>
 	/// <param name="side">network side check is happening on</param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
 	/// <returns></returns>
-	public static bool CanFit(ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	public static bool CanFit(ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
 		if (itemSlot == null) return false;
-		//client generally only knows about their own inventory, so unless this is one of their own inventory
-		//slots we will just assume it fits when doing client side check.
-		if (side == NetworkSide.Client)
-		{
-			var rootHolder = itemSlot.GetRootStorage();
-			if (rootHolder.gameObject != PlayerManager.LocalPlayer)
-			{
-				//we have no idea if it fits since it's not in our inventory, so rely on the server to check this.
-				return true;
-			}
-			else
-			{
-				return itemSlot.CanFit(toCheck, ignoreOccupied);
-			}
-		}
-		else
-		{
-			return itemSlot.CanFit(toCheck, ignoreOccupied);
-		}
+		return itemSlot.CanFit(toCheck, ignoreOccupied, examineRecipient);
+	}
+
+	/// <summary>
+	/// Checks if the player can currently put the indicated item into a free slot in this storage. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="player">player to check</param>
+	/// <param name="storage">storage to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
+	/// <returns></returns>
+	public static bool CanPutItemToStorage(PlayerScript playerScript, ItemStorage storage, Pickupable toCheck,
+		NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
+	{
+		var freeSlot = storage.GetBestSlotFor(toCheck);
+		if (freeSlot == null) return false;
+		return CanPutItemToSlot(playerScript, freeSlot, toCheck, side, ignoreOccupied, examineRecipient);
+	}
+
+	/// <summary>
+	/// Checks if the player can currently put the indicated item into a free slot in this storage. Correctly handles logic for client / server side, so is
+	/// recommended to use in WillInteract rather than other ways of checking fit.
+	/// </summary>
+	/// <param name="player">player to check</param>
+	/// <param name="storage">storage to check</param>
+	/// <param name="toCheck">item to check for fit</param>
+	/// <param name="side">network side check is happening on</param>
+	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
+	/// <returns></returns>
+	public static bool CanPutItemToStorage(PlayerScript playerScript, ItemStorage storage, GameObject toCheck,
+		NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
+	{
+		if (toCheck == null) return false;
+		return CanPutItemToStorage(playerScript, storage, toCheck.GetComponent<Pickupable>(), side, ignoreOccupied,
+			examineRecipient);
 	}
 
 	/// <summary>
 	/// Checks if the player can currently put the indicated item in this slot. Correctly handles logic for client / server side, so is
 	/// recommended to use in WillInteract rather than other ways of checking fit.
 	/// </summary>
-	/// <param name="player">player to check</param>
+	/// <param name="player">player performing the interaction</param>
 	/// <param name="itemSlot">slot to check</param>
 	/// <param name="toCheck">item to check for fit</param>
 	/// <param name="side">network side check is happening on</param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
+	/// <param name="examineRecipient">if not null, when validation fails, will output an appropriate examine message to this recipient</param>
 	/// <returns></returns>
-	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side, bool ignoreOccupied = false)
+	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side,
+		bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
 		if (toCheck == null || itemSlot.Item != null)
 		{
 			Logger.LogTrace("Cannot put item to slot because the item or slot are null", Category.Inventory);
 			return false;
 		}
-		if (playerScript.canNotInteract())
+		if (!CanInteract(playerScript.gameObject, side, true))
 		{
 			Logger.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;
 		}
-		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied))
+		if (!CanFit(itemSlot, toCheck, side, ignoreOccupied, examineRecipient))
 		{
 			Logger.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
 				toCheck.name, itemSlot);
@@ -309,4 +513,98 @@ public static class Validations
 		}
 		return true;
 	}
+
+	/// <summary>
+	/// Checks if the player is allowed to have their inventory examined and removed
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="side"></param>
+	/// <returns></returns>
+	public static bool IsStrippable(GameObject player, NetworkSide side)
+	{
+		if (player == null) return false;
+		var playerScript = player.GetComponent<PlayerScript>();
+		if (playerScript == null) return false;
+
+		if (side == NetworkSide.Client)
+		{
+			//we don't know their exact health state and whether they are slipping, but we can guess if they're downed we can do this
+			var registerPlayer = playerScript.registerTile;
+			var playerMove = playerScript.playerMove;
+			if (registerPlayer == null || playerMove == null) return false;
+			return registerPlayer.IsLayingDown || playerMove.IsCuffed;
+		}
+		else
+		{
+			//find their exact conscious state, slipping state, cuffed state
+			var playerHealth = playerScript.playerHealth;
+			var registerPlayer = playerScript.registerTile;
+			var playerMove = playerScript.playerMove;
+			if (playerHealth == null || playerMove == null || registerPlayer == null) return false;
+			return playerHealth.ConsciousState != ConsciousState.CONSCIOUS || registerPlayer.IsSlippingServer || playerMove.IsCuffed;
+		}
+	}
+
+	/// <summary>
+	/// Returns true iff both objects are Stackable and toAdd can be added to stack.
+	/// </summary>
+	public static bool CanStack(GameObject stack, GameObject toAdd)
+	{
+		if (stack == null || toAdd == null) return false;
+		var stack1 = stack.GetComponent<Stackable>();
+		var stack2 = toAdd.GetComponent<Stackable>();
+		if (stack1 == null || stack2 == null) return false;
+
+		return stack1.CanAccommodate(stack2);
+	}
+
+	/// <summary>
+	/// Checks if the provided object is stackable and has the required minimum amount in the stack.
+	/// </summary>
+	/// <param name="stack"></param>
+	/// <param name="minAmount"></param>
+	/// <returns></returns>
+	public static bool HasAtLeast(GameObject stack, int minAmount)
+	{
+		if (stack == null) return false;
+		var stackable = stack.GetComponent<Stackable>();
+		if (stackable == null) return false;
+		return stackable.Amount >= minAmount;
+	}
+
+	/// <summary>
+	/// Checks if the used object is stackable and has the required minimum amount in the stack.
+	/// </summary>
+	/// <param name="stack"></param>
+	/// <param name="minAmount"></param>
+	/// <returns></returns>
+	public static bool HasUsedAtLeast(Interaction interaction, int minAmount)
+	{
+		return HasAtLeast(interaction.UsedObject, minAmount);
+	}
+
+	/// <summary>
+	/// Checks if the indicated game object is the target.
+	/// </summary>
+	/// <param name="gameObject"></param>
+	/// <param name="interaction"></param>
+	/// <returns></returns>
+	public static bool IsTarget(GameObject gameObject, TargetedInteraction interaction)
+	{
+		return gameObject == interaction.TargetObject;
+	}
+
+	/// <summary>
+	/// Checks if a welder which is on is being used
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <returns></returns>
+	public static bool HasUsedActiveWelder(Interaction interaction)
+	{
+		if (interaction.UsedObject == null) return false;
+		var welder = interaction.UsedObject.GetComponent<Welder>();
+		if (welder == null) return false;
+		return welder.IsOn;
+	}
+
 }

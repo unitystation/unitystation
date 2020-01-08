@@ -1,5 +1,7 @@
 
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Extensions for GameObject specifically for unitystation
@@ -60,4 +62,33 @@ public static class GameObjectExtensions
 		}
 	}
 
+	/// <summary>
+	/// Sets the given image's sprites using this object's main and secondary sprites
+	/// </summary>
+	/// <param name="obj"></param>
+	/// <param name="image"></param>
+	/// <param name="secondaryImage"></param>
+	public static void PopulateImageSprites(this GameObject obj, Image image, Image secondaryImage)
+	{
+		var sprites = obj.GetComponentsInChildren<SpriteRenderer>();
+		if (sprites != null && sprites.Length > 0 && sprites[0].sprite != null)
+		{
+			image.enabled = true;
+			image.sprite = sprites[0].sprite;
+			if (sprites.Length > 1 && sprites[1].sprite != null)
+			{
+				secondaryImage.enabled = true;
+				secondaryImage.sprite = sprites[1].sprite;
+			}
+			else
+			{
+				secondaryImage.enabled = false;
+			}
+		}
+		else
+		{
+			image.enabled = false;
+			secondaryImage.enabled = false;
+		}
+	}
 }

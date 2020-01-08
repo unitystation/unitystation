@@ -12,17 +12,6 @@ public class HeadsetData : BaseClothData
 	public EquippedData Sprites;
 	public HeadsetKyes Key;
 
-	public override void InitializePool()
-	{
-		if (Spawn.HeadSetStoredData.ContainsKey(this.name) && Spawn.HeadSetStoredData[this.name] != this)
-		{
-			Logger.LogError("a HeadsetData Has the same name as another one. name " + this.name + ". Please rename one of them to a different name");
-		}
-		Spawn.HeadSetStoredData[this.name] = this;
-
-	}
-
-
 	public static void getHeadsetData(List<HeadsetData> DataPCD)
 	{
 		DataPCD.Clear();

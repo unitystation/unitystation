@@ -5,7 +5,6 @@
 	{
 		public DoorController doorController;
 
-
 		public abstract void OpenDoor(bool skipAnimation);
 		public abstract void CloseDoor(bool skipAnimation);
 		public abstract void AccessDenied(bool skipAnimation);

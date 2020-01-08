@@ -1,53 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Unity.Collections;
-using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class TextureDataRequest
+public class TextureDataRequest : IDisposable
 {
-	private bool iRequestLoaded;
+	private NativeArray<Color32> colors;
 	private int height;
+	private bool requestLoaded;
 	private int width;
-	NativeArray<Color32> colors;
 
-	public void DeallocateOnClose()
-	{
-		colors.Dispose();
-	}
-
-	public void StoreData(AsyncGPUReadbackRequest iRequest)
+	public void StoreData(AsyncGPUReadbackRequest request)
 	{
 		if (colors.Length > 0)
 		{
 			colors.Dispose();
 		}
-		iRequestLoaded = true;
-		colors = new NativeArray<Color32>(iRequest.GetData<Color32>(), Allocator.Persistent);
-		height = iRequest.height;
-		width = iRequest.width;
+		requestLoaded = true;
+		colors = new NativeArray<Color32>(request.GetData<Color32>(), Allocator.Persistent);
+		height = request.height;
+		width = request.width;
 	}
 
-	public bool TryGetPixelNormalized(float iNormalizedX, float iNormalizedY, out Color32 oColor32)
+	public bool TryGetPixelNormalized(float normalizedX, float normalizedY, out Color32 color)
 	{
-		var _width = (int)(iNormalizedX * width);
-		var _height = (int)(iNormalizedY * height);
-		return TryGetPixel(_width, _height, out oColor32);
+		var w = (int) (normalizedX * width);
+		var h = (int) (normalizedY * height);
+		return TryGetPixel(w, h, out color);
 	}
 
-	public bool TryGetPixel(int iX, int iY, out Color32 oColor32)
+	public bool TryGetPixel(int x, int y, out Color32 color)
 	{
-		oColor32 = default(Color32);
+		color = default;
 
-		if (iRequestLoaded == false ||
-			iX < 0 ||
-			iX > width ||
-			iY < 0 ||
-			iY > height)
+		if (requestLoaded == false ||
+		    x < 0 || x > width ||
+		    y < 0 || y > height)
+		{
 			return false;
+		}
 
-		int _index = (iY * width) + iX;
-		oColor32 = colors[_index];
+		var index = y * width + x;
+		color = colors[index];
 		return true;
+	}
+
+	public void Dispose()
+	{
+		if (colors.Length > 0)
+		{
+			colors.Dispose();
+		}
 	}
 }

@@ -6,18 +6,18 @@ using System;
 [Serializable]
 public class Resistances
 {
-	//immune to lava damage
+	// Immune to lava damage
 	public bool LavaProof;
-	//immune to fire damage (but not necessarily lava or heat)
+	// Immune to fire damage (but not necessarily lava or heat)
 	public bool FireProof;
-	//can catch on fire
+	// Instantly ignites from fire sources. Use this for objects like paper.
 	public bool Flammable;
-	//acid can't even appear on it or melt it
+	// Acid can't even appear on it or melt it
 	public bool UnAcidable;
-	//acid can get on it but not melt it
+	// Acid can get on it but not melt it
 	public bool AcidProof;
-	//can't take damage
+	// Can't take damage
 	public bool Indestructable;
-	//can't be frozen
+	// Can't be frozen
 	public bool FreezeProof;
 }

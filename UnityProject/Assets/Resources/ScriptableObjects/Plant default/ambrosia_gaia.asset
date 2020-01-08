@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
+  m_Name: ambrosia_gaia
+  m_EditorClassIdentifier: 
+  plantData:
+    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+      type: 3}
+    Name: ambrosia_gaia
+    Plantname: Ambrosia Gaia
+    Description: These seeds grow into ambrosia gaia, filled with infinite potential.
+    PacketsSprite:
+      Texture: {fileID: 2800000, guid: ee67ac296de532144b9b1c19de7ad40d, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: ee67ac296de532144b9b1c19de7ad40d, type: 3}
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 2800000, guid: 6d4ba5d7acf5b7f4190d05452e88cd07, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6d4ba5d7acf5b7f4190d05452e88cd07, type: 3}
+      EquippedData: {fileID: 0}
+    GrowthSprites:
+    - Texture: {fileID: 2800000, guid: a36ece5d0bafad2458644763cb12af04, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: a36ece5d0bafad2458644763cb12af04, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: fe2e3e43adb524648aca2bf1e752269d, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: fe2e3e43adb524648aca2bf1e752269d, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 901907670e0f9ad4f8a8b5db862bbf79, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 901907670e0f9ad4f8a8b5db862bbf79, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: b2784f908221bc945a93774013481609, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b2784f908221bc945a93774013481609, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 4272655913ecdf14c8f416ac2f8534d3, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 4272655913ecdf14c8f416ac2f8534d3, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 97a15c2c55f7b0449bbaeae264015103, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 97a15c2c55f7b0449bbaeae264015103, type: 3}
+      EquippedData: {fileID: 0}
+    FullyGrownSprite:
+      Texture: {fileID: 2800000, guid: 692e04dae44a9aa4cb68a5ffec4834c9, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 692e04dae44a9aa4cb68a5ffec4834c9, type: 3}
+      - {fileID: 21300002, guid: 692e04dae44a9aa4cb68a5ffec4834c9, type: 3}
+      - {fileID: 21300004, guid: 692e04dae44a9aa4cb68a5ffec4834c9, type: 3}
+      - {fileID: 21300006, guid: 692e04dae44a9aa4cb68a5ffec4834c9, type: 3}
+      EquippedData: {fileID: 4900000, guid: 34f43c45b60377e4588d36147ccaf031, type: 3}
+    DeadSprite:
+      Texture: {fileID: 2800000, guid: 5bf3b95bfa2e9934098a178cf2957752, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 5bf3b95bfa2e9934098a178cf2957752, type: 3}
+      EquippedData: {fileID: 0}
+    WeedResistance: 5
+    WeedGrowthRate: 1
+    GrowthSpeed: 6
+    Potency: 5
+    Endurance: 25
+    Yield: 6
+    Lifespan: 60
+    PlantTrays: 
+    ReagentProduction:
+    - String: earthsblood
+      Int: 5
+    - String: nutriment
+      Int: 5
+    - String: vitamin
+      Int: 5
+    MutatesInTo:
+    - {fileID: 11400000, guid: 00e1d8a7450c9c745a4914c2e1a8f236, type: 2}
+  WeedResistanceChange: 0
+  WeedGrowthRateChange: 0
+  GrowthSpeedChange: 0
+  PotencyChange: 0
+  EnduranceChange: 0
+  YieldChange: 0
+  LifespanChange: 0
+  PlantTrays: 
+  ReagentProduction:
+  - String: earthsblood
+    Int: 5
+  - String: nutriment
+    Int: 5
+  - String: vitamin
+    Int: 5
+  RemovePlantTrays: 00000000
+  RemoveReagentProduction:
+  - String: omnizine
+    Int: 15
+  - String: synaptizine
+    Int: 15
+  - String: space_drugs
+    Int: 10
+  - String: vitamin
+    Int: 3
+  - String: nutriment
+    Int: 5

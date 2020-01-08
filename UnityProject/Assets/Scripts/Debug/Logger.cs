@@ -242,7 +242,12 @@ public enum Category
 	GameMode,
 	Chat,
 	Interaction,
-	Antags
+	Antags,
+	Hub,
+	SpatialRelationship,
+	MLAgents,
+	Direction,
+	Admin
 }
 
 [Serializable]

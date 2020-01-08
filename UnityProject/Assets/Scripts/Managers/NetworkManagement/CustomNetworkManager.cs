@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Facepunch.Steamworks;
 using UnityEngine;
 using ConnectionConfig = UnityEngine.Networking.ConnectionConfig;
 using Mirror;
@@ -17,8 +16,6 @@ public class CustomNetworkManager : NetworkManager
 	public static CustomNetworkManager Instance;
 
 	[HideInInspector] public bool _isServer;
-	[HideInInspector] public bool spawnableListReady;
-	private Server server;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 
@@ -65,8 +62,6 @@ public class CustomNetworkManager : NetworkManager
 				loadFolder(subdir);
 			}
 		}
-
-		spawnableListReady = true;
 	}
 
 	private void loadFolder(string folderpath)
@@ -88,10 +83,6 @@ public class CustomNetworkManager : NetworkManager
 
 	private void OnDisable()
 	{
-		if (_isServer && server != null && server.IsValid)
-		{
-			server.Auth.OnAuthChange -= AuthChange;
-		}
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
@@ -100,91 +91,14 @@ public class CustomNetworkManager : NetworkManager
 		_isServer = true;
 		base.OnStartServer();
 		this.RegisterServerHandlers();
-		if (BuildPreferences.isSteamServer)
-		{
-			SteamServerStart();
-		}
 		// Fixes loading directly into the station scene
-		if (GameManager.Instance.CurrentRoundState == RoundState.None)
+		if (GameManager.Instance.LoadedDirectlyToStation)
 		{
 			GameManager.Instance.PreRoundStart();
 		}
 	}
-
-	public void SteamServerStart()
-	{
-		// init the SteamServer needed for authentication of players
-		//
-		Config.ForUnity(Application.platform.ToString());
-		string path = Path.GetFullPath(".");
-		string folderName = Path.GetFileName(Path.GetDirectoryName(path));
-		ServerInit options = new ServerInit(folderName, "Unitystation");
-		server = new Server(801140, options);
-
-		if (server != null)
-		{
-			if (GameData.IsHeadlessServer || GameData.Instance.testServer || SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null)
-			{
-				server.DedicatedServer = true;
-			}
-			server.LogOnAnonymous();
-			server.ServerName = "Unitystation Official";
-			// Set required settings for dedicated server
-
-			Logger.Log("Setting up Auth hook", Category.Steam);
-			//Process callback data for authentication
-			server.Auth.OnAuthChange = AuthChange;
-		}
-		// confirm in log if server is actually registered or not
-		if (server.IsValid)
-		{
-			Logger.Log("Server registered", Category.Steam);
-		}
-		else
-		{
-			Logger.Log("Server NOT registered", Category.Steam);
-		}
-
-	}
-
-	/// Processes the callback data when authentication statuses change
-	public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
-	{
-		var player = PlayerList.Instance.Get(steamid);
-		if (player == ConnectedPlayer.Invalid)
-		{
-			Logger.LogWarning($"Steam gave us a {status} ticket response for unconnected id {steamid}", Category.Steam);
-			return;
-		}
-
-		if (status == ServerAuth.Status.OK)
-		{
-			Logger.LogWarning($"Steam gave us a 'ok' ticket response for already connected id {steamid}", Category.Steam);
-			return;
-		}
-
-		// Disconnect logging
-		if (status == ServerAuth.Status.VACCheckTimedOut)
-		{
-			Logger.LogWarning($"The SteamID '{steamid}' left the server. ({status})", Category.Steam);
-			return;
-		}
-	}
-
-	public static void Kick(ConnectedPlayer player, string raisins = "4 no raisins")
-	{
-		if (!player.Connection.isConnected)
-		{
-			Logger.Log($"Not kicking, already disconnected: {player}", Category.Connections);
-			return;
-		}
-		Logger.Log($"Kicking {player} : {raisins}", Category.Connections);
-		InfoWindowMessage.Send(player.GameObject, $"Kicked: {raisins}", "Kicked");
-		Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
-		player.Connection.Disconnect();
-		player.Connection.Dispose();
-	}
-
+	
+	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
 		//This spawns the player prefab
@@ -208,36 +122,11 @@ public class CustomNetworkManager : NetworkManager
 			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 		}
 	}
+
 	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn)
 	{
 		yield return WaitFor.Seconds(1f);
 		OnServerAddPlayerInternal(conn);
-	}
-
-	void Update()
-	{
-		// This code makes sure the steam server is updated
-		if (server == null)
-			return;
-		try
-		{
-			Profiler.BeginSample("Steam Server Update");
-			server.Update();
-		}
-		finally
-		{
-			Profiler.EndSample();
-		}
-	}
-
-	private void OnDestroy()
-	{
-		// This code makes sure the steam server is disposed when the CNM is destroyed
-		if (server != null)
-		{
-			server.Dispose();
-			server = null;
-		}
 	}
 
 	private void OnServerAddPlayerInternal(NetworkConnection conn)
@@ -273,8 +162,10 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
+	//called on client side when client first connects to the server
 	public override void OnClientConnect(NetworkConnection conn)
 	{
+		Logger.LogFormat("We (the client) connected to the server {0}", Category.Connections, conn);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		this.RegisterClientHandlers(conn);
 
@@ -285,6 +176,7 @@ public class CustomNetworkManager : NetworkManager
 	/// Warning: sending a lot of data, make sure client receives it only once
 	public void SyncPlayerData(GameObject playerGameObject)
 	{
+		Logger.LogFormat("SyncPlayerData (the big one). This server sending a bunch of sync data to new client {0}", Category.Connections, playerGameObject);
 		//All matrices
 		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
 		for (var i = 0; i < matrices.Length; i++)
@@ -335,6 +227,10 @@ public class CustomNetworkManager : NetworkManager
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
+		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
+		//we want to keep the object around so player can rejoin and reenter their body.
+
+
 		var player = PlayerList.Instance.Get(conn);
 		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);
@@ -371,6 +267,17 @@ public class CustomNetworkManager : NetworkManager
 			//Useful for turning on and off components
 			_isServer = true;
 		}
+	}
+
+	public override void OnApplicationQuit()
+	{
+		base.OnApplicationQuit();
+		// stop transport (e.g. to shut down threads)
+		// (when pressing Stop in the Editor, Unity keeps threads alive
+		//  until we press Start again. so if Transports use threads, we
+		//  really want them to end now and not after next start)
+		TelepathyTransport telepathy = GetComponent<TelepathyTransport>();
+		telepathy.Shutdown();
 	}
 
 	//Editor item transform dance experiments

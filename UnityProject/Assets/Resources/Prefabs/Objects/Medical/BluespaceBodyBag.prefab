@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 6731728321784917618}
   - component: {fileID: 3038011448654529925}
   - component: {fileID: 8345129679702463860}
-  - component: {fileID: 2705797924642854530}
+  - component: {fileID: 8444025109147823341}
   - component: {fileID: 2074079411905809823}
+  - component: {fileID: 2705797924642854530}
   - component: {fileID: 4733810172940174988}
   - component: {fileID: 3263870368252374070}
   - component: {fileID: 2170628449131254784}
-  - component: {fileID: 8444025109147823341}
   - component: {fileID: 2790500944196246186}
   - component: {fileID: 988237533008200232}
   - component: {fileID: 8770403083761675918}
@@ -111,7 +111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &2705797924642854530
+  IsFixedMatrix: 0
+--- !u!114 &8444025109147823341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,11 +121,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3055497906850374734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d80668073924c6a819f2671001f1fe8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabVariant: {fileID: 5474488674200563466, guid: 63c9a0ba448fa47b7aebb5e45f4b1167,
-    type: 3}
 --- !u!114 &2074079411905809823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  initialContents: {fileID: 0}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -149,6 +148,20 @@ MonoBehaviour:
   statusSync: 2
   doorOpened: {fileID: 21300000, guid: 48ecbee7156165642a243144273386e5, type: 3}
   spriteRenderer: {fileID: 3321031949753315050}
+--- !u!114 &2705797924642854530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3055497906850374734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d80668073924c6a819f2671001f1fe8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabVariant: {fileID: 5474488674200563466, guid: 63c9a0ba448fa47b7aebb5e45f4b1167,
+    type: 3}
 --- !u!114 &4733810172940174988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,18 +210,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &8444025109147823341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3055497906850374734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2790500944196246186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +238,7 @@ MonoBehaviour:
   Resistances:
     LavaProof: 0
     FireProof: 0
-    Flammable: 0
+    Flammable: 1
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 0
@@ -258,7 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 5736469458c6a405da64ea8a2bd33784
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!114 &8770403083761675918
 MonoBehaviour:
@@ -272,9 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropLayers:
-    serializedVersion: 2
-    m_Bits: 256
   shadow: {fileID: 21300000, guid: c38c63ad7e846f24ba408fdddb95e2fa, type: 3}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1

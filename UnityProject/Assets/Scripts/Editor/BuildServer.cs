@@ -1,6 +1,9 @@
 ﻿using UnityEditor;
 using System.Linq;
 using System;
+using System.IO;
+using DatabaseAPI;
+using UnityEngine;
 
 static class BuildScript
 {
@@ -16,6 +19,31 @@ static class BuildScript
 	}
 	private static void PerformWindowsBuild()
 	{
+		//Always build windows client first so that build info can increment the build number
+		int buildNum = 0;
+		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+		BuildInfo buildInfoUpdate = new BuildInfo();
+		if (File.Exists(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json")))
+		{
+			buildInfoUpdate = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json")));
+
+			//Allows build number ranges to be forced by committing a change to buildinfo.json
+			//buildinfoupdate is gitignored so it can be stored on the build server
+			if (buildInfoUpdate.BuildNumber < buildInfo.BuildNumber)
+			{
+				buildInfoUpdate.BuildNumber = buildInfo.BuildNumber;
+			}
+		}
+		else
+		{
+			buildInfoUpdate.BuildNumber = buildInfo.BuildNumber;
+		}
+
+		buildInfoUpdate.BuildNumber++;
+		buildInfo.BuildNumber = buildInfoUpdate.BuildNumber;
+		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
+		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json"), JsonUtility.ToJson(buildInfoUpdate));
+
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
@@ -44,7 +72,7 @@ static class BuildScript
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
-	
+
 	// Command Line Arg Build Methods
 	// ===============================
 	static string GetArgument (string name)

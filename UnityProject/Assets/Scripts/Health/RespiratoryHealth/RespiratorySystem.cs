@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Atmospherics;
-using Facepunch.Steamworks;
 using Objects;
 using UnityEngine;
 
@@ -211,8 +210,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			return false;
 		}
 
-		ItemAttributes headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
-		ItemAttributes suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit).ItemAttributes;
+		ItemAttributesV2 headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
+		ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear).ItemAttributes;
 
 		if (headItem != null && suitItem != null)
 		{

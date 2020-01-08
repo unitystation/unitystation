@@ -33,6 +33,7 @@ namespace Lobby
 			}
 
 			DetermineUIScale();
+			SetVersionText();
 		}
 
 		void DetermineUIScale()
@@ -67,6 +68,11 @@ namespace Lobby
 			characterCustomization.gameObject.SetActive(false);
 			accountLogin.gameObject.SetActive(true);
 			lobbyDialogue.ShowLoginScreen();
+		}
+
+		private void SetVersionText()
+		{
+			UIManager.SetToolTip = $"{GameData.ForkName} v: {GameData.BuildNumber}";
 		}
 	}
 }

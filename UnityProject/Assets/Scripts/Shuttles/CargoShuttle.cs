@@ -42,7 +42,7 @@ public class CargoShuttle : MonoBehaviour
 	/// </summary>
 	public void MoveToStation()
 	{
-		mm.ChangeDir(Orientation.Down);
+		mm.ChangeFlyingDirection(Orientation.Down);
 		MoveTo(StationDest);
 	}
 
@@ -52,7 +52,7 @@ public class CargoShuttle : MonoBehaviour
 	/// </summary>
 	public void MoveToCentcom()
 	{
-		mm.ChangeDir(Orientation.Up);
+		mm.ChangeFlyingDirection(Orientation.Up);
 		MoveTo(centcomDest);
 	}
 
@@ -76,11 +76,11 @@ public class CargoShuttle : MonoBehaviour
 			moving = false;
 			mm.SetPosition(destination);
 			mm.StopMovement();
-			mm.RotateTo(Orientation.Up);
+			mm.SteerTo(Orientation.Up);
 
 			if (CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteStation)
 			{
-				mm.ChangeDir(Orientation.Down);
+				mm.ChangeFlyingDirection(Orientation.Down);
 				StartCoroutine(ReverseIntoStation());
 			}
 		}
@@ -107,13 +107,18 @@ public class CargoShuttle : MonoBehaviour
 	void UnloadCargo()
 	{
 		//Destroy all items on the shuttle
+		//note: This scan also seems to find objects contained inside closets only if the object was placed
+		//into the crate after the crate was already on the cargo shuttle. Hence we are using alreadySold
+		//to avoid duplicate selling in lieu of a more thorough fix to closet held items logic.
 		Transform objectHolder = mm.MatrixInfo.Objects;
+		//track what we've already sold so it's not sold twice.
+		HashSet<GameObject> alreadySold = new HashSet<GameObject>();
 		for (int i = 0; i < objectHolder.childCount; i++)
 		{
 			ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
 			if (item != null)
 			{
-				CargoManager.Instance.DestroyItem(item);
+				CargoManager.Instance.DestroyItem(item, alreadySold);
 			}
 		}
 	}
@@ -160,7 +165,7 @@ public class CargoShuttle : MonoBehaviour
 		{
 			for (int j = -shuttleWidth; j <= shuttleWidth; j++)
 			{
-				pos = mm.State.Position.RoundToInt();
+				pos = mm.ServerState.Position.RoundToInt();
 				//i + 1 because cargo shuttle center is offseted by 1
 				pos += new Vector3Int(j, i + 1, 0);
 				if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)

@@ -48,7 +48,7 @@ public class ConnectedTile : BasicTile
 			{
 
 				_sprites = spriteSheet.Sprites;
-				//Logger.Log(texturePath + "/" + spriteSheet.name);					
+				//Logger.Log(texturePath + "/" + spriteSheet.name);
 			}
 			return _sprites;
 		}
@@ -67,6 +67,11 @@ public class ConnectedTile : BasicTile
 	{
 		//find our offset by checking our parent layer
 		Quaternion rotation;
+		//ensure we have our layer (if possible)
+		if (layer == null)
+		{
+			layer = tilemap.GetComponent<Layer>();
+		}
 		if (layer != null)
 		{
 			rotation = layer.RotationOffset.QuaternionInverted;

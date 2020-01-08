@@ -67,7 +67,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 			isConnected = false;
 			connectorRenderer.sprite = null;
 			SetConnectedSprite(null);
-			objectBehaviour.isNotPushable = false;
+			objectBehaviour.ServerSetPushable(true);
 			ServerOnConnectionStatusChange.Invoke(false);
 		}
 	}
@@ -123,14 +123,14 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				var foundConnectors = registerTile.Matrix.Get<Connector>(registerTile.LocalPositionServer, true);
 				foreach (var conn in foundConnectors)
 				{
-					if (conn.objectBehaviour.isNotPushable)
+					if (conn.objectBehaviour.IsNotPushable)
 					{
 						SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 						connector = conn;
 						isConnected = true;
 						connector.ConnectCanister(this);
 						SetConnectedSprite(connectorSprite);
-						objectBehaviour.isNotPushable = true;
+						objectBehaviour.ServerSetPushable(false);
 						ServerOnConnectionStatusChange.Invoke(true);
 						return;
 					}
@@ -144,7 +144,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 					connectorFuel = conn;
 					conn.ConnectCanister(this);
 					SetConnectedSprite(connectorSprite);
-					objectBehaviour.isNotPushable = true;
+					objectBehaviour.ServerSetPushable(false);
 					ServerOnConnectionStatusChange.Invoke(true);
 				}
 			}

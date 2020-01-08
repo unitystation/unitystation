@@ -10,8 +10,16 @@ public interface IPushable {
 	/// <returns>true if push was successful</returns>
 	bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
 	bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false );
+
+	/// <summary>
+	/// Push this in provided direction if it's under no gravity (or on a frictionless floor)
+	/// </summary>
+	/// <param name="direction"></param>
+	/// <param name="speed"></param>
+	void NewtonianMove(Vector2Int direction, float speed = Single.NaN);
 	/// Notify players about up-to-date state
 	void NotifyPlayers();
+	//I think this is valid server side only
 	bool VisibleState { get; set; }
 	Vector3IntEvent OnUpdateRecieved();
 	DualVector3IntEvent OnStartMove();
@@ -60,7 +68,7 @@ public interface IPushable {
 
 	void SetVisibleServer(bool visible);
 }
-
+public class Vector3Event : UnityEvent<Vector3> { }
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}
 public class DualVector3IntEvent : UnityEvent<Vector3Int,Vector3Int> {}
 

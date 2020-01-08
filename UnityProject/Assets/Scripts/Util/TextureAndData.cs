@@ -23,10 +23,9 @@ public class SpriteSheetAndData
 		if (Texture != null)
 		{
 #if UNITY_EDITOR
-			var path = AssetDatabase.GetAssetPath(Texture)
-				.Substring(17); //Substring(17) To remove the "Assets/Resources/"
-			Sprites = Resources.LoadAll<Sprite>(path.Remove(path.Length - 4));
-			EquippedData = Resources.Load<TextAsset>(path.Remove(path.Length - 4)); //Resources.Load("test");
+			var path = AssetDatabase.GetAssetPath(Texture);
+			Sprites = AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().ToArray();
+			EquippedData = (TextAsset)AssetDatabase.LoadAssetAtPath(path.Replace(".png", ".json"), typeof(TextAsset)); 
 #endif
 		}
 		else

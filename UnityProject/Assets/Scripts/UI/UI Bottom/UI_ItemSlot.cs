@@ -14,14 +14,19 @@ using UnityEngine.UI;
 /// Represents an item slot rendered in the UI.
 /// </summary>
 [Serializable]
-public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
+public class UI_ItemSlot : TooltipMonoBehaviour
 {
 
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlot")]
-	[Tooltip("For player inventory, named slot in local player's ItemStorage that this UI slot corresponds to.")]
+	[Tooltip("For player inventory, named slot in player's ItemStorage that this UI slot corresponds to.")]
 	private NamedSlot namedSlot;
 	public NamedSlot NamedSlot => namedSlot;
+
+	[Tooltip("whether this is for the local player's top level inventory or will be instead used" +
+	         " for another player's inventory.")]
+	[SerializeField]
+	private bool forLocalPlayer;
 
 	[Tooltip("Name to display when hovering over this slot in the UI")]
 	[SerializeField]
@@ -33,7 +38,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
-	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributes>().itemName;
+	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributesV2>().ArticleName;
 
 	/// set back to the slot name since the pointer is still over the slot background
 	public override string ExitTooltip => hoverName;
@@ -65,9 +70,16 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	private Image secondaryImage;
 	private Sprite sprite;
 	private Sprite secondarySprite;
+	private Text amountText;
 
-	private void Awake() {
+	private void Awake()
+	{
 
+		amountText = GetComponentInChildren<Text>();
+		if (amountText)
+		{
+			amountText.enabled = false;
+		}
 		image = GetComponent<Image>();
 		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
@@ -75,6 +87,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		image.alphaHitTestMinimumThreshold = 0.5f;
 		image.enabled = false;
 		hidden = initiallyHidden;
+
 	}
 
 	private void OnEnable()
@@ -96,12 +109,12 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	}
 
 	/// <summary>
-	/// Link this item slot to its configured named slot on the local player.
+	/// Link this item slot to its configured named slot on the local player, if this slot is for the local player.
 	/// Should only be called after local player is spawned.
 	/// </summary>
 	public void LinkToLocalPlayer()
 	{
-		if (namedSlot != NamedSlot.none)
+		if (namedSlot != NamedSlot.none && forLocalPlayer)
 		{
 			LinkSlot(ItemSlot.GetNamed(PlayerManager.LocalPlayerScript.ItemStorage, namedSlot));
 		}
@@ -171,6 +184,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			return;
 		}
 
+		// If player is cuffed, a special icon appears on his hand slots, exit without changing it.
+		if ((namedSlot == NamedSlot.leftHand || namedSlot == NamedSlot.rightHand) &&
+			PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
+		{
+			return;
+		}
+
 		if (!nullItem)
 		{
 			//determine the sprites to display based on the new item
@@ -190,6 +210,19 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 					SetSecondaryImage(spriteRends[1].sprite);
 					secondaryImage.color = spriteRends[1].color;
 				}
+			}
+
+			//determine if we should show an amount
+			var stack = item.GetComponent<Stackable>();
+			if (stack != null && stack.Amount > 1 && amountText)
+			{
+				amountText.enabled = true;
+				amountText.text = stack.Amount.ToString();
+			}
+			else if (stack != null && stack.Amount <= 1 && amountText)
+			{
+				//remove the stack display
+				amountText.enabled = false;
 			}
 		}
 		else
@@ -252,6 +285,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		image.sprite = null;
 		secondarySprite = null;
 		secondaryImage.sprite = null;
+		if (amountText)
+		{
+			amountText.enabled = false;
+		}
+
 	}
 
 	public void Reset()
@@ -262,14 +300,12 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		secondarySprite = null;
 		secondaryImage.sprite = null;
 		secondaryImage.enabled = false;
-		ControlTabs.CheckTabClose();
-	}
+		if (amountText)
+		{
+			amountText.enabled = false;
+		}
 
-	public bool CheckItemFit(GameObject item)
-	{
-		var pickupable = item.GetComponent<Pickupable>();
-		if (pickupable == null) return false;
-		return itemSlot.CanFit(pickupable);
+		ControlTabs.CheckTabClose();
 	}
 
 
@@ -281,8 +317,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	{
 
 		var slotName = itemSlot.SlotIdentifier.NamedSlot;
-		// Clicked on another slot other than hands
-		if (slotName != NamedSlot.leftHand && slotName != NamedSlot.rightHand)
+		// Clicked on another slot other than our own hands
+		if (itemSlot != UIManager.Hands.LeftHand.ItemSlot && itemSlot != UIManager.Hands.RightHand.itemSlot)
 		{
 			// If full, attempt to interact the two, otherwise swap
 			if (Item != null)
@@ -323,13 +359,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 	}
 
+
 	private bool TryIF2InventoryApply()
 	{
 		//check IF2 InventoryApply interaction - apply the active hand item with this (only if
 		//target slot is occupied, but it's okay if active hand slot is not occupied)
 		if (Item != null)
 		{
-			var combine = InventoryApply.ByLocalPlayer(itemSlot);
+			var combine = InventoryApply.ByLocalPlayer(itemSlot, UIManager.Hands.CurrentSlot.itemSlot);
 			//check interactables in the active hand (if active hand occupied)
 			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
@@ -347,19 +384,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		return false;
 	}
 
-	public void OnDrag(PointerEventData data)
-	{
-		if (data.button == PointerEventData.InputButton.Left)
-		{
-			UIManager.DragAndDrop.UI_ItemDrag(this);
-		}
-	}
-
-	public void OnEndDrag(PointerEventData data)
-	{
-		UIManager.DragAndDrop.StopDrag();
-	}
-
 
 	[ContextMenu("Debug Slot")]
 	void DebugItem()
@@ -371,13 +395,29 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	/// Sets whether this should be shown / hidden (but the set sprites will still be remembered when it is unhidden)
 	/// </summary>
 	/// <param name="hidden"></param>
-	/// <exception cref="NotImplementedException"></exception>
 	public void SetHidden(bool hidden)
 	{
 		this.hidden = hidden;
 		image.sprite = sprite;
 		image.enabled = sprite != null && !hidden;
 		image.preserveAspect = sprite != null && !hidden;
+		if (hidden && amountText)
+		{
+			amountText.enabled = false;
+		}
+		else if (!hidden && amountText)
+		{
+			//show if we have something stackable.
+			if (itemSlot?.ItemObject != null)
+			{
+				var stack = itemSlot.ItemObject.GetComponent<Stackable>();
+				if (stack != null && stack.Amount > 1)
+				{
+					amountText.enabled = true;
+				}
+			}
+		}
+
 
 		if (secondaryImage)
 		{

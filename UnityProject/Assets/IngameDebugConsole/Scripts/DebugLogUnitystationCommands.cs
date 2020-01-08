@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Atmospherics;
 using PathFinding;
 using UnityEngine;
 using Mirror;
@@ -71,6 +72,30 @@ namespace IngameDebugConsole
 
 			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			GameManager.Instance.RestartRound();
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Start now")]
+#endif
+		[ConsoleMethod("start-now", "Bypass start countdown and start immediately. Server only cmd.")]
+		public static void StartNow()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
+			{
+				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.", Category.DebugConsole);
+				GameManager.Instance.RoundStart();
+			}
+			else
+			{
+				Logger.LogError("Can only execute during pre-round / countdown.", Category.DebugConsole);
+				return;
+			}
+
 		}
 
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
@@ -171,11 +196,10 @@ namespace IngameDebugConsole
 #if UNITY_EDITOR
 		[MenuItem("Networking/Spawn dummy player")]
 #endif
-//TODO: Removing dummy spawning capability for now
-//		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
-//		private static void SpawnDummyPlayer() {
-//			SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
-//		}
+		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
+		private static void SpawnDummyPlayer() {
+			PlayerSpawn.ServerSpawnDummy();
+		}
 
 #if UNITY_EDITOR
 		[MenuItem("Networking/Transform Waltz (Server)")]
@@ -220,7 +244,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
+				PlayerSpawn.ServerRespawnPlayer(PlayerManager.LocalPlayerScript.mind);
 			}
 		}
 
@@ -256,12 +280,12 @@ namespace IngameDebugConsole
 					}
 
 					usedMatrices.Add( movableMatrix );
-					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.State.Position);
+					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.ServerState.Position);
 					var mm = movableMatrix.MatrixMove;
 					mm.SetPosition( appearPos );
 					mm.RequiresFuel = false;
 					mm.SafetyProtocolsOn = false;
-					mm.RotateTo( Orientation.Right );
+					mm.SteerTo( Orientation.Right );
 					mm.SetSpeed( 15 );
 					mm.StartMovement();
 
@@ -290,8 +314,6 @@ namespace IngameDebugConsole
 				}
 			}
 		}
-		private static GameObject maskPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Clothing/Resources/BreathMask");
-		private static GameObject oxyTankPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Other/Resources/Emergency Oxygen Tank");
 #if UNITY_EDITOR
 		[MenuItem("Networking/Make players EVA-ready")]
 #endif
@@ -302,20 +324,60 @@ namespace IngameDebugConsole
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
 
-					var helmet = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit helmet"]).GameObject;
-					var suit = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit"]).GameObject;
-					var mask = Spawn.ServerPrefab(maskPrefab).GameObject;
-					var oxyTank = Spawn.ServerPrefab(oxyTankPrefab).GameObject;
+					var helmet = Spawn.ServerPrefab("MiningHardsuitHelmet").GameObject;
+					var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
+					var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
+					var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
 
-					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.Drop);
-					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit), ReplacementStrategy.Drop);
-					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.Drop);
-					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.Drop);
+					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
 					player.Script.Equipment.IsInternalsEnabled = true;
 				}
 
 			}
 		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Incinerate local player")]
+#endif
+		private static void Incinerate()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				var playerScript = PlayerManager.LocalPlayerScript;
+				var matrix = MatrixManager.Get(playerScript.registerTile.Matrix);
+
+				foreach (var worldPos in playerScript.WorldPos.BoundsAround().allPositionsWithin)
+				{
+					var localPos = MatrixManager.WorldToLocalInt(worldPos, matrix);
+					var gasMix = matrix.MetaDataLayer.Get(localPos).GasMix;
+					gasMix.AddGas(Gas.Plasma, 100);
+					gasMix.AddGas(Gas.Oxygen, 100);
+					matrix.ReactionManager.ExposeHotspot(localPos, 1000, .2f);
+				}
+			}
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Heal up local player")]
+#endif
+		private static void HealUp()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				var playerScript = PlayerManager.LocalPlayerScript;
+				var health = playerScript.playerHealth;
+				foreach (var bodyPart in health.BodyParts)
+				{
+					bodyPart.HealDamage(200, DamageType.Brute);
+					bodyPart.HealDamage(200, DamageType.Burn);
+				}
+				playerScript.registerTile.ServerStandUp();
+			}
+		}
+
 #if UNITY_EDITOR
 		[MenuItem("Networking/Spawn Rods")]
 #endif
@@ -333,7 +395,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.registerTile.Slip( true );
+				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
 			}
 		}
 		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
@@ -357,6 +419,25 @@ namespace IngameDebugConsole
 			}
 
 			Antagonists.AntagManager.Instance.ShowAntagStatusReport();
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Trigger Stranded Ending")]
+#endif
+		private static void PlayStrandedEnding()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				//blow up the engines to trigger stranded ending for everyone
+				var escapeShuttle = GameObject.FindObjectOfType<EscapeShuttle>();
+				if (escapeShuttle != null)
+				{
+					foreach (var thruster in escapeShuttle.GetComponentsInChildren<ShipThruster>())
+					{
+						thruster.GetComponent<Integrity>().ApplyDamage(99999999, AttackType.Internal, DamageType.Brute);
+					}
+				}
+			}
 		}
 
 	}

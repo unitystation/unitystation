@@ -42,7 +42,7 @@ public class SpawnMessage : ServerMessage
 			SpawnMessage msg = new SpawnMessage
 			{
 				SpawnedObject = spawnedObject.NetId(),
-				ClonedFrom = result.SpawnInfo.SpawnableType == SpawnableType.Clone ? result.SpawnInfo.ClonedFrom.NetId() : NetId.Invalid
+				ClonedFrom = result.SpawnInfo.SpawnType == SpawnType.Clone ? result.SpawnInfo.ClonedFrom.NetId() : NetId.Invalid
 			};
 			msg.SendTo(recipient);
 		}
@@ -60,7 +60,7 @@ public class SpawnMessage : ServerMessage
 			SpawnMessage msg = new SpawnMessage
 			{
 				SpawnedObject = spawnedObject.NetId(),
-				ClonedFrom = result.SpawnInfo.SpawnableType == SpawnableType.Clone ? result.SpawnInfo.ClonedFrom.NetId() : NetId.Invalid
+				ClonedFrom = result.SpawnInfo.SpawnType == SpawnType.Clone ? result.SpawnInfo.ClonedFrom.NetId() : NetId.Invalid
 			};
 			msg.SendToAll();
 		}

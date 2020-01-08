@@ -557,7 +557,7 @@ public class ControlTabs : MonoBehaviour
 			{
 				toDestroy.Add(tab);
 			}
-			else if ( playerScript.canNotInteract() || !playerScript.IsInReach(tab.Provider, false) )
+			else if ( !Validations.CanApply(PlayerManager.LocalPlayerScript, tab.Provider, NetworkSide.Client))
 			{
 				//Make sure the item is not in the players hands first:
 				if (UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&

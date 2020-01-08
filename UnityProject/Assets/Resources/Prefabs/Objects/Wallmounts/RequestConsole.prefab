@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 61000013231193044}
   - component: {fileID: 95687423394818094}
   - component: {fileID: 114630669365637708}
+  - component: {fileID: 114836004546667558}
   - component: {fileID: 114961671854977668}
   - component: {fileID: 114241946955262388}
   - component: {fileID: 114024760286136462}
   - component: {fileID: 114748768853426186}
   - component: {fileID: 114410258970618456}
-  - component: {fileID: 114836004546667558}
   - component: {fileID: 114558640520136156}
   - component: {fileID: 114665882604199916}
   m_Layer: 19
@@ -105,6 +105,18 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &114836004546667558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010652479536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114961671854977668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   Message: No requests available
 --- !u!114 &114241946955262388
 MonoBehaviour:
@@ -175,18 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &114836004546667558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010652479536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  IsFixedMatrix: 0
 --- !u!114 &114558640520136156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +220,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114665882604199916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e40f8eea191249e4983505e18341cce1
+  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
   m_SceneId: 0
 --- !u!1 &1000013922535428
 GameObject:

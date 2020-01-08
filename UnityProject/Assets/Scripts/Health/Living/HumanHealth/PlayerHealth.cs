@@ -22,6 +22,13 @@ public class PlayerHealth : LivingHealthBehaviour
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
+	private void Awake()
+	{
+		base.Awake();
+
+		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+	}
+
 	public override void OnStartClient()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -69,6 +76,8 @@ public class PlayerHealth : LivingHealthBehaviour
 			if (isServer)
 			{
 				EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+				string descriptor = player.Script.characterSettings.PossessivePronoun();
+				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", (Vector3)registerPlayer.WorldPositionServer);
 			}
 
 			PlayerDeathMessage.Send(gameObject);
@@ -116,21 +125,14 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	///     make player unconscious upon crit
-	protected override void OnConsciousStateChange( ConsciousState oldState, ConsciousState newState )
+	private void OnPlayerConsciousStateChangeServer( ConsciousState oldState, ConsciousState newState )
 	{
 		if ( isServer )
 		{
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
-		if (newState != ConsciousState.CONSCIOUS)
-		{
-			registerPlayer.LayDown();
-		}
-		else
-		{
-			registerPlayer.GetUp();
-		}
-
+		//we stay upright if buckled or conscious
+		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || playerMove.IsBuckled);
 	}
 }

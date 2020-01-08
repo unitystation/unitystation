@@ -45,7 +45,6 @@ public class MouseInputController : MonoBehaviour
 
 	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
-	private LayerMask layerMask;
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
 	private Directional playerDirectional;
@@ -104,10 +103,6 @@ public class MouseInputController : MonoBehaviour
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
-
-		//Do not include the Default layer! Assign your object to one of the layers below:
-		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-			"HiddenWalls", "Objects", "Matrix", "Floor", "NPC");
 	}
 
 	void LateUpdate()
@@ -193,11 +188,14 @@ public class MouseInputController : MonoBehaviour
 			//If we are possibly dragging and have exceeded the drag distance, initiate the drag
 			if (potentialDraggable != null)
 			{
-				var currentOffset = MouseWorldPosition - potentialDraggable.transform.position;
-				if (((Vector2) currentOffset - dragStartOffset).magnitude > MouseDragDeadzone)
+				if (!(UIManager.CurrentIntent == Intent.Harm) && !(UIManager.CurrentIntent == Intent.Disarm))
 				{
-					potentialDraggable.BeginDrag();
-					potentialDraggable = null;
+					var currentOffset = MouseWorldPosition - potentialDraggable.transform.position;
+					if (((Vector2)currentOffset - dragStartOffset).magnitude > MouseDragDeadzone)
+					{
+						potentialDraggable.BeginDrag();
+						potentialDraggable = null;
+					}
 				}
 			}
 
@@ -236,7 +234,7 @@ public class MouseInputController : MonoBehaviour
 	private void CheckInitiatePull()
 	{
 		//checks if there is anything in reach we can drag
-		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
+		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(null,
 			go => go.GetComponent<PushPull>() != null).FirstOrDefault();
 
 		if (topObject != null)
@@ -288,7 +286,7 @@ public class MouseInputController : MonoBehaviour
 			return;
 		}
 
-		var hit = MouseUtils.GetOrderedObjectsUnderMouse(layerMask).FirstOrDefault();
+		var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
 		if (hit != null)
 		{
 			if (lastHoveredThing != hit)
@@ -319,12 +317,20 @@ public class MouseInputController : MonoBehaviour
 		if (!ctrlClick)
 		{
 			var handApplyTargets =
-				MouseUtils.GetOrderedObjectsUnderMouse(layerMask);
+				MouseUtils.GetOrderedObjectsUnderMouse();
 
 			//go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
 				if (CheckHandApply(applyTarget)) return true;
+			}
+			//check empty space positional hand apply
+			var posHandApply = PositionalHandApply.ByLocalPlayer(null);
+			if (posHandApply.HandObject != null)
+			{
+				var handAppliables = posHandApply.HandObject.GetComponents<IBaseInteractable<PositionalHandApply>>()
+					.Where(c => c != null && (c as MonoBehaviour).enabled);
+				if (InteractionUtils.ClientCheckAndTrigger(handAppliables, posHandApply) != null) return true;
 			}
 		}
 
@@ -346,7 +352,7 @@ public class MouseInputController : MonoBehaviour
 			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
-			foreach (var handAppliable in handAppliables)
+			foreach (var handAppliable in handAppliables.Reverse())
 			{
 				var interacted = false;
 				if (handAppliable is IBaseInteractable<HandApply>)
@@ -373,7 +379,7 @@ public class MouseInputController : MonoBehaviour
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
 			.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-		foreach (var targetHandAppliable in targetHandAppliables)
+		foreach (var targetHandAppliable in targetHandAppliables.Reverse())
 		{
 			var interacted = false;
 			if (targetHandAppliable is IBaseInteractable<HandApply>)
@@ -472,7 +478,7 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		var draggable =
-			MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go =>
+			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
 					go.GetComponent<MouseDraggable>() != null &&
 					go.GetComponent<MouseDraggable>().enabled &&
 					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
@@ -523,11 +529,15 @@ public class MouseInputController : MonoBehaviour
 			{
 				return false;
 			}
-			Vector3 position = MouseWorldPosition;
-			position.z = 0f;
+			Vector3 targetPosition = MouseWorldPosition;
+			targetPosition.z = 0f;
+
+			//using transform position instead of registered position
+			//so target is still correct when lerping on a matrix (since registered world position is rounded)
+			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.NamedSlot,
-				position, (int)UIManager.DamageZone);
+				targetVector, (int)UIManager.DamageZone);
 
 			//Disabling throw button
 			UIManager.Action.Throw();

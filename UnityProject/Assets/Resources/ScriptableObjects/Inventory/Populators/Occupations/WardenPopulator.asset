@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: WardenPopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 12
+    Prefab: {fileID: 835768756810601639, guid: cbb088b408dd144688326b8eefb45f5d, type: 3}
+    SlotPopulator: {fileID: 11400000, guid: 5b34fe66b3a1a43c09f94b8023a8ff5c, type: 2}
+  - NamedSlot: 2
+    Prefab: {fileID: 7636118406116123594, guid: 77556be90466a4737b39e556f8ff1d41,
+      type: 3}
+    SlotPopulator: {fileID: 11400000, guid: ee5ea11a3892146a294dd0799932be0c, type: 2}
+  - NamedSlot: 3
+    Prefab: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da,
+      type: 3}
+    SlotPopulator: {fileID: 11400000, guid: a9aea503d9d774d388a3bdf3e5a0b9fe, type: 2}
+  - NamedSlot: 0
+    Prefab: {fileID: 3921521694364753778, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
+      type: 3}
+    SlotPopulator: {fileID: 11400000, guid: a6a95ea608b4845edbaa078b7bb06873, type: 2}
+  - NamedSlot: 6
+    Prefab: {fileID: 3011710637427380133, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+      type: 3}
+    SlotPopulator: {fileID: 11400000, guid: ae9f0a9a57f974c3981ad6f3c35744a6, type: 2}

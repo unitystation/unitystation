@@ -8,17 +8,14 @@ using UnityEngine;
 public class DevSpawnerDocument
 {
 	/// <summary>
-	/// Searchable name (if prefab, prefab name without .prefab. If unicloth, cloth name)
+	/// Searchable name (prefab name without .prefab.]
 	/// </summary>
 	public readonly string Name;
 
-	public readonly SpawnableType Type;
-
-	private DevSpawnerDocument(string name, SpawnableType type)
+	private DevSpawnerDocument(string name)
 	{
 
 		Name = name;
-		this.Type = type;
 	}
 
 	/// <summary>
@@ -27,17 +24,8 @@ public class DevSpawnerDocument
 	/// <param name="prefab"></param>
 	public static DevSpawnerDocument ForPrefab(GameObject prefab)
 	{
-		return new DevSpawnerDocument(prefab.name, SpawnableType.Prefab);
+		return new DevSpawnerDocument(prefab.name);
 	}
 
-
-	/// <summary>
-	/// Create a dev spawner document representing the specified clothing
-	/// </summary>
-	/// <param name="data"></param>
-	public static DevSpawnerDocument ForClothing(ClothingData data)
-	{
-		return new DevSpawnerDocument(data.name, SpawnableType.Cloth);
-	}
 }
 

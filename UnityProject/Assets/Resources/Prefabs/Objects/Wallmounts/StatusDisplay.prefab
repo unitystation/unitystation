@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114989346429322000}
   - component: {fileID: 1424464816365573230}
   - component: {fileID: 6226961470391180522}
+  - component: {fileID: 4643582710993647438}
   m_Layer: 19
   m_Name: StatusDisplay
   m_TagString: Untagged
@@ -168,8 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114563856704214720
@@ -289,7 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 6cd7f94cf140444d1b5d2eabdd2bdaf8
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &1424464816365573230
 MonoBehaviour:
@@ -315,6 +316,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1902605791976452}
   m_CullTransparentMesh: 0
+--- !u!114 &4643582710993647438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902605791976452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: status display
+  initialDescription: The captain can change what it says.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &338521062070775593
 GameObject:
   m_ObjectHideFlags: 0
