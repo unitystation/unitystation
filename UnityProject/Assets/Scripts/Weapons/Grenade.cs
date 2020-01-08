@@ -10,7 +10,7 @@ using Mirror;
 /// Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IClientSpawn
+public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn
 {
 	[Tooltip("Explosion effect prefab, which creates when timer ends")]
 	public Explosion explosionPrefab;
@@ -22,6 +22,8 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 
 	[Tooltip("SpriteHandler used for blinking animation")]
 	public SpriteHandler spriteHandler;
+	[Tooltip("Used for inventory animation")]
+	public Pickupable pickupable;
 
 	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
@@ -47,10 +49,13 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		UpdateSprite(LOCKED_SPRITE);
 	}
 
-	public void OnSpawnClient(ClientSpawnInfo info)
+	public void OnDespawnServer(DespawnInfo info)
 	{
 		// Set grenade to locked state by default
 		UpdateSprite(LOCKED_SPRITE);
+		// Reset grenade timer
+		timerRunning = false;
+		hasExploded = false;
 	}
 
 	public void ClientPredictInteraction(HandActivate interaction)
@@ -65,6 +70,9 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		if (timerRunning)
+			return;
+
 		// Toggle the throw action after activation
 		if (interaction.Performer == PlayerManager.LocalPlayer)
 		{
@@ -89,7 +97,10 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 			}
 
 			yield return WaitFor.Seconds(fuseLength);
-			Explode();
+
+			// Is timer still running?
+			if (timerRunning)
+				Explode();
 		}
 	}
 
@@ -108,18 +119,9 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 	{
 		while (timerRunning && !hasExploded)
 		{
-			if (UIManager.Hands.CurrentSlot != null)
-			{
-				// UIManager doesn't update held item sprites automatically
-				if (UIManager.Hands.CurrentSlot.Item == gameObject)
-				{
-					UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
-				}
-			}
-
+			pickupable.RefreshUISlotImage();
 			yield return null;
 		}
-
 	}
 
 	public void Explode()
