@@ -38,6 +38,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 	public bool IsFixedMatrix = false;
 
+	private OccupiableDirectionalSprite occupiableDirectionalSprite = null;
+
 	/// <summary>
 	/// If it has ItemAttributes, get size from it (default to tiny).
 	/// Otherwise it's probably something like a locker, so consider it huge.
@@ -143,6 +145,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		var _pushPull = PushPull; //init
 		OnUpdateRecieved().AddListener( Poke );
+		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
 	}
 	/// <summary>
 	/// Subscribes this CNT to Update() cycle
@@ -484,6 +487,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
+		// If the object has an occupant (ex: a chair), Update its transform at the same time
+		UpdateOccupant();
+
 		//Ignore "Follow Updates" if you're pulling it
 		if ( newState.Active
 			&& newState.IsFollowUpdate
@@ -541,6 +547,19 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	private void AdminRespawn()
 	{
 		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
+	}
+
+	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)
+	private void UpdateOccupant()
+	{				
+		if ((occupiableDirectionalSprite != null) && (occupiableDirectionalSprite.Occupant != NetId.Empty))
+		{
+			if (occupiableDirectionalSprite.BuckledPlayerScript != null)
+			{
+				//sync position to ensure they buckle to the correct spot
+				occupiableDirectionalSprite.BuckledPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+			}
+		}		
 	}
 }
 

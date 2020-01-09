@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using Newtonsoft.Json;
 
 public class GUI_VariableViewer : MonoBehaviour
 {
@@ -43,9 +45,9 @@ public class GUI_VariableViewer : MonoBehaviour
 	}
 
 	public VariableViewerNetworking.NetFriendlyBook CurrentlyOpenBook; //{get {} set{} };
-	public Text boookID;
-	public Text boookTitle;
-	public Text boookIsEnabled;
+	public TMP_Text boookID;
+	public TMP_Text boookTitle;
+	public TMP_Text boookIsEnabled;
 	public GameObject LeftArrow;
 	public GameObject RightArrow;
 	public GameObject HistoryForward;
@@ -240,6 +242,7 @@ public class GUI_VariableViewer : MonoBehaviour
 			}
 
 			PageEntry.Page = page;
+			//Logger.Log(JsonConvert.SerializeObject(page));
 			if (PresentPagesCount > MaximumPerTwoPages)
 			{
 				PageEntry.gameObject.SetActive(false);

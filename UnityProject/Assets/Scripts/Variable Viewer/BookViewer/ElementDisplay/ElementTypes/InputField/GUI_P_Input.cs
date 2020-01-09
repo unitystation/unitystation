@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class GUI_P_Input : PageElement
 {
-	public InputField TInputField;
+	public InputFieldFocus TInputField;
 
 	public override bool IsThisType(Type TType)
 	{
@@ -15,6 +16,24 @@ public class GUI_P_Input : PageElement
 
 	public override void SetUpValues(Type ValueType,VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false)
 	{
+		base.SetUpValues(ValueType, Page, Sentence, Iskey);
 		TInputField.text  = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
+		TInputField.onEndEdit.AddListener(ToggleValueChanged);
+	}
+
+	void ToggleValueChanged(string change)
+	{
+		if (PageID != 0)
+		{
+			RequestChangeVariableNetMessage.Send(PageID, change);
+		}
+		else { 
+		}
+	}
+
+	public override void Pool()
+	{
+		base.Pool();
+		TInputField.onEndEdit.RemoveAllListeners();
 	}
 }

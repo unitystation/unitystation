@@ -60,7 +60,7 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
-		occupiableDirectionalSprite?.RenderOccupied(true);
+		occupiableDirectionalSprite?.SetOccupant(drop.UsedObject.NetId());
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -87,6 +87,6 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
 	{
-		occupiableDirectionalSprite?.RenderOccupied(false);
+		occupiableDirectionalSprite?.SetOccupant(0);
 	}
 }

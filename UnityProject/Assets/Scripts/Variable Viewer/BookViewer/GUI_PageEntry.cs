@@ -7,12 +7,13 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
 using Newtonsoft.Json;
+using TMPro;
 
 public class GUI_PageEntry : MonoBehaviour
 {
 
-	public Text PageID;
-	public Text VariableName;
+	public TMP_Text PageID;
+	public TMP_Text VariableName;
 	public InputField Variable;
 
 	public GameObject DynamicSizePanel;

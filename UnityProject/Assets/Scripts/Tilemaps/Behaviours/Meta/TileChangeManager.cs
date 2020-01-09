@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using Mirror;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
 public class TileChangeManager : NetworkBehaviour
 {

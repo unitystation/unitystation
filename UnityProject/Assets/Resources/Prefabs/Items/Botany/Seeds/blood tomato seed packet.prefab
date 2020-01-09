@@ -1,15 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6590476775935862702
+--- !u!1001 &4147933628684541189
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1649124960678938281, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: initialName
+      value: pack of blood-tomato seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: -1649124960678938281, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into blood-tomato plants.
+      objectReference: {fileID: 0}
     - target: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_Name
-      value: banana_mime seed packet
+      value: tomato_blood seed packet
       objectReference: {fileID: 0}
     - target: {fileID: 4949321775558472, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -60,11 +70,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212351652085156724, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c97cf6ef897f51a4287942da2dd3b5dc,
+        type: 3}
     - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
         type: 3}
       propertyPath: defaultPlantData
       value: 
-      objectReference: {fileID: 11400000, guid: 8e548a11796a49e4a8b9985da8a5ba61,
+      objectReference: {fileID: 11400000, guid: 5f8789c65479bbc47a729f523148dbfb,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
