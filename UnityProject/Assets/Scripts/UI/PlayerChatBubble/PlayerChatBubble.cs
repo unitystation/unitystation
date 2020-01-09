@@ -107,7 +107,7 @@ public class PlayerChatBubble : MonoBehaviour
 		{
 			UpdateChatBubbleSize();
 		}
-		// TODO Add comment to the following code (or remove it). Bubbles seem to work fine without it.
+		// Correct angle if the player & the bubble get rotated (e.g. on shuttles)
 		if (transform.eulerAngles != Vector3.zero)
 		{
 			transform.eulerAngles = Vector3.zero;
