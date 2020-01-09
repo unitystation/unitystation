@@ -13,16 +13,34 @@ using UnityEngine.UI;
 public class PlayerChatBubble : MonoBehaviour
 {
 	[SerializeField]
+	[Tooltip("The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
+	[Range(1,200)]
+	private int maxMessageLength = 70;
+
+	[Header("Size of chat bubble")]
+
+	[SerializeField]
 	[Tooltip("The text size when the player speaks like a normal person.")]
+	[Range(1, 100)]
 	private float bubbleSizeNormal = 8;
 
 	[SerializeField]
 	[Tooltip("The size of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
+	[Range(1, 100)]
 	private float bubbleSizeCaps = 12;
 
 	[SerializeField]
 	[Tooltip("The size of the chat bubble when starts the sentence with #.")]
+	[Range(1, 100)]
 	private float bubbleSizeWhisper = 6;
+
+	[SerializeField]
+	[Tooltip("The maximum scale of text bubbles. When zoomed out very far bubbles will clamp to this scale.")]
+	private float maxBubbleScale = 4;
+
+	[SerializeField]
+	[Tooltip("The minimum scale of text bubbles. When zoomed out very close bubbles will clamp to this scale.")]
+	private float minBubbleScale = 0.55f;
 
 	/// <summary>
 	/// The current size of the chat bubble, scaling chatBubble RectTransform.
@@ -84,10 +102,9 @@ public class PlayerChatBubble : MonoBehaviour
 	void Update()
 	{
 		// Update scale of the chat bubble.
-		// TODO Optimization. Instead of doing this in update, it should be done when the player has changed the zoom level.
 		if (showingDialogue)
 		{
-			updateChatBubbleScale();
+			UpdateChatBubbleSize();
 		}
 		// TODO Add comment to the following code (or remove it). Bubbles seem to work fine without it.
 		if (transform.eulerAngles != Vector3.zero)
@@ -144,15 +161,13 @@ public class PlayerChatBubble : MonoBehaviour
 
 	private void AddChatBubbleMsg(string msg, ChatChannel channel)
 	{
-		int maxcharLimit = 52;
-
-		if (msg.Length > maxcharLimit)
+		if (msg.Length > maxMessageLength)
 		{
-			while (msg.Length > maxcharLimit)
+			while (msg.Length > maxMessageLength)
 			{
 				int ws = -1;
 				//Searching for the nearest whitespace
-				for (int i = maxcharLimit; i >= 0; i--)
+				for (int i = maxMessageLength; i >= 0; i--)
 				{
 					if (char.IsWhiteSpace(msg[i]))
 					{
@@ -161,13 +176,13 @@ public class PlayerChatBubble : MonoBehaviour
 					}
 				}
 				//Player is spamming with no whitespace. Cut it up
-				if (ws == -1 || ws == 0)ws = maxcharLimit + 2;
+				if (ws == -1 || ws == 0)ws = maxMessageLength + 2;
 
 				var split = msg.Substring(0, ws);
 				msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(split.Length), msg = split });
 
 				msg = msg.Substring(ws + 1);
-				if (msg.Length <= maxcharLimit)
+				if (msg.Length <= maxMessageLength)
 				{
 					msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg });
 				}
@@ -190,7 +205,7 @@ public class PlayerChatBubble : MonoBehaviour
 			yield break;
 		}
 		var b = msgQueue.Dequeue();
-		SetBubbleText(b.msg);
+		SetBubbleParameters(b.msg);
 
 		while (showingDialogue)
 		{
@@ -207,7 +222,7 @@ public class PlayerChatBubble : MonoBehaviour
 				else
 				{
 					b = msgQueue.Dequeue();
-					SetBubbleText(b.msg);
+					SetBubbleParameters(b.msg);
 				}
 			}
 		}
@@ -216,12 +231,15 @@ public class PlayerChatBubble : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Sets the text of the bubble and updates the text bubble type.
+	/// Sets the text of the bubble and the size according to its detected type.
 	/// </summary>
 	/// <param name="msg"> Player's chat message </param>
-	private void SetBubbleText(string msg)
+	private void SetBubbleParameters(string msg)
 	{
+		// Set up
 		bubbleType = GetBubbleType(msg);
+
+		// Determine type
 		switch (bubbleType)
 		{
 			case BubbleType.caps:
@@ -229,7 +247,7 @@ public class PlayerChatBubble : MonoBehaviour
 				break;
 			case BubbleType.whisper:
 				bubbleSize = bubbleSizeWhisper;
-				msg = msg.Substring(1); // Remove #
+				msg = msg.Substring(1); // Remove the # symbol from bubble
 				break;
 			case BubbleType.clown:
 				// TODO Implement clown-specific bubble values.
@@ -240,7 +258,9 @@ public class PlayerChatBubble : MonoBehaviour
 				bubbleSize = bubbleSizeNormal;
 				break;
 		}
-		updateChatBubbleScale();
+
+		// Apply values
+		UpdateChatBubbleSize();
 		chatBubble.SetActive(true);
 		bubbleText.text = msg;
 	}
@@ -248,12 +268,13 @@ public class PlayerChatBubble : MonoBehaviour
 	/// <summary>
 	/// Updates the scale of the chat bubble canvas using bubbleScale and the player's zoom level.
 	/// </summary>
-	private void updateChatBubbleScale()
+	private void UpdateChatBubbleSize()
 	{
 		int zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
-		float bubbleScale = bubbleSize / zoomLevel;
+		float bubbleScale = System.Math.Max(minBubbleScale, System.Math.Min(maxBubbleScale, bubbleSize / zoomLevel));
 		chatBubbleRectTransform.localScale = new Vector3(bubbleScale, bubbleScale, 1);
 	}
+
 
 	/// <summary>
 	/// Used to calculate showing length time
