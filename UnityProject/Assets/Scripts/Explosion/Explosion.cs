@@ -74,7 +74,8 @@ public class Explosion : MonoBehaviour
 
 				// Calculate fire effect time
 				var fireTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
-				StartCoroutine(TimedEffect(tilePos, fireTime, tileManager));
+				var localTilePos = MatrixManager.WorldToLocalInt(tilePos, matrix.Id);
+				StartCoroutine(TimedEffect(localTilePos, fireTime, tileManager));
 
 				// Save longest fire effect time
 				if (fireTime > longestTime)
@@ -90,9 +91,6 @@ public class Explosion : MonoBehaviour
 
 	public IEnumerator TimedEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
 	{
-		position.x -= 1;
-		position.y -= 1;
-
 		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
 		yield return WaitFor.Seconds(time);
 		tileChangeManager.RemoveTile(position, LayerType.Effects);

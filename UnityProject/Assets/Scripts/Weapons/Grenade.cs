@@ -134,12 +134,17 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		
 		if (isServer)
 		{
-			// Explosion here
-			var explosionGO = Instantiate(explosionPrefab, registerItem.Matrix.transform);
-			explosionGO.transform.position = objectBehaviour.AssumedWorldPositionServer();
-			explosionGO.Explode(registerItem.Matrix);
+			// Get data from grenade before despawning
+			var explosionMatrix = registerItem.Matrix;
+			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
+			// Despawn grenade
 			Despawn.ServerSingle(gameObject);
+
+			// Explosion here
+			var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
+			explosionGO.transform.position = worldPos;
+			explosionGO.Explode(explosionMatrix);
 		}
 	}
 
