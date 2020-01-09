@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,7 +66,7 @@ public class PlayerChatBubble : MonoBehaviour
 	[SerializeField]
 	private GameObject chatBubble;
 	[SerializeField]
-	private Text bubbleText;
+	private TextMeshProUGUI bubbleText;
 	[SerializeField]
 	private GameObject pointer;
 	class BubbleMsg { public float maxTime; public string msg; public float elapsedTime = 0f; }
