@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class GUI_P_Eume : PageElement
 {
-	public Dropdown TDropdown;
+	public TMP_Dropdown TDropdown;
 
 	public override bool IsThisType(Type TType)
 	{
@@ -21,6 +22,7 @@ public class GUI_P_Eume : PageElement
 
 	public override void SetUpValues(Type ValueType,VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false)
 	{
+		base.SetUpValues(ValueType, Page, Sentence, Iskey);
 		string Variable = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
 		TDropdown.ClearOptions();
 		TDropdown.captionText.text = Variable;
@@ -39,5 +41,23 @@ public class GUI_P_Eume : PageElement
 		}
 		TDropdown.AddOptions(llist);
 		TDropdown.value = Selected;
+		TDropdown.onValueChanged.AddListener(ToggleValueChanged);
+	}
+
+	void ToggleValueChanged(int intloc)
+	{
+		if (PageID != 0)
+		{
+			RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text);
+		}
+		else { 
+		}
+	}
+
+
+	public override void Pool()
+	{
+		base.Pool();
+		TDropdown.onValueChanged.RemoveAllListeners();
 	}
 }
