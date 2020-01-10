@@ -140,7 +140,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		base.OnStartServer();
 		//when pulling status changes, re-check whether client needs to be told if
 		//this is swappable.
-		playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+		if (playerScript.pushPull != null)
+		{
+			playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+		}
+
 		ServerUpdateIsSwappable();
 	}
 
