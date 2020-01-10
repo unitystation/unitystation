@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -164,6 +164,7 @@ MonoBehaviour:
   circle: {fileID: 114303947380594414}
   icon: {fileID: 114957084443620552}
   title: {fileID: 114413488724221078}
+  childButtons: []
 --- !u!1 &1708477368976064
 GameObject:
   m_ObjectHideFlags: 0

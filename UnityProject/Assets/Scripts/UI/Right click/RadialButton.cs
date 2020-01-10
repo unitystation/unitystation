@@ -6,15 +6,15 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Reflection;
 
-public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	[SerializeField] private Image circle;
 	[SerializeField] private Image icon;
 	[SerializeField] private Text title;
-	private string buttonName;
 	private RadialMenu menuControl;
 	private Color defaultColour;
-	private Action action;
+	[HideInInspector]
+	public Action action;
 	private RightClickMenuItem menuItem;
 	private bool isSelected;
 	private bool isTopLevel;
@@ -29,46 +29,66 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 		circle.color = menuItem.BackgroundColor;
 		defaultColour = menuItem.BackgroundColor;
 		action = menuItem.Action;
-		buttonName = menuItem.Label;
 
 		icon.sprite = menuItem.IconSprite;
 		if (menuItem.BackgroundSprite != null)
 		{
 			circle.sprite = menuItem.BackgroundSprite;
 		}
+
+		if (!topLevel)
+		{
+			title.text = menuItem.Label;
+		}
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		isSelected = true;
-		circle.color = defaultColour + (Color.white / 3f);
+		//if (eventData.pointerEnter != gameObject) return;
+
 		if (isTopLevel)
 		{
+			menuControl.SelectTopLevelButton(this);
+		}
+		else
+		{
+			isSelected = true;
+			circle.color = defaultColour + (Color.white / 3f);
+			menuControl.Selected = this;
+		}
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		//if (eventData.pointerEnter != gameObject) return;
+
+		if (!isTopLevel)
+		{
+			isSelected = false;
+			circle.color = defaultColour;
+			menuControl.Selected = null;
+		}
+	}
+
+	public void TopLevelSelectToggle(bool isSelected)
+	{
+		this.isSelected = isSelected;
+		if (isSelected)
+		{
+			circle.color = defaultColour + (Color.white / 3f);
 			menuControl.SetButtonAsLastSibling(this);
 			foreach (var btn in childButtons)
 			{
 				btn.gameObject.SetActive(true);
 			}
 		}
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		isSelected = false;
-		circle.color = defaultColour;
-
-		if (isTopLevel)
+		else
 		{
+			circle.color = defaultColour;
 			foreach (var btn in childButtons)
 			{
 				btn.gameObject.SetActive(false);
 			}
 		}
-	}
-
-	public void OnPointerUp(PointerEventData eventData)
-	{
-		isSelected = false;
-		Debug.Log("POINTER UP ON: " + buttonName);
 	}
 }
