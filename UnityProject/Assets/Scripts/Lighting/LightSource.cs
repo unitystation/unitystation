@@ -189,7 +189,14 @@ public class LightSource : ObjectTrigger
 	}
 	private void OnIntensityChange()
 	{
-		this.GetComponentInChildren<LightSprite>().Color.a = Intensity;
+		//we were getting an NRE here internally in GetComponent so this checks if the object lifetime
+		//is up according to Unity
+		if (this == null) return;
+		var lightSprites = GetComponentInChildren<LightSprite>();
+		if (lightSprites)
+		{
+			lightSprites.Color.a = Intensity;
+		}
 	}
 	private void OnStateChange(LightState iValue)
 	{
