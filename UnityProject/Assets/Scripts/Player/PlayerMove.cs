@@ -447,8 +447,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
 	}
 
+	/// <summary>
+	/// Use RequestUncuff() instead for validation purposes. Use this method
+	/// if you have done validation else where (like the cool down for self
+	/// uncuffing). Calling this from client will break your client.
+	/// </summary>
 	[Server]
-	private void Uncuff()
+	public void Uncuff()
 	{
 		SyncCuffed(false);
 

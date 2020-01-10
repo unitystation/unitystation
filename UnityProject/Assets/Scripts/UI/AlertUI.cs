@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,12 +13,23 @@ public class AlertUI : MonoBehaviour
 {
 	[FormerlySerializedAs("restrained")]
 	public GameObject buckled;
-	private Action onClick;
+
+	public GameObject cuffed;
+
+	private Action onClickBuckled;
 
 	//invoked when the restrained alert is clicked
 	public void OnClickAlertRestrained()
 	{
-		onClick?.Invoke();
+		SoundManager.Play("Click01");
+		onClickBuckled?.Invoke();
+	}
+
+	//called when the buckled button is clicked
+	public void OnClickCuffed()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+		SoundManager.Play("Click01");
 	}
 
 	private void OnEnable()
@@ -32,7 +44,7 @@ public class AlertUI : MonoBehaviour
 
 	void OnRoundEnd()
 	{
-		onClick = null;
+		onClickBuckled = null;
 		buckled.SetActive(false);
 	}
 
@@ -47,7 +59,16 @@ public class AlertUI : MonoBehaviour
 		buckled.SetActive(show);
 		if (show)
 		{
-			this.onClick = onClick;
+			this.onClickBuckled = onClick;
 		}
+	}
+
+	/// <summary>
+	/// Toggle Alert UI button for cuffed
+	/// </summary>
+	/// <param name="show"></param>
+	public void ToggleAlertCuffed(bool show)
+	{
+		cuffed.SetActive(show);
 	}
 }
