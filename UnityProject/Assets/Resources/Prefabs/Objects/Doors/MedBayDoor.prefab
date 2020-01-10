@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 114437412268890836}
   - component: {fileID: 114589234034436630}
   - component: {fileID: 114868604017624666}
-  - component: {fileID: -2772611101770589827}
   - component: {fileID: -1296996462333317458}
   m_Layer: 17
   m_Name: MedBayDoor
@@ -372,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114437412268890836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,24 +436,6 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
---- !u!114 &-2772611101770589827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033492078376264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 0
-  AtmosPassable: 1
-  Passable: 1
 --- !u!114 &-1296996462333317458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,7 +559,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298044401540158}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

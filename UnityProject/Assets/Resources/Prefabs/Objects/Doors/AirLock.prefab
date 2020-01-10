@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 114936590258962662}
   - component: {fileID: 114535589590408862}
   - component: {fileID: 114842947250423336}
-  - component: {fileID: -781631510711626464}
   - component: {fileID: 4518357836073184054}
   m_Layer: 18
   m_Name: AirLock
@@ -469,24 +468,6 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
---- !u!114 &-781631510711626464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011462531918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 0
-  AtmosPassable: 1
-  Passable: 1
 --- !u!114 &4518357836073184054
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,8 +14,6 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 {
-	[SerializeField]
-	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
 
 	public bool diagonalMovement;
@@ -116,6 +114,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
+	private PlayerScript playerScript;
+
+	private void Awake()
+	{
+		playerScript = GetComponent<PlayerScript>();
+	}
 
 	private void Start()
 	{
@@ -136,7 +140,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		base.OnStartServer();
 		//when pulling status changes, re-check whether client needs to be told if
 		//this is swappable.
-		playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+		if (playerScript.pushPull != null)
+		{
+			playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+		}
+
 		ServerUpdateIsSwappable();
 	}
 
@@ -517,7 +525,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	private void ServerUpdateIsSwappable()
 	{
-		isSwappable = isHelpIntentServer && !PlayerScript.pushPull.IsPullingSomethingServer;
+		isSwappable = isHelpIntentServer && PlayerScript != null &&
+		              PlayerScript.pushPull != null &&
+		              !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
 	/// <summary>

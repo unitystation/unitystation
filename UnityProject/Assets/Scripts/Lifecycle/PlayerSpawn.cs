@@ -58,7 +58,7 @@ public static class PlayerSpawn
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 		var oldGhost = forMind.ghost;
 
-		ServerSpawnInternal(connection, occupation, settings, forMind);
+		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
 
 		if (oldGhost)
 		{
@@ -97,10 +97,14 @@ public static class PlayerSpawn
 	/// <param name="characterSettings">settings of the new player character</param>
 	/// <param name="existingMind">existing mind to transfer to the new player, if null new mind will be created
 	/// and assigned to the new player character</param>
-	/// <param name="spawnPos"></param>
+	/// <param name="spawnPos">world position to spawn at</param>
+	/// <param name="naked">If spawning a player, should the player spawn without the defined initial equipment for their occupation?</param>
+	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
+	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
+	///
 	/// <returns>the spawned object</returns>
 	private static GameObject ServerSpawnInternal(NetworkConnection connection, Occupation occupation, CharacterSettings characterSettings,
-		Mind existingMind, Vector3Int? spawnPos = null, bool naked = false)
+		Mind existingMind, Vector3Int? spawnPos = null, bool naked = false, bool willDestroyOldBody = false)
 	{
 		//determine where to spawn them
 		if (spawnPos == null)
@@ -126,7 +130,7 @@ public static class PlayerSpawn
 		var oldBody = existingMind?.GetCurrentMob();
 
 		//transfer control to the player object
-		ServerTransferPlayer(connection, newPlayer, oldBody, EVENT.PlayerSpawned, characterSettings);
+		ServerTransferPlayer(connection, newPlayer, oldBody, EVENT.PlayerSpawned, characterSettings, willDestroyOldBody);
 
 
 		if (existingMind == null)
@@ -170,7 +174,7 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(forConnection, body, fromObject, EVENT.PlayerRejoined, settings);
+		ServerTransferPlayer(forConnection, body, fromObject, EVENT.PlayerRejoined, settings, oldGhost != null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 
 		if (oldGhost)
@@ -312,8 +316,10 @@ public static class PlayerSpawn
 	/// <param name="oldBody">The old body of the character.</param>
 	/// <param name="eventType">Event type for the player sync.</param>
 	/// <param name="characterSettings">settings, ignored if transferring to an existing player body</param>
+	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
+	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
 	private static void ServerTransferPlayer(NetworkConnection conn, GameObject newBody, GameObject oldBody,
-		EVENT eventType, CharacterSettings characterSettings)
+		EVENT eventType, CharacterSettings characterSettings, bool willDestroyOldBody = false)
 	{
 		if (oldBody)
 		{
@@ -342,7 +348,7 @@ public static class PlayerSpawn
 				NetworkServer.ReplacePlayerForConnection(new NetworkConnection("0.0.0.0"), oldBody);
 			}
 			//mirrorworkaround: only added setLocal/unsetlocal for workaround for https://github.com/vis2k/Mirror/issues/962
-			TriggerEventMessage.Send(newBody, eventType, oldBody, newBody);
+			TriggerEventMessage.Send(newBody, eventType, willDestroyOldBody ? null : oldBody, newBody);
 
 			//can observe their new inventory
 			newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);

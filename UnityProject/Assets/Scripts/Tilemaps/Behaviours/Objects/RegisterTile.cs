@@ -240,7 +240,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	public void OnDespawnServer(DespawnInfo info)
+	public virtual void OnDespawnServer(DespawnInfo info)
 	{
 		//cancel all relationships
 		if (sameMatrixRelationships != null)

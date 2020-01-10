@@ -38,15 +38,20 @@
 			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
 		}
 
-		private void OnWillDestroyServer(DestructionInfo arg0)
+		public override void OnDespawnServer(DespawnInfo info)
 		{
+			base.OnDespawnServer(info);
 			//when we're going to be destroyed, need to tell all subsystems that our space is now passable
 			isClosed = false;
-	        if (SubsystemManager != null)
-	        {
-	            SubsystemManager.UpdateAt(LocalPositionServer);
-	        }
-	        //spawn some metal for the door
+			if (SubsystemManager != null)
+			{
+				SubsystemManager.UpdateAt(LocalPositionServer);
+			}
+		}
+
+		private void OnWillDestroyServer(DestructionInfo arg0)
+		{
+			//spawn some metal for the door
 	        Spawn.ServerPrefab("Metal", WorldPosition, transform.parent, count: 2,
 		        scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
