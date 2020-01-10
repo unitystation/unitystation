@@ -52,7 +52,7 @@ public class RadialMenu : MonoBehaviour
 		SpawnButtons(ListRightclick, 100, 0);
 	}
 
-	public void SpawnButtons(List<RightClickMenuItem> menus, int menudepth, int startingAngle)
+	public void SpawnButtons(List<RightClickMenuItem> menus, int menudepth, int startingAngle, int topLevelParent = -1)
 	{
 		Initialised = false;
 		CurrentMenuDepth = menudepth;
@@ -66,14 +66,14 @@ public class RadialMenu : MonoBehaviour
 			minimumAngle = (int) (startingAngle - ((range / 2) - (0.5f * (360 / Density[menudepth]))));
 			maximumAngle = startingAngle + range;
 
-			if (range < (SelectionRange[menudepth - 100][0] / SelectionRange[menudepth - 100][3]))
-			{
-				range = (int) (SelectionRange[menudepth - 100][0] /
-				               SelectionRange[menudepth - 100][3]
-					); //Try and keep the icons nicely spaced on the outer rings
-				minimumAngle = (int) (startingAngle - ((range / 2) - (0.5f * (range / menus.Count))));
-				maximumAngle = startingAngle + range;
-			}
+//			if (range < (SelectionRange[menudepth - 100][0] / SelectionRange[menudepth - 100][3]))
+//			{
+//				range = (int) (SelectionRange[menudepth - 100][0] /
+//				               SelectionRange[menudepth - 100][3]
+//					); //Try and keep the icons nicely spaced on the outer rings
+//				minimumAngle = (int) (startingAngle - ((range / 2) - (0.5f * (range / menus.Count))));
+//				maximumAngle = startingAngle + range;
+//			}
 		}
 
 		for (var i = 0; i < menus.Count; i++)
@@ -86,10 +86,35 @@ public class RadialMenu : MonoBehaviour
 			float xpos = Mathf.Sin(theta);
 			float ypos = Mathf.Cos(theta);
 
-			newButton.SetButton(new Vector2(xpos, ypos) * menudepth, this, menus[i], true);
+			if (menudepth == 100)
+			{
+				topLevelButtons.Add(newButton);
+				newButton.SetButton(new Vector2(xpos, ypos) * menudepth, this, menus[i], true);
+			}
+			else if(menudepth == 200)
+			{
+				newButton.SetButton(new Vector2(xpos, ypos) * menudepth, this, menus[i], false);
+				topLevelButtons[topLevelParent].childButtons.Add(newButton);
+			}
+			else
+			{
+				Debug.Log("What to do with higher depths: " + menudepth);
+			}
 
-			topLevelButtons.Add(newButton);
+			if (menus[i].SubMenus != null)
+			{
+				if (menus[i].SubMenus.Count != 0)
+				{
+					Vector2 targetDir = newButton.transform.position - transform.position;
+					var angle = Vector2.Angle(targetDir, transform.forward);
+					SpawnButtons(menus[i].SubMenus, menudepth + 100, (int) angle, i);
+				}
+			}
 
+			foreach (var btn in newButton.childButtons)
+			{
+				btn.gameObject.SetActive(false);
+			}
 //			// Annoying dictionary not containing list when Initialised
 //			if (CurrentOptionsDepth.ContainsKey(menudepth))
 //			{

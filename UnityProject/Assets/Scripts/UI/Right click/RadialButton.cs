@@ -18,6 +18,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	private RightClickMenuItem menuItem;
 	private bool isSelected;
 	private bool isTopLevel;
+	public List<RadialButton> childButtons = new List<RadialButton>();
 
 	public void SetButton(Vector2 localPos, RadialMenu menuController, RightClickMenuItem menuItem, bool topLevel)
 	{
@@ -44,6 +45,10 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 		if (isTopLevel)
 		{
 			menuControl.SetButtonAsLastSibling(this);
+			foreach (var btn in childButtons)
+			{
+				btn.gameObject.SetActive(true);
+			}
 		}
 	}
 
@@ -51,6 +56,14 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	{
 		isSelected = false;
 		circle.color = defaultColour;
+
+		if (isTopLevel)
+		{
+			foreach (var btn in childButtons)
+			{
+				btn.gameObject.SetActive(false);
+			}
+		}
 	}
 
 	public void OnPointerUp(PointerEventData eventData)
