@@ -14,8 +14,6 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 {
-	[SerializeField]
-	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
 
 	public bool diagonalMovement;
@@ -116,6 +114,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
+	private PlayerScript playerScript;
+
+	private void Awake()
+	{
+		playerScript = GetComponent<PlayerScript>();
+	}
 
 	private void Start()
 	{

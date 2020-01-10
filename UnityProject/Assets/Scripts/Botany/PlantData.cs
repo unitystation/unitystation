@@ -30,6 +30,7 @@ public class PlantData
 
 	public void MutateTo(DefaultPlantData _DefaultPlantData)
 	{
+		if (_DefaultPlantData == null) return;
 		Plantname = _DefaultPlantData.plantData.Plantname;
 		Description = _DefaultPlantData.plantData.Description;
 		Name = _DefaultPlantData.plantData.Name;
