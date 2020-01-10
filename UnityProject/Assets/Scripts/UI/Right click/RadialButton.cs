@@ -6,27 +6,56 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Reflection;
 
-public class RadialButton : MonoBehaviour{
+public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler
+{
+	[SerializeField] private Image circle;
+	[SerializeField] private Image icon;
+	[SerializeField] private Text title;
+	private string buttonName;
+	private RadialMenu menuControl;
+	private Color defaultColour;
+	private Action action;
+	private RightClickMenuItem menuItem;
+	private bool isSelected;
+	private bool isTopLevel;
 
-	public Image Circle;
-	public Image Icon;
-	public Text title;
-	public string Hiddentitle;
-	public RadialMenu MyMenu;
-	public int DefaultPosition;
-	public Color DefaultColour;
-	public int MenuDepth;
-	public Action Action;
-
-	public void SetColour (Color Color)
+	public void SetButton(Vector2 localPos, RadialMenu menuController, RightClickMenuItem menuItem, bool topLevel)
 	{
-		Circle.color = Color;
+		this.menuItem = menuItem;
+		transform.localPosition = localPos;
+		menuControl = menuController;
+		isTopLevel = topLevel;
+		circle.color = menuItem.BackgroundColor;
+		defaultColour = menuItem.BackgroundColor;
+		action = menuItem.Action;
+		buttonName = menuItem.Label;
+
+		icon.sprite = menuItem.IconSprite;
+		if (menuItem.BackgroundSprite != null)
+		{
+			circle.sprite = menuItem.BackgroundSprite;
+		}
 	}
-	public Color ReceiveCurrentColour()
+
+	public void OnPointerEnter(PointerEventData eventData)
 	{
-		return(Circle.color);
+		isSelected = true;
+		circle.color = defaultColour + (Color.white / 3f);
+		if (isTopLevel)
+		{
+			menuControl.SetButtonAsLastSibling(this);
+		}
 	}
 
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		isSelected = false;
+		circle.color = defaultColour;
+	}
 
+	public void OnPointerUp(PointerEventData eventData)
+	{
+		isSelected = false;
+		Debug.Log("POINTER UP ON: " + buttonName);
+	}
 }
-
