@@ -607,4 +607,8 @@ public static class Validations
 		return welder.IsOn;
 	}
 
+	public static bool HasTarget(TargetedInteraction interaction)
+	{
+		return interaction.TargetObject != null;
+	}
 }
