@@ -14,6 +14,8 @@ public class RestraintOverlay : ClothingItem
 
 	[SerializeField] private SpriteRenderer spriteRend;
 	private CancellationTokenSource cancelSource;
+	private float healthCache;
+	private Vector3Int positionCache;
 
 	public override void SetReference(GameObject Item)
 	{
@@ -57,6 +59,11 @@ public class RestraintOverlay : ClothingItem
 		{
 			cancelSource.Cancel();
 		}
+
+		healthCache = thisPlayerScript.playerHealth.OverallHealth;
+		positionCache = thisPlayerScript.registerTile.LocalPositionServer;
+		if (!CanUncuff()) return;
+
 		cancelSource = new CancellationTokenSource();
 		StartCoroutine(UncuffCountDown(cancelSource.Token));
 		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You are attempting to remove the cuffs. This takes up to 30 seconds",
@@ -70,6 +77,11 @@ public class RestraintOverlay : ClothingItem
 		while (!canUncuff && !cancelToken.IsCancellationRequested)
 		{
 			waitTime += Time.deltaTime;
+			//Stop uncuff timer if needed
+			if (!CanUncuff())
+			{
+				yield break;
+			}
 
 			if (waitTime > 30f)
 			{
@@ -82,5 +94,18 @@ public class RestraintOverlay : ClothingItem
 			}
 			yield return WaitFor.EndOfFrame;
 		}
+	}
+
+	bool CanUncuff()
+	{
+		if (!thisPlayerScript.playerHealth.serverPlayerConscious ||
+		    thisPlayerScript.registerTile.IsSlippingServer ||
+		    healthCache != thisPlayerScript.playerHealth.OverallHealth ||
+		    positionCache != thisPlayerScript.registerTile.LocalPositionServer)
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

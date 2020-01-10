@@ -139,6 +139,7 @@ public class ControlDisplays : MonoBehaviour
 		SoundManager.SongTracker.StartPlayingRandomPlaylist();
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
+		UIManager.AlertUI.OnRoundEnd();
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);

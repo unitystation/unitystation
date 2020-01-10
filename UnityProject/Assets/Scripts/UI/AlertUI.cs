@@ -42,10 +42,11 @@ public class AlertUI : MonoBehaviour
 		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
 	}
 
-	void OnRoundEnd()
+	public void OnRoundEnd()
 	{
 		onClickBuckled = null;
 		buckled.SetActive(false);
+		cuffed.SetActive(false);
 	}
 
 
