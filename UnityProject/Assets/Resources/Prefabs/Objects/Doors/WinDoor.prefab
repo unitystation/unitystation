@@ -444,7 +444,6 @@ GameObject:
   - component: {fileID: 114743819203466024}
   - component: {fileID: 114320171668943648}
   - component: {fileID: 114317237157285656}
-  - component: {fileID: -7092553214334747997}
   - component: {fileID: 7724401135494436923}
   m_Layer: 18
   m_Name: WinDoor
@@ -685,24 +684,6 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
---- !u!114 &-7092553214334747997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1797280918088156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 0
-  AtmosPassable: 1
-  Passable: 1
 --- !u!114 &7724401135494436923
 MonoBehaviour:
   m_ObjectHideFlags: 0
