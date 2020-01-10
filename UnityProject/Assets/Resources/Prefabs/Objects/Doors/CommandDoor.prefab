@@ -53,7 +53,6 @@ GameObject:
   - component: {fileID: 114844421098606906}
   - component: {fileID: 114503660770427716}
   - component: {fileID: 114121495487176538}
-  - component: {fileID: 2568383123190705494}
   - component: {fileID: -9160553101885179674}
   m_Layer: 17
   m_Name: CommandDoor
@@ -404,7 +403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114844421098606906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,24 +468,6 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
---- !u!114 &2568383123190705494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069162904971260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 0
-  AtmosPassable: 1
-  Passable: 1
 --- !u!114 &-9160553101885179674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,7 +763,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1518058281111350}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Used for restraining a player (with handcuffs or zip ties etc)
+/// </summary>
 public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	private static readonly StandardProgressActionConfig ProgressConfig =
