@@ -168,6 +168,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	[Command]
+	public void CmdTryUncuff()
+	{
+		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
+	}
+
 	/// <summary>
 	/// Validates that the player can interact with the specified wallmount
 	/// </summary>

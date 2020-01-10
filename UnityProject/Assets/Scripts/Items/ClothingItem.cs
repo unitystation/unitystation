@@ -23,7 +23,7 @@ public class ClothingItem : MonoBehaviour
 	private Orientation currentDirection = Orientation.Down;
 
 	public int reference;
-	private int referenceOffset;
+	protected int referenceOffset;
 	public Color color = Color.white;
 	private int variantIndex = 0;
 	private SpriteDataHandler SHD;
@@ -71,7 +71,7 @@ public class ClothingItem : MonoBehaviour
 		}
 	}
 
-	public void SetReference(GameObject Item)
+	public virtual void SetReference(GameObject Item)
 	{
 		UpdateReferenceOffset();
 		if (Item == null)
@@ -147,7 +147,7 @@ public class ClothingItem : MonoBehaviour
 		UpdateSprite();
 	}
 
-	public void UpdateSprite()
+	public virtual void UpdateSprite()
 	{
 		if (spriteHandler != null)
 		{
