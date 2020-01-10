@@ -20,6 +20,7 @@ namespace Unitystation.Options
         public UIElement targetElement;
         public Image image;
         public Text text;
+		public TMPro.TextMeshProUGUI textMeshProUGUI;
 
         void OnEnable()
         {
@@ -57,7 +58,10 @@ namespace Unitystation.Options
                 case UIElement.Text:
 					text.color = new Color(config.textColor.r, config.textColor.g, config.textColor.b, text.color.a); // Use original alpha (Fixes #2567)
 					break;
-            }
+				case UIElement.TextMeshProUGUI:
+					textMeshProUGUI.color = new Color(config.textColor.r, config.textColor.g, config.textColor.b, textMeshProUGUI.color.a);
+					break;
+			}
         }
     }
 }
