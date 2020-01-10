@@ -63,6 +63,7 @@ public static class VVUIElementHandler
 				CurrentlyOpen[0].gameObject.SetActive(false);
 				PoolDictionary[CurrentlyOpen[0].PageElementType].Add(CurrentlyOpen[0]);
 				CurrentlyOpen[0].transform.SetParent(VariableViewerManager.transform);
+				CurrentlyOpen[0].Pool();
 			}
 			else
 			{

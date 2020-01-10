@@ -14,6 +14,10 @@ public class ObjectBehaviourEditor : Editor
 		//SerializedProperty visibleState = serializedObject.FindProperty("visibleState"); //####
 		SerializedProperty networkChannel = serializedObject.FindProperty("networkChannel");
 		SerializedProperty networkSendInterval = serializedObject.FindProperty("networkSendInterval");
+		SerializedProperty soundWhenPushedOrPulled = serializedObject.FindProperty("pushPullSound");
+		SerializedProperty soundDelayTime = serializedObject.FindProperty("soundDelayTime");
+		SerializedProperty soundMinimumPitchVariance = serializedObject.FindProperty("soundMinimumPitchVariance");
+		SerializedProperty soundMaximumPitchVariance = serializedObject.FindProperty("soundMaximumPitchVariance");
 
 		EditorGUI.BeginChangeCheck();
 
@@ -23,6 +27,10 @@ public class ObjectBehaviourEditor : Editor
 		EditorGUILayout.LabelField("PushPull properties:");
 		//EditorGUILayout.PropertyField(visibleState, false); //#####
 		EditorGUILayout.PropertyField(isNotPushable, false);
+		EditorGUILayout.PropertyField(soundWhenPushedOrPulled, false);
+		EditorGUILayout.PropertyField(soundDelayTime, false);
+		EditorGUILayout.Slider(soundMinimumPitchVariance, 0, 2);
+		EditorGUILayout.Slider(soundMaximumPitchVariance, 0, 2);
 
 		if (EditorGUI.EndChangeCheck())
 		{

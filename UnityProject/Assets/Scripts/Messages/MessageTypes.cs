@@ -59,7 +59,7 @@ internal enum MessageTypes : short
 	OpenPageValueNetMessage = 2004,
 	SimpleInteractMessage = 2005,
 	RequestSyncMessage = 2006,
-	// 2007 is free to use
+	RequestChangeVariableNetMessage = 2007,
 	RequestMoveMessage = 2008,
 	RequestShootMessage = 2009,
 	TabInteractMessage = 2010,

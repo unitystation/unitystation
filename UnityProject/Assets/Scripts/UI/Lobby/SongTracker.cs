@@ -41,6 +41,8 @@ public class SongTracker : MonoBehaviour
 
 	public void StartPlayingRandomPlaylist()
 	{
+		if(CustomNetworkManager.isHeadless) return;
+		
 		PlayingRandomPlayList = true;
 		PlayRandomTrack();
 		ToggleUI(true);
@@ -61,6 +63,8 @@ public class SongTracker : MonoBehaviour
 
 	void PlayRandomTrack()
 	{
+		if(CustomNetworkManager.isHeadless) return;
+		
 		var songInfo = SoundManager.PlayRandomTrack();
 		trackName.text = songInfo[0];
 		// If the name of the artist is included, add it as well

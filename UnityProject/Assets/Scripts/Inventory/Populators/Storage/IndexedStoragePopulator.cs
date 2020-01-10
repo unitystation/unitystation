@@ -63,6 +63,13 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 				Inventory.ServerDespawn(slot);
 			}
 
+			// General protection against missing items
+			if (Contents[i] == null)
+			{
+				Logger.LogError($"Item is missing at position {i} of {toPopulate.name}");
+				continue; // Will skip the missing item
+			}
+
 			var spawned = Spawn.ServerPrefab(Contents[i]).GameObject;
 			Inventory.ServerAdd(spawned, slot);
 		}
