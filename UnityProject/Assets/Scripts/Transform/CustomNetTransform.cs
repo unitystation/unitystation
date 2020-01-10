@@ -556,8 +556,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		{
 			if (occupiableDirectionalSprite.BuckledPlayerScript != null)
 			{
-				//sync position to ensure they buckle to the correct spot
-				occupiableDirectionalSprite.BuckledPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+				//sync position to ensure they buckle to the correct spot, make the synchronization nearly pixel-perfect
+				occupiableDirectionalSprite.BuckledPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition, false, occupiableDirectionalSprite.netId);
 			}
 		}		
 	}

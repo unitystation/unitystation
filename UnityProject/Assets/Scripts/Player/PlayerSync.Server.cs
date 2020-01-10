@@ -284,11 +284,15 @@ public partial class PlayerSync
 		return true;
 	}
 
+	/// <summary>
 	/// Manually set player to a specific world position.
 	/// Also clears prediction queues.
+	/// </summary>
 	/// <param name="worldPos">The new position to "teleport" player</param>
+	/// <param name="noLerp">True if no LERP is needed</param>
+	/// <param name="synchronizeWithNetId">The NetId of an object that make this move nearly pixel-perfectly synchronized in movement</param>
 	[Server]
-	public void SetPosition(Vector3 worldPos, bool noLerp = false)
+	public void SetPosition(Vector3 worldPos, bool noLerp = false, uint synchronizeWithNetId = NetId.Empty)
 	{
 		ClearQueueServer();
 		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2)worldPos); //cutting off z-axis

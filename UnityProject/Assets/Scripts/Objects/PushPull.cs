@@ -8,7 +8,8 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
+public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn
+{
 	public const float DEFAULT_PUSH_SPEED = 6;
 	/// <summary>
 	/// Maximum speed player can reach by throwing stuff in space
