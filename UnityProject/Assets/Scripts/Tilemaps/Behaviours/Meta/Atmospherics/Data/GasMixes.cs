@@ -14,11 +14,11 @@ namespace Atmospherics
 			gases[Gas.Oxygen] = 16.628484400890768491815384755837f / 2 * 2.5f;
 			gases[Gas.Nitrogen] = 66.513937603563073967261539023347f / 2 * 2.5f;
 
-			Air = GasMix.FromTemperature(gases, Reactions.T0C + 20);
+			Air = GasMix.FromTemperature(gases, Reactions.KOffsetC + 20);
 
 			gases[Gas.Oxygen] = 0;
 			gases[Gas.Nitrogen] = 0;
-			Empty = GasMix.FromTemperature(gases, Reactions.T0C + 20);
+			Empty = GasMix.FromTemperature(gases, Reactions.KOffsetC + 20);
 		}
 	}
 }

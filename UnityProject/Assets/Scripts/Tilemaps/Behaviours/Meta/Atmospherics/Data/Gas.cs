@@ -9,23 +9,21 @@ namespace Atmospherics
 		// Gas constant
 		public const float R = 8.3144598f;
 
-		public static readonly Gas Plasma = new Gas("Plasma", 0.8f, 200, 40f);
-		public static readonly Gas Oxygen = new Gas("Oxygen", 0.659f, 20, 31.9988f);
-		public static readonly Gas Nitrogen = new Gas("Nitrogen", 0.743f, 20, 28.0134f);
-		public static readonly Gas CarbonDioxide = new Gas("Carbon Dioxide", 0.655f, 30, 44.01f);
+		public static readonly Gas Plasma = new Gas("Plasma", 200, 40f);
+		public static readonly Gas Oxygen = new Gas("Oxygen", 20, 31.9988f);
+		public static readonly Gas Nitrogen = new Gas("Nitrogen", 20, 28.0134f);
+		public static readonly Gas CarbonDioxide = new Gas("Carbon Dioxide", 30, 44.01f);
 
-		public readonly float HeatCapacity;
-		public readonly float SpecificHeat;
-		public readonly float MolarMass;
+		public readonly float MolarHeatCapacity;	//this is how many Joules are needed to raise 1 mole of the gas 1 degree Kelvin: J/K/mol
+		public readonly float MolarMass;	//this is the mass, in grams, of 1 mole of the gas
 		public readonly string Name;
 		public readonly int Index;
 
 		public static int Count => gases.Count;
 
-		private Gas(string name, float heatCapacity, float specificHeat, float molarMass)
+		private Gas(string name, float molarHeatCapacity, float molarMass)
 		{
-			HeatCapacity = heatCapacity;
-			SpecificHeat = specificHeat;
+			MolarHeatCapacity = molarHeatCapacity;
 			MolarMass = molarMass;
 			Name = name;
 			Index = Count;
