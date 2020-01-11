@@ -97,6 +97,8 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 	{
 		CurrentState = State;
 
+		if (BatteryIndicatorSprite == null) return;
+
 		switch (CurrentState)
 		{
 			case BatteryStateSprite.Full:

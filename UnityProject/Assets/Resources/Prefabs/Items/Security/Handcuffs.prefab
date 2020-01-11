@@ -191,6 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applyTime: 3
   removeTime: 3
+  resistTime: 0
   sound: Handcuffs
 --- !u!114 &2664584551837523149
 MonoBehaviour:
@@ -207,7 +208,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2664584551837519923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,8 +230,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114187339857744694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +269,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1253461520
+  m_SceneId: 3995584186
 --- !u!114 &414819323616783928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,9 +285,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Handcuffs
-  ArticleName: 
   initialDescription: Use this to keep prisoners in line.
-  ArticleDescription: 
+  exportCost: 3
+  exportName: pair
+  exportMessage: of handcuffs
   initialTraits:
   - {fileID: 11400000, guid: f6f122bac4fb34653b5921cfbf89d313, type: 2}
   initialSize: 2
@@ -292,9 +301,6 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 3
-  exportName: pair
-  exportMessage: of handcuffs
 --- !u!114 &-3888481316110801324
 MonoBehaviour:
   m_ObjectHideFlags: 0

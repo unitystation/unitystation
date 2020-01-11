@@ -14,6 +14,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (!Validations.HasTarget(interaction)) return false;
 		var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 		if (interactableTiles == null) return false;
 

@@ -27,6 +27,21 @@ public class CameraZoomHandler : MonoBehaviour
         Refresh();
     }
 
+	/// <summary>
+	/// Maximum allowed zoom value.
+	/// </summary>
+	private readonly int maxZoom = 10;
+
+	/// <summary>
+	/// Minimum allowed zoom value.
+	/// </summary>
+	private readonly int minZoom = 2;
+
+	/// <summary>
+	/// Increment at which zoom changes when using Increase / DecreaseZoomLevel().
+	/// </summary>
+	private readonly int zoomIncrement = 2;
+
     void Update()
     {
         //Process any scroll wheel zooming:
@@ -59,8 +74,8 @@ public class CameraZoomHandler : MonoBehaviour
         // Calculate scaling factor. 409600 is a magic number.
         double scaleFactor = Math.Sqrt(Camera.main.pixelHeight * Camera.main.pixelWidth / (409600 * ratio));
 
-        // Automatically set zoom level if it's less than zero.
-        if (zoomLevel < 1)
+        // Automatically set zoom level if it's less than the minimum zoom level.
+        if (zoomLevel < minZoom)
         {
             zoomLevel = Mathf.RoundToInt((float) scaleFactor);
         }
@@ -74,7 +89,7 @@ public class CameraZoomHandler : MonoBehaviour
 
     public void SetZoomLevel(float zoomLevel)
     {
-        this.zoomLevel = Mathf.Clamp((int) zoomLevel, 0, 10);
+        this.zoomLevel = Mathf.Clamp((int) zoomLevel, 0, maxZoom); // 0 (instead of minZoom) to allow activating automatic zoom
         Refresh();
         PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, this.zoomLevel);
         PlayerPrefs.Save();
@@ -85,8 +100,7 @@ public class CameraZoomHandler : MonoBehaviour
     /// <summary>
     public void IncreaseZoomLevel()
     {
-        zoomLevel++;
-        if (zoomLevel >= 10) zoomLevel = 10;
+		zoomLevel = Math.Min(maxZoom, zoomLevel + zoomIncrement);
         SetZoomLevel(zoomLevel);
     }
 
@@ -96,9 +110,7 @@ public class CameraZoomHandler : MonoBehaviour
     /// <summary>
     public void DecreaseZoomLevel(bool preventAuto = false)
     {
-        zoomLevel--;
-        if (zoomLevel <= 0) zoomLevel = 0;
-        if (preventAuto && zoomLevel == 0) zoomLevel = 1;
+		zoomLevel = Math.Max(preventAuto ? minZoom : 0, zoomLevel - zoomIncrement);
         SetZoomLevel(zoomLevel);
     }
 

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HeldBook : MonoBehaviour
 {
-	public Text Name;
+	public TMP_Text Name;
 	public Image IMG;
 
 
