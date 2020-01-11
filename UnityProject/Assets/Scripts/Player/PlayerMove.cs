@@ -22,7 +22,22 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	//netid of the game object we are buckled to, NetId.Invalid if not buckled
 	[SyncVar(hook = nameof(OnBuckledChangedHook))]
-	public uint buckledObject = NetId.Invalid;
+	private uint buckledObject = NetId.Invalid;
+
+	/// <summary>
+	/// Object this player is buckled to (if buckled). Null if not buckled.
+	/// </summary>
+	public GameObject BuckledObject
+	{
+		get
+		{
+			if (buckledObject == NetId.Invalid) return null;
+
+			NetworkIdentity.spawned.TryGetValue(buckledObject, out var buckledGameObject);
+			if (buckledGameObject == null) return null;
+			return buckledGameObject.gameObject;
+		}
+	}
 
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
@@ -30,7 +45,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <summary>
 	/// Whether character is buckled to a chair
 	/// </summary>
-	public bool IsBuckled => buckledObject != NetId.Invalid;
+	public bool IsBuckled => BuckledObject != null;
 
 	[SyncVar(hook = nameof(SyncCuffed))] private bool cuffed;
 
