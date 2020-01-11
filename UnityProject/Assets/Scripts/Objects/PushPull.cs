@@ -685,9 +685,6 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 				directionalComponent.FaceDirection(PulledBy.GetComponent<Directional>().CurrentDirection);
 			}
 
-			// Call the OnStartMove event for any handlers to react to this movement
-			Pushable.OnStartMove().Invoke(from, target);
-
 			// If there is a sound to be played
 			if (!string.IsNullOrWhiteSpace(pushPullSound) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
 			{

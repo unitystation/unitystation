@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Linq;
 
 public partial class Chat
 {
@@ -83,13 +84,14 @@ public partial class Chat
 		}
 
 		var verb = "says:";
-		var toUpperCheck = message.ToUpper(CultureInfo.InvariantCulture);
+		// Yelling if all letters are capitalized and message contains at least one letter.
+		bool toUpperCheck = message == message.ToUpper(CultureInfo.InvariantCulture) && message.Any(System.Char.IsLetter);
 
-		if (message.Contains("!") && toUpperCheck != message){
+		if (message.Contains("!") && !toUpperCheck){
 			verb = "exclaims,";
 		}
 
-		if (toUpperCheck == message)
+		if (toUpperCheck)
 		{
 			verb = "yells,";
 			message = $"<b>{message}</b>";

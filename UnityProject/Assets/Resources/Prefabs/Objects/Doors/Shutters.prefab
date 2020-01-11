@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 114072514322392988}
   - component: {fileID: 7037579127031050856}
   - component: {fileID: 2415801389328985729}
-  - component: {fileID: -4669877346933848496}
   - component: {fileID: 6040070739731804246}
   m_Layer: 17
   m_Name: Shutters
@@ -246,24 +245,6 @@ MonoBehaviour:
   openSFX: {fileID: 0}
   openingDirection: 1
   spriteRenderer: {fileID: 0}
---- !u!114 &-4669877346933848496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010316053548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 0
-  AtmosPassable: 1
-  Passable: 1
 --- !u!114 &6040070739731804246
 MonoBehaviour:
   m_ObjectHideFlags: 0

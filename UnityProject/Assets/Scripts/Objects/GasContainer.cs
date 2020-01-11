@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Atmospherics;
-using Boo.Lang;
-using UnityEngine;
 using Mirror;
-using UnityEngine.Serialization;
-using Random = System.Random;
+using UnityEngine;
 
 namespace Objects
 {

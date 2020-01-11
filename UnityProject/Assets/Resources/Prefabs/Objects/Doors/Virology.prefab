@@ -305,7 +305,6 @@ GameObject:
   - component: {fileID: 114316500856782408}
   - component: {fileID: 114746686171187298}
   - component: {fileID: 114653797462880782}
-  - component: {fileID: -2293755190215030452}
   - component: {fileID: 6967039355434788337}
   m_Layer: 17
   m_Name: Virology
@@ -656,7 +655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114316500856782408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,24 +720,6 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
---- !u!114 &-2293755190215030452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807313548142900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 0
-  AtmosPassable: 1
-  Passable: 1
 --- !u!114 &6967039355434788337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,7 +1015,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938740438022138}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
