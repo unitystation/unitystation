@@ -414,24 +414,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		}
 
 		buckledObjectNetId = newBuckledTo;
-		//update buckled object
-		if (buckledObjectNetId == NetId.Invalid)
-		{
-			buckledObject = null;
-		}
-		else
-		{
-
-			if (NetworkIdentity.spawned.TryGetValue(buckledObjectNetId, out var buckledNetworkId))
-			{
-				buckledObject = buckledNetworkId.gameObject;
-			}
-			else
-			{
-				buckledObject = null;
-				Logger.LogWarningFormat("Unable to find buckled object with id {0}.", Category.Movement, buckledObjectNetId);
-			}
-		}
+		buckledObject = NetworkUtils.FindObjectOrNull(buckledObjectNetId);
 
 		//sub
 		if (buckledObject != null)

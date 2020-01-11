@@ -50,10 +50,16 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	[Tooltip("sprite renderer on which to render the front sprites")]
 	public SpriteRenderer spriteRendererFront;
 
-	[SyncVar(hook = nameof(SyncOccupant))]
-	private uint occupant;
+	[SyncVar(hook = nameof(SyncOccupantNetId))]
+	private uint occupantNetId;
 
-	public uint Occupant => occupant;
+	/// <summary>
+	/// Current occupant. Valid on client / server. Null if no occupant.
+	/// </summary>
+	public GameObject Occupant => occupant;
+	//cached occupant for fast lookup.
+	private GameObject occupant;
+	public bool HasOccupant => occupant != null;
 
 	private const string BASE_SPRITE_LAYER_NAME = "Machines";
 	private const string FRONT_SPRITE_LAYER_NAME = "OverPlayers";
@@ -61,8 +67,11 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	private Directional directional;
 
 	// The Cached PlayerScript of the Buckled player
-	private PlayerScript buckledPlayerScript;
-	public PlayerScript BuckledPlayerScript => buckledPlayerScript;
+	private PlayerScript occupantPlayerScript;
+	/// <summary>
+	/// PlayerScript of the buckled player, null if no buckled player.
+	/// </summary>
+	public PlayerScript OccupantPlayerScript => occupantPlayerScript;
 
 	public void Awake()
 	{
@@ -75,7 +84,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	private void OnWillDestroyServer(DestructionInfo info)
 	{
 		//release the player
-		if (occupant > 0)
+		if (occupantNetId > 0)
 		{
 			//fixme: InvalidOperationException - Sequence contains no matching element
 			var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
@@ -87,7 +96,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		//must invoke this because SyncVar hooks are not called on client init
-		SyncOccupant(occupant);
+		SyncOccupantNetId(occupantNetId);
 		OnDirectionChanged(directional.CurrentDirection);
 	}
 
@@ -119,7 +128,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	{
 		if (spriteRendererFront)
 		{
-			if (occupant > 0)
+			if (occupantNetId > 0)
 			{
 				if (directional.CurrentDirection == Orientation.Up)
 				{
@@ -149,18 +158,26 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	[Server]
 	public void SetOccupant(uint occupant)
 	{
-		SyncOccupant(occupant);
+		SyncOccupantNetId(occupant);
 	}
 
 	//syncvar hook for occupant
-	private void SyncOccupant(uint occupantNewValue)
+	private void SyncOccupantNetId(uint occupantNewValue)
 	{
-		if (occupant != occupantNewValue)
+		if (occupantNetId != occupantNewValue)
 		{
-			occupant = occupantNewValue;
+			occupantNetId = occupantNewValue;
+			occupant = NetworkUtils.FindObjectOrNull(occupantNetId);
 
-			if (occupant != NetId.Empty)
-				buckledPlayerScript = NetworkIdentity.spawned[occupantNewValue].GetComponent<PlayerScript>();
+			if (occupant != null)
+			{
+				occupantPlayerScript = occupant.GetComponent<PlayerScript>();
+			}
+			else
+			{
+				occupantPlayerScript = null;
+			}
+
 		}
 
 		UpdateFrontSprite();
@@ -170,7 +187,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	//ensures we are rendering in the correct sprite layer
 	private void EnsureSpriteLayer()
 	{
-		if (directional.CurrentDirection == Orientation.Up && occupant > 0)
+		if (directional.CurrentDirection == Orientation.Up && occupantNetId > 0)
 		{
 			spriteRenderer.sortingLayerName = FRONT_SPRITE_LAYER_NAME;
 		}
