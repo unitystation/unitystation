@@ -579,7 +579,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 						$"You remove the weeds from the {gameObject.ExpensiveName()}.",
 						$"{interaction.Performer.name} uproots the weeds.");
 				}
-
+				weedNotifier.PushClear();
 				weedLevel = 0;
 				return;
 			}
