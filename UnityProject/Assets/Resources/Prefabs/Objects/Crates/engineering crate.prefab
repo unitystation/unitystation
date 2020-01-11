@@ -77,6 +77,11 @@ PrefabInstance:
       propertyPath: initialName
       value: engineering crate
       objectReference: {fileID: 0}
+    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: initialDescription
+      value: Stores engineering equipment.
+      objectReference: {fileID: 0}
     - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       propertyPath: doorOpened
@@ -89,5 +94,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f6c3517aa124274439574ee410937d50,
         type: 3}
+    - target: {fileID: 1751364510081722446, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751364510081722446, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751364510081722446, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751364510081722446, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751364510081722446, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751364510081722446, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751364510081722446, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44071f490693c439896528fb8aca8917, type: 3}
