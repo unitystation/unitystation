@@ -150,7 +150,6 @@ namespace Atmospherics
 				removed.Volume = volume;
 				removed = FromTemperature(removed.Gases, Temperature, volume);
 			}
-
 			return removed;
 		}
 
@@ -166,6 +165,17 @@ namespace Atmospherics
 			Pressure -= removed.Pressure * removed.Volume / Volume;
 
 			return removed;
+		}
+
+
+		/// <summary>
+		/// Returns the gas as a percentage of the gas in the mix
+		/// </summary>
+		/// <returns>The ratio of the gas</returns>
+		/// <param name="_Gas">Gas.</param>
+		public float GasRatio(Gas _Gas)
+		{ 
+			return (Gases[_Gas] / Moles);
 		}
 
 		public void MergeGasMix(GasMix otherGas)

@@ -575,7 +575,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdAdminMakeHotspot(GameObject onObject)
 	{
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .05f);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .5f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 700, .05f);
