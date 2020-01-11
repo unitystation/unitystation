@@ -22,22 +22,14 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	//netid of the game object we are buckled to, NetId.Invalid if not buckled
 	[SyncVar(hook = nameof(OnBuckledChangedHook))]
-	private uint buckledObject = NetId.Invalid;
+	private uint buckledObjectNetId = NetId.Invalid;
 
 	/// <summary>
 	/// Object this player is buckled to (if buckled). Null if not buckled.
 	/// </summary>
-	public GameObject BuckledObject
-	{
-		get
-		{
-			if (buckledObject == NetId.Invalid) return null;
-
-			NetworkIdentity.spawned.TryGetValue(buckledObject, out var buckledGameObject);
-			if (buckledGameObject == null) return null;
-			return buckledGameObject.gameObject;
-		}
-	}
+	public GameObject BuckledObject => buckledObject;
+	//cached for fast access
+	private GameObject buckledObject;
 
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
@@ -406,9 +398,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	private void OnBuckledChangedHook(uint newBuckledTo)
 	{
 		//unsub if we are subbed
-		if (buckledObject != NetId.Invalid)
+		if (buckledObjectNetId != NetId.Invalid)
 		{
-			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
+			var directionalObject = ClientScene.FindLocalObject(buckledObjectNetId).GetComponent<Directional>();
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
@@ -421,11 +413,30 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetId.Invalid, () => CmdUnbuckle());
 		}
 
-		buckledObject = newBuckledTo;
-		//sub
-		if (buckledObject != NetId.Invalid)
+		buckledObjectNetId = newBuckledTo;
+		//update buckled object
+		if (buckledObjectNetId == NetId.Invalid)
 		{
-			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
+			buckledObject = null;
+		}
+		else
+		{
+
+			if (NetworkIdentity.spawned.TryGetValue(buckledObjectNetId, out var buckledNetworkId))
+			{
+				buckledObject = buckledNetworkId.gameObject;
+			}
+			else
+			{
+				buckledObject = null;
+				Logger.LogWarningFormat("Unable to find buckled object with id {0}.", Category.Movement, buckledObjectNetId);
+			}
+		}
+
+		//sub
+		if (buckledObject != null)
+		{
+			var directionalObject = buckledObject.GetComponent<Directional>();
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
