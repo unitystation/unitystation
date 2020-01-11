@@ -89,7 +89,6 @@ public class CameraZoomHandler : MonoBehaviour
 
     public void SetZoomLevel(float zoomLevel)
     {
-		print("zoomlevel" + zoomLevel);
         this.zoomLevel = Mathf.Clamp((int) zoomLevel, 0, maxZoom); // 0 (instead of minZoom) to allow activating automatic zoom
         Refresh();
         PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, this.zoomLevel);
