@@ -42,13 +42,13 @@ namespace Atmospherics
 			//Logger.Log(BurnRate.ToString() + "BurnRate");
 			if (BurnRate > 0)
 			{
-				float moles = gasMix.GetMoles(Gas.Plasma) * Reactions.BurningDelta * BurnRate;
-				if (moles * 2 > gasMix.GetMoles(Gas.Oxygen)) { 
-					moles = (gasMix.GetMoles(Gas.Oxygen) * Reactions.BurningDelta * BurnRate)/2;
+				float MolesPlasmaBurnt = gasMix.GetMoles(Gas.Plasma) * Reactions.BurningDelta * BurnRate;
+				if (MolesPlasmaBurnt * 2 > gasMix.GetMoles(Gas.Oxygen)) { 
+					MolesPlasmaBurnt = (gasMix.GetMoles(Gas.Oxygen) * Reactions.BurningDelta * BurnRate)/2;
 				}
-				gasMix.RemoveGas(Gas.Plasma, moles);
-				gasMix.RemoveGas(Gas.Oxygen, moles * 2);
-				var TotalmolestoCO2 = moles + (moles * 2);
+				gasMix.RemoveGas(Gas.Plasma, MolesPlasmaBurnt);
+				gasMix.RemoveGas(Gas.Oxygen, MolesPlasmaBurnt * 2);
+				var TotalmolestoCO2 = MolesPlasmaBurnt + (MolesPlasmaBurnt * 2);
 				gasMix.AddGas(Gas.CarbonDioxide, TotalmolestoCO2 / 3);
 
 				float heatCapacity = gasMix.WholeHeatCapacity;

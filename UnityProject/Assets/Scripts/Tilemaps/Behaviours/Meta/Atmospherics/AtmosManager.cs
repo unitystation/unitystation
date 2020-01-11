@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class AtmosManager : MonoBehaviour
 {
+	/// <summary>
+	/// Time it takes per update in milliseconds
+	/// </summary>
 	public float Speed = 40; 
 	public int NumberThreads = 1;
 
