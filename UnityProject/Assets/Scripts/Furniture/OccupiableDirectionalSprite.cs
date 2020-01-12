@@ -50,6 +50,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	[Tooltip("sprite renderer on which to render the front sprites")]
 	public SpriteRenderer spriteRendererFront;
 
+	//set to NetId.Empty when unoccupied.
 	[SyncVar(hook = nameof(SyncOccupantNetId))]
 	private uint occupantNetId;
 
@@ -84,7 +85,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	private void OnWillDestroyServer(DestructionInfo info)
 	{
 		//release the player
-		if (occupantNetId > 0)
+		if (HasOccupant)
 		{
 			//fixme: InvalidOperationException - Sequence contains no matching element
 			var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
@@ -128,7 +129,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	{
 		if (spriteRendererFront)
 		{
-			if (occupantNetId > 0)
+			if (HasOccupant)
 			{
 				if (directional.CurrentDirection == Orientation.Up)
 				{
@@ -154,6 +155,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	/// <summary>
 	/// Set the occupant of this object (also indicate if the object should render itself as if it is occupied or vacant).
+	/// Pass NetId.Empty to set empty occupant.
 	/// </summary>
 	[Server]
 	public void SetOccupant(uint occupant)
@@ -187,7 +189,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	//ensures we are rendering in the correct sprite layer
 	private void EnsureSpriteLayer()
 	{
-		if (directional.CurrentDirection == Orientation.Up && occupantNetId > 0)
+		if (directional.CurrentDirection == Orientation.Up && HasOccupant)
 		{
 			spriteRenderer.sortingLayerName = FRONT_SPRITE_LAYER_NAME;
 		}

@@ -20,9 +20,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	[SyncVar] public bool allowInput = true;
 
-	//netid of the game object we are buckled to, NetId.Invalid if not buckled
+	//netid of the game object we are buckled to, NetId.Empty if not buckled
 	[SyncVar(hook = nameof(SyncBuckledObjectNetId))]
-	private uint buckledObjectNetId = NetId.Invalid;
+	private uint buckledObjectNetId = NetId.Empty;
 
 	/// <summary>
 	/// Object this player is buckled to (if buckled). Null if not buckled.
@@ -381,7 +381,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	public void Unbuckle()
 	{
 		var previouslyBuckledTo = BuckledObject;
-		SyncBuckledObjectNetId(NetId.Invalid);
+		SyncBuckledObjectNetId(NetId.Empty);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.ServerSetPushable(true);
 		//decide if we should fall back down when unbuckled
@@ -414,9 +414,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	private void SyncBuckledObjectNetId(uint newBuckledTo)
 	{
 		//unsub if we are subbed
-		if (buckledObjectNetId != NetId.Invalid)
+		if (IsBuckled)
 		{
-			var directionalObject = ClientScene.FindLocalObject(buckledObjectNetId).GetComponent<Directional>();
+			var directionalObject = BuckledObject.GetComponent<Directional>();
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
@@ -426,7 +426,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetId.Invalid, () => CmdUnbuckle());
+			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetId.Empty, () => CmdUnbuckle());
 		}
 
 		buckledObjectNetId = newBuckledTo;
