@@ -3,12 +3,18 @@ using System.Threading;
 using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using System.Diagnostics;
+using System;
 
 public static class AtmosThread
 {
 	private static bool running;
 
-	private static Object lockGetWork = new Object();
+	private static Stopwatch StopWatch = new Stopwatch();
+
+	private static int MillieSecondDelay; // = 40‬;
+
+	private static UnityEngine.Object lockGetWork = new UnityEngine.Object();
 
 	private static AtmosSimulation simulation;
 
@@ -47,11 +53,10 @@ public static class AtmosThread
 		}
 	}
 
-	public static void SetSpeed(float speed)
+	public static void SetSpeed(int speed)
 	{
-		simulation.Speed = speed;
+		MillieSecondDelay = speed;
 	}
-
 	public static int GetUpdateListCount()
 	{
 		return simulation.UpdateListCount;
@@ -68,7 +73,13 @@ public static class AtmosThread
 		{
 			if (!simulation.IsIdle)
 			{
+				StopWatch.Restart();
 				RunStep();
+				StopWatch.Stop();
+				if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)
+				{
+					Thread.Sleep(MillieSecondDelay - (int)StopWatch.ElapsedMilliseconds);
+				}
 			}
 			else
 			{
@@ -79,4 +90,6 @@ public static class AtmosThread
 			}
 		}
 	}
+
+
 }
