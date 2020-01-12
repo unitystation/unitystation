@@ -166,7 +166,16 @@ public partial class PlayerSync
 	}
 	public void NewtonianMove(Vector2Int direction, float speed = Single.NaN)
 	{
-		PushInternal(direction, true, speed);
+		//if we are buckled, transfer the impulse to our buckled object.
+		if (playerMove.IsBuckled)
+		{
+			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
+			buckledCNT.NewtonianMove(direction, speed);
+		}
+		else
+		{
+			PushInternal(direction, true, speed);
+		}
 	}
 
 	/// <summary>

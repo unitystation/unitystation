@@ -21,7 +21,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	[SyncVar] public bool allowInput = true;
 
 	//netid of the game object we are buckled to, NetId.Invalid if not buckled
-	[SyncVar(hook = nameof(OnBuckledChangedHook))]
+	[SyncVar(hook = nameof(SyncBuckledObjectNetId))]
 	private uint buckledObjectNetId = NetId.Invalid;
 
 	/// <summary>
@@ -333,7 +333,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		//no matter what, we stand up when buckled in
 		registerPlayer.ServerStandUp();
 
-		OnBuckledChangedHook(netid);
+		SyncBuckledObjectNetId(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		//inform the puller
 		if (PlayerScript.pushPull.PulledBy != null)
@@ -380,12 +380,28 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	[Server]
 	public void Unbuckle()
 	{
-		OnBuckledChangedHook(NetId.Invalid);
+		var previouslyBuckledTo = BuckledObject;
+		SyncBuckledObjectNetId(NetId.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.ServerSetPushable(true);
 		//decide if we should fall back down when unbuckled
 		registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
 		onUnbuckled?.Invoke();
+		if (previouslyBuckledTo)
+		{
+			//we are unbuckled but still will drift with the object.
+			var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
+			if (buckledCNT.IsFloatingServer)
+			{
+				playerScript.PlayerSync.NewtonianMove(buckledCNT.ServerImpulse.NormalizeToInt(), buckledCNT.SpeedServer);
+			}
+			else
+			{
+				//stop in place because our object wasn't moving either.
+				playerScript.PlayerSync.Stop();
+			}
+
+		}
 	}
 
 	//invoked when buckledTo changes direction, so we can update our direction
@@ -395,7 +411,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	}
 
 	//syncvar hook invoked client side when the buckledTo changes
-	private void OnBuckledChangedHook(uint newBuckledTo)
+	private void SyncBuckledObjectNetId(uint newBuckledTo)
 	{
 		//unsub if we are subbed
 		if (buckledObjectNetId != NetId.Invalid)
