@@ -301,4 +301,9 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 		SyncName(newName);
 	}
 
+	public void OnHoverStart()
+	{
+		UIManager.SetToolTip = RegisteredName + (Occupation ? $" ({ Occupation.DisplayName })" : "");
+	}
+
 }

@@ -557,6 +557,7 @@ GameObject:
   - component: {fileID: 114499061253949106}
   - component: {fileID: 114808882908742840}
   - component: {fileID: 114908063341546646}
+  - component: {fileID: -7017711085307090504}
   m_Layer: 17
   m_Name: ResearchDoor
   m_TagString: Untagged
@@ -630,6 +631,8 @@ MonoBehaviour:
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 8
+  damageOnClose: 0
+  ignorePassableChecks: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 0
@@ -858,8 +861,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &114347167898776186
@@ -904,7 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114499061253949106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,7 +941,7 @@ MonoBehaviour:
     Laser: 0
     Energy: 0
     Bomb: 0
-    Rad: 0
+    Rad: 100
     Fire: 0
     Acid: 0
     Magic: 0
@@ -952,7 +955,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 350
 --- !u!114 &114908063341546646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,8 +970,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-7017711085307090504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471265584270754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: research door
+  initialDescription: Leads to the Research Department.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1491549408370048
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,7 +1015,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1491549408370048}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

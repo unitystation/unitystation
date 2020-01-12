@@ -39,9 +39,19 @@ public class ThemeHandlerEditor : Editor
             EditorGUILayout.PropertyField(i, true);
         }
 
-        //Add your custom views here
+		if (handler.targetElement == UIElement.TextMeshProUGUI)
+		{
+			SerializedProperty tmpui = serializedObject.FindProperty("textMeshProUGUI");
+			if (handler.textMeshProUGUI == null)
+			{
+				handler.textMeshProUGUI = handler.GetComponent<TMPro.TextMeshProUGUI>();
+			}
+			EditorGUILayout.PropertyField(tmpui, true);
+		}
 
-        if (EditorGUI.EndChangeCheck())
+		//Add your custom views here
+
+		if (EditorGUI.EndChangeCheck())
         {
             serializedObject.ApplyModifiedProperties();
         }

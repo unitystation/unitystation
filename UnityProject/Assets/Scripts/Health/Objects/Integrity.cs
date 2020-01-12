@@ -55,10 +55,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public Resistances Resistances = new Resistances();
 
 	/// <summary>
-	/// Below this temperature, the object will take no damage from fire or heat and won't ignite.
+	/// Below this temperature (in Kelvin) the object will be unaffected by fire exposure.
 	/// </summary>
-	[Tooltip("Below this temperature, the object will take no damage from fire or heat and" +
-	         " won't ignite.")]
+	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
 	public float initialIntegrity = 100f;
@@ -73,7 +72,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 
 	// damage incurred each tick while an object is on fire
-	private static float BURNING_DAMAGE = 5;
+	private static float BURNING_DAMAGE = 0.08f;
 
 	private static readonly float BURN_RATE = 1f;
 	private float timeSinceLastBurn;

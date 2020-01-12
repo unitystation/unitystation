@@ -204,7 +204,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114484434474911270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &2621837288423225324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,8 +338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuccessChance: 100
-  IsSyndicateVariant: 0
   SpeedMultiplier: 1
 --- !u!114 &114660200964279046
 MonoBehaviour:
@@ -349,7 +354,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3810379140
+  m_SceneId: 0
 --- !u!114 &-1190028257943365882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,8 +391,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: yellow screwdriver
-  initialDescription: A screwdriver
+  initialName: screwdriver
+  initialDescription: You can be totally screwy with this.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
   initialSize: 0
@@ -400,9 +408,6 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  ExportCost: 2
-  ExportName: 
-  ExportMessage: 
 --- !u!1 &5751769075716656209
 GameObject:
   m_ObjectHideFlags: 0

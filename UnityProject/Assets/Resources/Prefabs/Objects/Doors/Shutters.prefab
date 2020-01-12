@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114072514322392988}
   - component: {fileID: 7037579127031050856}
   - component: {fileID: 2415801389328985729}
+  - component: {fileID: 6040070739731804246}
   m_Layer: 17
   m_Name: Shutters
   m_TagString: Untagged
@@ -93,8 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &114820902694638386
@@ -155,16 +156,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
+    Melee: 30
+    Bullet: 30
+    Laser: 20
+    Energy: 20
+    Bomb: 10
+    Rad: 100
+    Fire: 80
+    Acid: 70
     Magic: 0
-    Bio: 0
+    Bio: 100
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -174,7 +175,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 350
 --- !u!114 &114072514322392988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f131c934ddb24725affb571a69845bc7
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &7037579127031050856
 MonoBehaviour:
@@ -211,7 +212,6 @@ MonoBehaviour:
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 0
-  sprites: []
 --- !u!114 &2415801389328985729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +235,7 @@ MonoBehaviour:
   DoorSpriteOffset: 0
   doorType: 16
   damageOnClose: 1
+  ignorePassableChecks: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 0
@@ -244,6 +245,25 @@ MonoBehaviour:
   openSFX: {fileID: 0}
   openingDirection: 1
   spriteRenderer: {fileID: 0}
+--- !u!114 &6040070739731804246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: shutters
+  initialDescription: Can be closed to prevent passage.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1000014037698914
 GameObject:
   m_ObjectHideFlags: 0

@@ -302,11 +302,12 @@ namespace Unitystation.Options
     public enum UIElement
     {
         Text,
-        Image
-        //Add new elements that can be customized here
-        //Then you need to open ThemeHandlerEditor.cs
-        //and add the inspector gui for it (follow examples already there)
-    }
+        Image,
+		TextMeshProUGUI
+		//Add new elements that can be customized here
+		//Then you need to open ThemeHandlerEditor.cs
+		//and add the inspector gui for it (follow examples already there)
+	}
 
     /// <summary>
     /// Add more fields as needed

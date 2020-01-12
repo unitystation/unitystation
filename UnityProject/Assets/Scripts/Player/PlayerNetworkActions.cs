@@ -8,6 +8,11 @@ using Mirror;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
+	private static readonly StandardProgressActionConfig DisrobeProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Disrobe);
+	private static readonly StandardProgressActionConfig CPRProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.CPR);
+
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
@@ -101,7 +106,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var occupiedSlots = itemStorage.GetItemSlots().Count(slot => slot.NamedSlot != NamedSlot.handcuffs && !slot.IsEmpty);
 		if (occupiedSlots == 0) return;
 		var timeTaken = occupiedSlots * .4f;
-		var finishProgressAction = new ProgressCompleteAction(() =>
+		void ProgressComplete()
 		{
 			foreach (var itemSlot in itemStorage.GetItemSlots())
 			{
@@ -109,9 +114,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
 				Inventory.ServerDrop(itemSlot);
 			}
-		});
-		UIManager.ServerStartProgress(ProgressAction.Disrobe, toDisrobe.transform.position, timeTaken,
-			finishProgressAction, gameObject);
+		}
+
+		StandardProgressAction.Create(DisrobeProgressConfig, ProgressComplete)
+			.ServerStartProgress(toDisrobe.RegisterTile(), timeTaken, gameObject);
 	}
 
 	/// <summary>
@@ -160,6 +166,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
 			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
+	}
+
+	[Command]
+	public void CmdTryUncuff()
+	{
+		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
 	}
 
 	/// <summary>
@@ -484,11 +496,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
 
-		var progressFinishAction = new ProgressCompleteAction(() => DoCPR(playerScript.gameObject, cardiacArrestPlayer));
+		void ProgressComplete()
+		{
+			DoCPR(playerScript.gameObject, cardiacArrestPlayer);
+		}
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.CPR, cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
-			playerScript.gameObject);
-
+		var bar = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
+			.ServerStartProgress(cardiacArrestPlayerRegister, 5f, playerScript.gameObject);
 		if (bar != null)
 		{
 			Chat.AddActionMsgToChat(playerScript.gameObject, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
@@ -566,8 +580,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAdminMakeHotspot(GameObject onObject)
 	{
+		if (onObject == null) return;
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .05f);
+    if (reactionManager == null) return;
+
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .5f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 700, .05f);

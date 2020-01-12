@@ -32,14 +32,18 @@ public class RegisterObject : RegisterTile
 
 	public void OnHoverStart()
 	{
+		if (GetComponent<Attributes>())
+		{
+			return;
+		}
+
 		//thanks stack overflow!
 		Regex r = new Regex(@"
                 (?<=[A-Z])(?=[A-Z][a-z]) |
                  (?<=[^A-Z])(?=[A-Z]) |
                  (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
 
-		string tmp = r.Replace(name, " ");
-		UIManager.SetToolTip = tmp;
+		UIManager.SetToolTip = r.Replace(name, " ");
 	}
 
 	public void OnHoverEnd()

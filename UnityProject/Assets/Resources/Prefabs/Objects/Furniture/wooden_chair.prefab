@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114606990577783802}
   - component: {fileID: 3244569277471196838}
   - component: {fileID: 953878313788512146}
+  - component: {fileID: -2482799812436144608}
   m_Layer: 11
   m_Name: wooden_chair
   m_TagString: Untagged
@@ -162,8 +163,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114840956348795048
@@ -253,7 +254,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 250
 --- !u!114 &114606990577783802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +270,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3552648969
+  m_SceneId: 0
 --- !u!114 &3244569277471196838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +311,25 @@ MonoBehaviour:
   OccupiedLeft: {fileID: 21300004, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
   OccupiedUp: {fileID: 0}
   spriteRendererFront: {fileID: 6343118643732387137}
+--- !u!114 &-2482799812436144608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568171546625408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: wooden chair
+  initialDescription: For sitting or getting strapped onto.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &5276609779432803648
 GameObject:
   m_ObjectHideFlags: 0

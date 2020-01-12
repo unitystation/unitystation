@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114168478660762876}
   - component: {fileID: 114619189916669420}
   - component: {fileID: 8587603746953740326}
+  - component: {fileID: -7278014346398554385}
   m_Layer: 19
   m_Name: APC
   m_TagString: APC
@@ -155,8 +156,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114809207030236184
@@ -312,7 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &8587603746953740326
 MonoBehaviour:
@@ -349,6 +350,25 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
+--- !u!114 &-7278014346398554385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: APC
+  initialDescription: Area Power Controller
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1670300920953744
 GameObject:
   m_ObjectHideFlags: 0

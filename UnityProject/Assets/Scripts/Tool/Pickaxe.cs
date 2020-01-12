@@ -6,11 +6,15 @@ using UnityEngine;
 /// </summary>
 public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Construction, true);
+
 	private const float PLASMA_SPAWN_CHANCE = 0.5f;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (!Validations.HasTarget(interaction)) return false;
 		var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
 		if (interactableTiles == null) return false;
 
@@ -21,14 +25,16 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
 		//server is performing server-side logic for the interaction
 		//do the mining
-		var progressFinishAction = new ProgressCompleteAction(() => FinishMine(interaction));
+		void ProgressComplete() => FinishMine(interaction);
 
 		//Start the progress bar:
 		//technically pickaxe is deconstruction, so it would interrupt any construction / deconstruction being done
 		//on that tile
 		//TODO: Refactor this to use ToolUtils once that's merged in
-		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer);
+
+		var bar = StandardProgressAction.Create(ProgressConfig, ProgressComplete)
+			.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
+				5f, interaction.Performer);
 		if (bar != null)
 		{
 			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);

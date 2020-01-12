@@ -7,13 +7,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: potato
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
     Name: potato
     Plantname: Potato Plants
@@ -69,7 +69,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 10
     MutatesInTo:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: d88b7d26a168fbf4696bb3125bd585e2, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

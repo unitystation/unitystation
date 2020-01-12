@@ -112,7 +112,7 @@ public class ChatUI : MonoBehaviour
 	{
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleKey))
 		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 1);
 			PlayerPrefs.Save();
 		}
 

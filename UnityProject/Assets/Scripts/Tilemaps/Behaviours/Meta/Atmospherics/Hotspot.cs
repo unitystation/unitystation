@@ -72,10 +72,8 @@ namespace Atmospherics
 			{
 				GasMix removed = node.GasMix.RemoveVolume(Volume);
 				removed.Temperature = Temperature;
-
 				float consumed = Reactions.React(ref removed);
 				Volume = consumed * 40;
-
 				Temperature = removed.Temperature;
 				node.GasMix += removed;
 			}
@@ -83,8 +81,19 @@ namespace Atmospherics
 
 		private bool Check()
 		{
-			return Temperature > Reactions.PLASMA_MINIMUM_BURN_TEMPERATURE && Volume > 0.0001 && node.GasMix.GetMoles(Gas.Plasma) > 0 &&
-			       node.GasMix.GetMoles(Gas.Oxygen) > 0;
+			if (Temperature > Reactions.PlasmaMaintainFire && Volume > 0.0001 && node.GasMix.GetMoles(Gas.Plasma) > 0 &&
+				node.GasMix.GetMoles(Gas.Oxygen) > 0)
+			{
+				if (PlasmaFireReaction.GetOxygenContact(node.GasMix) > Reactions.MinimumOxygenContact)
+				{
+					return (true);
+				}else{
+					return (false);
+				}
+			}
+			else {
+				return (false);
+			}
 		}
 	}
 }

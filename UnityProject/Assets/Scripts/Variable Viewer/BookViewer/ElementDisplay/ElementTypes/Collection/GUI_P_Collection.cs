@@ -5,10 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using Newtonsoft.Json;
+using TMPro;
 
 public class GUI_P_Collection : PageElement
 {
-	public Text TText;
+	public TMP_Text TText;
 	public Text ButtonText;
 	public GameObject Page;
 	public GameObject DynamicSizePanel;
@@ -26,16 +27,21 @@ public class GUI_P_Collection : PageElement
 			ValueSetUp();
 		}
 	}
-	public void ValueSetUp() {
+	public void ValueSetUp()
+	{
 		if (_Sentence != null && _Sentence.GetSentences() != null)
 		{
+			//Logger.LogError("yo1");
+			//Logger.Log(JsonConvert.SerializeObject(_Sentence.GetSentences()));
 			foreach (var bob in _Sentence.GetSentences())
 			{
+				//Logger.LogError("yo2");
+				//Logger.Log("bob" + bob.SentenceID);
 				SUB_ElementHandler ValueEntry = Instantiate(ElementHandler) as SUB_ElementHandler;
 				ValueEntry.transform.SetParent(DynamicSizePanel.transform, false);
 				ValueEntry.transform.localScale = Vector3.one;
 				ValueEntry.Sentence = bob; //.GetSentences()
-				//Logger.Log(JsonConvert.SerializeObject(bob));
+										   //Logger.Log(JsonConvert.SerializeObject(bob));
 				ValueEntry.ValueSetUp();
 			}
 		}
@@ -55,8 +61,10 @@ public class GUI_P_Collection : PageElement
 	public override void SetUpValues(Type ValueType, VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false)
 	{
 		VariableViewerNetworking.NetFriendlySentence Data = new VariableViewerNetworking.NetFriendlySentence();
+		//Logger.Log("A");
 		if (Page != null)
 		{
+			//Logger.Log("B");
 			Page.ProcessSentences();
 			//Logger.Log(JsonConvert.SerializeObject(Page));
 			if (Page.Sentences.Length > 0)
