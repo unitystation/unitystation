@@ -191,7 +191,16 @@ public partial class PlayerSync
 	[Server]
 	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
 	{
-		return PushInternal(direction, false, speed, followMode);
+		//if we are buckled, transfer the impulse to our buckled object.
+		if (playerMove.IsBuckled)
+		{
+			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
+			return buckledCNT.Push(direction, speed, followMode);
+		}
+		else
+		{
+			return PushInternal(direction, false, speed, followMode);
+		}
 	}
 
 	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false )
