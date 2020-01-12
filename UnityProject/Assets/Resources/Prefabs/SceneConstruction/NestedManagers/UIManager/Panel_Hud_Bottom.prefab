@@ -833,6 +833,7 @@ GameObject:
   - component: {fileID: 2197707631813980002}
   - component: {fileID: 8978027623061209631}
   - component: {fileID: 6760800973114409908}
+  - component: {fileID: 8515004150864966727}
   m_Layer: 5
   m_Name: Grab
   m_TagString: Untagged
@@ -949,6 +950,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8515004150864966727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296858734579852498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Grab
 --- !u!1 &1374109994173358195
 GameObject:
   m_ObjectHideFlags: 0
@@ -2609,7 +2624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useObjectName: 0
-  hoverName: drop all
+  hoverName: Drop all
 --- !u!1 &3688018423274123415
 GameObject:
   m_ObjectHideFlags: 0
@@ -3762,6 +3777,7 @@ GameObject:
   - component: {fileID: 9008829100254772640}
   - component: {fileID: 8778361260333343780}
   - component: {fileID: 3341332921308457465}
+  - component: {fileID: 2581060959245539618}
   m_Layer: 5
   m_Name: Help
   m_TagString: Untagged
@@ -3878,6 +3894,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2581060959245539618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5116986475321075226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Help
 --- !u!1 &5166066134047724189
 GameObject:
   m_ObjectHideFlags: 0
@@ -5040,6 +5070,7 @@ GameObject:
   - component: {fileID: 1204043794577532477}
   - component: {fileID: 1435359986814271715}
   - component: {fileID: 2580360611564338813}
+  - component: {fileID: 2174332000468962367}
   m_Layer: 5
   m_Name: Harm
   m_TagString: Untagged
@@ -5156,6 +5187,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2174332000468962367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6801543749986786019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Harm
 --- !u!1 &6939145147121627443
 GameObject:
   m_ObjectHideFlags: 0
@@ -6292,6 +6337,7 @@ GameObject:
   - component: {fileID: 4214348093027597558}
   - component: {fileID: 2796571098994457239}
   - component: {fileID: 6740807855394049013}
+  - component: {fileID: 8500620593995795175}
   m_Layer: 5
   m_Name: Disarm
   m_TagString: Untagged
@@ -6408,6 +6454,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8500620593995795175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093612741509103835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Disarm
 --- !u!1 &8175596816488739950
 GameObject:
   m_ObjectHideFlags: 0
@@ -6910,6 +6970,7 @@ GameObject:
   - component: {fileID: 8101659495362531951}
   - component: {fileID: 8281660560908135931}
   - component: {fileID: 8282053720859060387}
+  - component: {fileID: 6596721438414345357}
   m_Layer: 5
   m_Name: Mouth
   m_TagString: Untagged
@@ -7026,6 +7087,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6596721438414345357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321145030998453739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Mouth'
 --- !u!1 &8321147838129547543
 GameObject:
   m_ObjectHideFlags: 0
@@ -7166,6 +7241,7 @@ GameObject:
   - component: {fileID: 8100853055147452045}
   - component: {fileID: 8281647106606541001}
   - component: {fileID: 8282096147036121955}
+  - component: {fileID: 1393421293440265707}
   m_Layer: 5
   m_Name: R_Leg
   m_TagString: Untagged
@@ -7282,6 +7358,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1393421293440265707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321149360104508185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Right leg'
 --- !u!1 &8321164708509651395
 GameObject:
   m_ObjectHideFlags: 0
@@ -7424,7 +7514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useObjectName: 0
-  hoverName: stop pulling
+  hoverName: Stop pulling
 --- !u!1 &8321191460322243837
 GameObject:
   m_ObjectHideFlags: 0
@@ -7437,6 +7527,7 @@ GameObject:
   - component: {fileID: 8101957236809242495}
   - component: {fileID: 8281018203813039439}
   - component: {fileID: 8281903859615279329}
+  - component: {fileID: 358288024626935495}
   m_Layer: 5
   m_Name: R_Arm
   m_TagString: Untagged
@@ -7553,6 +7644,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &358288024626935495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321191460322243837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Right arm'
 --- !u!1 &8321240404126291303
 GameObject:
   m_ObjectHideFlags: 0
@@ -7856,6 +7961,7 @@ GameObject:
   - component: {fileID: 8101686140969616607}
   - component: {fileID: 8281251467492019175}
   - component: {fileID: 8281205420356622509}
+  - component: {fileID: 3893696244836531873}
   m_Layer: 5
   m_Name: Torso
   m_TagString: Untagged
@@ -7972,6 +8078,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3893696244836531873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321561569998128419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Torso'
 --- !u!1 &8321571950572456839
 GameObject:
   m_ObjectHideFlags: 0
@@ -7984,6 +8104,7 @@ GameObject:
   - component: {fileID: 8101424078415243423}
   - component: {fileID: 8277952986304832451}
   - component: {fileID: 8281716408480828201}
+  - component: {fileID: 142747252769714797}
   m_Layer: 5
   m_Name: Head
   m_TagString: Untagged
@@ -8100,6 +8221,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &142747252769714797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321571950572456839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Head'
 --- !u!1 &8321582135236366025
 GameObject:
   m_ObjectHideFlags: 0
@@ -8467,6 +8602,7 @@ GameObject:
   - component: {fileID: 8097893721823839637}
   - component: {fileID: 8277915477216995855}
   - component: {fileID: 8281266925126921529}
+  - component: {fileID: 4197290165197470597}
   m_Layer: 5
   m_Name: L_Leg
   m_TagString: Untagged
@@ -8583,6 +8719,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4197290165197470597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321624334854963317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Left leg'
 --- !u!1 &8321629272961621499
 GameObject:
   m_ObjectHideFlags: 0
@@ -8725,7 +8875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useObjectName: 0
-  hoverName: resist
+  hoverName: Resist
 --- !u!1 &8321634039243762281
 GameObject:
   m_ObjectHideFlags: 0
@@ -9311,7 +9461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useObjectName: 0
-  hoverName: drop
+  hoverName: Drop
 --- !u!1 &8321665812333033313
 GameObject:
   m_ObjectHideFlags: 0
@@ -9454,7 +9604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useObjectName: 0
-  hoverName: throw/catch
+  hoverName: Throw/Catch
 --- !u!1 &8321689161433145869
 GameObject:
   m_ObjectHideFlags: 0
@@ -9467,6 +9617,7 @@ GameObject:
   - component: {fileID: 8101314573326920715}
   - component: {fileID: 8282113168341713299}
   - component: {fileID: 8281209768856760413}
+  - component: {fileID: 6479734665955414932}
   m_Layer: 5
   m_Name: Groin
   m_TagString: Untagged
@@ -9583,6 +9734,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6479734665955414932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321689161433145869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Groin'
 --- !u!1 &8321718308775306565
 GameObject:
   m_ObjectHideFlags: 0
@@ -11144,6 +11309,7 @@ GameObject:
   - component: {fileID: 8100957676703306041}
   - component: {fileID: 8282078065408765007}
   - component: {fileID: 8281163102184217759}
+  - component: {fileID: 6906429040354474690}
   m_Layer: 5
   m_Name: L_Arm
   m_TagString: Untagged
@@ -11260,6 +11426,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6906429040354474690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322022242344282369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Left arm'
 --- !u!1 &8322033727095902007
 GameObject:
   m_ObjectHideFlags: 0
@@ -11866,6 +12046,7 @@ GameObject:
   - component: {fileID: 8281060762666154769}
   - component: {fileID: 8281862448447359283}
   - component: {fileID: 8277939169518449893}
+  - component: {fileID: 3505236960800990643}
   m_Layer: 5
   m_Name: RunWalk_Toggle
   m_TagString: Untagged
@@ -11997,6 +12178,20 @@ MonoBehaviour:
   runWalkSprites:
   - {fileID: 21300000, guid: dfddb783cb6534948934f8c3ee7c5d7c, type: 3}
   - {fileID: 21300000, guid: 3392298e39ff6c647af1bc007142d437, type: 3}
+--- !u!114 &3505236960800990643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322203573426564241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Run / Walk
 --- !u!1 &8322215779809400367
 GameObject:
   m_ObjectHideFlags: 0
@@ -13659,6 +13854,7 @@ GameObject:
   - component: {fileID: 8101463645950920009}
   - component: {fileID: 8282077339251953979}
   - component: {fileID: 8278029132062263677}
+  - component: {fileID: 1636035535474704301}
   m_Layer: 5
   m_Name: Eyes
   m_TagString: Untagged
@@ -13775,6 +13971,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1636035535474704301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322610206352831391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: 'Damage zone: Eyes'
 --- !u!1 &8322615842752028439
 GameObject:
   m_ObjectHideFlags: 0

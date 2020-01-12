@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -331,16 +332,31 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		Vector3Int worldTarget = worldOrigin + dir.To3Int();
 		List<PushPull> result = new List<PushPull>();
+
 		foreach ( PushPull pushPull in GetAt<PushPull>(worldTarget, isServer) )
 		{
+			PushPull pushable = pushPull;
+
 			if ( pushPull && pushPull.gameObject != pusher && (isServer ? pushPull.IsSolidServer : pushPull.IsSolidClient) )
 			{
+				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
+				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
+				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
+				if (playerMove && playerMove.IsBuckled)
+				{
+					NetworkIdentity networkIdentityBuckledObject = NetworkIdentity.spawned[playerMove.buckledObject];
+					PushPull buckledPushPull = networkIdentityBuckledObject.GetComponentInParent<PushPull>();
+
+					if (buckledPushPull)
+						pushable = buckledPushPull;
+				}
+
 				if ( isServer ?
-					pushPull.CanPushServer( worldTarget, Vector2Int.RoundToInt( dir ) )
-					: pushPull.CanPushClient( worldTarget, Vector2Int.RoundToInt( dir ) )
+					pushable.CanPushServer( worldTarget, Vector2Int.RoundToInt( dir ) )
+					: pushable.CanPushClient( worldTarget, Vector2Int.RoundToInt( dir ) )
 				)
 				{
-					result.Add( pushPull );
+					result.Add( pushable );
 				}
 			}
 		}

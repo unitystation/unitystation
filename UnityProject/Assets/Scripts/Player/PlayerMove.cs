@@ -14,8 +14,6 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 {
-	[SerializeField]
-	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
 
 	public bool diagonalMovement;
@@ -116,6 +114,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
+	private PlayerScript playerScript;
+
+	private void Awake()
+	{
+		playerScript = GetComponent<PlayerScript>();
+	}
 
 	private void Start()
 	{
@@ -136,7 +140,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		base.OnStartServer();
 		//when pulling status changes, re-check whether client needs to be told if
 		//this is swappable.
-		playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+		if (playerScript.pushPull != null)
+		{
+			playerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+		}
+
 		ServerUpdateIsSwappable();
 	}
 
@@ -345,8 +353,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
 		}
 
-		//force sync direction to current direction
-		playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
+		//force sync direction to current direction (If it is a real player and not a NPC)
+		if (PlayerScript.connectionToClient != null)
+			playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 	}
 
 	/// <summary>
@@ -378,13 +387,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		playerDirectional.FaceDirection(newDir);
 	}
 
-	//invoked when buckledTo changes position, so we can update our position
-	private void OnBuckledObjectPositionChange(Vector3Int oldPosition, Vector3Int newPosition)
-	{
-		//sync position to ensure they buckle to the correct spot
-		playerScript.PlayerSync.SetPosition(newPosition);
-	}
-
 	//syncvar hook invoked client side when the buckledTo changes
 	private void OnBuckledChangedHook(uint newBuckledTo)
 	{
@@ -395,12 +397,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
-			}
-
-			IPushable pushable = null;
-			if (NetworkIdentity.spawned[buckledObject].TryGetComponent(out pushable))
-			{
-				pushable.OnStartMove().RemoveListener(OnBuckledObjectPositionChange);
 			}
 		}
 
@@ -418,13 +414,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
-			}
-
-			// Hook a change of position event handler for when the buckled-to object change position (the object is pushed or pulled)
-			IPushable pushable = null;
-			if (NetworkIdentity.spawned[buckledObject].TryGetComponent(out pushable))
-			{
-				pushable.OnStartMove().AddListener(OnBuckledObjectPositionChange);
 			}
 		}
 
@@ -466,8 +455,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
 	}
 
+	/// <summary>
+	/// Use RequestUncuff() instead for validation purposes. Use this method
+	/// if you have done validation else where (like the cool down for self
+	/// uncuffing). Calling this from client will break your client.
+	/// </summary>
 	[Server]
-	private void Uncuff()
+	public void Uncuff()
 	{
 		SyncCuffed(false);
 
@@ -531,7 +525,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	private void ServerUpdateIsSwappable()
 	{
-		isSwappable = isHelpIntentServer && !PlayerScript.pushPull.IsPullingSomethingServer;
+		isSwappable = isHelpIntentServer && PlayerScript != null &&
+		              PlayerScript.pushPull != null &&
+		              !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
 	/// <summary>

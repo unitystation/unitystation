@@ -72,7 +72,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 
 	// damage incurred each tick while an object is on fire
-	private static float BURNING_DAMAGE = 5;
+	private static float BURNING_DAMAGE = 0.08f;
 
 	private static readonly float BURN_RATE = 1f;
 	private float timeSinceLastBurn;
