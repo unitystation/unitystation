@@ -5,6 +5,11 @@ using Mirror;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 {
+
+	[Tooltip("Cooldown settings for this player.")]
+	[SerializeField]
+	private Cooldowns cooldowns;
+
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
 
@@ -150,6 +155,26 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 			new RequestSyncMessage().Send();
 			EventManager.Broadcast(EVENT.UpdateChatChannels);
 		}
+	}
+
+	/// <summary>
+	/// Is this player on cooldown for the particular cooldown type?
+	/// </summary>
+	/// <param name="cooldownType"></param>
+	/// <returns></returns>
+	public bool IsOnCooldown(CooldownType cooldownType)
+	{
+		return cooldowns.IsOnCooldown(cooldownType);
+	}
+
+	/// <summary>
+	/// Begin the cooldown timer for the indicated cooldown type if not already on cooldown.
+	/// </summary>
+	/// <param name="cooldownType"></param>
+	/// <returns>true if cooldown started, false if was already on cooldown</returns>
+	public bool TryStartCooldown(CooldownType cooldownType)
+	{
+		return cooldowns.TryStartCooldown(cooldownType, this);
 	}
 
 	public void SyncPlayerName(string value)

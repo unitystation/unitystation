@@ -53,7 +53,7 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.Intent != Intent.Help)
 		{
 			// Direction of attack towards the attack target.
-			wna.CmdRequestMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
+			wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
 		}
 
 		RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();

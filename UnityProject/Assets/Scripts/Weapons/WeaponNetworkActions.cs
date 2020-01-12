@@ -6,13 +6,6 @@ using Mirror;
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
 	private readonly float speed = 7f;
-	private bool allowAttack = true;
-
-	/// <summary>
-	/// Is attack currently allowed due to cooldown?
-	/// </summary>
-	public bool AllowAttack => allowAttack;
-
 	float fistDamage = 5;
 
 	//muzzle flash
@@ -45,6 +38,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, NamedSlot hand)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		if (!playerScript.TryStartCooldown(CooldownType.Interaction)) return;
 
 		Gun gun = gunObject.GetComponent<Gun>();
 		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
@@ -55,6 +49,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdUnloadWeapon(GameObject gunObject)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		if (!playerScript.TryStartCooldown(CooldownType.Interaction)) return;
 
 		Gun gun = gunObject.GetComponent<Gun>();
 
@@ -70,7 +65,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	/// <summary>
-	/// Requests a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
+	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
 	/// if weapon is null.
 	/// </summary>
 	/// <param name="victim"></param>
@@ -78,10 +73,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	/// <param name="attackDirection">vector pointing from attacker to the target</param>
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
-	[Command]
-	public void CmdRequestMeleeAttack(GameObject victim, Vector2 attackDirection,
+	[Server]
+	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
+		if (playerScript.IsOnCooldown(CooldownType.Melee)) return;
 		var weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 
 		var tiles = victim.GetComponent<InteractableTiles>();
@@ -101,11 +97,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			!victim ||
 			!playerScript.playerHealth.serverPlayerConscious
 		)
-		{
-			return;
-		}
-
-		if (!allowAttack)
 		{
 			return;
 		}
@@ -211,15 +202,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			}
 		}
 
-		//no matter what, start a cooldown for attacking again so they can't spam attack requests
-		StartCoroutine(AttackCoolDown());
-	}
-
-	private IEnumerator AttackCoolDown(float seconds = 0.5f)
-	{
-		allowAttack = false;
-		yield return WaitFor.Seconds(seconds);
-		allowAttack = true;
+		playerScript.TryStartCooldown(CooldownType.Melee);
 	}
 
 	[ClientRpc]

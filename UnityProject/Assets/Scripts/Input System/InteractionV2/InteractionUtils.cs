@@ -26,6 +26,7 @@ public static class InteractionUtils
 	public static void RequestInteract<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
 	{
+		if (!PlayerManager.LocalPlayerScript.TryStartCooldown(CooldownType.Interaction)) return;
 		RequestInteractMessage.Send(interaction, interactableComponent);
 	}
 
@@ -43,12 +44,14 @@ public static class InteractionUtils
 	public static IBaseInteractable<T> ClientCheckAndTrigger<T>(IEnumerable<IBaseInteractable<T>> interactables, T interaction)
 		where T : Interaction
 	{
+		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownType.Interaction)) return null;
 		Logger.LogTraceFormat("Checking {0} interactions",
 			Category.Interaction, typeof(T).Name);
 		foreach (var interactable in interactables.Reverse())
 		{
 			if (interactable.CheckInteract(interaction, NetworkSide.Client))
 			{
+				interaction.PerformerPlayerScript.TryStartCooldown(CooldownType.Interaction);
 				RequestInteract(interaction, interactable);
 				return interactable;
 			}
@@ -68,6 +71,7 @@ public static class InteractionUtils
 	public static bool CheckInteract<T>(this IBaseInteractable<T> interactable, T interaction, NetworkSide side)
 		where T : Interaction
 	{
+		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownType.Interaction)) return false;
 		var result = false;
 		//check if client side interaction should be triggered
 		if (side == NetworkSide.Client && interactable is IClientInteractable<T> clientInteractable)
@@ -77,6 +81,7 @@ public static class InteractionUtils
 			{
 				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
 					(clientInteractable as Component).gameObject.name);
+				interaction.PerformerPlayerScript.TryStartCooldown(CooldownType.Interaction);
 				return true;
 			}
 		}
@@ -88,6 +93,7 @@ public static class InteractionUtils
 			{
 				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, checkable.GetType().Name,
 					(checkable as Component).gameObject.name);
+				interaction.PerformerPlayerScript.TryStartCooldown(CooldownType.Interaction);
 				return true;
 			}
 		}
@@ -99,6 +105,7 @@ public static class InteractionUtils
 			{
 				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
 					(interactable as Component).gameObject.name);
+				interaction.PerformerPlayerScript.TryStartCooldown(CooldownType.Interaction);
 				return true;
 			}
 		}

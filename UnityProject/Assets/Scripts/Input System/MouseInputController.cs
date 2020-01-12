@@ -13,16 +13,6 @@ public class MouseInputController : MonoBehaviour
 {
 	private const float MAX_AGE = 2f;
 
-	/// <summary>
-	///     The cooldown before another action can be performed
-	/// </summary>
-	private float CurrentCooldownTime;
-
-	/// <summary>
-	///     The minimum time limit between each action
-	/// </summary>
-	private float InputCooldownTimer = 0.01f;
-
 	[Tooltip("When mouse button is pressed down and held for longer than this duration, we will" +
 	         " not perform a click on mouse up.")]
 	public float MaxClickDuration = 1f;
@@ -46,7 +36,6 @@ public class MouseInputController : MonoBehaviour
 
 	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
-	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
 	private Directional playerDirectional;
 	/// reference to the global lighting system, used to check occlusion
@@ -101,8 +90,6 @@ public class MouseInputController : MonoBehaviour
 		//for changing direction on click
 		playerDirectional = gameObject.GetComponent<Directional>();
 		playerMove = GetComponent<PlayerMove>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
-
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 

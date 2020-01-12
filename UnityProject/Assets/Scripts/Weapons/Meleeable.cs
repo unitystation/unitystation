@@ -43,7 +43,11 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		if (interaction.TargetObject != gameObject) return false;
 		//allowed to attack due to cooldown?
 		var playerScript = interaction.Performer.GetComponent<PlayerScript>();
-		if (!playerScript.weaponNetworkActions.AllowAttack)
+		//NOTE: we never start this cooldown on client side because there are too many
+		//factors that only server knows that would influence whether they actually hit,
+		//and we want to be fair to the client during combat and not lock them out of melee when they
+		//never actually hit something.
+		if (playerScript.IsOnCooldown(CooldownType.Melee))
 		{
 			return false;
 		}
@@ -64,6 +68,9 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		return true;
 	}
 
+	//no rollback logic
+	public void ServerRollbackClient(PositionalHandApply interaction) { }
+
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
@@ -71,12 +78,13 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		{
 			//attacking tiles
 			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
-			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
+			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
 		}
 		else
 		{
 			//attacking objects
-			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
 		}
 	}
+
 }
