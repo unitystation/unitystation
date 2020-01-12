@@ -33,6 +33,11 @@ public class CustomNetworkManager : NetworkManager
 
 	private void Start()
 	{
+		if (isHeadless)
+		{
+			Application.targetFrameRate = 60;
+		}
+
 		SetSpawnableList();
 
 		//Automatically host if starting up game *not* from lobby
@@ -97,7 +102,7 @@ public class CustomNetworkManager : NetworkManager
 			GameManager.Instance.PreRoundStart();
 		}
 	}
-	
+
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
