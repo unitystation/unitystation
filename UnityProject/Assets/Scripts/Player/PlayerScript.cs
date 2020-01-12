@@ -171,9 +171,13 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	/// Begin the cooldown timer for the indicated cooldown type if not already on cooldown.
 	/// </summary>
 	/// <param name="cooldownType"></param>
-	/// <returns>true if cooldown started, false if was already on cooldown</returns>
-	public bool TryStartCooldown(CooldownType cooldownType)
+	/// <param name="notIfHost">if this is true and this is the host player;s playerscript, doesn't start cooldown.
+	/// This is to avoid the host player triggering their own cooldowns in their own clientside logic</param>
+	/// <returns>true if we weren't on cooldown and the action can be performed, false if was already on cooldown and
+	/// the action shouldn't be performed</returns>
+	public bool TryStartCooldown(CooldownType cooldownType, bool notIfHost = false)
 	{
+		if (notIfHost && isServer && PlayerManager.LocalPlayerScript == this) return !IsOnCooldown(cooldownType);
 		return cooldowns.TryStartCooldown(cooldownType, this);
 	}
 

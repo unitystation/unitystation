@@ -19,7 +19,7 @@ public class Cooldowns
 	/// <summary>
 	/// map from cooldown type to a bool which is true if the player is currently on cooldown for that cooldown type.
 	/// </summary>
-	private Dictionary<CooldownType, bool> cooldownTypeToCooldown;
+	private Dictionary<CooldownType, bool> cooldownTypeToCooldown = new Dictionary<CooldownType, bool>();
 
 	/// <summary>
 	/// Start the cooldown if not currently on cooldown.
