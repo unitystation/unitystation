@@ -33,11 +33,6 @@ public class CustomNetworkManager : NetworkManager
 
 	private void Start()
 	{
-		if (isHeadless)
-		{
-			Application.targetFrameRate = 60;
-		}
-
 		SetSpawnableList();
 
 		//Automatically host if starting up game *not* from lobby

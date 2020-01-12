@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2924057578287968402}
   - component: {fileID: 2959621213063014110}
+  - component: {fileID: -6421047455593414382}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -43,22 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e7baf7308244b849d3f17e28ba12f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NetworkPort: 7777
-  m_ServerBindToIP: 0
-  m_ServerBindAddress: 
-  m_NetworkAddress: localhost
-  m_DontDestroyOnLoad: 1
-  m_RunInBackground: 1
-  m_ScriptCRCCheck: 0
-  m_MaxDelay: 0.01
-  m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  startOnHeadless: 1
+  serverTickRate: 100
+  showDebugMessages: 0
+  offlineScene: Lobby
+  onlineScene: OutpostStation
+  transport: {fileID: -6421047455593414382}
+  networkAddress: localhost
+  maxConnections: 64
+  playerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
     type: 3}
-  m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 1
-  m_OfflineScene: Lobby
-  m_OnlineScene: OutpostStation
-  m_SpawnPrefabs:
+  autoCreatePlayer: 1
+  playerSpawnMethod: 1
+  spawnPrefabs:
   - {fileID: 1110193000772614, guid: 37525b624e2b1134fb3d2efdc22f2f0a, type: 3}
   - {fileID: 1000011462531918, guid: e1a9ff52d12442f3bf8a03873bcab8ee, type: 3}
   - {fileID: 1299393041543980, guid: a4779946f30fe4608ad9a8a35f2c26be, type: 3}
@@ -393,64 +393,48 @@ MonoBehaviour:
   - {fileID: 1807313548142900, guid: 1128e4dfd61654128ab077635dc8c09a, type: 3}
   - {fileID: 1000013430947772, guid: 37b07457c4df4dc29163cbf5f441b9ed, type: 3}
   - {fileID: 1797280918088156, guid: aec802ad975d3418d9b782880452b7bf, type: 3}
-  m_CustomConfig: 1
-  m_MaxConnections: 64
-  m_ConnectionConfig:
-    m_PacketSize: 1440
-    m_FragmentSize: 512
-    m_ResendTimeout: 1200
-    m_DisconnectTimeout: 4000
-    m_ConnectTimeout: 4000
-    m_MinUpdateTimeout: 10
-    m_PingTimeout: 1000
-    m_ReducedPingTimeout: 100
-    m_AllCostTimeout: 20
-    m_NetworkDropThreshold: 5
-    m_OverflowDropThreshold: 5
-    m_MaxConnectionAttempt: 10
-    m_AckDelay: 33
-    m_SendDelay: 10
-    m_MaxCombinedReliableMessageSize: 100
-    m_MaxCombinedReliableMessageCount: 10
-    m_MaxSentMessageQueueSize: 512
-    m_AcksType: 2
-    m_UsePlatformSpecificProtocols: 0
-    m_InitialBandwidth: 0
-    m_BandwidthPeakFactor: 2
-    m_WebSocketReceiveBufferMaxSize: 0
-    m_UdpSocketReceiveBufferMaxSize: 0
-    m_SSLCertFilePath: 
-    m_SSLPrivateKeyFilePath: 
-    m_SSLCAFilePath: 
-    m_Channels: []
-  m_GlobalConfig:
-    m_ThreadAwakeTimeout: 1
-    m_ReactorModel: 0
-    m_ReactorMaximumReceivedMessages: 1024
-    m_ReactorMaximumSentMessages: 1024
-    m_MaxPacketSize: 2000
-    m_MaxHosts: 16
-    m_ThreadPoolSize: 1
-    m_MinTimerTimeout: 1
-    m_MaxTimerTimeout: 12000
-    m_MinNetSimulatorTimeout: 1
-    m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 050000000000000005000000
-  m_UseWebSockets: 0
-  m_UseSimulator: 0
-  m_SimulatedLatency: 200
-  m_PacketLossPercentage: 0
-  m_MaxBufferedPackets: 16
-  m_AllowFragmentation: 1
-  m_MatchHost: mm.unet.unity3d.com
-  m_MatchPort: 443
-  matchName: default
-  matchSize: 4
-  isNetworkActive: 0
-  matchMaker: {fileID: 0}
   _isServer: 0
-  spawnableListReady: 1
   humanPlayerPrefab: {fileID: 1133514949248654, guid: 44a8a3be9127f4465a50b7811d059bb3,
     type: 3}
   ghostPrefab: {fileID: 4390267312333422610, guid: 15adb8ff4b5062d41a3738e0a52ea01c,
     type: 3}
+--- !u!114 &-6421047455593414382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClientConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  port: 7777
+  NoDelay: 1
+  serverMaxMessageSize: 16384
+  clientMaxMessageSize: 16384
