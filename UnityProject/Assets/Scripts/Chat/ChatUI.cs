@@ -307,7 +307,7 @@ public class ChatUI : MonoBehaviour
 		StartCoroutine(WindowCoolDown());
 
 		// Can't open chat window while main menu open
-		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
+		if (GUI_IngameMenu.Instance.menuWindow.activeInHierarchy)
 		{
 			return;
 		}

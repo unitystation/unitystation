@@ -42,7 +42,7 @@ namespace Tests
 			yield return UpdateBenchmark(300);
 
 			GUI_IngameMenu.Instance.isTest = true;
-			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
+			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.menuWindow);
 			yield return ClickButton("ExitButton");
 			yield return DoActionWaitSceneUnload(ClickButton("Button1"));
 		}
