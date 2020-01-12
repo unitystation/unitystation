@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cannabis
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
     Name: cannabis
     Plantname: Cannabis Plant
@@ -50,10 +50,10 @@ MonoBehaviour:
     - String: lipolicide
       Int: 34
     MutatesInTo:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 11400000, guid: 33c6086c2c1b41c4e96f0662044819d9, type: 2}
+    - {fileID: 11400000, guid: 3911c0a51eafc6248b74cdbd0559767d, type: 2}
+    - {fileID: 11400000, guid: c473d418b57f763498cde37829c29d46, type: 2}
+    - {fileID: 11400000, guid: 2b3e3ac799fabda40a9faaa705df59a9, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0
