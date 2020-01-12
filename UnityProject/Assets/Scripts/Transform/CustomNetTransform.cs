@@ -286,6 +286,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		if (server && registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			registerTile.UpdatePositionServer();
+			UpdateOccupant();
 			changed = true;
 		}
 		//Registering
@@ -563,6 +564,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			{
 				//sync position to ensure they buckle to the correct spot
 				occupiableDirectionalSprite.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.BuckledMovement, registerTile.WorldPosition);
 			}
 		}
 	}
