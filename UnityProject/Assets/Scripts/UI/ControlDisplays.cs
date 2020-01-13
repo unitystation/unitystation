@@ -147,10 +147,12 @@ public class ControlDisplays : MonoBehaviour
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(false);
+		GUI_IngameMenu.Instance.disclamerWindow.SetActive(true);
 	}
 
 	public void SetScreenForGame()
 	{
+		GUI_IngameMenu.Instance.disclamerWindow.SetActive(false);
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);

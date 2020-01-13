@@ -10,9 +10,11 @@ namespace AdminTools
 	{
 		[SerializeField] private GameObject retrievingDataScreen;
 
-		[SerializeField] private GameObject mainMenuBtn;
+		[SerializeField] private GameObject backBtn;
 		[SerializeField] private GameObject gameModePage;
 		[SerializeField] private GameObject mainPage;
+		[SerializeField] private GameObject playerManagePage;
+		[SerializeField] private GameObject playerChatPage;
 
 		[SerializeField] private Text windowTitle;
 
@@ -29,7 +31,6 @@ namespace AdminTools
 		public void OnBackButton()
 		{
 			ShowMainPage();
-			SoundManager.Play("Click01");
 		}
 
 		private void ShowMainPage()
@@ -43,9 +44,26 @@ namespace AdminTools
 		{
 			DisableAllPages();
 			gameModePage.SetActive(true);
-			SoundManager.Play("Click01");
-			mainMenuBtn.SetActive(true);
+			backBtn.SetActive(true);
 			windowTitle.text = "GAME MODE MANAGER";
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowPlayerManagePage()
+		{
+			DisableAllPages();
+			playerManagePage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "PLAYER MANAGER";
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowPlayerChatPage()
+		{
+			DisableAllPages();
+			playerChatPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "PLAYER BWOINK";
 			retrievingDataScreen.SetActive(true);
 		}
 
@@ -54,7 +72,9 @@ namespace AdminTools
 			retrievingDataScreen.SetActive(false);
 			gameModePage.SetActive(false);
 			mainPage.SetActive(false);
-			mainMenuBtn.SetActive(false);
+			backBtn.SetActive(false);
+			playerManagePage.SetActive(false);
+			playerChatPage.SetActive(false);
 		}
 
 		public void CloseRetrievingDataScreen()
