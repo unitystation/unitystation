@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,12 +18,20 @@ namespace AdminTools
 		//Next GM change via drop down box
 		public void OnNextChange()
 		{
-			
+			currentData.nextGameMode = nextDropDown.options[nextDropDown.value].text;
+			SendEditRequest();
 		}
 
 		public void OnSecretChange()
 		{
+			currentData.isSecret = isSecretToggle.isOn;
+			SendEditRequest();
+		}
 
+		void SendEditRequest()
+		{
+			RequestGameModeUpdate.Send(ServerData.UserID, PlayerList.Instance.AdminToken, currentData.nextGameMode,
+				currentData.isSecret);
 		}
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)

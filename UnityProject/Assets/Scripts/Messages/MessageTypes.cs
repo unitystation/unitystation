@@ -80,5 +80,6 @@ internal enum MessageTypes : short
 	SpawnMessage = 2032,
 	DespawnMessage = 2033,
 	RequestBuildMessage = 2034,
-	RequestAdminPageRefresh = 2035
+	RequestAdminPageRefresh = 2035,
+	RequestGameModeUpdate = 2036
 }

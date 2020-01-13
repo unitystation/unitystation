@@ -193,6 +193,7 @@ public partial class PlayerList
 	{
 		thisClientIsAdmin = true;
 		AdminToken = _adminToken;
+		ControlTabs.Instance.ToggleOnAdminTab();
 		Logger.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
 	}
 
