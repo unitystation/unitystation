@@ -50,6 +50,11 @@ public partial class GameManager
 		SetGameMode(selectedGM);
 	}
 
+	public List<string> GetAvailableGameModeNames()
+	{
+		return GameModeData.GetAvailableGameModeNames();
+	}
+
 	/// <summary>
 	/// Sets the current gamemode
 	/// </summary>

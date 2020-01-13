@@ -8,39 +8,32 @@ using Mirror;
 /// </summary>
 public class RequestAdminPageRefresh : ClientMessage
 {
-	public static short MessageType = (short)MessageTypes.RequestAdminPageRefresh;
+	public static short MessageType = (short) MessageTypes.RequestAdminPageRefresh;
 
-	public uint Player;
-	public uint ElectricalItem;
+	public string Userid;
+	public string AdminToken;
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Player, ElectricalItem);
-		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-		if (playerScript.IsInReach(NetworkObjects[1], true))
+		yield return new WaitForEndOfFrame();
+		VerifyAdminStatus();
+	}
+
+	void VerifyAdminStatus()
+	{
+		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		if (player != null)
 		{
-			//Try powered device first:
-			var poweredDevice = NetworkObjects[1].GetComponent<ElectricalOIinheritance>();
-			if (poweredDevice != null)
-			{
-				SendDataToClient(poweredDevice.Data, NetworkObjects[0]);
-				yield break;
-			}
+			AdminToolRefreshMessage.Send(player);
 		}
 	}
 
-	void SendDataToClient(ElectronicData data, GameObject recipient)
+	public static RequestAdminPageRefresh Send(string userId, string adminToken)
 	{
-		string json = JsonUtility.ToJson(data);
-		ElectricalStatsMessage.Send(recipient, json);
-	}
-
-	public static RequestElectricalStats Send(GameObject player, GameObject electricalItem)
-	{
-		RequestElectricalStats msg = new RequestElectricalStats
+		RequestAdminPageRefresh msg = new RequestAdminPageRefresh
 		{
-			Player = player.GetComponent<NetworkIdentity>().netId,
-				ElectricalItem = electricalItem.GetComponent<NetworkIdentity>().netId,
+			Userid = userId,
+			AdminToken = adminToken
 		};
 		msg.Send();
 		return msg;
@@ -49,14 +42,14 @@ public class RequestAdminPageRefresh : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Player = reader.ReadUInt32();
-		ElectricalItem = reader.ReadUInt32();
+		Userid = reader.ReadString();
+		AdminToken = reader.ReadString();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.WriteUInt32(Player);
-		writer.WriteUInt32(ElectricalItem);
+		writer.WriteString(Userid);
+		writer.WriteString(AdminToken);
 	}
 }

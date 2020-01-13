@@ -21,7 +21,7 @@ public partial class PlayerList
 	private string adminsPath;
 	private string banPath;
 	private bool thisClientIsAdmin;
-	private string adminToken;
+	public string AdminToken { get; private set; }
 
 	[Server]
 	void InitAdminController()
@@ -77,6 +77,16 @@ public partial class PlayerList
 		yield return WaitFor.EndOfFrame;
 		adminUsers.Clear();
 		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
+	}
+
+	[Server]
+	public GameObject GetAdmin(string userID, string token)
+	{
+		if (!loggedInAdmins.ContainsKey(userID)) return null;
+
+		if (loggedInAdmins[userID] != token) return null;
+
+		return GetByUserID(userID).GameObject;
 	}
 
 	public async Task<bool> ValidatePlayer(string clientID, string username,
@@ -182,7 +192,7 @@ public partial class PlayerList
 	public void SetClientAsAdmin(string _adminToken)
 	{
 		thisClientIsAdmin = true;
-		adminToken = _adminToken;
+		AdminToken = _adminToken;
 		Logger.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
 	}
 

@@ -56,5 +56,10 @@ namespace AdminTools
 			mainPage.SetActive(false);
 			mainMenuBtn.SetActive(false);
 		}
+
+		public void CloseRetrievingDataScreen()
+		{
+			retrievingDataScreen.SetActive(false);
+		}
 	}
 }
