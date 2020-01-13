@@ -87,6 +87,6 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
 	{
-		occupiableDirectionalSprite?.SetOccupant(0);
+		occupiableDirectionalSprite?.SetOccupant(NetId.Empty);
 	}
 }
