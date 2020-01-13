@@ -71,9 +71,22 @@ public partial class GameManager
 
 	/// <summary>
 	/// Gets the current game mode name. Will return Secret if it is being hidden.
+	/// Override secret is for getting game mode name on the server
 	/// </summary>
-	public string GetGameModeName()
+	public string GetGameModeName(bool overrideSecret = false)
 	{
+		if (overrideSecret)
+		{
+			if (GameMode == null)
+			{
+				return "null";
+			}
+			else
+			{
+				return GameMode.Name;
+			}
+		}
+
 		return SecretGameMode ? "Secret" : GameMode.Name;
 	}
 

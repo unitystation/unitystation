@@ -50,6 +50,7 @@ internal enum MessageTypes : short
 	ServerToClientEvents = 1046,
 	SendClientLog = 1047,
 	AdminEnableMessage = 1048,
+	RequestAdminPageRefresh = 1049,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
