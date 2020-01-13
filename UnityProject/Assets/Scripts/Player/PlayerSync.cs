@@ -530,6 +530,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		Synchronize();
+
+		//experimental: if buckled, no matter what happens, draw us on top of our buckled object
+		if (playerMove.IsBuckled)
+		{
+			transform.position = playerMove.BuckledObject.transform.position;
+		}
 	}
 
 	private void Synchronize()
