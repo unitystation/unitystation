@@ -85,10 +85,6 @@ using UnityEngine.SceneManagement;
 					monitorWindow = false;
 				}
 			}
-
-			if(KeyboardInputManager.IsEscapePressed()){
-				Screen.fullScreen = false;
-			}
 		}
 
 		private IEnumerator ForceGameWindowAspect()

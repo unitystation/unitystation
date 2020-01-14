@@ -14,7 +14,9 @@ namespace Unitystation.Options
         private Slider camZoomSlider;
         [SerializeField]
         private Toggle scrollWheelZoomToggle;
-        private CameraZoomHandler zoomHandler;
+		[SerializeField]
+		private Toggle fullscreenToggle;
+		private CameraZoomHandler zoomHandler;
 
         void OnEnable()
         {
@@ -30,7 +32,8 @@ namespace Unitystation.Options
         {
             camZoomSlider.value = zoomHandler.ZoomLevel;
             scrollWheelZoomToggle.isOn = zoomHandler.ScrollWheelZoom;
-        }
+
+		}
 
         public void OnZoomLevelChange()
         {
@@ -43,6 +46,18 @@ namespace Unitystation.Options
             zoomHandler.ToggleScrollWheelZoom(scrollWheelZoomToggle.isOn);
             Refresh();
         }
+
+		/// <summary>
+		/// Toggles fullscreen. Fullscreen uses native resolution, windowed always uses 720p.
+		/// </summary>
+		public void OnFullscreenToggle()
+		{
+			int hRes = Screen.fullScreen ? 1280 : Display.main.systemWidth;
+			int vRes = Screen.fullScreen ? 720  : Display.main.systemHeight;
+			fullscreenToggle.isOn = !Screen.fullScreen; //This can't go into Refresh() because going fullscreen happens 1 too late
+			Screen.SetResolution(hRes, vRes, !Screen.fullScreen);
+			
+		}
 
         public void ResetDefaults()
         {
