@@ -143,28 +143,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		{
 			//a regular object being attacked
 
-			//butchering
-			//TODO: Move butchering logic to IF2, it should be a progress action done on corpses (make a Corpse component probably)
 			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-			if (victimHealth != null && victimHealth.IsDead && isWeapon && weaponAttr.HasTrait(KnifeTrait))
-			{
-				if (victim.GetComponent<SimpleAnimal>())
-				{
-					SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
-					RpcMeleeAttackLerp(attackDirection, weapon);
-					//playerMove.allowInput = false;
-					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
-				}
-				else
-				{
-					PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
-					RpcMeleeAttackLerp(attackDirection, weapon);
-					//playerMove.allowInput = false;
-					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
-				}
-			}
 
 			var integrity = victim.GetComponent<Integrity>();
 			if (integrity != null)
