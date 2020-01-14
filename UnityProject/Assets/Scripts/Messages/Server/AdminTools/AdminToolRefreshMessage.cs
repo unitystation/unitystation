@@ -49,12 +49,12 @@ public class AdminToolRefreshMessage : ServerMessage
 	private static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID)
 	{
 		var playerList = new List<AdminPlayerEntryData>();
-		Dictionary<string, AdminPlayerEntryData> validationList = new Dictionary<string, AdminPlayerEntryData>();
+	//	Dictionary<string, AdminPlayerEntryData> validationList = new Dictionary<string, AdminPlayerEntryData>();
 
 		var checkMessages = PlayerList.Instance.CheckAdminInbox(adminID);
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
-			if (validationList.ContainsKey(player.UserId)) continue;
+		//	if (validationList.ContainsKey(player.UserId)) continue;
 
 			var entry = new AdminPlayerEntryData();
 			entry.name = player.Name;
@@ -74,7 +74,7 @@ public class AdminToolRefreshMessage : ServerMessage
 			}
 
 			playerList.Add(entry);
-			validationList.Add(entry.uid, entry);
+		//	validationList.Add(entry.uid, entry);
 		}
 
 		return playerList.OrderBy(p => p.name).ThenBy(p => p.isOnline).ToList();

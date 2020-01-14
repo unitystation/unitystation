@@ -96,7 +96,7 @@ public partial class PlayerList : NetworkBehaviour
 			};
 		}
 	}
-	
+
 	/// <summary>
 	/// Get all players currently located on provided matrix
 	/// </summary>
@@ -258,6 +258,12 @@ public partial class PlayerList : NetworkBehaviour
 	public ConnectedPlayer GetByUserID(string byUserID, bool lookupOld = false)
 	{
 		return getInternal(player => player.UserId == byUserID, lookupOld);
+	}
+
+	[Server]
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID)
+	{
+		return values.FindAll(player => player.UserId == byUserID);
 	}
 
 	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition, bool lookupOld = false)

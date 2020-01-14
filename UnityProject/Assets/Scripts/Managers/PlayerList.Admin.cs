@@ -120,37 +120,34 @@ public partial class PlayerList
 	//Check if tokens match and if the player is an admin or is banned
 	private async Task<bool> CheckUserState(string userid, string token, ConnectedPlayer playerConn, string clientID)
 	{
-		//Only do the account check on release builds as its not important when developing
-		if (BuildPreferences.isForRelease)
+		if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid))
 		{
-			if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid))
-			{
-				StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
-				Logger.Log($"A user tried to connect with null userid or token value" +
-				           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
-					Category.Admin);
-				return false;
-			}
+			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
+			Logger.Log($"A user tried to connect with null userid or token value" +
+			           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+				Category.Admin);
+			return false;
+		}
 
-			var refresh = new RefreshToken {userID = userid, refreshToken = token};
-			var response = await ServerData.ValidateToken(refresh, true);
+		var refresh = new RefreshToken {userID = userid, refreshToken = token};
+		var response = await ServerData.ValidateToken(refresh, true);
 
-			if (response.errorCode == 1)
-			{
-				StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
-				Logger.Log($"A spoof attempt was recorded. " +
-				           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
-					Category.Admin);
-				return false;
-			}
+		if (response.errorCode == 1)
+		{
+			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
+			Logger.Log($"A spoof attempt was recorded. " +
+			           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+				Category.Admin);
+			return false;
 		}
 
 		var banEntry = banList.CheckForEntry(userid);
 		if (banEntry != null)
 		{
+			Debug.Log("BAN ENTRY FOUND!");
 			DateTime entryTime;
 			DateTime.TryParse(banEntry.dateTimeOfBan, out entryTime);
-			if (entryTime.AddMinutes(banEntry.minutes) < DateTime.Now)
+			if (entryTime.AddMinutes(banEntry.minutes) > DateTime.Now)
 			{
 				//Old ban, remove it
 				banList.banEntries.Remove(banEntry);
@@ -213,11 +210,15 @@ public partial class PlayerList
 	{
 		if (!adminUsers.Contains(admin)) return;
 
-		var player = GetByUserID(userToKick);
-		if (player != null)
+		var players = GetAllByUserID(userToKick);
+		if (players.Count != 0)
 		{
-			Logger.Log($"A kick/ban has been processed by {admin}: Player: {player.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
-			StartCoroutine(KickPlayer(player, reason, isBan, banMinutes));
+			foreach (var p in players)
+			{
+				Logger.Log(
+					$"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
+				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
+			}
 		}
 		else
 		{
@@ -234,6 +235,12 @@ public partial class PlayerList
 		{
 			message = $"You have been banned for {banLengthInMinutes}" +
 			          $" minutes. Reason: {reason}";
+
+			var index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
+			if (index != -1)
+			{
+				banList.banEntries.RemoveAt(index);
+			}
 
 			banList.banEntries.Add(new BanEntry
 			{
