@@ -51,6 +51,7 @@ internal enum MessageTypes : short
 	SendClientLog = 1047,
 	AdminEnableMessage = 1048,
 	AdminToolRefreshMessage = 1049,
+	AdminBwoinkMessage = 1050,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -84,5 +85,6 @@ internal enum MessageTypes : short
 	RequestGameModeUpdate = 2036,
 	RequestKick = 2037,
 	RequestEnableAdmin = 2038,
-	RequestRespawn = 2039
+	RequestRespawn = 2039,
+	RequestAdminBwoink = 2040
 }

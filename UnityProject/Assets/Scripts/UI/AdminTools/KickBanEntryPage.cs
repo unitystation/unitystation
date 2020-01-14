@@ -22,6 +22,7 @@ namespace AdminTools
 		{
 			playerToKickCache = playerToKick;
 			UIManager.IsInputFocus = true;
+			UIManager.PreventChatInput = true;
 			if (!isBan)
 			{
 				kickPage.SetActive(true);
@@ -84,6 +85,7 @@ namespace AdminTools
 			UIManager.IsInputFocus = false;
 			var manager = FindObjectOfType<PlayerManagePage>();
 			manager.RefreshPage();
+			UIManager.PreventChatInput = false;
 		}
 	}
 }

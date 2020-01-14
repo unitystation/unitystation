@@ -302,7 +302,7 @@ public class ChatUI : MonoBehaviour
 	public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None)
 	{
 		//Prevent input spam
-		if (windowCoolDown) return;
+		if (windowCoolDown || UIManager.PreventChatInput) return;
 		windowCoolDown = true;
 		StartCoroutine(WindowCoolDown());
 

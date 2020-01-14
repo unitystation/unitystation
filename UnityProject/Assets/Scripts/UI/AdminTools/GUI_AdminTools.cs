@@ -39,10 +39,15 @@ namespace AdminTools
 
 		public void OnBackButton()
 		{
+			if (playerChatPage.activeInHierarchy)
+			{
+				playerChatPage.GetComponent<PlayerChatPage>().GoBack();
+				return;
+			}
 			ShowMainPage();
 		}
 
-		private void ShowMainPage()
+		public void ShowMainPage()
 		{
 			DisableAllPages();
 			mainPage.SetActive(true);
@@ -153,7 +158,13 @@ namespace AdminTools
 
 			if (playerChatPage.activeInHierarchy)
 			{
-				playerChatPage.GetComponent<PlayerChatPage>().SetData(selectedEntry);
+				var chatPage = playerChatPage.GetComponent<PlayerChatPage>();
+				if (selectedEntry.PlayerData.newMessages.Count != 0)
+				{
+					chatPage.AddPendingMessagesToLogs(selectedEntry.PlayerData.uid, selectedEntry.PlayerData.newMessages);
+					selectedEntry.ClearMessageNot();
+				}
+				chatPage.SetData(selectedEntry);
 			}
 
 			if (playerManagePage.activeInHierarchy)

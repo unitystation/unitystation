@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mirror;
 using UI.UI_Bottom;
@@ -34,7 +35,13 @@ public class UIManager : MonoBehaviour
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
 	public AnimationCurve strandedZoomOutCurve;
-	[HideInInspector]
+	private bool preventChatInput;
+	public static bool PreventChatInput
+	{
+		get { return uiManager.preventChatInput; }
+		set { uiManager.preventChatInput = value; }
+	}
+
 	//map from progress bar id to actual progress bar component.
 	private Dictionary<int, ProgressBar> progressBars = new Dictionary<int, ProgressBar>();
 
