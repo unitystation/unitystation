@@ -24,7 +24,7 @@ public class RequestAdminPageRefresh : ClientMessage
 		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
 		if (player != null)
 		{
-			AdminToolRefreshMessage.Send(player);
+			AdminToolRefreshMessage.Send(player, Userid);
 		}
 	}
 

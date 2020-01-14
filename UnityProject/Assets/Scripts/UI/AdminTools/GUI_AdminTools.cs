@@ -15,8 +15,15 @@ namespace AdminTools
 		[SerializeField] private GameObject mainPage;
 		[SerializeField] private GameObject playerManagePage;
 		[SerializeField] private GameObject playerChatPage;
+		[SerializeField] private GameObject playersScrollView;
+
+		[SerializeField] private Transform playerListContent;
+		[SerializeField] private GameObject playerEntryPrefab;
 
 		[SerializeField] private Text windowTitle;
+
+		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
+		private string selectedPlayer;
 
 		private void OnEnable()
 		{
@@ -55,6 +62,7 @@ namespace AdminTools
 			playerManagePage.SetActive(true);
 			backBtn.SetActive(true);
 			windowTitle.text = "PLAYER MANAGER";
+			playersScrollView.SetActive(true);
 			retrievingDataScreen.SetActive(true);
 		}
 
@@ -64,6 +72,7 @@ namespace AdminTools
 			playerChatPage.SetActive(true);
 			backBtn.SetActive(true);
 			windowTitle.text = "PLAYER BWOINK";
+			playersScrollView.SetActive(true);
 			retrievingDataScreen.SetActive(true);
 		}
 
@@ -75,11 +84,59 @@ namespace AdminTools
 			backBtn.SetActive(false);
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
+			playersScrollView.SetActive(false);
 		}
 
 		public void CloseRetrievingDataScreen()
 		{
 			retrievingDataScreen.SetActive(false);
+		}
+
+		public void RefreshOnlinePlayerList(AdminPageRefreshData data)
+		{
+			foreach (var e in playerEntries)
+			{
+				Destroy(e.gameObject);
+			}
+			playerEntries.Clear();
+
+			foreach (var p in data.players)
+			{
+				var e = Instantiate(playerEntryPrefab, playerListContent);
+				var entry = e.GetComponent<AdminPlayerEntry>();
+				entry.UpdateButton(p, this);
+
+				if (p.isOnline)
+				{
+					entry.button.interactable = true;
+				}
+				else
+				{
+					entry.button.interactable = false;
+				}
+
+				playerEntries.Add(entry);
+				if (selectedPlayer == p.uid)
+				{
+					entry.SelectPlayer();
+				}
+			}
+		}
+
+		public void SelectPlayerInList(AdminPlayerEntry selectedEntry)
+		{
+			foreach (var p in playerEntries)
+			{
+				if (p != selectedEntry)
+				{
+					p.DeselectPlayer();
+				}
+				else
+				{
+					p.SelectPlayer();
+					selectedPlayer = selectedEntry.PlayerData.uid;
+				}
+			}
 		}
 	}
 }

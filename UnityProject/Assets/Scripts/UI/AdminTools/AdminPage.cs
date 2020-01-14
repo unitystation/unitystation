@@ -28,6 +28,7 @@ namespace AdminTools
 		public virtual void OnPageRefresh(AdminPageRefreshData adminPageData)
 		{
 			currentData = adminPageData;
+			adminTools.RefreshOnlinePlayerList(adminPageData);
 			adminTools.CloseRetrievingDataScreen();
 		}
 	}
@@ -41,5 +42,29 @@ namespace AdminTools
 		public bool isSecret;
 		public string nextGameMode;
 
+		//Player Management:
+		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
+
+	}
+
+	[Serializable]
+	public class AdminPlayerEntryData
+	{
+		public string name;
+		public string uid;
+		public string currentJob;
+		public bool isAlive;
+		public bool isAntag;
+		public bool isAdmin;
+		public bool isOnline;
+		public List<AdminChatMessage> newMessages = new List<AdminChatMessage>();
+	}
+
+	[Serializable]
+	public class AdminChatMessage
+	{
+		public string fromUserid;
+		public string toUserid;
+		public string message;
 	}
 }

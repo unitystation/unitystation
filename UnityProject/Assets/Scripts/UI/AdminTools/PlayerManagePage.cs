@@ -6,5 +6,10 @@ namespace AdminTools
 {
 	public class PlayerManagePage : AdminPage
 	{
+		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
+		{
+			base.OnPageRefresh(adminPageData);
+
+		}
 	}
 }

@@ -89,6 +89,12 @@ public partial class PlayerList
 		return GetByUserID(userID).GameObject;
 	}
 
+	[Server]
+	public bool IsAdmin(string userID)
+	{
+		return adminUsers.Contains(userID);
+	}
+
 	public async Task<bool> ValidatePlayer(string clientID, string username,
 		string userid, int clientVersion, ConnectedPlayer playerConn,
 		string token)

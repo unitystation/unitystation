@@ -6,6 +6,9 @@ namespace AdminTools
 {
 	public class PlayerChatPage : AdminPage
 	{
-		
+		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
+		{
+			base.OnPageRefresh(adminPageData);
+		}
 	}
 }
