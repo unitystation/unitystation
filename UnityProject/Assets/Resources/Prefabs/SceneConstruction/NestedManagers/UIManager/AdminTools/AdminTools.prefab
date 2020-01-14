@@ -1397,13 +1397,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5415672563561254582}
   m_TextComponent: {fileID: 8534803852894187935}
   m_Placeholder: {fileID: 0}
-  m_ContentType: 2
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
-  m_LineType: 0
+  m_KeyboardType: 0
+  m_LineType: 2
   m_HideMobileInput: 0
-  m_CharacterValidation: 1
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -5195,7 +5195,7 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 0
-    m_HorizontalOverflow: 1
+    m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
@@ -8868,8 +8868,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 10, y: -53.9}
-  m_SizeDelta: {x: 590, y: 83.8}
+  m_AnchoredPosition: {x: -1.4, y: -28.2}
+  m_SizeDelta: {x: 210, y: 32.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1139361170770145419
 CanvasRenderer:

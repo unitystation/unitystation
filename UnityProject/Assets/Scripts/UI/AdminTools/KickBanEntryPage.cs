@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,20 +16,25 @@ namespace AdminTools
 		[SerializeField] private InputField banReasonField;
 		[SerializeField] private InputField minutesField;
 
+		private AdminPlayerEntryData playerToKickCache;
+
 		public void SetPage(bool isBan, AdminPlayerEntryData playerToKick)
 		{
+			playerToKickCache = playerToKick;
+			UIManager.IsInputFocus = true;
 			if (!isBan)
 			{
 				kickPage.SetActive(true);
 				kickTitle.text = $"Kick Player: {playerToKick.name}";
 				kickReasonField.text = "";
-				kickReasonField.Select();
+				kickReasonField.ActivateInputField();
 			}
 			else
 			{
 				banPage.SetActive(true);
 				banTitle.text = $"Ban Player: {playerToKick.name}";
 				banReasonField.text = "";
+				banReasonField.ActivateInputField();
 				minutesField.text = "";
 			}
 
@@ -45,6 +48,9 @@ namespace AdminTools
 				Logger.LogError("Kick reason field needs to be completed!", Category.Admin);
 				return;
 			}
+
+			RequestKickMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerToKickCache.uid,
+				banReasonField.text);
 
 			ClosePage();
 		}
@@ -63,7 +69,10 @@ namespace AdminTools
 				return;
 			}
 
-
+			int minutes;
+			int.TryParse(minutesField.text, out minutes);
+			RequestKickMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerToKickCache.uid,
+				banReasonField.text, true, minutes);
 			ClosePage();
 		}
 
@@ -72,6 +81,7 @@ namespace AdminTools
 			gameObject.SetActive(false);
 			kickPage.SetActive(false);
 			banPage.SetActive(false);
+			UIManager.IsInputFocus = false;
 		}
 	}
 }

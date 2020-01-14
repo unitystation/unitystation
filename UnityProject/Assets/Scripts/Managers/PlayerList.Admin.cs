@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -208,6 +209,22 @@ public partial class PlayerList
 		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
 	}
 
+	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes)
+	{
+		if (!adminUsers.Contains(admin)) return;
+
+		var player = GetByUserID(userToKick);
+		if (player != null)
+		{
+			Logger.Log($"A kick/ban has been processed by {admin}: Player: {player.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
+			StartCoroutine(KickPlayer(player, reason, isBan, banMinutes));
+		}
+		else
+		{
+			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {admin}", Category.Admin);
+		}
+	}
+
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
 		bool ban = false, int banLengthInMinutes = 0)
 	{
@@ -217,24 +234,35 @@ public partial class PlayerList
 		{
 			message = $"You have been banned for {banLengthInMinutes}" +
 			          $" minutes. Reason: {reason}";
+
+			banList.banEntries.Add(new BanEntry
+			{
+				userId = connPlayer.UserId,
+				userName = connPlayer.Username,
+				minutes = banLengthInMinutes,
+				reason = reason,
+				dateTimeOfBan = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+			});
+
+			File.WriteAllText(banPath, JsonUtility.ToJson(banList));
 		}
 		else
 		{
 			message = $"You have been kicked. Reason: {reason}";
 		}
 
-		SendClientLogMessage.SendLogToClient(connPlayer.GameObject, message, Category.Connections, true);
+		SendClientLogMessage.SendLogToClient(connPlayer.GameObject, message, Category.Admin, true);
 		yield return WaitFor.Seconds(0.1f);
 
 		if (!connPlayer.Connection.isConnected)
 		{
-			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Connections);
+			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Admin);
 			yield break;
 		}
 
-		Logger.Log($"Kicking client {clientID} : {message}", Category.Connections);
+		Logger.Log($"Kicking client {clientID} : {message}", Category.Admin);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
-		//Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
+
 
 		connPlayer.Connection.Disconnect();
 		connPlayer.Connection.Dispose();
