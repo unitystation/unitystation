@@ -16,6 +16,8 @@ namespace AdminTools
 		[SerializeField] private GameObject playerManagePage;
 		[SerializeField] private GameObject playerChatPage;
 		[SerializeField] private GameObject playersScrollView;
+		public KickBanEntryPage kickBanEntryPage;
+		public AreYouSurePage areYouSurePage;
 
 		[SerializeField] private Transform playerListContent;
 		[SerializeField] private GameObject playerEntryPrefab;
@@ -85,6 +87,8 @@ namespace AdminTools
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
 			playersScrollView.SetActive(false);
+			kickBanEntryPage.gameObject.SetActive(false);
+			areYouSurePage.gameObject.SetActive(false);
 		}
 
 		public void CloseRetrievingDataScreen()
