@@ -319,6 +319,6 @@ public class ItemDictionary : SerializableDictionary<GameObject, int>
 }
 
 [Serializable]
-public class CooldownDictionary : SerializableDictionary<CooldownType, float>
+public class CooldownDictionary : SerializableDictionary<CooldownCategory, float>
 {
 }

@@ -80,6 +80,16 @@ public class RequestInteractMessage : ClientMessage
 		}
 	}
 
+	/// <summary>
+	/// For internal use only.
+	/// Gets the ID corresponding to the type of this interactable component.
+	/// </summary>
+	/// <param name="interactableComponentType"></param>
+	public static ushort _GetInteractableComponentTypeID<T>(IInteractable<T> interactable) where T : Interaction
+	{
+		return componentTypeToComponentID[interactable.GetType()];
+	}
+
 	private static IEnumerable<Type> GetAllTypes(Type genericType)
 	{
 		if (!genericType.IsGenericTypeDefinition)
@@ -223,7 +233,7 @@ public class RequestInteractMessage : ClientMessage
 		var interactable = (component as IInteractable<T>);
 		//server side interaction check and cooldown check, and start the cooldown
 		if (interactable.ServerCheckInteract(interaction) &&
-		    SentByPlayer.Script.TryStartCooldown(CooldownType.Interaction))
+		    SentByPlayer.Script.TryStartCooldown(CooldownCategory.Interaction))
 		{
 			//perform
 			interactable.ServerPerformInteraction(interaction);

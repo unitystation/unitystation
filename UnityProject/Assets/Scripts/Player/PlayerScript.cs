@@ -8,7 +8,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 
 	[Tooltip("Cooldown settings for this player.")]
 	[SerializeField]
-	private Cooldowns cooldowns;
+	private PlayerCooldowns playerCooldowns;
 
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -160,25 +160,25 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	/// <summary>
 	/// Is this player on cooldown for the particular cooldown type?
 	/// </summary>
-	/// <param name="cooldownType"></param>
+	/// <param name="cooldownCategory"></param>
 	/// <returns></returns>
-	public bool IsOnCooldown(CooldownType cooldownType)
+	public bool IsOnCooldown(CooldownCategory cooldownCategory)
 	{
-		return cooldowns.IsOnCooldown(cooldownType);
+		return playerCooldowns.IsOnCooldown(cooldownCategory);
 	}
 
 	/// <summary>
 	/// Begin the cooldown timer for the indicated cooldown type if not already on cooldown.
 	/// </summary>
-	/// <param name="cooldownType"></param>
+	/// <param name="cooldownCategory"></param>
 	/// <param name="notIfHost">if this is true and this is the host player;s playerscript, doesn't start cooldown.
 	/// This is to avoid the host player triggering their own cooldowns in their own clientside logic</param>
 	/// <returns>true if we weren't on cooldown and the action can be performed, false if was already on cooldown and
 	/// the action shouldn't be performed</returns>
-	public bool TryStartCooldown(CooldownType cooldownType, bool notIfHost = false)
+	public bool TryStartCooldown(CooldownCategory cooldownCategory, bool notIfHost = false)
 	{
-		if (notIfHost && isServer && PlayerManager.LocalPlayerScript == this) return !IsOnCooldown(cooldownType);
-		return cooldowns.TryStartCooldown(cooldownType, this);
+		if (notIfHost && isServer && PlayerManager.LocalPlayerScript == this) return !IsOnCooldown(cooldownCategory);
+		return playerCooldowns.TryStartCooldown(cooldownCategory, this);
 	}
 
 	public void SyncPlayerName(string value)

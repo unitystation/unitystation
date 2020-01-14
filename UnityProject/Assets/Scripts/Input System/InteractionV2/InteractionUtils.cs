@@ -26,7 +26,7 @@ public static class InteractionUtils
 	public static void RequestInteract<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
 	{
-		if (!PlayerManager.LocalPlayerScript.TryStartCooldown(CooldownType.Interaction, true)) return;
+		if (!PlayerManager.LocalPlayerScript.TryStartCooldown(CooldownCategory.Interaction, true)) return;
 		RequestInteractMessage.Send(interaction, interactableComponent);
 	}
 
@@ -44,7 +44,7 @@ public static class InteractionUtils
 	public static IBaseInteractable<T> ClientCheckAndTrigger<T>(IEnumerable<IBaseInteractable<T>> interactables, T interaction)
 		where T : Interaction
 	{
-		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownType.Interaction)) return null;
+		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownCategory.Interaction)) return null;
 		Logger.LogTraceFormat("Checking {0} interactions",
 			Category.Interaction, typeof(T).Name);
 		foreach (var interactable in interactables.Reverse())
@@ -68,7 +68,7 @@ public static class InteractionUtils
 		where T : Interaction
 	{
 		wasClientInteractable = false;
-		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownType.Interaction)) return false;
+		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownCategory.Interaction)) return false;
 		var result = false;
 		//check if client side interaction should be triggered
 		if (side == NetworkSide.Client && interactable is IClientInteractable<T> clientInteractable)
@@ -81,7 +81,7 @@ public static class InteractionUtils
 				//we don't start this as the host player because some clientside interactions (like hugging) trigger
 				//server side logic through Cmds or net messages which also check the cooldowns, thus host player
 				//would always prevent themselves from performing these interactions
-				interaction.PerformerPlayerScript.TryStartCooldown(CooldownType.Interaction, true);
+				interaction.PerformerPlayerScript.TryStartCooldown(CooldownCategory.Interaction, true);
 				wasClientInteractable = true;
 				return true;
 			}

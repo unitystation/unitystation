@@ -47,7 +47,7 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		//factors that only server knows that would influence whether they actually hit,
 		//and we want to be fair to the client during combat and not lock them out of melee when they
 		//never actually hit something.
-		if (playerScript.IsOnCooldown(CooldownType.Melee))
+		if (playerScript.IsOnCooldown(CooldownCategory.Melee))
 		{
 			return false;
 		}
