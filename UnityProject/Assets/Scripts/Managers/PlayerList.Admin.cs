@@ -144,7 +144,6 @@ public partial class PlayerList
 		var banEntry = banList.CheckForEntry(userid);
 		if (banEntry != null)
 		{
-			Debug.Log("BAN ENTRY FOUND!");
 			DateTime entryTime;
 			DateTime.TryParse(banEntry.dateTimeOfBan, out entryTime);
 			if (entryTime.AddMinutes(banEntry.minutes) > DateTime.Now)
@@ -204,6 +203,32 @@ public partial class PlayerList
 	void SaveBanList()
 	{
 		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
+	}
+
+	public void ProcessAdminEnableRequest(string admin, string userToPromote)
+	{
+		if (!adminUsers.Contains(admin)) return;
+		if (adminUsers.Contains(userToPromote)) return;
+
+		Logger.Log(
+			$"{admin} has promoted {userToPromote} to admin. Time: {DateTime.Now}");
+
+		File.AppendAllLines(adminsPath, new string[]
+		{
+			userToPromote
+		});
+
+		adminUsers.Add(userToPromote);
+		var user = GetByUserID(userToPromote);
+
+		if (user == null) return;
+
+		var newToken = System.Guid.NewGuid().ToString();
+		if (!loggedInAdmins.ContainsKey(userToPromote))
+		{
+			loggedInAdmins.Add(userToPromote, newToken);
+			AdminEnableMessage.Send(user.GameObject, newToken);
+		}
 	}
 
 	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes)

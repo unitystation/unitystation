@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,15 @@ namespace AdminTools
 		public void SetData(AdminPlayerEntry entry)
 		{
 			playerEntry = entry;
-			Debug.Log("//TODO: DISABLE BUTTONS WHEN THEY ARE NOT NEEDED!! ");
+
+			if (entry.PlayerData.isAdmin)
+			{
+				deputiseBtn.interactable = false;
+			}
+			else
+			{
+				deputiseBtn.interactable = true;
+			}
 
 			if (playerEntry.PlayerData.isAlive)
 			{
@@ -56,12 +65,14 @@ namespace AdminTools
 
 		void SendMakePlayerAdminRequest()
 		{
-			Debug.Log("//TODO: SEND THE REQUEST TO SERVER");
+			RequestAdminPromotion.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerEntry.PlayerData.uid);
+			RefreshPage();
 		}
 
 		void SendPlayerRespawnRequest()
 		{
-			Debug.Log("//TODO: SEND THE REQUEST TO SERVER");
+			RequestRespawnPlayer.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerEntry.PlayerData.uid);
+			RefreshPage();
 		}
 	}
 }

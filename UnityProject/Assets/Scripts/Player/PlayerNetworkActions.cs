@@ -304,8 +304,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+			ServerRespawnPlayer();
 		}
+	}
+
+	[Server]
+	public void ServerRespawnPlayer()
+	{
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
 	[Command]

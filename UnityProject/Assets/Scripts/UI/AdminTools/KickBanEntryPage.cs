@@ -82,6 +82,8 @@ namespace AdminTools
 			kickPage.SetActive(false);
 			banPage.SetActive(false);
 			UIManager.IsInputFocus = false;
+			var manager = FindObjectOfType<PlayerManagePage>();
+			manager.RefreshPage();
 		}
 	}
 }
