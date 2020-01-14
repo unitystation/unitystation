@@ -96,13 +96,7 @@ public partial class PlayerList : NetworkBehaviour
 			};
 		}
 	}
-
-	[Server]
-	public bool IsLoggedOff(ConnectedPlayer player)
-	{
-		return loggedOff.Contains(player);
-	}
-
+	
 	/// <summary>
 	/// Get all players currently located on provided matrix
 	/// </summary>

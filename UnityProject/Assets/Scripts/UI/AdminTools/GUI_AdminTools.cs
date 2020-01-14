@@ -98,6 +98,7 @@ namespace AdminTools
 			{
 				Destroy(e.gameObject);
 			}
+
 			playerEntries.Clear();
 
 			foreach (var p in data.players)
@@ -112,7 +113,10 @@ namespace AdminTools
 				}
 				else
 				{
-					entry.button.interactable = false;
+					if (!playerChatPage.activeInHierarchy)
+					{
+						entry.button.interactable = false;
+					}
 				}
 
 				playerEntries.Add(entry);
@@ -120,6 +124,11 @@ namespace AdminTools
 				{
 					entry.SelectPlayer();
 				}
+			}
+
+			if (string.IsNullOrEmpty(selectedPlayer))
+			{
+				SelectPlayerInList(playerEntries[0]);
 			}
 		}
 
@@ -136,6 +145,16 @@ namespace AdminTools
 					p.SelectPlayer();
 					selectedPlayer = selectedEntry.PlayerData.uid;
 				}
+			}
+
+			if (playerChatPage.activeInHierarchy)
+			{
+				playerChatPage.GetComponent<PlayerChatPage>().SetData(selectedEntry);
+			}
+
+			if (playerManagePage.activeInHierarchy)
+			{
+				playerManagePage.GetComponent<PlayerManagePage>().SetData(selectedEntry);
 			}
 		}
 	}

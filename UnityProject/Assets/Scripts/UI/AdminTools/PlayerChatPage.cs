@@ -10,5 +10,10 @@ namespace AdminTools
 		{
 			base.OnPageRefresh(adminPageData);
 		}
+
+		public void SetData(AdminPlayerEntry entry)
+		{
+
+		}
 	}
 }

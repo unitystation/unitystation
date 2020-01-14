@@ -63,7 +63,7 @@ public class AdminToolRefreshMessage : ServerMessage
 			entry.isAlive = player.Script.IsGhost;
 			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
-			entry.isOnline = PlayerList.Instance.IsLoggedOff(player);
+			entry.isOnline = player.Connection != null;
 
 			foreach (var msg in checkMessages)
 			{
