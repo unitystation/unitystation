@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 934759992999344732}
   - component: {fileID: 4996135738252831923}
   - component: {fileID: 114141448509805176}
+  - component: {fileID: -5958612390385248796}
   m_Layer: 11
   m_Name: cloning_0
   m_TagString: Untagged
@@ -159,6 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &8210323885322932869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +198,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 1
+  isInitiallyNotPushable: 1
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114793930797753706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,8 +220,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114465014309967340
@@ -306,5 +317,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-5958612390385248796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671969700958660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Cloning Pod
+  initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
