@@ -358,20 +358,12 @@ public class MouseInputController : MonoBehaviour
 				if (handAppliable is IBaseInteractable<HandApply>)
 				{
 					var hap = handAppliable as IBaseInteractable<HandApply>;
-					if (hap.CheckInteract(handApply, NetworkSide.Client))
-					{
-						InteractionUtils.RequestInteract(handApply, hap);
-						return true;
-					}
+					if (hap.ClientCheckAndRequestInteract(handApply)) return true;
 				}
 				else
 				{
 					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
-					if (hap.CheckInteract(posHandApply, NetworkSide.Client))
-					{
-						InteractionUtils.RequestInteract(posHandApply, hap);
-						return true;
-					}
+					if (hap.ClientCheckAndRequestInteract(posHandApply)) return true;
 				}
 			}
 		}
@@ -385,20 +377,12 @@ public class MouseInputController : MonoBehaviour
 			if (targetHandAppliable is IBaseInteractable<HandApply>)
 			{
 				var hap = targetHandAppliable as IBaseInteractable<HandApply>;
-				if (hap.CheckInteract(handApply, NetworkSide.Client))
-				{
-					InteractionUtils.RequestInteract(handApply, hap);
-					return true;
-				}
+				if (hap.ClientCheckAndRequestInteract(handApply)) return true;
 			}
 			else
 			{
 				var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
-				if (hap.CheckInteract(posHandApply, NetworkSide.Client))
-				{
-					InteractionUtils.RequestInteract(posHandApply, hap);
-					return true;
-				}
+				if (hap.ClientCheckAndRequestInteract(posHandApply)) return true;
 			}
 		}
 
@@ -448,11 +432,10 @@ public class MouseInputController : MonoBehaviour
 				secondsSinceLastAimApplyTrigger += Time.deltaTime;
 				if (secondsSinceLastAimApplyTrigger > AimApplyInterval)
 				{
-					if (triggeredAimApply.CheckInteract(aimApplyInfo, NetworkSide.Client))
+					if (triggeredAimApply.ClientCheckAndRequestInteract(aimApplyInfo))
 					{
 						//only reset timer if it was actually triggered
 						secondsSinceLastAimApplyTrigger = 0;
-						InteractionUtils.RequestInteract(aimApplyInfo, triggeredAimApply);
 					}
 				}
 

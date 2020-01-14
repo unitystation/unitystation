@@ -11,7 +11,7 @@ using UnityEngine;
 [Serializable]
 public class Cooldowns
 {
-	private static readonly float DefaultCooldownTime = 0.05f;
+	private static readonly float DefaultCooldownTime = 0.1f;
 
 	[Tooltip("Time in seconds for each type of cooldown")]
 	[SerializeField] private CooldownDictionary cooldownTimes;

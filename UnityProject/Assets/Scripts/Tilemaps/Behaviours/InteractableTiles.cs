@@ -148,7 +148,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			var i = 0;
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
-				if (tileInteraction.WillInteract(tileApply, NetworkSide.Client))
+				if (tileInteraction.WillInteract(tileApply, NetworkSide.Client) &&
+				    interaction.PerformerPlayerScript.TryStartCooldown(CooldownType.Interaction, true))
 				{
 					//request the tile interaction with this index
 					RequestInteractMessage.SendTileApply(tileApply, this, tileInteraction, i);
@@ -186,7 +187,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				(Vector2Int) WorldToCell(worldPosTarget), this, basicTile, usedSlot,
 				targetVector);
 
-			if (tileInteraction.WillInteract(tileApply, NetworkSide.Server))
+			if (tileInteraction.WillInteract(tileApply, NetworkSide.Server) &&
+			    tileApply.PerformerPlayerScript.TryStartCooldown(CooldownType.Interaction))
 			{
 				//perform
 				tileInteraction.ServerPerformInteraction(tileApply);
