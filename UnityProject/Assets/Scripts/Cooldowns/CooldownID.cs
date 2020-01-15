@@ -1,4 +1,6 @@
 
+using System;
+
 /// <summary>
 /// Uniquely identifies a particular cooldown. There are multiple ways to define cooldowns (SOs, Interactable Components...),
 /// so this encapsulates those different ways. Cooldown identifiers also explicitly indicate if they are
@@ -10,19 +12,19 @@ public class CooldownID
 	{
 		//identified by a cooldown asset
 		Asset,
-		//identified by an interactable component type ID
+		//identified by an interactable component type
 		Interaction
 	}
 
 	private readonly Cooldown cooldownAsset;
-	private readonly ushort interactableComponentTypeID;
+	private readonly Type interactableComponentType;
 	private readonly NetworkSide networkSide;
 	private readonly CooldownType cooldownType;
 
-	private CooldownID(Cooldown cooldownAsset, ushort interactableComponentTypeID, NetworkSide networkSide, CooldownType cooldownType)
+	private CooldownID(Cooldown cooldownAsset, Type interactableComponentType, NetworkSide networkSide, CooldownType cooldownType)
 	{
 		this.cooldownAsset = cooldownAsset;
-		this.interactableComponentTypeID = interactableComponentTypeID;
+		this.interactableComponentType = interactableComponentType;
 		this.cooldownType = cooldownType;
 		this.networkSide = networkSide;
 	}
@@ -35,7 +37,7 @@ public class CooldownID
 	/// <returns></returns>
 	public static CooldownID Asset(Cooldown cooldownAsset, NetworkSide side)
 	{
-		return new CooldownID(cooldownAsset, 0, side, CooldownType.Asset);
+		return new CooldownID(cooldownAsset, null, side, CooldownType.Asset);
 	}
 
 	/// <summary>
@@ -50,13 +52,15 @@ public class CooldownID
 	/// <returns></returns>
 	public static CooldownID Interaction<T>(IInteractable<T> interactable, NetworkSide side) where T : Interaction
 	{
-		return new CooldownID(null, RequestInteractMessage._GetInteractableComponentTypeID(interactable),
+		return new CooldownID(null, interactable.GetType(),
 			side, CooldownType.Interaction);
 	}
 
 	protected bool Equals(CooldownID other)
 	{
-		return Equals(cooldownAsset, other.cooldownAsset) && interactableComponentTypeID == other.interactableComponentTypeID && networkSide == other.networkSide && cooldownType == other.cooldownType;
+		return Equals(cooldownAsset, other.cooldownAsset) &&
+		       Equals(interactableComponentType, other.interactableComponentType) &&
+		       networkSide == other.networkSide && cooldownType == other.cooldownType;
 	}
 
 	public override bool Equals(object obj)
@@ -72,7 +76,7 @@ public class CooldownID
 		unchecked
 		{
 			var hashCode = (cooldownAsset != null ? cooldownAsset.GetHashCode() : 0);
-			hashCode = (hashCode * 397) ^ interactableComponentTypeID.GetHashCode();
+			hashCode = (hashCode * 397) ^ (interactableComponentType != null ? interactableComponentType.GetHashCode() : 0);
 			hashCode = (hashCode * 397) ^ (int) networkSide;
 			hashCode = (hashCode * 397) ^ (int) cooldownType;
 			return hashCode;
@@ -81,7 +85,7 @@ public class CooldownID
 
 	public override string ToString()
 	{
-		return $"{nameof(cooldownAsset)}: {cooldownAsset}, {nameof(interactableComponentTypeID)}: " +
-		       $"{interactableComponentTypeID}, {nameof(networkSide)}: {networkSide}, {nameof(cooldownType)}: {cooldownType}";
+		return $"{nameof(cooldownAsset)}: {cooldownAsset}, {nameof(interactableComponentType)}: {interactableComponentType}, " +
+		       $"{nameof(networkSide)}: {networkSide}, {nameof(cooldownType)}: {cooldownType}";
 	}
 }

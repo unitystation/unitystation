@@ -80,16 +80,6 @@ public class RequestInteractMessage : ClientMessage
 		}
 	}
 
-	/// <summary>
-	/// For internal use only.
-	/// Gets the ID corresponding to the type of this interactable component.
-	/// </summary>
-	/// <param name="interactableComponentType"></param>
-	public static ushort _GetInteractableComponentTypeID<T>(IInteractable<T> interactable) where T : Interaction
-	{
-		return componentTypeToComponentID[interactable.GetType()];
-	}
-
 	private static IEnumerable<Type> GetAllTypes(Type genericType)
 	{
 		if (!genericType.IsGenericTypeDefinition)
