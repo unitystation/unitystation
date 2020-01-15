@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -91,12 +92,20 @@ namespace AdminTools
 
 			AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You wrote: {inputField.text}");
 			RefreshChatLog(selectedPlayer.PlayerData.uid);
-			var message = $"Admin PM from {PlayerManager.CurrentCharacterSettings.username}: {inputField.text}";
-			RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.PlayerData.uid,
+			var message = $"<color=red><b><size=24> - Administrator private message -</size></b>\r\n" +
+			              $"\r\n" +
+			              $"Admin PM from {PlayerManager.CurrentCharacterSettings.username}: {inputField.text}</color>";
+			              RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.PlayerData.uid,
 				message);
 			inputField.text = "";
-			UIManager.IsInputFocus = true;
 			inputField.ActivateInputField();
+			StartCoroutine(AfterSubmit());
+		}
+
+		IEnumerator AfterSubmit()
+		{
+			yield return WaitFor.EndOfFrame;
+			UIManager.IsInputFocus = true;
 		}
 
 		public void GoBack()
@@ -105,6 +114,12 @@ namespace AdminTools
 			UIManager.IsInputFocus = false;
 			UIManager.PreventChatInput = false;
 			adminTools.ShowMainPage();
+		}
+
+		private void OnDisable()
+		{
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
 		}
 	}
 }

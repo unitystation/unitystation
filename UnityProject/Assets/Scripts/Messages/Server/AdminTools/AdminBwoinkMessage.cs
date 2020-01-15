@@ -13,9 +13,8 @@ public class AdminBwoinkMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
-		Debug.Log("////TODO: MAKE IT GO BWOINK AND POP UP ON USER SCREEN");
 		SoundManager.Play("Bwoink");
-		
+		Chat.AddAdminPrivMsg(Message, AdminUID);
 	}
 
 	public static AdminBwoinkMessage  Send(GameObject recipient, string adminUid, string message)

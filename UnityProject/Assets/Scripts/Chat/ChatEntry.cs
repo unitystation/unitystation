@@ -5,7 +5,16 @@ using UnityEngine.UI;
 
 public class ChatEntry : MonoBehaviour
 {
-	public Text text;
+	[SerializeField] private Text ghostText;
+	[SerializeField] private Text text;
+	[SerializeField] private GameObject adminOverlay;
+	[SerializeField] private Shadow shadow;
+
+	/// <summary>
+	/// The current message of the ChatEntry
+	/// </summary>
+	public string Message => ghostText.text;
+
 	private bool isCoolingDown = true;
 	public RectTransform rect;
 
@@ -15,6 +24,7 @@ public class ChatEntry : MonoBehaviour
 	public Text stackTimesText;
 	private Image stackCircle;
 	private int stackTimes = 1;
+	private string adminId;
 
 	void OnEnable()
 	{
@@ -47,6 +57,26 @@ public class ChatEntry : MonoBehaviour
 				ChatUI.Instance.ReportEntryState(false);
 			}
 		}
+	}
+
+	public void SetText(string msg)
+	{
+		ghostText.text = msg;
+		text.text = msg;
+	}
+
+	public void SetAdminPrivateMsg(string msg, string adminID)
+	{
+		adminId = adminID;
+		SetText(msg);
+		ghostText.text += "\r\n filler \r\n filler";
+		adminOverlay.SetActive(true);
+		shadow.enabled = false;
+	}
+
+	public void ReplyToAdminMessage()
+	{
+		Debug.Log(">??? TODO: Reply pop up");
 	}
 
 	public void OnChatFocused()
@@ -188,18 +218,18 @@ public class ChatEntry : MonoBehaviour
 		if (stackPosSet) return;
 		stackPosSet = true;
 
-		string _text = text.text;
+		string _text = ghostText.text;
 
 		TextGenerator textGen = new TextGenerator(_text.Length);
-		Vector2 extents = text.gameObject.GetComponent<RectTransform>().rect.size;
-		textGen.Populate(_text, text.GetGenerationSettings(extents));
+		Vector2 extents = ghostText.gameObject.GetComponent<RectTransform>().rect.size;
+		textGen.Populate(_text, ghostText.GetGenerationSettings(extents));
 		if (textGen.vertexCount == 0)
 		{
 			return;
 		}
 
 		var newPos = stackTimesObj.transform.localPosition;
-		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / text.canvas.scaleFactor).x;
+		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / ghostText.canvas.scaleFactor).x;
 
 
 		if (rect.rect.height < 30f)
@@ -212,7 +242,7 @@ public class ChatEntry : MonoBehaviour
 
 	void SetCrossFadeAlpha(float amt, float time)
 	{
-		text.CrossFadeAlpha(amt, time, false);
+		ghostText.CrossFadeAlpha(amt, time, false);
 		stackTimesText.CrossFadeAlpha(amt, time, false);
 		stackCircle.CrossFadeAlpha(amt, time, false);
 	}

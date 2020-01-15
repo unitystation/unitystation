@@ -181,7 +181,7 @@ public class ChatUI : MonoBehaviour
 		//Check for chat entry dupes:
 		if (allEntries.Count != 0)
 		{
-			if (message.Equals(allEntries[allEntries.Count - 1].text.text))
+			if (message.Equals(allEntries[allEntries.Count - 1].Message))
 			{
 				allEntries[allEntries.Count - 1].AddChatDuplication();
 				return;
@@ -190,10 +190,24 @@ public class ChatUI : MonoBehaviour
 
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();
-		chatEntry.text.text = message;
+		chatEntry.SetText(message);
+		allEntries.Add(chatEntry);
+		SetEntryTransform(entry);
+	}
+
+	public void AddAdminPrivEntry(string message, string adminId)
+	{
+		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
+		var chatEntry = entry.GetComponent<ChatEntry>();
+		chatEntry.SetAdminPrivateMsg(message, adminId);
+		allEntries.Add(chatEntry);
+		SetEntryTransform(entry);
+	}
+
+	void SetEntryTransform(GameObject entry)
+	{
 		entry.transform.SetParent(content, false);
 		entry.transform.localScale = Vector3.one;
-		allEntries.Add(chatEntry);
 		hiddenEntries++;
 		ReportEntryState(false);
 	}
