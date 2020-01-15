@@ -317,8 +317,3 @@ public class UISwapDictionary : SerializableDictionary<UIType, string>
 public class ItemDictionary : SerializableDictionary<GameObject, int>
 {
 }
-
-[Serializable]
-public class CooldownDictionary : SerializableDictionary<CooldownCategory, float>
-{
-}
