@@ -51,7 +51,7 @@ namespace AdminTools
 			}
 
 			RequestKickMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerToKickCache.uid,
-				banReasonField.text);
+				kickReasonField.text);
 
 			ClosePage();
 		}

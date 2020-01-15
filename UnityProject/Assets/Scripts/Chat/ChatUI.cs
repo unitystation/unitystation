@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
+using AdminTools;
 
 public class ChatUI : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Color toggleOnCol;
 	[SerializeField] private Image scrollHandle;
 	[SerializeField] private Image scrollBackground;
+	[SerializeField] private AdminPrivReply adminReply;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -202,6 +204,11 @@ public class ChatUI : MonoBehaviour
 		chatEntry.SetAdminPrivateMsg(message, adminId);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
+	}
+
+	public void OpenAdminReply(string message, string adminId)
+	{
+		Instance.adminReply.OpenAdminPrivReplay(message,adminId);
 	}
 
 	void SetEntryTransform(GameObject entry)

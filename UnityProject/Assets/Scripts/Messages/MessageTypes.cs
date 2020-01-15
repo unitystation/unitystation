@@ -86,5 +86,6 @@ internal enum MessageTypes : short
 	RequestKick = 2037,
 	RequestEnableAdmin = 2038,
 	RequestRespawn = 2039,
-	RequestAdminBwoink = 2040
+	RequestAdminBwoink = 2040,
+	AdminReplyMessage = 2041
 }

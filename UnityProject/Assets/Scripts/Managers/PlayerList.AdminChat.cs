@@ -16,7 +16,10 @@ public partial class PlayerList
 	    var list = new List<AdminChatMessage>();
 
 	    if (!adminChatInbox.ContainsKey(adminUserID)) return list;
+	    if (adminChatInbox[adminUserID].Count == 0) return list;
 
-	    return adminChatInbox[adminUserID];
+	    list = new List<AdminChatMessage>(adminChatInbox[adminUserID]);
+	    adminChatInbox[adminUserID].Clear();
+	    return list;
     }
 }

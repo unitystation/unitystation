@@ -16,6 +16,8 @@ namespace AdminTools
 		[SerializeField] private GameObject playerManagePage;
 		[SerializeField] private GameObject playerChatPage;
 		[SerializeField] private GameObject playersScrollView;
+		private PlayerChatPage playerChatPageScript;
+		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
 		public AreYouSurePage areYouSurePage;
 
@@ -25,10 +27,12 @@ namespace AdminTools
 		[SerializeField] private Text windowTitle;
 
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
-		private string selectedPlayer;
+		public string SelectedPlayer { get; private set; }
 
 		private void OnEnable()
 		{
+			playerChatPageScript = playerChatPage.GetComponent<PlayerChatPage>();
+			playerManagePageScript = playerManagePage.GetComponent<PlayerManagePage>();
 			ShowMainPage();
 		}
 
@@ -129,13 +133,24 @@ namespace AdminTools
 				}
 
 				playerEntries.Add(entry);
-				if (selectedPlayer == p.uid)
+				if (SelectedPlayer == p.uid)
 				{
 					entry.SelectPlayer();
+					if (playerChatPage.activeInHierarchy)
+					{
+						playerChatPageScript.SetData(entry);
+						SelectedPlayer = entry.PlayerData.uid;
+						AddPendingMessagesToLogs(entry.PlayerData.uid, entry.GetPendingMessage());
+					}
+
+					if (playerManagePage.activeInHierarchy)
+					{
+						playerManagePageScript.SetData(entry);
+					}
 				}
 			}
 
-			if (string.IsNullOrEmpty(selectedPlayer))
+			if (string.IsNullOrEmpty(SelectedPlayer))
 			{
 				SelectPlayerInList(playerEntries[0]);
 			}
@@ -152,24 +167,32 @@ namespace AdminTools
 				else
 				{
 					p.SelectPlayer();
-					selectedPlayer = selectedEntry.PlayerData.uid;
+					SelectedPlayer = selectedEntry.PlayerData.uid;
 				}
 			}
 
+			SelectedPlayer = selectedEntry.PlayerData.uid;
+
 			if (playerChatPage.activeInHierarchy)
 			{
-				var chatPage = playerChatPage.GetComponent<PlayerChatPage>();
-				if (selectedEntry.PlayerData.newMessages.Count != 0)
-				{
-					chatPage.AddPendingMessagesToLogs(selectedEntry.PlayerData.uid, selectedEntry.PlayerData.newMessages);
-					selectedEntry.ClearMessageNot();
-				}
-				chatPage.SetData(selectedEntry);
+				playerChatPageScript.SetData(selectedEntry);
+				AddPendingMessagesToLogs(selectedEntry.PlayerData.uid, selectedEntry.GetPendingMessage());
 			}
 
 			if (playerManagePage.activeInHierarchy)
 			{
-				playerManagePage.GetComponent<PlayerManagePage>().SetData(selectedEntry);
+				playerManagePageScript.SetData(selectedEntry);
+			}
+		}
+
+		public void AddPendingMessagesToLogs(string playerId, List<AdminChatMessage> pendingMessages)
+		{
+			if (pendingMessages.Count == 0) return;
+
+			playerChatPageScript.AddPendingMessagesToLogs(playerId, pendingMessages);
+			if (playerId == SelectedPlayer)
+			{
+				playerChatPageScript.SetData(null);
 			}
 		}
 	}

@@ -491,6 +491,11 @@ public partial class Chat : MonoBehaviour
 		Instance.addAdminPriv.Invoke(message, adminId);
 	}
 
+	public static void AddAdminReplyMsg(string message)
+	{
+		Instance.addChatLogClient.Invoke(message, ChatChannel.System);
+	}
+
 	/// <summary>
 	/// replaces the provided string occurence's of {performer} with the performer's name
 	/// </summary>

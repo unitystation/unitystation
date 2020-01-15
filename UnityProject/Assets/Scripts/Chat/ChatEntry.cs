@@ -76,7 +76,7 @@ public class ChatEntry : MonoBehaviour
 
 	public void ReplyToAdminMessage()
 	{
-		Debug.Log(">??? TODO: Reply pop up");
+		ChatUI.Instance.OpenAdminReply(text.text, adminId);
 	}
 
 	public void OnChatFocused()

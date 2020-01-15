@@ -27,10 +27,16 @@ namespace AdminTools
 
 		public void SetData(AdminPlayerEntry entry)
 		{
-			selectedPlayer = entry;
+			if (entry != null)
+			{
+				selectedPlayer = entry;
+			}
+
+			if (selectedPlayer == null) return;
+
 			UIManager.IsInputFocus = true;
 			UIManager.PreventChatInput = true;
-			RefreshChatLog(entry.PlayerData.uid);
+			RefreshChatLog(selectedPlayer.PlayerData.uid);
 			refreshClock = true;
 			inputField.ActivateInputField();
 		}
@@ -66,7 +72,7 @@ namespace AdminTools
 			chatLogs[userID].Add(message);
 		}
 
-		void RefreshChatLog(string userID)
+		private void RefreshChatLog(string userID)
 		{
 			foreach (var e in loadedChatEntries)
 			{
@@ -92,7 +98,7 @@ namespace AdminTools
 
 			AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You wrote: {inputField.text}");
 			RefreshChatLog(selectedPlayer.PlayerData.uid);
-			var message = $"<color=red><b><size=24> - Administrator private message -</size></b>\r\n" +
+			var message = $"<color=red><b><size=24>-- Administrator private message --</size></b>\r\n" +
 			              $"\r\n" +
 			              $"Admin PM from {PlayerManager.CurrentCharacterSettings.username}: {inputField.text}</color>";
 			              RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.PlayerData.uid,
