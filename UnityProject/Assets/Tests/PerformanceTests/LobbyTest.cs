@@ -51,7 +51,7 @@ namespace Tests
 			yield return UpdateBenchmark();
 
 			GUI_IngameMenu.Instance.isTest = true;
-			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
+			GUI_IngameMenu.Instance.OpenMenuPanel();
 			yield return ClickButton("ExitButton");
 			yield return DoActionWaitSceneUnload(ClickButton("Button1"));
 
@@ -74,7 +74,7 @@ namespace Tests
 			yield return UpdateBenchmark();
 
 			GUI_IngameMenu.Instance.isTest = true;
-			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
+			GUI_IngameMenu.Instance.OpenMenuPanel();
 			yield return ClickButton("ExitButton");
 			yield return DoActionWaitSceneUnload(ClickButton("Button1"));
 

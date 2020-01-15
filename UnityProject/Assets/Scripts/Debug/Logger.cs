@@ -247,7 +247,8 @@ public enum Category
 	SpatialRelationship,
 	MLAgents,
 	Direction,
-	Admin
+	Admin,
+	BuckledMovement
 }
 
 [Serializable]

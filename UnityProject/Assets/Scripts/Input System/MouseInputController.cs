@@ -233,7 +233,7 @@ public class MouseInputController : MonoBehaviour
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
 			if (topObject.TryGetComponent<PlayerMove>(out var playerMove) && playerMove.IsBuckled)
 			{
-				pushPull = NetworkIdentity.spawned[playerMove.buckledObject].GetComponent<PushPull>();
+				pushPull = playerMove.BuckledObject.GetComponent<PushPull>();
 			}
 			else
 			{

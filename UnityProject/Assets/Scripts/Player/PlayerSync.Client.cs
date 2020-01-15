@@ -246,6 +246,13 @@ public partial class PlayerSync
 	//Predictively pushing this player to target pos
 	public bool PredictivePush(Vector2Int target, float speed = Single.NaN, bool followMode = false)
 	{
+		//if we are buckled, transfer the impulse to our buckled object.
+		if (playerMove.IsBuckled)
+		{
+			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
+			return buckledCNT.PredictivePush(target, speed, followMode);
+		}
+
 		if (Matrix == null)
 		{
 			return false;

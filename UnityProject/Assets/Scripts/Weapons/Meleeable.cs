@@ -7,6 +7,19 @@ using UnityEngine;
 /// </summary>
 public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
+	[SerializeField]
+	private ItemTrait butcherKnifeTrait;
+
+	[SerializeField]
+	private static readonly StandardProgressActionConfig ProgressConfig
+	= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+
+	[SerializeField]
+	private float butcherTime = 2.0f;
+
+	[SerializeField]
+	private string butcherSound = "BladeSlice";
+
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
 	/// </summary>
@@ -88,7 +101,28 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		else
 		{
 			//attacking objects
-			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+
+			//butcher check
+			GameObject victim = interaction.TargetObject;
+			var healthComponent = victim.GetComponent<LivingHealthBehaviour>();
+			if (healthComponent && healthComponent.allowKnifeHarvest && healthComponent.IsDead && Validations.HasItemTrait(interaction.HandObject, butcherKnifeTrait) && interaction.Intent == Intent.Harm)
+			{
+				GameObject performer = interaction.Performer;
+
+				void ProgressFinishAction()
+				{
+					LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+					victimHealth.Harvest();
+					SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);
+				}
+
+				var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+					.ServerStartProgress(victim.RegisterTile(), butcherTime, performer);
+			}
+			else
+			{
+				wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+			}
 		}
 	}
 

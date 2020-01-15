@@ -31,12 +31,12 @@ public class EscapeKeyTarget : MonoBehaviour {
 			escapeKeyTarget.OnEscapeKey.Invoke();
 			if (escapeKeyTarget.DisableOnEscape)
 			{
-				GUI_IngameMenu.Instance.CloseMenuPanel(escapeKeyTarget.gameObject);
+				GUI_IngameMenu.Instance.CloseMenuPanel();
 			}
 		}
 		else
 		{
-			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
+			GUI_IngameMenu.Instance.OpenMenuPanel();
 		}
 	}
 
