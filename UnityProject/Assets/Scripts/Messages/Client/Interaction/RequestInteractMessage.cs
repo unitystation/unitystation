@@ -233,7 +233,7 @@ public class RequestInteractMessage : ClientMessage
 		var interactable = (component as IInteractable<T>);
 		//server side interaction check and cooldown check, and start the cooldown
 		if (interactable.ServerCheckInteract(interaction) &&
-		    SentByPlayer.Script.TryStartCooldown(CooldownCategory.Interaction))
+		    Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
 		{
 			//perform
 			interactable.ServerPerformInteraction(interaction);

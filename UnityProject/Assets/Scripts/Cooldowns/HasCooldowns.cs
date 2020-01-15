@@ -25,17 +25,17 @@ public class HasCooldowns : MonoBehaviour
 	//Set which tracks which cooldowns are currently on. Note that since CooldownIdentifiers
 	//explicitly identify if they are for clientside / serverside, this contains both client and
 	//serverside cooldowns.
-	private readonly HashSet<CooldownIdentifier> onCooldowns = new HashSet<CooldownIdentifier>();
+	private readonly HashSet<CooldownID> onCooldowns = new HashSet<CooldownID>();
 
 	/// <summary>
 	/// Starts the cooldown if it's not currently on.
 	/// </summary>
 	/// <param name="cooldown">cooldown to try</param>
-	/// <param name="side">indicate's which side's cooldowns should be started</param>
+	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public bool TryOn(Cooldown cooldown, NetworkSide side)
+	public bool TryStart(Cooldown cooldown, NetworkSide side)
 	{
-		return TryOn(CooldownIdentifier.Asset(cooldown, side), cooldown.DefaultTime);
+		return TryStart(CooldownID.Asset(cooldown, side), cooldown.DefaultTime);
 	}
 
 	/// <summary>
@@ -49,42 +49,53 @@ public class HasCooldowns : MonoBehaviour
 	/// </summary>
 	/// <param name="cooldown">interactable component whose cooldown should be started</param>
 	/// <param name="seconds">how many seconds the cooldown should take</param>
-	/// <param name="side">indicate's which side's cooldowns should be started</param>
+	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public bool TryOn<T>(IInteractable<T> interactable, float seconds, NetworkSide side)
+	public bool TryStart<T>(IInteractable<T> interactable, float seconds, NetworkSide side)
 		where T: Interaction
 	{
-		return TryOn(CooldownIdentifier.Interaction(interactable, side), seconds);
+		return TryStart(CooldownID.Interaction(interactable, side), seconds);
 	}
 
 	/// <summary>
-	/// Checks if the indicated cooldown is on for the indicated side.
+	/// Checks if the indicated cooldown is on (currently counting down) for the indicated side.
 	/// </summary>
-	/// <param name="cooldownIdentifier"></param>
+	/// <param name="cooldownId"></param>
 	/// <param name="side"></param>
 	/// <returns></returns>
-	public bool IsOn(CooldownIdentifier cooldownIdentifier)
+	public bool IsOn(CooldownID cooldownId)
 	{
-		return onCooldowns.Contains(cooldownIdentifier);
+		return onCooldowns.Contains(cooldownId);
 	}
 
-	private bool TryOn(CooldownIdentifier cooldownIdentifier, float seconds)
+	/// <summary>
+	/// Checks if the indicated cooldown is off (done counting down) for the indicated side.
+	/// </summary>
+	/// <param name="cooldownId"></param>
+	/// <param name="side"></param>
+	/// <returns></returns>
+	public bool IsOff(CooldownID cooldownId)
 	{
-		if (onCooldowns.Contains(cooldownIdentifier))
+		return !IsOn(cooldownId);
+	}
+
+	private bool TryStart(CooldownID cooldownId, float seconds)
+	{
+		if (onCooldowns.Contains(cooldownId))
 		{
 			//already on, don't start it
 			return false;
 		}
 
 		//go ahead and start it
-		StartCoroutine(DoCooldown(cooldownIdentifier, seconds));
+		StartCoroutine(DoCooldown(cooldownId, seconds));
 		return true;
 	}
 
-	private IEnumerator DoCooldown(CooldownIdentifier cooldownIdentifier, float seconds)
+	private IEnumerator DoCooldown(CooldownID cooldownId, float seconds)
 	{
-		onCooldowns.Add(cooldownIdentifier);
+		onCooldowns.Add(cooldownId);
 		yield return WaitFor.Seconds(seconds);
-		onCooldowns.Remove(cooldownIdentifier);
+		onCooldowns.Remove(cooldownId);
 	}
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an object or tiles to be attacked by melee.
 /// </summary>
-public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
@@ -42,12 +42,9 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		//must be targeting us
 		if (interaction.TargetObject != gameObject) return false;
 		//allowed to attack due to cooldown?
-		var playerScript = interaction.Performer.GetComponent<PlayerScript>();
-		//NOTE: we never start this cooldown on client side because there are too many
-		//factors that only server knows that would influence whether they actually hit,
-		//and we want to be fair to the client during combat and not lock them out of melee when they
-		//never actually hit something.
-		if (playerScript.IsOnCooldown(CooldownCategory.Melee))
+		//note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
+		//clientPredictInteraction on clientside
+		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side)))
 		{
 			return false;
 		}
@@ -66,6 +63,14 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		}
 
 		return true;
+	}
+
+
+	public void ClientPredictInteraction(PositionalHandApply interaction)
+	{
+		//start clientside melee cooldown so we don't try to spam melee
+		//requests to server
+		Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Melee);
 	}
 
 	//no rollback logic

@@ -26,7 +26,7 @@ public static class InteractionUtils
 	public static void RequestInteract<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
 	{
-		if (!PlayerManager.LocalPlayerScript.TryStartCooldown(CooldownCategory.Interaction, true)) return;
+		if (!Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction)) return;
 		RequestInteractMessage.Send(interaction, interactableComponent);
 	}
 
@@ -44,7 +44,7 @@ public static class InteractionUtils
 	public static IBaseInteractable<T> ClientCheckAndTrigger<T>(IEnumerable<IBaseInteractable<T>> interactables, T interaction)
 		where T : Interaction
 	{
-		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownCategory.Interaction)) return null;
+		if (Cooldowns.IsOnClient(interaction, CommonCooldowns.Instance.Interaction)) return null;
 		Logger.LogTraceFormat("Checking {0} interactions",
 			Category.Interaction, typeof(T).Name);
 		foreach (var interactable in interactables.Reverse())
@@ -68,7 +68,7 @@ public static class InteractionUtils
 		where T : Interaction
 	{
 		wasClientInteractable = false;
-		if (interaction.PerformerPlayerScript.IsOnCooldown(CooldownCategory.Interaction)) return false;
+		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction, side))) return false;
 		var result = false;
 		//check if client side interaction should be triggered
 		if (side == NetworkSide.Client && interactable is IClientInteractable<T> clientInteractable)
@@ -78,10 +78,7 @@ public static class InteractionUtils
 			{
 				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
 					(clientInteractable as Component).gameObject.name);
-				//we don't start this as the host player because some clientside interactions (like hugging) trigger
-				//server side logic through Cmds or net messages which also check the cooldowns, thus host player
-				//would always prevent themselves from performing these interactions
-				interaction.PerformerPlayerScript.TryStartCooldown(CooldownCategory.Interaction, true);
+				Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
 				wasClientInteractable = true;
 				return true;
 			}

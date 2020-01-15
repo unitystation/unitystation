@@ -23,6 +23,7 @@ public abstract class Interaction
 	/// </summary>
 	public PlayerScript PerformerPlayerScript => performerPlayerScript;
 	private readonly PlayerScript performerPlayerScript;
+
 	/// <summary>
 	/// Object that is being used by the player to perform the interaction.
 	/// For example...

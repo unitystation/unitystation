@@ -4,7 +4,7 @@
 /// so this encapsulates those different ways. Cooldown identifiers also explicitly indicate if they are
 /// for clientside or serverside logic.
 /// </summary>
-public class CooldownIdentifier
+public class CooldownID
 {
 	private enum CooldownType
 	{
@@ -19,7 +19,7 @@ public class CooldownIdentifier
 	private readonly NetworkSide networkSide;
 	private readonly CooldownType cooldownType;
 
-	private CooldownIdentifier(Cooldown cooldownAsset, ushort interactableComponentTypeID, NetworkSide networkSide, CooldownType cooldownType)
+	private CooldownID(Cooldown cooldownAsset, ushort interactableComponentTypeID, NetworkSide networkSide, CooldownType cooldownType)
 	{
 		this.cooldownAsset = cooldownAsset;
 		this.interactableComponentTypeID = interactableComponentTypeID;
@@ -33,9 +33,9 @@ public class CooldownIdentifier
 	/// <param name="cooldownAsset"></param>
 	/// <param name="side">network side this cooldown is for</param>
 	/// <returns></returns>
-	public static CooldownIdentifier Asset(Cooldown cooldownAsset, NetworkSide side)
+	public static CooldownID Asset(Cooldown cooldownAsset, NetworkSide side)
 	{
-		return new CooldownIdentifier(cooldownAsset, 0, side, CooldownType.Asset);
+		return new CooldownID(cooldownAsset, 0, side, CooldownType.Asset);
 	}
 
 	/// <summary>
@@ -48,13 +48,13 @@ public class CooldownIdentifier
 	/// <param name="interactable"></param>
 	/// <param name="side">network side this cooldown is for</param>
 	/// <returns></returns>
-	public static CooldownIdentifier Interaction<T>(IInteractable<T> interactable, NetworkSide side) where T : Interaction
+	public static CooldownID Interaction<T>(IInteractable<T> interactable, NetworkSide side) where T : Interaction
 	{
-		return new CooldownIdentifier(null, RequestInteractMessage._GetInteractableComponentTypeID(interactable),
+		return new CooldownID(null, RequestInteractMessage._GetInteractableComponentTypeID(interactable),
 			side, CooldownType.Interaction);
 	}
 
-	protected bool Equals(CooldownIdentifier other)
+	protected bool Equals(CooldownID other)
 	{
 		return Equals(cooldownAsset, other.cooldownAsset) && interactableComponentTypeID == other.interactableComponentTypeID && networkSide == other.networkSide && cooldownType == other.cooldownType;
 	}
@@ -64,7 +64,7 @@ public class CooldownIdentifier
 		if (ReferenceEquals(null, obj)) return false;
 		if (ReferenceEquals(this, obj)) return true;
 		if (obj.GetType() != this.GetType()) return false;
-		return Equals((CooldownIdentifier) obj);
+		return Equals((CooldownID) obj);
 	}
 
 	public override int GetHashCode()

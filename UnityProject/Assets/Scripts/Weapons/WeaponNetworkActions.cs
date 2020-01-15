@@ -38,7 +38,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, NamedSlot hand)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
-		if (!playerScript.TryStartCooldown(CooldownCategory.Interaction)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		Gun gun = gunObject.GetComponent<Gun>();
 		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
@@ -49,7 +49,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdUnloadWeapon(GameObject gunObject)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
-		if (!playerScript.TryStartCooldown(CooldownCategory.Interaction)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		Gun gun = gunObject.GetComponent<Gun>();
 
@@ -77,7 +77,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
-		if (playerScript.IsOnCooldown(CooldownCategory.Melee)) return;
+		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
 		var weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 
 		var tiles = victim.GetComponent<InteractableTiles>();
@@ -202,7 +202,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			}
 		}
 
-		playerScript.TryStartCooldown(CooldownCategory.Melee);
+		Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
 	}
 
 	[ClientRpc]
