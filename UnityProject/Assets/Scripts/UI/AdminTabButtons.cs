@@ -1,57 +1,68 @@
 ﻿using UnityEngine;
+using AdminTools;
 
 /// <summary>
 /// Behavior for the various buttons on the Dev tab
 /// </summary>
-public class DevTabButtons : MonoBehaviour
+public class AdminTabButtons : MonoBehaviour
 {
+	public GUI_AdminTools adminTools;
 	public GUI_DevSpawner devSpawner;
 	public GUI_DevCloner devCloner;
 	public GUI_DevDestroyer devDestroyer;
 	public GUI_DevSelectVVTile devSelectTile;
 	public GUI_VariableViewer vv;
 
+	void Awake()
+	{
+		DisableAllGUI();
+	}
+
+	public void BtnAdminPanel()
+	{
+		DisableAllGUI();
+		adminTools.gameObject.SetActive(true);
+	}
+
 	public void BtnSpawnItem()
 	{
-		devCloner.gameObject.SetActive(false);
-		devDestroyer.gameObject.SetActive(false);
-		devSelectTile.gameObject.SetActive(false);
+		DisableAllGUI();
 		devSpawner.gameObject.SetActive(true);
 		devSpawner.Open();
 	}
 
 	public void BtnCloneItem()
 	{
-		devSpawner.gameObject.SetActive(false);
-		devDestroyer.gameObject.SetActive(false);
-		devSelectTile.gameObject.SetActive(false);
+		DisableAllGUI();
 		devCloner.gameObject.SetActive(true);
 		devCloner.Open();
 	}
 
 	public void BtnDestroyItem()
 	{
-		devSpawner.gameObject.SetActive(false);
-		devCloner.gameObject.SetActive(false);
-		devSelectTile.gameObject.SetActive(false);
+		DisableAllGUI();
 		devDestroyer.gameObject.SetActive(true);
 	}
 
 	public void BtnOpenVV()
 	{
-		devSpawner.gameObject.SetActive(false);
-		devCloner.gameObject.SetActive(false);
-		devDestroyer.gameObject.SetActive(false);
-		devSelectTile.gameObject.SetActive(false);
+		DisableAllGUI();
 		vv.Open();
 	}
 
 	public void BtnOpenTileVV()
 	{
+		DisableAllGUI();
+		devSelectTile.gameObject.SetActive(true);
+		devSelectTile.Open();
+	}
+
+	void DisableAllGUI()
+	{
+		adminTools.gameObject.SetActive(false);
 		devSpawner.gameObject.SetActive(false);
 		devCloner.gameObject.SetActive(false);
 		devDestroyer.gameObject.SetActive(false);
-		devSelectTile.gameObject.SetActive(true);
-		devSelectTile.Open();
+		devSelectTile.gameObject.SetActive(false);
 	}
 }

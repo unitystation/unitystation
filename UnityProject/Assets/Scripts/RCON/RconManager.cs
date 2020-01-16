@@ -213,9 +213,18 @@ public class RconManager : RconConsole
 	//Monitoring:
 	public static string GetMonitorReadOut()
 	{
+		var connectedAdmins = 0;
+		foreach (var s in Instance.monitorHost.Sessions.Sessions)
+		{
+			if (s.ConnectionState == WebSocketState.Open)
+			{
+				connectedAdmins++;
+			}
+		}
+
 		//Removed GC Check for time being
 		return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
-			$" Admins Online: " + Instance.monitorHost.Sessions.Count;
+			$" Admins Online: " + connectedAdmins;
 
 		// return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
 		// $" GC MEM: {GC.GetTotalMemory( false ) / 1024 / 1024} MB  Admins Online: " + Instance.monitorHost.Sessions.Count;
@@ -336,7 +345,7 @@ public class Players
 			var player = PlayerList.Instance.InGamePlayers[i];
 			var playerEntry = new PlayerDetails()
 			{
-				playerName = player.Name,
+				playerName = player.Name + $" {player.UserId}",
 					job = player.Job.ToString()
 			};
 			players.Add(playerEntry);

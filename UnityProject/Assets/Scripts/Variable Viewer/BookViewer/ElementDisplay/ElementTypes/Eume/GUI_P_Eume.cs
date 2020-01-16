@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using DatabaseAPI;
 using TMPro;
 
 public class GUI_P_Eume : PageElement
@@ -48,9 +49,9 @@ public class GUI_P_Eume : PageElement
 	{
 		if (PageID != 0)
 		{
-			RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text);
+			RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text, ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
-		else { 
+		else {
 		}
 	}
 

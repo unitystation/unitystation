@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DatabaseAPI;
 using Lucene.Net.Documents;
 using UnityEditor;
 using UnityEngine;
@@ -130,7 +131,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab.name, (Vector3) position);
+			DevSpawnMessage.Send(prefab.name, (Vector3) position, ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 }

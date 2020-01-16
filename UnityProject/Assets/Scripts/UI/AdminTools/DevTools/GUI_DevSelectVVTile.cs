@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DatabaseAPI;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -83,7 +84,8 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 			}
 			if (CommonInput.GetMouseButtonDown(0))
 			{
-				RequestToViewObjectsAtTile.Send(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition));
+				RequestToViewObjectsAtTile.Send(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition),
+					ServerData.UserID, PlayerList.Instance.AdminToken);
 				OnEscape();
 			}
 
