@@ -18,8 +18,12 @@ using Random = System.Random;
 [RequireComponent(typeof(Pickupable))] //Inventory interaction
 [RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 [RequireComponent(typeof(RegisterItem))] //Registry with subsistence
+[RequireComponent(typeof(SpriteHandlerController))] //Sprite control, Should probably be in  Attributes but It currently has Only Item Sprite handling code
 public class ItemAttributesV2 : Attributes
 {
+	private SpriteHandlerController spriteHandlerController;
+
+
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
 	private List<ItemTrait> initialTraits;
@@ -147,13 +151,15 @@ public class ItemAttributesV2 : Attributes
 	public SpriteDataHandler SpriteDataHandler => spriteDataHandler;
 	private SpriteDataHandler spriteDataHandler;
 
+
+
+
 	private void Awake()
 	{
 		foreach (var definedTrait in initialTraits)
 		{
 			traits.Add(definedTrait);
 		}
-		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
 	}
 
 
@@ -254,4 +260,6 @@ public class ItemAttributesV2 : Attributes
 	{
 		SyncSize(newSize);
 	}
+
+
 }

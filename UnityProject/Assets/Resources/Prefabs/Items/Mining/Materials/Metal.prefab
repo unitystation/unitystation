@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114739776609663992}
   - component: {fileID: 1418731889289770694}
   - component: {fileID: -6058787925107608327}
+  - component: {fileID: -7570401812392908630}
   m_Layer: 10
   m_Name: Metal
   m_TagString: Untagged
@@ -181,6 +182,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 1
   maxAmount: 50
+  stacksWith: []
 --- !u!114 &114849399154925666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +224,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114185907784239616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,8 +246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114383244954830430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,90 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 19
-    Serialized:
-    - inlistID: 2
-      listID: 3
-      sprite: {fileID: 21300000, guid: f9e4a5ecbb42bef4eaf93b9484a19027, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 2
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 4
-      listID: 5
-      sprite: {fileID: 21300002, guid: f9e4a5ecbb42bef4eaf93b9484a19027, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 4
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 6
-      listID: 7
-      sprite: {fileID: 21300004, guid: f9e4a5ecbb42bef4eaf93b9484a19027, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 6
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 8
-      listID: 9
-      sprite: {fileID: 21300006, guid: f9e4a5ecbb42bef4eaf93b9484a19027, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 8
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 1
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 11
-      listID: 12
-      sprite: {fileID: 21300000, guid: cd822dad686a23d4ab3e308cb0b36b38, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 11
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 13
-      listID: 14
-      sprite: {fileID: 21300002, guid: cd822dad686a23d4ab3e308cb0b36b38, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 13
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 15
-      listID: 16
-      sprite: {fileID: 21300004, guid: cd822dad686a23d4ab3e308cb0b36b38, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 15
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 17
-      listID: 18
-      sprite: {fileID: 21300006, guid: cd822dad686a23d4ab3e308cb0b36b38, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 17
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 10
-      sprite: {fileID: 0}
-      waitTime: 0
-  spriteList:
-  - {fileID: 21300000, guid: f9e4a5ecbb42bef4eaf93b9484a19027, type: 3}
-  - {fileID: 21300000, guid: cd822dad686a23d4ab3e308cb0b36b38, type: 3}
+  Data: []
 --- !u!114 &114739776609663992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,7 +324,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2422933096
+  m_SceneId: 1833798444
 --- !u!114 &1418731889289770694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +354,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Metal Sheet
   initialDescription: 
+  exportCost: 5
+  exportName: 
+  exportMessage: cm3 of metal
   initialTraits:
   - {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
   initialSize: 1
@@ -440,6 +369,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 5
-  exportName: 
-  exportMessage: cm3 of metal
+--- !u!114 &-7570401812392908630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}

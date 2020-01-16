@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114001467022758570}
   - component: {fileID: 2723904792205394333}
   - component: {fileID: -7164253650790863826}
+  - component: {fileID: -2186964770964921649}
   m_Layer: 10
   m_Name: LaserPistol
   m_TagString: Untagged
@@ -181,7 +182,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114232596724965892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,8 +204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114613202640146834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,16 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114001467022758570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +338,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 943977443
 --- !u!114 &2723904792205394333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,8 +355,7 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
-    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!114 &-7164253650790863826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +372,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: LaserPistol
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 0
   hitDamage: 10
@@ -385,6 +386,22 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &-2186964770964921649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245908573886190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}
 --- !u!1 &5028027096888106743
 GameObject:
   m_ObjectHideFlags: 0

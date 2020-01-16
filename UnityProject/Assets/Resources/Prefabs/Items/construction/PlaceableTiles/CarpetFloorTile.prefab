@@ -7,9 +7,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_Name
+      value: CarpetFloorTile
+      objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: entries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: waysToPlace.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
@@ -35,26 +45,42 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
         type: 2}
-    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: initialName
-      value: carpet floor tile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: initialDescription
-      value: A piece of carpet. It is the same size as a floor tile.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: m_Sprite
+      propertyPath: waysToPlace.Array.data[0].layerTile
       value: 
-      objectReference: {fileID: 21300000, guid: 9ec4dcd07d117c045a0efa7c78010ddb,
+      objectReference: {fileID: 11400000, guid: a9b3adcebdf63a14c94feb45e419ce3b,
+        type: 2}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-    - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
+      propertyPath: waysToPlace.Array.data[0].placeableOn
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: m_Name
-      value: CarpetFloorTile
+      propertyPath: waysToPlace.Array.data[0].placeableOnlyOnTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+        type: 2}
+    - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
@@ -111,25 +137,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: initialName
+      value: carpet floor tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: initialDescription
+      value: A piece of carpet. It is the same size as a floor tile.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
+      objectReference: {fileID: 21300000, guid: 9ec4dcd07d117c045a0efa7c78010ddb,
         type: 3}
-      propertyPath: Armor.Fire
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: Resistances.Flammable
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8929117718014806510, guid: a435d5d64bc4b48baa27fecfcab9e111, type: 3}
+    - {fileID: -9056552128165633734, guid: a435d5d64bc4b48baa27fecfcab9e111, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a435d5d64bc4b48baa27fecfcab9e111, type: 3}

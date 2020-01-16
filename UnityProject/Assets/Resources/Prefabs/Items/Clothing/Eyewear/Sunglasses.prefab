@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: m_Name
+      value: Sunglasses
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Clothing
+      objectReference: {fileID: 0}
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: itemName
@@ -89,21 +99,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
-        type: 3}
-      propertyPath: m_Name
-      value: Sunglasses
-      objectReference: {fileID: 0}
-    - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
-        type: 3}
-      propertyPath: m_TagString
-      value: Clothing
-      objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2821731546506617226, guid: 28c72054b1f484ed4a6253c4feee3eb4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 28c72054b1f484ed4a6253c4feee3eb4, type: 3}

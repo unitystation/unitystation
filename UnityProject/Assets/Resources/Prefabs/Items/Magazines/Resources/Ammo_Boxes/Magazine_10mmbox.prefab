@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114539844613875522}
   - component: {fileID: 114752513315490410}
   - component: {fileID: 8138016183734406879}
+  - component: {fileID: -7944744942219692120}
   m_Layer: 10
   m_Name: Magazine_10mmbox
   m_TagString: Untagged
@@ -100,7 +101,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114025015166426706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +166,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114574426026239680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,8 +188,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114271337220239718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,16 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114752513315490410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +266,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 1271253328
 --- !u!114 &8138016183734406879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +283,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: 
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 0
   hitDamage: 0
@@ -288,6 +297,22 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &-7944744942219692120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299393041543980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}
 --- !u!1 &1829793713612658
 GameObject:
   m_ObjectHideFlags: 0

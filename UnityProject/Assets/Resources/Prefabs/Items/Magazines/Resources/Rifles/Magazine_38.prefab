@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114264518890959482}
   - component: {fileID: 114741458441318312}
   - component: {fileID: -6837536307982417834}
+  - component: {fileID: 772561137704806502}
   m_Layer: 10
   m_Name: Magazine_38
   m_TagString: Untagged
@@ -99,7 +100,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114673342454476188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,8 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114918708786196496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,16 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114741458441318312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +242,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 1505555239
 --- !u!114 &-6837536307982417834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +259,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: 38 Magnum Magazine
   initialDescription: Magazine for the Detective Revolver
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: ef9ed56250b41426baa5a3e5b16b8f34, type: 2}
   initialSize: 0
@@ -272,6 +274,22 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &772561137704806502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887694972930660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}
 --- !u!1 &1960548086557526
 GameObject:
   m_ObjectHideFlags: 0

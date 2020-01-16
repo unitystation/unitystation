@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114720253695277612}
   - component: {fileID: 114235674755919370}
   - component: {fileID: -1468996016570158645}
+  - component: {fileID: -893808903221871947}
   m_Layer: 10
   m_Name: ChainOfCommand
   m_TagString: Untagged
@@ -204,7 +205,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114292337180728850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +227,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114994997000342420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,16 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114235674755919370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,7 +305,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 3767646875
 --- !u!114 &-1468996016570158645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +322,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Chain Of Command
   initialDescription: Chain Of Command
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 1
   hitDamage: 10
@@ -338,3 +340,19 @@ MonoBehaviour:
   - whipped
   - lashed
   - disciplined
+--- !u!114 &-893808903221871947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}

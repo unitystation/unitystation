@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 414819323616783928}
   - component: {fileID: -3888481316110801324}
   - component: {fileID: 7468467091879112102}
+  - component: {fileID: 4068270458454939616}
   m_Layer: 10
   m_Name: Handcuffs
   m_TagString: Untagged
@@ -244,16 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114857360014702054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +261,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3995584186
+  m_SceneId: 1013364008
 --- !u!114 &414819323616783928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,3 +340,19 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
+--- !u!114 &4068270458454939616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664584551837519869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}

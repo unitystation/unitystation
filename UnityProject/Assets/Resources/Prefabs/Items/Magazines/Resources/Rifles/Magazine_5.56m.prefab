@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114878057850997212}
   - component: {fileID: 114680233419999430}
   - component: {fileID: 1283143114182087404}
+  - component: {fileID: 6981170448694638520}
   m_Layer: 10
   m_Name: Magazine_5.56m
   m_TagString: Untagged
@@ -179,7 +180,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114692482863562414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,8 +244,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114245010010922384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,16 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114680233419999430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +322,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 859801662
 --- !u!114 &1283143114182087404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +339,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: P90 Magazine
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 4e7a28935887b42c0abbb43cc4370604, type: 2}
   initialSize: 0
@@ -352,3 +354,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &6981170448694638520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777791374362824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}

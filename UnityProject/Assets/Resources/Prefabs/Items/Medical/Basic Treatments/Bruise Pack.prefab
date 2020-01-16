@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114504877800374682}
   - component: {fileID: 114143379017786812}
   - component: {fileID: -1687807933076633124}
+  - component: {fileID: 7761778796489342820}
   m_Layer: 10
   m_Name: Bruise Pack
   m_TagString: Untagged
@@ -181,6 +182,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 6
   maxAmount: 6
+  stacksWith: []
 --- !u!114 &114250079265950594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +198,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114537529964992312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,8 +220,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114426671417458994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,16 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114143379017786812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,7 +337,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 2684717422
 --- !u!114 &-1687807933076633124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,6 +354,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Bruise Pack
   initialDescription: Used to cure brute damage.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 1
   hitDamage: 0
@@ -365,3 +368,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &7761778796489342820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862150311813888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}

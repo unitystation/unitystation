@@ -7,12 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 18758610003781303, guid: 208d0d984a62d439babfcfb9d8bfe087,
+    - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0deb2277982c09b4aa08fac639ab2d83,
-        type: 3}
+      propertyPath: m_Name
+      value: Plasteel
+      objectReference: {fileID: 0}
     - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -68,16 +67,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
-        type: 3}
-      propertyPath: m_Name
-      value: Plasteel
-      objectReference: {fileID: 0}
-    - target: {fileID: 227261219375573087, guid: 208d0d984a62d439babfcfb9d8bfe087,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 227681744263398431, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: Resistances.FireProof
@@ -92,6 +81,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Acid
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 227261219375573087, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
@@ -124,5 +118,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: debdeac43ef6b474f934cecc7f43a273,
         type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 18758610003781303, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0deb2277982c09b4aa08fac639ab2d83,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: 9160606537426196650, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}

@@ -7,29 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: defaultPlantData
-      value: 
-      objectReference: {fileID: 11400000, guid: 7cb60611e91199c42a661b69b3be7c4f,
-        type: 2}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: initialName
-      value: pack of porcini mycelium
-      objectReference: {fileID: 0}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: initialDescription
-      value: This mycelium grows into Boletus edulus, also known as porcini. Native
-        to the late Earth, but discovered on Lavaland. Has culinary, medicinal and
-        relaxant effects.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Name
@@ -90,6 +67,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialName
+      value: pack of porcini mycelium
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialDescription
+      value: This mycelium grows into Boletus edulus, also known as porcini. Native
+        to the late Earth, but discovered on Lavaland. Has culinary, medicinal and
+        relaxant effects.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: defaultPlantData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7cb60611e91199c42a661b69b3be7c4f,
+        type: 2}
     - target: {fileID: 3989294870869407037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Sprite

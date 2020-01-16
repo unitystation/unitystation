@@ -12,6 +12,9 @@ using Mirror;
 public class ClothingV2 : MonoBehaviour
 {
 
+
+	private SpriteHandlerController spriteHandlerController;
+
 	//TODO: This can probably be migrated to this component rather than using a separate SO, since
 	//there's probably no situation where we'd want to re-use the same cloth data on more than one item.
 	[Tooltip("Clothing data describing the various sprites for this clothing.")]
@@ -30,8 +33,6 @@ public class ClothingV2 : MonoBehaviour
 	private List<int> variantList;
 	private SpriteData spriteInfo;
 
-	private Pickupable pickupable;
-
 	/// <summary>
 	/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
 	/// </summary>
@@ -48,21 +49,10 @@ public class ClothingV2 : MonoBehaviour
 	/// </summary>
 	public int SpriteInfoState => variantStore.ContainsKey(variantType) ? variantStore[variantType] : 0;
 
-	/// <summary>
-	/// SpriteDataHandler on this object
-	/// </summary>
-	public SpriteDataHandler SpriteDataHandler => spriteDataHandler;
-
-
-	private SpriteDataHandler spriteDataHandler;
-	private SpriteHandler inventoryIcon;
-
 
 	private void Awake()
 	{
-		pickupable = GetComponent<Pickupable>();
-		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
-		inventoryIcon = GetComponentInChildren<SpriteHandler>();
+		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		TryInit();
 	}
 
@@ -119,12 +109,12 @@ public class ClothingV2 : MonoBehaviour
 
 	private void SetUpFromClothingData(EquippedData equippedData)
 	{
-		spriteDataHandler.Infos = new SpriteData();
-		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsLeft));
-		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsRight));
-		inventoryIcon.Infos = new SpriteData();
-		inventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.ItemIcon));
-		inventoryIcon.PushTexture();
+		var SpriteSOData = new ItemsSprites();
+		SpriteSOData.LeftHand.SetSpriteSheetAndData(equippedData.InHandsLeft);
+		SpriteSOData.RightHand.SetSpriteSheetAndData(equippedData.InHandsRight);
+		SpriteSOData.InventoryIcon.SetSpriteSheetAndData(equippedData.ItemIcon);
+		spriteHandlerController.SetSprites(SpriteSOData);
+
 	}
 
 

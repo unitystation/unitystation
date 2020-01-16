@@ -7,27 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: defaultPlantData
-      value: 
-      objectReference: {fileID: 11400000, guid: 7c4ee55f796dee6438c3dec5befbf8e2,
-        type: 2}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: initialName
-      value: pack of geranium seeds
-      objectReference: {fileID: 0}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into geranium.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Name
@@ -88,6 +67,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialName
+      value: pack of geranium seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into geranium.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: defaultPlantData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c4ee55f796dee6438c3dec5befbf8e2,
+        type: 2}
     - target: {fileID: 3989294870869407037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Sprite

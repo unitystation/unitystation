@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab037047719f854ba49bc183f7f759d, type: 3}
+  m_Name: YellowESInventoryIcon
+  m_EditorClassIdentifier: Assets::ItemsSprites
+  Category: 0
+  LeftHand:
+    spriteSheetAndData:
+      Texture: {fileID: 2800000, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      Sprites:
+      - {fileID: 21300006, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      - {fileID: 21300004, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      - {fileID: 21300002, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      - {fileID: 21300000, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      - {fileID: 21300014, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      - {fileID: 21300012, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      - {fileID: 21300010, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      - {fileID: 21300008, guid: 9897f44574c791b4aa1dd4a6188fd38a, type: 3}
+      EquippedData: {fileID: 4900000, guid: b53efb03ad35de044996d8058bfa6f9a, type: 3}
+  RightHand:
+    spriteSheetAndData:
+      Texture: {fileID: 2800000, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      Sprites:
+      - {fileID: 21300006, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      - {fileID: 21300004, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      - {fileID: 21300002, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      - {fileID: 21300000, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      - {fileID: 21300014, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      - {fileID: 21300012, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      - {fileID: 21300010, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      - {fileID: 21300008, guid: 36657e26e113a4f4893cc14542f872e4, type: 3}
+      EquippedData: {fileID: 4900000, guid: c63e71803aee29a4ea8fd2cd5e1abfc1, type: 3}
+  InventoryIcon:
+    spriteSheetAndData:
+      Texture: {fileID: 2800000, guid: 6bd762a8aabfec441ab3dcdbd1d9e3f5, type: 3}
+      Sprites:
+      - {fileID: 21300002, guid: 6bd762a8aabfec441ab3dcdbd1d9e3f5, type: 3}
+      - {fileID: 21300000, guid: 6bd762a8aabfec441ab3dcdbd1d9e3f5, type: 3}
+      EquippedData: {fileID: 4900000, guid: 7ba94f3c30e9cd54c84905c59c04de78, type: 3}

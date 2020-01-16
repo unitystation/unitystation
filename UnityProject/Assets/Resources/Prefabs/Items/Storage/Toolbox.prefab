@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 3112443706636641109}
   - component: {fileID: 1768174954408027260}
   - component: {fileID: 6569725370997129311}
+  - component: {fileID: 4746965583783063766}
   m_Layer: 10
   m_Name: Toolbox
   m_TagString: Untagged
@@ -101,7 +102,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5060467795803936097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,8 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &4826798589450700602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,16 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &8782089620930079623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +240,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3010262781
+  m_SceneId: 4151750149
 --- !u!114 &3112443706636641109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +289,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: toolbox
   initialDescription: Danger. Very robust.
+  exportCost: 0
+  exportName: toolbox
+  exportMessage: 
   initialTraits: []
   initialSize: 4
   hitDamage: 12
@@ -302,9 +304,22 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs:
   - robusted
-  exportCost: 0
-  exportName: toolbox
-  exportMessage: 
+--- !u!114 &4746965583783063766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261239356000419554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}
 --- !u!1 &8124923591362471050
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,18 +413,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
   spriteRenderer: {fileID: 7050729024529984013}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 1

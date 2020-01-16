@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114667930526401654}
   - component: {fileID: 114521006495050380}
   - component: {fileID: 877203043203998857}
+  - component: {fileID: -3601675688988970725}
   m_Layer: 10
   m_Name: SolidPlasma
   m_TagString: Untagged
@@ -101,6 +102,13 @@ MonoBehaviour:
   syncInterval: 0.1
   registerTile: {fileID: 0}
   isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114349735982439280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,8 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114315561128172322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +167,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 1
   maxAmount: 50
+  stacksWith: []
 --- !u!114 &114089053101257560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,16 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  Data: []
 --- !u!114 &114521006495050380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,8 +257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 1449a7168a66e544c8929677c8ba5938
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2249523084
 --- !u!114 &877203043203998857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,12 +274,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: SolidPlasma
-  ArticleName: 
   initialDescription: A solid plasma
   exportCost: 200
   exportName: 
   exportMessage: cm3 of plasma
-  ArticleDescription: 
   initialTraits:
   - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
   initialSize: 1
@@ -292,6 +290,22 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &-3601675688988970725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042464433060550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}
 --- !u!1 &1668617562811696
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
+using System.Collections;
+
 
 ///	<summary>
 ///	Handles sprite syncing between server and clients and contains a custom animator
 ///	</summary>
 public class SpriteHandler : SpriteDataHandler
 {
-	[SerializeField]
+	//[SerializeField]
 	private SpriteRenderer spriteRenderer;
 
 	[SerializeField]
@@ -16,27 +18,43 @@ public class SpriteHandler : SpriteDataHandler
 	[FormerlySerializedAs("VariantIndex")]
 	private int variantIndex;
 
-	private SpriteJson spriteJson;
-
 	private int animationIndex = 0;
 
 	private float timeElapsed = 0;
 
 	private float waitTime;
 
-	private bool initialized = false;
-
 	private bool isAnimation = false;
 
 	[SerializeField]
 	private int test;
 
-	/// <summary>
-	/// Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
-	/// </summary>
 	[SerializeField]
-	[FormerlySerializedAs("SynchroniseVariant")]
-	private bool synchroniseVariant = true;
+	private bool SetSpriteOnStartUp = true;
+
+
+	private bool Initialised;
+
+	private IEnumerator WaitForInitialisation()
+	{
+		yield return WaitFor.EndOfFrame;
+		Initialised = true;
+		spriteRenderer = this.GetComponent<SpriteRenderer>();
+		if (spriteRenderer != null && SetSpriteOnStartUp)
+		{
+			//Logger.LogError("GO!2 " + transform.parent.name);
+			PushTexture();
+		}
+	}
+
+	void Start()
+	{
+		AddSprites();
+		spriteRenderer = this.GetComponent<SpriteRenderer>();
+		//Logger.LogError("GO!1 " + transform.parent.name);
+		StartCoroutine(WaitForInitialisation());
+
+	}
 
 	private void OnDisable()
 	{
@@ -45,16 +63,10 @@ public class SpriteHandler : SpriteDataHandler
 
 	public void SetColor(Color value)
 	{
-		spriteRenderer.color = value;
-	}
-
-	private void TryInit()
-	{
-		if (!initialized)
-		{
-			Infos.DeSerializeT();
-			initialized = true;
+		if (spriteRenderer == null) { 
+			spriteRenderer = this.GetComponent<SpriteRenderer>();
 		}
+		spriteRenderer.color = value;
 	}
 
 	public void PushClear()
@@ -65,31 +77,38 @@ public class SpriteHandler : SpriteDataHandler
 
 	public void PushTexture()
 	{
-		if (Infos != null)
+		if (Initialised)
 		{
-			if (!initialized)
+			if (Infos != null)
 			{
-				TryInit();
+				if (spriteIndex < Infos.List.Count &&
+					variantIndex < Infos.List[spriteIndex].Count &&
+					animationIndex < Infos.List[spriteIndex][variantIndex].Count)
+				{
+					SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
+					TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
+					return;
+				}
+				else if (spriteIndex < Infos.List.Count &&
+						 variantIndex < Infos.List[spriteIndex].Count)
+				{
+					animationIndex = 0;
+					SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
+					TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
+					return;
+				}
 			}
-
-			if (spriteIndex < Infos.List.Count &&
-			    variantIndex < Infos.List[spriteIndex].Count &&
-			    animationIndex < Infos.List[spriteIndex][variantIndex].Count)
-			{
-				SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
-				TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
-				return;
-			}
+			spriteRenderer.sprite = null;
+			TryToggleAnimationState(false);
 		}
-		spriteRenderer.sprite = null;
-		TryToggleAnimationState(false);
 	}
 
 	public void UpdateMe()
 	{
+
 		timeElapsed += Time.deltaTime;
 		if (Infos.List.Count > spriteIndex &&
-		    timeElapsed >= waitTime)
+			timeElapsed >= waitTime)
 		{
 			animationIndex++;
 			if (animationIndex >= Infos.List[spriteIndex][variantIndex].Count)
@@ -98,7 +117,8 @@ public class SpriteHandler : SpriteDataHandler
 			}
 			SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
 		}
-		if (!isAnimation) {
+		if (!isAnimation)
+		{
 			UpdateManager.Instance.Remove(UpdateMe);
 			spriteRenderer.sprite = null;
 		}
@@ -120,8 +140,8 @@ public class SpriteHandler : SpriteDataHandler
 	public void ChangeSprite(int newSprites)
 	{
 		if (newSprites < Infos.List.Count &&
-		    spriteIndex != newSprites &&
-		    variantIndex < Infos.List[newSprites].Count)
+			spriteIndex != newSprites &&
+			variantIndex < Infos.List[newSprites].Count)
 		{
 			spriteIndex = newSprites;
 			animationIndex = 0;
@@ -133,8 +153,8 @@ public class SpriteHandler : SpriteDataHandler
 	public void ChangeSpriteVariant(int spriteVariant)
 	{
 		if (spriteIndex < Infos.List.Count &&
-		    spriteVariant < Infos.List[spriteIndex].Count &&
-		    variantIndex != spriteVariant)
+			spriteVariant < Infos.List[spriteIndex].Count &&
+			variantIndex != spriteVariant)
 		{
 			if (Infos.List[spriteIndex][spriteVariant].Count <= animationIndex)
 			{
@@ -148,6 +168,7 @@ public class SpriteHandler : SpriteDataHandler
 
 	private void TryToggleAnimationState(bool turnOn)
 	{
+		//UpdateManager.Instance.Remove(UpdateMe);
 		if (turnOn && !isAnimation)
 		{
 			UpdateManager.Instance.Add(UpdateMe);
@@ -159,4 +180,35 @@ public class SpriteHandler : SpriteDataHandler
 			isAnimation = false;
 		}
 	}
+
+	/// <summary>
+	/// Used to Set sprite handlers internal buffer to the single Texture specified and set Sprite
+	/// </summary>
+	/// <param name="_SpriteSheetAndData">specified Texture.</param>
+	/// <param name="_variantIndex">Variant index.</param>
+	public void SetSprite(SpriteSheetAndData _SpriteSheetAndData, int _variantIndex = 0)
+	{
+		Infos.List.Clear();
+		Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(_SpriteSheetAndData));
+		variantIndex = _variantIndex;
+		PushTexture();
+	}
+
+	/// <summary>
+	/// Used to Set sprite handlers internal buffer to To a different internal buffer
+	/// </summary>
+	/// <param name="_Info">internal buffer.</param>
+	/// <param name="_spriteIndex">Sprite index.</param>
+	/// <param name="_variantIndex">Variant index.</param>
+	public void SetInfo(SpriteData _Info, int _spriteIndex = 0, int _variantIndex = 0)
+	{
+		spriteIndex = _spriteIndex;
+		variantIndex = _variantIndex;
+		Infos = _Info;
+		if (Initialised)
+		{
+			PushTexture();
+		}
+	}
+
 }

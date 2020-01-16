@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114011298045296396}
   - component: {fileID: -7503759915182138908}
   - component: {fileID: -1737393765068986544}
+  - component: {fileID: -7453541498755579032}
   m_Layer: 10
   m_Name: Emag
   m_TagString: Untagged
@@ -205,7 +206,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114065903958209818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,8 +228,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &2672431944032583097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,8 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuccessChance: 100
-  IsSyndicateVariant: 0
   SpeedMultiplier: 1
 --- !u!114 &114020482039318460
 MonoBehaviour:
@@ -297,18 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList:
-  - {fileID: 21300000, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
-  - {fileID: 21300000, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
+  Data: []
 --- !u!114 &-7503759915182138908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +319,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 1813751191
 --- !u!114 &-1737393765068986544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +336,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Cryptographic sequencer
   initialDescription: It's a card with a magnetic strip attached to some circuitry.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 8ddc1bf1d79674344b6b5c7cf6b3f1ee, type: 2}
   initialSize: 0
@@ -353,3 +351,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &-7453541498755579032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db4e34af3f5f41478f9ec5ca4fa9ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  inHandsSprites: {fileID: 0}
+  spriteHandler: {fileID: 0}

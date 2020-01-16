@@ -7,28 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: defaultPlantData
-      value: 
-      objectReference: {fileID: 11400000, guid: 6f49aeb7c454e9a4aacaa8ec970c9268,
-        type: 2}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: initialName
-      value: pack of replica pod seeds
-      objectReference: {fileID: 0}
-    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: initialDescription
-      value: These seeds grow into replica pods. They say these are used to harvest
-        humans.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Name
@@ -89,6 +67,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialName
+      value: pack of replica pod seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into replica pods. They say these are used to harvest
+        humans.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: defaultPlantData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f49aeb7c454e9a4aacaa8ec970c9268,
+        type: 2}
     - target: {fileID: 3989294870869407037, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: m_Sprite

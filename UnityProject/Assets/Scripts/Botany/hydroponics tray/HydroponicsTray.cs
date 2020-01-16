@@ -274,7 +274,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	private void SyncWeed(bool newNotifier)
 	{
 		if (isSoilPile ||
-		    newNotifier == syncWaterNotifier) return;
+		    newNotifier == syncWeedNotifier) return;
 
 		syncWeedNotifier = newNotifier;
 		if (syncWeedNotifier)
@@ -579,7 +579,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 						$"You remove the weeds from the {gameObject.ExpensiveName()}.",
 						$"{interaction.Performer.name} uproots the weeds.");
 				}
-				weedNotifier.PushClear();
+				SyncWeed(false);
 				weedLevel = 0;
 				return;
 			}
