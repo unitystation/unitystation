@@ -60,12 +60,6 @@ public struct PlayerState
 
 	public bool NoLerp;
 
-	/// <summary>
-	/// Make the client to synchronize nearly pixel-perfect the position of the player and another object/player.
-	/// That allows to connect two object movement together.
-	/// </summary>
-	public uint SynchronizeWithNetId;
-
 	///Direction of flying in world position coordinates
 	public Vector2 WorldImpulse;
 
