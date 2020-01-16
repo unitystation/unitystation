@@ -83,6 +83,17 @@ public partial class PlayerList
 	[Server]
 	public GameObject GetAdmin(string userID, string token)
 	{
+		if (string.IsNullOrEmpty(userID))
+		{
+			Logger.LogError("The User ID for Admin is null!", Category.Admin);
+			if (string.IsNullOrEmpty(token))
+			{
+				Logger.LogError("The AdminToken value is null!", Category.Admin);
+			}
+
+			return null;
+		}
+
 		if (!loggedInAdmins.ContainsKey(userID)) return null;
 
 		if (loggedInAdmins[userID] != token) return null;
