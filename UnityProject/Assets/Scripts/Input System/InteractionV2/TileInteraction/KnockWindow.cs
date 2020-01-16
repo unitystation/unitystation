@@ -11,7 +11,9 @@ public class KnockWindow : TileInteraction
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.Intent == Intent.Harm) return false;
-		return interaction.HandObject == null;
+		if (interaction.HandObject != null) return false;
+		//don't allow spamming window knocks really fast
+		return Cooldowns.TryStart(interaction, this, 1, side);
 	}
 
 	public override void ServerPerformInteraction(TileApply interaction)

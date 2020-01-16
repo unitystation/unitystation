@@ -82,6 +82,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		//allowed to drop from hands while cuffed
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot);
@@ -105,6 +106,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//calculate time
 		var occupiedSlots = itemStorage.GetItemSlots().Count(slot => slot.NamedSlot != NamedSlot.handcuffs && !slot.IsEmpty);
 		if (occupiedSlots == 0) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var timeTaken = occupiedSlots * .4f;
 		void ProgressComplete()
 		{
@@ -130,6 +132,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
@@ -140,6 +143,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		var targetVector = worldPos - gameObject.TileWorldPosition().To3Int();
 		if (!Validations.CanApply(playerScript, newParent, NetworkSide.Server, targetVector: targetVector)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot, worldPos);
@@ -151,6 +155,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Validations.CanApply(playerScript, switchObj, NetworkSide.Server)) return;
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
+			if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 			LightSwitch s = switchObj.GetComponent<LightSwitch>();
 			if (s.isOn == LightSwitch.States.On)
 			{
@@ -171,6 +176,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdTryUncuff()
 	{
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
 	}
 
@@ -380,6 +386,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		Edible baseFood = food.GetComponent<Edible>();
 		if (isDrink)
 		{
@@ -440,6 +447,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			if (paperComponent != null)
 			{
+				if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 				paperComponent.SetServerString(newMsg);
 				paperComponent.UpdatePlayer(gameObject);
 			}
@@ -475,6 +483,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//validate that hug can be done
 		if (!Validations.CanApply(playerScript, huggedPlayer, NetworkSide.Server)) return;
+		//hugging is kind of a melee-type action, at least we wouldn't want to spam it quickly
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee)) return;
 
 		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
 		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
@@ -499,6 +509,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//TODO: Probably refactor this to IF2
 		if (!Validations.CanApply(playerScript, cardiacArrestPlayer, NetworkSide.Server)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
 
@@ -532,6 +543,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRequestDisarm(GameObject playerToDisarm)
 	{
 		if (!Validations.CanApply(playerScript, playerToDisarm, NetworkSide.Server)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var rng = new System.Random();
 		string disarmerName = playerScript.gameObject.Player()?.Name;
 		string playerToDisarmName = playerToDisarm.Player()?.Name;
