@@ -1,4 +1,5 @@
 using System.Collections;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -543,6 +544,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+		{
+			return null;
+		}
+
 		return RightClickableResult.Create()
 			.AddAdminElement("Respawn", AdminRespawn);
 	}
@@ -551,7 +557,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	//being that it should properly initialize itself regardless of its previous state.
 	private void AdminRespawn()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)

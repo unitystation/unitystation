@@ -584,8 +584,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	#region Admin
 
 	[Command]
-	public void CmdAdminMakeHotspot(GameObject onObject)
+	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
 	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
 		if (onObject == null) return;
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
     if (reactionManager == null) return;
@@ -598,8 +600,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdAdminSmash(GameObject toSmash)
+	public void CmdAdminSmash(GameObject toSmash, string adminId, string adminToken)
 	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
 		if ( toSmash == null )
 		{
 			return;
@@ -616,8 +621,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//simulates despawning and immediately respawning this object, expectation
 	//being that it should properly initialize itself regardless of its previous state.
 	[Command]
-	public void CmdAdminRespawn(GameObject toRespawn)
+	public void CmdAdminRespawn(GameObject toRespawn, string adminId, string adminToken)
 	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
 		Spawn.ServerPoolTestRespawn(toRespawn);
 	}
 
