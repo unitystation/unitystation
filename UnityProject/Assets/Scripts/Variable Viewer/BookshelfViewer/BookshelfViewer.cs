@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DatabaseAPI;
 using UnityEngine;
 
 public class BookshelfViewer : MonoBehaviour
@@ -15,12 +16,10 @@ public class BookshelfViewer : MonoBehaviour
 	public List<SingleBookshelf> BookshelfList = new List<SingleBookshelf>();
 
 	private VariableViewerNetworking.NetFriendlyBookShelf _BookShelfIn;
+
 	public VariableViewerNetworking.NetFriendlyBookShelf BookShelfIn
 	{
-		get
-		{
-			return _BookShelfIn;
-		}
+		get { return _BookShelfIn; }
 		set
 		{
 			_BookShelfIn = value;
@@ -30,12 +29,10 @@ public class BookshelfViewer : MonoBehaviour
 	}
 
 	private VariableViewerNetworking.NetFriendlyBookShelfView _BookShelfView;
+
 	public VariableViewerNetworking.NetFriendlyBookShelfView BookShelfView
 	{
-		get
-		{
-			return _BookShelfView;
-		}
+		get { return _BookShelfView; }
 		set
 		{
 			_BookShelfView = value;
@@ -76,7 +73,8 @@ public class BookshelfViewer : MonoBehaviour
 				BookshelfList[(int) i].gameObject.SetActive(true);
 				WaitingOn.Add(_BookShelfView.HeldShelfIDs[i].ID);
 				IDToLocation[_BookShelfView.HeldShelfIDs[i].ID] = i;
-				RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[i].ID);
+				RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[i].ID, false,
+					ServerData.UserID, PlayerList.Instance.AdminToken);
 				ListBottom = i;
 			}
 			else
@@ -96,7 +94,8 @@ public class BookshelfViewer : MonoBehaviour
 			ListBottom--;
 			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int) ListTop].ID);
 			IDToLocation[_BookShelfView.HeldShelfIDs[ListTop].ID] = 0;
-			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListTop].ID);
+			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListTop].ID,
+				false, ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 
@@ -110,20 +109,23 @@ public class BookshelfViewer : MonoBehaviour
 			ListBottom++;
 			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int) ListBottom].ID);
 			IDToLocation[_BookShelfView.HeldShelfIDs[ListBottom].ID] = 2;
-			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListBottom].ID);
+			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListBottom].ID, false,
+				ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 
 	public void GoToObscuringBookshelf()
 	{
-		RequestBookshelfNetMessage.Send(_BookShelfView.ID, true);
+		RequestBookshelfNetMessage.Send(_BookShelfView.ID, true,
+			ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	public void Refresh()
 	{
 		if (_BookShelfView.HeldShelfIDs.Length > 0)
 		{
-			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[0].ID, true);
+			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[0].ID, true,
+				ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 

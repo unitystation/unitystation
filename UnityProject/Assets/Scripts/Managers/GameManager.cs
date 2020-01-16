@@ -30,6 +30,8 @@ public partial class GameManager : MonoBehaviour
 	[NonSerialized]
 	public bool RespawnCurrentlyAllowed;
 
+	[HideInInspector] public string NextGameMode = "Random";
+
 	/// <summary>
 	/// Server setting - set in editor. Should not be changed in code.
 	/// </summary>
@@ -297,11 +299,17 @@ public partial class GameManager : MonoBehaviour
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			// TODO hard coding gamemode for testing purposes
-			SetGameMode("Traitor");
-			if (GameMode == null)
+			if (string.IsNullOrEmpty(NextGameMode)
+			    || NextGameMode == "Random")
 			{
 				SetRandomGameMode();
+			}
+			else
+			{
+				SetGameMode(NextGameMode);
+				//set it back to random when it has been loaded
+				//TODO set default game modes
+				NextGameMode = "Random";
 			}
 			// Game mode specific setup
 			GameMode.SetupRound();

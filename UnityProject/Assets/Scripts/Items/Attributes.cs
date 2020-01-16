@@ -25,6 +25,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	public string ArticleName => articleName;
 
+	public string InitialName => initialName;
+
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
 	private string initialDescription;

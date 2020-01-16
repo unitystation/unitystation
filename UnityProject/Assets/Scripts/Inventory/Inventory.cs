@@ -117,6 +117,29 @@ public static class Inventory
 	}
 
 	/// <summary>
+	/// Same as above but can support stackables (playing item one at a time into a machine)
+	/// returns the object that was removed from the stack also
+	/// </summary>
+	/// <param name="fromSlot"></param>
+	/// <returns></returns>
+	public static GameObject ServerVanishStackable(ItemSlot fromSlot)
+	{
+		if (fromSlot.ItemObject == null) return null;
+		var stackable = fromSlot.ItemObject.GetComponent<Stackable>();
+		if (stackable != null)
+		{
+			var clone = stackable.ServerRemoveOne();
+			ServerPerform(new InventoryMove(InventoryMoveType.Remove, clone.GetComponent<Pickupable>(), fromSlot, null, InventoryRemoveType.Vanish));
+			return clone;
+		}
+		else
+		{
+			ServerPerform(InventoryMove.Vanish(fromSlot));
+			return fromSlot.Item.gameObject;
+		}
+	}
+
+	/// <summary>
 	/// Inventory move in which the object in the slot is thrown into the world from the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>

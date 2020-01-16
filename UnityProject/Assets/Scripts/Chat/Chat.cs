@@ -31,16 +31,18 @@ public partial class Chat : MonoBehaviour
 	private ChatRelay chatRelay;
 	private Action<ChatEvent> addChatLogServer;
 	private Action<string, ChatChannel> addChatLogClient;
+	private Action<string, string> addAdminPriv;
 
 	/// <summary>
 	/// Set the scene based chat relay at the start of every round
 	/// </summary>
 	public static void RegisterChatRelay(ChatRelay relay, Action<ChatEvent> serverChatMethod,
-		Action<string, ChatChannel> clientChatMethod)
+		Action<string, ChatChannel> clientChatMethod, Action<string, string> adminMethod)
 	{
 		Instance.chatRelay = relay;
 		Instance.addChatLogServer = serverChatMethod;
 		Instance.addChatLogClient = clientChatMethod;
+		Instance.addAdminPriv = adminMethod;
 	}
 
 	/// <summary>
@@ -482,6 +484,16 @@ public partial class Chat : MonoBehaviour
 				AddExamineMsgFromServer(recipient, message);
 				break;
 		}
+	}
+
+	public static void AddAdminPrivMsg(string message, string adminId)
+	{
+		Instance.addAdminPriv.Invoke(message, adminId);
+	}
+
+	public static void AddAdminReplyMsg(string message)
+	{
+		Instance.addChatLogClient.Invoke(message, ChatChannel.System);
 	}
 
 	/// <summary>

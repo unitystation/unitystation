@@ -18,6 +18,21 @@ public class GameModeData : ScriptableObject
 	[SerializeField]
 	private GameMode DefaultGameMode;
 
+	/// <summary>
+	/// Returns a list of game mode names available in the
+	/// codebase
+	/// </summary>
+	public List<string> GetAvailableGameModeNames()
+	{
+		var gameModes = new List<string>();
+		foreach (var g in GameModes)
+		{
+			gameModes.Add(g.Name);
+		}
+
+		return gameModes;
+	}
+
 	public GameMode GetGameMode(string gmName)
 	{
 		foreach(GameMode gm in GameModes)

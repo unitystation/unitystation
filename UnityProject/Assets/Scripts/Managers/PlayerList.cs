@@ -254,6 +254,18 @@ public partial class PlayerList : NetworkBehaviour
 		return getInternal(player => player.GameObject == byGameObject, lookupOld);
 	}
 
+	[Server]
+	public ConnectedPlayer GetByUserID(string byUserID, bool lookupOld = false)
+	{
+		return getInternal(player => player.UserId == byUserID, lookupOld);
+	}
+
+	[Server]
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID)
+	{
+		return values.FindAll(player => player.UserId == byUserID);
+	}
+
 	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition, bool lookupOld = false)
 	{
 		for (var i = 0; i < values.Count; i++)

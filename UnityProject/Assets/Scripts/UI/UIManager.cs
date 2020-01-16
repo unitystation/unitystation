@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mirror;
 using UI.UI_Bottom;
@@ -37,7 +38,14 @@ public class UIManager : MonoBehaviour
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
 	public AnimationCurve strandedZoomOutCurve;
-	[HideInInspector]
+	private bool preventChatInput;
+
+	public static bool PreventChatInput
+	{
+		get { return uiManager.preventChatInput; }
+		set { uiManager.preventChatInput = value; }
+	}
+
 	//map from progress bar id to actual progress bar component.
 	private Dictionary<int, ProgressBar> progressBars = new Dictionary<int, ProgressBar>();
 
@@ -50,34 +58,31 @@ public class UIManager : MonoBehaviour
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
 	public static bool IsInputFocus
 	{
-		get
-		{
-			return Instance && Instance.isInputFocus;
-		}
+		get { return Instance && Instance.isInputFocus; }
 		set
 		{
 			if (!Instance)
 			{
 				return;
 			}
+
 			Instance.isInputFocus = value;
 		}
 	}
+
 	public bool isInputFocus;
 
 	///Global flag for when we are using the mouse to do something that shouldn't cause interaction with the game.
 	public static bool IsMouseInteractionDisabled
 	{
-		get
-		{
-			return Instance && Instance.isMouseInteractionDisabled;
-		}
+		get { return Instance && Instance.isMouseInteractionDisabled; }
 		set
 		{
 			if (!Instance)
 			{
 				return;
 			}
+
 			Instance.isMouseInteractionDisabled = value;
 		}
 	}
@@ -123,12 +128,24 @@ public class UIManager : MonoBehaviour
 	public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
 
 	public static DisplayManager DisplayManager => Instance.displayManager;
-	public static UI_StorageHandler StorageHandler => Instance.storageHandler;
+
+	public static UI_StorageHandler StorageHandler
+	{
+		get
+		{
+			if (Instance == null)
+			{
+				return null;
+			}
+
+			return Instance.storageHandler;
+		}
+	}
+
 	public static BuildMenu BuildMenu => Instance.buildMenu;
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
 	public static GUI_Info InfoWindow => Instance.infoWindow;
-
 
 
 	private float pingUpdate;
@@ -201,7 +218,7 @@ public class UIManager : MonoBehaviour
 		if (pingUpdate >= 5f)
 		{
 			pingUpdate = 0f;
-			pingDisplay.text = $"ping: {(NetworkTime.rtt*1000):0}ms";
+			pingDisplay.text = $"ping: {(NetworkTime.rtt * 1000):0}ms";
 		}
 	}
 
@@ -219,10 +236,12 @@ public class UIManager : MonoBehaviour
 		{
 			slot.Reset();
 		}
+
 		foreach (DamageMonitorListener listener in Instance.GetComponentsInChildren<DamageMonitorListener>())
 		{
 			listener.Reset();
 		}
+
 		StorageHandler.CloseStorageUI();
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
@@ -283,7 +302,8 @@ public class UIManager : MonoBehaviour
 		var bar = GetProgressBar(progressBarId);
 		if (bar == null)
 		{
-			Logger.LogWarningFormat("Tried to destroy progress bar with unrecognized id {0}, nothing will be done.", Category.UI, progressBarId);
+			Logger.LogWarningFormat("Tried to destroy progress bar with unrecognized id {0}, nothing will be done.",
+				Category.UI, progressBarId);
 		}
 		else
 		{
@@ -305,7 +325,8 @@ public class UIManager : MonoBehaviour
 	/// <param name="player">player performing the action</param>
 	/// <returns>progress bar associated with this action (can use this to interrupt progress). Null if
 	/// progress was not started for some reason (such as already in progress for this action on the specified tile).</returns>
-	public static ProgressBar _ServerStartProgress(IProgressAction progressAction, ActionTarget actionTarget, float timeForCompletion,
+	public static ProgressBar _ServerStartProgress(IProgressAction progressAction, ActionTarget actionTarget,
+		float timeForCompletion,
 		GameObject player)
 	{
 		//convert to an offset so local position ends up being correct even on moving matrix
@@ -374,7 +395,6 @@ public class UIManager : MonoBehaviour
 
 		//start zooming out
 		StartCoroutine(StrandedZoomOut());
-
 	}
 
 	private IEnumerator StrandedZoomOut()
@@ -414,6 +434,7 @@ public class UIManager : MonoBehaviour
 		{
 			UIManager.Display.hudBottomHuman.gameObject.SetActive(true);
 		}
+
 		ChatUI.Instance.OpenChatWindow();
 		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
 		lightingSystem.enabled = true;
@@ -421,6 +442,5 @@ public class UIManager : MonoBehaviour
 		zoomButtons.enabled = true;
 		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
 		camera2dfollow.enabled = true;
-
 	}
 }
