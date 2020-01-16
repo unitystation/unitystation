@@ -26,6 +26,9 @@ public class UIManager : MonoBehaviour
 	public AlertUI alertUI;
 	public Text toolTip;
 	public Text pingDisplay;
+	[SerializeField]
+	[Tooltip("Text displaying the game's version number.")]
+	private Text versionDisplay;
 	public GUI_Info infoWindow;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
@@ -150,6 +153,11 @@ public class UIManager : MonoBehaviour
 	public static string SetToolTip
 	{
 		set { Instance.toolTip.text = value; }
+	}
+
+	public static string SetVersionDisplay
+	{
+		set { Instance.versionDisplay.text = value; }
 	}
 
 	/// <summary>
