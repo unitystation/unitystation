@@ -58,6 +58,14 @@ namespace Antagonists
 			// Pick a random item and add it to the targeted list
 			var itemEntry = possibleItems.PickRandom();
 			ItemName = itemEntry.Key.Item().InitialName;
+
+			if (string.IsNullOrEmpty(ItemName))
+			{
+				Logger.LogError($"Objective steal item target failed because the InitialName has not been" +
+				                $" set on this objects ItemAttributes. " +
+				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Round);
+				return;
+			}
 			Amount = itemEntry.Value;
 			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
 			// TODO randomise amount based on range/weightings?

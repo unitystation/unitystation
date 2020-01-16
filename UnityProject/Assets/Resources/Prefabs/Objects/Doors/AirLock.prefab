@@ -85,6 +85,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114232321497863980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114936590258962662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,7 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: e1a9ff52d12442f3bf8a03873bcab8ee
   m_SceneId: 0
 --- !u!114 &4518357836073184054
 MonoBehaviour:
@@ -671,7 +674,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335001101035598}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -799,11 +802,10 @@ AudioSource:
   m_GameObject: {fileID: 1679390965448050}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 98b5308a2adb43d49b3471da7a9057dd, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.344
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -972,11 +974,10 @@ AudioSource:
   m_GameObject: {fileID: 1787265023359374}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 13792128ab4b4a9bbe78491650423df1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.37
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
