@@ -91,6 +91,11 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		SyncAmount(this.amount);
 	}
 
+	public bool IsFull()
+	{
+		return Amount >= maxAmount;
+	}
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
@@ -151,6 +156,23 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	}
 
 	/// <summary>
+	/// Removes one item from a stack and returns it
+	/// </summary>
+	/// <returns></returns>
+	[Server]
+	public GameObject ServerRemoveOne()
+	{
+		SyncAmount(amount - 1);
+		if (amount <= 0)
+		{
+			return gameObject;
+		}
+
+		var spawnInfo = Spawn.ServerPrefab(prefab, gameObject.transform.position, gameObject.transform);
+		return spawnInfo.GameObject;
+	}
+
+	/// <summary>
 	/// Adds the quantity in toAdd to this stackable (up to maxAmount) and despawns toAdd
 	/// if it is entirely used up.
 	/// Does nothing if they aren't the same thing
@@ -174,7 +196,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	}
 
 	/// <summary>
-	/// Returns true iff other can be added to this stackable.
+	/// Returns true iff other can be added to this stackable, as long as there is space for at least
+	/// one item.
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
@@ -185,7 +208,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	}
 	/// <summary>
-	/// Returns true iff toAdd can be added to this stackable.
+	/// Returns true iff toAdd can be added to this stackable, as long as there is space for at least
+	/// one item.
 	/// </summary>
 	/// <param name="toAdd"></param>
 	/// <returns></returns>

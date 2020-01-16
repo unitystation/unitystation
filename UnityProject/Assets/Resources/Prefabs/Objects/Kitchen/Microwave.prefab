@@ -189,8 +189,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cookTime: 10
-  onSprite: {fileID: 21300000, guid: 47022b2620601ec4e87ddd6e2f22e370, type: 3}
+  COOK_TIME: 10
+  microwaveTimer: 0
+  meal: 
+  SPRITE_ON: {fileID: 21300000, guid: 47022b2620601ec4e87ddd6e2f22e370, type: 3}
 --- !u!114 &114643057465573826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,8 +219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114348264163667782
@@ -298,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 462ac978126b468baa6b4ba377070a17
+  m_AssetId: 
   m_SceneId: 0
 --- !u!1 &1000010906387252
 GameObject:

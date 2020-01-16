@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Atmospherics;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -55,10 +56,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public Resistances Resistances = new Resistances();
 
 	/// <summary>
-	/// Below this temperature, the object will take no damage from fire or heat and won't ignite.
+	/// Below this temperature (in Kelvin) the object will be unaffected by fire exposure.
 	/// </summary>
-	[Tooltip("Below this temperature, the object will take no damage from fire or heat and" +
-	         " won't ignite.")]
+	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
 	public float initialIntegrity = 100f;
@@ -73,7 +73,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 
 	// damage incurred each tick while an object is on fire
-	private static float BURNING_DAMAGE = 5;
+	private static float BURNING_DAMAGE = 0.08f;
 
 	private static readonly float BURN_RATE = 1f;
 	private float timeSinceLastBurn;
@@ -204,7 +204,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
-			var destructInfo = new DestructionInfo(lastDamageType);
+			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
 
 			if (onFire)
@@ -270,6 +270,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+		{
+			return null;
+		}
+
 		return RightClickableResult.Create()
 			.AddAdminElement("Smash", AdminSmash)
 			.AddAdminElement("Hotspot", AdminMakeHotspot);
@@ -277,11 +282,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void AdminSmash()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminSmash(gameObject);
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminSmash(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 	private void AdminMakeHotspot()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject);
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 }
 
@@ -295,9 +300,15 @@ public class DestructionInfo
 	/// </summary>
 	public readonly DamageType DamageType;
 
-	public DestructionInfo(DamageType damageType)
+	/// <summary>
+	/// Integrity of the object that was destroyed.
+	/// </summary>
+	public readonly Integrity Destroyed;
+
+	public DestructionInfo(DamageType damageType, Integrity destroyed)
 	{
 		DamageType = damageType;
+		Destroyed = destroyed;
 	}
 }
 

@@ -11,7 +11,7 @@ using Enum = Google.Protobuf.WellKnownTypes.Enum;
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
 public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> , IRightClickable,
-	IServerSpawn
+	IServerLifecycle
 
 {
 	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
@@ -107,6 +107,16 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				}
 			}
 		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		//make sure we despawn what we are holding
+		foreach (var heldItem in heldItems)
+		{
+			Despawn.ServerSingle(heldItem.gameObject);
+		}
+		heldItems = Enumerable.Empty<ObjectBehaviour>();
 	}
 
 	public bool Contains(GameObject gameObject)
@@ -255,7 +265,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		if (interaction.HandObject != null && !IsClosed)
 		{
 			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			Inventory.ServerDrop(interaction.HandSlot, targetPosition);
+			Vector3 performerPosition = interaction.Performer.WorldPosServer();
+			Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 		}
 		else if (!IsLocked)
 		{
@@ -311,7 +322,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void CloseItemHandling()
 	{
-		var itemsOnCloset = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
+		var itemsOnCloset = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+			.Where(ob => ob != null && ob.gameObject != gameObject);
 		if (heldItems != null)
 		{
 			heldItems = heldItems.Concat(itemsOnCloset);
@@ -386,12 +398,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		foreach (ObjectBehaviour objectBehaviour in heldItems)
 		{
-			objectBehaviour.registerTile.ParentNetId = parentNetId;
+			objectBehaviour.registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 		}
 
 		foreach (ObjectBehaviour objectBehaviour in heldPlayers)
 		{
-			objectBehaviour.registerTile.ParentNetId = parentNetId;
+			objectBehaviour.registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 		}
 	}
 

@@ -19,6 +19,7 @@ public interface IPushable {
 	void NewtonianMove(Vector2Int direction, float speed = Single.NaN);
 	/// Notify players about up-to-date state
 	void NotifyPlayers();
+	//I think this is valid server side only
 	bool VisibleState { get; set; }
 	Vector3IntEvent OnUpdateRecieved();
 	DualVector3IntEvent OnStartMove();
@@ -67,7 +68,7 @@ public interface IPushable {
 
 	void SetVisibleServer(bool visible);
 }
-
+public class Vector3Event : UnityEvent<Vector3> { }
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}
 public class DualVector3IntEvent : UnityEvent<Vector3Int,Vector3Int> {}
 

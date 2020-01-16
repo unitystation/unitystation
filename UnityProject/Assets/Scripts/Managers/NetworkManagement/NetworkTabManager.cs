@@ -152,6 +152,7 @@ public struct NetTabDescriptor {
 		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject, parent );
 		NetTab netTab = tabObject.GetComponent<NetTab>();
 		netTab.Provider = provider.gameObject;
+		netTab.ProviderRegisterTile = provider.RegisterTile();
 		return netTab;
 	}
 }

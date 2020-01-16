@@ -44,7 +44,7 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 
 		// If the player is using a wrench on the rack, deconstruct it
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)
-		    && !interaction.Performer.Player().Script.playerMove.IsHelpIntent)
+		    && interaction.Intent != Intent.Help)
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
 			Spawn.ServerPrefab(rackParts, interaction.WorldPositionTarget.RoundToInt(),

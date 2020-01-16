@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -178,20 +179,34 @@ public partial class MatrixManager : MonoBehaviour
 	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, PlayerMove bumper, bool isServer)
 	{
 		Vector3Int targetPos = worldOrigin + dir.To3Int();
-		if (bumper.IsHelpIntent)
+
+
+		bool hasHelpIntent = false;
+		if (bumper.gameObject == PlayerManager.LocalPlayer && !isServer)
 		{
-			//check for other players with help intent
-			PlayerMove other = GetHelpIntentAt(targetPos, bumper.gameObject, isServer);
+			//locally predict based on our set intent.
+			hasHelpIntent = UIManager.CurrentIntent == Intent.Help;
+		}
+		if (isServer)
+		{
+			//use value known to server
+			hasHelpIntent = bumper.IsHelpIntentServer;
+		}
+
+		if (hasHelpIntent)
+		{
+			//check for other players we can swap with
+			PlayerMove other = GetSwappableAt(targetPos, bumper.gameObject, isServer);
 			if (other != null)
 			{
 				//if we are pulling something, we can only swap with that thing
 				if (bumper.PlayerScript.pushPull.IsPullingSomething && bumper.PlayerScript.pushPull.PulledObject == other.PlayerScript.pushPull)
 				{
-					return BumpType.HelpIntent;
+					return BumpType.Swappable;
 				}
 				else if (!bumper.PlayerScript.pushPull.IsPullingSomething)
 				{
-					return BumpType.HelpIntent;
+					return BumpType.Swappable;
 				}
 			}
 		}
@@ -317,16 +332,30 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		Vector3Int worldTarget = worldOrigin + dir.To3Int();
 		List<PushPull> result = new List<PushPull>();
+
 		foreach ( PushPull pushPull in GetAt<PushPull>(worldTarget, isServer) )
 		{
+			PushPull pushable = pushPull;
+
 			if ( pushPull && pushPull.gameObject != pusher && (isServer ? pushPull.IsSolidServer : pushPull.IsSolidClient) )
 			{
+				// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
+				// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
+				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
+				if (playerMove && playerMove.IsBuckled)
+				{
+					PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
+
+					if (buckledPushPull)
+						pushable = buckledPushPull;
+				}
+
 				if ( isServer ?
-					pushPull.CanPushServer( worldTarget, Vector2Int.RoundToInt( dir ) )
-					: pushPull.CanPushClient( worldTarget, Vector2Int.RoundToInt( dir ) )
+					pushable.CanPushServer( worldTarget, Vector2Int.RoundToInt( dir ) )
+					: pushable.CanPushClient( worldTarget, Vector2Int.RoundToInt( dir ) )
 				)
 				{
-					result.Add( pushPull );
+					result.Add( pushable );
 				}
 			}
 		}
@@ -335,24 +364,17 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Return the playermove if there is a non-passable player with help intent at the specified position who is
-	/// not pulling something and not restrained (it is not possible to swap with someone who is pulling something)
+	/// Gets the player move at the position which is currently able to be swapped with (if one exists).
 	/// </summary>
 	/// <param name="targetWorldPos">Position to check</param>
 	/// <param name="mover">gameobject of the thing attempting the move, only used to prevent itself from being checked</param>
-	/// <returns>the player move if they have help intent and are not passable, otherwise null</returns>
-	public static PlayerMove GetHelpIntentAt(Vector3Int targetWorldPos, GameObject mover, bool isServer)
+	/// <returns>the player move that is swappable, otherwise null</returns>
+	public static PlayerMove GetSwappableAt(Vector3Int targetWorldPos, GameObject mover, bool isServer)
 	{
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			if (playerMove
-				&& playerMove.IsHelpIntent
-			    && !playerMove.PlayerScript.playerHealth.IsDead
-			    && !playerMove.PlayerScript.registerTile.IsPassable(isServer)
-			    && playerMove.gameObject != mover
-			    && !playerMove.PlayerScript.pushPull.IsPullingSomething
-			    && !playerMove.IsBuckled)
+			if (playerMove && playerMove.IsSwappable && playerMove.gameObject != mover)
 			{
 				return playerMove;
 			}
@@ -756,7 +778,7 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
-		Vector3 rotatedPos = state.RotationOffset.Quaternion * unpivotedPos; //unpivotedPos rotated by N degrees
+		Vector3 rotatedPos =  state.FacingOffsetFromInitial(matrix.MatrixMove).Quaternion * unpivotedPos; //unpivotedPos rotated by N degrees
 		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.GetOffset( state ); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
@@ -777,7 +799,7 @@ public partial class MatrixManager : MonoBehaviour
 			return worldPos - matrix.Offset;
 		}
 
-		return (matrix.MatrixMove.ClientState.RotationOffset.QuaternionInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
+		return (matrix.MatrixMove.FacingOffsetFromInitial.QuaternionInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
 		       matrix.MatrixMove.Pivot;
 	}
 
@@ -868,6 +890,6 @@ public enum BumpType
 	/// Bump which blocks movement and causes nothing else to happen
 	Blocked,
 
-	// A help intent player
-	HelpIntent
+	// Something we can swap places with
+	Swappable
 }

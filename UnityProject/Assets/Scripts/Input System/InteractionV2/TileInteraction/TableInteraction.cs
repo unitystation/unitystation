@@ -16,6 +16,6 @@ public class TableInteraction : TileInteraction
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
 		//place item
-		Inventory.ServerDrop(interaction.HandSlot, interaction.WorldPositionTarget);
+		Inventory.ServerDrop(interaction.HandSlot, interaction.TargetVector);
 	}
 }

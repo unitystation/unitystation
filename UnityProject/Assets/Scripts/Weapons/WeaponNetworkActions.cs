@@ -6,13 +6,6 @@ using Mirror;
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
 	private readonly float speed = 7f;
-	private bool allowAttack = true;
-
-	/// <summary>
-	/// Is attack currently allowed due to cooldown?
-	/// </summary>
-	public bool AllowAttack => allowAttack;
-
 	float fistDamage = 5;
 
 	//muzzle flash
@@ -45,6 +38,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, NamedSlot hand)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		Gun gun = gunObject.GetComponent<Gun>();
 		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
@@ -55,13 +49,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdUnloadWeapon(GameObject gunObject)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		Gun gun = gunObject.GetComponent<Gun>();
 
 		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
-		if(cnt != null)
+		if (cnt != null)
 		{
-			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.Impulse);
+			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.WorldImpulse);
 		} else {
 			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
 		}
@@ -70,7 +65,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	/// <summary>
-	/// Requests a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
+	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
 	/// if weapon is null.
 	/// </summary>
 	/// <param name="victim"></param>
@@ -78,10 +73,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	/// <param name="attackDirection">vector pointing from attacker to the target</param>
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
-	[Command]
-	public void CmdRequestMeleeAttack(GameObject victim, Vector2 attackDirection,
+	[Server]
+	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
+		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
 		var weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 
 		var tiles = victim.GetComponent<InteractableTiles>();
@@ -97,15 +93,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		if (!playerMove.allowInput ||
-		    playerScript.IsGhost ||
-		    !victim ||
-		    !playerScript.playerHealth.serverPlayerConscious
+			playerScript.IsGhost ||
+			!victim ||
+			!playerScript.playerHealth.serverPlayerConscious
 		)
-		{
-			return;
-		}
-
-		if (!allowAttack)
 		{
 			return;
 		}
@@ -131,10 +122,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
-				var worldPos = (Vector2) transform.position + attackDirection;
+				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
 				tileMapDamage.DoMeleeDamage(worldPos,
-					gameObject, (int) damage);
+					gameObject, (int)damage);
 				didHit = true;
 
 			}
@@ -143,28 +134,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		{
 			//a regular object being attacked
 
-			//butchering
-			//TODO: Move butchering logic to IF2, it should be a progress action done on corpses (make a Corpse component probably)
 			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-			if (victimHealth != null && victimHealth.IsDead && isWeapon && weaponAttr.HasTrait(KnifeTrait))
-			{
-				if (victim.GetComponent<SimpleAnimal>())
-				{
-					SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
-					RpcMeleeAttackLerp(attackDirection, weapon);
-					playerMove.allowInput = false;
-					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
-				}
-				else
-				{
-					PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
-					RpcMeleeAttackLerp(attackDirection, weapon);
-					playerMove.allowInput = false;
-					attackTarget.Harvest();
-					SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
-				}
-			}
 
 			var integrity = victim.GetComponent<Integrity>();
 			if (integrity != null)
@@ -182,7 +152,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				if (isWeapon || 90 >= rng.Next(1, 100))
 				{
 					// The attack hit.
-					victimHealth.ApplyDamageToBodypart(gameObject, (int) damage, AttackType.Melee, damageType, damageZone);
+					victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
 					didHit = true;
 				}
 				else
@@ -207,19 +177,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			if (victim != gameObject)
 			{
 				RpcMeleeAttackLerp(attackDirection, weapon);
-				playerMove.allowInput = false;
+				//playerMove.allowInput = false;
 			}
 		}
 
-		//no matter what, start a cooldown for attacking again so they can't spam attack requests
-		StartCoroutine(AttackCoolDown());
-	}
-
-	private IEnumerator AttackCoolDown(float seconds = 0.5f)
-	{
-		allowAttack = false;
-		yield return WaitFor.Seconds(seconds);
-		allowAttack = true;
+		Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
 	}
 
 	[ClientRpc]
@@ -242,7 +204,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;
-		Vector3 lerpToWorld = lerpFromWorld + (Vector3)(stabDir * 0.5f);
+		Vector3 lerpToWorld = lerpFromWorld + (Vector3)(stabDir * 0.25f);
 		Vector3 lerpFromLocal = spritesObj.transform.parent.InverseTransformPoint(lerpFromWorld);
 		Vector3 lerpToLocal = spritesObj.transform.parent.InverseTransformPoint(lerpToWorld);
 		Vector3 localStabDir = lerpToLocal - lerpFromLocal;

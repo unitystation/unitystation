@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: tomato
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
-    plantType: 0
     Name: tomato
     Plantname: Tomato Plants
     Description: These seeds grow into tomato plants.
@@ -78,9 +77,9 @@ MonoBehaviour:
     - String: nutriment
       Int: 10
     MutatesInTo:
-    - {fileID: 11400000, guid: 564e993778959d144a92ad3871c64118, type: 2}
     - {fileID: 11400000, guid: 5f8789c65479bbc47a729f523148dbfb, type: 2}
     - {fileID: 11400000, guid: 9840428e223b28a45b64d3523fe14232, type: 2}
+    - {fileID: 11400000, guid: 564e993778959d144a92ad3871c64118, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

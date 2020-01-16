@@ -59,7 +59,8 @@ public class ReactionManager : MonoBehaviour
 									byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
 									for ( byte j = 0; j < pushes; j++ )
 									{
-										pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
+										//converting push to world coords because winddirection is in local coords
+										pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(), Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
 									}
 								} else
 								{
@@ -95,7 +96,7 @@ public class ReactionManager : MonoBehaviour
 			{
 				if (node.Hotspot.Process())
 				{
-					if (node.Hotspot.Volume > 0.95 * node.GasMix.Volume && node.Hotspot.Temperature > Reactions.FIRE_MINIMUM_TEMPERATURE_TO_SPREAD)
+					if (node.Hotspot.Volume > 0.95 * node.GasMix.Volume)
 					{
 						for (var i = 0; i < node.Neighbors.Length; i++)
 						{
@@ -153,7 +154,7 @@ public class ReactionManager : MonoBehaviour
 			MetaDataNode node = metaDataLayer.Get(localPosition);
 			GasMix gasMix = node.GasMix;
 
-			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PLASMA_MINIMUM_BURN_TEMPERATURE)
+			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PlasmaMaintainFire)
 			{
 				// igniting
 				Hotspot hotspot = new Hotspot(node, temperature, volume * 25);

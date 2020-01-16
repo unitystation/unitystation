@@ -79,7 +79,7 @@ public class CentComm : MonoBehaviour
 			var asteroid = gameManager.SpaceBodies[i].GetComponent<Asteroid>();
 			if (asteroid != null)
 			{
-				AsteroidLocations.Add(gameManager.SpaceBodies[i].State.Position);
+				AsteroidLocations.Add(gameManager.SpaceBodies[i].ServerState.Position);
 			}
 		}
 

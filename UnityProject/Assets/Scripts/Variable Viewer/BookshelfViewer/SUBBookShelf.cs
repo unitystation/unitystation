@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,6 @@ public class SUBBookShelf : MonoBehaviour
 	}
 
 	public void OpenBookshelf() {
-		RequestBookshelfNetMessage.Send(_IDANName.ID, true);
+		RequestBookshelfNetMessage.Send(_IDANName.ID, true, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 }

@@ -22,6 +22,10 @@ internal enum LightState
 
 	TypeCount,
 }
+/// <summary>
+/// Light source, such as a light bar. Note that for wall protrusion lights such as light tubes / light bars,
+/// LightSwitch automatically sets their RelatedAPC if it's looking in their general direction
+/// </summary>
 [ExecuteInEditMode]
 public class LightSource : ObjectTrigger
 {
@@ -57,6 +61,8 @@ public class LightSource : ObjectTrigger
 		}
 	}
 
+	///Note that for wall protrusion lights such as light tubes / light bars,
+	// LightSwitch automatically sets this if it's looking in their general direction
 	public APC RelatedAPC;
 	public LightSwitch relatedLightSwitch;
 	public Color customColor; //Leave null if you want default light color.
@@ -106,10 +112,12 @@ public class LightSource : ObjectTrigger
 		}
 	}
 
+	//this is the method broadcast invoked by LightSwitch to tell this light source what switch is driving it.
+	//it is buggy and unreliable especially when client joins on a rotated matrix, client and server do not agree
+	//on which switch owns which light
 	public void Received(LightSwitchData Received)
 	{
 		//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
-		// Leo Note: Some sync magic happening here. Decided not to touch it.
 		tempStateCache = Received.state;
 
 		if (waitToCheckState)
@@ -181,7 +189,14 @@ public class LightSource : ObjectTrigger
 	}
 	private void OnIntensityChange()
 	{
-		this.GetComponentInChildren<LightSprite>().Color.a = Intensity;
+		//we were getting an NRE here internally in GetComponent so this checks if the object lifetime
+		//is up according to Unity
+		if (this == null) return;
+		var lightSprites = GetComponentInChildren<LightSprite>();
+		if (lightSprites)
+		{
+			lightSprites.Color.a = Intensity;
+		}
 	}
 	private void OnStateChange(LightState iValue)
 	{

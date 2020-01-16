@@ -1,4 +1,5 @@
 using System.Collections;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -7,6 +8,7 @@ using Mirror;
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
+	//I think this is valid server side only
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
 		set => SetVisibleServer( value );
@@ -36,6 +38,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	public ThrowEvent OnThrowEnd = new ThrowEvent();
 
 	public bool IsFixedMatrix = false;
+
+	private OccupiableDirectionalSprite occupiableDirectionalSprite = null;
 
 	/// <summary>
 	/// If it has ItemAttributes, get size from it (default to tiny).
@@ -142,6 +146,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		var _pushPull = PushPull; //init
 		OnUpdateRecieved().AddListener( Poke );
+		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
 	}
 	/// <summary>
 	/// Subscribes this CNT to Update() cycle
@@ -282,6 +287,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		if (server && registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			registerTile.UpdatePositionServer();
+			UpdateOccupant();
 			changed = true;
 		}
 		//Registering
@@ -328,7 +334,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	private void SyncMatrix() {
 		if ( registerTile && !serverState.IsUninitialized) {
-			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetID;
+			registerTile.ServerSetNetworkedMatrixNetID(MatrixManager.Get( serverState.MatrixId ).NetID);
 		}
 	}
 
@@ -347,9 +353,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, oldMatrix, newMatrix );
 
 			if ( oldMatrix.IsMovable
-			     && oldMatrix.MatrixMove.isMovingServer )
+			     && oldMatrix.MatrixMove.IsMovingServer )
 			{
-				Push( oldMatrix.MatrixMove.State.Direction.Vector.To2Int(), oldMatrix.Speed );
+				Push( oldMatrix.MatrixMove.ServerState.FlyingDirection.Vector.To2Int(), oldMatrix.Speed );
 				Logger.LogTraceFormat( "{0} inertia pushed while attempting matrix switch", Category.Transform, gameObject );
 				return;
 			}
@@ -372,7 +378,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	#region Hiding/Unhiding
 
 	[Server]
-	public void DisappearFromWorldServer()
+	public void DisappearFromWorldServer(bool resetRotation = false)
 	{
 		OnPullInterrupt().Invoke();
 		if (IsFloatingServer)
@@ -382,6 +388,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
+
+		if (resetRotation)
+		{
+			transform.localRotation = Quaternion.identity;
+			//no spinning
+			serverState.SpinFactor = 0;
+			serverLerpState.SpinFactor = 0;
+			serverState.SpinRotation = 0;
+			serverLerpState.SpinRotation = 0;
+		}
 
 		NotifyPlayers();
 		UpdateActiveStatusServer();
@@ -493,7 +509,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			return;
 		}
 
-		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );;
+		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );
+	}
+
+	//fire the server-side event hook and any additional logic that should run when tile is reached
+	private void ServerOnTileReached(Vector3Int reachedWorldPosition)
+	{
+		OnTileReached().Invoke(reachedWorldPosition);
+		UpdateOccupant();
 	}
 
 	/// <summary>
@@ -521,6 +544,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+		{
+			return null;
+		}
+
 		return RightClickableResult.Create()
 			.AddAdminElement("Respawn", AdminRespawn);
 	}
@@ -529,7 +557,22 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	//being that it should properly initialize itself regardless of its previous state.
 	private void AdminRespawn()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+	}
+
+	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)
+	[Server]
+	private void UpdateOccupant()
+	{
+		if (occupiableDirectionalSprite != null && occupiableDirectionalSprite.HasOccupant)
+		{
+			if (occupiableDirectionalSprite.OccupantPlayerScript != null)
+			{
+				//sync position to ensure they buckle to the correct spot
+				occupiableDirectionalSprite.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.BuckledMovement, registerTile.WorldPosition);
+			}
+		}
 	}
 }
 

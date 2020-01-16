@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DatabaseAPI;
 using Mirror;
@@ -20,7 +22,7 @@ public partial class PlayerList
 	private string adminsPath;
 	private string banPath;
 	private bool thisClientIsAdmin;
-	private string adminToken;
+	public string AdminToken { get; private set; }
 
 	[Server]
 	void InitAdminController()
@@ -30,7 +32,7 @@ public partial class PlayerList
 
 		if (!File.Exists(adminsPath))
 		{
-			File.CreateText(adminsPath);
+			File.CreateText(adminsPath).Close();
 		}
 
 		if (!File.Exists(banPath))
@@ -78,6 +80,33 @@ public partial class PlayerList
 		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
 	}
 
+	[Server]
+	public GameObject GetAdmin(string userID, string token)
+	{
+		if (string.IsNullOrEmpty(userID))
+		{
+			Logger.LogError("The User ID for Admin is null!", Category.Admin);
+			if (string.IsNullOrEmpty(token))
+			{
+				Logger.LogError("The AdminToken value is null!", Category.Admin);
+			}
+
+			return null;
+		}
+
+		if (!loggedInAdmins.ContainsKey(userID)) return null;
+
+		if (loggedInAdmins[userID] != token) return null;
+
+		return GetByUserID(userID).GameObject;
+	}
+
+	[Server]
+	public bool IsAdmin(string userID)
+	{
+		return adminUsers.Contains(userID);
+	}
+
 	public async Task<bool> ValidatePlayer(string clientID, string username,
 		string userid, int clientVersion, ConnectedPlayer playerConn,
 		string token)
@@ -91,7 +120,8 @@ public partial class PlayerList
 
 		if (clientVersion != GameData.BuildNumber)
 		{
-			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}"));
+			StartCoroutine(KickPlayer(playerConn, $"Invalid Client Version! You need version {GameData.BuildNumber}." +
+			                                      " This can be acquired through the station hub."));
 			return false;
 		}
 
@@ -101,29 +131,45 @@ public partial class PlayerList
 	//Check if tokens match and if the player is an admin or is banned
 	private async Task<bool> CheckUserState(string userid, string token, ConnectedPlayer playerConn, string clientID)
 	{
-		//Only do the account check on release builds as its not important when developing
+		if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid))
+		{
+			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
+			Logger.Log($"A user tried to connect with null userid or token value" +
+			           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+				Category.Admin);
+			return false;
+		}
+
+		//Do not allow users to log in twice for release servers:
 		if (BuildPreferences.isForRelease)
 		{
-			if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid))
+			if (GetByUserID(userid) != null)
 			{
-				StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
-				Logger.Log($"A user tried to connect with null userid or token value" +
-				           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
-					Category.Admin);
-				return false;
+				if (GetByUserID(userid).Connection != null)
+				{
+					if (playerConn.Connection != GetByUserID(userid).Connection)
+					{
+						StartCoroutine(
+							KickPlayer(playerConn, $"Server Error: You are already logged into this server!"));
+						Logger.Log($"A user tried to connect with another client while already logged in \r\n" +
+						           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+							Category.Admin);
+						return false;
+					}
+				}
 			}
+		}
 
-			var refresh = new RefreshToken {userID = userid, refreshToken = token};
-			var response = await ServerData.ValidateToken(refresh, true);
+		var refresh = new RefreshToken {userID = userid, refreshToken = token};
+		var response = await ServerData.ValidateToken(refresh, true);
 
-			if (response.errorCode == 1)
-			{
-				StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
-				Logger.Log($"A spoof attempt was recorded. " +
-				           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
-					Category.Admin);
-				return false;
-			}
+		if (response.errorCode == 1)
+		{
+			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
+			Logger.Log($"A spoof attempt was recorded. " +
+			           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+				Category.Admin);
+			return false;
 		}
 
 		var banEntry = banList.CheckForEntry(userid);
@@ -131,7 +177,7 @@ public partial class PlayerList
 		{
 			DateTime entryTime;
 			DateTime.TryParse(banEntry.dateTimeOfBan, out entryTime);
-			if (entryTime.AddMinutes(banEntry.minutes) < DateTime.Now)
+			if (entryTime.AddMinutes(banEntry.minutes) > DateTime.Now)
 			{
 				//Old ban, remove it
 				banList.banEntries.Remove(banEntry);
@@ -155,8 +201,11 @@ public partial class PlayerList
 			Logger.Log($"{playerConn.Username} logged in as Admin. " +
 			           $"IP: {playerConn.Connection.address}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
-			loggedInAdmins.Add(userid, newToken);
-			AdminEnableMessage.Send(playerConn.GameObject, newToken);
+			if (!loggedInAdmins.ContainsKey(userid))
+			{
+				loggedInAdmins.Add(userid, newToken);
+				AdminEnableMessage.Send(playerConn.GameObject, newToken);
+			}
 		}
 
 		Logger.Log($"{playerConn.Username} logged in successfully. " +
@@ -177,13 +226,60 @@ public partial class PlayerList
 	public void SetClientAsAdmin(string _adminToken)
 	{
 		thisClientIsAdmin = true;
-		adminToken = _adminToken;
+		AdminToken = _adminToken;
+		ControlTabs.Instance.ToggleOnAdminTab();
 		Logger.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
 	}
 
 	void SaveBanList()
 	{
 		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
+	}
+
+	public void ProcessAdminEnableRequest(string admin, string userToPromote)
+	{
+		if (!adminUsers.Contains(admin)) return;
+		if (adminUsers.Contains(userToPromote)) return;
+
+		Logger.Log(
+			$"{admin} has promoted {userToPromote} to admin. Time: {DateTime.Now}");
+
+		File.AppendAllLines(adminsPath, new string[]
+		{
+			userToPromote
+		});
+
+		adminUsers.Add(userToPromote);
+		var user = GetByUserID(userToPromote);
+
+		if (user == null) return;
+
+		var newToken = System.Guid.NewGuid().ToString();
+		if (!loggedInAdmins.ContainsKey(userToPromote))
+		{
+			loggedInAdmins.Add(userToPromote, newToken);
+			AdminEnableMessage.Send(user.GameObject, newToken);
+		}
+	}
+
+	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes)
+	{
+		if (!adminUsers.Contains(admin)) return;
+
+		var players = GetAllByUserID(userToKick);
+		if (players.Count != 0)
+		{
+			foreach (var p in players)
+			{
+				Logger.Log(
+					$"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
+				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
+			}
+		}
+		else
+		{
+			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {admin}", Category.Admin);
+		}
 	}
 
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
@@ -195,24 +291,42 @@ public partial class PlayerList
 		{
 			message = $"You have been banned for {banLengthInMinutes}" +
 			          $" minutes. Reason: {reason}";
+
+			var index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
+			if (index != -1)
+			{
+				banList.banEntries.RemoveAt(index);
+			}
+
+			banList.banEntries.Add(new BanEntry
+			{
+				userId = connPlayer.UserId,
+				userName = connPlayer.Username,
+				minutes = banLengthInMinutes,
+				reason = reason,
+				dateTimeOfBan = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+			});
+
+			File.WriteAllText(banPath, JsonUtility.ToJson(banList));
 		}
 		else
 		{
-			message = $"You have kicked. Reason: {reason}";
+			message = $"You have been kicked. Reason: {reason}";
 		}
 
-		SendClientLogMessage.SendLogToClient(connPlayer.GameObject, message, Category.Connections, true);
+		SendClientLogMessage.SendLogToClient(connPlayer.GameObject, message, Category.Admin, true);
 		yield return WaitFor.Seconds(0.1f);
 
 		if (!connPlayer.Connection.isConnected)
 		{
-			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Connections);
+			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Admin);
 			yield break;
 		}
 
-		Logger.Log($"Kicking client {clientID} : {message}", Category.Connections);
+		Logger.Log($"Kicking client {clientID} : {message}", Category.Admin);
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
-		//Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
+
+
 		connPlayer.Connection.Disconnect();
 		connPlayer.Connection.Dispose();
 

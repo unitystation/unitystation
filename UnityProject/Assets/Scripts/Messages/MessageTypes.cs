@@ -50,6 +50,8 @@ internal enum MessageTypes : short
 	ServerToClientEvents = 1046,
 	SendClientLog = 1047,
 	AdminEnableMessage = 1048,
+	AdminToolRefreshMessage = 1049,
+	AdminBwoinkMessage = 1050,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -59,7 +61,7 @@ internal enum MessageTypes : short
 	OpenPageValueNetMessage = 2004,
 	SimpleInteractMessage = 2005,
 	RequestSyncMessage = 2006,
-	// 2007 is free to use
+	RequestChangeVariableNetMessage = 2007,
 	RequestMoveMessage = 2008,
 	RequestShootMessage = 2009,
 	TabInteractMessage = 2010,
@@ -78,5 +80,12 @@ internal enum MessageTypes : short
 	RequestSlotTransferMessage = 2031,
 	SpawnMessage = 2032,
 	DespawnMessage = 2033,
-	RequestBuildMessage = 2034
+	RequestBuildMessage = 2034,
+	RequestAdminPageRefresh = 2035,
+	RequestGameModeUpdate = 2036,
+	RequestKick = 2037,
+	RequestEnableAdmin = 2038,
+	RequestRespawn = 2039,
+	RequestAdminBwoink = 2040,
+	AdminReplyMessage = 2041
 }

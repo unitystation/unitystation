@@ -23,6 +23,9 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject teamSelectionWindow;
 	public RectTransform panelRight;
 
+	[SerializeField]
+	private GameObject rightClickManager;
+
 	[SerializeField] private Animator uiAnimator;
 
 	void OnEnable()
@@ -32,8 +35,18 @@ public class ControlDisplays : MonoBehaviour
 		EventManager.AddHandler(EVENT.PlayerRejoined, RejoinedEvent);
 	}
 
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.PlayerSpawned, HumanUI);
+		EventManager.RemoveHandler(EVENT.GhostSpawned, GhostUI);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, RejoinedEvent);
+	}
+
 	void RejoinedEvent()
 	{
+		//for some reason this is getting called when ControlDisplays is already destroyed when client rejoins while
+		//a ghost, this check prevents a MRE
+		if (!this) return;
 		StartCoroutine(DetermineRejoinUI());
 	}
 
@@ -59,22 +72,24 @@ public class ControlDisplays : MonoBehaviour
 	{
 		if (hudBottomHuman != null && hudBottomGhost != null)
 		{
-			hudBottomHuman.gameObject.SetActive(true);
-			hudBottomGhost.gameObject.SetActive(false);
+			hudBottomHuman.SetActive(true);
+			hudBottomGhost.SetActive(false);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(true);
 	}
 
 	void GhostUI()
 	{
 		if (hudBottomHuman != null && hudBottomGhost != null)
 		{
-			hudBottomHuman.gameObject.SetActive(false);
-			hudBottomGhost.gameObject.SetActive(true);
+			hudBottomHuman.SetActive(false);
+			hudBottomGhost.SetActive(true);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(true);
 	}
 
 	/// <summary>
@@ -121,35 +136,39 @@ public class ControlDisplays : MonoBehaviour
 	public void SetScreenForLobby()
 	{
 		SoundManager.StopAmbient();
-		SoundManager.PlayRandomTrack(); //Gimme dat slap bass
+		SoundManager.SongTracker.StartPlayingRandomPlaylist();
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(false);
+		UIManager.AlertUI.OnRoundEnd();
+		hudBottomHuman.SetActive(false);
+		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
+		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(false);
+		GUI_IngameMenu.Instance.disclamerWindow.SetActive(true);
 	}
 
 	public void SetScreenForGame()
 	{
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(false);
+		GUI_IngameMenu.Instance.disclamerWindow.SetActive(false);
+		hudBottomHuman.SetActive(false);
+		hudBottomGhost.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(false);
 		uiAnimator.Play("idle");
-
-		SoundManager.StopMusic();
 	}
 
 	public void SetScreenForPreRound()
 	{
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(false);
+		hudBottomHuman.SetActive(false);
+		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
+		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(true);
@@ -172,4 +191,8 @@ public class ControlDisplays : MonoBehaviour
 		uiAnimator.Play("NukeDetVideo");
 	}
 
+	public void PlayStrandedVideo()
+	{
+		uiAnimator.Play("StrandedVideo");
+	}
 }

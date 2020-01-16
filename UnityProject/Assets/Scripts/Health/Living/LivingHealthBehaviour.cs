@@ -17,7 +17,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 {
 	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
-	private static readonly float DAMAGE_PER_FIRE_STACK = 1;
+	private static readonly float DAMAGE_PER_FIRE_STACK = 0.08f;
 	//volume and temp of hotspot exposed by this player when they are on fire
 	private static readonly float BURNING_HOTSPOT_VOLUME = .005f;
 	private static readonly float BURNING_HOTSPOT_TEMPERATURE = 700f;

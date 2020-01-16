@@ -39,16 +39,16 @@ public class Asteroid : NetworkBehaviour
 		switch (rand)
 		{
 			case 0:
-				mm.RotateTo(Orientation.Up);
+				mm.SteerTo(Orientation.Up);
 				break;
 			case 1:
-				mm.RotateTo(Orientation.Down);
+				mm.SteerTo(Orientation.Down);
 				break;
 			case 2:
-				mm.RotateTo(Orientation.Right);
+				mm.SteerTo(Orientation.Right);
 				break;
 			case 3:
-				mm.RotateTo(Orientation.Left);
+				mm.SteerTo(Orientation.Left);
 				break;
 		}
 	}
@@ -56,7 +56,7 @@ public class Asteroid : NetworkBehaviour
 	//Wait for MatrixMove init on the server:
 	IEnumerator Init()
 	{
-		while (mm.State.Position == TransformState.HiddenPos)
+		while (mm.ServerState.Position == TransformState.HiddenPos)
 		{
 			yield return WaitFor.EndOfFrame;
 		}

@@ -179,7 +179,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4342641648236371693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,8 +201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114006909984101046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,17 +243,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  explosionPrefab: {fileID: 1087697603680455443, guid: 048e03a155f6ed04bb8cc8984479ee4d,
+    type: 3}
   unstableFuse: 0
-  unstableRadius: 0
-  damage: 150
-  radius: 2
-  explosionType: 3
   fuseLength: 3
-  shakeDistance: 12
-  minDamage: 2
-  maxEffectDuration: 0.25
-  minEffectDuration: 0.05
   spriteHandler: {fileID: 13680737134351771}
+  pickupable: {fileID: 114110293052994112}
 --- !u!114 &114501387999760508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,9 +425,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1300832411f509040bf065bec2b01dd9, type: 3}
   spriteRenderer: {fileID: 7002858292552391738}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 0
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 0
 --- !u!114 &114867601024140442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +460,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Grenade
   initialDescription: It's a metal can with a pretty ring attached to it.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 6bbea9c4e0a1b4840bde0835b8db0b2a, type: 2}
   initialSize: 0

@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: tower_steel
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
-    plantType: 0
     Name: tower_steel
     Plantname: Steel Caps
     Description: This mycelium grows into steel logs.
@@ -25,9 +24,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 3a7207af11b7c3047a66d4b79e693832, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 2800000, guid: c2c8cc92a22d37847a4484b2b58ebdfe, type: 3}
+      Texture: {fileID: 2800000, guid: 2fd1fe2e000e46b46981499bc6894d0b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: c2c8cc92a22d37847a4484b2b58ebdfe, type: 3}
+      - {fileID: 21300000, guid: 2fd1fe2e000e46b46981499bc6894d0b, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 98b49fa448c78e043af311154e26d8ec, type: 3}
@@ -43,9 +42,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 5e6fd9682073a06479770c617e851223, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 5e6fd9682073a06479770c617e851223, type: 3}
+      Texture: {fileID: 2800000, guid: 98b49fa448c78e043af311154e26d8ec, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5e6fd9682073a06479770c617e851223, type: 3}
+      - {fileID: 21300000, guid: 98b49fa448c78e043af311154e26d8ec, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
       Texture: {fileID: 2800000, guid: 4c2cce256a5e5b24494cf89a23c1f65e, type: 3}

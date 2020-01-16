@@ -25,6 +25,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	public string ArticleName => articleName;
 
+	public string InitialName => initialName;
+
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
 	private string initialDescription;
@@ -91,17 +93,33 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		articleDescription = newDescription;
 	}
 
+	/// <summary>
+	/// When hovering over an object or item its name and description is shown as a tooltip on the bottom-left of the screen.
+	/// The first letter of the object's name is always capitalized if the object has been given a name.
+	/// If there is description it is shown in parentheses.
+	/// </summary>
 	public void OnHoverStart()
 	{
-		// Show the parenthesis for an item's description only if the item has a description
+		string displayName = null;
+		if (string.IsNullOrWhiteSpace(initialName))
+		{
+			displayName = gameObject.ExpensiveName();
+		}
+		else
+		{
+			displayName = initialName;
+		}
+		//failsafe
+		if (string.IsNullOrWhiteSpace(displayName)) displayName = "error";
+
 		UIManager.SetToolTip =
-			initialName +
-			(String.IsNullOrEmpty(articleDescription) ? "" : $" ({articleDescription})");
+			displayName.First().ToString().ToUpper() + displayName.Substring(1) +
+			(string.IsNullOrEmpty(articleDescription) ? "" : $" ({ articleDescription })");
 	}
 
 	public void OnHoverEnd()
 	{
-		UIManager.SetToolTip = String.Empty;
+		UIManager.SetToolTip = string.Empty;
 	}
 
 

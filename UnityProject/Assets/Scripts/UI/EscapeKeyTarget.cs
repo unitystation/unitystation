@@ -1,62 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-// using UnityEngine.Events;
-
 /// <summary>
-/// This component allows the object to be disabled with the escape key automatically
+/// This component allows the game object to be disabled with the escape key automatically
 /// It pushes the object to the escape key target stack when it's enabled, and pops it when it's disabled.
-///
-/// This logic takes place in KeyboardInputManager.
 /// </summary>
 public class EscapeKeyTarget : MonoBehaviour {
-	// This component allows the object to be disabled with the escape key automatically
-
+	[SerializeField]
 	[Tooltip("What to invoke when this component receives the escape command, other than disabling if DisableOnEscape is true.")]
-	public UnityEvent OnEscapeKey = new UnityEvent();
+	private UnityEvent OnEscapeKey = new UnityEvent();
 
+	[SerializeField]
 	[Tooltip("If true, disables the game object when escape is recieved after calling OnEscapeKey")]
-	public bool DisableOnEscape = true;
+	private bool DisableOnEscape = true;
 
 	/// <summary>
-	/// This is the stack which keeps track of all the game objects so they can be closed later
+	/// A linked list which keeps track of all the EscapeKeyTargets so they can be closed later
 	/// </summary>
-	[HideInInspector]
-	public static Stack<GameObject> TargetStack = new Stack<GameObject>();
+	private static LinkedList<EscapeKeyTarget> Targets = new LinkedList<EscapeKeyTarget>();
 
-	// void Awake()
-	// {
-	// 	if (OnEscapeKey == null)
-	// 	{
-	// 		// If no function is provided in the editor,
-	// 		// perform the default click and disable the object
-	// 		OnEscapeKey.AddListener(DisableObject);
-	// 	}
-	// }
+	/// <summary>
+	/// Handles escape key presses. Will close the most recently opened EscapeKeyTarget or will open the main menu if there are none.
+	/// </summary>
+	public static void HandleEscapeKey()
+	{
+		if(Targets.Count > 0)
+		{
+			EscapeKeyTarget escapeKeyTarget = Targets.Last.Value;
+			escapeKeyTarget.OnEscapeKey.Invoke();
+			if (escapeKeyTarget.DisableOnEscape)
+			{
+				GUI_IngameMenu.Instance.CloseMenuPanel();
+			}
+		}
+		else
+		{
+			GUI_IngameMenu.Instance.OpenMenuPanel();
+		}
+	}
+
 	void OnEnable()
 	{
-		// Add this game object to the top of the stack so Esc will close it next
-		TargetStack.Push(gameObject);
-		// Logger.Log("Pushing escape key target stack: " + TargetStack.Peek().name, Category.UI);
+		// Add this object to the top of the stack so Esc will close it next
+		Logger.Log("Adding escape key target: " + this.name, Category.UI);
+		Targets.AddLast(this);
 	}
 	void OnDisable()
 	{
-		// Revert back to the previous escape key target
-		// Logger.Log("Popping escape key target stack: " + TargetStack.Peek().name, Category.UI);
-		TargetStack.Pop();
+		// Remove the escape key target
+		Logger.Log("Removing escape key target: " + this.name, Category.UI);
+		Targets.Remove(this);
 	}
-
-	// void DisableObject()
-	// {
-	// 	SoundManager.Play("Click01");
-	// 	Logger.Log("Disabling " + gameObject.name, Category.UI);
-	// 	gameObject.SetActive(false);
-	// }
-
-	// public void Trigger()
-	// {
-	// 	OnEscapeKey.Invoke();
-	// }
 }

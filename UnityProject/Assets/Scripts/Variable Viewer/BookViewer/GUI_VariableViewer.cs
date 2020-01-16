@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using Newtonsoft.Json;
 
 public class GUI_VariableViewer : MonoBehaviour
 {
@@ -43,9 +46,9 @@ public class GUI_VariableViewer : MonoBehaviour
 	}
 
 	public VariableViewerNetworking.NetFriendlyBook CurrentlyOpenBook; //{get {} set{} };
-	public Text boookID;
-	public Text boookTitle;
-	public Text boookIsEnabled;
+	public TMP_Text boookID;
+	public TMP_Text boookTitle;
+	public TMP_Text boookIsEnabled;
 	public GameObject LeftArrow;
 	public GameObject RightArrow;
 	public GameObject HistoryForward;
@@ -79,7 +82,7 @@ public class GUI_VariableViewer : MonoBehaviour
 	}
 	public void Refresh()
 	{
-		OpenBookIDNetMessage.Send(CurrentlyOpenBook.ID);
+		OpenBookIDNetMessage.Send(CurrentlyOpenBook.ID, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	public void NextBook()
@@ -88,7 +91,7 @@ public class GUI_VariableViewer : MonoBehaviour
 		if ((tint + 1) <= History.Count)
 		{
 			HistoryLocation = HistoryLocation + 1;
-			OpenBookIDNetMessage.Send(History[HistoryLocation]);
+			OpenBookIDNetMessage.Send(History[HistoryLocation], ServerData.UserID, PlayerList.Instance.AdminToken);
 			NotModifyingHistory = true;
 			if (HistoryLocation + 1 >= History.Count)
 			{
@@ -104,7 +107,7 @@ public class GUI_VariableViewer : MonoBehaviour
 		{
 			HistoryLocation = HistoryLocation - 1;
 			NotModifyingHistory = true;
-			OpenBookIDNetMessage.Send(History[HistoryLocation]);
+			OpenBookIDNetMessage.Send(History[HistoryLocation], ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 
@@ -240,6 +243,7 @@ public class GUI_VariableViewer : MonoBehaviour
 			}
 
 			PageEntry.Page = page;
+			//Logger.Log(JsonConvert.SerializeObject(page));
 			if (PresentPagesCount > MaximumPerTwoPages)
 			{
 				PageEntry.gameObject.SetActive(false);

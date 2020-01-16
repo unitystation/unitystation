@@ -73,6 +73,30 @@ namespace IngameDebugConsole
 			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			GameManager.Instance.RestartRound();
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Start now")]
+#endif
+		[ConsoleMethod("start-now", "Bypass start countdown and start immediately. Server only cmd.")]
+		public static void StartNow()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
+			{
+				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.", Category.DebugConsole);
+				GameManager.Instance.RoundStart();
+			}
+			else
+			{
+				Logger.LogError("Can only execute during pre-round / countdown.", Category.DebugConsole);
+				return;
+			}
+
+		}
 
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
 		public static void CallEscapeShuttle()
@@ -256,12 +280,12 @@ namespace IngameDebugConsole
 					}
 
 					usedMatrices.Add( movableMatrix );
-					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.State.Position);
+					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.ServerState.Position);
 					var mm = movableMatrix.MatrixMove;
 					mm.SetPosition( appearPos );
 					mm.RequiresFuel = false;
 					mm.SafetyProtocolsOn = false;
-					mm.RotateTo( Orientation.Right );
+					mm.SteerTo( Orientation.Right );
 					mm.SetSpeed( 15 );
 					mm.StartMovement();
 
@@ -350,7 +374,7 @@ namespace IngameDebugConsole
 					bodyPart.HealDamage(200, DamageType.Brute);
 					bodyPart.HealDamage(200, DamageType.Burn);
 				}
-				playerScript.registerTile.GetUp();
+				playerScript.registerTile.ServerStandUp();
 			}
 		}
 
@@ -371,7 +395,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.registerTile.Slip( true );
+				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
 			}
 		}
 		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
@@ -395,6 +419,25 @@ namespace IngameDebugConsole
 			}
 
 			Antagonists.AntagManager.Instance.ShowAntagStatusReport();
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Trigger Stranded Ending")]
+#endif
+		private static void PlayStrandedEnding()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				//blow up the engines to trigger stranded ending for everyone
+				var escapeShuttle = GameObject.FindObjectOfType<EscapeShuttle>();
+				if (escapeShuttle != null)
+				{
+					foreach (var thruster in escapeShuttle.GetComponentsInChildren<ShipThruster>())
+					{
+						thruster.GetComponent<Integrity>().ApplyDamage(99999999, AttackType.Internal, DamageType.Brute);
+					}
+				}
+			}
 		}
 
 	}

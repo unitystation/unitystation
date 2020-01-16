@@ -60,8 +60,15 @@ public struct PlayerState
 
 	public bool NoLerp;
 
-	///Direction of flying
-	public Vector2 Impulse;
+	///Direction of flying in world position coordinates
+	public Vector2 WorldImpulse;
+
+	/// <summary>
+	/// Direction of flying in local position coordinates
+	/// </summary>
+	/// <param name="forPlayer">player for which the local impulse should be calculated</param>
+	public Vector2 LocalImpulse(PlayerSync forPlayer) =>
+		Quaternion.Inverse(forPlayer.transform.parent.rotation) * WorldImpulse;
 
 	///Flag for clients to reset their queue when received
 	public bool ResetClientQueue;
@@ -81,7 +88,7 @@ public struct PlayerState
 		return
 			Equals(HiddenState)
 				? "[Hidden]"
-				: $"[Move #{MoveNumber}, localPos:{(Vector2) Position}, worldPos:{(Vector2) WorldPosition} {nameof(NoLerp)}:{NoLerp}, {nameof(Impulse)}:{Impulse}, " +
+				: $"[Move #{MoveNumber}, localPos:{(Vector2) Position}, worldPos:{(Vector2) WorldPosition} {nameof(NoLerp)}:{NoLerp}, {nameof(WorldImpulse)}:{WorldImpulse}, " +
 				  $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, follow: {IsFollowUpdate}, matrix #{MatrixId}]";
 	}
 }
@@ -185,12 +192,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
 
-		if (bump1 == BumpType.None || bump1 == BumpType.HelpIntent)
+		if (bump1 == BumpType.None || bump1 == BumpType.Swappable)
 		{
 			newAction = PlayerAction.GetMoveAction(dir1);
 			newBump = bump1;
 		}
-		else if (bump2 == BumpType.None || bump2 == BumpType.HelpIntent)
+		else if (bump2 == BumpType.None || bump2 == BumpType.Swappable)
 		{
 			newAction = PlayerAction.GetMoveAction(dir2);
 			newBump = bump2;
@@ -370,7 +377,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <returns>true iff swap was performed</returns>
 	private bool CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection, bool isServer)
 	{
-		PlayerMove other = MatrixManager.GetHelpIntentAt(targetWorldPos, gameObject, isServer);
+		PlayerMove other = MatrixManager.GetSwappableAt(targetWorldPos, gameObject, isServer);
 		if (other != null)
 		{
 			// on server, must verify that position matches
@@ -523,6 +530,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		Synchronize();
+
+		//experimental: if buckled, no matter what happens, draw us on top of our buckled object
+		if (playerMove.IsBuckled)
+		{
+			transform.position = playerMove.BuckledObject.transform.position;
+		}
 	}
 
 	private void Synchronize()
@@ -657,21 +670,21 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		Gizmos.color = color1;
 		Vector3 stsPos = serverState.WorldPosition;
 		Gizmos.DrawWireCube(stsPos, size1);
-		DebugGizmoUtils.DrawArrow(stsPos + Vector3.left / 2, serverState.Impulse);
+		DebugGizmoUtils.DrawArrow(stsPos + Vector3.left / 2, serverState.WorldImpulse);
 		if (drawMoves) DebugGizmoUtils.DrawText(serverState.MoveNumber.ToString(), stsPos + Vector3.left / 4, 15);
 
 		//serverLerpState
 		Gizmos.color = color2;
 		Vector3 ssPos = serverLerpState.WorldPosition;
 		Gizmos.DrawWireCube(ssPos, size2);
-		DebugGizmoUtils.DrawArrow(ssPos + Vector3.right / 2, serverLerpState.Impulse);
+		DebugGizmoUtils.DrawArrow(ssPos + Vector3.right / 2, serverLerpState.WorldImpulse);
 		if (drawMoves) DebugGizmoUtils.DrawText(serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right / 4, 15);
 
 		//client predictedState
 		Gizmos.color = color3;
 		Vector3 clientPrediction = predictedState.WorldPosition;
 		Gizmos.DrawWireCube(clientPrediction, size3);
-		DebugGizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.Impulse);
+		DebugGizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.WorldImpulse);
 		if (drawMoves)
 			DebugGizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
 
@@ -679,14 +692,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		Gizmos.color = color4;
 		Vector3 clientState = playerState.WorldPosition;
 		Gizmos.DrawWireCube(clientState, size4);
-		DebugGizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.Impulse);
+		DebugGizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.WorldImpulse);
 		if (drawMoves) DebugGizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
 
-		//help intent
+		//swappable
 		Gizmos.color = isLocalPlayer ? color4 : color1;
-		if (playerMove.IsHelpIntent)
+		if (playerMove.IsSwappable)
 		{
-			DebugGizmoUtils.DrawText("Help", clientState + Vector3.up / 2, 15);
+			DebugGizmoUtils.DrawText("Swap", clientState + Vector3.up / 2, 15);
 		}
 	}
 #endif

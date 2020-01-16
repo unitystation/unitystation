@@ -198,6 +198,37 @@ public static class VariableViewer
 		}
 	}
 
+
+	public static void RequestChangeVariable(ulong PageID, string ChangeTo)
+	{		if (Librarian.IDToPage.ContainsKey(PageID))
+		{
+			Librarian.PageSetValue(Librarian.IDToPage[PageID], ChangeTo);
+		}
+		else
+		{
+			Logger.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
+		}
+	}
+
+	//public static void RequestChangeSentenceVariable(ulong PageID, uint SentenceID, string ChangeTo)
+	//{
+	//	if (Librarian.IDToPage.ContainsKey(PageID))
+	//	{
+	//		if (Librarian.IDToPage[PageID].IDtoSentence.ContainsKey(SentenceID)) { 
+	//			Librarian.PageSetValue(Librarian.IDToPage[PageID], ChangeTo);
+	//		}
+	//		else
+	//		{
+	//			Logger.LogError("Sentence ID has not been generated in Page Page ID > " + PageID + " Sentence ID >  " + SentenceID, Category.VariableViewer);
+	//		}
+
+	//	}
+	//	else
+	//	{
+	//		Logger.LogError("Page ID has not been generated Page ID > " + PageID, Category.VariableViewer);
+	//	}
+	//}
+
 }
 
 public static class Librarian
@@ -207,9 +238,9 @@ public static class Librarian
 	public static Dictionary<ulong, Book> IDToBook = new Dictionary<ulong, Book>();
 	public static Dictionary<ulong, Page> IDToPage = new Dictionary<ulong, Page>();
 
-	public static ulong BookShelfAID = 0;
-	public static ulong BookAID = 0;
-	public static ulong PageAID = 0;
+	public static ulong BookShelfAID = 1;
+	public static ulong BookAID = 1;
+	public static ulong PageAID = 1;
 
 	public static Dictionary<Transform, BookShelf> TransformToBookShelf = new Dictionary<Transform, BookShelf>();
 	public static Dictionary<MonoBehaviour, Book> MonoBehaviourToBook = new Dictionary<MonoBehaviour, Book>();
@@ -218,6 +249,12 @@ public static class Librarian
 	public static BookShelf TopSceneBookshelf;
 
 	public static Type TupleTypeReference = Type.GetType("System.ITuple, mscorlib");
+
+
+	public static void PageSetValue(Page Page, string newValue)
+	{
+		Page.SetValue(newValue);
+	}
 
 
 	public static BookShelf GenerateCustomBookCase(List<BookShelf> BookShelfs)
@@ -368,11 +405,22 @@ public static class Librarian
 	public static Book GetAttributes(Book Book, object Script)
 	{
 		Type monoType = Script.GetType();
-		foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		var Fields = monoType.BaseType.GetFields(
+			BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy
+		);
+
+		var coolFields = Fields.ToList();
+
+		coolFields.AddRange((monoType.GetFields(
+			BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy
+		).ToList()));
+
+		foreach (FieldInfo Field in coolFields)
 		{
 			if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 			{
 				Page Page = new Page();
+				Logger.Log(Field.Name + "Logger.Log(Field.Name);");
 				Page.VariableName = Field.Name;
 				Page.ID = PageAID;
 				PageAID++;
@@ -392,13 +440,24 @@ public static class Librarian
 				Book.BindedPagesAdd(Page);
 			}
 		}
+		//.BaseType
 		if (TupleTypeReference != monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
 		{
-			foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+			var Propertie = monoType.BaseType.GetProperties(
+				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy
+			);
+
+			var coolProperties = Propertie.ToList();
+
+			coolProperties.AddRange((monoType.GetProperties(
+				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy
+			).ToList()));
+			foreach (PropertyInfo Properties in coolProperties)
 			{
 				if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
 					Page Page = new Page();
+					Logger.Log(Properties.Name + "Logger.Log(Properties.Name);");
 					Page.VariableName = Properties.Name;
 					Page.Variable = Properties.GetValue(Script);
 					Page.VariableType = Properties.PropertyType;
@@ -428,7 +487,9 @@ public static class Librarian
 	{
 		if (Info == null && PInfo == null)
 		{
-			foreach (FieldInfo method in VariableType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+			foreach (FieldInfo method in VariableType.GetFields(
+				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy
+			))
 			{
 				if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
@@ -522,7 +583,7 @@ public static class Librarian
 						}
 						if (!valueType.IsClass)
 						{
-						GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+							GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
 						}
 						count++;
 						Page.Sentences.Sentences.Add(_sentence);
@@ -720,6 +781,36 @@ public static class Librarian
 			return (VariableName + " = " + Variable + " of   " + VariableType);
 		}
 
+		public void SetValue(string Value)
+		{
+			//Logger.Log(this.ToString());
+			//Logger.Log(ID.ToString());			//Logger.Log(Variable.GetType().ToString());
+			if (PInfo != null)
+			{
+				if (VariableType.BaseType == typeof(Enum))
+				{
+					PInfo.SetValue(BindedTo.BookClass, Enum.Parse(PInfo.PropertyType, Value));
+				}
+				else { 
+					PInfo.SetValue(BindedTo.BookClass, Convert.ChangeType(Value, Variable.GetType()));
+				}
+
+				//prop.SetValue(service, Enum.Parse(prop.PropertyType, "Item1"), null);
+			}
+			else if (Info != null)
+			{
+				if (VariableType.BaseType == typeof(Enum))
+				{
+					Info.SetValue(BindedTo.BookClass, Enum.Parse(Info.FieldType, Value));
+				}
+				else {
+					Info.SetValue(BindedTo.BookClass, Convert.ChangeType(Value, Variable.GetType()));
+				}
+
+			}
+			UpdatePage();
+		}
+
 		public void UpdatePage()
 		{
 			if (PInfo != null)
@@ -773,7 +864,8 @@ public static class Librarian
 
 	public static Type UEGetType(string TypeName)
 	{
-		if (TypeName == null || TypeName == "") { 
+		if (TypeName == null || TypeName == "")
+		{
 			return null;
 		}
 		// Try Type.GetType() first. This will work with types defined
@@ -827,6 +919,7 @@ public static class Librarian
 	}
 
 }
+
 public enum DisplayValueType
 {
 	Bools,

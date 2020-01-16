@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114310065583896420}
   - component: {fileID: 114681353616717362}
   - component: {fileID: 114596190429440794}
+  - component: {fileID: 8322475677352632531}
   m_Layer: 11
   m_Name: electric_chair
   m_TagString: Untagged
@@ -78,8 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114572836541477582
@@ -156,7 +157,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 250
 --- !u!114 &114596190429440794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +174,25 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &8322475677352632531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530970050131386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: electric chair
+  initialDescription: Like a throne, but more tingly.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1734057074553866
 GameObject:
   m_ObjectHideFlags: 0

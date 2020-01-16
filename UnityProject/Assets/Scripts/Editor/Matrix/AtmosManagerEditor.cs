@@ -10,13 +10,14 @@ public class AtmosManagerEditor : Editor
 	{
 		AtmosManager atmosManager = (AtmosManager) target;
 
-		GUIContent speedContent = new GUIContent("Speed", "frequency of Atmos simulation updates (seconds between each update)");
+		GUIContent speedContent = new GUIContent("Speed", "frequency of Atmos simulation updates (Millieseconds between each update)");
+		GUIContent SubOperations = new GUIContent("SubOperations", "The number of operations done in each update ( meant for sub millisecond adjustment )");
 		GUIContent numThreadsContent =
 			new GUIContent("Threads", "not currently implemented, thread count is always locked at one regardless of this setting");
 
 		atmosManager.Mode = (AtmosMode)EditorGUILayout.EnumPopup("Mode", atmosManager.Mode);
 
-		atmosManager.Speed = EditorGUILayout.Slider(speedContent, atmosManager.Speed, 0.01f, 1f);
+		atmosManager.Speed = EditorGUILayout.Slider(speedContent, atmosManager.Speed, 0, 5000);
 
 		GUI.enabled = atmosManager.Mode == AtmosMode.Threaded;
 
@@ -36,6 +37,11 @@ public class AtmosManagerEditor : Editor
 		EditorGUILayout.BeginHorizontal();
 
 		GUI.enabled = Application.isPlaying && atmosManager.Mode != AtmosMode.Manual;
+
+		if (GUILayout.Button("SetSpeed"))
+		{
+			AtmosManager.SetInternalSpeed();
+		}
 
 		if (!atmosManager.Running)
 		{

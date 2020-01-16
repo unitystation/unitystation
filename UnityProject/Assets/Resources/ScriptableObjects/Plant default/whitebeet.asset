@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: whitebeet
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
-    plantType: 0
     Name: whitebeet
     Plantname: White-Beet Plants
     Description: These seeds grow into sugary beet producing plants.
@@ -80,7 +79,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 5
     MutatesInTo:
-    - {fileID: 11400000, guid: 716c89d90785f4548b1340f33a97cc52, type: 2}
+    - {fileID: 11400000}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

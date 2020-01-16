@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: chili
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
-    plantType: 0
     Name: chili
     Plantname: Chili Plants
     Description: These seeds grow into chili plants. HOT! HOT! HOT!
@@ -80,8 +79,8 @@ MonoBehaviour:
     - String: nutriment
       Int: 3
     MutatesInTo:
-    - {fileID: 11400000, guid: 9764bd7c81b9ca7488446bd023e5142a, type: 2}
     - {fileID: 11400000, guid: a18ddd4ee98c61748be5466ec42a232b, type: 2}
+    - {fileID: 11400000, guid: 9764bd7c81b9ca7488446bd023e5142a, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

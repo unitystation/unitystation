@@ -23,6 +23,7 @@ public class SoundManager : MonoBehaviour
 
 	private static readonly System.Random RANDOM = new System.Random();
 
+	private static AudioSource currentLobbyAudioSource;
 
 	private readonly Dictionary<FloorSound, List<string>> FootSteps = new Dictionary<FloorSound, List<string>>(){
 		{ FloorSound.floor,
@@ -43,14 +44,6 @@ public class SoundManager : MonoBehaviour
 			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }}
 	};
 
-	private readonly List<int> PitchSteps = new List<int>(){
-		-2,
-		-1,
-		0,
-		1,
-		2,
-	};
-
 	private static bool Step;
 
 	private List<AudioSource> ambientTracks = new List<AudioSource>();
@@ -59,6 +52,13 @@ public class SoundManager : MonoBehaviour
 	// Use this for initialization
 	//public AudioSource[] sounds;
 	public List<AudioSource> musicTracks = new List<AudioSource>();
+
+	[SerializeField]
+	private SongTracker songTracker;
+	/// <summary>
+	/// For controlling the song play list. Includes random shuffle and auto play
+	/// </summary>
+	public static SongTracker SongTracker => soundManager.songTracker;
 
 	public static SoundManager Instance
 	{
@@ -272,7 +272,7 @@ public class SoundManager : MonoBehaviour
 
 
 	/// <summary>
-	/// Play sound locally at given world position.
+	/// Play Footstep at given world position.
 	/// </summary>
 	public static void FootstepAtPosition(Vector3 worldPos)
 	{
@@ -285,15 +285,20 @@ public class SoundManager : MonoBehaviour
 			if (Step)
 			{
 				PlayNetworkedAtPos(Instance.FootSteps[tile.WalkingSoundCategory][RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
-								   worldPos, Instance.PitchSteps[RANDOM.Next(Instance.PitchSteps.Count)],
+				                   worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
 								   Global: false, polyphonic: true);
 			}
 			Step = !Step;
 		}
+	}
 
-
-
-
+	/// <summary>
+	/// Play Glassknock at given world position.
+	/// </summary>
+	public static void GlassknockAtPosition(Vector3 worldPos)
+	{
+		PlayNetworkedAtPos("GlassKnock", worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d), 
+						   Global: false, polyphonic: true);
 	}
 
 
@@ -358,28 +363,44 @@ public class SoundManager : MonoBehaviour
 		PlayRandomTrack();
 	}
 
-	public static void PlayRandomTrack()
+	/// <summary>
+	/// Plays a random music track.
+	/// Using two diiferent ways to play tracks, some tracks are normal audio and some are tracker files played by sunvox.
+	/// <returns>String[] that represents the picked song's name.</returns>
+	/// </summary>
+	public static String[] PlayRandomTrack()
 	{
 		StopMusic();
-		if (Random.Range(0, 2).Equals(0))
+		String[] songInfo;
+
+		// To make sure not to play the last song that just played,
+		// every time a track is played, it's either a normal audio or track played by sunvox, alternatively.
+		if (currentLobbyAudioSource == null)
 		{
 			//Traditional music
 			int randTrack = Random.Range(0, Instance.musicTracks.Count);
-			Instance.musicTracks[randTrack].volume = Instance.MusicVolume;
-			Instance.musicTracks[randTrack].Play();
+			currentLobbyAudioSource = Instance.musicTracks[randTrack];
+			currentLobbyAudioSource.volume = Instance.MusicVolume;
+			currentLobbyAudioSource.Play();
+			songInfo = currentLobbyAudioSource.clip.name.Split('_'); // Spliting to get the song and artist name
 		}
 		else
 		{
+			currentLobbyAudioSource = null;
 			//Tracker music
 			var trackerMusic = new[]
 			{
-				"spaceman.xm",
-				"echo_sound.xm",
-				"tintin.xm"
+				"Spaceman_HERB.xm",
+				"Echo sound.xm",
+				"Tintin on the Moon_Jeroen Tel.xm"
 			};
+			var songPicked = trackerMusic.Wrap(Random.Range(1, 100));
 			var vol = 255 * Instance.MusicVolume;
-			Synth.Instance.PlayMusic(trackerMusic.Wrap(Random.Range(1, 100)), false, (byte)(int)vol);
+			Synth.Instance.PlayMusic(songPicked, false, (byte)(int)vol);
+			songPicked = songPicked.Split('.')[0]; // Throwing away the .xm extension in the string
+			songInfo = songPicked.Split('_'); // Spliting to get the song and artist name
 		}
+		return songInfo;
 	}
 
 	public static void PlayAmbience()
@@ -405,16 +426,37 @@ public class SoundManager : MonoBehaviour
 		PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
 		PlayerPrefs.Save();
 	}
+
+	/// <summary>
+	/// Checks if music in lobby is being played or not.
+	/// <returns> true if music is being played.</returns>
+	/// </summary>
+	public static bool isLobbyMusicPlaying()
+    {
+		// Checks if an audiosource or a track by sunvox is being played(Since there are two diiferent ways to play tracks)
+		if (currentLobbyAudioSource != null && currentLobbyAudioSource.isPlaying || !(SunVox.sv_end_of_song((int)Slot.Music) == 1))
+			return true;
+
+		return false;
+	}
+
+	public double GetRandomNumber(double minimum, double maximum)
+	{
+		return  RANDOM.NextDouble() * (maximum - minimum) + minimum;
+	}
+
 }
 
-public enum FloorSound { 
-		floor,
-		asteroid,
-		carpet,
-		catwalk,
-		grass,
-		lava,
-		plating,
-		wood,
+public enum FloorSound
+{
+	floor,
+	asteroid,
+	carpet,
+	catwalk,
+	grass,
+	lava,
+	plating,
+	wood,
+
 
 }

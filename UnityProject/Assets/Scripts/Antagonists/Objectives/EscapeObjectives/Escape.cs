@@ -25,12 +25,13 @@ namespace Antagonists
 		}
 
 		/// <summary>
-		/// Complete if the player is alive and on one of the escape shuttles
+		/// Complete if the player is alive and on one of the escape shuttles and shuttle has
+		/// at least one working engine
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
 			return !Owner.body.playerHealth.IsDead &&
-				ValidShuttles.Any( shuttle => Owner.body.registerTile.Matrix.Id == shuttle.MatrixInfo.Id);
+				ValidShuttles.Any( shuttle => Owner.body.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters);
 		}
 	}
 }

@@ -102,7 +102,7 @@ public static class Spawn
 	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
 	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="localRotation">local rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
 	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
 	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
@@ -112,12 +112,12 @@ public static class Spawn
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? rotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab),
-				SpawnDestination.At(worldPosition, parent, rotation, cancelIfImpassable),
+				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable),
 				count, scatterRadius));
 	}
 
@@ -150,7 +150,7 @@ public static class Spawn
 	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
 	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="localRotation">local rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
 	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
 	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
@@ -158,12 +158,12 @@ public static class Spawn
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnResult ClientPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnResult ClientPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null, Quaternion? localRotation = null, int count = 1, float? scatterRadius = null)
 	{
 		return Client(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefab),
-				SpawnDestination.At(worldPosition, parent, rotation),
+				SpawnDestination.At(worldPosition, parent, localRotation),
 				count, scatterRadius));
 	}
 
@@ -175,7 +175,7 @@ public static class Spawn
 	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
 	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="localRotation">local rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
 	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
 	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
@@ -185,12 +185,12 @@ public static class Spawn
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? rotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
+		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefabName),
-				SpawnDestination.At(worldPosition, parent, rotation, cancelIfImpassable),
+				SpawnDestination.At(worldPosition, parent, localRotation, cancelIfImpassable),
 				count, scatterRadius));
 	}
 
@@ -202,7 +202,7 @@ public static class Spawn
 	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
 	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="localRotation">local rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
 	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
 	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
@@ -210,12 +210,12 @@ public static class Spawn
 	/// <param name="scatterRadius">radius to scatter the spawned instances by from their spawn position. Defaults to
 	/// null (no scatter).</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnResult ClientPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null, Quaternion? rotation = null, int count = 1, float? scatterRadius = null)
+	public static SpawnResult ClientPrefab(string prefabName, Vector3? worldPosition = null, Transform parent = null, Quaternion? localRotation = null, int count = 1, float? scatterRadius = null)
 	{
 		return Client(
 			SpawnInfo.Spawnable(
 				SpawnablePrefab.For(prefabName),
-				SpawnDestination.At(worldPosition, parent, rotation),
+				SpawnDestination.At(worldPosition, parent, localRotation),
 				count, scatterRadius));
 	}
 
@@ -229,16 +229,16 @@ public static class Spawn
 	/// to clone something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
 	/// properly implemented IOnStageServer or IOnStageClient when IsCloned = true</param>
 	/// <param name="worldPosition">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="localRotation">local rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
 	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
 	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
 	/// <returns>the newly created GameObject</returns>
 	public static SpawnResult ServerClone(GameObject toClone, Vector3? worldPosition = null, Transform parent = null,
-		Quaternion? rotation = null)
+		Quaternion? localRotation = null)
 	{
 		return Server(
-			SpawnInfo.Clone(toClone, SpawnDestination.At(worldPosition, parent, rotation)));
+			SpawnInfo.Clone(toClone, SpawnDestination.At(worldPosition, parent, localRotation)));
 	}
 
 	/// <summary>
@@ -414,7 +414,7 @@ public static class Spawn
 			tempObject.SetActive(true);
 
 			tempObject.transform.position = pos;
-			tempObject.transform.rotation = destination.Rotation;
+			tempObject.transform.localRotation = destination.LocalRotation;
 			tempObject.transform.localScale = prefab.transform.localScale;
 			tempObject.transform.parent = destination.Parent;
 			var cnt = tempObject.GetComponent<CustomNetTransform>();
@@ -428,7 +428,7 @@ public static class Spawn
 		}
 		else
 		{
-			tempObject = Object.Instantiate(prefab, pos, destination.Rotation, destination.Parent);
+			tempObject = Object.Instantiate(prefab, pos, destination.Parent.rotation * destination.LocalRotation, destination.Parent);
 
 			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
 

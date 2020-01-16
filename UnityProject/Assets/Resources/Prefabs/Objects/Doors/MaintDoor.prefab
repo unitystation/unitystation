@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114214113307820836}
   - component: {fileID: 114087671671177448}
   - component: {fileID: 114543117907524900}
+  - component: {fileID: 7741864275218123481}
   m_Layer: 17
   m_Name: MaintDoor
   m_TagString: Untagged
@@ -94,6 +95,8 @@ MonoBehaviour:
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 3
+  damageOnClose: 0
+  ignorePassableChecks: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 0
@@ -115,6 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114898495208177878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,8 +328,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   OneDirectionRestricted: 0
   isClosed: 1
 --- !u!114 &114456309332343076
@@ -368,7 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  IsFixedMatrix: 0
+  IsFixedMatrix: 1
 --- !u!114 &114214113307820836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,16 +403,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
+    Melee: 30
+    Bullet: 30
+    Laser: 20
+    Energy: 20
+    Bomb: 10
+    Rad: 100
+    Fire: 80
+    Acid: 70
     Magic: 0
-    Bio: 0
+    Bio: 100
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -416,7 +422,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 350
 --- !u!114 &114543117907524900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,8 +437,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 8df037bc1ed3b4d88bb0bee4f4607fd9
   m_SceneId: 0
+--- !u!114 &7741864275218123481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006244272141468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: maintenance door
+  initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1256603339586500
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +514,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286154399074396}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -588,7 +613,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 13792128ab4b4a9bbe78491650423df1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.37
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -840,7 +865,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 98b5308a2adb43d49b3471da7a9057dd, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.344
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0

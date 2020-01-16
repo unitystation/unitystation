@@ -22,6 +22,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// *** USE WITH CAUTION! ***
 	/// Setting it to true without parent container will make it appear at HiddenPos.
 	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
+	/// I think this is valid server side only
 	/// </summary>
 	public bool VisibleState
 	{
@@ -159,6 +160,24 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		SyncIsNotPushable(!isPushable);
 	}
 
+	[Tooltip("The sound to play when pushed/pulled")]
+    [SerializeField]
+	private string pushPullSound = null;
+
+	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
+	[SerializeField]
+	private int soundDelayTime = 0;
+
+	[Tooltip("A minimum pitch variance from original sound for random effect (ex: 0.5 = 50% normal pitch)")]
+	[SerializeField]
+	private float soundMinimumPitchVariance = 1;
+
+	[Tooltip("A maximum pitch variance from original sound for random effect (ex: 0.5 = 50% normal pitch)")]
+	[SerializeField]
+	private float soundMaximumPitchVariance = 1;
+
+	private float lastPlayedSoundTime;
+
 	/// <summary>
 	/// Like ServerSetPushable, but has logic for preventing things from being anchored
 	/// if there is something on the same tile (not in the floor) and sends an examine message to performer if it's blocked.
@@ -274,7 +293,22 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public PushPull PulledObject => isServer ? PulledObjectServer : PulledObjectClient;
 
 	public bool IsPullingSomethingServer => PulledObjectServer != null;
-	public PushPull PulledObjectServer { get; private set; }
+
+	/// <summary>
+	/// Invoked server side only when this object starts / stops pulling something, after the change is made.
+	/// </summary>
+	public UnityEvent OnPullingSomethingChangedServer = new UnityEvent();
+
+	public PushPull PulledObjectServer
+	{
+		get => pulledObjectServer;
+		private set
+		{
+			pulledObjectServer = value;
+			OnPullingSomethingChangedServer.Invoke();
+		}
+	}
+	private PushPull pulledObjectServer;
 
 	public bool IsPullingSomethingClient => PulledObjectClient != null;
 	public PushPull PulledObjectClient { get; set; }
@@ -323,7 +357,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 			return;
 		}
 
-		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile, true )
+		if ( Validations.IsInReach( pullable.registerTile, this.registerTile, true )
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
@@ -404,7 +438,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		else
 		{
 			//check if in range for pulling
-			if (PlayerScript.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			if (Validations.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
 			{
 				return RightClickableResult.Create()
 					.AddElement("Pull", TryPullThis);
@@ -573,7 +607,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
 
 		//if puller can reach this + not trying to pull himself + not being pulled
-		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile, true )
+		if ( Validations.IsInReach( attachTo.registerTile, this.registerTile, true )
 		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
 		{
 			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
@@ -613,7 +647,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
-		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
+		if ( Validations.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
@@ -644,6 +678,20 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 
 		bool success = Pushable.Push( dir, speed, true );
 		if ( success ) {
+			// Pulling a directional component should change it's orientation to match the one that pulls it
+			Directional directionalComponent;
+			if (TryGetComponent(out directionalComponent))
+			{
+				directionalComponent.FaceDirection(PulledBy.GetComponent<Directional>().CurrentDirection);
+			}
+
+			// If there is a sound to be played
+			if (!string.IsNullOrWhiteSpace(pushPullSound) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
+			{
+				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance));
+				lastPlayedSoundTime = Time.time * 1000;
+			}
+
 			pushTarget = target;
 //			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
 		}
@@ -725,12 +773,12 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
+			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
 			{
 				StopFollowing();
 			}
 			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
+			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
 			{
 				ReleaseControl();
 			}
@@ -975,4 +1023,9 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	}
 #endif
 
+	private void OnValidate()
+	{
+		if (soundMinimumPitchVariance > soundMaximumPitchVariance)
+			soundMinimumPitchVariance = soundMaximumPitchVariance;
+	}
 }

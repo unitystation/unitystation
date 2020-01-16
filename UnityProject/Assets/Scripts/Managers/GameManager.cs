@@ -30,6 +30,8 @@ public partial class GameManager : MonoBehaviour
 	[NonSerialized]
 	public bool RespawnCurrentlyAllowed;
 
+	[HideInInspector] public string NextGameMode = "Random";
+
 	/// <summary>
 	/// Server setting - set in editor. Should not be changed in code.
 	/// </summary>
@@ -105,7 +107,7 @@ public partial class GameManager : MonoBehaviour
 	///</summary>
 	public void ServerSetSpaceBody(MatrixMove mm)
 	{
-		if (mm.State.Position == TransformState.HiddenPos)
+		if (mm.ServerState.Position == TransformState.HiddenPos)
 		{
 			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
 				"ready before calling ServerSetSpaceBody ", Category.Server);
@@ -164,10 +166,22 @@ public partial class GameManager : MonoBehaviour
 		{
 			PreRoundStart();
 		}
+		ResetStaticsOnNewRound();
+	}
+
+	/// <summary>
+	/// Resets client and server side static fields to empty / round start values.
+	/// If you have any static pools / caches / fields, add logic here to reset them to ensure they'll be properly
+	/// cleared when a new round begins.
+	/// </summary>
+	private void ResetStaticsOnNewRound()
+	{
 		//reset pools
 		Spawn._ClearPools();
-		//reset inventory system
-		ItemSlot.EmptyPool();
+		//clean up inventory system
+		ItemSlot.Cleanup();
+		//reset matrix init events
+		NetworkedMatrix._ClearInitEvents();
 	}
 
 	public void SyncTime(string currentTime)
@@ -285,11 +299,17 @@ public partial class GameManager : MonoBehaviour
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			// TODO hard coding gamemode for testing purposes
-			SetGameMode("Traitor");
-			if (GameMode == null)
+			if (string.IsNullOrEmpty(NextGameMode)
+			    || NextGameMode == "Random")
 			{
 				SetRandomGameMode();
+			}
+			else
+			{
+				SetGameMode(NextGameMode);
+				//set it back to random when it has been loaded
+				//TODO set default game modes
+				NextGameMode = "Random";
 			}
 			// Game mode specific setup
 			GameMode.SetupRound();
@@ -447,7 +467,7 @@ public partial class GameManager : MonoBehaviour
 		CurrentRoundState = RoundState.Ended;
 		//Notify all clients that the round has ended
 		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
-		
+
 		yield return WaitFor.Seconds(0.2f);
 
 		CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);

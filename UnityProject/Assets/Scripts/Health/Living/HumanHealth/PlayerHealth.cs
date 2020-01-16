@@ -42,18 +42,20 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
-			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
-
 			ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
 
-			string killerName = "Stressful work";
+			string killerName = null;
 			if (LastDamagedBy != null)
 			{
-				killerName = PlayerList.Instance.Get(LastDamagedBy).Name;
+				killerName = PlayerList.Instance.Get(LastDamagedBy)?.Name;
 			}
 
-			string playerName = player.Name ?? "dummy";
+			if (killerName == null)
+			{
+				killerName = "Stressful work";
+			}
+
+			string playerName = player?.Name ?? "dummy";
 			if (killerName == playerName)
 			{
 				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
@@ -70,13 +72,26 @@ public class PlayerHealth : LivingHealthBehaviour
 			}
 
 			//drop items in hand
-			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+			if (itemStorage != null)
+			{
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+			}
 
 			if (isServer)
 			{
 				EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
-				string descriptor = player.Script.characterSettings.PossessivePronoun();
+				string descriptor = null;
+				if (player != null)
+				{
+					descriptor = player?.Script?.characterSettings?.PossessivePronoun();
+				}
+
+				if (descriptor == null)
+				{
+					descriptor = "their";
+				}
+
 				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", (Vector3)registerPlayer.WorldPositionServer);
 			}
 
@@ -132,14 +147,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
-		if (newState != ConsciousState.CONSCIOUS)
-		{
-			registerPlayer.LayDown();
-		}
-		else
-		{
-			registerPlayer.GetUp();
-		}
-
+		//we stay upright if buckled or conscious
+		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || playerMove.IsBuckled);
 	}
 }

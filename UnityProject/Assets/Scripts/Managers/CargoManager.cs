@@ -157,8 +157,10 @@ public class CargoManager : MonoBehaviour
 		OnShuttleUpdate?.Invoke();
 	}
 
-	public void DestroyItem(ObjectBehaviour item)
+	public void DestroyItem(ObjectBehaviour item, HashSet<GameObject> alreadySold)
 	{
+		//already sold this this sales cycle.
+		if (alreadySold.Contains(item.gameObject)) return;
 		var storage = item.GetComponent<InteractableStorage>();
 		if (storage)
 		{
@@ -166,17 +168,22 @@ public class CargoManager : MonoBehaviour
 			{
 				if (slot.Item)
 				{
-					DestroyItem(slot.Item.GetComponent<ObjectBehaviour>());
+					DestroyItem(slot.Item.GetComponent<ObjectBehaviour>(), alreadySold);
 				}
 			}
 		}
 
+		//note: it seems the held items are also detected in UnloadCargo as being on the matrix but only
+		//when they were spawned or moved onto that cargo shuttle (outside of the crate) prior to being placed into the crate. If they
+		//were instead placed into the crate and then the crate was moved onto the cargo shuttle, they
+		//will only be found with this check and won't be found in UnloadCargo.
+		//TODO: Better logic for ClosetControl updating its held items' parent matrix when crossing matrix with items inside.
 		var closet = item.GetComponent<ClosetControl>();
 		if (closet)
 		{
 			foreach (var closetItem in closet.ServerHeldItems)
 			{
-				DestroyItem(closetItem);
+				DestroyItem(closetItem, alreadySold);
 			}
 		}
 
@@ -229,6 +236,7 @@ public class CargoManager : MonoBehaviour
 
 		item.registerTile.UnregisterClient();
 		item.registerTile.UnregisterServer();
+		alreadySold.Add(item.gameObject);
 		Despawn.ServerSingle(item.gameObject);
 	}
 

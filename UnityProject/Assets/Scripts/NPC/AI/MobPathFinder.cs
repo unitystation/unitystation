@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PathFinding;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using PathFinding;
-using UnityScript.Macros;
 
 public class MobPathFinder : MonoBehaviour
 {

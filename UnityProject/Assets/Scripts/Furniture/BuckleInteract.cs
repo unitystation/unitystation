@@ -42,7 +42,7 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		var playerMove = interaction.DroppedObject.GetComponent<PlayerMove>();
 		var registerPlayer = playerMove.GetComponent<RegisterPlayer>();
 		//player to buckle is up, no need to check for other players on the tile
-		if (!registerPlayer.IsDown) return true;
+		if (!registerPlayer.IsLayingDown) return true;
 
 		//Player to buckle is down,
 		//return false if there are any blocking players on this tile (because if we buckle this player
@@ -56,11 +56,11 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
 
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
-		playerMove.Buckle(gameObject, OnUnbuckle);
+		playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
-		occupiableDirectionalSprite?.RenderOccupied(true);
+		occupiableDirectionalSprite?.SetOccupant(drop.UsedObject.NetId());
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -87,6 +87,6 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
 	{
-		occupiableDirectionalSprite?.RenderOccupied(false);
+		occupiableDirectionalSprite?.SetOccupant(NetId.Empty);
 	}
 }

@@ -92,11 +92,12 @@ public static class Inventory
 	/// Inventory move in which the object in the slot is dropped into the world at the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>
-	/// <param name="targetWorldPosition">world position to drop at, leave null to drop at holder's position</param>
+	/// <param name="worldTargetVector">world space vector pointing from origin to targeted position to throw, leave null
+	/// to drop at holder's position</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerDrop(ItemSlot fromSlot, Vector2? targetWorldPosition = null)
+	public static bool ServerDrop(ItemSlot fromSlot, Vector2? worldTargetVector = null)
 	{
-		return ServerPerform(InventoryMove.Drop(fromSlot, targetWorldPosition));
+		return ServerPerform(InventoryMove.Drop(fromSlot, worldTargetVector));
 	}
 
 	/// <summary>
@@ -116,16 +117,39 @@ public static class Inventory
 	}
 
 	/// <summary>
+	/// Same as above but can support stackables (playing item one at a time into a machine)
+	/// returns the object that was removed from the stack also
+	/// </summary>
+	/// <param name="fromSlot"></param>
+	/// <returns></returns>
+	public static GameObject ServerVanishStackable(ItemSlot fromSlot)
+	{
+		if (fromSlot.ItemObject == null) return null;
+		var stackable = fromSlot.ItemObject.GetComponent<Stackable>();
+		if (stackable != null)
+		{
+			var clone = stackable.ServerRemoveOne();
+			ServerPerform(new InventoryMove(InventoryMoveType.Remove, clone.GetComponent<Pickupable>(), fromSlot, null, InventoryRemoveType.Vanish));
+			return clone;
+		}
+		else
+		{
+			ServerPerform(InventoryMove.Vanish(fromSlot));
+			return fromSlot.Item.gameObject;
+		}
+	}
+
+	/// <summary>
 	/// Inventory move in which the object in the slot is thrown into the world from the location of its root storage
 	/// </summary>
 	/// <param name="fromSlot"></param>
-	/// <param name="targetWorldPosition">world position being targeted by the throw</param>
+	/// <param name="worldTargetVector">world space vector pointing from origin to targeted position to throw</param>
 	/// <param name="spinMode"></param>
 	/// <param name="aim">body part to target</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerThrow(ItemSlot fromSlot, Vector2 targetWorldPosition, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
+	public static bool ServerThrow(ItemSlot fromSlot, Vector2 worldTargetVector, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
 	{
-		return ServerPerform(InventoryMove.Throw(fromSlot, targetWorldPosition, spinMode, aim));
+		return ServerPerform(InventoryMove.Throw(fromSlot, worldTargetVector, spinMode, aim));
 	}
 
 	/// <summary>
@@ -135,10 +159,30 @@ public static class Inventory
 	/// <returns>true if successful</returns>
 	public static bool ServerPerform(InventoryMove toPerform)
 	{
+		if (toPerform == null)
+		{
+			Logger.LogError("Inventory move null, likely it failed due to previous error.", Category.Inventory);
+			return false;
+		}
 		var pickupable = toPerform.MovedObject;
 		if (pickupable == null)
 		{
 			Logger.LogTrace("Inventory move attempted with null object. Move will not be performed", Category.Inventory);
+			return false;
+		}
+
+		if (toPerform.FromSlot != null && toPerform.FromSlot.Invalid)
+		{
+			Logger.LogErrorFormat("Inventory move attempted with invalid slot {0}. This slot reference should've" +
+			                      " been cleaned up when the round restarted yet somehow didn't.", Category.Inventory,
+				toPerform.FromSlot);
+			return false;
+		}
+		if (toPerform.ToSlot != null && toPerform.ToSlot.Invalid)
+		{
+			Logger.LogErrorFormat("Inventory move attempted with invalid slot {0}. This slot reference should've" +
+			                      " been cleaned up when the round restarted yet somehow didn't.", Category.Inventory,
+				toPerform.ToSlot);
 			return false;
 		}
 
@@ -321,7 +365,8 @@ public static class Inventory
 
 			var holderPlayer = holder.GetComponent<PlayerSync>();
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			Vector3 targetWorldPos = toPerform.TargetWorldPos.GetValueOrDefault(holder.gameObject.AssumedWorldPosServer());
+			var holderPosition = holder.gameObject.AssumedWorldPosServer();
+			Vector3 targetWorldPos = holderPosition + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
 			if (holderPlayer != null)
 			{
 				//dropping from player
@@ -340,12 +385,13 @@ public static class Inventory
 			//throw / eject
 			//determine where it will be thrown from
 			var cnt = pickupable.GetComponent<CustomNetTransform>();
+			var assumedWorldPosServer = holder.gameObject.AssumedWorldPosServer();
 			var throwInfo = new ThrowInfo
 			{
 				ThrownBy = holder.gameObject,
 				Aim = toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest),
-				OriginPos = holder.gameObject.AssumedWorldPosServer(),
-				TargetPos = (Vector3) toPerform.TargetWorldPos,
+				OriginWorldPos = assumedWorldPosServer,
+				WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero),
 				SpinMode = toPerform.ThrowSpinMode.GetValueOrDefault(SpinMode.Clockwise)
 			};
 			//dropping from player
@@ -353,7 +399,7 @@ public static class Inventory
 			cnt.Throw(throwInfo);
 
 			//Counter-impulse for players in space
-			holderPushPull.Pushable.NewtonianMove((-throwInfo.Trajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
+			holderPushPull.Pushable.NewtonianMove((-throwInfo.WorldTrajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
 		}
 		//NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		//already been removed from the inventory system.
@@ -388,23 +434,32 @@ public static class Inventory
 
 		if (toSlot.Item != null)
 		{
-			switch (toPerform.ReplacementStrategy)
+			var stackableTarget = toSlot.Item.GetComponent<Stackable>();
+			if (stackableTarget != null && stackableTarget.CanAccommodate(pickupable.gameObject))
 			{
-				case ReplacementStrategy.DespawnOther:
-					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
-					                      " Item in slot will be despawned first.", Category.Inventory, pickupable.name, toSlot);
-					ServerDespawn(toSlot);
-					break;
-				case ReplacementStrategy.DropOther:
-					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
-					                      " Item in slot will be dropped first.", Category.Inventory, pickupable.name, toSlot);
-					ServerDrop(toSlot);
-					break;
-				case  ReplacementStrategy.Cancel:
-				default:
-					Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
-					                      " Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
-					return false;
+				toSlot.Item.GetComponent<Stackable>().ServerCombine(pickupable.GetComponent<Stackable>());
+				return false;
+			}
+			else
+			{
+				switch (toPerform.ReplacementStrategy)
+				{
+					case ReplacementStrategy.DespawnOther:
+						Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+											  " Item in slot will be despawned first.", Category.Inventory, pickupable.name, toSlot);
+						ServerDespawn(toSlot);
+						break;
+					case ReplacementStrategy.DropOther:
+						Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+											  " Item in slot will be dropped first.", Category.Inventory, pickupable.name, toSlot);
+						ServerDrop(toSlot);
+						break;
+					case ReplacementStrategy.Cancel:
+					default:
+						Logger.LogTraceFormat("Attempted to add {0} to inventory but target slot {1} already had something in it." +
+											  " Move will not be performed.", Category.Inventory, pickupable.name, toSlot);
+						return false;
+				}
 			}
 		}
 
@@ -416,7 +471,7 @@ public static class Inventory
 		}
 
 		//go poof, it's in inventory now.
-		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
 
 		//no longer inside any PushPull
 		pickupable.GetComponent<ObjectBehaviour>().parentContainer = null;

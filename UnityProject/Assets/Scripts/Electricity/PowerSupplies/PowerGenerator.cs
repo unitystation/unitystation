@@ -4,6 +4,8 @@ using UnityEngine;
 using Mirror;
 public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
+	private const float PlasmaConsumptionRate = 0.02f;
+
 	public ObjectBehaviour objectBehaviour;
 	[SyncVar(hook = nameof(UpdateSecured))]
 	public bool isSecured; //To ground
@@ -138,16 +140,12 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	bool TryBurnFuel()
 	{
-		if (plasmaFuel.Count == 0)
-		{
-			return false;
-		}
-
 		if (plasmaFuel.Count > 0)
 		{
-			plasmaFuel[0].StartBurningPlasma(0.4f, FuelExhaustedEvent);
+			plasmaFuel[0].StartBurningPlasma(PlasmaConsumptionRate, FuelExhaustedEvent);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -182,8 +180,8 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		var solidPlasma = slot.Item != null ? slot.Item.GetComponent<SolidPlasma>() : null;
 		if (solidPlasma != null)
 		{
-			plasmaFuel.Add(solidPlasma);
-			Inventory.ServerConsume(interaction.HandSlot, 1);
+			var plasma = Inventory.ServerVanishStackable(interaction.HandSlot);
+			plasmaFuel.Add(plasma.GetComponent<SolidPlasma>());
 			return;
 		}
 

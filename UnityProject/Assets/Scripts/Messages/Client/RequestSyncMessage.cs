@@ -21,20 +21,8 @@ public class RequestSyncMessage : ClientMessage
 			//marking player as synced to avoid sending that data pile again
 			SentByPlayer.Synced = true;
 
-			AnnounceNewPlayer( SentByPlayer );
 		}
 		yield return null;
-	}
-
-	private static void AnnounceNewPlayer( ConnectedPlayer newPlayer ) {
-		if ( newPlayer.Job == JobType.SYNDICATE ) {
-			return;
-		}
-
-		var msg = $"{newPlayer.Job.JobString()} {newPlayer.Name} has arrived at the station. " +
-		          $"Have a pleasant day! Try not to die...";
-		Chat.AddSystemMsgToChat($"<color=white>{msg}</color>", MatrixManager.MainStationMatrix);
-		AnnouncementMessage.SendToAll( msg );
 	}
 
 	public override string ToString()

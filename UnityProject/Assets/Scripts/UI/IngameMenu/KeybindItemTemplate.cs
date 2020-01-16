@@ -43,7 +43,7 @@ public class KeybindItemTemplate : MonoBehaviour {
 	}
 	private void primaryRemove_onClick()
 	{
-		controlSettingsMenu.tempKeybinds.Remove(ItemAction, true);
+		controlSettingsMenu.RemoveKeybind(ItemAction, true);
 		PrimaryButton.GetComponentInChildren<Text>().text = "None";
 		PrimaryRemoveButton.gameObject.SetActive(false);
 	}
@@ -54,7 +54,7 @@ public class KeybindItemTemplate : MonoBehaviour {
 	}
 	private void secondaryRemove_onClick()
 	{
-		controlSettingsMenu.tempKeybinds.Remove(ItemAction, false);
+		controlSettingsMenu.RemoveKeybind(ItemAction, false);
 		SecondaryButton.GetComponentInChildren<Text>().text = "None";
 		SecondaryRemoveButton.gameObject.SetActive(false);
 	}
