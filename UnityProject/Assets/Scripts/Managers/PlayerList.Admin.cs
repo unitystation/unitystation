@@ -140,6 +140,26 @@ public partial class PlayerList
 			return false;
 		}
 
+		//Do not allow users to log in twice for release servers:
+		if (BuildPreferences.isForRelease)
+		{
+			if (GetByUserID(userid) != null)
+			{
+				if (GetByUserID(userid).Connection != null)
+				{
+					if (playerConn.Connection != GetByUserID(userid).Connection)
+					{
+						StartCoroutine(
+							KickPlayer(playerConn, $"Server Error: You are already logged into this server!"));
+						Logger.Log($"A user tried to connect with another client while already logged in \r\n" +
+						           $"Details: Username: {playerConn.Username}, ClientID: {clientID}, IP: {playerConn.Connection.address}",
+							Category.Admin);
+						return false;
+					}
+				}
+			}
+		}
+
 		var refresh = new RefreshToken {userID = userid, refreshToken = token};
 		var response = await ServerData.ValidateToken(refresh, true);
 
