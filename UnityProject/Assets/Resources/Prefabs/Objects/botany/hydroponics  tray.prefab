@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 114568927083047222}
   - component: {fileID: 114130822872460300}
   - component: {fileID: 114019091986045732}
-  - component: {fileID: 3468170437254342443}
   - component: {fileID: 1612245312422546373}
+  - component: {fileID: 3468170437254342443}
   - component: {fileID: 114193634347157676}
   - component: {fileID: 114519504495500056}
   - component: {fileID: 17410868912263334}
@@ -214,31 +214,6 @@ MonoBehaviour:
   butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
---- !u!114 &3468170437254342443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609685257496530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 200
-  itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents:
-  - water
-  Amounts:
-  - 100
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 0
-  InitialTransferAmount: 20
-  PossibleTransferAmounts: []
 --- !u!114 &1612245312422546373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +292,31 @@ MonoBehaviour:
   plantSubStage: 0
   plantHealth: 100
   readyToHarvest: 0
+--- !u!114 &3468170437254342443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609685257496530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperatureKelvin: 293.15
+  MaxCapacity: 200
+  itemAttributes: {fileID: 0}
+  InSolidForm: 0
+  Reagents:
+  - water
+  Amounts:
+  - 100
+  TraitWhitelist: []
+  ReagentWhitelist: []
+  TransferMode: 0
+  InitialTransferAmount: 20
+  PossibleTransferAmounts: []
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0

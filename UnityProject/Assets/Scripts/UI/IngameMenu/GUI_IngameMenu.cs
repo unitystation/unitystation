@@ -36,6 +36,24 @@ public class GUI_IngameMenu : MonoBehaviour
 		}
 	}
 
+	void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
+
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		if (scene.name != "Lobby")
+		{
+			CloseMenuPanel(); // Close disclaimer and menu on scene switch
+		}
+	}
+
 #if UNITY_EDITOR
 	[NonSerialized]
 	public bool isTest = false;

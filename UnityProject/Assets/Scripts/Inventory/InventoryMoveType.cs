@@ -79,7 +79,7 @@ public class InventoryMove
 	public RegisterPlayer ToRootPlayer => ToSlot?.RootPlayer();
 
 
-	private InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
+	public InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
 		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? worldTargetVector = null, SpinMode? throwSpinMode = null,
 		ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel)
 	{

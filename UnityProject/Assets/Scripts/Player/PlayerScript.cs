@@ -44,6 +44,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 
 	public RegisterPlayer registerTile { get; set; }
 
+	public HasCooldowns Cooldowns { get; set; }
+
 	public MouseInputController mouseInputController { get; set; }
 
 	public HitIcon hitIcon { get; set; }
@@ -106,6 +108,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		playerDirectional = GetComponent<Directional>();
 		ItemStorage = GetComponent<ItemStorage>();
 		Equipment = GetComponent<Equipment>();
+		Cooldowns = GetComponent<HasCooldowns>();
 	}
 
 	public void Init()

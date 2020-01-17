@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using DatabaseAPI;
 
 public class GUI_P_Bool : PageElement
 {
@@ -33,9 +34,9 @@ public class GUI_P_Bool : PageElement
 	{
 		if (PageID != 0)
 		{
-			RequestChangeVariableNetMessage.Send(PageID, change.isOn.ToString());
+			RequestChangeVariableNetMessage.Send(PageID, change.isOn.ToString(), ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
-		else { 
+		else {
 			//RequestChangeVariableNetMessage.Send(PageID, change.isOn.ToString());
 		}
 	}

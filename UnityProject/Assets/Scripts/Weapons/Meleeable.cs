@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Allows an object or tiles to be attacked by melee.
 /// </summary>
-public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
 	[SerializeField]
 	private ItemTrait butcherKnifeTrait;
@@ -55,8 +55,9 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		//must be targeting us
 		if (interaction.TargetObject != gameObject) return false;
 		//allowed to attack due to cooldown?
-		var playerScript = interaction.Performer.GetComponent<PlayerScript>();
-		if (!playerScript.weaponNetworkActions.AllowAttack)
+		//note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
+		//clientPredictInteraction on clientside
+		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side)))
 		{
 			return false;
 		}
@@ -77,6 +78,17 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		return true;
 	}
 
+
+	public void ClientPredictInteraction(PositionalHandApply interaction)
+	{
+		//start clientside melee cooldown so we don't try to spam melee
+		//requests to server
+		Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Melee);
+	}
+
+	//no rollback logic
+	public void ServerRollbackClient(PositionalHandApply interaction) { }
+
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
@@ -84,7 +96,7 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		{
 			//attacking tiles
 			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
-			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
+			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
 		}
 		else
 		{
@@ -109,8 +121,9 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			}
 			else
 			{
-				wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+				wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
 			}
 		}
 	}
+
 }
