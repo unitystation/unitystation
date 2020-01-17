@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 114568927083047222}
   - component: {fileID: 114130822872460300}
   - component: {fileID: 114019091986045732}
-  - component: {fileID: 3468170437254342443}
   - component: {fileID: 1612245312422546373}
+  - component: {fileID: 3468170437254342443}
   - component: {fileID: 114193634347157676}
   - component: {fileID: 114519504495500056}
   - component: {fileID: 17410868912263334}
@@ -166,8 +166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114568927083047222
@@ -210,31 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3468170437254342443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609685257496530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 200
-  itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents:
-  - water
-  Amounts:
-  - 100
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 0
-  InitialTransferAmount: 20
-  PossibleTransferAmounts: []
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &1612245312422546373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,19 +286,36 @@ MonoBehaviour:
   tickRate: 1
   tickCount: 0
   weedLevel: 0
-  pestLevel: 0
-  toxicityLevel: 0
   nutritionLevel: 100
-  maxWeedLevel: 10
-  maxPestLevel: 10
-  maxToxicityLevel: 100
-  maxNutritionLevel: 10
   numberOfUpdatesAlive: 0
-  plantAge: 0
   plantSubStage: 0
   plantHealth: 100
   readyToHarvest: 0
-  hasFullyGrown: 0
+--- !u!114 &3468170437254342443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609685257496530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperatureKelvin: 293.15
+  MaxCapacity: 200
+  itemAttributes: {fileID: 0}
+  InSolidForm: 0
+  Reagents:
+  - water
+  Amounts:
+  - 100
+  TraitWhitelist: []
+  ReagentWhitelist: []
+  TransferMode: 0
+  InitialTransferAmount: 20
+  PossibleTransferAmounts: []
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,9 +495,9 @@ MonoBehaviour:
   spriteList: []
   spriteRenderer: {fileID: 7096842468272841938}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 1
 --- !u!1 &2821288067960047100
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,9 +610,9 @@ MonoBehaviour:
   spriteList: []
   spriteRenderer: {fileID: 6252679778598085984}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 1
 --- !u!1 &3663177110161525043
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,9 +726,9 @@ MonoBehaviour:
   - {fileID: 0}
   spriteRenderer: {fileID: 4794170447334475116}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 1
 --- !u!1 &5226030624696872044
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,9 +841,9 @@ MonoBehaviour:
   spriteList: []
   spriteRenderer: {fileID: 5270205250457927492}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 1
 --- !u!1 &8254462624725952794
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,6 +949,6 @@ MonoBehaviour:
   spriteList: []
   spriteRenderer: {fileID: 4169286921132321221}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 1
