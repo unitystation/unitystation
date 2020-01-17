@@ -498,7 +498,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// </summary>
 	public bool CausesGravity()
     {
-		if (isNotPushable == true || floorDecal!= null)
+		if (!isNotPushable || floorDecal!= null)
 			return false;
 
 		return true;
