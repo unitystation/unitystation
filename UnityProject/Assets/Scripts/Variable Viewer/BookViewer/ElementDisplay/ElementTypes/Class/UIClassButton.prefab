@@ -153,12 +153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8371dcf153916b4ab4b8c0c01641344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PageID: 0
+  SentenceID: 0
   PageElementType: 3
   IsPoolble: 1
   TButton: {fileID: 3043138368249561376}
   TText: {fileID: 6326358300100173932}
-  PageID: 0
-  SentenceID: 0
   IsSentence: 0
   iskey: 0
 --- !u!1 &7880623061572138945
@@ -233,8 +233,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
