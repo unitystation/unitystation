@@ -308,7 +308,7 @@ public partial class CustomNetTransform
 		if (serverState.Speed.Equals(0))
 		{
 			serverLerpState = serverState;
-			OnTileReached().Invoke(worldPos.RoundToInt());
+			ServerOnTileReached(worldPos.RoundToInt());
 			return;
 		}
 		serverLerpState.Position =
@@ -317,7 +317,7 @@ public partial class CustomNetTransform
 
 		if (serverLerpState.Position == targetPos)
 		{
-			OnTileReached().Invoke(serverState.WorldPosition.RoundToInt());
+			ServerOnTileReached(serverState.WorldPosition.RoundToInt());
 		}
 	}
 

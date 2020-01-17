@@ -72,7 +72,7 @@ namespace Lobby
 
 		private void SetVersionText()
 		{
-			UIManager.SetToolTip = $"{GameData.ForkName} v: {GameData.BuildNumber}";
+			UIManager.SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
 		}
 	}
 }

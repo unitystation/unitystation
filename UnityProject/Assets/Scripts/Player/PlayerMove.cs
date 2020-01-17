@@ -20,9 +20,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	[SyncVar] public bool allowInput = true;
 
-	//netid of the game object we are buckled to, NetId.Invalid if not buckled
-	[SyncVar(hook = nameof(OnBuckledChangedHook))]
-	public uint buckledObject = NetId.Invalid;
+	//netid of the game object we are buckled to, NetId.Empty if not buckled
+	[SyncVar(hook = nameof(SyncBuckledObjectNetId))]
+	private uint buckledObjectNetId = NetId.Empty;
+
+	/// <summary>
+	/// Object this player is buckled to (if buckled). Null if not buckled.
+	/// </summary>
+	public GameObject BuckledObject => buckledObject;
+	//cached for fast access
+	private GameObject buckledObject;
 
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
@@ -30,7 +37,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// <summary>
 	/// Whether character is buckled to a chair
 	/// </summary>
-	public bool IsBuckled => buckledObject != NetId.Invalid;
+	public bool IsBuckled => BuckledObject != null;
 
 	[SyncVar(hook = nameof(SyncCuffed))] private bool cuffed;
 
@@ -326,7 +333,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		//no matter what, we stand up when buckled in
 		registerPlayer.ServerStandUp();
 
-		OnBuckledChangedHook(netid);
+		SyncBuckledObjectNetId(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		//inform the puller
 		if (PlayerScript.pushPull.PulledBy != null)
@@ -373,12 +380,28 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	[Server]
 	public void Unbuckle()
 	{
-		OnBuckledChangedHook(NetId.Invalid);
+		var previouslyBuckledTo = BuckledObject;
+		SyncBuckledObjectNetId(NetId.Empty);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.ServerSetPushable(true);
 		//decide if we should fall back down when unbuckled
 		registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
 		onUnbuckled?.Invoke();
+		if (previouslyBuckledTo)
+		{
+			//we are unbuckled but still will drift with the object.
+			var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
+			if (buckledCNT.IsFloatingServer)
+			{
+				playerScript.PlayerSync.NewtonianMove(buckledCNT.ServerImpulse.NormalizeToInt(), buckledCNT.SpeedServer);
+			}
+			else
+			{
+				//stop in place because our object wasn't moving either.
+				playerScript.PlayerSync.Stop();
+			}
+
+		}
 	}
 
 	//invoked when buckledTo changes direction, so we can update our direction
@@ -388,12 +411,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	}
 
 	//syncvar hook invoked client side when the buckledTo changes
-	private void OnBuckledChangedHook(uint newBuckledTo)
+	private void SyncBuckledObjectNetId(uint newBuckledTo)
 	{
 		//unsub if we are subbed
-		if (buckledObject != NetId.Invalid)
+		if (IsBuckled)
 		{
-			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
+			var directionalObject = BuckledObject.GetComponent<Directional>();
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
@@ -403,14 +426,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetId.Invalid, () => CmdUnbuckle());
+			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetId.Empty, () => CmdUnbuckle());
 		}
 
-		buckledObject = newBuckledTo;
+		buckledObjectNetId = newBuckledTo;
+		buckledObject = NetworkUtils.FindObjectOrNull(buckledObjectNetId);
+
 		//sub
-		if (buckledObject != NetId.Invalid)
+		if (buckledObject != null)
 		{
-			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
+			var directionalObject = buckledObject.GetComponent<Directional>();
 			if (directionalObject != null)
 			{
 				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);

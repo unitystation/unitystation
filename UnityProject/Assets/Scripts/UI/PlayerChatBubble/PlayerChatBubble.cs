@@ -274,7 +274,6 @@ public class PlayerChatBubble : MonoBehaviour
 		int zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
 		float bubbleScale = bubbleSize * zoomMultiplier.Evaluate(zoomLevel);
 		chatBubbleRectTransform.localScale = new Vector3(bubbleScale, bubbleScale, 1);
-		print(zoomLevel);
 	}
 
 

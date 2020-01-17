@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
+using AdminTools;
 
 public class ChatUI : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Color toggleOnCol;
 	[SerializeField] private Image scrollHandle;
 	[SerializeField] private Image scrollBackground;
+	[SerializeField] private AdminPrivReply adminReply;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -181,7 +183,7 @@ public class ChatUI : MonoBehaviour
 		//Check for chat entry dupes:
 		if (allEntries.Count != 0)
 		{
-			if (message.Equals(allEntries[allEntries.Count - 1].text.text))
+			if (message.Equals(allEntries[allEntries.Count - 1].Message))
 			{
 				allEntries[allEntries.Count - 1].AddChatDuplication();
 				return;
@@ -190,10 +192,29 @@ public class ChatUI : MonoBehaviour
 
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();
-		chatEntry.text.text = message;
+		chatEntry.SetText(message);
+		allEntries.Add(chatEntry);
+		SetEntryTransform(entry);
+	}
+
+	public void AddAdminPrivEntry(string message, string adminId)
+	{
+		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
+		var chatEntry = entry.GetComponent<ChatEntry>();
+		chatEntry.SetAdminPrivateMsg(message, adminId);
+		allEntries.Add(chatEntry);
+		SetEntryTransform(entry);
+	}
+
+	public void OpenAdminReply(string message, string adminId)
+	{
+		Instance.adminReply.OpenAdminPrivReplay(message,adminId);
+	}
+
+	void SetEntryTransform(GameObject entry)
+	{
 		entry.transform.SetParent(content, false);
 		entry.transform.localScale = Vector3.one;
-		allEntries.Add(chatEntry);
 		hiddenEntries++;
 		ReportEntryState(false);
 	}
@@ -302,12 +323,12 @@ public class ChatUI : MonoBehaviour
 	public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None)
 	{
 		//Prevent input spam
-		if (windowCoolDown) return;
+		if (windowCoolDown || UIManager.PreventChatInput) return;
 		windowCoolDown = true;
 		StartCoroutine(WindowCoolDown());
 
 		// Can't open chat window while main menu open
-		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
+		if (GUI_IngameMenu.Instance.menuWindow.activeInHierarchy)
 		{
 			return;
 		}

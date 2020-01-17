@@ -204,7 +204,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114292337180728850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +226,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114524387658485176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +331,11 @@ MonoBehaviour:
   initialName: kitchen knife
   initialDescription: A general purpose Chef's Knife made by SpaceCook Incorporated.
     Guaranteed to stay sharp for years to come.
-  initialTraits: []
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+  initialTraits:
+  - {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
   initialSize: 1
   hitDamage: 10
   damageType: 0
