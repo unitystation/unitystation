@@ -83,8 +83,14 @@ public partial class PlayerList
 	[Server]
 	public GameObject GetAdmin(string userID, string token)
 	{
+
 		if (string.IsNullOrEmpty(userID))
 		{
+			//allow null admin when doing offline testing
+			if (GameData.Instance.OfflineMode)
+			{
+				return PlayerManager.LocalPlayer;
+			}
 			Logger.LogError("The User ID for Admin is null!", Category.Admin);
 			if (string.IsNullOrEmpty(token))
 			{
@@ -131,7 +137,8 @@ public partial class PlayerList
 	//Check if tokens match and if the player is an admin or is banned
 	private async Task<bool> CheckUserState(string userid, string token, ConnectedPlayer playerConn, string clientID)
 	{
-		if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid))
+		//allow empty token for local offline testing
+		if ((string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid)) && !GameData.Instance.OfflineMode)
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A user tried to connect with null userid or token value" +
@@ -140,8 +147,8 @@ public partial class PlayerList
 			return false;
 		}
 
-		//Do not allow users to log in twice for release servers:
-		if (BuildPreferences.isForRelease)
+		//check if they are already logged in, skip this check if offline mode is enabled.
+		if (!GameData.Instance.OfflineMode)
 		{
 			if (GetByUserID(userid) != null)
 			{
@@ -163,7 +170,14 @@ public partial class PlayerList
 		var refresh = new RefreshToken {userID = userid, refreshToken = token};
 		var response = await ServerData.ValidateToken(refresh, true);
 
-		if (response.errorCode == 1)
+		//fail, unless doing local offline testing
+		if (response == null && !GameData.Instance.OfflineMode)
+		{
+			return false;
+		}
+
+		//allow error response for local offline testing
+		if (response != null && response.errorCode == 1 && !GameData.Instance.OfflineMode)
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A spoof attempt was recorded. " +
@@ -171,6 +185,7 @@ public partial class PlayerList
 				Category.Admin);
 			return false;
 		}
+
 
 		var banEntry = banList.CheckForEntry(userid);
 		if (banEntry != null)
@@ -195,7 +210,8 @@ public partial class PlayerList
 			}
 		}
 
-		if (adminUsers.Contains(userid))
+		//full admin privs for local offline testing for host player
+		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
 		{
 			//This is an admin, send admin notify to the users client
 			Logger.Log($"{playerConn.Username} logged in as Admin. " +

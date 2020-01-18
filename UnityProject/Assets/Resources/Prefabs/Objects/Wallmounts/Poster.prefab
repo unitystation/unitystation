@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 7154680421102874471}
   - component: {fileID: 1721604302402341619}
   - component: {fileID: 1567170016700135650}
-  - component: {fileID: 4740298950607332326}
   - component: {fileID: 1140414460732144086}
   m_Layer: 19
   m_Name: Poster
@@ -83,8 +82,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &7435736029181534324
@@ -155,6 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &7154680421102874471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,24 +753,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f421de3b3604142099b272d77faafeb6
+  m_AssetId: 
   m_SceneId: 0
---- !u!114 &4740298950607332326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5466995241280763689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  isNotPushable: 0
 --- !u!114 &1140414460732144086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -783,8 +769,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!1 &5583455716784618316
 GameObject:
   m_ObjectHideFlags: 0

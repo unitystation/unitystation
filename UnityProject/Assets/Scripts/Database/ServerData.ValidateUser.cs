@@ -101,7 +101,12 @@ namespace DatabaseAPI
 			}
 			catch(Exception e)
 			{
-				Logger.LogError($"Something went wrong with token validation {e.Message}", Category.Hub);
+				//fail silently for local offline testing
+				if (!GameData.Instance.OfflineMode)
+				{
+					Logger.LogError($"Something went wrong with token validation {e.Message}", Category.Hub);
+				}
+
 				return null;
 			}
 

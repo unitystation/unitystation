@@ -53,8 +53,6 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	}
 
 	public override void PowerUpdateStructureChangeReact() {
-		Logger.Log(this.name);
-
 		PowerSupplyFunction.PowerUpdateStructureChangeReact(this);
 		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
