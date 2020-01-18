@@ -19,8 +19,8 @@ public class GameData : MonoBehaviour
 {
 	private static GameData gameData;
 
-	[Tooltip("Toggle this on to allow the game to work offline or when auth server can't be reached, to" +
-	         " allow skipping login. " +
+	[Tooltip("Only use this when offline or you can't reach the auth server! Allows the game to still work in that situation and " +
+	         " allows skipping login. Host player will also be given admin privs." +
 	         "Not supported in release builds.")]
 	[SerializeField]
 	private bool offlineMode;

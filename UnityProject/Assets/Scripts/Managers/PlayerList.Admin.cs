@@ -83,8 +83,14 @@ public partial class PlayerList
 	[Server]
 	public GameObject GetAdmin(string userID, string token)
 	{
+
 		if (string.IsNullOrEmpty(userID))
 		{
+			//allow null admin when doing offline testing
+			if (GameData.Instance.OfflineMode)
+			{
+				return PlayerManager.LocalPlayer;
+			}
 			Logger.LogError("The User ID for Admin is null!", Category.Admin);
 			if (string.IsNullOrEmpty(token))
 			{
@@ -204,8 +210,8 @@ public partial class PlayerList
 			}
 		}
 
-		//full admin privs for local offline testing
-		if (adminUsers.Contains(userid) || GameData.Instance.OfflineMode)
+		//full admin privs for local offline testing for host player
+		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
 		{
 			//This is an admin, send admin notify to the users client
 			Logger.Log($"{playerConn.Username} logged in as Admin. " +
