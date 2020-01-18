@@ -18,8 +18,9 @@ GameObject:
   - component: {fileID: 114051564363044936}
   - component: {fileID: 114330429424926220}
   - component: {fileID: 114790299673989822}
+  - component: {fileID: 2479830652187628101}
   m_Layer: 11
-  m_Name: equipment_112
+  m_Name: Apiary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,8 +107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114075222325775338
@@ -150,6 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114051564363044936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +218,25 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &2479830652187628101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449387945419676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25f701f64474544993c1372b83c1b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Apiary
+  initialDescription: The sight of bees buzzing about is so mesmerizing!
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1611438165515314
 GameObject:
   m_ObjectHideFlags: 0

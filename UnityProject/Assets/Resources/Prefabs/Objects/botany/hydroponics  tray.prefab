@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114193634347157676}
   - component: {fileID: 114519504495500056}
   - component: {fileID: 17410868912263334}
+  - component: {fileID: 107955457563787986}
   m_Layer: 11
   m_Name: hydroponics  tray
   m_TagString: Untagged
@@ -365,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 1efec61511b50c844868cb49d1a711a1
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &17410868912263334
 MonoBehaviour:
@@ -379,10 +380,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameOverride: 
+  nameOverride: Hydroponics Tray
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
+--- !u!114 &107955457563787986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609685257496530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Hydroponics Tray
+  initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1998759520953530410
 GameObject:
   m_ObjectHideFlags: 0
