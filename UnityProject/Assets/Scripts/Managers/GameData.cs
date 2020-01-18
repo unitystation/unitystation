@@ -19,6 +19,18 @@ public class GameData : MonoBehaviour
 {
 	private static GameData gameData;
 
+	[Tooltip("Only use this when offline or you can't reach the auth server! Allows the game to still work in that situation and " +
+	         " allows skipping login. Host player will also be given admin privs." +
+	         "Not supported in release builds.")]
+	[SerializeField]
+	private bool offlineMode;
+
+	/// <summary>
+	/// Is offline mode enabled, allowing login skip / working without connection to server.?
+	/// Disabled always for release builds.
+	/// </summary>
+	public bool OfflineMode => !BuildPreferences.isForRelease && offlineMode;
+
 	public bool testServer;
 	private RconManager rconManager;
 
