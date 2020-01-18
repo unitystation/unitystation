@@ -4,14 +4,13 @@ namespace Atmospherics
 {
 	public static class Reactions
 	{
-		public const float T0C = 273.15f;
-		public const float PLASMA_MINIMUM_BURN_TEMPERATURE = T0C + 100;
-		public const float FIRE_MINIMUM_TEMPERATURE_TO_SPREAD = T0C + 150;
-		public const float PLASMA_UPPER_TEMPERATURE = T0C + 1370;
-		public const float OXYGEN_BURN_RATE_BASE = 1.4f;
-		public const float PLASMA_OXYGEN_FULLBURN = 10;
-		public const float PLASMA_BURN_RATE_DELTA = 9;
-		public const float FIRE_PLASMA_ENERGY_RELEASED = 3000000;
+		public const float KOffsetC = 273.15f;
+		public const float PlasmaMaintainFire = KOffsetC + 5;
+		public const float PlasmaMaxTemperatureGain = KOffsetC + 10000;
+		public const float MinimumOxygenContact = 0.009f;
+		public const float BurningDelta = 3f;
+		public const float EnergyPerMole = 10000;
+
 
 		private static List<Reaction> reactions = new List<Reaction>();
 

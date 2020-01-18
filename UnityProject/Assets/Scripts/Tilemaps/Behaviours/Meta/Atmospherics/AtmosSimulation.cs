@@ -17,11 +17,6 @@ namespace Atmospherics
 	public class AtmosSimulation
 	{
 		/// <summary>
-		/// Interval (seconds) between updates of the simulation.
-		/// </summary>
-		public float Speed = 0.01f;
-
-		/// <summary>
 		/// True if the atmos simulation has no updates to perform
 		/// </summary>
 		public bool IsIdle => updateList.IsEmpty;
@@ -30,12 +25,6 @@ namespace Atmospherics
 		/// Number of updates remaining for the atmos simulation to process
 		/// </summary>
 		public int UpdateListCount => updateList.Count;
-
-		/// <summary>
-		/// determines how much things change during an update, calculated based on the Speed and number of
-		/// updates that currently need processing.
-		/// </summary>
-		private float factor;
 
 		/// <summary>
 		/// Holds the nodes which are being processed during the current Update
@@ -55,9 +44,6 @@ namespace Atmospherics
 		public void Run()
 		{
 			int count = updateList.Count;
-
-			factor = Mathf.Clamp(Speed * count / 100f, 0.01f, 1f);
-
 			for (int i = 0; i < count; i++)
 			{
 				if (updateList.TryDequeue(out MetaDataNode node))
@@ -71,7 +57,7 @@ namespace Atmospherics
 		{
 			nodes.Clear();
 
-			if ( !node.IsClosedAirlock )
+			if (!node.IsClosedAirlock)
 			{ //Gases are frozen within closed airlocks
 				nodes.Add(node);
 			}
@@ -79,11 +65,12 @@ namespace Atmospherics
 			node.AddNeighborsToList(ref nodes);
 
 			bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
+
 			if (node.IsOccupied || node.IsSpace || isPressureChanged)
 			{
-				if ( isPressureChanged )
+				if (isPressureChanged)
 				{
-					node.ReactionManager.AddWindEvent( node, windDirection, windForce ); //fixme: ass backwards
+					node.ReactionManager.AddWindEvent(node, windDirection, windForce); //fixme: ass backwards
 				}
 				Equalize();
 
@@ -94,23 +81,35 @@ namespace Atmospherics
 			}
 		}
 
+		/// <summary>
+		/// The thing that actually equalises the tiles
+		/// </summary>
 		private void Equalize()
 		{
-			GasMix gasMix = CalcMeanGasMix();
-
-			for (var i = 0; i < nodes.Count; i++)
+			// If there is just one isolated tile, it's not nescessary to calculate the mean.  Speeds up things a bit.
+			if (nodes.Count > 1)
 			{
-				MetaDataNode node = nodes[i];
+				//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
+				GasMix MeanGasMix = CalcMeanGasMix();
 
-				if (!node.IsOccupied)
+				for (var i = 0; i < nodes.Count; i++)
 				{
-					node.GasMix = CalcAtmos(node.GasMix, gasMix);
+					MetaDataNode node = nodes[i];
+
+					if (!node.IsOccupied)
+					{
+						node.GasMix = CalcAtmos(node.GasMix, MeanGasMix);
+					}
 				}
 			}
 		}
 
 		private GasMix meanGasMix = new GasMix(GasMixes.Space);
 
+		/// <summary>
+		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
+		/// </summary>
+		/// <returns>The mean gas mix.</returns>
 		private GasMix CalcMeanGasMix()
 		{
 			meanGasMix.Copy(GasMixes.Space);
@@ -123,7 +122,8 @@ namespace Atmospherics
 
 				if (node.IsSpace)
 				{
-					node.GasMix *= 1 - factor;
+					//Set to 0 if space
+					node.GasMix *= 0;
 				}
 
 				for (int j = 0; j < Gas.Count; j++)
@@ -139,34 +139,35 @@ namespace Atmospherics
 				}
 				else
 				{
-					node.GasMix *= 1 - factor;
-
-					if (node.GasMix.Pressure > AtmosConstants.MinPressureDifference)
-					{
-						updateList.Enqueue(node);
-					}
+					//Decay if occupied
+					node.GasMix *= 0;
 				}
 			}
 
-			for (int j = 0; j < Gas.Count; j++)
+			// Sometime, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos)
+			// This condition is to avoid a divide by zero error (or 0 / 0 that gives NaN)
+			if (targetCount != 0)
 			{
-				meanGasMix.Gases[j] /= targetCount;
-			}
+				for (int j = 0; j < Gas.Count; j++)
+				{
+					meanGasMix.Gases[j] /= targetCount;
+				}
 
-			meanGasMix.Pressure /= targetCount;
+				meanGasMix.Pressure /= targetCount;
+			}
 
 			return meanGasMix;
 		}
 
-
 		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)
 		{
+			//Used for updating tiles with the averagee Calculated gas
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				atmos.Gases[i] += (gasMix.Gases[i] - atmos.Gases[i]) * factor;
+				atmos.Gases[i] = (gasMix.Gases[i]);
 			}
 
-			atmos.Pressure += (gasMix.Pressure - atmos.Pressure) * factor;
+			atmos.Pressure = (gasMix.Pressure);
 
 			return atmos;
 		}

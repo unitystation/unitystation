@@ -23,7 +23,7 @@ public class ChatRelay : NetworkBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-			Chat.RegisterChatRelay(Instance, AddToChatLogServer, AddToChatLogClient);
+			Chat.RegisterChatRelay(Instance, AddToChatLogServer, AddToChatLogClient, AddPrivMessageToClient);
 		}
 		else
 		{
@@ -154,10 +154,29 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
+	private void AddPrivMessageToClient(string message, string adminId)
+	{
+		if (UIManager.Instance.ttsToggle)
+		{
+			//Text to Speech:
+			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
+			//message only atm
+			if (ttsString.Contains(":"))
+			{
+				string saysString = ":";
+				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
+				MaryTTS.Instance.Synthesize(messageString);
+			}
+		}
+
+		ChatUI.Instance.AddAdminPrivEntry(message, adminId);
+	}
+
+	[Client]
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
 		if (string.IsNullOrEmpty(message)) return;
-		
+
 		if (UIManager.Instance.ttsToggle)
 		{
 			//Text to Speech:

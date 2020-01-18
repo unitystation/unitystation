@@ -175,6 +175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114935930822245516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +207,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114065043758903462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114797656863405006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,8 +331,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: Rolling_Pin
-  initialDescription: A RollingPin to roll dough
+  initialName: Rolling Pin
+  initialDescription: A rolling pin to roll dough
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 2
   hitDamage: 8

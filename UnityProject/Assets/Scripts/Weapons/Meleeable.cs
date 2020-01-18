@@ -5,8 +5,21 @@ using UnityEngine;
 /// <summary>
 /// Allows an object or tiles to be attacked by melee.
 /// </summary>
-public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
+	[SerializeField]
+	private ItemTrait butcherKnifeTrait;
+
+	[SerializeField]
+	private static readonly StandardProgressActionConfig ProgressConfig
+	= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+
+	[SerializeField]
+	private float butcherTime = 2.0f;
+
+	[SerializeField]
+	private string butcherSound = "BladeSlice";
+
 	/// <summary>
 	/// Which layers are allowed to be attacked on tiles regardless of intent
 	/// </summary>
@@ -42,8 +55,9 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		//must be targeting us
 		if (interaction.TargetObject != gameObject) return false;
 		//allowed to attack due to cooldown?
-		var playerScript = interaction.Performer.GetComponent<PlayerScript>();
-		if (!playerScript.weaponNetworkActions.AllowAttack)
+		//note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
+		//clientPredictInteraction on clientside
+		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side)))
 		{
 			return false;
 		}
@@ -64,6 +78,17 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		return true;
 	}
 
+
+	public void ClientPredictInteraction(PositionalHandApply interaction)
+	{
+		//start clientside melee cooldown so we don't try to spam melee
+		//requests to server
+		Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Melee);
+	}
+
+	//no rollback logic
+	public void ServerRollbackClient(PositionalHandApply interaction) { }
+
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
@@ -71,12 +96,34 @@ public class Meleeable : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		{
 			//attacking tiles
 			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
-			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
+			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
 		}
 		else
 		{
 			//attacking objects
-			wna.CmdRequestMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+
+			//butcher check
+			GameObject victim = interaction.TargetObject;
+			var healthComponent = victim.GetComponent<LivingHealthBehaviour>();
+			if (healthComponent && healthComponent.allowKnifeHarvest && healthComponent.IsDead && Validations.HasItemTrait(interaction.HandObject, butcherKnifeTrait) && interaction.Intent == Intent.Harm)
+			{
+				GameObject performer = interaction.Performer;
+
+				void ProgressFinishAction()
+				{
+					LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+					victimHealth.Harvest();
+					SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);
+				}
+
+				var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+					.ServerStartProgress(victim.RegisterTile(), butcherTime, performer);
+			}
+			else
+			{
+				wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+			}
 		}
 	}
+
 }

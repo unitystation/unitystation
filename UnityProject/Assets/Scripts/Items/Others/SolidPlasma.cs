@@ -49,7 +49,7 @@ public class SolidPlasma : NetworkBehaviour
 	{
 		if (burningPlasma)
 		{
-			Amount -= (0.05f * Time.deltaTime) * burnSpeed;
+			Amount -= Time.deltaTime * burnSpeed;
 			if (Amount <= 0f)
 			{
 				burningPlasma = false;

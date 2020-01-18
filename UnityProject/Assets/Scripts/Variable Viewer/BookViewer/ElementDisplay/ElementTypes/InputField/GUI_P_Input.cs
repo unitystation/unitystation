@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using DatabaseAPI;
 using TMPro;
 
 public class GUI_P_Input : PageElement
@@ -25,9 +26,9 @@ public class GUI_P_Input : PageElement
 	{
 		if (PageID != 0)
 		{
-			RequestChangeVariableNetMessage.Send(PageID, change);
+			RequestChangeVariableNetMessage.Send(PageID, change, ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
-		else { 
+		else {
 		}
 	}
 

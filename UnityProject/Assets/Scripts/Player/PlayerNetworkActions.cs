@@ -82,6 +82,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		//allowed to drop from hands while cuffed
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot);
@@ -105,6 +106,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//calculate time
 		var occupiedSlots = itemStorage.GetItemSlots().Count(slot => slot.NamedSlot != NamedSlot.handcuffs && !slot.IsEmpty);
 		if (occupiedSlots == 0) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var timeTaken = occupiedSlots * .4f;
 		void ProgressComplete()
 		{
@@ -130,6 +132,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
@@ -140,6 +143,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		var targetVector = worldPos - gameObject.TileWorldPosition().To3Int();
 		if (!Validations.CanApply(playerScript, newParent, NetworkSide.Server, targetVector: targetVector)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot, worldPos);
@@ -151,6 +155,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Validations.CanApply(playerScript, switchObj, NetworkSide.Server)) return;
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
+			if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 			LightSwitch s = switchObj.GetComponent<LightSwitch>();
 			if (s.isOn == LightSwitch.States.On)
 			{
@@ -171,6 +176,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdTryUncuff()
 	{
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
 	}
 
@@ -304,8 +310,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+			ServerRespawnPlayer();
 		}
+	}
+
+	[Server]
+	public void ServerRespawnPlayer()
+	{
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
 	[Command]
@@ -374,6 +386,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		Edible baseFood = food.GetComponent<Edible>();
 		if (isDrink)
 		{
@@ -434,6 +447,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			if (paperComponent != null)
 			{
+				if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 				paperComponent.SetServerString(newMsg);
 				paperComponent.UpdatePlayer(gameObject);
 			}
@@ -469,6 +483,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//validate that hug can be done
 		if (!Validations.CanApply(playerScript, huggedPlayer, NetworkSide.Server)) return;
+		//hugging is kind of a melee-type action, at least we wouldn't want to spam it quickly
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee)) return;
 
 		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
 		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
@@ -493,6 +509,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//TODO: Probably refactor this to IF2
 		if (!Validations.CanApply(playerScript, cardiacArrestPlayer, NetworkSide.Server)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
 
@@ -526,6 +543,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRequestDisarm(GameObject playerToDisarm)
 	{
 		if (!Validations.CanApply(playerScript, playerToDisarm, NetworkSide.Server)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var rng = new System.Random();
 		string disarmerName = playerScript.gameObject.Player()?.Name;
 		string playerToDisarmName = playerToDisarm.Player()?.Name;
@@ -578,12 +596,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	#region Admin
 
 	[Command]
-	public void CmdAdminMakeHotspot(GameObject onObject)
+	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
 	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
 		if (onObject == null) return;
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-		if (reactionManager == null) return;
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .05f);
+    if (reactionManager == null) return;
+
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .5f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 700, .05f);
@@ -591,8 +612,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdAdminSmash(GameObject toSmash)
+	public void CmdAdminSmash(GameObject toSmash, string adminId, string adminToken)
 	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
 		if ( toSmash == null )
 		{
 			return;
@@ -609,8 +633,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//simulates despawning and immediately respawning this object, expectation
 	//being that it should properly initialize itself regardless of its previous state.
 	[Command]
-	public void CmdAdminRespawn(GameObject toRespawn)
+	public void CmdAdminRespawn(GameObject toRespawn, string adminId, string adminToken)
 	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
 		Spawn.ServerPoolTestRespawn(toRespawn);
 	}
 

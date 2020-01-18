@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: carrot
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 1110193000772614, guid: c536c1bbdc4263a4ab8dd33df4c77f6d,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
     Name: carrot
     Plantname: Carrots
@@ -67,7 +67,7 @@ MonoBehaviour:
     - String: nutriment
       Int: 5
     MutatesInTo:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: a1127a0ea6dfe5a46a75b36ea8efc476, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

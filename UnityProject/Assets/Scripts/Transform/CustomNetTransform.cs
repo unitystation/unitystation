@@ -1,4 +1,5 @@
 using System.Collections;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -286,6 +287,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		if (server && registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			registerTile.UpdatePositionServer();
+			UpdateOccupant();
 			changed = true;
 		}
 		//Registering
@@ -487,9 +489,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
-		// If the object has an occupant (ex: a chair), Update its transform at the same time
-		UpdateOccupant();
-
 		//Ignore "Follow Updates" if you're pulling it
 		if ( newState.Active
 			&& newState.IsFollowUpdate
@@ -511,6 +510,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		}
 
 		transform.localRotation = Quaternion.Euler( 0, 0, predictedState.SpinRotation );
+	}
+
+	//fire the server-side event hook and any additional logic that should run when tile is reached
+	private void ServerOnTileReached(Vector3Int reachedWorldPosition)
+	{
+		OnTileReached().Invoke(reachedWorldPosition);
+		UpdateOccupant();
 	}
 
 	/// <summary>
@@ -538,6 +544,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+		{
+			return null;
+		}
+
 		return RightClickableResult.Create()
 			.AddAdminElement("Respawn", AdminRespawn);
 	}
@@ -546,20 +557,22 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	//being that it should properly initialize itself regardless of its previous state.
 	private void AdminRespawn()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)
+	[Server]
 	private void UpdateOccupant()
-	{				
-		if ((occupiableDirectionalSprite != null) && (occupiableDirectionalSprite.Occupant != NetId.Empty))
+	{
+		if (occupiableDirectionalSprite != null && occupiableDirectionalSprite.HasOccupant)
 		{
-			if (occupiableDirectionalSprite.BuckledPlayerScript != null)
+			if (occupiableDirectionalSprite.OccupantPlayerScript != null)
 			{
 				//sync position to ensure they buckle to the correct spot
-				occupiableDirectionalSprite.BuckledPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+				occupiableDirectionalSprite.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.BuckledMovement, registerTile.WorldPosition);
 			}
-		}		
+		}
 	}
 }
 

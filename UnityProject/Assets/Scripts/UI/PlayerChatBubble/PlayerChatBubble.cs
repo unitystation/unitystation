@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Handles the ChatIcon and PlayerChatBubble.
-/// Automatically checks PlayerPrefs to determine
-/// the use of each one.
+/// Automatically checks PlayerPrefs to determine the use of each one.
+/// Size of the bubble is determined by a curve relative to the zoom level, and the player's vocalization.
 /// </summary>
 public class PlayerChatBubble : MonoBehaviour
 {
@@ -19,6 +19,10 @@ public class PlayerChatBubble : MonoBehaviour
 	private int maxMessageLength = 70;
 
 	[Header("Size of chat bubble")]
+
+	[SerializeField]
+	[Tooltip("A multiplier of the bubble size relative to the current zoom level. Gets applied after bubbleSizeNormal, etc.")]
+	private AnimationCurve zoomMultiplier;
 
 	[SerializeField]
 	[Tooltip("The text size when the player speaks like a normal person.")]
@@ -35,16 +39,8 @@ public class PlayerChatBubble : MonoBehaviour
 	[Range(1, 100)]
 	private float bubbleSizeWhisper = 6;
 
-	[SerializeField]
-	[Tooltip("The maximum scale of text bubbles. When zoomed out very far bubbles will clamp to this scale.")]
-	private float maxBubbleScale = 4;
-
-	[SerializeField]
-	[Tooltip("The minimum scale of text bubbles. When zoomed out very close bubbles will clamp to this scale.")]
-	private float minBubbleScale = 0.55f;
-
 	/// <summary>
-	/// The current size of the chat bubble, scaling chatBubble RectTransform.
+	/// The current size of the chat bubble determined by vocalization. Will be scaled by the zoomMultiplier.
 	/// </summary>
 	private float bubbleSize = 8;
 
@@ -58,7 +54,7 @@ public class PlayerChatBubble : MonoBehaviour
 		normal, // Regular text -> Regular bubble
 		whisper, // # -> Smaller bubble
 		caps, // All caps (with at least 1 letter) OR end sentence with !! -> Bigger bubble
-		clown // Clown occupation -> Comic Sans. Which actually looks good on low resolutions. Hmm.
+		clown // Currently not implemented
 	}
 
 	[SerializeField]
@@ -232,7 +228,7 @@ public class PlayerChatBubble : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Sets the text of the bubble and the size according to its detected type.
+	/// Sets the text, style and size of the bubble to match the message's vocalization.
 	/// </summary>
 	/// <param name="msg"> Player's chat message </param>
 	private void SetBubbleParameters(string msg)
@@ -245,18 +241,22 @@ public class PlayerChatBubble : MonoBehaviour
 		{
 			case BubbleType.caps:
 				bubbleSize = bubbleSizeCaps;
+				bubbleText.fontStyle = FontStyles.Bold;
 				break;
 			case BubbleType.whisper:
 				bubbleSize = bubbleSizeWhisper;
+				bubbleText.fontStyle = FontStyles.Italic;
 				msg = msg.Substring(1); // Remove the # symbol from bubble
 				break;
 			case BubbleType.clown:
 				// TODO Implement clown-specific bubble values.
 				bubbleSize = bubbleSizeNormal;
+				bubbleText.fontStyle = FontStyles.Normal;
 				break;
 			case BubbleType.normal:
 			default:
 				bubbleSize = bubbleSizeNormal;
+				bubbleText.fontStyle = FontStyles.Normal;
 				break;
 		}
 
@@ -272,7 +272,7 @@ public class PlayerChatBubble : MonoBehaviour
 	private void UpdateChatBubbleSize()
 	{
 		int zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
-		float bubbleScale = System.Math.Max(minBubbleScale, System.Math.Min(maxBubbleScale, bubbleSize / zoomLevel));
+		float bubbleScale = bubbleSize * zoomMultiplier.Evaluate(zoomLevel);
 		chatBubbleRectTransform.localScale = new Vector3(bubbleScale, bubbleScale, 1);
 	}
 

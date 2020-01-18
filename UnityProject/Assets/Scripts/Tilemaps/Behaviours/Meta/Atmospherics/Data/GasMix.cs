@@ -25,14 +25,14 @@ namespace Atmospherics
 
 		public float TemperatureCache { get; private set; }
 
-		public float HeatCapacity
+		public float WholeHeatCapacity	//this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
 				float capacity = 0f;
 				foreach (Gas gas in Gas.All)
 				{
-					capacity += gas.SpecificHeat * Gases[gas];
+					capacity += gas.MolarHeatCapacity * Gases[gas];
 				}
 
 				return capacity;
@@ -150,7 +150,6 @@ namespace Atmospherics
 				removed.Volume = volume;
 				removed = FromTemperature(removed.Gases, Temperature, volume);
 			}
-
 			return removed;
 		}
 
@@ -166,6 +165,24 @@ namespace Atmospherics
 			Pressure -= removed.Pressure * removed.Volume / Volume;
 
 			return removed;
+		}
+
+
+		/// <summary>
+		/// Returns the gas as a percentage of the gas in the mix
+		/// </summary>
+		/// <returns>The ratio of the gas</returns>
+		/// <param name="_Gas">Gas.</param>
+		public float GasRatio(Gas _Gas)
+		{
+			if (Gases[_Gas] != 0)
+			{
+				return (Gases[_Gas] / Moles);
+			}
+			else {
+				return (0);
+			}
+
 		}
 
 		public void MergeGasMix(GasMix otherGas)

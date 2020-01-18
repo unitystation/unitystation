@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e7bdcdf163c0343f9a2f856c21bf43dc, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.344
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -215,7 +215,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e7bdcdf163c0343f9a2f856c21bf43dc, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.37
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -506,6 +506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114424348708298150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,7 +685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: aec802ad975d3418d9b782880452b7bf
   m_SceneId: 0
 --- !u!114 &7724401135494436923
 MonoBehaviour:

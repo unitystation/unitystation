@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class AtmosManager : MonoBehaviour
 {
-	public float Speed = 0.01f;
-
+	/// <summary>
+	/// Time it takes per update in milliseconds
+	/// </summary>
+	public float Speed = 40; 
 	public int NumberThreads = 1;
 
 	public AtmosMode Mode = AtmosMode.Threaded;
@@ -16,7 +18,6 @@ public class AtmosManager : MonoBehaviour
 
 	public bool roundStartedServer = false;
 	public List<Pipe> inGamePipes = new List<Pipe>();
-
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
@@ -36,13 +37,6 @@ public class AtmosManager : MonoBehaviour
 
 			return atmosManager;
 		}
-	}
-
-	private void OnValidate()
-	{
-		AtmosThread.SetSpeed(Speed);
-
-		// TODO set number of threads
 	}
 
 	private void Start()
@@ -142,6 +136,7 @@ public class AtmosManager : MonoBehaviour
 
 		if (Mode == AtmosMode.Threaded)
 		{
+			AtmosThread.SetSpeed((int)Speed);
 			AtmosThread.Start();
 		}
 	}
@@ -151,6 +146,11 @@ public class AtmosManager : MonoBehaviour
 		Running = false;
 
 		AtmosThread.Stop();
+	}
+
+	public static void SetInternalSpeed()
+	{
+		AtmosThread.SetSpeed((int)Instance.Speed);
 	}
 
 	public static void Update(MetaDataNode node)

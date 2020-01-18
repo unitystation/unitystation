@@ -17,6 +17,13 @@ public abstract class Interaction
 	/// The gameobject of the player performing the interaction
 	/// </summary>
 	public GameObject Performer => performer;
+
+	/// <summary>
+	/// PlayerScript of the performer.
+	/// </summary>
+	public PlayerScript PerformerPlayerScript => performerPlayerScript;
+	private readonly PlayerScript performerPlayerScript;
+
 	/// <summary>
 	/// Object that is being used by the player to perform the interaction.
 	/// For example...
@@ -47,5 +54,9 @@ public abstract class Interaction
 		this.performer = performer;
 		this.usedObject = usedObject;
 		this.intent = intent;
+		if (performer)
+		{
+			this.performerPlayerScript = performer.GetComponent<PlayerScript>();
+		}
 	}
 }

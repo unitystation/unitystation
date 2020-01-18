@@ -156,6 +156,23 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	}
 
 	/// <summary>
+	/// Removes one item from a stack and returns it
+	/// </summary>
+	/// <returns></returns>
+	[Server]
+	public GameObject ServerRemoveOne()
+	{
+		SyncAmount(amount - 1);
+		if (amount <= 0)
+		{
+			return gameObject;
+		}
+
+		var spawnInfo = Spawn.ServerPrefab(prefab, gameObject.transform.position, gameObject.transform);
+		return spawnInfo.GameObject;
+	}
+
+	/// <summary>
 	/// Adds the quantity in toAdd to this stackable (up to maxAmount) and despawns toAdd
 	/// if it is entirely used up.
 	/// Does nothing if they aren't the same thing
