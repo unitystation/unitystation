@@ -347,8 +347,19 @@ public class ItemSlot
 		{
 			var thisStackable = item.GetComponent<Stackable>();
 			var otherStackable = toStore.GetComponent<Stackable>();
-			return thisStackable != null && otherStackable != null &&
-			       thisStackable.CanAccommodate(otherStackable);
+			var stackResult = thisStackable != null && otherStackable != null &&
+								thisStackable.CanAccommodate(otherStackable);
+			if (!stackResult)
+			{
+				Logger.LogTraceFormat(
+					"Cannot stack {0} in slot {1}", Category.Inventory, toStore, ToString());
+			}
+			else
+			{
+				Logger.LogTraceFormat(
+					"Can stack {0} in slot {1}", Category.Inventory, toStore, ToString());
+			}
+			return stackResult;
 		}
 
 		//no item in slot and no inventory loop created,

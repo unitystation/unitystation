@@ -9,7 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(MouseDraggable))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove
+	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove
 {
 	/// <summary>
 	/// Item storage that is being interacted with.
@@ -17,6 +17,13 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public ItemStorage ItemStorage => itemStorage;
 
 	private ItemStorage itemStorage;
+
+	/// <summary>
+	/// Flag to determine if this can store items by clicking on them
+	/// </summary>
+	[SerializeField]
+	[Tooltip("Can you store items by clicking on them with this in hand?")]
+	private bool canClickPickup;
 
 	void Awake()
 	{
@@ -60,6 +67,60 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		Inventory.ServerTransfer(interaction.FromSlot,
 			itemStorage.GetBestSlotFor(((Interaction) interaction).UsedObject));
+	}
+
+	/// <summary>
+	/// Client:
+	/// Allow items to be stored by clicking on bags with item in hand
+	/// and clicking items with bag in hand if CanClickPickup is enabled
+	/// </summary>
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	{
+		// Use default interaction checks
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		GameObject itemToStore;
+
+		// See which item needs to be stored
+		if (Validations.IsTarget(gameObject, interaction))
+		{
+			// If we're the target then we store the hand object
+			itemToStore = interaction.HandObject;
+		}
+		else if (canClickPickup)
+		{
+			// Otherwise store the target object
+			itemToStore = interaction.TargetObject;
+		}
+		else
+		{
+			return false;
+		}
+
+		// Check if item from hand slot fits in this storage sitting in the world
+		return Validations.CanPutItemToStorage(interaction.PerformerPlayerScript,
+			itemStorage, itemToStore, side, examineRecipient: interaction.Performer);
+	}
+
+	/// <summary>
+	/// Server:
+	/// Allow items to be stored by clicking on bags with item in hand
+	/// and clicking items with bag in hand if CanClickPickup is enabled
+	///
+	/// </summary>
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		// See which item needs to be stored
+		if (Validations.IsTarget(gameObject, interaction))
+		{
+			// Add hand item to this storage
+			Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetBestSlotFor(interaction.HandObject));
+		}
+		else if (canClickPickup)
+		{
+			// Otherwise store the target object if click pickup enabled
+			Inventory.ServerAdd(interaction.TargetObject, itemStorage.GetBestSlotFor(interaction.TargetObject));
+		}
 	}
 
 	public bool Interact(HandActivate interaction)

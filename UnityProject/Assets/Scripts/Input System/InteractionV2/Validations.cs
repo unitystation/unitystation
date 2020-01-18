@@ -495,9 +495,9 @@ public static class Validations
 	public static bool CanPutItemToSlot(PlayerScript playerScript, ItemSlot itemSlot, Pickupable toCheck, NetworkSide side,
 		bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
-		if (toCheck == null || itemSlot.Item != null)
+		if (toCheck == null)
 		{
-			Logger.LogTrace("Cannot put item to slot because the item or slot are null", Category.Inventory);
+			Logger.LogError("Cannot put item to slot because the item is null", Category.Inventory);
 			return false;
 		}
 		if (!CanInteract(playerScript.gameObject, side, true))
