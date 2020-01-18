@@ -2,35 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AtmosphericAnalyser : MonoBehaviour, ICheckedInteractable<HandActivate>
+public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>
 {
-
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		string ToShow = "";
-		var MetaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.registerTile.WorldPositionServer, true).MetaDataLayer;
-		if (MetaDataLayer != null) { 
-			var Node = MetaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
-			if(Node != null){
-				ToShow = "Pressure : " + Node.GasMix.Pressure + " Kpa \n"
-				+ "Temperature : " + Node.GasMix.Temperature + "K \n"
-				+ "Total Moles of gas : " + Node.GasMix.Moles + " \n"
-				+ "Oxygen : %" + Node.GasMix.GasRatio(Atmospherics.Gas.Oxygen) + "\n"
-				+ "Plasma : %" + Node.GasMix.GasRatio(Atmospherics.Gas.Plasma) + "\n"
-				+ "Nitrogen : %" + Node.GasMix.GasRatio(Atmospherics.Gas.Nitrogen) + "\n"
-				+ "Carbon dioxide : %" + Node.GasMix.GasRatio(Atmospherics.Gas.CarbonDioxide) + "\n";
+		string toShow = "";
+		var metaDataLayer = MatrixManager.AtPoint(interaction.PerformerPlayerScript.registerTile.WorldPositionServer, true).MetaDataLayer;
+		if (metaDataLayer != null) 
+		{ 
+			var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
+			if(node != null)
+			{
+				toShow = "Pressure : " + node.GasMix.Pressure + " Kpa \n"
+				+ "Temperature : " + node.GasMix.Temperature + "K (" + (node.GasMix.Temperature-Atmospherics.Reactions.KOffsetC) + "C)" + " \n" //You want Fahrenheit? HAHAHAHA
+				+ "Total Moles of gas : " + node.GasMix.Moles + " \n"
+				+ "Oxygen : %" + node.GasMix.GasRatio(Atmospherics.Gas.Oxygen) + "\n"
+				+ "Plasma : %" + node.GasMix.GasRatio(Atmospherics.Gas.Plasma) + "\n"
+				+ "Nitrogen : %" + node.GasMix.GasRatio(Atmospherics.Gas.Nitrogen) + "\n"
+				+ "Carbon dioxide : %" + node.GasMix.GasRatio(Atmospherics.Gas.CarbonDioxide) + "\n";
 			}
 		}
-		Chat.AddExamineMsgFromServer(interaction.Performer, ToShow);
+		Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
 	}
 }
