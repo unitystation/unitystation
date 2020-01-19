@@ -57,7 +57,7 @@ namespace Atmospherics
 		{
 			nodes.Clear();
 
-			if ( !node.IsClosedAirlock )
+			if (!node.IsClosedAirlock)
 			{ //Gases are frozen within closed airlocks
 				nodes.Add(node);
 			}
@@ -68,9 +68,9 @@ namespace Atmospherics
 
 			if (node.IsOccupied || node.IsSpace || isPressureChanged)
 			{
-				if ( isPressureChanged )
+				if (isPressureChanged)
 				{
-					node.ReactionManager.AddWindEvent( node, windDirection, windForce ); //fixme: ass backwards
+					node.ReactionManager.AddWindEvent(node, windDirection, windForce); //fixme: ass backwards
 				}
 				Equalize();
 
@@ -86,16 +86,20 @@ namespace Atmospherics
 		/// </summary>
 		private void Equalize()
 		{
-			//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
-			GasMix MeanGasMix = CalcMeanGasMix();
-
-			for (var i = 0; i < nodes.Count; i++)
+			// If there is just one isolated tile, it's not nescessary to calculate the mean.  Speeds up things a bit.
+			if (nodes.Count > 1)
 			{
-				MetaDataNode node = nodes[i];
+				//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
+				GasMix MeanGasMix = CalcMeanGasMix();
 
-				if (!node.IsOccupied)
+				for (var i = 0; i < nodes.Count; i++)
 				{
-					node.GasMix = CalcAtmos(node.GasMix, MeanGasMix);
+					MetaDataNode node = nodes[i];
+
+					if (!node.IsOccupied)
+					{
+						node.GasMix = CalcAtmos(node.GasMix, MeanGasMix);
+					}
 				}
 			}
 		}
@@ -140,25 +144,27 @@ namespace Atmospherics
 				}
 			}
 
-			for (int j = 0; j < Gas.Count; j++)
+			// Sometime, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos)
+			// This condition is to avoid a divide by zero error (or 0 / 0 that gives NaN)
+			if (targetCount != 0)
 			{
-				meanGasMix.Gases[j] /= targetCount;
-			}
+				for (int j = 0; j < Gas.Count; j++)
+				{
+					meanGasMix.Gases[j] /= targetCount;
+				}
 
-			meanGasMix.Pressure /= targetCount;
+				meanGasMix.Pressure /= targetCount;
+			}
 
 			return meanGasMix;
 		}
-
-
-
 
 		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)
 		{
 			//Used for updating tiles with the averagee Calculated gas
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				atmos.Gases[i] = (gasMix.Gases[i]); 
+				atmos.Gases[i] = (gasMix.Gases[i]);
 			}
 
 			atmos.Pressure = (gasMix.Pressure);
