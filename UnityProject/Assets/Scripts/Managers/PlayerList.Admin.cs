@@ -262,7 +262,7 @@ public partial class PlayerList
 
 		File.AppendAllLines(adminsPath, new string[]
 		{
-			userToPromote
+			"\r\n" + userToPromote
 		});
 
 		adminUsers.Add(userToPromote);
