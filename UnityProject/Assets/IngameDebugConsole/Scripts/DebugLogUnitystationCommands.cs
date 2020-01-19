@@ -451,11 +451,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			var player = PlayerList.Instance.GetAdmin(ServerData.UserID, PlayerList.Instance.AdminToken);
-			if (player != null)
-			{
-				PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
-			}
+			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
 		}
 	}
 }
