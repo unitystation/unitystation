@@ -179,7 +179,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114477551015379840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114401754672532888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,8 +247,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114217086723951782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 5c6f9e9e80c8a4b5a84d0376fb69f876
   m_SceneId: 0
 --- !u!114 &-3207462917420391052
 MonoBehaviour:
@@ -340,6 +351,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: c20r45 Magazine
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 876a70aadb2d64ee69a9fcecd369635c, type: 2}
   initialSize: 0

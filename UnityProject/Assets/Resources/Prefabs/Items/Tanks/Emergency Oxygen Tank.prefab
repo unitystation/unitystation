@@ -179,7 +179,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2393274509765689472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114330809230976920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,8 +267,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &2711347594170807092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: f99902d04c3b1fe47b0e4e4ec36b7971
   m_SceneId: 0
 --- !u!114 &117071226763546434
 MonoBehaviour:
@@ -422,6 +433,9 @@ MonoBehaviour:
   initialName: Emergency Oxygen Tank
   initialDescription: Used for emergencies. Contains very little oxygen, so try to
     conserve it until you actually need it.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
   - {fileID: 11400000, guid: 3c067c15f69684f9bb99b801202069b3, type: 2}

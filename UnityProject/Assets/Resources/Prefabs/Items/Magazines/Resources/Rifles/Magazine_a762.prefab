@@ -99,7 +99,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114496109277905418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114129525222004082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,8 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114893899263400770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 97b133313606d48178e8c800c28ea1bf
   m_SceneId: 0
 --- !u!114 &2045027039866350147
 MonoBehaviour:
@@ -260,6 +271,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: A762 Magazine
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 5344f7d34a67046a19f7955f984f8ea0, type: 2}
   initialSize: 0

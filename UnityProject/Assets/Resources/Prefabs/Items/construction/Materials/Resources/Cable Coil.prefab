@@ -180,7 +180,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114185907784239616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,8 +203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114191117801316952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114605469870542352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,7 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 02204992fb099c145843af5f85a10d7d
   m_SceneId: 0
 --- !u!114 &-897230659919145859
 MonoBehaviour:
@@ -415,12 +426,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Medium power cable
-  ArticleName: 
   initialDescription: 
   exportCost: 0
   exportName: 
   exportMessage: 
-  ArticleDescription: 
   initialTraits:
   - {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
   initialSize: 1
@@ -449,3 +458,4 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 30
   maxAmount: 30
+  stacksWith: []

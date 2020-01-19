@@ -180,6 +180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &7891530486730515463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +254,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,8 +277,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114503468551468690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,7 +465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 95adc0cf36af55d46baf1b7d4ef71eef
   m_SceneId: 0
 --- !u!114 &-5577253182213218272
 MonoBehaviour:
@@ -472,6 +483,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Space Cleaner
   initialDescription: BLAM!-brand non-foaming space cleaner!
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 2
   hitDamage: 0

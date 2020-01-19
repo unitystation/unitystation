@@ -181,7 +181,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114700230624298448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,8 +204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114544937745920048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114109660565828716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: fcc504f413695462b9c698e4a1d7fafe
   m_SceneId: 0
 --- !u!114 &-8165870982048707367
 MonoBehaviour:
@@ -372,12 +383,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Tactical Handgun
-  ArticleName: 
   initialDescription: 
   exportCost: 0
   exportName: 
   exportMessage: 
-  ArticleDescription: 
   initialTraits:
   - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
   - {fileID: 11400000, guid: 4fbd68bd00efb44529aea7a89057a257, type: 2}

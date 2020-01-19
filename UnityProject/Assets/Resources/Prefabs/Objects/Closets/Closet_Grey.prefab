@@ -233,6 +233,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114859863419137498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +275,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
   pushPullSound: 
   soundDelayTime: 0
@@ -361,7 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 52fddf9aa0dcd42ac85b86d274269aeb
   m_SceneId: 0
 --- !u!114 &4707275914383363325
 MonoBehaviour:

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 1635926354344122938}
   - component: {fileID: -1649124960678938281}
   m_Layer: 10
-  m_Name: seed packet
+  m_Name: seed packet_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,6 +193,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
   pushPullSound: 
   soundDelayTime: 0
@@ -244,6 +245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114079509811454882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 61fbb88e43b8b4f48a44b030453bdedc
   m_SceneId: 0
 --- !u!114 &7775367136764396337
 MonoBehaviour:

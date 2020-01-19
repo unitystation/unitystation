@@ -85,7 +85,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114121219251840654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,8 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114501696772707070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temperatureKelvin: 293.15
   MaxCapacity: 50
+  itemAttributes: {fileID: 0}
   InSolidForm: 0
   Reagents:
   - ale
@@ -268,7 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 1f48cda522ed84155af5b395a1b3e957
   m_SceneId: 0
 --- !u!114 &7626412200726036457
 MonoBehaviour:
@@ -286,6 +298,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Ale
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 0
   hitDamage: 5

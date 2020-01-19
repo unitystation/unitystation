@@ -102,7 +102,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114959013130737060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114555494551418034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114027104691969066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: df06cbd2108704926b399a65e6ff12de
   m_SceneId: 0
 --- !u!114 &-3625424685850474357
 MonoBehaviour:
@@ -277,8 +288,7 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 348c3a59a0029475fbf1006b0c39be54,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
-    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!114 &7312127342013114429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +305,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Emergency Response Gun
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 2
   hitDamage: 5

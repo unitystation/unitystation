@@ -97,7 +97,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114121219251840654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,8 +120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,8 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1949817233
+  m_AssetId: 8c2952660a46d90479f70105bc1cbab8
+  m_SceneId: 0
 --- !u!114 &2295344816234763317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,9 +203,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Wet floor sign
-  ArticleName: 
   initialDescription: Caution! Wet Floor!
-  ArticleDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 2
   hitDamage: 1
@@ -224,6 +233,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &-8093174316653623854
 MonoBehaviour:
   m_ObjectHideFlags: 0

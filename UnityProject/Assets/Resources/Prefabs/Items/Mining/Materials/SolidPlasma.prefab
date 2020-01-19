@@ -100,7 +100,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114349735982439280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,8 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114315561128172322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114144031159128792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +170,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 1
   maxAmount: 50
+  stacksWith: []
 --- !u!114 &114089053101257560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,12 +286,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: SolidPlasma
-  ArticleName: 
   initialDescription: A solid plasma
   exportCost: 200
   exportName: 
   exportMessage: cm3 of plasma
-  ArticleDescription: 
   initialTraits:
   - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
   initialSize: 1

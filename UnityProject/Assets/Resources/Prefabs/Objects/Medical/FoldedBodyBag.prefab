@@ -121,7 +121,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8719630062288667462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,8 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &6487628113956004103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &4668401069542360656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: a21353068392d4a7298ca43e3c7f997b
   m_SceneId: 0
 --- !u!114 &1687833025890641942
 MonoBehaviour:
@@ -281,6 +292,9 @@ MonoBehaviour:
   initialName: Body bag
   initialDescription: A folded bag designed for the storage and transportation of
     cadavers.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 2
   hitDamage: 0

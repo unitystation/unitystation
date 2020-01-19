@@ -277,7 +277,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114546715207081156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,8 +300,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114189442814561830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +314,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114852817288890120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,8 +513,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3476636610
+  m_AssetId: 9c91a985c48aef648b219b1d267a9cab
+  m_SceneId: 0
 --- !u!114 &-3339322490579092172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,6 +531,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: flashlight
   initialDescription: 
+  exportCost: 5
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 1
   hitDamage: 0
@@ -531,6 +545,3 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 5
-  exportName: 
-  exportMessage: 

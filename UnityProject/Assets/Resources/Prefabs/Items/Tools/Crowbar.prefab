@@ -179,7 +179,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114484434474911270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,8 +202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114850502447124420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114079509811454882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,8 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuccessChance: 100
-  IsSyndicateVariant: 0
   SpeedMultiplier: 1
 --- !u!114 &114943451087304478
 MonoBehaviour:
@@ -395,8 +404,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 763136616
+  m_AssetId: ac13474c9d8108940b75c30b2bff8a38
+  m_SceneId: 0
 --- !u!114 &1144006968439912978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +422,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: crowbar
   initialDescription: A Crowbar
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
   initialSize: 1
@@ -425,6 +437,3 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  ExportCost: 2
-  ExportName: 
-  ExportMessage: 

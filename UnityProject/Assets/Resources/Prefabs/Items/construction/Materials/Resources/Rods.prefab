@@ -181,6 +181,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialAmount: 1
   maxAmount: 50
+  stacksWith: []
 --- !u!114 &114247653532312200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +194,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114007797438959630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +226,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114185907784239616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,8 +249,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114651328662161524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 8012b966850884ea3bea010004dedb96
   m_SceneId: 0
 --- !u!114 &-2581429545692574397
 MonoBehaviour:
@@ -415,6 +427,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Rods
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 0
   hitDamage: 9
@@ -426,9 +441,6 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 0
-  exportName: 
-  exportMessage: 
 --- !u!114 &3962126589726345071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entries:
+  waysToPlace:
   - layerTile: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
     placeableOn: 7
     placeableOnlyOnTile: {fileID: 0}

@@ -159,6 +159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &8536537474672733830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 47123d0f42584c444bdede9f29da2438
   m_SceneId: 0
 --- !u!114 &-7767915788400301364
 MonoBehaviour:

@@ -180,7 +180,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114061577710956728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,8 +203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114762579623046278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114780009814565468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,8 +422,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2599442964
+  m_AssetId: 8aa9c1617fcf44905b26d836feca524f
+  m_SceneId: 0
 --- !u!114 &1144437016424961650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,8 +440,7 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 3aaa2fa3215284e608242ef34b8c7aa4,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
-    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!114 &5055112383377255460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,6 +457,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Combat Shotgun
   initialDescription: 
+  exportCost: 300
+  exportName: combat shotgun
+  exportMessage: 
   initialTraits: []
   initialSize: 2
   hitDamage: 10
@@ -458,6 +471,3 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 300
-  exportName: combat shotgun
-  exportMessage: 

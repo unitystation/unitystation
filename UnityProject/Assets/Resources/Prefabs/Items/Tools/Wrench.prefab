@@ -201,7 +201,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114484434474911270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,8 +224,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &1022381328221600776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +334,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114015390832439874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,8 +363,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuccessChance: 100
-  IsSyndicateVariant: 0
   SpeedMultiplier: 1
 --- !u!114 &114899683467054628
 MonoBehaviour:
@@ -417,8 +426,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1617197189
+  m_AssetId: 716afa9ab8df5874a8801b81b5e626be
+  m_SceneId: 0
 --- !u!114 &8230273158682710619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,6 +444,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: wrench
   initialDescription: A wrench with common uses. Can be found in your hand.
+  exportCost: 2
+  exportName: wrench
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
   initialSize: 1
@@ -447,6 +459,3 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 2
-  exportName: wrench
-  exportMessage: 

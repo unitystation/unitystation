@@ -393,14 +393,66 @@ namespace Lobby
 		{
 			//FIXME
 			//	startGamePanel.SetActive(false);
-			accountLoginPanel.SetActive(false);
-			createAccountPanel.SetActive(false);
-			pendingCreationPanel.SetActive(false);
-			informationPanel.SetActive(false);
-			wrongVersionPanel.SetActive(false);
-			controlInformationPanel.SetActive(false);
-			loggingInPanel.SetActive(false);
-			connectionPanel.SetActive(false);
+			if (accountLoginPanel != null)
+			{
+				accountLoginPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("accountLoginPanel == null");
+			}
+				
+
+			if (createAccountPanel != null)
+			{
+				createAccountPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("createAccountPanel == null");
+			}
+					
+
+
+			if (pendingCreationPanel != null)
+			{
+				pendingCreationPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("pendingCreationPanel == null");
+			}
+
+
+			if (informationPanel != null)
+			{
+				informationPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("informationPanel == null");
+			}
+
+			if (controlInformationPanel != null)
+			{
+				controlInformationPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("controlInformationPanel == null");
+			}
+
+
+			if (loggingInPanel != null)
+			{
+				loggingInPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("loggingInPanel == null");
+			}
+
+			if (connectionPanel != null)
+			{
+				connectionPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("connectionPanel == null");
+			}
 		}
 	}
 }

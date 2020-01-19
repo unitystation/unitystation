@@ -10,12 +10,22 @@ PrefabInstance:
     - target: {fileID: 5955107123228105240, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: m_Name
-      value: EmptyToolbelt
+      value: Toolbelt
       objectReference: {fileID: 0}
     - target: {fileID: 5955107123228105240, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: m_TagString
       value: Clothing
+      objectReference: {fileID: 0}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: initialName
+      value: belt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: initialDescription
+      value: Can hold various things.
       objectReference: {fileID: 0}
     - target: {fileID: 5960312074135185260, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
@@ -71,16 +81,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: initialName
-      value: belt
-      objectReference: {fileID: 0}
-    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: initialDescription
-      value: Can hold various things.
       objectReference: {fileID: 0}
     - target: {fileID: 5994572547181963180, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}

@@ -180,7 +180,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114157227028527442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,8 +203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114700889943355420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114916393656445134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 8538829c70c6347e88747ca6d9b0a4bd
   m_SceneId: 0
 --- !u!114 &-8146093686973242629
 MonoBehaviour:
@@ -355,8 +366,7 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: b93a1aa39070c432db237e446b52bad8,
     type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: adc6a02e7f1494ede8a04ee3d822eea5,
-    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!114 &-1921089802099383128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,6 +383,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: M90 Sniperrifle
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 4
   hitDamage: 5

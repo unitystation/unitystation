@@ -82,6 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +114,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114121219251840654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,8 +137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 50334239d541e7643a2b9d5c8cb43430
   m_SceneId: 0
 --- !u!114 &3266362895114989803
 MonoBehaviour:
@@ -361,6 +372,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: empty glass
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58, type: 2}
   - {fileID: 11400000, guid: 55917bb83c64bdc41acf0a60f284366c, type: 2}

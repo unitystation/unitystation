@@ -116,6 +116,7 @@ public class GUI_Cloning : NetTab
 	public void DisplayAllRecords()
 	{
 		recordList.Clear();
+		Logger.Log(CloningConsole.CloningRecords.ToString());
 		recordList.AddItems(CloningConsole.CloningRecords.Count());
 
 		var i = 0;
