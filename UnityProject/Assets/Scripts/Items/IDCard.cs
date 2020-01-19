@@ -47,8 +47,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 	public string RegisteredName => registeredName;
 
 
-
-
 	[SyncVar(hook = nameof(SyncIDCardType))]
 	private IDCardType idCardType;
 
