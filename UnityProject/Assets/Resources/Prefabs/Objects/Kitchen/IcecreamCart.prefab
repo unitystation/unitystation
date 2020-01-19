@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 114606720968377460}
   - component: {fileID: 114251073917058144}
   - component: {fileID: 749843543778249653}
+  - component: {fileID: 3212830626524822905}
   m_Layer: 11
   m_Name: IcecreamCart
   m_TagString: Untagged
@@ -150,6 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114606720968377460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 41082344a78803f4daac93e78396ce2d
   m_SceneId: 0
 --- !u!114 &749843543778249653
 MonoBehaviour:
@@ -220,6 +224,29 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &3212830626524822905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147578870404542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1862351942716826
 GameObject:
   m_ObjectHideFlags: 0

@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 390125877411094447}
   - component: {fileID: 4585042576726451927}
   - component: {fileID: 114261379763110518}
+  - component: {fileID: -921045048710611501}
   m_Layer: 11
   m_Name: DNA_Scanner
   m_TagString: Untagged
@@ -161,6 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &9128197607768152992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +226,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 1
+  isInitiallyNotPushable: 1
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2464575245303528366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,8 +248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
   closetType: 2
@@ -441,9 +452,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d576437aea8f9b04a80ff4fd7f9a5dc0, type: 3}
   spriteRenderer: {fileID: 212360857505739792}
   spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
+  variantIndex: 0
   test: 0
+  synchroniseVariant: 1
 --- !u!114 &4585042576726451927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,5 +491,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-921045048710611501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: DNA Scanner
+  initialDescription: It scans DNA structures.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
