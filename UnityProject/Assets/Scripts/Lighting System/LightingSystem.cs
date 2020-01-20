@@ -40,6 +40,11 @@ public class LightingSystem : MonoBehaviour
 	private Texture2D mTex2DWallFloorOcclusionMask;
 	private OperationParameters mOperationParameters;
 
+	/// <summary>
+	/// Lighting system was enabled/disabled
+	/// </summary>
+	public event System.Action<bool> OnLightingSystemEnabled;
+
 	public bool matrixRotationMode
 	{
 		get
@@ -271,6 +276,8 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
+		OnLightingSystemEnabled?.Invoke(true);
+
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
 			Logger.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
@@ -329,6 +336,9 @@ public class LightingSystem : MonoBehaviour
 		{
 			return;
 		}
+
+		OnLightingSystemEnabled?.Invoke(false);
+
 		// Set object occlusion white, so occlusion dependent shaders will show appropriately while system is off.
 		Shader.SetGlobalTexture("_ObjectFovMask", Texture2D.whiteTexture);
 
