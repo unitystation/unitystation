@@ -8,6 +8,7 @@ using UnityEngine;
 using Mirror;
 using UnityEditor;
 using Random = UnityEngine.Random;
+using DatabaseAPI;
 
 namespace IngameDebugConsole
 {
@@ -440,5 +441,17 @@ namespace IngameDebugConsole
 			}
 		}
 
+
+		[ConsoleMethod("add-admin", "Promotes a user to admin using a user's account ID\nUsage: add-admin <account-id>")]
+		public static void AddAdmin(string userIDToPromote)
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
+		}
 	}
 }
