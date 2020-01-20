@@ -148,13 +148,13 @@ public partial class PlayerList
 		}
 
 		//check if they are already logged in, skip this check if offline mode is enable or if not a release build.
-		if (!GameData.Instance.OfflineMode && BuildPreferences.isForRelease)
+		if (!GameData.Instance.OfflineMode )//&& BuildPreferences.isForRelease)
 		{
 			if (GetByUserID(userid) != null)
 			{
 				if (GetByUserID(userid).Connection != null)
 				{
-					if (playerConn.Connection != GetByUserID(userid).Connection)
+					if (playerConn.ClientId != GetByUserID(userid).ClientId)
 					{
 						StartCoroutine(
 							KickPlayer(playerConn, $"Server Error: You are already logged into this server!"));
@@ -210,6 +210,14 @@ public partial class PlayerList
 			}
 		}
 
+		Logger.Log($"{playerConn.Username} logged in successfully. " +
+		           $"userid: {userid}", Category.Admin);
+
+		return true;
+	}
+
+	public void CheckAdminState(ConnectedPlayer playerConn, string userid)
+	{
 		//full admin privs for local offline testing for host player
 		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
 		{
@@ -223,11 +231,6 @@ public partial class PlayerList
 				AdminEnableMessage.Send(playerConn.GameObject, newToken);
 			}
 		}
-
-		Logger.Log($"{playerConn.Username} logged in successfully. " +
-		           $"userid: {userid}", Category.Admin);
-
-		return true;
 	}
 
 	void CheckForLoggedOffAdmin(string userid, string userName)
