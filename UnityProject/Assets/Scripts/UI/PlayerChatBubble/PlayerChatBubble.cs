@@ -79,6 +79,26 @@ public class PlayerChatBubble : MonoBehaviour
 	/// </summary>
 	private BubbleType bubbleType = BubbleType.normal;
 
+	/// <summary>
+	/// Multiplies the elapse of display time per character left in the msgQueue (after the first element).
+	/// </summary>
+	private static float displayTimeMultiplierPerSecond = 0.09f;
+
+	/// <summary>
+	/// Multiplies the elapse of display time. A value of 1.5 would make time elapse 1.5 times as fast. 1 is normal speed.
+	/// </summary>
+	private float displayTimeMultiplier;
+
+	/// <summary>
+	/// Minimum time a bubble's text will be visible on-screen.
+	/// </summary>
+	private const float displayTimeMin = 1.8f;
+
+	/// <summary>
+	/// Maximum time a bubble's text will be visible on-screen.
+	/// </summary>
+	private const float displayTimeMax = 15f;
+
 	void Start()
 	{
 		chatBubble.SetActive(false);
@@ -190,6 +210,9 @@ public class PlayerChatBubble : MonoBehaviour
 			msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg });
 		}
 
+		// Progress quickly through the queue if there is a lot of text left.
+		displayTimeMultiplier = 1 + TimeToShow(msgQueue) * displayTimeMultiplierPerSecond;
+
 		if (!showingDialogue)StartCoroutine(ShowDialogue());
 	}
 
@@ -208,7 +231,7 @@ public class PlayerChatBubble : MonoBehaviour
 		{
 			yield return WaitFor.EndOfFrame;
 			b.elapsedTime += Time.deltaTime;
-			if (b.elapsedTime >= b.maxTime)
+			if (b.elapsedTime * displayTimeMultiplier >= b.maxTime && b.elapsedTime >= displayTimeMin)
 			{
 				if (msgQueue.Count == 0)
 				{
@@ -282,7 +305,23 @@ public class PlayerChatBubble : MonoBehaviour
 	/// </summary>
 	private float TimeToShow(int charCount)
 	{
-		return Mathf.Clamp((float)charCount / 10f, 2.5f, 10f);
+		return Mathf.Clamp((float)charCount / 10f, displayTimeMin, displayTimeMax); // Approximately 120 WPM / 600 CPM
+	}
+
+	/// <summary>
+	/// Calculates the time required to display the message queue.
+	/// The first message is excluded.
+	/// </summary>
+	/// <param name="queue">The current message queue. The first element will be excluded!</param>
+	/// <returns>Time required to display the queue (without the first element).</returns>
+	private float TimeToShow(Queue<BubbleMsg> queue)
+	{
+		float total = 0;
+		foreach (BubbleMsg msg in queue.Skip(1))
+		{
+			total += msg.maxTime;
+		}
+		return total;
 	}
 
 	/// <summary>
