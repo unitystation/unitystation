@@ -45,7 +45,9 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 			GameObject occupationGO = Instantiate(buttonPrefab, screen_Jobs.transform);
 
-			occupation.name = jobType.ToString();
+			// This line was added for unit testing - but now it's only rewrite occupations meta
+			//occupation.name = jobType.ToString();
+
 			var color = occupation.ChoiceColor;
 
 			occupationGO.GetComponent<Image>().color = color;

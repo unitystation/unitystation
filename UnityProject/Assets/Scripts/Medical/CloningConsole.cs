@@ -73,7 +73,7 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 			var mob = scanner.occupant;
 			var mobID = scanner.occupant.mobID;
 			var playerScript = mob.GetComponent<PlayerScript>();
-			if(playerScript.mind.bodyMobID != mobID)
+			if(playerScript?.mind?.bodyMobID != mobID)
 			{
 				return;
 			}

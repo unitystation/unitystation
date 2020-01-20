@@ -119,6 +119,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 			objectBehaviour.ServerSetPushable(!isSecured);
 		}
 
+
 		SoundManager.PlayAtPosition("Wrench", transform.position);
 
 		if (!isSecured)
@@ -169,6 +170,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wrench))
 		{
 			UpdateSecured(!isSecured);
+			ElectricalNodeControl.PowerUpdateStructureChange();
 			if (!isSecured && isOn)
 			{
 				isOn = !isOn;

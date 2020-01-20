@@ -79,7 +79,8 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			//This is the players first time connecting to this round, assign them a Client ID;
 			var oldID = clientID;
-			clientID = System.Guid.NewGuid().ToString();
+			clientID = Guid.NewGuid().ToString();
+			connPlayer.ClientId = clientID;
 			Logger.LogFormat("This server did not find a logged off player with clientID {0}, assigning" +
 			                 " joined viewer a new ID {1}", Category.Connections, oldID, clientID);
 		}
@@ -114,6 +115,8 @@ public class JoinedViewer : NetworkBehaviour
 			TargetLocalPlayerSetupNewPlayer(connectionToClient, connPlayer.ClientId,
 				GameManager.Instance.CurrentRoundState);
 		}
+
+		PlayerList.Instance.CheckAdminState(connPlayer, userid);
 	}
 
 	/// <summary>
