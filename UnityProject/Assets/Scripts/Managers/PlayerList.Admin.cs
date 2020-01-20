@@ -147,8 +147,8 @@ public partial class PlayerList
 			return false;
 		}
 
-		//check if they are already logged in, skip this check if offline mode is enabled.
-		if (!GameData.Instance.OfflineMode)
+		//check if they are already logged in, skip this check if offline mode is enable or if not a release build.
+		if (!GameData.Instance.OfflineMode && BuildPreferences.isForRelease)
 		{
 			if (GetByUserID(userid) != null)
 			{
