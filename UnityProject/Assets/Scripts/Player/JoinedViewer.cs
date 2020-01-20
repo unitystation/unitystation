@@ -115,6 +115,8 @@ public class JoinedViewer : NetworkBehaviour
 			TargetLocalPlayerSetupNewPlayer(connectionToClient, connPlayer.ClientId,
 				GameManager.Instance.CurrentRoundState);
 		}
+
+		PlayerList.Instance.CheckAdminState(connPlayer, userid);
 	}
 
 	/// <summary>
