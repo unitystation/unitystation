@@ -96,19 +96,19 @@ namespace Lobby
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.F6))
-				if (Input.GetKeyDown(KeyCode.F6) && !BuildPreferences.isForRelease)
+			//login skip only allowed (and only works properly) in offline mode
+			if (Input.GetKeyDown(KeyCode.F6) && GameData.Instance.OfflineMode)
+			{
+				//skip login
+				HideAllPanels();
+				connectionPanel.SetActive(true);
+				dialogueTitle.text = "Connection Panel";
+				//if there aren't char settings, default
+				if (PlayerManager.CurrentCharacterSettings == null)
 				{
-					//skip login
-					HideAllPanels();
-					connectionPanel.SetActive(true);
-					dialogueTitle.text = "Connection Panel";
-					//if there aren't char settings, default
-					if (PlayerManager.CurrentCharacterSettings == null)
-					{
-						PlayerManager.CurrentCharacterSettings = new CharacterSettings();
-					}
+					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
 				}
+			}
 		}
 
 		public void ShowConnectionPanel()
@@ -393,14 +393,66 @@ namespace Lobby
 		{
 			//FIXME
 			//	startGamePanel.SetActive(false);
-			accountLoginPanel.SetActive(false);
-			createAccountPanel.SetActive(false);
-			pendingCreationPanel.SetActive(false);
-			informationPanel.SetActive(false);
-			wrongVersionPanel.SetActive(false);
-			controlInformationPanel.SetActive(false);
-			loggingInPanel.SetActive(false);
-			connectionPanel.SetActive(false);
+			if (accountLoginPanel != null)
+			{
+				accountLoginPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("accountLoginPanel == null");
+			}
+
+
+			if (createAccountPanel != null)
+			{
+				createAccountPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("createAccountPanel == null");
+			}
+
+
+
+			if (pendingCreationPanel != null)
+			{
+				pendingCreationPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("pendingCreationPanel == null");
+			}
+
+
+			if (informationPanel != null)
+			{
+				informationPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("informationPanel == null");
+			}
+
+			if (controlInformationPanel != null)
+			{
+				controlInformationPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("controlInformationPanel == null");
+			}
+
+
+			if (loggingInPanel != null)
+			{
+				loggingInPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("loggingInPanel == null");
+			}
+
+			if (connectionPanel != null)
+			{
+				connectionPanel.SetActive(false);
+			}
+			else {
+				Logger.LogError("connectionPanel == null");
+			}
 		}
 	}
 }

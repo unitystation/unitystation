@@ -41,6 +41,11 @@ public class GUI_IngameMenu : MonoBehaviour
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
+	void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
+
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
 		if (scene.name != "Lobby")

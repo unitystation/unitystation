@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
 	public Text pingDisplay;
 	[SerializeField]
 	[Tooltip("Text displaying the game's version number.")]
-	private Text versionDisplay;
+	public Text versionDisplay;
 	public GUI_Info infoWindow;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
@@ -209,8 +209,10 @@ public class UIManager : MonoBehaviour
 		{
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 		}
-	}
 
+		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
+	}
+	
 	private void Update()
 	{
 		//Read out of ping in toolTip

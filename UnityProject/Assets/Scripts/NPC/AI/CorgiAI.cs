@@ -183,7 +183,7 @@ public class CorgiAI : MobAI
 				StartCoroutine(ChaseTail(Random.Range(1, 5)));
 				break;
 			case 2:
-				NudgeInDir(Random.Range(1, 9));
+				NudgeInDirection(GetNudgeDirFromInt(Random.Range(0, 8)));
 				break;
 			//case 3 is nothing
 		}

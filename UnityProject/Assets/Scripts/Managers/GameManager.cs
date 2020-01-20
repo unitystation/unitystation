@@ -434,9 +434,13 @@ public partial class GameManager : MonoBehaviour
 		if (jobTypeRequest != JobType.NULL)
 		{
 			var occupation = OccupationList.Instance.Get(jobTypeRequest);
-			if (occupation.Limit > GetOccupationsCount(occupation.JobType) || occupation.Limit == -1)
+
+			if (occupation != null)
 			{
-				return occupation;
+				if (occupation.Limit > GetOccupationsCount(occupation.JobType) || occupation.Limit == -1)
+				{
+					return occupation;
+				}
 			}
 		}
 

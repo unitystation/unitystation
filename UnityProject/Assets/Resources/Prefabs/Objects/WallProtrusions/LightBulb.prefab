@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 114556952556266662}
   - component: {fileID: 6683878051609785215}
   - component: {fileID: 804569472849686567}
-  - component: {fileID: 2284670454235772221}
+  - component: {fileID: 2703357943102309780}
   m_Layer: 13
   m_Name: LightBulb
   m_TagString: Untagged
@@ -33,14 +33,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614508754264130}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 24, y: 28, z: 0}
   m_LocalScale: {x: 1.0000005, y: 1.0000005, z: 1}
   m_Children:
   - {fileID: 4215336372400204}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61294264368354326
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -54,7 +54,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.3676507}
+  m_Offset: {x: 0, y: 0.3642767}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -65,7 +65,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23747547, y: 0.26469862}
+  m_Size: {x: 0.23747547, y: 0.2779311}
   m_EdgeRadius: 0
 --- !u!114 &895131165705544335
 MonoBehaviour:
@@ -96,6 +96,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  OnSprite: {fileID: 0}
+  OffSprite: {fileID: 0}
+  MissingBulbSprite: {fileID: 0}
+  BrokenSprite: {fileID: 0}
+  DirtySprite: {fileID: 0}
+  LightFXRenderer: {fileID: 0}
   mLightRendererObject: {fileID: 0}
   Resistance: 1200
   RelatedAPC: {fileID: 0}
@@ -131,6 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114115352977703776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +219,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
---- !u!114 &2284670454235772221
+--- !u!114 &2703357943102309780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,10 +228,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1614508754264130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c7afb8a6dc4ed8bf0f983b7ff65e10, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabSpriteOrientation: 3
+  prefabChildrenOrientation: 3
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +256,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865224276101266}
-  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
