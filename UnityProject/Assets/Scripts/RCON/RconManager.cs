@@ -325,10 +325,15 @@ public class RconPlayerList : WebSocketBehavior
 {
 	protected override void OnMessage(MessageEventArgs e)
 	{
+		if (e == null) return;
+
 		if (e.Data == "players")
 		{
 			var playerList = JsonUtility.ToJson(new Players());
-			Send(playerList);
+			if (!string.IsNullOrEmpty(playerList))
+			{
+				Send(playerList);
+			}
 		}
 	}
 }
