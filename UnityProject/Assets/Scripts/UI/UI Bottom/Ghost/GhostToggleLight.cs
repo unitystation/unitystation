@@ -14,39 +14,55 @@ public class GhostToggleLight : MonoBehaviour
 	public Sprite lightOffSprite;
 
 	private Image image;
+
 	private LightingSystem lighting;
+	/// <summary>
+	/// Safely resolve lighting system dependency
+	/// </summary>
+	private LightingSystem LightingSys
+	{
+		get
+		{
+			// Already have lighting link?
+			if (lighting)
+				return lighting;
+
+			// Check camera main
+			if (Camera.main == null)
+			{
+				Logger.LogError("Main Camera not found!", Category.Lighting);
+				return null;
+			}
+
+			// Get the lighting system
+			lighting = Camera.main.GetComponent<LightingSystem>();
+			return lighting;
+		}
+	}
 
 	private void Awake()
 	{
 		image = GetComponent<Image>();
-
-		// Get the lighting system
-		lighting = Camera.main.GetComponent<LightingSystem>();
-		if (!lighting)
-		{
-			Logger.LogWarning("Ghost UI can't find lighting system on Camera.main", Category.Lighting);
-			return;
-		}
 	}
 
 	private void OnEnable()
 	{
-		if (!lighting)
+		if (!LightingSys)
 			return;
 
-		// subscribe to lighting system change (can disabled from other systems)
-		lighting.OnLightingSystemEnabled += OnLightingSystemEnabled;
+		// subscribe to lighting system change (can be disabled from other systems, like admin spawn)
+		LightingSys.OnLightingSystemEnabled += OnLightingSystemEnabled;
 		// update sprite
 		UpdateSprite();
 	}
 
 	private void OnDisable()
 	{
-		if (!lighting)
+		if (!LightingSys)
 			return;
 
 		// unsubscribe from lighting system
-		lighting.OnLightingSystemEnabled -= OnLightingSystemEnabled;
+		LightingSys.OnLightingSystemEnabled -= OnLightingSystemEnabled;
 	}
 
 	/// <summary>
@@ -54,13 +70,13 @@ public class GhostToggleLight : MonoBehaviour
 	/// </summary>
 	public void OnLightTogglePressed()
 	{
-		if (!lighting)
+		if (!LightingSys)
 			return;
 
 		// Change lighting system state to opposite
 		// Image sprite will change by event
-		var isLighitingEnabled = lighting.enabled;
-		lighting.enabled = !isLighitingEnabled;
+		var isLighitingEnabled = LightingSys.enabled;
+		LightingSys.enabled = !isLighitingEnabled;
 	}
 
 	private void OnLightingSystemEnabled(bool isEnabled)
@@ -75,7 +91,7 @@ public class GhostToggleLight : MonoBehaviour
 	{
 		if (image)
 		{
-			image.sprite = lighting.enabled ? lightOnSprite : lightOffSprite;
+			image.sprite = LightingSys.enabled ? lightOnSprite : lightOffSprite;
 		}
 	}
 
