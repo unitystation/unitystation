@@ -344,8 +344,7 @@ public partial class MatrixManager : MonoBehaviour
 				PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
 				if (playerMove && playerMove.IsBuckled)
 				{
-					NetworkIdentity networkIdentityBuckledObject = NetworkIdentity.spawned[playerMove.buckledObject];
-					PushPull buckledPushPull = networkIdentityBuckledObject.GetComponentInParent<PushPull>();
+					PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
 
 					if (buckledPushPull)
 						pushable = buckledPushPull;

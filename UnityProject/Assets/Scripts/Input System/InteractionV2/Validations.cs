@@ -236,12 +236,30 @@ public static class Validations
 			}
 		}
 
-		if (!result && side == NetworkSide.Server)
+		if (!result && side == NetworkSide.Server && Logger.LogLevel >= LogLevel.Trace)
 		{
-			//client tried to do something out of range, report it
-			var cnt = target.GetComponent<CustomNetTransform>();
-			Logger.LogTraceFormat( "Not in reach! server pos:{0} player pos:{1} (floating={2})", Category.Security,
-				cnt.ServerState.WorldPosition, playerScript.transform.position, cnt.IsFloatingServer);
+			Vector3 worldPosition = Vector3.zero;
+			bool isFloating = false;
+
+			// Client tried to do something out of range, report it
+			// Note : it can be a security incident, but it might also be caused by bugs.
+		    // TODO: verify after a few rounds in multi-player, if this happens too often,
+			// with this log information, try to find the cause and fix it (or fine tune it for less frequent logs).
+
+			if (target.TryGetComponent(out CustomNetTransform cnt))
+			{
+				worldPosition = cnt.ServerState.WorldPosition;
+				isFloating = cnt.IsFloatingServer;
+			}
+			else if (target.TryGetComponent(out PlayerSync playerSync))
+			{
+				worldPosition = playerSync.ServerState.WorldPosition;
+				isFloating = playerSync.IsWeightlessServer;
+			}
+
+			Logger.LogTraceFormat($"Not in reach! Target: {target.name} server pos:{worldPosition} "+
+				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.registerTile.WorldPositionServer} " +
+								  $"(floating={isFloating})", Category.Security);
 		}
 
 		return result;

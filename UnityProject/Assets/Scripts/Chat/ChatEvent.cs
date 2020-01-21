@@ -29,7 +29,8 @@ public enum ChatChannel
 	[Description(":g")] Ghost 		= 1 << 15,
 	[Description("")] 	Combat 		= 1 << 16,
 	[Description("")]	Warning		= 1 << 17,
-	[Description("")]	Action		= 1 << 18
+	[Description("")]	Action		= 1 << 18,
+	[Description("")]	Admin		= 1 << 19
 }
 
 /// <summary>

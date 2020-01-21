@@ -10,6 +10,7 @@ using Mirror;
 public class NPCDirectionalSprites : NetworkBehaviour
 {
 	private LivingHealthBehaviour health;
+	private UprightSprites uprightSprites;
 	public SpriteRenderer spriteRend;
 	public Sprite upSprite;
 	public Sprite rightSprite;
@@ -32,6 +33,7 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	void OnEnable()
 	{
 		health = GetComponent<LivingHealthBehaviour>();
+		uprightSprites = GetComponent<UprightSprites>();
 	}
 
 	public override void OnStartServer()
@@ -80,6 +82,22 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	public void CheckSpriteServer(float angleDirection)
 	{
 		if (health.IsDead || health.IsCrit) return;
+
+		if (uprightSprites != null)
+		{
+			var newAngle = angleDirection + (uprightSprites.ExtraRotation.eulerAngles.z * -1f);
+			if (newAngle > 180f)
+			{
+				newAngle = -180 + (newAngle - 180f);
+			}
+
+			if (newAngle < -180f)
+			{
+				newAngle = 180f + (newAngle + 180f);
+			}
+
+			angleDirection = newAngle;
+		}
 
 		var tryGetDir = GetDirNumber(angleDirection);
 		ChangeSprite(tryGetDir);

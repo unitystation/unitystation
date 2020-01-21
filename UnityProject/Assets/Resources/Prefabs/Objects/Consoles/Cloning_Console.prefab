@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 114254690631665046}
   - component: {fileID: 114135642198018370}
   - component: {fileID: -2597783202017228440}
+  - component: {fileID: 4745617889923757368}
   m_Layer: 11
   m_Name: Cloning_Console
   m_TagString: Untagged
@@ -272,8 +273,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114784912755194898
@@ -433,6 +434,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &4746695837673661153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +543,25 @@ MonoBehaviour:
   circuitBoardPrefab: {fileID: 728401503887791882, guid: 4117d380a9c804997afd57025c6d47b2,
     type: 3}
   secondsToScrewdrive: 2
+--- !u!114 &4745617889923757368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581020911112336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Cloning Console
+  initialDescription: Used for cloning.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1753008131445868
 GameObject:
   m_ObjectHideFlags: 0

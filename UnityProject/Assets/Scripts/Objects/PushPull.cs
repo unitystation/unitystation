@@ -8,8 +8,7 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn
-{
+public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	/// <summary>
 	/// Maximum speed player can reach by throwing stuff in space
@@ -18,6 +17,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
 	public RegisterTile registerTile;
+	public FloorDecal floorDecal; // Used to make sure some objects are not causing gravity
 
 	/// <summary>
 	/// *** USE WITH CAUTION! ***
@@ -451,7 +451,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	protected void Awake() {
 		registerTile = GetComponent<RegisterTile>();
-
+		floorDecal = GetComponent<FloorDecal>();
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
@@ -492,6 +492,17 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn
 			}
 		};
 	}
+	/// <summary>
+	/// Return true if the object causes gravity, otherwise false.
+	/// <returns>bool that represents if the object must cause gravity or not.</returns>
+	/// </summary>
+	public bool CausesGravity()
+    {
+		if (!isNotPushable || floorDecal!= null)
+			return false;
+
+		return true;
+    }
 
 	/// <summary>
 	/// Recursive method to get client speed of the train head

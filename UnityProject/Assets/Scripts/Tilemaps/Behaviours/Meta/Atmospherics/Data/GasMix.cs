@@ -174,8 +174,15 @@ namespace Atmospherics
 		/// <returns>The ratio of the gas</returns>
 		/// <param name="_Gas">Gas.</param>
 		public float GasRatio(Gas _Gas)
-		{ 
-			return (Gases[_Gas] / Moles);
+		{
+			if (Gases[_Gas] != 0)
+			{
+				return (Gases[_Gas] / Moles);
+			}
+			else {
+				return (0);
+			}
+
 		}
 
 		public void MergeGasMix(GasMix otherGas)

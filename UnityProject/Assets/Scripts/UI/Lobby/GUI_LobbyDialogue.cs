@@ -96,19 +96,19 @@ namespace Lobby
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.F6))
-				if (Input.GetKeyDown(KeyCode.F6) && !BuildPreferences.isForRelease)
+			//login skip only allowed (and only works properly) in offline mode
+			if (Input.GetKeyDown(KeyCode.F6) && GameData.Instance.OfflineMode)
+			{
+				//skip login
+				HideAllPanels();
+				connectionPanel.SetActive(true);
+				dialogueTitle.text = "Connection Panel";
+				//if there aren't char settings, default
+				if (PlayerManager.CurrentCharacterSettings == null)
 				{
-					//skip login
-					HideAllPanels();
-					connectionPanel.SetActive(true);
-					dialogueTitle.text = "Connection Panel";
-					//if there aren't char settings, default
-					if (PlayerManager.CurrentCharacterSettings == null)
-					{
-						PlayerManager.CurrentCharacterSettings = new CharacterSettings();
-					}
+					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
 				}
+			}
 		}
 
 		public void ShowConnectionPanel()

@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
-	private const float PlasmaConsumptionRate = 0.4f;
+	private const float PlasmaConsumptionRate = 0.02f;
 
 	public ObjectBehaviour objectBehaviour;
 	[SyncVar(hook = nameof(UpdateSecured))]
@@ -119,6 +119,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 			objectBehaviour.ServerSetPushable(!isSecured);
 		}
 
+
 		SoundManager.PlayAtPosition("Wrench", transform.position);
 
 		if (!isSecured)
@@ -169,6 +170,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wrench))
 		{
 			UpdateSecured(!isSecured);
+			ElectricalNodeControl.PowerUpdateStructureChange();
 			if (!isSecured && isOn)
 			{
 				isOn = !isOn;
@@ -180,8 +182,8 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		var solidPlasma = slot.Item != null ? slot.Item.GetComponent<SolidPlasma>() : null;
 		if (solidPlasma != null)
 		{
-			plasmaFuel.Add(solidPlasma);
-			Inventory.ServerConsume(interaction.HandSlot, 1);
+			var plasma = Inventory.ServerVanishStackable(interaction.HandSlot);
+			plasmaFuel.Add(plasma.GetComponent<SolidPlasma>());
 			return;
 		}
 

@@ -13,16 +13,6 @@ public class MouseInputController : MonoBehaviour
 {
 	private const float MAX_AGE = 2f;
 
-	/// <summary>
-	///     The cooldown before another action can be performed
-	/// </summary>
-	private float CurrentCooldownTime;
-
-	/// <summary>
-	///     The minimum time limit between each action
-	/// </summary>
-	private float InputCooldownTimer = 0.01f;
-
 	[Tooltip("When mouse button is pressed down and held for longer than this duration, we will" +
 	         " not perform a click on mouse up.")]
 	public float MaxClickDuration = 1f;
@@ -46,7 +36,6 @@ public class MouseInputController : MonoBehaviour
 
 	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
-	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
 	private Directional playerDirectional;
 	/// reference to the global lighting system, used to check occlusion
@@ -101,8 +90,6 @@ public class MouseInputController : MonoBehaviour
 		//for changing direction on click
 		playerDirectional = gameObject.GetComponent<Directional>();
 		playerMove = GetComponent<PlayerMove>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
-
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
@@ -246,7 +233,7 @@ public class MouseInputController : MonoBehaviour
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
 			if (topObject.TryGetComponent<PlayerMove>(out var playerMove) && playerMove.IsBuckled)
 			{
-				pushPull = NetworkIdentity.spawned[playerMove.buckledObject].GetComponent<PushPull>();
+				pushPull = playerMove.BuckledObject.GetComponent<PushPull>();
 			}
 			else
 			{
@@ -371,20 +358,12 @@ public class MouseInputController : MonoBehaviour
 				if (handAppliable is IBaseInteractable<HandApply>)
 				{
 					var hap = handAppliable as IBaseInteractable<HandApply>;
-					if (hap.CheckInteract(handApply, NetworkSide.Client))
-					{
-						InteractionUtils.RequestInteract(handApply, hap);
-						return true;
-					}
+					if (hap.ClientCheckAndRequestInteract(handApply)) return true;
 				}
 				else
 				{
 					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
-					if (hap.CheckInteract(posHandApply, NetworkSide.Client))
-					{
-						InteractionUtils.RequestInteract(posHandApply, hap);
-						return true;
-					}
+					if (hap.ClientCheckAndRequestInteract(posHandApply)) return true;
 				}
 			}
 		}
@@ -398,20 +377,12 @@ public class MouseInputController : MonoBehaviour
 			if (targetHandAppliable is IBaseInteractable<HandApply>)
 			{
 				var hap = targetHandAppliable as IBaseInteractable<HandApply>;
-				if (hap.CheckInteract(handApply, NetworkSide.Client))
-				{
-					InteractionUtils.RequestInteract(handApply, hap);
-					return true;
-				}
+				if (hap.ClientCheckAndRequestInteract(handApply)) return true;
 			}
 			else
 			{
 				var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
-				if (hap.CheckInteract(posHandApply, NetworkSide.Client))
-				{
-					InteractionUtils.RequestInteract(posHandApply, hap);
-					return true;
-				}
+				if (hap.ClientCheckAndRequestInteract(posHandApply)) return true;
 			}
 		}
 
@@ -461,11 +432,10 @@ public class MouseInputController : MonoBehaviour
 				secondsSinceLastAimApplyTrigger += Time.deltaTime;
 				if (secondsSinceLastAimApplyTrigger > AimApplyInterval)
 				{
-					if (triggeredAimApply.CheckInteract(aimApplyInfo, NetworkSide.Client))
+					if (triggeredAimApply.ClientCheckAndRequestInteract(aimApplyInfo))
 					{
 						//only reset timer if it was actually triggered
 						secondsSinceLastAimApplyTrigger = 0;
-						InteractionUtils.RequestInteract(aimApplyInfo, triggeredAimApply);
 					}
 				}
 

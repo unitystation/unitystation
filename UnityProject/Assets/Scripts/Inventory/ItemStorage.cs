@@ -144,6 +144,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
+		if (UIManager.StorageHandler == null) return;
+		
 		//if we were currently looking at this storage, close the storage UI if this item was moved at all.
 		if (UIManager.StorageHandler.CurrentOpenStorage == this)
 		{

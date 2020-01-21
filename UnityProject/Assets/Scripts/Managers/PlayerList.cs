@@ -181,30 +181,25 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		if (ContainsConnection(player.Connection))
-		{
-//			Logger.Log($"Updating {Get(player.Connection)} with {player}");
+		var loggedOffConnection = GetLoggedOffClient(player.ClientId);
 
-			ConnectedPlayer existingPlayer = Get(player.Connection);
+		if (loggedOffConnection != null)
+		{
 			Logger.LogFormat(
 				"ConnectedPlayer {0} already exists in this server's PlayerList as {1}. Will update existing player instead of adding this new connected player.",
-				Category.Connections, player, existingPlayer);
+				Category.Connections, player, loggedOffConnection);
 			//TODO: Are we sure these are the only things that need to be updated?
-			existingPlayer.GameObject = player.GameObject;
-			existingPlayer.Name = player.Name; //Note that name won't be changed to empties/nulls
-			existingPlayer.Job = player.Job;
-			existingPlayer.ClientId = player.ClientId;
-			CheckRcon();
-			return existingPlayer;
+			player.GameObject = loggedOffConnection.GameObject;
+			player.Name = loggedOffConnection.Name; //Note that name won't be changed to empties/nulls
+			player.Job = loggedOffConnection.Job;
+			player.ClientId = loggedOffConnection.ClientId;
 		}
-		else
-		{
-			values.Add(player);
-			Logger.LogFormat("Added to this server's PlayerList {0}. Total:{1}; {2}", Category.Connections, player,
-				values.Count, string.Join(";", values));
-			CheckRcon();
-			return player;
-		}
+
+		values.Add(player);
+		Logger.LogFormat("Added to this server's PlayerList {0}. Total:{1}; {2}", Category.Connections, player,
+			values.Count, string.Join(";", values));
+		CheckRcon();
+		return player;
 	}
 
 	[Server]
@@ -222,6 +217,18 @@ public partial class PlayerList : NetworkBehaviour
 	public bool ContainsConnection(NetworkConnection connection)
 	{
 		return !Get(connection).Equals(ConnectedPlayer.Invalid);
+	}
+
+	[Server]
+	public ConnectedPlayer GetLoggedOffClient(string clientID)
+	{
+		var index = loggedOff.FindIndex(x => x.ClientId == clientID);
+		if (index != -1)
+		{
+			return loggedOff[index];
+		}
+
+		return null;
 	}
 
 	[Server]
@@ -252,6 +259,18 @@ public partial class PlayerList : NetworkBehaviour
 	public ConnectedPlayer Get(GameObject byGameObject, bool lookupOld = false)
 	{
 		return getInternal(player => player.GameObject == byGameObject, lookupOld);
+	}
+
+	[Server]
+	public ConnectedPlayer GetByUserID(string byUserID, bool lookupOld = false)
+	{
+		return getInternal(player => player.UserId == byUserID, lookupOld);
+	}
+
+	[Server]
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID)
+	{
+		return values.FindAll(player => player.UserId == byUserID);
 	}
 
 	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition, bool lookupOld = false)

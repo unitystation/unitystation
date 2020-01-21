@@ -79,6 +79,8 @@ using UnityEngine;
 
 		private static Sprite MergeSprites(IReadOnlyList<Sprite> sprites)
 		{
+			if (sprites[0] == null) return null;
+
 			Color[] colors = new Color[(int) (sprites[0].rect.width * sprites[0].rect.height)];
 			foreach (Sprite s in sprites)
 			{

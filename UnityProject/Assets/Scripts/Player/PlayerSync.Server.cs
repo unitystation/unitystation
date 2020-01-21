@@ -166,7 +166,16 @@ public partial class PlayerSync
 	}
 	public void NewtonianMove(Vector2Int direction, float speed = Single.NaN)
 	{
-		PushInternal(direction, true, speed);
+		//if we are buckled, transfer the impulse to our buckled object.
+		if (playerMove.IsBuckled)
+		{
+			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
+			buckledCNT.NewtonianMove(direction, speed);
+		}
+		else
+		{
+			PushInternal(direction, true, speed);
+		}
 	}
 
 	/// <summary>
@@ -182,7 +191,16 @@ public partial class PlayerSync
 	[Server]
 	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
 	{
-		return PushInternal(direction, false, speed, followMode);
+		//if we are buckled, transfer the impulse to our buckled object.
+		if (playerMove.IsBuckled)
+		{
+			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
+			return buckledCNT.Push(direction, speed, followMode);
+		}
+		else
+		{
+			return PushInternal(direction, false, speed, followMode);
+		}
 	}
 
 	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false )
@@ -284,15 +302,11 @@ public partial class PlayerSync
 		return true;
 	}
 
-	/// <summary>
 	/// Manually set player to a specific world position.
 	/// Also clears prediction queues.
-	/// </summary>
 	/// <param name="worldPos">The new position to "teleport" player</param>
-	/// <param name="noLerp">True if no LERP is needed</param>
-	/// <param name="synchronizeWithNetId">The NetId of an object that make this move nearly pixel-perfectly synchronized in movement</param>
 	[Server]
-	public void SetPosition(Vector3 worldPos, bool noLerp = false, uint synchronizeWithNetId = NetId.Empty)
+	public void SetPosition(Vector3 worldPos, bool noLerp = false)
 	{
 		ClearQueueServer();
 		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2)worldPos); //cutting off z-axis

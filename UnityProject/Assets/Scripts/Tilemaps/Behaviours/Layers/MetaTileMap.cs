@@ -309,7 +309,7 @@ public class MetaTileMap : MonoBehaviour
 							return false;
 						}
 
-						if (pushPull != null && pushPull.IsNotPushable)
+						if (pushPull != null && pushPull.CausesGravity())
 						{
 							return false;
 						}
