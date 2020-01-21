@@ -32,6 +32,9 @@ public class StandardProgressAction : IProgressAction
 	//so we don't try to reuse this object for multiple actions.
 	private bool used;
 
+	//for managing all the various events we subscribe to.
+	private EventRegistry eventRegistry;
+
 	/// <summary>
 	/// Current progress bar.
 	/// </summary>
@@ -139,83 +142,48 @@ public class StandardProgressAction : IProgressAction
 
 	private void RegisterHooks()
 	{
+		eventRegistry?.UnregisterAll();
+		eventRegistry = new EventRegistry();
 		//interrupt if welder turns off
 		if (welder)
 		{
-			welder.OnWelderOffServer.AddListener(OnWelderOff);
+			eventRegistry.Register(welder.OnWelderOffServer, OnWelderOff);
 		}
 		//if targeting an object, interrupt if object moves away
 		if (startProgressInfo.Target.IsObject)
 		{
-			startProgressInfo.Target.Target.OnLocalPositionChangedServer.AddListener(OnLocalPositionChanged);
+			eventRegistry.Register(startProgressInfo.Target.Target.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		}
 		//interrupt if active hand slot changes
 		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
-		activeSlot.OnSlotContentsChangeServer.AddListener(OnSlotContentsChanged);
+		eventRegistry.Register(activeSlot.OnSlotContentsChangeServer, OnSlotContentsChanged);
 		usedSlot = activeSlot;
 		//interrupt if cuffed
-		playerScript.playerMove.OnCuffChangeServer.AddListener(OnCuffChange);
+		eventRegistry.Register(playerScript.playerMove.OnCuffChangeServer, OnCuffChange);
 		//interrupt if slipped
-		playerScript.registerTile.OnSlipChangeServer.AddListener(OnSlipChange);
+		eventRegistry.Register(playerScript.registerTile.OnSlipChangeServer, OnSlipChange);
 		//interrupt if conscious state changes
-		playerScript.playerHealth.OnConsciousStateChangeServer.AddListener(OnConsciousStateChange);
+		eventRegistry.Register(playerScript.playerHealth.OnConsciousStateChangeServer, OnConsciousStateChange);
 		initialConsciousState = playerScript.playerHealth.ConsciousState;
 		//interrupt if player moves at all
-		playerScript.registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChanged);
+		eventRegistry.Register(playerScript.registerTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		//interrupt if player turns away and turning is not allowed
-		playerScript.playerDirectional.OnDirectionChange.AddListener(OnDirectionChanged);
+		eventRegistry.Register(playerScript.playerDirectional.OnDirectionChange, OnDirectionChanged);
 		initialDirection = playerScript.playerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
 		{
 			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
 			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(OnMatrixStartMove);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
+				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 
 			var performerMatrix = playerScript.registerTile.Matrix;
 			if (performerMatrix.MatrixMove != null)
 			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(OnMatrixStartMove);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
-			}
-
-		}
-	}
-
-	private void UnregisterHooks()
-	{
-		if (welder)
-		{
-			welder.OnWelderOffServer.RemoveListener(OnWelderOff);
-		}
-		if (startProgressInfo.Target.IsObject)
-		{
-			startProgressInfo.Target.Target.OnLocalPositionChangedServer.RemoveListener(OnLocalPositionChanged);
-		}
-		if (usedSlot != null)
-		{
-			usedSlot.OnSlotContentsChangeServer.RemoveListener(OnSlotContentsChanged);
-		}
-		playerScript.playerMove.OnCuffChangeServer.RemoveListener(OnCuffChange);
-		playerScript.registerTile.OnSlipChangeServer.RemoveListener(OnSlipChange);
-		playerScript.playerHealth.OnConsciousStateChangeServer.RemoveListener(OnConsciousStateChange);
-		playerScript.registerTile.OnLocalPositionChangedServer.RemoveListener(OnLocalPositionChanged);
-		playerScript.playerDirectional.OnDirectionChange.RemoveListener(OnDirectionChanged);
-		if (crossMatrix)
-		{
-			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
-			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(OnMatrixStartMove);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
-			}
-
-			var performerMatrix = playerScript.registerTile.Matrix;
-			if (performerMatrix.MatrixMove != null)
-			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(OnMatrixStartMove);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
+				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 		}
 	}
@@ -249,7 +217,9 @@ public class StandardProgressAction : IProgressAction
 			}
 		}
 
-		UnregisterHooks();
+		//unregister from all hooks
+		eventRegistry.UnregisterAll();
+
 		if (info.WasCompleted)
 		{
 			onCompletion?.Invoke();
@@ -263,9 +233,9 @@ public class StandardProgressAction : IProgressAction
 		ProgressBar.ServerInterruptProgress();
 	}
 
-	private void OnTargetMatrixRotate(MatrixRotationInfo arg0)
+	private void OnMatrixRotate(MatrixRotationInfo arg0)
 	{
-		InterruptProgress("target matrix rotated");
+		InterruptProgress("cross-matrix and target or performer matrix rotated");
 	}
 
 	private bool CanPlayerStillProgress()
