@@ -194,15 +194,14 @@ public class StandardProgressAction : IProgressAction
 		{
 			startProgressInfo.Target.Target.OnLocalPositionChangedServer.RemoveListener(OnLocalPositionChanged);
 		}
-		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
 		if (usedSlot != null)
 		{
-			activeSlot.OnSlotContentsChangeServer.RemoveListener(OnSlotContentsChanged);
+			usedSlot.OnSlotContentsChangeServer.RemoveListener(OnSlotContentsChanged);
 		}
 		playerScript.playerMove.OnCuffChangeServer.RemoveListener(OnCuffChange);
 		playerScript.registerTile.OnSlipChangeServer.RemoveListener(OnSlipChange);
 		playerScript.playerHealth.OnConsciousStateChangeServer.RemoveListener(OnConsciousStateChange);
-		playerScript.PlayerSync.OnTileReached().RemoveListener(OnLocalPositionChanged);
+		playerScript.registerTile.OnLocalPositionChangedServer.RemoveListener(OnLocalPositionChanged);
 		playerScript.playerDirectional.OnDirectionChange.RemoveListener(OnDirectionChanged);
 		if (crossMatrix)
 		{
