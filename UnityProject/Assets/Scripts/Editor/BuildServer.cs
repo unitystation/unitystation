@@ -2,7 +2,6 @@
 using System.Linq;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using DatabaseAPI;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -21,7 +20,7 @@ static class BuildScript
 	}
 
 	//IMPORTANT: ALWAYS DO WINDOWS BUILD FIRST IN YOUR BUILD CYCLE:
-	private static async void PerformWindowsBuild()
+	private static void PerformWindowsBuild()
 	{
 		//Always build windows client first so that build info can increment the build number
 		int buildNum = 0;
@@ -48,13 +47,14 @@ static class BuildScript
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json"), JsonUtility.ToJson(buildInfoUpdate));
 
+		Debug.Log("Attempting to save unitystation scene...");
 		//TODO auto save for all scenes that aren't lobby when we have multiple server maps
 		//Force netweaver to cache network components:
 		EditorSceneManager.OpenScene("Assets/scenes/OutpostStation.unity");
-		await Task.Delay(TimeSpan.FromSeconds(5));
 		EditorSceneManager.MarkAllScenesDirty();
 		EditorSceneManager.SaveOpenScenes();
 
+		Debug.Log("Save completed successfully");
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
