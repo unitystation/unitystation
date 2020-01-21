@@ -120,9 +120,10 @@ public partial class PlayerList : NetworkBehaviour
 		UIManager.Instance.playerListUIControl.nameList.text = "";
 		foreach (var player in ClientConnectedPlayers)
 		{
-			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-			UIManager.Instance.playerListUIControl.nameList.text =
-				$"{curList}{player.Name} ({player.Job.JobString()})\r\n";
+			if (player.PendingSpawn) continue;
+			
+			UIManager.Instance.playerListUIControl.nameList.text +=
+				$"{player.Name} ({player.Job.JobString()})\r\n";
 		}
 	}
 
@@ -362,11 +363,12 @@ public partial class PlayerList : NetworkBehaviour
 	}
 }
 
-/// Minimalistic connected player information that all clients can posess
+[Serializable]/// Minimalistic connected player information that all clients can posess
 public struct ClientConnectedPlayer
 {
 	public string Name;
 	public JobType Job;
+	public bool PendingSpawn;
 
 	public override string ToString()
 	{
