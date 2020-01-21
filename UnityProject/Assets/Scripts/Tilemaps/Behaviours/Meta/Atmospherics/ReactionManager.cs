@@ -183,6 +183,13 @@ public class ReactionManager : MonoBehaviour
 		//calculate world position
 		var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, MatrixManager.Get(matrix));
 		var atWorldPosition = MatrixManager.LocalToWorldInt(atLocalPosition, MatrixManager.Get(matrix));
+
+		if (!hotspots.ContainsKey(hotspotPosition))
+		{
+			Logger.LogError("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
+			return;
+		}
+		
 		var exposure = FireExposure.FromMetaDataNode(hotspots[hotspotPosition], hotspotWorldPosition.To2Int(), atLocalPosition.To2Int(), atWorldPosition.To2Int());
 		if (isSideExposure)
 		{
