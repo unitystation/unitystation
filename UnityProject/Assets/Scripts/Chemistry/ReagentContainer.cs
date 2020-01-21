@@ -358,6 +358,12 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 			return;
 		}
 
+		//It could of been destroyed in an explosion:
+		if (registerTile.CustomTransform == null)
+		{
+			return;
+		}
+
 		if (worldPos == TransformState.HiddenPos)
 		{
 			worldPos = registerTile.CustomTransform.AssumedWorldPositionServer().CutToInt();
