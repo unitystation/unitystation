@@ -14,7 +14,7 @@ static class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Server/Unitystation-Server";
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
-		buildPlayerOptions.options = BuildOptions.None;
+		buildPlayerOptions.options = BuildOptions.Development;
 		BuildPreferences.SetRelease(true);
         BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
@@ -46,7 +46,7 @@ static class BuildScript
 		buildInfo.BuildNumber = buildInfoUpdate.BuildNumber;
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json"), JsonUtility.ToJson(buildInfoUpdate));
-		
+
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
