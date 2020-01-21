@@ -330,9 +330,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		}
 
 		var buckleInteract = toObject.GetComponent<BuckleInteract>();
-		//no matter what, we stand up when buckled in
-		registerPlayer.ServerStandUp();
 
+		if (buckleInteract.forceLayingDown)
+		{
+			registerPlayer.ServerLayDown();
+		}
+		else
+		{
+			registerPlayer.ServerStandUp();
+		}
+		
 		SyncBuckledObjectNetId(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		//inform the puller
