@@ -210,8 +210,20 @@ public static class PlayerSpawn
 	/// <returns></returns>
 	public static void ServerSpawnGhost(Mind forMind)
 	{
+		if (forMind == null)
+		{
+			Logger.LogError("Mind was null for ServerSpawnGhost", Category.Server);
+			return;
+		}
 		//determine where to spawn the ghost
 		var body = forMind.GetCurrentMob();
+
+		if (body == null)
+		{
+			Logger.LogError("Body was null for ServerSpawnGhost", Category.Server);
+			return;
+		}
+
 		var settings = body.GetComponent<PlayerScript>().characterSettings;
 		var connection = body.GetComponent<NetworkIdentity>().connectionToClient;
 		var registerTile = body.GetComponent<RegisterTile>();

@@ -179,6 +179,12 @@ public static class Validations
 		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
 	{
 		if (playerScript == null) return false;
+		if (target == null)
+		{
+			Logger.LogWarning("There was no target given to Validations.CanApply", Category.Interaction);
+			return false;
+		}
+
 		var playerObjBehavior = playerScript.pushPull;
 
 		if (!CanInteract(playerScript, side, allowSoftCrit))

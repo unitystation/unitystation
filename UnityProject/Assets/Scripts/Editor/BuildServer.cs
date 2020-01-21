@@ -2,7 +2,9 @@
 using System.Linq;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using DatabaseAPI;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 static class BuildScript
@@ -17,7 +19,9 @@ static class BuildScript
 		BuildPreferences.SetRelease(true);
         BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
-	private static void PerformWindowsBuild()
+
+	//IMPORTANT: ALWAYS DO WINDOWS BUILD FIRST IN YOUR BUILD CYCLE:
+	private static async void PerformWindowsBuild()
 	{
 		//Always build windows client first so that build info can increment the build number
 		int buildNum = 0;
@@ -43,6 +47,13 @@ static class BuildScript
 		buildInfo.BuildNumber = buildInfoUpdate.BuildNumber;
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json"), JsonUtility.ToJson(buildInfoUpdate));
+
+		//TODO auto save for all scenes that aren't lobby when we have multiple server maps
+		//Force netweaver to cache network components:
+		EditorSceneManager.OpenScene("Assets/scenes/OutpostStation.unity");
+		await Task.Delay(TimeSpan.FromSeconds(5));
+		EditorSceneManager.MarkAllScenesDirty();
+		EditorSceneManager.SaveOpenScenes();
 
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
