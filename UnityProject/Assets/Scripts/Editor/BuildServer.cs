@@ -46,15 +46,7 @@ static class BuildScript
 		buildInfo.BuildNumber = buildInfoUpdate.BuildNumber;
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json"), JsonUtility.ToJson(buildInfoUpdate));
-
-		Debug.Log("Attempting to save unitystation scene...");
-		//TODO auto save for all scenes that aren't lobby when we have multiple server maps
-		//Force netweaver to cache network components:
-		EditorSceneManager.OpenScene("Assets/scenes/OutpostStation.unity");
-		EditorSceneManager.MarkAllScenesDirty();
-		EditorSceneManager.SaveOpenScenes();
-
-		Debug.Log("Save completed successfully");
+		
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
