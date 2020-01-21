@@ -198,7 +198,8 @@ public class StandardProgressAction : IProgressAction
 	public void OnServerEndProgress(EndProgressInfo info)
 	{
 		used = true;
-		if (progressActionConfig.InterruptsOverlapping)
+		//only interrupt other progress bars if we were completed
+		if (info.WasCompleted && progressActionConfig.InterruptsOverlapping)
 		{
 			//interrupt other progress bars of the same action type on the same location
 			var existingBars = UIManager.Instance.ProgressBars
