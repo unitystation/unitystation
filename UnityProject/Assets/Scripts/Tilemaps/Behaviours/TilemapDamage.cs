@@ -240,17 +240,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void DoMeleeDamage(Vector2 worldPos, GameObject originator, int dmgAmt)
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(worldPos);
-		DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee);
+		DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee, DamageType.Brute);
 	}
 
-	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos)
+	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos, AttackType attackType = AttackType.Melee, DamageType damageType = DamageType.Brute)
 	{
-		return DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee); //idk if collision can be classified as "melee"
+		return DoDamageInternal(cellPos, dmgAmt, worldPos, attackType, damageType); //idk if collision can be classified as "melee"
 	}
 
 	/// <returns>Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled
+	/// <paramref name="attackType"/>
 	/// damage done.</returns>
-	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
+	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType, DamageType damageType)
 	{
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 

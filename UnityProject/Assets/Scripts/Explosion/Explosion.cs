@@ -70,6 +70,9 @@ public class Explosion : MonoBehaviour
 
 					// Damage all objects
 					DamageObjects(tilePos, damage);
+
+					// Damage all tiles
+					DamageTiles(tilePos, damage);
 				}
 
 				// Calculate fire effect time
@@ -120,6 +123,12 @@ public class Explosion : MonoBehaviour
         {
 	        damagedObject.ApplyDamage(damage, AttackType.Bomb, DamageType.Burn);
         }
+	}
+
+	private void DamageTiles(Vector3Int worldPosition, int damage)
+	{
+		var matrix = MatrixManager.AtPoint(worldPosition, true);
+		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPosition, matrix), damage, worldPosition, AttackType.Bomb);
 	}
 
 	/// <summary>
