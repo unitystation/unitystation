@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.IO;
 using DatabaseAPI;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 static class BuildScript
@@ -43,6 +44,10 @@ static class BuildScript
 		buildInfo.BuildNumber = buildInfoUpdate.BuildNumber;
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json"), JsonUtility.ToJson(buildInfoUpdate));
+
+		//Force netweaver to cache network components:
+		var outpostScene = EditorSceneManager.GetSceneByPath("Assets/scenes/OutpostStation.unity");
+		EditorSceneManager.SaveScene(outpostScene);
 
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
