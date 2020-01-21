@@ -236,7 +236,7 @@ public static class Validations
 			}
 		}
 
-		if (!result && side == NetworkSide.Server)
+		if (!result && side == NetworkSide.Server && Logger.LogLevel >= LogLevel.Trace)
 		{
 			Vector3 worldPosition = Vector3.zero;
 			bool isFloating = false;
