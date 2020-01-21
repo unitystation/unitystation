@@ -288,15 +288,22 @@ public class MobAgent : Agent
 					}
 					else
 					{
-						//NPCs can open doors with no access restrictions
-						if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
+						if (tryGetDoor.AccessRestrictions != null)
 						{
-							AddVectorObs(true);
+							//NPCs can open doors with no access restrictions
+							if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
+							{
+								AddVectorObs(true);
+							}
+							else
+							{
+								//NPC does not have the access required
+								//TODO: Allow id cards to be placed on mobs
+								AddVectorObs(false);
+							}
 						}
 						else
 						{
-							//NPC does not have the access required
-							//TODO: Allow id cards to be placed on mobs
 							AddVectorObs(false);
 						}
 					}
