@@ -23,7 +23,7 @@ public partial class Chat
 
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
 		ChatModifier modifiers)
-	{
+	{ // TODO this should use modifiers to determine if the player is shouting or not
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
 		{

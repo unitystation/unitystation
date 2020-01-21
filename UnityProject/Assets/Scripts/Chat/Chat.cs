@@ -91,7 +91,7 @@ public partial class Chat : MonoBehaviour
 				{
 					{
 						//Control the chat bubble
-						player.playerNetworkActions.CmdToggleChatIcon(true, message, channels);
+						player.playerNetworkActions.CmdToggleChatIcon(true, message, channels, player.GetCurrentChatModifiers());
 					}
 				}
 			}

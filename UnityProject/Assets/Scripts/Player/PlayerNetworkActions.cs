@@ -272,7 +272,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
+	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
 		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
@@ -283,18 +283,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		RpcToggleChatIcon(turnOn, message, chatChannel);
+		RpcToggleChatIcon(turnOn, message, chatChannel, chatModifier);
 	}
 
 	[ClientRpc]
-	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
+	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerChatBubble)
 		{
 			playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		}
 
-		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel);
+		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel, chatModifier);
 	}
 
 	[Command]
