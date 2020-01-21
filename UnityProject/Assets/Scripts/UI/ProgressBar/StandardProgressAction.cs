@@ -32,6 +32,14 @@ public class StandardProgressAction : IProgressAction
 	//so we don't try to reuse this object for multiple actions.
 	private bool used;
 
+	//for managing all the various events we subscribe to.
+	private EventRegistry eventRegistry;
+
+	/// <summary>
+	/// Current progress bar.
+	/// </summary>
+	private ProgressBar ProgressBar => startProgressInfo?.ProgressBar;
+
 	private StandardProgressAction(StandardProgressActionConfig progressActionConfig, Action onCompletion, Welder welder = null)
 	{
 		this.progressActionConfig = progressActionConfig;
@@ -93,7 +101,8 @@ public class StandardProgressAction : IProgressAction
 				});
 			if (existingAction != null)
 			{
-				//already doing this action, and multiple is not allowed
+				Logger.LogTraceFormat("Server cancelling progress bar {0} start because AllowMultiple=true and progress bar {1} " +
+				                      " has same progress type and is already in progress.", Category.ProgressAction, info.ProgressBar.ID, existingAction.ID);
 				return false;
 			}
 		}
@@ -107,6 +116,9 @@ public class StandardProgressAction : IProgressAction
 		if (existingBar != null)
 		{
 			//progress already started by this player at this position
+			Logger.LogTraceFormat("Server cancelling progress bar {0} start because progress bar {1} " +
+			                      " has same progress type and is already in progress at the target location by this player.",
+				Category.ProgressAction, info.ProgressBar.ID, existingBar.ID);
 			return false;
 		}
 
@@ -115,6 +127,10 @@ public class StandardProgressAction : IProgressAction
 		crossMatrix = performerMatrix != info.Target.TargetMatrixInfo.Matrix;
 		if (crossMatrix && (performerMatrix.IsMovingServer || info.Target.TargetMatrixInfo.Matrix.IsMovingServer))
 		{
+			//progress already started by this player at this position
+			Logger.LogTraceFormat("Server cancelling progress bar {0} start because it is cross matrix and one of" +
+			                      " the matrices is moving.",
+				Category.ProgressAction, info.ProgressBar.ID);
 			return false;
 		}
 
@@ -126,84 +142,48 @@ public class StandardProgressAction : IProgressAction
 
 	private void RegisterHooks()
 	{
+		eventRegistry?.UnregisterAll();
+		eventRegistry = new EventRegistry();
 		//interrupt if welder turns off
 		if (welder)
 		{
-			welder.OnWelderOffServer.AddListener(InterruptProgress);
+			eventRegistry.Register(welder.OnWelderOffServer, OnWelderOff);
 		}
 		//if targeting an object, interrupt if object moves away
 		if (startProgressInfo.Target.IsObject)
 		{
-			startProgressInfo.Target.Target.OnLocalPositionChangedServer.AddListener(OnLocalPositionChanged);
+			eventRegistry.Register(startProgressInfo.Target.Target.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		}
 		//interrupt if active hand slot changes
 		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
-		activeSlot.OnSlotContentsChangeServer.AddListener(InterruptProgress);
+		eventRegistry.Register(activeSlot.OnSlotContentsChangeServer, OnSlotContentsChanged);
 		usedSlot = activeSlot;
 		//interrupt if cuffed
-		playerScript.playerMove.OnCuffChangeServer.AddListener(OnCuffChange);
+		eventRegistry.Register(playerScript.playerMove.OnCuffChangeServer, OnCuffChange);
 		//interrupt if slipped
-		playerScript.registerTile.OnSlipChangeServer.AddListener(OnSlipChange);
+		eventRegistry.Register(playerScript.registerTile.OnSlipChangeServer, OnSlipChange);
 		//interrupt if conscious state changes
-		playerScript.playerHealth.OnConsciousStateChangeServer.AddListener(OnConsciousStateChange);
+		eventRegistry.Register(playerScript.playerHealth.OnConsciousStateChangeServer, OnConsciousStateChange);
 		initialConsciousState = playerScript.playerHealth.ConsciousState;
 		//interrupt if player moves at all
-		playerScript.registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChanged);
+		eventRegistry.Register(playerScript.registerTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		//interrupt if player turns away and turning is not allowed
-		playerScript.playerDirectional.OnDirectionChange.AddListener(OnDirectionChanged);
+		eventRegistry.Register(playerScript.playerDirectional.OnDirectionChange, OnDirectionChanged);
 		initialDirection = playerScript.playerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
 		{
 			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
 			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(InterruptProgress);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
+				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 
 			var performerMatrix = playerScript.registerTile.Matrix;
 			if (performerMatrix.MatrixMove != null)
 			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(InterruptProgress);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnTargetMatrixRotate);
-			}
-
-		}
-	}
-
-	private void UnregisterHooks()
-	{
-		if (welder)
-		{
-			welder.OnWelderOffServer.RemoveListener(InterruptProgress);
-		}
-		if (startProgressInfo.Target.IsObject)
-		{
-			startProgressInfo.Target.Target.OnLocalPositionChangedServer.RemoveListener(OnLocalPositionChanged);
-		}
-		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
-		if (usedSlot != null)
-		{
-			activeSlot.OnSlotContentsChangeServer.RemoveListener(InterruptProgress);
-		}
-		playerScript.playerMove.OnCuffChangeServer.RemoveListener(OnCuffChange);
-		playerScript.registerTile.OnSlipChangeServer.RemoveListener(OnSlipChange);
-		playerScript.playerHealth.OnConsciousStateChangeServer.RemoveListener(OnConsciousStateChange);
-		playerScript.PlayerSync.OnTileReached().RemoveListener(OnLocalPositionChanged);
-		playerScript.playerDirectional.OnDirectionChange.RemoveListener(OnDirectionChanged);
-		if (crossMatrix)
-		{
-			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
-			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(InterruptProgress);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
-			}
-
-			var performerMatrix = playerScript.registerTile.Matrix;
-			if (performerMatrix.MatrixMove != null)
-			{
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.RemoveListener(InterruptProgress);
-				startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnTargetMatrixRotate);
+				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 		}
 	}
@@ -218,38 +198,45 @@ public class StandardProgressAction : IProgressAction
 	public void OnServerEndProgress(EndProgressInfo info)
 	{
 		used = true;
-		if (progressActionConfig.InterruptsOverlapping)
+		//only interrupt other progress bars if we were completed
+		if (info.WasCompleted && progressActionConfig.InterruptsOverlapping)
 		{
 			//interrupt other progress bars of the same action type on the same location
 			var existingBars = UIManager.Instance.ProgressBars
-				.Where(pb => pb != startProgressInfo.ProgressBar && pb.ServerProgressAction is StandardProgressAction)
+				.Where(pb => pb != ProgressBar && pb.ServerProgressAction is StandardProgressAction)
 				.Where(pb =>
 					((StandardProgressAction) pb.ServerProgressAction).progressActionConfig.StandardProgressActionType == progressActionConfig.StandardProgressActionType)
-				.Where(pb => pb.transform.parent == startProgressInfo.ProgressBar.transform.parent)
+				.Where(pb => pb.transform.parent == ProgressBar.transform.parent)
 				.Where(pb => Vector3.Distance(pb.transform.localPosition, startProgressInfo.Target.TargetLocalPosition) < 0.1)
 				.ToList();
 
 			foreach (var existingBar in existingBars)
 			{
+				Logger.LogTraceFormat("Server interrupting progress bar {0} because progress bar {1} finished " +
+				                      "on same tile", Category.ProgressAction, existingBar.ID, ProgressBar.ID);
 				existingBar.ServerInterruptProgress();
 			}
 		}
 
-		UnregisterHooks();
+		//unregister from all hooks
+		eventRegistry.UnregisterAll();
+
 		if (info.WasCompleted)
 		{
 			onCompletion?.Invoke();
 		}
 	}
 
-	private void InterruptProgress()
+	private void InterruptProgress(string reason)
 	{
-		startProgressInfo.ProgressBar.ServerInterruptProgress();
+		Logger.LogTraceFormat("Server progress bar {0} interrupted: {1}.", Category.ProgressAction,
+			ProgressBar.ID, reason);
+		ProgressBar.ServerInterruptProgress();
 	}
 
-	private void OnTargetMatrixRotate(MatrixRotationInfo arg0)
+	private void OnMatrixRotate(MatrixRotationInfo arg0)
 	{
-		InterruptProgress();
+		InterruptProgress("cross-matrix and target or performer matrix rotated");
 	}
 
 	private bool CanPlayerStillProgress()
@@ -267,33 +254,45 @@ public class StandardProgressAction : IProgressAction
 			;
 	}
 
+	private void OnWelderOff()
+	{
+		InterruptProgress("welder off");
+	}
+
+	private void OnSlotContentsChanged()
+	{
+		InterruptProgress("performer's active slot contents changed");
+	}
+
+	private void OnMatrixStartMove()
+	{
+		InterruptProgress("cross-matrix and performer or target matrix started moving");
+	}
+
 	private void OnLocalPositionChanged(Vector3Int arg0)
 	{
 		//if player or target moves at all, interrupt
-		InterruptProgress();
+		InterruptProgress("performer or target moved");
 	}
 
 	private void OnConsciousStateChange(ConsciousState oldState, ConsciousState newState)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress();
+		if (!CanPlayerStillProgress()) InterruptProgress("performer not conscious enough");
 	}
 
 	private void OnSlipChange(bool wasSlipped, bool nowSlipped)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress();
+		if (!CanPlayerStillProgress()) InterruptProgress("performer slipped");
 	}
 
 	private void OnCuffChange(bool wasCuffed, bool nowCuffed)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress();
+		if (!CanPlayerStillProgress()) InterruptProgress("performer cuffed");
 	}
 
 
 	private void OnDirectionChanged(Orientation arg0)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress();
+		if (!CanPlayerStillProgress()) InterruptProgress("performer direction changed");
 	}
-
-
-
 }

@@ -11,7 +11,7 @@ public static class Logger
 {
 	private static LoggerPreferences loggerPrefs;
 	/// Default Log level
-	private static readonly LogLevel LogLevel = LogLevel.Info;
+	public static readonly LogLevel LogLevel = LogLevel.Info;
 	private static Dictionary<Category, LogLevel> LogOverrides = new Dictionary<Category, LogLevel>();
 
 	public static void RefreshPreferences()
@@ -248,7 +248,8 @@ public enum Category
 	MLAgents,
 	Direction,
 	Admin,
-	BuckledMovement
+	BuckledMovement,
+	ProgressAction
 }
 
 [Serializable]
