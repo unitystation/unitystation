@@ -36,7 +36,7 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void TryInitiateRestartVote()
+	public void TryInitiateRestartVote(GameObject instigator)
 	{
 		if (voteInProgress || voteRestartSuccess) return;
 
@@ -46,14 +46,17 @@ public class VotingManager : NetworkBehaviour
 		voteType = VoteType.RestartRound;
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
+		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString());
+		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
 
 	[Server]
-	public void RegisterRestartVote(string userId, bool isFor)
+	public void RegisterVote(string userId, bool isFor)
 	{
 		//User already voted
 		if (votes.ContainsKey(userId)) return;
 		votes.Add(userId, isFor);
+		Logger.Log("A user voted: ", Category.Admin);
 	}
 
 	void Update()
@@ -64,7 +67,8 @@ public class VotingManager : NetworkBehaviour
 
 			if (prevSecond != (int) countTime)
 			{
-				RpcUpdateVoteStats(prevSecond, ForVoteCount(), PlayerList.Instance.AllPlayers.Count);
+				prevSecond = (int) countTime;
+				RpcUpdateVoteStats((30 - prevSecond).ToString(), CountAmountString());
 				CheckVoteCriteria(true);
 			}
 
@@ -126,6 +130,11 @@ public class VotingManager : NetworkBehaviour
 		RpcFinishVote();
 	}
 
+	private string CountAmountString()
+	{
+		return $"{ForVoteCount()} / {PlayerList.Instance.AllPlayers.Count}";
+	}
+
 	private int ForVoteCount()
 	{
 		var getAllForVotes = votes.Values.Select(x => true);
@@ -133,14 +142,28 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcUpdateVoteStats(int currentSecond, int votesFor, int maxVoters)
+	private void RpcUpdateVoteStats(string countDown, string voteCount)
 	{
 		//Update UI
+		if (GUI_IngameMenu.Instance == null) return;
+
+		GUI_IngameMenu.Instance.VotePopUp.UpdateVoteWindow(voteCount, countDown);
 	}
 
 	[ClientRpc]
 	private void RpcFinishVote()
 	{
 		//Close vote window if open
+		if (GUI_IngameMenu.Instance == null) return;
+
+		GUI_IngameMenu.Instance.VotePopUp.CloseVoteWindow();
+	}
+
+	[ClientRpc]
+	private void RpcOpenVoteWindow(string title, string instigator, string count, string time)
+	{
+		if (GUI_IngameMenu.Instance == null) return;
+
+		GUI_IngameMenu.Instance.VotePopUp.ShowVotePopUp(title, instigator, count, time);
 	}
 }

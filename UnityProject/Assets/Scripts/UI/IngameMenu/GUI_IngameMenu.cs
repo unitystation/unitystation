@@ -17,6 +17,8 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// </summary>
 	public GameObject disclamerWindow;
 
+	public VotePopUp VotePopUp;
+
 	private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
 
 	private CustomNetworkManager networkManager => CustomNetworkManager.Instance;
@@ -120,8 +122,8 @@ public class GUI_IngameMenu : MonoBehaviour
 		if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
 
 		PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateRestartVote();
-		
-		HideAllMenus();
+
+		CloseMenuPanel();
 	}
 
 	// Logout confirmation window functions

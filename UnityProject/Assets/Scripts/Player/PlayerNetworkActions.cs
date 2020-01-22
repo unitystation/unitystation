@@ -184,14 +184,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdInitiateRestartVote()
 	{
 		if (VotingManager.Instance == null) return;
-		VotingManager.Instance.TryInitiateRestartVote();
+		VotingManager.Instance.TryInitiateRestartVote(gameObject);
 	}
 
 	[Command]
-	public void CmdRegisterRestartVote(string userId, bool isFor)
+	public void CmdRegisterVote(string userId, bool isFor)
 	{
 		if (VotingManager.Instance == null) return;
-		VotingManager.Instance.RegisterRestartVote(userId, isFor);
+		VotingManager.Instance.RegisterVote(userId, isFor);
 	}
 
 	/// <summary>

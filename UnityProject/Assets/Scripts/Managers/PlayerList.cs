@@ -10,8 +10,8 @@ using Mirror;
 public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
-	private static List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
-	private static List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
+	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
+	private List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -357,7 +357,7 @@ public partial class PlayerList : NetworkBehaviour
 				TryMoveClientToOfflineList(loggedIn[i]);
 			}
 		}
-		
+
 		//verify loggedOff clients:
 		for (int i = loggedOff.Count - 1; i >= 0; i--)
 		{
