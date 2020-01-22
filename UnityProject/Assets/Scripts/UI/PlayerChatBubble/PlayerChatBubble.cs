@@ -15,7 +15,7 @@ public class PlayerChatBubble : MonoBehaviour
 {
 	[SerializeField]
 	[Tooltip("The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
-	[Range(1,200)]
+	[Range(1, 200)]
 	private int maxMessageLength = 70;
 
 	[Header("Size of chat bubble")]
@@ -73,7 +73,9 @@ public class PlayerChatBubble : MonoBehaviour
 	private TextMeshProUGUI bubbleText;
 	[SerializeField]
 	private GameObject pointer;
-	class BubbleMsg { public float maxTime; public string msg; public float elapsedTime = 0f;
+	class BubbleMsg
+	{
+		public float maxTime; public string msg; public float elapsedTime = 0f;
 		internal ChatModifier modifier;
 	}
 	private Queue<BubbleMsg> msgQueue = new Queue<BubbleMsg>();
@@ -196,7 +198,7 @@ public class PlayerChatBubble : MonoBehaviour
 					}
 				}
 				//Player is spamming with no whitespace. Cut it up
-				if (ws == -1 || ws == 0)ws = maxMessageLength + 2;
+				if (ws == -1 || ws == 0) ws = maxMessageLength + 2;
 
 				var split = msg.Substring(0, ws);
 				msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(split.Length), msg = split, modifier = chatModifier });
@@ -216,7 +218,7 @@ public class PlayerChatBubble : MonoBehaviour
 		// Progress quickly through the queue if there is a lot of text left.
 		displayTimeMultiplier = 1 + TimeToShow(msgQueue) * displayTimeMultiplierPerSecond;
 
-		if (!showingDialogue)StartCoroutine(ShowDialogue());
+		if (!showingDialogue) StartCoroutine(ShowDialogue());
 	}
 
 	IEnumerator ShowDialogue()

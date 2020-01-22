@@ -44,7 +44,7 @@ public partial class Chat
 		//Skip everything if it is an action or examine message or if it is a local message
 		//without a speaker (which is used by machines)
 		if (channels.HasFlag(ChatChannel.Examine) || channels.HasFlag(ChatChannel.Action)
-		    || channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
+			|| channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -91,7 +91,8 @@ public partial class Chat
 			verb = "yells,";
 			message = $"<b>{message}</b>";
 		}
-		else if (message.EndsWith("!")){
+		else if (message.EndsWith("!"))
+		{
 			verb = "exclaims,";
 		}
 		else if (message.EndsWith("?"))
@@ -211,15 +212,15 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Service)) return ColorUtility.ToHtmlStringRGBA(Instance.serviceColor);
 		if (channel.HasFlag(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
-		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);;
+		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor); ;
 	}
 
 	private static bool IsNamelessChan(ChatChannel channel)
 	{
 		if (channel.HasFlag(ChatChannel.System) ||
-		    channel.HasFlag(ChatChannel.Combat) ||
-		    channel.HasFlag(ChatChannel.Action) ||
-		    channel.HasFlag(ChatChannel.Examine))
+			channel.HasFlag(ChatChannel.Combat) ||
+			channel.HasFlag(ChatChannel.Action) ||
+			channel.HasFlag(ChatChannel.Examine))
 		{
 			return true;
 		}

@@ -146,7 +146,8 @@ public partial class Chat : MonoBehaviour
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
-		else if (message.StartsWith("#")){
+		else if (message.StartsWith("#"))
+		{
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Whisper;
 		}
