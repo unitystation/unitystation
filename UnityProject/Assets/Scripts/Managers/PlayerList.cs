@@ -121,7 +121,7 @@ public partial class PlayerList : NetworkBehaviour
 		foreach (var player in ClientConnectedPlayers)
 		{
 			if (player.PendingSpawn) continue;
-			
+
 			UIManager.Instance.playerListUIControl.nameList.text +=
 				$"{player.Name} ({player.Job.JobString()})\r\n";
 		}
@@ -182,18 +182,26 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		var loggedOffConnection = GetLoggedOffClient(player.ClientId);
+		var loggedOffClient = GetLoggedOffClient(player.ClientId);
 
-		if (loggedOffConnection != null)
+		if (loggedOffClient  != null)
 		{
 			Logger.LogFormat(
 				"ConnectedPlayer {0} already exists in this server's PlayerList as {1}. Will update existing player instead of adding this new connected player.",
-				Category.Connections, player, loggedOffConnection);
-			//TODO: Are we sure these are the only things that need to be updated?
-			player.GameObject = loggedOffConnection.GameObject;
-			player.Name = loggedOffConnection.Name; //Note that name won't be changed to empties/nulls
-			player.Job = loggedOffConnection.Job;
-			player.ClientId = loggedOffConnection.ClientId;
+				Category.Connections, player, loggedOff);
+
+			if (loggedOffClient.GameObject == null)
+			{
+				Logger.LogFormat(
+					$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry");
+				loggedOff.Remove(loggedOffClient);
+				return player;
+			}
+
+			player.GameObject = loggedOffClient.GameObject;
+			player.Name = loggedOffClient.Name; //Note that name won't be changed to empties/nulls
+			player.Job = loggedOffClient.Job;
+			player.ClientId = loggedOffClient.ClientId;
 		}
 
 		values.Add(player);
