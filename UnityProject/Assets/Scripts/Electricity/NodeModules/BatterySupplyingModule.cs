@@ -119,14 +119,19 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 
 	public override float ModifyElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		if (!(SourceInstance == gameObject))
+		if (SourceInstance == null || gameObject == null)
+		{
+			return Current;
+		}
+
+		if (SourceInstance != gameObject)
 		{
 			if (!ElectricalSynchronisation.NUCurrentChange.Contains(ControllingNode))
 			{
 				ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 			}
 		}
-		return (Current);
+		return Current;
 	}
 
 	[RightClickMethod]
