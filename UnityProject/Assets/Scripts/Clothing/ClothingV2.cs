@@ -11,7 +11,6 @@ using Mirror;
 /// </summary>
 public class ClothingV2 : MonoBehaviour
 {
-
 	//TODO: This can probably be migrated to this component rather than using a separate SO, since
 	//there's probably no situation where we'd want to re-use the same cloth data on more than one item.
 	[Tooltip("Clothing data describing the various sprites for this clothing.")]
@@ -25,6 +24,10 @@ public class ClothingV2 : MonoBehaviour
 	[Tooltip("Type of variant to use of the clothing data.")]
 	[SerializeField]
 	private ClothingVariantType variantType;
+
+	[Tooltip("Determine when a piece of clothing hides another")]
+	[SerializeField, EnumFlag]
+	private ClothingHideFlags hideFlags;
 
 	private Dictionary<ClothingVariantType, int> variantStore = new Dictionary<ClothingVariantType, int>();
 	private List<int> variantList;
@@ -185,4 +188,26 @@ public enum ClothingVariantType
 	Default = 0,
 	Tucked = 1,
 	Skirt = 2
+}
+
+/// <summary>
+/// Bit flags which determine when a piece of clothing hides another. 
+/// IE a helmet hiding glasses.
+/// </summary>
+[Flags]
+public enum ClothingHideFlags
+{
+	HIDE_NONE = 0,
+	HIDE_GLOVES =  1,
+	HIDE_SUITSTORAGE = 2,
+	HIDE_JUMPSUIT = 4,
+	HIDE_SHOES = 8,
+	HIDE_MASK = 16,
+	HIDE_EARS = 32,
+	HIDE_EYES = 64,
+	HIDE_FACE = 128,
+	HIDE_HAIR = 256,
+	HIDE_FACIALHAIR = 512,
+	HIDE_NECK = 1024,
+	HIDE_ALL = ~0
 }
