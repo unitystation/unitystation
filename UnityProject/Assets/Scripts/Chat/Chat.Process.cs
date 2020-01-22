@@ -21,9 +21,14 @@ public partial class Chat
 	public Color combatColor;
 	public Color defaultColor;
 
+	/// <summary>
+	/// Processes message further for the chat log.
+	/// Adds text styling, color and channel prefixes depending on the message and its modifiers.
+	/// </summary>
+	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
 		ChatModifier modifiers)
-	{ // TODO this should use modifiers to determine if the player is shouting or not
+	{
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
 		{
@@ -74,7 +79,7 @@ public partial class Chat
 			return AddMsgColor(channels, $"[dead] <b>{speaker}</b>: {message}");
 		}
 
-		var verb = "says:";
+		var verb = "says,";
 
 		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{

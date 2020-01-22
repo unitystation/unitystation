@@ -55,7 +55,7 @@ public partial class Chat : MonoBehaviour
 	{
 		var player = sentByPlayer.Script;
 
-		// The exact words that leave the player's mouth (or that are narrated). Includes HONKs, stutters, etc.
+		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		(string message, ChatModifier chatModifiers) processedMessage = ProcessMessage(sentByPlayer, message);
 
 		var chatEvent = new ChatEvent
@@ -90,15 +90,10 @@ public partial class Chat : MonoBehaviour
 					channels = ChatChannel.Ghost;
 				}
 			}
-			else
+			else if (!player.playerHealth.IsDead && !player.IsGhost)
 			{
-				if (!player.playerHealth.IsDead && !player.IsGhost)
-				{
-					{
-						//Control the chat bubble
-						player.playerNetworkActions.CmdToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
-					}
-				}
+				//Control the chat bubble
+				player.playerNetworkActions.CmdToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
 			}
 		}
 
@@ -120,19 +115,19 @@ public partial class Chat : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Processes a message to...
-	/// 1. Detect which modifiers should be present in the messages.
+	/// Processes a message to be used in the chat log and chat bubbles.
+	/// 1. Detects which modifiers should be present in the messages.
 	///    - Some of the modifiers will come from the player being unconcious, being a clown, etc.
 	///    - Other modifiers are voluntary, such as shouting. They normally cannot override involuntary modifiers.
 	///    - Certain emotes override each other and will never be present at the same time.
-	///      - Emote overrides whispering, whispering overrides yelling.
-	/// 2. Modify the message to match the detected modifiers.
+	///      - Emote overrides whispering, and whispering overrides yelling.
+	/// 2. Modifies the message to match the previously detected modifiers.
 	///    - Stutters, honks, drunkenness, etc. are directly applied to the message.
-	///    - The chat log and chat bubble may add minor changes to the text, such as narration ("Player says...").
+	///    - The chat log and chat bubble may add minor changes to the text, such as narration ("Player says, ...").
 	/// </summary>
 	/// <param name="sendByPlayer">The player sending the message. Used for detecting conciousness and occupation.</param>
 	/// <param name="message">The chat message to process.</param>
-	/// <returns>A tuple of the processed chat message and all its modifiers.</returns>
+	/// <returns>A tuple of the processed chat message and the detected modifiers.</returns>
 	private static (string, ChatModifier) ProcessMessage(ConnectedPlayer sentByPlayer, string message)
 	{
 		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
@@ -155,13 +150,14 @@ public partial class Chat : MonoBehaviour
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Whisper;
 		}
+		// Involuntaly whisper due to not being fully concious
 		else if (playerConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Yell
-		else if ((message == message.ToUpper(System.Globalization.CultureInfo.InvariantCulture) // Is all caps
-			&& message.Any(char.IsLetter)))// AND contains at least one alphabet letter
+		else if ((message == message.ToUpper(System.Globalization.CultureInfo.InvariantCulture) // Is it all caps?
+			&& message.Any(char.IsLetter)))// AND does it contain at least one letter?
 		{
 			chatModifiers |= ChatModifier.Yell;
 		}
@@ -177,7 +173,7 @@ public partial class Chat : MonoBehaviour
 			chatModifiers |= ChatModifier.Clown;
 		}
 
-		// TODO None of the followinger modifiers will ever get applied.
+		// TODO None of the followinger modifiers are currently in use.
 
 		// Stutter
 		if (false) // TODO Currently players can not stutter.

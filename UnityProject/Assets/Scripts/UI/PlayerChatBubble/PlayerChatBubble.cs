@@ -109,6 +109,19 @@ public class PlayerChatBubble : MonoBehaviour
 	/// </summary>
 	private const float displayTimeMax = 15f;
 
+	/// <summary>
+	/// Seconds required to display a single character.
+	/// Approximately 102 WPM / 510 CPM with a value of 0.12f
+	/// </summary>
+	private const float displayTimePerCharacter = 0.12f;
+
+	/// <summary>
+	/// When calculating the time it will take to display all chat bubbles in the queue,
+	/// each bubble is considered to have this many additional characters.
+	/// This causes the queue to be displayed more quickly based on its length.
+	/// </summary>
+	private const float displayTimeCharactersPerBubble = 10f;
+
 	void Start()
 	{
 		chatBubble.SetActive(false);
@@ -246,9 +259,6 @@ public class PlayerChatBubble : MonoBehaviour
 	/// <param name="msg"> Player's chat message </param>
 	private void SetBubbleParameters(string msg, ChatModifier modifiers)
 	{
-		// Set up
-		//bubbleType = GetBubbleType(msg); // Commented out because chat is being reworked to use modifiers.
-
 		// Set default chat bubble values. Are overwritten by modifiers.
 		bubbleSize = bubbleSizeNormal;
 		bubbleText.fontStyle = FontStyles.Normal;
@@ -258,13 +268,13 @@ public class PlayerChatBubble : MonoBehaviour
 		if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
 		{
 			bubbleText.fontStyle = FontStyles.Italic;
-			// TODO Change bubble appearence when emoting (e.g. rectangular box instead of speech bubble)
+			// TODO Differentiate emoting from whispering (e.g. rectangular box instead of speech bubble)
 		}
 		else if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{
 			bubbleSize = bubbleSizeWhisper;
 			bubbleText.fontStyle = FontStyles.Italic;
-			// TODO Change bubble appearence when whispering (e.g. dotted line around text)
+			// TODO Differentiate emoting from whispering (e.g. dotted line around text)
 
 		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
@@ -301,12 +311,14 @@ public class PlayerChatBubble : MonoBehaviour
 	/// </summary>
 	private float TimeToShow(int charCount)
 	{
-		return Mathf.Clamp((float)charCount / 8.5f, displayTimeMin, displayTimeMax); // Approximately 102 WPM / 510 CPM
+		return Mathf.Clamp((float)charCount * displayTimePerCharacter, displayTimeMin, displayTimeMax);
 	}
 
 	/// <summary>
 	/// Calculates the time required to display the message queue.
 	/// The first message is excluded.
+	/// Each bubble is also counted how have a bunch of "fake" characters (displayTimeCharactersPerBubble)
+	/// to reduce the delay between each bubble.
 	/// </summary>
 	/// <param name="queue">The current message queue. The first element will be excluded!</param>
 	/// <returns>Time required to display the queue (without the first element).</returns>
@@ -316,6 +328,7 @@ public class PlayerChatBubble : MonoBehaviour
 		foreach (BubbleMsg msg in queue.Skip(1))
 		{
 			total += msg.maxTime;
+			total += displayTimePerCharacter * displayTimeCharactersPerBubble;
 		}
 		return total;
 	}
