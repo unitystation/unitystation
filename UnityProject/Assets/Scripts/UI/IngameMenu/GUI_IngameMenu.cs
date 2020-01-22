@@ -112,6 +112,18 @@ public class GUI_IngameMenu : MonoBehaviour
 		HideAllMenus();
 	}
 
+	public void InitiateRestartVote()
+	{
+		SoundManager.Play("Click01");
+
+		if (PlayerManager.PlayerScript == null) return;
+		if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+
+		PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateRestartVote();
+		
+		HideAllMenus();
+	}
+
 	// Logout confirmation window functions
 	// ==================================================
 	public void LogoutButton()
