@@ -180,6 +180,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
 	}
 
+	[Command]
+	public void CmdInitiateRestartVote()
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.TryInitiateRestartVote(gameObject);
+	}
+
+	[Command]
+	public void CmdRegisterVote(string userId, bool isFor)
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.RegisterVote(userId, isFor);
+	}
+
 	/// <summary>
 	/// Validates that the player can interact with the specified wallmount
 	/// </summary>
