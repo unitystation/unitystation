@@ -51,7 +51,7 @@ static class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
-		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.Development;
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
