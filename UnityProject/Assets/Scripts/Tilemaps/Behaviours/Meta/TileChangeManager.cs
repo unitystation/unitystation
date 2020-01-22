@@ -171,15 +171,7 @@ public class TileChangeManager : NetworkBehaviour
 	private void InternalUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
-
-		if (tileType == TileType.WindowDamaged)
-		{
-			position.z -= 1;
-		}
-
-		Vector3Int p = position.RoundToInt();
-
-		metaTileMap.SetTile(p, layerTile);
+		metaTileMap.SetTile(position.RoundToInt(), layerTile);
 	}
 
 	private void InternalUpdateTile(Vector3 position, LayerTile layerTile)
