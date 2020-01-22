@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using System.Text;
 using Tilemaps.Behaviours.Meta;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// The Chat API
@@ -53,11 +55,13 @@ public partial class Chat : MonoBehaviour
 	{
 		var player = sentByPlayer.Script;
 
+		// The exact words that leave the player's mouth (or that are narrated). Includes HONKs, stutters, etc.
+		(string message, ChatModifier chatModifiers) processedMessage = ProcessMessage(sentByPlayer, message);
 
 		var chatEvent = new ChatEvent
 		{
-			message = message,
-			modifiers = (player == null) ? ChatModifier.None : player.GetCurrentChatModifiers(),
+			message = processedMessage.message,
+			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
 			speaker = (player == null) ? sentByPlayer.Username : player.name,
 			position = ((player == null) ? Vector2.zero : (Vector2)player.gameObject.transform.position),
 			channels = channels,
@@ -71,7 +75,8 @@ public partial class Chat : MonoBehaviour
 			return;
 		}
 
-		//Check if the player is allowed to talk:
+		// TODO the following code uses player.playerHealth, but ConciousState would be more appropriate.
+		// Check if the player is allowed to talk:
 		if (player.playerHealth != null)
 		{
 			if (player.playerHealth.IsCrit || player.playerHealth.IsCardiacArrest)
@@ -91,7 +96,7 @@ public partial class Chat : MonoBehaviour
 				{
 					{
 						//Control the chat bubble
-						player.playerNetworkActions.CmdToggleChatIcon(true, message, channels, player.GetCurrentChatModifiers());
+						player.playerNetworkActions.CmdToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
 					}
 				}
 			}
@@ -112,6 +117,104 @@ public partial class Chat : MonoBehaviour
 				Instance.addChatLogServer.Invoke(chatEvent);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Processes a message to...
+	/// 1. Detect which modifiers should be present in the messages.
+	///    - Some of the modifiers will come from the player being unconcious, being a clown, etc.
+	///    - Other modifiers are voluntary, such as shouting. They normally cannot override involuntary modifiers.
+	///    - Certain emotes override each other and will never be present at the same time.
+	///      - Emote overrides whispering, whispering overrides yelling.
+	/// 2. Modify the message to match the detected modifiers.
+	///    - Stutters, honks, drunkenness, etc. are directly applied to the message.
+	///    - The chat log and chat bubble may add minor changes to the text, such as narration ("Player says...").
+	/// </summary>
+	/// <param name="sendByPlayer">The player sending the message. Used for detecting conciousness and occupation.</param>
+	/// <param name="message">The chat message to process.</param>
+	/// <returns>A tuple of the processed chat message and all its modifiers.</returns>
+	private static (string, ChatModifier) ProcessMessage(ConnectedPlayer sentByPlayer, string message)
+	{
+		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
+		ConsciousState playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
+
+		if (playerConsciousState == ConsciousState.UNCONSCIOUS || playerConsciousState == ConsciousState.DEAD)
+		{
+			// Only the Mute modifier matters if the player cannot speak. We can skip everything else.
+			return ("", ChatModifier.Mute);
+		}
+
+		// Emote
+		if (message.Substring(0,3) == "/me ")
+		{
+			message = message.Substring(4);
+			chatModifiers |= ChatModifier.Emote;
+		}
+		// Whisper
+		else if (message.Substring(0, 1).Equals("#")){
+			message = message.Substring(1);
+			chatModifiers |= ChatModifier.Whisper;
+		}
+		else if (playerConsciousState == ConsciousState.BARELY_CONSCIOUS)
+		{
+			chatModifiers |= ChatModifier.Whisper;
+		}
+		// Yell
+		else if ((message == message.ToUpper(System.Globalization.CultureInfo.InvariantCulture) // Is all caps
+			&& message.Any(char.IsLetter)))// AND contains at least one alphabet letter
+		{
+			chatModifiers |= ChatModifier.Yell;
+		}
+
+		// Clown
+		if (sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
+		{
+			int intensity = UnityEngine.Random.Range(1, 4);
+			for (int i = 0; i < intensity; i++)
+			{
+				message += " HONK!";
+			}
+			chatModifiers |= ChatModifier.Clown;
+		}
+
+		// TODO None of the followinger modifiers will ever get applied.
+
+		// Stutter
+		if (false) // TODO Currently players can not stutter.
+		{
+			//Stuttering people randomly repeat beginnings of words
+			//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
+			Regex rx = new Regex(@"(\b)+([^\d\W])\B");
+			message = rx.Replace(message, Stutter);
+			chatModifiers |= ChatModifier.Stutter;
+		}
+
+		// Hiss
+		if (false) // TODO Currently players can never speak like a snek.
+		{
+			Regex rx = new Regex("s+|S+");
+			message = rx.Replace(message, Hiss);
+			chatModifiers |= ChatModifier.Hiss;
+		}
+
+		// Drunk
+		if (false) // TODO Currently players can not get drunk.
+		{
+			//Regex - find 1 or more "s"
+			Regex rx = new Regex("s+|S+");
+			message = rx.Replace(message, Slur);
+			//Regex - find 1 or more whitespace
+			rx = new Regex(@"\s+");
+			message = rx.Replace(message, Hic);
+			//50% chance to ...hic!... at end of sentance
+			if (UnityEngine.Random.Range(1, 3) == 1)
+			{
+				message = message + " ...hic!...";
+			}
+			chatModifiers |= ChatModifier.Drunk;
+		}
+
+		return (message, chatModifiers);
 	}
 
 	/// <summary>

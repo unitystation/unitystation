@@ -166,26 +166,6 @@ public class PlayerChatBubble : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Determines the bubble type appropriate from the given message.
-	/// Refer to BubbleType for further information.
-	/// </summary>
-	/// <param name="msg"></param>
-	private BubbleType GetBubbleType(string msg)
-	{
-		if (msg.Substring(0, 1).Equals("#")){
-			return BubbleType.whisper;
-		}
-		if (msg.EndsWith("!!") || ((msg.ToUpper(CultureInfo.InvariantCulture) == msg) && msg.Any(System.Char.IsLetter)))
-		{
-			return BubbleType.caps;
-		}
-		// TODO Clown occupation check & Somic Sans.
-
-		return BubbleType.normal;
-	}
-
-
 	private void AddChatBubbleMsg(string msg, ChatChannel channel, ChatModifier chatModifier)
 	{
 		if (msg.Length > maxMessageLength)
@@ -275,14 +255,22 @@ public class PlayerChatBubble : MonoBehaviour
 		bubbleText.font = fontDefault;
 
 		// Determine type
-		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
+		if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
 		{
-			bubbleSize = bubbleSizeWhisper;
 			bubbleText.fontStyle = FontStyles.Italic;
 		}
+		else if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
+		{
+			bubbleSize = bubbleSizeWhisper;
+		}
+		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
+		{
+			bubbleSize = bubbleSizeCaps;
+			bubbleText.fontStyle = FontStyles.Bold;
+		}
+
 		if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
 		{
-			print("Player's a clown!");
 			bubbleText.font = fontClown;
 			bubbleText.UpdateFontAsset();
 		}
