@@ -145,13 +145,13 @@ public partial class Chat : MonoBehaviour
 		}
 
 		// Emote
-		if (message.Substring(0,3) == "/me ")
+		if (message.StartsWith("/me "))
 		{
 			message = message.Substring(4);
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
-		else if (message.Substring(0, 1).Equals("#")){
+		else if (message.StartsWith("#")){
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Whisper;
 		}

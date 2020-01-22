@@ -79,15 +79,19 @@ public partial class Chat
 		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{
 			verb = "whispers,";
-			message = $"<b>{message}</b>";
+			message = $"<i>{message}</i>";
 		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
 			verb = "yells,";
 			message = $"<b>{message}</b>";
 		}
-		else if (message.Contains("!")){ // Not an "official" ChatModifier
+		else if (message.EndsWith("!")){
 			verb = "exclaims,";
+		}
+		else if (message.EndsWith("?"))
+		{
+			verb = "asks,";
 		}
 
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";

@@ -258,10 +258,14 @@ public class PlayerChatBubble : MonoBehaviour
 		if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
 		{
 			bubbleText.fontStyle = FontStyles.Italic;
+			// TODO Change bubble appearence when emoting (e.g. rectangular box instead of speech bubble)
 		}
 		else if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{
 			bubbleSize = bubbleSizeWhisper;
+			bubbleText.fontStyle = FontStyles.Italic;
+			// TODO Change bubble appearence when whispering (e.g. dotted line around text)
+
 		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
@@ -297,7 +301,7 @@ public class PlayerChatBubble : MonoBehaviour
 	/// </summary>
 	private float TimeToShow(int charCount)
 	{
-		return Mathf.Clamp((float)charCount / 10f, displayTimeMin, displayTimeMax); // Approximately 120 WPM / 600 CPM
+		return Mathf.Clamp((float)charCount / 8.5f, displayTimeMin, displayTimeMax); // Approximately 102 WPM / 510 CPM
 	}
 
 	/// <summary>
