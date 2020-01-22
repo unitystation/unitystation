@@ -62,18 +62,18 @@ public class MetaDataSystem : SubsystemBehaviour
 		Logger.Log("MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
 	}
 
-	public override void UpdateAt(Vector3Int position)
+	public override void UpdateAt(Vector3Int localPosition)
 	{
-		MetaDataNode node = metaDataLayer.Get(position);
+		MetaDataNode node = metaDataLayer.Get(localPosition);
 
 		MetaUtils.RemoveFromNeighbors(node);
 		externalNodes.TryRemove(node, out MetaDataNode nothing);
 
-		if (metaTileMap.IsAtmosPassableAt(position, true))
+		if (metaTileMap.IsAtmosPassableAt(localPosition, true))
 		{
 			node.ClearNeighbors();
 
-			node.Type = metaTileMap.IsSpaceAt(position, true) ? NodeType.Space : NodeType.Room;
+			node.Type = metaTileMap.IsSpaceAt(localPosition, true) ? NodeType.Space : NodeType.Room;
 			SetupNeighbors(node);
 			MetaUtils.AddToNeighbors(node);
 			node.IsClosedAirlock = false;
@@ -81,7 +81,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		else
 		{
 			node.Type = NodeType.Occupied;
-			if ( matrix.GetFirst<RegisterDoor>(position, true) )
+			if ( matrix.GetFirst<RegisterDoor>(localPosition, true) )
 			{
 				node.IsClosedAirlock = true;
 			}

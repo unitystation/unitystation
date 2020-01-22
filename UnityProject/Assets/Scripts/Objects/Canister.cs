@@ -123,7 +123,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				var foundConnectors = registerTile.Matrix.Get<Connector>(registerTile.LocalPositionServer, true);
 				foreach (var conn in foundConnectors)
 				{
-					if (conn.objectBehaviour.IsNotPushable)
+					if (conn.ObjectBehavior.IsNotPushable)
 					{
 						SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 						connector = conn;

@@ -21,8 +21,8 @@ public class Scrubber : AdvancedPipe
 
 	private void LoadTurf()
 	{
-		metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-		metaNode = metaDataLayer.Get(registerTile.WorldPositionServer, false);
+		metaDataLayer = MatrixManager.AtPoint(RegisterTile.WorldPositionServer, true).MetaDataLayer;
+		metaNode = metaDataLayer.Get(RegisterTile.LocalPositionServer, false);
 	}
 
 	public override void TickUpdate()
@@ -38,10 +38,15 @@ public class Scrubber : AdvancedPipe
 	{
 		if (metaNode.GasMix.Pressure > MinimumPressure)
 		{
-			var suckedAir =  metaNode.GasMix / 2;
-			pipenet.gasMix += suckedAir;
-			metaNode.GasMix -= suckedAir;
-			metaDataLayer.UpdateSystemsAt(registerTile.WorldPositionServer);
+			//TODO: Can restore this when pipenets are implemented so they actually pull from what
+			//they are connected to. In the meantime
+			//we are reverting scrubbers / airvents to the old behavior of just shoving or removing air
+			//regardless of what they are connected to.
+			// var suckedAir =  metaNode.GasMix / 2;
+			// pipenet.gasMix += suckedAir;
+			// metaNode.GasMix -= suckedAir;
+			metaNode.GasMix = new GasMix(GasMixes.Space);
+			metaDataLayer.UpdateSystemsAt(RegisterTile.LocalPositionServer);
 		}
 	}
 

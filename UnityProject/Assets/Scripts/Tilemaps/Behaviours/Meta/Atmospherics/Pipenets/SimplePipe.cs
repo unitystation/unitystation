@@ -26,19 +26,19 @@ public class SimplePipe : Pipe
 				for (int i = 0; i < nodes.Count; i++)
 				{
 					var pipe = nodes[i];
-					if (pipe.registerTile.WorldPositionServer.y < registerTile.WorldPositionServer.y)
+					if (pipe.RegisterTile.WorldPositionServer.y < RegisterTile.WorldPositionServer.y)
 					{
 						SetSprite(3);
 					}
-					else if (pipe.registerTile.WorldPositionServer.y > registerTile.WorldPositionServer.y)
+					else if (pipe.RegisterTile.WorldPositionServer.y > RegisterTile.WorldPositionServer.y)
 					{
 						SetSprite(4);
 					}
-					else if (pipe.registerTile.WorldPositionServer.x > registerTile.WorldPositionServer.x)
+					else if (pipe.RegisterTile.WorldPositionServer.x > RegisterTile.WorldPositionServer.x)
 					{
 						SetSprite(5);
 					}
-					else if (pipe.registerTile.WorldPositionServer.x < registerTile.WorldPositionServer.x)
+					else if (pipe.RegisterTile.WorldPositionServer.x < RegisterTile.WorldPositionServer.x)
 					{
 						SetSprite(6);
 					}

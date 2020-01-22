@@ -12,9 +12,12 @@ using Tilemaps.Behaviours.Meta;
 [RequireComponent(typeof(Pickupable))]
 public class Pipe : NetworkBehaviour, IServerSpawn
 {
-	public RegisterTile registerTile;
-	public ObjectBehaviour objectBehaviour;
+	public RegisterTile RegisterTile => registerTile;
+	private RegisterTile registerTile;
+	public ObjectBehaviour ObjectBehavior => objectBehaviour;
+	private ObjectBehaviour objectBehaviour;
 
+	[NonSerialized]
 	public List<Pipe> nodes = new List<Pipe>();
 	public Direction direction = Direction.NORTH | Direction.SOUTH;
 	private Directional directional;
@@ -24,7 +27,8 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
-	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
+	[SyncVar(hook = nameof(SyncSprite))]
+	private int spriteSync;
 
 	protected Pickupable pickupable;
 
