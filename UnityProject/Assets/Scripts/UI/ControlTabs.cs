@@ -669,6 +669,7 @@ public class ControlTabs : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 		yield return WaitFor.EndOfFrame;
+		transform.position = targetPos;
 		Vector3 newScale = rolloutIcon.localScale;
 		newScale.y = -newScale.y;
 		rolloutIcon.localScale = newScale;
