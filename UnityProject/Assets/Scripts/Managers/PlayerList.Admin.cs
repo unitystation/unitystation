@@ -155,7 +155,8 @@ public partial class PlayerList
 			{
 				if (otherUser.Connection != null && otherUser.GameObject != null)
 				{
-					if (playerConn.UserId == userid)
+					if (playerConn.UserId == userid
+					    && playerConn.Connection != otherUser.Connection)
 					{
 						StartCoroutine(
 							KickPlayer(playerConn, $"Server Error: You are already logged into this server!"));
