@@ -41,6 +41,8 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 		bool pendingSpawn = false;
 		foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
 		{
+			if(c.Connection == null) continue; //offline player
+
 			if (string.IsNullOrEmpty(c.Name))
 			{
 				if (c.GameObject != null)

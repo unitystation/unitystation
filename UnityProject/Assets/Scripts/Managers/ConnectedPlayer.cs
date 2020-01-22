@@ -22,7 +22,7 @@ public class ConnectedPlayer
 
 	public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
 	{
-		connection = new NetworkConnection("0.0.0.0"),
+		connection = null,
 		gameObject = null,
 		username = null,
 		name = "kek",
@@ -36,14 +36,15 @@ public class ConnectedPlayer
 	{
 		return new ConnectedPlayer
 		{
-			connection = Invalid.Connection,
+			connection = null,
 			gameObject = player.GameObject,
 			username = player.Username,
 			name = player.Name,
 			job = player.Job,
 			synced = player.synced,
 			clientID = player.clientID,
-			userID = player.userID
+			userID = player.userID,
+			viewerScript = player.ViewerScript
 		};
 	}
 
@@ -53,7 +54,7 @@ public class ConnectedPlayer
 	public NetworkConnection Connection
 	{
 		get { return connection; }
-		set { connection = value ?? Invalid.Connection; }
+		set { connection = value; }
 	}
 
 	public GameObject GameObject
@@ -61,14 +62,17 @@ public class ConnectedPlayer
 		get { return gameObject; }
 		set
 		{
-			if ( PlayerList.Instance != null && gameObject )
-			{
-				//Add to history if player had different body previously
-				PlayerList.Instance.AddPrevious( this );
-			}
 			gameObject = value;
-			playerScript = value.GetComponent<PlayerScript>();
-			viewerScript = value.GetComponent<JoinedViewer>();
+			if (gameObject != null)
+			{
+				playerScript = value.GetComponent<PlayerScript>();
+				viewerScript = value.GetComponent<JoinedViewer>();
+			}
+			else
+			{
+				playerScript = null;
+				viewerScript = null;
+			}
 		}
 	}
 
@@ -190,7 +194,9 @@ public class ConnectedPlayer
 
 	private static void TrySendUpdate()
 	{
-		if ( CustomNetworkManager.Instance != null && CustomNetworkManager.Instance._isServer && PlayerList.Instance != null )
+		if ( CustomNetworkManager.Instance != null
+		     && CustomNetworkManager.Instance._isServer
+		     && PlayerList.Instance != null )
 		{
 			UpdateConnectedPlayersMessage.Send();
 		}
