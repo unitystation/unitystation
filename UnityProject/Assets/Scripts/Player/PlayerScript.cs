@@ -153,6 +153,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	{
 		if (isLocalPlayer)
 		{
+			EnableLighting(true);
 			UIManager.ResetAllUI();
 			UIManager.DisplayManager.SetCameraFollowPos();
 			GetComponent<MouseInputController>().enabled = true;

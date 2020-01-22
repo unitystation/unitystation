@@ -13,6 +13,7 @@ public class GhostToggleLight : MonoBehaviour
 	public Sprite lightOnSprite;
 	public Sprite lightOffSprite;
 
+	[SerializeField]
 	private Image image;
 
 	private LightingSystem lighting;
@@ -38,11 +39,6 @@ public class GhostToggleLight : MonoBehaviour
 			lighting = Camera.main.GetComponent<LightingSystem>();
 			return lighting;
 		}
-	}
-
-	private void Awake()
-	{
-		image = GetComponent<Image>();
 	}
 
 	private void OnEnable()
@@ -89,10 +85,7 @@ public class GhostToggleLight : MonoBehaviour
 	/// </summary>
 	private void UpdateSprite()
 	{
-		if (image)
-		{
-			image.sprite = LightingSys.enabled ? lightOnSprite : lightOffSprite;
-		}
+		image.sprite = LightingSys.enabled ? lightOnSprite : lightOffSprite;
 	}
 
 }
