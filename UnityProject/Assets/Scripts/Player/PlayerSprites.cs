@@ -78,6 +78,8 @@ public class PlayerSprites : MonoBehaviour
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
+			// add listner in case clothing was changed
+			c.OnClothingEquiped += OnClothingEquipped;
 		}
 
 		SetupBodySprites();
@@ -366,6 +368,12 @@ public class PlayerSprites : MonoBehaviour
 	public bool HasClothingItem(NamedSlot? namedSlot)
 	{
 		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
+	}
+
+
+	private void OnClothingEquipped(ClothingV2 clothing, bool isEquiped)
+	{
+		Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
 	}
 }
 

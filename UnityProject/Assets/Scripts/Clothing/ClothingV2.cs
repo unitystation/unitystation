@@ -56,6 +56,11 @@ public class ClothingV2 : MonoBehaviour
 	/// </summary>
 	public SpriteDataHandler SpriteDataHandler => spriteDataHandler;
 
+	/// <summary>
+	/// Determine when a piece of clothing hides another
+	/// </summary>
+	public ClothingHideFlags HideFlags => hideFlags;
+
 
 	private SpriteDataHandler spriteDataHandler;
 	private SpriteHandler inventoryIcon;
