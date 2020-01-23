@@ -463,9 +463,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <param name="damage">The amount of damage the window received</param>
 	/// <param name="data">The data about the current state of this window</param>
 	/// <param name="cellPos">The position of the window tile</param>
-	/// <param name="bulletHitTarget"></param>
-	/// <param name="attackType"></param>
-	/// <returns></returns>
+	/// <param name="bulletHitTarget">Where exactly the bullet hit</param>
+	/// <param name="attackType">The type of attack that did the damage</param>
+	/// <returns>The remaining damage to apply to the tile if the window is broken, 0 otherwise.</returns>
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)
 	{
 		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
@@ -502,7 +502,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return data.ResetDamage() - MAX_WINDOW_DAMAGE;
 		}
 
-		return 0;
+		return 0; // The remaining damage after cracking the window.
 	}
 
 	private float AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)
