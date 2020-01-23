@@ -40,6 +40,13 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	private bool canClickPickup;
 
 	/// <summary>
+	/// Flag to determine if this can empty out all items by activating it
+	/// </summary>
+	[SerializeField]
+	[Tooltip("Can you empty out all items by activating this item?")]
+	private bool canQuickEmpty;
+
+	/// <summary>
 	/// The current pickup mode used when clicking
 	/// </summary>
 	private PickupMode pickupMode = PickupMode.All;
@@ -148,7 +155,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			{
 				case PickupMode.Single:
 					// See if there's an item to pickup
-					if (interaction.TargetObject.Item() == null) return false;
+					if (interaction.TargetObject == null)
+					{
+						Chat.AddExamineMsgToClient("There's nothing to pickup!");
+						return false;
+					}
 					if (!Validations.CanPutItemToStorage(interaction.PerformerPlayerScript,
 							itemStorage, interaction.TargetObject, side, examineRecipient: interaction.Performer))
 					{
@@ -236,7 +247,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 							Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject));
 						}
 					}
-					Chat.AddExamineMsgFromServer(interaction.Performer, "You put everything you could in the trash bag.");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
 					break;
 
 				case PickupMode.All:
@@ -256,7 +267,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 						// there might be stacks with space still
 						Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject));
 					}
-					Chat.AddExamineMsgFromServer(interaction.Performer, "You put everything you could in the trash bag.");
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
 					break;
 			}
 		}
@@ -264,6 +275,26 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public bool Interact(HandActivate interaction)
 	{
+		if (canQuickEmpty)
+		{
+			// Drop all items that are inside this storage
+			var slots = itemStorage.GetItemSlots();
+
+			if (slots == null)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "It's already empty!");
+				return false;
+			}
+
+			foreach (var item in slots)
+			{
+				// Might be better to add a DropAll method in future
+				Inventory.ServerDrop(item);
+			}
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
+			return true;
+		}
+
 		//open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)
 		{
