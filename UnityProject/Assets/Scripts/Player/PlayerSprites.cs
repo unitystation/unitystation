@@ -44,6 +44,12 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerHealth playerHealth;
 	private PlayerSync playerSync;
 
+	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
+	/// <summary>
+	/// Define which piece of clothing are hidden (not rendering) right now
+	/// </summary>
+	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
+
 	[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
 	public LightSprite muzzleFlash;
 
@@ -373,8 +379,52 @@ public class PlayerSprites : MonoBehaviour
 
 	private void OnClothingEquipped(ClothingV2 clothing, bool isEquiped)
 	{
-		Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
+		//Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
+
+		// if new clothes equiped, add new hide flags
+		if (isEquiped)
+			hideClothingFlags |= clothing.HideClothingFlags;
+		// if player get off old clothes, we need to remove old flags
+		else
+			hideClothingFlags ^= clothing.HideClothingFlags;
+
+		// Update hide flags
+		ValidateHideFlags();
 	}
+
+	private void ValidateHideFlags()
+	{
+		// Need to check all flags with their gameobject names...
+		// TODO: it should be done much easier
+		ValidateHideFlag(ClothingHideFlags.HIDE_GLOVES, "hands");
+		ValidateHideFlag(ClothingHideFlags.HIDE_JUMPSUIT, "uniform");
+		ValidateHideFlag(ClothingHideFlags.HIDE_SHOES, "feet");
+		ValidateHideFlag(ClothingHideFlags.HIDE_MASK, "mask");
+		ValidateHideFlag(ClothingHideFlags.HIDE_EARS, "ear");
+		ValidateHideFlag(ClothingHideFlags.HIDE_EYES, "eyes");
+		ValidateHideFlag(ClothingHideFlags.HIDE_FACE, "face");
+		ValidateHideFlag(ClothingHideFlags.HIDE_HAIR, "Hair");
+		ValidateHideFlag(ClothingHideFlags.HIDE_FACIALHAIR, "beard");
+		ValidateHideFlag(ClothingHideFlags.HIDE_NECK, "neck");
+
+		// TODO: Not implemented yet?
+		//ValidateHideFlag(ClothingHideFlags.HIDE_SUITSTORAGE, "suit_storage");
+	}
+
+	private void ValidateHideFlag(ClothingHideFlags hideFlag, string name)
+	{
+		// Check if dictionary has entry about such clothing item name
+		if (!clothes.ContainsKey(name))
+		{
+			Logger.LogError($"Can't find {name} clothingItem linked to {hideFlag}");
+			return;
+		}
+
+		// Enable or disable based on hide flag
+		var isVisible = !hideClothingFlags.HasFlag(hideFlag);
+		clothes[name].gameObject.SetActive(isVisible);
+	}
+
 }
 
 public enum ClothingSprite

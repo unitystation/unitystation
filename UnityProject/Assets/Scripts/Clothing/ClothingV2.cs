@@ -27,7 +27,7 @@ public class ClothingV2 : MonoBehaviour
 
 	[Tooltip("Determine when a piece of clothing hides another")]
 	[SerializeField, EnumFlag]
-	private ClothingHideFlags hideFlags;
+	private ClothingHideFlags hideClothingFlags;
 
 	private Dictionary<ClothingVariantType, int> variantStore = new Dictionary<ClothingVariantType, int>();
 	private List<int> variantList;
@@ -59,7 +59,7 @@ public class ClothingV2 : MonoBehaviour
 	/// <summary>
 	/// Determine when a piece of clothing hides another
 	/// </summary>
-	public ClothingHideFlags HideFlags => hideFlags;
+	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
 
 
 	private SpriteDataHandler spriteDataHandler;
@@ -204,7 +204,7 @@ public enum ClothingHideFlags
 {
 	HIDE_NONE = 0,
 	HIDE_GLOVES =  1,
-	HIDE_SUITSTORAGE = 2,
+	HIDE_SUITSTORAGE = 2, // Not implemented
 	HIDE_JUMPSUIT = 4,
 	HIDE_SHOES = 8,
 	HIDE_MASK = 16,
