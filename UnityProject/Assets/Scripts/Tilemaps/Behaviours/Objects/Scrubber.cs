@@ -9,9 +9,9 @@ public class Scrubber : AdvancedPipe
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
 
-	public override bool Attach()
+	public override bool ServerAttach()
 	{
-		if(base.Attach() == false)
+		if(base.ServerAttach() == false)
 		{
 			return false;
 		}

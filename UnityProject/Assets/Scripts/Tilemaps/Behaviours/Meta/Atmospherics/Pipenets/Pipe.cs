@@ -6,9 +6,8 @@ using Mirror;
 using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 
-//TODO: These need to be reworked to make proper use of Directional and DirectionalRotationSprite.
-//Currently they try to manage the sprite rotation themselves. They should actually work
-//more like wires and be different objects when anchored.
+//TODO: These need to be reworked when pipenets are worked on next. See various todo comments.
+//it needs to make proper use of Directional rather than rolling its own direction / sprite rotation logic
 [RequireComponent(typeof(Pickupable))]
 public class Pipe : NetworkBehaviour, IServerSpawn
 {
@@ -19,8 +18,8 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 
 	[NonSerialized]
 	public List<Pipe> nodes = new List<Pipe>();
+	//TODO: This needs to use Directional instead of custom direction logic
 	public Direction direction = Direction.NORTH | Direction.SOUTH;
-	private Directional directional;
 	public Pipenet pipenet;
 	public bool anchored;
 	public float volume = 70;
@@ -49,7 +48,6 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 	{
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
-		directional = GetComponent<Directional>();
 		//TODO: This component needs to be reworked to use Directional / DirectionalRotationSprites
 		//directional.OnDirectionChange.AddListener(OnDirectionChange);
 		pickupable = GetComponent<Pickupable>();
@@ -58,7 +56,8 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 	private void ServerInit()
 	{
 		pickupable.ServerSetCanPickup(!anchored);
-		CalculateDirection();
+		//TODO: Restore when pipenets implemented
+		//CalculateDirection();
 	}
 
 	public override void OnStartServer()
@@ -93,16 +92,16 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 	/// </summary>
 	public virtual void TickUpdate() { }
 
-	public void WrenchAct()
+	[Server]
+	public void ServerWrenchAct()
 	{
 		if (anchored)
 		{
-			Detach();
-			CalculateSprite();
+			ServerDetach();
 		}
 		else
 		{
-			if (Attach() == false)
+			if (ServerAttach() == false)
 			{
 				// show message to the player 'theres something attached in this direction already'
 				return;
@@ -112,37 +111,47 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 	}
 
-	public virtual bool Attach()
+	[Server]
+	public virtual bool ServerAttach()
 	{
-		CalculateDirection();
-		if (GetAnchoredPipe(registerTile.WorldPositionServer, direction) != null)
-		{
-			return false;
-		}
+		//TODO: Restore pipe attach logic when pipenets are fully implemented.
+		//Until then, we will just anchor the pipe so it can't be moved around.
+		//
+		// CalculateDirection();
+		// if (GetAnchoredPipe(registerTile.WorldPositionServer, direction) != null)
+		// {
+		// 	return false;
+		// }
+		//
+		// CalculateAttachedNodes();
+		//
+		// Pipenet foundPipenet;
+		// if (nodes.Count > 0)
+		// {
+		// 	foundPipenet = nodes[0].pipenet;
+		// }
+		// else
+		// {
+		// 	foundPipenet = new Pipenet();
+		// }
+		//
+		// foundPipenet.AddPipe(this);
 
-		CalculateAttachedNodes();
-
-		Pipenet foundPipenet;
-		if (nodes.Count > 0)
-		{
-			foundPipenet = nodes[0].pipenet;
-		}
-		else
-		{
-			foundPipenet = new Pipenet();
-		}
-
-		foundPipenet.AddPipe(this);
-		SetAnchored(true);
+		//just anchor it so it can't be moved and appears in the correct layer
+		ServerSetAnchored(true);
 		SetSpriteLayer(true);
 
-		transform.position = registerTile.WorldPositionServer;
-		CalculateSprite();
+		//snap to tile position
+		transform.localPosition = registerTile.LocalPositionServer;
+		//show the down-facing anchored sprite, modify this to show correct direction
+		//when pipenets are implemented
+		SetSprite(1);
 
 		return true;
 	}
 
-	public virtual void SetAnchored(bool value)
+	[Server]
+	protected virtual void ServerSetAnchored(bool value)
 	{
 		anchored = value;
 		objectBehaviour.ServerSetPushable(!value);
@@ -155,16 +164,7 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 
 	public void SyncSprite(int value)
 	{
-		if (value == 0) // its using the item sprite
-		{
-			SetSpriteLayer(false);
-		}
-		else
-		{
-			transform.rotation = Quaternion.identity; //counter shuttle rotation
-			SetSpriteLayer(true);
-		}
-
+		SetSpriteLayer(value != 0);
 		SetSprite(value);
 	}
 
@@ -175,49 +175,58 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 	}
 
 
-	public void Detach()
+	[Server]
+	private void ServerDetach()
 	{
-		var foundMeters = MatrixManager.GetAt<Meter>(registerTile.WorldPositionServer, true);
-		for (int i = 0; i < foundMeters.Count; i++)
-		{
-			var meter = foundMeters[i];
-			if (meter.anchored)
-			{
-				foundMeters[i].Detach();
-			}
-		}
+		//TODO: Restore full detach logic when pipenets are fully implemented. Until then
+		//we will just change the sprite and make it pickupable again.
 
-		//TODO: release gas to environmental air
-		SetAnchored(false);
+		// var foundMeters = MatrixManager.GetAt<Meter>(registerTile.WorldPositionServer, true);
+		// for (int i = 0; i < foundMeters.Count; i++)
+		// {
+		// 	var meter = foundMeters[i];
+		// 	if (meter.anchored)
+		// 	{
+		// 		foundMeters[i].Detach();
+		// 	}
+		// }
+		//
+		// //TODO: release gas to environmental air
+		// SetAnchored(false);
+		// SetSpriteLayer(false);
+		// int neighboorPipes = 0;
+		// for (int i = 0; i < nodes.Count; i++)
+		// {
+		// 	var pipe = nodes[i];
+		// 	pipe.nodes.Remove(this);
+		// 	pipe.CalculateSprite();
+		// 	neighboorPipes++;
+		// }
+		//
+		// nodes = new List<Pipe>();
+		//
+		// Pipenet oldPipenet = pipenet;
+		// pipenet.RemovePipe(this);
+		//
+		// if (oldPipenet.members.Count == 0)
+		// {
+		// 	//we're the only pipe on the net, delete it
+		// 	oldPipenet.DeletePipenet();
+		// 	return;
+		// }
+		//
+		// if (neighboorPipes == 1)
+		// {
+		// 	//we're at an edge of the pipenet, safe to remove
+		// 	return;
+		// }
+		//
+		// oldPipenet.Separate();
+
+		ServerSetAnchored(false);
 		SetSpriteLayer(false);
-		int neighboorPipes = 0;
-		for (int i = 0; i < nodes.Count; i++)
-		{
-			var pipe = nodes[i];
-			pipe.nodes.Remove(this);
-			pipe.CalculateSprite();
-			neighboorPipes++;
-		}
-
-		nodes = new List<Pipe>();
-
-		Pipenet oldPipenet = pipenet;
-		pipenet.RemovePipe(this);
-
-		if (oldPipenet.members.Count == 0)
-		{
-			//we're the only pipe on the net, delete it
-			oldPipenet.DeletePipenet();
-			return;
-		}
-
-		if (neighboorPipes == 1)
-		{
-			//we're at an edge of the pipenet, safe to remove
-			return;
-		}
-
-		oldPipenet.Separate();
+		//unanchored sprite
+		SetSprite(0);
 	}
 
 
@@ -268,22 +277,23 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 		}
 	}
 
-	private void CalculateDirection()
-	{
-		float rotation = transform.rotation.eulerAngles.z;
-		var orientation = Orientation.GetOrientation(rotation);
-		if (orientation == Orientation.Up) //look over later
-		{
-			orientation = Orientation.Down;
-		}
-		else if (orientation == Orientation.Down)
-		{
-			orientation = Orientation.Up;
-		}
-
-		SetDirection(orientation);
-		directional.FaceDirection(orientation);
-	}
+	//TODO: Revisit when pipenets implemented
+	// private void CalculateDirection()
+	// {
+	// 	float rotation = transform.rotation.eulerAngles.z;
+	// 	var orientation = Orientation.GetOrientation(rotation);
+	// 	if (orientation == Orientation.Up) //look over later
+	// 	{
+	// 		orientation = Orientation.Down;
+	// 	}
+	// 	else if (orientation == Orientation.Down)
+	// 	{
+	// 		orientation = Orientation.Up;
+	// 	}
+	//
+	// 	SetDirection(orientation);
+	// 	directional.FaceDirection(orientation);
+	// }
 
 	private void OnDirectionChange(Orientation direction)
 	{
@@ -396,8 +406,17 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 		direction = Direction.SOUTH;
 	}
 
-	public void SetSprite(int value)
+	protected void SetSprite(int value)
 	{
+		//TODO: Restore pipe sprites once pipenets are implemented.
+
+		//Until then, we only support the unanchored and anchored pointing down sprites
+		//force it to be the downward pointing pipe sprite if it's one of the other directions
+		if (value != 0 && value != 1)
+		{
+			value = 1;
+		}
+
 		spriteSync = value;
 		spriteRenderer.sprite = pipeSprites[value];
 	}
