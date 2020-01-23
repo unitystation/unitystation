@@ -155,7 +155,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			{
 				case PickupMode.Single:
 					// See if there's an item to pickup
-					if (interaction.TargetObject == null)
+					if (interaction.TargetObject == null ||
+						interaction.TargetObject.Item() == null)
 					{
 						Chat.AddExamineMsgToClient("There's nothing to pickup!");
 						return false;
@@ -221,7 +222,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					break;
 
 				case PickupMode.Same:
-					if (interaction.TargetObject == null)
+					if (interaction.TargetObject == null ||
+						interaction.TargetObject.Item() == null)
 					{
 						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
 						return;
