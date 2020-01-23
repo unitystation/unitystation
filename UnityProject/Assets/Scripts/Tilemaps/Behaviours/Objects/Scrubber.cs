@@ -45,7 +45,10 @@ public class Scrubber : AdvancedPipe
 			// var suckedAir =  metaNode.GasMix / 2;
 			// pipenet.gasMix += suckedAir;
 			// metaNode.GasMix -= suckedAir;
-			metaNode.GasMix = new GasMix(GasMixes.Space);
+
+			//suck out a fraction of the current gasmix
+			var suckedAir = metaNode.GasMix / 4;
+			metaNode.GasMix -= suckedAir;
 			metaDataLayer.UpdateSystemsAt(RegisterTile.LocalPositionServer);
 		}
 	}
