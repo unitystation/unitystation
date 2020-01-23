@@ -78,7 +78,7 @@ public class Explosion : MonoBehaviour
 				// Calculate fire effect time
 				var fireTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
 				var localTilePos = MatrixManager.WorldToLocalInt(tilePos, matrix.Id);
-				StartCoroutine(TimedEffect(localTilePos, fireTime, tileManager));
+				//StartCoroutine(TimedEffect(localTilePos, fireTime, tileManager));
 
 				// Save longest fire effect time
 				if (fireTime > longestTime)
@@ -128,7 +128,7 @@ public class Explosion : MonoBehaviour
 	private void DamageTiles(Vector3Int worldPosition, int damage)
 	{
 		var matrix = MatrixManager.AtPoint(worldPosition, true);
-		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPosition, matrix), damage, worldPosition, AttackType.Bomb);
+		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPosition, matrix), damage, worldPosition, AttackType.Melee);
 	}
 
 	/// <summary>

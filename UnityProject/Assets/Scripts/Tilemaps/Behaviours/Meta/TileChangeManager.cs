@@ -161,10 +161,6 @@ public class TileChangeManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
-		if ( isServer )
-		{
-			return;
-		}
 		InternalUpdateTile(position, tileType, tileName);
 	}
 
