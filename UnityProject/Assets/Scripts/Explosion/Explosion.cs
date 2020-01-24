@@ -78,7 +78,7 @@ public class Explosion : MonoBehaviour
 				// Calculate fire effect time
 				var fireTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
 				var localTilePos = MatrixManager.WorldToLocalInt(tilePos, matrix.Id);
-				//StartCoroutine(TimedEffect(localTilePos, fireTime, tileManager));
+				StartCoroutine(TimedFireEffect(localTilePos, fireTime, tileManager));
 
 				// Save longest fire effect time
 				if (fireTime > longestTime)
@@ -92,11 +92,18 @@ public class Explosion : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	public IEnumerator TimedEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
+	public IEnumerator TimedFireEffect(Vector3Int position, float time, TileChangeManager tileChangeManager)
 	{
+		// Store the old effect for restoring after fire is gone
+		LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(position, LayerType.Effects);
+
 		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
 		yield return WaitFor.Seconds(time);
 		tileChangeManager.RemoveTile(position, LayerType.Effects);
+
+		// Restore the old effect if any (ex: cracked glass)
+		if (oldEffectLayerTile)
+			tileChangeManager.UpdateTile(position, oldEffectLayerTile);
 	}
 
 
@@ -128,7 +135,7 @@ public class Explosion : MonoBehaviour
 	private void DamageTiles(Vector3Int worldPosition, int damage)
 	{
 		var matrix = MatrixManager.AtPoint(worldPosition, true);
-		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPosition, matrix), damage, worldPosition, AttackType.Melee);
+		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPosition, matrix), damage, worldPosition, AttackType.Bomb);
 	}
 
 	/// <summary>
