@@ -261,4 +261,25 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			itemSlot.LocalUISlot.SetSecondaryImage(newSecondaryImage);
 		}
 	}
+
+
+	public void SetPlayerSprites(SpriteData _Info, int _spriteIndex = 0, int _variantIndex = 0)
+	{
+		var equipment = itemSlot.Player.GetComponent<Equipment>();
+		if (equipment == null) return;
+		var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
+		CT.spriteHandler.SetInfo(_Info, _spriteIndex, _variantIndex);
+	}
+
+
+	public void SetPlayerItemsSprites(ItemsSprites _ItemsSprites, int _spriteIndex = 0, int _variantIndex = 0)
+	{
+		if (itemSlot != null)
+		{
+			var equipment = itemSlot.Player.GetComponent<Equipment>();
+			if (equipment == null) return;
+			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
+			CT.SetInHand(_ItemsSprites);
+		}
+	}
 }

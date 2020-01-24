@@ -28,7 +28,6 @@ public class ClothingItem : MonoBehaviour
 	protected int referenceOffset;
 	public Color color = Color.white;
 	private int variantIndex = 0;
-	private SpriteDataHandler SHD;
 
 	public SpriteHandler spriteHandler;
 
@@ -115,22 +114,9 @@ public class ClothingItem : MonoBehaviour
 			GameObjectReference = Item;
 			if (InHands)
 			{
-				var equippedAttributes = Item.GetComponent<ItemAttributesV2>();
-				SHD = equippedAttributes?.SpriteDataHandler;
-				if (SHD != null)
-				{
-					spriteHandler.Infos = SHD.Infos;
-					if (spriteType == SpriteHandType.RightHand)
-					{
-						spriteHandler.ChangeSprite((spriteHandler.Infos.VariantIndex * 2) + 1);
-					}
-					else
-					{
-						spriteHandler.ChangeSprite(spriteHandler.Infos.VariantIndex * 2);
-					}
-
-					PushTexture();
-				}
+				var SpriteHandlerController = Item.GetComponent<SpriteHandlerController>();
+				var InHandsSprites = SpriteHandlerController?.InHandsSprites;
+				SetInHand(InHandsSprites);
 			}
 			else
 			{
@@ -173,7 +159,6 @@ public class ClothingItem : MonoBehaviour
 		{
 			referenceOffset = 3;
 		}
-
 		UpdateSprite();
 	}
 
@@ -183,17 +168,6 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteHandler.Infos != null)
 			{
-				if (SHD)
-				{
-					if (spriteType == SpriteHandType.RightHand)
-					{
-						spriteHandler.ChangeSprite((SHD.Infos.VariantIndex * 2) + 1);
-					}
-					else
-					{
-						spriteHandler.ChangeSprite(SHD.Infos.VariantIndex * 2);
-					}
-				}
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
 		}
@@ -206,4 +180,23 @@ public class ClothingItem : MonoBehaviour
 			spriteHandler.PushTexture();
 		}
 	}
+
+
+	public void SetInHand(ItemsSprites _ItemsSprites) { 
+		if (_ItemsSprites != null)
+		{
+			if (spriteType == SpriteHandType.RightHand)
+			{
+				spriteHandler.Infos = _ItemsSprites.RightHand.Data;
+			}
+			else
+			{
+				spriteHandler.Infos = _ItemsSprites.LeftHand.Data;
+			}
+
+			PushTexture();
+		}
+	
+	}
+
 }

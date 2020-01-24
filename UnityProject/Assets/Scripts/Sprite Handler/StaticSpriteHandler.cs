@@ -14,10 +14,10 @@ public static class StaticSpriteHandler
 
 		if (textureAndData.Sprites.Length > 1)
 		{
-			SpriteDataHandler.SpriteJson spriteJson;
-			spriteJson = JsonConvert.DeserializeObject<SpriteDataHandler.SpriteJson>(textureAndData.EquippedData.text);
-			int c = 0;
-			int cone = 0;
+			SpriteJson spriteJson;
+			spriteJson = JsonConvert.DeserializeObject<SpriteJson>(textureAndData.EquippedData.text);
+			int variance = 0;
+			int frame = 0;
 			for (int J = 0; J < spriteJson.Number_Of_Variants; J++)
 			{
 				SpriteInfos.Add(new List<SpriteDataHandler.SpriteInfo>());
@@ -29,18 +29,18 @@ public static class StaticSpriteHandler
 				info.sprite = SP;
 				if (spriteJson.Delays.Count > 0)
 				{
-					info.waitTime = spriteJson.Delays[c][cone];
+					info.waitTime = spriteJson.Delays[variance][frame];
 				}
 
-				SpriteInfos[c].Add(info);
-				if (c >= (spriteJson.Number_Of_Variants - 1))
+				SpriteInfos[variance].Add(info);
+				if (variance >= (spriteJson.Number_Of_Variants - 1))
 				{
-					c = 0;
-					cone++;
+					variance = 0;
+					frame++;
 				}
 				else
 				{
-					c++;
+					variance++;
 				}
 			}
 		}
@@ -55,19 +55,25 @@ public static class StaticSpriteHandler
 				SpriteInfos.Add(new List<SpriteDataHandler.SpriteInfo>());
 				SpriteInfos[0].Add(info);
 			}
-			//else {
-			//	Logger.LogError("HELP!!!!!"); // Nope, you got us into this mess
-			//}
+
 		}
 		return (SpriteInfos);
 	}
 
 
-	public static SpriteData SetupSingleSprite(SpriteSheetAndData textureAndData) {
+	public static SpriteData SetupSingleSprite(SpriteSheetAndData textureAndData)
+	{
 		var SpriteInfos = new SpriteData();
 		SpriteInfos.List = new List<List<List<SpriteDataHandler.SpriteInfo>>>();
 		SpriteInfos.List.Add(CompleteSpriteSetup(textureAndData));
 		return (SpriteInfos);
 	}
+}
+
+public class SpriteJson
+{
+	public List<List<float>> Delays;
+	public int Number_Of_Variants;
+	public int Frames_Of_Animation;
 }
 
