@@ -62,7 +62,6 @@ public class ChatRelay : NetworkBehaviour
 		                                            || chatEvent.channels == ChatChannel.Action)
 		{
 			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-			RaycastHit2D hit;
 			LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
 			for (int i = 0; i < players.Count(); i++)
 			{

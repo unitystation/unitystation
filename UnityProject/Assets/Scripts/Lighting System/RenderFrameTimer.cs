@@ -25,7 +25,7 @@ public class RenderFrameTimer : MonoBehaviour
 
 	private void WaitForEndOfFrame()
 	{
-		
+
 	}
 
 	public IEnumerator Start()
@@ -35,10 +35,7 @@ public class RenderFrameTimer : MonoBehaviour
 			// Wait until all rendering + UI is done.
 			yield return WaitFor.EndOfFrame;
 			OnEndOfFrame();
-
 		}
-
-		yield return null;
 	}
 
 	private void OnEndOfFrame()
@@ -46,8 +43,8 @@ public class RenderFrameTimer : MonoBehaviour
 		sampleTime += Time.deltaTime;
 		sample += Time.realtimeSinceStartup - mRenderStart;
 		frames++;
- 
-		if(frames >= 60)
+
+		if (frames >= 60)
 		{
 			// display two fractional digits (f2 format)
 			renderTime = (sample) * 1000;
@@ -61,8 +58,8 @@ public class RenderFrameTimer : MonoBehaviour
 		sampleTimeLong += Time.deltaTime;
 		sampleLong += Time.realtimeSinceStartup - mRenderStart;
 		framesLong++;
- 
-		if(framesLong >= 600)
+
+		if (framesLong >= 600)
 		{
 			// display two fractional digits (f2 format)
 			renderTimeLong = (sampleLong) * 1000;
