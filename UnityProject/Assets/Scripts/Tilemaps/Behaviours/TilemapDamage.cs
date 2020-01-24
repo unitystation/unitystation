@@ -7,6 +7,18 @@ using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 /// <summary>
+/// The level of damage that a window has received
+/// </summary>
+public enum WindowDamageLevel
+{
+	Undamaged,
+	Crack01,
+	Crack02,
+	Crack03,
+	Broken
+}
+
+/// <summary>
 /// Allows for damaging tiles and updating tiles based on damage taken.
 /// </summary>
 public class TilemapDamage : MonoBehaviour, IFireExposable
@@ -243,12 +255,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee);
 	}
 
-	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos)
+	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
-		return DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee); //idk if collision can be classified as "melee"
+		return DoDamageInternal(cellPos, dmgAmt, worldPos, attackType); //idk if collision can be classified as "melee"
 	}
 
 	/// <returns>Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled
+	/// <paramref name="attackType"/>
 	/// damage done.</returns>
 	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
@@ -444,28 +457,37 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return 0;
 	}
 
+	/// <summary>
+	/// Damage a window tile, incrementaly
+	/// </summary>
+	/// <param name="damage">The amount of damage the window received</param>
+	/// <param name="data">The data about the current state of this window</param>
+	/// <param name="cellPos">The position of the window tile</param>
+	/// <param name="bulletHitTarget">Where exactly the bullet hit</param>
+	/// <param name="attackType">The type of attack that did the damage</param>
+	/// <returns>The remaining damage to apply to the tile if the window is broken, 0 otherwise.</returns>
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)
 	{
 		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
-		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDmgType != "crack01")
+		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDamage < WindowDamageLevel.Crack01)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack01");
-			data.WindowDmgType = "crack01";
+			data.WindowDamage = WindowDamageLevel.Crack01;
 		}
 
-		if (data.Damage >= 50 && data.Damage < 75 && data.WindowDmgType != "crack02")
+		if (data.Damage >= 50 && data.Damage < 75 && data.WindowDamage < WindowDamageLevel.Crack02)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack02");
-			data.WindowDmgType = "crack02";
+			data.WindowDamage = WindowDamageLevel.Crack02;
 		}
 
-		if (data.Damage >= 75 && data.Damage < MAX_WINDOW_DAMAGE && data.WindowDmgType != "crack03")
+		if (data.Damage >= 75 && data.Damage < MAX_WINDOW_DAMAGE && data.WindowDamage < WindowDamageLevel.Crack03)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack03");
-			data.WindowDmgType = "crack03";
+			data.WindowDamage = WindowDamageLevel.Crack03;
 		}
 
-		if (data.Damage >= MAX_WINDOW_DAMAGE && data.WindowDmgType != "broken")
+		if (data.Damage >= MAX_WINDOW_DAMAGE && data.WindowDamage < WindowDamageLevel.Broken)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "none");
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
@@ -476,11 +498,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			//Play the breaking window sfx:
 			SoundManager.PlayNetworkedAtPos("GlassBreak0#", bulletHitTarget, 1f);
 
-			data.WindowDmgType = "broken";
+			data.WindowDamage = WindowDamageLevel.Broken;
 			return data.ResetDamage() - MAX_WINDOW_DAMAGE;
 		}
 
-		return 0;
+		return 0; // The remaining damage after cracking the window.
 	}
 
 	private float AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)

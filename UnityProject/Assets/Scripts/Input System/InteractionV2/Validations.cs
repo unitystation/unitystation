@@ -165,7 +165,7 @@ public static class Validations
 	///
 	/// </summary>
 	/// <param name="playerScript">player script performing the interaction</param>
-	/// <param name="target">target object</param>
+	/// <param name="target">target object.  Might be null if it's empty space</param>
 	/// <param name="side">side of the network this is being checked on</param>
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
@@ -179,11 +179,6 @@ public static class Validations
 		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
 	{
 		if (playerScript == null) return false;
-		if (target == null)
-		{
-			Logger.LogWarning("There was no target given to Validations.CanApply", Category.Interaction);
-			return false;
-		}
 
 		var playerObjBehavior = playerScript.pushPull;
 
@@ -230,7 +225,8 @@ public static class Validations
 			}
 			else
 			{
-				var cnt = target.GetComponent<CustomNetTransform>();
+				CustomNetTransform cnt = (target == null) ? null : target.GetComponent<CustomNetTransform>();
+
 				if (cnt == null)
 				{
 					result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
@@ -246,24 +242,30 @@ public static class Validations
 		{
 			Vector3 worldPosition = Vector3.zero;
 			bool isFloating = false;
+			string targetName = string.Empty;
 
 			// Client tried to do something out of range, report it
 			// Note : it can be a security incident, but it might also be caused by bugs.
-		    // TODO: verify after a few rounds in multi-player, if this happens too often,
+			// TODO: verify after a few rounds in multi-player, if this happens too often,
 			// with this log information, try to find the cause and fix it (or fine tune it for less frequent logs).
 
-			if (target.TryGetComponent(out CustomNetTransform cnt))
+			if (target != null)
 			{
-				worldPosition = cnt.ServerState.WorldPosition;
-				isFloating = cnt.IsFloatingServer;
-			}
-			else if (target.TryGetComponent(out PlayerSync playerSync))
-			{
-				worldPosition = playerSync.ServerState.WorldPosition;
-				isFloating = playerSync.IsWeightlessServer;
+				targetName = target.name;
+
+				if (target.TryGetComponent(out CustomNetTransform cnt))
+				{
+					worldPosition = cnt.ServerState.WorldPosition;
+					isFloating = cnt.IsFloatingServer;
+				}
+				else if (target.TryGetComponent(out PlayerSync playerSync))
+				{
+					worldPosition = playerSync.ServerState.WorldPosition;
+					isFloating = playerSync.IsWeightlessServer;
+				}
 			}
 
-			Logger.LogTraceFormat($"Not in reach! Target: {target.name} server pos:{worldPosition} "+
+			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
 				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.registerTile.WorldPositionServer} " +
 								  $"(floating={isFloating})", Category.Security);
 		}
@@ -275,7 +277,7 @@ public static class Validations
 	/// Figures out what method of reach checking to use based on the parameters.
 	/// </summary>
 	/// <param name="playerScript"></param>
-	/// <param name="target"></param>
+	/// <param name="target">Target of the interraction.  Can be null if empty space.</param>
 	/// <param name="side"></param>
 	/// <param name="targetVector"></param>
 	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
@@ -288,7 +290,7 @@ public static class Validations
 		bool result;
 		if (targetVector == null)
 		{
-			var regTarget = targetRegisterTile == null ? target.RegisterTile() : targetRegisterTile;
+			var regTarget = targetRegisterTile == null ? (target == null ? null : target.RegisterTile()) : targetRegisterTile;
 			//Use the smart range check which works better on moving matrices
 			if (regTarget != null)
 			{

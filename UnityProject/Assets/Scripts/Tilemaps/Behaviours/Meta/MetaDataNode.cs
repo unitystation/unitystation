@@ -182,8 +182,10 @@ public class MetaDataNode: IGasMixContainer
 		}
 	}
 
-	public string WindowDmgType { get; set; } = "";
-
+	/// <summary>
+	/// The level of damage that a window has received if the node is a window.
+	/// </summary>
+	public WindowDamageLevel WindowDamage { get; set; } = WindowDamageLevel.Undamaged;
 
 	/// <returns>Damage before reset</returns>
 	public float ResetDamage()
