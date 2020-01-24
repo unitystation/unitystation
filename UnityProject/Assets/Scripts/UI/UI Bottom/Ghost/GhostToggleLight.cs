@@ -31,7 +31,8 @@ public class GhostToggleLight : MonoBehaviour
 			// Check camera main
 			if (Camera.main == null)
 			{
-				Logger.LogError("Main Camera not found!", Category.Lighting);
+				//means that the client may of logged out
+				//and the scene is in between loading
 				return null;
 			}
 
