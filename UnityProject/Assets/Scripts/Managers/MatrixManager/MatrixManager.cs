@@ -619,6 +619,11 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			Instance.InitMatrices();
 		}
+
+		//Sometimes Get is still being called on the old matrixmanager instance on a
+		//round restart
+		if (id >= Instance.ActiveMatrices.Length) return MatrixInfo.Invalid;
+
 		return Instance.ActiveMatrices[id];
 	}
 
