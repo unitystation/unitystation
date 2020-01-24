@@ -208,6 +208,8 @@ namespace Lobby
 		public void ShowLoggingInStatus(string status)
 		{
 			HideAllPanels();
+			if (loggingInPanel == null) return;
+			
 			loggingInPanel.SetActive(true);
 			loggingInText.text = status;
 			loginNextButton.SetActive(false);
