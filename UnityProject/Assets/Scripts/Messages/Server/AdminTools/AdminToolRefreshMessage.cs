@@ -57,6 +57,7 @@ public class AdminToolRefreshMessage : ServerMessage
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
 			if (player == null) continue;
+			if (player.Connection == null) continue;
 
 			var entry = new AdminPlayerEntryData();
 			entry.name = player.Name;
@@ -65,7 +66,7 @@ public class AdminToolRefreshMessage : ServerMessage
 			entry.isAlive = player.Script.IsGhost;
 			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
-			entry.isOnline = player.Connection != null;
+			entry.isOnline = true;
 
 			foreach (var msg in checkMessages)
 			{

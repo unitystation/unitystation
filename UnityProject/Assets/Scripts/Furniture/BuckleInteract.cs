@@ -12,8 +12,8 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 {
 	//may be null
 	private OccupiableDirectionalSprite occupiableDirectionalSprite;
-
-	public bool forceUpright;
+	
+	public bool forceLayingDown;
 
 	private void Start()
 	{

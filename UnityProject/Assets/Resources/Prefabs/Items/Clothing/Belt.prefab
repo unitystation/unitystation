@@ -56,6 +56,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Belt
       objectReference: {fileID: 0}
+    - target: {fileID: 1294895622248348228, guid: b4bff558b58c04022bd73a7707d8f347,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3f404db7d899e7f4fb5bc27bb47a5bfa,
+        type: 3}
     - target: {fileID: 1376433569766012012, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -111,15 +117,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1577398542186243706, guid: b4bff558b58c04022bd73a7707d8f347,
-        type: 3}
-      propertyPath: initialSize
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1341409348177966252, guid: b4bff558b58c04022bd73a7707d8f347,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577398542186243706, guid: b4bff558b58c04022bd73a7707d8f347,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4bff558b58c04022bd73a7707d8f347, type: 3}

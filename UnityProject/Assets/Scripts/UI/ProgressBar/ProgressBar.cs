@@ -118,6 +118,9 @@ public class ProgressBar : MonoBehaviour
 
 	}
 
+	/// <summary>
+	/// Logic for starting a progress bar used on both client and server.
+	/// </summary>
 	private void CommonStartProgress()
 	{
 		//always upright in world space
@@ -171,6 +174,7 @@ public class ProgressBar : MonoBehaviour
 		// -1 sent from server means the crafting is complete. dismiss the progress bar:
 		if (newSpriteIndex == -1)
 		{
+			Logger.LogTraceFormat("Client stopping progress bar {0} because server told us it's done", Category.ProgressAction, ID);
 			DestroyProgressBar();
 			return;
 		}
@@ -219,6 +223,7 @@ public class ProgressBar : MonoBehaviour
 		if (!progressAction.OnServerContinueProgress(new InProgressInfo(progress)))
 		{
 			progressAction.OnServerEndProgress(new EndProgressInfo(false));
+			Logger.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
 			ServerCloseProgressBar();
 		}
 
@@ -226,7 +231,7 @@ public class ProgressBar : MonoBehaviour
 		if (progress >= timeToFinish)
 		{
 			progressAction.OnServerEndProgress(new EndProgressInfo(true));
-
+			Logger.LogTraceFormat("Server progress bar {0} completed.", Category.ProgressAction, ID);
 			ServerCloseProgressBar();
 		}
 	}
@@ -241,6 +246,7 @@ public class ProgressBar : MonoBehaviour
 		if (done) return;
 
 		progressAction.OnServerEndProgress(new EndProgressInfo(false));
+		Logger.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
 		ServerCloseProgressBar();
 	}
 
@@ -256,6 +262,7 @@ public class ProgressBar : MonoBehaviour
 		}
 		else
 		{
+			Logger.LogTraceFormat("Server telling {0} to close progress bar {1}", Category.ProgressAction, registerPlayer.gameObject, ID);
 			ProgressBarMessage.SendUpdate(registerPlayer.gameObject, COMPLETE_INDEX, id);
 
 			//destroy server's local copy

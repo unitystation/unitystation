@@ -150,11 +150,13 @@ public partial class PlayerList
 		//check if they are already logged in, skip this check if offline mode is enable or if not a release build.
 		if (!GameData.Instance.OfflineMode && BuildPreferences.isForRelease)
 		{
-			if (GetByUserID(userid) != null)
+			var otherUser = GetByUserID(userid);
+			if (otherUser != null)
 			{
-				if (GetByUserID(userid).Connection != null)
+				if (otherUser.Connection != null && otherUser.GameObject != null)
 				{
-					if (playerConn.ClientId != GetByUserID(userid).ClientId)
+					if (playerConn.UserId == userid
+					    && playerConn.Connection != otherUser.Connection)
 					{
 						StartCoroutine(
 							KickPlayer(playerConn, $"Server Error: You are already logged into this server!"));

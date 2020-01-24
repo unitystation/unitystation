@@ -43,7 +43,7 @@ public class CorgiAI : MobAI
 
 	void ProcessLocalChat(ChatEvent chatEvent)
 	{
-		var speaker = PlayerList.Instance.Get(chatEvent.speaker, false);
+		var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 
 		if (speaker.Script == null) return;
 		if (speaker.Script.playerNetworkActions == null) return;

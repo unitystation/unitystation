@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 public class SecurityRecordsManager : MonoBehaviour
@@ -20,6 +21,21 @@ public class SecurityRecordsManager : MonoBehaviour
 			}
 			return instance;
 		}
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnRoundRestart;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnRoundRestart;
+	}
+
+	void OnRoundRestart(Scene scene, LoadSceneMode mode)
+	{
+		SecurityRecords.Clear();
 	}
 
 	/// <summary>

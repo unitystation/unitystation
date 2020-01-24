@@ -21,6 +21,11 @@ public partial class Chat
 	public Color combatColor;
 	public Color defaultColor;
 
+	/// <summary>
+	/// Processes message further for the chat log.
+	/// Adds text styling, color and channel prefixes depending on the message and its modifiers.
+	/// </summary>
+	/// <returns>The chat message, formatted to suit the chat log.</returns>
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
 		ChatModifier modifiers)
 	{
@@ -39,7 +44,7 @@ public partial class Chat
 		//Skip everything if it is an action or examine message or if it is a local message
 		//without a speaker (which is used by machines)
 		if (channels.HasFlag(ChatChannel.Examine) || channels.HasFlag(ChatChannel.Action)
-		    || channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
+			|| channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -53,13 +58,10 @@ public partial class Chat
 		message = StripTags(message);
 
 		//Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
-		Regex rx = new Regex("^(/me )");
-		if (rx.IsMatch(message))
+		if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
 		{
 			// /me message
 			channels = ChatChannel.Local;
-
-			message = rx.Replace(message, " ");
 			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
 			return message;
 		}
@@ -77,24 +79,25 @@ public partial class Chat
 			return AddMsgColor(channels, $"[dead] <b>{speaker}</b>: {message}");
 		}
 
-		message = ApplyModifiers(message, modifiers);
-		if (message.Length < 1)
+		var verb = "says,";
+
+		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{
-			return "";
+			verb = "whispers,";
+			message = $"<i>{message}</i>";
 		}
-
-		var verb = "says:";
-		// Yelling if all letters are capitalized and message contains at least one letter.
-		bool toUpperCheck = message == message.ToUpper(CultureInfo.InvariantCulture) && message.Any(System.Char.IsLetter);
-
-		if (message.Contains("!") && !toUpperCheck){
-			verb = "exclaims,";
-		}
-
-		if (toUpperCheck)
+		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
 			verb = "yells,";
 			message = $"<b>{message}</b>";
+		}
+		else if (message.EndsWith("!"))
+		{
+			verb = "exclaims,";
+		}
+		else if (message.EndsWith("?"))
+		{
+			verb = "asks,";
 		}
 
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
@@ -117,75 +120,6 @@ public partial class Chat
 		//Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
 		Regex rx = new Regex("[<][^>]+[>]");
 		string output = rx.Replace(input, "");
-
-		return output;
-	}
-
-	private static string ApplyModifiers(string input, ChatModifier modifiers)
-	{
-		string output = input;
-
-		//Clowns say a random number (1-3) HONK!'s after every message
-		if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
-		{
-			int intensity = Random.Range(1, 4);
-			for (int i = 0; i < intensity; i++)
-			{
-				if (i == 0)
-				{
-					output = output + " HONK!";
-				}
-				else
-				{
-					output = output + "HONK!";
-				}
-			}
-		}
-
-		//Sneks say extra S's
-		if ((modifiers & ChatModifier.Hiss) == ChatModifier.Hiss)
-		{
-			//Regex - find 1 or more "s"
-			Regex rx = new Regex("s+|S+");
-			output = rx.Replace(output, Hiss);
-		}
-
-		//Stuttering people randomly repeat beginnings of words
-		if ((modifiers & ChatModifier.Stutter) == ChatModifier.Stutter)
-		{
-			//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
-			Regex rx = new Regex(@"(\b)+([^\d\W])\B");
-			output = rx.Replace(output, Stutter);
-		}
-
-		//Drunk people slur all "s" into "sh", randomly ...hic!... between words and have high % to ...hic!... after a sentance
-		if ((modifiers & ChatModifier.Drunk) == ChatModifier.Drunk)
-		{
-			//Regex - find 1 or more "s"
-			Regex rx = new Regex("s+|S+");
-			output = rx.Replace(output, Slur);
-			//Regex - find 1 or more whitespace
-			rx = new Regex(@"\s+");
-			output = rx.Replace(output, Hic);
-			//50% chance to ...hic!... at end of sentance
-			if (Random.Range(1, 3) == 1)
-			{
-				output = output + " ...hic!...";
-			}
-		}
-		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
-		{
-			//If user is in barely conscious state, make text italic
-			//todo: decrease range and modify text somehow
-			//This can be changed later to other status effects
-			output = "<i>"+output+"</i>";
-		}
-		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
-		{
-			//If user is in unconscious state remove text
-			//This can be changed later to other status effects
-			output = "";
-		}
 
 		return output;
 	}
@@ -278,15 +212,15 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Service)) return ColorUtility.ToHtmlStringRGBA(Instance.serviceColor);
 		if (channel.HasFlag(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
-		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);;
+		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor); ;
 	}
 
 	private static bool IsNamelessChan(ChatChannel channel)
 	{
 		if (channel.HasFlag(ChatChannel.System) ||
-		    channel.HasFlag(ChatChannel.Combat) ||
-		    channel.HasFlag(ChatChannel.Action) ||
-		    channel.HasFlag(ChatChannel.Examine))
+			channel.HasFlag(ChatChannel.Combat) ||
+			channel.HasFlag(ChatChannel.Action) ||
+			channel.HasFlag(ChatChannel.Examine))
 		{
 			return true;
 		}

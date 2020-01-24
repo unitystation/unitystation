@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Lucene.Net.Support;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class CargoManager : MonoBehaviour
 {
@@ -41,6 +42,27 @@ public class CargoManager : MonoBehaviour
 	private float shuttleFlyDuration = 10f;
 
 	private HashMap<string, ExportedItem> exportedItems = new HashMap<string, ExportedItem>();
+
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnRoundRestart;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnRoundRestart;
+	}
+
+	void OnRoundRestart(Scene scene, LoadSceneMode mode)
+	{
+		Supplies.Clear();
+		CurrentOrders.Clear();
+		CurrentCart.Clear();
+		ShuttleStatus = ShuttleStatus.DockedStation;
+		Credits = 1000;
+		CurrentFlyTime = 0f;
+		CentcomMessage = "";
+	}
 
 	/// <summary>
 	/// Calls the shuttle.

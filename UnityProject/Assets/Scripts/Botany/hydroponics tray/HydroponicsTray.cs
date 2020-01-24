@@ -44,10 +44,12 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	public int plantSubStage;
 	public float plantHealth = 100;
 	public bool readyToHarvest;
+	private bool IsServer; //separate flag as NetworkBehaviour isServer is not accurate when destroying an object
 
 	public override void OnStartServer()
 	{
 		UpdateManager.Instance.Add(ServerUpdate);
+		IsServer = true;
 		if (isSoilPile)
 		{
 			hasPlant = false;
@@ -68,7 +70,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	public void OnDisable()
 	{
-		if (isServer)
+		if (IsServer)
 		{
 			UpdateManager.Instance.Remove(ServerUpdate);
 		}
@@ -312,12 +314,12 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		syncNutrimentNotifier = newNotifier;
 		if (syncNutrimentNotifier)
 		{
-			
+
 			nutrimentNotifier.PushTexture();
 		}
 		else
 		{
-			
+
 			nutrimentNotifier.PushClear();
 		}
 	}
@@ -519,6 +521,13 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			var _Object = Spawn
 				.ServerPrefab(plantData.ProduceObject, registerTile.WorldPositionServer, transform.parent)
 				.GameObject;
+
+			if (_Object == null)
+			{
+				Logger.Log("plantData.ProduceObject returned an empty gameobject on spawn, skipping this crop produce", Category.Botany);
+				continue;
+			}
+			
 			CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
 			var food = _Object.GetComponent<GrownFood>();
 			if (food != null)

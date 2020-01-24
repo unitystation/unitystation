@@ -17,6 +17,8 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// </summary>
 	public GameObject disclamerWindow;
 
+	public VotePopUp VotePopUp;
+
 	private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
 
 	private CustomNetworkManager networkManager => CustomNetworkManager.Instance;
@@ -110,6 +112,18 @@ public class GUI_IngameMenu : MonoBehaviour
 	{
 		Unitystation.Options.OptionsMenu.Instance.Open();
 		HideAllMenus();
+	}
+
+	public void InitiateRestartVote()
+	{
+		SoundManager.Play("Click01");
+
+		if (PlayerManager.PlayerScript == null) return;
+		if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+
+		PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateRestartVote();
+
+		CloseMenuPanel();
 	}
 
 	// Logout confirmation window functions

@@ -248,7 +248,9 @@ public enum Category
 	MLAgents,
 	Direction,
 	Admin,
-	BuckledMovement
+	BuckledMovement,
+	ProgressAction,
+	Botany
 }
 
 [Serializable]

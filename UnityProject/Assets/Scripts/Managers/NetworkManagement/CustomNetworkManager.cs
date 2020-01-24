@@ -229,10 +229,6 @@ public class CustomNetworkManager : NetworkManager
 	{
 		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
 		//we want to keep the object around so player can rejoin and reenter their body.
-
-
-		var player = PlayerList.Instance.Get(conn);
-		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);
 	}
 

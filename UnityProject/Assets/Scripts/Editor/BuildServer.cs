@@ -2,7 +2,6 @@
 using System.Linq;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using DatabaseAPI;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -15,13 +14,13 @@ static class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Server/Unitystation-Server";
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
-		buildPlayerOptions.options = BuildOptions.None;
+		buildPlayerOptions.options = BuildOptions.Development;
 		BuildPreferences.SetRelease(true);
         BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 
 	//IMPORTANT: ALWAYS DO WINDOWS BUILD FIRST IN YOUR BUILD CYCLE:
-	private static async void PerformWindowsBuild()
+	private static void PerformWindowsBuild()
 	{
 		//Always build windows client first so that build info can increment the build number
 		int buildNum = 0;
@@ -48,18 +47,11 @@ static class BuildScript
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json"), JsonUtility.ToJson(buildInfo));
 		File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "buildinfoupdate.json"), JsonUtility.ToJson(buildInfoUpdate));
 
-		//TODO auto save for all scenes that aren't lobby when we have multiple server maps
-		//Force netweaver to cache network components:
-		EditorSceneManager.OpenScene("Assets/scenes/OutpostStation.unity");
-		await Task.Delay(TimeSpan.FromSeconds(5));
-		EditorSceneManager.MarkAllScenesDirty();
-		EditorSceneManager.SaveOpenScenes();
-
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
-		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.Development;
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}

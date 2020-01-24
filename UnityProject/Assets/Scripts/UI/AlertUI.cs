@@ -15,6 +15,7 @@ public class AlertUI : MonoBehaviour
 	public GameObject buckled;
 
 	public GameObject cuffed;
+	public GameObject pickupMode;
 
 	private Action onClickBuckled;
 
@@ -29,6 +30,15 @@ public class AlertUI : MonoBehaviour
 	public void OnClickCuffed()
 	{
 		PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+		SoundManager.Play("Click01");
+	}
+
+	/// <summary>
+	/// Called when the switch pickup mode action button is pressed
+	/// </summary>
+	public void OnClickSwitchPickupMode()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
 		SoundManager.Play("Click01");
 	}
 
@@ -47,6 +57,7 @@ public class AlertUI : MonoBehaviour
 		onClickBuckled = null;
 		buckled.SetActive(false);
 		cuffed.SetActive(false);
+		pickupMode.SetActive(false);
 	}
 
 
@@ -72,4 +83,14 @@ public class AlertUI : MonoBehaviour
 	{
 		cuffed.SetActive(show);
 	}
+
+	/// <summary>
+	/// Toggle Alert UI button for pickup mode
+	/// </summary>
+	/// <param name="show"></param>
+	public void ToggleAlertPickupMode(bool show)
+	{
+		pickupMode.SetActive(show);
+	}
+
 }
