@@ -1,15 +1,33 @@
 fileFormatVersion: 2
 guid: 264a38487ae824b28947cfe276151961
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: IngameUI_0
-    21300002: IngameUI_1
-    21300004: IngameUI_2
-    21300006: IngameUI_3
-    21300008: IngameUI_4
-    21300010: IngameUI_5
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: IngameUI_0
+  - first:
+      213: 21300002
+    second: IngameUI_1
+  - first:
+      213: 21300004
+    second: IngameUI_2
+  - first:
+      213: 21300006
+    second: IngameUI_3
+  - first:
+      213: 21300008
+    second: IngameUI_4
+  - first:
+      213: 21300010
+    second: IngameUI_5
+  - first:
+      213: 7265871261569357676
+    second: IngameUI_6
+  - first:
+      213: -6626686363572636342
+    second: IngameUI_7
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -64,7 +82,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -75,7 +93,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -86,7 +105,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -97,7 +117,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -108,7 +129,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -119,6 +141,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -138,6 +161,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2c979f72af4374391bca56fd9657e4ca
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -158,6 +182,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9bba833bc2350c7498ad500122dec939
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -178,6 +203,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 379596d396a6f5545a9121c80fb469af
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -191,13 +217,14 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: a769c4574217338479613ab099d11a73
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -211,13 +238,14 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: f05c0e9dd6147434e805be009eb89a1c
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -231,13 +259,56 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 32b964e79a09c7646adaa1b419b9e62a
+      internalID: 21300010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_6
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 1197
+        width: 68
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4365f7ace24e4344c95ae17fa6c01b83
+      internalID: 7265871261569357676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_7
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 1120
+        width: 68
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22fb52e1549965e46aaf9aaffeaeadf1
+      internalID: -6626686363572636342
       vertices: []
       indices: 
       edges: []
@@ -246,10 +317,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 41fa761ce63c149edbaf75be35d3c48f
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 1
