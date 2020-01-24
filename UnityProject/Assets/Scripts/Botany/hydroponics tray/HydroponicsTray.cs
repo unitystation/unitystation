@@ -521,6 +521,13 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			var _Object = Spawn
 				.ServerPrefab(plantData.ProduceObject, registerTile.WorldPositionServer, transform.parent)
 				.GameObject;
+
+			if (_Object == null)
+			{
+				Logger.Log("plantData.ProduceObject returned an empty gameobject on spawn, skipping this crop produce", Category.Botany);
+				continue;
+			}
+			
 			CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
 			var food = _Object.GetComponent<GrownFood>();
 			if (food != null)

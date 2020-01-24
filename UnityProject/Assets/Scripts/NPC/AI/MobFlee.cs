@@ -180,6 +180,8 @@ public class MobFlee : MobPathFinder
 
 	private bool CanNPCAccessDoor(DoorController doorController)
 	{
+		if (doorController.AccessRestrictions == null) return false;
+
 		if ((int) doorController.AccessRestrictions.restriction == 0)
 		{
 			return true;

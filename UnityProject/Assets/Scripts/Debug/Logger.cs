@@ -249,7 +249,8 @@ public enum Category
 	Direction,
 	Admin,
 	BuckledMovement,
-	ProgressAction
+	ProgressAction,
+	Botany
 }
 
 [Serializable]

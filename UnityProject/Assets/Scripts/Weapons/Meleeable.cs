@@ -69,6 +69,10 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		if (interactableTiles != null)
 		{
 			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+
+			//Nothing there, could be space?
+			if (tileAt == null) return false;
+
 			if (!attackableLayers.Contains(tileAt.LayerType))
 			{
 				return interaction.Intent == Intent.Harm && harmIntentOnlyAttackableLayers.Contains(tileAt.LayerType);
