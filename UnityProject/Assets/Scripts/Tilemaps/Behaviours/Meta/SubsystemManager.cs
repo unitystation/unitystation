@@ -39,6 +39,9 @@ public class SubsystemManager : NetworkBehaviour
 			return;
 		}
 
+		//ensuring no metadata tiles are created at non-zero Z
+		position.z = 0;
+
 		for (int i = 0; i < systems.Count; i++)
 		{
 			systems[i].UpdateAt(position);
