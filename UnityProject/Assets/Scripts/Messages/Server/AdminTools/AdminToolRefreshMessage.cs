@@ -63,7 +63,13 @@ public class AdminToolRefreshMessage : ServerMessage
 			entry.name = player.Name;
 			entry.uid = player.UserId;
 			entry.currentJob = player.Job.ToString();
-			entry.isAlive = player.Script.IsGhost;
+			if (player.Script.playerHealth != null)
+			{
+				entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
+			} else
+			{
+				entry.isAdmin = false;
+			}
 			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
 			entry.isOnline = true;
