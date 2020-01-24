@@ -175,41 +175,42 @@ public partial class Chat : MonoBehaviour
 		}
 
 		// TODO None of the followinger modifiers are currently in use.
+		// They have been commented out to prevent compile warnings.
 
 		// Stutter
-		if (false) // TODO Currently players can not stutter.
-		{
-			//Stuttering people randomly repeat beginnings of words
-			//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
-			Regex rx = new Regex(@"(\b)+([^\d\W])\B");
-			message = rx.Replace(message, Stutter);
-			chatModifiers |= ChatModifier.Stutter;
-		}
-
-		// Hiss
-		if (false) // TODO Currently players can never speak like a snek.
-		{
-			Regex rx = new Regex("s+|S+");
-			message = rx.Replace(message, Hiss);
-			chatModifiers |= ChatModifier.Hiss;
-		}
-
-		// Drunk
-		if (false) // TODO Currently players can not get drunk.
-		{
-			//Regex - find 1 or more "s"
-			Regex rx = new Regex("s+|S+");
-			message = rx.Replace(message, Slur);
-			//Regex - find 1 or more whitespace
-			rx = new Regex(@"\s+");
-			message = rx.Replace(message, Hic);
-			//50% chance to ...hic!... at end of sentance
-			if (UnityEngine.Random.Range(1, 3) == 1)
-			{
-				message = message + " ...hic!...";
-			}
-			chatModifiers |= ChatModifier.Drunk;
-		}
+		//if (false) // TODO Currently players can not stutter.
+		//{
+		//	//Stuttering people randomly repeat beginnings of words
+		//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
+		//	Regex rx = new Regex(@"(\b)+([^\d\W])\B");
+		//	message = rx.Replace(message, Stutter);
+		//	chatModifiers |= ChatModifier.Stutter;
+		//}
+		//
+		//// Hiss
+		//if (false) // TODO Currently players can never speak like a snek.
+		//{
+		//	Regex rx = new Regex("s+|S+");
+		//	message = rx.Replace(message, Hiss);
+		//	chatModifiers |= ChatModifier.Hiss;
+		//}
+		//
+		//// Drunk
+		//if (false) // TODO Currently players can not get drunk.
+		//{
+		//	//Regex - find 1 or more "s"
+		//	Regex rx = new Regex("s+|S+");
+		//	message = rx.Replace(message, Slur);
+		//	//Regex - find 1 or more whitespace
+		//	rx = new Regex(@"\s+");
+		//	message = rx.Replace(message, Hic);
+		//	//50% chance to ...hic!... at end of sentance
+		//	if (UnityEngine.Random.Range(1, 3) == 1)
+		//	{
+		//		message = message + " ...hic!...";
+		//	}
+		//	chatModifiers |= ChatModifier.Drunk;
+		//}
 
 		return (message, chatModifiers);
 	}
