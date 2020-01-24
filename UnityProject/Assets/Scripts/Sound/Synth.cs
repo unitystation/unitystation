@@ -173,6 +173,13 @@ public class Synth : MonoBehaviour
 		}
 	}
 
+	public void SetMusicVolume(byte volume)
+	{
+		if (Disabled) return;
+		
+		SunVox.sv_volume((int) Slot.Music, volume);
+	}
+
 	public void PlayAnnouncement(byte[] sound)
 	{
 		if (Disabled) return;

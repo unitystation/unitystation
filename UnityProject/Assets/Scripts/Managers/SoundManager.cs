@@ -45,6 +45,7 @@ public class SoundManager : MonoBehaviour
 	};
 
 	private static bool Step;
+	private bool isMusicMute;
 
 	private List<AudioSource> ambientTracks = new List<AudioSource>();
 	public AudioSource ambientTrack => ambientTracks[0];
@@ -297,7 +298,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void GlassknockAtPosition(Vector3 worldPos)
 	{
-		PlayNetworkedAtPos("GlassKnock", worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d), 
+		PlayNetworkedAtPos("GlassKnock", worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
 						   Global: false, polyphonic: true);
 	}
 
@@ -380,7 +381,12 @@ public class SoundManager : MonoBehaviour
 			//Traditional music
 			int randTrack = Random.Range(0, Instance.musicTracks.Count);
 			currentLobbyAudioSource = Instance.musicTracks[randTrack];
-			currentLobbyAudioSource.volume = Instance.MusicVolume;
+			var volume = Instance.MusicVolume;
+			if (Instance.isMusicMute)
+			{
+				volume = 0f;
+			}
+			currentLobbyAudioSource.volume = volume;
 			currentLobbyAudioSource.Play();
 			songInfo = currentLobbyAudioSource.clip.name.Split('_'); // Spliting to get the song and artist name
 		}
@@ -396,11 +402,36 @@ public class SoundManager : MonoBehaviour
 			};
 			var songPicked = trackerMusic.Wrap(Random.Range(1, 100));
 			var vol = 255 * Instance.MusicVolume;
+
+			if (Instance.isMusicMute)
+			{
+				vol = 0f;
+			}
+
 			Synth.Instance.PlayMusic(songPicked, false, (byte)(int)vol);
 			songPicked = songPicked.Split('.')[0]; // Throwing away the .xm extension in the string
 			songInfo = songPicked.Split('_'); // Spliting to get the song and artist name
 		}
 		return songInfo;
+	}
+
+	public void ToggleMusicMute(bool mute)
+	{
+		isMusicMute = mute;
+		foreach (var m in musicTracks)
+		{
+			m.mute = mute;
+		}
+
+		if (mute)
+		{
+			Synth.Instance.SetMusicVolume(Byte.MinValue);
+		}
+		else
+		{
+			var vol = 255 * Instance.MusicVolume;
+			Synth.Instance.SetMusicVolume((byte) (int) vol);
+		}
 	}
 
 	public static void PlayAmbience()
