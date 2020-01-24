@@ -215,8 +215,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	/// <returns></returns>
 	public bool CanAccommodate(Stackable toAdd)
 	{
-		if (toAdd == null) return false;
-		return toAdd != null && StacksWith(toAdd) && amount < maxAmount;
+		return (toAdd != null) && StacksWith(toAdd) && (amount < maxAmount);
 	}
 
 	/// <summary>

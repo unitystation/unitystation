@@ -40,7 +40,31 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public GameObject GetActiveHandItem()
 	{
 		var pu = itemStorage.GetNamedItemSlot(activeHand).Item;
-		return pu != null ? pu.gameObject : null;
+		return pu?.gameObject;
+	}
+
+	/// <summary>
+	/// Get the item in the player's off hand
+	/// </summary>
+	/// <returns>the gameobject item in the player's off hand, null if nothing in off hand</returns>
+	public GameObject GetOffHandItem()
+	{
+		// Get the hand which isn't active
+		NamedSlot offHand;
+		switch (activeHand)
+		{
+			case NamedSlot.leftHand:
+				offHand = NamedSlot.rightHand;
+				break;
+			case NamedSlot.rightHand:
+				offHand = NamedSlot.leftHand;
+				break;
+			default:
+				Logger.LogError($"{playerScript.playerName} has an invalid activeHand! Found: {activeHand}", Category.Inventory);
+				return null;
+		}
+		var pu = itemStorage.GetNamedItemSlot(offHand).Item;
+		return pu?.gameObject;
 	}
 
 	/// Checks if player has this item in any of his slots
@@ -192,6 +216,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (VotingManager.Instance == null) return;
 		VotingManager.Instance.RegisterVote(userId, isFor);
+	}
+
+	/// <summary>
+	/// Switches the pickup mode for the InteractableStorage in the players hands
+	/// TODO should probably be turned into some kind of UIAction component which can hold all these functions
+	/// </summary>
+	[Command]
+	public void CmdSwitchPickupMode()
+	{
+		// Switch the pickup mode of the storage in the active hand
+		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
+					  GetOffHandItem()?.GetComponent<InteractableStorage>();
+		storage.ServerSwitchPickupMode(gameObject);
 	}
 
 	/// <summary>

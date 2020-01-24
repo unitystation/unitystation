@@ -222,26 +222,31 @@ public static class Inventory
 
 		if (toSlot.Item != null)
 		{
-			if (toSlot.Item != null)
+			// Check if the items can be stacked
+			var stackableTarget = toSlot.Item.GetComponent<Stackable>();
+			if (stackableTarget != null && stackableTarget.CanAccommodate(pickupable.gameObject))
 			{
-				switch (toPerform.ReplacementStrategy)
-				{
-					case ReplacementStrategy.DespawnOther:
-						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
-						                      " Item in slot will be despawned first.", Category.Inventory, fromSlot, toSlot);
-						ServerDespawn(toSlot);
-						break;
-					case ReplacementStrategy.DropOther:
-						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
-						                      " Item in slot will be dropped first.", Category.Inventory, fromSlot, toSlot);
-						ServerDrop(toSlot);
-						break;
-					case ReplacementStrategy.Cancel:
-					default:
-						Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
-						                      " Transfer will not be performed.", Category.Inventory, fromSlot, toSlot);
-						return false;
-				}
+				toSlot.Item.GetComponent<Stackable>().ServerCombine(pickupable.GetComponent<Stackable>());
+				return true;
+			}
+
+			switch (toPerform.ReplacementStrategy)
+			{
+				case ReplacementStrategy.DespawnOther:
+					Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
+											" Item in slot will be despawned first.", Category.Inventory, fromSlot, toSlot);
+					ServerDespawn(toSlot);
+					break;
+				case ReplacementStrategy.DropOther:
+					Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
+											" Item in slot will be dropped first.", Category.Inventory, fromSlot, toSlot);
+					ServerDrop(toSlot);
+					break;
+				case ReplacementStrategy.Cancel:
+				default:
+					Logger.LogTraceFormat("Attempted to transfer from slot {0} to slot {1} which already had something in it." +
+											" Transfer will not be performed.", Category.Inventory, fromSlot, toSlot);
+					return false;
 			}
 		}
 
@@ -438,7 +443,7 @@ public static class Inventory
 			if (stackableTarget != null && stackableTarget.CanAccommodate(pickupable.gameObject))
 			{
 				toSlot.Item.GetComponent<Stackable>().ServerCombine(pickupable.GetComponent<Stackable>());
-				return false;
+				return true;
 			}
 			else
 			{
