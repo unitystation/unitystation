@@ -209,7 +209,7 @@ namespace Lobby
 		{
 			HideAllPanels();
 			if (loggingInPanel == null) return;
-			
+
 			loggingInPanel.SetActive(true);
 			loggingInText.text = status;
 			loginNextButton.SetActive(false);
@@ -399,61 +399,35 @@ namespace Lobby
 			{
 				accountLoginPanel.SetActive(false);
 			}
-			else {
-				Logger.LogError("accountLoginPanel == null");
-			}
-
 
 			if (createAccountPanel != null)
 			{
 				createAccountPanel.SetActive(false);
 			}
-			else {
-				Logger.LogError("createAccountPanel == null");
-			}
-
-
 
 			if (pendingCreationPanel != null)
 			{
 				pendingCreationPanel.SetActive(false);
 			}
-			else {
-				Logger.LogError("pendingCreationPanel == null");
-			}
-
 
 			if (informationPanel != null)
 			{
 				informationPanel.SetActive(false);
-			}
-			else {
-				Logger.LogError("informationPanel == null");
 			}
 
 			if (controlInformationPanel != null)
 			{
 				controlInformationPanel.SetActive(false);
 			}
-			else {
-				Logger.LogError("controlInformationPanel == null");
-			}
-
 
 			if (loggingInPanel != null)
 			{
 				loggingInPanel.SetActive(false);
 			}
-			else {
-				Logger.LogError("loggingInPanel == null");
-			}
 
 			if (connectionPanel != null)
 			{
 				connectionPanel.SetActive(false);
-			}
-			else {
-				Logger.LogError("connectionPanel == null");
 			}
 		}
 	}
