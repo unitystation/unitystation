@@ -80,9 +80,17 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			bool canSwap;
 			if (isLocalPlayer && !isServer)
 			{
-				//locally predict
-				canSwap = UIManager.CurrentIntent == Intent.Help
-						  && !PlayerScript.pushPull.IsPullingSomething;
+				if (playerScript.pushPull == null)
+				{
+					//Is a ghost
+					canSwap = false;
+				}
+				else
+				{
+					//locally predict
+					canSwap = UIManager.CurrentIntent == Intent.Help
+					          && !PlayerScript.pushPull.IsPullingSomething;
+				}
 			}
 			else
 			{
@@ -339,7 +347,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		{
 			registerPlayer.ServerStandUp();
 		}
-		
+
 		SyncBuckledObjectNetId(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		//inform the puller
