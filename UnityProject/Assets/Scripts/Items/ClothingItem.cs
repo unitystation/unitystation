@@ -7,6 +7,8 @@ public enum SpriteHandType
 	LeftHand
 }
 
+public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEquiped);
+
 /// <summary>
 /// For the Individual clothing player sprite renderers
 /// </summary>
@@ -43,6 +45,11 @@ public class ClothingItem : MonoBehaviour
 	public PlayerScript thisPlayerScript;
 
 	/// <summary>
+	/// Player equipped or unequipped some clothing from ClothingItem slot
+	/// </summary>
+	public event OnClothingEquippedDelegate OnClothingEquiped;
+
+	/// <summary>
 	/// Direction clothing is facing (absolute)
 	/// </summary>
 	public Orientation Direction
@@ -53,6 +60,17 @@ public class ClothingItem : MonoBehaviour
 			UpdateReferenceOffset();
 		}
 		get { return currentDirection; }
+	}
+
+	/// <summary>
+	/// Are we holding item or clothing in hands?
+	/// </summary>
+	private bool InHands
+	{
+		get
+		{
+			return spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand;
+		}
 	}
 
 	private void Awake()
@@ -81,12 +99,21 @@ public class ClothingItem : MonoBehaviour
 				spriteHandler.Infos = null;
 				PushTexture();
 			}
+
+			if (!InHands)
+			{
+				// did we take off clothing?
+				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
+				if (unequippedClothing)
+					OnClothingEquiped?.Invoke(unequippedClothing, false);
+			}
+
 		}
 
 		if (Item != null)
 		{
 			GameObjectReference = Item;
-			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
+			if (InHands)
 			{
 				var equippedAttributes = Item.GetComponent<ItemAttributesV2>();
 				SHD = equippedAttributes?.SpriteDataHandler;
@@ -109,6 +136,9 @@ public class ClothingItem : MonoBehaviour
 			{
 				var equippedClothing = Item.GetComponent<ClothingV2>();
 				equippedClothing?.LinkClothingItem(this);
+
+				// call the event of equiped clothing
+				OnClothingEquiped?.Invoke(equippedClothing, true);
 			}
 		}
 
