@@ -32,7 +32,7 @@ public class SubsystemManager : NetworkBehaviour
 		systems.Add(system);
 	}
 
-	public void UpdateAt(Vector3Int position)
+	public void UpdateAt(Vector3Int localPosition)
 	{
 		if (!initialized)
 		{
@@ -41,7 +41,7 @@ public class SubsystemManager : NetworkBehaviour
 
 		for (int i = 0; i < systems.Count; i++)
 		{
-			systems[i].UpdateAt(position);
+			systems[i].UpdateAt(localPosition);
 		}
 	}
 }

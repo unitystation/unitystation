@@ -16,8 +16,8 @@ public class AtmosSystem : SubsystemBehaviour
 		}
 	}
 
-	public override void UpdateAt(Vector3Int position)
+	public override void UpdateAt(Vector3Int localPosition)
 	{
-		AtmosThread.Enqueue(metaDataLayer.Get(position));
+		AtmosThread.Enqueue(metaDataLayer.Get(localPosition));
 	}
 }

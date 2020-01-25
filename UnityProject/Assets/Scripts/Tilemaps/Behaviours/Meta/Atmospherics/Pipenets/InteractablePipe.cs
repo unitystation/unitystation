@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
+/// TODO: Not much need for this to be separate from Pipe.
 /// Component for allowing a Pipe to be interacted with
 /// </summary>
 [RequireComponent(typeof(Pipe))]
@@ -24,6 +25,6 @@ public class InteractablePipe : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		pipe.WrenchAct();
+		pipe.ServerWrenchAct();
 	}
 }

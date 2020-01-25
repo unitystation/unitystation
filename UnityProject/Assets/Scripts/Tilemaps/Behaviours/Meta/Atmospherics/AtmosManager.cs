@@ -9,7 +9,7 @@ public class AtmosManager : MonoBehaviour
 	/// <summary>
 	/// Time it takes per update in milliseconds
 	/// </summary>
-	public float Speed = 40; 
+	public float Speed = 40;
 	public int NumberThreads = 1;
 
 	public AtmosMode Mode = AtmosMode.Threaded;
@@ -113,7 +113,7 @@ public class AtmosManager : MonoBehaviour
 		yield return new WaitForSeconds(2);
 		for (int i = 0; i < inGamePipes.Count; i++)
 		{
-			inGamePipes[i].Attach();
+			inGamePipes[i].ServerAttach();
 		}
 
 		roundStartedServer = true;
