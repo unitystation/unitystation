@@ -40,7 +40,7 @@ public class SubsystemManager : NetworkBehaviour
 		}
 
 		//ensuring no metadata tiles are created at non-zero Z
-		position.z = 0;
+		localPosition.z = 0;
 
 		for (int i = 0; i < systems.Count; i++)
 		{
