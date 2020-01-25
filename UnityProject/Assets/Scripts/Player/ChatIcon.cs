@@ -31,6 +31,7 @@ public class ChatIcon : MonoBehaviour
 
 	/// <summary>
 	/// Turns on the talk icon and picks a suitable icon for the chat modifier.
+	/// Starts a coroutine to continue display the icon for a while.
 	/// </summary>
 	/// <param name="chatModifier">The player's chat modifier.</param>
 	public void TurnOnTalkIcon(ChatModifier chatModifier)
@@ -41,6 +42,9 @@ public class ChatIcon : MonoBehaviour
 				goto case ChatModifier.Exclaim;
 			case ChatModifier.Exclaim:
 				spriteRend.sprite = exclaimSprite;
+				break;
+			case ChatModifier.Question:
+				spriteRend.sprite = questionSprite;
 				break;
 			default:
 				spriteRend.sprite = talkSprite;

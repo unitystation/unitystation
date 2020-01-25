@@ -162,6 +162,11 @@ public partial class Chat : MonoBehaviour
 		{
 			chatModifiers |= ChatModifier.Yell;
 		}
+		// Question
+		else if (message.EndsWith("?"))
+		{
+			chatModifiers |= ChatModifier.Question;
+		}
 		// Exclaim
 		else if (message.EndsWith("!"))
 		{
