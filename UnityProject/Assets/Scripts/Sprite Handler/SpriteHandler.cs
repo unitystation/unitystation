@@ -52,7 +52,7 @@ public class SpriteHandler : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
 		spriteRenderer = this.GetComponent<SpriteRenderer>();
-		if (spriteRenderer != null && SetSpriteOnStartUp)
+		if (spriteRenderer != null && SetSpriteOnStartUp && spriteData.HasSprite())
 		{
 			PushTexture();
 		}
