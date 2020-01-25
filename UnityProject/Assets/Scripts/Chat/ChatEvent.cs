@@ -47,7 +47,8 @@ public enum ChatModifier
 	Clown 	= 1 << 4, // Having the clown occupation
 	Whisper = 1 << 5, // Message starts with "#"
 	Yell    = 1 << 6, // Message is in capital letters
-	Emote   = 1 << 7  // Message starts with "/me"
+	Emote   = 1 << 7, // Message starts with "/me"
+	Exclaim = 1 << 8  // Message ends with a "!"
 }
 
 public class ChatEvent

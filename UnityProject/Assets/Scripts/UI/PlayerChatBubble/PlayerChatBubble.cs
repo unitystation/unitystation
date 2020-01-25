@@ -68,7 +68,7 @@ public class PlayerChatBubble : MonoBehaviour
 	[SerializeField]
 	private ChatIcon chatIcon;
 	[SerializeField]
-	private GameObject chatBubble;
+	private GameObject chatBubble = null;
 	[SerializeField]
 	private TextMeshProUGUI bubbleText;
 	[SerializeField]
@@ -85,11 +85,6 @@ public class PlayerChatBubble : MonoBehaviour
 	/// A cache for the cache bubble rect transform. For performance!
 	/// </summary>
 	private RectTransform chatBubbleRectTransform;
-
-	/// <summary>
-	/// The type of the current chat bubble.
-	/// </summary>
-	private BubbleType bubbleType = BubbleType.normal;
 
 	/// <summary>
 	/// Multiplies the elapse of display time per character left in the msgQueue (after the first element).
@@ -173,7 +168,7 @@ public class PlayerChatBubble : MonoBehaviour
 	{
 		if (!UseChatBubble())
 		{
-			chatIcon.ToggleChatIcon(toggle);
+			chatIcon.ToggleChatIcon(toggle, chatModifier);
 		}
 		else
 		{

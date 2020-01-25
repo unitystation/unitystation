@@ -162,6 +162,11 @@ public partial class Chat : MonoBehaviour
 		{
 			chatModifiers |= ChatModifier.Yell;
 		}
+		// Exclaim
+		else if (message.EndsWith("!"))
+		{
+			chatModifiers |= ChatModifier.Exclaim;
+		}
 
 		// Clown
 		if (sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
