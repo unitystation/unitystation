@@ -17,7 +17,7 @@ public class AtmosManager : MonoBehaviour
 	public bool Running { get; private set; }
 
 	public bool roundStartedServer = false;
-	public List<Pipe> inGamePipes = new List<Pipe>();
+	public HashSet<Pipe> inGamePipes = new HashSet<Pipe>();
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
@@ -111,9 +111,9 @@ public class AtmosManager : MonoBehaviour
 	private IEnumerator SetPipes() /// TODO: FIX ALL MANAGERS LOADING ORDER AND REMOVE ANY WAITFORSECONDS
 	{
 		yield return new WaitForSeconds(2);
-		for (int i = 0; i < inGamePipes.Count; i++)
+		foreach (var pipe in inGamePipes)
 		{
-			inGamePipes[i].ServerAttach();
+			pipe.ServerAttach();
 		}
 
 		roundStartedServer = true;
