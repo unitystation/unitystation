@@ -39,7 +39,9 @@ public enum ChatChannel
 [Flags]
 public enum ChatModifier
 {
-	None 	= 0,
+	// The following comments are for easy reference. They may be out of date.
+	// See Chat.cs to see how a message's ChatModifier is determined.
+	None 	= 0,      // Default value
 	Drunk 	= 1 << 0,
 	Stutter = 1 << 1,
 	Mute 	= 1 << 2, // Dead, unconcious or naturally mute
@@ -47,7 +49,9 @@ public enum ChatModifier
 	Clown 	= 1 << 4, // Having the clown occupation
 	Whisper = 1 << 5, // Message starts with "#"
 	Yell    = 1 << 6, // Message is in capital letters
-	Emote   = 1 << 7  // Message starts with "/me"
+	Emote   = 1 << 7, // Message starts with "/me"
+	Exclaim = 1 << 8, // Message ends with a "!"
+	Question= 1 << 9 // Message ends with a "?"
 }
 
 public class ChatEvent
