@@ -5,6 +5,7 @@ using Mirror;
 /// Struct that helps identify matrices
 public struct MatrixInfo
 {
+	public string Name => Matrix.gameObject.name;
 	public int Id;
 	public Matrix Matrix;
 	public MetaTileMap MetaTileMap;

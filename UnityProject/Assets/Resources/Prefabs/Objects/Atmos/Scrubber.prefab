@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114519943041861588}
   - component: {fileID: 114276172641375114}
   - component: {fileID: -1233506647488304563}
+  - component: {fileID: 6583049513569107849}
   m_Layer: 10
   m_Name: Scrubber
   m_TagString: Untagged
@@ -97,6 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &493655120697083372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,20 +129,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  registerTile: {fileID: 0}
-  objectBehaviour: {fileID: 0}
-  nodes: []
   direction: 0
   anchored: 0
   volume: 70
   pipeSprites:
-  - {fileID: 21300000, guid: 338b7b6da09887b4a8e2f5416e2ce867, type: 3}
+  - {fileID: 21300000, guid: 320ec0ebfcc2f234c85188ef36b2de8f, type: 3}
   - {fileID: 21300000, guid: 338b7b6da09887b4a8e2f5416e2ce867, type: 3}
   - {fileID: 21300000, guid: 338b7b6da09887b4a8e2f5416e2ce867, type: 3}
   - {fileID: 21300000, guid: 338b7b6da09887b4a8e2f5416e2ce867, type: 3}
   - {fileID: 21300000, guid: 338b7b6da09887b4a8e2f5416e2ce867, type: 3}
   spriteRenderer: {fileID: 3335986396963275010}
-  spriteSync: 0
   MinimumPressure: 101.325
 --- !u!114 &6963528815061158835
 MonoBehaviour:
@@ -167,7 +167,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &200003959481001672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,8 +190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114754654923298058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +297,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Scrubber
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 1
   hitDamage: 0
@@ -300,6 +311,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &6583049513569107849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &3223271260076572928
 GameObject:
   m_ObjectHideFlags: 0

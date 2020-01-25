@@ -32,16 +32,19 @@ public class SubsystemManager : NetworkBehaviour
 		systems.Add(system);
 	}
 
-	public void UpdateAt(Vector3Int position)
+	public void UpdateAt(Vector3Int localPosition)
 	{
 		if (!initialized)
 		{
 			return;
 		}
 
+		//ensuring no metadata tiles are created at non-zero Z
+		position.z = 0;
+
 		for (int i = 0; i < systems.Count; i++)
 		{
-			systems[i].UpdateAt(position);
+			systems[i].UpdateAt(localPosition);
 		}
 	}
 }
