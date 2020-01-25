@@ -7,22 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -3418033316280837315, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+    - target: {fileID: 5955107123228105240, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: itemStorageStructure
-      value: 
-      objectReference: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
-        type: 2}
-    - target: {fileID: -3418033316280837315, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
-        type: 2}
-    - target: {fileID: 2660485891302392540, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: Infos.AID
-      value: 1
+      propertyPath: m_Name
+      value: TrashBag
       objectReference: {fileID: 0}
     - target: {fileID: 4584300732884025589, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
@@ -34,16 +22,20 @@ PrefabInstance:
       propertyPath: canQuickEmpty
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5788603249075284292, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 561e20b7e9a47b54785460f02d55c582,
+      propertyPath: initialName
+      value: trash bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-    - target: {fileID: 5955107123228105240, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+      propertyPath: initialDescription
+      value: It's the heavy-duty black polymer kind. Time to take out the trash!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: m_Name
-      value: TrashBag
+      propertyPath: initialSize
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5960312074135185260, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
@@ -122,21 +114,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 27809452a253be641a704ff84e8ac8f1,
         type: 3}
-    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+    - target: {fileID: -3418033316280837315, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: initialName
-      value: trash bag
-      objectReference: {fileID: 0}
-    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
+        type: 2}
+    - target: {fileID: -3418033316280837315, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: initialDescription
-      value: It's the heavy-duty black polymer kind. Time to take out the trash!
-      objectReference: {fileID: 0}
-    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
+        type: 2}
+    - target: {fileID: 2660485891302392540, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: initialSize
-      value: 4
+      propertyPath: Infos.AID
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5788603249075284292, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 561e20b7e9a47b54785460f02d55c582,
+        type: 3}
     m_RemovedComponents:
     - {fileID: 781920904040974749, guid: a379cfb2056ee4a0f8ce1f68696ef45c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a379cfb2056ee4a0f8ce1f68696ef45c, type: 3}

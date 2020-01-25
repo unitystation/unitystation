@@ -13,13 +13,6 @@ public class SpriteHandlerController : NetworkBehaviour
 	private ItemAttributesV2 itemAttributes;
 
 
-	public ItemsSprites  InHandsSprites => inHandsSprites;
-
-	[Tooltip("The In hands Sprites If it has any")]
-	[SerializeField]
-	private ItemsSprites inHandsSprites;
-
-
 	/// <summary>
 	/// This needs to be changed To support multiple
 	/// </summary>
@@ -28,13 +21,13 @@ public class SpriteHandlerController : NetworkBehaviour
 	private SpriteHandler spriteHandler;
 
 	/// <summary>
-	/// Full-back for old components
+	/// Fall-back for old Objects
 	/// </summary>
 	private SpriteRenderer spriteRenderer;
 
 	private bool Initialised;
 
-	private void Start()
+	private void Awake()
 	{		if (spriteHandler == null)
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
@@ -45,6 +38,9 @@ public class SpriteHandlerController : NetworkBehaviour
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		pickupable = GetComponent<Pickupable>();
 		Initialised = true;
+		if (itemAttributes.InHandsSprites.InventoryIcon.Data.HasSprite()) { 
+			SetIcon(itemAttributes.InHandsSprites.InventoryIcon.Data);
+		}
 	}
 
 	/// <summary>
@@ -53,9 +49,9 @@ public class SpriteHandlerController : NetworkBehaviour
 	public void SetSprites(ItemsSprites newSprites)
 	{
 		if (!Initialised){
-			Start();
+			Awake();
 		}
-		inHandsSprites = newSprites;
+		itemAttributes.SetSprites(newSprites);
 		pickupable.SetPlayerItemsSprites(newSprites);
 		SetIcon(newSprites.InventoryIcon.Data);
 		pickupable.RefreshUISlotImage();
@@ -64,7 +60,7 @@ public class SpriteHandlerController : NetworkBehaviour
 
 	private void SetIcon(SpriteData spriteData) {		if (!Initialised)
 		{
-			Start();
+			Awake();
 		}
 		if (spriteHandler != null)
 		{

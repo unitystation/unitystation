@@ -188,8 +188,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114495021001438090
@@ -232,6 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &8011082951398334408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,8 +311,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 1efec61511b50c844868cb49d1a711a1
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 2696403462
 --- !u!114 &6148042499770104604
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -195,9 +195,9 @@ GameObject:
   - component: {fileID: 8733151929054526228}
   - component: {fileID: 114828444551440684}
   - component: {fileID: 114651961981478966}
-  - component: {fileID: 114500040489965280}
   - component: {fileID: 114400107952342984}
   - component: {fileID: -4242111489278807957}
+  - component: {fileID: 7038824449941267228}
   m_Layer: 10
   m_Name: MiningLamp
   m_TagString: Untagged
@@ -277,6 +277,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
   pushPullSound: 
   soundDelayTime: 0
@@ -402,102 +403,6 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &114500040489965280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869747887731904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 19
-    Serialized:
-    - inlistID: 2
-      listID: 3
-      sprite: {fileID: 21300000, guid: 8883262a51cab9e458c112c75bd0d919, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 2
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 4
-      listID: 5
-      sprite: {fileID: 21300002, guid: 8883262a51cab9e458c112c75bd0d919, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 4
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 6
-      listID: 7
-      sprite: {fileID: 21300004, guid: 8883262a51cab9e458c112c75bd0d919, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 6
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 8
-      listID: 9
-      sprite: {fileID: 21300006, guid: 8883262a51cab9e458c112c75bd0d919, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 8
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 1
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 11
-      listID: 12
-      sprite: {fileID: 21300000, guid: e34ead5ba72de4644b78692425b0287e, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 11
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 13
-      listID: 14
-      sprite: {fileID: 21300002, guid: e34ead5ba72de4644b78692425b0287e, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 13
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 15
-      listID: 16
-      sprite: {fileID: 21300004, guid: e34ead5ba72de4644b78692425b0287e, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 15
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 17
-      listID: 18
-      sprite: {fileID: 21300006, guid: e34ead5ba72de4644b78692425b0287e, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 17
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 10
-      sprite: {fileID: 0}
-      waitTime: 0
-  spriteList:
-  - {fileID: 21300000, guid: 8883262a51cab9e458c112c75bd0d919, type: 3}
-  - {fileID: 21300000, guid: e34ead5ba72de4644b78692425b0287e, type: 3}
 --- !u!114 &114400107952342984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,3 +449,31 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  inHandsSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+--- !u!114 &7038824449941267228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869747887731904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}

@@ -99,9 +99,9 @@ GameObject:
   - component: {fileID: 3886908202543390868}
   - component: {fileID: 114480365694120160}
   - component: {fileID: 114789380910347572}
-  - component: {fileID: 114225723971362842}
   - component: {fileID: 114100650871773364}
   - component: {fileID: -3189124480840120252}
+  - component: {fileID: 3613310132188178253}
   m_Layer: 10
   m_Name: Wirecutter
   m_TagString: Untagged
@@ -201,7 +201,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114484434474911270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,8 +224,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114663582793708206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114098934439909434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,8 +267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuccessChance: 100
-  IsSyndicateVariant: 0
   SpeedMultiplier: 1
 --- !u!114 &114480365694120160
 MonoBehaviour:
@@ -307,28 +316,6 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &114225723971362842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
 --- !u!114 &114100650871773364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,8 +330,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2024014231
+  m_AssetId: 9198440a9fbd8684fa7906b4ede7ad02
+  m_SceneId: 0
 --- !u!114 &-3189124480840120252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +348,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: wirecutters
   initialDescription: Used for cutting wires
+  exportCost: 2
+  exportName: pair
+  exportMessage: of wirecutters
   initialTraits:
   - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
   initialSize: 0
@@ -373,6 +363,31 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 2
-  exportName: pair
-  exportMessage: of wirecutters
+  inHandsSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+--- !u!114 &3613310132188178253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}

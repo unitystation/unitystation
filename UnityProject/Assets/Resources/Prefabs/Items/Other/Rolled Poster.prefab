@@ -99,8 +99,8 @@ GameObject:
   - component: {fileID: 5457341699463035650}
   - component: {fileID: 4868340152356198127}
   - component: {fileID: 325157265441756014}
-  - component: {fileID: 1683984791003869720}
   - component: {fileID: -7241935446329469275}
+  - component: {fileID: -8908801883227210129}
   m_Layer: 10
   m_Name: Rolled Poster
   m_TagString: Untagged
@@ -179,7 +179,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7136161543135492653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,8 +202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &3287447661704391586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &7492156942702919239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,28 +317,6 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 96145b3165f5248b78302cd49658b0b2
   m_SceneId: 0
---- !u!114 &1683984791003869720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5074129411573611090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 1
-    Serialized: []
-  spriteList: []
 --- !u!114 &-7241935446329469275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,12 +332,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Poster
-  ArticleName: 
   initialDescription: A large piece of space-resistant printed paper.
   exportCost: 0
   exportName: 
   exportMessage: 
-  ArticleDescription: 
   initialTraits: []
   initialSize: 2
   hitDamage: 0
@@ -360,3 +347,31 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  inHandsSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+--- !u!114 &-8908801883227210129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074129411573611090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}

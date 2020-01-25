@@ -98,9 +98,9 @@ GameObject:
   - component: {fileID: 114892679667736192}
   - component: {fileID: 114550202335981176}
   - component: {fileID: 7044729721047615613}
-  - component: {fileID: 114964623363075472}
   - component: {fileID: 114436548366995844}
   - component: {fileID: -2938629808871279273}
+  - component: {fileID: 6157156530998190385}
   m_Layer: 10
   m_Name: Oxygen Tank
   m_TagString: Untagged
@@ -179,7 +179,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5842428873926595982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114330809230976920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,8 +267,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &7044729721047615613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,102 +304,6 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &114964623363075472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1277678737481138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 19
-    Serialized:
-    - inlistID: 2
-      listID: 3
-      sprite: {fileID: 21300000, guid: 05f2bfe094c381e4090984c37e91450a, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 2
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 4
-      listID: 5
-      sprite: {fileID: 21300002, guid: 05f2bfe094c381e4090984c37e91450a, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 4
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 6
-      listID: 7
-      sprite: {fileID: 21300004, guid: 05f2bfe094c381e4090984c37e91450a, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 6
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 8
-      listID: 9
-      sprite: {fileID: 21300006, guid: 05f2bfe094c381e4090984c37e91450a, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 8
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 1
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 11
-      listID: 12
-      sprite: {fileID: 21300000, guid: f7ca69f668ae61042a746d13d9e7de4a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 11
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 13
-      listID: 14
-      sprite: {fileID: 21300002, guid: f7ca69f668ae61042a746d13d9e7de4a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 13
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 15
-      listID: 16
-      sprite: {fileID: 21300004, guid: f7ca69f668ae61042a746d13d9e7de4a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 15
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 17
-      listID: 18
-      sprite: {fileID: 21300006, guid: f7ca69f668ae61042a746d13d9e7de4a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 17
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 10
-      sprite: {fileID: 0}
-      waitTime: 0
-  spriteList:
-  - {fileID: 21300000, guid: 05f2bfe094c381e4090984c37e91450a, type: 3}
-  - {fileID: 21300000, guid: f7ca69f668ae61042a746d13d9e7de4a, type: 3}
 --- !u!114 &114436548366995844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 4661484912df68a4192af5d6c9a8cd58
   m_SceneId: 0
 --- !u!114 &-2938629808871279273
 MonoBehaviour:
@@ -421,6 +336,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Oxygen Tank
   initialDescription: A tank of oxygen
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 4
   hitDamage: 10
@@ -432,3 +350,31 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  inHandsSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+--- !u!114 &6157156530998190385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277678737481138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}

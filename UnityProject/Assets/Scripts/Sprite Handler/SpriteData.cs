@@ -8,7 +8,6 @@ public class SpriteData
 {
 	public List<List<List<SpriteHandler.SpriteInfo>>> List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 
-
 	public bool HasSprite()
 	{
 

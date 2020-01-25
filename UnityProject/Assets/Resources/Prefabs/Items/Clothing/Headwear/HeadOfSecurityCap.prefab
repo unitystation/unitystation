@@ -72,17 +72,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: initialName
-      value: head of security cap
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: initialDescription
-      value: The robust standard-issue cap of the Head of Security. For showing the
-        officers who's in charge.
-      objectReference: {fileID: 0}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b9b491c20875c3045aa86f98d1abe437,
+        type: 2}
     - target: {fileID: 2295559571915120171, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: Armor.Melee
@@ -128,12 +123,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: b9b491c20875c3045aa86f98d1abe437,
-        type: 2}
+      propertyPath: initialName
+      value: head of security cap
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: initialDescription
+      value: The robust standard-issue cap of the Head of Security. For showing the
+        officers who's in charge.
+      objectReference: {fileID: 0}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite

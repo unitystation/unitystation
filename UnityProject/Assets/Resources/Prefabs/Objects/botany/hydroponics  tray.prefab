@@ -366,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 1efec61511b50c844868cb49d1a711a1
   m_SceneId: 0
 --- !u!114 &17410868912263334
 MonoBehaviour:
@@ -496,28 +496,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 2800000, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      - {fileID: 21300002, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      - {fileID: 21300004, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      - {fileID: 21300006, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      - {fileID: 21300008, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      - {fileID: 21300010, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      - {fileID: 21300012, guid: a71b2aed74abaf8488405cc11609fb0f, type: 3}
-      EquippedData: {fileID: 4900000, guid: 5a37b8c46eef61748b1182afd09cb10d, type: 3}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 7096842468272841938}
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    - {fileID: 21300002, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    - {fileID: 21300004, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    - {fileID: 21300006, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    - {fileID: 21300008, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    - {fileID: 21300010, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    - {fileID: 21300012, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+    EquippedData: {fileID: 4900000, guid: 50ef21e6e336cfb418b42593aa5f49c0, type: 3}
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 0
 --- !u!1 &2821288067960047100
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,28 +603,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 2800000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      - {fileID: 21300002, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      - {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      - {fileID: 21300006, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      - {fileID: 21300008, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      - {fileID: 21300010, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      - {fileID: 21300012, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-      EquippedData: {fileID: 4900000, guid: 60a3c368792b5ba4aaf26bed6d8d93d8, type: 3}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 6252679778598085984}
+  Sprites:
+  - Texture: {fileID: 2800000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    - {fileID: 21300002, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    - {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    - {fileID: 21300006, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    - {fileID: 21300008, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    - {fileID: 21300010, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    - {fileID: 21300012, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+    EquippedData: {fileID: 4900000, guid: 60a3c368792b5ba4aaf26bed6d8d93d8, type: 3}
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 0
 --- !u!1 &3663177110161525043
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,29 +710,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 2800000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      - {fileID: 21300002, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      - {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      - {fileID: 21300006, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      - {fileID: 21300008, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      - {fileID: 21300010, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      - {fileID: 21300012, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-      EquippedData: {fileID: 4900000, guid: 8200e94d6a411ff47a4718cf685f1075, type: 3}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList:
-  - {fileID: 0}
-  spriteRenderer: {fileID: 4794170447334475116}
+  Sprites:
+  - Texture: {fileID: 2800000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    - {fileID: 21300002, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    - {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    - {fileID: 21300006, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    - {fileID: 21300008, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    - {fileID: 21300010, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    - {fileID: 21300012, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+    EquippedData: {fileID: 4900000, guid: 8200e94d6a411ff47a4718cf685f1075, type: 3}
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 0
 --- !u!1 &5226030624696872044
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,28 +817,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 2800000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      - {fileID: 21300002, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      - {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      - {fileID: 21300006, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      - {fileID: 21300008, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      - {fileID: 21300010, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      - {fileID: 21300012, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-      EquippedData: {fileID: 4900000, guid: 44ef32d51c580c7459f347a7de3828b6, type: 3}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 5270205250457927492}
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    - {fileID: 21300002, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    - {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    - {fileID: 21300006, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    - {fileID: 21300008, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    - {fileID: 21300010, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    - {fileID: 21300012, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+    EquippedData: {fileID: 4900000, guid: 44ef32d51c580c7459f347a7de3828b6, type: 3}
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 0
 --- !u!1 &8254462624725952794
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,18 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 4169286921132321221}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 0

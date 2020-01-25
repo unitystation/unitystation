@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -6,11 +6,11 @@ using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
 
-public static class StaticSpriteHandler
+public static class SpriteFunctions
 {
-	public static List<List<SpriteDataHandler.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
+	public static List<List<SpriteHandler.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
 	{
-		var SpriteInfos = new List<List<SpriteDataHandler.SpriteInfo>>();
+		var SpriteInfos = new List<List<SpriteHandler.SpriteInfo>>();
 
 		if (textureAndData.Sprites.Length > 1)
 		{
@@ -20,12 +20,12 @@ public static class StaticSpriteHandler
 			int frame = 0;
 			for (int J = 0; J < spriteJson.Number_Of_Variants; J++)
 			{
-				SpriteInfos.Add(new List<SpriteDataHandler.SpriteInfo>());
+				SpriteInfos.Add(new List<SpriteHandler.SpriteInfo>());
 			}
 
 			foreach (var SP in textureAndData.Sprites)
 			{
-				var info = new SpriteDataHandler.SpriteInfo();
+				var info = new SpriteHandler.SpriteInfo();
 				info.sprite = SP;
 				if (spriteJson.Delays.Count > 0)
 				{
@@ -47,12 +47,12 @@ public static class StaticSpriteHandler
 		else {
 			if (textureAndData.Sprites.Length > 0)
 			{
-				var info = new SpriteDataHandler.SpriteInfo()
+				var info = new SpriteHandler.SpriteInfo()
 				{
 					sprite = textureAndData.Sprites[0],
 					waitTime = 0
 				};
-				SpriteInfos.Add(new List<SpriteDataHandler.SpriteInfo>());
+				SpriteInfos.Add(new List<SpriteHandler.SpriteInfo>());
 				SpriteInfos[0].Add(info);
 			}
 
@@ -64,7 +64,7 @@ public static class StaticSpriteHandler
 	public static SpriteData SetupSingleSprite(SpriteSheetAndData textureAndData)
 	{
 		var SpriteInfos = new SpriteData();
-		SpriteInfos.List = new List<List<List<SpriteDataHandler.SpriteInfo>>>();
+		SpriteInfos.List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 		SpriteInfos.List.Add(CompleteSpriteSetup(textureAndData));
 		return (SpriteInfos);
 	}

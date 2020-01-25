@@ -15,29 +15,6 @@ MonoBehaviour:
   clothData: {fileID: 0}
   variantIndex: -1
   variantType: 0
---- !u!114 &6890708448605448934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3019907304578885380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 3107053823204540798}
-  spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 1
-  test: 0
 --- !u!1001 &3020818611218779800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,18 +86,6 @@ PrefabInstance:
 --- !u!1 &3021789324208599586 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 3020818611218779800}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3019907304578885380 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1344926539164060, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 3020818611218779800}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &3107053823204540798 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 3020818611218779800}
   m_PrefabAsset: {fileID: 0}

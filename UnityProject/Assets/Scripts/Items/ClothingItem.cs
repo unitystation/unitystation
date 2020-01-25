@@ -95,7 +95,7 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteHandler != null) //need to remove
 			{
-				spriteHandler.Infos = null;
+				spriteHandler.spriteData = null;
 				PushTexture();
 			}
 
@@ -114,8 +114,8 @@ public class ClothingItem : MonoBehaviour
 			GameObjectReference = Item;
 			if (InHands)
 			{
-				var SpriteHandlerController = Item.GetComponent<SpriteHandlerController>();
-				var InHandsSprites = SpriteHandlerController?.InHandsSprites;
+				var ItemAttributesV2 = Item.GetComponent<ItemAttributesV2>();
+				var InHandsSprites = ItemAttributesV2?.InHandsSprites;
 				SetInHand(InHandsSprites);
 			}
 			else
@@ -133,7 +133,7 @@ public class ClothingItem : MonoBehaviour
 
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
-		spriteHandler.Infos = clothing.SpriteInfo;
+		spriteHandler.spriteData = clothing.SpriteInfo;
 		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
 		PushTexture();
 	}
@@ -166,7 +166,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			if (spriteHandler.Infos != null)
+			if (spriteHandler.spriteData != null)
 			{
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
@@ -187,16 +187,14 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				spriteHandler.Infos = _ItemsSprites.RightHand.Data;
+				spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
 			}
 			else
 			{
-				spriteHandler.Infos = _ItemsSprites.LeftHand.Data;
+				spriteHandler.spriteData = _ItemsSprites.LeftHand.Data;
 			}
 
 			PushTexture();
 		}
-	
 	}
-
 }

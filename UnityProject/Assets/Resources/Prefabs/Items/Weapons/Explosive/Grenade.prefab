@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 13680737134351771}
   - component: {fileID: 114867601024140442}
   - component: {fileID: 602856171388550722}
+  - component: {fileID: -3166573857809482112}
   m_Layer: 10
   m_Name: Grenade
   m_TagString: Untagged
@@ -179,6 +180,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
   pushPullSound: 
   soundDelayTime: 0
@@ -215,6 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114110293052994112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,125 +314,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 26
-    Serialized:
-    - inlistID: 2
-      listID: 3
-      sprite: {fileID: 21300000, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 2
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 4
-      listID: 5
-      sprite: {fileID: 21300002, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 4
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 6
-      listID: 7
-      sprite: {fileID: 21300004, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 6
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 8
-      listID: 9
-      sprite: {fileID: 21300006, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 8
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 1
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 11
-      listID: 12
-      sprite: {fileID: 21300000, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 11
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 13
-      listID: 14
-      sprite: {fileID: 21300002, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 13
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 15
-      listID: 16
-      sprite: {fileID: 21300004, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 15
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 17
-      listID: 18
-      sprite: {fileID: 21300006, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 17
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 10
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 20
-      listID: 21
-      sprite: {fileID: 21300000, guid: 9e33c5ac9bd9b5841ae5ab45b683b6ee, type: 3}
-      waitTime: 0
-    - inlistID: 19
-      listID: 20
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 19
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 23
-      listID: 24
-      sprite: {fileID: 21300000, guid: 1300832411f509040bf065bec2b01dd9, type: 3}
-      waitTime: 0.1
-    - inlistID: 23
-      listID: 25
-      sprite: {fileID: 21300002, guid: 1300832411f509040bf065bec2b01dd9, type: 3}
-      waitTime: 0.2
-    - inlistID: 22
-      listID: 23
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 22
-      sprite: {fileID: 0}
-      waitTime: 0
-  spriteList:
-  - {fileID: 21300000, guid: ad7e72f31581b7b4bb2899c75a592f24, type: 3}
-  - {fileID: 21300000, guid: c4bc50f494c8e524bbbf73698927ca5a, type: 3}
-  - {fileID: 21300000, guid: 9e33c5ac9bd9b5841ae5ab45b683b6ee, type: 3}
-  - {fileID: 21300000, guid: 1300832411f509040bf065bec2b01dd9, type: 3}
-  spriteRenderer: {fileID: 7002858292552391738}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
   test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!114 &114867601024140442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,7 +334,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 2780852370
 --- !u!114 &602856171388550722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,3 +366,18 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &-3166573857809482112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134582746904691057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}

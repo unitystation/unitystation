@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ItemsSprites 
 {
-	public DataAndSpritesData LeftHand = new DataAndSpritesData();
-	public DataAndSpritesData RightHand = new DataAndSpritesData();
+	public SpriteSheetAndData LeftHand = new SpriteSheetAndData();
+	public SpriteSheetAndData RightHand = new SpriteSheetAndData();
 
-	public DataAndSpritesData InventoryIcon = new DataAndSpritesData();
+	public SpriteSheetAndData InventoryIcon = new SpriteSheetAndData();
 
 }

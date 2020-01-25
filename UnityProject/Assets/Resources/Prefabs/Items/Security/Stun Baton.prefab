@@ -16,11 +16,11 @@ GameObject:
   - component: {fileID: 7617608173269680123}
   - component: {fileID: 3232839523659743446}
   - component: {fileID: 6417518545994622246}
-  - component: {fileID: 114857257376150830}
   - component: {fileID: 114500601568321508}
   - component: {fileID: -2084047483786155350}
   - component: {fileID: 6844177341262931842}
   - component: {fileID: 1296343294318339506}
+  - component: {fileID: 6996035092982600112}
   m_Layer: 10
   m_Name: Stun Baton
   m_TagString: Untagged
@@ -113,7 +113,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7617608173269680123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,8 +136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &3232839523659743446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,28 +171,6 @@ MonoBehaviour:
   spriteActive: {fileID: 21300000, guid: 0e5edf73e36bedf4b8b621aff4559d78, type: 3}
   spriteInactive: {fileID: 21300000, guid: d692e3351e1ae8443a57daf8b9695ddd, type: 3}
   active: 0
---- !u!114 &114857257376150830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7503752898315862941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
 --- !u!114 &114500601568321508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,8 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1879362044
+  m_AssetId: fcd09c3dfb3c3954cac1623e1c37bac3
+  m_SceneId: 0
 --- !u!114 &-2084047483786155350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,9 +202,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Stun baton
-  ArticleName: 
   initialDescription: A stun baton for incapacitating people with.
-  ArticleDescription: 
+  exportCost: 100
+  exportName: stun baton
+  exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5, type: 2}
   initialSize: 3
@@ -231,9 +218,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
-  exportCost: 100
-  exportName: stun baton
-  exportMessage: 
+  inHandsSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
 --- !u!114 &6844177341262931842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &1296343294318339506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +281,21 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
+--- !u!114 &6996035092982600112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503752898315862941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}
 --- !u!1 &7503752899205498039
 GameObject:
   m_ObjectHideFlags: 0

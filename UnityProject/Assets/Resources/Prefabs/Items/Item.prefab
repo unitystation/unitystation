@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 114776788309089574}
   - component: {fileID: 114577415631634126}
   - component: {fileID: 114883521337486670}
-  - component: {fileID: 114077084986960180}
   - component: {fileID: 114738972662350094}
+  - component: {fileID: 1397050043076861577}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -99,6 +99,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Unnamed
   initialDescription: Oops, someone spawned something they shouldn't!
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 1
   hitDamage: 0
@@ -122,6 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114734890905785284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +157,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114776788309089574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,8 +180,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114577415631634126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,28 +230,6 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &114077084986960180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011433845357754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,8 +244,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 15adb8ff4b5062d41a3738e0a52ea01c
+  m_AssetId: a7abba22164ce49f0bf9b9b219f39298
   m_SceneId: 0
+--- !u!114 &1397050043076861577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4911511444418374}
   - component: {fileID: 212340400423555046}
+  - component: {fileID: 6144467708197095229}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -334,3 +342,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6144467708197095229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344926539164060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sprites: []
+  spriteIndex: 0
+  variantIndex: 0
+  test: 0
+  SetSpriteOnStartUp: 0

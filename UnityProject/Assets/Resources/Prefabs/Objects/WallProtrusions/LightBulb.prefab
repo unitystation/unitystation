@@ -96,12 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnSprite: {fileID: 0}
-  OffSprite: {fileID: 0}
-  MissingBulbSprite: {fileID: 0}
-  BrokenSprite: {fileID: 0}
-  DirtySprite: {fileID: 0}
-  LightFXRenderer: {fileID: 0}
   mLightRendererObject: {fileID: 0}
   Resistance: 1200
   RelatedAPC: {fileID: 0}
@@ -190,7 +184,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 3748434623
 --- !u!114 &6683878051609785215
 MonoBehaviour:
   m_ObjectHideFlags: 0
