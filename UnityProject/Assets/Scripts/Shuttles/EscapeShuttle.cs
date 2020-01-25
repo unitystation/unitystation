@@ -11,6 +11,9 @@ using UnityEngine.Serialization;
 /// </summary>
 public class EscapeShuttle : NetworkBehaviour
 {
+	// Indicates at which moment (in remaining seconds) the shuttle should really start moving
+	private const int StartMovingAtCount = 30;
+
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
 
@@ -30,6 +33,8 @@ public class EscapeShuttle : NetworkBehaviour
 	private float escapeBlockedTime;
 	private bool isBlocked;
 
+	// Indicate if the shuttle really started moving toward station (It really starts moving in the StartMovingAtCount remaining seconds)
+	private bool startedMovingToStation;
 
 	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
 
@@ -184,7 +189,7 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			if (Status != ShuttleStatus.DockedCentcom && Status != ShuttleStatus.DockedStation)
 			{
-				if (!mm.ServerState.IsMoving || mm.ServerState.Speed < 1f)
+				if ((!mm.ServerState.IsMoving || mm.ServerState.Speed < 1f) && startedMovingToStation)
 				{
 					Logger.LogTrace("Escape shuttle is blocked.", Category.Matrix);
 					isBlocked = true;
@@ -257,6 +262,8 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public bool CallShuttle(out string callResult, int seconds = 0)
 	{
+		startedMovingToStation = false;
+
 		if ( Status != ShuttleStatus.DockedCentcom )
 		{
 			callResult = "Can't call shuttle: not docked at Centcom!";
@@ -278,10 +285,10 @@ public class EscapeShuttle : NetworkBehaviour
 		this.StartCoroutine( TickTimer(), ref timerHandle );
 
 		//adding a temporary listener:
-		//start actually moving ship if it's 30s before arrival and it hasn't been recalled...
+		//start actually moving ship if it's StartMovingAtCount seconds before arrival and it hasn't been recalled...
 		void Action( int time )
 		{
-			if ( time <= 30 )
+			if ( time <= StartMovingAtCount)
 			{
 				MoveToStation();
 				OnTimerUpdate.RemoveListener( Action ); //self-remove after firing once
@@ -305,6 +312,8 @@ public class EscapeShuttle : NetworkBehaviour
 
 	public bool RecallShuttle(out string callResult)
 	{
+		startedMovingToStation = false;
+
 		if ( Status != ShuttleStatus.OnRouteStation
 		  || CurrentTimerSeconds < TooLateToRecallSeconds )
 		{
@@ -389,6 +398,7 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public void MoveToStation()
 	{
+		startedMovingToStation = true;
 		mm.SetSpeed( 25 );
 		MoveTo( StationDest );
 	}
