@@ -15,9 +15,10 @@ public class Microwave : NetworkBehaviour
 
 	/// <summary>
 	/// Time left until the meal has finished cooking (in seconds).
+	/// I don't see the need to make it a SyncVar.  It will economize network packets.
 	/// </summary>
 	[HideInInspector]
-	public float microwaveTimer = 0;
+	public float MicrowaveTimer = 0;
 
 	/// <summary>
 	/// Meal currently being cooked.
@@ -61,17 +62,17 @@ public class Microwave : NetworkBehaviour
 	/// </summary>
 	private void Update()
 	{
-		if (microwaveTimer > 0)
+		if (MicrowaveTimer > 0)
 		{
-			microwaveTimer = Mathf.Max(0, microwaveTimer - Time.deltaTime);
+			MicrowaveTimer = Mathf.Max(0, MicrowaveTimer - Time.deltaTime);
 
-			if (!dingHasPlayed && microwaveTimer <= dingPlayTime)
+			if (!dingHasPlayed && MicrowaveTimer <= dingPlayTime)
 			{
 				audioSourceDing.Play();
 				dingHasPlayed = true;
 			}
 
-			if (microwaveTimer <= 0)
+			if (MicrowaveTimer <= 0)
 			{
 				FinishCooking();
 			}
@@ -84,12 +85,11 @@ public class Microwave : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Starts the microwave, cooking the food for {microwaveTimer} seconds.
+	/// Starts the microwave, cooking the food for {MicrowaveTimer} seconds.
 	/// </summary>
 	[ClientRpc]
 	public void RpcStartCooking()
-	{
-		microwaveTimer = COOK_TIME;
+	{		
 		spriteRenderer.sprite = SPRITE_ON;
 		dingHasPlayed = false;
 	}
