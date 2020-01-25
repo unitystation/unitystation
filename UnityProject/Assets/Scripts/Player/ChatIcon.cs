@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ChatIcon : MonoBehaviour
 {
-	public Sprite exlaimSprite;
+	public Sprite exclaimSprite;
 	public Sprite questionSprite;
 	private SpriteRenderer spriteRend;
 	public Sprite talkSprite;
@@ -17,11 +17,11 @@ public class ChatIcon : MonoBehaviour
 		spriteRend.enabled = false;
 	}
 
-	public void ToggleChatIcon(bool toggle)
+	public void ToggleChatIcon(bool toggle, ChatModifier chatModifier)
 	{
 		if (toggle)
 		{
-			TurnOnTalkIcon();
+			TurnOnTalkIcon(chatModifier);
 		}
 		else
 		{
@@ -29,10 +29,27 @@ public class ChatIcon : MonoBehaviour
 		}
 	}
 
-	//TODO needs work
-	public void TurnOnTalkIcon()
+	/// <summary>
+	/// Turns on the talk icon and picks a suitable icon for the chat modifier.
+	/// Starts a coroutine to continue display the icon for a while.
+	/// </summary>
+	/// <param name="chatModifier">The player's chat modifier.</param>
+	public void TurnOnTalkIcon(ChatModifier chatModifier)
 	{
-		spriteRend.sprite = talkSprite;
+		switch (chatModifier)
+		{
+			case ChatModifier.Yell:
+				goto case ChatModifier.Exclaim;
+			case ChatModifier.Exclaim:
+				spriteRend.sprite = exclaimSprite;
+				break;
+			case ChatModifier.Question:
+				spriteRend.sprite = questionSprite;
+				break;
+			default:
+				spriteRend.sprite = talkSprite;
+				break;
+		}
 		spriteRend.enabled = true;
 		if (coWaitToTurnOff != null)
 		{
