@@ -9,7 +9,7 @@ using Tilemaps.Behaviours.Meta;
 //TODO: These need to be reworked when pipenets are worked on next. See various todo comments.
 //it needs to make proper use of Directional rather than rolling its own direction / sprite rotation logic
 [RequireComponent(typeof(Pickupable))]
-public class Pipe : NetworkBehaviour, IServerSpawn
+public class Pipe : NetworkBehaviour, IServerLifecycle
 {
 	public RegisterTile RegisterTile => registerTile;
 	private RegisterTile registerTile;
@@ -67,23 +67,20 @@ public class Pipe : NetworkBehaviour, IServerSpawn
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
+		//only mapped stuff spawns anchored
+		if (info.SpawnType != SpawnType.Mapped)
+		{
+			anchored = false;
+		}
 		ServerInit();
+		AtmosManager.Instance.inGamePipes.Add(this);
 	}
 
-	public virtual void OnEnable()
+	public void OnDespawnServer(DespawnInfo info)
 	{
-		if (AtmosManager.Instance.roundStartedServer == false)
-		{
-			AtmosManager.Instance.inGamePipes.Add(this);
-		}
-	}
-
-	public virtual void OnDisable()
-	{
-		if (AtmosManager.Instance.roundStartedServer == false)
-		{
-			AtmosManager.Instance.inGamePipes.Remove(this);
-		}
+		//make sure it's unhooked from everything
+		ServerDetach();
+		AtmosManager.Instance.inGamePipes.Remove(this);
 	}
 
 	/// <summary>
