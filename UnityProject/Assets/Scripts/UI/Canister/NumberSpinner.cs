@@ -147,29 +147,29 @@ public class NumberSpinner : NetUIElement
 		//NOTE: Previously tried to implement a spinning animation, but now am bypassing that stuff because it was
 		//proving difficult to make it look good but also be responsive when pressure is changing rapidly.
 		//Currently it just jumps directly to the number.
-		if (!init)
-		{
-			//initial value - we just opened the view and are getting our initial value, so
-			//jump directly to the new value
-			Ones.JumpToDigit(targetValue % 10);
-			Tens.JumpToDigit(targetValue / 10 % 10);
-			Hundreds.JumpToDigit(targetValue / 100 % 10);
-			Thousands.JumpToDigit(targetValue / 1000 % 10);
-			if (TenThousands != null)
-			{
-				TenThousands.JumpToDigit(targetValue / 10000 % 10);
-			}
-
-			if (HundredThousands != null)
-			{
-				HundredThousands.JumpToDigit(targetValue / 100000 % 10);
-			}
-			init = true;
-		}
-		else
-		{
-			SpinOnceToTargetValue();
-		}
+		//if (!init)
+		//{
+		//	//initial value - we just opened the view and are getting our initial value, so
+		//	//jump directly to the new value
+		//	Ones.JumpToDigit(targetValue % 10);
+		//	Tens.JumpToDigit(targetValue / 10 % 10);
+		//	Hundreds.JumpToDigit(targetValue / 100 % 10);
+		//	Thousands.JumpToDigit(targetValue / 1000 % 10);
+		//	if (TenThousands != null)
+		//	{
+		//		TenThousands.JumpToDigit(targetValue / 10000 % 10);
+		//	}
+		//
+		//	if (HundredThousands != null)
+		//	{
+		//		HundredThousands.JumpToDigit(targetValue / 100000 % 10);
+		//	}
+		//	init = true;
+		//}
+		//else
+		//{
+		//	SpinOnceToTargetValue();
+		//}
 	}
 
 	private void OnOnesSpinComplete(int newVal)

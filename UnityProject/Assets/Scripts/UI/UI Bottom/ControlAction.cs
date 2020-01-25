@@ -35,7 +35,7 @@ public class ControlAction : MonoBehaviour
 	public void Drop()
 	{
 
-		if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowCuffed: true));
+		// if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowCuffed: true)); Commented out because it does... nothing?
 		UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
 		if (currentSlot.Item == null)
 		{

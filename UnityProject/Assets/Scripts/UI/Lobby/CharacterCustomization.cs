@@ -268,7 +268,7 @@ namespace Lobby
 		//------------------
 		private void SaveData()
 		{
-			ServerData.UpdateCharacterProfile(JsonUtility.ToJson(currentCharacter));
+			ServerData.UpdateCharacterProfile(JsonUtility.ToJson(currentCharacter)); // TODO Consider adding await. Otherwise this causes a compile warning.
 		}
 
 		//------------------

@@ -17,19 +17,20 @@ public class ChangeLogHandler : MonoBehaviour
     {
         window.SetActive(false);
 
-        //FIXME: broken on steam
         return;
-        string filePath = Path.Combine(Application.streamingAssetsPath, "changelog.json");
+		//FIXME: broken on steam
+		//Commented out because the following unreachable code would cause a compiler warning.
+		//string filePath = Path.Combine(Application.streamingAssetsPath, "changelog.json");
+		//
+		//if (File.Exists(filePath))
+		//{
+		//    string data = File.ReadAllText(filePath);
+		//    allEntries = JsonConvert.DeserializeObject<List<ChangeLogEntry>>(data);
+		//    OpenWindow();
+		//}
+	}
 
-        if (File.Exists(filePath))
-        {
-            string data = File.ReadAllText(filePath);
-            allEntries = JsonConvert.DeserializeObject<List<ChangeLogEntry>>(data);
-            OpenWindow();
-        }
-    }
-
-    void OpenWindow()
+	void OpenWindow()
     {
         //Populate results
         window.SetActive(true);
