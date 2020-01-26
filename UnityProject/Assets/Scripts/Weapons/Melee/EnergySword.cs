@@ -255,7 +255,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		Rainbow = 5
 	}
 }
-
+[System.Serializable]
 public class EswordSprites{
 	public ItemsSprites Blue = new ItemsSprites();
 	public ItemsSprites Green = new ItemsSprites();

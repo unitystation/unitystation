@@ -23,7 +23,6 @@ public class SpriteHandler : MonoBehaviour
 		public Sprite sprite;
 		public float waitTime;
 	}
-
 	private SpriteRenderer spriteRenderer;
 
 	[SerializeField]

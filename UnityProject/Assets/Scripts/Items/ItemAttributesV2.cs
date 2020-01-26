@@ -146,11 +146,11 @@ public class ItemAttributesV2 : Attributes
 	private HashSet<ItemTrait> traits = new HashSet<ItemTrait>();
 
 
-	public ItemsSprites InHandsSprites => inHandsSprites;
+	public ItemsSprites ItemSprites => itemSprites;
 
 	[Tooltip("The In hands Sprites If it has any")]
 	[SerializeField]
-	private ItemsSprites inHandsSprites;
+	private ItemsSprites itemSprites;
 
 	private void Awake()
 	{
@@ -265,6 +265,6 @@ public class ItemAttributesV2 : Attributes
 	/// <param name="newSprites">New sprites.</param>
 	public void SetSprites(ItemsSprites newSprites)
 	{
-		inHandsSprites = newSprites;
+		itemSprites = newSprites;
 	}
 }

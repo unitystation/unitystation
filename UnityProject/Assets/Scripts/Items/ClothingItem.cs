@@ -115,7 +115,7 @@ public class ClothingItem : MonoBehaviour
 			if (InHands)
 			{
 				var ItemAttributesV2 = Item.GetComponent<ItemAttributesV2>();
-				var InHandsSprites = ItemAttributesV2?.InHandsSprites;
+				var InHandsSprites = ItemAttributesV2?.ItemSprites;
 				SetInHand(InHandsSprites);
 			}
 			else

@@ -38,8 +38,8 @@ public class SpriteHandlerController : NetworkBehaviour
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		pickupable = GetComponent<Pickupable>();
 		Initialised = true;
-		if (itemAttributes.InHandsSprites.InventoryIcon.Data.HasSprite()) { 
-			SetIcon(itemAttributes.InHandsSprites.InventoryIcon.Data);
+		if (itemAttributes.ItemSprites.InventoryIcon.Data.HasSprite()) { 
+			SetIcon(itemAttributes.ItemSprites.InventoryIcon.Data);
 		}
 	}
 
