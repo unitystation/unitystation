@@ -103,6 +103,21 @@ public static class GizmoUtils
 		Gizmos.DrawWireCube(position + (local ? HalfOne: Vector3.zero), Vector3.one * size);
 	}
 
+	public static void DrawRay(Vector3 pos, Vector3 direction, bool local=true)
+	{
+		if (direction == Vector3.zero)
+		{
+			return;
+		}
+
+		if ( local )
+		{
+			pos += HalfOne;
+		}
+
+		Gizmos.DrawRay(pos, direction);
+	}
+
 	public static void DrawArrow(Vector3 pos, Vector3 direction, bool local=true, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
 	{
 		if (direction == Vector3.zero)
