@@ -1,10 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Linq;
+using System.Text;
+using Tilemaps.Behaviours.Meta;
 
 public partial class Chat
 {
+	private static Dictionary<string, UniqueQueue<DestroyChatMessage>> messageQueueDict = new Dictionary<string, UniqueQueue<DestroyChatMessage>>();
+	private static Coroutine composeMessageHandle;
+	private static StringBuilder stringBuilder = new StringBuilder();
+	private struct DestroyChatMessage
+	{
+		public string Message;
+		public Vector2Int WorldPosition;
+	}
+
 	public Color oocColor;
 	public Color ghostColor;
 	public Color binaryColor;
@@ -20,6 +33,117 @@ public partial class Chat
 	public Color localColor;
 	public Color combatColor;
 	public Color defaultColor;
+
+	/// <summary>
+	/// Processes a message to be used in the chat log and chat bubbles.
+	/// 1. Detects which modifiers should be present in the messages.
+	///    - Some of the modifiers will come from the player being unconcious, being a clown, etc.
+	///    - Other modifiers are voluntary, such as shouting. They normally cannot override involuntary modifiers.
+	///    - Certain emotes override each other and will never be present at the same time.
+	///      - Emote overrides whispering, and whispering overrides yelling.
+	/// 2. Modifies the message to match the previously detected modifiers.
+	///    - Stutters, honks, drunkenness, etc. are directly applied to the message.
+	///    - The chat log and chat bubble may add minor changes to the text, such as narration ("Player says, ...").
+	/// </summary>
+	/// <param name="sendByPlayer">The player sending the message. Used for detecting conciousness and occupation.</param>
+	/// <param name="message">The chat message to process.</param>
+	/// <returns>A tuple of the processed chat message and the detected modifiers.</returns>
+	private static (string, ChatModifier) ProcessMessage(ConnectedPlayer sentByPlayer, string message)
+	{
+		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
+		ConsciousState playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
+
+		if (playerConsciousState == ConsciousState.UNCONSCIOUS || playerConsciousState == ConsciousState.DEAD)
+		{
+			// Only the Mute modifier matters if the player cannot speak. We can skip everything else.
+			return (message, ChatModifier.Mute);
+		}
+
+		// Emote
+		if (message.StartsWith("/me "))
+		{
+			message = message.Substring(4);
+			chatModifiers |= ChatModifier.Emote;
+		}
+		// Whisper
+		else if (message.StartsWith("#"))
+		{
+			message = message.Substring(1);
+			chatModifiers |= ChatModifier.Whisper;
+		}
+		// Involuntaly whisper due to not being fully concious
+		else if (playerConsciousState == ConsciousState.BARELY_CONSCIOUS)
+		{
+			chatModifiers |= ChatModifier.Whisper;
+		}
+		// Yell
+		else if ((message == message.ToUpper(System.Globalization.CultureInfo.InvariantCulture) // Is it all caps?
+			&& message.Any(char.IsLetter)))// AND does it contain at least one letter?
+		{
+			chatModifiers |= ChatModifier.Yell;
+		}
+		// Question
+		else if (message.EndsWith("?"))
+		{
+			chatModifiers |= ChatModifier.Question;
+		}
+		// Exclaim
+		else if (message.EndsWith("!"))
+		{
+			chatModifiers |= ChatModifier.Exclaim;
+		}
+
+		// Clown
+		if (sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
+		{
+			int intensity = UnityEngine.Random.Range(1, 4);
+			for (int i = 0; i < intensity; i++)
+			{
+				message += " HONK!";
+			}
+			chatModifiers |= ChatModifier.Clown;
+		}
+
+		// TODO None of the followinger modifiers are currently in use.
+		// They have been commented out to prevent compile warnings.
+
+		// Stutter
+		//if (false) // TODO Currently players can not stutter.
+		//{
+		//	//Stuttering people randomly repeat beginnings of words
+		//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
+		//	Regex rx = new Regex(@"(\b)+([^\d\W])\B");
+		//	message = rx.Replace(message, Stutter);
+		//	chatModifiers |= ChatModifier.Stutter;
+		//}
+		//
+		//// Hiss
+		//if (false) // TODO Currently players can never speak like a snek.
+		//{
+		//	Regex rx = new Regex("s+|S+");
+		//	message = rx.Replace(message, Hiss);
+		//	chatModifiers |= ChatModifier.Hiss;
+		//}
+		//
+		//// Drunk
+		//if (false) // TODO Currently players can not get drunk.
+		//{
+		//	//Regex - find 1 or more "s"
+		//	Regex rx = new Regex("s+|S+");
+		//	message = rx.Replace(message, Slur);
+		//	//Regex - find 1 or more whitespace
+		//	rx = new Regex(@"\s+");
+		//	message = rx.Replace(message, Hic);
+		//	//50% chance to ...hic!... at end of sentance
+		//	if (UnityEngine.Random.Range(1, 3) == 1)
+		//	{
+		//		message = message + " ...hic!...";
+		//	}
+		//	chatModifiers |= ChatModifier.Drunk;
+		//}
+
+		return (message, chatModifiers);
+	}
 
 	/// <summary>
 	/// Processes message further for the chat log.
@@ -199,7 +323,90 @@ public partial class Chat
 		return $"<color=#{GetChannelColor(channel)}>{message}</color>";
 	}
 
+	private IEnumerator ComposeDestroyMessage()
+	{
+		yield return WaitFor.Seconds(0.3f);
 
+		foreach (var postfix in messageQueueDict.Keys)
+		{
+			var messageQueue = messageQueueDict[postfix];
+
+			if (messageQueue.IsEmpty)
+			{
+				Instance.TryStopCoroutine(ref composeMessageHandle);
+				continue;
+			}
+
+			//Normal separate messages with precise location
+			if (messageQueue.Count <= 3)
+			{
+				while (messageQueue.TryDequeue(out var msg))
+				{
+					AddLocalMsgToChat(msg.Message + postfix, msg.WorldPosition);
+				}
+				continue;
+			}
+
+			//Combined message at average position
+			stringBuilder.Clear();
+
+			int averageX = 0;
+			int averageY = 0;
+			int count = 1;
+
+			while (messageQueue.TryDequeue(out DestroyChatMessage msg))
+			{
+				if (count > 1)
+				{
+					stringBuilder.Append(", ");
+				}
+				stringBuilder.Append(msg.Message);
+				averageX += msg.WorldPosition.x;
+				averageY += msg.WorldPosition.y;
+				count++;
+			}
+
+			AddLocalMsgToChat(stringBuilder.Append(postfix).ToString(), new Vector2Int(averageX / count, averageY / count));
+		}
+	}
+
+	/// <summary>
+	/// This should only be called via UpdateChatMessage
+	/// on the client. Do not use for anything else!
+	/// </summary>
+	public static void ProcessUpdateChatMessage(uint recipient, uint originator, string message,
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker)
+	{
+		//If there is a message in MessageOthers then determine
+		//if it should be the main message or not.
+		if (!string.IsNullOrEmpty(messageOthers))
+		{
+			//This is not the originator so use the messageOthers
+			if (recipient != originator)
+			{
+				message = messageOthers;
+			}
+		}
+
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
+		Instance.addChatLogClient.Invoke(msg, channels);
+	}
+
+	private static string InTheZone(BodyPartType hitZone)
+	{
+		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.ToString().ToLower().Replace("_", " ")}";
+	}
+
+	private static bool IsServer()
+	{
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
+			return false;
+		}
+
+		return true;
+	}
 
 	private static string GetChannelColor(ChatChannel channel)
 	{
