@@ -51,7 +51,12 @@ public partial class Chat
 	private static (string, ChatModifier) ProcessMessage(ConnectedPlayer sentByPlayer, string message)
 	{
 		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
-		ConsciousState playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
+		ConsciousState playerConsciousState = ConsciousState.DEAD;
+		
+		if (sentByPlayer.Script.playerHealth != null)
+		{
+			playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
+		}
 
 		if (playerConsciousState == ConsciousState.UNCONSCIOUS || playerConsciousState == ConsciousState.DEAD)
 		{
