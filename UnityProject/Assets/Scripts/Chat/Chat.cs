@@ -136,7 +136,7 @@ public partial class Chat : MonoBehaviour
 		if (playerConsciousState == ConsciousState.UNCONSCIOUS || playerConsciousState == ConsciousState.DEAD)
 		{
 			// Only the Mute modifier matters if the player cannot speak. We can skip everything else.
-			return ("", ChatModifier.Mute);
+			return (message, ChatModifier.Mute);
 		}
 
 		// Emote

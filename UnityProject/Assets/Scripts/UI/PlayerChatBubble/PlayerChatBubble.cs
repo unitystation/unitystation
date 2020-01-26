@@ -178,6 +178,12 @@ public class PlayerChatBubble : MonoBehaviour
 
 	private void AddChatBubbleMsg(string msg, ChatChannel channel, ChatModifier chatModifier)
 	{
+		// Cancel right away if the player cannot speak.
+		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute)
+		{
+			return;
+		}
+
 		if (msg.Length > maxMessageLength)
 		{
 			while (msg.Length > maxMessageLength)
