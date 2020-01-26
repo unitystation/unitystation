@@ -76,6 +76,7 @@ public class SongTracker : MonoBehaviour
 	{
 		trackName.gameObject.SetActive(isActive);
 		artist.gameObject.SetActive(isActive);
+		speakerImage.gameObject.SetActive(isActive);
 	}
 
 	public void ToggleMusicMute()
