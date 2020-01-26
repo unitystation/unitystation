@@ -247,11 +247,14 @@ public static class Spawn
 	/// <returns></returns>
 	private static SpawnResult Server(SpawnInfo info)
 	{
+		Debug.Log("1");
 		if (info == null)
 		{
+			Debug.Log("2");
 			Logger.LogError("Cannot spawn, info is null", Category.ItemSpawn);
 			return SpawnResult.Fail(info);
 		}
+		Debug.Log("3");
 		EnsureInit();
 		Logger.LogTraceFormat("Server spawning {0}", Category.ItemSpawn, info);
 
