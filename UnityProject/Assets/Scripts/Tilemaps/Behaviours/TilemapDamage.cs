@@ -268,7 +268,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		//look up layer tile so we can calculate damage
-		var layerTile = metaTileMap.GetTile(cellPos);
+		var layerTile = metaTileMap.GetTile(cellPos, true);
 		if (layerTile is BasicTile basicTile)
 		{
 			//TODO: Incorporate more resistance, not just indestructible
@@ -463,10 +463,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <param name="damage">The amount of damage the window received</param>
 	/// <param name="data">The data about the current state of this window</param>
 	/// <param name="cellPos">The position of the window tile</param>
-	/// <param name="bulletHitTarget">Where exactly the bullet hit</param>
+	/// <param name="hitPos">Where exactly the bullet hit</param>
 	/// <param name="attackType">The type of attack that did the damage</param>
 	/// <returns>The remaining damage to apply to the tile if the window is broken, 0 otherwise.</returns>
-	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)
+	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType)
 	{
 		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
 		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDamage < WindowDamageLevel.Crack01)
@@ -493,10 +493,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
 
 			//Spawn 3 glass shards with different sprites:
-			SpawnGlassShards(bulletHitTarget);
+			SpawnGlassShards(hitPos);
 
 			//Play the breaking window sfx:
-			SoundManager.PlayNetworkedAtPos("GlassBreak0#", bulletHitTarget, 1f);
+			SoundManager.PlayNetworkedAtPos("GlassBreak0#", hitPos, 1f);
 
 			data.WindowDamage = WindowDamageLevel.Broken;
 			return data.ResetDamage() - MAX_WINDOW_DAMAGE;
@@ -518,7 +518,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
 			//Spawn rods:
-			if (Random.value < 0.4f)
+			if (Random.value < 0.7f)
 			{
 				SpawnRods(bulletHitTarget);
 			}
@@ -556,19 +556,19 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private void SpawnMetal(Vector3 pos)
 	{
 		Spawn.ServerPrefab("Metal", pos.CutToInt(), count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+			scatterRadius: Spawn.DefaultScatterRadius);
 	}
 	private void SpawnRods(Vector3 pos)
 	{
 		Spawn.ServerPrefab("Rods", pos.CutToInt(), count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+			scatterRadius: Spawn.DefaultScatterRadius);
 	}
 
 	private void SpawnGlassShards(Vector3 pos)
 	{
 		//Spawn 2-4 glass shards
 		Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(2, 4),
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+			scatterRadius: Spawn.DefaultScatterRadius);
 
 		//Play the breaking window sfx:
 		SoundManager.PlayNetworkedAtPos("GlassBreak0#", pos, 1f);

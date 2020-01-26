@@ -158,6 +158,9 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	    //note: doing it this way (internal TargetRpc passing serverDirection)
 	    //so we are guaranteed that the client has the correct
 	    //server direction when we force them to sync to it.
+	    if (target == null) return;
+	    if (target.connectionId == -1) return;
+
 	    TargetForceSyncDirection(target, serverDirection);
     }
 

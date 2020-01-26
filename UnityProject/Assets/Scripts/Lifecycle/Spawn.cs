@@ -252,6 +252,7 @@ public static class Spawn
 			Logger.LogError("Cannot spawn, info is null", Category.ItemSpawn);
 			return SpawnResult.Fail(info);
 		}
+
 		EnsureInit();
 		Logger.LogTraceFormat("Server spawning {0}", Category.ItemSpawn, info);
 

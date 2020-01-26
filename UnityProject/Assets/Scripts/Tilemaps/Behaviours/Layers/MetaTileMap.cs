@@ -241,13 +241,15 @@ public class MetaTileMap : MonoBehaviour
 	/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
 	/// as world position.</param>
 	/// <returns></returns>
-	public LayerTile GetTile(Vector3Int cellPosition)
+	public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			LayerTile tile = LayersValues[i].GetTile(cellPosition);
 			if (tile != null)
 			{
+				if (ignoreEffectsLayer && tile.LayerType == LayerType.Effects) continue;
+				
 				return tile;
 			}
 		}
