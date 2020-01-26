@@ -89,7 +89,8 @@ public class Microwave : NetworkBehaviour
 	/// </summary>
 	[ClientRpc]
 	public void RpcStartCooking()
-	{		
+	{
+		MicrowaveTimer = COOK_TIME;
 		spriteRenderer.sprite = SPRITE_ON;
 		dingHasPlayed = false;
 	}
