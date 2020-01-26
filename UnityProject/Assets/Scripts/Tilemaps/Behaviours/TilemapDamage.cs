@@ -518,7 +518,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
 			//Spawn rods:
-			if (Random.value < 0.4f)
+			if (Random.value < 0.7f)
 			{
 				SpawnRods(bulletHitTarget);
 			}
@@ -556,21 +556,20 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private void SpawnMetal(Vector3 pos)
 	{
 		Spawn.ServerPrefab("Metal", pos.CutToInt(), count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+			scatterRadius: Spawn.DefaultScatterRadius);
 	}
 	private void SpawnRods(Vector3 pos)
 	{
 		Spawn.ServerPrefab("Rods", pos.CutToInt(), count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+			scatterRadius: Spawn.DefaultScatterRadius);
 	}
 
 	private void SpawnGlassShards(Vector3 pos)
 	{
 		//Spawn 2-4 glass shards
-		var t = Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(2, 4),
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+		Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(2, 4),
+			scatterRadius: Spawn.DefaultScatterRadius);
 
-		Debug.Log("IS SUCCESSFUL " + t.Successful);
 		//Play the breaking window sfx:
 		SoundManager.PlayNetworkedAtPos("GlassBreak0#", pos, 1f);
 	}

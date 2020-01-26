@@ -25,6 +25,12 @@ public class ChatEntry : MonoBehaviour
 	private Image stackCircle;
 	private int stackTimes = 1;
 	private string adminId;
+	private Vector3 localScaleCache;
+
+	void Awake()
+	{
+		localScaleCache = stackTimesObj.transform.localScale;
+	}
 
 	void OnEnable()
 	{
@@ -166,7 +172,6 @@ public class ChatEntry : MonoBehaviour
 	IEnumerator StackPumpAnim()
 	{
 		yield return WaitFor.EndOfFrame;
-		var localScaleCache = stackTimesObj.transform.localScale;
 		var targetScale = localScaleCache * 1.1f;
 		var progress = 0f;
 		while (progress < 1f)
@@ -183,6 +188,8 @@ public class ChatEntry : MonoBehaviour
 			stackTimesObj.transform.localScale = Vector3.Lerp(targetScale, localScaleCache, progress);
 			yield return WaitFor.EndOfFrame;
 		}
+
+		stackTimesObj.transform.localScale = localScaleCache;
 	}
 
 	//state = is mouse button down on the scroll bar handle
