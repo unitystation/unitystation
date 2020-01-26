@@ -81,6 +81,11 @@ public partial class Chat
 
 		var verb = "says,";
 
+		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
+		{
+			return "";
+		}
+
 		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{
 			verb = "whispers,";

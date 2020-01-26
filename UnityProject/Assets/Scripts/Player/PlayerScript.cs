@@ -291,35 +291,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		return transmitChannels | receiveChannels;
 	}
 
-	public ChatModifier GetCurrentChatModifiers()
-	{
-		ChatModifier modifiers = ChatModifier.None;
-		if (IsGhost)
-		{
-			return ChatModifier.None;
-		}
-		if (playerHealth.IsCrit)
-		{
-			return ChatModifier.Mute;
-		}
-		if (playerHealth.IsSoftCrit)
-		{
-			modifiers |= ChatModifier.Whisper;
-		}
-
-		//TODO add missing modifiers
-		//TODO add if for being drunk
-		//ChatModifier modifiers = ChatModifier.Drunk;
-
-		if (mind.occupation.JobType == JobType.CLOWN)
-		{
-			modifiers |= ChatModifier.Clown;
-
-		}
-
-		return modifiers;
-	}
-
 	//Tooltips inspector bar
 	public void OnHoverStart()
 	{
