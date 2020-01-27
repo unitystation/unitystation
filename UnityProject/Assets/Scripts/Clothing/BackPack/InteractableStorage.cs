@@ -397,8 +397,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	}
 
 	// TODO: this should be merged into a new AlertUI action system once it's implemented
+	// Client only method
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
+		if (CustomNetworkManager.Instance._isServer)
+			return;
+
 		if (canClickPickup)
 		{
 			// Show the 'switch pickup mode' action button if this is in either of the players hands

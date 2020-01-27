@@ -48,32 +48,10 @@ public class CorgiAI : MobAI
 		if (speaker.Script == null) return;
 		if (speaker.Script.playerNetworkActions == null) return;
 
-		// Check for an ID card (could not find a better solution)
-		IDCard card = null;
-		var playerStorage = speaker.Script.ItemStorage;
-		var idId = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
-		var handId = playerStorage.GetActiveHandSlot().ItemObject;
-		if (idId != null && idId.GetComponent<IDCard>() != null)
+		if (speaker.Job == JobType.CAPTAIN || speaker.Job == JobType.HOP)
 		{
-			card = idId.GetComponent<IDCard>();
+			StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
 		}
-		else if (handId != null &&
-		         handId.GetComponent<IDCard>() != null)
-		{
-			card = handId.GetComponent<IDCard>();
-		}
-
-		if (card == null) return;
-
-		bool allowCommands = false;
-		foreach (JobType t in allowedToGiveCommands)
-		{
-			if (t == card.JobType) allowCommands = true;
-		}
-
-		if (!allowCommands) return;
-
-		StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
 	}
 
 	IEnumerator PerformVoiceCommand(string msg, ConnectedPlayer speaker)

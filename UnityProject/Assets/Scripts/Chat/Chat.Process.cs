@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Mirror;
 using Tilemaps.Behaviours.Meta;
 
 public partial class Chat
@@ -52,6 +53,11 @@ public partial class Chat
 	{
 		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
 		ConsciousState playerConsciousState = ConsciousState.DEAD;
+
+		if (sentByPlayer.Script == null)
+		{
+			return (message, chatModifiers);
+		}
 		
 		if (sentByPlayer.Script.playerHealth != null)
 		{
@@ -393,8 +399,42 @@ public partial class Chat
 			}
 		}
 
+		if (GhostValidationRejection(originator, channels)) return;
+
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
 		Instance.addChatLogClient.Invoke(msg, channels);
+	}
+
+	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
+	{
+		if (PlayerManager.PlayerScript == null) return false;
+		if (!PlayerManager.PlayerScript.IsGhost) return false;
+		if (Instance.GhostHearAll) return false;
+
+		if (NetworkIdentity.spawned.ContainsKey(originator))
+		{
+			var getOrigin = NetworkIdentity.spawned[originator];
+			if (channels == ChatChannel.Local || channels == ChatChannel.Combat
+			                                  || channels == ChatChannel.Action)
+			{
+				LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
+				if (Vector2.Distance(getOrigin.transform.position,
+					    PlayerManager.LocalPlayer.transform.position) > 14f)
+				{
+					return true;
+				}
+				else
+				{
+					if (Physics2D.Linecast(getOrigin.transform.position,
+						PlayerManager.LocalPlayer.transform.position, layerMask))
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	private static string InTheZone(BodyPartType hitZone)
