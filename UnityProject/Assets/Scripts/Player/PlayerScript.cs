@@ -245,7 +245,10 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		if (isDeadOrGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+				| ChatChannel.Supply | ChatChannel.Syndicate;
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;

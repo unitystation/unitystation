@@ -29,6 +29,8 @@ public partial class Chat : MonoBehaviour
 	private Action<ChatEvent> addChatLogServer;
 	private Action<string, ChatChannel> addChatLogClient;
 	private Action<string, string> addAdminPriv;
+	//Does the ghost hear everyone or just local
+	public bool GhostHearAll { get; set; } = true;
 
 	/// <summary>
 	/// Set the scene based chat relay at the start of every round
