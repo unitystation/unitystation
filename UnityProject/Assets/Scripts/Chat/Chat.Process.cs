@@ -54,6 +54,11 @@ public partial class Chat
 		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
 		ConsciousState playerConsciousState = ConsciousState.DEAD;
 
+		if (sentByPlayer.Script == null)
+		{
+			return (message, chatModifiers);
+		}
+		
 		if (sentByPlayer.Script.playerHealth != null)
 		{
 			playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
