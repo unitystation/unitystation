@@ -33,6 +33,7 @@ namespace Lobby
 			}
 
 			DetermineUIScale();
+			UIManager.Display.SetScreenForLobby();
 		}
 
 		void DetermineUIScale()
