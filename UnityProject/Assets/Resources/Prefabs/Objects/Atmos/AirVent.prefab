@@ -170,11 +170,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   direction: 0
-  anchored: 0
+  anchored: 1
   volume: 70
   pipeSprites:
   - {fileID: 21300040, guid: b9e58be60cbc7ce45a1cb2938d57b239, type: 3}
-  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
+  - {fileID: 21300040, guid: b9e58be60cbc7ce45a1cb2938d57b239, type: 3}
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 6123044d3e1847569dcc23e34dd3d3f5
   m_SceneId: 0
 --- !u!114 &-678374216968888500
 MonoBehaviour:
