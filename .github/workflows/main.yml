@@ -47,6 +47,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2.0.0
 
+      # Cache the library directory to speed up builds
+      - name: Cache library directory
+        uses: actions/cache@v1.1.0
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+            Library-${{ matrix.projectPath }}-
+            Library-
+
       # Build the project
       - name: Build project
         uses: webbertakken/unity-builder@v0.8
