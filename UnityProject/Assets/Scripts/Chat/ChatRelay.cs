@@ -65,6 +65,12 @@ public class ChatRelay : NetworkBehaviour
 			LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
 			for (int i = 0; i < players.Count(); i++)
 			{
+				if (players[i].Script.IsGhost)
+				{
+					//send all to ghosts
+					continue;
+				}
+
 				if (Vector2.Distance(chatEvent.position, //speaker.GameObject.transform.position,
 					    players[i].GameObject.transform.position) > 14f)
 				{
@@ -109,7 +115,7 @@ public class ChatRelay : NetworkBehaviour
 			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
 			    channels.HasFlag(ChatChannel.Action))
 			{
-				if (!channels.HasFlag(ChatChannel.Binary))
+				if (!channels.HasFlag(ChatChannel.Binary) || players[i].Script.IsGhost)
 				{
 					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker);
