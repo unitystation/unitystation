@@ -81,7 +81,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		else
 		{
 			node.Type = NodeType.Occupied;
-			if ( matrix.GetFirst<RegisterDoor>(localPosition, true) )
+			if (matrix.GetFirst<RegisterDoor>(localPosition, true))
 			{
 				node.IsClosedAirlock = true;
 			}
@@ -105,7 +105,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			MetaDataNode node = metaDataLayer.Get(position);
 			node.Type = NodeType.Occupied;
 
-			if ( matrix.GetFirst<RegisterDoor>(position, true) )
+			if (matrix.GetFirst<RegisterDoor>(position, true))
 			{
 				node.IsClosedAirlock = true;
 			}
@@ -202,23 +202,26 @@ public class MetaDataSystem : SubsystemBehaviour
 					externalNodes[node] = node;
 				}
 
-				Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
-
-				if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true))
+				if (!node.IsSpace)
 				{
-					MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
+					Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
-					if (matrixInfo.MetaTileMap != metaTileMap)
+					if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true))
 					{
-						Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
-						Vector3Int nodeLocalPosition = MatrixManager.WorldToLocalInt(nodeWorldPosition, matrixInfo);
+						MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
 
-						if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition, true))
+						if (matrixInfo.MetaTileMap != metaTileMap)
 						{
-							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition));
-						}
+							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
+							Vector3Int nodeLocalPosition = MatrixManager.WorldToLocalInt(nodeWorldPosition, matrixInfo);
 
-						continue;
+							if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition, true))
+							{
+								node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition));
+							}
+
+							continue;
+						}
 					}
 				}
 			}
