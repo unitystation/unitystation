@@ -88,7 +88,7 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Yell
-		else if ((message == message.ToUpper(System.Globalization.CultureInfo.InvariantCulture) // Is it all caps?
+		else if ((message == message.ToUpper(CultureInfo.InvariantCulture) // Is it all caps?
 			&& message.Any(char.IsLetter)))// AND does it contain at least one letter?
 		{
 			chatModifiers |= ChatModifier.Yell;
