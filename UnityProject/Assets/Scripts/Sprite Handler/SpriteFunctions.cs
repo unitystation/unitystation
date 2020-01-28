@@ -6,8 +6,16 @@ using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
 
+/// <summary>
+/// Used for generating [variant][animation frame] From the provided texture, sprites and related json data
+/// </summary>
 public static class SpriteFunctions
 {
+	/// <summary>
+	/// Used for generating an Internal data list a single element of
+	/// </summary>
+	/// <returns>The sprite setup.</returns>
+	/// <param name="textureAndData">Texture and data.</param>
 	public static List<List<SpriteHandler.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
 	{
 		var SpriteInfos = new List<List<SpriteHandler.SpriteInfo>>();
@@ -60,7 +68,11 @@ public static class SpriteFunctions
 		return (SpriteInfos);
 	}
 
-
+	/// <summary>
+	/// Used for generating a single element within a The internal data holder
+	/// </summary>
+	/// <returns>The single sprite.</returns>
+	/// <param name="textureAndData">Texture and data.</param>
 	public static SpriteData SetupSingleSprite(SpriteSheetAndData textureAndData)
 	{
 		var SpriteInfos = new SpriteData();

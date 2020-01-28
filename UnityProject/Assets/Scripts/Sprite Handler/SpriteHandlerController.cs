@@ -27,20 +27,27 @@ public class SpriteHandlerController : NetworkBehaviour
 
 	private bool Initialised;
 
-	private void Awake()
-	{		if (spriteHandler == null)
+	private void Initialise() { 
+		if (spriteHandler == null)
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
-		if (spriteHandler == null) { 
+		if (spriteHandler == null)
+		{
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		}
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		pickupable = GetComponent<Pickupable>();
 		Initialised = true;
-		if (itemAttributes.ItemSprites.InventoryIcon.Data.HasSprite()) { 
+		if (itemAttributes.ItemSprites.InventoryIcon.Data.HasSprite())
+		{
 			SetIcon(itemAttributes.ItemSprites.InventoryIcon.Data);
 		}
+	}
+
+	private void Awake()
+	{
+		Initialise();
 	}
 
 	/// <summary>
@@ -49,7 +56,7 @@ public class SpriteHandlerController : NetworkBehaviour
 	public void SetSprites(ItemsSprites newSprites)
 	{
 		if (!Initialised){
-			Awake();
+			Initialise();
 		}
 		itemAttributes.SetSprites(newSprites);
 		pickupable.SetPlayerItemsSprites(newSprites);
@@ -58,9 +65,11 @@ public class SpriteHandlerController : NetworkBehaviour
 
 	}
 
-	private void SetIcon(SpriteData spriteData) {		if (!Initialised)
+	private void SetIcon(SpriteData spriteData) {
+		
+		if (!Initialised)
 		{
-			Awake();
+			Initialise();
 		}
 		if (spriteHandler != null)
 		{
