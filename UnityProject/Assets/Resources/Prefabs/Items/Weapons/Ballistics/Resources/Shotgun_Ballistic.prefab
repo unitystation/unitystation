@@ -10,12 +10,12 @@ PrefabInstance:
     - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Name
-      value: Shotgun_Ballistic1
+      value: Shotgun_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: AmmoType
-      value: Slug
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -37,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ProjectileVelocity
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: SpawnsCaseing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}

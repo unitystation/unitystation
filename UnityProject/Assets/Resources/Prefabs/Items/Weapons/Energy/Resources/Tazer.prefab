@@ -407,15 +407,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_Name
+      value: Tazer
+      objectReference: {fileID: 0}
     - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: ProjectileVelocity
       value: 17
       objectReference: {fileID: 0}
-    - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
         type: 3}
-      propertyPath: m_Name
-      value: Tazer1
+      propertyPath: AmmoType
+      value: Magazine_46x30mmtT
       objectReference: {fileID: 0}
     - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
         type: 3}
@@ -471,6 +476,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
@@ -550,11 +560,6 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A low-capacity, energy-based stun gun used by security teams to subdue
         targets at range.
-      objectReference: {fileID: 0}
-    - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}

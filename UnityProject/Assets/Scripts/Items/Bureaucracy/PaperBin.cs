@@ -23,8 +23,9 @@ namespace Items.Bureaucracy
 
 		private SpriteRenderer binRenderer;
 		private SpriteRenderer penRenderer;
-		private Sprite binEmpty;
-		private Sprite binLoaded;
+
+		public Sprite binEmpty;
+		public Sprite binLoaded;
 
 		#region Networking and Sync
 
@@ -57,8 +58,6 @@ namespace Items.Bureaucracy
 			var renderers = GetComponentsInChildren<SpriteRenderer>();
 			binRenderer = renderers[0];
 			penRenderer = renderers[1];
-			binEmpty = Resources.Load<Sprite>("textures/items/bureaucracy/bureaucracy_paper_bin0");
-			binLoaded = Resources.Load<Sprite>("textures/items/bureaucracy/bureaucracy_paper_bin1");
 
 			SyncPaperCount(paperCount);
 			SyncStoredPen(storedPen);

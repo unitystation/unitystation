@@ -204,63 +204,45 @@ PrefabInstance:
     - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Name
-      value: C20rSMG_Ballistic1
+      value: C20rSMG_Ballistic
       objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_LocalPosition.x
+      propertyPath: AmmoType
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
+      propertyPath: FiringSound
+      value: ShootSMG
       objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: FireRate
+      value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
+      propertyPath: MaxRecoilVariance
+      value: 0.05
       objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba,
         type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_LocalRotation.w
+      propertyPath: WeaponType
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 341921cc736104dd785ecc1579567ec2,
+        type: 2}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialName
@@ -344,6 +326,61 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Sprite
@@ -353,43 +390,6 @@ PrefabInstance:
     - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 341921cc736104dd785ecc1579567ec2,
-        type: 2}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: AmmoType
-      value: 12mm
-      objectReference: {fileID: 0}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootSMG
-      objectReference: {fileID: 0}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: FireRate
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: MaxRecoilVariance
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba,
-        type: 3}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: WeaponType
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
