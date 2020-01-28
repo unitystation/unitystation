@@ -35,6 +35,20 @@ public static class PlayerSpawn
 		return newPlayer;
 	}
 
+
+	/// <summary>
+	/// Server-side only. For use when a player has only joined (as a JoinedViewer) and
+	/// is not in control of any mobs. Spawns the joined viewer as the indicated occupation and transfers control to it.
+	/// Note that this doesn't take into account game mode or antags, it just spawns whatever is requested.
+	/// </summary>
+	/// <param name="spawnRequest">details of the requested spawn</param>
+	/// <returns>the game object of the spawned player</returns>
+	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest spawnRequest)
+	{
+		return ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation,
+			spawnRequest.CharacterSettings);
+	}
+
 	/// <summary>
 	/// For use when player is connected and dead.
 	/// Respawns the mind's character and transfers their control to it.
@@ -412,8 +426,4 @@ public static class PlayerSpawn
 
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
 	}
-
-
-
-
 }

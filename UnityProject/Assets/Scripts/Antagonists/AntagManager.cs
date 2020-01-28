@@ -83,8 +83,8 @@ namespace Antagonists
 			// Generate objectives for this antag
 			List<Objective> objectives = AntagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
 			// Set the antag
-			connectedPlayer.Script.mind.SetAntag(chosenAntag);
 			var spawnedAntag = SpawnedAntag.Create(chosenAntag, connectedPlayer.Script.mind, objectives);
+			connectedPlayer.Script.mind.SetAntag(spawnedAntag);
 			ActiveAntags.Add(spawnedAntag);
 			Logger.Log($"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}", Category.Antags);
 		}

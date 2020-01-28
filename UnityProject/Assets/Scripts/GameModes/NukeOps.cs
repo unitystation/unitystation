@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Antagonists;
@@ -28,12 +29,15 @@ public class NukeOps : GameMode
 		base.StartRound();
 	}
 
-	public override void TrySpawnAntag()
+	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		List<ConnectedPlayer> shouldBeAntags = PlayerList.Instance.NonAntagPlayers.FindAll( p => p.Script.mind.occupation.JobType == JobType.SYNDICATE);
-		foreach (var player in shouldBeAntags)
-		{
-			SpawnAntag(player);
-		}
+		//spawn only if there is not yet any syndicate ops or
+		//the ratio is too low
+		var existingNukeOps = PlayerList.Instance.AntagPlayers.Count;
+		var existingPlayers = PlayerList.Instance.AllPlayers.Count;
+		if (existingNukeOps == 0 ||
+		    existingNukeOps < Math.Floor(existingPlayers * nukeOpsRatio)) return true;
+
+		return false;
 	}
 }

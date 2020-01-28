@@ -70,12 +70,15 @@ public abstract class GameMode : ScriptableObject
 	/// </summary>
 	/// <param name="spawnRequest">spawn requested by the player</param>
 	/// <returns>true if the viewer was spawned as an antag.</returns>
-	public void TrySpawnAntag(PlayerSpawnRequest spawnRequest)
+	public bool TrySpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
 		if (ShouldSpawnAntag(spawnRequest))
 		{
 			SpawnAntag(spawnRequest);
+			return true;
 		}
+
+		return false;
 	}
 
 	/// <summary>
