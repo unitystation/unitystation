@@ -10,10 +10,12 @@ using UnityEngine;
 /// </summary>
 public class MetaDataSystem : SubsystemBehaviour
 {
+	// Set higher priority to ensure that it is executed before other systems
 	public override int Priority => 100;
 
 	/// <summary>
 	/// Nodes which exist in space next to room tiles of the matrix.
+	/// These are regularly checked for tiles from other matrices, i.e. they build the bridge to other matrices
 	/// </summary>
 	private ConcurrentDictionary<MetaDataNode, MetaDataNode> externalNodes;
 
@@ -23,8 +25,6 @@ public class MetaDataSystem : SubsystemBehaviour
 	private Matrix matrix;
 
 	private int roomCounter = 0;
-
-	// Set higher priority to ensure that it is executed before other systems
 
 	public override void Awake()
 	{
@@ -69,6 +69,9 @@ public class MetaDataSystem : SubsystemBehaviour
 		MetaUtils.RemoveFromNeighbors(node);
 		externalNodes.TryRemove(node, out MetaDataNode nothing);
 
+		node.IsClosedAirlock = false;
+
+		// If the node is atmos passable (i.e. space or room), we need to setup its neighbors again, otherwise it's occupied and does need a neighbor check
 		if (metaTileMap.IsAtmosPassableAt(localPosition, true))
 		{
 			node.ClearNeighbors();
@@ -76,12 +79,11 @@ public class MetaDataSystem : SubsystemBehaviour
 			node.Type = metaTileMap.IsSpaceAt(localPosition, true) ? NodeType.Space : NodeType.Room;
 			SetupNeighbors(node);
 			MetaUtils.AddToNeighbors(node);
-			node.IsClosedAirlock = false;
 		}
 		else
 		{
 			node.Type = NodeType.Occupied;
-			if ( matrix.GetFirst<RegisterDoor>(localPosition, true) )
+			if (matrix.GetFirst<RegisterDoor>(localPosition, true))
 			{
 				node.IsClosedAirlock = true;
 			}
@@ -105,7 +107,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			MetaDataNode node = metaDataLayer.Get(position);
 			node.Type = NodeType.Occupied;
 
-			if ( matrix.GetFirst<RegisterDoor>(position, true) )
+			if (matrix.GetFirst<RegisterDoor>(position, true))
 			{
 				node.IsClosedAirlock = true;
 			}
@@ -127,6 +129,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		var isSpace = false;
 
+		// breadth-first search of the connected tiles that are not occupied
 		while (!freePositions.IsEmpty)
 		{
 			if (freePositions.TryDequeue(out Vector3Int position))
@@ -141,6 +144,8 @@ public class MetaDataSystem : SubsystemBehaviour
 					{
 						Vector3Int worldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
+						// If matrix manager says, the neighboring positions is space, the whole room is connected to space.
+						// Otherwise there is another matrix, blocking off the connection to space.
 						if (MatrixManager.IsSpaceAt(worldPosition, true))
 						{
 							isSpace = true;
@@ -148,6 +153,8 @@ public class MetaDataSystem : SubsystemBehaviour
 					}
 					else if (metaTileMap.IsAtmosPassableAt(position, neighbor, true))
 					{
+						// if neighbor position is not yet a room in the meta data layer and not in the room positions list,
+						// add it to the positions that need be checked
 						if (!roomPositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
 						{
 							freePositions.Enqueue(neighbor);
@@ -164,15 +171,18 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void AssignType(IEnumerable<Vector3Int> positions, NodeType nodeType)
 	{
+		// Bulk assign type to nodes at given positions
 		foreach (Vector3Int position in positions)
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
 
 			node.Type = nodeType;
 
+			// assign room number, if type is room
 			node.RoomNumber = nodeType == NodeType.Room ? roomCounter : -1;
 		}
 
+		// increase room counter, so next room will get a new number
 		if (nodeType == NodeType.Room)
 		{
 			roomCounter++;
@@ -191,38 +201,50 @@ public class MetaDataSystem : SubsystemBehaviour
 	{
 		Vector3 nodeWorldPosition = MatrixManager.LocalToWorldInt(node.Position, MatrixManager.Get(matrix.Id));
 
+		// Look in every direction for neighboring tiles.
 		foreach (Vector3Int dir in MetaUtils.Directions)
 		{
 			Vector3Int neighbor = dir + node.Position;
 
 			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
+				// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
 				if (node.IsRoom && !externalNodes.ContainsKey(node))
 				{
 					externalNodes[node] = node;
 				}
 
-				Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
-
-				if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true))
+				// If the node is not space, check other matrices if it has a tile next to this node.
+				if (!node.IsSpace)
 				{
-					MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
+					Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
-					if (matrixInfo.MetaTileMap != metaTileMap)
+					// if matrixManager says, it's not space at the neighboring position, there must be a matrix with a non-space tile
+					if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true))
 					{
-						Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
-						Vector3Int nodeLocalPosition = MatrixManager.WorldToLocalInt(nodeWorldPosition, matrixInfo);
+						MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
 
-						if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition, true))
+						// ignore tilemap of current node
+						if (matrixInfo.MetaTileMap != metaTileMap)
 						{
-							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition));
-						}
+							// Check if atmos can pass to the neighboring position
+							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
+							Vector3Int nodeLocalPosition = MatrixManager.WorldToLocalInt(nodeWorldPosition, matrixInfo);
 
-						continue;
+							if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition, true))
+							{
+								// add node of other matrix to the neighbors of the current node
+								node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition));
+							}
+
+							// skip other checks for neighboring tile on local tilemap, to prevent the space tile to be added as a neighbor
+							continue;
+						}
 					}
 				}
 			}
 
+			// If neighboring tile on local tilemap is atmos passable, add it as a neighbor
 			if (metaTileMap.IsAtmosPassableAt(node.Position, neighbor, true))
 			{
 				MetaDataNode neighborNode = metaDataLayer.Get(neighbor);
