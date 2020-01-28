@@ -234,7 +234,7 @@ public class MetaDataSystem : SubsystemBehaviour
 							if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition, true))
 							{
 								// add node of other matrix to the neighbors of the current node
-								node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition));
+								node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition), dir);
 							}
 
 							// skip other checks for neighboring tile on local tilemap, to prevent the space tile to be added as a neighbor
@@ -254,7 +254,7 @@ public class MetaDataSystem : SubsystemBehaviour
 					neighborNode.Type = NodeType.Space;
 				}
 
-				node.AddNeighbor(neighborNode);
+				node.AddNeighbor(neighborNode, dir);
 			}
 		}
 	}
