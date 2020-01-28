@@ -11,37 +11,28 @@ public static class PlayerSpawn
 {
 	/// <summary>
 	/// Server-side only. For use when a player has only joined (as a JoinedViewer) and
-	/// is not in control of any mobs. Spawns the player with the specified occupation / settings
-	/// and transfers the viewer to control the new player.
+	/// is not in control of any mobs. Spawns the joined viewer as the indicated occupation and transfers control to it.
+	/// Note that this doesn't take into account game mode or antags, it just spawns whatever is requested.
 	/// </summary>
-	/// <param name="forViewer">viewer who should control the player</param>
+	/// <param name="joinedViewer">viewer who should control the player</param>
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
-	/// <returns></returns>
-	public static void ServerSpawnPlayer(JoinedViewer forViewer, Occupation occupation, CharacterSettings characterSettings)
+	/// <returns>the game object of the spawned player</returns>
+	public static GameObject ServerSpawnPlayer(JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings)
 	{
-		NetworkConnection conn = forViewer.connectionToClient;
+		NetworkConnection conn = joinedViewer.connectionToClient;
+
 		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null);
 		if (newPlayer)
 		{
-			if (occupation.JobType == JobType.SYNDICATE)
-			{
-				//Check to see if there is a nuke and communicate the nuke code:
-				Nuke nuke = Object.FindObjectOfType<Nuke>();
-				if (nuke != null)
-				{
-					UpdateChatMessage.Send(newPlayer, ChatChannel.Syndicate, ChatModifier.None,
-						"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
-				}
-			}
-
-			GameManager.Instance.CheckAntags();
-
-			if (occupation.JobType != JobType.SYNDICATE && occupation.JobType != JobType.AI)
+			if (occupation.JobType != JobType.SYNDICATE &&
+			    occupation.JobType != JobType.AI)
 			{
 				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
 			}
 		}
+
+		return newPlayer;
 	}
 
 	/// <summary>

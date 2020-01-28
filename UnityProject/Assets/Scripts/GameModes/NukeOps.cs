@@ -5,6 +5,13 @@ using Antagonists;
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/NukeOps")]
 public class NukeOps : GameMode
 {
+	[Tooltip("Ratio of nuke ops to player count. A value of 0.2 means there would be " +
+	         "2 nuke ops when there are 10 players.")]
+	[Range(0,1)]
+	[SerializeField]
+	private float nukeOpsRatio;
+
+
 	/// <summary>
 	/// Set up the station for the game mode
 	/// </summary>
@@ -18,11 +25,10 @@ public class NukeOps : GameMode
 	public override void StartRound()
 	{
 		Logger.Log("Starting NukeOps round!", Category.GameMode);
-		// TODO remove once random antag allocation is done
-		UpdateUIMessage.Send(ControlDisplays.Screens.TeamSelect);
+		base.StartRound();
 	}
 
-	public override void CheckAntags()
+	public override void TrySpawnAntag()
 	{
 		List<ConnectedPlayer> shouldBeAntags = PlayerList.Instance.NonAntagPlayers.FindAll( p => p.Script.mind.occupation.JobType == JobType.SYNDICATE);
 		foreach (var player in shouldBeAntags)

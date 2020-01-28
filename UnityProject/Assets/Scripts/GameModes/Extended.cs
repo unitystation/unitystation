@@ -18,5 +18,5 @@ public class Extended : GameMode
 	}
 	public override void CheckEndCondition() {}
 	public override void EndRound() {}
-	public override void CheckAntags() {}
+	public override void TrySpawnAntag() {}
 }

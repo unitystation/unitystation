@@ -399,17 +399,20 @@ namespace IngameDebugConsole
 				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
 			}
 		}
-		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
-		public static void SpawnAntag()
-		{
-			if (CustomNetworkManager.Instance._isServer == false)
-			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
-				return;
-			}
-
-			Antagonists.AntagManager.Instance.CreateAntag();
-		}
+		// TODO: Removing this capability at the moment because some antags require an actual spawn (such as
+		// syndicate. and can't just be assigned an antag after they've already spawned. If there really is
+		// an actual need to be able to do this it will require refactoring GameMode system to support late reassignment.
+		// [ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
+		// public static void SpawnAntag()
+		// {
+		// 	if (CustomNetworkManager.Instance._isServer == false)
+		// 	{
+		// 		Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+		// 		return;
+		// 	}
+		//
+		// 	Antagonists.AntagManager.Instance.CreateAntag();
+		// }
 		[ConsoleMethod("antag-status", "Shows status of all antag objectives. Server only command")]
 		public static void ShowAntagObjectives()
 		{
