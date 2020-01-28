@@ -203,9 +203,9 @@ public class ChatRelay : NetworkBehaviour
 		{
 			message = Regex.Replace(message, @"<[^>]*>", String.Empty); // Style tags
 			int saysCharIndex = message.IndexOf(saysChar);
-			if (saysChar != -1)
+			if (saysCharIndex != -1)
 			{
-				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar));
+				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar)+1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
 					MaryTTS.Instance.Synthesize(messageAfterSaysChar);
