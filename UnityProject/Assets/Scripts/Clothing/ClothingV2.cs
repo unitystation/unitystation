@@ -51,17 +51,10 @@ public class ClothingV2 : MonoBehaviour
 	public int SpriteInfoState => variantStore.ContainsKey(variantType) ? variantStore[variantType] : 0;
 
 	/// <summary>
-	/// SpriteDataHandler on this object
-	/// </summary>
-	public SpriteDataHandler SpriteDataHandler => spriteDataHandler;
-
-	/// <summary>
 	/// Determine when a piece of clothing hides another
 	/// </summary>
 	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
 
-
-	private SpriteDataHandler spriteDataHandler;
 	private SpriteHandler inventoryIcon;
 
 	private void Awake()

@@ -651,15 +651,17 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		}
 	}
 
+
+
 	#endregion
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		//populate with a full mag on spawn
 		Logger.LogTraceFormat("Trying to auto-populate magazine for {0}", Category.Inventory, name);
-		//TemporaryAmmoTypes
+		//TemporaryAmmoTypes		//if it NREs then idk dam Loading order
 		GameObject ammoPrefab;
-		ammoPrefab = TemporaryAmmoTypes.Instance.A762;
+		ammoPrefab = TemporaryAmmoTypes.Instance?.A762;
 		switch (AmmoType)
 		{
 			case AmmoType.A762:
@@ -706,6 +708,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		Logger.LogTraceFormat("Populating with ammo prefab {0}", Category.Inventory, ammoPrefab?.name);
 		GameObject m = Spawn.ServerPrefab(ammoPrefab).GameObject;
 		Inventory.ServerAdd(m, magSlot);
+
 	}
 }
 

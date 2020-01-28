@@ -19,7 +19,7 @@ MonoBehaviour:
   SmartGun: 0
   CurrentRecoilVariance: 0
   FireCountDown: 0
-  FiringSound: ShouldGun01
+  FiringSound: ShootGun01
   FireRate: 3
   MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 008fa24b13fdb4e98971489ecee9218c, type: 3}
@@ -57,6 +57,11 @@ PrefabInstance:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
       value: Generic Ballistic Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -101,11 +106,6 @@ PrefabInstance:
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
