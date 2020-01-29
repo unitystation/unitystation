@@ -31,12 +31,12 @@ public class NukeOps : GameMode
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		//spawn only if there is not yet any syndicate ops or
+		//spawn only if there is not yet any syndicate ops (and at least one other player) or
 		//the ratio is too low
 		var existingNukeOps = PlayerList.Instance.AntagPlayers.Count;
-		var existingPlayers = PlayerList.Instance.AllPlayers.Count;
-		if (existingNukeOps == 0 ||
-		    existingNukeOps < Math.Floor(existingPlayers * nukeOpsRatio)) return true;
+		var inGamePlayers = PlayerList.Instance.InGamePlayers.Count;
+		if ((inGamePlayers > 0 && existingNukeOps == 0) ||
+		    existingNukeOps < Math.Floor(inGamePlayers * nukeOpsRatio)) return true;
 
 		return false;
 	}

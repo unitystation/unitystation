@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -89,6 +90,18 @@ namespace Antagonists
 			Logger.Log($"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}", Category.Antags);
 		}
 
+
+		/// <summary>
+		/// Remind all antagonists of their objectives.
+		/// </summary>
+		public void RemindAntags()
+		{
+			foreach (var activeAntag in ActiveAntags)
+			{
+				activeAntag.Owner?.ShowObjectives();
+			}
+		}
+
 		/// <summary>
 		/// Show the end of round antag status report with their objectives, grouped by antag type.
 		/// </summary>
@@ -126,5 +139,6 @@ namespace Antagonists
 			TargetedPlayers.Clear();
 			TargetedItems.Clear();
 		}
+
 	}
 }
