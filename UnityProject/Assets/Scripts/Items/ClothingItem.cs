@@ -137,8 +137,13 @@ public class ClothingItem : MonoBehaviour
 				var equippedClothing = Item.GetComponent<ClothingV2>();
 				equippedClothing?.LinkClothingItem(this);
 
-				// call the event of equiped clothing
-				OnClothingEquiped?.Invoke(equippedClothing, true);
+				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
+				// But for the others, we call the OnClothingEquiped event.
+				if (equippedClothing) 
+				{
+					// call the event of equiped clothing
+					OnClothingEquiped?.Invoke(equippedClothing, true);
+				}
 			}
 		}
 

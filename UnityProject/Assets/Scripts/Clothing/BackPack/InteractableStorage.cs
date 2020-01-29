@@ -284,7 +284,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			if (slots == null)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "It's already empty!");
+				if (!CustomNetworkManager.Instance._isServer)
+				{
+					Chat.AddExamineMsgToClient("It's already empty!");
+				}
+
 				return false;
 			}
 
@@ -293,7 +297,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				// Might be better to add a DropAll method in future
 				Inventory.ServerDrop(item);
 			}
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
+
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.ExpensiveName()}.");
+			}
+
 			return true;
 		}
 
