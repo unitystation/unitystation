@@ -20,7 +20,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 	/// </summary>
-	public AmmoType AmmoType;
+	[FormerlySerializedAs("AmmoType")] public AmmoType ammoType;
 
 	//server-side flag indicating if the gun is currently held by a player
 	private bool serverIsHeld;
@@ -135,6 +135,22 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 
 		queuedShots = new Queue<QueuedShot>();
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		Init();
+	}
+
+	private void Init()
+	{
+		//populate with a full mag on spawn
+		Logger.LogTraceFormat("Auto-populate magazine for {0}", Category.Inventory, name);
+
+		//AmmoPrefabs
+		GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
+
+		Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
@@ -349,17 +365,17 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			//RELOAD
 			// If the item used on the gun is a magazine, check type and reload
 			AmmoType ammoType = magazine.ammoType;
-			if (AmmoType == ammoType)
+			if (this.ammoType == ammoType)
 			{
 				var hand = UIManager.Hands.CurrentSlot.NamedSlot;
 				RequestReload(magazine.gameObject, hand, true);
 			}
-			if (AmmoType != ammoType)
+			if (this.ammoType != ammoType)
 			{
 				Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
 			}
 		}
-		else if (AmmoType == magazine.ammoType)
+		else if (ammoType == magazine.ammoType)
 		{
 			Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
 		}
@@ -651,70 +667,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		}
 	}
 
-
-
 	#endregion
-
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		StartCoroutine(WaitForInitialisation());
-
-	}
-	private IEnumerator WaitForInitialisation()
-	{
-		yield return WaitFor.Seconds(1);
-		//populate with a full mag on spawn
-		Logger.LogTraceFormat("Trying to auto-populate magazine for {0}", Category.Inventory, name);
-		//TemporaryAmmoTypes
-		GameObject ammoPrefab;
-		ammoPrefab = TemporaryAmmoTypes.Instance?.A762;
-		switch (AmmoType)
-		{
-			case AmmoType.A762:
-				ammoPrefab = TemporaryAmmoTypes.Instance.A762;
-				break;
-			case AmmoType.FusionCells:
-				ammoPrefab = TemporaryAmmoTypes.Instance.FusionCells;
-				break;
-			case AmmoType.Slug:
-				ammoPrefab = TemporaryAmmoTypes.Instance.Slug;
-				break;
-			case AmmoType.smg9mm:
-				ammoPrefab = TemporaryAmmoTypes.Instance.smg9mm;
-				break;
-			case AmmoType.Syringe:
-				ammoPrefab = TemporaryAmmoTypes.Instance.Syringe;
-				break;
-			case AmmoType.uzi9mm:
-				ammoPrefab = TemporaryAmmoTypes.Instance.uzi9mm;
-				break;
-			case AmmoType._12mm:
-				ammoPrefab = TemporaryAmmoTypes.Instance._12mm;
-				break;
-			case AmmoType._357mm:
-				ammoPrefab = TemporaryAmmoTypes.Instance._357mm;
-				break;
-			case AmmoType._38:
-				ammoPrefab = TemporaryAmmoTypes.Instance._38;
-				break;
-			case AmmoType._46x30mmtT:
-				ammoPrefab = TemporaryAmmoTypes.Instance._46x30mmtT;
-				break;
-			case AmmoType._50mm:
-				ammoPrefab = TemporaryAmmoTypes.Instance._50mm;
-				break;
-			case AmmoType._5Point56mm:
-				ammoPrefab = TemporaryAmmoTypes.Instance._5Point56mm;
-				break;
-			case AmmoType._9mm:
-				ammoPrefab = TemporaryAmmoTypes.Instance._9mm;
-				break;
-		}
-
-		Logger.LogTraceFormat("Populating with ammo prefab {0}", Category.Inventory, ammoPrefab?.name);
-		GameObject m = Spawn.ServerPrefab(ammoPrefab).GameObject;
-		Inventory.ServerAdd(m, magSlot);
-	}
 }
 
 /// <summary>
