@@ -27,7 +27,28 @@ PrefabInstance:
     - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_Name
-      value: Cable Coil1
+      value: Cable Coil
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialName
+      value: Medium power cable
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764,
+        type: 2}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -84,27 +105,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialName
-      value: Medium power cable
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialDescription
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764,
-        type: 2}
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: initialAmount

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 3097138933977987719, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: m_Name
-      value: Magazine_50mm1
+      value: Magazine_50mm
       objectReference: {fileID: 0}
     - target: {fileID: 3091929310079895539, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
@@ -67,6 +67,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: ammoType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: magazineSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129732272286336819, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -93,20 +108,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 11fdd80d232c34c3c9f74a96e3c0b0e3,
         type: 2}
-    - target: {fileID: 3129732272286336819, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: ammoType
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: magazineSize
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c406df2572ceba47af8a9de4f9a50ba, type: 3}

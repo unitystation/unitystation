@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_Name
-      value: Wrench1
+      value: Wrench
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -108,11 +113,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4,
         type: 2}
-    - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_Sprite

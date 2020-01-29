@@ -71,6 +71,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ore Redemption Machine
       objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: Ore Redemption Machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialDescription
+      value: The thing that does the ores
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportCost
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -125,26 +145,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialName
-      value: Ore Redemption Machine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialDescription
-      value: The thing that does the ores
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: exportCost
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

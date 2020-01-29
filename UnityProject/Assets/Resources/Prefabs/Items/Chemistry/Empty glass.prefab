@@ -29,7 +29,7 @@ PrefabInstance:
     - target: {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: m_Name
-      value: Empty glass1
+      value: Empty glass
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -91,17 +91,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: MaxCapacity
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7997558505216099516, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a652072a4249d7145a17349eb2c47af1,
         type: 3}
-    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
-        type: 3}
-      propertyPath: MaxCapacity
-      value: 50
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
 --- !u!1 &5426160498802093876 stripped

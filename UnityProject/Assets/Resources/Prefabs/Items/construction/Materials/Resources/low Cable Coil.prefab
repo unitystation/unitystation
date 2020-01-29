@@ -7,21 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: CableType
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: CablePrefab
-      value: 
-      objectReference: {fileID: 1042895037894172, guid: 9de39208d8b9b5044aab78843d0c4f34,
-        type: 3}
     - target: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: m_Name
-      value: Low Cable Coil1
+      value: low Cable Coil
       objectReference: {fileID: 0}
     - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -99,6 +88,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: CableType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: CablePrefab
+      value: 
+      objectReference: {fileID: 1042895037894172, guid: 9de39208d8b9b5044aab78843d0c4f34,
+        type: 3}
     - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: m_Color.r
