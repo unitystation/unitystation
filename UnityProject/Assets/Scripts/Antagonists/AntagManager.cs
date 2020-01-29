@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace Antagonists
 		/// <summary>
 		/// All active antagonists
 		/// </summary>
-		private List<Antagonist> ActiveAntags = new List<Antagonist>();
+		private List<SpawnedAntag> ActiveAntags = new List<SpawnedAntag>();
 
 		/// <summary>
 		/// Keeps track of which players have already been targeted for objectives
@@ -67,34 +68,38 @@ namespace Antagonists
 		public int AntagCount => ActiveAntags.Count;
 
 		/// <summary>
-		/// Creates a new antagonist, defaults to a random player with a random antag type if null is passed.
+		/// Server only. Spawn the joined viewer as the indicated antag, includes creating their player object
+		/// and transferring them to it. This is used as an alternative
+		/// to PlayerSpawn.ServerSpawnPlayer when an antag should be spawned.
 		/// </summary>
-		/// <param name="chosenAntag">The antag type to spawn</param>
-		/// <param name="chosenPlayer">The player to make an antag</param>
-		public void CreateAntag(Antagonist chosenAntag = null, ConnectedPlayer chosenPlayer = null)
+		/// <param name="chosenAntag">antag to spawn as</param>
+		/// <param name="spawnRequest">player's requested spawn</param>
+		public void ServerSpawnAntag(Antagonist chosenAntag, PlayerSpawnRequest spawnRequest)
 		{
-			// Choose a random non-antag player if one hasn't been provided
-			ConnectedPlayer player = chosenPlayer;
-			if (player == null)
-			{
-				if (PlayerList.Instance.NonAntagPlayers.Count == 0)
-				{
-					Logger.LogWarning("Unable to create new antag: No suitable candidates left.");
-					return;
-				}
-				player = PlayerList.Instance.NonAntagPlayers.PickRandom();
-			}
-			// Choose a random antag type if one hasn't been provided
-			Antagonist antag = chosenAntag ?? AntagData.GetRandomAntag();
+			//spawn the antag using their custom spawn logic
+			var spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest);
+
+			var connectedPlayer = PlayerList.Instance.Get(spawnedPlayer);
 
 			// Generate objectives for this antag
-			List<Objective> objectives = AntagData.GenerateObjectives(player.Script, antag);
-			antag.GiveObjectives(objectives);
-
+			List<Objective> objectives = AntagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
 			// Set the antag
-			player.Script.mind.SetAntag(antag);
-			ActiveAntags.Add(antag);
-			Logger.Log($"Created new antag. Made {player.Name} a {antag.AntagName} with objectives:\n{antag.GetObjectivesForLog()}", Category.Antags);
+			var spawnedAntag = SpawnedAntag.Create(chosenAntag, connectedPlayer.Script.mind, objectives);
+			connectedPlayer.Script.mind.SetAntag(spawnedAntag);
+			ActiveAntags.Add(spawnedAntag);
+			Logger.Log($"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}", Category.Antags);
+		}
+
+
+		/// <summary>
+		/// Remind all antagonists of their objectives.
+		/// </summary>
+		public void RemindAntags()
+		{
+			foreach (var activeAntag in ActiveAntags)
+			{
+				activeAntag.Owner?.ShowObjectives();
+			}
 		}
 
 		/// <summary>
@@ -134,5 +139,6 @@ namespace Antagonists
 			TargetedPlayers.Clear();
 			TargetedItems.Clear();
 		}
+
 	}
 }

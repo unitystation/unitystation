@@ -6,7 +6,10 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/Antagonist/Traitor")]
 	public class Traitor : Antagonist
 	{
-		// add any traitor specific logic here
+		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
+		{
+			// spawn them normally, with their preferred occupation
+			return PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		}
 	}
-
 }

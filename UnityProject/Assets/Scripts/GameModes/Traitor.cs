@@ -35,14 +35,8 @@ public class Traitor : GameMode
 
 	// }
 
-	/// <summary>
-	/// Check if more antags are needed. Should be defined by each game mode.
-	/// </summary>
-	public override void CheckAntags()
+	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		if ((AntagManager.Instance.AntagCount == 0) && PlayerList.Instance.InGamePlayers.Count > 1)
-		{
-			SpawnAntag();
-		}
+		return AntagManager.Instance.AntagCount == 0 && PlayerList.Instance.InGamePlayers.Count > 0;
 	}
 }
