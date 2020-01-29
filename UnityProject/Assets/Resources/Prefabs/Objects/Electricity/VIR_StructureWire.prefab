@@ -54,8 +54,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 3
+  matrixDebugLogging: 0
+  objectType: 3
 --- !u!114 &114487159119372660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 3690726743
 --- !u!1 &1282939714934272
 GameObject:
   m_ObjectHideFlags: 0

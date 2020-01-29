@@ -93,21 +93,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212351652085156724}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 1
 --- !u!1 &1519710982558066
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,15 +112,15 @@ GameObject:
   - component: {fileID: 114287030664492144}
   - component: {fileID: 114850502447124420}
   - component: {fileID: 114079509811454882}
-  - component: {fileID: 1012120877556218973}
   - component: {fileID: 114943451087304478}
   - component: {fileID: 114596150240161284}
   - component: {fileID: 114171556259583268}
   - component: {fileID: 7775367136764396337}
   - component: {fileID: 1635926354344122938}
   - component: {fileID: -1649124960678938281}
+  - component: {fileID: -3547164563803669629}
   m_Layer: 10
-  m_Name: seed packet
+  m_Name: seed packet_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,6 +182,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
   isInitiallyNotPushable: 0
   pushPullSound: 
   soundDelayTime: 0
@@ -244,6 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114079509811454882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,28 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &1012120877556218973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 1
-    Serialized: []
-  spriteList: []
 --- !u!114 &114943451087304478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,7 +314,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 2276494383
 --- !u!114 &7775367136764396337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,3 +406,31 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+--- !u!114 &-3547164563803669629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}

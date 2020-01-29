@@ -65,15 +65,15 @@ namespace Lobby
 			lastSettings = JsonUtility.FromJson<CharacterSettings>(copyStr);
 			DisplayErrorText("");
 
-			torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.Torso);
-			headSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.Head);
-			RarmSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.ArmRight);
-			LarmSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.ArmLeft);
-			RlegSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.LegRight);
-			LlegSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.LegLeft);
-			RHandSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.HandRight);
-			LHandSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.HandLeft);
-			eyesSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.Eyes);
+			torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Torso);
+			headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Head);
+			RarmSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.ArmRight);
+			LarmSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.ArmLeft);
+			RlegSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.LegRight);
+			LlegSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.LegLeft);
+			RHandSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.HandRight);
+			LHandSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.HandLeft);
+			eyesSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Eyes);
 		}
 
 		void OnDisable()
@@ -411,13 +411,13 @@ namespace Lobby
 
 			if (currentCharacter.Gender == Gender.Female)
 			{
-				headSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Female.Head);
-				torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Female.Torso);
+				headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Female.Head);
+				torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Female.Torso);
 			}
 			else
 			{
-				headSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Male.Head);
-				torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Male.Torso);
+				headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Male.Head);
+				torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Male.Torso);
 			}
 
 			headSpriteController.UpdateSprite();
@@ -497,7 +497,7 @@ namespace Lobby
 			if (playerCustomisationData[PlayerCustomisation.HairStyle].ContainsKey(currentCharacter.hairStyleName))
 			{
 				hairSpriteController.sprites =
-										StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.hairStyleName].Equipped);
+										SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.hairStyleName].Equipped);
 			}
 			else
 			{
@@ -526,7 +526,7 @@ namespace Lobby
 			if (playerCustomisationData[PlayerCustomisation.FacialHair].ContainsKey(currentCharacter.facialHairName))
 			{
 				facialHairSpriteController.sprites =
-				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.FacialHair][currentCharacter.facialHairName].Equipped);
+				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.FacialHair][currentCharacter.facialHairName].Equipped);
 			}
 			else { facialHairSpriteController.sprites = null; }
 			facialHairSpriteController.UpdateSprite();
@@ -601,7 +601,7 @@ namespace Lobby
 		{
 			if (playerCustomisationData[PlayerCustomisation.Underwear].ContainsKey(currentCharacter.underwearName)){
 				underwearSpriteController.sprites =
-				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.underwearName].Equipped);}
+				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.underwearName].Equipped);}
 			else
 			{underwearSpriteController.sprites = null;}
 
@@ -622,7 +622,7 @@ namespace Lobby
 
 			if (playerCustomisationData[PlayerCustomisation.Socks].ContainsKey(currentCharacter.socksName)){
 				socksSpriteController.sprites =
-				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);}
+				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);}
 
 			else { socksSpriteController.sprites = null; }
 			socksSpriteController.UpdateSprite();

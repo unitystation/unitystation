@@ -1,12 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
+using UnityEditor;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine.Serialization;
 
 ///	<summary>
-///	Handles sprite syncing between server and clients and contains a custom animator
+///	for Handling sprite animations
 ///	</summary>
-public class SpriteHandler : SpriteDataHandler
+public class SpriteHandler : MonoBehaviour
 {
-	[SerializeField]
+	public SpriteData spriteData;
+
+	public List<SpriteSheetAndData> Sprites = new List<SpriteSheetAndData>();
+
+	public class SpriteInfo
+	{
+		public Sprite sprite;
+		public float waitTime;
+	}
 	private SpriteRenderer spriteRenderer;
 
 	[SerializeField]
@@ -16,27 +32,30 @@ public class SpriteHandler : SpriteDataHandler
 	[FormerlySerializedAs("VariantIndex")]
 	private int variantIndex;
 
-	private SpriteJson spriteJson;
-
 	private int animationIndex = 0;
 
 	private float timeElapsed = 0;
 
 	private float waitTime;
 
-	private bool initialized = false;
-
 	private bool isAnimation = false;
 
 	[SerializeField]
-	private int test;
+	private bool SetSpriteOnStartUp = true;
 
-	/// <summary>
-	/// Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
-	/// </summary>
-	[SerializeField]
-	[FormerlySerializedAs("SynchroniseVariant")]
-	private bool synchroniseVariant = true;
+
+	private bool Initialised;
+
+	private IEnumerator WaitForInitialisation()
+	{
+		yield return WaitFor.EndOfFrame;
+		Initialised = true;
+		spriteRenderer = this.GetComponent<SpriteRenderer>();
+		if (spriteRenderer != null && SetSpriteOnStartUp && spriteData.HasSprite())
+		{
+			PushTexture();
+		}
+	}
 
 	private void OnDisable()
 	{
@@ -45,16 +64,11 @@ public class SpriteHandler : SpriteDataHandler
 
 	public void SetColor(Color value)
 	{
-		spriteRenderer.color = value;
-	}
-
-	private void TryInit()
-	{
-		if (!initialized)
+		if (spriteRenderer == null)
 		{
-			Infos.DeSerializeT();
-			initialized = true;
+			spriteRenderer = this.GetComponent<SpriteRenderer>();
 		}
+		spriteRenderer.color = value;
 	}
 
 	public void PushClear()
@@ -65,40 +79,48 @@ public class SpriteHandler : SpriteDataHandler
 
 	public void PushTexture()
 	{
-		if (Infos != null)
+		if (Initialised)
 		{
-			if (!initialized)
+			if (spriteData != null)
 			{
-				TryInit();
+				if (spriteIndex < spriteData.List.Count &&
+					variantIndex < spriteData.List[spriteIndex].Count &&
+					animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
+				{
+					SetSprite(spriteData.List[spriteIndex][variantIndex][animationIndex]);
+					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
+					return;
+				}
+				else if (spriteIndex < spriteData.List.Count &&
+						 variantIndex < spriteData.List[spriteIndex].Count)
+				{
+					animationIndex = 0;
+					SetSprite(spriteData.List[spriteIndex][variantIndex][animationIndex]);
+					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
+					return;
+				}
 			}
-
-			if (spriteIndex < Infos.List.Count &&
-			    variantIndex < Infos.List[spriteIndex].Count &&
-			    animationIndex < Infos.List[spriteIndex][variantIndex].Count)
-			{
-				SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
-				TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
-				return;
-			}
+			spriteRenderer.sprite = null;
+			TryToggleAnimationState(false);
 		}
-		spriteRenderer.sprite = null;
-		TryToggleAnimationState(false);
 	}
 
 	public void UpdateMe()
 	{
+
 		timeElapsed += Time.deltaTime;
-		if (Infos.List.Count > spriteIndex &&
-		    timeElapsed >= waitTime)
+		if (spriteData.List.Count > spriteIndex &&
+			timeElapsed >= waitTime)
 		{
 			animationIndex++;
-			if (animationIndex >= Infos.List[spriteIndex][variantIndex].Count)
+			if (animationIndex >= spriteData.List[spriteIndex][variantIndex].Count)
 			{
 				animationIndex = 0;
 			}
-			SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
+			SetSprite(spriteData.List[spriteIndex][variantIndex][animationIndex]);
 		}
-		if (!isAnimation) {
+		if (!isAnimation)
+		{
 			UpdateManager.Instance.Remove(UpdateMe);
 			spriteRenderer.sprite = null;
 		}
@@ -111,43 +133,38 @@ public class SpriteHandler : SpriteDataHandler
 		spriteRenderer.sprite = animationStills.sprite;
 	}
 
-	[ContextMenu("Test Change Sprite")]
-	private void ChangeIt()
-	{
-		ChangeSprite(test);
-	}
-
 	public void ChangeSprite(int newSprites)
 	{
-		if (newSprites < Infos.List.Count &&
-		    spriteIndex != newSprites &&
-		    variantIndex < Infos.List[newSprites].Count)
+		if (newSprites < spriteData.List.Count &&
+			spriteIndex != newSprites &&
+			variantIndex < spriteData.List[newSprites].Count)
 		{
 			spriteIndex = newSprites;
 			animationIndex = 0;
-			SetSprite(Infos.List[spriteIndex][variantIndex][animationIndex]);
-			TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
+			SetSprite(spriteData.List[spriteIndex][variantIndex][animationIndex]);
+			TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 		}
 	}
 
 	public void ChangeSpriteVariant(int spriteVariant)
 	{
-		if (spriteIndex < Infos.List.Count &&
-		    spriteVariant < Infos.List[spriteIndex].Count &&
-		    variantIndex != spriteVariant)
+		if (spriteIndex < spriteData.List.Count &&
+			spriteVariant < spriteData.List[spriteIndex].Count &&
+			variantIndex != spriteVariant)
 		{
-			if (Infos.List[spriteIndex][spriteVariant].Count <= animationIndex)
+			if (spriteData.List[spriteIndex][spriteVariant].Count <= animationIndex)
 			{
 				animationIndex = 0;
 			}
-			SetSprite(Infos.List[spriteIndex][spriteVariant][animationIndex]);
+			SetSprite(spriteData.List[spriteIndex][spriteVariant][animationIndex]);
 			variantIndex = spriteVariant;
-			TryToggleAnimationState(Infos.List[spriteIndex][variantIndex].Count > 1);
+			TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 		}
 	}
 
 	private void TryToggleAnimationState(bool turnOn)
 	{
+		//UpdateManager.Instance.Remove(UpdateMe);
 		if (turnOn && !isAnimation)
 		{
 			UpdateManager.Instance.Add(UpdateMe);
@@ -159,4 +176,78 @@ public class SpriteHandler : SpriteDataHandler
 			isAnimation = false;
 		}
 	}
+
+	/// <summary>
+	/// Used to Set sprite handlers internal buffer to the single Texture specified and set Sprite
+	/// </summary>
+	/// <param name="_SpriteSheetAndData">specified Texture.</param>
+	/// <param name="_variantIndex">Variant index.</param>
+	public void SetSprite(SpriteSheetAndData _SpriteSheetAndData, int _variantIndex = 0)
+	{
+		spriteData.List.Clear();
+		spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(_SpriteSheetAndData));
+		variantIndex = _variantIndex;
+		if (Initialised)
+		{
+			PushTexture();
+		}
+		else {
+			SetSpriteOnStartUp = true;		}
+	}
+
+	/// <summary>
+	/// Used to Set sprite handlers internal buffer to To a different internal buffer
+	/// </summary>
+	/// <param name="_Info">internal buffer.</param>
+	/// <param name="_spriteIndex">Sprite index.</param>
+	/// <param name="_variantIndex">Variant index.</param>
+	public void SetInfo(SpriteData _Info, int _spriteIndex = 0, int _variantIndex = 0)
+	{
+		spriteIndex = _spriteIndex;
+		variantIndex = _variantIndex;
+		spriteData = _Info;
+		if (Initialised)
+		{
+			PushTexture();
+		}
+		else {
+			SetSpriteOnStartUp = true;	
+		}
+	}
+
+	void Start()
+	{
+		AddSprites();
+		spriteRenderer = this.GetComponent<SpriteRenderer>();
+		StartCoroutine(WaitForInitialisation());
+	}
+
+	private void AddSprites()
+	{
+		foreach (var Data in Sprites)
+		{
+			spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Data));
+		}
+
+	}
+
+	public SpriteHandlerState ReturnState()
+	{
+		return (new SpriteHandlerState
+		{
+			spriteIndex = spriteIndex,
+			variantIndex = variantIndex,
+			animationIndex = animationIndex,
+			hasSprite = spriteRenderer.sprite != null
+		});
+	}
+}
+public class SpriteHandlerState
+{
+	//public string Name; //for  synchronising of network
+	//public List<Something> The current Textures being used, idkW hat will be used fo networkingr them
+	public int spriteIndex;
+	public int variantIndex;
+	public int animationIndex;
+	public bool hasSprite; 
 }

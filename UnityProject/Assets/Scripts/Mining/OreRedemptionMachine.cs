@@ -14,20 +14,12 @@ public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
 	[SerializeField]
 	private List<OreToMaterial> expectedOres;
 
-	private SpriteHandler spriteHandler;
-
 	private RegisterObject registerObject;
 
 	public void OnEnable()
 	{
 		registerObject = GetComponent<RegisterObject>();
 	}
-
-    void Start()
-    {
-	    spriteHandler = GetComponentInChildren<SpriteHandler>();
-		spriteHandler.PushTexture();
-    }
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{

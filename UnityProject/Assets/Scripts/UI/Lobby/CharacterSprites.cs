@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +8,7 @@ namespace Lobby
 	public class CharacterSprites : MonoBehaviour
 	{
 		private CharacterDir currentDir = CharacterDir.down;
-		public List<List<SpriteDataHandler.SpriteInfo>> sprites = new List<List<SpriteDataHandler.SpriteInfo>>();
+		public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
 
 		private int referenceOffset;
 		private CharacterView characterView;

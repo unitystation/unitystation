@@ -52,7 +52,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 16d5da13f2b40f2498638cd378f50d93, type: 3}
     - {fileID: 102900000, guid: 8381c5c30be223d4f8e407fe4d12f0da, type: 3}
     - {fileID: 102900000, guid: b06a43659ecdd2a4fb3bfb086eef2810, type: 3}
-    totalSpriteSurfaceArea: 13908422
+    totalSpriteSurfaceArea: 13911494
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -1453,6 +1453,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5d6e14131d299054389eb83c5d734fc8, type: 3}
   - {fileID: 21300002, guid: 5d6e14131d299054389eb83c5d734fc8, type: 3}
   - {fileID: 21300000, guid: 78deea13e5767bc439ba9a6725942696, type: 3}
+  - {fileID: 21300000, guid: a8c182231f704ec4ca4a25c230b6a88d, type: 3}
   - {fileID: 21300000, guid: 7e77d223fac76da4b82cbd7c5fe90424, type: 3}
   - {fileID: 21300002, guid: 8046a323881ee5e4884c19a084715e6e, type: 3}
   - {fileID: 21300000, guid: 8046a323881ee5e4884c19a084715e6e, type: 3}
@@ -1749,6 +1750,7 @@ SpriteAtlas:
   - {fileID: 21300002, guid: 5cfea7d3f2212984b8e846681e2f2c8b, type: 3}
   - {fileID: 21300004, guid: 5cfea7d3f2212984b8e846681e2f2c8b, type: 3}
   - {fileID: 21300006, guid: 5cfea7d3f2212984b8e846681e2f2c8b, type: 3}
+  - {fileID: 21300000, guid: f10ff8d34286acc4fae88ab9e60d586f, type: 3}
   - {fileID: 21300000, guid: 78585dd35ef6c0042bd528b999754cf0, type: 3}
   - {fileID: 21300000, guid: 24aacdd3d38f16e4783bdf65e40c6a29, type: 3}
   - {fileID: 21300000, guid: 329930e31ea32494f8f2cb864cc6fa1f, type: 3}
@@ -4648,6 +4650,7 @@ SpriteAtlas:
   - {fileID: 21300002, guid: 2bb6119a8b8c5a64e821f4e1622b8821, type: 3}
   - {fileID: 21300000, guid: 2bb6119a8b8c5a64e821f4e1622b8821, type: 3}
   - {fileID: 21300004, guid: 2bb6119a8b8c5a64e821f4e1622b8821, type: 3}
+  - {fileID: 21300000, guid: 1f47029abc69b0d459157e59bb8be3cc, type: 3}
   - {fileID: 21300000, guid: 6330549af1906a24587735d7b0a6bdc2, type: 3}
   - {fileID: 21300000, guid: aa73959ac08a5f043945ba7d7c45560c, type: 3}
   - {fileID: 21300002, guid: aa73959ac08a5f043945ba7d7c45560c, type: 3}
@@ -9035,6 +9038,7 @@ SpriteAtlas:
   - clockinfo_0
   - clockinfo_1
   - screen_slimecore_suit
+  - screen_ghost_light_enabled
   - actions_clockcult_eminence_rally
   - 10_1
   - 10_0
@@ -9331,6 +9335,7 @@ SpriteAtlas:
   - reticence_1
   - reticence_2
   - reticence_3
+  - screen_ghost_background
   - screen_operative_act_rest
   - visor_reticule_drag
   - alerts_1562403172.0186508
@@ -12230,6 +12235,7 @@ SpriteAtlas:
   - solar_beam_1
   - solar_beam_0
   - solar_beam_2
+  - screen_ghost_light_disabled
   - screen_slimecore_swap_1
   - huddiagcrit_0
   - huddiagcrit_1

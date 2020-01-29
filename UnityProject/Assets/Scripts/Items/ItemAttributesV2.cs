@@ -18,6 +18,7 @@ using Random = System.Random;
 [RequireComponent(typeof(Pickupable))] //Inventory interaction
 [RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 [RequireComponent(typeof(RegisterItem))] //Registry with subsistence
+[RequireComponent(typeof(SpriteHandlerController))] //Handles the item sprites and In hands
 public class ItemAttributesV2 : Attributes
 {
 	[SerializeField]
@@ -27,6 +28,9 @@ public class ItemAttributesV2 : Attributes
 	[Tooltip("Size of this item when spawned.")]
 	[SerializeField]
 	private ItemSize initialSize;
+
+
+
 
 	/// <summary>
 	/// Current size.
@@ -141,11 +145,12 @@ public class ItemAttributesV2 : Attributes
 	/// </summary>
 	private HashSet<ItemTrait> traits = new HashSet<ItemTrait>();
 
-	/// <summary>
-	/// SpriteDataHandler on this object
-	/// </summary>
-	public SpriteDataHandler SpriteDataHandler => spriteDataHandler;
-	private SpriteDataHandler spriteDataHandler;
+
+	public ItemsSprites ItemSprites => itemSprites;
+
+	[Tooltip("The In hands Sprites If it has any")]
+	[SerializeField]
+	private ItemsSprites itemSprites;
 
 	private void Awake()
 	{
@@ -153,7 +158,6 @@ public class ItemAttributesV2 : Attributes
 		{
 			traits.Add(definedTrait);
 		}
-		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
 	}
 
 
@@ -253,5 +257,14 @@ public class ItemAttributesV2 : Attributes
 	public void ServerSetSize(ItemSize newSize)
 	{
 		SyncSize(newSize);
+	}
+
+	/// <summary>
+	/// ues SpriteHandlerController.SetSprites Instead
+	/// </summary>
+	/// <param name="newSprites">New sprites.</param>
+	public void SetSprites(ItemsSprites newSprites)
+	{
+		itemSprites = newSprites;
 	}
 }

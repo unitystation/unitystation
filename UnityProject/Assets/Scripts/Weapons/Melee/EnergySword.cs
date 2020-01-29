@@ -6,11 +6,12 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Pickupable))]
-public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
+public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	ICheckedInteractable<InventoryApply>
 {
-	public ItemAttributesV2 itemAttributes;
-	public SpriteHandler spriteHandler;
+	private SpriteHandlerController spriteHandlerController;
+	private ItemAttributesV2 itemAttributes;
+	public EswordSprites Sprites;
 	public PlayerLightControl playerLightControl;
 	public LightSprite worldLight;
 	public GameObject worldRenderer;
@@ -44,6 +45,8 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public void Awake()
 	{
+		itemAttributes = GetComponent<ItemAttributesV2>();
+		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		pickupable = GetComponent<Pickupable>();
 		if (color == (int)SwordColor.Random)
 		{
@@ -112,7 +115,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+			|| !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
 		{
 			return false;
 		}
@@ -182,15 +185,29 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	{
 		if (activated)
 		{
-			spriteHandler.ChangeSprite(12 + color);
-			spriteHandler.Infos.SetVariant(color);
+			switch ((SwordColor)color)
+			{
+				case SwordColor.Blue:
+					spriteHandlerController.SetSprites(Sprites.Blue);
+					break;
+				case SwordColor.Green:
+					spriteHandlerController.SetSprites(Sprites.Green);
+					break;
+				case SwordColor.Purple:
+					spriteHandlerController.SetSprites(Sprites.Purple);
+					break;
+				case SwordColor.Rainbow:
+					spriteHandlerController.SetSprites(Sprites.Rainbow);
+					break;
+				case SwordColor.Red:
+					spriteHandlerController.SetSprites(Sprites.Red);
+					break;
+			}
 		}
 		else
 		{
-			spriteHandler.ChangeSprite(12);
-			spriteHandler.Infos.SetVariant(0);
+			spriteHandlerController.SetSprites(Sprites.Off);
 		}
-		pickupable.RefreshUISlotImage();
 	}
 
 	private void UpdateValues()
@@ -237,4 +254,13 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		Purple = 4,
 		Rainbow = 5
 	}
+}
+[System.Serializable]
+public class EswordSprites{
+	public ItemsSprites Blue = new ItemsSprites();
+	public ItemsSprites Green = new ItemsSprites();
+	public ItemsSprites Purple = new ItemsSprites();
+	public ItemsSprites Rainbow = new ItemsSprites();
+	public ItemsSprites Red = new ItemsSprites();
+	public ItemsSprites Off = new ItemsSprites();
 }
