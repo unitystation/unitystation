@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4241886106931142480}
   - component: {fileID: 1911448376772018809}
   m_Layer: 10
-  m_Name: Sprite (1)
+  m_Name: MagSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
-  m_SortingOrder: 40
+  m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: c0b04291170124b44b3bf2d024805e93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -140,6 +140,11 @@ PrefabInstance:
       propertyPath: WeaponType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: ammoType
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -199,36 +204,36 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.RightHand.Texture
       value: 
-      objectReference: {fileID: 2800000, guid: edcebaafcb7e2ea44aa8b7323830e8d0, type: 3}
+      objectReference: {fileID: 2800000, guid: c386d480fe1f9434da0eb3f57b010447, type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: edcebaafcb7e2ea44aa8b7323830e8d0,
+      objectReference: {fileID: 21300000, guid: c386d480fe1f9434da0eb3f57b010447,
         type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300002, guid: edcebaafcb7e2ea44aa8b7323830e8d0,
+      objectReference: {fileID: 21300002, guid: c386d480fe1f9434da0eb3f57b010447,
         type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300004, guid: edcebaafcb7e2ea44aa8b7323830e8d0,
+      objectReference: {fileID: 21300004, guid: c386d480fe1f9434da0eb3f57b010447,
         type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
       value: 
-      objectReference: {fileID: 21300006, guid: edcebaafcb7e2ea44aa8b7323830e8d0,
+      objectReference: {fileID: 21300006, guid: c386d480fe1f9434da0eb3f57b010447,
         type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: 5df2071b9c92a8648b35b43a8ed1f326, type: 3}
+      objectReference: {fileID: 4900000, guid: e75aea69d9195934bac2885477fc14dc, type: 3}
     - target: {fileID: 7392881626475492836, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_AssetId
