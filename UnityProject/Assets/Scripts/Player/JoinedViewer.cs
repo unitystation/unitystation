@@ -162,8 +162,13 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
 	{
-		PlayerSpawn.ServerSpawnPlayer(this, GameManager.Instance.GetRandomFreeOccupation(jobType),
-			characterSettings);
+		var spawnRequest =
+			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
+		//regardless of their chosen occupation, they might spawn as an antag instead.
+		//If they do, bypass the normal spawn logic.
+		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
+
+		PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation, characterSettings);
 	}
 
 	/// <summary>

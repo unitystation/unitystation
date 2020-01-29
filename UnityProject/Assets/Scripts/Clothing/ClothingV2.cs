@@ -11,6 +11,7 @@ using Mirror;
 /// </summary>
 public class ClothingV2 : MonoBehaviour
 {
+	private SpriteHandlerController spriteHandlerController;
 	//TODO: This can probably be migrated to this component rather than using a separate SO, since
 	//there's probably no situation where we'd want to re-use the same cloth data on more than one item.
 	[Tooltip("Clothing data describing the various sprites for this clothing.")]
@@ -33,8 +34,6 @@ public class ClothingV2 : MonoBehaviour
 	private List<int> variantList;
 	private SpriteData spriteInfo;
 
-	private Pickupable pickupable;
-
 	/// <summary>
 	/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
 	/// </summary>
@@ -52,25 +51,15 @@ public class ClothingV2 : MonoBehaviour
 	public int SpriteInfoState => variantStore.ContainsKey(variantType) ? variantStore[variantType] : 0;
 
 	/// <summary>
-	/// SpriteDataHandler on this object
-	/// </summary>
-	public SpriteDataHandler SpriteDataHandler => spriteDataHandler;
-
-	/// <summary>
 	/// Determine when a piece of clothing hides another
 	/// </summary>
 	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
 
-
-	private SpriteDataHandler spriteDataHandler;
 	private SpriteHandler inventoryIcon;
-
 
 	private void Awake()
 	{
-		pickupable = GetComponent<Pickupable>();
-		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
-		inventoryIcon = GetComponentInChildren<SpriteHandler>();
+		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		TryInit();
 	}
 
@@ -106,20 +95,20 @@ public class ClothingV2 : MonoBehaviour
 		else if (clothData is ContainerData containerData)
 		{
 			var Item = GetComponent<ItemAttributesV2>();
-			this.spriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
+			this.spriteInfo = SpriteFunctions.SetupSingleSprite(containerData.Sprites.Equipped);
 			SetUpFromClothingData(containerData.Sprites);
 		}
 		else if (clothData is BeltData beltData)
 		{
 			var Item = GetComponent<ItemAttributesV2>();
-			this.spriteInfo = StaticSpriteHandler.SetupSingleSprite(beltData.sprites.Equipped);
+			this.spriteInfo = SpriteFunctions.SetupSingleSprite(beltData.sprites.Equipped);
 			SetUpFromClothingData(beltData.sprites);
 		}
 		else if (clothData is HeadsetData headsetData)
 		{
 			var Item = GetComponent<ItemAttributesV2>();
 			var Headset = GetComponent<Headset>();
-			this.spriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
+			this.spriteInfo = SpriteFunctions.SetupSingleSprite(headsetData.Sprites.Equipped);
 			SetUpFromClothingData(headsetData.Sprites);
 			Headset.EncryptionKey = headsetData.Key.EncryptionKey;
 		}
@@ -127,12 +116,12 @@ public class ClothingV2 : MonoBehaviour
 
 	private void SetUpFromClothingData(EquippedData equippedData)
 	{
-		spriteDataHandler.Infos = new SpriteData();
-		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsLeft));
-		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsRight));
-		inventoryIcon.Infos = new SpriteData();
-		inventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.ItemIcon));
-		inventoryIcon.PushTexture();
+		var SpriteSOData = new ItemsSprites();
+		SpriteSOData.LeftHand = (equippedData.InHandsLeft);
+		SpriteSOData.RightHand = (equippedData.InHandsRight);
+		SpriteSOData.InventoryIcon = (equippedData.ItemIcon);
+		spriteHandlerController.SetSprites(SpriteSOData);
+
 	}
 
 
@@ -140,23 +129,23 @@ public class ClothingV2 : MonoBehaviour
 	private SpriteData SetUpSheetForClothingData(ClothingData clothingData)
 	{
 		var SpriteInfos = new SpriteData();
-		SpriteInfos.List = new List<List<List<SpriteDataHandler.SpriteInfo>>>();
+		SpriteInfos.List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 		int c = 0;
 
-		SpriteInfos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(clothingData.Base.Equipped));
+		SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.Base.Equipped));
 		variantStore[ClothingVariantType.Default] = c;
 		c++;
 
 		if (clothingData.Base_Adjusted.Equipped.Texture != null)
 		{
-			SpriteInfos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(clothingData.Base_Adjusted.Equipped));
+			SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.Base_Adjusted.Equipped));
 			variantStore[ClothingVariantType.Tucked] = c;
 			c++;
 		}
 
 		if (clothingData.DressVariant.Equipped.Texture != null)
 		{
-			SpriteInfos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(clothingData.DressVariant.Equipped));
+			SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.DressVariant.Equipped));
 			variantStore[ClothingVariantType.Skirt] = c;
 			c++;
 		}
@@ -164,7 +153,7 @@ public class ClothingV2 : MonoBehaviour
 		{
 			foreach (var Variant in clothingData.Variants)
 			{
-				SpriteInfos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.Equipped));
+				SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Equipped));
 				variantStore[ClothingVariantType.Skirt] = c;
 				c++;
 			}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +12,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
 	public SpriteSheetAndData onSprites;
-	public List<List<SpriteDataHandler.SpriteInfo>> sprites = new List<List<SpriteDataHandler.SpriteInfo>>();
+	public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
 	private int sIndex = 0;
 	public float Delay;
 
@@ -82,7 +82,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 			{
 				if (onSprites.Texture != null)
 				{
-					sprites = StaticSpriteHandler.CompleteSpriteSetup(onSprites);
+					sprites = SpriteFunctions.CompleteSpriteSetup(onSprites);
 				}
 			}
 

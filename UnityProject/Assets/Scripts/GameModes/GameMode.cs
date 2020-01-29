@@ -63,21 +63,47 @@ public abstract class GameMode : ScriptableObject
 	public abstract void SetupRound();
 
 	/// <summary>
-	/// Check if more antags are needed. Should be defined by each game mode.
+	/// Checks if the conditions are met to spawn an antag, and spawns them
+	/// as the antag if so, spawning them as an actual player and transferring them into the body
+	/// (meaning there's no need to call PlayerSpawn.ServerSpawnPlayer). Does nothing
+	/// if the conditions are not met to spawn this viewer as an antag.
 	/// </summary>
-	public abstract void CheckAntags();
+	/// <param name="spawnRequest">spawn requested by the player</param>
+	/// <returns>true if the viewer was spawned as an antag.</returns>
+	public bool TrySpawnAntag(PlayerSpawnRequest spawnRequest)
+	{
+		if (ShouldSpawnAntag(spawnRequest))
+		{
+			SpawnAntag(spawnRequest);
+			return true;
+		}
+
+		return false;
+	}
 
 	/// <summary>
-	/// Defines how to spawn an antag for this game mode.
-	/// Defaults to picking a random antag from the possible antags list.
+	/// Check if the joined viewer should be spawned as an antag (prior to actually
+	/// spawning them).
 	/// </summary>
-	public virtual void SpawnAntag(ConnectedPlayer player = null)
+	/// <param name="spawnRequest">player's spawn request, which should be used to determine
+	/// if they should spawn as an antag</param>
+	/// <returns>true if an antag should be spawned.</returns>
+	protected abstract bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest);
+
+	/// <summary>
+	/// Spawn the player requesting the spawn as an antag, includes creating their player object
+	/// and transferring them to it. This is used as an alternative
+	/// to PlayerSpawn.ServerSpawnPlayer when an antag should be spawned.
+	///
+	/// Defaults to picking a random antag from the possible antags list and
+	/// spawning them as per the antag-specific spawn logic.
+	/// </summary>
+	protected void SpawnAntag(PlayerSpawnRequest playerSpawnRequest)
 	{
 		if (PossibleAntags.Count > 0)
 		{
-		int randIndex = Random.Range(0, PossibleAntags.Count);
-		Antagonist gmAntag = Instantiate(PossibleAntags[randIndex]);
-		AntagManager.Instance.CreateAntag(gmAntag, player);
+			int randIndex = Random.Range(0, PossibleAntags.Count);
+			AntagManager.Instance.ServerSpawnAntag(PossibleAntags[randIndex], playerSpawnRequest);
 		}
 	}
 

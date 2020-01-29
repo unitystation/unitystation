@@ -28,7 +28,6 @@ public class ClothingItem : MonoBehaviour
 	protected int referenceOffset;
 	public Color color = Color.white;
 	private int variantIndex = 0;
-	private SpriteDataHandler SHD;
 
 	public SpriteHandler spriteHandler;
 
@@ -96,7 +95,7 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteHandler != null) //need to remove
 			{
-				spriteHandler.Infos = null;
+				spriteHandler.spriteData = null;
 				PushTexture();
 			}
 
@@ -115,30 +114,22 @@ public class ClothingItem : MonoBehaviour
 			GameObjectReference = Item;
 			if (InHands)
 			{
-				var equippedAttributes = Item.GetComponent<ItemAttributesV2>();
-				SHD = equippedAttributes?.SpriteDataHandler;
-				if (SHD != null)
-				{
-					spriteHandler.Infos = SHD.Infos;
-					if (spriteType == SpriteHandType.RightHand)
-					{
-						spriteHandler.ChangeSprite((spriteHandler.Infos.VariantIndex * 2) + 1);
-					}
-					else
-					{
-						spriteHandler.ChangeSprite(spriteHandler.Infos.VariantIndex * 2);
-					}
-
-					PushTexture();
-				}
+				var ItemAttributesV2 = Item.GetComponent<ItemAttributesV2>();
+				var InHandsSprites = ItemAttributesV2?.ItemSprites;
+				SetInHand(InHandsSprites);
 			}
 			else
 			{
 				var equippedClothing = Item.GetComponent<ClothingV2>();
 				equippedClothing?.LinkClothingItem(this);
 
-				// call the event of equiped clothing
-				OnClothingEquiped?.Invoke(equippedClothing, true);
+				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
+				// But for the others, we call the OnClothingEquiped event.
+				if (equippedClothing) 
+				{
+					// call the event of equiped clothing
+					OnClothingEquiped?.Invoke(equippedClothing, true);
+				}
 			}
 		}
 
@@ -147,7 +138,7 @@ public class ClothingItem : MonoBehaviour
 
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
-		spriteHandler.Infos = clothing.SpriteInfo;
+		spriteHandler.spriteData = clothing.SpriteInfo;
 		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
 		PushTexture();
 	}
@@ -173,7 +164,6 @@ public class ClothingItem : MonoBehaviour
 		{
 			referenceOffset = 3;
 		}
-
 		UpdateSprite();
 	}
 
@@ -181,19 +171,8 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			if (spriteHandler.Infos != null)
+			if (spriteHandler.spriteData != null)
 			{
-				if (SHD)
-				{
-					if (spriteType == SpriteHandType.RightHand)
-					{
-						spriteHandler.ChangeSprite((SHD.Infos.VariantIndex * 2) + 1);
-					}
-					else
-					{
-						spriteHandler.ChangeSprite(SHD.Infos.VariantIndex * 2);
-					}
-				}
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
 		}
@@ -204,6 +183,23 @@ public class ClothingItem : MonoBehaviour
 		if (spriteHandler != null)
 		{
 			spriteHandler.PushTexture();
+		}
+	}
+
+
+	public void SetInHand(ItemsSprites _ItemsSprites) { 
+		if (_ItemsSprites != null)
+		{
+			if (spriteType == SpriteHandType.RightHand)
+			{
+				spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
+			}
+			else
+			{
+				spriteHandler.spriteData = _ItemsSprites.LeftHand.Data;
+			}
+
+			PushTexture();
 		}
 	}
 }

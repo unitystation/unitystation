@@ -336,15 +336,15 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				break;
 
 			case PlantSpriteStage.FullyGrown:
-				plantSprite.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.FullyGrownSprite);
+				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.FullyGrownSprite);
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Dead:
-				plantSprite.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.DeadSprite);
+				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.DeadSprite);
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Growing:
-				plantSprite.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
+				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
 				plantSprite.PushTexture();
 				break;
 		}
@@ -392,16 +392,16 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				break;
 
 			case PlantSpriteStage.FullyGrown:
-				plantSprite.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.FullyGrownSprite);
+				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.FullyGrownSprite);
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Dead:
-				plantSprite.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.DeadSprite);
+				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.DeadSprite);
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Growing:
-				plantSprite.Infos =
-					StaticSpriteHandler.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
+				plantSprite.spriteData =
+					SpriteFunctions.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
 				plantSprite.PushTexture();
 				break;
 		}

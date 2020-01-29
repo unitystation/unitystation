@@ -26,7 +26,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
 			}
 		}
-		SpriteHandler.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.ProduceSprite);
+		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
 		if (ItemAttributesV2 == null)
 		{
@@ -62,7 +62,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	public void SetUpFood()
 	{
 		SyncPlant(plantData.Name);
-		SpriteHandler.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.ProduceSprite);
+		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
 		SetupChemicalContents();
 		SyncSize(0.5f + (plantData.Potency / 100f));

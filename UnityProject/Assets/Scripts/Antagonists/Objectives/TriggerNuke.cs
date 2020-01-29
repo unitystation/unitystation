@@ -24,6 +24,7 @@ namespace Antagonists
 			{
 				UpdateChatMessage.Send(Owner.body.gameObject, ChatChannel.Syndicate, ChatModifier.None,
 					"We have intercepted the code for the nuclear weapon: " + NukeTarget.NukeCode);
+				description += ". Intercepted nuke code is " + NukeTarget.NukeCode;
 			}
 		}
 
