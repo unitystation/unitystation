@@ -17,4 +17,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public DefaultPlantDataSOs DefaultPlantDataSOs;
 	public CommonPrefabs CommonPrefabs;
 	public CommonCooldowns CommonCooldowns;
+	public AmmoPrefabs AmmoPrefabs;
 }

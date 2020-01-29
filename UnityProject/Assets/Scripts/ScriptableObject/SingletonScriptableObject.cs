@@ -1,4 +1,5 @@
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -15,11 +16,10 @@ public abstract class SingletonScriptableObject<T> : ScriptableObject where T : 
 		get
 		{
 			if (!_instance)
+			{
 				_instance = Resources.FindObjectsOfTypeAll<T>().FirstOrDefault();
+			}
 
-			if (!_instance)
-				_instance = CreateInstance<T>();
-			
 			return _instance;
 		}
 	}
