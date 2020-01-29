@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerTile: {fileID: 0}
+  waysToPlace: []
 --- !u!1001 &6231797008839051928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20,10 +20,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: maxAmount
-      value: 60
+      propertyPath: m_Name
+      value: PlaceableTile
       objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -80,11 +80,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_Name
-      value: PlaceableTile
-      objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_AssetId
@@ -104,6 +99,11 @@ PrefabInstance:
         type: 3}
       propertyPath: throwSpeed
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: maxAmount
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}

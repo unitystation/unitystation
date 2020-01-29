@@ -176,21 +176,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212253025024547778}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 1
 --- !u!1 &1045510969552376
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,21 +294,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212940191652905820}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1051931730128558
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,21 +472,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 1
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212005797941245090}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1074894628694278
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,21 +688,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212344525557824326}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1133514949248654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,7 +1278,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 4024605270
 --- !u!114 &441872716838640463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1467,21 +1423,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212847469326298166}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1152904469002598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1697,21 +1642,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212258264285545284}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 1
 --- !u!1 &1219173009942028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,21 +1760,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212140744761718774}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1290638470838670
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,21 +2036,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212144883045729364}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1392646042361530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,21 +2154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212073504853382616}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 1
 --- !u!1 &1410239830885134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,21 +2272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212853338683630810}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 1
 --- !u!1 &1426161168093594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2500,21 +2390,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212584759339869742}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 1
+  SetSpriteOnStartUp: 1
 --- !u!1 &1442926995363424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2629,21 +2508,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212695445263472394}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2758,21 +2626,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212924062595901212}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1475777022527010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2949,21 +2806,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212525861963860774}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1562215114468348
 GameObject:
   m_ObjectHideFlags: 0
@@ -3078,21 +2924,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212437748770145178}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -3207,21 +3042,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212990490947787952}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1646833726656528
 GameObject:
   m_ObjectHideFlags: 0
@@ -3336,21 +3160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212238641902904474}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1653009388007362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3465,21 +3278,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212068773527747804}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1659484884520852
 GameObject:
   m_ObjectHideFlags: 0
@@ -3687,21 +3489,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212458270926585534}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1693036899965374
 GameObject:
   m_ObjectHideFlags: 0
@@ -3940,21 +3731,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212492286651421720}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1800994486271254
 GameObject:
   m_ObjectHideFlags: 0
@@ -4069,21 +3849,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212249819486018122}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1854044545869142
 GameObject:
   m_ObjectHideFlags: 0
@@ -4198,21 +3967,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212721698993232106}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1889549945948160
 GameObject:
   m_ObjectHideFlags: 0
@@ -4327,21 +4085,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212272552631623328}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1894933337466704
 GameObject:
   m_ObjectHideFlags: 0
@@ -4553,21 +4300,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212650584535459368}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0
@@ -4789,21 +4525,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 2076725447276215133}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &6206995644603678740
 GameObject:
   m_ObjectHideFlags: 0
@@ -4918,21 +4643,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 8766492825161258630}
+  Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  test: 0
-  synchroniseVariant: 0
+  SetSpriteOnStartUp: 1
 --- !u!1001 &4300145449095171559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4940,16 +4654,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4102488425209486}
     m_Modifications:
-    - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
-      propertyPath: m_Name
-      value: Light2D
-      objectReference: {fileID: 0}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
         type: 3}
+    - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_Name
+      value: Light2D
+      objectReference: {fileID: 0}
     - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.008
@@ -5037,11 +4751,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4102488425209486}
     m_Modifications:
-    - target: {fileID: 8239968386569427463, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: m_Name
-      value: ChatCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 6615217630540879312, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5071,6 +4780,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239968386569427463, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: m_Name
+      value: ChatCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 1165960983247551198, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}

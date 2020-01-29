@@ -22,7 +22,7 @@ public class SeedPacket : NetworkBehaviour
 				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
 			}
 		}
-		Sprite.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.PacketsSprite);
+		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.PacketsSprite);
 		Sprite.PushTexture();
 	}
 

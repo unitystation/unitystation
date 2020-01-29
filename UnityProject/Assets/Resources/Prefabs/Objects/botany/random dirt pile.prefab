@@ -60,11 +60,6 @@ PrefabInstance:
       propertyPath: Passable
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114519504495500056, guid: 1efec61511b50c844868cb49d1a711a1,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
         type: 3}
       propertyPath: IsSoilPile
@@ -74,6 +69,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isSoilPile
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114519504495500056, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 212536712376351936, guid: 1efec61511b50c844868cb49d1a711a1,
         type: 3}

@@ -204,7 +204,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114183243700281508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +227,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114386644002111336
@@ -248,6 +256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114350845769575412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: ecdfcc2ad92d8b846a04f0b050fdf377
   m_SceneId: 0
 --- !u!114 &3065337277714499866
 MonoBehaviour:
@@ -327,16 +338,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Temperature: 20
+  temperatureKelvin: 293.15
   MaxCapacity: 1000
   itemAttributes: {fileID: 0}
+  InSolidForm: 0
   Reagents:
   - welding_fuel
   Amounts:
   - 1000
-  AcceptedTraits: []
-  AcceptedReagents:
+  TraitWhitelist: []
+  ReagentWhitelist:
   - welding_fuel
   TransferMode: 2
-  TransferAmount: 20
+  InitialTransferAmount: 20
   PossibleTransferAmounts: []
