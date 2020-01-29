@@ -17,6 +17,13 @@ public class ChatRelay : NetworkBehaviour
 	private ChatChannel namelessChannels;
 	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
 
+	/// <summary>
+	/// The character indicating that the following text is speech.
+	/// Currently the comma indicates speech.
+	/// For example: Player says, "ALL CLOWNS MUST SUFFER"
+	/// </summary>
+	private char saysChar = ',';
+
 	private void Awake()
 	{
 		//ensures the static instance is cleaned up after scene changes:
@@ -34,7 +41,7 @@ public class ChatRelay : NetworkBehaviour
 	public void Start()
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
-		                   ChatChannel.Combat;
+						   ChatChannel.Combat;
 	}
 
 	[Server]
@@ -59,7 +66,7 @@ public class ChatRelay : NetworkBehaviour
 
 		//Local chat range checks:
 		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat
-		                                            || chatEvent.channels == ChatChannel.Action)
+													|| chatEvent.channels == ChatChannel.Action)
 		{
 			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 			LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
@@ -72,7 +79,7 @@ public class ChatRelay : NetworkBehaviour
 				}
 
 				if (Vector2.Distance(chatEvent.position, //speaker.GameObject.transform.position,
-					    players[i].GameObject.transform.position) > 14f)
+						players[i].GameObject.transform.position) > 14f)
 				{
 					//Player in the list is too far away for local chat, remove them:
 					players.Remove(players[i]);
@@ -112,8 +119,8 @@ public class ChatRelay : NetworkBehaviour
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
-			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
-			    channels.HasFlag(ChatChannel.Action))
+				channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
+				channels.HasFlag(ChatChannel.Action))
 			{
 				if (!channels.HasFlag(ChatChannel.Binary) || players[i].Script.IsGhost)
 				{
@@ -161,18 +168,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	private void AddPrivMessageToClient(string message, string adminId)
 	{
-		if (UIManager.Instance.ttsToggle)
-		{
-			//Text to Speech:
-			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
-			//message only atm
-			if (ttsString.Contains(":"))
-			{
-				string saysString = ":";
-				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
-				MaryTTS.Instance.Synthesize(messageString);
-			}
-		}
+		trySendingTTS(message);
 
 		ChatUI.Instance.AddAdminPrivEntry(message, adminId);
 	}
@@ -182,18 +178,7 @@ public class ChatRelay : NetworkBehaviour
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
-		if (UIManager.Instance.ttsToggle)
-		{
-			//Text to Speech:
-			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
-			//message only atm
-			if (ttsString.Contains(":"))
-			{
-				string saysString = ":";
-				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
-				MaryTTS.Instance.Synthesize(messageString);
-			}
-		}
+		trySendingTTS(message);
 
 		if (PlayerManager.LocalPlayerScript == null)
 		{
@@ -203,6 +188,29 @@ public class ChatRelay : NetworkBehaviour
 		if (channels != ChatChannel.None)
 		{
 			ChatUI.Instance.AddChatEntry(message);
+		}
+	}
+
+	/// <summary>
+	/// Sends a message to TTS to vocalize.
+	/// Only messages that are spoken by player characters are currently vocalized.
+	/// Messages must contain at least one letter from the alphabet.
+	/// </summary>
+	/// <param name="message">The message to try to vocalize.</param>
+	private void trySendingTTS(string message)
+	{
+		if (UIManager.Instance.ttsToggle)
+		{
+			message = Regex.Replace(message, @"<[^>]*>", String.Empty); // Style tags
+			int saysCharIndex = message.IndexOf(saysChar);
+			if (saysCharIndex != -1)
+			{
+				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar)+1);
+				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
+				{
+					MaryTTS.Instance.Synthesize(messageAfterSaysChar);
+				}
+			}
 		}
 	}
 }
