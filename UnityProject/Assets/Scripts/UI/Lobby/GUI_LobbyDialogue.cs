@@ -50,15 +50,7 @@ namespace Lobby
 		{
 			networkManager = CustomNetworkManager.Instance;
 
-			// Init server address and port defaults
-			if (BuildPreferences.isForRelease)
-			{
-				serverAddressInput.text = Managers.instance.serverIP;
-			}
-			else
-			{
-				serverAddressInput.text = DefaultServerAddress;
-			}
+			serverAddressInput.text = DefaultServerAddress;
 
 			serverPortInput.text = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port.ToString();
 
@@ -284,7 +276,7 @@ namespace Lobby
 
 			// Start game
 			dialogueTitle.text = "Starting Game...";
-			if (BuildPreferences.isForRelease || !hostServerToggle.isOn)
+			if (!hostServerToggle.isOn)
 			{
 				ConnectToServer();
 			}
@@ -322,11 +314,6 @@ namespace Lobby
 			string serverAddress = serverAddressInput.text;
 			if (string.IsNullOrEmpty(serverAddress))
 			{
-				if (BuildPreferences.isForRelease)
-				{
-					serverAddress = Managers.instance.serverIP;
-				}
-
 				if (string.IsNullOrEmpty(serverAddress))
 				{
 					serverAddress = DefaultServerAddress;
