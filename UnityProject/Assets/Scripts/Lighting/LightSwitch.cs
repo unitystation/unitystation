@@ -87,7 +87,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
 		WaitForLoad();
-		DetectAPC();
+		if(!SelfPowered) DetectAPC();
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
 		{
