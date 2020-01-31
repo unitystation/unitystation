@@ -15,7 +15,16 @@ public class HealthConsciousMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EntityToUpdate);
-		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientConsciousState(ConsciousState);
+		var healthBehaviour = NetworkObject.GetComponent<LivingHealthBehaviour>();
+
+		if (healthBehaviour != null)
+		{
+			healthBehaviour.UpdateClientConsciousState(ConsciousState);
+		}
+		else
+		{
+			Logger.Log($"Living health behaviour not found for {NetworkObject.ExpensiveName()} skipping conscious state update", Category.Health);
+		}
 	}
 
 	public static HealthConsciousMessage Send(GameObject recipient, GameObject entityToUpdate, ConsciousState consciousState)

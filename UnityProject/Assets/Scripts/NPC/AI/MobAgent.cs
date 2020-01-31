@@ -233,6 +233,13 @@ public class MobAgent : Agent
 	protected void ObserveAdjacentTiles(bool allowTargetPush = false, Transform target = null)
 	{
 		var curPos = registerObj.LocalPositionServer;
+
+		if (registerObj == null)
+		{
+			Logger.LogError($"RegisterObject is null for: {gameObject.name}. Pausing this MobAI", Category.MLAgents);
+			Pause = true;
+			return;
+		}
 		//Observe adjacent tiles
 		for (int y = 1; y > -2; y--)
 		{
@@ -281,15 +288,22 @@ public class MobAgent : Agent
 					}
 					else
 					{
-						//NPCs can open doors with no access restrictions
-						if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
+						if (tryGetDoor.AccessRestrictions != null)
 						{
-							AddVectorObs(true);
+							//NPCs can open doors with no access restrictions
+							if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
+							{
+								AddVectorObs(true);
+							}
+							else
+							{
+								//NPC does not have the access required
+								//TODO: Allow id cards to be placed on mobs
+								AddVectorObs(false);
+							}
 						}
 						else
 						{
-							//NPC does not have the access required
-							//TODO: Allow id cards to be placed on mobs
 							AddVectorObs(false);
 						}
 					}

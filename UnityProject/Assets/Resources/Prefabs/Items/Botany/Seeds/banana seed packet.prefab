@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &5372946715270544514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7274953645499099385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}
 --- !u!1001 &7273513374500977035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7,6 +22,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
+      propertyPath: m_Name
+      value: banana seed packet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: defaultPlantData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ddbd49509f721d44bb6cdcf0d05de71,
+        type: 2}
     - target: {fileID: -1649124960678938281, guid: 61fbb88e43b8b4f48a44b030453bdedc,
         type: 3}
       propertyPath: initialName
@@ -16,10 +41,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Keep away from clowns.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
-      propertyPath: m_Name
-      value: banana seed packet
       objectReference: {fileID: 0}
     - target: {fileID: 4949321775558472, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -76,11 +97,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d780fdd97a25f7a4a9046ef289110e9d,
         type: 3}
-    - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
-        type: 3}
-      propertyPath: defaultPlantData
-      value: 
-      objectReference: {fileID: 11400000, guid: 6ddbd49509f721d44bb6cdcf0d05de71,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
+--- !u!1 &7274953645499099385 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+    type: 3}
+  m_PrefabInstance: {fileID: 7273513374500977035}
+  m_PrefabAsset: {fileID: 0}

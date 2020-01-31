@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>
+public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 {
 
 	/// <summary>
@@ -21,8 +21,7 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInt
 
 	void Awake()
 	{
-		storage = this.GetComponent<ItemStorage>();
-
+		storage = GetComponent<ItemStorage>();
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
@@ -44,54 +43,12 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove, ICheckedInt
 		}
 	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-		if (interaction.UsedObject == null) return false;
-
-		if (interaction.TargetObject == this.gameObject) return false;
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		AttemptToStore(interaction.TargetObject);
-	}
-
 	private void TileReachedServer(Vector3Int worldPos)
 	{
-		var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(worldPos, true);
-		foreach (var crossedItem in crossedItems)
+		var crossedItems = MatrixManager.GetAt<Pickupable>(worldPos, true);
+		foreach (var item in crossedItems)
 		{
-			AttemptToStore(crossedItem.gameObject);
-		}
-	}
-
-	private void AttemptToStore(GameObject thing) {
-
-		Pickupable pickup = thing.GetComponent<Pickupable>();
-		if (pickup != null)
-		{
-			if (storage.GetBestSlotFor(pickup) != null)
-			{
-				if (storage.ItemStorageCapacity.CanFit(pickup, storage.GetBestSlotFor(pickup).SlotIdentifier))
-				{
-					Inventory.ServerAdd(pickup, storage.GetBestSlotFor(pickup), ReplacementStrategy.DropOther);
-				}
-			}
-			var stack = pickup.GetComponent<Stackable>();
-
-			if (stack != null && stack.Amount > 0)
-			{
-				if (storage.GetBestSlotFor(pickup) != null)
-				{
-					if (storage.ItemStorageCapacity.CanFit(pickup, storage.GetBestSlotFor(pickup).SlotIdentifier))
-					{
-						Inventory.ServerAdd(pickup, storage.GetBestSlotFor(pickup), ReplacementStrategy.DropOther);
-					}
-				}
-			}
+			Inventory.ServerAdd(item, storage.GetBestSlotFor(item));
 		}
 	}
 }

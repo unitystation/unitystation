@@ -25,6 +25,8 @@ public class AdminToolRefreshMessage : ServerMessage
 
 	public static AdminToolRefreshMessage Send(GameObject recipient, string adminID)
 	{
+
+
 		//Gather the data:
 		var pageData = new AdminPageRefreshData();
 
@@ -49,21 +51,28 @@ public class AdminToolRefreshMessage : ServerMessage
 	private static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID)
 	{
 		var playerList = new List<AdminPlayerEntryData>();
-	//	Dictionary<string, AdminPlayerEntryData> validationList = new Dictionary<string, AdminPlayerEntryData>();
+		if (string.IsNullOrEmpty(adminID)) return playerList;
 
 		var checkMessages = PlayerList.Instance.CheckAdminInbox(adminID);
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
-		//	if (validationList.ContainsKey(player.UserId)) continue;
+			if (player == null) continue;
+			if (player.Connection == null) continue;
 
 			var entry = new AdminPlayerEntryData();
 			entry.name = player.Name;
 			entry.uid = player.UserId;
 			entry.currentJob = player.Job.ToString();
-			entry.isAlive = player.Script.IsGhost;
+			if (player.Script.playerHealth != null)
+			{
+				entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
+			} else
+			{
+				entry.isAdmin = false;
+			}
 			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
-			entry.isOnline = player.Connection != null;
+			entry.isOnline = true;
 
 			foreach (var msg in checkMessages)
 			{
@@ -74,7 +83,6 @@ public class AdminToolRefreshMessage : ServerMessage
 			}
 
 			playerList.Add(entry);
-		//	validationList.Add(entry.uid, entry);
 		}
 
 		return playerList.OrderBy(p => p.name).ThenBy(p => p.isOnline).ToList();

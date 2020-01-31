@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using System;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 {
@@ -84,14 +85,51 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		base.OnStartServer();
 	}
 
-	void OnEnable()
+	protected override void OnEnable()
 	{
+		base.OnEnable();
+
 		EventManager.AddHandler(EVENT.PlayerRejoined, Init);
+		EventManager.AddHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
+		EventManager.AddHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
 	}
 
-	void OnDisable()
+	/// <summary>
+	/// This function enable fov and lighting
+	/// </summary>
+	/// <param name="enable"></param>
+	private void EnableLighting(bool enable)
 	{
+		// Get the lighting system
+		var lighting = Camera.main.GetComponent<LightingSystem>();
+		if (!lighting)
+		{
+			Logger.LogWarning("Local Player can't find lighting system on Camera.main", Category.Lighting);
+			return;
+		}
+
+		lighting.enabled = enable;
+	}
+
+	private void OnPlayerReturnedToBody()
+	{
+		Logger.Log("Local player become Ghost", Category.DebugConsole);
+		EnableLighting(true);
+	}
+
+	private void OnPlayerBecomeGhost()
+	{
+		Logger.Log("Local player returned to the body", Category.DebugConsole);
+		EnableLighting(false);
+	}
+
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, Init);
+		EventManager.RemoveHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
 	}
 
 	private void Awake()
@@ -115,6 +153,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	{
 		if (isLocalPlayer)
 		{
+			EnableLighting(true);
 			UIManager.ResetAllUI();
 			UIManager.DisplayManager.SetCameraFollowPos();
 			GetComponent<MouseInputController>().enabled = true;
@@ -206,7 +245,10 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		if (isDeadOrGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+				| ChatChannel.Supply | ChatChannel.Syndicate;
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;
@@ -250,35 +292,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 			return transmitChannels;
 		}
 		return transmitChannels | receiveChannels;
-	}
-
-	public ChatModifier GetCurrentChatModifiers()
-	{
-		ChatModifier modifiers = ChatModifier.None;
-		if (IsGhost)
-		{
-			return ChatModifier.None;
-		}
-		if (playerHealth.IsCrit)
-		{
-			return ChatModifier.Mute;
-		}
-		if (playerHealth.IsSoftCrit)
-		{
-			modifiers |= ChatModifier.Whisper;
-		}
-
-		//TODO add missing modifiers
-		//TODO add if for being drunk
-		//ChatModifier modifiers = ChatModifier.Drunk;
-
-		if (mind.occupation.JobType == JobType.CLOWN)
-		{
-			modifiers |= ChatModifier.Clown;
-
-		}
-
-		return modifiers;
 	}
 
 	//Tooltips inspector bar

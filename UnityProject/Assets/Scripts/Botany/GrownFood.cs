@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -31,17 +26,19 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
 			}
 		}
-		SpriteHandler.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.ProduceSprite);
+		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
-		if (ItemAttributesV2 == null) {
+		if (ItemAttributesV2 == null)
+		{
 			ItemAttributesV2 = this.GetComponent<ItemAttributesV2>();
 		}
-		if (isServer && ItemAttributesV2 != null) { 
+		if (isServer && ItemAttributesV2 != null)
+		{
 			ItemAttributesV2.ServerSetArticleDescription(plantData.Description);
 			ItemAttributesV2.ServerSetArticleName(plantData.Plantname);
 		}
 		this.name = plantData.Plantname;
-			
+
 	}
 
 
@@ -65,7 +62,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	public void SetUpFood()
 	{
 		SyncPlant(plantData.Name);
-		SpriteHandler.Infos = StaticSpriteHandler.SetupSingleSprite(plantData.ProduceSprite);
+		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
 		SetupChemicalContents();
 		SyncSize(0.5f + (plantData.Potency / 100f));
@@ -75,7 +72,8 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	public void SetupChemicalContents()
 	{
 		if (plantData.ReagentProduction.Count > 0)
-		{			var ChemicalDictionary = new Dictionary<string, float>();
+		{
+			var ChemicalDictionary = new Dictionary<string, float>();
 			foreach (var Chemical in plantData.ReagentProduction)
 			{
 				ChemicalDictionary[Chemical.String] = (Chemical.Int * (plantData.Potency / 100f));
@@ -85,7 +83,6 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		}
 	}
 
-	// Start is called before the first frame update
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (plantData != null)
@@ -100,12 +97,6 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DespawnOther);
 		}
 
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
 
 	}
 }

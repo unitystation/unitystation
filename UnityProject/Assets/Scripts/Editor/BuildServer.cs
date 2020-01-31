@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.IO;
 using DatabaseAPI;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 static class BuildScript
@@ -13,10 +14,12 @@ static class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Server/Unitystation-Server";
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
-		buildPlayerOptions.options = BuildOptions.None;
+		buildPlayerOptions.options = BuildOptions.Development;
 		BuildPreferences.SetRelease(true);
         BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
+
+	//IMPORTANT: ALWAYS DO WINDOWS BUILD FIRST IN YOUR BUILD CYCLE:
 	private static void PerformWindowsBuild()
 	{
 		//Always build windows client first so that build info can increment the build number
@@ -48,7 +51,7 @@ static class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
-		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.Development;
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}

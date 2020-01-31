@@ -12,12 +12,12 @@ public class AtmosSystem : SubsystemBehaviour
 		{
 			MetaDataNode node = metaDataLayer.Get(position, false);
 
-			node.GasMix = new GasMix( (node.IsRoom||node.IsClosedAirlock) ? GasMixes.Air : GasMixes.Space );
+			node.GasMix = new GasMix( (node.IsRoom||node.IsOccupied) ? GasMixes.Air : GasMixes.Space );
 		}
 	}
 
-	public override void UpdateAt(Vector3Int position)
+	public override void UpdateAt(Vector3Int localPosition)
 	{
-		AtmosThread.Enqueue(metaDataLayer.Get(position));
+		AtmosThread.Enqueue(metaDataLayer.Get(localPosition));
 	}
 }

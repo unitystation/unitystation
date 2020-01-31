@@ -28,9 +28,9 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 	/// </summary>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (microwave.microwaveTimer > 0)
+		if (microwave.MicrowaveTimer > 0)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"{microwave.microwaveTimer:0} seconds until the {microwave.meal} is cooked.");
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"{microwave.MicrowaveTimer:0} seconds until the {microwave.meal} is cooked.");
 		}
 		else if (interaction.HandObject != null)
 		{
@@ -44,6 +44,7 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 				microwave.ServerSetOutputMeal(meal.name);
 				Despawn.ServerSingle(interaction.HandObject);
 				microwave.RpcStartCooking();
+				microwave.MicrowaveTimer = microwave.COOK_TIME;
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You microwave the {microwave.meal} for {microwave.COOK_TIME} seconds.");
 			}
 			else

@@ -17,6 +17,21 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialName
+      value: blood-red hardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialDescription
+      value: An advanced hardsuit with built in energy shielding.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: isEVACapable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -71,16 +86,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: initialName
-      value: blood-red hardsuit
-      objectReference: {fileID: 0}
-    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: initialDescription
-      value: An advanced hardsuit with built in energy shielding.
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -156,8 +161,13 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ab60e98a1ba74e24cbccb1290fbc6e92,
+      objectReference: {fileID: 11400000, guid: 96b702926e8fa6348a8964fd996b1761,
         type: 2}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 3611036598041473612, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_Sprite

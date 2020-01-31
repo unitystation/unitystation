@@ -46,4 +46,11 @@
 	/// we are not relying on SteamID as the identifier.
 	/// </summary>
 	public static string ClientID = "ClientID";
+
+	/// <summary>
+	/// MuteMusic toggle
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static string MuteMusic = "MuteMusic";
 }

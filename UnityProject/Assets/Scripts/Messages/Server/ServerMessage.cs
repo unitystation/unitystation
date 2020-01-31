@@ -43,6 +43,12 @@ public abstract class ServerMessage : GameMessageBase
 		}
 
 		NetworkConnection connection = recipient.GetComponent<NetworkIdentity>().connectionToClient;
+
+		if (connection == null)
+		{
+			return;
+		}
+		
 //			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{

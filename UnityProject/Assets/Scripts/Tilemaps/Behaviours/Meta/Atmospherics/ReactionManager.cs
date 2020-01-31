@@ -183,6 +183,13 @@ public class ReactionManager : MonoBehaviour
 		//calculate world position
 		var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, MatrixManager.Get(matrix));
 		var atWorldPosition = MatrixManager.LocalToWorldInt(atLocalPosition, MatrixManager.Get(matrix));
+
+		if (!hotspots.ContainsKey(hotspotPosition))
+		{
+			Logger.LogError("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
+			return;
+		}
+
 		var exposure = FireExposure.FromMetaDataNode(hotspots[hotspotPosition], hotspotWorldPosition.To2Int(), atLocalPosition.To2Int(), atWorldPosition.To2Int());
 		if (isSideExposure)
 		{
@@ -241,7 +248,6 @@ public class ReactionManager : MonoBehaviour
 			node.WindForce = pressureDifference;
 			node.WindDirection = windDirection;
 			winds.Enqueue( node );
-			Logger.LogTraceFormat( LogAddingWindyNode, Category.Atmos, node.Position.To2Int(), windDirection, pressureDifference );
 		}
 	}
 }

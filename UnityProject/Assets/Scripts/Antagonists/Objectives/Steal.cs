@@ -80,7 +80,14 @@ namespace Antagonists
 				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
 				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
 				{
-					count++;
+					if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
+					{
+						count += stackable.Amount;
+					}
+					else
+					{
+						count++;
+					}
 				}
 			}
 			// Check if the count is higher than the specified amount

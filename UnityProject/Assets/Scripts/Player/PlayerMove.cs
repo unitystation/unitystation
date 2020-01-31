@@ -80,9 +80,17 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			bool canSwap;
 			if (isLocalPlayer && !isServer)
 			{
-				//locally predict
-				canSwap = UIManager.CurrentIntent == Intent.Help
-						  && !PlayerScript.pushPull.IsPullingSomething;
+				if (playerScript.pushPull == null)
+				{
+					//Is a ghost
+					canSwap = false;
+				}
+				else
+				{
+					//locally predict
+					canSwap = UIManager.CurrentIntent == Intent.Help
+					          && !PlayerScript.pushPull.IsPullingSomething;
+				}
 			}
 			else
 			{
@@ -330,8 +338,15 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		}
 
 		var buckleInteract = toObject.GetComponent<BuckleInteract>();
-		//no matter what, we stand up when buckled in
-		registerPlayer.ServerStandUp();
+
+		if (buckleInteract.forceLayingDown)
+		{
+			registerPlayer.ServerLayDown();
+		}
+		else
+		{
+			registerPlayer.ServerStandUp();
+		}
 
 		SyncBuckledObjectNetId(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling

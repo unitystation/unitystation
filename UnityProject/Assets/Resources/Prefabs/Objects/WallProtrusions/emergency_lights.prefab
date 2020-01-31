@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 114993487225253824}
   - component: {fileID: 5303129370152436876}
   - component: {fileID: 758924461821250246}
-  - component: {fileID: 5228185771092616738}
+  - component: {fileID: 1078469272452031049}
   m_Layer: 13
   m_Name: emergency_lights
   m_TagString: EmergencyLight
@@ -83,7 +83,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275749971873228}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 68, y: 59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -181,8 +181,8 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.05203162, y: -0.35947806}
+  m_UsedByComposite: 1
+  m_Offset: {x: -0.3603897, y: 0.008207321}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -193,7 +193,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3094215, y: 0.2810439}
+  m_Size: {x: 0.28085327, y: 0.28818893}
   m_EdgeRadius: 0
 --- !u!114 &114736272981376494
 MonoBehaviour:
@@ -207,6 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114987107583708958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +260,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 4133322074
 --- !u!114 &5303129370152436876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,7 +289,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 0
   ChangeDirectionWithMatrix: 1
---- !u!114 &5228185771092616738
+--- !u!114 &1078469272452031049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,10 +298,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1275749971873228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c7afb8a6dc4ed8bf0f983b7ff65e10, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabSpriteOrientation: 0
+  prefabChildrenOrientation: 0
 --- !u!1 &1892682482372664
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,13 +326,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892682482372664}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4486458079919614}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212947661580411708
 SpriteRenderer:
   m_ObjectHideFlags: 0

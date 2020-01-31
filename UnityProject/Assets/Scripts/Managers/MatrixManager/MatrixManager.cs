@@ -619,6 +619,11 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			Instance.InitMatrices();
 		}
+
+		//Sometimes Get is still being called on the old matrixmanager instance on a
+		//round restart
+		if (id >= Instance.ActiveMatrices.Length) return MatrixInfo.Invalid;
+
 		return Instance.ActiveMatrices[id];
 	}
 
@@ -870,6 +875,19 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		return AtPoint( position.Value.RoundToInt(), isServer ).ObjectParent;
+	}
+
+	/// <summary>
+	/// Do something to matrix using its local position if you only know world position
+	/// ..and don't need the reference afterwards
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <param name="isServer"></param>
+	/// <param name="matrixAction"></param>
+	public static void ForMatrixAt(Vector3Int worldPos, bool isServer, Action<MatrixInfo, Vector3Int> matrixAction)
+	{
+		var matrixAtPoint = AtPoint(worldPos, isServer);
+		matrixAction.Invoke(matrixAtPoint, WorldToLocalInt(worldPos, matrixAtPoint));
 	}
 }
 

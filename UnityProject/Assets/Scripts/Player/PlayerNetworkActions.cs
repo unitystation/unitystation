@@ -40,7 +40,31 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public GameObject GetActiveHandItem()
 	{
 		var pu = itemStorage.GetNamedItemSlot(activeHand).Item;
-		return pu != null ? pu.gameObject : null;
+		return pu?.gameObject;
+	}
+
+	/// <summary>
+	/// Get the item in the player's off hand
+	/// </summary>
+	/// <returns>the gameobject item in the player's off hand, null if nothing in off hand</returns>
+	public GameObject GetOffHandItem()
+	{
+		// Get the hand which isn't active
+		NamedSlot offHand;
+		switch (activeHand)
+		{
+			case NamedSlot.leftHand:
+				offHand = NamedSlot.rightHand;
+				break;
+			case NamedSlot.rightHand:
+				offHand = NamedSlot.leftHand;
+				break;
+			default:
+				Logger.LogError($"{playerScript.playerName} has an invalid activeHand! Found: {activeHand}", Category.Inventory);
+				return null;
+		}
+		var pu = itemStorage.GetNamedItemSlot(offHand).Item;
+		return pu?.gameObject;
 	}
 
 	/// Checks if player has this item in any of his slots
@@ -180,6 +204,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
 	}
 
+	[Command]
+	public void CmdInitiateRestartVote()
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.TryInitiateRestartVote(gameObject);
+	}
+
+	[Command]
+	public void CmdRegisterVote(string userId, bool isFor)
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.RegisterVote(userId, isFor);
+	}
+
+	/// <summary>
+	/// Switches the pickup mode for the InteractableStorage in the players hands
+	/// TODO should probably be turned into some kind of UIAction component which can hold all these functions
+	/// </summary>
+	[Command]
+	public void CmdSwitchPickupMode()
+	{
+		// Switch the pickup mode of the storage in the active hand
+		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
+					  GetOffHandItem()?.GetComponent<InteractableStorage>();
+		storage.ServerSwitchPickupMode(gameObject);
+	}
+
 	/// <summary>
 	/// Validates that the player can interact with the specified wallmount
 	/// </summary>
@@ -272,7 +323,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
+	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
 		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
@@ -283,18 +334,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		RpcToggleChatIcon(turnOn, message, chatChannel);
+		RpcToggleChatIcon(turnOn, message, chatChannel, chatModifier);
 	}
 
 	[ClientRpc]
-	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
+	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerChatBubble)
 		{
 			playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		}
 
-		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel);
+		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel, chatModifier);
 	}
 
 	[Command]

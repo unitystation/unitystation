@@ -482,8 +482,7 @@ public class MouseInputController : MonoBehaviour
 		{
 			//Check for items on the clicked position, and display them in the Item List Tab, if they're in reach
 			//and not FOV occluded
-			Vector3 position = MouseWorldPosition;
-			position.z = 0f;
+			Vector3Int position = MouseWorldPosition.CutToInt();
 			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
 				if (PlayerManager.LocalPlayerScript.IsInReach(position, false))
@@ -499,6 +498,14 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
+			if (CustomNetworkManager.IsServer)
+			{
+				MatrixManager.ForMatrixAt(position, true, (matrix, localPos) =>
+				{
+					matrix.SubsystemManager.UpdateAt(localPos);
+					Logger.LogFormat($"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
+				});
+			}
 			return true;
 		}
 		return false;

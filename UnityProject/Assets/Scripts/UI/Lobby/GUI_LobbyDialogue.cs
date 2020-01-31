@@ -50,15 +50,7 @@ namespace Lobby
 		{
 			networkManager = CustomNetworkManager.Instance;
 
-			// Init server address and port defaults
-			if (BuildPreferences.isForRelease)
-			{
-				serverAddressInput.text = Managers.instance.serverIP;
-			}
-			else
-			{
-				serverAddressInput.text = DefaultServerAddress;
-			}
+			serverAddressInput.text = DefaultServerAddress;
 
 			serverPortInput.text = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port.ToString();
 
@@ -208,6 +200,8 @@ namespace Lobby
 		public void ShowLoggingInStatus(string status)
 		{
 			HideAllPanels();
+			if (loggingInPanel == null) return;
+
 			loggingInPanel.SetActive(true);
 			loggingInText.text = status;
 			loginNextButton.SetActive(false);
@@ -282,7 +276,7 @@ namespace Lobby
 
 			// Start game
 			dialogueTitle.text = "Starting Game...";
-			if (BuildPreferences.isForRelease || !hostServerToggle.isOn)
+			if (!hostServerToggle.isOn)
 			{
 				ConnectToServer();
 			}
@@ -320,11 +314,6 @@ namespace Lobby
 			string serverAddress = serverAddressInput.text;
 			if (string.IsNullOrEmpty(serverAddress))
 			{
-				if (BuildPreferences.isForRelease)
-				{
-					serverAddress = Managers.instance.serverIP;
-				}
-
 				if (string.IsNullOrEmpty(serverAddress))
 				{
 					serverAddress = DefaultServerAddress;
@@ -393,14 +382,40 @@ namespace Lobby
 		{
 			//FIXME
 			//	startGamePanel.SetActive(false);
-			accountLoginPanel.SetActive(false);
-			createAccountPanel.SetActive(false);
-			pendingCreationPanel.SetActive(false);
-			informationPanel.SetActive(false);
-			wrongVersionPanel.SetActive(false);
-			controlInformationPanel.SetActive(false);
-			loggingInPanel.SetActive(false);
-			connectionPanel.SetActive(false);
+			if (accountLoginPanel != null)
+			{
+				accountLoginPanel.SetActive(false);
+			}
+
+			if (createAccountPanel != null)
+			{
+				createAccountPanel.SetActive(false);
+			}
+
+			if (pendingCreationPanel != null)
+			{
+				pendingCreationPanel.SetActive(false);
+			}
+
+			if (informationPanel != null)
+			{
+				informationPanel.SetActive(false);
+			}
+
+			if (controlInformationPanel != null)
+			{
+				controlInformationPanel.SetActive(false);
+			}
+
+			if (loggingInPanel != null)
+			{
+				loggingInPanel.SetActive(false);
+			}
+
+			if (connectionPanel != null)
+			{
+				connectionPanel.SetActive(false);
+			}
 		}
 	}
 }

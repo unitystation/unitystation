@@ -23,13 +23,13 @@ public class MetaDataLayer : MonoBehaviour
 		metaTileMap = GetComponent<MetaTileMap>();
 	}
 
-	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
+	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true)
 	{
-		if (!nodes.ContainsKey(position))
+		if (!nodes.ContainsKey(localPosition))
 		{
 			if (createIfNotExists)
 			{
-				nodes[position] = new MetaDataNode(position, reactionManager);
+				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager);
 			}
 			else
 			{
@@ -37,7 +37,7 @@ public class MetaDataLayer : MonoBehaviour
 			}
 		}
 
-		return nodes[position];
+		return nodes[localPosition];
 	}
 
 	public bool IsSpaceAt(Vector3Int position)
@@ -183,8 +183,8 @@ public class MetaDataLayer : MonoBehaviour
 	}
 
 
-	public void UpdateSystemsAt(Vector3Int position)
+	public void UpdateSystemsAt(Vector3Int localPosition)
 	{
-		subsystemManager.UpdateAt(position);
+		subsystemManager.UpdateAt(localPosition);
 	}
 }

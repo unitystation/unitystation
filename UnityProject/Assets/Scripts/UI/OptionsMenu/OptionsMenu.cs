@@ -23,7 +23,7 @@ namespace Unitystation.Options
 			if (Instance == null)
 			{
 				Instance = this;
-				DontDestroyOnLoad(gameObject);
+				// DontDestroyOnLoad(gameObject); //Commented out because it only works for root or components of root (Warning)
 				Init();
 			}
 			else

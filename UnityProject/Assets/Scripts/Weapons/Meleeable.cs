@@ -68,7 +68,11 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		//if attacking tiles, only some layers are allowed to be attacked
 		if (interactableTiles != null)
 		{
-			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, true);
+
+			//Nothing there, could be space?
+			if (tileAt == null) return false;
+
 			if (!attackableLayers.Contains(tileAt.LayerType))
 			{
 				return interaction.Intent == Intent.Harm && harmIntentOnlyAttackableLayers.Contains(tileAt.LayerType);
@@ -95,7 +99,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		if (interactableTiles != null)
 		{
 			//attacking tiles
-			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, true);
 			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
 		}
 		else
