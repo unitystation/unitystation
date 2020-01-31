@@ -18,11 +18,10 @@ public class ChatRelay : NetworkBehaviour
 	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
 
 	/// <summary>
-	/// The character indicating that the following text is speech.
-	/// Currently the comma indicates speech.
-	/// For example: Player says, "ALL CLOWNS MUST SUFFER"
+	/// The char indicating that the following text is speech.
+	/// For example: Player says, [Character goes here]"ALL CLOWNS MUST SUFFER"
 	/// </summary>
-	private char saysChar = ',';
+	private char saysChar = ' '; // This is U+200A, a hair space.
 
 	private void Awake()
 	{
@@ -193,8 +192,8 @@ public class ChatRelay : NetworkBehaviour
 
 	/// <summary>
 	/// Sends a message to TTS to vocalize.
-	/// Only messages that are spoken by player characters are currently vocalized.
-	/// Messages must contain at least one letter from the alphabet.
+	/// They are required to contain the saysChar.
+	/// Messages must also contain at least one letter from the alphabet.
 	/// </summary>
 	/// <param name="message">The message to try to vocalize.</param>
 	private void trySendingTTS(string message)

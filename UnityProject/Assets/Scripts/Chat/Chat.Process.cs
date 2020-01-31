@@ -252,7 +252,10 @@ public partial class Chat
 			chan = "";
 		}
 
-		return AddMsgColor(channels, $"{chan}<b>{speaker}</b> {verb} " + "\"" + message + "\"");
+		return AddMsgColor(channels,
+			$"{chan}<b>{speaker}</b> {verb}"	// [cmd] Username says,
+			+ "  "                              // Two thin spaces. This triggers Text-to-Speech.
+			+ "\"" + message + "\"");			// "This text will be spoken by TTS!"
 	}
 
 	private static string StripTags(string input)
