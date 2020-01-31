@@ -47,7 +47,8 @@ public class InputFieldFocus : InputField
 	protected override void OnDisable()
 	{
 		base.OnDisable();
-		StartCoroutine(DelayedEnableInput());
+		if(gameObject.activeInHierarchy)
+			StartCoroutine(DelayedEnableInput());
 	}
 
 	public override void OnSelect( BaseEventData eventData )
@@ -71,7 +72,7 @@ public class InputFieldFocus : InputField
 	public override void OnSubmit( BaseEventData eventData )
 	{
 		base.OnSubmit( eventData );
-		_ = StartCoroutine(DelayedEnableInput());
+		StartCoroutine(DelayedEnableInput());
 	}
 
 	private void OnGUI()

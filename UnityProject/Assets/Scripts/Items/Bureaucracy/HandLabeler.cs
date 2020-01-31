@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IClientInteractable<HandActivate>, IServerSpawn
+public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, IClientInteractable<HandActivate>, IServerSpawn
 {
-	public const int MAX_NAME_LENGTH = 16;
+	public const int MAX_TEXT_LENGTH = 16;
 
 	private const int LABEL_CAPACITY = 30;
+
+	[SerializeField]
+	private ItemTrait refillTrait;
 
 	[SyncVar]
 	private int labelAmount;
@@ -20,7 +23,7 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 		if (labelAmount == 0) return;
 
 		Chat.AddExamineMsgToClient("You set the " + this.gameObject.Item().InitialName.ToLower() + "s text to '" + input + "'.");
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestItemLabel(this.gameObject, input);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestItemLabel(gameObject, input);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -32,10 +35,14 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.HandObject != gameObject) return false;
+		if (interaction.HandObject == null) return false;
 		if (interaction.TargetObject.Item() == null) return false; //Only works on items
 
-		if(currentLabel.Trim().Length == 0)
+		//if(interaction.HandObject.Item().HasTrait(refillTrait)) return true; //Check for refill
+
+		if (interaction.HandObject != gameObject) return false;
+
+		if (currentLabel.Trim().Length == 0)
 		{
 			if (side == NetworkSide.Client)
 				Chat.AddExamineMsgToClient("You haven't set a text yet.");
@@ -48,16 +55,33 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var item = interaction.TargetObject.Item();
-
-		if (currentLabel.Length > HandLabeler.MAX_NAME_LENGTH)
+		if(labelAmount == 0)
 		{
-			currentLabel = currentLabel.Substring(0, HandLabeler.MAX_NAME_LENGTH);
+			Chat.AddExamineMsg(interaction.Performer, "No labels left!");
+			return;
 		}
+
+		var item = interaction.TargetObject.Item();
 
 		item.ServerSetArticleName(item.InitialName + " '" + currentLabel + "'");
 
+		labelAmount--;
+
 		Chat.AddActionMsgToChat(interaction, "You labeled " + item.InitialName + " as '" + currentLabel + "'.", interaction.Performer.Player().Name + " labeled " + item.InitialName + " as '" + currentLabel + "'.");
+	}
+
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
+	{
+		if (!interaction.UsedObject.Item().HasTrait(refillTrait)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		return true;
+	}
+
+	public void ServerPerformInteraction(InventoryApply interaction)
+	{
+		labelAmount = LABEL_CAPACITY;
+		Despawn.ServerSingle(interaction.UsedObject);
+		Chat.AddExamineMsg(interaction.Performer, $"You insert the {interaction.UsedObject.Item().ArticleName.ToLower()} into the {gameObject.Item().InitialName.ToLower()}.");
 	}
 
 	public bool Interact(HandActivate interaction)
@@ -69,6 +93,11 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 	public void SetLabel(string label)
 	{
+		if (currentLabel.Length > MAX_TEXT_LENGTH)
+		{
+			currentLabel = currentLabel.Substring(0, MAX_TEXT_LENGTH);
+		}
+
 		currentLabel = label;
 	}
 }
