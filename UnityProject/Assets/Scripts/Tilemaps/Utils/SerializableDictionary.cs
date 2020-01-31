@@ -61,6 +61,8 @@ public abstract class SerializableDictionaryBase<TKey, TValue, TValueStorage> : 
 			int n = m_keys.Length;
 			for (int i = 0; i < n; ++i)
 			{
+				if (m_keys[i] == null) continue;
+
 				m_dict[m_keys[i]] = GetValue(m_values, i);
 			}
 

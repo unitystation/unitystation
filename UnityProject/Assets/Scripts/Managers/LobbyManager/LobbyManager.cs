@@ -27,11 +27,6 @@ namespace Lobby
 
 		void Start()
 		{
-			if (BuildPreferences.isForRelease)
-			{
-				hostToggle.gameObject.SetActive(false);
-			}
-
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
 		}

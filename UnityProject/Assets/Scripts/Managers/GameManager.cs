@@ -93,11 +93,13 @@ public partial class GameManager : MonoBehaviour
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
 	}
 
 	///<summary>
@@ -241,7 +243,6 @@ public partial class GameManager : MonoBehaviour
 		}
 	}
 
-
 	/// <summary>
 	/// Calls the start of the preround
 	/// </summary>
@@ -260,35 +261,30 @@ public partial class GameManager : MonoBehaviour
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
-
-		//wait for scene to be ready and fire mapped spawn hooks
-		StartCoroutine(WaitToFireHooks());
+		else
+		{
+			StartCoroutine(WaitToFireClientHooks());
+		}
 	}
 
-	private IEnumerator WaitToFireHooks()
+	void OnRoundStart()
 	{
-		//we have to wait to fire hooks until the root objects in the scene are active,
-		//otherwise our attempt to find the hooks to call will always return 0.
-		//TODO: Find a better way to do this, maybe there is a hook for this
-		while (FindUtils.FindInterfaceImplementersInScene<IServerSpawn>().Count == 0)
-		{
-			yield return WaitFor.Seconds(1);
-		}
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			//invoke all server + client side hooks on all objects that have them
-			foreach (var serverSpawn in FindUtils.FindInterfaceImplementersInScene<IServerSpawn>())
+			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
+			foreach (var s in iServerSpawns)
 			{
-				serverSpawn.OnSpawnServer(SpawnInfo.Mapped(((Component)serverSpawn).gameObject));
+				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 			}
 			Spawn._CallAllClientSpawnHooksInScene();
 		}
-		else
-		{
-			Spawn._CallAllClientSpawnHooksInScene();
-		}
 	}
 
+	private IEnumerator WaitToFireClientHooks()
+	{
+		yield return WaitFor.Seconds(3f);
+		Spawn._CallAllClientSpawnHooksInScene();
+	}
 
 	/// <summary>
 	/// Setup the station and then begin the round for the selected game mode
