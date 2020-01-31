@@ -204,7 +204,7 @@ public class ChatRelay : NetworkBehaviour
 			int saysCharIndex = message.IndexOf(saysChar);
 			if (saysCharIndex != -1)
 			{
-				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar)+1);
+				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
 					MaryTTS.Instance.Synthesize(messageAfterSaysChar);
