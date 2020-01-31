@@ -199,7 +199,7 @@ public class GameData : MonoBehaviour
 
 	void OnCharacterScreenCloseFromHubConnect()
 	{
-		LobbyManager.Instance.lobbyDialogue.OnStartGame();
+		LobbyManager.Instance.lobbyDialogue.OnStartGameFromHub();
 	}
 
 	private void OnEnable()
