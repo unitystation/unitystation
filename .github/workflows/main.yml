@@ -6,21 +6,26 @@ env:
 
 jobs:
 
+  ########## HOW TO UPDATE UNITY_LICENSE ##########
+  #
   # This job is only required to request a new activation file
   # If you need a new one follow these steps:
-  #   - Uncomment this job and run it
-  #   - Download the manual activation file that now appeared as an artifact.
-  #   - Visit license.unity3d.com and upload it.
+  #   - Uncomment the job below and run it
+  #   - Download the manual activation file that appears as an artifact (Unity_v20XX.x.alf).
+  #   - Visit license.unity3d.com, sign in and upload it.
   #   - You should now receive your license file (Unity_v20XX.x.ulf) as a download.
+  #   - Replace the UNITY_LICENSE env variable above with it, taking care to leave the single quotes around it.
+
   # requestManualActivationFile:
   #   name: Request manual activation file
   #   runs-on: ubuntu-latest
   #   steps:
   #     # Request manual activation file
   #     - name: Request manual activation file
-  #       uses: webbertakken/unity-request-manual-activation-file@v1
+  #       uses: webbertakken/unity-request-manual-activation-file@v1.1
   #       id: getManualLicenseFile
-
+  #       with:
+  #         unityVersion: 2019.2.19f1
   #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
   #     - name: Expose as artifact
   #       uses: actions/upload-artifact@v1
