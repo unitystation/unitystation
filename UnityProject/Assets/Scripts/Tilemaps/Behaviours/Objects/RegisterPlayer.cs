@@ -195,7 +195,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = false;
-		SyncIsLayingDown(false);
+
+		// Do not raise up a dead body
+		if (playerScript.playerHealth.ConsciousState != ConsciousState.DEAD)
+		{
+			SyncIsLayingDown(false);
+		}
+
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 
 		if ( playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
