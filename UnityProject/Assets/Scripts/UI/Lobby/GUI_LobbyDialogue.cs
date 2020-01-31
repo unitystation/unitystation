@@ -49,13 +49,7 @@ namespace Lobby
 		void Start()
 		{
 			networkManager = CustomNetworkManager.Instance;
-
-			serverAddressInput.text = DefaultServerAddress;
-
-			serverPortInput.text = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port.ToString();
-
 			OnHostToggle();
-
 			// Init Lobby UI
 			InitPlayerName();
 		}
@@ -288,6 +282,13 @@ namespace Lobby
 			// Hide dialogue and show status text
 			gameObject.SetActive(false);
 			//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+		}
+
+		public void OnStartGameFromHub()
+		{
+			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
+			ConnectToServer();
+			gameObject.SetActive(false);
 		}
 
 		public void OnShowInformationPanel()
