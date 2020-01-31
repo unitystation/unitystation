@@ -9,6 +9,7 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
+
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
 public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
@@ -69,7 +70,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	public string ArticleDescription => articleDescription;
 
-    public override void OnStartClient()
+	public override void OnStartClient()
 	{
 		SyncArticleName(this.name);
 		SyncArticleDescription(this.articleDescription);
@@ -100,6 +101,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	public void OnHoverStart()
 	{
+		Highlight.HighlightThis(gameObject);
+
 		string displayName = null;
 		if (string.IsNullOrWhiteSpace(initialName))
 		{
@@ -119,6 +122,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	public void OnHoverEnd()
 	{
+		Highlight.DeHighlight();
+
 		UIManager.SetToolTip = string.Empty;
 	}
 

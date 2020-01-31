@@ -117,7 +117,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//hand needs to be empty for pickup
 		if (interaction.HandObject != null) return false;
 		//instead of the base logic, we need to use extended range check for CanApply
-		if (!Validations.CanApply(interaction, side, true, ReachRange.ExtendedServer)) return false;
+		if (!Validations.CanApply(interaction, side, true, ReachRange.Standard)) return false;
+
 		return true;
 	}
 

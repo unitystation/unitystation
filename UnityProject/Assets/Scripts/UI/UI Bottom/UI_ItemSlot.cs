@@ -200,6 +200,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				image = GetComponent<Image>();
 			}
 
+			spriteRends = spriteRends.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
 			sprite = spriteRends[0].sprite;
 			image.sprite = sprite;
 			image.color = spriteRends[0].color;
