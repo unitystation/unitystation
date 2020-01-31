@@ -1,5 +1,20 @@
 name: Build Project
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+    - develop
+    - master
+    paths:
+    - 'Tools/**'
+    - 'UnityProject/**'
+  pull_request:
+    branches:
+    - develop
+    - master
+    paths:
+    - 'Tools/**'
+    - 'UnityProject/**'
 
 jobs:
 
