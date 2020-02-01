@@ -486,7 +486,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		else if (IsMovingClient)
 		{
 			//Only move target if rotation is finished
-			//predict client state because we don't get constant updates when flying in one direction
+			//predict client state because we don't get constant updates when flying in one direction.
 			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.Vector;
 		}
 
@@ -546,12 +546,30 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 
 		//ServerState lerping to its target tile
+
+		Vector3? actualNewPosition = null;
 		if (!ServerPositionsMatch)
 		{
+			//some special logic needs to fire when we exactly reach our target tile,
+			//but we want movement to continue as far as it should based on deltaTime
+			//despite reaching / exceeding the target tile. So we save the actual new position
+			//here and only update serverState.Position after that special logic has run.
+			//Otherwise, movement speed will fluctuate slightly due to discarding excess movement that happens
+			//when reaching an exact tile position and result in server movement jerkiness and inconsistent client predicted movement.
+
+			//actual position we should reach this update, regardless of if we passed through the target position
+			actualNewPosition = serverState.Position +
+			                    serverState.FlyingDirection.Vector * (serverState.Speed * Time.deltaTime);
+			//update position without passing the target position
 			serverState.Position =
 				Vector3.MoveTowards(serverState.Position,
 					serverTargetState.Position,
 					serverState.Speed * Time.deltaTime);
+
+			//At this point, if serverState.Position reached an exact tile position,
+			//you can see that actualNewPosition != serverState.Position, so we will
+			//need to carry that extra movement forward after processing the logic that
+			//occurs on the exact tile position.
 			TryNotifyPlayers();
 		}
 
@@ -570,6 +588,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 			                           || (int) serverState.Position.y == (int) Target.y))
 			{
 				StartCoroutine(TravelToTarget());
+			}
+			//now we can carry on with any excess movement we had discarded earlier, now
+			//that we've already ran the logic that needs to happen on the exact tile position
+			if (actualNewPosition != null)
+			{
+				serverState.Position = actualNewPosition.Value;
 			}
 		}
 		else
