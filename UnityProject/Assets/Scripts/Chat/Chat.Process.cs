@@ -58,7 +58,7 @@ public partial class Chat
 		{
 			return (message, chatModifiers);
 		}
-		
+
 		if (sentByPlayer.Script.playerHealth != null)
 		{
 			playerConsciousState = sentByPlayer.Script.playerHealth.ConsciousState;
@@ -252,7 +252,10 @@ public partial class Chat
 			chan = "";
 		}
 
-		return AddMsgColor(channels, $"{chan}<b>{speaker}</b> {verb} " + "\"" + message + "\"");
+		return AddMsgColor(channels,
+			$"{chan}<b>{speaker}</b> {verb}"    // [cmd] Username says,
+			+ "  "                              // Two hair spaces. This triggers Text-to-Speech.
+			+ "\"" + message + "\"");           // "This text will be spoken by TTS!"
 	}
 
 	private static string StripTags(string input)
@@ -415,11 +418,11 @@ public partial class Chat
 		{
 			var getOrigin = NetworkIdentity.spawned[originator];
 			if (channels == ChatChannel.Local || channels == ChatChannel.Combat
-			                                  || channels == ChatChannel.Action)
+											  || channels == ChatChannel.Action)
 			{
 				LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
 				if (Vector2.Distance(getOrigin.transform.position,
-					    PlayerManager.LocalPlayer.transform.position) > 14f)
+						PlayerManager.LocalPlayer.transform.position) > 14f)
 				{
 					return true;
 				}
