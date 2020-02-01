@@ -5,12 +5,48 @@ using System.Linq;
 
 public class Highlight : MonoBehaviour
 {
-
+	public static bool HighlightEnabled;
 	public static Highlight instance;
 
 	public SpriteRenderer prefabSpriteRenderer;
 	public SpriteRenderer spriteRenderer;
 	public Material material;
+
+	 void Start()
+	{
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.EnableHighlights))
+		{
+			if (PlayerPrefs.GetInt(PlayerPrefKeys.EnableHighlights) == 1)
+			{
+				HighlightEnabled = true;
+			}
+			else
+			{ 
+				HighlightEnabled = false;
+			}
+		}
+		else
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
+			PlayerPrefs.Save();
+		}
+
+
+	}
+	public static void SetPreference(bool preference)
+	{
+		if (preference)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
+			HighlightEnabled = true;
+		}
+		else
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 0);
+			HighlightEnabled = false;
+		}
+		PlayerPrefs.Save();
+	}
 
 	private void Awake()
 	{
@@ -25,23 +61,26 @@ public class Highlight : MonoBehaviour
 	}
 	public static void DeHighlight()
 	{
-		if (Highlight.instance.spriteRenderer == null)
+		if (HighlightEnabled)
 		{
-			Highlight.instance.spriteRenderer = Instantiate(Highlight.instance.prefabSpriteRenderer);
+			if (Highlight.instance.spriteRenderer == null)
+			{
+				Highlight.instance.spriteRenderer = Instantiate(Highlight.instance.prefabSpriteRenderer);
+			}
+			//Highlight.instance.spriteRenderer.transform.SetParent(Highlight.instance.transform.parent);
+			Texture2D mainTex = Highlight.instance.spriteRenderer.sprite.texture;
+			Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
+			for (int xy = 0; xy < data.Length; xy++)
+			{
+				data[xy] = new Color32(0, 0, 0, 0);
+			}
+			mainTex.Apply();
 		}
-		//Highlight.instance.spriteRenderer.transform.SetParent(Highlight.instance.transform.parent);
-		Texture2D mainTex = Highlight.instance.spriteRenderer.sprite.texture;
-		Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
-		for (int xy = 0; xy < data.Length; xy++)
-		{
-			data[xy] = new Color32(0, 0, 0, 0);
-		}
-		mainTex.Apply();
 	}
 
 	public static void HighlightThis(GameObject Highlightobject)
 	{
-		if (!PlayerManager.LocalPlayerScript.IsGhost)
+		if (!PlayerManager.LocalPlayerScript.IsGhost && HighlightEnabled)
 		{
 			if (Highlight.instance.spriteRenderer == null)
 			{
