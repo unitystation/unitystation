@@ -20,11 +20,17 @@ public class GameData : MonoBehaviour
 	private static GameData gameData;
 
 	[Tooltip("Only use this when offline or you can't reach the auth server! Allows the game to still work in that situation and " +
-	         " allows skipping login. Host player will also be given admin privs." +
-	         "Not supported in release builds.")]
+			 " allows skipping login. Host player will also be given admin privs." +
+			 "Not supported in release builds.")]
 	[SerializeField]
 	private bool offlineMode;
 
+
+	[Tooltip("Overrides offlineMode  If you are in the editor " +
+			 " Turn off if you want to test Authentication stuff/that type of thing" +
+			 "Only works in the editor application")]
+	[SerializeField]
+	private bool editorofflineMode = true;
 	/// <summary>
 	/// Is offline mode enabled, allowing login skip / working without connection to server.?
 	/// Disabled always for release builds.
@@ -68,6 +74,10 @@ public class GameData : MonoBehaviour
 
 	private void Init()
 	{
+
+		#if UNITY_EDITOR
+				offlineMode = editorofflineMode;
+		#endif
 		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
@@ -253,10 +263,10 @@ public class GameData : MonoBehaviour
 		//Check if running in batchmode (headless server)
 		if (CheckHeadlessState())
 		{
-//			float calcFrameRate = 1f / Time.deltaTime;
-//			Application.targetFrameRate = (int) calcFrameRate;
-//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
-//				Category.Server);
+			//			float calcFrameRate = 1f / Time.deltaTime;
+			//			Application.targetFrameRate = (int) calcFrameRate;
+			//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+			//				Category.Server);
 
 			Logger.Log($"FrameRate limiting has been disabled on Headless Server",
 				Category.Server);
