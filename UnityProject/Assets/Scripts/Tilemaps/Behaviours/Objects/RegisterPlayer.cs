@@ -197,7 +197,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		IsSlippingServer = false;
 
 		// Do not raise up a dead body
-		if (playerScript.playerHealth.ConsciousState != ConsciousState.DEAD)
+		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
 		{
 			SyncIsLayingDown(false);
 		}
