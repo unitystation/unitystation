@@ -8,6 +8,7 @@ public class Highlight : MonoBehaviour
 
 	public static Highlight instance;
 
+	public SpriteRenderer prefabSpriteRenderer;
 	public SpriteRenderer spriteRenderer;
 	public Material material;
 
@@ -23,7 +24,12 @@ public class Highlight : MonoBehaviour
 		}
 	}
 	public static void DeHighlight()
-	{ 
+	{
+		if (Highlight.instance.spriteRenderer == null)
+		{
+			Highlight.instance.spriteRenderer = Instantiate(Highlight.instance.prefabSpriteRenderer);
+		}
+		//Highlight.instance.spriteRenderer.transform.SetParent(Highlight.instance.transform.parent);
 		Texture2D mainTex = Highlight.instance.spriteRenderer.sprite.texture;
 		Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
 		for (int xy = 0; xy < data.Length; xy++)
@@ -35,25 +41,32 @@ public class Highlight : MonoBehaviour
 
 	public static void HighlightThis(GameObject Highlightobject)
 	{
-		Highlight.instance.spriteRenderer.gameObject.SetActive(true);
-		Highlight.instance.spriteRenderer.enabled = true;
-		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
-		Highlight.instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, false);
-		Highlight.instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
-
-
-		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
-		Texture2D mainTex = Highlight.instance.spriteRenderer.sprite.texture;
-		if (Highlight.CheckHandApply(Highlightobject))
+		if (!PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			foreach (var T in SpriteRenderers)
+			if (Highlight.instance.spriteRenderer == null)
 			{
-				RecursiveTextureStack(mainTex, T);
+				Highlight.instance.spriteRenderer = Instantiate(Highlight.instance.prefabSpriteRenderer);
 			}
+			Highlight.instance.spriteRenderer.gameObject.SetActive(true);
+			Highlight.instance.spriteRenderer.enabled = true;
+			var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
+			Highlight.instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, false);
+			Highlight.instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
-			//data = mainTex.GetRawTextureData<Color32>().CopyTo;
-			mainTex.Apply();
-			Highlight.instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height), new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
+
+			SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
+			Texture2D mainTex = Highlight.instance.spriteRenderer.sprite.texture;
+			if (Highlight.CheckHandApply(Highlightobject))
+			{
+				foreach (var T in SpriteRenderers)
+				{
+					RecursiveTextureStack(mainTex, T);
+				}
+
+				//data = mainTex.GetRawTextureData<Color32>().CopyTo;
+				mainTex.Apply();
+				Highlight.instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height), new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
+			}
 		}
 	}
 
@@ -107,18 +120,19 @@ public class Highlight : MonoBehaviour
 						return true;
 					}
 				}
-				//else
-				//{
-				//	var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
-				//	if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
-				//	{
-				//		Highlight.instance.material.SetColor("_OutlineColor", Color.magenta);
-				//		return true;
-				//	}
+				else
+				{
+					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
+					if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
+					{
+						Highlight.instance.material.SetColor("_OutlineColor", Color.magenta);
+						return true;
+					}
 
-				//}
+				}
 			}
 		}
+
 
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
@@ -127,7 +141,7 @@ public class Highlight : MonoBehaviour
 		{
 			var interacted = false;
 			if (targetHandAppliable is IBaseInteractable<HandApply> Hap)
-			{  
+			{
 				//var hap = targetHandAppliable as IBaseInteractable<HandApply>;
 				if (CheckInteractInternal(Hap, handApply, NetworkSide.Client))
 				{
