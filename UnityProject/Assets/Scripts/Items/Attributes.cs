@@ -101,13 +101,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	public void OnHoverStart()
 	{
 		string displayName = null;
-		if (string.IsNullOrWhiteSpace(initialName))
+		if (string.IsNullOrWhiteSpace(articleName))
 		{
 			displayName = gameObject.ExpensiveName();
 		}
 		else
 		{
-			displayName = initialName;
+			displayName = articleName;
 		}
 		//failsafe
 		if (string.IsNullOrWhiteSpace(displayName)) displayName = "error";
