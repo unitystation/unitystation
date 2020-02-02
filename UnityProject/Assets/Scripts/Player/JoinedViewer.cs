@@ -79,7 +79,8 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			//This is the players first time connecting to this round, assign them a Client ID;
 			var oldID = clientID;
-			clientID = System.Guid.NewGuid().ToString();
+			clientID = Guid.NewGuid().ToString();
+			connPlayer.ClientId = clientID;
 			Logger.LogFormat("This server did not find a logged off player with clientID {0}, assigning" +
 			                 " joined viewer a new ID {1}", Category.Connections, oldID, clientID);
 		}
@@ -114,6 +115,8 @@ public class JoinedViewer : NetworkBehaviour
 			TargetLocalPlayerSetupNewPlayer(connectionToClient, connPlayer.ClientId,
 				GameManager.Instance.CurrentRoundState);
 		}
+
+		PlayerList.Instance.CheckAdminState(connPlayer, userid);
 	}
 
 	/// <summary>
@@ -159,8 +162,13 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
 	{
-		PlayerSpawn.ServerSpawnPlayer(this, GameManager.Instance.GetRandomFreeOccupation(jobType),
-			characterSettings);
+		var spawnRequest =
+			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
+		//regardless of their chosen occupation, they might spawn as an antag instead.
+		//If they do, bypass the normal spawn logic.
+		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
+
+		PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation, characterSettings);
 	}
 
 	/// <summary>

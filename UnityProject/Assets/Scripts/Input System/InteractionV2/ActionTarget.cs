@@ -79,4 +79,9 @@ public class ActionTarget
 
 		return new ActionTarget(false, target, target.LocalPosition, MatrixManager.Get(target.Matrix.Id));
 	}
+
+	public override string ToString()
+	{
+		return $"{nameof(IsTile)}: {IsTile}, {nameof(Target)}: {Target}, {nameof(TargetLocalPosition)}: {TargetLocalPosition}, {nameof(TargetMatrixInfo)}: {TargetMatrixInfo}";
+	}
 }

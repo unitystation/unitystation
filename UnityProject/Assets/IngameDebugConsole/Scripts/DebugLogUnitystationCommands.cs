@@ -8,6 +8,7 @@ using UnityEngine;
 using Mirror;
 using UnityEditor;
 using Random = UnityEngine.Random;
+using DatabaseAPI;
 
 namespace IngameDebugConsole
 {
@@ -73,6 +74,23 @@ namespace IngameDebugConsole
 			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			GameManager.Instance.RestartRound();
 		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/End round")]
+#endif
+		[ConsoleMethod("end-round", "ends the round, triggering normal round end logic, letting people see their greentext. Server only cmd.")]
+		public static void RunEndRound()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
+			GameManager.Instance.RoundEnd();
+		}
+
 #if UNITY_EDITOR
 		[MenuItem("Networking/Start now")]
 #endif
@@ -398,18 +416,21 @@ namespace IngameDebugConsole
 				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
 			}
 		}
-		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
-		public static void SpawnAntag()
-		{
-			if (CustomNetworkManager.Instance._isServer == false)
-			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
-				return;
-			}
-
-			Antagonists.AntagManager.Instance.CreateAntag();
-		}
-		[ConsoleMethod("antag-status", "Shows status of all antag objectives. Server only command")]
+		// TODO: Removing this capability at the moment because some antags require an actual spawn (such as
+		// syndicate. and can't just be assigned an antag after they've already spawned. If there really is
+		// an actual need to be able to do this it will require refactoring GameMode system to support late reassignment.
+		// [ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
+		// public static void SpawnAntag()
+		// {
+		// 	if (CustomNetworkManager.Instance._isServer == false)
+		// 	{
+		// 		Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+		// 		return;
+		// 	}
+		//
+		// 	Antagonists.AntagManager.Instance.CreateAntag();
+		// }
+		[ConsoleMethod("antag-status", "System wide message, reports the status of all antag objectives to ALL players. Server only command")]
 		public static void ShowAntagObjectives()
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
@@ -419,6 +440,18 @@ namespace IngameDebugConsole
 			}
 
 			Antagonists.AntagManager.Instance.ShowAntagStatusReport();
+		}
+
+		[ConsoleMethod("antag-remind", "Remind all antags of their own objectives. Server only command")]
+		public static void RemindAntagObjectives()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			Antagonists.AntagManager.Instance.RemindAntags();
 		}
 
 #if UNITY_EDITOR
@@ -440,5 +473,17 @@ namespace IngameDebugConsole
 			}
 		}
 
+
+		[ConsoleMethod("add-admin", "Promotes a user to admin using a user's account ID\nUsage: add-admin <account-id>")]
+		public static void AddAdmin(string userIDToPromote)
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				return;
+			}
+
+			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
+		}
 	}
 }

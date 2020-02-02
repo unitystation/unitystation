@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 3118628355925246483}
   - component: {fileID: 925564419828475077}
   - component: {fileID: -7234190806406616334}
+  - component: {fileID: 8162274126718134943}
   m_Layer: 10
   m_Name: Rack Parts
   m_TagString: Untagged
@@ -99,7 +100,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8301933286516629790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,8 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &7887144931197074431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &4664957552587279702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +231,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 2792980717
 --- !u!114 &925564419828475077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,90 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 19
-    Serialized:
-    - inlistID: 2
-      listID: 3
-      sprite: {fileID: 21300000, guid: 72e2469af48db1a4d9bcde31113fbc5f, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 2
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 4
-      listID: 5
-      sprite: {fileID: 21300002, guid: 72e2469af48db1a4d9bcde31113fbc5f, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 4
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 6
-      listID: 7
-      sprite: {fileID: 21300004, guid: 72e2469af48db1a4d9bcde31113fbc5f, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 6
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 8
-      listID: 9
-      sprite: {fileID: 21300006, guid: 72e2469af48db1a4d9bcde31113fbc5f, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 8
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 1
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 11
-      listID: 12
-      sprite: {fileID: 21300000, guid: 322c32785aded4c4d93edb1591a2ef79, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 11
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 13
-      listID: 14
-      sprite: {fileID: 21300002, guid: 322c32785aded4c4d93edb1591a2ef79, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 13
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 15
-      listID: 16
-      sprite: {fileID: 21300004, guid: 322c32785aded4c4d93edb1591a2ef79, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 15
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 17
-      listID: 18
-      sprite: {fileID: 21300006, guid: 322c32785aded4c4d93edb1591a2ef79, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 17
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 10
-      sprite: {fileID: 0}
-      waitTime: 0
-  spriteList:
-  - {fileID: 21300000, guid: 72e2469af48db1a4d9bcde31113fbc5f, type: 3}
-  - {fileID: 21300000, guid: 322c32785aded4c4d93edb1591a2ef79, type: 3}
 --- !u!114 &-7234190806406616334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +260,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Rack Parts
   initialDescription: Parts of a rack.
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 3
   hitDamage: 0
@@ -343,6 +274,21 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &8162274126718134943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6034371561869202664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}
 --- !u!1 &9210611658135231461
 GameObject:
   m_ObjectHideFlags: 0

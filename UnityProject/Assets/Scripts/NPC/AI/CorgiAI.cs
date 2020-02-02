@@ -43,37 +43,15 @@ public class CorgiAI : MobAI
 
 	void ProcessLocalChat(ChatEvent chatEvent)
 	{
-		var speaker = PlayerList.Instance.Get(chatEvent.speaker, false);
+		var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 
 		if (speaker.Script == null) return;
 		if (speaker.Script.playerNetworkActions == null) return;
 
-		// Check for an ID card (could not find a better solution)
-		IDCard card = null;
-		var playerStorage = speaker.Script.ItemStorage;
-		var idId = playerStorage.GetNamedItemSlot(NamedSlot.id).ItemObject;
-		var handId = playerStorage.GetActiveHandSlot().ItemObject;
-		if (idId != null && idId.GetComponent<IDCard>() != null)
+		if (speaker.Job == JobType.CAPTAIN || speaker.Job == JobType.HOP)
 		{
-			card = idId.GetComponent<IDCard>();
+			StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
 		}
-		else if (handId != null &&
-		         handId.GetComponent<IDCard>() != null)
-		{
-			card = handId.GetComponent<IDCard>();
-		}
-
-		if (card == null) return;
-
-		bool allowCommands = false;
-		foreach (JobType t in allowedToGiveCommands)
-		{
-			if (t == card.JobType) allowCommands = true;
-		}
-
-		if (!allowCommands) return;
-
-		StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
 	}
 
 	IEnumerator PerformVoiceCommand(string msg, ConnectedPlayer speaker)
@@ -183,7 +161,7 @@ public class CorgiAI : MobAI
 				StartCoroutine(ChaseTail(Random.Range(1, 5)));
 				break;
 			case 2:
-				NudgeInDir(Random.Range(1, 9));
+				NudgeInDirection(GetNudgeDirFromInt(Random.Range(0, 8)));
 				break;
 			//case 3 is nothing
 		}

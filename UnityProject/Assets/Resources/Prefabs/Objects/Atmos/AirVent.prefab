@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114798627279048580}
   - component: {fileID: 114511699214781296}
   - component: {fileID: -678374216968888500}
+  - component: {fileID: 8341462466351120766}
   m_Layer: 10
   m_Name: AirVent
   m_TagString: Untagged
@@ -100,7 +101,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6479037130962053368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,8 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &3953549719403137607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114207068481858528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,20 +169,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  registerTile: {fileID: 0}
-  objectBehaviour: {fileID: 0}
-  nodes: []
   direction: 0
-  anchored: 0
+  anchored: 1
   volume: 70
   pipeSprites:
-  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
-  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
+  - {fileID: 21300040, guid: b9e58be60cbc7ce45a1cb2938d57b239, type: 3}
+  - {fileID: 21300040, guid: b9e58be60cbc7ce45a1cb2938d57b239, type: 3}
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   spriteRenderer: {fileID: 8418407404781841632}
-  spriteSync: 0
   MinimumPressure: 101.325
 --- !u!114 &6203799934882642808
 MonoBehaviour:
@@ -271,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
+  m_AssetId: 6123044d3e1847569dcc23e34dd3d3f5
   m_SceneId: 0
 --- !u!114 &-678374216968888500
 MonoBehaviour:
@@ -289,6 +297,9 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Vent
   initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
   initialTraits: []
   initialSize: 1
   hitDamage: 0
@@ -300,6 +311,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+--- !u!114 &8341462466351120766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &8513106460640881890
 GameObject:
   m_ObjectHideFlags: 0

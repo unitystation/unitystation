@@ -28,6 +28,8 @@ public class EmergencyLightAnimator : MonoBehaviour
 		if (_isOn && !isRunningCR)
 		{
 			isOn = _isOn;
+			if (!gameObject.activeInHierarchy) return;
+
 			StartCoroutine(Animate());
 		}
 		else

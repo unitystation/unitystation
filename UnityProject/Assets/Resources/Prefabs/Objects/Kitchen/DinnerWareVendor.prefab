@@ -204,8 +204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 0
   Passable: 0
 --- !u!61 &61926733661208534
@@ -261,6 +261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &8473214172519441615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,11 +277,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VendorContent:
-  - Item: {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
+  - Item: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
     Stock: 5
-  - Item: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
+  - Item: {fileID: 7188868217503671157, guid: d90196f4e6b6a4e4a949960b6fafb464, type: 3}
     Stock: 5
-  - Item: {fileID: 1110193000772614, guid: 252b1325bc181714a9aaadbaf3c8147d, type: 3}
+  - Item: {fileID: 7188868217503671157, guid: ecdfcc2ad92d8b846a04f0b050fdf377, type: 3}
     Stock: 5
   HullColor: {r: 0.42745098, g: 0.62352943, b: 0.7529412, a: 1}
   EjectObjects: 0
@@ -358,5 +361,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e062be43b6f3a44d8be77756383e6bc8
+  m_AssetId: 
   m_SceneId: 0

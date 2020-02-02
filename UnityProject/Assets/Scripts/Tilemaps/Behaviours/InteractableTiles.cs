@@ -82,11 +82,11 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	/// </summary>
 	/// <param name="worldPos"></param>
 	/// <returns></returns>
-	public LayerTile LayerTileAt(Vector2 worldPos)
+	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
 	{
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
 
-		return metaTileMap.GetTile(pos);
+		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
 	}
 
 

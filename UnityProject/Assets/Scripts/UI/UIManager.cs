@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
 	public BookshelfViewer BookshelfViewer;
+	public GUI_TextInputDialog TextInputDialog;
 	public ControlAction actionControl;
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
@@ -212,7 +213,7 @@ public class UIManager : MonoBehaviour
 
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
 	}
-	
+
 	private void Update()
 	{
 		//Read out of ping in toolTip
@@ -352,6 +353,8 @@ public class UIManager : MonoBehaviour
 		if (!progressAction.OnServerStartProgress(startProgressInfo))
 		{
 			//stop it without even having started it
+			Logger.LogTraceFormat("Server cancelling progress start, OnServerStartProgress=false for {0}", Category.ProgressAction,
+				startProgressInfo);
 			Despawn.ClientSingle(barObject);
 			return null;
 		}
@@ -359,6 +362,9 @@ public class UIManager : MonoBehaviour
 
 		progressBar._ServerStartProgress(progressAction, startProgressInfo);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
+
+		Logger.LogTraceFormat("Server started progress bar {0} for {1}", Category.ProgressAction, progressBar.ID,
+			startProgressInfo);
 
 		return progressBar;
 	}

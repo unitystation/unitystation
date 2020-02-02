@@ -65,8 +65,10 @@ public class GasContainerEditor : Editor
 		}
 
 		container.UpdateGasMix();
-
-		EditorUtility.SetDirty(container);
+		if (GUI.changed)
+		{
+			EditorUtility.SetDirty(container);
+		}
 	}
 
 	private void AbsolutSelection()

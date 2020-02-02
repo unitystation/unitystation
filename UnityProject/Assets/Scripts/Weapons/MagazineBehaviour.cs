@@ -15,7 +15,8 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 	(server thinks we've only shot once when we've already shot thrice). So instead
 	we keep our own private ammo count (clientAmmoRemains) and only sync it up with the server when we need it
 	*/
-	[SyncVar] private int serverAmmoRemains = -1;
+	[SyncVar]
+	private int serverAmmoRemains = -1;
 	private int clientAmmoRemains;
 
 	/// <summary>
@@ -29,7 +30,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 	/// </summary>
 	public int ClientAmmoRemains => Math.Min(clientAmmoRemains, serverAmmoRemains);
 
-	public string ammoType; //SET IT IN INSPECTOR
+	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
 
 	/// <summary>
@@ -93,7 +94,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 			//value to what the server thinks. This can happen when client has just picked up a gun that already has
 			//spent ammo, as their count is not synced unless they are the one shooting.
 			Logger.LogWarningFormat("Unusual ammo mismatch client {0} server {1}, syncing back to server" +
-			                        " value.", Category.Firearms, clientAmmoRemains, serverAmmoRemains);
+									" value.", Category.Firearms, clientAmmoRemains, serverAmmoRemains);
 			SyncPredictionWithServer();
 		}
 
@@ -102,7 +103,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 			if (ServerAmmoRemains <= 0)
 			{
 				Logger.LogWarning("Server ammo count is already zero, cannot expend more ammo. Make sure" +
-				                  " to check ammo count before expending it.", Category.Firearms);
+								  " to check ammo count before expending it.", Category.Firearms);
 			}
 			else
 			{
@@ -113,7 +114,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 		if (ClientAmmoRemains <= 0)
 		{
 			Logger.LogWarning("Client ammo count is already zero, cannot expend more ammo. Make sure" +
-			                  " to check ammo count before expending it.", Category.Firearms);
+							  " to check ammo count before expending it.", Category.Firearms);
 		}
 		else
 		{
@@ -146,4 +147,21 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
 		return currentRNG;
 	}
+}
+
+public enum AmmoType
+{
+	_12mm,
+	_5Point56mm,
+	_9mm,
+	_38,
+	_46x30mmtT,
+	_50mm,
+	_357mm,
+	A762,
+	FusionCells,
+	Slug,
+	smg9mm,
+	Syringe,
+	uzi9mm
 }

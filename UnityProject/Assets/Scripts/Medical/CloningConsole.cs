@@ -13,7 +13,7 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 	public delegate void ChangeEvent();
 	public static event ChangeEvent changeEvent;
 
-	private List<CloningRecord> cloningRecords;
+	private List<CloningRecord> cloningRecords = new List<CloningRecord>();
 
 	private DNAscanner scanner;
 	/// <summary>
@@ -47,7 +47,6 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 		cloningPod = null;
 		consoleGUI = null;
 		//TODO: Support persistance of this info somewhere, such as to a circuit board.
-		cloningRecords = new List<CloningRecord>();
 		//scan for adjacent dna scanner and cloning pod
 		scanner = MatrixManager.GetAdjacent<DNAscanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
 		cloningPod = MatrixManager.GetAdjacent<CloningPod>(registerTile.WorldPositionServer, true).FirstOrDefault();
@@ -73,7 +72,7 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 			var mob = scanner.occupant;
 			var mobID = scanner.occupant.mobID;
 			var playerScript = mob.GetComponent<PlayerScript>();
-			if(playerScript.mind.bodyMobID != mobID)
+			if(playerScript?.mind?.bodyMobID != mobID)
 			{
 				return;
 			}

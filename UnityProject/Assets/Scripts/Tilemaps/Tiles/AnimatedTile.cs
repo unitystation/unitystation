@@ -7,6 +7,7 @@ public class AnimatedTile : BasicTile
 	public Sprite[] Sprites;
 	public float AnimationSpeed = 1f;
 	public float AnimationStartTime = 0;
+	public bool randomizeStartTime;
 
 	public override Sprite PreviewSprite => Sprites.Length > 0 ? Sprites[0] : null;
 
@@ -14,7 +15,14 @@ public class AnimatedTile : BasicTile
 	{
 		tileAnimationData.animatedSprites = Sprites;
 		tileAnimationData.animationSpeed = AnimationSpeed;
-		tileAnimationData.animationStartTime = AnimationStartTime;
+		if (!randomizeStartTime)
+		{
+			tileAnimationData.animationStartTime = AnimationStartTime;
+		}
+		else
+		{
+			tileAnimationData.animationStartTime = Random.Range(0f, 10f);
+		}
 
 		return true;
 	}

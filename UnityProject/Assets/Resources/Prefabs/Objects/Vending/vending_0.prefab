@@ -107,6 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114445863860112362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,9 +123,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VendorContent:
-  - Item: {fileID: 1110193000772614, guid: 22bc59024142b461aa3cf4ec2174f50e, type: 3}
+  - Item: {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5, type: 3}
     Stock: 5
-  - Item: {fileID: 1110193000772614, guid: d4b80359e4f4b40868cfc0bd10b94ae1, type: 3}
+  - Item: {fileID: 6602018046170396259, guid: 39e20df1f39056c4b84baec3bf74fb5c, type: 3}
     Stock: 5
   HullColor: {r: 0.39607844, g: 0.52156866, b: 0.27450982, a: 1}
   EjectObjects: 0

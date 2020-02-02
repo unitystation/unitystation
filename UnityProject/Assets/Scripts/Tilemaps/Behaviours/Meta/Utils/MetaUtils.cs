@@ -28,7 +28,8 @@ namespace Tilemaps.Behaviours.Meta
 		{
 			for (var i = 0; i < node.Neighbors.Length; i++)
 			{
-				node.Neighbors[i]?.AddNeighbor(node);
+				//your node is above neighbor? then neighbor is below your node. Directions[i+2] does exactly that
+				node.Neighbors[i]?.AddNeighbor(node, Directions.Wrap(i+2));
 			}
 		}
 

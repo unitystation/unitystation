@@ -243,7 +243,7 @@ namespace Atmospherics
 
 		public override string ToString()
 		{
-			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume * 1000} L";
+			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume}m^3 ";
 		}
 
 		private void Recalculate()

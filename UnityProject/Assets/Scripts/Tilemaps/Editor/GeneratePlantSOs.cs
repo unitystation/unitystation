@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor;
 using Newtonsoft.Json;
-using System.IO;
 
 public class GeneratePlantSOs : EditorWindow
 {
@@ -34,16 +32,18 @@ public class GeneratePlantSOs : EditorWindow
 			var plantdata = new PlantData();
 			plantdata.ProduceObject = food;
 			plantdata.Name = plat["name"] as string;
-			if (plat.ContainsKey("plantname")){
+			if (plat.ContainsKey("plantname"))
+			{
 				plantdata.Plantname = plat["plantname"] as string;
 			}
 			plantdata.Description = plat["Description"] as string;
-			var seed_packet = ""; 
+			var seed_packet = "";
 			if (plat.ContainsKey("species"))
 			{
 				seed_packet = (plat["species"] as string);
 			}
-			else { 
+			else
+			{
 				seed_packet = (plat["seed_packet"] as string);
 				if (seed_packet.Contains("seed-"))
 				{
@@ -54,22 +54,23 @@ public class GeneratePlantSOs : EditorWindow
 					seed_packet = seed_packet.Replace("mycelium-", "");
 				}
 			}
-				
+
 			//
 			Logger.Log(seed_packet);
 			//Logger.Log(plat["seed_packet"] as string);
 			//Logger.Log("harvest_" + seed_packet);
 
 			plantdata.PacketsSprite = new SpriteSheetAndData();
-			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\seeds_" + (plat["seed_packet"] as string)+ ".png", typeof(Texture2D)) as Texture2D);
+			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\seeds_" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
 			plantdata.PacketsSprite.setSprites();
 
 			plantdata.ProduceSprite = new SpriteSheetAndData();
-			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet+ ".png", typeof(Texture2D)) as Texture2D);
+			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + ".png", typeof(Texture2D)) as Texture2D);
 
 			//Application.dataPath
-			if (plantdata.ProduceSprite.Texture == null) { 
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet+"pile"+ ".png", typeof(Texture2D)) as Texture2D);
+			if (plantdata.ProduceSprite.Texture == null)
+			{
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "pile" + ".png", typeof(Texture2D)) as Texture2D);
 			}
 			if (plantdata.ProduceSprite.Texture == null)
 			{
@@ -82,13 +83,14 @@ public class GeneratePlantSOs : EditorWindow
 				{
 					EEEseed_packet = EEEseed_packet.Replace("mycelium-", "");
 				}
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet+ ".png", typeof(Texture2D)) as Texture2D);
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet + ".png", typeof(Texture2D)) as Texture2D);
 				if (plantdata.ProduceSprite.Texture == null)
-				{					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet+"s"+ ".png", typeof(Texture2D)) as Texture2D);
+				{
+					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet + "s" + ".png", typeof(Texture2D)) as Texture2D);
 				}
 				if (plantdata.ProduceSprite.Texture == null)
 				{
-					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "s"+".png", typeof(Texture2D)) as Texture2D);
+					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "s" + ".png", typeof(Texture2D)) as Texture2D);
 				}
 			}
 			plantdata.ProduceSprite.setSprites();
@@ -135,7 +137,8 @@ public class GeneratePlantSOs : EditorWindow
 							}
 
 						}
-						else {
+						else
+						{
 							//Logger.Log("got DeadSprite");
 
 							//var _ListFile = ListFile.Replace(".png", "");
@@ -148,7 +151,8 @@ public class GeneratePlantSOs : EditorWindow
 					}
 
 				}
-				if (plantdata.FullyGrownSprite == null){
+				if (plantdata.FullyGrownSprite == null)
+				{
 					if (plantdata.GrowthSprites.Count > 0)
 					{
 						plantdata.FullyGrownSprite = plantdata.GrowthSprites[plantdata.GrowthSprites.Count - 1];
@@ -258,16 +262,19 @@ public class GeneratePlantSOs : EditorWindow
 				PlantDictionaryObject[plantdata.Name] = plat["mutates_into"];
 			}
 
-	
+
 			//\\Logger.Log(plantdata.GrowthSprites.Count.ToString());
 		}
 
 
-		foreach (var pant in PlantDictionary) {
+		foreach (var pant in PlantDictionary)
+		{
 			if (PlantDictionaryObject.ContainsKey(pant.Value.plantData.Name))
 			{
 				var Mutations = JsonConvert.DeserializeObject<List<string>>(PlantDictionaryObject[pant.Value.plantData.Name].ToString());
-				foreach (var Mutation in Mutations) {					if (Mutation.Length != 0)
+				foreach (var Mutation in Mutations)
+				{
+					if (Mutation.Length != 0)
 					{
 						if (PlantDictionary[Mutation] != null)
 						{
@@ -277,10 +284,11 @@ public class GeneratePlantSOs : EditorWindow
 
 
 
-						if (PlantDictionary[Mutation].plantData.DeadSprite?.Texture == null) {
+						if (PlantDictionary[Mutation].plantData.DeadSprite?.Texture == null)
+						{
 
 							if (pant.Value.plantData.DeadSprite?.Texture != null)
-							{ 
+							{
 								PlantDictionary[Mutation].plantData.DeadSprite = new SpriteSheetAndData();
 								PlantDictionary[Mutation].plantData.DeadSprite.Texture = pant.Value.plantData.DeadSprite.Texture;
 								PlantDictionary[Mutation].plantData.DeadSprite.setSprites();
@@ -297,34 +305,39 @@ public class GeneratePlantSOs : EditorWindow
 			}
 		}
 		foreach (var pant in PlantDictionary)
-		{ 
+		{
 			AssetDatabase.CreateAsset(pant.Value, @"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset");
-		} 
+		}
 	}
 
-	public static void MutationComparison(DefaultPlantData f_rom, DefaultPlantData to) {
-		if (f_rom.plantData.WeedResistance != to.plantData.WeedResistance) { 
+	public static void MutationComparison(DefaultPlantData f_rom, DefaultPlantData to)
+	{
+		if (f_rom.plantData.WeedResistance != to.plantData.WeedResistance)
+		{
 			to.WeedResistanceChange = to.plantData.WeedResistance = f_rom.plantData.WeedResistance;
 
 		}
 		if (f_rom.plantData.WeedGrowthRate != to.plantData.WeedGrowthRate)
-		{			to.WeedGrowthRateChange = to.plantData.WeedGrowthRate = f_rom.plantData.WeedGrowthRate;
+		{
+			to.WeedGrowthRateChange = to.plantData.WeedGrowthRate = f_rom.plantData.WeedGrowthRate;
 		}
 		if (f_rom.plantData.GrowthSpeed != to.plantData.GrowthSpeed)
-		{			to.GrowthSpeedChange = to.plantData.GrowthSpeed = f_rom.plantData.GrowthSpeed;
+		{
+			to.GrowthSpeedChange = to.plantData.GrowthSpeed = f_rom.plantData.GrowthSpeed;
 		}
 		if (f_rom.plantData.Potency != to.plantData.Potency)
-		{			to.PotencyChange = to.plantData.Potency = f_rom.plantData.Potency;
+		{
+			to.PotencyChange = to.plantData.Potency = f_rom.plantData.Potency;
 		}
-			if (f_rom.plantData.Endurance != to.plantData.Endurance)
+		if (f_rom.plantData.Endurance != to.plantData.Endurance)
 		{
 			to.EnduranceChange = to.plantData.Endurance = f_rom.plantData.Endurance;
 		}
-			if (f_rom.plantData.Yield != to.plantData.Yield)
+		if (f_rom.plantData.Yield != to.plantData.Yield)
 		{
 			to.YieldChange = to.plantData.Yield = f_rom.plantData.Yield;
 		}
-			if (f_rom.plantData.Lifespan != to.plantData.Lifespan)
+		if (f_rom.plantData.Lifespan != to.plantData.Lifespan)
 		{
 			to.LifespanChange = to.plantData.Lifespan = f_rom.plantData.Lifespan;
 		}
@@ -333,9 +346,12 @@ public class GeneratePlantSOs : EditorWindow
 		{
 			to.LifespanChange = to.plantData.Lifespan = f_rom.plantData.Lifespan;
 		}
-		if (f_rom.plantData.PlantTrays != to.plantData.PlantTrays) {
-			foreach (var PlantTray in f_rom.plantData.PlantTrays) {
-				if (!to.plantData.PlantTrays.Contains(PlantTray)) {
+		if (f_rom.plantData.PlantTrays != to.plantData.PlantTrays)
+		{
+			foreach (var PlantTray in f_rom.plantData.PlantTrays)
+			{
+				if (!to.plantData.PlantTrays.Contains(PlantTray))
+				{
 					to.RemovePlantTrays.Add(PlantTray);
 				}
 			}

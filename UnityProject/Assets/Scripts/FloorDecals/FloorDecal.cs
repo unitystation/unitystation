@@ -50,7 +50,7 @@ public class FloorDecal : NetworkBehaviour
 
 	private void SyncChosenSprite(int _chosenSprite)
 	{
-		chosenSprite = chosenSprite;
+		chosenSprite = _chosenSprite;
 		if (PossibleSprites != null && PossibleSprites.Length > 0)
 		{
 			spriteRenderer.sprite = PossibleSprites[chosenSprite];

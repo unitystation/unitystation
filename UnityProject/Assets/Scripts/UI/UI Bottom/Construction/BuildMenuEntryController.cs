@@ -62,7 +62,15 @@ namespace UI.UI_Bottom
 			entryName.text = null;
 			materialCost.text = null;
 
-			entry.Prefab.PopulateImageSprites(image, secondaryImage);
+			if (entry.Prefab)
+			{
+				entry.Prefab.PopulateImageSprites(image, secondaryImage);
+			}
+			else
+			{
+				Logger.LogError($"Construction Entry {entry.Name} doesn't use prefab");
+			}
+
 			entryName.text = entry.Name;
 
 			buildingMaterial.gameObject.PopulateImageSprites(materialImage, materialSecondaryImage);

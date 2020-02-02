@@ -517,6 +517,9 @@ public static class ElectricalSynchronisation
 	{
 		//Logger.Log("CircuitSearchLoop Enter", Category.Electrical);
 		GameObject GameObject = Thiswire.GameObject();
+
+		if (GameObject == null) return;
+
 		InputOutputFunctions.DirectionOutput(GameObject, Thiswire);
 		bool Break = true;
 		while (Break)

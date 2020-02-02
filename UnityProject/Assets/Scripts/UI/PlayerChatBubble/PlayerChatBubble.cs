@@ -15,7 +15,7 @@ public class PlayerChatBubble : MonoBehaviour
 {
 	[SerializeField]
 	[Tooltip("The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
-	[Range(1,200)]
+	[Range(1, 200)]
 	private int maxMessageLength = 70;
 
 	[Header("Size of chat bubble")]
@@ -58,14 +58,26 @@ public class PlayerChatBubble : MonoBehaviour
 	}
 
 	[SerializeField]
+	[Tooltip("The default font used when speaking.")]
+	private TMP_FontAsset fontDefault;
+
+	[SerializeField]
+	[Tooltip("The font used when the player is an abominable clown.")]
+	private TMP_FontAsset fontClown;
+
+	[SerializeField]
 	private ChatIcon chatIcon;
 	[SerializeField]
-	private GameObject chatBubble;
+	private GameObject chatBubble = null;
 	[SerializeField]
 	private TextMeshProUGUI bubbleText;
 	[SerializeField]
 	private GameObject pointer;
-	class BubbleMsg { public float maxTime; public string msg; public float elapsedTime = 0f; }
+	class BubbleMsg
+	{
+		public float maxTime; public string msg; public float elapsedTime = 0f;
+		internal ChatModifier modifier;
+	}
 	private Queue<BubbleMsg> msgQueue = new Queue<BubbleMsg>();
 	private bool showingDialogue = false;
 
@@ -75,9 +87,37 @@ public class PlayerChatBubble : MonoBehaviour
 	private RectTransform chatBubbleRectTransform;
 
 	/// <summary>
-	/// The type of the current chat bubble.
+	/// Multiplies the elapse of display time per character left in the msgQueue (after the first element).
 	/// </summary>
-	private BubbleType bubbleType = BubbleType.normal;
+	private static float displayTimeMultiplierPerSecond = 0.09f;
+
+	/// <summary>
+	/// Multiplies the elapse of display time. A value of 1.5 would make time elapse 1.5 times as fast. 1 is normal speed.
+	/// </summary>
+	private float displayTimeMultiplier;
+
+	/// <summary>
+	/// Minimum time a bubble's text will be visible on-screen.
+	/// </summary>
+	private const float displayTimeMin = 1.8f;
+
+	/// <summary>
+	/// Maximum time a bubble's text will be visible on-screen.
+	/// </summary>
+	private const float displayTimeMax = 15f;
+
+	/// <summary>
+	/// Seconds required to display a single character.
+	/// Approximately 102 WPM / 510 CPM with a value of 0.12f
+	/// </summary>
+	private const float displayTimePerCharacter = 0.12f;
+
+	/// <summary>
+	/// When calculating the time it will take to display all chat bubbles in the queue,
+	/// each bubble is considered to have this many additional characters.
+	/// This causes the queue to be displayed more quickly based on its length.
+	/// </summary>
+	private const float displayTimeCharactersPerBubble = 10f;
 
 	void Start()
 	{
@@ -124,40 +164,26 @@ public class PlayerChatBubble : MonoBehaviour
 		}
 	}
 
-	public void DetermineChatVisual(bool toggle, string message, ChatChannel chatChannel)
+	public void DetermineChatVisual(bool toggle, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!UseChatBubble())
 		{
-			chatIcon.ToggleChatIcon(toggle);
+			chatIcon.ToggleChatIcon(toggle, chatModifier);
 		}
 		else
 		{
-			AddChatBubbleMsg(message, chatChannel);
+			AddChatBubbleMsg(message, chatChannel, chatModifier);
 		}
 	}
 
-	/// <summary>
-	/// Determines the bubble type appropriate from the given message.
-	/// Refer to BubbleType for further information.
-	/// </summary>
-	/// <param name="msg"></param>
-	private BubbleType GetBubbleType(string msg)
+	private void AddChatBubbleMsg(string msg, ChatChannel channel, ChatModifier chatModifier)
 	{
-		if (msg.Substring(0, 1).Equals("#")){
-			return BubbleType.whisper;
-		}
-		if (msg.EndsWith("!!") || ((msg.ToUpper(CultureInfo.InvariantCulture) == msg) && msg.Any(System.Char.IsLetter)))
+		// Cancel right away if the player cannot speak.
+		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute)
 		{
-			return BubbleType.caps;
+			return;
 		}
-		// TODO Clown occupation check & Somic Sans.
 
-		return BubbleType.normal;
-	}
-
-
-	private void AddChatBubbleMsg(string msg, ChatChannel channel)
-	{
 		if (msg.Length > maxMessageLength)
 		{
 			while (msg.Length > maxMessageLength)
@@ -173,24 +199,27 @@ public class PlayerChatBubble : MonoBehaviour
 					}
 				}
 				//Player is spamming with no whitespace. Cut it up
-				if (ws == -1 || ws == 0)ws = maxMessageLength + 2;
+				if (ws == -1 || ws == 0) ws = maxMessageLength + 2;
 
 				var split = msg.Substring(0, ws);
-				msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(split.Length), msg = split });
+				msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(split.Length), msg = split, modifier = chatModifier });
 
 				msg = msg.Substring(ws + 1);
 				if (msg.Length <= maxMessageLength)
 				{
-					msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg });
+					msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg, modifier = chatModifier });
 				}
 			}
 		}
 		else
 		{
-			msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg });
+			msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg, modifier = chatModifier });
 		}
 
-		if (!showingDialogue)StartCoroutine(ShowDialogue());
+		// Progress quickly through the queue if there is a lot of text left.
+		displayTimeMultiplier = 1 + TimeToShow(msgQueue) * displayTimeMultiplierPerSecond;
+
+		if (!showingDialogue) StartCoroutine(ShowDialogue());
 	}
 
 	IEnumerator ShowDialogue()
@@ -201,14 +230,14 @@ public class PlayerChatBubble : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 			yield break;
 		}
-		var b = msgQueue.Dequeue();
-		SetBubbleParameters(b.msg);
+		BubbleMsg msg = msgQueue.Dequeue();
+		SetBubbleParameters(msg.msg, msg.modifier);
 
 		while (showingDialogue)
 		{
 			yield return WaitFor.EndOfFrame;
-			b.elapsedTime += Time.deltaTime;
-			if (b.elapsedTime >= b.maxTime)
+			msg.elapsedTime += Time.deltaTime;
+			if (msg.elapsedTime * displayTimeMultiplier >= msg.maxTime && msg.elapsedTime >= displayTimeMin)
 			{
 				if (msgQueue.Count == 0)
 				{
@@ -218,8 +247,8 @@ public class PlayerChatBubble : MonoBehaviour
 				}
 				else
 				{
-					b = msgQueue.Dequeue();
-					SetBubbleParameters(b.msg);
+					msg = msgQueue.Dequeue();
+					SetBubbleParameters(msg.msg, msg.modifier);
 				}
 			}
 		}
@@ -228,36 +257,39 @@ public class PlayerChatBubble : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Sets the text, style and size of the bubble to match the message's vocalization.
+	/// Sets the text, style and size of the bubble to match the message's modifier.
 	/// </summary>
 	/// <param name="msg"> Player's chat message </param>
-	private void SetBubbleParameters(string msg)
+	private void SetBubbleParameters(string msg, ChatModifier modifiers)
 	{
-		// Set up
-		bubbleType = GetBubbleType(msg);
+		// Set default chat bubble values. Are overwritten by modifiers.
+		bubbleSize = bubbleSizeNormal;
+		bubbleText.fontStyle = FontStyles.Normal;
+		bubbleText.font = fontDefault;
 
 		// Determine type
-		switch (bubbleType)
+		if ((modifiers & ChatModifier.Emote) == ChatModifier.Emote)
 		{
-			case BubbleType.caps:
-				bubbleSize = bubbleSizeCaps;
-				bubbleText.fontStyle = FontStyles.Bold;
-				break;
-			case BubbleType.whisper:
-				bubbleSize = bubbleSizeWhisper;
-				bubbleText.fontStyle = FontStyles.Italic;
-				msg = msg.Substring(1); // Remove the # symbol from bubble
-				break;
-			case BubbleType.clown:
-				// TODO Implement clown-specific bubble values.
-				bubbleSize = bubbleSizeNormal;
-				bubbleText.fontStyle = FontStyles.Normal;
-				break;
-			case BubbleType.normal:
-			default:
-				bubbleSize = bubbleSizeNormal;
-				bubbleText.fontStyle = FontStyles.Normal;
-				break;
+			bubbleText.fontStyle = FontStyles.Italic;
+			// TODO Differentiate emoting from whispering (e.g. rectangular box instead of speech bubble)
+		}
+		else if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
+		{
+			bubbleSize = bubbleSizeWhisper;
+			bubbleText.fontStyle = FontStyles.Italic;
+			// TODO Differentiate emoting from whispering (e.g. dotted line around text)
+
+		}
+		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
+		{
+			bubbleSize = bubbleSizeCaps;
+			bubbleText.fontStyle = FontStyles.Bold;
+		}
+
+		if ((modifiers & ChatModifier.Clown) == ChatModifier.Clown)
+		{
+			bubbleText.font = fontClown;
+			bubbleText.UpdateFontAsset();
 		}
 
 		// Apply values
@@ -282,7 +314,26 @@ public class PlayerChatBubble : MonoBehaviour
 	/// </summary>
 	private float TimeToShow(int charCount)
 	{
-		return Mathf.Clamp((float)charCount / 10f, 2.5f, 10f);
+		return Mathf.Clamp((float)charCount * displayTimePerCharacter, displayTimeMin, displayTimeMax);
+	}
+
+	/// <summary>
+	/// Calculates the time required to display the message queue.
+	/// The first message is excluded.
+	/// Each bubble is also counted how have a bunch of "fake" characters (displayTimeCharactersPerBubble)
+	/// to reduce the delay between each bubble.
+	/// </summary>
+	/// <param name="queue">The current message queue. The first element will be excluded!</param>
+	/// <returns>Time required to display the queue (without the first element).</returns>
+	private float TimeToShow(Queue<BubbleMsg> queue)
+	{
+		float total = 0;
+		foreach (BubbleMsg msg in queue.Skip(1))
+		{
+			total += msg.maxTime;
+			total += displayTimePerCharacter * displayTimeCharactersPerBubble;
+		}
+		return total;
 	}
 
 	/// <summary>

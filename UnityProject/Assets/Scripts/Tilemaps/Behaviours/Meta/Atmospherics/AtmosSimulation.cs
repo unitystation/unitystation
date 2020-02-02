@@ -55,29 +55,27 @@ namespace Atmospherics
 
 		private void Update(MetaDataNode node)
 		{
-			nodes.Clear();
-
-			if (!node.IsClosedAirlock)
-			{ //Gases are frozen within closed airlocks
-				nodes.Add(node);
+			//Gases are frozen within closed airlocks or walls
+			if ( node.IsOccupied || node.IsClosedAirlock )
+			{
+				return;
 			}
+
+			nodes.Clear();
+			nodes.Add(node);
 
 			node.AddNeighborsToList(ref nodes);
 
 			bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
-
-			if (node.IsOccupied || node.IsSpace || isPressureChanged)
+			if (isPressureChanged)
 			{
-				if (isPressureChanged)
-				{
-					node.ReactionManager.AddWindEvent(node, windDirection, windForce); //fixme: ass backwards
-				}
+				node.ReactionManager.AddWindEvent( node, windDirection, windForce );
 				Equalize();
+			}
 
-				for (int i = 1; i < nodes.Count; i++)
-				{
-					updateList.Enqueue(nodes[i]);
-				}
+			for (int i = 1; i < nodes.Count; i++)
+			{
+				updateList.Enqueue(nodes[i]);
 			}
 		}
 

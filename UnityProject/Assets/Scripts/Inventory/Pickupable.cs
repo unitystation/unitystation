@@ -117,7 +117,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//hand needs to be empty for pickup
 		if (interaction.HandObject != null) return false;
 		//instead of the base logic, we need to use extended range check for CanApply
-		if (!Validations.CanApply(interaction, side, true, ReachRange.ExtendedServer)) return false;
+		if (!Validations.CanApply(interaction, side, true, ReachRange.Standard)) return false;
+
 		return true;
 	}
 
@@ -259,6 +260,27 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		if (itemSlot != null && itemSlot.LocalUISlot != null)
 		{
 			itemSlot.LocalUISlot.SetSecondaryImage(newSecondaryImage);
+		}
+	}
+
+
+	public void SetPlayerSprites(SpriteData _Info, int _spriteIndex = 0, int _variantIndex = 0)
+	{
+		var equipment = itemSlot.Player.GetComponent<Equipment>();
+		if (equipment == null) return;
+		var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
+		CT.spriteHandler.SetInfo(_Info, _spriteIndex, _variantIndex);
+	}
+
+
+	public void SetPlayerItemsSprites(ItemsSprites _ItemsSprites, int _spriteIndex = 0, int _variantIndex = 0)
+	{
+		if (itemSlot != null)
+		{
+			var equipment = itemSlot.Player.GetComponent<Equipment>();
+			if (equipment == null) return;
+			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
+			CT.SetInHand(_ItemsSprites);
 		}
 	}
 }

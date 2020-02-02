@@ -44,6 +44,12 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerHealth playerHealth;
 	private PlayerSync playerSync;
 
+	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
+	/// <summary>
+	/// Define which piece of clothing are hidden (not rendering) right now
+	/// </summary>
+	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
+
 	[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
 	public LightSprite muzzleFlash;
 
@@ -78,6 +84,8 @@ public class PlayerSprites : MonoBehaviour
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
+			// add listner in case clothing was changed
+			c.OnClothingEquiped += OnClothingEquipped;
 		}
 
 		SetupBodySprites();
@@ -97,8 +105,8 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (ThisCharacter.underwearName != "None")
 		{
-			clothes["underwear"].spriteHandler.Infos = new SpriteData();
-			clothes["underwear"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+			clothes["underwear"].spriteHandler.spriteData = new SpriteData();
+			clothes["underwear"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.Underwear][ThisCharacter.underwearName].Equipped));
 			clothes["underwear"].spriteHandler.PushTexture();
@@ -106,8 +114,8 @@ public class PlayerSprites : MonoBehaviour
 
 		if (ThisCharacter.socksName != "None")
 		{
-			clothes["socks"].spriteHandler.Infos = new SpriteData();
-			clothes["socks"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+			clothes["socks"].spriteHandler.spriteData = new SpriteData();
+			clothes["socks"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.Socks][ThisCharacter.socksName].Equipped));
 			clothes["socks"].spriteHandler.PushTexture();
@@ -117,8 +125,8 @@ public class PlayerSprites : MonoBehaviour
 		if (ThisCharacter.facialHairName != "None")
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.facialHairColor, out var newColor);
-			clothes["beard"].spriteHandler.Infos = new SpriteData();
-			clothes["beard"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+			clothes["beard"].spriteHandler.spriteData = new SpriteData();
+			clothes["beard"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.FacialHair][ThisCharacter.facialHairName].Equipped));
 			clothes["beard"].spriteHandler.SetColor(newColor);
@@ -128,8 +136,8 @@ public class PlayerSprites : MonoBehaviour
 		if (ThisCharacter.hairStyleName != "None")
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.hairColor, out var newColor);
-			clothes["Hair"].spriteHandler.Infos = new SpriteData();
-			clothes["Hair"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+			clothes["Hair"].spriteHandler.spriteData = new SpriteData();
+			clothes["Hair"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
 					PlayerCustomisation.HairStyle][ThisCharacter.hairStyleName].Equipped));
 			clothes["Hair"].spriteHandler.SetColor(newColor);
@@ -159,8 +167,8 @@ public class PlayerSprites : MonoBehaviour
 
 		if (Variant.Torso.Texture != null)
 		{
-			clothes["body_torso"].spriteHandler.Infos = new SpriteData();
-			clothes["body_torso"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.Torso));
+			clothes["body_torso"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_torso"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Torso));
 			clothes["body_torso"].spriteHandler.SetColor(newColor);
 			clothes["body_torso"].spriteHandler.PushTexture();
 		}
@@ -168,9 +176,9 @@ public class PlayerSprites : MonoBehaviour
 
 		if (Variant.LegRight.Texture != null)
 		{
-			clothes["body_rightleg"].spriteHandler.Infos = new SpriteData();
-			clothes["body_rightleg"].spriteHandler.Infos.List
-				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegRight));
+			clothes["body_rightleg"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_rightleg"].spriteHandler.spriteData.List
+				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.LegRight));
 			clothes["body_rightleg"].spriteHandler.SetColor(newColor);
 			clothes["body_rightleg"].spriteHandler.PushTexture();
 		}
@@ -178,18 +186,18 @@ public class PlayerSprites : MonoBehaviour
 
 		if (Variant.LegLeft.Texture != null)
 		{
-			clothes["body_leftleg"].spriteHandler.Infos = new SpriteData();
-			clothes["body_leftleg"].spriteHandler.Infos.List
-				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegLeft));
+			clothes["body_leftleg"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_leftleg"].spriteHandler.spriteData.List
+				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.LegLeft));
 			clothes["body_leftleg"].spriteHandler.SetColor(newColor);
 			clothes["body_leftleg"].spriteHandler.PushTexture();
 		}
 
 		if (Variant.ArmRight.Texture != null)
 		{
-			clothes["body_rightarm"].spriteHandler.Infos = new SpriteData();
-			clothes["body_rightarm"].spriteHandler.Infos.List
-				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmRight));
+			clothes["body_rightarm"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_rightarm"].spriteHandler.spriteData.List
+				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.ArmRight));
 			clothes["body_rightarm"].spriteHandler.SetColor(newColor);
 			clothes["body_rightarm"].spriteHandler.PushTexture();
 		}
@@ -197,9 +205,9 @@ public class PlayerSprites : MonoBehaviour
 
 		if (Variant.ArmLeft.Texture != null)
 		{
-			clothes["body_leftarm"].spriteHandler.Infos = new SpriteData();
-			clothes["body_leftarm"].spriteHandler.Infos.List
-				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmLeft));
+			clothes["body_leftarm"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_leftarm"].spriteHandler.spriteData.List
+				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.ArmLeft));
 			clothes["body_leftarm"].spriteHandler.SetColor(newColor);
 			clothes["body_leftarm"].spriteHandler.PushTexture();
 		}
@@ -207,8 +215,8 @@ public class PlayerSprites : MonoBehaviour
 
 		if (Variant.Head.Texture != null)
 		{
-			clothes["body_head"].spriteHandler.Infos = new SpriteData();
-			clothes["body_head"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.Head));
+			clothes["body_head"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_head"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Head));
 			clothes["body_head"].spriteHandler.SetColor(newColor);
 			clothes["body_head"].spriteHandler.PushTexture();
 		}
@@ -216,9 +224,9 @@ public class PlayerSprites : MonoBehaviour
 
 		if (Variant.HandRight.Texture != null)
 		{
-			clothes["body_right_hand"].spriteHandler.Infos = new SpriteData();
-			clothes["body_right_hand"].spriteHandler.Infos.List
-				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandRight));
+			clothes["body_right_hand"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_right_hand"].spriteHandler.spriteData.List
+				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.HandRight));
 			clothes["body_right_hand"].spriteHandler.SetColor(newColor);
 			clothes["body_right_hand"].spriteHandler.PushTexture();
 		}
@@ -226,9 +234,9 @@ public class PlayerSprites : MonoBehaviour
 
 		if (Variant.HandLeft.Texture != null)
 		{
-			clothes["body_left_hand"].spriteHandler.Infos = new SpriteData();
-			clothes["body_left_hand"].spriteHandler.Infos.List
-				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandLeft));
+			clothes["body_left_hand"].spriteHandler.spriteData = new SpriteData();
+			clothes["body_left_hand"].spriteHandler.spriteData.List
+				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.HandLeft));
 			clothes["body_left_hand"].spriteHandler.SetColor(newColor);
 			clothes["body_left_hand"].spriteHandler.PushTexture();
 		}
@@ -236,8 +244,8 @@ public class PlayerSprites : MonoBehaviour
 		ColorUtility.TryParseHtmlString(ThisCharacter.eyeColor, out newColor);
 		if (Variant.Eyes.Texture != null)
 		{
-			clothes["eyes"].spriteHandler.Infos = new SpriteData();
-			clothes["eyes"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.Eyes));
+			clothes["eyes"].spriteHandler.spriteData = new SpriteData();
+			clothes["eyes"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Eyes));
 			clothes["eyes"].spriteHandler.SetColor(newColor);
 			clothes["eyes"].spriteHandler.PushTexture();
 		}
@@ -367,6 +375,56 @@ public class PlayerSprites : MonoBehaviour
 	{
 		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
 	}
+
+
+	private void OnClothingEquipped(ClothingV2 clothing, bool isEquiped)
+	{
+		//Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
+
+		// if new clothes equiped, add new hide flags
+		if (isEquiped)
+			hideClothingFlags |= clothing.HideClothingFlags;
+		// if player get off old clothes, we need to remove old flags
+		else
+			hideClothingFlags ^= clothing.HideClothingFlags;
+
+		// Update hide flags
+		ValidateHideFlags();
+	}
+
+	private void ValidateHideFlags()
+	{
+		// Need to check all flags with their gameobject names...
+		// TODO: it should be done much easier
+		ValidateHideFlag(ClothingHideFlags.HIDE_GLOVES, "hands");
+		ValidateHideFlag(ClothingHideFlags.HIDE_JUMPSUIT, "uniform");
+		ValidateHideFlag(ClothingHideFlags.HIDE_SHOES, "feet");
+		ValidateHideFlag(ClothingHideFlags.HIDE_MASK, "mask");
+		ValidateHideFlag(ClothingHideFlags.HIDE_EARS, "ear");
+		ValidateHideFlag(ClothingHideFlags.HIDE_EYES, "eyes");
+		ValidateHideFlag(ClothingHideFlags.HIDE_FACE, "face");
+		ValidateHideFlag(ClothingHideFlags.HIDE_HAIR, "Hair");
+		ValidateHideFlag(ClothingHideFlags.HIDE_FACIALHAIR, "beard");
+		ValidateHideFlag(ClothingHideFlags.HIDE_NECK, "neck");
+
+		// TODO: Not implemented yet?
+		//ValidateHideFlag(ClothingHideFlags.HIDE_SUITSTORAGE, "suit_storage");
+	}
+
+	private void ValidateHideFlag(ClothingHideFlags hideFlag, string name)
+	{
+		// Check if dictionary has entry about such clothing item name
+		if (!clothes.ContainsKey(name))
+		{
+			Logger.LogError($"Can't find {name} clothingItem linked to {hideFlag}");
+			return;
+		}
+
+		// Enable or disable based on hide flag
+		var isVisible = !hideClothingFlags.HasFlag(hideFlag);
+		clothes[name].gameObject.SetActive(isVisible);
+	}
+
 }
 
 public enum ClothingSprite

@@ -136,6 +136,12 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+	[Server]
+	public LayerTile GetLayerTile(Vector3Int cellPosition, LayerType layerType)
+	{
+		return metaTileMap.GetTile(cellPosition, layerType);
+	}
+
 	[ClientRpc]
 	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
 	{
@@ -161,25 +167,18 @@ public class TileChangeManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
-		if ( isServer )
+		if (isServer)
 		{
 			return;
 		}
+
 		InternalUpdateTile(position, tileType, tileName);
 	}
 
 	private void InternalUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
-
-		if (tileType == TileType.WindowDamaged)
-		{
-			position.z -= 1;
-		}
-
-		Vector3Int p = position.RoundToInt();
-
-		metaTileMap.SetTile(p, layerTile);
+		metaTileMap.SetTile(position.RoundToInt(), layerTile);
 	}
 
 	private void InternalUpdateTile(Vector3 position, LayerTile layerTile)

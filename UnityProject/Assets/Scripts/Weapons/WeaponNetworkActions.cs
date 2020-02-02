@@ -122,8 +122,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
+				attackSoundName = "";
 				var worldPos = (Vector2)transform.position + attackDirection;
-				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos);
+				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
 				tileMapDamage.DoMeleeDamage(worldPos,
 					gameObject, (int)damage);
 				didHit = true;
@@ -169,7 +170,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		//common logic to do if we hit something
 		if (didHit)
 		{
-			SoundManager.PlayNetworkedAtPos(attackSoundName, transform.position);
+			if (!string.IsNullOrEmpty(attackSoundName))
+			{
+				SoundManager.PlayNetworkedAtPos(attackSoundName, transform.position);
+			}
+
 			if (damage > 0)
 			{
 				Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon, attackedTile: attackedTile);

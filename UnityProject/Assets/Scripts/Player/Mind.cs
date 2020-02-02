@@ -12,7 +12,7 @@ public class Mind
 	public Occupation occupation;
 	public PlayerScript ghost;
 	public PlayerScript body;
-	private Antagonist Antag;
+	private SpawnedAntag Antag;
 	public bool IsAntag => Antag !=null;
 	public bool IsGhosting;
 	public bool DenyCloning;
@@ -44,12 +44,11 @@ public class Mind
 	}
 
 	/// <summary>
-	/// Make this mind a specific antag type
+	/// Make this mind a specific spawned antag
 	/// </summary>
-	public void SetAntag(Antagonist newAntag)
+	public void SetAntag(SpawnedAntag newAntag)
 	{
 		Antag = newAntag;
-		Antag.Owner = this;
 		ShowObjectives();
 	}
 
