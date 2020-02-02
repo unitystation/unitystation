@@ -528,11 +528,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	public void NotifyPlayers()
 	{
-		if (gameObject == null) return; //sometimes between round restarts a call might be made on an object being destroyed
+		//we check this == null to ensure this component hasn't been destroyed, sometimes
+		//this can get called before an object has been fully destroyed
+		if (this == null || gameObject == null) return; //sometimes between round restarts a call might be made on an object being destroyed
 
 		//	Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
 		SyncMatrix();
-		
+
 		TransformStateMessage.SendToAll(gameObject, serverState);
 	}
 
