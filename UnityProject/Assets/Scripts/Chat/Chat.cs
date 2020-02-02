@@ -256,20 +256,7 @@ public partial class Chat : MonoBehaviour
 			victimName = "yourself";
 			if (player != null)
 			{
-				if (player.Script.characterSettings.Gender == Gender.Female)
-				{
-					victimNameOthers = "herself";
-				}
-
-				if (player.Script.characterSettings.Gender == Gender.Male)
-				{
-					victimNameOthers = "himself";
-				}
-
-				if (player.Script.characterSettings.Gender == Gender.Neuter)
-				{
-					victimNameOthers = "itself";
-				}
+				victimNameOthers = player.Script.characterSettings.ReflexivePronoun();
 			}
 			else
 			{

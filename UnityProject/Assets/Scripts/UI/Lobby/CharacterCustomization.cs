@@ -767,6 +767,25 @@ public class CharacterSettings
 				return "their";
 		}
 	}
+
+	/// <summary>
+	/// Returns a reflexive pronous (i.e. "herself) based on the character's gender.
+	/// </summary>
+	/// <returns></returns>
+	public string ReflexivePronoun()
+	{
+		switch (Gender)
+		{
+			case Gender.Male:
+				return "himself";
+			case Gender.Female:
+				return "herself";
+			case Gender.Neuter:
+				return "itself";
+			default:
+				return "themselves";
+		}
+	}
 }
 
 public enum Gender
