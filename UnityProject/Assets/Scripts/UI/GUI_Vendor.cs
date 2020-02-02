@@ -61,7 +61,11 @@ public class GUI_Vendor : NetTab
 		vendorContent = new List<VendorItem>();
 		for (int i = 0; i < vendor.VendorContent.Count; i++)
 		{
-			vendorContent.Add(new VendorItem(vendor.VendorContent[i]));
+			//protects against missing references
+			if (vendor.VendorContent[i] != null && vendor.VendorContent[i].Item != null)
+			{
+				vendorContent.Add(new VendorItem(vendor.VendorContent[i]));
+			}
 		}
 	}
 
