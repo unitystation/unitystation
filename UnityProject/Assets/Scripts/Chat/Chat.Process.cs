@@ -105,7 +105,9 @@ public partial class Chat
 		}
 
 		// Clown
-		if (sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
+		if (sentByPlayer.Script.mind != null &&
+			sentByPlayer.Script.mind.occupation != null &&
+			sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
 		{
 			int intensity = UnityEngine.Random.Range(1, 4);
 			for (int i = 0; i < intensity; i++)
