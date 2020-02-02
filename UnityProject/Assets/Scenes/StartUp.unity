@@ -154,7 +154,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -14, y: -77}
+  m_AnchoredPosition: {x: 2, y: -204}
   m_SizeDelta: {x: 1190.2, y: 115.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &104749229
@@ -177,7 +177,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: dbe0045f727f34e40a9ddacbb0a5b3ec, type: 3}
-    m_FontSize: 36
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 9
@@ -214,7 +214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &459267456
 RectTransform:
   m_ObjectHideFlags: 0
@@ -419,6 +419,85 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1616289633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1616289634}
+  - component: {fileID: 1616289636}
+  - component: {fileID: 1616289635}
+  m_Layer: 5
+  m_Name: HangWarning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1616289634
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616289633}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2042038458}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -262, y: -71}
+  m_SizeDelta: {x: 465.19995, y: 115.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1616289635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616289633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: dbe0045f727f34e40a9ddacbb0a5b3ec, type: 3}
+    m_FontSize: 18
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 9
+    m_MaxSize: 123
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Your client may hang briefly while the game loads.
+
+    This is still very much a work in progress...'
+--- !u!222 &1616289636
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616289633}
+  m_CullTransparentMesh: 0
 --- !u!1 &1792489846
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +534,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 35001c30dca274d6baf7a5b7b5352da7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -482,14 +561,14 @@ RectTransform:
   m_GameObject: {fileID: 1792489846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.3292, y: 3.3292, z: 3.3292}
   m_Children: []
   m_Father: {fileID: 2042038458}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19.200012, y: 18}
+  m_AnchoredPosition: {x: -3, y: 41}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2042038453
@@ -524,16 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cf965ddc8939345861ca24f54fbaa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinningImage: {fileID: 1792489847}
-  possibleSprites:
-  - {fileID: 21300000, guid: 1d6f3709e44daf346b10135e2372d1fd, type: 3}
-  - {fileID: 21300000, guid: 941c2ac08cf0186438c2d2a96d641971, type: 3}
-  - {fileID: 21300000, guid: 4bf4ed780ba111442b14747c272ac81f, type: 3}
-  - {fileID: 21300000, guid: 096e7b4db75465942a4ccffb958b3792, type: 3}
-  - {fileID: 21300000, guid: c2d7fbb23c69cf343bf5684618664593, type: 3}
-  - {fileID: 21300000, guid: 2388e9177005c044cae612060e5ddc21, type: 3}
   isStartScreen: 1
-  rotationSpeed: {x: 0, y: 0, z: 0}
 --- !u!114 &2042038455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,6 +678,7 @@ RectTransform:
   - {fileID: 459267456}
   - {fileID: 104749228}
   - {fileID: 1792489849}
+  - {fileID: 1616289634}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

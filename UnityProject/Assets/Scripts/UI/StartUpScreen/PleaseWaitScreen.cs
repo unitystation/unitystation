@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 
 public class PleaseWaitScreen : MonoBehaviour
 {
-	[SerializeField] private Image spinningImage;
-	[SerializeField] private List<Sprite> possibleSprites;
 	[SerializeField] private bool isStartScreen;
-	[SerializeField] private Vector3 rotationSpeed;
 
 	private void OnEnable()
 	{
@@ -19,7 +12,6 @@ public class PleaseWaitScreen : MonoBehaviour
 		{
 			StartCoroutine(WaitForLoad());
 		}
-		SetRandomSpinImage();
 	}
 
 	IEnumerator WaitForLoad()
@@ -34,16 +26,5 @@ public class PleaseWaitScreen : MonoBehaviour
 		}
 		yield return WaitFor.EndOfFrame;
 		AO.allowSceneActivation = true;
-	}
-
-	void SetRandomSpinImage()
-	{
-		var randomIndex = Random.Range(0, possibleSprites.Count);
-		spinningImage.sprite = possibleSprites[randomIndex];
-	}
-
-	void Update()
-	{
-		spinningImage.transform.Rotate(rotationSpeed * Time.deltaTime);
 	}
 }
