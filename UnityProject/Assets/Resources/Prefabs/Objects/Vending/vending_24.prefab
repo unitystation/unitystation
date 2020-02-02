@@ -120,9 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 0}
-    Stock: 0
+  VendorContent: []
   HullColor: {r: 0.40784314, g: 0.41568628, b: 0.36862746, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -235,7 +233,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3168929021
+  m_SceneId: 0
 --- !u!1 &1979686790347204
 GameObject:
   m_ObjectHideFlags: 0
