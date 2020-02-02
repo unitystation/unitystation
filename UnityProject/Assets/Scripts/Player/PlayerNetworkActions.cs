@@ -526,6 +526,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		rename.SetCustomName(customName);
 	}
 
+	[Command]
+	public void CmdRequestItemLabel(GameObject handLabeler, string label)
+	{
+		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
+	}
+
 	/// <summary>
 	/// Performs a hug from one player to another.
 	/// </summary>

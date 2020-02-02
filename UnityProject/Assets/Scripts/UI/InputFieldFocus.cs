@@ -20,38 +20,65 @@ public class InputFieldFocus : InputField
 //		StartCoroutine( SelectDelayed() );
 //	}
 	/// Waiting one frame to init
-	private IEnumerator SelectDelayed() {
+	private IEnumerator SelectDelayed()
+	{
 		yield return WaitFor.EndOfFrame;
 		Select();
 	}
 
-	protected override void OnDisable() {
+	private IEnumerator DelayedEnableInput()
+	{
+		yield return WaitFor.EndOfFrame;
+		EnableInput();
+	}
+
+	private void DisableInput()
+	{
+		UIManager.IsInputFocus = true;
+		UIManager.PreventChatInput = true;
+	}
+
+	private void EnableInput()
+	{
+		UIManager.IsInputFocus = false;
+		UIManager.PreventChatInput = false;
+	}
+
+	protected override void OnDisable()
+	{
 		base.OnDisable();
-		UIManager.IsInputFocus = false;
+		if(gameObject.activeInHierarchy)
+			StartCoroutine(DelayedEnableInput());
 	}
 
-	public override void OnSelect( BaseEventData eventData ) {
+	public override void OnSelect( BaseEventData eventData )
+	{
 		base.OnSelect( eventData );
-		UIManager.IsInputFocus = true;
+		DisableInput();
 	}
 
-	public override void OnPointerClick( PointerEventData eventData ) {
+	public override void OnPointerClick( PointerEventData eventData )
+	{
 		base.OnPointerClick( eventData );
-		UIManager.IsInputFocus = true;
+		DisableInput();
 	}
 
-	public override void OnDeselect( BaseEventData eventData ) {
+	public override void OnDeselect( BaseEventData eventData )
+	{
 		base.OnDeselect( eventData );
-		UIManager.IsInputFocus = false;
+		StartCoroutine(DelayedEnableInput());
 	}
 
-	public override void OnSubmit( BaseEventData eventData ) {
+	public override void OnSubmit( BaseEventData eventData )
+	{
 		base.OnSubmit( eventData );
-		UIManager.IsInputFocus = false;
+		StartCoroutine(DelayedEnableInput());
 	}
 
-	private void OnGUI() {
-		if ( Event.current.keyCode == ExitButton ) {
+	private void OnGUI()
+	{
+		if ( Event.current.keyCode == ExitButton )
+		{
 			OnDeselect(new BaseEventData( EventSystem.current ));
 		}
 	}
