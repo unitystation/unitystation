@@ -201,7 +201,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdTryUncuff()
 	{
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
+
+		if (playerScript.playerSprites != null &&
+		    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+		{
+			if (cuffsClothingItem != null &&
+			    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+			{
+				restraintOverlay.ServerBeginUnCuffAttempt();
+			}
+		}
 	}
 
 	[Command]
