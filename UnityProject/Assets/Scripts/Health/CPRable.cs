@@ -13,16 +13,18 @@ public class CPRable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 
 		// Is the target in range for CPR? Is the target unconscious? Is the intent set to help? Is the target a player?
 		// Is the performer's hand empty? Is the performer not stunned/downed? Is the performer conscious to perform the interaction?
-		// Is the performer interacting with itself?
+		// Is the performer interacting with itself? Is neither player on fire?
 		if (!PlayerManager.LocalPlayerScript.IsInReach(interaction.WorldPositionTarget, false) ||
-		    targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
-		    targetPlayerHealth.ConsciousState == ConsciousState.DEAD ||
-		    UIManager.CurrentIntent != Intent.Help ||
-		    !targetPlayerHealth ||
-		    interaction.HandObject != null ||
-		    performerRegisterPlayer.IsLayingDown ||
-		    performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    interaction.Performer == interaction.TargetObject)
+			targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+			targetPlayerHealth.ConsciousState == ConsciousState.DEAD ||
+			UIManager.CurrentIntent != Intent.Help ||
+			!targetPlayerHealth ||
+			interaction.HandObject != null ||
+			performerRegisterPlayer.IsLayingDown ||
+			performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
+			interaction.Performer == interaction.TargetObject ||
+			interaction.TargetObject.GetComponent<LivingHealthBehaviour>().FireStacks > 0 ||
+			interaction.Performer.GetComponent<LivingHealthBehaviour>().FireStacks > 0)
 		{
 			return false;
 		}

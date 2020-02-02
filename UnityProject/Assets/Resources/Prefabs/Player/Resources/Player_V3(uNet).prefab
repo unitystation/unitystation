@@ -729,6 +729,7 @@ GameObject:
   - component: {fileID: 114279031792796038}
   - component: {fileID: 441872716838640463}
   - component: {fileID: 4171332437423579703}
+  - component: {fileID: -2023535518380200052}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -1278,7 +1279,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 4024605270
+  m_SceneId: 0
 --- !u!114 &441872716838640463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1307,6 +1308,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 859b05c4e8c945cf932ff3427e9102df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2023535518380200052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a61d8455306ba4a8bc340ee1699eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1147423205297840

@@ -231,7 +231,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		SyncFireStacks(0);
 	}
 
-	private void SyncFireStacks(float newValue)
+	public void SyncFireStacks(float newValue)
 	{
 		this.fireStacks = Math.Max(0,newValue);
 		OnClientFireStacksChange.Invoke(this.fireStacks);

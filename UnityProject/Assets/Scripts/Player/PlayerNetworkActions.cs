@@ -13,6 +13,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
+	/// <summary>
+	/// Fire stacks removed when patting fires (on other people)
+	/// </summary>
+	private readonly float patFireStacksRemoved = 4f;
+
+	/// <summary>
+	/// Fire stacks removed when patting fires (on yourself
+	/// </summary>
+	private readonly float patFireStacksRemovedSelf = 1.2f;
+
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
@@ -549,6 +559,38 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
+		}
+	}
+
+	/// <summary>
+	/// Pat the fire on someone else with an empty hand.
+	/// </summary>
+	[Command]
+	public void CmdRequestPatFire(string playerSelfName, GameObject playerOther)
+	{
+		if (!Validations.CanApply(playerScript, playerOther, NetworkSide.Server)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee)) return;
+
+		PlayerScript playerOtherScript = playerOther.GetComponent<PlayerScript>();
+		string playerOtherName = playerOtherScript.playerName;
+		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
+		var lhbOther = playerOther.GetComponent<LivingHealthBehaviour>();
+		bool handsFree = lhb != null && lhbOther != null;
+
+		if (handsFree && (lhbOther.FireStacks > 0))
+		{
+			SoundManager.PlayNetworkedAtPos("thudswoosh", playerOther.GetComponent<RegisterPlayer>().WorldPositionServer); // TODO play this sound
+			if (lhb != lhbOther)
+			{
+				lhbOther.SyncFireStacks(lhbOther.FireStacks - patFireStacksRemoved);
+				Chat.AddCombatMsgToChat(gameObject, $"You patted the fire on {playerOtherName}.", $"{playerSelfName} patted the fire on {playerOtherName}.");
+			}
+			else
+			{
+				lhbOther.SyncFireStacks(lhbOther.FireStacks - patFireStacksRemovedSelf);
+				Chat.AddCombatMsgToChat(gameObject, $"You patted the fire on yourself.", $"{playerSelfName} patted the fire on {playerOtherScript.characterSettings.ReflexivePronoun()}.");
+			}
+
 		}
 	}
 
