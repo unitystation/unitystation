@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -7,12 +8,19 @@ using Mirror;
 public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 {
 	public int travelDistance = 6;
-	public ReagentContainer reagentContainer;
+
 	private float travelTime => 1f / travelDistance;
 
 	[SerializeField]
 	[Range(1,50)]
 	private int reagentsPerUse = 5;
+
+	private ReagentContainer reagentContainer;
+
+	private void Awake()
+	{
+		reagentContainer = GetComponent<ReagentContainer>();
+	}
 
 	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
@@ -25,6 +33,9 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
+		//just in case
+		if (reagentContainer == null) return;
+
 		if (reagentContainer.CurrentCapacity < reagentsPerUse)
 		{
 			return;
