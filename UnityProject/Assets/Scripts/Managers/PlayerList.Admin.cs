@@ -221,7 +221,7 @@ public partial class PlayerList
 	public void CheckAdminState(ConnectedPlayer playerConn, string userid)
 	{
 		//full admin privs for local offline testing for host player
-		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
+		if (adminUsers.Contains(userid) || ((GameData.Instance.Admin) && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
 		{
 			//This is an admin, send admin notify to the users client
 			Logger.Log($"{playerConn.Username} logged in as Admin. " +

@@ -26,11 +26,13 @@ public class GameData : MonoBehaviour
 	private bool offlineMode;
 
 
-	[Tooltip("Overrides offlineMode  If you are in the editor " +
-			 " Turn off if you want to test Authentication stuff/that type of thing" +
+	[Tooltip("Sets the editor to admin When starting game " +
 			 "Only works in the editor application")]
 	[SerializeField]
-	private bool editorofflineMode = true;
+	private bool editorAdmin = true;
+
+	[System.NonSerialized]
+	public bool Admin = false;
 	/// <summary>
 	/// Is offline mode enabled, allowing login skip / working without connection to server.?
 	/// Disabled always for release builds.
@@ -74,9 +76,9 @@ public class GameData : MonoBehaviour
 
 	private void Init()
 	{
-
+		Admin = !BuildPreferences.isForRelease && offlineMode;
 		#if UNITY_EDITOR
-				offlineMode = editorofflineMode;
+				Admin = editorAdmin;
 		#endif
 		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 		BuildNumber = buildInfo.BuildNumber;
