@@ -70,7 +70,14 @@ public class InputFieldFocus : InputField
 	public override void OnDeselect( BaseEventData eventData )
 	{
 		base.OnDeselect( eventData );
-		StartCoroutine(DelayedEnableInput());
+		if (!gameObject.activeInHierarchy)
+		{
+			EnableInput();
+		}
+		else
+		{
+			StartCoroutine(DelayedEnableInput());
+		}
 	}
 
 	public override void OnSubmit( BaseEventData eventData )
