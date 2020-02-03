@@ -154,7 +154,7 @@ public class CargoShuttle : MonoBehaviour
 				if (orderedItem != null && orderedItem.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
 				{
 					//ensure it is added to crate
-					closetControl.AddItem(objectBehaviour);
+					closetControl.ServerAddInternalItem(objectBehaviour);
 				}
 				else
 				{

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 
@@ -34,12 +35,12 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		SyncPowered(powered);
 	}
 
-	public override void HandleItems()
+	protected override void ServerHandleContentsOnStatusChange()
 	{
-		base.HandleItems();
-		if(heldPlayers.Count > 0)
+		base.ServerHandleContentsOnStatusChange();
+		if(ServerHeldPlayers.Any())
 		{
-			var mob = heldPlayers[0];
+			var mob = ServerHeldPlayers.First();
 			occupant = mob.GetComponent<LivingHealthBehaviour>();
 		}
 		else
@@ -68,16 +69,15 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		var objectBehaviour = drop.DroppedObject.GetComponent<ObjectBehaviour>();
 		if(objectBehaviour)
 		{
-			IsClosed = true;
-			StorePlayer(objectBehaviour);
-			ChangeSprite();
+			ServerStorePlayer(objectBehaviour);
+			ServerToggleClosed(true);
 		}
 	}
 
-	public override void SyncSprite(ClosetStatus value)
+	protected override void UpdateSpritesOnStatusChange()
 	{
 		//Logger.Log("TTTTTTTTTTTTT" + value.ToString());
-		if (value == ClosetStatus.Open)
+		if (ClosetStatus == ClosetStatus.Open)
 		{
 			if (!powered)
 			{
@@ -92,11 +92,11 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		{
 			spriteHandler.ChangeSprite(6);
 		}
-		else if (value == ClosetStatus.Closed)
+		else if (ClosetStatus == ClosetStatus.Closed)
 		{
 			spriteHandler.ChangeSprite(0);
 		}
-		else if(value == ClosetStatus.ClosedWithOccupant)
+		else if(ClosetStatus == ClosetStatus.ClosedWithOccupant)
 		{
 			spriteHandler.ChangeSprite(2);
 		}
@@ -113,10 +113,10 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		{
 			if(IsLocked)
 			{
-				IsLocked = false;
+				ServerToggleLocked(false);
 			}
 		}
-		SyncSprite(statusSync);
+		UpdateSpritesOnStatusChange();
 	}
 
 	public void PowerNetworkUpdate(float Voltage)

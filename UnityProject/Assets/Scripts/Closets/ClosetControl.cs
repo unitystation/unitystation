@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Serialization;
 using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
 /// <summary>
@@ -19,22 +20,82 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[SerializeField]
 	private SpawnableList initialContents;
 
-	//Inventory
-	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
-	public IEnumerable<ObjectBehaviour> ServerHeldItems => heldItems;
-	protected List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
+	[Tooltip("Lock light status indicator component")]
+	[SerializeField]
+	private LockLightController lockLight;
 
-	public bool IsClosed;
-	[SyncVar(hook = nameof(SetIsLocked))] public bool IsLocked;
-	public LockLightController lockLight;
-	public int playerLimit = 3;
-	public int metalDroppedOnDestroy = 2;
-	public string soundOnOpen = "OpenClose";
+	[Tooltip("Max amount of players that can fit in it at once.")]
+	[SerializeField]
+	private int playerLimit = 3;
+
+	[Tooltip("How much metal to drop when destroyed")]
+	[SerializeField]
+	private int metalDroppedOnDestroy = 2;
+
+	[FormerlySerializedAs("soundOnOpen")]
+	[Tooltip("Name of sound to play when opened / closed")]
+	[SerializeField]
+	private string soundOnOpenOrClose = "OpenClose";
+
+	[Tooltip("Sprite to show when door is open.")]
+	[SerializeField]
+	private Sprite doorOpened;
+
+	[Tooltip("Renderer for the whole locker")]
+	[SerializeField]
+	private SpriteRenderer spriteRenderer;
+
+	/// <summary>
+	/// Invoked when locker becomes closed / open. Param is true
+	/// if it's now closed, false if now open. Called client and server side.
+	/// </summary>
+	[NonSerialized]
+	public readonly BoolEvent OnClosedChanged = new BoolEvent();
+
+	/// <summary>
+	/// Currently held items, only valid server side
+	/// </summary>
+	public IEnumerable<ObjectBehaviour> ServerHeldItems => serverHeldItems;
+
+	/// <summary>
+	/// Currently held players, only valid server side
+	/// </summary>
+	public IEnumerable<ObjectBehaviour> ServerHeldPlayers => serverHeldPlayers;
+
+
+	/// <summary>
+	/// Whether locker is currently closed. Valid client / server side.
+	/// </summary>
+	public bool IsClosed => ClosetStatus != ClosetStatus.Open;
+
+	/// <summary>
+	/// Whether locker is currently locked. Valid client / server side.
+	/// </summary>
+	public bool IsLocked => isLocked;
+
+	/// <summary>
+	/// Current status of the closet, valid client / server side.
+	/// </summary>
+	public ClosetStatus ClosetStatus => statusSync;
+
+	[SyncVar(hook = nameof(SyncStatus))]
+	private ClosetStatus statusSync;
+
+	[SyncVar(hook = nameof(SyncLocked))]
+	private bool isLocked;
+
+	//Inventory
+	private IEnumerable<ObjectBehaviour> serverHeldItems = new List<ObjectBehaviour>();
+	private List<ObjectBehaviour> serverHeldPlayers = new List<ObjectBehaviour>();
 
 	private RegisterCloset registerTile;
 	private PushPull pushPull;
+	//cached closed door sprite, initialized from whatever sprite the sprite renderer is initially set
+	//to in the prefab
+	private Sprite doorClosed;
 
-	public PushPull PushPull
+	private Matrix Matrix => registerTile.Matrix;
+	private PushPull PushPull
 	{
 		get
 		{
@@ -46,13 +107,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			return pushPull;
 		}
 	}
-	private Matrix matrix => registerTile.Matrix;
 
-	[SyncVar(hook = nameof(SyncStatus))] public ClosetStatus statusSync;
-
-	protected Sprite doorClosed;
-	public Sprite doorOpened;
-	public SpriteRenderer spriteRenderer;
 
 	private void Awake()
 	{
@@ -64,9 +119,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		//force it open
-		SetIsLocked(false);
-		SetIsClosed(false);
+		//force it open so it drops its contents
+		SyncLocked(false);
+		SyncStatus(ClosetStatus.Open);
 
 		if (metalDroppedOnDestroy > 0)
 		{
@@ -75,21 +130,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 	}
 
-	public override void OnStartServer()
-	{
-		StartCoroutine(WaitForServerReg());
-	}
-
-	private IEnumerator WaitForServerReg()
-	{
-		yield return WaitFor.Seconds(1f);
-		SetIsClosed(registerTile.IsClosed);
-	}
-
 	public override void OnStartClient()
 	{
-		SyncStatus( statusSync );
-		SetIsLocked(IsLocked);
+		SyncStatus(statusSync);
+		SyncLocked(isLocked);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -103,36 +147,71 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				var objBehavior = spawned.GetComponent<ObjectBehaviour>();
 				if (objBehavior != null)
 				{
-					AddItem(objBehavior);
+					ServerAddInternalItem(objBehavior);
 				}
 			}
 		}
+
+		//always spawn closed and unlocked
+		SyncStatus(ClosetStatus.Closed);
+		SyncLocked(false);
+
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		//make sure we despawn what we are holding
-		foreach (var heldItem in heldItems)
+		foreach (var heldItem in serverHeldItems)
 		{
 			Despawn.ServerSingle(heldItem.gameObject);
 		}
-		heldItems = Enumerable.Empty<ObjectBehaviour>();
+		serverHeldItems = Enumerable.Empty<ObjectBehaviour>();
 	}
 
-	public bool Contains(GameObject gameObject)
+	/// <summary>
+	/// Adds the indicated object inside this closet. No effect if
+	/// closet is open.
+	/// </summary>
+	/// <param name="toAdd"></param>
+	[Server]
+	public void ServerAddInternalItem(ObjectBehaviour toAdd)
+	{
+		if (toAdd == null || serverHeldItems.Contains(toAdd) || !IsClosed) return;
+		serverHeldItems = serverHeldItems.Concat(new [] {toAdd});
+		toAdd.parentContainer = pushPull;
+		toAdd.VisibleState = false;
+	}
+
+	/// <summary>
+	/// Is the closet empty?
+	/// </summary>
+	/// <returns></returns>
+	[Server]
+	public bool ServerIsEmpty()
+	{
+		return serverHeldItems.Count() + serverHeldPlayers.Count == 0;
+	}
+
+	/// <summary>
+	/// Does this closet contain the indicated game object?
+	/// </summary>
+	/// <param name="gameObject"></param>
+	/// <returns></returns>
+	[Server]
+	public bool ServerContains(GameObject gameObject)
 	{
 		if (!IsClosed)
 		{
 			return false;
 		}
-		foreach (var player in heldPlayers)
+		foreach (var player in serverHeldPlayers)
 		{
 			if (player.gameObject == gameObject)
 			{
 				return true;
 			}
 		}
-		foreach (var item in heldItems)
+		foreach (var item in serverHeldItems)
 		{
 			if (item.gameObject == gameObject)
 			{
@@ -142,77 +221,37 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		return false;
 	}
 
-	public void ToggleLocker()
+	/// <summary>
+	/// Toggle locker open / closed with sfx.
+	/// </summary>
+	/// <param name="nowClosed">specify open / closed. Leave null (default) to toggle based on
+	/// current status.</param>
+	[Server]
+	public void ServerToggleClosed(bool? nowClosed = null)
 	{
-		if (IsClosed)
-		{
-			ToggleLocker(false);
-		}
-		else
-		{
-			ToggleLocker(true);
-		}
+		SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f);
+		ServerSetIsClosed(nowClosed.GetValueOrDefault(!IsClosed));
 	}
 
-	public void ToggleLocker(bool isClosed)
+	[Server]
+	private void ServerSetIsClosed(bool nowClosed)
 	{
-		SoundManager.PlayNetworkedAtPos(soundOnOpen, registerTile.WorldPositionServer, 1f);
-		SetIsClosed(isClosed);
-	}
-
-	private void SetIsClosed(bool value)
-	{
-		IsClosed = value;
-		HandleItems();
-		StartCoroutine(ChangeSpriteDelayed());
-	}
-
-	private void SetIsLocked(bool value)
-	{
-		IsLocked = value;
-		if (lockLight)
+		if(nowClosed)
 		{
-			if(IsLocked)
+			if(serverHeldPlayers.Count > 0 && registerTile.closetType == ClosetType.SCANNER)
 			{
-				lockLight.Lock();
+				SyncStatus(ClosetStatus.ClosedWithOccupant);
 			}
 			else
 			{
-				lockLight.Unlock();
-			}
-		}
-	}
-
-	public IEnumerator ChangeSpriteDelayed()
-	{
-		yield return WaitFor.EndOfFrame;
-		ChangeSprite();
-	}
-
-	public void ChangeSprite()
-	{
-		if(IsClosed)
-		{
-			if(heldPlayers.Count > 0 && registerTile.closetType == ClosetType.SCANNER)
-			{
-				statusSync = ClosetStatus.ClosedWithOccupant;
-			}
-			else
-			{
-				statusSync = ClosetStatus.Closed;
+				SyncStatus(ClosetStatus.Closed);
 			}
 		}
 		else
 		{
-			statusSync = ClosetStatus.Open;
+			SyncStatus(ClosetStatus.Open);
 		}
-	}
-
-	public enum ClosetStatus
-	{
-		Closed,
-		ClosedWithOccupant,
-		Open
+		ServerHandleContentsOnStatusChange();
 	}
 
 	private void SyncStatus(ClosetStatus value)
@@ -220,18 +259,21 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		statusSync = value;
 		if(value == ClosetStatus.Open)
 		{
-			registerTile.IsClosed = false;
+			OnClosedChanged.Invoke(false);
 		}
 		else
 		{
-			registerTile.IsClosed = true;
+			OnClosedChanged.Invoke(true);
 		}
-		SyncSprite(value);
+		UpdateSpritesOnStatusChange();
 	}
 
-	public virtual void SyncSprite(ClosetStatus value)
+	/// <summary>
+	/// Called when closet status changes. Update the closet sprites.
+	/// </summary>
+	protected virtual void UpdateSpritesOnStatusChange()
 	{
-		if (value == ClosetStatus.Open)
+		if (statusSync == ClosetStatus.Open)
 		{
 			spriteRenderer.sprite = doorOpened;
 			if (lockLight)
@@ -245,6 +287,33 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			if (lockLight)
 			{
 				lockLight.Show();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Toggle locker open / closed with sfx.
+	/// </summary>
+	/// <param name="nowLocked">specify locked / unlocked. Leave null (default) to toggle based on
+	/// current status.</param>
+	[Server]
+	public void ServerToggleLocked(bool? nowLocked = null)
+	{
+		SyncLocked(nowLocked.GetValueOrDefault(!IsLocked));
+	}
+
+	private void SyncLocked(bool value)
+	{
+		isLocked = value;
+		if (lockLight)
+		{
+			if(isLocked)
+			{
+				lockLight.Lock();
+			}
+			else
+			{
+				lockLight.Unlock();
 			}
 		}
 	}
@@ -268,13 +337,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			Vector3 performerPosition = interaction.Performer.WorldPosServer();
 			Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 		}
-		else if (!IsLocked)
+		else if (!isLocked)
 		{
-			ToggleLocker();
+			ServerToggleClosed();
 		}
 	}
 
-	public virtual void HandleItems()
+	[Server]
+	protected virtual void ServerHandleContentsOnStatusChange()
 	{
 		if (IsClosed)
 		{
@@ -290,7 +360,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void OpenItemHandling()
 	{
-		foreach (ObjectBehaviour item in heldItems)
+		foreach (ObjectBehaviour item in serverHeldItems)
 		{
 			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 			//avoids blinking of premapped items when opening first time in another place:
@@ -309,30 +379,22 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			item.parentContainer = null;
 		}
 
-		heldItems = Enumerable.Empty<ObjectBehaviour>();
-	}
-
-	public void AddItem(ObjectBehaviour toAdd)
-	{
-		if (toAdd == null || heldItems.Contains(toAdd)) return;
-		heldItems = heldItems.Concat(new [] {toAdd});
-		toAdd.parentContainer = pushPull;
-		toAdd.VisibleState = false;
+		serverHeldItems = Enumerable.Empty<ObjectBehaviour>();
 	}
 
 	private void CloseItemHandling()
 	{
-		var itemsOnCloset = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+		var itemsOnCloset = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
 			.Where(ob => ob != null && ob.gameObject != gameObject);
-		if (heldItems != null)
+		if (serverHeldItems != null)
 		{
-			heldItems = heldItems.Concat(itemsOnCloset);
+			serverHeldItems = serverHeldItems.Concat(itemsOnCloset);
 		}
 		else
 		{
-			heldItems = itemsOnCloset;
+			serverHeldItems = itemsOnCloset;
 		}
-		foreach (ObjectBehaviour item in heldItems)
+		foreach (ObjectBehaviour item in serverHeldItems)
 		{
 			var pipe = item.GetComponent<Pipe>();
 			//Checks to see if the item is anchored to the floor (i.e. a vent or a scrubber) before placing it in the locker
@@ -344,7 +406,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void OpenPlayerHandling()
 	{
-		foreach (ObjectBehaviour player in heldPlayers)
+		foreach (ObjectBehaviour player in serverHeldPlayers)
 		{
 			player.VisibleState = true;
 			if (PushPull && PushPull.Pushable.IsMovingServer)
@@ -356,12 +418,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			//Stop tracking closet
 			FollowCameraMessage.Send(player.gameObject, null);
 		}
-		heldPlayers = new List<ObjectBehaviour>();
+		serverHeldPlayers = new List<ObjectBehaviour>();
 	}
 
 	private void ClosePlayerHandling()
 	{
-		var mobsFound = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);
+		var mobsFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);
 		int mobsIndex = 0;
 		foreach (ObjectBehaviour player in mobsFound)
 		{
@@ -370,13 +432,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				return;
 			}
 			mobsIndex++;
-			StorePlayer(player);
+			ServerStorePlayer(player);
 		}
 	}
 
-	public void StorePlayer(ObjectBehaviour player)
+	[Server]
+	protected void ServerStorePlayer(ObjectBehaviour player)
 	{
-		heldPlayers.Add(player);
+		serverHeldPlayers.Add(player);
 		var playerScript = player.GetComponent<PlayerScript>();
 
 		player.VisibleState = false;
@@ -396,12 +459,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	/// <param name="parentNetId">new parent net ID</param>
 	public void OnParentChangeComplete(uint parentNetId)
 	{
-		foreach (ObjectBehaviour objectBehaviour in heldItems)
+		foreach (ObjectBehaviour objectBehaviour in serverHeldItems)
 		{
 			objectBehaviour.registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 		}
 
-		foreach (ObjectBehaviour objectBehaviour in heldPlayers)
+		foreach (ObjectBehaviour objectBehaviour in serverHeldPlayers)
 		{
 			objectBehaviour.registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 		}
@@ -424,11 +487,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
 	}
-
-	public bool IsEmpty()
-	{
-		return heldItems.Count() + heldPlayers.Count == 0;
-	}
+}
 
 
+
+
+public enum ClosetStatus
+{
+	Closed,
+	ClosedWithOccupant,
+	Open
 }
