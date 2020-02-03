@@ -198,6 +198,7 @@ public class UIManager : MonoBehaviour
 
 	private void Start()
 	{
+		DetermineInitialTargetFrameRate();
 		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI);
 
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
@@ -211,7 +212,25 @@ public class UIManager : MonoBehaviour
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 		}
 
+
+
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
+	}
+
+	void DetermineInitialTargetFrameRate()
+	{
+		if(!PlayerPrefs.HasKey(PlayerPrefKeys.TargetFrameRate))
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, 99);
+			PlayerPrefs.Save();
+		}
+
+		var targetFrameRate = PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate);
+		targetFrameRate = Mathf.Clamp(targetFrameRate, 30, 144);
+		PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, targetFrameRate);
+		PlayerPrefs.Save();
+
+		Application.targetFrameRate = targetFrameRate;
 	}
 
 	private void Update()
