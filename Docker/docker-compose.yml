@@ -3,12 +3,9 @@ version: "3.7"
 services:
     unitystation:
         build: .
+        image: unitystation/unitystation
         environment: 
-            RCON_PASSWORD: 
-            HUB_USER: 
-            HUB_PASSWORD: 
+            RCON_PASSWORD: 1234
         ports:
             - 7777:7777
-            # - 7778:7778
-        volumes:
-            - ./config:/server/UnityStation_Data/StreamingAssets/config
+            - 7778:7778
