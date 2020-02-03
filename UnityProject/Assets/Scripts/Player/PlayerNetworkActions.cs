@@ -392,7 +392,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSpawnPlayerGhost()
 	{
-		if (GetComponent<LivingHealthBehaviour>().IsDead)
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
