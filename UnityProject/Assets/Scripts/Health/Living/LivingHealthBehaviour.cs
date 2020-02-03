@@ -98,7 +98,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	//how on fire we are, sames as tg fire_stacks. 0 = not on fire.
 	//It's called "stacks" but it's really just a floating point value that
 	//can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
-	[SyncVar(hook=nameof(SyncFireStacks))]
+	[SyncVar(hook = nameof(SyncFireStacks))]
 	private float fireStacks;
 
 	/// <summary>
@@ -231,9 +231,19 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		SyncFireStacks(0);
 	}
 
-	public void SyncFireStacks(float newValue)
+	/// <summary>
+	/// Sets the serverside fireStacks of a LivingHealthBehaviour to a new value.
+	/// </summary>
+	/// <param name="newValue">The new value, clamped to values 0 and above.</param>
+	[Server]
+	public void ServerSetFireStacks(float newValue)
 	{
-		this.fireStacks = Math.Max(0,newValue);
+		this.fireStacks = Math.Max(0, newValue);
+	}
+
+	private void SyncFireStacks(float newValue)
+	{
+		this.fireStacks = Math.Max(0, newValue);
 		OnClientFireStacksChange.Invoke(this.fireStacks);
 	}
 
@@ -241,7 +251,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// PUBLIC FUNCTIONS: HEAL AND DAMAGE:
 	/// ---------------------------
 
-	private BodyPartBehaviour GetBodyPart(float amount, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest){
+	private BodyPartBehaviour GetBodyPart(float amount, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
+	{
 		if (amount <= 0 || IsDead)
 		{
 			return null;
@@ -323,10 +334,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// <param name="attackType">type of attack that is causing the damage</param>
 	/// <param name="damageType">The Type of Damage</param>
 	[Server]
-	public void ApplyDamageToBodypart( GameObject damagedBy, float damage,
-		AttackType attackType, DamageType damageType )
+	public void ApplyDamageToBodypart(GameObject damagedBy, float damage,
+		AttackType attackType, DamageType damageType)
 	{
-		ApplyDamageToBodypart( damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize( 0 ) );
+		ApplyDamageToBodypart(damagedBy, damage, attackType, damageType, BodyPartType.Chest.Randomize(0));
 	}
 
 	/// <summary>
@@ -341,17 +352,17 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if ( IsDead )
+		if (IsDead)
 		{
 			afterDeathDamage += damage;
-			if ( afterDeathDamage >= GIB_THRESHOLD )
+			if (afterDeathDamage >= GIB_THRESHOLD)
 			{
 				Harvest();//Gib() instead when fancy gibs are in
 			}
 		}
 
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
-		if(bodyPartBehaviour == null)
+		if (bodyPartBehaviour == null)
 		{
 			return;
 		}
@@ -368,7 +379,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		if (attackType == AttackType.Fire)
 		{
-			SyncFireStacks(fireStacks+1);
+			SyncFireStacks(fireStacks + 1);
 		}
 
 		//For special effects spawning like blood:
@@ -427,7 +438,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 					//TODO: Burn clothes (see species.dm handle_fire)
 					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
 					//gradually deplete fire stacks
-					SyncFireStacks(fireStacks-0.1f);
+					SyncFireStacks(fireStacks - 0.1f);
 					//instantly stop burning if there's no oxygen at this location
 					MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
 					if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
@@ -581,7 +592,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		if (ConsciousState != ConsciousState.CONSCIOUS && bloodSystem.OxygenDamage < HealthThreshold.OxygenPassOut && OverallHealth > HealthThreshold.SoftCrit)
 		{
-			Logger.LogFormat( "{0}, back on your feet!", Category.Health, gameObject.name );
+			Logger.LogFormat("{0}, back on your feet!", Category.Health, gameObject.name);
 			Uncrit();
 			return;
 		}

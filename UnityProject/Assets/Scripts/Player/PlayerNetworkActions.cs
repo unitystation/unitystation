@@ -13,16 +13,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private static readonly StandardProgressActionConfig CPRProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
-	/// <summary>
-	/// Fire stacks removed when patting fires (on other people)
-	/// </summary>
-	private readonly float patFireStacksRemoved = 4f;
-
-	/// <summary>
-	/// Fire stacks removed when patting fires (on yourself
-	/// </summary>
-	private readonly float patFireStacksRemovedSelf = 1.2f;
-
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
@@ -101,8 +91,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
-		NamedSlot enumA = (NamedSlot) Enum.Parse(typeof(NamedSlot), slotName);
-		equipment.SetReference((int) enumA, Item);
+		NamedSlot enumA = (NamedSlot)Enum.Parse(typeof(NamedSlot), slotName);
+		equipment.SetReference((int)enumA, Item);
 	}
 
 	/// <summary>
@@ -169,7 +159,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
-			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType)aim);
 	}
 
 	[Command] //Remember with the parent you can only send networked objects:
@@ -203,7 +193,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
-			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
+									" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -336,8 +326,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-		                                        || playerScript.playerHealth.IsCardiacArrest)
+												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
+												|| playerScript.playerHealth.IsCardiacArrest)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -407,16 +397,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdGhostEnterBody()
 	{
 		PlayerScript body = playerScript.mind.body;
-		if ( !playerScript.IsGhost || !body.playerHealth.IsDead )
+		if (!playerScript.IsGhost || !body.playerHealth.IsDead)
 		{
-			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
+			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
 			return;
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
-		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos )
+		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
-			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
+			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
 			return;
 		}
 		playerScript.mind.StopGhosting();
@@ -566,7 +556,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Pat the fire on someone else with an empty hand.
 	/// </summary>
 	[Command]
-	public void CmdRequestPatFire(string playerSelfName, GameObject playerOther)
+	public void CmdRequestPatFire(GameObject playerOther, float fireStacksToRemove)
 	{
 		if (!Validations.CanApply(playerScript, playerOther, NetworkSide.Server)) return;
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee)) return;
@@ -579,16 +569,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (handsFree && (lhbOther.FireStacks > 0))
 		{
+			lhbOther.ServerSetFireStacks(lhbOther.FireStacks - fireStacksToRemove);
 			SoundManager.PlayNetworkedAtPos("thudswoosh", playerOther.GetComponent<RegisterPlayer>().WorldPositionServer); // TODO play this sound
 			if (lhb != lhbOther)
 			{
-				lhbOther.SyncFireStacks(lhbOther.FireStacks - patFireStacksRemoved);
-				Chat.AddCombatMsgToChat(gameObject, $"You patted the fire on {playerOtherName}.", $"{playerSelfName} patted the fire on {playerOtherName}.");
+				
+				Chat.AddCombatMsgToChat(gameObject, $"You patted the fire on {playerOtherName}.", $"{playerScript.playerName} patted the fire on {playerOtherName}.");
 			}
 			else
 			{
-				lhbOther.SyncFireStacks(lhbOther.FireStacks - patFireStacksRemovedSelf);
-				Chat.AddCombatMsgToChat(gameObject, $"You patted the fire on yourself.", $"{playerSelfName} patted the fire on {playerOtherScript.characterSettings.ReflexivePronoun()}.");
+				Chat.AddCombatMsgToChat(gameObject, $"You patted the fire on yourself.", $"{playerScript.playerName} patted the fire on {playerOtherScript.characterSettings.ReflexivePronoun()}.");
 			}
 
 		}
@@ -695,7 +685,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 		if (onObject == null) return;
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-    if (reactionManager == null) return;
+		if (reactionManager == null) return;
 
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .5f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
@@ -710,13 +700,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		if ( toSmash == null )
+		if (toSmash == null)
 		{
 			return;
 		}
 
 		var integrity = toSmash.GetComponent<Integrity>();
-		if ( integrity == null )
+		if (integrity == null)
 		{
 			return;
 		}
