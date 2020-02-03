@@ -256,6 +256,12 @@ public class CargoManager : MonoBehaviour
 		export.Count += count;
 		export.TotalValue += credits;
 
+		var playerScript = item.GetComponent<PlayerScript>();
+		if (playerScript != null)
+		{
+			playerScript.playerHealth.ServerGibPlayer();
+		}
+
 		item.registerTile.UnregisterClient();
 		item.registerTile.UnregisterServer();
 		alreadySold.Add(item.gameObject);
