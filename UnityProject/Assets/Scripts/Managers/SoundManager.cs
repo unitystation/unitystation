@@ -397,7 +397,7 @@ public class SoundManager : MonoBehaviour
 			var trackerMusic = new[]
 			{
 				"Spaceman_HERB.xm",
-				"Echo sound.xm",
+				"Echo sound_4mat.xm",
 				"Tintin on the Moon_Jeroen Tel.xm"
 			};
 			var songPicked = trackerMusic.Wrap(Random.Range(1, 100));
