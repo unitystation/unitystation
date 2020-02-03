@@ -149,7 +149,7 @@ public class ChatUI : MonoBehaviour
 			RefreshChannelPanel();
 		}
 
-		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown)
+		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown && !UIManager.PreventChatInput)
 		{
 			if (UIManager.IsInputFocus)
 			{
