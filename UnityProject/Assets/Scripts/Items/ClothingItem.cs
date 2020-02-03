@@ -93,8 +93,6 @@ public class ClothingItem : MonoBehaviour
 		UpdateReferenceOffset();
 		if (Item == null)
 		{
-			GameObjectReference = null; // Remove the item from equipment
-
 			if (spriteHandler != null) //need to remove
 			{
 				spriteHandler.spriteData = null;
@@ -109,6 +107,7 @@ public class ClothingItem : MonoBehaviour
 					OnClothingEquiped?.Invoke(unequippedClothing, false);
 			}
 
+			GameObjectReference = null; // Remove the item from equipment
 		}
 
 		if (Item != null)
