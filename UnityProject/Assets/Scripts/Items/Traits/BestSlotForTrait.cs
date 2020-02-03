@@ -28,6 +28,15 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 	[ArrayElementTitle("Trait", "Any")]
 	[SerializeField] private List<TraitSlotMapping> BestSlots;
 
+
+	/// <summary>
+	/// This Named Slots can't be best slots. GetBestSlot will ignore them
+	/// </summary>
+	private static NamedSlot[] BlackListSlots = new NamedSlot[]{
+		NamedSlot.leftHand,
+		NamedSlot.rightHand
+	};
+
 	/// <summary>
 	/// Returns the slot in storage which is the best fit for the item.
 	/// The BestSlots list will be scanned through in order. Returns the
@@ -69,7 +78,15 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		Logger.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
 		                      " be placed in first available slot.", Category.Inventory, toCheck);
 
-		return storage.GetItemSlots().FirstOrDefault(slot =>
+		// Get all slots
+		var allSlots = storage.GetItemSlots();
+
+		// Filter blaclisted named slots
+		var allowedSlots = allSlots.Where((slot) => !slot.NamedSlot.HasValue ||
+		(slot.NamedSlot.HasValue && !BlackListSlots.Contains(slot.NamedSlot.Value))).ToArray();
+
+		// Select first avaliable
+		return allowedSlots.FirstOrDefault(slot =>
 			(!mustHaveUISlot || slot.LocalUISlot != null) &&
 			Validations.CanFit(slot, toCheck, side));
 	}

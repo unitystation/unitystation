@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114774815397134544}
   - component: {fileID: 114698186089058472}
   - component: {fileID: 114430213137055408}
+  - component: {fileID: -5194193326582353321}
   m_Layer: 11
   m_Name: mining_machines_54
   m_TagString: Untagged
@@ -216,9 +217,9 @@ MonoBehaviour:
   VendorContent:
   - Item: {fileID: 2654578771155045139, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
     Stock: 5
-  - Item: {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
-    Stock: 5
   - Item: {fileID: 6507691273333881185, guid: 93b76974e93e2b64ca3bd8060be15083, type: 3}
+    Stock: 5
+  - Item: {fileID: 2654136094092541073, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
     Stock: 5
   HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
   EjectObjects: 0
@@ -320,3 +321,22 @@ MonoBehaviour:
   localPlayerAuthority: 0
   m_AssetId: 
   m_SceneId: 0
+--- !u!114 &-5194193326582353321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: mining vendor
+  initialDescription: for all your mining needs
+  exportCost: 0
+  exportName: 
+  exportMessage: 

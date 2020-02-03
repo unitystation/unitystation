@@ -142,7 +142,12 @@ public class Hands : MonoBehaviour
 		//This checks which UI slot the item can be equiped to and swaps it there
 		//Try to equip the item into the appropriate slot
 		var bestSlot = BestSlotForTrait.Instance.GetBestSlot(CurrentSlot.Item, PlayerManager.LocalPlayerScript.ItemStorage);
-		if (bestSlot == null) return;
+		if (bestSlot == null)
+		{
+			Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, "There is no available slot for that");
+			return;
+		}
+
 		SwapItem(bestSlot.LocalUISlot);
 	}
 

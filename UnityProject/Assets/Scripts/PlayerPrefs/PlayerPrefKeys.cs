@@ -53,4 +53,12 @@
 	/// 1 = enabled
 	/// </summary>
 	public static string MuteMusic = "MuteMusic";
+
+
+	/// <summary>
+	/// Whether or not to show highlights on items
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static string EnableHighlights = "EnableHighlights";
 }

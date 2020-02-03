@@ -509,11 +509,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 				return;
 			}
 
-			var displacement = (clientState.Position - transform.position).magnitude;
-			if (displacement > 1)
-			{
-				Logger.LogWarningFormat("Yikes: " + displacement);
-			}
 			transform.position = clientState.Position;
 
 			//If stopped then lerp to target (snap to grid)

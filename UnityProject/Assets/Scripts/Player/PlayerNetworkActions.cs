@@ -201,7 +201,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdTryUncuff()
 	{
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		playerScript.playerSprites.clothes["handcuffs"].GetComponent<RestraintOverlay>().ServerBeginUnCuffAttempt();
+
+		if (playerScript.playerSprites != null &&
+		    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+		{
+			if (cuffsClothingItem != null &&
+			    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+			{
+				restraintOverlay.ServerBeginUnCuffAttempt();
+			}
+		}
 	}
 
 	[Command]
@@ -383,7 +392,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSpawnPlayerGhost()
 	{
-		if (GetComponent<LivingHealthBehaviour>().IsDead)
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
@@ -524,6 +533,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		customName = customName.Replace("</size>", "");
 
 		rename.SetCustomName(customName);
+	}
+
+	[Command]
+	public void CmdRequestItemLabel(GameObject handLabeler, string label)
+	{
+		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 
 	/// <summary>

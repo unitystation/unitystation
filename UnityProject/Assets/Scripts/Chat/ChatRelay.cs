@@ -71,6 +71,13 @@ public class ChatRelay : NetworkBehaviour
 			LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
 			for (int i = 0; i < players.Count(); i++)
 			{
+				if (players[i].Script == null)
+				{
+					//joined viewer, don't message them
+					players.Remove(players[i]);
+					continue;
+				}
+
 				if (players[i].Script.IsGhost)
 				{
 					//send all to ghosts
