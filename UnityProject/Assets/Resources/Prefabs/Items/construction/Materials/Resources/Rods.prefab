@@ -32,6 +32,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rods
       objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: initialName
+      value: Rods
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: c7cca74482956574d9f3f02ec3602420, type: 3}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: d5a7865af55516e4cb88c88eec45d127, type: 3}
     - target: {fileID: 165128780772706316, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -90,16 +110,6 @@ PrefabInstance:
     - target: {fileID: 273893261506824396, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: initialName
-      value: Rods
-      objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: initialDescription
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 47517029760484900, guid: a5ae289234c114e4faca591be88bdbb7,
