@@ -6,7 +6,7 @@ on:
     - develop
     - master
     paths:
-    - 'Tools/**'
+    - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
     - '.github/workflows/main.yml'
   pull_request:
@@ -14,7 +14,7 @@ on:
     - develop
     - master
     paths:
-    - 'Tools/**'
+    - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
     - '.github/workflows/main.yml'
 

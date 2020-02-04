@@ -167,11 +167,13 @@ static class BuildScript
 
 		var buildTarget = options["buildTarget"];
 		var buildPath = options["customBuildPath"];
-		var buildName = options["customBuildName"];
+		// TODO: fix Unity Builder Action to use customBuildName
+		// var buildName = options["customBuildName"];
 
 		// Gather values from project
 		var scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(s => s.path).ToArray();
-		var locationPathName = $"{buildPath}/{buildName}{GetFileExtension(buildTarget)}";
+		// var locationPathName = $"{buildPath}/{buildName}{GetFileExtension(buildTarget)}";
+		var locationPathName = buildPath;
 		var target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
 
 		// Define BuildPlayer Options
