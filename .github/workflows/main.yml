@@ -6,14 +6,14 @@ on:
     - develop
     - master
     paths:
-    - 'Tools/**'
+    - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
   pull_request:
     branches:
     - develop
     - master
     paths:
-    - 'Tools/**'
+    - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
 
 jobs:
