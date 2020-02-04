@@ -433,7 +433,7 @@ public class SoundManager : MonoBehaviour
 			Synth.Instance.SetMusicVolume((byte) (int) vol);
 		}
 	}
-	
+
 	public static void PlayAmbience(string ambientTrackName)
 	{
 		void PlayAmbientTrack(AudioSource track)
@@ -443,7 +443,7 @@ public class SoundManager : MonoBehaviour
 			//Ambient Volume
 			if (PlayerPrefs.HasKey("AmbientVol"))
 			{
-				track.volume = PlayerPrefs.GetFloat("AmbientVol");
+				track.volume = Mathf.Clamp(PlayerPrefs.GetFloat("AmbientVol"),0f,0.25f);
 			}
 			track.Play();
 		}
@@ -453,11 +453,12 @@ public class SoundManager : MonoBehaviour
 			if (track.name == ambientTrackName)
 			{
 				PlayAmbientTrack(track);
-				return;
+			}
+			else
+			{
+				track.Stop();
 			}
 		}
-
-		Logger.Log($"Ambient track {ambientTrackName} not found", Category.SoundFX);
 	}
 
 	/// <summary>
@@ -466,6 +467,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="volume"></param>
 	public static void AmbientVolume(float volume)
 	{
+		volume = Mathf.Clamp(volume, 0f, 0.25f);
 		foreach (AudioSource s in Instance.ambientTracks)
 		{
 			s.volume = volume;

@@ -224,7 +224,6 @@ public class GameData : MonoBehaviour
 		{
 			IsInGame = true;
 			Managers.instance.SetScreenForGame();
-			SetPlayerPreferences();
 		}
 
 		if (CustomNetworkManager.Instance.isNetworkActive)
@@ -277,15 +276,6 @@ public class GameData : MonoBehaviour
 	{
 		yield return WaitFor.Seconds(0.1f);
 		CustomNetworkManager.Instance.StartHost();
-	}
-
-	private void SetPlayerPreferences()
-	{
-		//Ambient Volume
-		if (PlayerPrefs.HasKey("AmbientVol"))
-		{
-			SoundManager.Instance.ambientTrack.volume = PlayerPrefs.GetFloat("AmbientVol");
-		}
 	}
 
 	private string GetArgument(string name)

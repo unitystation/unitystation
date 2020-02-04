@@ -44,13 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56727f01562ebd546b94cc2d79a65abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderMask:
-    serializedVersion: 2
-    m_Bits: 256
   enteringSoundTrack:
   - ShipAmbience
   leavingSoundTrack:
   - SpaceAmbience
+  - SpaceAmbience2
 --- !u!58 &6034095428633112819
 CircleCollider2D:
   m_ObjectHideFlags: 0

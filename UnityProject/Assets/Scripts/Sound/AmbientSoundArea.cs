@@ -10,15 +10,13 @@ using UnityEngine;
 /// </summary>
 public class AmbientSoundArea : MonoBehaviour
 {
-	[SerializeField] private LayerMask colliderMask;
 	private List<GameObject> enteredPlayers = new List<GameObject>();
 	[SerializeField] private List<string> enteringSoundTrack = new List<string>();
 	[SerializeField] private List<string> leavingSoundTrack = new List<string>();
 
-
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
-		if (coll.gameObject.layer == colliderMask)
+		if (coll.gameObject.layer == LayerMask.NameToLayer("Players"))
 		{
 			ValidatePlayer(coll.gameObject, true);
 		}
@@ -26,14 +24,15 @@ public class AmbientSoundArea : MonoBehaviour
 
 	public void OnTriggerExit2D(Collider2D coll)
 	{
-		if (coll.gameObject.layer == colliderMask)
+		if (coll.gameObject.layer == LayerMask.NameToLayer("Players"))
 		{
 			ValidatePlayer(coll.gameObject, false);
 		}
 	}
 
-	void Awake()
+	IEnumerator Start()
 	{
+		yield return WaitFor.EndOfFrame;
 		if (!CustomNetworkManager.Instance._isServer)
 		{
 			Destroy(gameObject);
