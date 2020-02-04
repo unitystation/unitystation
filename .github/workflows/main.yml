@@ -109,5 +109,5 @@ jobs:
       - name: Upload Build
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.targetPlatform }} Build
-          path: build
+          name: ${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
