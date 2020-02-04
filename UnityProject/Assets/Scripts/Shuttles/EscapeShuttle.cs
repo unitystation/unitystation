@@ -241,6 +241,7 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			isReverse = true;
 			mm.ChangeFacingDirection(mm.ServerState.FacingDirection.Rotate(2));
+			PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
 		}
 	}
 
