@@ -214,6 +214,7 @@ public class GUI_IDConsole : NetTab
 		console.LoggedIn = false;
 		pageSwitcher.SetActivePage(loginPage);
 		ServerUpdateLoginCardName();
+		ServerRemoveAccessCard();
 	}
 
 	public void CloseTab()
