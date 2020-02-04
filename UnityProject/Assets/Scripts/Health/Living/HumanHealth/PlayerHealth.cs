@@ -9,6 +9,11 @@ using UnityEditor;
 /// </summary>
 public class PlayerHealth : LivingHealthBehaviour
 {
+	[SerializeField]
+	private MetabolismSystem metabolism;
+
+	public MetabolismSystem Metabolism { get => metabolism; }
+
 	private PlayerMove playerMove;
 
 	private PlayerNetworkActions playerNetworkActions;
@@ -22,11 +27,17 @@ public class PlayerHealth : LivingHealthBehaviour
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-	private void Awake()
+	public override void Awake()
 	{
 		base.Awake();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+
+		metabolism = GetComponent<MetabolismSystem>();
+		if (metabolism == null)
+		{
+			metabolism = gameObject.AddComponent<MetabolismSystem>();
+		}
 	}
 
 	public override void OnStartClient()

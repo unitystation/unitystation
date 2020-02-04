@@ -89,7 +89,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 				{
 					//locally predict
 					canSwap = UIManager.CurrentIntent == Intent.Help
-					          && !PlayerScript.pushPull.IsPullingSomething;
+							  && !PlayerScript.pushPull.IsPullingSomething;
 				}
 			}
 			else
@@ -118,7 +118,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[FormerlySerializedAs("speed")] public float RunSpeed = 6;
+	[FormerlySerializedAs("speed")] public float InitialRunSpeed = 6;
+	[HideInInspector][SyncVar] public float RunSpeed = 6;
 	public float WalkSpeed = 3;
 	public float CrawlSpeed = 0.8f;
 
@@ -142,6 +143,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
+		RunSpeed = InitialRunSpeed;
 	}
 
 	public override void OnStartClient()

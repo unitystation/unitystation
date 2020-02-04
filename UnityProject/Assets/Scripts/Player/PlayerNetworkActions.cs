@@ -458,12 +458,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+		Edible edible = food.GetComponent<Edible>();
 
-		//FIXME: remove blood changes after TDM
-		//and use this Cmd for healing hunger and applying
-		//food related attributes instead:
-		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
-		playerHealth.bloodSystem.StopBleedingAll();
+		playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.NutrientsHealAmount, 0, MetabolismDuration.Food));
 
 		Inventory.ServerDespawn(slot);
 
