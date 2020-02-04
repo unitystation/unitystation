@@ -48,7 +48,7 @@ public class SoundManager : MonoBehaviour
 	private bool isMusicMute;
 
 	private List<AudioSource> ambientTracks = new List<AudioSource>();
-	public AudioSource ambientTrack => ambientTracks[0];
+	public AudioSource ambientTrack;
 
 	// Use this for initialization
 	//public AudioSource[] sounds;
@@ -433,14 +433,31 @@ public class SoundManager : MonoBehaviour
 			Synth.Instance.SetMusicVolume((byte) (int) vol);
 		}
 	}
-
-	public static void PlayAmbience()
+	
+	public static void PlayAmbience(string ambientTrackName)
 	{
-		//Station hum
-		Instance.ambientTrack.Play();
+		void PlayAmbientTrack(AudioSource track)
+		{
+			Logger.Log($"Playing ambient track: {track.name}", Category.SoundFX);
+			Instance.ambientTrack = track;
+			//Ambient Volume
+			if (PlayerPrefs.HasKey("AmbientVol"))
+			{
+				track.volume = PlayerPrefs.GetFloat("AmbientVol");
+			}
+			track.Play();
+		}
 
-		//Random introduction sound
-		Play("Ambient#");
+		foreach (var track in Instance.ambientTracks)
+		{
+			if (track.name == ambientTrackName)
+			{
+				PlayAmbientTrack(track);
+				return;
+			}
+		}
+
+		Logger.Log($"Ambient track {ambientTrackName} not found", Category.SoundFX);
 	}
 
 	/// <summary>

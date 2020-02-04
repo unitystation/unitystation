@@ -181,7 +181,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 
 				UIManager.LinkUISlots();
 				//play the spawn sound
-				SoundManager.PlayAmbience();
+				SoundManager.Play("Ambient#");
 				//Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
