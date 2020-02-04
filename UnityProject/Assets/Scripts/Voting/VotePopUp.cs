@@ -10,9 +10,12 @@ public class VotePopUp : MonoBehaviour
 	[SerializeField] private Text voteInstigator;
 	[SerializeField] private Text voteCount;
 	[SerializeField] private Text voteTimer;
+	[SerializeField] private Button yesBtn;
+	[SerializeField] private Button noBtn;
 
 	public void ShowVotePopUp(string title, string instigator, string currentCount, string timer)
 	{
+		ToggleButtons(true);
 		gameObject.SetActive(true);
 		voteTitle.text = title;
 		voteInstigator.text = instigator;
@@ -35,20 +38,26 @@ public class VotePopUp : MonoBehaviour
 	public void VoteYes()
 	{
 		SoundManager.Play("Click01");
-		CloseVoteWindow();
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(ServerData.UserID, true);
 		}
+		ToggleButtons(false);
 	}
 
 	public void VoteNo()
 	{
 		SoundManager.Play("Click01");
-		CloseVoteWindow();
 		if (PlayerManager.PlayerScript != null)
 		{
 			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(ServerData.UserID, false);
 		}
+		ToggleButtons(false);
+	}
+
+	void ToggleButtons(bool isOn)
+	{
+		yesBtn.interactable = isOn;
+		noBtn.interactable = isOn;
 	}
 }
