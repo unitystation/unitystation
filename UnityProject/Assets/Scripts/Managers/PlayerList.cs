@@ -119,7 +119,7 @@ public partial class PlayerList : NetworkBehaviour
 		foreach (var player in ClientConnectedPlayers)
 		{
 			if (player.PendingSpawn) continue;
-
+			if (player.Job == JobType.SYNDICATE) continue;
 			UIManager.Instance.playerListUIControl.nameList.text +=
 				$"{player.Name} ({player.Job.JobString()})\r\n";
 		}
