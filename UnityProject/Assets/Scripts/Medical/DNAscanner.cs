@@ -25,22 +25,22 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 
 	private CancellationTokenSource cancelOccupiedAnim = new CancellationTokenSource();
 
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-		statusString = "Ready to scan.";
-		SyncPowered(powered);
-	}
-
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		SyncPowered(powered);
 	}
 
-	protected override void ServerHandleContentsOnStatusChange()
+	public override void OnSpawnServer(SpawnInfo info)
 	{
-		base.ServerHandleContentsOnStatusChange();
+		base.OnSpawnServer(info);
+		statusString = "Ready to scan.";
+		SyncPowered(powered);
+	}
+
+	protected override void ServerHandleContentsOnStatusChange(bool willClose)
+	{
+		base.ServerHandleContentsOnStatusChange(willClose);
 		if(ServerHeldPlayers.Any())
 		{
 			var mob = ServerHeldPlayers.First();
@@ -82,6 +82,7 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		//Logger.Log("TTTTTTTTTTTTT" + value.ToString());
 		if (ClosetStatus == ClosetStatus.Open)
 		{
+			cancelOccupiedAnim.Cancel();
 			if (!powered)
 			{
 				spriteRenderer.sprite = openUnPoweredSprite;
@@ -93,10 +94,12 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		}
 		else if (!powered)
 		{
+			cancelOccupiedAnim.Cancel();
 			spriteRenderer.sprite = closedUnPoweredSprite;
 		}
 		else if (ClosetStatus == ClosetStatus.Closed)
 		{
+			cancelOccupiedAnim.Cancel();
 			spriteRenderer.sprite = closedPoweredSprite;
 		}
 		else if(ClosetStatus == ClosetStatus.ClosedWithOccupant)

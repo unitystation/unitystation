@@ -136,7 +136,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		SyncLocked(isLocked);
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	public virtual void OnSpawnServer(SpawnInfo info)
 	{
 		if (initialContents != null)
 		{
@@ -182,7 +182,19 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Server]
 	public void ServerAddInternalItem(ObjectBehaviour toAdd)
 	{
-		if (toAdd == null || serverHeldItems.Contains(toAdd) || !IsClosed) return;
+		ServerAddInternalItemInternal(toAdd);
+	}
+
+	//internal because forcing is only to be used internally, because
+	//we need to know what items are added to closet before it closes in
+	//order to decide if player has been added.
+	//Blame this mess on DNA scanner
+	//TODO: FIx this mess, remove the need for a special OccupiedWithPlayer status, move that as a special
+	//syncvar inside DNAScanner
+	[Server]
+	private void ServerAddInternalItemInternal(ObjectBehaviour toAdd, bool force = false)
+	{
+		if (toAdd == null || serverHeldItems.Contains(toAdd) || (!IsClosed && !force)) return;
 		serverHeldItems = serverHeldItems.Concat(new [] {toAdd});
 		toAdd.parentContainer = pushPull;
 		toAdd.VisibleState = false;
@@ -242,6 +254,13 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Server]
 	private void ServerSetIsClosed(bool nowClosed)
 	{
+		//need to call this before we actually updated the closed status o we can see if we will have any occupants
+		//This is only needed because of the weird way DNA scanner was implemented, requiring us to
+		//know if there are held players in order to SyncStatus(ClosedWithOccupant)
+		//Blame this mess on DNA scanner
+		//TODO: FIx this mess, remove the need for a special OccupiedWithPlayer status, move that as a special
+		//syncvar inside DNAScanner
+		ServerHandleContentsOnStatusChange(nowClosed);
 		if(nowClosed)
 		{
 			if(serverHeldPlayers.Count > 0 && registerTile.closetType == ClosetType.SCANNER)
@@ -257,7 +276,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		{
 			SyncStatus(ClosetStatus.Open);
 		}
-		ServerHandleContentsOnStatusChange();
+
 	}
 
 	private void SyncStatus(ClosetStatus value)
@@ -350,9 +369,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	}
 
 	[Server]
-	protected virtual void ServerHandleContentsOnStatusChange()
+	protected virtual void ServerHandleContentsOnStatusChange(bool willClose)
 	{
-		if (IsClosed)
+		if (willClose)
 		{
 			CloseItemHandling();
 			ClosePlayerHandling();
@@ -408,7 +427,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 		foreach (var objectBehaviour in itemsOnCloset)
 		{
-			ServerAddInternalItem(objectBehaviour);
+			//force add, because we call clositemhandling before the
+			//closet is actually updated as being closed.
+			//Blame this mess on DNA scanner
+			//TODO: FIx this mess, remove the need for a special OccupiedWithPlayer status, move that as a special
+			//syncvar inside DNAScanner
+			ServerAddInternalItemInternal(objectBehaviour, true);
 		}
 	}
 
