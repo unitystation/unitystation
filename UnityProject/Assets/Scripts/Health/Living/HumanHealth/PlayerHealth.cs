@@ -114,13 +114,12 @@ public class PlayerHealth : LivingHealthBehaviour
 	[Server]
 	public void ServerGibPlayer()
 	{
-		Death();
 		Gib();
-		playerNetworkActions.CmdSpawnPlayerGhost();
 	}
 
 	protected override void Gib()
 	{
+		Death();
 		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
@@ -131,6 +130,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		}
 
 		playerMove.PlayerScript.pushPull.VisibleState = false;
+		playerNetworkActions.CmdSpawnPlayerGhost();
 	}
 
 	///     make player unconscious upon crit
