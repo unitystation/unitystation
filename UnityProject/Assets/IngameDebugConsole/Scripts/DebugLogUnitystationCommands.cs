@@ -501,7 +501,7 @@ namespace IngameDebugConsole
 				yield break;
 			}
 
-			yield return WaitFor.Seconds(Random.Range(0.0001f, 0.02f));
+			yield return WaitFor.Seconds(Random.Range(0.00001f, 0.01f));
 			switch (Random.Range(1,4))
 			{
 				case 1:
