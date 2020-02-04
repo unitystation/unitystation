@@ -116,7 +116,8 @@ public class CargoShuttle : MonoBehaviour
 		for (int i = 0; i < objectHolder.childCount; i++)
 		{
 			ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
-			if (item != null)
+			//need VisibleState check because despawned objects still stick around on their matrix transform
+			if (item != null && item.VisibleState)
 			{
 				CargoManager.Instance.DestroyItem(item, alreadySold);
 			}
