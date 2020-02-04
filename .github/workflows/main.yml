@@ -8,6 +8,7 @@ on:
     paths:
     - 'Tools/**'
     - 'UnityProject/**'
+    - '.github/workflows/main.yml'
   pull_request:
     branches:
     - develop
@@ -15,6 +16,7 @@ on:
     paths:
     - 'Tools/**'
     - 'UnityProject/**'
+    - '.github/workflows/main.yml'
 
 jobs:
 
