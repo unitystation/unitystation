@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashBag
       objectReference: {fileID: 0}
+    - target: {fileID: 4584300732884025589, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: canClickPickup
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4584300732884025589, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: canQuickEmpty
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: initialName
@@ -27,6 +37,74 @@ PrefabInstance:
       propertyPath: initialSize
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 5e618aedbcee21949bf687dcb42a32ac, type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5e618aedbcee21949bf687dcb42a32ac,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 5e618aedbcee21949bf687dcb42a32ac,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 5e618aedbcee21949bf687dcb42a32ac,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 5e618aedbcee21949bf687dcb42a32ac,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 5b9d4baee4438ed4782426e6070d902a, type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 27809452a253be641a704ff84e8ac8f1, type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 27809452a253be641a704ff84e8ac8f1,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 27809452a253be641a704ff84e8ac8f1,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 27809452a253be641a704ff84e8ac8f1,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 27809452a253be641a704ff84e8ac8f1,
+        type: 3}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 6c601e2fd5d2b1149acd8df1e2123b4d, type: 3}
     - target: {fileID: 5960312074135185260, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -99,16 +177,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
         type: 2}
-    - target: {fileID: 4584300732884025589, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: canClickPickup
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4584300732884025589, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: canQuickEmpty
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5788603249075284292, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: m_Sprite

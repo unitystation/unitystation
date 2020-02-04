@@ -24,23 +24,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ComputerCircuitboard
       objectReference: {fileID: 0}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 3f263511f60bd4349b739e2e1df263a2,
-        type: 3}
-    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteList.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: 3c4804e1c4f0732488c3696cbc1f9094,
-        type: 3}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
@@ -90,6 +73,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteList.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3f263511f60bd4349b739e2e1df263a2,
+        type: 3}
+    - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteList.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3c4804e1c4f0732488c3696cbc1f9094,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &372985771419607861 stripped
