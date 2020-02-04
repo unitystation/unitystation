@@ -156,6 +156,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		SyncStatus(ClosetStatus.Closed);
 		SyncLocked(false);
 
+		//if this is a mapped spawn, stick any items mapped on top of us in
+		if (info.SpawnType == SpawnType.Mapped)
+		{
+			CloseItemHandling();
+		}
+
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -382,25 +388,27 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		serverHeldItems = Enumerable.Empty<ObjectBehaviour>();
 	}
 
+	/// <summary>
+	/// Adds all items currently sitting on this closet into the closet
+	/// </summary>
 	private void CloseItemHandling()
 	{
 		var itemsOnCloset = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
-			.Where(ob => ob != null && ob.gameObject != gameObject);
-		if (serverHeldItems != null)
+			.Where(ob => ob != null && ob.gameObject != gameObject)
+			.Where(ob =>
+			{
+				//exclude anchored pipes
+				if (ob.TryGetComponent<Pipe>(out var pipe))
+				{
+					return !pipe.anchored;
+				}
+
+				return true;
+			});
+
+		foreach (var objectBehaviour in itemsOnCloset)
 		{
-			serverHeldItems = serverHeldItems.Concat(itemsOnCloset);
-		}
-		else
-		{
-			serverHeldItems = itemsOnCloset;
-		}
-		foreach (ObjectBehaviour item in serverHeldItems)
-		{
-			var pipe = item.GetComponent<Pipe>();
-			//Checks to see if the item is anchored to the floor (i.e. a vent or a scrubber) before placing it in the locker
-			if (pipe != null && pipe.anchored) continue;
-			item.parentContainer = pushPull;
-			item.VisibleState = false;
+			ServerAddInternalItem(objectBehaviour);
 		}
 	}
 
