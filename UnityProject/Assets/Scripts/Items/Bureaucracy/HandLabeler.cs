@@ -17,7 +17,7 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 	[SyncVar]
 	private string currentLabel;
-	
+
 	public void OnInputReceived(string input)
 	{
 		if (labelAmount == 0) return;
@@ -72,8 +72,11 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		if (!interaction.UsedObject.Item().HasTrait(refillTrait)) return false;
-		if (interaction.TargetObject != gameObject) return false;
+		//must target this labeler to load rolls into
+		if (!Validations.IsTarget(gameObject, interaction)) return false;
+		//item to use must have refill trait
+		if (!Validations.HasUsedItemTrait(interaction, refillTrait)) return false;
+
 		return true;
 	}
 

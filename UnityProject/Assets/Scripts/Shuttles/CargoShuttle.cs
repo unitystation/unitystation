@@ -116,7 +116,8 @@ public class CargoShuttle : MonoBehaviour
 		for (int i = 0; i < objectHolder.childCount; i++)
 		{
 			ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
-			if (item != null)
+			//need VisibleState check because despawned objects still stick around on their matrix transform
+			if (item != null && item.VisibleState)
 			{
 				CargoManager.Instance.DestroyItem(item, alreadySold);
 			}
@@ -143,11 +144,34 @@ public class CargoShuttle : MonoBehaviour
 		if (pos == TransformState.HiddenPos)
 			return (false);
 
-		Spawn.ServerPrefab(order.Crate, pos);
-		for (int i = 0; i < order.Items.Count; i++)
+		var crate = Spawn.ServerPrefab(order.Crate, pos).GameObject;
+		//error occurred trying to spawn, just ignore this order.
+		if (crate == null) return true;
+		if (crate.TryGetComponent<ClosetControl>(out var closetControl))
 		{
-			Spawn.ServerPrefab(order.Items[i], pos);
+			for (int i = 0; i < order.Items.Count; i++)
+			{
+				var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;
+				if (orderedItem != null && orderedItem.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
+				{
+					//ensure it is added to crate
+					closetControl.ServerAddInternalItem(objectBehaviour);
+				}
+				else
+				{
+					Logger.LogWarning($"Can't add ordered item {orderedItem.ExpensiveName()} to create because" +
+					                  $" it doesn't have an ObjectBehavior component.");
+				}
+			}
 		}
+		else
+		{
+			Logger.LogWarning($"{crate.ExpensiveName()} does not have ClosetControl. Please fix CargoData" +
+			                  $" to ensure that the crate prefab is actually a crate (with ClosetControl component)." +
+			                  $" This order will be ignored.");
+			return true;
+		}
+
 		CargoManager.Instance.CentcomMessage += "Loaded " + order.OrderName + " onto shuttle.\n";
 		return (true);
 	}

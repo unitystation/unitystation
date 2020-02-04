@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Lucene.Net.Support;
 using UnityEngine;
 using UnityEngine.Events;
@@ -110,7 +111,8 @@ public class CargoManager : MonoBehaviour
 
 	public void LoadData()
 	{
-		Supplies = cargoData.Supplies;
+		//need a shallow copy so the actual SO list isn't cleared on round restart!
+		Supplies = new List<CargoOrderCategory>(cargoData.Supplies);
 	}
 
 	private IEnumerator Timer(bool launchToStation)

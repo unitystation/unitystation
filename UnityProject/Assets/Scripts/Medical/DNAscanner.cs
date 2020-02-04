@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 
@@ -24,25 +25,25 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 
 	private CancellationTokenSource cancelOccupiedAnim = new CancellationTokenSource();
 
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-		statusString = "Ready to scan.";
-		SyncPowered(powered);
-	}
-
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		SyncPowered(powered);
 	}
 
-	public override void HandleItems()
+	public override void OnSpawnServer(SpawnInfo info)
 	{
-		base.HandleItems();
-		if(heldPlayers.Count > 0)
+		base.OnSpawnServer(info);
+		statusString = "Ready to scan.";
+		SyncPowered(powered);
+	}
+
+	protected override void ServerHandleContentsOnStatusChange(bool willClose)
+	{
+		base.ServerHandleContentsOnStatusChange(willClose);
+		if(ServerHeldPlayers.Any())
 		{
-			var mob = heldPlayers[0];
+			var mob = ServerHeldPlayers.First();
 			occupant = mob.GetComponent<LivingHealthBehaviour>();
 		}
 		else
@@ -71,17 +72,17 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		var objectBehaviour = drop.DroppedObject.GetComponent<ObjectBehaviour>();
 		if(objectBehaviour)
 		{
-			IsClosed = true;
-			StorePlayer(objectBehaviour);
-			ChangeSprite();
+			ServerStorePlayer(objectBehaviour);
+			ServerToggleClosed(true);
 		}
 	}
 
-	public override void SyncSprite(ClosetStatus value)
+	protected override void UpdateSpritesOnStatusChange()
 	{
-		cancelOccupiedAnim.Cancel();
-		if (value == ClosetStatus.Open)
+		//Logger.Log("TTTTTTTTTTTTT" + value.ToString());
+		if (ClosetStatus == ClosetStatus.Open)
 		{
+			cancelOccupiedAnim.Cancel();
 			if (!powered)
 			{
 				spriteRenderer.sprite = openUnPoweredSprite;
@@ -93,13 +94,15 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		}
 		else if (!powered)
 		{
+			cancelOccupiedAnim.Cancel();
 			spriteRenderer.sprite = closedUnPoweredSprite;
 		}
-		else if (value == ClosetStatus.Closed)
+		else if (ClosetStatus == ClosetStatus.Closed)
 		{
+			cancelOccupiedAnim.Cancel();
 			spriteRenderer.sprite = closedPoweredSprite;
 		}
-		else if(value == ClosetStatus.ClosedWithOccupant)
+		else if(ClosetStatus == ClosetStatus.ClosedWithOccupant)
 		{
 			cancelOccupiedAnim = new CancellationTokenSource();
 			if (gameObject != null && gameObject.activeInHierarchy)
@@ -140,10 +143,10 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		{
 			if(IsLocked)
 			{
-				IsLocked = false;
+				ServerToggleLocked(false);
 			}
 		}
-		SyncSprite(statusSync);
+		UpdateSpritesOnStatusChange();
 	}
 
 	public void PowerNetworkUpdate(float Voltage)
