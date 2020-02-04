@@ -113,3 +113,23 @@ jobs:
         with:
           name: ${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+
+  Imaging:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    needs: [performBuild]
+    name: Create Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.0.0
+      - uses: actions/download-artifact@v1
+        with:
+          name: StandaloneLinux64
+          path: Docker/server
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v2.12
+        with:
+          name: unitystation/unitystation
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: Docker
+          # tags: "latest,$GITHUB_RUN_NUMBER"

@@ -4,7 +4,7 @@ services:
     unitystation:
         build: .
         image: unitystation/unitystation
-        environment: 
+        environment:
             RCON_PASSWORD: 1234
         ports:
             - 7777:7777

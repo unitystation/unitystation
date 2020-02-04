@@ -1,8 +1,6 @@
-cd /server/Unitystation-Server_Data/StreamingAssets/config
-jq --arg v "$SERVER_NAME"   '.ServerName = $v' config.json | sponge config.json
-jq --arg v "7778"           '.RconPort = $v'   config.json | sponge config.json 
-jq --arg v "$RCON_PASSWORD" '.RconPass = $v'   config.json | sponge config.json
-jq --arg v "$HUB_USER"      '.HubUser = $v'    config.json | sponge config.json
-jq --arg v "$HUB_PASSWORD"  '.HubPass = $v'    config.json | sponge config.json
+cd /server/UnityStation_Data/StreamingAssets/config
+if test $RCON_PASSWORD; then jq --arg v "$RCON_PASSWORD" '.RconPass = $v' config.json | sponge config.json; fi
+if test $HUB_USER     ; then jq --arg v "$HUB_USER"      '.HubUser = $v'  config.json | sponge config.json; fi
+if test $HUB_PASSWORD ; then jq --arg v "$HUB_PASSWORD"  '.HubPass = $v'  config.json | sponge config.json; fi
 
-/server/Unitystation-Server -batchmode -nographics -logfile /dev/stdout
+/server/UnityStation -batchmode -nographics -logfile /dev/stdout
