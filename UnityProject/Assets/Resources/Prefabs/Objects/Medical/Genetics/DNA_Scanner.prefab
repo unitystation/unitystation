@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 5293454678208234974}
   - component: {fileID: 114532654656294352}
   - component: {fileID: 114039584032850022}
-  - component: {fileID: 390125877411094447}
   - component: {fileID: 4585042576726451927}
   - component: {fileID: 114261379763110518}
   - component: {fileID: -921045048710611501}
@@ -191,11 +190,19 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212360857505739792}
   occupant: {fileID: 0}
   statusString: 
-  closedWithOccupant: {fileID: 21300000, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
-  doorClosedPowerless: {fileID: 21300000, guid: d576437aea8f9b04a80ff4fd7f9a5dc0,
+  openUnPoweredSprite: {fileID: 21300000, guid: adbd8f0ee776c3f409f3d3b0b60c6916,
     type: 3}
-  doorOpenPowerless: {fileID: 21300000, guid: adbd8f0ee776c3f409f3d3b0b60c6916, type: 3}
-  spriteHandler: {fileID: 390125877411094447}
+  openPoweredSprite: {fileID: 21300000, guid: e5496b09241b8cb4f97de9c4026f904c, type: 3}
+  closedUnPoweredSprite: {fileID: 21300000, guid: d576437aea8f9b04a80ff4fd7f9a5dc0,
+    type: 3}
+  closedPoweredSprite: {fileID: 21300000, guid: a04b8478cd5128343955dfd27c1e107f,
+    type: 3}
+  closedPoweredWithOccupant:
+  - {fileID: 21300000, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+  - {fileID: 21300002, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+  - {fileID: 21300004, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+  - {fileID: 21300006, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+  animSpeed: 0.13
 --- !u!114 &114657711786529776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,22 +325,6 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
---- !u!114 &390125877411094447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprites: []
-  spriteIndex: 0
-  variantIndex: 0
-  SetSpriteOnStartUp: 1
 --- !u!114 &4585042576726451927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +362,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 4285425308
+  m_SceneId: 2098758566
 --- !u!114 &-921045048710611501
 MonoBehaviour:
   m_ObjectHideFlags: 0

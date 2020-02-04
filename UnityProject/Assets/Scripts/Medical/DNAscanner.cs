@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -15,12 +16,14 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 	//allows us to avoid  syncing power when it is unchanged
 	private bool powerInit;
 
-	public Sprite closedWithOccupant;
-	public Sprite doorClosedPowerless;
-	public Sprite doorOpenPowerless;
+	public Sprite openUnPoweredSprite;
+	public Sprite openPoweredSprite;
+	public Sprite closedUnPoweredSprite;
+	public Sprite closedPoweredSprite;
+	public Sprite[] closedPoweredWithOccupant;
+	public float animSpeed = 0.1f;
 
-
-	public SpriteHandler spriteHandler;
+	private CancellationTokenSource cancelOccupiedAnim = new CancellationTokenSource();
 
 	public override void OnStartServer()
 	{
@@ -81,24 +84,48 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		{
 			if (!powered)
 			{
-				spriteHandler.ChangeSprite(5);
+				spriteRenderer.sprite = openUnPoweredSprite;
 			}
 			else
 			{
-				spriteHandler.ChangeSprite(3);
+				spriteRenderer.sprite = openPoweredSprite;
 			}
 		}
 		else if (!powered)
 		{
-			spriteHandler.ChangeSprite(6);
+			spriteRenderer.sprite = closedUnPoweredSprite;
 		}
 		else if (ClosetStatus == ClosetStatus.Closed)
 		{
-			spriteHandler.ChangeSprite(0);
+			spriteRenderer.sprite = closedPoweredSprite;
 		}
 		else if(ClosetStatus == ClosetStatus.ClosedWithOccupant)
 		{
-			spriteHandler.ChangeSprite(2);
+			cancelOccupiedAnim = new CancellationTokenSource();
+			if (gameObject != null && gameObject.activeInHierarchy)
+			{
+				StartCoroutine(AnimateOccupied());
+			}
+		}
+	}
+
+	IEnumerator AnimateOccupied()
+	{
+		var index = 0;
+		while (true)
+		{
+			if (cancelOccupiedAnim.IsCancellationRequested)
+			{
+				yield break;
+			}
+
+			spriteRenderer.sprite = closedPoweredWithOccupant[index];
+			index++;
+			if (index == closedPoweredWithOccupant.Length)
+			{
+				index = 0;
+			}
+			yield return WaitFor.Seconds(animSpeed);
 		}
 	}
 

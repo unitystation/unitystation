@@ -59,7 +59,8 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		//clientPredictInteraction on clientside
 		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side)))
 		{
-			return false;
+			interaction = PositionalHandApply.Invalid;
+			return true;
 		}
 
 		//not punching unless harm intent

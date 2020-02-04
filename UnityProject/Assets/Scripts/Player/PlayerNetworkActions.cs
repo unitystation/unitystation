@@ -113,6 +113,32 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Request to drop alls item from ItemStorage, send an item slot net id of
+	/// one of the slots on the item storage
+	/// </summary>
+	/// <param name="itemSlotID"></param>
+	[Command]
+	public void CmdDropAllItems(uint itemSlotID)
+	{
+		var netInstance = NetworkIdentity.spawned[itemSlotID];
+		if (netInstance == null) return;
+
+		var itemStorage = netInstance.GetComponent<ItemStorage>();
+		if (this.itemStorage == null) return;
+
+		var slots = itemStorage.GetItemSlots();
+		if (slots == null) return;
+
+		var validateSlot = itemStorage.GetIndexedItemSlot(0);
+		if (validateSlot.RootPlayer() != playerScript.registerTile) return;
+		
+		foreach (var item in slots)
+		{
+			Inventory.ServerDrop(item);
+		}
+	}
+
+	/// <summary>
 	/// Completely disrobes another player
 	/// </summary>
 	[Command]
@@ -392,7 +418,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSpawnPlayerGhost()
 	{
-		if (GetComponent<LivingHealthBehaviour>().IsDead)
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
