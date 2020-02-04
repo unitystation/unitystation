@@ -179,5 +179,6 @@ public class GUI_IngameMenu : MonoBehaviour
 	private void HideAllMenus()
 	{
 		menuWindow.SetActive(false);
+		disclamerWindow.SetActive(false);
 	}
 }

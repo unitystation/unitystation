@@ -6,15 +6,17 @@ on:
     - develop
     - master
     paths:
-    - 'Tools/**'
+    - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
+    - '.github/workflows/main.yml'
   pull_request:
     branches:
     - develop
     - master
     paths:
-    - 'Tools/**'
+    - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
+    - '.github/workflows/main.yml'
 
 jobs:
 
@@ -109,5 +111,5 @@ jobs:
       - name: Upload Build
         uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.targetPlatform }} Build
-          path: build
+          name: ${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}

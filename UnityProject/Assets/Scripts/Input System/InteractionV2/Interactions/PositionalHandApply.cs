@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class PositionalHandApply : BodyPartTargetedInteraction
 {
-	private static readonly PositionalHandApply Invalid = new PositionalHandApply(null, null,
+	public static readonly PositionalHandApply Invalid = new PositionalHandApply(null, null,
 		null, Vector2.zero, null, Intent.Help, BodyPartType.None);
 
 	private readonly ItemSlot handSlot;

@@ -103,7 +103,7 @@ public class EscapeShuttle : NetworkBehaviour
 	/// Note it's not currently possible to construct thrusters. This is only stored server side.
 	/// Thrusters are removed from this when destroyed
 	/// </summary>
-	private List<ShipThruster> thrusters;
+	private List<ShipThruster> thrusters = new List<ShipThruster>();
 
 	private void Awake()
 	{
@@ -241,6 +241,7 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			isReverse = true;
 			mm.ChangeFacingDirection(mm.ServerState.FacingDirection.Rotate(2));
+			PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
 		}
 	}
 
@@ -360,19 +361,9 @@ public class EscapeShuttle : NetworkBehaviour
 		Status = ShuttleStatus.OnRouteCentcom;
 
 		currentDestination = Destination.Invalid;
-		mm.SetSpeed( 1 );
+		mm.SetSpeed( 100f );
 		mm.StartMovement();
-		mm.MaxSpeed = float.MaxValue; //hehe
-
-		StartCoroutine(LosingMyFavouriteGame());
-		IEnumerator LosingMyFavouriteGame()
-		{
-			while ( Status == ShuttleStatus.OnRouteCentcom )
-			{
-				yield return WaitFor.Seconds( 1.5f );
-				mm.SetSpeed( mm.ServerState.Speed * 1.5f );
-			}
-		}
+		mm.MaxSpeed = 100f;
 	}
 
 

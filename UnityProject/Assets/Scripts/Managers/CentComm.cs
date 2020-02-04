@@ -137,6 +137,7 @@ public class CentComm : MonoBehaviour
 
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
 			MatrixManager.MainStationMatrix);
+		PlaySoundMessage.SendToAll("ShuttleCalled", Vector3.zero, 1f);
 	}
 
 	/// <summary>
@@ -146,6 +147,7 @@ public class CentComm : MonoBehaviour
 	{
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
 			MatrixManager.MainStationMatrix);
+		PlaySoundMessage.SendToAll("ShuttleRecalled", Vector3.zero, 1f);
 	}
 
 	private string CreateStartGameReport()

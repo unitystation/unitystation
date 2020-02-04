@@ -61,4 +61,8 @@
 	/// 1 = enabled
 	/// </summary>
 	public static string EnableHighlights = "EnableHighlights";
+	/// <summary>
+	/// Sets the client side target frame rate preference
+	/// </summary>
+	public static string TargetFrameRate = "TargetFrameRate";
 }

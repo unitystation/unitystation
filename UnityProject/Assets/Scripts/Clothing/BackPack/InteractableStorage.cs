@@ -275,6 +275,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 	}
 
+	//This is all client only interaction:
 	public bool Interact(HandActivate interaction)
 	{
 		if (canQuickEmpty)
@@ -292,11 +293,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				return false;
 			}
 
-			foreach (var item in slots)
-			{
-				// Might be better to add a DropAll method in future
-				Inventory.ServerDrop(item);
-			}
+			if (PlayerManager.PlayerScript == null) return false;
+
+			PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0).ItemStorageNetID);
 
 			if (!CustomNetworkManager.Instance._isServer)
 			{

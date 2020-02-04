@@ -23,6 +23,11 @@ public static class SpriteFunctions
 		if (textureAndData.Sprites.Length > 1)
 		{
 			SpriteJson spriteJson;
+
+			if (textureAndData.EquippedData == null) {
+				Logger.LogError("Generating texture and mission data, data is missing for texture " + textureAndData.Texture.name);
+				return(new List<List<SpriteHandler.SpriteInfo>>());
+			}
 			spriteJson = JsonConvert.DeserializeObject<SpriteJson>(textureAndData.EquippedData.text);
 			int variance = 0;
 			int frame = 0;

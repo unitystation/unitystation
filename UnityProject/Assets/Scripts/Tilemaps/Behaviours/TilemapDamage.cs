@@ -489,7 +489,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (data.Damage >= MAX_WINDOW_DAMAGE && data.WindowDamage < WindowDamageLevel.Broken)
 		{
-			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "none");
+			tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
 
 			//Spawn 3 glass shards with different sprites:

@@ -14,23 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expectedOres:
   - Trait: {fileID: 11400000, guid: 3d402a2b597113b4a97ee3710288b408, type: 2}
-    Material: {fileID: 1645856876941636, guid: 78d9125d50217497cbcd4a18ffe2e3e4, type: 3}
+    Material: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
+      type: 3}
   - Trait: {fileID: 11400000, guid: b6d7aeb207e8c9d47a7744da79141799, type: 2}
-    Material: {fileID: 1791647728409730387, guid: 4d229442f3c656d458217e0172bf9090,
+    Material: {fileID: 6254655335276451647, guid: 2d1e406ab4ff1174a94bc1a0de1b9704,
       type: 3}
   - Trait: {fileID: 11400000, guid: b52339a75d4b045469c79bd102bc98ea, type: 2}
-    Material: {fileID: 1791647728409730387, guid: 8ea5e42912db82c4cad8634141c800f8,
+    Material: {fileID: 6254655335276451647, guid: db7e38821ee90cf45b4f7edbbece6900,
       type: 3}
   - Trait: {fileID: 11400000, guid: 9f843295728958e48bcfe5215296ee90, type: 2}
-    Material: {fileID: 1042464433060550, guid: 1449a7168a66e544c8929677c8ba5938, type: 3}
+    Material: {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0,
+      type: 3}
   - Trait: {fileID: 11400000, guid: 1e8921a11f65f9640afc3446c7cb9320, type: 2}
-    Material: {fileID: 1791647728409730387, guid: 011fcd3b4e1818d4f9c80954a3af7904,
+    Material: {fileID: 6254655335276451647, guid: f6975ea06bbf7674a983c95f6796ef64,
       type: 3}
   - Trait: {fileID: 11400000, guid: e76a2305b1eac4c4786986115a5eb555, type: 2}
-    Material: {fileID: 1791647728409730387, guid: 53d11633a701a7c4a8a16c62a64461cd,
+    Material: {fileID: 6254655335276451647, guid: 8a2a9838ff2c91643a77af22d485b15f,
       type: 3}
   - Trait: {fileID: 11400000, guid: d3b5f22c1469bf34a81e377227b2acf5, type: 2}
-    Material: {fileID: 1791647728409730387, guid: e520fd72ff2a73b4d80693fb7fe23fdf,
+    Material: {fileID: 6254655335276451647, guid: fdfebca06b77ef64898a68e1df0d3e9a,
       type: 3}
 --- !u!114 &7207538277679673550
 MonoBehaviour:
@@ -70,26 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ore Redemption Machine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialName
-      value: Ore Redemption Machine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialDescription
-      value: The thing that does the ores
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: exportCost
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -145,6 +127,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: Ore Redemption Machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialDescription
+      value: The thing that does the ores
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportCost
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

@@ -363,7 +363,7 @@ public static class Inventory
 						holderPushPull.parentContainer.name);
 					return false;
 				}
-				closetControl.AddItem(objBehavior);
+				closetControl.ServerAddInternalItem(objBehavior);
 
 				return true;
 			}

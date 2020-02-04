@@ -17,6 +17,7 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Toggle fullscreenToggle;
 		private CameraZoomHandler zoomHandler;
+		[SerializeField] private InputField frameRateTarget;
 
         void OnEnable()
         {
@@ -32,8 +33,8 @@ namespace Unitystation.Options
         {
             camZoomSlider.value = zoomHandler.ZoomLevel;
             scrollWheelZoomToggle.isOn = zoomHandler.ScrollWheelZoom;
-
-		}
+            frameRateTarget.text = PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate).ToString();
+        }
 
         public void OnZoomLevelChange()
         {
@@ -56,7 +57,7 @@ namespace Unitystation.Options
 			int vRes = Screen.fullScreen ? 720  : Display.main.systemHeight;
 			fullscreenToggle.isOn = !Screen.fullScreen; //This can't go into Refresh() because going fullscreen happens 1 too late
 			Screen.SetResolution(hRes, vRes, !Screen.fullScreen);
-			
+
 		}
 
         public void ResetDefaults()
@@ -70,6 +71,15 @@ namespace Unitystation.Options
                 },
                 "Reset"
             );
+        }
+
+        public void OnFrameRateTargetEdit()
+        {
+	        int newTarget = 99;
+	        int.TryParse(frameRateTarget.text, out newTarget);
+			PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, newTarget);
+			PlayerPrefs.Save();
+			Application.targetFrameRate = Mathf.Clamp(newTarget, 30, 144);
         }
     }
 }

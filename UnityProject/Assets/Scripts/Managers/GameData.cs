@@ -26,10 +26,15 @@ public class GameData : MonoBehaviour
 	private bool offlineMode;
 
 	/// <summary>
+	/// Whether --offlinemode command line argument is passed. Enforces offline mode.
+	/// </summary>
+	private bool forceOfflineMode;
+
+	/// <summary>
 	/// Is offline mode enabled, allowing login skip / working without connection to server.?
 	/// Disabled always for release builds.
 	/// </summary>
-	public bool OfflineMode => !BuildPreferences.isForRelease && offlineMode;
+	public bool OfflineMode => (!BuildPreferences.isForRelease && offlineMode) || forceOfflineMode;
 
 	public bool testServer;
 	private RconManager rconManager;
@@ -64,20 +69,14 @@ public class GameData : MonoBehaviour
 		Init();
 	}
 
-	public bool IsTestMode => SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
-
 	private void Init()
 	{
 		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
-		Logger.Log($"Build Version is: {BuildNumber}");
+		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
+		Logger.Log($"Build Version is: {BuildNumber}. "+ (OfflineMode ? "Offline mode" : string.Empty) );
 		CheckHeadlessState();
-
-		if (IsTestMode)
-		{
-			return;
-		}
 
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 
@@ -205,21 +204,12 @@ public class GameData : MonoBehaviour
 	private void OnEnable()
 	{
 		Logger.RefreshPreferences();
-		if (IsTestMode)
-		{
-			return;
-		}
 
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		if (IsTestMode)
-		{
-			return;
-		}
-
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
@@ -234,7 +224,6 @@ public class GameData : MonoBehaviour
 		{
 			IsInGame = true;
 			Managers.instance.SetScreenForGame();
-			SetPlayerPreferences();
 		}
 
 		if (CustomNetworkManager.Instance.isNetworkActive)
@@ -287,15 +276,6 @@ public class GameData : MonoBehaviour
 	{
 		yield return WaitFor.Seconds(0.1f);
 		CustomNetworkManager.Instance.StartHost();
-	}
-
-	private void SetPlayerPreferences()
-	{
-		//Ambient Volume
-		if (PlayerPrefs.HasKey("AmbientVol"))
-		{
-			SoundManager.Instance.ambientTrack.volume = PlayerPrefs.GetFloat("AmbientVol");
-		}
 	}
 
 	private string GetArgument(string name)

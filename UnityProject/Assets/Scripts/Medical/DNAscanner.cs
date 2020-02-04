@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Linq;
 using UnityEngine;
 using Mirror;
 
@@ -14,19 +16,14 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 	//allows us to avoid  syncing power when it is unchanged
 	private bool powerInit;
 
-	public Sprite closedWithOccupant;
-	public Sprite doorClosedPowerless;
-	public Sprite doorOpenPowerless;
+	public Sprite openUnPoweredSprite;
+	public Sprite openPoweredSprite;
+	public Sprite closedUnPoweredSprite;
+	public Sprite closedPoweredSprite;
+	public Sprite[] closedPoweredWithOccupant;
+	public float animSpeed = 0.1f;
 
-
-	public SpriteHandler spriteHandler;
-
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-		statusString = "Ready to scan.";
-		SyncPowered(powered);
-	}
+	private CancellationTokenSource cancelOccupiedAnim = new CancellationTokenSource();
 
 	public override void OnStartClient()
 	{
@@ -34,12 +31,19 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		SyncPowered(powered);
 	}
 
-	public override void HandleItems()
+	public override void OnSpawnServer(SpawnInfo info)
 	{
-		base.HandleItems();
-		if(heldPlayers.Count > 0)
+		base.OnSpawnServer(info);
+		statusString = "Ready to scan.";
+		SyncPowered(powered);
+	}
+
+	protected override void ServerHandleContentsOnStatusChange(bool willClose)
+	{
+		base.ServerHandleContentsOnStatusChange(willClose);
+		if(ServerHeldPlayers.Any())
 		{
-			var mob = heldPlayers[0];
+			var mob = ServerHeldPlayers.First();
 			occupant = mob.GetComponent<LivingHealthBehaviour>();
 		}
 		else
@@ -68,37 +72,63 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		var objectBehaviour = drop.DroppedObject.GetComponent<ObjectBehaviour>();
 		if(objectBehaviour)
 		{
-			IsClosed = true;
-			StorePlayer(objectBehaviour);
-			ChangeSprite();
+			ServerStorePlayer(objectBehaviour);
+			ServerToggleClosed(true);
 		}
 	}
 
-	public override void SyncSprite(ClosetStatus value)
+	protected override void UpdateSpritesOnStatusChange()
 	{
 		//Logger.Log("TTTTTTTTTTTTT" + value.ToString());
-		if (value == ClosetStatus.Open)
+		if (ClosetStatus == ClosetStatus.Open)
 		{
+			cancelOccupiedAnim.Cancel();
 			if (!powered)
 			{
-				spriteHandler.ChangeSprite(5);
+				spriteRenderer.sprite = openUnPoweredSprite;
 			}
 			else
 			{
-				spriteHandler.ChangeSprite(3);
+				spriteRenderer.sprite = openPoweredSprite;
 			}
 		}
 		else if (!powered)
 		{
-			spriteHandler.ChangeSprite(6);
+			cancelOccupiedAnim.Cancel();
+			spriteRenderer.sprite = closedUnPoweredSprite;
 		}
-		else if (value == ClosetStatus.Closed)
+		else if (ClosetStatus == ClosetStatus.Closed)
 		{
-			spriteHandler.ChangeSprite(0);
+			cancelOccupiedAnim.Cancel();
+			spriteRenderer.sprite = closedPoweredSprite;
 		}
-		else if(value == ClosetStatus.ClosedWithOccupant)
+		else if(ClosetStatus == ClosetStatus.ClosedWithOccupant)
 		{
-			spriteHandler.ChangeSprite(2);
+			cancelOccupiedAnim = new CancellationTokenSource();
+			if (gameObject != null && gameObject.activeInHierarchy)
+			{
+				StartCoroutine(AnimateOccupied());
+			}
+		}
+	}
+
+	IEnumerator AnimateOccupied()
+	{
+		var index = 0;
+		while (true)
+		{
+			if (cancelOccupiedAnim.IsCancellationRequested)
+			{
+				yield break;
+			}
+
+			spriteRenderer.sprite = closedPoweredWithOccupant[index];
+			index++;
+			if (index == closedPoweredWithOccupant.Length)
+			{
+				index = 0;
+			}
+			yield return WaitFor.Seconds(animSpeed);
 		}
 	}
 
@@ -113,10 +143,10 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		{
 			if(IsLocked)
 			{
-				IsLocked = false;
+				ServerToggleLocked(false);
 			}
 		}
-		SyncSprite(statusSync);
+		UpdateSpritesOnStatusChange();
 	}
 
 	public void PowerNetworkUpdate(float Voltage)

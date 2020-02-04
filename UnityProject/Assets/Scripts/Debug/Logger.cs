@@ -250,7 +250,8 @@ public enum Category
 	Admin,
 	BuckledMovement,
 	ProgressAction,
-	Botany
+	Botany,
+	SoundFX
 }
 
 [Serializable]

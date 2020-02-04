@@ -52,6 +52,7 @@ internal enum MessageTypes : short
 	AdminEnableMessage = 1048,
 	AdminToolRefreshMessage = 1049,
 	AdminBwoinkMessage = 1050,
+	PlayAmbientTrack = 1051,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,

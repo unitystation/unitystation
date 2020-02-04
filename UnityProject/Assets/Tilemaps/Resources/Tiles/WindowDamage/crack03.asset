@@ -17,12 +17,13 @@ MonoBehaviour:
   TileType: 8
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  WalkingSoundCategory: 0
   atmosPassable: 0
   isSealed: 0
-  OreCategorie: 0
+  oreCategory: 0
   MaxHealth: 0
   HealthStates: []
-  passable: 0
+  passable: 1
   mineable: 0
   passableException:
     m_keys: 
