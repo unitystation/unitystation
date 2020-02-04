@@ -43,7 +43,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	[Tooltip("Renderer for the whole locker")]
 	[SerializeField]
-	private SpriteRenderer spriteRenderer;
+	protected SpriteRenderer spriteRenderer;
 
 	/// <summary>
 	/// Invoked when locker becomes closed / open. Param is true
