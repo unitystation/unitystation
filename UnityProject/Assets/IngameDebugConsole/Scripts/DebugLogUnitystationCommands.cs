@@ -472,6 +472,51 @@ namespace IngameDebugConsole
 				}
 			}
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spam chat")]
+#endif
+		private static void SpamChat()
+		{
+			if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+			{
+				return;
+			}
+			isSpamming = true;
+			Chat.Instance.StartCoroutine(SpamChatCoroutine());
+			Chat.Instance.StartCoroutine(StopSpam());
+		}
+
+		private static IEnumerator StopSpam()
+		{
+			yield return WaitFor.Seconds(12);
+			isSpamming = false;
+		}
+
+		private static bool isSpamming = false;
+
+		private static IEnumerator SpamChatCoroutine()
+		{
+			if (!isSpamming)
+			{
+				yield break;
+			}
+
+			yield return WaitFor.Seconds(Random.Range(0.00001f, 0.01f));
+			switch (Random.Range(1,4))
+			{
+				case 1:
+					Chat.AddExamineMsgToClient(DateTime.Now.ToFileTimeUtc().ToString());
+					break;
+				case 2:
+					Chat.AddChatMsgToChat(ConnectedPlayer.Invalid, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC);
+					break;
+				default:
+					Chat.AddLocalMsgToChat(DateTime.Now.ToFileTimeUtc().ToString(), new Vector2(Random.value*100,Random.value*100));
+					break;
+			}
+
+			Chat.Instance.StartCoroutine(SpamChatCoroutine());
+		}
 
 
 		[ConsoleMethod("add-admin", "Promotes a user to admin using a user's account ID\nUsage: add-admin <account-id>")]

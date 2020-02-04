@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text normalText;
+	[SerializeField] private TextMeshProUGUI normalText;
 	[SerializeField] private Text adminText;
 	[SerializeField] private GameObject adminOverlay;
 	[SerializeField] private Shadow shadow;
@@ -223,22 +224,12 @@ public class ChatEntry : MonoBehaviour
 
 	void SetStackPos()
 	{
-		if (stackPosSet) return;
+		if (string.IsNullOrEmpty(normalText.text) || stackPosSet) return;
 		stackPosSet = true;
 
-		string _text = normalText.text;
-
-		TextGenerator textGen = new TextGenerator(_text.Length);
-		Vector2 extents = normalText.gameObject.GetComponent<RectTransform>().rect.size;
-		textGen.Populate(_text, normalText.GetGenerationSettings(extents));
-		if (textGen.vertexCount == 0)
-		{
-			return;
-		}
-
 		var newPos = stackTimesObj.transform.localPosition;
-		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / normalText.canvas.scaleFactor).x;
-
+		//todo: real text width. also this is called on pool fill for some reason
+		newPos.x = normalText.GetRenderedValues(true).x;
 
 		if (rect.rect.height < 30f)
 		{

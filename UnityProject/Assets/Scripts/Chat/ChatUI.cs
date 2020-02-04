@@ -95,6 +95,39 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private bool showChannels = false;
 
+	private ChatEntryPool entryPool;
+	private class ChatEntryPool
+	{
+		private readonly ChatUI chatInstance;
+		private const int INITIAL_POOL_SIZE = 100;
+		public ChatEntryPool(ChatUI chatInstance)
+		{
+			this.chatInstance = chatInstance;
+			pooledEntries = new Queue<GameObject>();
+			FillUpPool();
+		}
+
+		private void FillUpPool()
+		{
+			for (int i = 0; i < INITIAL_POOL_SIZE; i++)
+			{
+				pooledEntries.Enqueue(Instantiate(chatInstance.chatEntryPrefab, Vector3.zero, Quaternion.identity, chatInstance.transform));
+			}
+			Logger.LogTrace("Filled up pool!", Category.Chat);
+		}
+
+		public GameObject GetChatEntry()
+		{
+			if (pooledEntries.Count == 0)
+			{
+				FillUpPool();
+			}
+			return pooledEntries.Dequeue();
+		}
+
+		private Queue<GameObject> pooledEntries;
+	}
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -108,6 +141,7 @@ public class ChatUI : MonoBehaviour
 		{
 			Destroy(gameObject); //Kill the whole tree
 		}
+		entryPool = new ChatEntryPool(this);
 	}
 
 	void InitPrefs()
@@ -190,7 +224,7 @@ public class ChatUI : MonoBehaviour
 			}
 		}
 
-		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
+		GameObject entry = entryPool.GetChatEntry();
 		var chatEntry = entry.GetComponent<ChatEntry>();
 		chatEntry.SetText(message);
 		allEntries.Add(chatEntry);
