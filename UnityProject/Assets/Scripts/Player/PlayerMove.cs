@@ -422,6 +422,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	//invoked when buckledTo changes direction, so we can update our direction
 	private void OnBuckledObjectDirectionChange(Orientation newDir)
 	{
+		if (playerDirectional == null)
+		{
+			playerDirectional = gameObject.GetComponent<Directional>();
+		}
 		playerDirectional.FaceDirection(newDir);
 	}
 

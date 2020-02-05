@@ -24,6 +24,11 @@ public static class NetworkUtils
 
 			if (NetworkIdentity.spawned.TryGetValue(netId, out var networkIdentity))
 			{
+				if (networkIdentity == null)
+				{
+					Logger.LogWarningFormat("NetworkIdentity.spawned.TryGetValue was true but networkIdentity var is null.", Category.NetMessage);
+					return null;
+				}
 				return networkIdentity.gameObject;
 			}
 			else

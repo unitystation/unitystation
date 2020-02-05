@@ -18,6 +18,10 @@ namespace UI.UI_Bottom
 		[SerializeField]
 		private Image secondaryImage;
 
+		[Tooltip("Tertiary image of the object to build")] //example: airlocks
+		[SerializeField]
+		private Image tertiaryImage;
+
 		[Tooltip("Name describing what this entry is.")]
 		[SerializeField]
 		private Text entryName;
@@ -42,6 +46,7 @@ namespace UI.UI_Bottom
 		{
 			image.enabled = false;
 			secondaryImage.enabled = false;
+			tertiaryImage.enabled = false;
 			materialImage.enabled = false;
 			materialSecondaryImage.enabled = false;
 		}
@@ -57,6 +62,7 @@ namespace UI.UI_Bottom
 			this.buildingMaterial = buildingMaterial;
 			image.sprite = null;
 			secondaryImage.sprite = null;
+			tertiaryImage.sprite = null;
 			materialImage.sprite = null;
 			materialSecondaryImage.sprite = null;
 			entryName.text = null;
@@ -64,7 +70,7 @@ namespace UI.UI_Bottom
 
 			if (entry.Prefab)
 			{
-				entry.Prefab.PopulateImageSprites(image, secondaryImage);
+				entry.Prefab.PopulateImageSprites(image, secondaryImage, tertiaryImage);
 			}
 			else
 			{
