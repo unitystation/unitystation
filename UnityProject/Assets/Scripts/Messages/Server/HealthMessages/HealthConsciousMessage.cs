@@ -15,6 +15,11 @@ public class HealthConsciousMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EntityToUpdate);
+		if (NetworkObject == null)
+		{
+			yield break;
+		}
+
 		var healthBehaviour = NetworkObject.GetComponent<LivingHealthBehaviour>();
 
 		if (healthBehaviour != null)

@@ -6,8 +6,8 @@ namespace Unitystation.Options
 {
     /// <summary>
     /// The ThemeHandler allows UI elements
-    /// to be customized by a user defined theme 
-    /// configuration. Add your own types to the ThemeType 
+    /// to be customized by a user defined theme
+    /// configuration. Add your own types to the ThemeType
     /// list if they are not available
     /// </summary>
     public class ThemeHandler : MonoBehaviour
@@ -50,6 +50,10 @@ namespace Unitystation.Options
         /// </summary>
         public void SetTheme(ThemeConfig config)
         {
+	        if (this == null || this.gameObject == null)
+	        {
+		        return;
+	        }
             switch (targetElement)
             {
                 case UIElement.Image:
