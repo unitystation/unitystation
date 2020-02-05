@@ -120,8 +120,6 @@ jobs:
     needs: performBuild
     name: Create Docker image
     runs-on: ubuntu-latest
-    env:
-      BUILD_NUMBER: $GITHUB_RUN_NUMBER
     steps:
       - uses: actions/checkout@v2.0.0
       - uses: actions/download-artifact@v1
@@ -137,3 +135,5 @@ jobs:
           context: Docker
           buildargs: BUILD_NUMBER
           # tags: "latest,$GITHUB_RUN_NUMBER"
+        env:
+          BUILD_NUMBER: $GITHUB_RUN_NUMBER
