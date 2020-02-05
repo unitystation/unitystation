@@ -223,6 +223,8 @@ public class ChatEntry : MonoBehaviour
 
 	void SetStackPos()
 	{
+		if (string.IsNullOrEmpty(normalText.text)) return;
+		
 		if (stackPosSet) return;
 		stackPosSet = true;
 

@@ -1433,7 +1433,7 @@ RectTransform:
   m_Children:
   - {fileID: 224418813875917392}
   - {fileID: 224820951895999306}
-  m_Father: {fileID: 6453700713096482318}
+  m_Father: {fileID: 4351849121973474}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1453,12 +1453,12 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1702942933
   m_SortingOrder: 20
   m_TargetDisplay: 0
@@ -1905,9 +1905,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6453700713096482318}
+  - component: {fileID: 4351849121973474}
   - component: {fileID: 2077979624396664386}
   - component: {fileID: 114720228895401702}
+  - component: {fileID: 4984957583611271286}
   m_Layer: 0
   m_Name: ChatSystem
   m_TagString: Untagged
@@ -1915,26 +1916,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6453700713096482318
-RectTransform:
+--- !u!4 &4351849121973474
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897758349740974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 638.24, y: 360.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224285252259044220}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 638.24, y: 360.24}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077979624396664386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1992,6 +1988,20 @@ MonoBehaviour:
   scrollHandle: {fileID: 2807939661053576224}
   scrollBackground: {fileID: 50052018069764188}
   adminReply: {fileID: 4112491058536220352}
+  entryPool: {fileID: 4984957583611271286}
+--- !u!114 &4984957583611271286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897758349740974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f577727280d45f4a91b2a0bd15fbfea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chatInstance: {fileID: 114720228895401702}
 --- !u!1 &240195806562193236
 GameObject:
   m_ObjectHideFlags: 0
@@ -4091,11 +4101,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1369039240316595895}
     m_Modifications:
-    - target: {fileID: 2400726790984915926, guid: a311e2bde4b0f554c980666c969a060c,
+    - target: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1897758349740974}
+      propertyPath: m_Name
+      value: ActiveChannelTemplate
+      objectReference: {fileID: 0}
     - target: {fileID: 3804247380278558810, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4201,11 +4211,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
+    - target: {fileID: 2400726790984915926, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
-      propertyPath: m_Name
-      value: ActiveChannelTemplate
-      objectReference: {fileID: 0}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1897758349740974}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a311e2bde4b0f554c980666c969a060c, type: 3}
 --- !u!1 &8380570029279695647 stripped

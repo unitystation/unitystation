@@ -95,38 +95,8 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private bool showChannels = false;
 
+	[SerializeField]
 	private ChatEntryPool entryPool;
-	private class ChatEntryPool
-	{
-		private readonly ChatUI chatInstance;
-		private const int INITIAL_POOL_SIZE = 100;
-		public ChatEntryPool(ChatUI chatInstance)
-		{
-			this.chatInstance = chatInstance;
-			pooledEntries = new Queue<GameObject>();
-			FillUpPool();
-		}
-
-		private void FillUpPool()
-		{
-			for (int i = 0; i < INITIAL_POOL_SIZE; i++)
-			{
-				pooledEntries.Enqueue(Instantiate(chatInstance.chatEntryPrefab, Vector3.zero, Quaternion.identity, chatInstance.transform));
-			}
-			Logger.LogTrace("Filled up pool!", Category.Chat);
-		}
-
-		public GameObject GetChatEntry()
-		{
-			if (pooledEntries.Count == 0)
-			{
-				FillUpPool();
-			}
-			return pooledEntries.Dequeue();
-		}
-
-		private Queue<GameObject> pooledEntries;
-	}
 
 	private void Awake()
 	{
@@ -141,7 +111,6 @@ public class ChatUI : MonoBehaviour
 		{
 			Destroy(gameObject); //Kill the whole tree
 		}
-		entryPool = new ChatEntryPool(this);
 	}
 
 	void InitPrefs()
