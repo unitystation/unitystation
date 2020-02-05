@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Atmospherics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,6 +14,7 @@ using UnityEngine.Tilemaps;
 		private const bool ROTATE_AT_END = true;
 
 		private SubsystemManager subsystemManager;
+		private MetaDataLayer metaDataLayer;
 
 		public LayerType LayerType;
 		protected Tilemap tilemap;
@@ -47,6 +49,7 @@ using UnityEngine.Tilemaps;
 			tilemap = GetComponent<Tilemap>();
 			TilemapDamage = GetComponent<TilemapDamage>();
 			subsystemManager = GetComponentInParent<SubsystemManager>();
+			metaDataLayer = GetComponentInParent<MetaDataLayer>();
 			RecalculateBounds();
 
 
@@ -169,12 +172,23 @@ using UnityEngine.Tilemaps;
 
 		public virtual void RemoveTile(Vector3Int position, bool removeAll=false)
 		{
+			//if we removed an impassable tile, we need to prevent
+			//a sudden gust of wind due to pressure difference, so we'll set its
+			//gasmix to the average of its neighbors. This is fine to do even if there are multiple impassable tiles
+			//on different z levels in this layer since it won't have any effect until
+			//the last impassable tile is removed. It would be more expensive to
+			//check if it's the last impassable tile anyway.
+			bool removedImpassable = false;
 			if (removeAll)
 			{
 				position.z = 0;
 
 				while (tilemap.HasTile(position))
 				{
+					if (!tilemap.GetTile<BasicTile>(position).IsAtmosPassable())
+					{
+						removedImpassable = true;
+					}
 					InternalSetTile(position, null);
 
 					position.z--;
@@ -182,10 +196,48 @@ using UnityEngine.Tilemaps;
 			}
 			else
 			{
+				if (!tilemap.GetTile<BasicTile>(position).IsAtmosPassable())
+				{
+					removedImpassable = true;
+				}
 				InternalSetTile(position, null);
 			}
 
 			position.z = 0;
+
+			//if we removed an impassable tile, set its pressure to the
+			//average of its atmos passable neighbors.
+			//Logic here is slightly different from AtmosSimulation.Equalize
+			//since it only updates this node's gas mix
+			if (removedImpassable)
+			{
+				var metaDataNode = metaDataLayer.Get(position);
+				var meanGasMix = new GasMix(GasMixes.Space);
+				int neighborsCounted = 0;
+				foreach (var neighbor in metaDataNode.Neighbors)
+				{
+					if (neighbor == null || neighbor.IsOccupied) continue;
+					neighborsCounted++;
+					for (int j = 0; j < Gas.Count; j++)
+					{
+						meanGasMix.Gases[j] += neighbor.GasMix.Gases[j];
+					}
+
+					meanGasMix.Pressure += neighbor.GasMix.Pressure;
+				}
+				if (neighborsCounted != 0)
+				{
+					for (int j = 0; j < Gas.Count; j++)
+					{
+						meanGasMix.Gases[j] /= neighborsCounted;
+					}
+
+					meanGasMix.Pressure /= neighborsCounted;
+				}
+
+				metaDataNode.GasMix = meanGasMix;
+			}
+
 			subsystemManager.UpdateAt(position);
 		}
 
