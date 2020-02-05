@@ -1477,9 +1477,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
+  m_ScaleFactor: 0.56
   m_ReferenceResolution: {x: 2048, y: 1152}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1975,7 +1975,7 @@ MonoBehaviour:
   content: {fileID: 224576715969102918}
   chatEntryPrefab: {fileID: 1096268754478474, guid: 6db9b4c8e7f61427b8eab85171ff4950,
     type: 3}
-  maxLogLength: 90
+  maxLogLength: 200
   chatInputLabel: {fileID: 114244101037762744}
   channelPanel: {fileID: 224044340976132104}
   channelToggleTemplate: {fileID: 9091622191222137699}
