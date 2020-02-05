@@ -53,7 +53,7 @@ public class ChatEntry : MonoBehaviour
 		{
 			if (isCoolingDown)
 			{
-				coCoolDown = StartCoroutine(CoolDown());
+				//coCoolDown = StartCoroutine(CoolDown());
 			}
 		}
 	}
@@ -132,6 +132,8 @@ public class ChatEntry : MonoBehaviour
 
 	public void OnChatFocused()
 	{
+		//Revist fades in chat system v2
+		return;
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null)
@@ -206,11 +208,13 @@ public class ChatEntry : MonoBehaviour
 
 	public void OnChatUnfocused()
 	{
+		//Revist fades in chat system v2
+		return;
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null) StopCoroutine(coCoolDown);
 
-			coCoolDown = StartCoroutine(CoolDown());
+			//coCoolDown = StartCoroutine(CoolDown());
 		}
 		else
 		{
@@ -222,42 +226,44 @@ public class ChatEntry : MonoBehaviour
 		}
 	}
 
-	IEnumerator CoolDown()
-	{
-		Vector2 sizeDelta = rect.sizeDelta;
-		sizeDelta.x = 472f;
-		rect.sizeDelta = sizeDelta;
-		yield return WaitFor.EndOfFrame;
-		SetStackPos();
-		yield return WaitFor.Seconds(12f);
-		bool toggleVisibleState = false;
-		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
-		{
-			SetCrossFadeAlpha(0.01f, 3f);
-			if (!isHidden)
-			{
-				ToggleVisibleState(true, true);
-				toggleVisibleState = true;
-			}
-		}
-		else
-		{
-			yield break;
-		}
-
-		yield return WaitFor.Seconds(3f);
-
-		if (toggleVisibleState)
-		{
-			ToggleUIElements(false);
-		}
-
-		isCoolingDown = false;
-	}
+//	IEnumerator CoolDown()
+//	{
+//		Vector2 sizeDelta = rect.sizeDelta;
+//		sizeDelta.x = 472f;
+//		rect.sizeDelta = sizeDelta;
+//		yield return WaitFor.EndOfFrame;
+//		SetStackPos();
+//		yield return WaitFor.Seconds(12f);
+//		bool toggleVisibleState = false;
+//		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
+//		{
+//			SetCrossFadeAlpha(0.01f, 3f);
+//			if (!isHidden)
+//			{
+//				ToggleVisibleState(true, true);
+//				toggleVisibleState = true;
+//			}
+//		}
+//		else
+//		{
+//			yield break;
+//		}
+//
+//		yield return WaitFor.Seconds(3f);
+//
+//		if (toggleVisibleState)
+//		{
+//			ToggleUIElements(false);
+//		}
+//
+//		isCoolingDown = false;
+//	}
 
 	public void AddChatDuplication()
 	{
 		stackTimes++;
+		//Switched off until we do ChatSystem V2
+		return;
 		stackTimesText.text = $"x{stackTimes}";
 		stackTimesObj.SetActive(true);
 		StartCoroutine(StackPumpAnim());
@@ -265,12 +271,12 @@ public class ChatEntry : MonoBehaviour
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null) StopCoroutine(coCoolDown);
-			coCoolDown = StartCoroutine(CoolDown());
+			//coCoolDown = StartCoroutine(CoolDown());
 		}
 		else
 		{
 			isCoolingDown = true;
-			coCoolDown = StartCoroutine(CoolDown());
+			//coCoolDown = StartCoroutine(CoolDown());
 		}
 	}
 
@@ -306,28 +312,28 @@ public class ChatEntry : MonoBehaviour
 			ToggleVisibleState(false);
 		}
 
-		if (!isHidden && !state
-		              && !ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
-		{
-			if (isCoolingDown)
-			{
-				if (coCoolDown != null)
-				{
-					StopCoroutine(coCoolDown);
-					coCoolDown = null;
-				}
-			}
-
-			isCoolingDown = true;
-			if (gameObject.activeInHierarchy)
-			{
-				coCoolDown = StartCoroutine(CoolDown());
-			}
-			else
-			{
-				isCoolingDown = false;
-			}
-		}
+//		if (!isHidden && !state
+//		              && !ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
+//		{
+//			if (isCoolingDown)
+//			{
+//				if (coCoolDown != null)
+//				{
+//					StopCoroutine(coCoolDown);
+//					coCoolDown = null;
+//				}
+//			}
+//
+//			isCoolingDown = true;
+//			if (gameObject.activeInHierarchy)
+//			{
+//				coCoolDown = StartCoroutine(CoolDown());
+//			}
+//			else
+//			{
+//				isCoolingDown = false;
+//			}
+//		}
 	}
 
 	private bool stackPosSet = false;
@@ -363,6 +369,8 @@ public class ChatEntry : MonoBehaviour
 
 	void SetCrossFadeAlpha(float amt, float time)
 	{
+		//Revist fades in chat system v2
+		return;
 		visibleText.CrossFadeAlpha(amt, time, false);
 		stackTimesText.CrossFadeAlpha(amt, time, false);
 		stackCircle.CrossFadeAlpha(amt, time, false);
