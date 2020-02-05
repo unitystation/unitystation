@@ -23,6 +23,11 @@ public static class AtmosThread
 		simulation = new AtmosSimulation();
 	}
 
+	public static void ClearAllNodes()
+	{
+		simulation.ClearUpdateList();
+	}
+
 	public static void Enqueue(MetaDataNode node)
 	{
 		simulation.AddToUpdateList(node);
