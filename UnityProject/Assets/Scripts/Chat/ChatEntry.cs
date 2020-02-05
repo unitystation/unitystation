@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Profiling;
 
 public class ChatEntry : MonoBehaviour
 {
@@ -18,6 +17,7 @@ public class ChatEntry : MonoBehaviour
 	[SerializeField] private List<Image> allImages = new List<Image>();
 	[SerializeField] private List<Button> allButtons = new List<Button>();
 	public Transform thresholdMarker;
+	private Coroutine waitToCheck;
 
 
 	/// <summary>
@@ -94,6 +94,7 @@ public class ChatEntry : MonoBehaviour
 		adminOverlay.SetActive(false);
 		shadow.enabled = true;
 		adminText.gameObject.SetActive(false);
+		stackPosSet = false;
 		stackTimes = 0;
 		stackTimesText.text = "";
 		stackTimesObj.SetActive(false);
@@ -122,8 +123,11 @@ public class ChatEntry : MonoBehaviour
 
 	IEnumerator UpdateMinHeight()
 	{
+		contentFitter.enabled = true;
 		yield return WaitFor.EndOfFrame;
 		layoutElement.minHeight = rectTransform.rect.height;
+		yield return WaitFor.EndOfFrame;
+		contentFitter.enabled = false;
 	}
 
 	public void ReplyToAdminMessage()
@@ -151,7 +155,8 @@ public class ChatEntry : MonoBehaviour
 
 	void CheckPosition()
 	{
-		StartCoroutine(WaitToCheckPos());
+		if(waitToCheck != null) StopCoroutine(waitToCheck);
+		waitToCheck = StartCoroutine(WaitToCheckPos());
 	}
 
 	IEnumerator WaitToCheckPos()
@@ -167,6 +172,8 @@ public class ChatEntry : MonoBehaviour
 			ToggleUIElements(false);
 		}
 
+		waitToCheck = null;
+
 	}
 
 	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)
@@ -180,7 +187,6 @@ public class ChatEntry : MonoBehaviour
 	void ToggleUIElements(bool enabled)
 	{
 		shadow.enabled = enabled;
-		contentFitter.enabled = enabled;
 
 		foreach (var t in allText)
 		{

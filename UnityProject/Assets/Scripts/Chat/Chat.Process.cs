@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using Mirror;
 using Tilemaps.Behaviours.Meta;
-using UnityEngine.Profiling;
 
 public partial class Chat
 {
@@ -407,12 +406,8 @@ public partial class Chat
 
 		if (GhostValidationRejection(originator, channels)) return;
 
-		Profiler.BeginSample("PROCESS MESSAGE FURTHER");
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
-		Profiler.EndSample();
-		Profiler.BeginSample("Add Chat Log To Client");
 		Instance.addChatLogClient.Invoke(msg, channels);
-		Profiler.EndSample();
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)

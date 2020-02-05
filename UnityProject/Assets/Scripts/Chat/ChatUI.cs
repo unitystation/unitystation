@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using AdminTools;
-using UnityEngine.Profiling;
 
 public class ChatUI : MonoBehaviour
 {
@@ -221,13 +220,11 @@ public class ChatUI : MonoBehaviour
 	/// <param name="entry"></param>
 	private void RemoveChatEntry(ChatEntry entry)
 	{
-		Profiler.BeginSample("Remove chat entry");
 		if (allEntries.Contains(entry))
 		{
 			entry.ReturnToPool();
 			allEntries.Remove(entry);
 		}
-		Profiler.EndSample();
 	}
 
 	public void AddAdminPrivEntry(string message, string adminId)
