@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
   m_Name: white lab coat science
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: c8f5895042766814b9bf11df141b14c2, type: 3}
@@ -21,7 +20,7 @@ MonoBehaviour:
       - {fileID: 21300002, guid: c8f5895042766814b9bf11df141b14c2, type: 3}
       - {fileID: 21300004, guid: c8f5895042766814b9bf11df141b14c2, type: 3}
       - {fileID: 21300006, guid: c8f5895042766814b9bf11df141b14c2, type: 3}
-      EquippedData: {fileID: 0}
+      EquippedData: {fileID: 4900000, guid: e2ec15d3b94d9b34094acc5089447b10, type: 3}
     InHandsLeft:
       Texture: {fileID: 0}
       Sprites: []
@@ -70,17 +69,3 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
   Variants: []
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 6
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
