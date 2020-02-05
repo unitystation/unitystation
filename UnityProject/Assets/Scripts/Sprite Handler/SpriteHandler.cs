@@ -14,7 +14,7 @@ using UnityEngine.Serialization;
 ///	</summary>
 public class SpriteHandler : MonoBehaviour
 {
-	public SpriteData spriteData;
+	public SpriteData spriteData = new SpriteData();
 
 	public List<SpriteSheetAndData> Sprites = new List<SpriteSheetAndData>();
 
@@ -51,6 +51,9 @@ public class SpriteHandler : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
 		spriteRenderer = this.GetComponent<SpriteRenderer>();
+		if (spriteData == null) {
+			spriteData = new SpriteData();
+		}
 		if (spriteRenderer != null && SetSpriteOnStartUp && spriteData.HasSprite())
 		{
 			PushTexture();
