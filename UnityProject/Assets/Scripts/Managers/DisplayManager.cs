@@ -10,28 +10,8 @@ public class DisplayManager : MonoBehaviour
 	private CanvasScaler canvasScaler;
 
 	private int height;
-	public Camera mainCamera;
 
-	public Dropdown resoDropDown;
-	[Header("All canvas elements need to be added here")] public Canvas[] uiCanvases;
 	private int width;
-
-	public Vector2 ScreenScale
-	{
-		get
-		{
-			if (canvasScaler == null)
-			{
-				canvasScaler = GetComponentInParent<CanvasScaler>();
-			}
-
-			if (canvasScaler)
-			{
-				return new Vector2(canvasScaler.referenceResolution.x / Screen.width, canvasScaler.referenceResolution.y / Screen.height);
-			}
-			return Vector2.one;
-		}
-	}
 
 	private void Awake()
 	{
