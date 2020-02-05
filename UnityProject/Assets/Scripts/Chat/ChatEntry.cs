@@ -132,6 +132,8 @@ public class ChatEntry : MonoBehaviour
 
 	public void OnChatFocused()
 	{
+		//Revist fades in chat system v2
+		return;
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null)
@@ -206,6 +208,8 @@ public class ChatEntry : MonoBehaviour
 
 	public void OnChatUnfocused()
 	{
+		//Revist fades in chat system v2
+		return;
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null) StopCoroutine(coCoolDown);
@@ -258,6 +262,8 @@ public class ChatEntry : MonoBehaviour
 	public void AddChatDuplication()
 	{
 		stackTimes++;
+		//Switched off until we do ChatSystem V2
+		return;
 		stackTimesText.text = $"x{stackTimes}";
 		stackTimesObj.SetActive(true);
 		StartCoroutine(StackPumpAnim());
@@ -363,6 +369,8 @@ public class ChatEntry : MonoBehaviour
 
 	void SetCrossFadeAlpha(float amt, float time)
 	{
+		//Revist fades in chat system v2
+		return;
 		visibleText.CrossFadeAlpha(amt, time, false);
 		stackTimesText.CrossFadeAlpha(amt, time, false);
 		stackCircle.CrossFadeAlpha(amt, time, false);
