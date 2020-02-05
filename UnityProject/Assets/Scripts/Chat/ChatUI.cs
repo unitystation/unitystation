@@ -231,6 +231,7 @@ public class ChatUI : MonoBehaviour
 	{
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();
+		chatEntry.thresholdMarker = thresholdMarker;
 		chatEntry.SetAdminPrivateMsg(message, adminId);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
@@ -267,6 +268,8 @@ public class ChatUI : MonoBehaviour
 
 	private void DetermineScrollBarState(bool coolDownFade)
 	{
+		//revisit when we work on chat system v2
+		return;
 		if ((allEntries.Count - hiddenEntries) < 20)
 		{
 			float fadeTime = 0f;
