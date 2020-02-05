@@ -9,6 +9,7 @@ on:
     - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
     - '.github/workflows/main.yml'
+    - 'Docker/**'
   pull_request:
     branches:
     - develop
