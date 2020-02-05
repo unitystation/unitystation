@@ -126,7 +126,7 @@ jobs:
           name: StandaloneLinux64
           path: Docker/server
       - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v2.12
+        uses: elgohr/Publish-Docker-Github-Action@2.12
         with:
           name: unitystation/unitystation
           username: ${{ secrets.DOCKER_USERNAME }}
