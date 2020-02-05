@@ -154,7 +154,7 @@ public class ChatUI : MonoBehaviour
 			RefreshChannelPanel();
 		}
 
-		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown && !UIManager.PreventChatInput)
+		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown && chatInputWindow.activeInHierarchy)
 		{
 			if (UIManager.IsInputFocus)
 			{
@@ -400,6 +400,7 @@ public class ChatUI : MonoBehaviour
 		chatInputWindow.SetActive(false);
 		EventManager.Broadcast(EVENT.ChatUnfocused);
 		background.SetActive(false);
+		UIManager.PreventChatInput = false;
 	}
 
 	IEnumerator WindowCoolDown()
