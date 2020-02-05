@@ -116,7 +116,7 @@ jobs:
 
   Imaging:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-    needs: [performBuild]
+    needs: performBuild
     name: Create Docker image
     runs-on: ubuntu-latest
     steps:

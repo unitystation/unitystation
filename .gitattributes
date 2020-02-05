@@ -16,3 +16,6 @@
 
 *.sln    text eol=crlf
 *.csproj text eol=crlf
+
+# Use LF for shell scripts
+*.sh text eol=lf
