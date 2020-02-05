@@ -133,7 +133,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           context: Docker
-          buildargs: BUILD_NUMBER
+          buildargs: BUILD_NUMBER=$GITHUB_RUN_NUMBER
           # tags: "latest,$GITHUB_RUN_NUMBER"
-        env:
-          BUILD_NUMBER: $GITHUB_RUN_NUMBER
