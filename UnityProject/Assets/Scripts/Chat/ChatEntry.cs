@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text normalText;
-	[SerializeField] private Text adminText;
+	[SerializeField] private Text ghostText;
+	[SerializeField] private Text visibleText;
 	[SerializeField] private GameObject adminOverlay;
 	[SerializeField] private Shadow shadow;
 	[SerializeField] private RectTransform rectTransform;
@@ -23,7 +23,7 @@ public class ChatEntry : MonoBehaviour
 	/// <summary>
 	/// The current message of the ChatEntry
 	/// </summary>
-	public string Message => normalText.text;
+	public string Message => ghostText.text;
 
 	private bool isCoolingDown = true;
 	public RectTransform rect;
@@ -88,12 +88,11 @@ public class ChatEntry : MonoBehaviour
 	{
 		isCoolingDown = false;
 		isAdminMsg = false;
-		normalText.text = "";
-		adminText.text = "";
+		ghostText.text = "";
+		visibleText.text = "";
 		adminId = "";
 		adminOverlay.SetActive(false);
 		shadow.enabled = true;
-		adminText.gameObject.SetActive(false);
 		stackPosSet = false;
 		stackTimes = 0;
 		stackTimesText.text = "";
@@ -103,8 +102,8 @@ public class ChatEntry : MonoBehaviour
 
 	public void SetText(string msg)
 	{
-		normalText.text = msg;
-		adminText.text = msg;
+		ghostText.text = msg;
+		visibleText.text = msg;
 		ToggleUIElements(true);
 		StartCoroutine(UpdateMinHeight());
 	}
@@ -114,25 +113,26 @@ public class ChatEntry : MonoBehaviour
 		adminId = adminID;
 		isAdminMsg = true;
 		SetText(msg);
-		normalText.text += "\r\n filler \r\n filler";
+		ghostText.text += "\r\n filler \r\n filler";
 		adminOverlay.SetActive(true);
 		shadow.enabled = false;
-		adminText.gameObject.SetActive(true);
 		StartCoroutine(UpdateMinHeight());
 	}
 
 	IEnumerator UpdateMinHeight()
 	{
+		ghostText.enabled = true;
 		contentFitter.enabled = true;
 		yield return WaitFor.EndOfFrame;
 		layoutElement.minHeight = rectTransform.rect.height;
 		yield return WaitFor.EndOfFrame;
 		contentFitter.enabled = false;
+		ghostText.enabled = false;
 	}
 
 	public void ReplyToAdminMessage()
 	{
-		ChatUI.Instance.OpenAdminReply(adminText.text, adminId);
+		ChatUI.Instance.OpenAdminReply(visibleText.text, adminId);
 	}
 
 	public void OnChatFocused()
@@ -339,23 +339,23 @@ public class ChatEntry : MonoBehaviour
 
 	void SetStackPos()
 	{
-		if (string.IsNullOrEmpty(normalText.text)) return;
+		if (string.IsNullOrEmpty(ghostText.text)) return;
 
 		if (stackPosSet) return;
 		stackPosSet = true;
 
-		string _text = normalText.text;
+		string _text = ghostText.text;
 
 		TextGenerator textGen = new TextGenerator(_text.Length);
-		Vector2 extents = normalText.gameObject.GetComponent<RectTransform>().rect.size;
-		textGen.Populate(_text, normalText.GetGenerationSettings(extents));
+		Vector2 extents = ghostText.gameObject.GetComponent<RectTransform>().rect.size;
+		textGen.Populate(_text, ghostText.GetGenerationSettings(extents));
 		if (textGen.vertexCount == 0)
 		{
 			return;
 		}
 
 		var newPos = stackTimesObj.transform.localPosition;
-		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / normalText.canvas.scaleFactor).x;
+		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / ghostText.canvas.scaleFactor).x;
 
 
 		if (rect.rect.height < 30f)
@@ -368,7 +368,7 @@ public class ChatEntry : MonoBehaviour
 
 	void SetCrossFadeAlpha(float amt, float time)
 	{
-		normalText.CrossFadeAlpha(amt, time, false);
+		ghostText.CrossFadeAlpha(amt, time, false);
 		stackTimesText.CrossFadeAlpha(amt, time, false);
 		stackCircle.CrossFadeAlpha(amt, time, false);
 	}
