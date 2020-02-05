@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using AdminTools;
+using UnityEngine.Profiling;
 
 public class ChatUI : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ChatUI : MonoBehaviour
 	public GameObject chatInputWindow;
 	public Transform content;
 	public GameObject chatEntryPrefab;
+	public int maxLogLength = 90;
 	[SerializeField] private Text chatInputLabel;
 	[SerializeField] private RectTransform channelPanel;
 	[SerializeField] private GameObject channelToggleTemplate;
@@ -54,6 +56,7 @@ public class ChatUI : MonoBehaviour
 	private int hiddenEntries = 0;
 	private bool scrollBarInteract = false;
 	public event Action<bool> scrollBarEvent;
+	public event Action checkPositionEvent;
 
 	/// <summary>
 	/// The main channels which shouldn't be active together.
@@ -95,8 +98,7 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private bool showChannels = false;
 
-	[SerializeField]
-	private ChatEntryPool entryPool;
+	public ChatEntryPool entryPool;
 
 	private void Awake()
 	{
@@ -198,6 +200,32 @@ public class ChatUI : MonoBehaviour
 		chatEntry.SetText(message);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
+		CheckLengthOfChatLog();
+		checkPositionEvent?.Invoke();
+	}
+
+	void CheckLengthOfChatLog()
+	{
+		if (allEntries.Count >= maxLogLength)
+		{
+			RemoveChatEntry(allEntries[0]);
+		}
+	}
+
+	/// <summary>
+	/// Remove the entry if it has been culled from the
+	/// list
+	/// </summary>
+	/// <param name="entry"></param>
+	private void RemoveChatEntry(ChatEntry entry)
+	{
+		Profiler.BeginSample("Remove chat entry");
+		if (allEntries.Contains(entry))
+		{
+			entry.ReturnToPool();
+			allEntries.Remove(entry);
+		}
+		Profiler.EndSample();
 	}
 
 	public void AddAdminPrivEntry(string message, string adminId)
@@ -218,6 +246,7 @@ public class ChatUI : MonoBehaviour
 	{
 		entry.transform.SetParent(content, false);
 		entry.transform.localScale = Vector3.one;
+		entry.transform.SetAsLastSibling();
 		hiddenEntries++;
 		ReportEntryState(false);
 	}
@@ -258,6 +287,11 @@ public class ChatUI : MonoBehaviour
 	{
 		scrollBarInteract = true;
 		scrollBarEvent?.Invoke(scrollBarInteract);
+	}
+
+	public void OnScrollBarMove()
+	{
+		checkPositionEvent?.Invoke();
 	}
 
 	//This is an editor interface trigger event, do not delete

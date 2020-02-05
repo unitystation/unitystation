@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Profiling;
 
 public class ChatEntry : MonoBehaviour
 {
@@ -9,6 +11,13 @@ public class ChatEntry : MonoBehaviour
 	[SerializeField] private Text adminText;
 	[SerializeField] private GameObject adminOverlay;
 	[SerializeField] private Shadow shadow;
+	[SerializeField] private RectTransform rectTransform;
+	[SerializeField] private ContentSizeFitter contentFitter;
+	[SerializeField] private LayoutElement layoutElement;
+	[SerializeField] private List<Text> allText = new List<Text>();
+	[SerializeField] private List<Image> allImages = new List<Image>();
+	[SerializeField] private List<Button> allButtons = new List<Button>();
+
 
 	/// <summary>
 	/// The current message of the ChatEntry
@@ -20,6 +29,7 @@ public class ChatEntry : MonoBehaviour
 
 	private Coroutine coCoolDown;
 	private bool isHidden = false;
+	private bool isAdminMsg = false;
 	public GameObject stackTimesObj;
 	public Text stackTimesText;
 	private Image stackCircle;
@@ -38,6 +48,7 @@ public class ChatEntry : MonoBehaviour
 		EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
 		EventManager.AddHandler(EVENT.ChatUnfocused, OnChatUnfocused);
 		ChatUI.Instance.scrollBarEvent += OnScrollInteract;
+		ChatUI.Instance.checkPositionEvent += CheckPosition;
 		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
 		{
 			if (isCoolingDown)
@@ -51,34 +62,66 @@ public class ChatEntry : MonoBehaviour
 	{
 		EventManager.RemoveHandler(EVENT.ChatFocused, OnChatFocused);
 		EventManager.RemoveHandler(EVENT.ChatUnfocused, OnChatUnfocused);
-	}
-
-	public void OnDestroy()
-	{
 		if (ChatUI.Instance != null)
 		{
 			ChatUI.Instance.scrollBarEvent -= OnScrollInteract;
+			ChatUI.Instance.checkPositionEvent -= CheckPosition;
+		}
+	}
+
+	public void ReturnToPool()
+	{
+		if (ChatUI.Instance != null)
+		{
 			if (isHidden)
 			{
 				ChatUI.Instance.ReportEntryState(false);
 			}
+
+			ResetEntry();
+			ChatUI.Instance.entryPool.ReturnChatEntry(gameObject);
 		}
+	}
+
+	private void ResetEntry()
+	{
+		isCoolingDown = false;
+		isAdminMsg = false;
+		normalText.text = "";
+		adminText.text = "";
+		adminId = "";
+		adminOverlay.SetActive(false);
+		shadow.enabled = true;
+		adminText.gameObject.SetActive(false);
+		stackTimes = 0;
+		stackTimesText.text = "";
+		stackTimesObj.SetActive(false);
+		layoutElement.minHeight = 20f;
 	}
 
 	public void SetText(string msg)
 	{
 		normalText.text = msg;
 		adminText.text = msg;
+		StartCoroutine(UpdateMinHeight());
 	}
 
 	public void SetAdminPrivateMsg(string msg, string adminID)
 	{
 		adminId = adminID;
+		isAdminMsg = true;
 		SetText(msg);
 		normalText.text += "\r\n filler \r\n filler";
 		adminOverlay.SetActive(true);
 		shadow.enabled = false;
 		adminText.gameObject.SetActive(true);
+		StartCoroutine(UpdateMinHeight());
+	}
+
+	IEnumerator UpdateMinHeight()
+	{
+		yield return WaitFor.EndOfFrame;
+		layoutElement.minHeight = rectTransform.rect.height;
 	}
 
 	public void ReplyToAdminMessage()
@@ -100,8 +143,46 @@ public class ChatEntry : MonoBehaviour
 		SetCrossFadeAlpha(1f, 0f);
 		if (isHidden)
 		{
-			isHidden = false;
-			ChatUI.Instance.ReportEntryState(false);
+			ToggleVisibleState(false);
+		}
+	}
+
+	void CheckPosition()
+	{
+		Debug.Log("CHECK POS: " + transform.localPosition);
+	}
+
+	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)
+	{
+		isHidden = hidden;
+		ChatUI.Instance.ReportEntryState(hidden, fromCoolDown);
+		if (fromCoolDown) return;
+		ToggleUIElements(!hidden);
+	}
+
+	void ToggleUIElements(bool enabled)
+	{
+		shadow.enabled = enabled;
+		contentFitter.enabled = enabled;
+
+		foreach (var t in allText)
+		{
+			t.enabled = enabled;
+		}
+
+		foreach (var i in allImages)
+		{
+			i.enabled = enabled;
+		}
+
+		foreach (var b in allButtons)
+		{
+			b.enabled = enabled;
+		}
+
+		if (enabled && isAdminMsg)
+		{
+			shadow.enabled = false;
 		}
 	}
 
@@ -109,7 +190,7 @@ public class ChatEntry : MonoBehaviour
 	{
 		if (isCoolingDown)
 		{
-			if(coCoolDown != null) StopCoroutine(coCoolDown);
+			if (coCoolDown != null) StopCoroutine(coCoolDown);
 
 			coCoolDown = StartCoroutine(CoolDown());
 		}
@@ -118,8 +199,7 @@ public class ChatEntry : MonoBehaviour
 			SetCrossFadeAlpha(0f, 0f);
 			if (!isHidden)
 			{
-				isHidden = true;
-				ChatUI.Instance.ReportEntryState(true);
+				ToggleVisibleState(true);
 			}
 		}
 	}
@@ -132,13 +212,14 @@ public class ChatEntry : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 		SetStackPos();
 		yield return WaitFor.Seconds(12f);
+		bool toggleVisibleState = false;
 		if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
 		{
 			SetCrossFadeAlpha(0.01f, 3f);
 			if (!isHidden)
 			{
-				isHidden = true;
-				ChatUI.Instance.ReportEntryState(true, true);
+				ToggleVisibleState(true, true);
+				toggleVisibleState = true;
 			}
 		}
 		else
@@ -147,6 +228,12 @@ public class ChatEntry : MonoBehaviour
 		}
 
 		yield return WaitFor.Seconds(3f);
+
+		if (toggleVisibleState)
+		{
+			ToggleUIElements(false);
+		}
+
 		isCoolingDown = false;
 	}
 
@@ -159,7 +246,7 @@ public class ChatEntry : MonoBehaviour
 		SetCrossFadeAlpha(1f, 0f);
 		if (isCoolingDown)
 		{
-			if(coCoolDown != null) StopCoroutine(coCoolDown);
+			if (coCoolDown != null) StopCoroutine(coCoolDown);
 			coCoolDown = StartCoroutine(CoolDown());
 		}
 		else
@@ -198,8 +285,7 @@ public class ChatEntry : MonoBehaviour
 		if (isHidden && state)
 		{
 			SetCrossFadeAlpha(1f, 0f);
-			isHidden = false;
-			ChatUI.Instance.ReportEntryState(false);
+			ToggleVisibleState(false);
 		}
 
 		if (!isHidden && !state
@@ -215,7 +301,14 @@ public class ChatEntry : MonoBehaviour
 			}
 
 			isCoolingDown = true;
-			coCoolDown = StartCoroutine(CoolDown());
+			if (gameObject.activeInHierarchy)
+			{
+				coCoolDown = StartCoroutine(CoolDown());
+			}
+			else
+			{
+				isCoolingDown = false;
+			}
 		}
 	}
 
@@ -224,7 +317,7 @@ public class ChatEntry : MonoBehaviour
 	void SetStackPos()
 	{
 		if (string.IsNullOrEmpty(normalText.text)) return;
-		
+
 		if (stackPosSet) return;
 		stackPosSet = true;
 

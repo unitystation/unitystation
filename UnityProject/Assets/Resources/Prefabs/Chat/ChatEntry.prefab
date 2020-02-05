@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 114862419011751618}
   - component: {fileID: 114605329306096750}
   - component: {fileID: 3037178806840300597}
+  - component: {fileID: 1924102789234226019}
   m_Layer: 5
   m_Name: ChatEntry
   m_TagString: Untagged
@@ -113,6 +114,20 @@ MonoBehaviour:
   adminText: {fileID: 7192477714277269513}
   adminOverlay: {fileID: 3691057917448566451}
   shadow: {fileID: 3037178806840300597}
+  rectTransform: {fileID: 224781789997769250}
+  contentFitter: {fileID: 114862419011751618}
+  layoutElement: {fileID: 1924102789234226019}
+  allText:
+  - {fileID: 114303381418770216}
+  - {fileID: 4940237022917455902}
+  - {fileID: 214553272104389759}
+  - {fileID: 7192477714277269513}
+  allImages:
+  - {fileID: 6621845892192530244}
+  - {fileID: 2243938720018516638}
+  - {fileID: 5997561446441410486}
+  allButtons:
+  - {fileID: 5860956791539600311}
   rect: {fileID: 224781789997769250}
   stackTimesObj: {fileID: 4585939312796838426}
   stackTimesText: {fileID: 4940237022917455902}
@@ -131,6 +146,26 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &1924102789234226019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096268754478474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: 20
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &876276343612454288
 GameObject:
   m_ObjectHideFlags: 0

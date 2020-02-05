@@ -6,7 +6,6 @@ public class ChatEntryPool : MonoBehaviour
 {
 	[SerializeField]
 	private ChatUI chatInstance;
-	private const int INITIAL_POOL_SIZE = 20;
 
 	void Start()
 	{
@@ -16,7 +15,7 @@ public class ChatEntryPool : MonoBehaviour
 
 	private void FillUpPool()
 	{
-		for (int i = 0; i < INITIAL_POOL_SIZE; i++)
+		for (int i = 0; i < chatInstance.maxLogLength + 5; i++)
 		{
 			var entry = Instantiate(chatInstance.chatEntryPrefab, Vector3.zero, Quaternion.identity,
 				chatInstance.content);
@@ -34,8 +33,14 @@ public class ChatEntryPool : MonoBehaviour
 		}
 
 		var entry = pooledEntries.Dequeue();
-		entry.gameObject.SetActive(true);
+		entry.SetActive(true);
 		return entry;
+	}
+
+	public void ReturnChatEntry(GameObject entry)
+	{
+		pooledEntries.Enqueue(entry);
+		entry.SetActive(false);
 	}
 
 	private Queue<GameObject> pooledEntries;

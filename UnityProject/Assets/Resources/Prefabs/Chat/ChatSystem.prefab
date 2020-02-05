@@ -1974,6 +1974,7 @@ MonoBehaviour:
   content: {fileID: 224576715969102918}
   chatEntryPrefab: {fileID: 1096268754478474, guid: 6db9b4c8e7f61427b8eab85171ff4950,
     type: 3}
+  maxLogLength: 90
   chatInputLabel: {fileID: 114244101037762744}
   channelPanel: {fileID: 224044340976132104}
   channelToggleTemplate: {fileID: 9091622191222137699}
@@ -3212,7 +3213,18 @@ MonoBehaviour:
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114720228895401702}
+        m_MethodName: OnScrollBarMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4223163867460906145
 GameObject:
   m_ObjectHideFlags: 0
