@@ -17,6 +17,7 @@ public class ChatEntry : MonoBehaviour
 	[SerializeField] private List<Text> allText = new List<Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
 	[SerializeField] private List<Button> allButtons = new List<Button>();
+	public Transform thresholdMarker;
 
 
 	/// <summary>
@@ -103,6 +104,7 @@ public class ChatEntry : MonoBehaviour
 	{
 		normalText.text = msg;
 		adminText.text = msg;
+		ToggleUIElements(true);
 		StartCoroutine(UpdateMinHeight());
 	}
 
@@ -149,7 +151,22 @@ public class ChatEntry : MonoBehaviour
 
 	void CheckPosition()
 	{
-		Debug.Log("CHECK POS: " + transform.localPosition);
+		StartCoroutine(WaitToCheckPos());
+	}
+
+	IEnumerator WaitToCheckPos()
+	{
+		yield return WaitFor.EndOfFrame;
+		var offset = thresholdMarker.position - transform.position;
+		if (offset.y > -427f && offset.y < -0f)
+		{
+			ToggleUIElements(true);
+		}
+		else
+		{
+			ToggleUIElements(false);
+		}
+
 	}
 
 	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)

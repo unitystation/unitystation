@@ -28,6 +28,7 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Image scrollHandle;
 	[SerializeField] private Image scrollBackground;
 	[SerializeField] private AdminPrivReply adminReply;
+	[SerializeField] private Transform thresholdMarker;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -197,6 +198,7 @@ public class ChatUI : MonoBehaviour
 
 		GameObject entry = entryPool.GetChatEntry();
 		var chatEntry = entry.GetComponent<ChatEntry>();
+		chatEntry.thresholdMarker = thresholdMarker;
 		chatEntry.SetText(message);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
