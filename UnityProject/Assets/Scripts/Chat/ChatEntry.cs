@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text ghostText;
 	[SerializeField] private Text visibleText;
 	[SerializeField] private GameObject adminOverlay;
 	[SerializeField] private Shadow shadow;
@@ -23,7 +22,7 @@ public class ChatEntry : MonoBehaviour
 	/// <summary>
 	/// The current message of the ChatEntry
 	/// </summary>
-	public string Message => ghostText.text;
+	public string Message => visibleText.text;
 
 	private bool isCoolingDown = true;
 	public RectTransform rect;
@@ -88,7 +87,6 @@ public class ChatEntry : MonoBehaviour
 	{
 		isCoolingDown = false;
 		isAdminMsg = false;
-		ghostText.text = "";
 		visibleText.text = "";
 		adminId = "";
 		adminOverlay.SetActive(false);
@@ -102,7 +100,6 @@ public class ChatEntry : MonoBehaviour
 
 	public void SetText(string msg)
 	{
-		ghostText.text = msg;
 		visibleText.text = msg;
 		ToggleUIElements(true);
 		StartCoroutine(UpdateMinHeight());
@@ -113,7 +110,7 @@ public class ChatEntry : MonoBehaviour
 		adminId = adminID;
 		isAdminMsg = true;
 		SetText(msg);
-		ghostText.text += "\r\n filler \r\n filler";
+		visibleText.text += "\r\n    \r\n   ";
 		adminOverlay.SetActive(true);
 		shadow.enabled = false;
 		StartCoroutine(UpdateMinHeight());
@@ -121,13 +118,11 @@ public class ChatEntry : MonoBehaviour
 
 	IEnumerator UpdateMinHeight()
 	{
-		ghostText.enabled = true;
 		contentFitter.enabled = true;
 		yield return WaitFor.EndOfFrame;
-		layoutElement.minHeight = rectTransform.rect.height;
+		layoutElement.minHeight = rectTransform.rect.height / 2;
 		yield return WaitFor.EndOfFrame;
 		contentFitter.enabled = false;
-		ghostText.enabled = false;
 	}
 
 	public void ReplyToAdminMessage()
@@ -339,23 +334,23 @@ public class ChatEntry : MonoBehaviour
 
 	void SetStackPos()
 	{
-		if (string.IsNullOrEmpty(ghostText.text)) return;
+		if (string.IsNullOrEmpty(visibleText.text)) return;
 
 		if (stackPosSet) return;
 		stackPosSet = true;
 
-		string _text = ghostText.text;
+		string _text = visibleText.text;
 
 		TextGenerator textGen = new TextGenerator(_text.Length);
-		Vector2 extents = ghostText.gameObject.GetComponent<RectTransform>().rect.size;
-		textGen.Populate(_text, ghostText.GetGenerationSettings(extents));
+		Vector2 extents = visibleText.gameObject.GetComponent<RectTransform>().rect.size;
+		textGen.Populate(_text, visibleText.GetGenerationSettings(extents));
 		if (textGen.vertexCount == 0)
 		{
 			return;
 		}
 
 		var newPos = stackTimesObj.transform.localPosition;
-		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / ghostText.canvas.scaleFactor).x;
+		newPos.x = (textGen.verts[textGen.vertexCount - 1].position / visibleText.canvas.scaleFactor).x;
 
 
 		if (rect.rect.height < 30f)
@@ -368,7 +363,7 @@ public class ChatEntry : MonoBehaviour
 
 	void SetCrossFadeAlpha(float amt, float time)
 	{
-		ghostText.CrossFadeAlpha(amt, time, false);
+		visibleText.CrossFadeAlpha(amt, time, false);
 		stackTimesText.CrossFadeAlpha(amt, time, false);
 		stackCircle.CrossFadeAlpha(amt, time, false);
 	}
