@@ -42,8 +42,10 @@ public class GUI_Spawner : NetTab
 
 	}
 
-	private void Start()
+	private IEnumerator Start()
 	{
+		yield return WaitFor.EndOfFrame;
+		
 		if ( IsServer )
 		{
 			//Storytelling
