@@ -15,11 +15,14 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 //		Logger.Log("Processed " + ToString());
-
+		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)
+		{
+			yield break;
+		}
+		
 		if (Players != null)
 		{
-			Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections,
-				string.Join(",", Players));
+			Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", Players));
 			PlayerList.Instance.ClientConnectedPlayers.Clear();
 			for (var i = 0; i < Players.Length; i++)
 			{

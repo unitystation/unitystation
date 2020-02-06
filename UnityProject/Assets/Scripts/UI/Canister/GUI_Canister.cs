@@ -78,6 +78,14 @@ public class GUI_Canister : NetTab
 	public void ClosePopup()
 	{
 		EditReleasePressurePopup.SetActive(false);
+		StartCoroutine(WaitToEnableInput());
+	}
+
+	IEnumerator WaitToEnableInput()
+	{
+		yield return WaitFor.EndOfFrame;
+		UIManager.IsInputFocus = false;
+		UIManager.PreventChatInput = false;
 	}
 
 

@@ -12,6 +12,7 @@ public class ChatUI : MonoBehaviour
 	public GameObject chatInputWindow;
 	public Transform content;
 	public GameObject chatEntryPrefab;
+	public int maxLogLength = 90;
 	[SerializeField] private Text chatInputLabel;
 	[SerializeField] private RectTransform channelPanel;
 	[SerializeField] private GameObject channelToggleTemplate;
@@ -26,6 +27,7 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Image scrollHandle;
 	[SerializeField] private Image scrollBackground;
 	[SerializeField] private AdminPrivReply adminReply;
+	[SerializeField] private Transform thresholdMarker;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -54,6 +56,7 @@ public class ChatUI : MonoBehaviour
 	private int hiddenEntries = 0;
 	private bool scrollBarInteract = false;
 	public event Action<bool> scrollBarEvent;
+	public event Action checkPositionEvent;
 
 	/// <summary>
 	/// The main channels which shouldn't be active together.
@@ -94,6 +97,8 @@ public class ChatUI : MonoBehaviour
 	/// Are the channel toggles on show?
 	/// </summary>
 	private bool showChannels = false;
+
+	public ChatEntryPool entryPool;
 
 	private void Awake()
 	{
@@ -149,7 +154,7 @@ public class ChatUI : MonoBehaviour
 			RefreshChannelPanel();
 		}
 
-		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown && !UIManager.PreventChatInput)
+		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown && chatInputWindow.activeInHierarchy)
 		{
 			if (UIManager.IsInputFocus)
 			{
@@ -190,17 +195,43 @@ public class ChatUI : MonoBehaviour
 			}
 		}
 
-		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
+		GameObject entry = entryPool.GetChatEntry();
 		var chatEntry = entry.GetComponent<ChatEntry>();
+		chatEntry.thresholdMarker = thresholdMarker;
 		chatEntry.SetText(message);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
+		CheckLengthOfChatLog();
+		checkPositionEvent?.Invoke();
+	}
+
+	void CheckLengthOfChatLog()
+	{
+		if (allEntries.Count >= maxLogLength)
+		{
+			RemoveChatEntry(allEntries[0]);
+		}
+	}
+
+	/// <summary>
+	/// Remove the entry if it has been culled from the
+	/// list
+	/// </summary>
+	/// <param name="entry"></param>
+	private void RemoveChatEntry(ChatEntry entry)
+	{
+		if (allEntries.Contains(entry))
+		{
+			entry.ReturnToPool();
+			allEntries.Remove(entry);
+		}
 	}
 
 	public void AddAdminPrivEntry(string message, string adminId)
 	{
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();
+		chatEntry.thresholdMarker = thresholdMarker;
 		chatEntry.SetAdminPrivateMsg(message, adminId);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
@@ -215,6 +246,7 @@ public class ChatUI : MonoBehaviour
 	{
 		entry.transform.SetParent(content, false);
 		entry.transform.localScale = Vector3.one;
+		entry.transform.SetAsLastSibling();
 		hiddenEntries++;
 		ReportEntryState(false);
 	}
@@ -236,6 +268,8 @@ public class ChatUI : MonoBehaviour
 
 	private void DetermineScrollBarState(bool coolDownFade)
 	{
+		//revisit when we work on chat system v2
+		return;
 		if ((allEntries.Count - hiddenEntries) < 20)
 		{
 			float fadeTime = 0f;
@@ -255,6 +289,11 @@ public class ChatUI : MonoBehaviour
 	{
 		scrollBarInteract = true;
 		scrollBarEvent?.Invoke(scrollBarInteract);
+	}
+
+	public void OnScrollBarMove()
+	{
+		checkPositionEvent?.Invoke();
 	}
 
 	//This is an editor interface trigger event, do not delete
@@ -364,6 +403,7 @@ public class ChatUI : MonoBehaviour
 		chatInputWindow.SetActive(false);
 		EventManager.Broadcast(EVENT.ChatUnfocused);
 		background.SetActive(false);
+		UIManager.PreventChatInput = false;
 	}
 
 	IEnumerator WindowCoolDown()

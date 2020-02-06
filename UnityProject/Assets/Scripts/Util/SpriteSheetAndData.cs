@@ -25,7 +25,10 @@ public class SpriteSheetAndData
 #if UNITY_EDITOR
 			var path = AssetDatabase.GetAssetPath(Texture);
 			Sprites = AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().ToArray();
-			Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1))).ToArray();
+			if (Sprites.Length > 1)
+			{
+				Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1))).ToArray();
+			}
 			//yeah If you named your sub sprites rip, have to find another way of ordering them correctly since the editor doesnt want to do that		E
 			EquippedData = (TextAsset)AssetDatabase.LoadAssetAtPath(path.Replace(".png", ".json"), typeof(TextAsset));
 #endif

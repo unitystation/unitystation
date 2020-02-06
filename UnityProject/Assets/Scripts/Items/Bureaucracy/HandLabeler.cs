@@ -24,6 +24,14 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 		Chat.AddExamineMsgToClient("You set the " + this.gameObject.Item().InitialName.ToLower() + "s text to '" + input + "'.");
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestItemLabel(gameObject, input);
+		StartCoroutine(WaitToAllowInput());
+	}
+
+	IEnumerator WaitToAllowInput()
+	{
+		yield return WaitFor.EndOfFrame;
+		UIManager.IsInputFocus = false;
+		UIManager.PreventChatInput = false;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
