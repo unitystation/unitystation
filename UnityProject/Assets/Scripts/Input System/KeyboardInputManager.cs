@@ -82,7 +82,7 @@ public class KeyboardInputManager : MonoBehaviour
 	public static bool IsMovementPressed(KeyEventType keyEventType = KeyEventType.Down)
 	{
 		if (UIManager.IsInputFocus) return false;
-		
+
 		return Instance.CheckKeyAction(KeyAction.MoveUp,   keyEventType) || Instance.CheckKeyAction(KeyAction.MoveDown,  keyEventType) ||
 		       Instance.CheckKeyAction(KeyAction.MoveLeft, keyEventType) || Instance.CheckKeyAction(KeyAction.MoveRight, keyEventType);
 	}
@@ -165,7 +165,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.IntentHarm, 	() => { UIManager.Intent.SetIntent(Intent.Harm); }},
 
 		// Chat
-		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(); }},
+		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Local); }},
 		{ KeyAction.ChatRadio,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Common); }},
 		{ KeyAction.ChatOOC,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.OOC); }},
 
