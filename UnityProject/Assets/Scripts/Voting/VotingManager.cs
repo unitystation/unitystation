@@ -91,7 +91,7 @@ public class VotingManager : NetworkBehaviour
 					if (voteRestartSuccess) return;
 					voteRestartSuccess = true;
 					StartCoroutine(BeginRoundRestart());
-					Logger.Log("Vote too restart server was successful. Restarting now.....", Category.Admin);
+					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					break;
 			}
 
@@ -135,10 +135,18 @@ public class VotingManager : NetworkBehaviour
 		return $"{ForVoteCount()} / {PlayerList.Instance.AllPlayers.Count}";
 	}
 
+	/// <summary>
+	/// Tallies the number of players who have voted 'yes'.
+	/// </summary>
+	/// <returns>The number of 'yes' votes.</returns>
 	private int ForVoteCount()
 	{
-		var getAllForVotes = votes.Values.Select(x => true);
-		return getAllForVotes.Count();
+		int count = 0;
+		foreach (bool vote in votes.Values)
+		{
+			if (vote) count++;
+		}
+		return count;
 	}
 
 	[ClientRpc]
