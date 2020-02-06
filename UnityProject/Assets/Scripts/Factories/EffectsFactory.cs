@@ -96,11 +96,11 @@ public static class EffectsFactory
 
 		if (chosenTile != null)
 		{
-			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Matrix;
-			if (!(matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix), true).Count() > 0))
+			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
+			if (!(matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() > 0))
 			{
 				Spawn.ServerPrefab(chosenTile, worldPos,
-								   MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true).Objects);
+								   matrix.Objects);
 			}
 		}
 	}
