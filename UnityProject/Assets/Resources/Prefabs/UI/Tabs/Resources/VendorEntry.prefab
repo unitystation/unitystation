@@ -383,8 +383,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300126, guid: 3547c548ae071487c84212e8ee25d554, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -482,7 +482,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Very tasty beer
+  m_Text: Can of worms
 --- !u!114 &2138705174456770129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regularColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 0.37254903}
-  emptyStockColor: {r: 1, g: 0, b: 0, a: 0.37254903}
+  emptyStockColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 0.15294118}
   itemName: {fileID: 2138705174456770129}
   itemCount: {fileID: 5403648510788221165}
   itemIcon: {fileID: 7972774968059638083}

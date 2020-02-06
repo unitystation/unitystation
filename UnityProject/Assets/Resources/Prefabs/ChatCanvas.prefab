@@ -106,9 +106,8 @@ MonoBehaviour:
   m_text: This is the same font used in the chat. A maximum of  ~65 non-bold characters
     can fit in here.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3999dce05e0dddf4d8ca4ddcbe466189, type: 2}
-  m_sharedMaterial: {fileID: 6559962241745087761, guid: 3999dce05e0dddf4d8ca4ddcbe466189,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -150,7 +149,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 89
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -179,7 +178,7 @@ MonoBehaviour:
     spaceCount: 19
     wordCount: 19
     linkCount: 0
-    lineCount: 5
+    lineCount: 4
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -550,7 +549,7 @@ MonoBehaviour:
   bubbleSizeNormal: 5
   bubbleSizeCaps: 6
   bubbleSizeWhisper: 4
-  fontDefault: {fileID: 11400000, guid: 3999dce05e0dddf4d8ca4ddcbe466189, type: 2}
+  fontDefault: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   fontClown: {fileID: 11400000, guid: daf1ee826722b634d9d700cc29877e9a, type: 2}
   chatIcon: {fileID: 0}
   chatBubble: {fileID: 9125049156416715925}

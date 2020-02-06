@@ -249,7 +249,7 @@ public class MetaTileMap : MonoBehaviour
 			if (tile != null)
 			{
 				if (ignoreEffectsLayer && tile.LayerType == LayerType.Effects) continue;
-				
+
 				return tile;
 			}
 		}
@@ -410,6 +410,10 @@ public class MetaTileMap : MonoBehaviour
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
+		if (!Layers.ContainsKey(refLayer))
+		{
+			return;
+		}
 		Layers[refLayer].RemoveTile(position, removeAll);
 	}
 

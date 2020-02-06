@@ -84,7 +84,9 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	/// remove player from NetworkTabInfo, keeping the tab
-	public void Remove( NetTabDescriptor tabDescriptor, GameObject player ) {
+	public void Remove( NetTabDescriptor tabDescriptor, GameObject player )
+	{
+		if (!openTabs.ContainsKey(tabDescriptor)) return;
 		NetTab t = openTabs[tabDescriptor];
 		t.RemovePlayer( player );
 //		if ( t.Peepers.Count == 0 ) {

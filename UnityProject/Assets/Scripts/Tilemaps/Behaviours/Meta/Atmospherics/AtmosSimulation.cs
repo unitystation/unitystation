@@ -41,6 +41,11 @@ namespace Atmospherics
 			updateList.Enqueue(node);
 		}
 
+		public void ClearUpdateList()
+		{
+			nodes.Clear();
+		}
+
 		public void Run()
 		{
 			int count = updateList.Count;

@@ -14,7 +14,7 @@ using UnityEngine.Serialization;
 ///	</summary>
 public class SpriteHandler : MonoBehaviour
 {
-	public SpriteData spriteData;
+	public SpriteData spriteData = new SpriteData();
 
 	public List<SpriteSheetAndData> Sprites = new List<SpriteSheetAndData>();
 
@@ -51,6 +51,9 @@ public class SpriteHandler : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
 		spriteRenderer = this.GetComponent<SpriteRenderer>();
+		if (spriteData == null) {
+			spriteData = new SpriteData();
+		}
 		if (spriteRenderer != null && SetSpriteOnStartUp && spriteData.HasSprite())
 		{
 			PushTexture();
@@ -81,7 +84,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Initialised)
 		{
-			if (spriteData != null)
+			if (spriteData != null && spriteData.List != null)
 			{
 				if (spriteIndex < spriteData.List.Count &&
 					variantIndex < spriteData.List[spriteIndex].Count &&
@@ -135,30 +138,36 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSprite(int newSprites)
 	{
-		if (newSprites < spriteData.List.Count &&
-			spriteIndex != newSprites &&
-			variantIndex < spriteData.List[newSprites].Count)
+		if (spriteData.List != null)
 		{
-			spriteIndex = newSprites;
-			animationIndex = 0;
-			SetSprite(spriteData.List[spriteIndex][variantIndex][animationIndex]);
-			TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
+			if (newSprites < spriteData.List.Count &&
+				spriteIndex != newSprites &&
+				variantIndex < spriteData.List[newSprites].Count)
+			{
+				spriteIndex = newSprites;
+				animationIndex = 0;
+				SetSprite(spriteData.List[spriteIndex][variantIndex][animationIndex]);
+				TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
+			}
 		}
 	}
 
 	public void ChangeSpriteVariant(int spriteVariant)
 	{
-		if (spriteIndex < spriteData.List.Count &&
-			spriteVariant < spriteData.List[spriteIndex].Count &&
-			variantIndex != spriteVariant)
+		if (spriteData.List != null)
 		{
-			if (spriteData.List[spriteIndex][spriteVariant].Count <= animationIndex)
+			if (spriteIndex < spriteData.List.Count &&
+				spriteVariant < spriteData.List[spriteIndex].Count &&
+				variantIndex != spriteVariant)
 			{
-				animationIndex = 0;
+				if (spriteData.List[spriteIndex][spriteVariant].Count <= animationIndex)
+				{
+					animationIndex = 0;
+				}
+				SetSprite(spriteData.List[spriteIndex][spriteVariant][animationIndex]);
+				variantIndex = spriteVariant;
+				TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 			}
-			SetSprite(spriteData.List[spriteIndex][spriteVariant][animationIndex]);
-			variantIndex = spriteVariant;
-			TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 		}
 	}
 
@@ -211,7 +220,7 @@ public class SpriteHandler : MonoBehaviour
 			PushTexture();
 		}
 		else {
-			SetSpriteOnStartUp = true;	
+			SetSpriteOnStartUp = true;
 		}
 	}
 
@@ -226,6 +235,10 @@ public class SpriteHandler : MonoBehaviour
 	{
 		foreach (var Data in Sprites)
 		{
+			if (spriteData.List == null)
+			{
+				spriteData.List = new List<List<List<SpriteInfo>>>();
+			}
 			spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Data));
 		}
 
@@ -249,5 +262,5 @@ public class SpriteHandlerState
 	public int spriteIndex;
 	public int variantIndex;
 	public int animationIndex;
-	public bool hasSprite; 
+	public bool hasSprite;
 }
