@@ -120,8 +120,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	[FormerlySerializedAs("speed")] public float InitialRunSpeed = 6;
 	[HideInInspector][SyncVar] public float RunSpeed = 6;
-	public float WalkSpeed = 3;
-	public float CrawlSpeed = 0.8f;
+	[SyncVar] public float WalkSpeed = 3;
+	[SyncVar] public float CrawlSpeed = 0.8f;
 
 	/// <summary>
 	/// Player will fall when pushed with such speed

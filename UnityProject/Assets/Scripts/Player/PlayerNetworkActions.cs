@@ -483,6 +483,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
 		}
 
+		Chat.AddActionMsgToChat(gameObject, $"You eat the {food.Item().ArticleName}.", $"{gameObject.Player().Name} eats the {food.Item().ArticleName}.");
+
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 		Edible edible = food.GetComponent<Edible>();
 
