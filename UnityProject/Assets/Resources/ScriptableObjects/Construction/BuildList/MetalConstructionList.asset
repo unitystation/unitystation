@@ -103,3 +103,16 @@ MonoBehaviour:
     buildTime: 2.5
     spawnAmount: 1
     onePerTile: 1
+  - name: low-voltage machine connector
+    prefab: {fileID: 783131783223160221, guid: eb3039e757a51bd42aa5d92b0a3711ef, type: 3}
+    cost: 2
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 1
+  - name: medium-voltage machine connector
+    prefab: {fileID: 2576181618821966758, guid: d88c145d60cabfd4092f839650cea997,
+      type: 3}
+    cost: 2
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 1
