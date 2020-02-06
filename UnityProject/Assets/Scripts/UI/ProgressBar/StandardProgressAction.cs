@@ -87,9 +87,10 @@ public class StandardProgressAction : IProgressAction
 
 		if (!progressActionConfig.AllowMultiple)
 		{
+
 			//check if the performer is already doing this action type anywhere else
 			var existingAction = UIManager.Instance.ProgressBars
-				.Where(pb => pb.RegisterPlayer.gameObject == info.Performer)
+				.Where(pb => pb?.RegisterPlayer.gameObject == info.Performer)
 				.FirstOrDefault(pb =>
 				{
 					if (pb.ServerProgressAction is StandardProgressAction standardProgressAction)
@@ -99,6 +100,7 @@ public class StandardProgressAction : IProgressAction
 
 					return false;
 				});
+
 			if (existingAction != null)
 			{
 				Logger.LogTraceFormat("Server cancelling progress bar {0} start because AllowMultiple=true and progress bar {1} " +
