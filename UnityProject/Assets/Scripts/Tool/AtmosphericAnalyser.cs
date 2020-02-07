@@ -21,7 +21,7 @@ public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>
 				         + $"Nitrogen : {node.GasMix.GasRatio(Atmospherics.Gas.Nitrogen) * 100:0.###} %\n"
 				         + $"Carbon dioxide : {node.GasMix.GasRatio(Atmospherics.Gas.CarbonDioxide) * 100:0.###} %\n";
 			}
-		} // $"{node.GasMix.Pressure:0.###}",
+		}
 		Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
 	}
 }
