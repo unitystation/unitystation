@@ -130,6 +130,7 @@ public class GUI_ShuttleControl : NetTab
 	public void SetSafetyProtocols(bool on)
 	{
 		MatrixMove.SafetyProtocolsOn = on;
+		this["SafetyText"].SetValue = on ? "ON" : "OFF";
 	}
 
 	public void SetWaypoint(string position)
@@ -271,6 +272,7 @@ public class GUI_ShuttleControl : NetTab
 				this["Rulers"].SetValue = rulersColor;
 				this["RadarScanRay"].SetValue = rayColor;
 				this["Crosshair"].SetValue = crosshairColor;
+				SetSafetyProtocols(@on: true);
 
 				break;
 			case TabState.Emagged:
@@ -283,12 +285,14 @@ public class GUI_ShuttleControl : NetTab
 				this["RadarScanRay"].SetValue = ChangeColorHue(rayColor, -80);
 				this["Crosshair"].SetValue = ChangeColorHue( crosshairColor, -80 );
 				AddEmagItems();
+				SetSafetyProtocols(@on: false);
 
 				break;
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
 				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.black);
+				SetSafetyProtocols(@on: true);
 
 				break;
 			default:
