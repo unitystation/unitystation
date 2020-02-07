@@ -109,6 +109,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private MatrixState clientState = MatrixState.Invalid;
 
 	private List<ShipThruster> thrusters = new List<ShipThruster>();
+	public bool HasWorkingThrusters => thrusters.Count > 0;
 
 	private Vector3Int[] SensorPositions;
 	private GameObject[] RotationSensors;
@@ -184,7 +185,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		serverTargetState = serverState;
 		clientState = serverState;
 
-		thrusters = GetComponentsInChildren<ShipThruster>(true).ToList();
+		RecheckThrusters();
 		if ( thrusters.Count > 0 )
 		{
 			Logger.LogFormat( "{0}: Initializing {1} thrusters!", Category.Transform, matrixInfo.Matrix.name, thrusters.Count );
@@ -249,6 +250,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 			Logger.LogFormat( "{0}: Stopping due to missing thrusters!", Category.Transform, matrixInfo.Matrix.name );
 			StopMovement();
 		}
+	}
+
+	private void RecheckThrusters()
+	{
+		thrusters = GetComponentsInChildren<ShipThruster>(true).ToList();
 	}
 
 	public void RegisterShuttleFuelSystem(ShuttleFuelSystem shuttleFuel)
@@ -337,7 +343,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	public void StartMovement()
 	{
-		if (IsFueled || !RequiresFuel)
+		if (!HasWorkingThrusters)
+		{
+			RecheckThrusters();
+		}
+		//Not allowing movement without any thrusters:
+		if (HasWorkingThrusters && (IsFueled || !RequiresFuel))
 		{
 			//Setting speed if there is none
 			if (serverTargetState.Speed <= 0)
