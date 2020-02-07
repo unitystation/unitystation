@@ -6,6 +6,7 @@ services:
         image: unitystation/unitystation
         environment:
             RCON_PASSWORD: 1234
+            BUILD_NUMBER: 4007
         ports:
             - 7777:7777
             - 7778:7778
