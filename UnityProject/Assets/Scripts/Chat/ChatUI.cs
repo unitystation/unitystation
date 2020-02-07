@@ -34,9 +34,14 @@ public class ChatUI : MonoBehaviour
 	private ChatChannel selectedChannels;
 
 	/// <summary>
-	/// Store previously selected hotkey channel (like ';' or ':e')
+	/// Store previously selected by tag channel (like ';' or ':e')
 	/// </summary>
-	private ChatChannel prevHotkeySelectedChannel = ChatChannel.None;
+	private ChatChannel prevTagSelectedChannel = ChatChannel.None;
+
+	/// <summary>
+	/// Latest parsed input from input field
+	/// </summary>
+	private ParsedChatInput parsedInput;
 
 	/// <summary>
 	/// The currently selected chat channels. Prunes all unavailable ones on get.
@@ -167,9 +172,10 @@ public class ChatUI : MonoBehaviour
 		{
 			if (UIManager.IsInputFocus)
 			{
-				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+				parsedInput = Chat.ParsePlayerInput(InputFieldChat.text);
+				if (Chat.IsValidToSend(parsedInput.ClearMessage))
 				{
-					PlayerSendChat();
+					PlayerSendChat(parsedInput.ClearMessage);
 				}
 
 				CloseChatWindow();
@@ -320,10 +326,11 @@ public class ChatUI : MonoBehaviour
 
 	public void OnClickSend()
 	{
-		if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+		parsedInput = Chat.ParsePlayerInput(InputFieldChat.text);
+		if (Chat.IsValidToSend(parsedInput.ClearMessage))
 		{
 			SoundManager.Play("Click01");
-			PlayerSendChat();
+			PlayerSendChat(parsedInput.ClearMessage);
 		}
 
 		CloseChatWindow();
@@ -350,10 +357,10 @@ public class ChatUI : MonoBehaviour
 		EventManager.Broadcast(EVENT.ToggleChatBubbles);
 	}
 
-	private void PlayerSendChat()
+	private void PlayerSendChat(string sendMessage)
 	{
 		// Selected channels already masks all unavailable channels in it's get method
-		PostToChatMessage.Send(InputFieldChat.text, SelectedChannels);
+		PostToChatMessage.Send(sendMessage, SelectedChannels);
 		InputFieldChat.text = "";
 	}
 
@@ -802,42 +809,44 @@ public class ChatUI : MonoBehaviour
 		}
 	}
 
-	private void OnInputFieldChatValueChanged(string rawMessage)
+	private void OnInputFieldChatValueChanged(string rawInput)
 	{
-		var (clearMessage, extractedChannel) = Chat.ExtractChannelMessage(rawMessage);
+		// update parsed input
+		parsedInput = Chat.ParsePlayerInput(rawInput);
+		var inputChannel = parsedInput.ParsedChannel;
 
-		// Check if player input new channel shotrcut (for instance ';' or ':e')
-		if (extractedChannel != ChatChannel.None)
+		// Check if player typed new channel shotrcut (for instance ';' or ':e')
+		if (inputChannel != ChatChannel.None)
 		{
 			// Make sure that is a new shortcut
-			if (extractedChannel != prevHotkeySelectedChannel)
+			if (inputChannel != prevTagSelectedChannel)
 			{
 				// check if entered channel avaliable for player
 				var availChannels = GetAvailableChannels();
-				if (availChannels.HasFlag(extractedChannel))
+				if (availChannels.HasFlag(inputChannel))
 				{
 					// select extracted channel and deselect all others
 					DisableAllChanels();
-					EnableChannel(extractedChannel);
+					EnableChannel(inputChannel);
 
-					prevHotkeySelectedChannel = extractedChannel;
+					prevTagSelectedChannel = inputChannel;
 					Logger.Log($"Deselect all channels and select {SelectedChannels}", Category.UI);
 				}
 				else
 				{
 					// TODO: need some addition UX indication that channel is not avaliable
-					Logger.Log($"Player trying to write message to channel {extractedChannel}, but there are only {availChannels} avaliable;", Category.UI);
+					Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.UI);
 				}
 			}
 
 		}
 		else 
 		{
-			if (prevHotkeySelectedChannel != ChatChannel.None)
+			if (prevTagSelectedChannel != ChatChannel.None)
 			{
-				// Player just removed hotkey from input
-				DisableChannel(prevHotkeySelectedChannel);
-				prevHotkeySelectedChannel = ChatChannel.None;
+				// Player just removed hotkey from input - need to disable channel
+				DisableChannel(prevTagSelectedChannel);
+				prevTagSelectedChannel = ChatChannel.None;
 			}
 		}
 

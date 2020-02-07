@@ -490,10 +490,10 @@ public partial class Chat
 	}
 
 	/// <summary>
-	/// All shortcuts for a radio msg that goes after '.' or ':'
-	/// For example :e sends message to engineering channel
+	/// All tags for a radio msg that goes after '.' or ':'
+	/// For example ':e' sends message to engineering channel
 	/// </summary>
-	private static Dictionary<char, ChatChannel> ChanelsShotcuts = new Dictionary<char, ChatChannel>()
+	private static Dictionary<char, ChatChannel> ChanelsTags = new Dictionary<char, ChatChannel>()
 	{
 		{'b',  ChatChannel.Binary},
 		{'u', ChatChannel.Supply},
@@ -506,45 +506,43 @@ public partial class Chat
 		{'v', ChatChannel.Service },
 		{'t', ChatChannel.Syndicate },
 		{'g', ChatChannel.Ghost }
-
 	};
 
 	/// <summary>
 	/// This function is called on a client side when player changed chat input field
-	/// It tries to find channel modifiers in a begining of the rawMsg and return channels flag
-	/// It also returns message cleared from all special markers
-	/// NOTE: only one channel is suported. You can't select multiple channels
+	/// It tries to find channel modifiers in a begining of the playerInput and parse channels tags like ':e'
+	/// NOTE: only one channel is suported. You can't select multiple channels like ';:e' or ':me'
 	/// </summary>
-	/// <param name="rawMsg"></param>
+	/// <param name="playerInput"></param>
 	/// <returns></returns>
-	public static (string, ChatChannel) ExtractChannelMessage(string rawMsg)
+	public static ParsedChatInput ParsePlayerInput(string playerInput)
 	{
 		// check if message is valid
-		if (string.IsNullOrEmpty(rawMsg))
-			return (rawMsg, ChatChannel.None);
+		if (string.IsNullOrEmpty(playerInput))
+			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None);
 
 		// all extracted channels from special chars 
-		ChatChannel extractedChanels = ChatChannel.None;
+		ChatChannel extractedChanel = ChatChannel.None;
 		// how many special chars we need to delete
 		int specialCharCount = 0;
 
-		var firstLetter = rawMsg.First();
+		var firstLetter = playerInput.First();
 		if (firstLetter == ';')
 		{
 			// it's a common message!
-			extractedChanels |= ChatChannel.Common;
+			extractedChanel = ChatChannel.Common;
 			specialCharCount++;
 		}
 		else if (firstLetter == '.' || firstLetter == ':')
 		{
 			// it's a channel message! Can we take a second char?
-			if (rawMsg.Length > 1)
+			if (playerInput.Length > 1)
 			{
-				var secondLetter = rawMsg[1];
+				var secondLetter = playerInput[1];
 				// let's try find desired chanel
-				if (ChanelsShotcuts.ContainsKey(secondLetter))
+				if (ChanelsTags.ContainsKey(secondLetter))
 				{
-					extractedChanels |= ChanelsShotcuts[secondLetter];
+					extractedChanel|= ChanelsTags[secondLetter];
 					specialCharCount++;
 				}
 				else if (secondLetter == 'h')
@@ -557,7 +555,20 @@ public partial class Chat
 		}
 
 		// delete all special chars
-		var clearMsg = rawMsg.Substring(specialCharCount);
-		return (rawMsg, extractedChanels);
+		var clearMsg = playerInput.Substring(specialCharCount).TrimStart(' ');
+		return new ParsedChatInput(playerInput, clearMsg, extractedChanel);
+	}
+
+	/// <summary>
+	/// Checks if chat message is valid and can be send over the network
+	/// </summary>
+	/// <param name="message">The player message from chat</param>
+	/// <returns></returns>
+	public static bool IsValidToSend(string message)
+	{
+		if (message == null)
+			return false;
+
+		return !string.IsNullOrEmpty(message.Trim());
 	}
 }
