@@ -96,5 +96,9 @@ public static class AtmosThread
 		}
 	}
 
+	public static bool IsInUpdateList(MetaDataNode node)
+	{
+		return simulation.IsInUpdateList(node);
+	}
 
 }
