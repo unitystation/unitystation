@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using AdminTools;
+using System.Linq;
 
 public class ChatUI : MonoBehaviour
 {
@@ -31,6 +32,11 @@ public class ChatUI : MonoBehaviour
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
+
+	/// <summary>
+	/// Store previously selected hotkey channel (like ';' or ':e')
+	/// </summary>
+	private ChatChannel prevHotkeySelectedChannel = ChatChannel.None;
 
 	/// <summary>
 	/// The currently selected chat channels. Prunes all unavailable ones on get.
@@ -131,6 +137,9 @@ public class ChatUI : MonoBehaviour
 
 	public void Start()
 	{
+		// subscribe to input fields update
+		InputFieldChat.onValueChanged.AddListener(OnInputFieldChatValueChanged);
+
 		// Create all the required channel toggles
 		InitToggles();
 
@@ -732,6 +741,19 @@ public class ChatUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Disable all selected chanels except main channels
+	/// </summary>
+	private void DisableAllChanels()
+	{
+		var selectedEnumerable = SelectedChannels.GetFlags();
+		foreach (ChatChannel selected in selectedEnumerable)
+		{
+			if (!MainChannels.Contains(selected))
+				DisableChannel(selected);
+		}
+	}
+
+	/// <summary>
 	/// Disable a channel and perform all special logic for it.
 	/// Main channels can't be disabled, and radio channels can hide the active radio channel panel
 	/// </summary>
@@ -778,5 +800,46 @@ public class ChatUI : MonoBehaviour
 		{
 			return PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
 		}
+	}
+
+	private void OnInputFieldChatValueChanged(string rawMessage)
+	{
+		var (clearMessage, extractedChannel) = Chat.ExtractChannelMessage(rawMessage);
+
+		// Check if player input new channel shotrcut (for instance ';' or ':e')
+		if (extractedChannel != ChatChannel.None)
+		{
+			// Make sure that is a new shortcut
+			if (extractedChannel != prevHotkeySelectedChannel)
+			{
+				// check if entered channel avaliable for player
+				var availChannels = GetAvailableChannels();
+				if (availChannels.HasFlag(extractedChannel))
+				{
+					// select extracted channel and deselect all others
+					DisableAllChanels();
+					EnableChannel(extractedChannel);
+
+					prevHotkeySelectedChannel = extractedChannel;
+					Logger.Log($"Deselect all channels and select {SelectedChannels}", Category.UI);
+				}
+				else
+				{
+					// TODO: need some addition UX indication that channel is not avaliable
+					Logger.Log($"Player trying to write message to channel {extractedChannel}, but there are only {availChannels} avaliable;", Category.UI);
+				}
+			}
+
+		}
+		else 
+		{
+			if (prevHotkeySelectedChannel != ChatChannel.None)
+			{
+				// Player just removed hotkey from input
+				DisableChannel(prevHotkeySelectedChannel);
+				prevHotkeySelectedChannel = ChatChannel.None;
+			}
+		}
+
 	}
 }
