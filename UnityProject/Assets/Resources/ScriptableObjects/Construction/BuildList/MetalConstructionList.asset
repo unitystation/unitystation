@@ -116,3 +116,15 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+  - name: high voltage to medium voltage transformer (left right)
+    prefab: {fileID: 1575520830166772, guid: 84482a6a9ce96a746b992465f8766f03, type: 3}
+    cost: 2
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Department battery
+    prefab: {fileID: 1575520830166772, guid: d72e24d0fc40a7545aad2f4e4f978d33, type: 3}
+    cost: 30
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
