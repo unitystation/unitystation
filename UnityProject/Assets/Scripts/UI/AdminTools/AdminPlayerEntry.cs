@@ -28,7 +28,7 @@ namespace AdminTools
 			pendingMessages.AddRange(playerEntryData.newMessages);
 			this.adminTools = adminTools;
 			PlayerData = playerEntryData;
-			displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}";
+			displayName.text = $"{playerEntryData.accountName} as {playerEntryData.name} - {playerEntryData.currentJob}";
 
 			if (PlayerData.newMessages.Count > 0)
 			{
