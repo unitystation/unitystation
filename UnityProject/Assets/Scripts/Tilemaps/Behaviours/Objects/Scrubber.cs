@@ -5,7 +5,8 @@ using Atmospherics;
 
 public class Scrubber : AdvancedPipe
 {
-	public float MinimumPressure = 101.325f;
+	// minimum pressure needs to be a little higher because of floating point inaccuracies
+	public float MinimumPressure = 101.3251f;
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
 
