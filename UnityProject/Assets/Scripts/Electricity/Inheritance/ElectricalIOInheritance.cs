@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from
+public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn { //is the Bass class but every node inherits from
 	public Connection WireEndB;
 	public Connection WireEndA;
 
@@ -38,6 +38,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(1f);
+		ElectricalSynchronisation.StructureChange = true;
 		FindPossibleConnections();
 	}
 
@@ -236,6 +237,15 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+	}
+
+	/// <summary>
+	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+	/// </summary>
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		ElectricalSynchronisation.StructureChange = true;
+		FlushConnectionAndUp();
 	}
 
 //
