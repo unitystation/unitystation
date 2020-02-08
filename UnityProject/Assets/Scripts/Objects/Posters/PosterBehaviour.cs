@@ -19,11 +19,11 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		var starterPoster = GetPoster(posterVariant);
 		posterVariant = starterPoster.PosterName;
-		SyncPosterType(posterVariant);
+		SyncPosterType(posterVariant, posterVariant);
 		base.OnStartClient();
 	}
 
-	private void SyncPosterType(Posters p)
+	private void SyncPosterType(Posters oldP, Posters p)
 	{
 		posterVariant = p;
 
@@ -136,7 +136,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		                       " rips the poster in a single, decisive motion!", pos);
 		SoundManager.PlayNetworkedAtPos("PosterRipped", pos);
 
-		SyncPosterType(Posters.Ripped);
+		SyncPosterType(posterVariant, Posters.Ripped);
 	}
 }
 
