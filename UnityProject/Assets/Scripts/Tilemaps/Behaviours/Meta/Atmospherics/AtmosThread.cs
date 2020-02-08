@@ -104,5 +104,9 @@ public static class AtmosThread
 		Profiler.EndThreadProfiling();
 	}
 
+	public static bool IsInUpdateList(MetaDataNode node)
+	{
+		return simulation.IsInUpdateList(node);
+	}
 
 }

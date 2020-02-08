@@ -28,6 +28,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new RoomNumberCheck());
 		localChecks.Add(new AirlockCheck());
 		localChecks.Add(new SlipperyCheck());
+		localChecks.Add(new AtmosUpdateCheck());
 	}
 
 	public override void DrawContent()
@@ -230,6 +231,21 @@ public class MetaDataView : BasicView
 			}
 		}
 	}
+
+	private class AtmosUpdateCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Atmos Update";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+			if (AtmosThread.IsInUpdateList(node))
+			{
+				GizmoUtils.DrawCube( position, Color.blue, true );
+			}
+		}
+	}
+
 	private class AirlockCheck : Check<MetaDataLayer>
 	{
 		public override string Label { get; } = "Closed Airlock";
