@@ -515,7 +515,7 @@ public partial class Chat
 	/// </summary>
 	/// <param name="playerInput"></param>
 	/// <returns></returns>
-	public static ParsedChatInput ParsePlayerInput(string playerInput)
+	public static ParsedChatInput ParsePlayerInput(string playerInput, ChatInputContext context = null)
 	{
 		// check if message is valid
 		if (string.IsNullOrEmpty(playerInput))
@@ -542,12 +542,23 @@ public partial class Chat
 				// let's try find desired chanel
 				if (ChanelsTags.ContainsKey(secondLetter))
 				{
-					extractedChanel|= ChanelsTags[secondLetter];
+					extractedChanel = ChanelsTags[secondLetter];
 					specialCharCount++;
 				}
 				else if (secondLetter == 'h')
 				{
-					// TODO: logic to resolve home radio channel
+					// need some additional information about default channel
+					if (context != null)
+					{
+						extractedChanel = context.DefaultChannel;
+					}
+					else
+					{
+						Debug.LogWarning("Chat context is null - can't resolve :h tag");
+						extractedChanel = ChatChannel.None;
+					}
+
+					specialCharCount++;
 				}
 			}
 

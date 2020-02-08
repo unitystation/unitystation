@@ -43,6 +43,8 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private ParsedChatInput parsedInput;
 
+	private ChatInputContext chatContext = new ChatInputContext();
+
 	/// <summary>
 	/// The currently selected chat channels. Prunes all unavailable ones on get.
 	/// </summary>
@@ -172,7 +174,7 @@ public class ChatUI : MonoBehaviour
 		{
 			if (UIManager.IsInputFocus)
 			{
-				parsedInput = Chat.ParsePlayerInput(InputFieldChat.text);
+				parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
 				if (Chat.IsValidToSend(parsedInput.ClearMessage))
 				{
 					PlayerSendChat(parsedInput.ClearMessage);
@@ -326,7 +328,7 @@ public class ChatUI : MonoBehaviour
 
 	public void OnClickSend()
 	{
-		parsedInput = Chat.ParsePlayerInput(InputFieldChat.text);
+		parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
 		if (Chat.IsValidToSend(parsedInput.ClearMessage))
 		{
 			SoundManager.Play("Click01");
@@ -800,12 +802,12 @@ public class ChatUI : MonoBehaviour
 		}
 
 		// check if channel was forced by tag
-		if (channel == prevTagSelectedChannel && channel != ChatChannel.None)
+		/*if (channel == prevTagSelectedChannel && channel != ChatChannel.None)
 		{
 			// delete tag from input field
 			if (parsedInput != null)
 				InputFieldChat.text = parsedInput.ClearMessage;
-		}
+		}*/
 
 		UpdateInputLabel();
 	}
@@ -825,7 +827,7 @@ public class ChatUI : MonoBehaviour
 	private void OnInputFieldChatValueChanged(string rawInput)
 	{
 		// update parsed input
-		parsedInput = Chat.ParsePlayerInput(rawInput);
+		parsedInput = Chat.ParsePlayerInput(rawInput, chatContext);
 		var inputChannel = parsedInput.ParsedChannel;
 
 		// Check if player typed new channel shotrcut (for instance ';' or ':e')

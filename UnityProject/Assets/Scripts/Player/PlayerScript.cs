@@ -208,6 +208,22 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	/// </summary>
 	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
 
+	/// <summary>
+	/// Same as is ghost, but also true when player inside his dead body
+	/// </summary>
+	public bool IsDeadOrGhost
+	{
+		get
+		{
+			var isDeadOrGhost = IsGhost;
+			if (playerHealth != null)
+			{
+				isDeadOrGhost = playerHealth.IsDead;
+			}
+			return isDeadOrGhost;
+		}
+	}
+
 	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
 	{
 		var rt = go.RegisterTile();
@@ -237,13 +253,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		var isDeadOrGhost = IsGhost;
-		if (playerHealth != null)
-		{
-			isDeadOrGhost = playerHealth.IsDead;
-		}
-
-		if (isDeadOrGhost)
+		if (IsDeadOrGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
