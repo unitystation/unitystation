@@ -152,7 +152,7 @@ public class ChatUI : MonoBehaviour
 
 		// Make sure the window and channel panel start disabled
 		chatInputWindow.SetActive(false);
-		channelPanel.gameObject.SetActive(false);
+		//channelPanel.gameObject.SetActive(false);
 		EventManager.AddHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
 	}
 
@@ -759,12 +759,12 @@ public class ChatUI : MonoBehaviour
 	/// </summary>
 	private void DisableAllChanels()
 	{
-		var selectedEnumerable = SelectedChannels.GetFlags();
+		/*var selectedEnumerable = SelectedChannels.GetFlags();
 		foreach (ChatChannel selected in selectedEnumerable)
 		{
 			if (!MainChannels.Contains(selected))
 				DisableChannel(selected);
-		}
+		}*/
 	}
 
 	/// <summary>
