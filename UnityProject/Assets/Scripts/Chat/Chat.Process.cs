@@ -493,7 +493,7 @@ public partial class Chat
 	/// All tags for a radio msg that goes after '.' or ':'
 	/// For example ':e' sends message to engineering channel
 	/// </summary>
-	private static Dictionary<char, ChatChannel> ChanelsTags = new Dictionary<char, ChatChannel>()
+	public readonly static Dictionary<char, ChatChannel> ChanelsTags = new Dictionary<char, ChatChannel>()
 	{
 		{'b',  ChatChannel.Binary},
 		{'u', ChatChannel.Supply},
@@ -515,7 +515,7 @@ public partial class Chat
 	/// </summary>
 	/// <param name="playerInput"></param>
 	/// <returns></returns>
-	public static ParsedChatInput ParsePlayerInput(string playerInput, ChatInputContext context = null)
+	public static ParsedChatInput ParsePlayerInput(string playerInput, IChatInputContext context = null)
 	{
 		// check if message is valid
 		if (string.IsNullOrEmpty(playerInput))
@@ -531,7 +531,7 @@ public partial class Chat
 		{
 			// it's a common message!
 			extractedChanel = ChatChannel.Common;
-			specialCharCount++;
+			specialCharCount = 1;
 		}
 		else if (firstLetter == '.' || firstLetter == ':')
 		{
@@ -543,7 +543,7 @@ public partial class Chat
 				if (ChanelsTags.ContainsKey(secondLetter))
 				{
 					extractedChanel = ChanelsTags[secondLetter];
-					specialCharCount++;
+					specialCharCount = 2;
 				}
 				else if (secondLetter == 'h')
 				{
@@ -558,11 +558,9 @@ public partial class Chat
 						extractedChanel = ChatChannel.None;
 					}
 
-					specialCharCount++;
+					specialCharCount = 2;
 				}
 			}
-
-			specialCharCount++;
 		}
 
 		// delete all special chars
