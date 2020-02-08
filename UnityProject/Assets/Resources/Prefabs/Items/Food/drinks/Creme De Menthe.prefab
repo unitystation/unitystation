@@ -17,32 +17,6 @@ PrefabInstance:
       propertyPath: Reagents.Array.data[0]
       value: creme_de_menthe
       objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialName
-      value: Creme De Menthe
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialDescription
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 80074df0e38d99a4ab9f5ff7453a334a,
-        type: 3}
-    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1129366686127204299, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: m_Name
@@ -103,5 +77,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialName
+      value: Creme De Menthe
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 80074df0e38d99a4ab9f5ff7453a334a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bffec0720d353440a0d06532a3221f6, type: 3}
