@@ -44,6 +44,7 @@ namespace Atmospherics
 		public void ClearUpdateList()
 		{
 			nodes.Clear();
+			updateList = new UniqueQueue<MetaDataNode>();
 		}
 
 		public void Run()
