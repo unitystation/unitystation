@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// Server only stuff
@@ -87,8 +88,12 @@ public class GUI_ShuttleControl : NetTab
 
 	private void StartNormalOperation()
 	{
-		//			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
-		EntryList.AddItems(MapIconType.Ship, GetObjectsOf(new HashSet<MatrixMove>(new[] { MatrixMove })));
+		EntryList.AddItems(MapIconType.Ship, GetObjectsOf<MatrixMove>(
+			mm => mm != MatrixMove //ignore current ship
+			      && (mm.HasWorkingThrusters || mm.gameObject.name.Equals("Escape Pod")) //until pod gets engines
+		));
+
+		EntryList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
 		var stationBounds = MatrixManager.Get(0).MetaTileMap.GetBounds();
 		int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
 		EntryList.AddStaticItem(MapIconType.Station, stationBounds.center, stationRadius);
@@ -130,6 +135,7 @@ public class GUI_ShuttleControl : NetTab
 	public void SetSafetyProtocols(bool on)
 	{
 		MatrixMove.SafetyProtocolsOn = on;
+		this["SafetyText"].SetValue = on ? "ON" : "OFF";
 	}
 
 	public void SetWaypoint(string position)
@@ -229,25 +235,20 @@ public class GUI_ShuttleControl : NetTab
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
 	/// todo: move, make it an util method
-	public static List<GameObject> GetObjectsOf<T>(HashSet<T> except = null, string nameFilter = "")
+	public static List<GameObject> GetObjectsOf<T>(Func<T, bool> condition = null)
 		where T : Behaviour
 	{
 		T[] foundBehaviours = FindObjectsOfType<T>();
 		var foundObjects = new List<GameObject>();
 
-		for (var i = 0; i < foundBehaviours.Length; i++)
+		foreach (var foundBehaviour in foundBehaviours)
 		{
-			if (except != null && except.Contains(foundBehaviours[i]))
-			{
-				continue;
-			}
-			var foundObject = foundBehaviours[i].gameObject;
-			if (nameFilter != "" && !foundObject.name.Contains(nameFilter))
+			if (condition != null && !condition(foundBehaviour))
 			{
 				continue;
 			}
 
-			foundObjects.Add(foundObject);
+			foundObjects.Add(foundBehaviour.gameObject);
 		}
 
 		return foundObjects;
@@ -271,6 +272,7 @@ public class GUI_ShuttleControl : NetTab
 				this["Rulers"].SetValue = rulersColor;
 				this["RadarScanRay"].SetValue = rayColor;
 				this["Crosshair"].SetValue = crosshairColor;
+				SetSafetyProtocols(@on: true);
 
 				break;
 			case TabState.Emagged:
@@ -283,12 +285,14 @@ public class GUI_ShuttleControl : NetTab
 				this["RadarScanRay"].SetValue = ChangeColorHue(rayColor, -80);
 				this["Crosshair"].SetValue = ChangeColorHue( crosshairColor, -80 );
 				AddEmagItems();
+				SetSafetyProtocols(@on: false);
 
 				break;
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
 				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.black);
+				SetSafetyProtocols(@on: true);
 
 				break;
 			default:
