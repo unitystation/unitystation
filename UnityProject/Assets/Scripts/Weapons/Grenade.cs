@@ -131,7 +131,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 			return;
 		}
 		hasExploded = true;
-		
+
 		if (isServer)
 		{
 			// Get data from grenade before despawning
@@ -153,7 +153,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		SoundManager.PlayNetworkedAtPos("armbomb", position);
 	}
 
-	private void UpdateTimer(bool timerRunning)
+	private void UpdateTimer(bool wasTimerRunning, bool timerRunning)
 	{
 		this.timerRunning = timerRunning;
 

@@ -163,13 +163,13 @@ public class ItemAttributesV2 : Attributes
 
 	public override void OnStartClient()
 	{
-		SyncSize(this.size);
+		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
 
 	public override void OnSpawnServer(SpawnInfo info)
 	{
-		SyncSize(initialSize);
+		SyncSize(size, initialSize);
 		base.OnSpawnServer(info);
 	}
 
@@ -224,7 +224,7 @@ public class ItemAttributesV2 : Attributes
 		traits.Add(toAdd);
 	}
 
-	private void SyncSize(ItemSize newSize)
+	private void SyncSize(ItemSize oldSize, ItemSize newSize)
 	{
 		size = newSize;
 	}
@@ -256,7 +256,7 @@ public class ItemAttributesV2 : Attributes
 	[Server]
 	public void ServerSetSize(ItemSize newSize)
 	{
-		SyncSize(newSize);
+		SyncSize(size, newSize);
 	}
 
 	/// <summary>

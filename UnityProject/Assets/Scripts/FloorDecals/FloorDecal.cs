@@ -45,10 +45,10 @@ public class FloorDecal : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		SyncChosenSprite(chosenSprite);
+		SyncChosenSprite(chosenSprite, chosenSprite);
 	}
 
-	private void SyncChosenSprite(int _chosenSprite)
+	private void SyncChosenSprite(int _oldSprite, int _chosenSprite)
 	{
 		chosenSprite = _chosenSprite;
 		if (PossibleSprites != null && PossibleSprites.Length > 0)

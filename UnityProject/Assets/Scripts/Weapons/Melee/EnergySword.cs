@@ -58,17 +58,17 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public override void OnStartClient()
 	{
-		SyncColor(color);
+		SyncColor(color, color);
 		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
-		SyncColor(color);
+		SyncColor(color, color);
 		base.OnStartServer();
 	}
 
-	private void SyncColor(int c)
+	private void SyncColor(int oldC, int c)
 	{
 		color = c;
 
@@ -155,23 +155,23 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				c = (int)SwordColor.Red;
 			}
 
-			SyncColor(c);
+			SyncColor(color, c);
 		}
 		else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Multitool))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
-			SyncColor((int)SwordColor.Rainbow);
+			SyncColor(color, (int)SwordColor.Rainbow);
 		}
 	}
 
 	public void ToggleState(Vector3 position)
 	{
-		UpdateState(!activated);
+		UpdateState(activated, !activated);
 
 		SoundManager.PlayNetworkedAtPos(activated ? "saberon" : "saberoff", position, 1f);
 	}
 
-	private void UpdateState(bool newState)
+	private void UpdateState(bool oldState, bool newState)
 	{
 		activated = newState;
 

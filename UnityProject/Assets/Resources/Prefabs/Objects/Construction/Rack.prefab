@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 243253553239203302}
   - component: {fileID: 1835757013911865864}
   - component: {fileID: 3348285834374005981}
-  - component: {fileID: 8662366804555004195}
   m_Layer: 11
   m_Name: Rack
   m_TagString: Untagged
@@ -295,19 +294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2589104543
---- !u!114 &8662366804555004195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144248469089430455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

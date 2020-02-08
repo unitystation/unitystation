@@ -36,7 +36,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public override void OnStartServer()
 	{
-		UpdateSecured(startSecured);
+		UpdateSecured(isSecured, startSecured);
 		StartCoroutine(CheckStartingPlasma());
 	}
 
@@ -63,10 +63,10 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		UpdateState(isOn);
+		UpdateState(isOn, isOn);
 	}
 
-	public void UpdateState(bool isOn)
+	public void UpdateState(bool wasOn, bool isOn)
 	{
 		if (isOn)
 		{
@@ -111,7 +111,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		}
 	}
 
-	void UpdateSecured(bool _isSecured)
+	void UpdateSecured(bool wasSecured, bool _isSecured)
 	{
 		isSecured = _isSecured;
 		if (isServer)
@@ -169,7 +169,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		var slot = interaction.HandSlot;
 		if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wrench))
 		{
-			UpdateSecured(!isSecured);
+			UpdateSecured(isSecured, !isSecured);
 			ElectricalNodeControl.PowerUpdateStructureChange();
 			if (!isSecured && isOn)
 			{

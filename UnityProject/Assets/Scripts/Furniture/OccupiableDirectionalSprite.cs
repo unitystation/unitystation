@@ -97,7 +97,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		//must invoke this because SyncVar hooks are not called on client init
-		SyncOccupantNetId(occupantNetId);
+		SyncOccupantNetId(occupantNetId, occupantNetId);
 		OnDirectionChanged(directional.CurrentDirection);
 	}
 
@@ -160,11 +160,11 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	[Server]
 	public void SetOccupant(uint occupant)
 	{
-		SyncOccupantNetId(occupant);
+		SyncOccupantNetId(occupantNetId, occupant);
 	}
 
 	//syncvar hook for occupant
-	private void SyncOccupantNetId(uint occupantNewValue)
+	private void SyncOccupantNetId(uint occupantOldValue, uint occupantNewValue)
 	{
 		if (occupantNetId != occupantNewValue)
 		{

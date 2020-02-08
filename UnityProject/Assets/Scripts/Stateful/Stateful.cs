@@ -32,7 +32,7 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 
 	public override void OnStartClient()
 	{
-		SyncCurrentStateIndex(currentStateIndex);
+		SyncCurrentStateIndex(currentStateIndex, currentStateIndex);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -52,11 +52,11 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 			return;
 		}
 
-		SyncCurrentStateIndex(initialStateIndex);
+		SyncCurrentStateIndex(currentStateIndex, initialStateIndex);
 	}
 
 
-	private void SyncCurrentStateIndex(int newStateIndex)
+	private void SyncCurrentStateIndex(int oldStateIndex, int newStateIndex)
 	{
 		currentStateIndex = newStateIndex;
 		if (currentStateIndex >= 0)
@@ -80,6 +80,6 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 				this);
 			return;
 		}
-		SyncCurrentStateIndex(newStateIndex);
+		SyncCurrentStateIndex(currentStateIndex, newStateIndex);
 	}
 }

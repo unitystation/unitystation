@@ -159,7 +159,7 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 		pickupable.ServerSetCanPickup(!value);
 	}
 
-	public void SyncSprite(int value)
+	public void SyncSprite(int oldValue, int value)
 	{
 		SetSpriteLayer(value != 0);
 		SetSprite(value);
@@ -168,7 +168,7 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncSprite(spriteSync);
+		SyncSprite(0, spriteSync);
 	}
 
 

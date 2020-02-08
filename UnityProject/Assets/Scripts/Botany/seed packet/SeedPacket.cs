@@ -12,7 +12,7 @@ public class SeedPacket : NetworkBehaviour
 	[SyncVar(hook = nameof(SyncPlant))]
 	public string PlantSyncString;
 
-	public void SyncPlant(string _PlantSyncString)
+	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
 	{
 		PlantSyncString = _PlantSyncString;
 		if (!isServer)
@@ -28,7 +28,7 @@ public class SeedPacket : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		SyncPlant(this.PlantSyncString);
+		SyncPlant(null, this.PlantSyncString);
 		base.OnStartClient();
 	}
 
@@ -39,7 +39,7 @@ public class SeedPacket : NetworkBehaviour
 			plantData = new PlantData();
 			plantData.SetValues(defaultPlantData);
 		}
-		SyncPlant(plantData.Name);
+		SyncPlant(null, plantData.Name);
 	}
 }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,15 +16,19 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn { //is t
 	public HashSet<ElectricalOIinheritance> connectedDevices  = new HashSet<ElectricalOIinheritance>();
 
 	public RegisterItem registerTile;
-	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance
+	public Matrix Matrix => registerTile.Matrix; //This is a bit janky with inheritance
 	public bool connected = false;
 
 	public bool Logall = false;
 
+	private void Awake()
+	{
+		registerTile = GetComponent<RegisterItem>();
+	}
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		registerTile = gameObject.GetComponent<RegisterItem>();
 	}
 
 	public override void OnStartServer()
@@ -48,7 +53,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn { //is t
 		if (registerTile != null) {
 			Data.connections = ElectricityFunctions.FindPossibleConnections(
 				transform.localPosition,
-				matrix,
+				Matrix,
 				InData.CanConnectTo,
 				GetConnPoints(),
 				this

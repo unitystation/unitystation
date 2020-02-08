@@ -154,7 +154,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncConnected(isConnected);
+		SyncConnected(isConnected, isConnected);
 	}
 
 	void SetConnectedSprite(Sprite value)
@@ -162,7 +162,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 		connectorRenderer.sprite = value;
 	}
 
-	void SyncConnected(bool value)
+	void SyncConnected(bool oldValue, bool value)
 	{
 		if (value)
 		{

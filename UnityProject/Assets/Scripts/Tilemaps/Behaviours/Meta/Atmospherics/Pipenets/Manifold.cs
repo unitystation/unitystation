@@ -67,10 +67,10 @@ public class Manifold : SimplePipe
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncConnectionSprite(connectionSpriteSync);
+		SyncConnectionSprite(Direction.NONE, connectionSpriteSync);
 	}
 
-	void SyncConnectionSprite(Direction value)
+	void SyncConnectionSprite(Direction oldValue, Direction value)
 	{
 		NullConnectionSprites();
 		for (int i = 0; i < allDirections.Length; i++)

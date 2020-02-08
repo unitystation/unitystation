@@ -122,7 +122,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			integrity = clonedIntegrity.integrity;
 			timeSinceLastBurn = clonedIntegrity.timeSinceLastBurn;
 			destroyed = clonedIntegrity.destroyed;
-			SyncOnFire(clonedIntegrity.onFire);
+			SyncOnFire(onFire, clonedIntegrity.onFire);
 		}
 		else
 		{
@@ -134,13 +134,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			{
 				burningObjectOverlay.StopBurning();
 			}
-			SyncOnFire(false);
+			SyncOnFire(onFire, false);
 		}
 	}
 
 	public override void OnStartClient()
 	{
-		SyncOnFire(onFire);
+		SyncOnFire(onFire, onFire);
 	}
 
 	/// <summary>
@@ -161,7 +161,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			if (attackType == AttackType.Fire && !onFire && !destroyed && Resistances.Flammable)
 			{
-				SyncOnFire(true);
+				SyncOnFire(onFire, true);
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
@@ -183,7 +183,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	private void SyncOnFire(bool onFire)
+	private void SyncOnFire(bool wasOnFire, bool onFire)
 	{
 		//do nothing if this can't burn
 		if (!Resistances.Flammable) return;
@@ -210,7 +210,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			if (onFire)
 			{
 				//ensure we stop burning
-				SyncOnFire(false);
+				SyncOnFire(onFire, false);
 			}
 
 			if (destructInfo.DamageType == DamageType.Burn)

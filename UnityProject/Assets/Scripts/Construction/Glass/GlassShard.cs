@@ -22,13 +22,13 @@ public class GlassShard : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SpriteChange(spriteIndex);
+		SpriteChange(spriteIndex, spriteIndex);
 	}
 
 	[Server]
 	public void SetSpriteAndScatter(int index){
 		//Set the syncvar and update to all clientS:
-		SpriteChange(index);
+		SpriteChange(spriteIndex, index);
 
 		var netTransform = GetComponent<CustomNetTransform>();
 
@@ -38,10 +38,10 @@ public class GlassShard : NetworkBehaviour
 	[Server]
 	public void SetRandomSprite()
 	{
-		SpriteChange(Random.Range(0, glassSprites.Length));
+		SpriteChange(spriteIndex, Random.Range(0, glassSprites.Length));
 	}
 
-	public void SpriteChange(int index)
+	public void SpriteChange(int oldValue, int index)
 	{
 		spriteIndex = index;
 		spriteRenderer.sprite = glassSprites[spriteIndex];

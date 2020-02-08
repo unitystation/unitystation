@@ -218,7 +218,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public override void OnStartClient()
 	{
 		LogMatrixDebug("OnStartClient");
-		SyncNetworkedMatrixNetId(networkedMatrixNetId);
+		SyncNetworkedMatrixNetId(networkedMatrixNetId, networkedMatrixNetId);
 	}
 
 	public override void OnStartServer()
@@ -227,7 +227,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			SyncNetworkedMatrixNetId(Matrix.transform.parent.gameObject.NetId());
+			SyncNetworkedMatrixNetId(networkedMatrixNetId, Matrix.transform.parent.gameObject.NetId());
 		}
 	}
 
@@ -271,7 +271,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void ServerSetNetworkedMatrixNetID(uint newNetworkedMatrixNetID)
 	{
 		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
-		SyncNetworkedMatrixNetId(newNetworkedMatrixNetID);
+		SyncNetworkedMatrixNetId(networkedMatrixNetId, newNetworkedMatrixNetID);
 	}
 
 
@@ -281,8 +281,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
+	/// <param name="oldNetworkMatrixId"></param>
 	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
-	private void SyncNetworkedMatrixNetId(uint newNetworkedMatrixNetID)
+	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
 		LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
 		if (this.networkedMatrixNetId == newNetworkedMatrixNetID) return;

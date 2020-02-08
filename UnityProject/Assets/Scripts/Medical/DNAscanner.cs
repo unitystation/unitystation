@@ -28,14 +28,14 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncPowered(powered);
+		SyncPowered(powered, powered);
 	}
 
 	public override void OnSpawnServer(SpawnInfo info)
 	{
 		base.OnSpawnServer(info);
 		statusString = "Ready to scan.";
-		SyncPowered(powered);
+		SyncPowered(powered, powered);
 	}
 
 	protected override void ServerHandleContentsOnStatusChange(bool willClose)
@@ -132,7 +132,7 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 		}
 	}
 
-	private void SyncPowered(bool value)
+	private void SyncPowered(bool oldValue, bool value)
 	{
 		//does nothing if power is unchanged and
 		//we've already init'd
@@ -157,11 +157,11 @@ public class DNAscanner : ClosetControl, ICheckedInteractable<MouseDrop>, IAPCPo
 	{
 		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
 		{
-			SyncPowered(false);
+			SyncPowered(powered, false);
 		}
 		else
 		{
-			SyncPowered(true);
+			SyncPowered(powered, true);
 		}
 
 		if (!powerInit)

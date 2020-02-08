@@ -77,12 +77,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	public override void OnStartClient()
 	{
-		SyncIsOn(isOn);
+		SyncIsOn(isOn, isOn);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncIsOn(false);
+		SyncIsOn(isOn, false);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -93,10 +93,10 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	[Server]
 	public void ServerToggleWelder(GameObject originator)
 	{
-		SyncIsOn(!isOn);
+		SyncIsOn(isOn, !isOn);
 	}
 
-	private void SyncIsOn(bool _isOn)
+	private void SyncIsOn(bool _wasOn, bool _isOn)
 	{
 		if (isServer)
 		{
@@ -190,7 +190,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 				//Ran out of fuel
 				if (FuelAmount < 0f)
 				{
-					SyncIsOn(false);
+					SyncIsOn(isOn, false);
 				}
 
 				Vector2Int position = gameObject.TileWorldPosition();

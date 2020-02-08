@@ -50,8 +50,8 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	private IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(3f);
-		SyncCabinet(IsClosed);
-		SyncItemSprite(isFull);
+		SyncCabinet(IsClosed, IsClosed);
+		SyncItemSprite(isFull, isFull);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -118,7 +118,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 		}
 	}
 
-	public void SyncItemSprite(bool value)
+	public void SyncItemSprite(bool oldValue, bool value)
 	{
 		isFull = value;
 		if (!isFull)
@@ -134,7 +134,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 		}
 	}
 
-	private void SyncCabinet(bool value)
+	private void SyncCabinet(bool oldValue, bool value)
 	{
 		IsClosed = value;
 		if (IsClosed)

@@ -232,7 +232,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 				isA = false;
 			}
 			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
-			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.LocalPositionServer);
+			var IEnumerableEconns = wireConnect.Matrix.GetElectricalConnections(wireConnect.registerTile.LocalPositionServer);
 			foreach (var T in IEnumerableEconns) {
 				Econns.Add(T);
 			}

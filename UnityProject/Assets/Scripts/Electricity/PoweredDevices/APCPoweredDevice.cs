@@ -59,12 +59,12 @@ public class APCPoweredDevice : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		UpdateSynchronisedState(State);
+		UpdateSynchronisedState(State, State);
 	}
 
 	public override void OnStartServer()
 	{
-		UpdateSynchronisedState(State);
+		UpdateSynchronisedState(State, State);
 	}
 
 	void Start()
@@ -125,7 +125,7 @@ public class APCPoweredDevice : NetworkBehaviour
 	{
 		RemoveFromAPC();
 	}
-	private void UpdateSynchronisedState(PowerStates _State)
+	private void UpdateSynchronisedState(PowerStates _OldState, PowerStates _State)
 	{
 		if (_State != State)
 		{

@@ -32,13 +32,13 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 	public override void OnStartClient()
 	{
-		SyncState(initialState);
+		SyncState(spriteSync, initialState);
 		base.OnStartClient();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncState(initialState);
+		SyncState(spriteSync, initialState);
 	}
 
 	#endregion
@@ -81,10 +81,10 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 	[Server]
 	public void SetState(EmptyFullStatus value)
 	{
-		SyncState(value);
+		SyncState(spriteSync, value);
 	}
 
-	private void SyncState(EmptyFullStatus value)
+	private void SyncState(EmptyFullStatus oldValue, EmptyFullStatus value)
 	{
 		spriteSync = value;
 		spriteRenderer.sprite = spriteSync == EmptyFullStatus.Empty ? EmptySprite : FullSprite;

@@ -60,12 +60,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncIsLayingDown(isLayingDown);
+		SyncIsLayingDown(isLayingDown, isLayingDown);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncIsLayingDown(false);
+		SyncIsLayingDown(isLayingDown, false);
 	}
 
 	public override bool IsPassable(bool isServer)
@@ -85,7 +85,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerLayDown()
 	{
-		SyncIsLayingDown(true);
+		SyncIsLayingDown(isLayingDown, true);
 	}
 
 	/// <summary>
@@ -95,7 +95,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerStandUp()
 	{
-		SyncIsLayingDown(false);
+		SyncIsLayingDown(isLayingDown, false);
 	}
 
 	/// <summary>
@@ -105,10 +105,10 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerSetIsStanding(bool isStanding)
 	{
-		SyncIsLayingDown(!isStanding);
+		SyncIsLayingDown(isLayingDown, !isStanding);
 	}
 
-	private void SyncIsLayingDown(bool isDown)
+	private void SyncIsLayingDown(bool wasDown, bool isDown)
 	{
 		this.isLayingDown = isDown;
 		if (isDown)
@@ -174,7 +174,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
-		SyncIsLayingDown(true);
+		SyncIsLayingDown(isLayingDown, true);
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
@@ -199,7 +199,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		// Do not raise up a dead body
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
 		{
-			SyncIsLayingDown(false);
+			SyncIsLayingDown(isLayingDown, false);
 		}
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);

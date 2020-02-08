@@ -36,7 +36,7 @@ public class Paper : NetworkBehaviour
 		{
 			spriteState = 1;
 		}
-		UpdateState(spriteState);
+		UpdateState(spriteState, spriteState);
 	}
 
 	[Server]
@@ -48,7 +48,7 @@ public class Paper : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		UpdateState(spriteState);
+		UpdateState(spriteState, spriteState);
 	}
 
 	public override void OnStartServer()
@@ -56,7 +56,7 @@ public class Paper : NetworkBehaviour
 		base.OnStartServer();
 	}
 
-	public void UpdateState(int i)
+	public void UpdateState(int oldI, int i)
 	{
 		spriteState = i;
 		spriteRenderer.sprite = spriteStates[i];

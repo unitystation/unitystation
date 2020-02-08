@@ -62,7 +62,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		UpdateState(isOn);
+		UpdateState(isOn, isOn);
 	}
 
 	public void PowerNetworkUpdate() {
@@ -72,7 +72,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 			{
 				if (CurrentState != BatteryStateSprite.Full)
 				{
-					UpdateBattery(BatteryStateSprite.Full);
+					UpdateBattery(CurrentState, BatteryStateSprite.Full);
 				}
 
 			}
@@ -80,7 +80,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 			{
 				if (CurrentState != BatteryStateSprite.Half)
 				{
-					UpdateBattery(BatteryStateSprite.Half);
+					UpdateBattery(CurrentState, BatteryStateSprite.Half);
 				}
 			}
 		}
@@ -88,12 +88,12 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 		{
 			if (CurrentState != BatteryStateSprite.Empty)
 			{
-				UpdateBattery(BatteryStateSprite.Empty);
+				UpdateBattery(CurrentState, BatteryStateSprite.Empty);
 			}
 		}
 	}
 
-	void UpdateBattery(BatteryStateSprite State)
+	void UpdateBattery(BatteryStateSprite oldState, BatteryStateSprite State)
 	{
 		CurrentState = State;
 
@@ -139,7 +139,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 		}
 	}
 
-	public void UpdateState(bool _isOn)
+	public void UpdateState(bool _wasOn, bool _isOn)
 	{
 		isOn = _isOn;
 		if (isOn)

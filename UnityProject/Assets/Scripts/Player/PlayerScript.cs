@@ -67,7 +67,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	public override void OnStartClient()
 	{
 		Init();
-		SyncPlayerName(playerName);
+		SyncPlayerName(playerName, playerName);
 		base.OnStartClient();
 	}
 
@@ -195,7 +195,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		}
 	}
 
-	public void SyncPlayerName(string value)
+	public void SyncPlayerName(string oldValue, string value)
 	{
 		playerName = value;
 		gameObject.name = value;
