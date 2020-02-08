@@ -420,6 +420,11 @@ public class ChatUI : MonoBehaviour
 		EventManager.Broadcast(EVENT.ChatUnfocused);
 		background.SetActive(false);
 		UIManager.PreventChatInput = false;
+
+		// if doesn't clear input next opening can be by OOC or other hotkey
+		// That create a lot of misunderstanding and can lead to IC in OOC
+		// also clears ParsedChatInput as a side effect
+		InputFieldChat.text = "";
 	}
 
 	IEnumerator WindowCoolDown()
@@ -792,6 +797,14 @@ public class ChatUI : MonoBehaviour
 				ActiveChannels[channel].SetActive(false);
 				RefreshRadioChannelPanel();
 			}
+		}
+
+		// check if channel was forced by tag
+		if (channel == prevTagSelectedChannel && channel != ChatChannel.None)
+		{
+			// delete tag from input field
+			if (parsedInput != null)
+				InputFieldChat.text = parsedInput.ClearMessage;
 		}
 
 		UpdateInputLabel();
