@@ -43,7 +43,7 @@ namespace Atmospherics
 			if (BurnRate > 0)
 			{
 				float MolesPlasmaBurnt = gasMix.GetMoles(Gas.Plasma) * Reactions.BurningDelta * BurnRate;
-				if (MolesPlasmaBurnt * 2 > gasMix.GetMoles(Gas.Oxygen)) { 
+				if (MolesPlasmaBurnt * 2 > gasMix.GetMoles(Gas.Oxygen)) {
 					MolesPlasmaBurnt = (gasMix.GetMoles(Gas.Oxygen) * Reactions.BurningDelta * BurnRate)/2;
 				}
 				gasMix.RemoveGas(Gas.Plasma, MolesPlasmaBurnt);
@@ -61,8 +61,8 @@ namespace Atmospherics
 		public static float GetOxygenContact(GasMix gasMix)
 		{
 			float Oxygen = gasMix.GasRatio(Gas.Oxygen);
-			float Plasma = gasMix.GasRatio(Gas.Plasma‬);
-			
+			float Plasma = gasMix.GasRatio(Gas.Plasma);
+
 			var NeedOXtoplas = Plasma * 2;
 			var Ratio = 0.0f;
 			if (Oxygen > NeedOXtoplas)
@@ -86,7 +86,8 @@ namespace Atmospherics
 				tempComponent = (float)Math.Pow((temp - Reactions.PlasmaMaintainFire) /
 				(Reactions.PlasmaMaxTemperatureGain - Reactions.PlasmaMaintainFire), 2);
 			}
-			//Logger.Log("Ratio >" + Ratio + " ((Oxygen + Plasma / gasMix.Moles) that suff" + (Oxygen + Plasma / gasMix.Moles) + " (tempComponent * 3) >" +(1 + tempComponent * 2));
+
+			//Logger.Log("Ratio >" + Ratio + " ((Oxygen + Plasma / gasMix.Moles) that suff" + (Oxygen + Plasma / gasMix.Moles) + " (tempComponent * 3) >" +(1 + tempComponent * 2));
 			return (Ratio * ((Oxygen + Plasma / gasMix.Moles) * (1+tempComponent * 2)));
 		}
 	}

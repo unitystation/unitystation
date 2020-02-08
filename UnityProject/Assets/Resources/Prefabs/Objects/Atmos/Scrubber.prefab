@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 200003959481001672}
   - component: {fileID: 114754654923298058}
   - component: {fileID: 5447043449243603668}
-  - component: {fileID: 114519943041861588}
   - component: {fileID: 114276172641375114}
   - component: {fileID: -1233506647488304563}
   - component: {fileID: 6583049513569107849}
@@ -139,7 +138,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 338b7b6da09887b4a8e2f5416e2ce867, type: 3}
   - {fileID: 21300000, guid: 338b7b6da09887b4a8e2f5416e2ce867, type: 3}
   spriteRenderer: {fileID: 3335986396963275010}
-  MinimumPressure: 101.325
+  MinimumPressure: 101.3251
 --- !u!114 &6963528815061158835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,28 +242,6 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
---- !u!114 &114519943041861588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011763452766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
 --- !u!114 &114276172641375114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: f0270cf6e570475a8317f8d04139e54f
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-1233506647488304563
 MonoBehaviour:
@@ -311,6 +288,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
 --- !u!114 &6583049513569107849
 MonoBehaviour:
   m_ObjectHideFlags: 0
