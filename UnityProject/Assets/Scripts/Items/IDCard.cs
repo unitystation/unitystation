@@ -170,7 +170,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 		SyncIDCardType(idCardType);
 	}
 
-	public void SyncAccess(SyncList<int>.Operation op, int index, int item)
+	public void SyncAccess(SyncList<int>.Operation op, int index, int oldItem, int newItem)
 	{
 		//Do anything special when the synclist changes on the client
 	}

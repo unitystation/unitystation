@@ -362,10 +362,9 @@ public static class PlayerSpawn
 			NetworkServer.ReplacePlayerForConnection(conn, newBody);
 			if (oldBody)
 			{
-				NetworkServer.ReplacePlayerForConnection(new NetworkConnection("0.0.0.0"), oldBody);
+				NetworkServer.ReplacePlayerForConnection(new NetworkConnectionToClient(0), oldBody);
 			}
-			//mirrorworkaround: only added setLocal/unsetlocal for workaround for https://github.com/vis2k/Mirror/issues/962
-			TriggerEventMessage.Send(newBody, eventType, willDestroyOldBody ? null : oldBody, newBody);
+			TriggerEventMessage.Send(newBody, eventType);
 
 			//can observe their new inventory
 			newBody.GetComponent<ItemStorage>()?.ServerAddObserverPlayer(newBody);

@@ -57,9 +57,6 @@ namespace Mirror.Weaver
 
             if (md.Name == ".cctor" ||
                 md.Name == NetworkBehaviourProcessor.ProcessedFunctionName ||
-                md.Name.StartsWith("CallCmd") ||
-                md.Name.StartsWith("InvokeCmd") ||
-                md.Name.StartsWith("InvokeRpc") ||
                 md.Name.StartsWith("InvokeSyn"))
                 return;
 
@@ -85,7 +82,7 @@ namespace Mirror.Weaver
                     }
                 }
 
-                for (int iCount= 0; iCount < md.Body.Instructions.Count;)
+                for (int iCount = 0; iCount < md.Body.Instructions.Count;)
                 {
                     Instruction instr = md.Body.Instructions[iCount];
                     iCount += ProcessInstruction(md, instr, iCount);
@@ -286,20 +283,7 @@ namespace Mirror.Weaver
                     }
                 }
             }
-            else
-            {
-                // should it be replaced?
-                // NOTE: original weaver compared .FullName, not just the MethodDefinition,
-                //       that's why we use dict<string,method>.
-                if (Weaver.WeaveLists.replaceMethods.TryGetValue(opMethodRef.FullName, out MethodDefinition replacement))
-                {
-                    //DLog(td, "    replacing "  + md.Name + ":" + i);
-                    instr.Operand = replacement;
-                    //DLog(td, "    replaced  "  + md.Name + ":" + i);
-                }
-            }
         }
-
 
         // this is required to early-out from a function with "ref" or "out" parameters
         static void InjectGuardParameters(MethodDefinition md, ILProcessor worker, Instruction top)
