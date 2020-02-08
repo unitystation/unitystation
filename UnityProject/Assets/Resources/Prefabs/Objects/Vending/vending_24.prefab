@@ -33,7 +33,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825784958154784}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 47, y: 36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -120,7 +120,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent: []
+  VendorContent:
+  - Item: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6, type: 3}
+    Stock: 20
+  - Item: {fileID: 8582594776399167655, guid: f23b37dbf83885c4aabb3240de1c5b19, type: 3}
+    Stock: 1
+  - Item: {fileID: 742292832060491855, guid: 7bfcc39ce2266f54581ac24597ce0434, type: 3}
+    Stock: 2
+  - Item: {fileID: 5260985750374485318, guid: 36e3533550bd8a943ad05db76b83fdd3, type: 3}
+    Stock: 1
   HullColor: {r: 0.40784314, g: 0.41568628, b: 0.36862746, a: 1}
   EjectObjects: 0
   EjectDirection: 0
