@@ -34,11 +34,6 @@ public class ChatUI : MonoBehaviour
 	private ChatChannel selectedChannels;
 
 	/// <summary>
-	/// Store previously selected by tag channel (like ';' or ':e')
-	/// </summary>
-	private ChatChannel prevTagSelectedChannel = ChatChannel.None;
-
-	/// <summary>
 	/// Latest parsed input from input field
 	/// </summary>
 	private ParsedChatInput parsedInput;
@@ -833,37 +828,20 @@ public class ChatUI : MonoBehaviour
 		// Check if player typed new channel shotrcut (for instance ';' or ':e')
 		if (inputChannel != ChatChannel.None)
 		{
-			// Make sure that is a new shortcut
-			if (inputChannel != prevTagSelectedChannel)
+			// check if entered channel avaliable for player
+			var availChannels = GetAvailableChannels();
+			if (availChannels.HasFlag(inputChannel))
 			{
-				// check if entered channel avaliable for player
-				var availChannels = GetAvailableChannels();
-				if (availChannels.HasFlag(inputChannel))
-				{
-					// select extracted channel and deselect all others
-					DisableAllChanels();
-					EnableChannel(inputChannel);
-
-					prevTagSelectedChannel = inputChannel;
-					Logger.Log($"Deselect all channels and select {SelectedChannels}", Category.UI);
-				}
-				else
-				{
-					// TODO: need some addition UX indication that channel is not avaliable
-					Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.UI);
-				}
+				EnableChannel(inputChannel);
+			}
+			else
+			{
+				// TODO: need some addition UX indication that channel is not avaliable
+				Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.UI);
 			}
 
+			// delete all tags from input
+			InputFieldChat.text = parsedInput.ClearMessage;
 		}
-		else 
-		{
-			if (prevTagSelectedChannel != ChatChannel.None)
-			{
-				// Player just removed hotkey from input - need to disable channel
-				DisableChannel(prevTagSelectedChannel);
-				prevTagSelectedChannel = ChatChannel.None;
-			}
-		}
-
 	}
 }
