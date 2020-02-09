@@ -166,20 +166,16 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	//syncvar hook for occupant
 	private void SyncOccupantNetId(uint occupantOldValue, uint occupantNewValue)
 	{
-		if (occupantNetId != occupantNewValue)
+		occupantNetId = occupantNewValue;
+		occupant = NetworkUtils.FindObjectOrNull(occupantNetId);
+
+		if (occupant != null)
 		{
-			occupantNetId = occupantNewValue;
-			occupant = NetworkUtils.FindObjectOrNull(occupantNetId);
-
-			if (occupant != null)
-			{
-				occupantPlayerScript = occupant.GetComponent<PlayerScript>();
-			}
-			else
-			{
-				occupantPlayerScript = null;
-			}
-
+			occupantPlayerScript = occupant.GetComponent<PlayerScript>();
+		}
+		else
+		{
+			occupantPlayerScript = null;
 		}
 
 		UpdateFrontSprite();
