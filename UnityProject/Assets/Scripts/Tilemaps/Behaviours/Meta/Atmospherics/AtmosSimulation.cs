@@ -36,6 +36,11 @@ namespace Atmospherics
 		/// </summary>
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
+		public bool IsInUpdateList(MetaDataNode node)
+		{
+			return updateList.Contains(node);
+		}
+
 		public void AddToUpdateList(MetaDataNode node)
 		{
 			updateList.Enqueue(node);
@@ -44,6 +49,7 @@ namespace Atmospherics
 		public void ClearUpdateList()
 		{
 			nodes.Clear();
+			updateList = new UniqueQueue<MetaDataNode>();
 		}
 
 		public void Run()
@@ -61,7 +67,7 @@ namespace Atmospherics
 		private void Update(MetaDataNode node)
 		{
 			//Gases are frozen within closed airlocks or walls
-			if ( node.IsOccupied || node.IsClosedAirlock )
+			if (node.IsOccupied || node.IsClosedAirlock)
 			{
 				return;
 			}
@@ -72,15 +78,16 @@ namespace Atmospherics
 			node.AddNeighborsToList(ref nodes);
 
 			bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
+
 			if (isPressureChanged)
 			{
-				node.ReactionManager.AddWindEvent( node, windDirection, windForce );
+				node.ReactionManager.AddWindEvent(node, windDirection, windForce);
 				Equalize();
-			}
 
-			for (int i = 1; i < nodes.Count; i++)
-			{
-				updateList.Enqueue(nodes[i]);
+				for (int i = 1; i < nodes.Count; i++)
+				{
+					updateList.Enqueue(nodes[i]);
+				}
 			}
 		}
 
@@ -102,6 +109,12 @@ namespace Atmospherics
 					if (!node.IsOccupied)
 					{
 						node.GasMix = CalcAtmos(node.GasMix, MeanGasMix);
+
+						if (node.IsSpace)
+						{
+							//Set to 0 if space
+							node.GasMix *= 0;
+						}
 					}
 				}
 			}
@@ -122,12 +135,6 @@ namespace Atmospherics
 			for (var i = 0; i < nodes.Count; i++)
 			{
 				MetaDataNode node = nodes[i];
-
-				if (node.IsSpace)
-				{
-					//Set to 0 if space
-					node.GasMix *= 0;
-				}
 
 				for (int j = 0; j < Gas.Count; j++)
 				{
@@ -167,10 +174,10 @@ namespace Atmospherics
 			//Used for updating tiles with the averagee Calculated gas
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				atmos.Gases[i] = (gasMix.Gases[i]);
+				atmos.Gases[i] = gasMix.Gases[i];
 			}
 
-			atmos.Pressure = (gasMix.Pressure);
+			atmos.Pressure = gasMix.Pressure;
 
 			return atmos;
 		}
