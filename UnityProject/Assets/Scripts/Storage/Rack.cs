@@ -54,8 +54,9 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 			return;
 		}
 
-		// Like a table, but everything is stacked on center
+		// Like a table, but everything is neatly stacked.
 		Vector3 targetPosition = interaction.WorldPositionTarget.RoundToInt();
+		targetPosition.z = -0.2f;
 		pna.CmdPlaceItem(interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), targetPosition, interaction.Performer, true);
 	}
 }

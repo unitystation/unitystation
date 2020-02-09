@@ -193,9 +193,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		var targetVector = worldPos - gameObject.TileWorldPosition().To3Int();
 		if (!Validations.CanApply(playerScript, newParent, NetworkSide.Server, targetVector: targetVector)) return;
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		Inventory.ServerDrop(slot, targetVector);
+		Inventory.ServerDrop(slot, worldPos);
 	}
 
 	[Command]

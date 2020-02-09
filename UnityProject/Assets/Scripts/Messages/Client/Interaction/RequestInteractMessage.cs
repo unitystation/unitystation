@@ -207,6 +207,7 @@ public class RequestInteractMessage : ClientMessage
 		where T : Interaction
 	{
 		//find the indicated component
+		var success = false;
 		var component = processorObj.GetComponent(ComponentType);
 		if (component == null)
 		{
