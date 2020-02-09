@@ -23,6 +23,8 @@ public class PlayerHealthUI : MonoBehaviour
 	void Awake()
 	{
 		DisableAll();
+		///fixes Healthdoll sprite
+		baseBody.transform.Rotate( 0, 180, 0, Space.Self);
 	}
 
 	private void OnEnable()
