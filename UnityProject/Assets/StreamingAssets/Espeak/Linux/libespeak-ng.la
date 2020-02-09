@@ -5,10 +5,10 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname='libespeak-ng.so.1'
+dlname=''
 
 # Names of this library.
-library_names='libespeak-ng.so.1.1.49 libespeak-ng.so.1 libespeak-ng.so'
+library_names=''
 
 # The name of the static archive.
 old_library='libespeak-ng.a'
@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/rane/Documents/Espeak/Builds/Espeak-NT/espeak-nt/SS13'
+libdir='/home/rane/Documents/Espeak/Builds/Espeak-NT/SS13'
