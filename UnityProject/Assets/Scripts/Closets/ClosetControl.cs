@@ -117,7 +117,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void EnsureInit()
 	{
-		if (doorClosed != null) return;
+		if (registerTile != null) return;
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
