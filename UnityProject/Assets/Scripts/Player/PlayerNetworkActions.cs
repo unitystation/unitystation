@@ -131,7 +131,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		var validateSlot = itemStorage.GetIndexedItemSlot(0);
 		if (validateSlot.RootPlayer() != playerScript.registerTile) return;
-		
+
 		foreach (var item in slots)
 		{
 			Inventory.ServerDrop(item);
@@ -186,17 +186,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
-	}
-
-	[Command] //Remember with the parent you can only send networked objects:
-	public void CmdPlaceItem(NamedSlot equipSlot, Vector3 worldPos, GameObject newParent, bool isTileMap)
-	{
-		var targetVector = worldPos - gameObject.TileWorldPosition().To3Int();
-		if (!Validations.CanApply(playerScript, newParent, NetworkSide.Server, targetVector: targetVector)) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-
-		var slot = itemStorage.GetNamedItemSlot(equipSlot);
-		Inventory.ServerDrop(slot, worldPos);
 	}
 
 	[Command]
