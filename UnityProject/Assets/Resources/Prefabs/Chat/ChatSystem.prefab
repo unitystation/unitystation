@@ -2030,14 +2030,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce6ebc820bc96f41b4b46c9e60cf195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCpm: 500
-  minCharsToSend: 5
-  messageMaxCpm: You ran out of breath before you finished speaking.
-  messageMaxCpmOOC: Your messages have been too long, please slow down.
-  maxNumMessages: 5
+  cpmMax: 500
+  cpmMinCharacters: 5
+  cpmWarning: You ran out of breath before you finished speaking.
+  cpmWarningOOC: Your messages have been too long, please slow down.
+  numMessageMax: 5
   numMessagesDecayMinutes: 0.083333336
-  messageMaxNumMessages: You struggled to speak as you catch your breath.
-  messageMaxNumMessagesOOC: You are sending too many messages, please wait a few seconds.
+  numMessagesWarning: You struggled to speak as you catch your breath.
+  numMessagesWarningOOC: You are sending too many messages, please wait a few seconds.
 --- !u!1 &240195806562193236
 GameObject:
   m_ObjectHideFlags: 0

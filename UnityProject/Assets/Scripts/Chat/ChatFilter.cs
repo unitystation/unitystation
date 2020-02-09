@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Processes chat messages the player has types and sends them to the server.
 /// Filters out long or too frequent messages.
+/// TODO This might become obsolete with the chat system V2.
 /// </summary>
 public class ChatFilter : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class ChatFilter : MonoBehaviour
 	[SerializeField]
 	[Range(0, 700)]
 	[Tooltip("The maximum number of characters the user is allowed to type per minute.")]
-	private int maxCpm = 500;
+	private int cpmMax = 500;
 
 	/// <summary>
 	/// How many characters (on average) have been entered within the last minute.
@@ -32,21 +33,21 @@ public class ChatFilter : MonoBehaviour
 	[SerializeField]
 	[Range(0, 10)]
 	[Tooltip("When a message goes above maxCpm they will only be sent to the server if the remaining message has a length of at least minCharsToSend.")]
-	private int minCharsToSend = 5;
+	private int cpmMinCharacters = 5;
 
 	/// <summary>
 	/// What will be shown to the speaker in the chat if they go above the maximum CPM.
 	/// </summary>
 	[SerializeField]
 	[Tooltip("What will be shown to the speaker in the chat if they go above the maximum CPM.")]
-	private string messageMaxCpm = "You ran out of breath before you finished speaking.";
+	private string cpmWarning = "You ran out of breath before you finished.";
 
 	/// <summary>
 	/// What will be shown to the speaker in the chat if they go above the maximum CPM in OOC.
 	/// </summary>
 	[SerializeField]
 	[Tooltip("What will be shown to the speaker in the chat if they go above the maximum CPM in OOC.")]
-	private string messageMaxCpmOOC = "Your messages have been too long, please slow down.";
+	private string cpmWarningOOC = "Your messages have been too long, please slow down.";
 
 	[Header("Max messages")]
 
@@ -56,7 +57,7 @@ public class ChatFilter : MonoBehaviour
 	[SerializeField]
 	[Range(0, 10)]
 	[Tooltip("The maximum number of messages the user is allowed to send every messageCoolown seconds.")]
-	private int maxNumMessages= 5;
+	private int numMessageMax= 4;
 
 	/// <summary>
 	/// How many messages the user has attempted to send in the past messageCoolown seconds. 
@@ -76,14 +77,14 @@ public class ChatFilter : MonoBehaviour
 	/// </summary>
 	[SerializeField]
 	[Tooltip("What will be shown to the speaker in the chat if they go above the maximum messages.")]
-	private string messageMaxNumMessages = "You struggled to speak as you catch your breath.";
+	private string numMessagesWarning = "You struggled to speak as you catch your breath.";
 
 	/// <summary>
 	/// What will be shown to the speaker in the chat if they go above the maximum messages in OOC.
 	/// </summary>
 	[SerializeField]
 	[Tooltip("What will be shown to the speaker in the chat if they go above the maximum messages in OOC.")]
-	private string messageMaxNumMessagesOOC = "You are sending too many messages, please wait a few seconds.";
+	private string numMessagesWarningOOC = "You are sending too many messages, please wait a few seconds.";
 
 	/// <summary>
 	/// Time the player last sent a message.
@@ -103,15 +104,15 @@ public class ChatFilter : MonoBehaviour
 		DecayFiltersOverTime(); // Decrease cpm and messages since last having spoken
 
 		// Limit number of messages
-		if (numMessages + 1 > maxNumMessages || cpm + 1 > maxCpm)
+		if (numMessages + 1 > numMessageMax || cpm + 1 > cpmMax)
 		{
 			if (selectedChannels.HasFlag(ChatChannel.OOC) || selectedChannels.HasFlag(ChatChannel.Ghost))
 			{
-				Chat.AddExamineMsgToClient(messageMaxNumMessagesOOC);
+				Chat.AddExamineMsgToClient(numMessagesWarningOOC);
 			}
 			else
 			{
-				Chat.AddExamineMsgToClient(messageMaxNumMessages);
+				Chat.AddExamineMsgToClient(numMessagesWarning);
 			}
 			return;
 		}
@@ -122,18 +123,18 @@ public class ChatFilter : MonoBehaviour
 
 		// Limit characters per minute
 		int numCharsOverLimit = 0;
-		if (cpm > maxCpm)
+		if (cpm > cpmMax)
 		{
 			// Too many characters, calculate how many need to be removed.
-			float cpmOver = cpm - maxCpm;
-			cpm = maxCpm; // Characters will be removed, so cpm must be lowered again.
+			float cpmOver = cpm - cpmMax;
+			cpm = cpmMax; // Characters will be removed, so cpm must be lowered again.
 			numCharsOverLimit = (int)Math.Floor(cpmOver);
 
 			message = message.Remove(message.Length - numCharsOverLimit) + "...";
 		}
 
 		// Don't send message if it got shortened below the limit.
-		if (0 < numCharsOverLimit && numCharsOverLimit < minCharsToSend) return;
+		if (0 < numCharsOverLimit && numCharsOverLimit < cpmMinCharacters) return;
 
 		// Send message, which might have been shortened because of the character limit per minute.
 		PostToChatMessage.Send(message, selectedChannels);
@@ -143,11 +144,11 @@ public class ChatFilter : MonoBehaviour
 		{
 			if (selectedChannels.HasFlag(ChatChannel.OOC) || selectedChannels.HasFlag(ChatChannel.Ghost))
 			{
-				Chat.AddExamineMsgToClient(messageMaxCpmOOC);
+				Chat.AddExamineMsgToClient(cpmWarningOOC);
 			}
 			else
 			{
-				Chat.AddExamineMsgToClient(messageMaxCpm);
+				Chat.AddExamineMsgToClient(cpmWarning);
 			}
 		}
 	}
@@ -168,8 +169,8 @@ public class ChatFilter : MonoBehaviour
 		float minutesSinceLastMessage = (float)timeElapsed.TotalMinutes;
 		timeLastMessage = DateTime.Now;
 
-		cpm = Mathf.Max(0, cpm - (maxCpm * minutesSinceLastMessage));
+		cpm = Mathf.Max(0, cpm - (cpmMax * minutesSinceLastMessage));
 
-		numMessages = Mathf.Max(0, numMessages - (maxNumMessages * minutesSinceLastMessage * (1 / numMessagesDecayMinutes)));
+		numMessages = Mathf.Max(0, numMessages - (numMessageMax * minutesSinceLastMessage * (1 / numMessagesDecayMinutes)));
 	}
 }
