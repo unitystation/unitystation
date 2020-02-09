@@ -53,31 +53,42 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
 
-		PlaceableTileEntry validPlaceableTileEntry = null;
+		PlaceableTileEntry placeableTileEntry = null;
+
+		int itemAmount = 1;
+		var stackable = interaction.HandObject.GetComponent<Stackable>();
+		if (stackable != null)
+		{
+			itemAmount = stackable.Amount;
+		}
 
 		// find the first valid way possible to place a tile
 		foreach (var entry in waysToPlace)
 		{
+			//skip what can't be afforded
+			if (entry.itemCost > itemAmount)
+				continue;
+
 			//open space
 			if (tileAtPosition == null && entry.placeableOn == LayerType.None && entry.placeableOnlyOnTile == null)
 			{
-				validPlaceableTileEntry = entry;
+				placeableTileEntry = entry;
 				break;
 			}
 
 			// placing on an existing tile
 			else if (tileAtPosition.LayerType == entry.placeableOn && (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
 			{
-				validPlaceableTileEntry = entry;
+				placeableTileEntry = entry;
 				break;
 			}
 		}
 
-		if (validPlaceableTileEntry != null)
+		if (placeableTileEntry != null)
 		{
-			interactableTiles.TileChangeManager.UpdateTile(cellPos, validPlaceableTileEntry.layerTile);
+			interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			Inventory.ServerConsume(interaction.HandSlot, 1);
+			Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
 		}
 	}
 
