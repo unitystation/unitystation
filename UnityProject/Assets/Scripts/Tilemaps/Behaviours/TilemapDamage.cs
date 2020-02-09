@@ -469,25 +469,26 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType)
 	{
 		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
-		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDamage < WindowDamageLevel.Crack01)
+
+		if (data.Damage >= 20 && data.Damage < 50)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack01");
 			data.WindowDamage = WindowDamageLevel.Crack01;
 		}
 
-		if (data.Damage >= 50 && data.Damage < 75 && data.WindowDamage < WindowDamageLevel.Crack02)
+		if (data.Damage >= 50 && data.Damage < 75)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack02");
 			data.WindowDamage = WindowDamageLevel.Crack02;
 		}
 
-		if (data.Damage >= 75 && data.Damage < MAX_WINDOW_DAMAGE && data.WindowDamage < WindowDamageLevel.Crack03)
+		if (data.Damage >= 75 && data.Damage < MAX_WINDOW_DAMAGE)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack03");
 			data.WindowDamage = WindowDamageLevel.Crack03;
 		}
 
-		if (data.Damage >= MAX_WINDOW_DAMAGE && data.WindowDamage < WindowDamageLevel.Broken)
+		if (data.Damage >= MAX_WINDOW_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
