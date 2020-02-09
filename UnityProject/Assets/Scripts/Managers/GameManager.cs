@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -335,7 +335,7 @@ public partial class GameManager : MonoBehaviour
 			// Prevents annoying sound duplicate when testing
 			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
 			{
-				SoundManager.PlayNetworked("ApcDestroyed", 1f);
+				SoundManager.Instance.PlayRandomRoundEndSound();
 			}
 
 			waitForRestart = true;
