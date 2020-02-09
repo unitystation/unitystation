@@ -90,8 +90,8 @@ public class VotingManager : NetworkBehaviour
 				case VoteType.RestartRound:
 					if (voteRestartSuccess) return;
 					voteRestartSuccess = true;
-					StartCoroutine(BeginRoundRestart());
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
+					GameManager.Instance.EndRound();
 					break;
 			}
 
@@ -101,13 +101,6 @@ public class VotingManager : NetworkBehaviour
 				FinishVote();
 			}
 		}
-	}
-
-	IEnumerator BeginRoundRestart()
-	{
-		//A healthy delay before restarting everything
-		yield return WaitFor.Seconds(2f);
-		GameManager.Instance.RestartRound();
 	}
 
 	private bool IsSuccess(int forVotes, int maxVoters)
