@@ -40,8 +40,8 @@ using UnityEditor;
 						}
 						else
 						{
-						//PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object) ??
-						               // PreviewSpriteBuilder.Create(Object);
+							// PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object);
+									// PreviewSpriteBuilder.Create(Object);
 						}
 					};
 				}
