@@ -58,6 +58,7 @@ namespace AdminTools
 		public bool isAntag;
 		public bool isAdmin;
 		public bool isOnline;
+		public string ipAddress;
 		public List<AdminChatMessage> newMessages = new List<AdminChatMessage>();
 	}
 
