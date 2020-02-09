@@ -68,21 +68,18 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	{
 		Init();
 		SyncPlayerName(playerName, playerName);
-		base.OnStartClient();
 	}
 
 	//isLocalPlayer is always called after OnStartClient
 	public override void OnStartLocalPlayer()
 	{
 		Init();
-		base.OnStartLocalPlayer();
 	}
 
 	//You know the drill
 	public override void OnStartServer()
 	{
 		Init();
-		base.OnStartServer();
 	}
 
 	protected override void OnEnable()

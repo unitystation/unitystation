@@ -22,7 +22,6 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
 		SyncSprite(0, spriteSync);
 	}
 

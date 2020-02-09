@@ -111,11 +111,18 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void Awake()
 	{
+		EnsureInit();
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
+
+	private void EnsureInit()
+	{
+		if (doorClosed != null) return;
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
-		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 	}
+
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
@@ -132,6 +139,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncStatus(statusSync, statusSync);
 		SyncLocked(isLocked, isLocked);
 	}
@@ -281,6 +289,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void SyncStatus(ClosetStatus oldValue, ClosetStatus value)
 	{
+		EnsureInit();
 		statusSync = value;
 		if(value == ClosetStatus.Open)
 		{
@@ -329,6 +338,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void SyncLocked(bool oldValue, bool value)
 	{
+		EnsureInit();
 		isLocked = value;
 		if (lockLight)
 		{

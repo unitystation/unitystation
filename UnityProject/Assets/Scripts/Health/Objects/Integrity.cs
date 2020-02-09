@@ -91,6 +91,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (registerTile != null) return;
 		if (SMALL_BURNING_PREFAB == null)
 		{
 			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("SmallBurning");
@@ -140,6 +146,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncOnFire(onFire, onFire);
 	}
 
@@ -185,6 +192,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void SyncOnFire(bool wasOnFire, bool onFire)
 	{
+		EnsureInit();
 		//do nothing if this can't burn
 		if (!Resistances.Flammable) return;
 

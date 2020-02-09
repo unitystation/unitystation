@@ -49,6 +49,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	private void Awake()
 	{
 		base.Awake();
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (playerScript != null) return;
 		playerScript = GetComponent<PlayerScript>();
 		uprightSprites = GetComponent<UprightSprites>();
 		playerDirectional = GetComponent<Directional>();
@@ -60,6 +66,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
+		EnsureInit();
 		SyncIsLayingDown(isLayingDown, isLayingDown);
 	}
 
@@ -110,6 +117,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 
 	private void SyncIsLayingDown(bool wasDown, bool isDown)
 	{
+		EnsureInit();
 		this.isLayingDown = isDown;
 		if (isDown)
 		{

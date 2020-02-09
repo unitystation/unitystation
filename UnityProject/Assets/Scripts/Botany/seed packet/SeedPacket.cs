@@ -14,6 +14,7 @@ public class SeedPacket : NetworkBehaviour
 
 	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
 	{
+		EnsureInit();
 		PlantSyncString = _PlantSyncString;
 		if (!isServer)
 		{
@@ -28,17 +29,22 @@ public class SeedPacket : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncPlant(null, this.PlantSyncString);
-		base.OnStartClient();
 	}
 
-	void Start()
+	private void EnsureInit()
 	{
-		if (defaultPlantData != null)
+		if (plantData == null && defaultPlantData != null)
 		{
 			plantData = new PlantData();
 			plantData.SetValues(defaultPlantData);
 		}
+	}
+
+	void Start()
+	{
+		EnsureInit();
 		SyncPlant(null, plantData.Name);
 	}
 }

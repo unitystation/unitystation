@@ -55,6 +55,14 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 			return;
 		}
 
+		EnsureInit();
+
+	}
+
+	private void EnsureInit()
+	{
+		if (directional != null) return;
+
 		this.directional = GetComponent<Directional>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -123,6 +131,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 	}
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncLightSwitch(isOn, this.isOn);
 		StartCoroutine(WaitForLoad());
 	}
@@ -270,6 +279,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 
 	private void SyncLightSwitch(States oldState, States state)
 	{
+		EnsureInit();
 		isOn = state;
 		if (state == States.On)
 		{

@@ -45,11 +45,13 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncStatusText(statusText, statusText);
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		SyncStatusText(statusText, statusText);
 	}
 
@@ -71,11 +73,16 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 
 	private void Start()
 	{
+		EnsureInit();
+		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
+	}
+
+	private void EnsureInit()
+	{
 		if ( !textField )
 		{
 			textField = GetComponentInChildren<Text>();
 		}
-		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
 	}
 
 	#endregion
@@ -86,6 +93,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 	/// </summary>
 	private void SyncStatusText(string oldText, string newText)
 	{
+		EnsureInit();
 		//display font doesn't have lowercase chars!
 		statusText = newText.ToUpper().Substring( 0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE*2) );
 

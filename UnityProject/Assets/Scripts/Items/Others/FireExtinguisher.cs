@@ -26,11 +26,16 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncSprite(spriteSync, spriteSync);
-		base.OnStartClient();
 	}
 
 	public void Awake()
+	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
 	{
 		if ( !pickupable )
 		{
@@ -140,6 +145,7 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	public void SyncSprite(int oldValue, int value)
 	{
+		EnsureInit();
 		spriteSync = value;
 		spriteRenderer.sprite = spriteList[spriteSync];
 

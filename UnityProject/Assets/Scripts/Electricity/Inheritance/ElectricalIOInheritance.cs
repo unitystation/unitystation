@@ -23,16 +23,23 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn { //is t
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterItem>();
 	}
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
+		EnsureInit();
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		base.OnStartServer();
 		StartCoroutine(WaitForLoad());
 	}

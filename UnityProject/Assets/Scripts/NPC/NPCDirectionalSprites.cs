@@ -32,13 +32,19 @@ public class NPCDirectionalSprites : NetworkBehaviour
 
 	void OnEnable()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (health != null) return;
 		health = GetComponent<LivingHealthBehaviour>();
 		uprightSprites = GetComponent<UprightSprites>();
 	}
 
 	public override void OnStartServer()
 	{
-		base.OnStartServer();
+		EnsureInit();
 		localPosCache = transform.localPosition;
 		dir = 2;
 		spriteRot = 0;
@@ -46,7 +52,7 @@ public class NPCDirectionalSprites : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
+		EnsureInit();
 		SyncDirChange(dir, dir);
 		SyncRotChange(spriteRot, spriteRot);
 	}
@@ -54,6 +60,7 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	//0=no init ,1=up ,2=right ,3=down ,4=left
 	void SyncDirChange(int oldDirection, int direction)
 	{
+		EnsureInit();
 		dir = direction;
 		ChangeSprite(direction);
 	}
@@ -61,6 +68,7 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	//The local rotation of the sprite obj
 	void SyncRotChange(float oldRot, float newRot)
 	{
+		EnsureInit();
 		spriteRot = newRot;
 		spriteRend.transform.localEulerAngles = new Vector3(0f,0f, spriteRot);
 	}

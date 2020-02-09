@@ -138,7 +138,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public virtual void Awake()
 	{
-		InitSystems();
+		EnsureInit();
 	}
 
 	void OnEnable()
@@ -153,8 +153,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	}
 
 	/// Add any missing systems:
-	private void InitSystems()
+	private void EnsureInit()
 	{
+		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
 		//Always include blood for living entities:
 		bloodSystem = GetComponent<BloodSystem>();
@@ -184,6 +185,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		mobID = PlayerManager.Instance.GetMobID();
 		ResetBodyParts();
 		if (maxHealth <= 0)
@@ -197,14 +199,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		DNABloodType.BloodColor = bloodColor;
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
-
-		base.OnStartServer();
 	}
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		StartCoroutine(WaitForClientLoad());
-		base.OnStartClient();
 	}
 
 	IEnumerator WaitForClientLoad()
@@ -222,6 +222,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	// This is the DNA SyncVar hook
 	private void DNASync(string oldDNA, string updatedDNA)
 	{
+		EnsureInit();
 		DNABloodTypeJSON = updatedDNA;
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
@@ -233,6 +234,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	private void SyncFireStacks(float oldValue, float newValue)
 	{
+		EnsureInit();
 		this.fireStacks = Math.Max(0,newValue);
 		OnClientFireStacksChange.Invoke(this.fireStacks);
 	}

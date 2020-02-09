@@ -43,11 +43,20 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 
+	private bool hasInit;
+
 
 	[SyncVar]
 	public int currentCharge; // 0 - 100
 
-	void Start() {//Initialise Sprites
+	void Start()
+	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (hasInit) return;
 		for (int i = 0; i< enums.Count; i++)
 		{
 			Sprites[enums[i]] = Sprite[i];
@@ -57,10 +66,13 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 		{
 			Renderer.sprite = Sprites[CurrentSprite];
 		}
+
+		hasInit = true;
 	}
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		base.OnStartClient();
 		UpdateState(isOn, isOn);
 	}
@@ -95,6 +107,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 
 	void UpdateBattery(BatteryStateSprite oldState, BatteryStateSprite State)
 	{
+		EnsureInit();
 		CurrentState = State;
 
 		if (BatteryIndicatorSprite == null) return;
@@ -141,6 +154,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 
 	public void UpdateState(bool _wasOn, bool _isOn)
 	{
+		EnsureInit();
 		isOn = _isOn;
 		if (isOn)
 		{

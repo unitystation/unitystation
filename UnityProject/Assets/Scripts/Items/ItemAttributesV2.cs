@@ -145,6 +145,8 @@ public class ItemAttributesV2 : Attributes
 	/// </summary>
 	private HashSet<ItemTrait> traits = new HashSet<ItemTrait>();
 
+	private bool hasInit;
+
 
 	public ItemsSprites ItemSprites => itemSprites;
 
@@ -154,15 +156,24 @@ public class ItemAttributesV2 : Attributes
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (hasInit) return;
 		foreach (var definedTrait in initialTraits)
 		{
 			traits.Add(definedTrait);
 		}
+
+		hasInit = true;
 	}
 
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
@@ -226,6 +237,7 @@ public class ItemAttributesV2 : Attributes
 
 	private void SyncSize(ItemSize oldSize, ItemSize newSize)
 	{
+		EnsureInit();
 		size = newSize;
 	}
 

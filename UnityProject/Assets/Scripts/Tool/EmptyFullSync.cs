@@ -32,8 +32,8 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncState(spriteSync, initialState);
-		base.OnStartClient();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -45,20 +45,15 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 	public void Awake()
 	{
-		if ( !pickupable )
-		{
-			pickupable = GetComponent<Pickupable>();
-		}
+		EnsureInit();
+	}
 
-		if ( !spriteRenderer )
-		{
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		}
-
-		if ( itemAttributes == null )
-		{
-			itemAttributes = GetComponentInChildren<ItemAttributesV2>();
-		}
+	private void EnsureInit()
+	{
+		if (spriteRenderer != null) return;
+		pickupable = GetComponent<Pickupable>();
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		itemAttributes = GetComponentInChildren<ItemAttributesV2>();
 
 		//aid for lazy people. you don't have to fill out fields for name and sprite in their default state
 		if (initialState == EmptyFullStatus.Empty && EmptySprite == null)
@@ -86,6 +81,7 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 
 	private void SyncState(EmptyFullStatus oldValue, EmptyFullStatus value)
 	{
+		EnsureInit();
 		spriteSync = value;
 		spriteRenderer.sprite = spriteSync == EmptyFullStatus.Empty ? EmptySprite : FullSprite;
 

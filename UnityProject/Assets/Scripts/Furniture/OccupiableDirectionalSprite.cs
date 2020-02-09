@@ -76,6 +76,12 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	public void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (directional != null) return;
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChanged);
 		OnDirectionChanged(directional.CurrentDirection);
@@ -96,6 +102,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		//must invoke this because SyncVar hooks are not called on client init
 		SyncOccupantNetId(occupantNetId, occupantNetId);
 		OnDirectionChanged(directional.CurrentDirection);
@@ -166,6 +173,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	//syncvar hook for occupant
 	private void SyncOccupantNetId(uint occupantOldValue, uint occupantNewValue)
 	{
+		EnsureInit();
 		occupantNetId = occupantNewValue;
 		occupant = NetworkUtils.FindObjectOrNull(occupantNetId);
 

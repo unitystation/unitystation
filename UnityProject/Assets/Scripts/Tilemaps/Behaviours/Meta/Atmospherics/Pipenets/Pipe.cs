@@ -46,6 +46,12 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 
 	public void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		//TODO: This component needs to be reworked to use Directional / DirectionalRotationSprites
@@ -62,6 +68,7 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		ServerInit();
 	}
 
@@ -161,13 +168,14 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 
 	public void SyncSprite(int oldValue, int value)
 	{
+		EnsureInit();
 		SetSpriteLayer(value != 0);
 		SetSprite(value);
 	}
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
+		EnsureInit();
 		SyncSprite(0, spriteSync);
 	}
 

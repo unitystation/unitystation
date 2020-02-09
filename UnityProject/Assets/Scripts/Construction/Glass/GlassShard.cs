@@ -16,11 +16,17 @@ public class GlassShard : NetworkBehaviour
 
 	void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 	}
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		base.OnStartClient();
 		SpriteChange(spriteIndex, spriteIndex);
 	}
@@ -43,6 +49,7 @@ public class GlassShard : NetworkBehaviour
 
 	public void SpriteChange(int oldValue, int index)
 	{
+		EnsureInit();
 		spriteIndex = index;
 		spriteRenderer.sprite = glassSprites[spriteIndex];
 

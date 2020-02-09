@@ -29,6 +29,12 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
 	}
 
@@ -36,6 +42,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		UpdateSecured(isSecured, startSecured);
 		StartCoroutine(CheckStartingPlasma());
 	}
@@ -62,12 +69,13 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
+		EnsureInit();
 		UpdateState(isOn, isOn);
 	}
 
 	public void UpdateState(bool wasOn, bool isOn)
 	{
+		EnsureInit();
 		if (isOn)
 		{
 			generatorRunSfx.Play();
@@ -113,6 +121,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	void UpdateSecured(bool wasSecured, bool _isSecured)
 	{
+		EnsureInit();
 		isSecured = _isSecured;
 		if (isServer)
 		{

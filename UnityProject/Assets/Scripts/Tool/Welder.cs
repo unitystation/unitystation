@@ -61,6 +61,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (pickupable != null) return;
 		pickupable = GetComponent<Pickupable>();
 		reagentContainer = GetComponent<ReagentContainer>();
 		itemAtts = GetComponent<ItemAttributesV2>();
@@ -77,6 +83,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncIsOn(isOn, isOn);
 	}
 
@@ -98,6 +105,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	private void SyncIsOn(bool _wasOn, bool _isOn)
 	{
+		EnsureInit();
 		if (isServer)
 		{
 			if (FuelAmount <= 0f)

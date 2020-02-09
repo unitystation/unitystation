@@ -67,21 +67,27 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (spriteRenderer != null) return;
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		pickupable = GetComponent<Pickupable>();
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		InitCard();
-		base.OnStartServer();
 	}
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		InitCard();
 		StartCoroutine(WaitForLoad());
-		base.OnStartClient();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -177,16 +183,19 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 
 	public void SyncName(string oldName, string name)
 	{
+		EnsureInit();
 		registeredName = name;
 	}
 
 	public void SyncJobType(JobType oldJobType, JobType jobType)
 	{
+		EnsureInit();
 		this.jobType = jobType;
 	}
 
 	public void SyncIDCardType(IDCardType oldCardType, IDCardType cardType)
 	{
+		EnsureInit();
 		idCardType = cardType;
 		IDCardType cType = IDCardType;
 		switch (cType)

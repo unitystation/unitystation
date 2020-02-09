@@ -21,6 +21,12 @@ public class Paper : NetworkBehaviour
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (pickupable != null) return;
 		pickupable = GetComponent<Pickupable>();
 	}
 
@@ -47,17 +53,13 @@ public class Paper : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
+		EnsureInit();
 		UpdateState(spriteState, spriteState);
-	}
-
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
 	}
 
 	public void UpdateState(int oldI, int i)
 	{
+		EnsureInit();
 		spriteState = i;
 		spriteRenderer.sprite = spriteStates[i];
 		pickupable.LocalUISlot?.RefreshImage();

@@ -46,7 +46,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	private void Awake()
 	{
-		Init();
+		EnsureInit();
 		this.WaitForNetworkManager(() =>
 		{
 			if (CustomNetworkManager.IsServer)
@@ -56,7 +56,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		});
 	}
 
-	private void Init()
+	private void EnsureInit()
 	{
 		if (pickupable != null) return;
 		pickupable = GetComponent<Pickupable>();
@@ -133,7 +133,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	private void SyncAmount(int oldAmount, int newAmount)
 	{
-		Init();
+		EnsureInit();
 		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Inventory, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();

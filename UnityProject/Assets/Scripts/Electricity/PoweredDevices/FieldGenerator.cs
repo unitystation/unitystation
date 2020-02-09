@@ -24,7 +24,6 @@ public class FieldGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
 		UpdateSprites(isOn, isOn);
 	}
 

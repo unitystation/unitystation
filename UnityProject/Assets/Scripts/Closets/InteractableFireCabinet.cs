@@ -24,14 +24,21 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 	private void Awake()
 	{
+		EnsureInit();
+		//TODO: Can probably refactor this component to rely more on ItemStorage and do less of its own logic.
+	}
+
+	private void EnsureInit()
+	{
+		if (storageObject != null) return;
 		//we have an item storage with only 1 slot.
 		storageObject = GetComponent<ItemStorage>();
 		slot = storageObject.GetIndexedItemSlot(0);
-		//TODO: Can probably refactor this component to rely more on ItemStorage and do less of its own logic.
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		if (spriteRenderer == null)
 		{
 			spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
@@ -43,6 +50,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
 	}
@@ -120,6 +128,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 	public void SyncItemSprite(bool oldValue, bool value)
 	{
+		EnsureInit();
 		isFull = value;
 		if (!isFull)
 		{
@@ -136,6 +145,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 	private void SyncCabinet(bool oldValue, bool value)
 	{
+		EnsureInit();
 		IsClosed = value;
 		if (IsClosed)
 		{

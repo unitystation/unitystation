@@ -198,9 +198,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 	private CustomNetTransform cnt;
+	private bool hasCachedComponents;
 
 	protected virtual void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (hasCachedComponents) return;
 		cnt = GetComponent<CustomNetTransform>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 	}
@@ -218,12 +225,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public override void OnStartClient()
 	{
 		LogMatrixDebug("OnStartClient");
+		EnsureInit();
 		SyncNetworkedMatrixNetId(networkedMatrixNetId, networkedMatrixNetId);
 	}
 
 	public override void OnStartServer()
 	{
 		LogMatrixDebug("OnStartServer");
+		EnsureInit();
 		ForceRegister();
 		if (Matrix != null)
 		{
@@ -286,6 +295,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
 		LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
+		EnsureInit();
 		//note: previously we returned immediately if the new ID matched our current networkMatrixNetId,
 		//but because Mirror actually sets our networkMatrixNetId for us prior to this hook being called
 		//this would incorrectly skip the registration logic. This issue seems to only have

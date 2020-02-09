@@ -31,26 +31,28 @@ namespace Items.Bureaucracy
 
 		private void SyncPaperCount(int oldCount, int newCount)
 		{
+			EnsureInit();
 			paperCount = newCount;
 			UpdateSpriteState();
 		}
 
 		private void SyncStoredPen(GameObject oldPen, GameObject pen)
 		{
+			EnsureInit();
 			storedPen = pen;
 			UpdateSpriteState();
 		}
 
 		public override void OnStartClient()
 		{
+			EnsureInit();
 			SyncEverything();
-			base.OnStartClient();
 		}
 
 		public override void OnStartServer()
 		{
+			EnsureInit();
 			SyncEverything();
-			base.OnStartServer();
 		}
 
 		private void SyncEverything()
@@ -65,6 +67,12 @@ namespace Items.Bureaucracy
 
 		private void Awake()
 		{
+			EnsureInit();
+		}
+
+		private void EnsureInit()
+		{
+			if (itemStorage != null) return;
 			itemStorage = GetComponent<ItemStorage>();
 			penSlot = itemStorage.GetNamedItemSlot(NamedSlot.storage01);
 			SetupInitialValues();

@@ -30,7 +30,6 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
 		UpdateState(isOn, isOn);
 	}
 

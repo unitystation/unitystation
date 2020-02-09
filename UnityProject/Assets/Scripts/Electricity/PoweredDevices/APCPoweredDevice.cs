@@ -20,7 +20,33 @@ public class APCPoweredDevice : NetworkBehaviour
 
 	private void Awake()
 	{
-		Powered = gameObject.GetComponent<IAPCPowered>();
+		EnsureInit();
+	}
+
+
+	void Start()
+	{
+		Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
+		if (Wattusage > 0)
+		{
+			Resistance = 240 / (Wattusage / 240);
+		}
+		if (RelatedAPC != null)
+		{
+			if (IsEnvironmentalDevice)
+			{
+				RelatedAPC.EnvironmentalDevices.Add(this);
+			}
+			else {
+				RelatedAPC.ConnectedDevices.Add(this);
+			}
+		}
+	}
+
+	private void EnsureInit()
+	{
+		if (Powered != null) return;
+		Powered = GetComponent<IAPCPowered>();
 	}
 
 	public void SetAPC(APC _APC)
@@ -59,32 +85,16 @@ public class APCPoweredDevice : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		UpdateSynchronisedState(State, State);
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		UpdateSynchronisedState(State, State);
 	}
 
-	void Start()
-	{
-		Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
-		if (Wattusage > 0)
-		{
-			Resistance = 240 / (Wattusage / 240);
-		}
-		if (RelatedAPC != null)
-		{
-			if (IsEnvironmentalDevice)
-			{
-				RelatedAPC.EnvironmentalDevices.Add(this);
-			}
-			else {
-				RelatedAPC.ConnectedDevices.Add(this);
-			}
-		}
-	}
 	public void APCBroadcastToDevice(APC APC)
 	{
 		if (RelatedAPC == null)
@@ -127,6 +137,7 @@ public class APCPoweredDevice : NetworkBehaviour
 	}
 	private void UpdateSynchronisedState(PowerStates _OldState, PowerStates _State)
 	{
+		EnsureInit();
 		if (_State != State)
 		{
 			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), State, _State);
