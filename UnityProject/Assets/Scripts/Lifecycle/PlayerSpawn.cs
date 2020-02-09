@@ -360,10 +360,14 @@ public static class PlayerSpawn
 		{
 			PlayerList.Instance.UpdatePlayer(conn, newBody);
 			NetworkServer.ReplacePlayerForConnection(conn, newBody);
-			if (oldBody)
-			{
-				NetworkServer.ReplacePlayerForConnection(new NetworkConnectionToClient(0), oldBody);
-			}
+			//NOTE: With mirror upgrade 04 Feb 2020, it appears we no longer need to do what has been
+			//commented out below. Below appears to have been an attempt to give authority back to server
+			//But it's implicitly given such authority by the ReplacePlayerForConnection call - that call
+			//now removes authority for the player's old object
+			// if (oldBody)
+			// {
+			// 	NetworkServer.ReplacePlayerForConnection(new NetworkConnectionToClient(0), oldBody);
+			// }
 			TriggerEventMessage.Send(newBody, eventType);
 
 			//can observe their new inventory
