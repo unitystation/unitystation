@@ -354,7 +354,6 @@ public class MouseInputController : MonoBehaviour
 
 			foreach (var handAppliable in handAppliables.Reverse())
 			{
-				var interacted = false;
 				if (handAppliable is IBaseInteractable<HandApply>)
 				{
 					var hap = handAppliable as IBaseInteractable<HandApply>;
@@ -373,7 +372,6 @@ public class MouseInputController : MonoBehaviour
 			.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables.Reverse())
 		{
-			var interacted = false;
 			if (targetHandAppliable is IBaseInteractable<HandApply>)
 			{
 				var hap = targetHandAppliable as IBaseInteractable<HandApply>;
