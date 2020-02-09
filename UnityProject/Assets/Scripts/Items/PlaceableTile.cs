@@ -37,7 +37,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 			}
 			// placing on an existing tile
 			else if (tileAtPosition.LayerType == entry.placeableOn &&
-			         (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
+					 (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
 			{
 				return true;
 			}
@@ -52,6 +52,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, true);
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+
 		//which way are we placing it
 		foreach (var entry in waysToPlace)
 		{
@@ -61,9 +62,9 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 				interactableTiles.TileChangeManager.UpdateTile(cellPos, entry.layerTile);
 				break;
 			}
+
 			// placing on an existing tile
-			else if (tileAtPosition.LayerType == entry.placeableOn &&
-			         (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
+			else if (tileAtPosition.LayerType == entry.placeableOn && (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
 			{
 				interactableTiles.TileChangeManager.UpdateTile(cellPos, entry.layerTile);
 				break;
@@ -71,6 +72,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		}
 
 		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
+
 		Inventory.ServerConsume(interaction.HandSlot, 1);
 	}
 
@@ -90,5 +92,9 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		[Tooltip("Particular tile this is placeable on. Leave empty to allow placing on any tile.")]
 		[SerializeField]
 		public LayerTile placeableOnlyOnTile;
+
+		[Tooltip("The amount of this item required to place tile.")]
+		[SerializeField]
+		public int itemCost = 1;
 	}
 }

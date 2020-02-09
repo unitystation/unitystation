@@ -514,7 +514,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (data.Damage >= MAX_GRILL_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
-			//tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "GrillDestroyed");
 
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
