@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Processes chat messages the player has types and sends them to the server.
-/// Filters out long or too frequent messages.
+/// Filters chat messages the player has typed and sends them to the server.
+/// Shortens messages if the player typed too much, and frequent messages are also filtered..
 /// TODO This might become obsolete with the chat system V2.
 /// </summary>
 public class ChatFilter : MonoBehaviour
@@ -57,7 +57,7 @@ public class ChatFilter : MonoBehaviour
 	[SerializeField]
 	[Range(0, 10)]
 	[Tooltip("The maximum number of messages the user is allowed to send every messageCoolown seconds.")]
-	private int numMessageMax= 4;
+	private int numMessageMax = 4;
 
 	/// <summary>
 	/// How many messages the user has attempted to send in the past messageCoolown seconds. 
@@ -70,7 +70,7 @@ public class ChatFilter : MonoBehaviour
 	[SerializeField]
 	[Range(0, 1)]
 	[Tooltip("Minutes it takes for numMessages to go back to 0 when starting from maxNumMessages.")]
-	private float numMessagesDecayMinutes = 1/12;
+	private float numMessagesDecayMinutes = 1 / 12;
 
 	/// <summary>
 	/// What will be shown to the speaker in the chat if they go above the maximum messages.
@@ -94,10 +94,11 @@ public class ChatFilter : MonoBehaviour
 	/// <summary>
 	/// Sends a player message to the server.
 	/// The message is omitted if too many messages have been sent recently.
-	/// The message is 
+	/// The message is shortened if the player has send too many characters recently.
+	/// In either case the player will see a warning in their chat log.
 	/// </summary>
-	/// <param name="message"></param>
-	/// <param name="selectedChannels"></param>
+	/// <param name="message">The player's message.</param>
+	/// <param name="selectedChannels">The selected channels, which are simply passed along.</param>
 	public void Send(string message, ChatChannel selectedChannels)
 	{
 		print(numMessages);
