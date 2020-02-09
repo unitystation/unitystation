@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -17,12 +17,20 @@ public partial class GameManager : MonoBehaviour
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
 	public int MinPlayersForCountdown = 1;
+
 	/// <summary>
 	/// How long the pre-round stage should last
 	/// </summary>
-	public float PreRoundTime = 30f;
+	[SerializeField]
+	private readonly float PreRoundTime = 30f;
+
+	/// <summary>
+	/// How long to wait between ending the round and starting a new one
+	/// </summary>
+	[SerializeField]
+	private readonly float RoundEndTime = 15f;
+
 	public float startTime;
-	public float restartTime = 10f;
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
 	/// Reset to the server setting of RespawnAllowed when the level loads.
@@ -40,7 +48,6 @@ public partial class GameManager : MonoBehaviour
 	public Text roundTimer;
 
 	public bool waitForStart;
-	public bool waitForRestart;
 
 	public DateTime stationTime;
 	public int RoundsPerMap = 10;
@@ -200,9 +207,7 @@ public partial class GameManager : MonoBehaviour
 	public void ResetRoundTime()
 	{
 		stationTime = DateTime.Today.AddHours(12);
-		waitForRestart = false;
 		counting = true;
-		restartTime = 10f;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
 
@@ -220,15 +225,7 @@ public partial class GameManager : MonoBehaviour
 			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
 		}
 
-		if (waitForRestart)
-		{
-			restartTime -= Time.deltaTime;
-			if (restartTime <= 0f)
-			{
-				RestartRound();
-			}
-		}
-		else if (waitForStart)
+		if (waitForStart)
 		{
 			startTime -= Time.deltaTime;
 			if (startTime <= 0f)
@@ -330,6 +327,21 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			if (CurrentRoundState != RoundState.Started)
+			{
+				if (CurrentRoundState == RoundState.Ended)
+				{
+					Logger.Log("Cannot end round, round has already ended!", Category.Round);
+				}
+				else
+				{
+					Logger.Log("Cannot end round, round has not started yet!", Category.Round);
+				}
+
+				return;
+			}
+
+			CurrentRoundState = RoundState.Ended;
 			counting = false;
 
 			// Prevents annoying sound duplicate when testing
@@ -338,9 +350,19 @@ public partial class GameManager : MonoBehaviour
 				SoundManager.Instance.PlayRandomRoundEndSound();
 			}
 
-			waitForRestart = true;
 			GameMode.EndRound();
+			StartCoroutine(WaitForRoundRestart());
 		}
+	}
+
+	/// <summary>
+	///  Waits for the specified round end time before restarting.
+	/// </summary>
+	private IEnumerator WaitForRoundRestart()
+	{
+		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
+		yield return WaitFor.Seconds(RoundEndTime);
+		RestartRound();
 	}
 
 	/// <summary>
@@ -458,16 +480,22 @@ public partial class GameManager : MonoBehaviour
 	/// </summary>
 	public void RestartRound()
 	{
-		waitForRestart = false;
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			if (CurrentRoundState == RoundState.Restarting)
+			{
+				Logger.Log("Cannot restart round, round is already restarting!", Category.Round);
+				return;
+			}
+			CurrentRoundState = RoundState.Restarting;
 			StartCoroutine(ServerRoundRestart());
 		}
 	}
 
 	IEnumerator ServerRoundRestart()
 	{
-		CurrentRoundState = RoundState.Ended;
+		Logger.Log("Server restarting round now.", Category.Round);
+
 		//Notify all clients that the round has ended
 		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
 

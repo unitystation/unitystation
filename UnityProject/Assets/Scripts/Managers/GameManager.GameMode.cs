@@ -11,7 +11,8 @@ public enum RoundState
 	None,
 	PreRound,
 	Started,
-	Ended
+	Ended,
+	Restarting,
 }
 
 /// <summary>
