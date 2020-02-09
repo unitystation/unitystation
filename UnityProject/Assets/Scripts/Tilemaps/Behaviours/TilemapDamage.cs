@@ -492,6 +492,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
+			data.WindowDamage = WindowDamageLevel.Broken;
 
 			//Spawn 3 glass shards with different sprites:
 			SpawnGlassShards(hitPos);
@@ -499,7 +500,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			//Play the breaking window sfx:
 			SoundManager.PlayNetworkedAtPos("GlassBreak0#", hitPos, 1f);
 
-			data.WindowDamage = WindowDamageLevel.Broken;
 			return data.ResetDamage() - MAX_WINDOW_DAMAGE;
 		}
 
