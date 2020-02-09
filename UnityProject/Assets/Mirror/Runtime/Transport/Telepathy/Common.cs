@@ -112,7 +112,7 @@ namespace Telepathy
         }
 
         // read message (via stream) with the <size,content> message structure
-        protected static bool ReadMessageBlocking(NetworkStream stream, int MaxMessageSize, out byte[] content)
+        protected static bool ReadMessageBlocking(NetworkStream stream, int MaxMessageSize, out byte[] content, TcpClient client)
         {
             content = null;
 
@@ -136,8 +136,12 @@ namespace Telepathy
                 content = new byte[size];
                 return stream.ReadExactly(content, size);
             }
+
             Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
-            return false;
+			Logger.LogWarning($"Content: {content}");
+			Logger.LogWarning($"IP: {client.Client.RemoteEndPoint.ToString()}");
+
+			return false;
         }
 
         // thread receive function is the same for client and server's clients
@@ -178,7 +182,7 @@ namespace Telepathy
                 {
                     // read the next message (blocking) or stop if stream closed
                     byte[] content;
-                    if (!ReadMessageBlocking(stream, MaxMessageSize, out content))
+                    if (!ReadMessageBlocking(stream, MaxMessageSize, out content, client))
                         break; // break instead of return so stream close still happens!
 
                     // queue it

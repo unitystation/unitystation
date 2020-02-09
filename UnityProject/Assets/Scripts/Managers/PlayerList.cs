@@ -297,14 +297,14 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		if (connection == null)
 		{
-			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity", Category.Connections);
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connection was null", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
 
 		if (connection.playerController == null)
 		{
-			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity", Category.Connections);
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - player controller was null IP:{connection.address}", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
@@ -333,7 +333,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		if (connectedPlayer.Equals(ConnectedPlayer.Invalid))
 		{
-			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity", Category.Connections);
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connected player was invalid IP:{connection.address} Name:{connection.playerController.name}", Category.Connections);
 			ValidatePlayerListRecords();
 		}
 		else
