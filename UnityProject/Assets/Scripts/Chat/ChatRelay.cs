@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 /// <summary>
 /// ChatRelay is only to be used internally via Chat.cs
@@ -197,6 +198,33 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
+	///Runs the espeak program with a message. After inital implementation additional arguments will be passed.
+	///Windows/Mac might need some tweaking as this was tested on Linux
+	private void StartEspeak(string message)
+	{
+	string game_Path = Application.dataPath;
+
+	Process espeak = new Process();
+	if (Application.platform == RuntimePlatform.WindowsPlayer)
+	{
+		espeak.StartInfo.WorkingDirectory= game_Path + @"/StreamingAssets/Espeak/Windows/";
+	  	espeak.StartInfo.FileName = "espeak-ng.exe";
+	}
+	if (Application.platform == RuntimePlatform.OSXPlayer)
+	{
+		espeak.StartInfo.WorkingDirectory= game_Path + "Resources/Data/StreamingAssets/Espeak/MacOS/";
+	  	espeak.StartInfo.FileName = "espeak";
+	}
+	if (Application.platform == RuntimePlatform.LinuxPlayer)
+	{
+		espeak.StartInfo.WorkingDirectory= game_Path + "/StreamingAssets/Espeak/Linux/";
+	  	espeak.StartInfo.FileName = "espeak";
+	}
+        espeak.StartInfo.Arguments = message;
+        espeak.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+        espeak.Start();
+	}
+
 	/// <summary>
 	/// Sends a message to TTS to vocalize.
 	/// They are required to contain the saysChar.
@@ -214,9 +242,10 @@ public class ChatRelay : NetworkBehaviour
 				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
-					MaryTTS.Instance.Synthesize(messageAfterSaysChar);
+					StartEspeak(messageAfterSaysChar);
 				}
 			}
 		}
 	}
+
 }

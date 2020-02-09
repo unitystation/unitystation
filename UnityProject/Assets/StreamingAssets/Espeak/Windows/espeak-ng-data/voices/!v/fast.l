@@ -1,0 +1,13 @@
+language variant
+name fast_test
+
+// Try decreasing these values to make eSpeak's fastest speed faster.
+// The 3 parameters affect:
+//    pauses,
+//    unvoiced consonants,
+//    vowels and voiced consonants
+// The default values are: fast 15 72 110
+
+fast_test 15 72 110
+replace 00 s T
+replace 00 z D

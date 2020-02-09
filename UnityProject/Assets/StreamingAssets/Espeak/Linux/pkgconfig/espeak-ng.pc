@@ -1,0 +1,11 @@
+prefix=/home/rane/Documents/Espeak/Builds/Espeak-NT/espeak-nt/SS13
+exec_prefix=/home/rane/Documents/Espeak/Builds/Espeak-NT/espeak-nt/SS13
+libdir=/home/rane/Documents/Espeak/Builds/Espeak-NT/espeak-nt/SS13
+includedir=${prefix}/include
+
+Name: eSpeak NG
+Description: eSpeak NG is a multi-lingual software speech synthesizer
+Version: 1.51-dev
+Requires:
+Libs: -L${libdir} -lespeak-ng
+Cflags: -I${includedir}

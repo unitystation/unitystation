@@ -1,0 +1,13 @@
+language variant
+name croak
+gender male 70
+
+pitch 85 117
+flutter 20
+
+formant 0 100 80 110
+
+
+
+replace 00 s T
+replace 00 z D
