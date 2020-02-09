@@ -185,6 +185,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="namedSlot"></param>
+	/// <returns>true iff this item storage has the slot with the specified identifier</returns>
+	public bool HasSlot(NamedSlot namedSlot)
+	{
+		return HasSlot(SlotIdentifier.Named(namedSlot));
+	}
+
+	/// <summary>
 	/// Server-side only. Populate this ItemStorage using the specified populator. Destroys any existing
 	/// items in this storage.
 	/// </summary>
