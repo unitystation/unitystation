@@ -5,6 +5,7 @@ using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using System.Diagnostics;
 using System;
+using UnityEngine.Profiling;
 
 public static class AtmosThread
 {
@@ -18,9 +19,12 @@ public static class AtmosThread
 
 	private static AtmosSimulation simulation;
 
+	private static CustomSampler sampler;
+
 	static AtmosThread()
 	{
 		simulation = new AtmosSimulation();
+		sampler = CustomSampler.Create("AtmosphericsStep");
 	}
 
 	public static void ClearAllNodes()
@@ -74,13 +78,16 @@ public static class AtmosThread
 
 	private static void Run()
 	{
+		Profiler.BeginThreadProfiling("Unitystation", "Atmospherics");
 		while (running)
 		{
 			if (!simulation.IsIdle)
 			{
+				sampler.Begin();
 				StopWatch.Restart();
 				RunStep();
 				StopWatch.Stop();
+				sampler.End();
 				if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)
 				{
 					Thread.Sleep(MillieSecondDelay - (int)StopWatch.ElapsedMilliseconds);
@@ -94,7 +101,12 @@ public static class AtmosThread
 				}
 			}
 		}
+		Profiler.EndThreadProfiling();
 	}
 
+	public static bool IsInUpdateList(MetaDataNode node)
+	{
+		return simulation.IsInUpdateList(node);
+	}
 
 }

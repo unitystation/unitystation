@@ -5,7 +5,8 @@ using Atmospherics;
 
 public class AirVent : AdvancedPipe
 {
-	public float MinimumPressure = 101.325f;
+	// minimum pressure needs to be a little lower because of floating point inaccuracies
+	public float MinimumPressure = 101.3249f;
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
 

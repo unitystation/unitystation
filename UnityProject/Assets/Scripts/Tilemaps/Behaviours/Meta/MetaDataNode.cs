@@ -99,7 +99,7 @@ public class MetaDataNode: IGasMixContainer
 		{
 			neighborList.Add(null);
 		}
-		GasMix = GasMixes.Space;
+		GasMix = new GasMix(GasMixes.Space);
 		this.reactionManager = reactionManager;
 	}
 
