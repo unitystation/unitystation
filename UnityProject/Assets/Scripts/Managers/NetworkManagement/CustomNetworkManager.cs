@@ -8,6 +8,7 @@ using Mirror;
 using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -18,6 +19,7 @@ public class CustomNetworkManager : NetworkManager
 	[HideInInspector] public bool _isServer;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
+	public GameObject disconnectedViewerPrefab;
 
 	private void Awake()
 	{
@@ -99,7 +101,7 @@ public class CustomNetworkManager : NetworkManager
 	}
 
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
-	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
+	public override void OnServerAddPlayer(NetworkConnection conn)
 	{
 		//This spawns the player prefab
 		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
@@ -227,9 +229,22 @@ public class CustomNetworkManager : NetworkManager
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
+		//register them as removed from our own player list
+		PlayerList.Instance.Remove(conn);
+
 		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
 		//we want to keep the object around so player can rejoin and reenter their body.
-		PlayerList.Instance.Remove(conn);
+
+		//note that we can't remove authority from player owned objects, the workaround is to transfer authority to
+		//a different temporary object, remove authority from the original, and then run the normal disconnect logic
+
+		//transfer to a temporary object
+		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
+		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, System.Guid.NewGuid());
+
+		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
+		//which will preserve their actual body because they no longer own it
+		base.OnServerDisconnect(conn);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
