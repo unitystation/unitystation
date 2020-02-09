@@ -53,27 +53,32 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
 
-		//which way are we placing it
+		PlaceableTileEntry validPlaceableTileEntry = null;
+
+		// find the first valid way possible to place a tile
 		foreach (var entry in waysToPlace)
 		{
 			//open space
 			if (tileAtPosition == null && entry.placeableOn == LayerType.None && entry.placeableOnlyOnTile == null)
 			{
-				interactableTiles.TileChangeManager.UpdateTile(cellPos, entry.layerTile);
+				validPlaceableTileEntry = entry;
 				break;
 			}
 
 			// placing on an existing tile
 			else if (tileAtPosition.LayerType == entry.placeableOn && (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
 			{
-				interactableTiles.TileChangeManager.UpdateTile(cellPos, entry.layerTile);
+				validPlaceableTileEntry = entry;
 				break;
 			}
 		}
 
-		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-
-		Inventory.ServerConsume(interaction.HandSlot, 1);
+		if (validPlaceableTileEntry != null)
+		{
+			interactableTiles.TileChangeManager.UpdateTile(cellPos, validPlaceableTileEntry.layerTile);
+			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
+			Inventory.ServerConsume(interaction.HandSlot, 1);
+		}
 	}
 
 	/// <summary>
