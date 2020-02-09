@@ -233,7 +233,7 @@ public partial class GameManager : MonoBehaviour
 			startTime -= Time.deltaTime;
 			if (startTime <= 0f)
 			{
-				RoundStart();
+				StartRound();
 			}
 		}
 		else if (counting)
@@ -289,7 +289,7 @@ public partial class GameManager : MonoBehaviour
 	/// <summary>
 	/// Setup the station and then begin the round for the selected game mode
 	/// </summary>
-	public void RoundStart()
+	public void StartRound()
 	{
 		waitForStart = false;
 		// Only do this stuff on the server
@@ -324,9 +324,9 @@ public partial class GameManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Calls the end of the round. Server only
+	/// Calls the end of the round which plays a sound and shows the round report. Server only
 	/// </summary>
-	public void RoundEnd()
+	public void EndRound()
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -452,7 +452,10 @@ public partial class GameManager : MonoBehaviour
 		return OccupationList.Instance.Get(JobType.ASSISTANT);
 	}
 
-	//Only called on the server
+	/// <summary>
+	/// Immediately restarts the round. Use RoundEnd instead to trigger normal end of round.
+	/// Only called on the server.
+	/// </summary>
 	public void RestartRound()
 	{
 		waitForRestart = false;

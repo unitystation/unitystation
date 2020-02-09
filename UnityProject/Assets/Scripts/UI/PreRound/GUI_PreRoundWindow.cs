@@ -64,7 +64,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
 			return;
 		}
-		GameManager.Instance.RoundStart();
+		GameManager.Instance.StartRound();
 	}
 
 	public void SyncCountdown(bool started, float time)

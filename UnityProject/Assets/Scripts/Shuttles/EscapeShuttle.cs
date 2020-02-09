@@ -147,7 +147,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		yield return WaitFor.Seconds(25f);
 		// Trigger end of round
-		GameManager.Instance.RoundEnd();
+		GameManager.Instance.EndRound();
 	}
 
 	[ClientRpc]
