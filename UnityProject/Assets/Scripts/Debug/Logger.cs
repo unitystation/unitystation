@@ -119,6 +119,12 @@ public static class Logger
 
 	private static void TryLog(string message, LogLevel messageLevel, Category category = Category.Unknown, params object[] args)
 	{
+		if (category == Category.Unknown)
+		{
+			Debug.Log(message);
+			return;
+		}
+		
 		LogLevel referenceLevel = LogLevel;
 		if (LogOverrides.ContainsKey(category))
 		{
