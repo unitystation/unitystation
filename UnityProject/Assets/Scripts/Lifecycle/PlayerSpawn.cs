@@ -407,16 +407,6 @@ public static class PlayerSpawn
 		}
 	}
 
-	/// <summary>
-	/// Spawns a viewer for the specified connection and transfer the connection to this viewer.
-	/// </summary>
-	/// <param name="conn"></param>
-	public static void ServerSpawnViewer(NetworkConnection conn)
-	{
-		GameObject joinedViewer = Object.Instantiate(CustomNetworkManager.Instance.playerPrefab);
-		NetworkServer.AddPlayerForConnection(conn, joinedViewer, System.Guid.NewGuid());
-	}
-
 	private static Transform GetSpawnForJob(JobType jobType)
 	{
 		if (jobType == JobType.NULL)
