@@ -45,10 +45,16 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (itemAttributes != null) return;
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		pickupable = GetComponent<Pickupable>();
-		if (color == (int)SwordColor.Random)
+		if (color == (int) SwordColor.Random)
 		{
 			color = Random.Range(1, 5);
 		}
@@ -58,18 +64,19 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		SyncColor(color, color);
-		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		SyncColor(color, color);
-		base.OnStartServer();
 	}
 
 	private void SyncColor(int oldC, int c)
 	{
+		EnsureInit();
 		color = c;
 
 		var lightColor = Color.white;

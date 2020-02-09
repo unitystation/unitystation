@@ -46,11 +46,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	private void Awake()
 	{
-		pickupable = GetComponent<Pickupable>();
-		amount = initialAmount;
-		pushPull = GetComponent<PushPull>();
-		registerTile = GetComponent<RegisterTile>();
-
+		Init();
 		this.WaitForNetworkManager(() =>
 		{
 			if (CustomNetworkManager.IsServer)
@@ -58,6 +54,15 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 				registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChangedServer);
 			}
 		});
+	}
+
+	private void Init()
+	{
+		if (pickupable != null) return;
+		pickupable = GetComponent<Pickupable>();
+		amount = initialAmount;
+		pushPull = GetComponent<PushPull>();
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	private void OnLocalPositionChangedServer(Vector3Int newLocalPos)
@@ -128,6 +133,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	private void SyncAmount(int oldAmount, int newAmount)
 	{
+		Init();
 		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Inventory, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
