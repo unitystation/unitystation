@@ -19,6 +19,15 @@ public enum WindowDamageLevel
 }
 
 /// <summary>
+/// The level of damage that a grill has received
+/// </summary>
+public enum GrillDamageLevel
+{
+	Undamaged,
+	Damaged
+}
+
+/// <summary>
 /// Allows for damaging tiles and updating tiles based on damage taken.
 /// </summary>
 public class TilemapDamage : MonoBehaviour, IFireExposable
@@ -469,28 +478,30 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType)
 	{
 		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
-		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDamage < WindowDamageLevel.Crack01)
+
+		if (data.Damage >= 20 && data.Damage < 50)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack01");
 			data.WindowDamage = WindowDamageLevel.Crack01;
 		}
 
-		if (data.Damage >= 50 && data.Damage < 75 && data.WindowDamage < WindowDamageLevel.Crack02)
+		if (data.Damage >= 50 && data.Damage < 75)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack02");
 			data.WindowDamage = WindowDamageLevel.Crack02;
 		}
 
-		if (data.Damage >= 75 && data.Damage < MAX_WINDOW_DAMAGE && data.WindowDamage < WindowDamageLevel.Crack03)
+		if (data.Damage >= 75 && data.Damage < MAX_WINDOW_DAMAGE)
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack03");
 			data.WindowDamage = WindowDamageLevel.Crack03;
 		}
 
-		if (data.Damage >= MAX_WINDOW_DAMAGE && data.WindowDamage < WindowDamageLevel.Broken)
+		if (data.Damage >= MAX_WINDOW_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
+			data.WindowDamage = WindowDamageLevel.Broken;
 
 			//Spawn 3 glass shards with different sprites:
 			SpawnGlassShards(hitPos);
@@ -498,7 +509,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			//Play the breaking window sfx:
 			SoundManager.PlayNetworkedAtPos("GlassBreak0#", hitPos, 1f);
 
-			data.WindowDamage = WindowDamageLevel.Broken;
 			return data.ResetDamage() - MAX_WINDOW_DAMAGE;
 		}
 
@@ -509,15 +519,32 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		data.Damage += GRILL_ARMOR.GetDamage(damage, attackType);
 
+		//At half health change image of grill to damaged
+		if (data.Damage >= MAX_GRILL_DAMAGE / 2 && data.Damage < MAX_GRILL_DAMAGE)
+		{
+			if (data.GrillDamage != GrillDamageLevel.Damaged)
+			{
+				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrillDestroyed");
+				data.GrillDamage = GrillDamageLevel.Damaged;
+
+				SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
+
+				//Spawn rods
+				if (Random.value < 0.7f)
+				{
+					SpawnRods(bulletHitTarget);
+				}
+			}
+		}
+
 		//Make grills a little bit weaker (set to 60 hp):
 		if (data.Damage >= MAX_GRILL_DAMAGE)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
-			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "GrillDestroyed");
 
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
-			//Spawn rods:
+			//Spawn rods
 			if (Random.value < 0.7f)
 			{
 				SpawnRods(bulletHitTarget);

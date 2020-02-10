@@ -17,8 +17,12 @@ MonoBehaviour:
   TileType: 6
   RequiredTiles:
   - {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
+  WalkingSoundCategory: 0
   atmosPassable: 1
   isSealed: 0
+  oreCategory: 0
+  MaxHealth: 0
+  HealthStates: []
   passable: 0
   mineable: 0
   passableException:
@@ -47,7 +51,6 @@ MonoBehaviour:
     Bio: 0
   tileInteractions:
   - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
-  spawnOnDeconstruct: {fileID: 1645856876941636, guid: 8012b966850884ea3bea010004dedb96,
-    type: 3}
-  spawnAmountOnDeconstruct: 2
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
   sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}
