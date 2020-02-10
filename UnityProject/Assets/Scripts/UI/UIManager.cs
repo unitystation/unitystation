@@ -410,18 +410,14 @@ public class UIManager : MonoBehaviour
 		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
 		ChatUI.Instance.CloseChatWindow();
 
-		//needed so performance is still okay when zooming
-		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
-		lightingSystem.enabled = false;
-		var zoomButtons = GetComponentInChildren<ZoomButtons>();
-		zoomButtons.enabled = false;
-		// var cameraResizer = Camera.main.GetComponent<CameraResizer>();
-		// cameraResizer.enabled = false;
-		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
-		camera2dfollow.enabled = false;
+		//play the ending video and wait for it
+		Display.PlayStrandedVideo();
+		StartCoroutine(WaitForStrandedVideoEnd());
 
+		//NOTE: Disabl;ing zoom out as it's just a dumb gimmick
+		//and it is causing perf issues and crashing for some people
 		//start zooming out
-		StartCoroutine(StrandedZoomOut());
+		//StartCoroutine(StrandedZoomOut());
 	}
 
 	private IEnumerator StrandedZoomOut()
@@ -441,8 +437,7 @@ public class UIManager : MonoBehaviour
 		}
 
 		SoundManager.StopAmbient();
-		Display.PlayStrandedVideo();
-		StartCoroutine(WaitForStrandedVideoEnd());
+
 	}
 
 	private IEnumerator WaitForStrandedVideoEnd()
@@ -463,11 +458,5 @@ public class UIManager : MonoBehaviour
 		}
 
 		ChatUI.Instance.OpenChatWindow();
-		var lightingSystem = Camera.main.GetComponentInChildren<LightingSystem>();
-		lightingSystem.enabled = true;
-		var zoomButtons = GetComponentInChildren<ZoomButtons>();
-		zoomButtons.enabled = true;
-		var camera2dfollow = Camera.main.GetComponent<Camera2DFollow>();
-		camera2dfollow.enabled = true;
 	}
 }
