@@ -27,7 +27,7 @@ public class VotingManager : NetworkBehaviour
 	/// The initial time during a round before a vote can be started
 	/// </summary>
 	[SerializeField]
-	private float RoundStartCooldownTime = 300f;
+	private float RoundStartCooldownTime = 60f;
 
 	/// <summary>
 	/// The cooldown time between votes
