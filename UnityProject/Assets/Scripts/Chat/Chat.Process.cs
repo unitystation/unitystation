@@ -488,4 +488,96 @@ public partial class Chat
 		}
 		return false;
 	}
+
+	/// <summary>
+	/// All tags for a radio msg that goes after '.' or ':'
+	/// For example ':e' sends message to engineering channel
+	/// </summary>
+	public readonly static Dictionary<char, ChatChannel> ChanelsTags = new Dictionary<char, ChatChannel>()
+	{
+		{'b',  ChatChannel.Binary},
+		{'u', ChatChannel.Supply},
+		{'y', ChatChannel.CentComm},
+		{'c', ChatChannel.Command },
+		{'e', ChatChannel.Engineering },
+		{'m', ChatChannel.Medical },
+		{'n', ChatChannel.Science },
+		{'s', ChatChannel.Security },
+		{'v', ChatChannel.Service },
+		{'t', ChatChannel.Syndicate },
+		{'g', ChatChannel.Ghost }
+	};
+
+	/// <summary>
+	/// This function is called on a client side when player changed chat input field
+	/// It tries to find channel modifiers in a begining of the playerInput and parse channels tags like ':e'
+	/// NOTE: only one channel is suported. You can't select multiple channels like ';:e' or ':me'
+	/// </summary>
+	/// <param name="playerInput"></param>
+	/// <returns></returns>
+	public static ParsedChatInput ParsePlayerInput(string playerInput, IChatInputContext context = null)
+	{
+		// check if message is valid
+		if (string.IsNullOrEmpty(playerInput))
+			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None);
+
+		// all extracted channels from special chars 
+		ChatChannel extractedChanel = ChatChannel.None;
+		// how many special chars we need to delete
+		int specialCharCount = 0;
+
+		var firstLetter = playerInput.First();
+		if (firstLetter == ';')
+		{
+			// it's a common message!
+			extractedChanel = ChatChannel.Common;
+			specialCharCount = 1;
+		}
+		else if (firstLetter == '.' || firstLetter == ':')
+		{
+			// it's a channel message! Can we take a second char?
+			if (playerInput.Length > 1)
+			{
+				var secondLetter = playerInput[1];
+				// let's try find desired chanel
+				if (ChanelsTags.ContainsKey(secondLetter))
+				{
+					extractedChanel = ChanelsTags[secondLetter];
+					specialCharCount = 2;
+				}
+				else if (secondLetter == 'h')
+				{
+					// need some additional information about default channel
+					if (context != null)
+					{
+						extractedChanel = context.DefaultChannel;
+					}
+					else
+					{
+						Debug.LogWarning("Chat context is null - can't resolve :h tag");
+						extractedChanel = ChatChannel.None;
+					}
+
+					specialCharCount = 2;
+				}
+			}
+		}
+
+		// delete all special chars
+		var clearMsg = playerInput.Substring(specialCharCount).TrimStart(' ');
+		return new ParsedChatInput(playerInput, clearMsg, extractedChanel);
+	}
+
+	/// <summary>
+	/// Checks if chat message is valid and can be send over the network
+	/// </summary>
+	/// <param name="message">The player message from chat</param>
+	/// <returns></returns>
+	public static bool IsValidToSend(string message)
+	{
+		if (message == null)
+			return false;
+
+		return !string.IsNullOrEmpty(message.Trim());
+	}
 }

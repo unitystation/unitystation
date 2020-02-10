@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>UnityStation_Discord_Bot</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="2.1.1" />
+    <PackageReference Include="FirebaseAdmin" Version="1.9.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
+    <PackageReference Include="SSH.NET" Version="2016.1.0" />
+    <PackageReference Include="YamlDotNet" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

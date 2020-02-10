@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using AdminTools;
+using System.Linq;
 
 public class ChatUI : MonoBehaviour
 {
@@ -33,6 +34,13 @@ public class ChatUI : MonoBehaviour
 	private ChatChannel selectedChannels;
 
 	/// <summary>
+	/// Latest parsed input from input field
+	/// </summary>
+	private ParsedChatInput parsedInput;
+
+	private ChatInputContext chatContext = new ChatInputContext();
+
+	/// <summary>
 	/// The currently selected chat channels. Prunes all unavailable ones on get.
 	/// </summary>
 	public ChatChannel SelectedChannels
@@ -40,6 +48,12 @@ public class ChatUI : MonoBehaviour
 		get { return selectedChannels & GetAvailableChannels(); }
 		set { selectedChannels = value; }
 	}
+
+	/// <summary>
+	/// The ChatLimitCPM component of the ChatSystem prefab. Cached in Start() for performance.
+	/// Used for limiting the number of characters the user can send per minute.
+	/// </summary>
+	private ChatFilter chatFilter = null;
 
 	/// <summary>
 	/// A map of channel names and their toggles for UI manipulation
@@ -131,13 +145,17 @@ public class ChatUI : MonoBehaviour
 
 	public void Start()
 	{
+		// subscribe to input fields update
+		InputFieldChat.onValueChanged.AddListener(OnInputFieldChatValueChanged);
+
 		// Create all the required channel toggles
 		InitToggles();
 
 		// Make sure the window and channel panel start disabled
 		chatInputWindow.SetActive(false);
-		channelPanel.gameObject.SetActive(false);
+		//channelPanel.gameObject.SetActive(false);
 		EventManager.AddHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
+		chatFilter = GetComponent<ChatFilter>();
 	}
 
 	private void OnDestroy()
@@ -158,9 +176,10 @@ public class ChatUI : MonoBehaviour
 		{
 			if (UIManager.IsInputFocus)
 			{
-				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+				parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
+				if (Chat.IsValidToSend(parsedInput.ClearMessage))
 				{
-					PlayerSendChat();
+					PlayerSendChat(parsedInput.ClearMessage);
 				}
 
 				CloseChatWindow();
@@ -239,7 +258,7 @@ public class ChatUI : MonoBehaviour
 
 	public void OpenAdminReply(string message, string adminId)
 	{
-		Instance.adminReply.OpenAdminPrivReplay(message,adminId);
+		Instance.adminReply.OpenAdminPrivReplay(message, adminId);
 	}
 
 	void SetEntryTransform(GameObject entry)
@@ -311,10 +330,11 @@ public class ChatUI : MonoBehaviour
 
 	public void OnClickSend()
 	{
-		if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+		parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
+		if (Chat.IsValidToSend(parsedInput.ClearMessage))
 		{
 			SoundManager.Play("Click01");
-			PlayerSendChat();
+			PlayerSendChat(parsedInput.ClearMessage);
 		}
 
 		CloseChatWindow();
@@ -341,11 +361,14 @@ public class ChatUI : MonoBehaviour
 		EventManager.Broadcast(EVENT.ToggleChatBubbles);
 	}
 
-	private void PlayerSendChat()
+	private void PlayerSendChat(string sendMessage)
 	{
 		// Selected channels already masks all unavailable channels in it's get method
-		PostToChatMessage.Send(InputFieldChat.text, SelectedChannels);
+		chatFilter.Send(sendMessage, SelectedChannels);
+		// The filter can be skipped / replaced by calling the following method instead:
+		// PostToChatMessage.Send(sendMessage, SelectedChannels);
 		InputFieldChat.text = "";
+
 	}
 
 	public void OnChatCancel()
@@ -404,6 +427,11 @@ public class ChatUI : MonoBehaviour
 		EventManager.Broadcast(EVENT.ChatUnfocused);
 		background.SetActive(false);
 		UIManager.PreventChatInput = false;
+
+		// if doesn't clear input next opening can be by OOC or other hotkey
+		// That create a lot of misunderstanding and can lead to IC in OOC
+		// also clears ParsedChatInput as a side effect
+		InputFieldChat.text = "";
 	}
 
 	IEnumerator WindowCoolDown()
@@ -732,6 +760,19 @@ public class ChatUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Disable all selected chanels except main channels
+	/// </summary>
+	private void DisableAllChanels()
+	{
+		/*var selectedEnumerable = SelectedChannels.GetFlags();
+		foreach (ChatChannel selected in selectedEnumerable)
+		{
+			if (!MainChannels.Contains(selected))
+				DisableChannel(selected);
+		}*/
+	}
+
+	/// <summary>
 	/// Disable a channel and perform all special logic for it.
 	/// Main channels can't be disabled, and radio channels can hide the active radio channel panel
 	/// </summary>
@@ -765,6 +806,14 @@ public class ChatUI : MonoBehaviour
 			}
 		}
 
+		// check if channel was forced by tag
+		/*if (channel == prevTagSelectedChannel && channel != ChatChannel.None)
+		{
+			// delete tag from input field
+			if (parsedInput != null)
+				InputFieldChat.text = parsedInput.ClearMessage;
+		}*/
+
 		UpdateInputLabel();
 	}
 
@@ -777,6 +826,32 @@ public class ChatUI : MonoBehaviour
 		else
 		{
 			return PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+		}
+	}
+
+	private void OnInputFieldChatValueChanged(string rawInput)
+	{
+		// update parsed input
+		parsedInput = Chat.ParsePlayerInput(rawInput, chatContext);
+		var inputChannel = parsedInput.ParsedChannel;
+
+		// Check if player typed new channel shotrcut (for instance ';' or ':e')
+		if (inputChannel != ChatChannel.None)
+		{
+			// check if entered channel avaliable for player
+			var availChannels = GetAvailableChannels();
+			if (availChannels.HasFlag(inputChannel))
+			{
+				EnableChannel(inputChannel);
+			}
+			else
+			{
+				// TODO: need some addition UX indication that channel is not avaliable
+				Logger.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.UI);
+			}
+
+			// delete all tags from input
+			InputFieldChat.text = parsedInput.ClearMessage;
 		}
 	}
 }

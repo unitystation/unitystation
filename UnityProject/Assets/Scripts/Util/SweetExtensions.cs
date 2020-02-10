@@ -304,4 +304,15 @@ public static class SweetExtensions
 		return (Arr.Length==j) ? Arr[0] : Arr[j];
 	}
 
+	/// <summary>
+	/// Enumerate all flags as IEnumerable
+	/// </summary>
+	/// <param name="input"></param>
+	/// <returns></returns>
+	public static IEnumerable<Enum> GetFlags(this Enum input)
+	{
+		foreach (Enum value in Enum.GetValues(input.GetType()))
+			if (input.HasFlag(value))
+				yield return value;
+	}
 }
