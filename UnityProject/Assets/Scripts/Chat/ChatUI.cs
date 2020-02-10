@@ -50,6 +50,12 @@ public class ChatUI : MonoBehaviour
 	}
 
 	/// <summary>
+	/// The ChatLimitCPM component of the ChatSystem prefab. Cached in Start() for performance.
+	/// Used for limiting the number of characters the user can send per minute.
+	/// </summary>
+	private ChatFilter chatFilter = null;
+
+	/// <summary>
 	/// A map of channel names and their toggles for UI manipulation
 	/// </summary>
 	private Dictionary<ChatChannel, Toggle> ChannelToggles = new Dictionary<ChatChannel, Toggle>();
@@ -149,6 +155,7 @@ public class ChatUI : MonoBehaviour
 		chatInputWindow.SetActive(false);
 		//channelPanel.gameObject.SetActive(false);
 		EventManager.AddHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
+		chatFilter = GetComponent<ChatFilter>();
 	}
 
 	private void OnDestroy()
@@ -251,7 +258,7 @@ public class ChatUI : MonoBehaviour
 
 	public void OpenAdminReply(string message, string adminId)
 	{
-		Instance.adminReply.OpenAdminPrivReplay(message,adminId);
+		Instance.adminReply.OpenAdminPrivReplay(message, adminId);
 	}
 
 	void SetEntryTransform(GameObject entry)
@@ -357,8 +364,11 @@ public class ChatUI : MonoBehaviour
 	private void PlayerSendChat(string sendMessage)
 	{
 		// Selected channels already masks all unavailable channels in it's get method
-		PostToChatMessage.Send(sendMessage, SelectedChannels);
+		chatFilter.Send(sendMessage, SelectedChannels);
+		// The filter can be skipped / replaced by calling the following method instead:
+		// PostToChatMessage.Send(sendMessage, SelectedChannels);
 		InputFieldChat.text = "";
+
 	}
 
 	public void OnChatCancel()

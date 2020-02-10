@@ -271,7 +271,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 250
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -1922,6 +1922,7 @@ GameObject:
   - component: {fileID: 2077979624396664386}
   - component: {fileID: 114720228895401702}
   - component: {fileID: 4984957583611271286}
+  - component: {fileID: 585662512790831443}
   m_Layer: 0
   m_Name: ChatSystem
   m_TagString: Untagged
@@ -2017,6 +2018,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatInstance: {fileID: 114720228895401702}
+--- !u!114 &585662512790831443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897758349740974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce6ebc820bc96f41b4b46c9e60cf195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cpmMax: 500
+  cpmMinCharacters: 5
+  cpmWarning: You ran out of breath before you finished speaking.
+  cpmWarningOOC: Your messages have been too long, please slow down.
+  numMessageMax: 5
+  numMessagesDecayMinutes: 0.083333336
+  numMessagesWarning: You struggled to speak as you catch your breath.
+  numMessagesWarningOOC: You are sending too many messages, please wait a few seconds.
 --- !u!1 &240195806562193236
 GameObject:
   m_ObjectHideFlags: 0
@@ -4162,11 +4183,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1369039240316595895}
     m_Modifications:
-    - target: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
+    - target: {fileID: 2400726790984915926, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
-      propertyPath: m_Name
-      value: ActiveChannelTemplate
-      objectReference: {fileID: 0}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1897758349740974}
     - target: {fileID: 3804247380278558810, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4272,22 +4293,22 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2400726790984915926, guid: a311e2bde4b0f554c980666c969a060c,
+    - target: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1897758349740974}
+      propertyPath: m_Name
+      value: ActiveChannelTemplate
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a311e2bde4b0f554c980666c969a060c, type: 3}
---- !u!224 &942134156153933411 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3804247380278558810, guid: a311e2bde4b0f554c980666c969a060c,
-    type: 3}
-  m_PrefabInstance: {fileID: 4168157131774070329}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8380570029279695647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4168157131774070329}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &942134156153933411 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3804247380278558810, guid: a311e2bde4b0f554c980666c969a060c,
     type: 3}
   m_PrefabInstance: {fileID: 4168157131774070329}
   m_PrefabAsset: {fileID: 0}
