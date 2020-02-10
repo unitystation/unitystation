@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78698377d6a4aaf8d6e3a304a6cbc5e, type: 3}
   m_Name: DigWithShovel
   m_EditorClassIdentifier: 
-  requiredTrait: {fileID: 11400000, guid: 35ecd7ae92ffc9f4d9e62613c2ad8cf8, type: 2}
-  performerStartActionMessage: 
+  requiredTrait: {fileID: 11400000, guid: b336a4abd9d45924cb48b49a49fdea2b, type: 2}
+  performerStartActionMessage: You start digging...
   othersStartActionMessage: 
-  seconds: 5
-  objectsToSpawn: {fileID: 11400000, guid: 1aa495e084e67c4438122bf45794c6ab, type: 2}
-  toTile: {fileID: 11400000, guid: 08e0e586aadb54a4cb5993353eb45059, type: 2}
-  performerFinishActionMessage: 
+  seconds: 4
+  objectsToSpawn: {fileID: 11400000, guid: 4d14f017fdbbd034eb07e3781e5ce069, type: 2}
+  toTile: {fileID: 11400000, guid: 1cbd00c0c8750d34ea9dc7026dde5dd4, type: 2}
+  performerFinishActionMessage: You dig a hole.
   othersFinishActionMessage: 
