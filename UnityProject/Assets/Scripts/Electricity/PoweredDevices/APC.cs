@@ -18,7 +18,6 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// </summary>
 	[SyncVar(hook = nameof(SyncVoltage))]
 	private float voltageSync;
-	private bool voltageInit;
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
 	public bool PowerEnvironment = true;
@@ -38,8 +37,6 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// </summary>
 	private void SyncVoltage(float oldVoltage, float newVoltage)
 	{
-		//optimization - do nothing if voltage already initialized and is unchanged
-		if (voltageSync == newVoltage && voltageInit) return;
 		voltageSync = newVoltage;
 		UpdateDisplay();
 	}
@@ -47,13 +44,11 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	public override void OnStartServer()
 	{
 		SyncVoltage(voltageSync, voltageSync);
-		voltageInit = true;
 	}
 
 	public override void OnStartClient()
 	{
 		SyncVoltage(voltageSync, voltageSync);
-		voltageInit = true;
 	}
 
 	private void OnDisable()
