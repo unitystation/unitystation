@@ -103,6 +103,15 @@ public class CustomNetworkManager : NetworkManager
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnection conn)
 	{
+		if (isHeadless || GameData.Instance.testServer)
+		{
+			if (conn == NetworkServer.localConnection)
+			{
+				Logger.Log("Prevented headless server from spawning a player", Category.Server);
+				return;
+			}
+		}
+
 		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
 		base.OnServerAddPlayer(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
