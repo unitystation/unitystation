@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: GrillDestroyed
   m_EditorClassIdentifier: 
   displayName: 
-  LayerType: 6
-  TileType: 0
+  LayerType: 5
+  TileType: 6
   RequiredTiles:
   - {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
+  WalkingSoundCategory: 0
   atmosPassable: 1
   isSealed: 0
-  OreCategorie: 0
+  oreCategory: 0
   MaxHealth: 0
   HealthStates: []
   passable: 1

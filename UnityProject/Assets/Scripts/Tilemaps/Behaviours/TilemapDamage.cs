@@ -19,6 +19,15 @@ public enum WindowDamageLevel
 }
 
 /// <summary>
+/// The level of damage that a grill has received
+/// </summary>
+public enum GrillDamageLevel
+{
+	Undamaged,
+	Damaged
+}
+
+/// <summary>
 /// Allows for damaging tiles and updating tiles based on damage taken.
 /// </summary>
 public class TilemapDamage : MonoBehaviour, IFireExposable
@@ -510,6 +519,24 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		data.Damage += GRILL_ARMOR.GetDamage(damage, attackType);
 
+		//At half health change image of grill to damaged
+		if (data.Damage >= MAX_GRILL_DAMAGE / 2 && data.Damage < MAX_GRILL_DAMAGE)
+		{
+			if (data.GrillDamage != GrillDamageLevel.Damaged)
+			{
+				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrillDestroyed");
+				data.GrillDamage = GrillDamageLevel.Damaged;
+
+				SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
+
+				//Spawn rods
+				if (Random.value < 0.7f)
+				{
+					SpawnRods(bulletHitTarget);
+				}
+			}
+		}
+
 		//Make grills a little bit weaker (set to 60 hp):
 		if (data.Damage >= MAX_GRILL_DAMAGE)
 		{
@@ -517,7 +544,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
-			//Spawn rods:
+			//Spawn rods
 			if (Random.value < 0.7f)
 			{
 				SpawnRods(bulletHitTarget);
