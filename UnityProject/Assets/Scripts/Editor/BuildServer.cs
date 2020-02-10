@@ -53,7 +53,7 @@ static class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/StartUp.unity","Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
-		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.Development;
+		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
@@ -167,11 +167,13 @@ static class BuildScript
 
 		var buildTarget = options["buildTarget"];
 		var buildPath = options["customBuildPath"];
-		var buildName = options["customBuildName"];
+		// TODO: fix Unity Builder Action to use customBuildName
+		// var buildName = options["customBuildName"];
 
 		// Gather values from project
 		var scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(s => s.path).ToArray();
-		var locationPathName = $"{buildPath}/{buildName}{GetFileExtension(buildTarget)}";
+		// var locationPathName = $"{buildPath}/{buildName}{GetFileExtension(buildTarget)}";
+		var locationPathName = buildPath;
 		var target = (BuildTarget) Enum.Parse(typeof(BuildTarget), buildTarget);
 
 		// Define BuildPlayer Options

@@ -59,6 +59,33 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Genetics, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Science}
 	};
 
+	/// <summary>
+	/// Default department channel (tag ':h') by different encryption keys
+	/// </summary>
+	public static readonly Dictionary<EncryptionKeyType, ChatChannel> DefaultChannel = new Dictionary<EncryptionKeyType, ChatChannel>()
+	{
+		{EncryptionKeyType.Binary, ChatChannel.Binary},
+		{EncryptionKeyType.Captain, ChatChannel.Command },
+		{EncryptionKeyType.CentComm, ChatChannel.CentComm },
+		{EncryptionKeyType.ChiefEngineer, ChatChannel.Engineering },
+		{EncryptionKeyType.ChiefMedicalOfficer, ChatChannel.Medical },
+		{EncryptionKeyType.Common, ChatChannel.Common },
+		{EncryptionKeyType.Engineering, ChatChannel.Engineering },
+		{EncryptionKeyType.Genetics, ChatChannel.Science },
+		{EncryptionKeyType.HeadOfPersonnel, ChatChannel.Service },
+		{EncryptionKeyType.HeadOfSecurity, ChatChannel.Security },
+		{EncryptionKeyType.Medical, ChatChannel.Medical },
+		{EncryptionKeyType.Mining, ChatChannel.Supply },
+		{EncryptionKeyType.None, ChatChannel.None },
+		{EncryptionKeyType.QuarterMaster, ChatChannel.Supply },
+		{EncryptionKeyType.ResearchDirector, ChatChannel.Science },
+		{EncryptionKeyType.Science, ChatChannel.Science },
+		{EncryptionKeyType.Security, ChatChannel.Security },
+		{EncryptionKeyType.Service, ChatChannel.Service },
+		{EncryptionKeyType.Supply, ChatChannel.Supply },
+		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate }
+	};
+
 	private static readonly string genericDescription = "An encryption key for a radio headset. \n";
 
 	private static readonly Dictionary<EncryptionKeyType, string> ExamineTexts = new Dictionary<EncryptionKeyType, string>

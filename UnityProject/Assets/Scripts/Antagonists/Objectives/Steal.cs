@@ -57,6 +57,12 @@ namespace Antagonists
 
 			// Pick a random item and add it to the targeted list
 			var itemEntry = possibleItems.PickRandom();
+			if (itemEntry.Key == null)
+			{
+				Logger.LogError($"Objective steal item target failed because the item chosen is somehow destroyed." +
+				                " Definitely a programming bug. ", Category.Round);
+				return;
+			}
 			ItemName = itemEntry.Key.Item().InitialName;
 
 			if (string.IsNullOrEmpty(ItemName))

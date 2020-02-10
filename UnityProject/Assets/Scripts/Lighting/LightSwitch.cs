@@ -43,6 +43,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 	private bool switchCoolDown;
 	private RegisterTile registerTile;
 	public bool SelfPowered = false;
+	public bool preventStartUpCache;
 	public List<LightSource> SelfPowerLights = new List<LightSource>();
 
 	private Directional directional;
@@ -208,6 +209,21 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		{
 			return;
 		}
+
+		if (preventStartUpCache)
+		{
+			if (SelfPowered)
+			{
+				foreach (var l in SelfPowerLights)
+				{
+					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitch = this, RelatedAPC = RelatedAPC };
+					l.gameObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
+				}
+			}
+
+			return;
+		}
+
 		Vector2 startPos = GetCastPos();
 		//figure out which lights this switch is hooked up to based on proximity and facing
 		int length = Physics2D.OverlapCircleNonAlloc(startPos, radius, lightSpriteColliders, lightingMask);

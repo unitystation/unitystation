@@ -6,7 +6,7 @@ public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IServerSp
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		GetComponent<ClosetControl>().ToggleLocker(false);
+		GetComponent<ClosetControl>().ServerToggleClosed(false);
 	}
 
 	public bool WillInteract(MouseDrop interaction, NetworkSide side)
@@ -45,7 +45,7 @@ public class BodyBag : MonoBehaviour, ICheckedInteractable<MouseDrop>, IServerSp
 			return;
 		}
 
-		if (!closetControl.IsEmpty())
+		if (!closetControl.ServerIsEmpty())
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer,
 				"There are too many things inside of the body bag to fold it up!");

@@ -350,7 +350,7 @@ public class Players
 			var player = PlayerList.Instance.InGamePlayers[i];
 			var playerEntry = new PlayerDetails()
 			{
-				playerName = player.Name + $" {player.UserId}",
+				playerName = player.Name + $" {player.Job.ToString()} : Acc: {player.Username} {player.UserId} {player.Connection.address} ",
 					job = player.Job.ToString()
 			};
 			players.Add(playerEntry);

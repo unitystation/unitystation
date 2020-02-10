@@ -419,6 +419,8 @@ public partial class PlayerSync
 	private void RollbackPosition()
 	{
 		foreach ( var questionablePushable in questionablePushables ) {
+			//make sure component is not already destroyed
+			if (questionablePushable == null) continue;
 			Logger.LogWarningFormat( "Notified questionable pushable {0}", Category.PushPull, questionablePushable );
 			questionablePushable.NotifyPlayers();
 		}

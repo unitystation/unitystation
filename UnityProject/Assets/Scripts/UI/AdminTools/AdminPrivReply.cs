@@ -40,6 +40,8 @@ namespace AdminTools
 		IEnumerator CloseWindow()
 		{
 			yield return WaitFor.EndOfFrame;
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
 			gameObject.SetActive(false);
 		}
 

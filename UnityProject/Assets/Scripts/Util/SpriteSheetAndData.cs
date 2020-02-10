@@ -25,14 +25,11 @@ public class SpriteSheetAndData
 #if UNITY_EDITOR
 			var path = AssetDatabase.GetAssetPath(Texture);
 			Sprites = AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().ToArray();
-			if (Sprites.Length > 0)
+			if (Sprites.Length > 1)
 			{
-				if (!Sprites[0].name.Contains("_0"))
-				{
-					Logger.LogWarning("Sprites are Loaded bloody backwards or The first Sprite name in the text Does not contain _0, Fixing");
-					Sprites = Sprites.Reverse().ToArray();
-				}
+				Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1))).ToArray();
 			}
+			//yeah If you named your sub sprites rip, have to find another way of ordering them correctly since the editor doesnt want to do that		E
 			EquippedData = (TextAsset)AssetDatabase.LoadAssetAtPath(path.Replace(".png", ".json"), typeof(TextAsset));
 #endif
 		}
@@ -44,7 +41,8 @@ public class SpriteSheetAndData
 	}
 
 
-	public  SpriteData Data {
+	public SpriteData Data
+	{
 		get
 		{
 			if (data.List.Count == 0)

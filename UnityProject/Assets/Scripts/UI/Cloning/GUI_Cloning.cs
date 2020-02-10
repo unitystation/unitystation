@@ -62,7 +62,7 @@ public class GUI_Cloning : NetTab
 
 	public void LockScanner()
 	{
-		CloningConsole.ToggleLock();
+		CloningConsole.ServerToggleLock();
 		UpdateDisplay();
 	}
 

@@ -100,6 +100,11 @@ public class RequestInteractMessage : ClientMessage
 	{
 		var performer = SentByPlayer.GameObject;
 
+		if (SentByPlayer == null || SentByPlayer.Script == null)
+		{
+			yield break;
+		}
+
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			//look up item in active hand slot
@@ -202,7 +207,6 @@ public class RequestInteractMessage : ClientMessage
 		where T : Interaction
 	{
 		//find the indicated component
-		var success = false;
 		var component = processorObj.GetComponent(ComponentType);
 		if (component == null)
 		{

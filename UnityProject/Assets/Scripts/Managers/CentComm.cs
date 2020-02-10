@@ -21,11 +21,11 @@ public class CentComm : MonoBehaviour
 	private GameObject paperPrefab;
 
 	public static string CaptainAnnounceTemplate =
-		"\n\n<color=white><size=30><b>Captain Announces</b></size></color>\n\n"
+		"\n\n<color=white><size=60><b>Captain Announces</b></size></color>\n\n"
 	  + "<color=#FF151F><b>{0}</b></color>\n\n";
 
 	public static string PriorityAnnouncementTemplate =
-		"\n\n<color=white><size=30><b>Priority Announcement</b></size></color>\n\n"
+		"\n\n<color=white><size=60><b>Priority Announcement</b></size></color>\n\n"
 	  + "<color=#FF151F>{0}</color>\n\n";
 
 	public static string ShuttleCallSubTemplate =
@@ -137,6 +137,7 @@ public class CentComm : MonoBehaviour
 
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
 			MatrixManager.MainStationMatrix);
+		PlaySoundMessage.SendToAll("ShuttleCalled", Vector3.zero, 1f);
 	}
 
 	/// <summary>
@@ -146,6 +147,7 @@ public class CentComm : MonoBehaviour
 	{
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
 			MatrixManager.MainStationMatrix);
+		PlaySoundMessage.SendToAll("ShuttleRecalled", Vector3.zero, 1f);
 	}
 
 	private string CreateStartGameReport()
@@ -168,11 +170,11 @@ public class CentComm : MonoBehaviour
 
 	private string CommandUpdateAnnouncementString()
 	{
-		return "\n\n<color=white><size=30><b>Central Command Update</b></size>"
-		+ "\n\n<b><size=20>Enemy communication intercepted. Security level elevated."
-		+ "</size></b></color>\n\n<color=#FF151F><size=18>A summary has been copied and"
+		return "\n\n<color=white><size=60><b>Central Command Update</b></size>"
+		+ "\n\n<b><size=40>Enemy communication intercepted. Security level elevated."
+		+ "</size></b></color>\n\n<color=#FF151F><size=36>A summary has been copied and"
 		+ " printed to all communications consoles. </size></color>\n\n<color=#FF151F><b>"
-		+ "Attention! Security level elevated to blue:</b></color>\n<color=white><size=18>"
+		+ "Attention! Security level elevated to blue:</b></color>\n<color=white><size=36>"
 		+ "<b>The station has received reliable information about possible hostile activity"
 		+ " on the station. Security staff may have weapons visible. Searches are permitted"
 		+ " only with probable cause.</b></size></color>\n\n";

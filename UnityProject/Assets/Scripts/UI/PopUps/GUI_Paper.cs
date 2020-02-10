@@ -58,6 +58,7 @@ public class GUI_Paper : NetTab
 			textField.ActivateInputField();
 		}
 		UIManager.IsInputFocus = true;
+		UIManager.PreventChatInput = true;
 		CheckForInput();
 	}
 
@@ -83,6 +84,7 @@ public class GUI_Paper : NetTab
 		if (!textField.isFocused)
 		{
 			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
 		}
 	}
 
@@ -91,6 +93,7 @@ public class GUI_Paper : NetTab
 	{
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
 		UIManager.IsInputFocus = false;
+		UIManager.PreventChatInput = false;
 	}
 
 	public void OnTextValueChange()

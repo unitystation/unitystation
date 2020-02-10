@@ -48,12 +48,20 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 				ServerSelfHeal(interaction.Performer, targetBodyPart);
 			}
 		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"The {interaction.TargetBodyPart} does not need to be healed.");
+		}
 	}
 
 	private void ServerApplyHeal(BodyPartBehaviour targetBodyPart)
 	{
 		targetBodyPart.HealDamage(40, healType);
 		stackable.ServerConsume(1);
+
+		HealthBodyPartMessage.Send(targetBodyPart.livingHealthBehaviour.gameObject, targetBodyPart.livingHealthBehaviour.gameObject,
+			targetBodyPart.Type, targetBodyPart.livingHealthBehaviour.GetTotalBruteDamage(),
+			targetBodyPart.livingHealthBehaviour.GetTotalBurnDamage());
 	}
 
 	private void ServerSelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)

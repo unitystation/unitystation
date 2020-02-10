@@ -13,6 +13,7 @@ using UnityEngine;
 /// check which side of the wall the mount is on so we can hide it if it's on the wrong side.
 /// This behavior makes the wallmount invisible if it is not facing towards the player.
 /// </summary>
+[DisallowMultipleComponent]
 public class WallmountSpriteBehavior : MonoBehaviour {
 	// This sprite's renderer
 	private SpriteRenderer spriteRenderer;
@@ -23,11 +24,6 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		wallmountBehavior = GetComponentInParent<WallmountBehavior>();
-		//some of the mapped ones have duplicates of this, this ensures they're removed
-		foreach (var wsb in GetComponents<WallmountSpriteBehavior>())
-		{
-			if (wsb != this) Destroy(wsb);
-		}
 	}
 
 	// Handles rendering logic, only runs when this sprite is on camera

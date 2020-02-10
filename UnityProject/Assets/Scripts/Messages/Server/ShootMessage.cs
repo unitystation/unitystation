@@ -42,6 +42,10 @@ public class ShootMessage : ServerMessage {
 
 		yield return WaitFor(Shooter, Weapon);
 		Gun wep = NetworkObjects[1].GetComponent<Gun>();
+		if (wep == null)
+		{
+			yield break;
+		}
 		//only needs to run on the clients other than the shooter
 		if (!wep.isServer && PlayerManager.LocalPlayer.gameObject !=  NetworkObjects[0])
 		{

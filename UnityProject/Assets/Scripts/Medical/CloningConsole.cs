@@ -57,11 +57,14 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 		}
 	}
 
-	public void ToggleLock()
+	/// <summary>
+	/// Toggle the locking / unlocking of the scanner.
+	/// </summary>
+	public void ServerToggleLock()
 	{
 		if(scanner && scanner.IsClosed && scanner.Powered)
 		{
-			scanner.IsLocked = !scanner.IsLocked;
+			scanner.ServerToggleLocked();
 		}
 	}
 

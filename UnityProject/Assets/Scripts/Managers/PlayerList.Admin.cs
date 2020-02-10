@@ -189,12 +189,12 @@ public partial class PlayerList
 		}
 
 
-		var banEntry = banList.CheckForEntry(userid);
+		var banEntry = banList.CheckForEntry(userid, playerConn.Connection.address);
 		if (banEntry != null)
 		{
-			DateTime entryTime;
-			DateTime.TryParse(banEntry.dateTimeOfBan, out entryTime);
-			if (entryTime.AddMinutes(banEntry.minutes) > DateTime.Now)
+			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+			if ( totalMins > (float)banEntry.minutes)
 			{
 				//Old ban, remove it
 				banList.banEntries.Remove(banEntry);
@@ -225,7 +225,7 @@ public partial class PlayerList
 		{
 			//This is an admin, send admin notify to the users client
 			Logger.Log($"{playerConn.Username} logged in as Admin. " +
-			           $"IP: {playerConn.Connection.address}", Category.Admin);
+			           $"IP: {playerConn.Connection.address}");
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
@@ -239,7 +239,7 @@ public partial class PlayerList
 	{
 		if (loggedInAdmins.ContainsKey(userid))
 		{
-			Logger.Log($"Admin {userName} logged off.", Category.Admin);
+			Logger.Log($"Admin {userName} logged off.");
 			loggedInAdmins.Remove(userid);
 		}
 	}
@@ -249,7 +249,7 @@ public partial class PlayerList
 		thisClientIsAdmin = true;
 		AdminToken = _adminToken;
 		ControlTabs.Instance.ToggleOnAdminTab();
-		Logger.Log("You have logged in as an admin. Admin tools are now available.", Category.Admin);
+		Logger.Log("You have logged in as an admin. Admin tools are now available.");
 	}
 
 	void SaveBanList()
@@ -299,7 +299,7 @@ public partial class PlayerList
 		}
 		else
 		{
-			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {admin}", Category.Admin);
+			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {admin}");
 		}
 	}
 
@@ -325,7 +325,8 @@ public partial class PlayerList
 				userName = connPlayer.Username,
 				minutes = banLengthInMinutes,
 				reason = reason,
-				dateTimeOfBan = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+				dateTimeOfBan = DateTime.Now.ToString("O"),
+				ipAddress = connPlayer.Connection.address
 			});
 
 			File.WriteAllText(banPath, JsonUtility.ToJson(banList));
@@ -340,11 +341,11 @@ public partial class PlayerList
 
 		if (!connPlayer.Connection.isConnected)
 		{
-			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}", Category.Admin);
+			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}");
 			yield break;
 		}
 
-		Logger.Log($"Kicking client {clientID} : {message}", Category.Admin);
+		Logger.Log($"Kicking client {clientID} : {message}");
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 
 
@@ -365,10 +366,19 @@ public class BanList
 {
 	public List<BanEntry> banEntries = new List<BanEntry>();
 
-	public BanEntry CheckForEntry(string userId)
+	public BanEntry CheckForEntry(string userId, string ipAddress)
 	{
 		var index = banEntries.FindIndex(x => x.userId == userId);
-		if (index == -1) return null;
+		if (index == -1)
+		{
+			var ipIndex = banEntries.FindIndex(x => x.ipAddress == ipAddress);
+			if (ipIndex != -1)
+			{
+				return banEntries[ipIndex];
+			}
+
+			return null;
+		}
 
 		return banEntries[index];
 	}
@@ -382,4 +392,5 @@ public class BanEntry
 	public double minutes;
 	public string dateTimeOfBan;
 	public string reason;
+	public string ipAddress;
 }

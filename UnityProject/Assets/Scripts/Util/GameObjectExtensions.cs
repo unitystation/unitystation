@@ -68,7 +68,8 @@ public static class GameObjectExtensions
 	/// <param name="obj"></param>
 	/// <param name="image"></param>
 	/// <param name="secondaryImage"></param>
-	public static void PopulateImageSprites(this GameObject obj, Image image, Image secondaryImage)
+	/// <param name="tertiaryImage"></param>
+	public static void PopulateImageSprites(this GameObject obj, Image image, Image secondaryImage, Image tertiaryImage = null)
 	{
 		var sprites = obj.GetComponentsInChildren<SpriteRenderer>();
 		if (sprites != null && sprites.Length > 0 && sprites[0].sprite != null)
@@ -84,11 +85,31 @@ public static class GameObjectExtensions
 			{
 				secondaryImage.enabled = false;
 			}
+
+			if (tertiaryImage == null)
+			{
+				return;
+			}
+
+			if (sprites.Length > 2 && sprites[2].sprite != null)
+			{
+				tertiaryImage.enabled = true;
+				tertiaryImage.sprite = sprites[2].sprite;
+			}
+			else
+			{
+				tertiaryImage.enabled = false;
+			}
 		}
 		else
 		{
 			image.enabled = false;
 			secondaryImage.enabled = false;
+
+			if (tertiaryImage != null)
+			{
+				tertiaryImage.enabled = false;
+			}
 		}
 	}
 }

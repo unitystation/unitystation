@@ -87,22 +87,36 @@ public class StandardProgressAction : IProgressAction
 
 		if (!progressActionConfig.AllowMultiple)
 		{
-			//check if the performer is already doing this action type anywhere else
-			var existingAction = UIManager.Instance.ProgressBars
-				.Where(pb => pb.RegisterPlayer.gameObject == info.Performer)
-				.FirstOrDefault(pb =>
-				{
-					if (pb.ServerProgressAction is StandardProgressAction standardProgressAction)
-					{
-						return standardProgressAction.progressActionConfig.StandardProgressActionType == progressActionConfig.StandardProgressActionType;
-					}
 
-					return false;
-				});
-			if (existingAction != null)
+			try
 			{
-				Logger.LogTraceFormat("Server cancelling progress bar {0} start because AllowMultiple=true and progress bar {1} " +
-				                      " has same progress type and is already in progress.", Category.ProgressAction, info.ProgressBar.ID, existingAction.ID);
+				//check if the performer is already doing this action type anywhere else
+				var existingAction = UIManager.Instance.ProgressBars
+					.Where(pb => pb.RegisterPlayer != null && pb.RegisterPlayer.gameObject == info.Performer)
+					.FirstOrDefault(pb =>
+					{
+						if (pb.ServerProgressAction is StandardProgressAction standardProgressAction)
+						{
+							return standardProgressAction.progressActionConfig.StandardProgressActionType ==
+							       progressActionConfig.StandardProgressActionType;
+						}
+
+						return false;
+					});
+
+				if (existingAction != null)
+				{
+					Logger.LogTraceFormat(
+						"Server cancelling progress bar {0} start because AllowMultiple=true and progress bar {1} " +
+						" has same progress type and is already in progress.", Category.ProgressAction,
+						info.ProgressBar.ID, existingAction.ID);
+					return false;
+				}
+			}
+			catch
+			{
+				Logger.LogError(
+					"Something terrible happened to ProgressBars but we have recovered.", Category.ProgressAction);
 				return false;
 			}
 		}
@@ -110,7 +124,7 @@ public class StandardProgressAction : IProgressAction
 		//check if there is already progress of this type at this location by this player
 		var targetParent = info.Target.TargetMatrixInfo.Objects;
 		var existingBar = UIManager.Instance.ProgressBars
-			.Where(pb => pb.RegisterPlayer.gameObject == info.Performer)
+			.Where(pb => pb.RegisterPlayer != null && pb.RegisterPlayer.gameObject == info.Performer)
 			.Where(pb => pb.transform.parent == targetParent)
 			.FirstOrDefault(pb => Vector3.Distance(pb.transform.localPosition, info.Target.TargetLocalPosition) < 0.1);
 		if (existingBar != null)

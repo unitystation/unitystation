@@ -53,10 +53,12 @@ namespace AdminTools
 		public string name;
 		public string uid;
 		public string currentJob;
+		public string accountName;
 		public bool isAlive;
 		public bool isAntag;
 		public bool isAdmin;
 		public bool isOnline;
+		public string ipAddress;
 		public List<AdminChatMessage> newMessages = new List<AdminChatMessage>();
 	}
 

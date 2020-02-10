@@ -122,6 +122,7 @@ public class AtmosManager : MonoBehaviour
 	void OnRoundEnd()
 	{
 		roundStartedServer = false;
+		AtmosThread.ClearAllNodes();
 	}
 
 

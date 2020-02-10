@@ -11,13 +11,22 @@ public class NetPrefabImage : NetUIElement
 		get { return prefab ?? "-1"; }
 		set {
 			externalChange = true;
-			Element.sprite = Resources.Load<GameObject>( value )?.GetComponentInChildren<SpriteRenderer>()?.sprite;
+			Sprite sprite = null;
+			if (!string.IsNullOrEmpty(value) && !value.Equals("-1"))
+			{
+				sprite = Spawn.GetPrefabByName(value)?.GetComponentInChildren<SpriteRenderer>()?.sprite;
+			}
+
+			Element.sprite = sprite;
+			Element.color = sprite == null ? transparentColor : Color.white;
 			prefab = value;
 			externalChange = false;
 		}
 	}
+	private static readonly Color transparentColor = new Color(0,0,0,0);
 	private Image element;
 	private string prefab;
+
 	public Image Element {
 		get {
 			if ( !element ) {

@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 6203799934882642808}
   - component: {fileID: 3771872541723634421}
   - component: {fileID: 1554776711696640}
-  - component: {fileID: 114798627279048580}
   - component: {fileID: 114511699214781296}
   - component: {fileID: -678374216968888500}
   - component: {fileID: 8341462466351120766}
@@ -179,7 +178,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   spriteRenderer: {fileID: 8418407404781841632}
-  MinimumPressure: 101.325
+  MinimumPressure: 101.3249
 --- !u!114 &6203799934882642808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,28 +242,6 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
---- !u!114 &114798627279048580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010733523080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    SpriteAndData:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
 --- !u!114 &114511699214781296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 6123044d3e1847569dcc23e34dd3d3f5
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-678374216968888500
 MonoBehaviour:
@@ -311,6 +288,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
 --- !u!114 &8341462466351120766
 MonoBehaviour:
   m_ObjectHideFlags: 0

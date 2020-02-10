@@ -70,7 +70,7 @@ public class UI_StorageHandler : MonoBehaviour
 			for (int i = 0; i < CurrentOpenStorage.ItemStorageStructure.IndexedSlots; i++)
 			{
 				GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
-				newSlot.transform.parent = transform;
+				newSlot.transform.SetParent(transform);
 				newSlot.transform.localScale = Vector3.one;
 				var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
 				uiItemSlot.LinkSlot(CurrentOpenStorage.GetIndexedItemSlot(i));
@@ -101,7 +101,7 @@ public class UI_StorageHandler : MonoBehaviour
 			Destroy(uiItemSlot.transform.parent.gameObject);
 		}
 		currentOpenStorageUISlots.Clear();
-		closeStorageUIButton.transform.parent = transform.parent;
+		closeStorageUIButton.transform.SetParent(transform.parent);
 		closeStorageUIButton.SetActive(false);
 
 	}

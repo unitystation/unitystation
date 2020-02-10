@@ -111,8 +111,15 @@ public class PlayerHealth : LivingHealthBehaviour
 		}
 	}
 
+	[Server]
+	public void ServerGibPlayer()
+	{
+		Gib();
+	}
+
 	protected override void Gib()
 	{
+		Death();
 		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
@@ -122,21 +129,8 @@ public class PlayerHealth : LivingHealthBehaviour
 			Inventory.ServerDrop(slot);
 		}
 
-		if (!playerMove.PlayerScript.IsGhost)
-		{ //dirty way to follow gibs. change this when implementing proper gibbing, perhaps make it follow brain
-			var gibsToFollow = MatrixManager.GetAt<RawMeat>( transform.position.CutToInt(), true );
-			if ( gibsToFollow.Count > 0 )
-			{
-				var gibs = gibsToFollow[0];
-				FollowCameraMessage.Send(gameObject, gibs.gameObject);
-				var gibsIntegrity = gibs.GetComponent<Integrity>();
-				if ( gibsIntegrity != null )
-				{	//Stop cam following gibs if they are destroyed
-					gibsIntegrity.OnWillDestroyServer.AddListener( x => FollowCameraMessage.Send( gameObject, null ) );
-				}
-			}
-		}
 		playerMove.PlayerScript.pushPull.VisibleState = false;
+		playerNetworkActions.CmdSpawnPlayerGhost();
 	}
 
 	///     make player unconscious upon crit

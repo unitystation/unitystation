@@ -23,7 +23,7 @@ namespace IngameDebugConsole
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (!playerSpawned)
 			{
-				Logger.LogError("Cannot commit suicide. Player has not spawned.", Category.DebugConsole);
+				Logger.Log("Cannot commit suicide. Player has not spawned.");
 
 			}
 			else
@@ -32,30 +32,36 @@ namespace IngameDebugConsole
 			}
 		}
 
+		[ConsoleMethod("myid", "Prints your uuid for your player account")]
+		public static void RunPrintUID()
+		{
+			Logger.Log($"{ServerData.UserID}");
+		}
+
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
 		public static void RunDamageSelf(string bodyPartString, int burnDamage, int bruteDamage)
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
 			bool success = BodyPartType.TryParse(bodyPartString, true, out BodyPartType bodyPart);
 			if (success == false)
 			{
-				Logger.LogError("Invalid body part '" + bodyPartString + "'", Category.DebugConsole);
+				Logger.Log("Invalid body part '" + bodyPartString + "'");
 				return;
 			}
 
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (playerSpawned == false)
 			{
-				Logger.LogError("Cannot damage player. Player has not spawned.", Category.DebugConsole);
+				Logger.Log("Cannot damage player. Player has not spawned.");
 				return;
 			}
 
-			Logger.Log("Debugger inflicting " + burnDamage + " burn damage and " + bruteDamage + " brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name, Category.DebugConsole);
+			Logger.Log("Debugger inflicting " + burnDamage + " burn damage and " + bruteDamage + " brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name);
 			HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
 		}
 
@@ -67,11 +73,11 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
-			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
+			Logger.Log("Triggered round restart from DebugConsole.");
 			GameManager.Instance.RestartRound();
 		}
 
@@ -83,11 +89,11 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
-			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
+			Logger.Log("Triggered round restart from DebugConsole.");
 			GameManager.Instance.RoundEnd();
 		}
 
@@ -99,18 +105,18 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
-				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.", Category.DebugConsole);
+				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.");
 				GameManager.Instance.RoundStart();
 			}
 			else
 			{
-				Logger.LogError("Can only execute during pre-round / countdown.", Category.DebugConsole);
+				Logger.Log("Can only execute during pre-round / countdown.");
 				return;
 			}
 
@@ -121,18 +127,18 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
 			if (GameManager.Instance.PrimaryEscapeShuttle.Status == ShuttleStatus.DockedCentcom)
 			{
 				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
-				Logger.Log("Called Escape shuttle from DebugConsole: "+result, Category.DebugConsole);
+				Logger.Log("Called Escape shuttle from DebugConsole: "+result);
 			}
 			else
 			{
-				Logger.Log("Escape shuttle isn't docked at centcom to be called.", Category.DebugConsole);
+				Logger.Log("Escape shuttle isn't docked at centcom to be called.");
 			}
 		}
 
@@ -152,7 +158,7 @@ namespace IngameDebugConsole
 
 			if (!catFound)
 			{
-				Logger.Log("Category not found", Category.DebugConsole);
+				Logger.Log("Category not found");
 				return;
 			}
 
@@ -435,7 +441,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
@@ -447,7 +453,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
@@ -472,6 +478,51 @@ namespace IngameDebugConsole
 				}
 			}
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spam chat")]
+#endif
+		private static void SpamChat()
+		{
+			if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+			{
+				return;
+			}
+			isSpamming = true;
+			Chat.Instance.StartCoroutine(SpamChatCoroutine());
+			Chat.Instance.StartCoroutine(StopSpam());
+		}
+
+		private static IEnumerator StopSpam()
+		{
+			yield return WaitFor.Seconds(12);
+			isSpamming = false;
+		}
+
+		private static bool isSpamming = false;
+
+		private static IEnumerator SpamChatCoroutine()
+		{
+			if (!isSpamming)
+			{
+				yield break;
+			}
+
+			yield return WaitFor.Seconds(Random.Range(0.00001f, 0.01f));
+			switch (Random.Range(1,4))
+			{
+				case 1:
+					Chat.AddExamineMsgToClient(DateTime.Now.ToFileTimeUtc().ToString());
+					break;
+				case 2:
+					Chat.AddChatMsgToChat(ConnectedPlayer.Invalid, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC);
+					break;
+				default:
+					Chat.AddLocalMsgToChat(DateTime.Now.ToFileTimeUtc().ToString(), new Vector2(Random.value*100,Random.value*100));
+					break;
+			}
+
+			Chat.Instance.StartCoroutine(SpamChatCoroutine());
+		}
 
 
 		[ConsoleMethod("add-admin", "Promotes a user to admin using a user's account ID\nUsage: add-admin <account-id>")]
@@ -479,7 +530,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 

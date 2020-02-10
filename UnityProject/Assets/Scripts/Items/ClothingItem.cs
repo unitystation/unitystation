@@ -107,11 +107,13 @@ public class ClothingItem : MonoBehaviour
 					OnClothingEquiped?.Invoke(unequippedClothing, false);
 			}
 
+			GameObjectReference = null; // Remove the item from equipment
 		}
 
 		if (Item != null)
 		{
-			GameObjectReference = Item;
+			GameObjectReference = Item; // Add item to equipment
+
 			if (InHands)
 			{
 				var ItemAttributesV2 = Item.GetComponent<ItemAttributesV2>();

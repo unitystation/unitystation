@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from
+public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn { //is the Bass class but every node inherits from
 	public Connection WireEndB;
 	public Connection WireEndA;
 
@@ -38,6 +38,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(1f);
+		ElectricalSynchronisation.StructureChange = true;
 		FindPossibleConnections();
 	}
 
@@ -83,7 +84,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		//FIXME find out why this object has been destroyed?
 		//putting in this condition check as returning the null gameobject directly
 		//throws many NRE's on the server leading to unwanted behaviour
-		if (gameObject == null)
+		if (this == null || this.gameObject == null)
 		{
 			Logger.Log("The gameobject for this electrical object has been destroyed!!!!!", Category.Electrical);
 			return null;
@@ -236,6 +237,15 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+	}
+
+	/// <summary>
+	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+	/// </summary>
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		ElectricalSynchronisation.StructureChange = true;
+		FlushConnectionAndUp();
 	}
 
 //
