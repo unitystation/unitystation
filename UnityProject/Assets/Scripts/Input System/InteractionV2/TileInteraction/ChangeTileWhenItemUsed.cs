@@ -28,6 +28,10 @@ public class ChangeTileWhenItemUsed : TileInteraction
 	[SerializeField]
 	private float seconds;
 
+	[Tooltip("Additional objects to spawn at the changed tile.")]
+	[SerializeField]
+	private SpawnableList objectsToSpawn;
+
 	[Tooltip("Tile to change to on completion.")]
 	[SerializeField]
 	private LayerTile toTile;
@@ -62,6 +66,10 @@ public class ChangeTileWhenItemUsed : TileInteraction
 			() =>
 			{
 				interaction.TileChangeManager.UpdateTile(interaction.TargetCellPos, toTile);
+				if (objectsToSpawn != null)
+				{
+					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));
+				}
 				interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);
 			});
 	}
