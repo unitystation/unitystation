@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: 6444598946028513662}
   - component: {fileID: 8213862876224306985}
   - component: {fileID: 1687833025890641942}
-  - component: {fileID: 4274852872579407831}
   - component: {fileID: 5261460021321915552}
   - component: {fileID: -6647136603291122259}
   m_Layer: 10
@@ -236,10 +235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 94835778
 --- !u!114 &1687833025890641942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,18 +252,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabVariant: {fileID: 529109779100470021, guid: d6dc9ea3e3540427bb4c073d115b0137,
     type: 3}
---- !u!114 &4274852872579407831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5620111257449852176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5261460021321915552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +283,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
 --- !u!114 &-6647136603291122259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +335,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7754123291158947504}
-  m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

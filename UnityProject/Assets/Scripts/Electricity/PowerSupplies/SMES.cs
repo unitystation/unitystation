@@ -30,8 +30,7 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		UpdateState(isOn);
+		UpdateState(isOn, isOn);
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
@@ -54,7 +53,7 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 
 	public void PowerNetworkUpdate() { }
 
-	public void UpdateState(bool _isOn)
+	public void UpdateState(bool _wasOn, bool _isOn)
 	{
 		isOn = _isOn;
 		if (isOn)

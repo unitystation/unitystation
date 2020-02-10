@@ -26,11 +26,16 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	public override void OnStartClient()
 	{
-		SyncSprite(spriteSync);
-		base.OnStartClient();
+		EnsureInit();
+		SyncSprite(spriteSync, spriteSync);
 	}
 
 	public void Awake()
+	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
 	{
 		if ( !pickupable )
 		{
@@ -41,7 +46,7 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		safety = true;
-		SyncSprite(0);
+		SyncSprite(spriteSync, 0);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -49,12 +54,12 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 		if (safety)
 		{
 			safety = false;
-			SyncSprite(1);
+			SyncSprite(spriteSync, 1);
 		}
 		else
 		{
 			safety = true;
-			SyncSprite(0);
+			SyncSprite(spriteSync, 0);
 		}
 	}
 
@@ -138,8 +143,9 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 		MatrixManager.ReagentReact(reagentContainer.Contents, worldPos);
 	}
 
-	public void SyncSprite(int value)
+	public void SyncSprite(int oldValue, int value)
 	{
+		EnsureInit();
 		spriteSync = value;
 		spriteRenderer.sprite = spriteList[spriteSync];
 

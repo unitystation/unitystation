@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -78,6 +77,14 @@ namespace Telepathy
                 // knows that the Connect failed. otherwise they will never know
                 receiveQueue.Enqueue(new Message(0, EventType.Disconnected, null));
             }
+            catch (ThreadInterruptedException)
+            {
+                // expected if Disconnect() aborts it
+            }
+            catch (ThreadAbortException)
+            {
+                // expected if Disconnect() aborts it
+            }
             catch (Exception exception)
             {
                 // something went wrong. probably important.
@@ -99,7 +106,7 @@ namespace Telepathy
             // if we got here then we are done. ReceiveLoop cleans up already,
             // but we may never get there if connect fails. so let's clean up
             // here too.
-            client.Close();
+            client?.Close();
         }
 
         public void Connect(string ip, int port)
@@ -156,7 +163,13 @@ namespace Telepathy
 
                 // wait until thread finished. this is the only way to guarantee
                 // that we can call Connect() again immediately after Disconnect
-                receiveThread?.Join();
+                // -> calling .Join would sometimes wait forever, e.g. when
+                //    calling Disconnect while trying to connect to a dead end
+                receiveThread?.Interrupt();
+
+                // we interrupted the receive Thread, so we can't guarantee that
+                // connecting was reset. let's do it manually.
+                _Connecting = false;
 
                 // clear send queues. no need to hold on to them.
                 // (unlike receiveQueue, which is still needed to process the

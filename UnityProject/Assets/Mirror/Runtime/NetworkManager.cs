@@ -18,21 +18,17 @@ namespace Mirror
         RoundRobin
     }
 
+    public enum NetworkManagerMode { Offline, ServerOnly, ClientOnly, Host }
+
     [AddComponentMenu("Network/NetworkManager")]
-    [HelpURL("https://mirror-networking.com/xmldocs/articles/Components/NetworkManager.html")]
+    [HelpURL("https://mirror-networking.com/docs/Components/NetworkManager.html")]
     public class NetworkManager : MonoBehaviour
     {
-	    /// <summary>
-	    /// Late Update manager for Mirror components
-	    /// </summary>
-
-	    public event Action lateUpdateAction;
-        [Header("Configuration")]
-
         /// <summary>
         /// A flag to control whether the NetworkManager object is destroyed when the scene changes.
         /// <para>This should be set if your game has a single NetworkManager that exists for the lifetime of the process. If there is a NetworkManager in each scene, then this should not be set.</para>
         /// </summary>
+        [Header("Configuration")]
         [FormerlySerializedAs("m_DontDestroyOnLoad")]
         public bool dontDestroyOnLoad = true;
 
@@ -97,12 +93,20 @@ namespace Mirror
         [FormerlySerializedAs("m_MaxConnections")]
         public int maxConnections = 4;
 
-        [Header("Spawn Info")]
+        /// <summary>
+        /// Number of active player objects across all connections on the server.
+        /// <para>This is only valid on the host / server.</para>
+        /// </summary>
+        public int numPlayers => NetworkServer.connections.Count(kv => kv.Value.identity != null);
+
+        [Header("Authentication")]
+        public NetworkAuthenticator authenticator;
 
         /// <summary>
         /// The default prefab to be used to create player objects on the server.
         /// <para>Player objects are created in the default handler for AddPlayer() on the server. Implementing OnServerAddPlayer overrides this behaviour.</para>
         /// </summary>
+        [Header("Spawn Info")]
         [FormerlySerializedAs("m_PlayerPrefab")]
         public GameObject playerPrefab;
 
@@ -126,9 +130,18 @@ namespace Mirror
         public List<GameObject> spawnPrefabs = new List<GameObject>();
 
         /// <summary>
-        /// List of transforms populted by NetworkStartPosition components found in the scene.
+        /// NetworkManager singleton
         /// </summary>
-        public static List<Transform> startPositions = new List<Transform>();
+        public static NetworkManager singleton;
+
+        /// <summary>
+        /// True if the server or client is started and running
+        /// <para>This is set True in StartServer / StartClient, and set False in StopServer / StopClient</para>
+        /// </summary>
+        [NonSerialized]
+        public bool isNetworkActive;
+
+        static NetworkConnection clientReadyConnection;
 
         /// <summary>
         /// This is true if the client loaded a new scene when connecting to the server.
@@ -138,27 +151,38 @@ namespace Mirror
         public bool clientLoadedScene;
 
         /// <summary>
-        /// Number of active player objects across all connections on the server.
-        /// <para>This is only valid on the host / server.</para>
+        /// Obsolete: Use <see cref="NetworkClient.isConnected"/> instead
         /// </summary>
-        public int numPlayers => NetworkServer.connections.Count(kv => kv.Value.playerController != null);
+        /// <returns>Returns True if NetworkClient.isConnected</returns>
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use NetworkClient.isConnected instead")]
+        public bool IsClientConnected()
+        {
+            return NetworkClient.isConnected;
+        }
 
         /// <summary>
-        /// The name of the current network scene.
+        /// Obsolete: Use <see cref="isHeadless"/> instead.
+        /// <para>This is a static property now. This method will be removed by summer 2019.</para>
         /// </summary>
-        /// <remarks>
-        /// <para>This is populated if the NetworkManager is doing scene management. This should not be changed directly. Calls to ServerChangeScene() cause this to change. New clients that connect to a server will automatically load this scene.</para>
-        /// <para>This is used to make sure that all scene changes are initialized by Mirror.</para>
-        /// <para>Loading a scene manually wont set networkSceneName, so Mirror would still load it again on start.</para>
-        /// </remarks>
-        public static string networkSceneName = "";
+        /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use isHeadless instead of IsHeadless()")]
+        public static bool IsHeadless()
+        {
+            return isHeadless;
+        }
 
         /// <summary>
-        /// True if the server or client is started and running
-        /// <para>This is set True in StartServer / StartClient, and set False in StopServer / StopClient</para>
+        /// headless mode detection
         /// </summary>
-        [NonSerialized]
-        public bool isNetworkActive;
+        public static bool isHeadless => SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null;
+
+        // helper enum to know if we started the networkmanager as server/client/host.
+        // -> this is necessary because when StartHost changes server scene to
+        //    online scene, FinishLoadScene is called and the host client isn't
+        //    connected yet (no need to connect it before server was fully set up).
+        //    in other words, we need this to know which mode we are running in
+        //    during FinishLoadScene.
+        public NetworkManagerMode mode { get; private set; }
 
         /// <summary>
         /// Obsolete: Use <see cref="NetworkClient"/> directly
@@ -167,15 +191,36 @@ namespace Mirror
         [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use NetworkClient directly, it will be made static soon. For example, use NetworkClient.Send(message) instead of NetworkManager.client.Send(message)")]
         public NetworkClient client => NetworkClient.singleton;
 
-        static int startPositionIndex;
+        #region Unity Callbacks
 
         /// <summary>
-        /// NetworkManager singleton
+        /// virtual so that inheriting classes' OnValidate() can call base.OnValidate() too
         /// </summary>
-        public static NetworkManager singleton;
+        public virtual void OnValidate()
+        {
+            // add transport if there is none yet. makes upgrading easier.
+            if (transport == null)
+            {
+                // was a transport added yet? if not, add one
+                transport = GetComponent<Transport>();
+                if (transport == null)
+                {
+                    transport = gameObject.AddComponent<TelepathyTransport>();
+                    Debug.Log("NetworkManager: added default Transport because there was none yet.");
+                }
+#if UNITY_EDITOR
+                UnityEditor.Undo.RecordObject(gameObject, "Added default Transport");
+#endif
+            }
 
-        static UnityEngine.AsyncOperation loadingSceneAsync;
-        static NetworkConnection clientReadyConnection;
+            maxConnections = Mathf.Max(maxConnections, 0); // always >= 0
+
+            if (playerPrefab != null && playerPrefab.GetComponent<NetworkIdentity>() == null)
+            {
+                Debug.LogError("NetworkManager - playerPrefab must have a NetworkIdentity.");
+                playerPrefab = null;
+            }
+        }
 
         /// <summary>
         /// virtual so that inheriting classes' Awake() can call base.Awake() too
@@ -195,19 +240,428 @@ namespace Mirror
         }
 
         /// <summary>
-        /// headless mode detection
+        /// virtual so that inheriting classes' Start() can call base.Start() too
         /// </summary>
-        public static bool isHeadless => SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null;
+        public virtual void Start()
+        {
+            // headless mode? then start the server
+            // can't do this in Awake because Awake is for initialization.
+            // some transports might not be ready until Start.
+            //
+            // (tick rate is applied in StartServer!)
+            if (isHeadless && startOnHeadless)
+            {
+                StartServer();
+            }
+        }
+
+        // NetworkIdentity.UNetStaticUpdate is called from UnityEngine while LLAPI network is active.
+        // If we want TCP then we need to call it manually. Probably best from NetworkManager, although this means that we can't use NetworkServer/NetworkClient without a NetworkManager invoking Update anymore.
+        /// <summary>
+        /// virtual so that inheriting classes' LateUpdate() can call base.LateUpdate() too
+        /// </summary>
+        public virtual void LateUpdate()
+        {
+            // call it while the NetworkManager exists.
+            // -> we don't only call while Client/Server.Connected, because then we would stop if disconnected and the
+            //    NetworkClient wouldn't receive the last Disconnect event, result in all kinds of issues
+            NetworkServer.Update();
+            NetworkClient.Update();
+            UpdateScene();
+        }
+
+        #endregion
+
+        #region Start & Stop
+
+        // keep the online scene change check in a separate function
+        bool IsServerOnlineSceneChangeNeeded()
+        {
+            // Only change scene if the requested online scene is not blank, and is not already loaded
+            string loadedSceneName = SceneManager.GetActiveScene().name;
+            return !string.IsNullOrEmpty(onlineScene) && onlineScene != loadedSceneName && onlineScene != offlineScene;
+        }
+
+        // full server setup code, without spawning objects yet
+        void SetupServer()
+        {
+            if (LogFilter.Debug) Debug.Log("NetworkManager SetupServer");
+            InitializeSingleton();
+
+            if (runInBackground)
+                Application.runInBackground = true;
+
+            if (authenticator != null)
+            {
+                authenticator.OnStartServer();
+                authenticator.OnServerAuthenticated.AddListener(OnServerAuthenticated);
+            }
+
+            ConfigureServerFrameRate();
+
+            // start listening to network connections
+            NetworkServer.Listen(maxConnections);
+
+            // call OnStartServer AFTER Listen, so that NetworkServer.active is
+            // true and we can call NetworkServer.Spawn in OnStartServer
+            // overrides.
+            // (useful for loading & spawning stuff from database etc.)
+            //
+            // note: there is no risk of someone connecting after Listen() and
+            //       before OnStartServer() because this all runs in one thread
+            //       and we don't start processing connects until Update.
+            OnStartServer();
+
+            // this must be after Listen(), since that registers the default message handlers
+            RegisterServerMessages();
+
+            isNetworkActive = true;
+        }
 
         /// <summary>
-        /// Obsolete: Use <see cref="isHeadless"/> instead.
-        /// <para>This is a static property now. This method will be removed by summer 2019.</para>
+        /// This starts a new server.
+        /// <para>This uses the networkPort property as the listen port.</para>
         /// </summary>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use isHeadless instead of IsHeadless()")]
-        public static bool IsHeadless()
+        public void StartServer()
         {
-            return isHeadless;
+            mode = NetworkManagerMode.ServerOnly;
+
+            // StartServer is inherently ASYNCHRONOUS (=doesn't finish immediately)
+            //
+            // Here is what it does:
+            //   Listen
+            //   if onlineScene:
+            //       LoadSceneAsync
+            //       ...
+            //       FinishLoadSceneServerOnly
+            //           SpawnObjects
+            //   else:
+            //       SpawnObjects
+            //
+            // there is NO WAY to make it synchronous because both LoadSceneAsync
+            // and LoadScene do not finish loading immediately. as long as we
+            // have the onlineScene feature, it will be asynchronous!
+
+            SetupServer();
+
+            // scene change needed? then change scene and spawn afterwards.
+            if (IsServerOnlineSceneChangeNeeded())
+            {
+                ServerChangeScene(onlineScene);
+            }
+            // otherwise spawn directly
+            else
+            {
+                NetworkServer.SpawnObjects();
+            }
+        }
+
+        /// <summary>
+        /// This starts a network client. It uses the networkAddress and networkPort properties as the address to connect to.
+        /// <para>This makes the newly created client connect to the server immediately.</para>
+        /// </summary>
+        public void StartClient()
+        {
+            mode = NetworkManagerMode.ClientOnly;
+
+            InitializeSingleton();
+
+            if (authenticator != null)
+            {
+                authenticator.OnStartClient();
+                authenticator.OnClientAuthenticated.AddListener(OnClientAuthenticated);
+            }
+
+            if (runInBackground)
+                Application.runInBackground = true;
+
+            isNetworkActive = true;
+
+            RegisterClientMessages();
+
+            if (string.IsNullOrEmpty(networkAddress))
+            {
+                Debug.LogError("Must set the Network Address field in the manager");
+                return;
+            }
+            if (LogFilter.Debug) Debug.Log("NetworkManager StartClient address:" + networkAddress);
+
+            NetworkClient.Connect(networkAddress);
+
+            OnStartClient();
+        }
+
+        /// <summary>
+        /// This starts a network client. It uses the networkAddress and networkPort properties as the address to connect to.
+        /// <para>This makes the newly created client connect to the server immediately.</para>
+        /// </summary>
+        /// <param name="uri">location of the server to connect to</param>
+        public void StartClient(Uri uri)
+        {
+            mode = NetworkManagerMode.ClientOnly;
+
+            InitializeSingleton();
+
+            if (authenticator != null)
+            {
+                authenticator.OnStartClient();
+                authenticator.OnClientAuthenticated.AddListener(OnClientAuthenticated);
+            }
+
+            if (runInBackground)
+                Application.runInBackground = true;
+
+            isNetworkActive = true;
+
+            RegisterClientMessages();
+
+            if (LogFilter.Debug) Debug.Log("NetworkManager StartClient address:" + uri);
+            this.networkAddress = uri.Host;
+
+            NetworkClient.Connect(uri);
+
+            OnStartClient();
+        }
+
+        void StartHostClient()
+        {
+            if (LogFilter.Debug) Debug.Log("NetworkManager ConnectLocalClient");
+
+            if (authenticator != null)
+            {
+                authenticator.OnStartClient();
+                authenticator.OnClientAuthenticated.AddListener(OnClientAuthenticated);
+            }
+
+            networkAddress = "localhost";
+            NetworkServer.ActivateLocalClientScene();
+            RegisterClientMessages();
+
+            // ConnectLocalServer needs to be called AFTER RegisterClientMessages
+            // (https://github.com/vis2k/Mirror/pull/1249/)
+            NetworkClient.ConnectLocalServer();
+
+            OnStartClient();
+        }
+
+        // FinishStartHost is guaranteed to be called after the host server was
+        // fully started and all the asynchronous StartHost magic is finished
+        // (= scene loading), or immediately if there was no asynchronous magic.
+        //
+        // note: we don't really need FinishStartClient/FinishStartServer. the
+        //       host version is enough.
+        bool finishStartHostPending;
+        void FinishStartHost()
+        {
+            // ConnectHost needs to be called BEFORE SpawnObjects:
+            // https://github.com/vis2k/Mirror/pull/1249/
+            // -> this sets NetworkServer.localConnection.
+            // -> localConnection needs to be set before SpawnObjects because:
+            //    -> SpawnObjects calls OnStartServer in all NetworkBehaviours
+            //       -> OnStartServer might spawn an object and set [SyncVar(hook="OnColorChanged")] object.color = green;
+            //          -> this calls SyncVar.set (generated by Weaver), which has
+            //             a custom case for host mode (because host mode doesn't
+            //             get OnDeserialize calls, where SyncVar hooks are usually
+            //             called):
+            //
+            //               if (!SyncVarEqual(value, ref color))
+            //               {
+            //                   if (NetworkServer.localClientActive && !getSyncVarHookGuard(1uL))
+            //                   {
+            //                       setSyncVarHookGuard(1uL, value: true);
+            //                       OnColorChangedHook(value);
+            //                       setSyncVarHookGuard(1uL, value: false);
+            //                   }
+            //                   SetSyncVar(value, ref color, 1uL);
+            //               }
+            //
+            //          -> localClientActive needs to be true, otherwise the hook
+            //             isn't called in host mode!
+            //
+            // TODO call this after spawnobjects and worry about the syncvar hook fix later?
+            NetworkClient.ConnectHost();
+
+            // server scene was loaded. now spawn all the objects
+            NetworkServer.SpawnObjects();
+
+            // connect client and call OnStartClient AFTER server scene was
+            // loaded and all objects were spawned.
+            // DO NOT do this earlier. it would cause race conditions where a
+            // client will do things before the server is even fully started.
+            Debug.Log("StartHostClient called");
+            StartHostClient();
+        }
+
+        /// <summary>
+        /// This starts a network "host" - a server and client in the same application.
+        /// <para>The client returned from StartHost() is a special "local" client that communicates to the in-process server using a message queue instead of the real network. But in almost all other cases, it can be treated as a normal client.</para>
+        /// </summary>
+        public virtual void StartHost()
+        {
+            mode = NetworkManagerMode.Host;
+
+            // StartHost is inherently ASYNCHRONOUS (=doesn't finish immediately)
+            //
+            // Here is what it does:
+            //   Listen
+            //   ConnectHost
+            //   if onlineScene:
+            //       LoadSceneAsync
+            //       ...
+            //       FinishLoadSceneHost
+            //           FinishStartHost
+            //               SpawnObjects
+            //               StartHostClient      <= not guaranteed to happen after SpawnObjects if onlineScene is set!
+            //                   ClientAuth
+            //                       success: server sends changescene msg to client
+            //   else:
+            //       FinishStartHost
+            //
+            // there is NO WAY to make it synchronous because both LoadSceneAsync
+            // and LoadScene do not finish loading immediately. as long as we
+            // have the onlineScene feature, it will be asynchronous!
+
+            // setup server first
+            SetupServer();
+
+            // call OnStartHost AFTER SetupServer. this way we can use
+            // NetworkServer.Spawn etc. in there too. just like OnStartServer
+            // is called after the server is actually properly started.
+            OnStartHost();
+
+            // scene change needed? then change scene and spawn afterwards.
+            // => BEFORE host client connects. if client auth succeeds then the
+            //    server tells it to load 'onlineScene'. we can't do that if
+            //    server is still in 'offlineScene'. so load on server first.
+            if (IsServerOnlineSceneChangeNeeded())
+            {
+                // call FinishStartHost after changing scene.
+                finishStartHostPending = true;
+                ServerChangeScene(onlineScene);
+            }
+            // otherwise call FinishStartHost directly
+            else
+            {
+                FinishStartHost();
+            }
+        }
+
+        /// <summary>
+        /// This stops both the client and the server that the manager is using.
+        /// </summary>
+        public void StopHost()
+        {
+            OnStopHost();
+
+            // set offline mode BEFORE changing scene so that FinishStartScene
+            // doesn't think we need initialize anything.
+            mode = NetworkManagerMode.Offline;
+
+            StopServer();
+            StopClient();
+        }
+
+        /// <summary>
+        /// Stops the server that the manager is using.
+        /// </summary>
+        public void StopServer()
+        {
+            if (!NetworkServer.active)
+                return;
+
+            if (authenticator != null)
+                authenticator.OnServerAuthenticated.RemoveListener(OnServerAuthenticated);
+
+            OnStopServer();
+
+            if (LogFilter.Debug) Debug.Log("NetworkManager StopServer");
+            isNetworkActive = false;
+            NetworkServer.Shutdown();
+
+            // set offline mode BEFORE changing scene so that FinishStartScene
+            // doesn't think we need initialize anything.
+            mode = NetworkManagerMode.Offline;
+
+            if (!string.IsNullOrEmpty(offlineScene))
+            {
+                ServerChangeScene(offlineScene);
+            }
+            CleanupNetworkIdentities();
+
+            startPositionIndex = 0;
+        }
+
+        /// <summary>
+        /// Stops the client that the manager is using.
+        /// </summary>
+        public void StopClient()
+        {
+            if (authenticator != null)
+                authenticator.OnClientAuthenticated.RemoveListener(OnClientAuthenticated);
+
+            OnStopClient();
+
+            if (LogFilter.Debug) Debug.Log("NetworkManager StopClient");
+            isNetworkActive = false;
+
+            // shutdown client
+            NetworkClient.Disconnect();
+            NetworkClient.Shutdown();
+
+            // set offline mode BEFORE changing scene so that FinishStartScene
+            // doesn't think we need initialize anything.
+            mode = NetworkManagerMode.Offline;
+
+            // If this is the host player, StopServer will already be changing scenes.
+            // Check loadingSceneAsync to ensure we don't double-invoke the scene change.
+            if (!string.IsNullOrEmpty(offlineScene) && SceneManager.GetActiveScene().name != offlineScene && loadingSceneAsync == null)
+            {
+                ClientChangeScene(offlineScene, SceneOperation.Normal);
+            }
+
+            CleanupNetworkIdentities();
+        }
+
+        /// <summary>
+        /// called when quitting the application by closing the window / pressing stop in the editor
+        /// <para>virtual so that inheriting classes' OnApplicationQuit() can call base.OnApplicationQuit() too</para>
+        /// </summary>
+        public virtual void OnApplicationQuit()
+        {
+            // stop client first
+            // (we want to send the quit packet to the server instead of waiting
+            //  for a timeout)
+            if (NetworkClient.isConnected)
+            {
+                StopClient();
+                print("OnApplicationQuit: stopped client");
+            }
+
+            // stop server after stopping client (for proper host mode stopping)
+            if (NetworkServer.active)
+            {
+                StopServer();
+                print("OnApplicationQuit: stopped server");
+            }
+        }
+
+        /// <summary>
+        /// Set the frame rate for a headless server.
+        /// <para>Override if you wish to disable the behavior or set your own tick rate.</para>
+        /// </summary>
+        public virtual void ConfigureServerFrameRate()
+        {
+            // set a fixed tick rate instead of updating as often as possible
+            // * if not in Editor (it doesn't work in the Editor)
+            // * if not in Host mode
+#if !UNITY_EDITOR
+            if (!NetworkClient.active && isHeadless)
+            {
+                Application.targetFrameRate = serverTickRate;
+                Debug.Log("Server Tick Rate set to: " + Application.targetFrameRate + " Hz.");
+            }
+#endif
         }
 
         void InitializeSingleton()
@@ -230,7 +684,7 @@ namespace Mirror
                 }
                 if (LogFilter.Debug) Debug.Log("NetworkManager created singleton (DontDestroyOnLoad)");
                 singleton = this;
-                // if (Application.isPlaying) DontDestroyOnLoad(gameObject); Commented out because it does not work, according to a warning.
+                if (Application.isPlaying) DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -243,20 +697,178 @@ namespace Mirror
             Transport.activeTransport = transport;
         }
 
-        /// <summary>
-        /// virtual so that inheriting classes' Start() can call base.Start() too
-        /// </summary>
-        public virtual void Start()
+        void RegisterServerMessages()
         {
-            // headless mode? then start the server
-            // can't do this in Awake because Awake is for initialization.
-            // some transports might not be ready until Start.
-            //
-            // (tick rate is applied in StartServer!)
-            if (isHeadless && startOnHeadless)
+            NetworkServer.RegisterHandler<ConnectMessage>(OnServerConnectInternal, false);
+            NetworkServer.RegisterHandler<DisconnectMessage>(OnServerDisconnectInternal, false);
+            NetworkServer.RegisterHandler<ReadyMessage>(OnServerReadyMessageInternal);
+            NetworkServer.RegisterHandler<AddPlayerMessage>(OnServerAddPlayerInternal);
+            NetworkServer.RegisterHandler<RemovePlayerMessage>(OnServerRemovePlayerMessageInternal);
+            NetworkServer.RegisterHandler<ErrorMessage>(OnServerErrorInternal, false);
+        }
+
+        void RegisterClientMessages()
+        {
+            NetworkClient.RegisterHandler<ConnectMessage>(OnClientConnectInternal, false);
+            NetworkClient.RegisterHandler<DisconnectMessage>(OnClientDisconnectInternal, false);
+            NetworkClient.RegisterHandler<NotReadyMessage>(OnClientNotReadyMessageInternal);
+            NetworkClient.RegisterHandler<ErrorMessage>(OnClientErrorInternal, false);
+            NetworkClient.RegisterHandler<SceneMessage>(OnClientSceneInternal, false);
+
+            if (playerPrefab != null)
             {
-                StartServer();
+                ClientScene.RegisterPrefab(playerPrefab);
             }
+            for (int i = 0; i < spawnPrefabs.Count; i++)
+            {
+                GameObject prefab = spawnPrefabs[i];
+                if (prefab != null)
+                {
+                    ClientScene.RegisterPrefab(prefab);
+                }
+            }
+        }
+
+        void CleanupNetworkIdentities()
+        {
+            foreach (NetworkIdentity identity in Resources.FindObjectsOfTypeAll<NetworkIdentity>())
+            {
+                identity.MarkForReset();
+            }
+        }
+
+        /// <summary>
+        /// This is the only way to clear the singleton, so another instance can be created.
+        /// </summary>
+        public static void Shutdown()
+        {
+            if (singleton == null)
+                return;
+
+            startPositions.Clear();
+            startPositionIndex = 0;
+            clientReadyConnection = null;
+
+            singleton.StopHost();
+            singleton = null;
+        }
+
+        /// <summary>
+        /// virtual so that inheriting classes' OnDestroy() can call base.OnDestroy() too
+        /// </summary>
+        public virtual void OnDestroy()
+        {
+            if (LogFilter.Debug) Debug.Log("NetworkManager destroyed");
+        }
+
+        #endregion
+
+        #region Scene Management
+
+        /// <summary>
+        /// The name of the current network scene.
+        /// </summary>
+        /// <remarks>
+        /// <para>This is populated if the NetworkManager is doing scene management. This should not be changed directly. Calls to ServerChangeScene() cause this to change. New clients that connect to a server will automatically load this scene.</para>
+        /// <para>This is used to make sure that all scene changes are initialized by Mirror.</para>
+        /// <para>Loading a scene manually wont set networkSceneName, so Mirror would still load it again on start.</para>
+        /// </remarks>
+        public static string networkSceneName = "";
+
+        public static UnityEngine.AsyncOperation loadingSceneAsync;
+
+        /// <summary>
+        /// This causes the server to switch scenes and sets the networkSceneName.
+        /// <para>Clients that connect to this server will automatically switch to this scene. This is called autmatically if onlineScene or offlineScene are set, but it can be called from user code to switch scenes again while the game is in progress. This automatically sets clients to be not-ready. The clients must call NetworkClient.Ready() again to participate in the new scene.</para>
+        /// </summary>
+        /// <param name="newSceneName"></param>
+        public virtual void ServerChangeScene(string newSceneName)
+        {
+            if (string.IsNullOrEmpty(newSceneName))
+            {
+                Debug.LogError("ServerChangeScene empty scene name");
+                return;
+            }
+
+            if (LogFilter.Debug) Debug.Log("ServerChangeScene " + newSceneName);
+            NetworkServer.SetAllClientsNotReady();
+            networkSceneName = newSceneName;
+
+            // Let server prepare for scene change
+            OnServerChangeScene(newSceneName);
+
+            // Suspend the server's transport while changing scenes
+            // It will be re-enabled in FinishScene.
+            Transport.activeTransport.enabled = false;
+
+            loadingSceneAsync = SceneManager.LoadSceneAsync(newSceneName);
+
+            // notify all clients about the new scene
+            NetworkServer.SendToAll(new SceneMessage { sceneName = newSceneName });
+
+            startPositionIndex = 0;
+            startPositions.Clear();
+        }
+
+        // This is only set in ClientChangeScene below...never on server.
+        // We need to check this in OnClientSceneChanged called from FinishLoadSceneClientOnly
+        // to prevent AddPlayer message after loading/unloading additive scenes
+        SceneOperation clientSceneOperation = SceneOperation.Normal;
+
+        internal void ClientChangeScene(string newSceneName, SceneOperation sceneOperation = SceneOperation.Normal, bool customHandling = false)
+        {
+            if (string.IsNullOrEmpty(newSceneName))
+            {
+                Debug.LogError("ClientChangeScene empty scene name");
+                return;
+            }
+
+            if (LogFilter.Debug) Debug.Log("ClientChangeScene newSceneName:" + newSceneName + " networkSceneName:" + networkSceneName);
+
+            // vis2k: pause message handling while loading scene. otherwise we will process messages and then lose all
+            // the state as soon as the load is finishing, causing all kinds of bugs because of missing state.
+            // (client may be null after StopClient etc.)
+            if (LogFilter.Debug) Debug.Log("ClientChangeScene: pausing handlers while scene is loading to avoid data loss after scene was loaded.");
+            Transport.activeTransport.enabled = false;
+
+            // Let client prepare for scene change
+            OnClientChangeScene(newSceneName, sceneOperation, customHandling);
+
+            // scene handling will happen in overrides of OnClientChangeScene and/or OnClientSceneChanged
+            if (customHandling)
+            {
+                FinishLoadScene();
+                return;
+            }
+
+            // cache sceneOperation so we know what was done in OnClientSceneChanged called from FinishLoadSceneClientOnly
+            clientSceneOperation = sceneOperation;
+
+            switch (sceneOperation)
+            {
+                case SceneOperation.Normal:
+                    loadingSceneAsync = SceneManager.LoadSceneAsync(newSceneName);
+                    break;
+                case SceneOperation.LoadAdditive:
+                    if (!SceneManager.GetSceneByName(newSceneName).IsValid())
+                        loadingSceneAsync = SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
+                    else
+                        Debug.LogWarningFormat("Scene {0} is already loaded", newSceneName);
+                    break;
+                case SceneOperation.UnloadAdditive:
+                    if (SceneManager.GetSceneByName(newSceneName).IsValid())
+                    {
+                        if (SceneManager.GetSceneByName(newSceneName) != null)
+                            loadingSceneAsync = SceneManager.UnloadSceneAsync(newSceneName, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+                    }
+                    else
+                        Debug.LogWarning("Cannot unload the active scene with UnloadAdditive operation");
+                    break;
+            }
+
+            // don't change the client's current networkSceneName when loading additive scene content
+            if (sceneOperation == SceneOperation.Normal)
+                networkSceneName = newSceneName;
         }
 
         // support additive scene loads:
@@ -286,393 +898,6 @@ namespace Mirror
             }
         }
 
-        // NetworkIdentity.UNetStaticUpdate is called from UnityEngine while LLAPI network is active.
-        // If we want TCP then we need to call it manually. Probably best from NetworkManager, although this means that we can't use NetworkServer/NetworkClient without a NetworkManager invoking Update anymore.
-        /// <summary>
-        /// virtual so that inheriting classes' LateUpdate() can call base.LateUpdate() too
-        /// </summary>
-        public virtual void LateUpdate()
-        {
-            // call it while the NetworkManager exists.
-            // -> we don't only call while Client/Server.Connected, because then we would stop if disconnected and the
-            //    NetworkClient wouldn't receive the last Disconnect event, result in all kinds of issues
-            NetworkServer.Update();
-            NetworkClient.Update();
-            UpdateScene();
-
-            lateUpdateAction?.Invoke();
-        }
-
-        /// <summary>
-        /// called when quitting the application by closing the window / pressing stop in the editor
-        /// <para>virtual so that inheriting classes' OnApplicationQuit() can call base.OnApplicationQuit() too</para>
-        /// </summary>
-        public virtual void OnApplicationQuit()
-        {
-            // stop client first
-            // (we want to send the quit packet to the server instead of waiting
-            //  for a timeout)
-            if (NetworkClient.isConnected)
-            {
-                StopClient();
-                print("OnApplicationQuit: stopped client");
-            }
-
-            // stop server after stopping client (for proper host mode stopping)
-            if (NetworkServer.active)
-            {
-                StopServer();
-                print("OnApplicationQuit: stopped server");
-            }
-
-            if (Transport.activeTransport != null)
-            {
-	            Transport.activeTransport.Shutdown();
-            }
-        }
-
-        /// <summary>
-        /// virtual so that inheriting classes' OnValidate() can call base.OnValidate() too
-        /// </summary>
-        public virtual void OnValidate()
-        {
-            // add transport if there is none yet. makes upgrading easier.
-            if (transport == null)
-            {
-                // was a transport added yet? if not, add one
-                transport = GetComponent<Transport>();
-                if (transport == null)
-                {
-                    transport = gameObject.AddComponent<TelepathyTransport>();
-                    Debug.Log("NetworkManager: added default Transport because there was none yet.");
-                }
-#if UNITY_EDITOR
-                UnityEditor.EditorUtility.SetDirty(gameObject);
-#endif
-            }
-
-            maxConnections = Mathf.Max(maxConnections, 0); // always >= 0
-
-            if (playerPrefab != null && playerPrefab.GetComponent<NetworkIdentity>() == null)
-            {
-                Debug.LogError("NetworkManager - playerPrefab must have a NetworkIdentity.");
-                playerPrefab = null;
-            }
-        }
-
-        void RegisterServerMessages()
-        {
-            NetworkServer.RegisterHandler<ConnectMessage>(OnServerConnectInternal);
-            NetworkServer.RegisterHandler<DisconnectMessage>(OnServerDisconnectInternal);
-            NetworkServer.RegisterHandler<ReadyMessage>(OnServerReadyMessageInternal);
-            NetworkServer.RegisterHandler<AddPlayerMessage>(OnServerAddPlayerInternal);
-            NetworkServer.RegisterHandler<RemovePlayerMessage>(OnServerRemovePlayerMessageInternal);
-            NetworkServer.RegisterHandler<ErrorMessage>(OnServerErrorInternal);
-        }
-
-        /// <summary>
-        /// Set the frame rate for a headless server.
-        /// <para>Override if you wish to disable the behavior or set your own tick rate.</para>
-        /// </summary>
-        public virtual void ConfigureServerFrameRate()
-        {
-            // set a fixed tick rate instead of updating as often as possible
-            // * if not in Editor (it doesn't work in the Editor)
-            // * if not in Host mode
-#if !UNITY_EDITOR
-            if (!NetworkClient.active && isHeadless)
-            {
-                Application.targetFrameRate = serverTickRate;
-                Debug.Log("Server Tick Rate set to: " + Application.targetFrameRate + " Hz.");
-            }
-#endif
-        }
-
-        /// <summary>
-        /// This starts a new server.
-        /// <para>This uses the networkPort property as the listen port.</para>
-        /// </summary>
-        /// <returns></returns>
-        public bool StartServer()
-        {
-            InitializeSingleton();
-
-            if (runInBackground)
-                Application.runInBackground = true;
-
-            ConfigureServerFrameRate();
-
-            if (!NetworkServer.Listen(maxConnections))
-            {
-                Debug.LogError("StartServer listen failed.");
-                return false;
-            }
-
-            // call OnStartServer AFTER Listen, so that NetworkServer.active is
-            // true and we can call NetworkServer.Spawn in OnStartServer
-            // overrides.
-            // (useful for loading & spawning stuff from database etc.)
-            //
-            // note: there is no risk of someone connecting after Listen() and
-            //       before OnStartServer() because this all runs in one thread
-            //       and we don't start processing connects until Update.
-            OnStartServer();
-
-            // this must be after Listen(), since that registers the default message handlers
-            RegisterServerMessages();
-
-            if (LogFilter.Debug) Debug.Log("NetworkManager StartServer");
-            isNetworkActive = true;
-
-            // Only change scene if the requested online scene is not blank, and is not already loaded
-            string loadedSceneName = SceneManager.GetActiveScene().name;
-            if (!string.IsNullOrEmpty(onlineScene) && onlineScene != loadedSceneName && onlineScene != offlineScene)
-            {
-                ServerChangeScene(onlineScene);
-            }
-            else
-            {
-                NetworkServer.SpawnObjects();
-            }
-            return true;
-        }
-
-        void RegisterClientMessages()
-        {
-            NetworkClient.RegisterHandler<ConnectMessage>(OnClientConnectInternal);
-            NetworkClient.RegisterHandler<DisconnectMessage>(OnClientDisconnectInternal);
-            NetworkClient.RegisterHandler<NotReadyMessage>(OnClientNotReadyMessageInternal);
-            NetworkClient.RegisterHandler<ErrorMessage>(OnClientErrorInternal);
-            NetworkClient.RegisterHandler<SceneMessage>(OnClientSceneInternal);
-
-            if (playerPrefab != null)
-            {
-                ClientScene.RegisterPrefab(playerPrefab);
-            }
-            for (int i = 0; i < spawnPrefabs.Count; i++)
-            {
-                GameObject prefab = spawnPrefabs[i];
-                if (prefab != null)
-                {
-                    ClientScene.RegisterPrefab(prefab);
-                }
-            }
-        }
-
-        /// <summary>
-        /// This starts a network client. It uses the networkAddress and networkPort properties as the address to connect to.
-        /// <para>This makes the newly created client connect to the server immediately.</para>
-        /// </summary>
-        public void StartClient()
-        {
-            InitializeSingleton();
-
-            if (runInBackground)
-                Application.runInBackground = true;
-
-            isNetworkActive = true;
-
-            RegisterClientMessages();
-
-            if (string.IsNullOrEmpty(networkAddress))
-            {
-                Debug.LogError("Must set the Network Address field in the manager");
-                return;
-            }
-            if (LogFilter.Debug) Debug.Log("NetworkManager StartClient address:" + networkAddress);
-
-            NetworkClient.Connect(networkAddress);
-
-            OnStartClient();
-        }
-
-        /// <summary>
-        /// This starts a network "host" - a server and client in the same application.
-        /// <para>The client returned from StartHost() is a special "local" client that communicates to the in-process server using a message queue instead of the real network. But in almost all other cases, it can be treated as a normal client.</para>
-        /// </summary>
-        public virtual void StartHost()
-        {
-            OnStartHost();
-            if (StartServer())
-            {
-                ConnectLocalClient();
-                OnStartClient();
-            }
-        }
-
-        void ConnectLocalClient()
-        {
-            if (LogFilter.Debug) Debug.Log("NetworkManager StartHost");
-            networkAddress = "localhost";
-            NetworkServer.ActivateLocalClientScene();
-            NetworkClient.ConnectLocalServer();
-            RegisterClientMessages();
-        }
-
-        /// <summary>
-        /// This stops both the client and the server that the manager is using.
-        /// </summary>
-        public void StopHost()
-        {
-            OnStopHost();
-
-            StopServer();
-            StopClient();
-        }
-
-        /// <summary>
-        /// Stops the server that the manager is using.
-        /// </summary>
-        public void StopServer()
-        {
-            if (!NetworkServer.active)
-                return;
-
-            OnStopServer();
-
-            if (LogFilter.Debug) Debug.Log("NetworkManager StopServer");
-            isNetworkActive = false;
-            NetworkServer.Shutdown();
-            if (!string.IsNullOrEmpty(offlineScene))
-            {
-                ServerChangeScene(offlineScene);
-            }
-            CleanupNetworkIdentities();
-        }
-
-        /// <summary>
-        /// Stops the client that the manager is using.
-        /// </summary>
-        public void StopClient()
-        {
-            OnStopClient();
-
-            if (LogFilter.Debug) Debug.Log("NetworkManager StopClient");
-            isNetworkActive = false;
-
-            // shutdown client
-            NetworkClient.Disconnect();
-            NetworkClient.Shutdown();
-
-            if (!string.IsNullOrEmpty(offlineScene))
-            {
-                ClientChangeScene(offlineScene, LoadSceneMode.Single, LocalPhysicsMode.None);
-            }
-            CleanupNetworkIdentities();
-        }
-
-        /// <summary>
-        /// This causes the server to switch scenes and sets the networkSceneName.
-        /// <para>Clients that connect to this server will automatically switch to this scene. This is called autmatically if onlineScene or offlineScene are set, but it can be called from user code to switch scenes again while the game is in progress. This automatically sets clients to be not-ready. The clients must call NetworkClient.Ready() again to participate in the new scene.</para>
-        /// </summary>
-        /// <param name="newSceneName"></param>
-        public virtual void ServerChangeScene(string newSceneName)
-        {
-            ServerChangeScene(newSceneName, LoadSceneMode.Single, LocalPhysicsMode.None);
-        }
-
-        /// <summary>
-        /// This causes the server to switch scenes and sets the networkSceneName.
-        /// <para>Clients that connect to this server will automatically switch to this scene. This is called autmatically if onlineScene or offlineScene are set, but it can be called from user code to switch scenes again while the game is in progress. This automatically sets clients to be not-ready. The clients must call NetworkClient.Ready() again to participate in the new scene.</para>
-        /// </summary>
-        /// <param name="newSceneName"></param>
-        /// <param name="sceneMode"></param>
-        /// <param name="physicsMode"></param>
-        public virtual void ServerChangeScene(string newSceneName, LoadSceneMode sceneMode, LocalPhysicsMode physicsMode)
-        {
-            if (string.IsNullOrEmpty(newSceneName))
-            {
-                Debug.LogError("ServerChangeScene empty scene name");
-                return;
-            }
-
-            if (LogFilter.Debug) Debug.Log("ServerChangeScene " + newSceneName);
-            NetworkServer.SetAllClientsNotReady();
-            networkSceneName = newSceneName;
-
-            // Let server prepare for scene change
-            OnServerChangeScene(newSceneName);
-
-            LoadSceneParameters loadSceneParameters = new LoadSceneParameters(sceneMode, physicsMode);
-
-            loadingSceneAsync = SceneManager.LoadSceneAsync(newSceneName, loadSceneParameters);
-
-            SceneMessage msg = new SceneMessage()
-            {
-                sceneName = newSceneName,
-                sceneMode = loadSceneParameters.loadSceneMode,
-                physicsMode = loadSceneParameters.localPhysicsMode
-            };
-
-            NetworkServer.SendToAll(msg);
-
-            startPositionIndex = 0;
-            startPositions.Clear();
-        }
-
-        void CleanupNetworkIdentities()
-        {
-            foreach (NetworkIdentity identity in Resources.FindObjectsOfTypeAll<NetworkIdentity>())
-            {
-                identity.MarkForReset();
-            }
-        }
-
-        internal void ClientChangeScene(string newSceneName, LoadSceneMode sceneMode, LocalPhysicsMode physicsMode)
-        {
-            if (string.IsNullOrEmpty(newSceneName))
-            {
-                Debug.LogError("ClientChangeScene empty scene name");
-                return;
-            }
-
-            if (LogFilter.Debug) Debug.Log("ClientChangeScene newSceneName:" + newSceneName + " networkSceneName:" + networkSceneName);
-
-            // vis2k: pause message handling while loading scene. otherwise we will process messages and then lose all
-            // the state as soon as the load is finishing, causing all kinds of bugs because of missing state.
-            // (client may be null after StopClient etc.)
-            if (LogFilter.Debug) Debug.Log("ClientChangeScene: pausing handlers while scene is loading to avoid data loss after scene was loaded.");
-            Transport.activeTransport.enabled = false;
-
-            // Let client prepare for scene change
-            OnClientChangeScene(newSceneName);
-
-            loadingSceneAsync = SceneManager.LoadSceneAsync(newSceneName, new LoadSceneParameters()
-            {
-                loadSceneMode = sceneMode,
-                localPhysicsMode = physicsMode,
-            });
-            networkSceneName = newSceneName; //This should probably not change if additive is used
-        }
-
-        void FinishLoadScene()
-        {
-            // NOTE: this cannot use NetworkClient.allClients[0] - that client may be for a completely different purpose.
-
-            // process queued messages that we received while loading the scene
-            if (LogFilter.Debug) Debug.Log("FinishLoadScene: resuming handlers after scene was loading.");
-            Transport.activeTransport.enabled = true;
-
-            if (clientReadyConnection != null)
-            {
-                clientLoadedScene = true;
-                OnClientConnect(clientReadyConnection);
-                clientReadyConnection = null;
-            }
-
-            if (NetworkServer.active)
-            {
-                NetworkServer.SpawnObjects();
-                OnServerSceneChanged(networkSceneName);
-            }
-
-            if (NetworkClient.isConnected)
-            {
-                RegisterClientMessages();
-                OnClientSceneChanged(NetworkClient.connection);
-            }
-        }
-
         static void UpdateScene()
         {
             if (singleton != null && loadingSceneAsync != null && loadingSceneAsync.isDone)
@@ -683,6 +908,137 @@ namespace Mirror
                 loadingSceneAsync = null;
             }
         }
+
+        void FinishLoadScene()
+        {
+            // NOTE: this cannot use NetworkClient.allClients[0] - that client may be for a completely different purpose.
+
+            // process queued messages that we received while loading the scene
+            if (LogFilter.Debug) Debug.Log("FinishLoadScene: resuming handlers after scene was loading.");
+            Transport.activeTransport.enabled = true;
+
+            // host mode?
+            if (mode == NetworkManagerMode.Host)
+            {
+                FinishLoadSceneHost();
+            }
+            // server-only mode?
+            else if (mode == NetworkManagerMode.ServerOnly)
+            {
+                FinishLoadSceneServerOnly();
+            }
+            // client-only mode?
+            else if (mode == NetworkManagerMode.ClientOnly)
+            {
+                FinishLoadSceneClientOnly();
+            }
+            // otherwise we called it after stopping when loading offline scene.
+            // do nothing then.
+        }
+
+        // finish load scene part for host mode. makes code easier and is
+        // necessary for FinishStartHost later.
+        // (the 3 things have to happen in that exact order)
+        void FinishLoadSceneHost()
+        {
+            // debug message is very important. if we ever break anything then
+            // it's very obvious to notice.
+            Debug.Log("Finished loading scene in host mode.");
+
+            if (clientReadyConnection != null)
+            {
+                OnClientConnect(clientReadyConnection);
+                clientLoadedScene = true;
+                clientReadyConnection = null;
+            }
+
+            // do we need to finish a StartHost() call?
+            // then call FinishStartHost and let it take care of spawning etc.
+            if (finishStartHostPending)
+            {
+                finishStartHostPending = false;
+                FinishStartHost();
+
+                // call OnServerSceneChanged
+                OnServerSceneChanged(networkSceneName);
+
+                if (NetworkClient.isConnected)
+                {
+                    RegisterClientMessages();
+
+                    // DO NOT call OnClientSceneChanged here.
+                    // the scene change happened because StartHost loaded the
+                    // server's online scene. it has nothing to do with the client.
+                    // this was not meant as a client scene load, so don't call it.
+                    //
+                    // otherwise AddPlayer would be called twice:
+                    // -> once for client OnConnected
+                    // -> once in OnClientSceneChanged
+                }
+            }
+            // otherwise we just changed a scene in host mode
+            else
+            {
+                // spawn server objects
+                NetworkServer.SpawnObjects();
+
+                // call OnServerSceneChanged
+                OnServerSceneChanged(networkSceneName);
+
+                if (NetworkClient.isConnected)
+                {
+                    RegisterClientMessages();
+
+                    // let client know that we changed scene
+                    OnClientSceneChanged(NetworkClient.connection);
+                }
+            }
+        }
+
+        // finish load scene part for client-only. makes code easier and is
+        // necessary for FinishStartClient later.
+        void FinishLoadSceneClientOnly()
+        {
+            // debug message is very important. if we ever break anything then
+            // it's very obvious to notice.
+            Debug.Log("Finished loading scene in client-only mode.");
+
+            if (clientReadyConnection != null)
+            {
+                OnClientConnect(clientReadyConnection);
+                clientLoadedScene = true;
+                clientReadyConnection = null;
+            }
+
+            if (NetworkClient.isConnected)
+            {
+                RegisterClientMessages();
+                OnClientSceneChanged(NetworkClient.connection);
+            }
+        }
+
+        // finish load scene part for server-only. . makes code easier and is
+        // necessary for FinishStartServer later.
+        void FinishLoadSceneServerOnly()
+        {
+            // debug message is very important. if we ever break anything then
+            // it's very obvious to notice.
+            Debug.Log("Finished loading scene in server-only mode.");
+
+            NetworkServer.SpawnObjects();
+            OnServerSceneChanged(networkSceneName);
+        }
+
+        #endregion
+
+        #region Start Positions
+
+        public static int startPositionIndex;
+
+        /// <summary>
+        /// List of transforms populted by NetworkStartPosition components found in the scene.
+        /// </summary>
+        public static List<Transform> startPositions = new List<Transform>();
 
         /// <summary>
         /// Registers the transform of a game object as a player spawn location.
@@ -712,31 +1068,7 @@ namespace Mirror
             startPositions.Remove(start);
         }
 
-        /// <summary>
-        /// Obsolete: Use <see cref="NetworkClient.isConnected"/> instead
-        /// </summary>
-        /// <returns>Returns True if NetworkClient.isConnected</returns>
-        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use NetworkClient.isConnected instead")]
-        public bool IsClientConnected()
-        {
-            return NetworkClient.isConnected;
-        }
-
-        /// <summary>
-        /// This is the only way to clear the singleton, so another instance can be created.
-        /// </summary>
-        public static void Shutdown()
-        {
-            if (singleton == null)
-                return;
-
-            startPositions.Clear();
-            startPositionIndex = 0;
-            clientReadyConnection = null;
-
-            singleton.StopHost();
-            singleton = null;
-        }
+        #endregion
 
         #region Server Internal Message Handlers
 
@@ -744,6 +1076,27 @@ namespace Mirror
         {
             if (LogFilter.Debug) Debug.Log("NetworkManager.OnServerConnectInternal");
 
+            if (authenticator != null)
+            {
+                // we have an authenticator - let it handle authentication
+                authenticator.OnServerAuthenticateInternal(conn);
+            }
+            else
+            {
+                // authenticate immediately
+                OnServerAuthenticated(conn);
+            }
+        }
+
+        // called after successful authentication
+        void OnServerAuthenticated(NetworkConnection conn)
+        {
+            if (LogFilter.Debug) Debug.Log("NetworkManager.OnServerAuthenticated");
+
+            // set connection to authenticated
+            conn.isAuthenticated = true;
+
+            // proceed with the login handshake by calling OnServerConnect
             if (networkSceneName != "" && networkSceneName != offlineScene)
             {
                 SceneMessage msg = new SceneMessage() { sceneName = networkSceneName };
@@ -781,23 +1134,25 @@ namespace Mirror
                 return;
             }
 
-            if (conn.playerController != null)
+            if (conn.identity != null)
             {
                 Debug.LogError("There is already a player for this connection.");
                 return;
             }
 
+#pragma warning disable CS0618 // Type or member is obsolete
             OnServerAddPlayer(conn, extraMessage);
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         void OnServerRemovePlayerMessageInternal(NetworkConnection conn, RemovePlayerMessage msg)
         {
             if (LogFilter.Debug) Debug.Log("NetworkManager.OnServerRemovePlayerMessageInternal");
 
-            if (conn.playerController != null)
+            if (conn.identity != null)
             {
-                OnServerRemovePlayer(conn, conn.playerController);
-                conn.playerController = null;
+                OnServerRemovePlayer(conn, conn.identity);
+                conn.identity = null;
             }
         }
 
@@ -815,6 +1170,27 @@ namespace Mirror
         {
             if (LogFilter.Debug) Debug.Log("NetworkManager.OnClientConnectInternal");
 
+            if (authenticator != null)
+            {
+                // we have an authenticator - let it handle authentication
+                authenticator.OnClientAuthenticateInternal(conn);
+            }
+            else
+            {
+                // authenticate immediately
+                OnClientAuthenticated(conn);
+            }
+        }
+
+        // called after successful authentication
+        void OnClientAuthenticated(NetworkConnection conn)
+        {
+            if (LogFilter.Debug) Debug.Log("NetworkManager.OnClientAuthenticated");
+
+            // set connection to authenticated
+            conn.isAuthenticated = true;
+
+            // proceed with the login handshake by calling OnClientConnect
             string loadedSceneName = SceneManager.GetActiveScene().name;
             if (string.IsNullOrEmpty(onlineScene) || onlineScene == offlineScene || loadedSceneName == onlineScene)
             {
@@ -824,6 +1200,7 @@ namespace Mirror
             else
             {
                 // will wait for scene id to come from the server.
+                clientLoadedScene = true;
                 clientReadyConnection = conn;
             }
         }
@@ -856,7 +1233,7 @@ namespace Mirror
 
             if (NetworkClient.isConnected && !NetworkServer.active)
             {
-                ClientChangeScene(msg.sceneName, msg.sceneMode, msg.physicsMode);
+                ClientChangeScene(msg.sceneName, msg.sceneOperation, msg.customHandling);
             }
         }
 
@@ -889,7 +1266,7 @@ namespace Mirror
         /// <param name="conn">Connection from client.</param>
         public virtual void OnServerReady(NetworkConnection conn)
         {
-            if (conn.playerController == null)
+            if (conn.identity == null)
             {
                 // this is now allowed (was not for a while)
                 if (LogFilter.Debug) Debug.Log("Ready with no player object");
@@ -898,12 +1275,23 @@ namespace Mirror
         }
 
         /// <summary>
+        /// Obsolete: Override <see cref="OnServerAddPlayer(NetworkConnection)"/> instead.
+        /// <para>See <a href="../Guides/GameObjects/SpawnPlayerCustom.md">Custom Players</a> for details.</para>
+        /// </summary>
+        /// <param name="conn">Connection from client.</param>
+        /// <param name="extraMessage">An extra message object passed for the new player.</param>
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Override OnServerAddPlayer(NetworkConnection conn) instead. See https://mirror-networking.com/docs/Guides/GameObjects/SpawnPlayerCustom.html for details.")]
+        public virtual void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
+        {
+            OnServerAddPlayer(conn);
+        }
+
+        /// <summary>
         /// Called on the server when a client adds a new player with ClientScene.AddPlayer.
         /// <para>The default implementation for this function creates a new player object from the playerPrefab.</para>
         /// </summary>
         /// <param name="conn">Connection from client.</param>
-        /// <param name="extraMessage">An extra message object passed for the new player.</param>
-        public virtual void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
+        public virtual void OnServerAddPlayer(NetworkConnection conn)
         {
             Transform startPos = GetStartPosition();
             GameObject player = startPos != null
@@ -943,7 +1331,7 @@ namespace Mirror
         /// <para>The default implementation of this function destroys the corresponding player object.</para>
         /// </summary>
         /// <param name="conn">The connection to remove the player from.</param>
-        /// <param name="player">The player controller to remove.</param>
+        /// <param name="player">The player identity to remove.</param>
         public virtual void OnServerRemovePlayer(NetworkConnection conn, NetworkIdentity player)
         {
             if (player.gameObject != null)
@@ -980,9 +1368,12 @@ namespace Mirror
         /// Called on the client when connected to a server.
         /// <para>The default implementation of this function sets the client as ready and adds a player. Override the function to dictate what happens when the client connects.</para>
         /// </summary>
-        /// <param name="conn"></param>
+        /// <param name="conn">Connection to the server.</param>
         public virtual void OnClientConnect(NetworkConnection conn)
         {
+            // OnClientConnect by default calls AddPlayer but it should not do
+            // that when we have online/offline scenes. so we need the
+            // clientLoadedScene flag to prevent it.
             if (!clientLoadedScene)
             {
                 // Ready/AddPlayer is usually triggered by a scene load completing. if no scene was loaded, then Ready/AddPlayer it here instead.
@@ -1015,15 +1406,35 @@ namespace Mirror
         /// Called on clients when a servers tells the client it is no longer ready.
         /// <para>This is commonly used when switching scenes.</para>
         /// </summary>
-        /// <param name="conn">Connection to a server.</param>
+        /// <param name="conn">Connection to the server.</param>
         public virtual void OnClientNotReady(NetworkConnection conn) { }
+
+        /// <summary>
+        /// Obsolete: Use <see cref="OnClientChangeScene(string, SceneOperation, bool)"/> instead.).
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Override OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling) instead")]
+        public virtual void OnClientChangeScene(string newSceneName)
+        {
+            OnClientChangeScene(newSceneName, SceneOperation.Normal, false);
+        }
+
+        /// <summary>
+        /// Obsolete: Use <see cref="OnClientChangeScene(string, SceneOperation, bool)"/> instead.).
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Override OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling) instead")]
+        public virtual void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation)
+        {
+            OnClientChangeScene(newSceneName, sceneOperation, false);
+        }
 
         /// <summary>
         /// Called from ClientChangeScene immediately before SceneManager.LoadSceneAsync is executed
         /// <para>This allows client to do work / cleanup / prep before the scene changes.</para>
         /// </summary>
         /// <param name="newSceneName">Name of the scene that's about to be loaded</param>
-        public virtual void OnClientChangeScene(string newSceneName) { }
+        /// <param name="sceneOperation">Scene operation that's about to happen</param>
+        /// <param name="customHandling">true to indicate that scene loading will be handled through overrides</param>
+        public virtual void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling) { }
 
         /// <summary>
         /// Called on clients when a scene has completed loaded, when the scene load was initiated by the server.
@@ -1035,7 +1446,8 @@ namespace Mirror
             // always become ready.
             if (!ClientScene.ready) ClientScene.Ready(conn);
 
-            if (autoCreatePlayer && ClientScene.localPlayer == null)
+            // Only call AddPlayer for normal scene changes, not additive load/unload
+            if (clientSceneOperation == SceneOperation.Normal && autoCreatePlayer && ClientScene.localPlayer == null)
             {
                 // add player if existing one is null
                 ClientScene.AddPlayer();

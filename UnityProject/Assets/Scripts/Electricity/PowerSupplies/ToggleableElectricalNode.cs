@@ -41,7 +41,7 @@ public class ToggleableElectricalNode : NetworkBehaviour, IInteractable<HandAppl
 	public void PowerNetworkUpdate() { }
 
 
-	public void UpdateState(bool _isOn)
+	public void UpdateState(bool _wasOn, bool _isOn)
 	{
 		isOn = _isOn;
 		if (isOn)

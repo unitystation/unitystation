@@ -111,17 +111,24 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void Awake()
 	{
+		EnsureInit();
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
+
+	private void EnsureInit()
+	{
+		if (registerTile != null) return;
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
-		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 	}
+
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
 		//force it open so it drops its contents
-		SyncLocked(false);
-		SyncStatus(ClosetStatus.Open);
+		SyncLocked(isLocked, false);
+		SyncStatus(statusSync, ClosetStatus.Open);
 
 		if (metalDroppedOnDestroy > 0)
 		{
@@ -132,8 +139,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	public override void OnStartClient()
 	{
-		SyncStatus(statusSync);
-		SyncLocked(isLocked);
+		EnsureInit();
+		SyncStatus(statusSync, statusSync);
+		SyncLocked(isLocked, isLocked);
 	}
 
 	public virtual void OnSpawnServer(SpawnInfo info)
@@ -153,8 +161,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 
 		//always spawn closed and unlocked
-		SyncStatus(ClosetStatus.Closed);
-		SyncLocked(false);
+		SyncStatus(statusSync, ClosetStatus.Closed);
+		SyncLocked(isLocked, false);
 
 		//if this is a mapped spawn, stick any items mapped on top of us in
 		if (info.SpawnType == SpawnType.Mapped)
@@ -265,22 +273,23 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		{
 			if(serverHeldPlayers.Count > 0 && registerTile.closetType == ClosetType.SCANNER)
 			{
-				SyncStatus(ClosetStatus.ClosedWithOccupant);
+				SyncStatus(statusSync, ClosetStatus.ClosedWithOccupant);
 			}
 			else
 			{
-				SyncStatus(ClosetStatus.Closed);
+				SyncStatus(statusSync, ClosetStatus.Closed);
 			}
 		}
 		else
 		{
-			SyncStatus(ClosetStatus.Open);
+			SyncStatus(statusSync, ClosetStatus.Open);
 		}
 
 	}
 
-	private void SyncStatus(ClosetStatus value)
+	private void SyncStatus(ClosetStatus oldValue, ClosetStatus value)
 	{
+		EnsureInit();
 		statusSync = value;
 		if(value == ClosetStatus.Open)
 		{
@@ -324,11 +333,12 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Server]
 	public void ServerToggleLocked(bool? nowLocked = null)
 	{
-		SyncLocked(nowLocked.GetValueOrDefault(!IsLocked));
+		SyncLocked(isLocked, nowLocked.GetValueOrDefault(!IsLocked));
 	}
 
-	private void SyncLocked(bool value)
+	private void SyncLocked(bool oldValue, bool value)
 	{
+		EnsureInit();
 		isLocked = value;
 		if (lockLight)
 		{

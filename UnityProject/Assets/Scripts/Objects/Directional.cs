@@ -113,13 +113,13 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 
 	public override void OnStartServer()
     {
-	    SyncServerDirection(InitialOrientation);
+	    SyncServerDirection(serverDirection, InitialOrientation);
     }
 
 
     public override void OnStartClient()
     {
-	    SyncServerDirection(serverDirection);
+	    SyncServerDirection(serverDirection, serverDirection);
 	    ForceClientDirectionFromServer();
     }
 
@@ -139,7 +139,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
 	    if (isServer)
 	    {
-		    SyncServerDirection(newDir);
+		    SyncServerDirection(serverDirection, newDir);
 	    }
 	    clientDirection = newDir;
 	    if (IsLocalPlayer)
@@ -167,7 +167,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
     [TargetRpc]
     private void TargetForceSyncDirection(NetworkConnection target, Orientation direction)
     {
-	    SyncServerDirection(direction);
+	    SyncServerDirection(serverDirection, direction);
 	    ForceClientDirectionFromServer();
     }
 
@@ -186,7 +186,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 			    else if (rotationInfo.IsServerside && isServer)
 			    {
 				    //change server side and sync to clients
-				    SyncServerDirection(CurrentDirection.Rotate(rotationInfo.RotationOffset));
+				    SyncServerDirection(serverDirection, CurrentDirection.Rotate(rotationInfo.RotationOffset));
 				    OnDirectionChange.Invoke(CurrentDirection);
 			    }
 		    }
@@ -208,11 +208,11 @@ public class Directional : NetworkBehaviour, IMatrixRotation
     [Command]
     private void CmdChangeDirection(Orientation direction)
     {
-	    SyncServerDirection(direction);
+	    SyncServerDirection(serverDirection, direction);
     }
 
     //syncvar hook invoked when server sends a client the new direction for this object
-    private void SyncServerDirection(Orientation dir)
+    private void SyncServerDirection(Orientation oldDir, Orientation dir)
     {
 	    serverDirection = dir;
 	    //we only change our direction if we're not local player (local player is always predictive)

@@ -76,6 +76,12 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	public void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (directional != null) return;
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChanged);
 		OnDirectionChanged(directional.CurrentDirection);
@@ -96,8 +102,9 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		//must invoke this because SyncVar hooks are not called on client init
-		SyncOccupantNetId(occupantNetId);
+		SyncOccupantNetId(occupantNetId, occupantNetId);
 		OnDirectionChanged(directional.CurrentDirection);
 	}
 
@@ -160,26 +167,23 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	[Server]
 	public void SetOccupant(uint occupant)
 	{
-		SyncOccupantNetId(occupant);
+		SyncOccupantNetId(occupantNetId, occupant);
 	}
 
 	//syncvar hook for occupant
-	private void SyncOccupantNetId(uint occupantNewValue)
+	private void SyncOccupantNetId(uint occupantOldValue, uint occupantNewValue)
 	{
-		if (occupantNetId != occupantNewValue)
+		EnsureInit();
+		occupantNetId = occupantNewValue;
+		occupant = NetworkUtils.FindObjectOrNull(occupantNetId);
+
+		if (occupant != null)
 		{
-			occupantNetId = occupantNewValue;
-			occupant = NetworkUtils.FindObjectOrNull(occupantNetId);
-
-			if (occupant != null)
-			{
-				occupantPlayerScript = occupant.GetComponent<PlayerScript>();
-			}
-			else
-			{
-				occupantPlayerScript = null;
-			}
-
+			occupantPlayerScript = occupant.GetComponent<PlayerScript>();
+		}
+		else
+		{
+			occupantPlayerScript = null;
 		}
 
 		UpdateFrontSprite();

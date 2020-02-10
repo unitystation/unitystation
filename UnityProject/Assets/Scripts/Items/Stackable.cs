@@ -46,11 +46,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	private void Awake()
 	{
-		pickupable = GetComponent<Pickupable>();
-		amount = initialAmount;
-		pushPull = GetComponent<PushPull>();
-		registerTile = GetComponent<RegisterTile>();
-
+		EnsureInit();
 		this.WaitForNetworkManager(() =>
 		{
 			if (CustomNetworkManager.IsServer)
@@ -58,6 +54,15 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 				registerTile.OnLocalPositionChangedServer.AddListener(OnLocalPositionChangedServer);
 			}
 		});
+	}
+
+	private void EnsureInit()
+	{
+		if (pickupable != null) return;
+		pickupable = GetComponent<Pickupable>();
+		amount = initialAmount;
+		pushPull = GetComponent<PushPull>();
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	private void OnLocalPositionChangedServer(Vector3Int newLocalPos)
@@ -73,7 +78,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public override void OnStartClient()
 	{
 		InitStacksWith();
-		SyncAmount(this.amount);
+		SyncAmount(amount, this.amount);
 	}
 
 	private void InitStacksWith()
@@ -88,7 +93,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public override void OnStartServer()
 	{
-		SyncAmount(this.amount);
+		SyncAmount(amount, this.amount);
 	}
 
 	public bool IsFull()
@@ -100,7 +105,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
 		InitStacksWith();
-		SyncAmount(initialAmount);
+		SyncAmount(amount, initialAmount);
 		amountInit = true;
 		//check for stacking with things on the ground
 		ServerStackOnGround(registerTile.LocalPositionServer);
@@ -126,8 +131,9 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		}
 	}
 
-	private void SyncAmount(int newAmount)
+	private void SyncAmount(int oldAmount, int newAmount)
 	{
+		EnsureInit();
 		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Inventory, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
@@ -148,7 +154,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 				 Category.Inventory, consumed, amount);
 			return;
 		}
-		SyncAmount(amount - consumed);
+		SyncAmount(amount, amount - consumed);
 		if (amount <= 0)
 		{
 			Despawn.ServerSingle(gameObject);
@@ -162,7 +168,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Server]
 	public GameObject ServerRemoveOne()
 	{
-		SyncAmount(amount - 1);
+		SyncAmount(amount, amount - 1);
 		if (amount <= 0)
 		{
 			return gameObject;
@@ -192,7 +198,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		if (amountToConsume <= 0) return;
 		Logger.LogTraceFormat("Combining {0} <- {1}", Category.Inventory, GetInstanceID(), toAdd.GetInstanceID());
 		toAdd.ServerConsume(amountToConsume);
-		SyncAmount(amount + amountToConsume);
+		SyncAmount(amount, amount + amountToConsume);
 	}
 
 	/// <summary>
@@ -256,7 +262,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		{
 			//spawn a new one and put it into the from slot with a stack size of 1
 			var single = Spawn.ServerPrefab(prefab).GameObject;
-			single.GetComponent<Stackable>().SyncAmount(1);
+			single.GetComponent<Stackable>().SyncAmount(amount, 1);
 			Inventory.ServerAdd(single, interaction.FromSlot);
 			ServerConsume(1);
 		}

@@ -1,6 +1,8 @@
 // wraps Telepathy for use as HLAPI TransportLayer
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,6 +12,10 @@ namespace Mirror
     [HelpURL("https://github.com/vis2k/Telepathy/blob/master/README.md")]
     public class TelepathyTransport : Transport
     {
+        // scheme used by this transport
+        // "tcp4" means tcp with 4 bytes header, network byte order
+        public const string Scheme = "tcp4";
+
         public ushort port = 7777;
 
         [Tooltip("Nagle Algorithm can be disabled by enabling NoDelay")]
@@ -47,10 +53,31 @@ namespace Mirror
             Debug.Log("TelepathyTransport initialized!");
         }
 
+        public override bool Available()
+        {
+            // C#'s built in TCP sockets run everywhere except on WebGL
+            return Application.platform != RuntimePlatform.WebGLPlayer;
+        }
+
         // client
         public override bool ClientConnected() => client.Connected;
         public override void ClientConnect(string address) => client.Connect(address, port);
-        public override bool ClientSend(int channelId, byte[] data) => client.Send(data);
+        public override void ClientConnect(Uri uri)
+        {
+            if (uri.Scheme != Scheme)
+                throw new ArgumentException($"Invalid url {uri}, use {Scheme}://host:port instead", nameof(uri));
+
+            int serverPort = uri.IsDefaultPort ? port : uri.Port;
+            client.Connect(uri.Host, serverPort);
+        }
+        public override bool ClientSend(int channelId, ArraySegment<byte> segment)
+        {
+            // telepathy doesn't support allocation-free sends yet.
+            // previously we allocated in Mirror. now we do it here.
+            byte[] data = new byte[segment.Count];
+            Array.Copy(segment.Array, segment.Offset, data, 0, segment.Count);
+            return client.Send(data);
+        }
 
         bool ProcessClientMessage()
         {
@@ -62,7 +89,7 @@ namespace Mirror
                         OnClientConnected.Invoke();
                         break;
                     case Telepathy.EventType.Data:
-                        OnClientDataReceived.Invoke(new ArraySegment<byte>(message.data));
+                        OnClientDataReceived.Invoke(new ArraySegment<byte>(message.data), Channels.DefaultReliable);
                         break;
                     case Telepathy.EventType.Disconnected:
                         OnClientDisconnected.Invoke();
@@ -89,14 +116,35 @@ namespace Mirror
             // note: we need to check enabled in case we set it to false
             // when LateUpdate already started.
             // (https://github.com/vis2k/Mirror/pull/379)
-            while (enabled && ProcessClientMessage()) {}
-            while (enabled && ProcessServerMessage()) {}
+            while (enabled && ProcessClientMessage()) { }
+            while (enabled && ProcessServerMessage()) { }
+        }
+
+        public override Uri ServerUri()
+        {
+            UriBuilder builder = new UriBuilder();
+            builder.Scheme = Scheme;
+            builder.Host = Dns.GetHostName();
+            builder.Port = port;
+            return builder.Uri;
         }
 
         // server
         public override bool ServerActive() => server.Active;
         public override void ServerStart() => server.Start(port);
-        public override bool ServerSend(int connectionId, int channelId, byte[] data) => server.Send(connectionId, data);
+        public override bool ServerSend(List<int> connectionIds, int channelId, ArraySegment<byte> segment)
+        {
+            // telepathy doesn't support allocation-free sends yet.
+            // previously we allocated in Mirror. now we do it here.
+            byte[] data = new byte[segment.Count];
+            Array.Copy(segment.Array, segment.Offset, data, 0, segment.Count);
+
+            // send to all
+            bool result = true;
+            foreach (int connectionId in connectionIds)
+                result &= server.Send(connectionId, data);
+            return result;
+        }
         public bool ProcessServerMessage()
         {
             if (server.GetNextMessage(out Telepathy.Message message))
@@ -107,7 +155,7 @@ namespace Mirror
                         OnServerConnected.Invoke(message.connectionId);
                         break;
                     case Telepathy.EventType.Data:
-                        OnServerDataReceived.Invoke(message.connectionId, new ArraySegment<byte>(message.data));
+                        OnServerDataReceived.Invoke(message.connectionId, new ArraySegment<byte>(message.data), Channels.DefaultReliable);
                         break;
                     case Telepathy.EventType.Disconnected:
                         OnServerDisconnected.Invoke(message.connectionId);
@@ -146,7 +194,8 @@ namespace Mirror
         // common
         public override void Shutdown()
         {
-	        client.Disconnect();
+            Debug.Log("TelepathyTransport Shutdown()");
+            client.Disconnect();
             server.Stop();
         }
 

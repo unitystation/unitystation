@@ -17,7 +17,7 @@ namespace Mirror
         bool syncsAnything;
         bool[] showSyncLists;
 
-        readonly GUIContent syncVarIndicatorContent = new GUIContent("SyncVar", "This variable has been marked with the [SyncVar] attribute.");
+        static readonly GUIContent syncVarIndicatorContent = new GUIContent("SyncVar", "This variable has been marked with the [SyncVar] attribute.");
 
         internal virtual bool HideScriptField => false;
 
@@ -38,7 +38,9 @@ namespace Mirror
             // search for SyncObjects manually.
             // (look for 'Mirror.Sync'. not '.SyncObject' because we'd have to
             //  check base type for that again)
-            foreach (FieldInfo field in scriptClass.GetFields())
+            // => scan both public and non-public fields! SyncVars can be private
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+            foreach (FieldInfo field in scriptClass.GetFields(flags))
             {
                 if (field.FieldType.BaseType != null &&
                     field.FieldType.BaseType.FullName != null &&
@@ -49,6 +51,11 @@ namespace Mirror
             }
 
             return false;
+        }
+
+        void OnEnable()
+        {
+            initialized = false;
         }
 
         void Init(MonoScript script)
@@ -99,43 +106,37 @@ namespace Mirror
             while (property.NextVisible(expanded))
             {
                 bool isSyncVar = syncVarNames.Contains(property.name);
-                if (property.propertyType == SerializedPropertyType.ObjectReference)
+
+                if (property.name == "m_Script")
                 {
-                    if (property.name == "m_Script")
+                    if (HideScriptField)
                     {
-                        if (HideScriptField)
-                        {
-                            continue;
-                        }
-
-                        EditorGUI.BeginDisabledGroup(true);
+                        continue;
                     }
 
-                    EditorGUILayout.PropertyField(property, true);
-
-                    if (isSyncVar)
-                    {
-                        GUILayout.Label(syncVarIndicatorContent, EditorStyles.miniLabel, GUILayout.Width(EditorStyles.miniLabel.CalcSize(syncVarIndicatorContent).x));
-                    }
-
-                    if (property.name == "m_Script")
-                    {
-                        EditorGUI.EndDisabledGroup();
-                    }
+                    EditorGUI.BeginDisabledGroup(true);
                 }
-                else
+
+                if (isSyncVar)
                 {
                     EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.BeginVertical();
+                }
 
-                    EditorGUILayout.PropertyField(property, true);
+                EditorGUILayout.PropertyField(property, true);
 
-                    if (isSyncVar)
-                    {
-                        GUILayout.Label(syncVarIndicatorContent, EditorStyles.miniLabel, GUILayout.Width(EditorStyles.miniLabel.CalcSize(syncVarIndicatorContent).x));
-                    }
-
+                if (isSyncVar)
+                {
+                    EditorGUILayout.EndVertical();
+                    GUILayout.Label(syncVarIndicatorContent, EditorStyles.miniLabel, GUILayout.Width(EditorStyles.miniLabel.CalcSize(syncVarIndicatorContent).x));
                     EditorGUILayout.EndHorizontal();
                 }
+
+                if (property.name == "m_Script")
+                {
+                    EditorGUI.EndDisabledGroup();
+                }
+
                 expanded = false;
             }
             serializedObject.ApplyModifiedProperties();
@@ -177,6 +178,8 @@ namespace Mirror
                 NetworkBehaviour networkBehaviour = target as NetworkBehaviour;
                 if (networkBehaviour != null)
                 {
+                    EditorGUILayout.LabelField("Sync Settings", EditorStyles.boldLabel);
+
                     // syncMode
                     serializedObject.FindProperty("syncMode").enumValueIndex = (int)(SyncMode)
                         EditorGUILayout.EnumPopup("Network Sync Mode", networkBehaviour.syncMode);

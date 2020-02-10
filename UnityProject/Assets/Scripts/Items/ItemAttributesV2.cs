@@ -145,6 +145,8 @@ public class ItemAttributesV2 : Attributes
 	/// </summary>
 	private HashSet<ItemTrait> traits = new HashSet<ItemTrait>();
 
+	private bool hasInit;
+
 
 	public ItemsSprites ItemSprites => itemSprites;
 
@@ -154,22 +156,31 @@ public class ItemAttributesV2 : Attributes
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (hasInit) return;
 		foreach (var definedTrait in initialTraits)
 		{
 			traits.Add(definedTrait);
 		}
+
+		hasInit = true;
 	}
 
 
 	public override void OnStartClient()
 	{
-		SyncSize(this.size);
+		EnsureInit();
+		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
 
 	public override void OnSpawnServer(SpawnInfo info)
 	{
-		SyncSize(initialSize);
+		SyncSize(size, initialSize);
 		base.OnSpawnServer(info);
 	}
 
@@ -224,8 +235,9 @@ public class ItemAttributesV2 : Attributes
 		traits.Add(toAdd);
 	}
 
-	private void SyncSize(ItemSize newSize)
+	private void SyncSize(ItemSize oldSize, ItemSize newSize)
 	{
+		EnsureInit();
 		size = newSize;
 	}
 
@@ -256,7 +268,7 @@ public class ItemAttributesV2 : Attributes
 	[Server]
 	public void ServerSetSize(ItemSize newSize)
 	{
-		SyncSize(newSize);
+		SyncSize(size, newSize);
 	}
 
 	/// <summary>

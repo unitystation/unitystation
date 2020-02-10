@@ -22,8 +22,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		SyncSprite(spriteSync);
+		SyncSprite(0, spriteSync);
 	}
 
 	public void UpdateMe()
@@ -95,7 +94,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 		anchored = value;
 	}
 
-	public void SyncSprite(int value)
+	public void SyncSprite(int oldValue, int value)
 	{
 		spriteRenderer.sprite = spriteList[value];
 	}

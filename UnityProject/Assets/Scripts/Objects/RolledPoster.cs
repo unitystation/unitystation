@@ -14,11 +14,11 @@ public class RolledPoster : NetworkBehaviour, ICheckedInteractable<PositionalHan
 	{
 		var startPoster = wallPrefab.GetComponent<PosterBehaviour>().GetPoster(posterVariant);
 		posterVariant = startPoster.PosterName;
-		SyncPosterType(posterVariant);
+		SyncPosterType(posterVariant, posterVariant);
 		base.OnStartServer();
 	}
 
-	public void SyncPosterType(Posters p)
+	public void SyncPosterType(Posters oldP, Posters p)
 	{
 		posterVariant = p;
 
