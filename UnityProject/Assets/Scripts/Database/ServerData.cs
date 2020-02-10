@@ -96,6 +96,7 @@ namespace DatabaseAPI
 		void Update()
 		{
 			if (config != null)
+			{
 				if (!string.IsNullOrEmpty(config.HubUser))
 				{
 					MonitorServerStatus();
