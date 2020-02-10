@@ -84,7 +84,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn { //is t
 		//FIXME find out why this object has been destroyed?
 		//putting in this condition check as returning the null gameobject directly
 		//throws many NRE's on the server leading to unwanted behaviour
-		if (gameObject == null)
+		if (this == null || this.gameObject == null)
 		{
 			Logger.Log("The gameobject for this electrical object has been destroyed!!!!!", Category.Electrical);
 			return null;
