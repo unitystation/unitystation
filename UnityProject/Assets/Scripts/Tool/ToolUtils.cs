@@ -184,6 +184,10 @@ public static class ToolUtils
 			{
 				soundName = "Weld";
 			}
+			else if (itemAttrs.HasTrait(CommonTraits.Instance.Shovel))
+			{
+				soundName = "Shovel";
+			}
 		}
 
 		if (soundName != null)

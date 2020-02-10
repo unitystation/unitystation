@@ -148,6 +148,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			var i = 0;
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
+				if (tileInteraction == null) continue;
 				if (tileInteraction.WillInteract(tileApply, NetworkSide.Client) &&
 				    Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction))
 				{
