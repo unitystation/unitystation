@@ -126,7 +126,7 @@ public class GameData : MonoBehaviour
 			{
 				if (task.IsCanceled || task.IsFaulted)
 				{
-					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception.Message);
+					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception?.Message);
 					return;
 				}
 			});
