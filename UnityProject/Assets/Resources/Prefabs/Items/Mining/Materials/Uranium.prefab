@@ -7,11 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
+    - target: {fileID: 18758610003781303, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
-      propertyPath: m_Name
-      value: Uranium1
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8969b45b680997249a52d173fed9da99,
+        type: 3}
     - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,6 +67,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_Name
+      value: Uranium
       objectReference: {fileID: 0}
     - target: {fileID: 227261219375573087, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
@@ -128,11 +134,5 @@ PrefabInstance:
       propertyPath: buildList
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 18758610003781303, guid: 208d0d984a62d439babfcfb9d8bfe087,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8969b45b680997249a52d173fed9da99,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}

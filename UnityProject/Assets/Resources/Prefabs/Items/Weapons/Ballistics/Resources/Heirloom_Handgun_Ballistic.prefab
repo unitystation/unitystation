@@ -104,11 +104,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_Name
-      value: Heirloom_Handgun_Ballistic
-      objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: Projectile
@@ -123,6 +118,11 @@ PrefabInstance:
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: AmmoType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: ammoType
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
@@ -140,10 +140,21 @@ PrefabInstance:
       propertyPath: initialSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 845e0a00f7a66664ab47921e9672c123,
+        type: 3}
     - target: {fileID: 7392881626475492836, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Name
+      value: Heirloom_Handgun_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -200,12 +211,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 845e0a00f7a66664ab47921e9672c123,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}
 --- !u!4 &8577108076371459539 stripped

@@ -17,16 +17,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
-    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: initialName
-      value: warden's armored jacket
-      objectReference: {fileID: 0}
-    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: initialDescription
-      value: A red jacket with silver rank pips and body armor strapped on top.
-      objectReference: {fileID: 0}
     - target: {fileID: 3530414307939662948, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -127,17 +117,27 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 1bd81b53cbb3a364487478f96210139d,
-        type: 2}
     - target: {fileID: 3611036598041473612, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 90f3f7e4915125844b2d896fc0306280,
         type: 3}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialName
+      value: warden's armored jacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A red jacket with silver rank pips and body armor strapped on top.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bd81b53cbb3a364487478f96210139d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0c29a11d2c864b7982765b5340eed0e, type: 3}

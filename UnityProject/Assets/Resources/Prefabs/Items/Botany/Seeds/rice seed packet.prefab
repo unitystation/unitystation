@@ -7,16 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
-      propertyPath: m_Name
-      value: rice seed packet
-      objectReference: {fileID: 0}
-    - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
-        type: 3}
-      propertyPath: defaultPlantData
-      value: 
-      objectReference: {fileID: 11400000, guid: 53c1f301c177c104b9c5dd7f35d087fa,
-        type: 2}
     - target: {fileID: -1649124960678938281, guid: 61fbb88e43b8b4f48a44b030453bdedc,
         type: 3}
       propertyPath: initialName
@@ -26,6 +16,10 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: These may, or may not, grow into rice.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
+      propertyPath: m_Name
+      value: rice seed packet
       objectReference: {fileID: 0}
     - target: {fileID: 4949321775558472, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -82,5 +76,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 50107b525573dd7478b6edd9f19aa1e7,
         type: 3}
+    - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: defaultPlantData
+      value: 
+      objectReference: {fileID: 11400000, guid: 53c1f301c177c104b9c5dd7f35d087fa,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}

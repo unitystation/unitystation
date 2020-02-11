@@ -141,13 +141,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 11400000, guid: 133558ddd198d490f836732ad1b9c8a2, type: 2}
-  IsClosed: 0
-  IsLocked: 0
   lockLight: {fileID: 0}
   playerLimit: 3
   metalDroppedOnDestroy: 2
-  soundOnOpen: OpenClose
-  statusSync: 0
+  soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: 0406667426b565044a998d50c037fb64, type: 3}
   spriteRenderer: {fileID: 212309241971002690}
 --- !u!114 &3578799147172016980
@@ -265,10 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3830676504
 --- !u!114 &1699124073807824496
 MonoBehaviour:
   m_ObjectHideFlags: 0
