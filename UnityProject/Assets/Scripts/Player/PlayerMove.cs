@@ -353,11 +353,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 		//inform the puller
 		if (PlayerScript.pushPull.PulledBy != null)
 		{
-			PlayerScript.pushPull.PulledBy.CmdStopPulling();
+			PlayerScript.pushPull.PulledBy.ServerStopPulling();
 		}
 
-		PlayerScript.pushPull.CmdStopFollowing();
-		PlayerScript.pushPull.CmdStopPulling();
+		PlayerScript.pushPull.StopFollowing();
+		PlayerScript.pushPull.ServerStopPulling();
 		PlayerScript.pushPull.ServerSetPushable(false);
 		onUnbuckled = unbuckledAction;
 

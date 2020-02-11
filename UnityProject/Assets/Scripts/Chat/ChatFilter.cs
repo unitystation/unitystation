@@ -60,7 +60,7 @@ public class ChatFilter : MonoBehaviour
 	private int numMessageMax = 4;
 
 	/// <summary>
-	/// How many messages the user has attempted to send in the past messageCoolown seconds. 
+	/// How many messages the user has attempted to send in the past messageCoolown seconds.
 	/// </summary>
 	private float numMessages = 0;
 
@@ -101,7 +101,6 @@ public class ChatFilter : MonoBehaviour
 	/// <param name="selectedChannels">The selected channels, which are simply passed along.</param>
 	public void Send(string message, ChatChannel selectedChannels)
 	{
-		print(numMessages);
 		DecayFiltersOverTime(); // Decrease cpm and messages since last having spoken
 
 		// Limit number of messages
