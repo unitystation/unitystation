@@ -9,7 +9,6 @@ namespace UnityStation_Discord_Bot
         public string ServerName { get; set; }
         public string ForkName { get; set; }
         public int BuildVersion { get; set; }
-
         public uint PlayerCount { get; set; }
 
     }
