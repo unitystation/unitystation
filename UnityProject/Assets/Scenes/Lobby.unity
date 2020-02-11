@@ -21967,6 +21967,11 @@ PrefabInstance:
       propertyPath: m_SceneId
       value: 2616674111
       objectReference: {fileID: 0}
+    - target: {fileID: 114805580994000204, guid: c4716dbdeff274dc7b583ec66525f782,
+        type: 3}
+      propertyPath: sceneId
+      value: 4282027936
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4716dbdeff274dc7b583ec66525f782, type: 3}
 --- !u!1 &2090175510
@@ -23206,6 +23211,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1479435844}
     m_Modifications:
+    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
+        type: 3}
+      propertyPath: m_Name
+      value: ChangeLogEntry
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2210627262343931100, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23310,16 +23325,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
-        type: 3}
-      propertyPath: m_Name
-      value: ChangeLogEntry
-      objectReference: {fileID: 0}
-    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6963684659125650057, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
         type: 3}
