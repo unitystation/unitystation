@@ -8,18 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class CargoManager : MonoBehaviour
 {
-	private static CargoManager _cargoManager;
-	public static CargoManager Instance
-	{
-		get
-		{
-			if (_cargoManager == null)
-			{
-				_cargoManager = FindObjectOfType<CargoManager>();
-			}
-			return _cargoManager;
-		}
-	}
+	public static CargoManager Instance;
 
 	public int Credits;
 	public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
@@ -43,6 +32,18 @@ public class CargoManager : MonoBehaviour
 	private float shuttleFlyDuration = 10f;
 
 	private HashMap<string, ExportedItem> exportedItems = new HashMap<string, ExportedItem>();
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 
 	private void OnEnable()
 	{
