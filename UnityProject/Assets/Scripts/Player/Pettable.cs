@@ -5,7 +5,7 @@
 /// </summary>
 public class Pettable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
-	public bool Interact(PositionalHandApply interaction)
+	public bool WillInteract( PositionalHandApply interaction, NetworkSide side )
 	{
 		var targetNPCHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 		var performerPlayerHealth = interaction.Performer.GetComponent<PlayerHealth>();
