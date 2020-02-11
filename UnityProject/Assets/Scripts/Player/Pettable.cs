@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Allows an object to be pet by a player.
+/// Allows an object to be pet by a player. Shameless copy of Huggable.cs
 /// </summary>
 public class Pettable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
