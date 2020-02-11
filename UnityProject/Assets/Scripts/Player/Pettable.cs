@@ -14,7 +14,7 @@ public class Pettable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		// Is the target in range for a pet? Is the target conscious for the pet? Is the performer's intent set to help?
 		// Is the performer's hand empty? Is the performer not stunned/downed? Is the performer conscious to perform the interaction?
 		// Is the performer interacting with itself?
-		if (!Validations.CanApply(interaction.Performer, interaction.TargetObject, NetworkSide.Server, true, ReachRange.Standard, interaction.TargetVector))
+		if (!Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Standard, interaction.TargetVector))
 		{
 			return false;
 		}
