@@ -119,7 +119,10 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 
 	public override float ModifyElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		if (SourceInstance == null || gameObject == null)
+		if (SourceInstance == null
+		    || this == null
+		    || this.gameObject == null
+		    )
 		{
 			return Current;
 		}
