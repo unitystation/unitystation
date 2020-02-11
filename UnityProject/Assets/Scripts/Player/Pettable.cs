@@ -3,7 +3,7 @@
 /// <summary>
 /// Allows an object to be pet by a player. Shameless copy of Huggable.cs
 /// </summary>
-public class Pettable : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class Pettable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public bool WillInteract( PositionalHandApply interaction, NetworkSide side )
 	{
