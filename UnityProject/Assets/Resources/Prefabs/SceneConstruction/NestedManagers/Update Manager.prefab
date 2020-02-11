@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9102338525819353079}
   - component: {fileID: 9208404129493168755}
-  - component: {fileID: 9208612018165753785}
   m_Layer: 0
   m_Name: Update Manager
   m_TagString: Untagged
@@ -42,17 +41,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5becb0357443a41449a1dc06b7b68eae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9208612018165753785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9104243219371999339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2b6a9e712bdf3f408fa4cc0b8b718cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

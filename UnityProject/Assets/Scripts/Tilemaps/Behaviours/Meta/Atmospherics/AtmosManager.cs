@@ -24,18 +24,17 @@ public class AtmosManager : MonoBehaviour
 	private static float tickCount = 0f;
 	private const int Steps = 5;
 
-	private static AtmosManager atmosManager;
+	public static AtmosManager Instance;
 
-	public static AtmosManager Instance
+	private void Awake()
 	{
-		get
+		if (Instance == null)
 		{
-			if (atmosManager == null)
-			{
-				atmosManager = FindObjectOfType<AtmosManager>();
-			}
-
-			return atmosManager;
+			Instance = this;
+		}
+		else
+		{
+			Destroy(this);
 		}
 	}
 
