@@ -8,12 +8,28 @@ using Mirror;
 public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private SpriteRenderer spriteRenderer;
-	public Sprite onSprite;
+	public Sprite greenSprite;
 	public Sprite offSprite;
+	public Sprite redSprite;
+	private bool status;
+
 
 	public DoorController[] doorControllers;
 
 	private bool buttonCoolDown = false;
+
+	private AccessRestrictions accessRestrictions;
+	public AccessRestrictions AccessRestrictions
+	{
+		get
+		{
+			if (!accessRestrictions)
+			{
+				accessRestrictions = GetComponent<AccessRestrictions>();
+			}
+			return accessRestrictions;
+		}
+	}
 
 	private void Start()
 	{
@@ -39,6 +55,30 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (AccessRestrictions != null)
+		{
+			if (accessRestrictions.CheckAccess(interaction.Performer))
+			{
+				status = true;
+				RunDoorController();
+				RpcPlayButtonAnim();
+			}
+			else
+			{
+				status = false;
+				RpcPlayButtonAnim();
+			}
+		}
+		else
+		{
+			status = true;
+			RunDoorController();
+			RpcPlayButtonAnim();
+		}
+	}
+
+	private void RunDoorController()
+	{
 		for (int i = 0; i < doorControllers.Length; i++)
 		{
 			if (!doorControllers[i].IsOpened)
@@ -50,8 +90,6 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 				doorControllers[i].Close();
 			}
 		}
-
-		RpcPlayButtonAnim();
 	}
 
 	//Stops spamming from players
@@ -76,16 +114,33 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		for (int i = 0; i < 6; i++)
 		{
-			if (spriteRenderer.sprite == onSprite)
+			if (status)
 			{
-				spriteRenderer.sprite = offSprite;
+				if (spriteRenderer.sprite == greenSprite)
+				{
+					spriteRenderer.sprite = offSprite;
+				}
+				else
+				{
+					spriteRenderer.sprite = greenSprite;
+				}
+				yield return WaitFor.Seconds(0.2f);
 			}
 			else
 			{
-				spriteRenderer.sprite = onSprite;
+				if (spriteRenderer.sprite == redSprite)
+				{
+					spriteRenderer.sprite = offSprite;
+				}
+				else
+				{
+					spriteRenderer.sprite = redSprite;
+				}
+				yield return WaitFor.Seconds(0.1f);
 			}
 
-			yield return WaitFor.Seconds(0.2f);
 		}
+		spriteRenderer.sprite = greenSprite;
+		status = false;
 	}
 }
