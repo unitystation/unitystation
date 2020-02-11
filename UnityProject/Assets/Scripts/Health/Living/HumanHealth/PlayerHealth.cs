@@ -130,7 +130,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		}
 
 		playerMove.PlayerScript.pushPull.VisibleState = false;
-		playerNetworkActions.CmdSpawnPlayerGhost();
+		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
 
 	///     make player unconscious upon crit
