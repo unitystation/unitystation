@@ -23,6 +23,4 @@ public class Extended : GameMode
 		Logger.Log("Starting extended round!", Category.GameMode);
 		base.StartRound();
 	}
-	public override void CheckEndCondition() {}
-	public override void EndRound() {}
 }

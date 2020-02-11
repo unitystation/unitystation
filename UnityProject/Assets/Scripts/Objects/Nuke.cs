@@ -54,7 +54,7 @@ public class Nuke : NetworkBehaviour
 		GibMessage.Send();
 		yield return WaitFor.Seconds(15f);
 		// Trigger end of round
-		GameManager.Instance.RoundEnd();
+		GameManager.Instance.EndRound();
 	}
 
 	//Server validating the code sent back by the GUI

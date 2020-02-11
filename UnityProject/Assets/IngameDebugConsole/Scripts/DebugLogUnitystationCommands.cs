@@ -68,7 +68,7 @@ namespace IngameDebugConsole
 #if UNITY_EDITOR
 		[MenuItem("Networking/Restart round")]
 #endif
-		[ConsoleMethod("restart-round", "restarts the round. Server only cmd.")]
+		[ConsoleMethod("restart-round", "restarts the round immediately. Server only cmd.")]
 		public static void RunRestartRound()
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
@@ -93,8 +93,8 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			Logger.Log("Triggered round restart from DebugConsole.");
-			GameManager.Instance.RoundEnd();
+			Logger.Log("Triggered round end from DebugConsole.");
+			GameManager.Instance.EndRound();
 		}
 
 #if UNITY_EDITOR
@@ -112,7 +112,7 @@ namespace IngameDebugConsole
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
 				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.");
-				GameManager.Instance.RoundStart();
+				GameManager.Instance.StartRound();
 			}
 			else
 			{

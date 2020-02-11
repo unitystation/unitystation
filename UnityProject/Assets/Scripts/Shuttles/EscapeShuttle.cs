@@ -149,7 +149,7 @@ public class EscapeShuttle : NetworkBehaviour
 		//we disabled the zoom out
 		yield return WaitFor.Seconds(15f);
 		// Trigger end of round
-		GameManager.Instance.RoundEnd();
+		GameManager.Instance.EndRound();
 	}
 
 	[ClientRpc]
