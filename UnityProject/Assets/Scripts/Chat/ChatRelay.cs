@@ -210,24 +210,25 @@ public class ChatRelay : NetworkBehaviour
 	espeak.StartInfo.RedirectStandardOutput = true;
 	espeak.StartInfo.RedirectStandardError = true;         
 	espeak.StartInfo.UseShellExecute = false; 
-		if (Application.platform == RuntimePlatform.WindowsPlayer)
-	{
+	#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
 		relative_Path = @"/StreamingAssets/Espeak/Windows/ ";
 		espeak.StartInfo.FileName = Application.dataPath + "/StreamingAssets/Espeak/Windows/espeak-ng.exe";
-	}
-	///if (Application.platform == RuntimePlatform.OSXPlayer)
-	///{
+	#endif
+	///#if UNITY_STANDALONE_OSX
 		///relative_Path = "/Resources/Data/StreamingAssets/Espeak/MacOS/share ";
 		///espeak.StartInfo.FileName = Application.dataPath + "/Resources/Data/StreamingAssets/Espeak/MacOS/espeak";
-	///}
-	if (Application.platform == RuntimePlatform.LinuxPlayer)
-	{
+	///#endif
+	//#if UNITY_EDITOR_OSX
+		//relative_Path = "/StreamingAssets/Espeak/MacOS/share ";
+		//espeak.StartInfo.FileName= Application.dataPath +  "/StreamingAssets/Espeak/MacOS/espeak";
+	//#ENDIF
+	#if (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
 		relative_Path = "/StreamingAssets/Espeak/Linux/share ";
 		espeak.StartInfo.FileName= Application.dataPath +  "/StreamingAssets/Espeak/Linux/espeak";
-	}
+	#endif
         espeak.StartInfo.Arguments = "--path=" + Application.dataPath + relative_Path + message;
         espeak.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-	UnityEngine.Debug.Log("This was passed to espeak: " + espeak.StartInfo.Arguments);
+	///UnityEngine.Debug.Log("This was passed to espeak: " + espeak.StartInfo.Arguments);
         espeak.Start();
 
 	///string stdoutx = .StandardOutput.ReadToEnd();         
@@ -236,7 +237,7 @@ public class ChatRelay : NetworkBehaviour
 
 
 	///UnityEngine.Debug.Log("Espeak Stdout : ", stdoutx);
-       UnityEngine.Debug.Log("Espeak Stderr : " + stderrx);
+       UnityEngine.Debug.Log("Espeak Stderr : " + stderrx); ///It's always useful knowing if a program you tried to call threw an exception so I'm leaving this one uncommented.
 	}
 
 	/// <summary>
@@ -256,14 +257,11 @@ public class ChatRelay : NetworkBehaviour
 				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
-					if (Application.platform == RuntimePlatform.OSXPlayer)
-					{
+					#if UNITY_STANDALONE_OSX
 						MaryTTS.Instance.Synthesize(messageAfterSaysChar);
-					}
-					else
-					{
+					#else
 					StartEspeak(messageAfterSaysChar);
-					}
+					#endif
 				}
 			}
 		}
