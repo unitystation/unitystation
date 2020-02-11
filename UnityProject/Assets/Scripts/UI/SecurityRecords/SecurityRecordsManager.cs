@@ -9,17 +9,17 @@ public class SecurityRecordsManager : MonoBehaviour
 {
 	public List<SecurityRecord> SecurityRecords = new List<SecurityRecord>();
 
-	private static SecurityRecordsManager instance;
+	public static SecurityRecordsManager Instance;
 
-	public static SecurityRecordsManager Instance
+	private void Awake()
 	{
-		get
+		if (Instance == null)
 		{
-			if (instance == null)
-			{
-				instance = FindObjectOfType<SecurityRecordsManager>();
-			}
-			return instance;
+			Instance = this;
+		}
+		else
+		{
+			Destroy(this);
 		}
 	}
 

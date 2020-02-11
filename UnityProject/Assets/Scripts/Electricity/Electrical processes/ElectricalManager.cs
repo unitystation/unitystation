@@ -4,19 +4,6 @@ using UnityEngine;
 
 public class ElectricalManager : MonoBehaviour
 {
-	private static ElectricalManager electricalManager;
-	public static ElectricalManager Instance
-	{
-		get
-		{
-			if (electricalManager == null)
-			{
-				electricalManager = FindObjectOfType<ElectricalManager>();
-			}
-			return electricalManager;
-		}
-	}
-
 	private bool roundStartedServer = false;
 
 	void Update()
