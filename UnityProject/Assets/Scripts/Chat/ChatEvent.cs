@@ -68,7 +68,20 @@ public class ChatEvent
 	/// <summary>
 	/// Send chat message only to those on this matrix
 	/// </summary>
-	public MatrixInfo matrix = MatrixInfo.Invalid;
+	public MatrixInfo matrix
+	{
+		get
+		{
+			if (_matrix == MatrixInfo.Invalid)
+			{
+				return MatrixManager.AtPoint(position.RoundToInt(),CustomNetworkManager.IsServer);
+			}
+			return _matrix;
+		}
+		set => _matrix = value;
+	}
+
+	private MatrixInfo _matrix = MatrixInfo.Invalid;
 
 	public ChatEvent() {
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
