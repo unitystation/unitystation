@@ -202,27 +202,41 @@ public class ChatRelay : NetworkBehaviour
 	///Windows/Mac might need some tweaking as this was tested on Linux
 	private void StartEspeak(string message)
 	{
-	string game_Path = Application.dataPath;
+	string relative_Path = "";
+	///Note due to error in upstream espeak-ng it expects the folder to be named espeak-data. NOT espeak-ng-data. I could fix this on my fork but there's no benefit to doing so.
+	///Also it requires you to leave the optional second / off. --path in general is kind of shit. Maybe I could help upstream here :thinking:
 
 	Process espeak = new Process();
-	if (Application.platform == RuntimePlatform.WindowsPlayer)
+	espeak.StartInfo.RedirectStandardOutput = true;
+	espeak.StartInfo.RedirectStandardError = true;         
+	espeak.StartInfo.UseShellExecute = false; 
+		if (Application.platform == RuntimePlatform.WindowsPlayer)
 	{
-		espeak.StartInfo.WorkingDirectory= game_Path + @"/StreamingAssets/Espeak/Windows/";
-	  	espeak.StartInfo.FileName = "espeak-ng.exe";
+		relative_Path = @"/StreamingAssets/Espeak/Windows/ ";
+		espeak.StartInfo.FileName = Application.dataPath + "/StreamingAssets/Espeak/Windows/espeak-ng.exe";
 	}
-	if (Application.platform == RuntimePlatform.OSXPlayer)
-	{
-		espeak.StartInfo.WorkingDirectory= game_Path + "Resources/Data/StreamingAssets/Espeak/MacOS/";
-	  	espeak.StartInfo.FileName = "espeak";
-	}
+	///if (Application.platform == RuntimePlatform.OSXPlayer)
+	///{
+		///relative_Path = "/Resources/Data/StreamingAssets/Espeak/MacOS/share ";
+		///espeak.StartInfo.FileName = Application.dataPath + "/Resources/Data/StreamingAssets/Espeak/MacOS/espeak";
+	///}
 	if (Application.platform == RuntimePlatform.LinuxPlayer)
 	{
-		espeak.StartInfo.WorkingDirectory= game_Path + "/StreamingAssets/Espeak/Linux/";
-	  	espeak.StartInfo.FileName = "espeak";
+		relative_Path = "/StreamingAssets/Espeak/Linux/share ";
+		espeak.StartInfo.FileName= Application.dataPath +  "/StreamingAssets/Espeak/Linux/espeak";
 	}
-        espeak.StartInfo.Arguments = message;
+        espeak.StartInfo.Arguments = "--path=" + Application.dataPath + relative_Path + message;
         espeak.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+	UnityEngine.Debug.Log("This was passed to espeak: " + espeak.StartInfo.Arguments);
         espeak.Start();
+
+	///string stdoutx = .StandardOutput.ReadToEnd();         
+        string stderrx = espeak.StandardError.ReadToEnd();             
+	espeak.WaitForExit();
+
+
+	///UnityEngine.Debug.Log("Espeak Stdout : ", stdoutx);
+       UnityEngine.Debug.Log("Espeak Stderr : " + stderrx);
 	}
 
 	/// <summary>
@@ -242,7 +256,14 @@ public class ChatRelay : NetworkBehaviour
 				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
+					if (Application.platform == RuntimePlatform.OSXPlayer)
+					{
+						MaryTTS.Instance.Synthesize(messageAfterSaysChar);
+					}
+					else
+					{
 					StartEspeak(messageAfterSaysChar);
+					}
 				}
 			}
 		}
