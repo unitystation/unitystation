@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Allows an object to be hugged by a player.
+/// Allows an object to be pet by a player.
 /// </summary>
 public class Pettable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 {
@@ -11,7 +11,7 @@ public class Pettable : MonoBehaviour, IClientInteractable<PositionalHandApply>
 		var performerPlayerHealth = interaction.Performer.GetComponent<PlayerHealth>();
 		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
 
-		// Is the target in range for a hug? Is the target conscious for the hug? Is the performer's intent set to help?
+		// Is the target in range for a pet? Is the target conscious for the pet? Is the performer's intent set to help?
 		// Is the performer's hand empty? Is the performer not stunned/downed? Is the performer conscious to perform the interaction?
 		// Is the performer interacting with itself?
 		if (!PlayerManager.LocalPlayerScript.IsInReach(interaction.WorldPositionTarget, false) ||
