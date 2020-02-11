@@ -70,14 +70,7 @@ public class ChatEvent
 	/// </summary>
 	public MatrixInfo matrix
 	{
-		get
-		{
-			if (_matrix == MatrixInfo.Invalid)
-			{
-				return MatrixManager.AtPoint(position.RoundToInt(),CustomNetworkManager.IsServer);
-			}
-			return _matrix;
-		}
+		get => _matrix;
 		set => _matrix = value;
 	}
 
