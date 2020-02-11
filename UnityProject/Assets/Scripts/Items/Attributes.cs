@@ -72,24 +72,24 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	public override void OnStartClient()
 	{
-		SyncArticleName(this.name);
-		SyncArticleDescription(this.articleDescription);
+		SyncArticleName(articleName, this.name);
+		SyncArticleDescription(articleDescription, this.articleDescription);
 		base.OnStartClient();
 	}
 
 
 	public virtual void OnSpawnServer(SpawnInfo info)
 	{
-		SyncArticleName(initialName);
-		SyncArticleDescription(initialDescription);
+		SyncArticleName(articleName, initialName);
+		SyncArticleDescription(articleDescription, initialDescription);
 	}
 
-	private void SyncArticleName(string newName)
+	private void SyncArticleName(string oldName, string newName)
 	{
 		articleName = newName;
 	}
 
-	private void SyncArticleDescription(string newDescription)
+	private void SyncArticleDescription(string oldDescription, string newDescription)
 	{
 		articleDescription = newDescription;
 	}
@@ -151,13 +151,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	public void ServerSetArticleName(string newName)
 	{
-		SyncArticleName(newName);
+		SyncArticleName(articleName, newName);
 	}
 
 	[Server]
 	public void ServerSetArticleDescription(string desc)
 	{
-		SyncArticleDescription(desc);
+		SyncArticleDescription(articleDescription, desc);
 	}
 
 }

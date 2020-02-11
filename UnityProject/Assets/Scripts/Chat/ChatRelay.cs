@@ -16,6 +16,9 @@ public class ChatRelay : NetworkBehaviour
 
 	private ChatChannel namelessChannels;
 	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
+	private LayerMask layerMask;
+	private LayerMask npcMask;
+
 
 	/// <summary>
 	/// The char indicating that the following text is speech.
@@ -41,6 +44,8 @@ public class ChatRelay : NetworkBehaviour
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
 						   ChatChannel.Combat;
+		layerMask = LayerMask.GetMask("Walls", "Door Closed");
+		npcMask = LayerMask.GetMask("NPC");
 	}
 
 	[Server]
@@ -67,9 +72,7 @@ public class ChatRelay : NetworkBehaviour
 		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat
 													|| chatEvent.channels == ChatChannel.Action)
 		{
-			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-			LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
-			for (int i = 0; i < players.Count(); i++)
+			for (int i = 0; i < players.Count; i++)
 			{
 				if (players[i].Script == null)
 				{
@@ -84,8 +87,8 @@ public class ChatRelay : NetworkBehaviour
 					continue;
 				}
 
-				if (Vector2.Distance(chatEvent.position, //speaker.GameObject.transform.position,
-						players[i].GameObject.transform.position) > 14f)
+				if (Vector2.Distance(chatEvent.position,
+						(Vector3)players[i].Script.WorldPos) > 14f)
 				{
 					//Player in the list is too far away for local chat, remove them:
 					players.Remove(players[i]);
@@ -93,8 +96,8 @@ public class ChatRelay : NetworkBehaviour
 				else
 				{
 					//within range, but check if they are in another room or hiding behind a wall
-					if (Physics2D.Linecast(chatEvent.position, //speaker.GameObject.transform.position,
-						players[i].GameObject.transform.position, layerMask))
+					if (Physics2D.Linecast(chatEvent.position,
+						(Vector3)players[i].Script.WorldPos, layerMask))
 					{
 						//if it hit a wall remove that player
 						players.Remove(players[i]);
@@ -103,7 +106,6 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 			//Get NPCs in vicinity
-			var npcMask = LayerMask.GetMask("NPC");
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
 			foreach (Collider2D coll in npcs)
 			{

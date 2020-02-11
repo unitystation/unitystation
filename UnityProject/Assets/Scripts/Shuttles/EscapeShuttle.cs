@@ -145,9 +145,11 @@ public class EscapeShuttle : NetworkBehaviour
 
 	IEnumerator WaitForGameOver()
 	{
-		yield return WaitFor.Seconds(25f);
+		//note: used to wait for 25 seconds, now less because
+		//we disabled the zoom out
+		yield return WaitFor.Seconds(15f);
 		// Trigger end of round
-		GameManager.Instance.RoundEnd();
+		GameManager.Instance.EndRound();
 	}
 
 	[ClientRpc]

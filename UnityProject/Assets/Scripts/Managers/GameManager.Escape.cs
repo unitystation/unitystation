@@ -52,8 +52,8 @@ public partial class GameManager
 
 			if ( status == ShuttleStatus.DockedCentcom && beenToStation )
 			{
-				RoundEnd();
 				Logger.Log( "Shuttle arrived to Centcom, Round should end here", Category.Round );
+				EndRound();
 			}
 
 			if (status == ShuttleStatus.DockedStation)

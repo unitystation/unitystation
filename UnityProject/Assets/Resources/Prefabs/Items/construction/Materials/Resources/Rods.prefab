@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4519819786599941225}
+  m_GameObject: {fileID: 4386653123902480855}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
@@ -16,10 +16,16 @@ MonoBehaviour:
   - layerTile: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
     placeableOn: 7
     placeableOnlyOnTile: {fileID: 0}
+    itemCost: 1
   - layerTile: {fileID: 11400000, guid: 517cdfc8a30c3db42bd5e0c333c5c5ea, type: 2}
     placeableOn: 7
     placeableOnlyOnTile: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
       type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28, type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 0}
+    itemCost: 2
 --- !u!1001 &4386653123902484753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27,31 +33,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
+    - target: {fileID: 47517029760484900, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
-      propertyPath: m_Name
-      value: Rods
-      objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: initialName
-      value: Rods
-      objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: initialDescription
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+      objectReference: {fileID: 21300000, guid: 8afe5877eef9a4846b2c0b29496d5686,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: c7cca74482956574d9f3f02ec3602420, type: 3}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: d5a7865af55516e4cb88c88eec45d127, type: 3}
     - target: {fileID: 165128780772706316, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -107,20 +94,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: m_Name
+      value: Rods
+      objectReference: {fileID: 0}
     - target: {fileID: 273893261506824396, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 47517029760484900, guid: a5ae289234c114e4faca591be88bdbb7,
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: initialName
+      value: Rods
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: initialDescription
       value: 
-      objectReference: {fileID: 21300000, guid: 8afe5877eef9a4846b2c0b29496d5686,
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: c7cca74482956574d9f3f02ec3602420, type: 3}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: d5a7865af55516e4cb88c88eec45d127, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ae289234c114e4faca591be88bdbb7, type: 3}
---- !u!1 &4519819786599941225 stripped
+--- !u!1 &4386653123902480855 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
     type: 3}

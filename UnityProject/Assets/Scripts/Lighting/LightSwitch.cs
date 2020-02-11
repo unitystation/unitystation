@@ -55,6 +55,14 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 			return;
 		}
 
+		EnsureInit();
+
+	}
+
+	private void EnsureInit()
+	{
+		if (directional != null) return;
+
 		this.directional = GetComponent<Directional>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -106,7 +114,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 	{
 		if (Voltage < AtShutOffVoltage && isOn == States.On)
 		{
-			SyncLightSwitch( States.PowerCut);
+			SyncLightSwitch(isOn, States.PowerCut);
 			PowerCut = true;
 			if (PowerCut)
 			{
@@ -116,21 +124,22 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		}
 		else if (PowerCut == true && Voltage > AtShutOffVoltage)
 		{
-			SyncLightSwitch(States.On);
+			SyncLightSwitch(isOn, States.On);
 			PowerCut = false;
 		}
 
 	}
 	public override void OnStartClient()
 	{
-		SyncLightSwitch(this.isOn);
+		EnsureInit();
+		SyncLightSwitch(isOn, this.isOn);
 		StartCoroutine(WaitForLoad());
 	}
 
 	private IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(3f);
-		SyncLightSwitch(isOn);
+		SyncLightSwitch(isOn, isOn);
 	}
 
 	public bool Interact(HandApply interaction)
@@ -199,7 +208,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		}
 		if (RelatedAPC == null && !SelfPowered)
 		{
-			SyncLightSwitch(States.PowerCut);
+			SyncLightSwitch(isOn, States.PowerCut);
 		}
 	}
 
@@ -268,8 +277,9 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		return newPos;
 	}
 
-	private void SyncLightSwitch(States state)
+	private void SyncLightSwitch(States oldState, States state)
 	{
+		EnsureInit();
 		isOn = state;
 		if (state == States.On)
 		{

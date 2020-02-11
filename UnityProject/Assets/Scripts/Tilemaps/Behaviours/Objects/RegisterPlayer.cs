@@ -49,6 +49,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	private void Awake()
 	{
 		base.Awake();
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (playerScript != null) return;
 		playerScript = GetComponent<PlayerScript>();
 		uprightSprites = GetComponent<UprightSprites>();
 		playerDirectional = GetComponent<Directional>();
@@ -60,12 +66,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncIsLayingDown(isLayingDown);
+		EnsureInit();
+		SyncIsLayingDown(isLayingDown, isLayingDown);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncIsLayingDown(false);
+		SyncIsLayingDown(isLayingDown, false);
 	}
 
 	public override bool IsPassable(bool isServer)
@@ -85,7 +92,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerLayDown()
 	{
-		SyncIsLayingDown(true);
+		SyncIsLayingDown(isLayingDown, true);
 	}
 
 	/// <summary>
@@ -95,7 +102,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerStandUp()
 	{
-		SyncIsLayingDown(false);
+		SyncIsLayingDown(isLayingDown, false);
 	}
 
 	/// <summary>
@@ -105,11 +112,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	[Server]
 	public void ServerSetIsStanding(bool isStanding)
 	{
-		SyncIsLayingDown(!isStanding);
+		SyncIsLayingDown(isLayingDown, !isStanding);
 	}
 
-	private void SyncIsLayingDown(bool isDown)
+	private void SyncIsLayingDown(bool wasDown, bool isDown)
 	{
+		EnsureInit();
 		this.isLayingDown = isDown;
 		if (isDown)
 		{
@@ -160,7 +168,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		ServerStun();
 		SoundManager.PlayNetworkedAtPos("Slip", WorldPositionServer, Random.Range(0.9f, 1.1f));
 		// Let go of pulled items.
-		playerScript.pushPull.CmdStopPulling();
+		playerScript.pushPull.ServerStopPulling();
 	}
 
 	/// <summary>
@@ -174,7 +182,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
-		SyncIsLayingDown(true);
+		SyncIsLayingDown(isLayingDown, true);
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
@@ -199,7 +207,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		// Do not raise up a dead body
 		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
 		{
-			SyncIsLayingDown(false);
+			SyncIsLayingDown(isLayingDown, false);
 		}
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);

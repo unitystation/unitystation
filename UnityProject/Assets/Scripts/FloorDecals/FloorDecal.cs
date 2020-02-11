@@ -31,11 +31,18 @@ public class FloorDecal : NetworkBehaviour
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (spriteRenderer != null) return;
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		//randomly pick if there are options
 		if (PossibleSprites != null && PossibleSprites.Length > 0)
 		{
@@ -45,11 +52,13 @@ public class FloorDecal : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		SyncChosenSprite(chosenSprite);
+		EnsureInit();
+		SyncChosenSprite(chosenSprite, chosenSprite);
 	}
 
-	private void SyncChosenSprite(int _chosenSprite)
+	private void SyncChosenSprite(int _oldSprite, int _chosenSprite)
 	{
+		EnsureInit();
 		chosenSprite = _chosenSprite;
 		if (PossibleSprites != null && PossibleSprites.Length > 0)
 		{

@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Mirror;
 
 
-	public class DoorController : ManagedNetworkBehaviour
+	public class DoorController : MonoBehaviour
 	{
 		//public bool isWindowed = false;
 		public enum OpeningDirection
@@ -58,9 +59,15 @@ using Mirror;
 
 		[HideInInspector] public SpriteRenderer spriteRenderer;
 
-		public override void OnStartClient()
+
+		private void Awake()
 		{
-			base.OnStartClient();
+			EnsureInit();
+		}
+
+		private void EnsureInit()
+		{
+			if (registerTile != null) return;
 			if (!isWindowedDoor)
 			{
 				closedLayer = LayerMask.NameToLayer("Door Closed");
@@ -73,8 +80,6 @@ using Mirror;
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			openLayer = LayerMask.NameToLayer("Door Open");
-
-
 			registerTile = gameObject.GetComponent<RegisterDoor>();
 		}
 
@@ -98,7 +103,7 @@ using Mirror;
 			// the below logic and reopen the door if the client got stuck in the door in the .15 s gap.
 
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
-			if (isServer && !IsOpened && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
+			if (CustomNetworkManager.IsServer && !IsOpened && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
 			{
 				if (!MatrixManager.IsPassableAt(registerTile.WorldPositionServer, registerTile.WorldPositionServer,
 					isServer: true, includingPlayers: true, context: this.gameObject))
@@ -106,7 +111,7 @@ using Mirror;
 					//something is in the way, open back up
 					//set this field to false so open command will actually work
 					isPerformingAction = false;
-					Open();
+					ServerOpen();
 				}
 			}
 
@@ -143,9 +148,9 @@ using Mirror;
 		{
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
-			if (isServer)
+			if (CustomNetworkManager.IsServer)
 			{
-				TryClose();
+				ServerTryClose();
 			}
 		}
 
@@ -175,12 +180,11 @@ using Mirror;
 			}
 		}
 
-		[Server]
-		public void TryClose()
+		public void ServerTryClose()
 		{
 			// Sliding door is not passable according to matrix
             if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
-	            Close();
+	            ServerClose();
             }
 			else
 			{
@@ -188,31 +192,29 @@ using Mirror;
 			}
 		}
 
-		[Server]
-		public void Close() {
+		public void ServerClose() {
 			IsOpened = false;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
 				if (damageOnClose)
 				{
-					DamageOnClose();
+					ServerDamageOnClose();
 				}
 			}
 		}
 
-		[Server]
-		public void TryOpen(GameObject Originator)
+		public void ServerTryOpen(GameObject Originator)
 		{
 			if (AccessRestrictions != null)
 			{
 				if (AccessRestrictions.CheckAccess(Originator)) {
 					if (!IsOpened && !isPerformingAction) {
-						Open();
+						ServerOpen();
 					}
 				}
 				else {
 					if (!IsOpened && !isPerformingAction) {
-						AccessDenied();
+						ServerAccessDenied();
 					}
 				}
 			}
@@ -221,15 +223,14 @@ using Mirror;
 				Logger.LogError("Door lacks access restriction component!", Category.Doors);
 			}
 		}
-		[Server]
-		private void AccessDenied() {
+
+		private void ServerAccessDenied() {
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.AccessDenied );
 			}
 		}
 
-		[Server]
-		public void Open() {
+		public void ServerOpen() {
 			ResetWaiting();
 			IsOpened = true;
 
@@ -239,8 +240,7 @@ using Mirror;
 			}
 		}
 
-		[Server]
-		private void DamageOnClose()
+		private void ServerDamageOnClose()
 		{
 			foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
 			{

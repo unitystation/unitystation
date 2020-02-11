@@ -21,13 +21,11 @@ public class Renameable : NetworkBehaviour, ICheckedInteractable<HandActivate>, 
 	public override void OnStartClient()
 	{
 		attributes = gameObject.GetComponent<ItemAttributesV2>();
-		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
 		attributes = gameObject.GetComponent<ItemAttributesV2>();
-		base.OnStartServer();
 	}
 
 	public void SetCustomName(string custom)

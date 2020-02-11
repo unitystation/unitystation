@@ -45,10 +45,16 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (itemAttributes != null) return;
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		pickupable = GetComponent<Pickupable>();
-		if (color == (int)SwordColor.Random)
+		if (color == (int) SwordColor.Random)
 		{
 			color = Random.Range(1, 5);
 		}
@@ -58,18 +64,19 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public override void OnStartClient()
 	{
-		SyncColor(color);
-		base.OnStartClient();
+		EnsureInit();
+		SyncColor(color, color);
 	}
 
 	public override void OnStartServer()
 	{
-		SyncColor(color);
-		base.OnStartServer();
+		EnsureInit();
+		SyncColor(color, color);
 	}
 
-	private void SyncColor(int c)
+	private void SyncColor(int oldC, int c)
 	{
+		EnsureInit();
 		color = c;
 
 		var lightColor = Color.white;
@@ -155,23 +162,23 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				c = (int)SwordColor.Red;
 			}
 
-			SyncColor(c);
+			SyncColor(color, c);
 		}
 		else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Multitool))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
-			SyncColor((int)SwordColor.Rainbow);
+			SyncColor(color, (int)SwordColor.Rainbow);
 		}
 	}
 
 	public void ToggleState(Vector3 position)
 	{
-		UpdateState(!activated);
+		UpdateState(activated, !activated);
 
 		SoundManager.PlayNetworkedAtPos(activated ? "saberon" : "saberoff", position, 1f);
 	}
 
-	private void UpdateState(bool newState)
+	private void UpdateState(bool oldState, bool newState)
 	{
 		activated = newState;
 

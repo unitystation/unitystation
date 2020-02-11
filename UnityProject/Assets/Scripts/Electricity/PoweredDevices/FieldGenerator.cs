@@ -24,8 +24,7 @@ public class FieldGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		UpdateSprites(isOn);
+		UpdateSprites(isOn, isOn);
 	}
 
 
@@ -39,17 +38,17 @@ public class FieldGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;
-		UpdateSprites(isOn);
+		UpdateSprites(isOn, isOn);
 	}
 
 	public void PowerNetworkUpdate()
 	{
 		Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
-		UpdateSprites(isOn);
+		UpdateSprites(isOn, isOn);
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 
-	void UpdateSprites(bool _isOn){
+	void UpdateSprites(bool _wasOn, bool _isOn){
 		isOn = _isOn;
 		if (isOn)
 		{

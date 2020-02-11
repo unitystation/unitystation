@@ -138,7 +138,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public virtual void Awake()
 	{
-		InitSystems();
+		EnsureInit();
 	}
 
 	void OnEnable()
@@ -153,8 +153,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	}
 
 	/// Add any missing systems:
-	private void InitSystems()
+	private void EnsureInit()
 	{
+		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
 		//Always include blood for living entities:
 		bloodSystem = GetComponent<BloodSystem>();
@@ -184,6 +185,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		mobID = PlayerManager.Instance.GetMobID();
 		ResetBodyParts();
 		if (maxHealth <= 0)
@@ -197,14 +199,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		DNABloodType.BloodColor = bloodColor;
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
-
-		base.OnStartServer();
 	}
 
 	public override void OnStartClient()
 	{
+		EnsureInit();
 		StartCoroutine(WaitForClientLoad());
-		base.OnStartClient();
 	}
 
 	IEnumerator WaitForClientLoad()
@@ -215,24 +215,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			yield return WaitFor.EndOfFrame;
 		}
 		yield return WaitFor.EndOfFrame;
-		DNASync(DNABloodTypeJSON);
-		SyncFireStacks(this.fireStacks);
+		DNASync(DNABloodTypeJSON, DNABloodTypeJSON);
+		SyncFireStacks(fireStacks, this.fireStacks);
 	}
 
 	// This is the DNA SyncVar hook
-	private void DNASync(string updatedDNA)
+	private void DNASync(string oldDNA, string updatedDNA)
 	{
+		EnsureInit();
 		DNABloodTypeJSON = updatedDNA;
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
 	public void Extinguish()
 	{
-		SyncFireStacks(0);
+		SyncFireStacks(fireStacks, 0);
 	}
 
-	private void SyncFireStacks(float newValue)
+	private void SyncFireStacks(float oldValue, float newValue)
 	{
+		EnsureInit();
 		this.fireStacks = Math.Max(0,newValue);
 		OnClientFireStacksChange.Invoke(this.fireStacks);
 	}
@@ -368,7 +370,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		if (attackType == AttackType.Fire)
 		{
-			SyncFireStacks(fireStacks+1);
+			SyncFireStacks(fireStacks, fireStacks+1);
 		}
 
 		//For special effects spawning like blood:
@@ -427,12 +429,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 					//TODO: Burn clothes (see species.dm handle_fire)
 					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
 					//gradually deplete fire stacks
-					SyncFireStacks(fireStacks-0.1f);
+					SyncFireStacks(fireStacks, fireStacks-0.1f);
 					//instantly stop burning if there's no oxygen at this location
 					MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
 					if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 					{
-						SyncFireStacks(0);
+						SyncFireStacks(fireStacks, 0);
 					}
 					registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
 				}
@@ -548,7 +550,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		bloodSystem.StopBleedingAll();
 		//stop burning
 		//TODO: When clothes/limb burning is implemented, probably should keep burning until clothes are burned up
-		SyncFireStacks(0);
+		SyncFireStacks(fireStacks, 0);
 	}
 
 	private void Crit(bool allowCrawl = false)

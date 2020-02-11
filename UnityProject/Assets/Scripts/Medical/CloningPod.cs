@@ -26,7 +26,7 @@ public class CloningPod : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		SyncSprite(statusSync);
+		SyncSprite(statusSync, statusSync);
 	}
 
 	public void ServerStartCloning(CloningRecord record)
@@ -64,7 +64,7 @@ public class CloningPod : NetworkBehaviour
 
 	}
 
-	public void SyncSprite(CloningPodStatus value)
+	public void SyncSprite(CloningPodStatus oldValue, CloningPodStatus value)
 	{
 		statusSync = value;
 		if (value == CloningPodStatus.Empty)

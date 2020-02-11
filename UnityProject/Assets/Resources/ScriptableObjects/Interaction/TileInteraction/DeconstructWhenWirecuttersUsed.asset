@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: DeconstructWhenWirecuttersUsed
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
-  soundName: WireCutter
+  performerStartActionMessage: 
+  othersStartActionMessage: 
+  seconds: 1
+  objectsToSpawn: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
+  performerFinishActionMessage: 
+  othersFinishActionMessage: 

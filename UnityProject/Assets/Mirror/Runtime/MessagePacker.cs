@@ -25,8 +25,14 @@ namespace Mirror
             return typeof(T).FullName.GetStableHashCode() & 0xFFFF;
         }
 
+        public static int GetId(Type type)
+        {
+            return type.FullName.GetStableHashCode() & 0xFFFF;
+        }
+
         // pack message before sending
-        // -> pass writer instead of byte[] so we can reuse it
+        // -> NetworkWriter passed as arg so that we can use .ToArraySegment
+        //    and do an allocation free send before recycling it.
         [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Use Pack<T> instead")]
         public static byte[] PackMessage(int msgType, MessageBase msg)
         {
@@ -49,40 +55,56 @@ namespace Mirror
         }
 
         // pack message before sending
+        // -> NetworkWriter passed as arg so that we can use .ToArraySegment
+        //    and do an allocation free send before recycling it.
+        public static void Pack<T>(T message, NetworkWriter writer) where T : IMessageBase
+        {
+            // if it is a value type,  just use typeof(T) to avoid boxing
+            // this works because value types cannot be derived
+            // if it is a reference type (for example IMessageBase),
+            // ask the message for the real type
+            int msgType = GetId(typeof(T).IsValueType ? typeof(T) : message.GetType());
+            writer.WriteUInt16((ushort)msgType);
+
+            // serialize message into writer
+            message.Serialize(writer);
+        }
+
+        // helper function to pack message into a simple byte[] (which allocates)
+        // => useful for tests
+        // => useful for local client message enqueue
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static byte[] Pack<T>(T message) where T : IMessageBase
         {
             NetworkWriter writer = NetworkWriterPool.GetWriter();
-            try
-            {
-                // write message type
-                int msgType = GetId<T>();
-                writer.WriteUInt16((ushort)msgType);
 
-                // serialize message into writer
-                message.Serialize(writer);
+            Pack(message, writer);
+            byte[] data = writer.ToArray();
 
-                // return byte[]
-                return writer.ToArray();
-            }
-            finally
-            {
-                NetworkWriterPool.Recycle(writer);
-            }
+            NetworkWriterPool.Recycle(writer);
+
+            return data;
         }
 
         // unpack a message we received
         public static T Unpack<T>(byte[] data) where T : IMessageBase, new()
         {
-            NetworkReader reader = new NetworkReader(data);
+            NetworkReader networkReader = NetworkReaderPool.GetReader(data);
 
             int msgType = GetId<T>();
 
-            int id = reader.ReadUInt16();
+            int id = networkReader.ReadUInt16();
             if (id != msgType)
+            {
+                NetworkReaderPool.Recycle(networkReader);
                 throw new FormatException("Invalid message,  could not unpack " + typeof(T).FullName);
+            }
 
             T message = new T();
-            message.Deserialize(reader);
+            message.Deserialize(networkReader);
+
+            NetworkReaderPool.Recycle(networkReader);
+            
             return message;
         }
 
@@ -105,7 +127,7 @@ namespace Mirror
             }
         }
 
-        internal static NetworkMessageDelegate MessageHandler<T>(Action<NetworkConnection, T> handler) where T : IMessageBase, new() => networkMessage =>
+        internal static NetworkMessageDelegate MessageHandler<T>(Action<NetworkConnection, T> handler, bool requireAuthenication) where T : IMessageBase, new() => networkMessage =>
         {
             // protect against DOS attacks if attackers try to send invalid
             // data packets to crash the server/client. there are a thousand
@@ -122,14 +144,28 @@ namespace Mirror
             T message = default;
             try
             {
+                if (requireAuthenication && !networkMessage.conn.isAuthenticated)
+                {
+                    // message requires authentication, but the connection was not authenticated
+                    Debug.LogWarning($"Closing connection: {networkMessage.conn}. Received message {typeof(T)} that required authentication, but the user has not authenticated yet");
+                    networkMessage.conn.Disconnect();
+                    return;
+                }
+
                 message = networkMessage.ReadMessage<T>();
             }
             catch (Exception exception)
             {
-                Debug.LogError("Closed connection: " + networkMessage.conn.connectionId + ". This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: " + exception);
+                Debug.LogError("Closed connection: " + networkMessage.conn + ". This can happen if the other side accidentally (or an attacker intentionally) sent invalid data. Reason: " + exception);
                 networkMessage.conn.Disconnect();
                 return;
             }
+            finally
+            {
+                // TODO: Figure out the correct channel
+                NetworkDiagnostics.OnReceive(message, networkMessage.channelId, networkMessage.reader.Length);
+            }
+
             handler(networkMessage.conn, message);
         };
     }

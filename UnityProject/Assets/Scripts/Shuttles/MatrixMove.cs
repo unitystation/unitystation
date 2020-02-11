@@ -140,8 +140,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		SyncPivot(pivot);
-		SyncInitialPosition(initialPosition);
+		SyncPivot(pivot, pivot);
+		SyncInitialPosition(initialPosition, initialPosition);
 		clientStarted = true;
 	}
 
@@ -171,12 +171,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		Vector3Int initialPositionInt =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
-		SyncInitialPosition(initialPositionInt);
+		SyncInitialPosition(initialPosition, initialPositionInt);
 
 		var child = transform.GetChild( 0 );
 		matrixInfo = MatrixManager.Get( child.gameObject );
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
-		SyncPivot(initialPosition - childPosition);
+		SyncPivot(pivot, initialPosition - childPosition);
 
 		Logger.LogTraceFormat("{0}: pivot={1} initialPos={2}", Category.Matrix, gameObject.name,
 			pivot, initialPositionInt);
@@ -267,12 +267,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 		this.coordReadoutScript = coordReadout;
 	}
 
-	private void SyncInitialPosition(Vector3 initialPos)
+	private void SyncInitialPosition(Vector3 oldPos, Vector3 initialPos)
 	{
 		this.initialPosition = initialPos.RoundToInt();
 	}
 
-	private void SyncPivot(Vector3 pivot)
+	private void SyncPivot(Vector3 oldPivot, Vector3 pivot)
 	{
 		this.pivot = pivot.RoundToInt();
 	}

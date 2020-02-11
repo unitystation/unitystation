@@ -37,7 +37,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 			}
 			// placing on an existing tile
 			else if (tileAtPosition.LayerType == entry.placeableOn &&
-			         (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
+					 (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
 			{
 				return true;
 			}
@@ -52,26 +52,44 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, true);
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
-		//which way are we placing it
+
+		PlaceableTileEntry placeableTileEntry = null;
+
+		int itemAmount = 1;
+		var stackable = interaction.HandObject.GetComponent<Stackable>();
+		if (stackable != null)
+		{
+			itemAmount = stackable.Amount;
+		}
+
+		// find the first valid way possible to place a tile
 		foreach (var entry in waysToPlace)
 		{
+			//skip what can't be afforded
+			if (entry.itemCost > itemAmount)
+				continue;
+
 			//open space
 			if (tileAtPosition == null && entry.placeableOn == LayerType.None && entry.placeableOnlyOnTile == null)
 			{
-				interactableTiles.TileChangeManager.UpdateTile(cellPos, entry.layerTile);
+				placeableTileEntry = entry;
 				break;
 			}
+
 			// placing on an existing tile
-			else if (tileAtPosition.LayerType == entry.placeableOn &&
-			         (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
+			else if (tileAtPosition.LayerType == entry.placeableOn && (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
 			{
-				interactableTiles.TileChangeManager.UpdateTile(cellPos, entry.layerTile);
+				placeableTileEntry = entry;
 				break;
 			}
 		}
 
-		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-		Inventory.ServerConsume(interaction.HandSlot, 1);
+		if (placeableTileEntry != null)
+		{
+			interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
+			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
+			Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
+		}
 	}
 
 	/// <summary>
@@ -90,5 +108,9 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		[Tooltip("Particular tile this is placeable on. Leave empty to allow placing on any tile.")]
 		[SerializeField]
 		public LayerTile placeableOnlyOnTile;
+
+		[Tooltip("The amount of this item required to place tile.")]
+		[SerializeField]
+		public int itemCost = 1;
 	}
 }

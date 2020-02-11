@@ -8,6 +8,7 @@ using Mirror;
 using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -18,6 +19,7 @@ public class CustomNetworkManager : NetworkManager
 	[HideInInspector] public bool _isServer;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
+	public GameObject disconnectedViewerPrefab;
 
 	private void Awake()
 	{
@@ -99,67 +101,20 @@ public class CustomNetworkManager : NetworkManager
 	}
 
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
-	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
+	public override void OnServerAddPlayer(NetworkConnection conn)
 	{
-		//This spawns the player prefab
-		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
+		if (isHeadless || GameData.Instance.testServer)
 		{
-			//this is a headless server || testing headless (it removes the server player for localClient)
-			if (conn.address != "localClient")
+			if (conn == NetworkServer.localConnection)
 			{
-				StartCoroutine(WaitToSpawnPlayer(conn));
-			}
-		}
-		else
-		{
-			//This is a host server (keep the server player as it is for the host player)
-			StartCoroutine(WaitToSpawnPlayer(conn));
-		}
-
-		if (_isServer)
-		{
-			//Tell them what the current round time is
-			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
-		}
-	}
-
-	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn)
-	{
-		yield return WaitFor.Seconds(1f);
-		OnServerAddPlayerInternal(conn);
-	}
-
-	private void OnServerAddPlayerInternal(NetworkConnection conn)
-	{
-		if (playerPrefab == null)
-		{
-			if (!LogFilter.Debug)
-			{
+				Logger.Log("Prevented headless server from spawning a player", Category.Server);
 				return;
 			}
-			Logger.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", Category.Connections);
 		}
-		else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
-		{
-			if (!LogFilter.Debug)
-			{
-				return;
-			}
-			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Category.Connections);
-		}
-		// else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
-		// 	conn.playerControllers[playerControllerId].gameObject != null)
-		// {
-		// 	if (!LogFilter.Debug)  FIXME!! - need a way to determine if player has already spawned before this round
-		// 	{
-		// 		return;
-		// 	}
-		// 	Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.Connections);
-		// }
-		else
-		{
-			PlayerSpawn.ServerSpawnViewer(conn);
-		}
+
+		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
+		base.OnServerAddPlayer(conn);
+		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 	}
 
 	//called on client side when client first connects to the server
@@ -227,9 +182,22 @@ public class CustomNetworkManager : NetworkManager
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
+		//register them as removed from our own player list
+		PlayerList.Instance.Remove(conn);
+
 		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
 		//we want to keep the object around so player can rejoin and reenter their body.
-		PlayerList.Instance.Remove(conn);
+
+		//note that we can't remove authority from player owned objects, the workaround is to transfer authority to
+		//a different temporary object, remove authority from the original, and then run the normal disconnect logic
+
+		//transfer to a temporary object
+		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
+		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer, System.Guid.NewGuid());
+
+		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
+		//which will preserve their actual body because they no longer own it
+		base.OnServerDisconnect(conn);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)

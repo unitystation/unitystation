@@ -206,11 +206,18 @@ public class MetaDataNode: IGasMixContainer
 	/// </summary>
 	public WindowDamageLevel WindowDamage { get; set; } = WindowDamageLevel.Undamaged;
 
+	/// <summary>
+	/// The level of damage that a grill has received if the node is a grill.
+	/// </summary>
+	public GrillDamageLevel GrillDamage { get; set; } = GrillDamageLevel.Undamaged;
+
 	/// <returns>Damage before reset</returns>
 	public float ResetDamage()
 	{
 		Damage = 0;
 		IsScorched = false;
+		WindowDamage = WindowDamageLevel.Undamaged;
+		GrillDamage = GrillDamageLevel.Undamaged;
 		return previousDamage;
 	}
 

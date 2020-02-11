@@ -158,7 +158,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	[Server]
 	public void ServerSetPushable(bool isPushable)
 	{
-		SyncIsNotPushable(!isPushable);
+		SyncIsNotPushable(isNotPushable, !isPushable);
 	}
 
 	[Tooltip("The sound to play when pushed/pulled")]
@@ -198,7 +198,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 				(Vector2Int) registerTile.WorldPositionServer, allowed)) return;
 		}
 
-		SyncIsNotPushable(isAnchored);
+		SyncIsNotPushable(isNotPushable, isAnchored);
 	}
 
 	private IPushable pushableTransform;
@@ -226,19 +226,19 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 
 
 
-	private void SyncIsNotPushable(bool isNowNotPushable)
+	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
 	{
 		this.isNotPushable = isNowNotPushable;
 	}
 
 	public override void OnStartClient()
 	{
-		SyncIsNotPushable(this.isNotPushable);
+		SyncIsNotPushable(isNotPushable, this.isNotPushable);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncIsNotPushable(isInitiallyNotPushable);
+		SyncIsNotPushable(isNotPushable, isInitiallyNotPushable);
 	}
 
 	private void OnHighSpeedCollision( CollisionInfo collision )
@@ -317,6 +317,12 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// Client requests to stop pulling any objects
 	[Command]
 	public void CmdStopPulling() {
+		ReleaseControl();
+	}
+
+	[Server]
+	public void ServerStopPulling()
+	{
 		ReleaseControl();
 	}
 
@@ -640,6 +646,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 			StopFollowing();
 		}
 	}
+
 	[Server]
 	public void StopFollowing() {
 		if ( !IsBeingPulled ) {

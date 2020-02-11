@@ -24,7 +24,7 @@ public abstract class ServerMessage : GameMessageBase
 
 		var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
 
-		foreach (KeyValuePair<int, NetworkConnection> connection in NetworkServer.connections)
+		foreach (KeyValuePair<int, NetworkConnectionToClient> connection in NetworkServer.connections)
 		{
 			if (connection.Value != null && connection.Value != excludedConnection)
 			{
@@ -48,7 +48,7 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			return;
 		}
-		
+
 //			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{

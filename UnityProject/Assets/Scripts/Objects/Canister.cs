@@ -39,11 +39,17 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void Awake()
 	{
+		EnsureInit();
+		SetDefaultIntegrity();
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
+
+	private void EnsureInit()
+	{
+		if (container != null) return;
 		container = GetComponent<GasContainer>();
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
-		SetDefaultIntegrity();
-		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
@@ -153,8 +159,8 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		SyncConnected(isConnected);
+		EnsureInit();
+		SyncConnected(isConnected, isConnected);
 	}
 
 	void SetConnectedSprite(Sprite value)
@@ -162,8 +168,9 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 		connectorRenderer.sprite = value;
 	}
 
-	void SyncConnected(bool value)
+	void SyncConnected(bool oldValue, bool value)
 	{
+		EnsureInit();
 		if (value)
 		{
 			SetConnectedSprite(connectorSprite);

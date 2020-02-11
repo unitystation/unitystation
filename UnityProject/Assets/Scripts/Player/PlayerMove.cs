@@ -146,7 +146,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	public override void OnStartClient()
 	{
-		SyncCuffed(this.cuffed);
+		SyncCuffed(cuffed, this.cuffed);
 		base.OnStartClient();
 	}
 
@@ -348,16 +348,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 			registerPlayer.ServerStandUp();
 		}
 
-		SyncBuckledObjectNetId(netid);
+		SyncBuckledObjectNetId(0, netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		//inform the puller
 		if (PlayerScript.pushPull.PulledBy != null)
 		{
-			PlayerScript.pushPull.PulledBy.CmdStopPulling();
+			PlayerScript.pushPull.PulledBy.ServerStopPulling();
 		}
 
-		PlayerScript.pushPull.CmdStopFollowing();
-		PlayerScript.pushPull.CmdStopPulling();
+		PlayerScript.pushPull.StopFollowing();
+		PlayerScript.pushPull.ServerStopPulling();
 		PlayerScript.pushPull.ServerSetPushable(false);
 		onUnbuckled = unbuckledAction;
 
@@ -396,7 +396,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	public void Unbuckle()
 	{
 		var previouslyBuckledTo = BuckledObject;
-		SyncBuckledObjectNetId(NetId.Empty);
+		SyncBuckledObjectNetId(0, NetId.Empty);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.ServerSetPushable(true);
 		//decide if we should fall back down when unbuckled
@@ -430,7 +430,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	}
 
 	//syncvar hook invoked client side when the buckledTo changes
-	private void SyncBuckledObjectNetId(uint newBuckledTo)
+	private void SyncBuckledObjectNetId(uint oldBuckledTo, uint newBuckledTo)
 	{
 		//unsub if we are subbed
 		if (IsBuckled)
@@ -468,7 +468,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	[Server]
 	public void Cuff(HandApply interaction)
 	{
-		SyncCuffed(true);
+		SyncCuffed(cuffed, true);
 
 		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
 
@@ -507,13 +507,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	[Server]
 	public void Uncuff()
 	{
-		SyncCuffed(false);
+		SyncCuffed(cuffed, false);
 
 		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
 		TargetPlayerUIHandCuffToggle(connectionToClient, false);
 	}
 
-	private void SyncCuffed(bool cuffed)
+	private void SyncCuffed(bool wasCuffed, bool cuffed)
 	{
 		var oldCuffed = this.cuffed;
 		this.cuffed = cuffed;
@@ -594,7 +594,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncCuffed(this.cuffed);
+		SyncCuffed(cuffed, this.cuffed);
 	}
 }
 
