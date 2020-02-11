@@ -15,9 +15,6 @@ namespace Mirror.Weaver
         // getter functions that replace [SyncVar] member variable references. dict<field, replacement>
         public Dictionary<FieldDefinition, MethodDefinition> replacementGetterProperties = new Dictionary<FieldDefinition, MethodDefinition>();
 
-        // [Command]/[ClientRpc] functions that should be replaced. dict<originalMethodFullName, replacement>
-        public Dictionary<string, MethodDefinition> replaceMethods = new Dictionary<string, MethodDefinition>();
-
         // [SyncEvent] invoke functions that should be replaced. dict<originalEventName, replacement>
         public Dictionary<string, MethodDefinition> replaceEvents = new Dictionary<string, MethodDefinition>();
 
@@ -51,6 +48,7 @@ namespace Mirror.Weaver
         public static TypeReference NetworkConnectionType;
 
         public static TypeReference MessageBaseType;
+        public static TypeReference IMessageBaseType;
         public static TypeReference SyncListType;
         public static TypeReference SyncSetType;
         public static TypeReference SyncDictionaryType;
@@ -79,7 +77,6 @@ namespace Mirror.Weaver
         public static MethodReference NetworkServerGetActive;
         public static MethodReference NetworkServerGetLocalClientActive;
         public static MethodReference NetworkClientGetActive;
-        public static MethodReference getBehaviourIsServer;
 
         // custom attribute types
         public static TypeReference SyncVarType;
@@ -111,6 +108,9 @@ namespace Mirror.Weaver
         public static TypeReference gameObjectType;
         public static TypeReference transformType;
 
+        public static MethodReference syncVarEqualReference;
+        public static MethodReference syncVarNetworkIdentityEqualReference;
+        public static MethodReference syncVarGameObjectEqualReference;
         public static MethodReference setSyncVarReference;
         public static MethodReference setSyncVarHookGuard;
         public static MethodReference getSyncVarHookGuard;
@@ -248,7 +248,6 @@ namespace Mirror.Weaver
             ArraySegmentOffsetReference = Resolvers.ResolveProperty(ArraySegmentType, CurrentAssembly, "Offset");
             ArraySegmentConstructorReference = Resolvers.ResolveMethod(ArraySegmentType, CurrentAssembly, ".ctor");
 
-
             NetworkReaderType = NetAssembly.MainModule.GetType("Mirror.NetworkReader");
             NetworkWriterType = NetAssembly.MainModule.GetType("Mirror.NetworkWriter");
 
@@ -275,6 +274,7 @@ namespace Mirror.Weaver
             NetworkConnectionType = CurrentAssembly.MainModule.ImportReference(NetworkConnectionType);
 
             MessageBaseType = NetAssembly.MainModule.GetType("Mirror.MessageBase");
+            IMessageBaseType = NetAssembly.MainModule.GetType("Mirror.IMessageBase");
             SyncListType = NetAssembly.MainModule.GetType("Mirror.SyncList`1");
             SyncSetType = NetAssembly.MainModule.GetType("Mirror.SyncSet`1");
             SyncDictionaryType = NetAssembly.MainModule.GetType("Mirror.SyncDictionary`2");
@@ -288,7 +288,9 @@ namespace Mirror.Weaver
             ClientSceneType = NetAssembly.MainModule.GetType("Mirror.ClientScene");
             ReadyConnectionReference = Resolvers.ResolveMethod(ClientSceneType, CurrentAssembly, "get_readyConnection");
 
-            getBehaviourIsServer = Resolvers.ResolveMethod(NetworkBehaviourType, CurrentAssembly, "get_isServer");
+            syncVarEqualReference = Resolvers.ResolveMethod(NetworkBehaviourType, CurrentAssembly, "SyncVarEqual");
+            syncVarNetworkIdentityEqualReference = Resolvers.ResolveMethod(NetworkBehaviourType, CurrentAssembly, "SyncVarNetworkIdentityEqual");
+            syncVarGameObjectEqualReference = Resolvers.ResolveMethod(NetworkBehaviourType, CurrentAssembly, "SyncVarGameObjectEqual");
             setSyncVarReference = Resolvers.ResolveMethod(NetworkBehaviourType, CurrentAssembly, "SetSyncVar");
             setSyncVarHookGuard = Resolvers.ResolveMethod(NetworkBehaviourType, CurrentAssembly, "setSyncVarHookGuard");
             getSyncVarHookGuard = Resolvers.ResolveMethod(NetworkBehaviourType, CurrentAssembly, "getSyncVarHookGuard");
@@ -385,26 +387,10 @@ namespace Mirror.Weaver
 
             bool didWork = false;
 
-            // are ANY parent classes MessageBase
-            TypeReference parent = td.BaseType;
-            while (parent != null)
+            if (td.ImplementsInterface(IMessageBaseType))
             {
-                if (parent.FullName == MessageBaseType.FullName)
-                {
-                    MessageClassProcessor.Process(td);
-                    didWork = true;
-                    break;
-                }
-                try
-                {
-                    parent = parent.Resolve().BaseType;
-                }
-                catch (AssemblyResolutionException)
-                {
-                    // this can happen for plugins.
-                    //Console.WriteLine("AssemblyResolutionException: "+ ex.ToString());
-                    break;
-                }
+                MessageClassProcessor.Process(td);
+                didWork = true;
             }
 
             // check for embedded types

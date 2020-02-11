@@ -29,7 +29,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 	public string stringPlayerLightData;
 
 
-	public void UpdateHook(string _stringPlayerLightData)
+	public void UpdateHook(string _oldString, string _stringPlayerLightData)
 	{
 		if (!isServer)
 		{

@@ -18,7 +18,6 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// </summary>
 	[SyncVar(hook = nameof(SyncVoltage))]
 	private float voltageSync;
-	private bool voltageInit;
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
 	public bool PowerEnvironment = true;
@@ -36,24 +35,20 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// <summary>
 	/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 	/// </summary>
-	private void SyncVoltage(float newVoltage)
+	private void SyncVoltage(float oldVoltage, float newVoltage)
 	{
-		//optimization - do nothing if voltage already initialized and is unchanged
-		if (voltageSync == newVoltage && voltageInit) return;
 		voltageSync = newVoltage;
 		UpdateDisplay();
 	}
 
 	public override void OnStartServer()
 	{
-		SyncVoltage(voltageSync);
-		voltageInit = true;
+		SyncVoltage(voltageSync, voltageSync);
 	}
 
 	public override void OnStartClient()
 	{
-		SyncVoltage(voltageSync);
-		voltageInit = true;
+		SyncVoltage(voltageSync, voltageSync);
 	}
 
 	private void OnDisable()
@@ -87,7 +82,7 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 				BatteryCharging = true;
 			}
 		}
-		SyncVoltage(ElectricalNodeControl.Node.Data.ActualVoltage);
+		SyncVoltage(voltageSync, ElectricalNodeControl.Node.Data.ActualVoltage);
 		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
 		HandleDevices();
 		UpdateDisplay();

@@ -27,18 +27,24 @@ public class NPCDirectionalSprites : NetworkBehaviour
 		get { return GetDirection(dir); }
 	}
 
-	[SyncVar(hook = "OnDirChange")] private int dir;
-	[SyncVar(hook = "OnRotChange")] private float spriteRot;
+	[SyncVar(hook=nameof(SyncDirChange))] private int dir;
+	[SyncVar(hook=nameof(SyncRotChange))] private float spriteRot;
 
 	void OnEnable()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (health != null) return;
 		health = GetComponent<LivingHealthBehaviour>();
 		uprightSprites = GetComponent<UprightSprites>();
 	}
 
 	public override void OnStartServer()
 	{
-		base.OnStartServer();
+		EnsureInit();
 		localPosCache = transform.localPosition;
 		dir = 2;
 		spriteRot = 0;
@@ -46,21 +52,23 @@ public class NPCDirectionalSprites : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		OnDirChange(dir);
-		OnRotChange(spriteRot);
+		EnsureInit();
+		SyncDirChange(dir, dir);
+		SyncRotChange(spriteRot, spriteRot);
 	}
 
 	//0=no init ,1=up ,2=right ,3=down ,4=left
-	void OnDirChange(int direction)
+	void SyncDirChange(int oldDirection, int direction)
 	{
+		EnsureInit();
 		dir = direction;
 		ChangeSprite(direction);
 	}
 
 	//The local rotation of the sprite obj
-	void OnRotChange(float newRot)
+	void SyncRotChange(float oldRot, float newRot)
 	{
+		EnsureInit();
 		spriteRot = newRot;
 		spriteRend.transform.localEulerAngles = new Vector3(0f,0f, spriteRot);
 	}

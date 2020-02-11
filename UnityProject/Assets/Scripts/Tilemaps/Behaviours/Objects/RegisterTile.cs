@@ -198,9 +198,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 	private CustomNetTransform cnt;
+	private bool hasCachedComponents;
 
 	protected virtual void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (hasCachedComponents) return;
 		cnt = GetComponent<CustomNetTransform>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 	}
@@ -218,16 +225,18 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public override void OnStartClient()
 	{
 		LogMatrixDebug("OnStartClient");
-		SyncNetworkedMatrixNetId(networkedMatrixNetId);
+		EnsureInit();
+		SyncNetworkedMatrixNetId(networkedMatrixNetId, networkedMatrixNetId);
 	}
 
 	public override void OnStartServer()
 	{
 		LogMatrixDebug("OnStartServer");
+		EnsureInit();
 		ForceRegister();
 		if (Matrix != null)
 		{
-			SyncNetworkedMatrixNetId(Matrix.transform.parent.gameObject.NetId());
+			SyncNetworkedMatrixNetId(networkedMatrixNetId, Matrix.transform.parent.gameObject.NetId());
 		}
 	}
 
@@ -271,7 +280,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void ServerSetNetworkedMatrixNetID(uint newNetworkedMatrixNetID)
 	{
 		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
-		SyncNetworkedMatrixNetId(newNetworkedMatrixNetID);
+		SyncNetworkedMatrixNetId(networkedMatrixNetId, newNetworkedMatrixNetID);
 	}
 
 
@@ -281,11 +290,17 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
+	/// <param name="oldNetworkMatrixId"></param>
 	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
-	private void SyncNetworkedMatrixNetId(uint newNetworkedMatrixNetID)
+	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
 		LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
-		if (this.networkedMatrixNetId == newNetworkedMatrixNetID) return;
+		EnsureInit();
+		//note: previously we returned immediately if the new ID matched our current networkMatrixNetId,
+		//but because Mirror actually sets our networkMatrixNetId for us prior to this hook being called
+		//this would incorrectly skip the registration logic. This issue seems to only have
+		//occurred after upgrading mirror to the Feb 04, 20202 release .
+		//It's not really a performance concern since this sort of update happens rarely
 		if (newNetworkedMatrixNetID == NetId.Invalid || newNetworkedMatrixNetID == NetId.Empty) return;
 
 		this.networkedMatrixNetId = newNetworkedMatrixNetID;
@@ -338,6 +353,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[ContextMenu("Force Register")]
 	private void ForceRegister()
 	{
+		//TODO: Not sure if this is okay, as it sets the Matrix but it doesn't go through
+		//the full matrix init logic. It might be better to call FinishNetworkedMatrixRegistration after
+		//setting the matrix, but that would need to be tested.
 		LogMatrixDebug("ForceRegister");
 		if (transform.parent != null)
 		{

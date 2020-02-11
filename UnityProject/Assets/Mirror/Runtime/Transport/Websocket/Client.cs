@@ -1,14 +1,11 @@
 #if !UNITY_WEBGL || UNITY_EDITOR
 
 using System;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Ninja.WebSockets;
-using UnityEngine;
 
 namespace Mirror.Websocket
 {
@@ -90,7 +87,6 @@ namespace Mirror.Websocket
             {
                 WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), token);
 
-
                 if (result == null)
                     break;
                 if (result.MessageType == WebSocketMessageType.Close)
@@ -144,7 +140,7 @@ namespace Mirror.Websocket
             if (webSocket != null)
             {
                 // close client
-                webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure,"", CancellationToken.None);
+                webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
                 webSocket = null;
                 Connecting = false;
                 IsConnected = false;
@@ -152,7 +148,7 @@ namespace Mirror.Websocket
         }
 
         // send the data or throw exception
-        public async void Send(byte[] data)
+        public async void Send(ArraySegment<byte> segment)
         {
             if (webSocket == null)
             {
@@ -162,7 +158,7 @@ namespace Mirror.Websocket
 
             try
             {
-                await webSocket.SendAsync(new ArraySegment<byte>(data), WebSocketMessageType.Binary, true, cancellation.Token);
+                await webSocket.SendAsync(segment, WebSocketMessageType.Binary, true, cancellation.Token);
             }
             catch (Exception ex)
             {
@@ -171,10 +167,9 @@ namespace Mirror.Websocket
             }
         }
 
-
         public override string ToString()
         {
-            if (IsConnected )
+            if (IsConnected)
             {
                 return $"Websocket connected to {uri}";
             }

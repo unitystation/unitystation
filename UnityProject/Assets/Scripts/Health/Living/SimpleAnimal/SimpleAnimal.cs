@@ -22,7 +22,7 @@ public class SimpleAnimal : LivingHealthBehaviour
 	private IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(2f);
-		SetAliveState(deadState);
+		SetAliveState(deadState, deadState);
 	}
 
 	[Server]
@@ -31,7 +31,7 @@ public class SimpleAnimal : LivingHealthBehaviour
 		deadState = true;
 	}
 
-	private void SetAliveState(bool state)
+	private void SetAliveState(bool oldState, bool state)
 	{
 		deadState = state;
 		if (state)

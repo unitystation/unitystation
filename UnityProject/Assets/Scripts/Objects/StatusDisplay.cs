@@ -45,17 +45,19 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 
 	public override void OnStartClient()
 	{
-		SyncStatusText(statusText);
+		EnsureInit();
+		SyncStatusText(statusText, statusText);
 	}
 
 	public override void OnStartServer()
 	{
-		SyncStatusText(statusText);
+		EnsureInit();
+		SyncStatusText(statusText, statusText);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncStatusText(statusText);
+		SyncStatusText(statusText, statusText);
 	}
 
 	/// <summary>
@@ -71,11 +73,16 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 
 	private void Start()
 	{
+		EnsureInit();
+		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
+	}
+
+	private void EnsureInit()
+	{
 		if ( !textField )
 		{
 			textField = GetComponentInChildren<Text>();
 		}
-		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
 	}
 
 	#endregion
@@ -84,8 +91,9 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 	/// SyncVar hook to show text on client.
 	/// Text should be 2 pages max
 	/// </summary>
-	private void SyncStatusText(string newText)
+	private void SyncStatusText(string oldText, string newText)
 	{
+		EnsureInit();
 		//display font doesn't have lowercase chars!
 		statusText = newText.ToUpper().Substring( 0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE*2) );
 
@@ -130,7 +138,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 			{
 				if ( broadcastedChannel == StatusDisplayChannel.EscapeShuttle )
 				{
-					SyncStatusText( textIsEmpty ? cachedText : broadcastedText );
+					SyncStatusText(statusText, textIsEmpty ? cachedText : broadcastedText );
 				} else
 				{
 					//ignoring other channels
@@ -138,7 +146,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle
 			} else
 			{
 				cachedText = broadcastedText;
-				SyncStatusText( broadcastedText );
+				SyncStatusText(statusText, broadcastedText );
 			}
 		};
 	}

@@ -200,7 +200,7 @@ public class MobAgent : Agent
 						dest, true);
 				if (tryGetDoor)
 				{
-					tryGetDoor.TryOpen(gameObject);
+					tryGetDoor.ServerTryOpen(gameObject);
 				}
 			}
 			else

@@ -28,7 +28,7 @@ public class MachineConnectorSpriteHandler : NetworkBehaviour
 		InEast = '0';
 		Syncstring = "0000";
 		HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance>();
-		connections = ElectricityFunctions.SwitchCaseConnections(Wire.transform.localPosition, Wire.matrix, Wire.InData.CanConnectTo, Connection.MachineConnect, Wire);
+		connections = ElectricityFunctions.SwitchCaseConnections(Wire.transform.localPosition, Wire.Matrix, Wire.InData.CanConnectTo, Connection.MachineConnect, Wire);
 		foreach (var cn in connections)
 		{
 			Vector3 v3 = (cn.transform.localPosition - Wire.transform.localPosition).CutToInt();
@@ -38,12 +38,12 @@ public class MachineConnectorSpriteHandler : NetworkBehaviour
 			else if (v3 == Vector3.left) { InWest = '1'; }
 		}
 		Syncstring = InNorth.ToString() + InSouth.ToString() + InWest.ToString() + InEast.ToString();
-		UpdateSprites(Syncstring);
+		UpdateSprites(null, Syncstring);
 	}
 	public override void OnStartClient() {
-		UpdateSprites(Syncstring);
+		UpdateSprites(null, Syncstring);
 	}
-	public void UpdateSprites(string states)
+	public void UpdateSprites(string oldStates, string states)
 	{
 		for (int i = 0; i < states.Length; i++)
 		{

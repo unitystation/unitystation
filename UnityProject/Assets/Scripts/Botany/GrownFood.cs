@@ -15,7 +15,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	[SyncVar(hook = nameof(SyncPlant))]
 	public string PlantSyncString;
 
-	public void SyncPlant(string _PlantSyncString)
+	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
 	{
 		PlantSyncString = _PlantSyncString;
 		if (!isServer)
@@ -45,27 +45,27 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	[SyncVar(hook = nameof(SyncSize))]
 	public float SizeScale;
 
-	public void SyncSize(float _SizeScale)
+	public void SyncSize(float oldScale, float newScale)
 	{
-		SizeScale = _SizeScale;
+		SizeScale = newScale;
 		SpriteSizeAdjustment.transform.localScale = new Vector3((SizeScale), (SizeScale), (SizeScale));
 	}
 
 
 	public override void OnStartClient()
 	{
-		SyncPlant(this.PlantSyncString);
-		SyncSize(this.SizeScale);
+		SyncPlant(null, this.PlantSyncString);
+		SyncSize(this.SizeScale, this.SizeScale);
 		base.OnStartClient();
 	}
 
 	public void SetUpFood()
 	{
-		SyncPlant(plantData.Name);
+		SyncPlant(null, plantData.Name);
 		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
 		SpriteHandler.PushTexture();
 		SetupChemicalContents();
-		SyncSize(0.5f + (plantData.Potency / 100f));
+		SyncSize(SizeScale, 0.5f + (plantData.Potency / 100f));
 	}
 
 
@@ -91,7 +91,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 			var seedPacket = _Object.GetComponent<SeedPacket>();
 			seedPacket.plantData = plantData;
 
-			seedPacket.SyncPlant(plantData.Name);
+			seedPacket.SyncPlant(null, plantData.Name);
 
 			var slot = interaction.HandSlot;
 			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DespawnOther);

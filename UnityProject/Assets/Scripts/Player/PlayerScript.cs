@@ -67,22 +67,19 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	public override void OnStartClient()
 	{
 		Init();
-		SyncPlayerName(playerName);
-		base.OnStartClient();
+		SyncPlayerName(playerName, playerName);
 	}
 
 	//isLocalPlayer is always called after OnStartClient
 	public override void OnStartLocalPlayer()
 	{
 		Init();
-		base.OnStartLocalPlayer();
 	}
 
 	//You know the drill
 	public override void OnStartServer()
 	{
 		Init();
-		base.OnStartServer();
 	}
 
 	protected override void OnEnable()
@@ -195,7 +192,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		}
 	}
 
-	public void SyncPlayerName(string value)
+	public void SyncPlayerName(string oldValue, string value)
 	{
 		playerName = value;
 		gameObject.name = value;

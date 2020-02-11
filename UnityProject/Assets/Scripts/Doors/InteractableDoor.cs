@@ -48,7 +48,7 @@ public class InteractableDoor : MonoBehaviour, IPredictedCheckedInteractable<Han
 	{
 		if (!Controller.IsOpened)
 		{
-			Controller.TryOpen(byPlayer);
+			Controller.ServerTryOpen(byPlayer);
 		}
 	}
 
@@ -58,12 +58,12 @@ public class InteractableDoor : MonoBehaviour, IPredictedCheckedInteractable<Han
 		// Close the door if it's open
 		if (Controller.IsOpened)
 		{
-			Controller.TryClose();
+			Controller.ServerTryClose();
 		}
 		else
 		{
 			// Attempt to open if it's closed
-			Controller.TryOpen(interaction.Performer);
+			Controller.ServerTryOpen(interaction.Performer);
 		}
 
 		allowInput = false;

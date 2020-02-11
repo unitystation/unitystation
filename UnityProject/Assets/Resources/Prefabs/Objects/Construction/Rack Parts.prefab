@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: -1445245493585989624}
   - component: {fileID: 490726123092147132}
   - component: {fileID: 3118628355925246483}
-  - component: {fileID: 925564419828475077}
   - component: {fileID: -7234190806406616334}
   - component: {fileID: 8162274126718134943}
   m_Layer: 10
@@ -228,22 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2792980717
---- !u!114 &925564419828475077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6034371561869202664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-7234190806406616334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +260,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
 --- !u!114 &8162274126718134943
 MonoBehaviour:
   m_ObjectHideFlags: 0

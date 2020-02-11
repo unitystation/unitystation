@@ -54,8 +54,12 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 			return;
 		}
 
-		// Like a table, but everything is stacked on center
-		Vector3 targetPosition = interaction.WorldPositionTarget.RoundToInt();
-		pna.CmdPlaceItem(interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), targetPosition, interaction.Performer, true);
+		//drop it right in the middle of the rack. IN order to do that we have to calculate
+		//that position as an offset from the performer
+		//TODO: Make it less awkward by adding a serverdrop method that accepts absolute position instead of vector.
+		var targetTileWorldPosition = gameObject.TileWorldPosition();
+		var targetTileVector =
+			(Vector3Int) targetTileWorldPosition - interaction.PerformerPlayerScript.registerTile.WorldPositionServer;
+		Inventory.ServerDrop(interaction.HandSlot, targetTileVector.To2Int());
 	}
 }
