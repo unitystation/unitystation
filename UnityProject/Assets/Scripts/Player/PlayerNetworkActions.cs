@@ -343,10 +343,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 		}
 
-		playerScript.pushPull.CmdStopPulling();
+		playerScript.pushPull.ServerStopPulling();
 	}
 
-	[Command]
+	[Server]
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
@@ -406,6 +406,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	[Command]
 	public void CmdSpawnPlayerGhost()
+	{
+		ServerSpawnPlayerGhost();
+	}
+
+	[Server]
+	public void ServerSpawnPlayerGhost()
 	{
 		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost)
 		{
