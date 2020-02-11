@@ -77,6 +77,19 @@ public class SoundManager : MonoBehaviour
 	[Range(0f, 1f)]
 	public float MusicVolume = 1;
 
+	[SerializeField]
+	private string[] RoundEndSounds = new string[]
+	{
+		"ApcDestroyed",
+		"BanginDonk",
+		"Disappointed",
+		"ItsOnlyGame",
+		"LeavingTG",
+		"NewRoundSexy",
+		"Scrunglartiy",
+		"Yeehaw"
+	};
+
 	public AudioSource this[string key]
 	{
 		get
@@ -493,6 +506,15 @@ public class SoundManager : MonoBehaviour
 	public double GetRandomNumber(double minimum, double maximum)
 	{
 		return  RANDOM.NextDouble() * (maximum - minimum) + minimum;
+	}
+
+	/// <summary>
+	/// Plays a random round end sound using sounds picked from RoundEndSounds
+	/// </summary>
+	public void PlayRandomRoundEndSound()
+	{
+		var rand = RANDOM.Next(RoundEndSounds.Length);
+		PlayNetworked(RoundEndSounds[rand], 1f);
 	}
 
 }

@@ -23,6 +23,28 @@ public class VotingManager : NetworkBehaviour
 
 	private bool voteRestartSuccess = false;
 
+	/// <summary>
+	/// The initial time during a round before a vote can be started
+	/// </summary>
+	[SerializeField]
+	private float RoundStartCooldownTime = 60f;
+
+	/// <summary>
+	/// The cooldown time between votes
+	/// </summary>
+	[SerializeField]
+	private float CooldownTime = 60f;
+
+	/// <summary>
+	/// Is voting disabled due to the cooldown being active?
+	/// </summary>
+	private bool isCooldownActive;
+
+	/// <summary>
+	/// The active cooldown Coroutine
+	/// </summary>
+	private Coroutine cooldown;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -35,10 +57,40 @@ public class VotingManager : NetworkBehaviour
 		}
 	}
 
+	void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStarted);
+		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnded);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStarted);
+		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnded);
+	}
+
+	void OnRoundStarted()
+	{
+		cooldown = StartCoroutine(StartVoteCooldown(RoundStartCooldownTime));
+	}
+	void OnRoundEnded()
+	{
+		if (cooldown != null)
+		{
+			StopCoroutine(cooldown);
+		}
+	}
+
 	[Server]
 	public void TryInitiateRestartVote(GameObject instigator)
 	{
 		if (voteInProgress || voteRestartSuccess) return;
+
+		if (isCooldownActive)
+		{
+			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a restart vote!");
+			return;
+		}
 
 		votes.Clear();
 		countTime = 0f;
@@ -81,6 +133,16 @@ public class VotingManager : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Coroutine to time the cooldown period
+	/// </summary>
+	private IEnumerator StartVoteCooldown(float time)
+	{
+		isCooldownActive = true;
+		yield return WaitFor.Seconds(time);
+		isCooldownActive = false;
+	}
+
 	private void CheckVoteCriteria(bool stopVoteIfSuccess = false)
 	{
 		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
@@ -90,8 +152,8 @@ public class VotingManager : NetworkBehaviour
 				case VoteType.RestartRound:
 					if (voteRestartSuccess) return;
 					voteRestartSuccess = true;
-					StartCoroutine(BeginRoundRestart());
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
+					GameManager.Instance.EndRound();
 					break;
 			}
 
@@ -101,13 +163,6 @@ public class VotingManager : NetworkBehaviour
 				FinishVote();
 			}
 		}
-	}
-
-	IEnumerator BeginRoundRestart()
-	{
-		//A healthy delay before restarting everything
-		yield return WaitFor.Seconds(2f);
-		GameManager.Instance.RestartRound();
 	}
 
 	private bool IsSuccess(int forVotes, int maxVoters)
@@ -127,6 +182,7 @@ public class VotingManager : NetworkBehaviour
 
 	private void FinishVote()
 	{
+		StartCoroutine(StartVoteCooldown(CooldownTime));
 		RpcFinishVote();
 	}
 
