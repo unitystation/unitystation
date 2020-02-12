@@ -49,17 +49,45 @@ public class MetabolismSystem : NetworkBehaviour
 	[Tooltip("How often a metabolism tick occurs (in seconds)")]
 	private float metabolismRate = 5f;
 
-	[SerializeField]
-	[Tooltip("How fast the entity can walk while in the starving state")]
-	private float starvingWalkSpeed = 2f;
+	//TODO: Actually use this
+	//[SerializeField]
+	//[Tooltip("How fast the entity can walk while in the starving state")]
+	//private float starvingWalkSpeed = 2f;
 
 	public int NutritionLevel => nutritionLevel;
 
 	private int nutritionLevel = 125;
-	public HungerState HungerState => hungerState;
+	public HungerState HungerState
+	{
+		get
+		{
+			return hungerState;
+		}
+		set
+		{
+			if(!NetworkManager.isHeadless && PlayerManager.LocalPlayer == gameObject)
+			{
+				if (value == HungerState.Full && this.HungerState != HungerState.Full)
+					Chat.AddExamineMsgToClient("You're stuffed!");
 
-	[SyncVar]
-	private HungerState hungerState = HungerState.Normal;
+				if (value == HungerState.Normal && this.HungerState != HungerState.Normal)
+					Chat.AddExamineMsgToClient("You're satiated.");
+
+				if (value == HungerState.Hungry && this.HungerState != HungerState.Hungry)
+					Chat.AddExamineMsgToClient("You feel hungry.");
+
+				if (value == HungerState.Malnourished && this.HungerState != HungerState.Malnourished)
+					Chat.AddWarningMsgToClient("Your stomach rumbles violently.");
+
+				if (value == HungerState.Starving && this.HungerState != HungerState.Starving)
+					Chat.AddWarningMsgToClient("Your malnourished body aches!");
+			}
+
+			hungerState = value;
+		}
+	}
+
+	private HungerState hungerState;
 
 	public bool IsHungry => HungerState >= HungerState.Hungry;
 	public bool IsStarving => HungerState == HungerState.Starving;
@@ -93,6 +121,7 @@ public class MetabolismSystem : NetworkBehaviour
 
 	void UpdateMe()
     {
+		//Server only
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			tick += Time.deltaTime;
@@ -121,54 +150,36 @@ public class MetabolismSystem : NetworkBehaviour
 
 				nutritionLevel = Mathf.Clamp(nutritionLevel, 0, MAX_NUTRITION_LEVEL);
 
+				HungerState oldState = this.HungerState;
+
 				if (nutritionLevel > 150) //TODO: Make character nauseous when he's too full
-				{
-					if(HungerState != HungerState.Full)
-						Chat.AddExamineMsgFromServer(gameObject, "You're stuffed!");
-
-					hungerState = HungerState.Full;
-				}
+					HungerState = HungerState.Full;
 				else if (nutritionLevel > 75)
-				{
-					if(HungerState != HungerState.Normal)
-						Chat.AddExamineMsgFromServer(gameObject, "You're satiated.");
-
-					hungerState = HungerState.Normal;
-				}
+					HungerState = HungerState.Normal;
 				else if (nutritionLevel > 25)
-				{
-					if(HungerState != HungerState.Hungry)
-						Chat.AddExamineMsgFromServer(gameObject, "You feel hungry.");
-
-					hungerState = HungerState.Hungry;
-				}
+					HungerState = HungerState.Hungry;
 				else if (nutritionLevel > 0)
-				{
-					if(HungerState != HungerState.Malnourished)
-						Chat.AddWarningMsgFromServer(gameObject, "Your stomach rumbles violently.");
-
-					hungerState = HungerState.Malnourished;
-				}
-				else if (HungerState != HungerState.Starving)
-				{
-					Chat.AddWarningMsgFromServer(gameObject, "Your malnourished body aches!");
-					hungerState = HungerState.Starving;
-				}
-
-
-				if (HungerState == HungerState.Starving)
-				{
-					playerMove.RunSpeed = playerMove.WalkSpeed;
-				}
+					HungerState = HungerState.Malnourished;
 				else
-				{
-					playerMove.RunSpeed = playerMove.InitialRunSpeed;
-				}
+					HungerState = HungerState.Starving;
+
+				if (oldState != this.HungerState) //HungerState was altered, send new one to player
+					UpdateHungerStateMessage.Send(this.gameObject, HungerState);
 
 				tick = 0;
 			}
 		}
-    }
+
+		//Client and server
+		if (HungerState == HungerState.Starving)
+		{
+			playerMove.RunSpeed = playerMove.WalkSpeed;
+		}
+		else
+		{
+			playerMove.RunSpeed = playerMove.InitialRunSpeed;
+		}
+	}
 
 	/// <summary>
 	/// Adds a MetabolismEffect to the system. The effect is applied every metabolism tick.

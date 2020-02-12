@@ -430,6 +430,12 @@ public partial class Chat : MonoBehaviour
 		UpdateChatMessage.Send(recipient, ChatChannel.Warning, ChatModifier.None, msg);
 	}
 
+	public static void AddWarningMsgToClient(string message)
+	{
+		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None); //TODO: Put processing in a unified place for server and client.
+		Instance.addChatLogClient.Invoke(message, ChatChannel.Warning);
+	}
+
 	public static void AddAdminPrivMsg(string message, string adminId)
 	{
 		Instance.addAdminPriv.Invoke(message, adminId);
