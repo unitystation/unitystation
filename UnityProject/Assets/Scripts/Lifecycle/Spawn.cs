@@ -430,6 +430,7 @@ public static class Spawn
 		else
 		{
 			tempObject = Object.Instantiate(prefab, pos, destination.Parent.rotation * destination.LocalRotation, destination.Parent);
+			tempObject.name = prefab.name;
 
 			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
 
