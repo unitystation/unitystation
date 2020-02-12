@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: CEToolbeltFull
       objectReference: {fileID: 0}
+    - target: {fileID: 6829797418136951606, guid: 6c6ef3fa75d07454ebb448923ecfd255,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: e19b6f7cae2444fb5af25978e8965cdd,
+        type: 2}
     - target: {fileID: 6696760418087675751, guid: 6c6ef3fa75d07454ebb448923ecfd255,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,11 +78,5 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6829797418136951606, guid: 6c6ef3fa75d07454ebb448923ecfd255,
-        type: 3}
-      propertyPath: itemStoragePopulator
-      value: 
-      objectReference: {fileID: 11400000, guid: e19b6f7cae2444fb5af25978e8965cdd,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c6ef3fa75d07454ebb448923ecfd255, type: 3}

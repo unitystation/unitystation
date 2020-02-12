@@ -7,21 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: Reagents.Array.data[0]
-      value: clown_tears
-      objectReference: {fileID: 0}
-    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: Amounts.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: itemAttributes
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1129366686127204299, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: m_Name
@@ -82,6 +67,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: initialName
@@ -97,9 +87,19 @@ PrefabInstance:
       propertyPath: initialSize
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: Reagents.Array.data[0]
+      value: clown_tears
+      objectReference: {fileID: 0}
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: Amounts.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: itemAttributes
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,

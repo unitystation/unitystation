@@ -27,11 +27,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -160,6 +155,11 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 8f950bc1bba8a1946b1660d23ef82afb, type: 3}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite

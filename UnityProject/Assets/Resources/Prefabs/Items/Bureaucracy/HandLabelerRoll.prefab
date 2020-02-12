@@ -55,6 +55,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialName
+      value: Hand Labeler Roll
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialDescription
+      value: A roll of paper. Use it on a hand labeler to refill it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9932d4994f6499b4e96c4ad0867c423f,
+        type: 2}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1e9f0ebe7c7564b44a2700b49d79e91c,
+        type: 3}
     - target: {fileID: 114077084986960180, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: spriteList.Array.size
@@ -111,37 +143,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 34eac1a7e9d2a2a4a8ff9f1a3301965c,
         type: 3}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1e9f0ebe7c7564b44a2700b49d79e91c,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialName
-      value: Hand Labeler Roll
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialDescription
-      value: A roll of paper. Use it on a hand labeler to refill it.
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9932d4994f6499b4e96c4ad0867c423f,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

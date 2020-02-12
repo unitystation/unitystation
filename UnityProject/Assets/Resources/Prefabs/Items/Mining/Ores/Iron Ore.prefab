@@ -12,42 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Iron Ore
       objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialName
-      value: Iron Ore
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialDescription
-      value: That stuff you get from the ground
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: exportCost
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: exportName
-      value: Ore
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: exportMessage
-      value: Ore
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3d402a2b597113b4a97ee3710288b408,
-        type: 2}
-    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -103,6 +67,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialName
+      value: Iron Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialDescription
+      value: That stuff you get from the ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportCost
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportName
+      value: Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportMessage
+      value: Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d402a2b597113b4a97ee3710288b408,
+        type: 2}
     - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_Sprite

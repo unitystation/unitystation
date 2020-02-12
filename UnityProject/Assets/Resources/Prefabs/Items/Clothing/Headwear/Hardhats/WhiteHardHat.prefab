@@ -67,17 +67,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+    - target: {fileID: 8626702741117117177, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: b0c73d0e4d486c6429896647a1868de0,
-        type: 2}
     - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: Intensity
@@ -98,6 +92,17 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b0c73d0e4d486c6429896647a1868de0,
+        type: 2}
     - target: {fileID: 7712700953546887318, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_Sprite

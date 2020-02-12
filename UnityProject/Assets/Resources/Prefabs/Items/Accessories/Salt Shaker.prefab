@@ -50,7 +50,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: Salt Shaker1
+      value: Salt Shaker
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -96,11 +96,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
@@ -110,6 +105,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Shakes salt, or become salty and hit someone.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

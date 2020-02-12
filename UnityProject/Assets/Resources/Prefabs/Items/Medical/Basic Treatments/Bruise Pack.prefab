@@ -25,26 +25,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bruise Pack
       objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialName
-      value: Bruise Pack
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialDescription
-      value: Used to cure brute damage.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -99,6 +79,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialName
+      value: Bruise Pack
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialDescription
+      value: Used to cure brute damage.
       objectReference: {fileID: 0}
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}

@@ -12,11 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AutoInitID
       objectReference: {fileID: 0}
-    - target: {fileID: 933891112638017021, guid: dd36cfd4f55a00d4ab4190d869297198,
-        type: 3}
-      propertyPath: autoInitOnPickup
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2467717211471614077, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -76,6 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 933891112638017021, guid: dd36cfd4f55a00d4ab4190d869297198,
+        type: 3}
+      propertyPath: autoInitOnPickup
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2648414749016687211, guid: dd36cfd4f55a00d4ab4190d869297198,
         type: 3}
