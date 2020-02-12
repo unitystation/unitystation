@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Threading;
+
 
 /// <summary>
 /// ChatRelay is only to be used internally via Chat.cs
@@ -205,28 +207,29 @@ public class ChatRelay : NetworkBehaviour
 	string relative_Path = "";
 	///Note due to error in upstream espeak-ng it expects the folder to be named espeak-data. NOT espeak-ng-data. I could fix this on my fork but there's no benefit to doing so.
 	///Also it requires you to leave the optional second / off. --path in general is kind of shit. Maybe I could help upstream here :thinking:
-
+	string SS13DataPath = GameData.SS13DATAPATH;
 	Process espeak = new Process();
 	espeak.StartInfo.RedirectStandardOutput = true;
 	espeak.StartInfo.RedirectStandardError = true;         
 	espeak.StartInfo.UseShellExecute = false; 
+	espeak.StartInfo.CreateNoWindow = true;
 	#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
 		relative_Path = @"/StreamingAssets/Espeak/Windows";
-		espeak.StartInfo.FileName = Application.dataPath + "/StreamingAssets/Espeak/Windows/espeak-ng.exe";
+		espeak.StartInfo.FileName = SS13DataPath + "/StreamingAssets/Espeak/Windows/espeak-ng.exe";
 	#endif
 	///#if UNITY_STANDALONE_OSX
 		///relative_Path = "/Resources/Data/StreamingAssets/Espeak/MacOS/share ";
-		///espeak.StartInfo.FileName = Application.dataPath + "/Resources/Data/StreamingAssets/Espeak/MacOS/espeak";
+		///espeak.StartInfo.FileName = SS13DataPath + "/Resources/Data/StreamingAssets/Espeak/MacOS/espeak";
 	///#endif
 	//#if UNITY_EDITOR_OSX
 		//relative_Path = "/StreamingAssets/Espeak/MacOS/share";
-		//espeak.StartInfo.FileName= Application.dataPath +  "/StreamingAssets/Espeak/MacOS/espeak";
+		//espeak.StartInfo.FileName= SS13DataPath +  "/StreamingAssets/Espeak/MacOS/espeak";
 	//#ENDIF
 	#if (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
 		relative_Path = "/StreamingAssets/Espeak/Linux/share";
-		espeak.StartInfo.FileName= Application.dataPath +  "/StreamingAssets/Espeak/Linux/espeak";
+		espeak.StartInfo.FileName= SS13DataPath +  "/StreamingAssets/Espeak/Linux/espeak";
 	#endif
-	espeak.StartInfo.Arguments = "--path=" + @"""  + Application.dataPath + relative_Path + @"" " + message;
+	espeak.StartInfo.Arguments = "--path=\"" +SS13DataPath + relative_Path + "\" " + message;
         espeak.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 	#if DEVELOPMENT_BUILD
 	UnityEngine.Debug.Log("This was passed to espeak: " + espeak.StartInfo.Arguments);
@@ -262,7 +265,9 @@ public class ChatRelay : NetworkBehaviour
 					#if UNITY_STANDALONE_OSX
 						MaryTTS.Instance.Synthesize(messageAfterSaysChar);
 					#else
-					StartEspeak(messageAfterSaysChar);
+					Thread espeakThread = new Thread(() => StartEspeak(messageAfterSaysChar));
+					espeakThread.IsBackground = true;
+					espeakThread.Start();
 					#endif
 				}
 			}

@@ -35,7 +35,6 @@ public class GameData : MonoBehaviour
 	/// Disabled always for release builds.
 	/// </summary>
 	public bool OfflineMode => (!BuildPreferences.isForRelease && offlineMode) || forceOfflineMode;
-
 	public bool testServer;
 	private RconManager rconManager;
 
@@ -50,7 +49,8 @@ public class GameData : MonoBehaviour
 
 	public static int BuildNumber { get; private set; }
 	public static string ForkName { get; private set; }
-
+	public static string SS13DATAPATH  { get; set; }
+	
 	public static GameData Instance
 	{
 		get
@@ -79,6 +79,7 @@ public class GameData : MonoBehaviour
 		CheckHeadlessState();
 
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+		SS13DATAPATH = Application.dataPath;
 
 		string testServerEnv = Environment.GetEnvironmentVariable("TEST_SERVER");
 		if (!string.IsNullOrEmpty(testServerEnv))
