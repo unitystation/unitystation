@@ -193,6 +193,7 @@ using Mirror;
 		}
 
 		public void ServerClose() {
+			if (gameObject == null) return; //probably destroyed by a shuttle crash
 			IsOpened = false;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
@@ -230,7 +231,9 @@ using Mirror;
 			}
 		}
 
-		public void ServerOpen() {
+		public void ServerOpen()
+		{
+			if (gameObject == null) return; //probably destroyed by a shuttle crash
 			ResetWaiting();
 			IsOpened = true;
 
