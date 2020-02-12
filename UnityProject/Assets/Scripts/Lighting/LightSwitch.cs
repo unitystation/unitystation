@@ -56,14 +56,13 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		}
 
 		EnsureInit();
-
 	}
 
 	private void EnsureInit()
 	{
 		if (directional != null) return;
 
-		this.directional = GetComponent<Directional>();
+		directional = GetComponent<Directional>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		clickSFX = GetComponent<AudioSource>();

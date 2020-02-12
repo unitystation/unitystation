@@ -77,7 +77,7 @@ public partial class Chat : MonoBehaviour
 
 		// TODO the following code uses player.playerHealth, but ConciousState would be more appropriate.
 		// Check if the player is allowed to talk:
-		if (player.playerHealth != null)
+		if (player != null && player.playerHealth != null)
 		{
 			if (player.playerHealth.IsCrit || player.playerHealth.IsCardiacArrest)
 			{
