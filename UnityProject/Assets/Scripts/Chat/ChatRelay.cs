@@ -249,7 +249,7 @@ public class ChatRelay : NetworkBehaviour
 	/// Sends a message to TTS to vocalize.
 	/// They are required to contain the saysChar.
 	/// Messages must also contain at least one letter from the alphabet.
-	/// </summary>
+	/// </summary>0020
 	/// <param name="message">The message to try to vocalize.</param>
 	private void trySendingTTS(string message)
 	{
@@ -263,8 +263,14 @@ public class ChatRelay : NetworkBehaviour
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
 					#if UNITY_STANDALONE_OSX
-						MaryTTS.Instance.Synthesize(messageAfterSaysChar);
+						MaryTTS.Instance.Synthesize(messageAfterSaysChar);	
 					#else
+					///This regex is slightly suboptimal, as I couldn't get spaces to work when replacing with a blank space,
+					///but by replacing every one with a space, it won't affect pronounciation as espeak does not care about consecutive spaces.
+					Regex alphanumpunc = new Regex("[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,;?! ]");
+					messageAfterSaysChar = alphanumpunc.Replace(messageAfterSaysChar, "");
+					///We just stripped out all double quotes but we need the surrounding ones back still.
+					messageAfterSaysChar = "\"" + messageAfterSaysChar + "\"";
 					Thread espeakThread = new Thread(() => StartEspeak(messageAfterSaysChar));
 					espeakThread.IsBackground = true;
 					espeakThread.Start();
