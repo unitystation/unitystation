@@ -211,7 +211,7 @@ public class ChatRelay : NetworkBehaviour
 	espeak.StartInfo.RedirectStandardError = true;         
 	espeak.StartInfo.UseShellExecute = false; 
 	#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-		relative_Path = @"/StreamingAssets/Espeak/Windows/ ";
+		relative_Path = @"/StreamingAssets/Espeak/Windows";
 		espeak.StartInfo.FileName = Application.dataPath + "/StreamingAssets/Espeak/Windows/espeak-ng.exe";
 	#endif
 	///#if UNITY_STANDALONE_OSX
@@ -219,16 +219,18 @@ public class ChatRelay : NetworkBehaviour
 		///espeak.StartInfo.FileName = Application.dataPath + "/Resources/Data/StreamingAssets/Espeak/MacOS/espeak";
 	///#endif
 	//#if UNITY_EDITOR_OSX
-		//relative_Path = "/StreamingAssets/Espeak/MacOS/share ";
+		//relative_Path = "/StreamingAssets/Espeak/MacOS/share";
 		//espeak.StartInfo.FileName= Application.dataPath +  "/StreamingAssets/Espeak/MacOS/espeak";
 	//#ENDIF
 	#if (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
-		relative_Path = "/StreamingAssets/Espeak/Linux/share ";
+		relative_Path = "/StreamingAssets/Espeak/Linux/share";
 		espeak.StartInfo.FileName= Application.dataPath +  "/StreamingAssets/Espeak/Linux/espeak";
 	#endif
-        espeak.StartInfo.Arguments = "--path=" + Application.dataPath + relative_Path + message;
+	espeak.StartInfo.Arguments = "--path=" + @"""  + Application.dataPath + relative_Path + @"" " + message;
         espeak.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-	///UnityEngine.Debug.Log("This was passed to espeak: " + espeak.StartInfo.Arguments);
+	#if DEVELOPMENT_BUILD
+	UnityEngine.Debug.Log("This was passed to espeak: " + espeak.StartInfo.Arguments);
+	#endif
         espeak.Start();
 
 	///string stdoutx = .StandardOutput.ReadToEnd();         
