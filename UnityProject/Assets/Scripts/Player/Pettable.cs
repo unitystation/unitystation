@@ -11,16 +11,17 @@ public class Pettable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		var performerPlayerHealth = interaction.Performer.GetComponent<PlayerHealth>();
 		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
 
-		// Is the target in range for a pet? Is the target conscious for the pet? Is the performer's intent set to help?
-		// Is the performer's hand empty? Is the performer not stunned/downed? Is the performer conscious to perform the interaction?
-		// Is the performer interacting with itself?
-		if (!Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Standard, interaction.TargetVector))
+		if (Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Standard, interaction.TargetVector))
 		{
-			return false;
+			return true;
 		}
+		return false;
+	}
 
+	
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
 		Chat.AddActionMsgToChat(interaction.Performer,
-	$"You pet {interaction.TargetObject.name}.", $"{interaction.Performer.ExpensiveName()} pets {interaction.TargetObject.name}.");
-		return true;
+		$"You pet {interaction.TargetObject.name}.", $"{interaction.Performer.ExpensiveName()} pets {interaction.TargetObject.name}.");
 	}
 }
