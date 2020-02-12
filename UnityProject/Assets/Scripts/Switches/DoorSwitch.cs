@@ -11,7 +11,6 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public Sprite greenSprite;
 	public Sprite offSprite;
 	public Sprite redSprite;
-	private bool status;
 
 
 	public DoorController[] doorControllers;
@@ -59,21 +58,18 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 		{
 			if (accessRestrictions.CheckAccess(interaction.Performer))
 			{
-				status = true;
 				RunDoorController();
-				RpcPlayButtonAnim();
+				RpcPlayButtonAnim(true);
 			}
 			else
 			{
-				status = false;
-				RpcPlayButtonAnim();
+				RpcPlayButtonAnim(false);
 			}
 		}
 		else
 		{
-			status = true;
 			RunDoorController();
-			RpcPlayButtonAnim();
+			RpcPlayButtonAnim(true);
 		}
 	}
 
@@ -100,12 +96,12 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	}
 
 	[ClientRpc]
-	public void RpcPlayButtonAnim()
+	public void RpcPlayButtonAnim(bool status)
 	{
-		StartCoroutine(ButtonFlashAnim());
+		StartCoroutine(ButtonFlashAnim(status));
 	}
 
-	IEnumerator ButtonFlashAnim()
+	IEnumerator ButtonFlashAnim(bool status)
 	{
 		if (spriteRenderer == null)
 		{
