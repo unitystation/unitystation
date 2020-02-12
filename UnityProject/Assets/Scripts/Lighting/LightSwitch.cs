@@ -63,7 +63,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 	{
 		if (directional != null) return;
 
-		this.directional = GetComponent<Directional>();
+		directional = GetComponent<Directional>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		clickSFX = GetComponent<AudioSource>();

@@ -255,16 +255,13 @@ public class ReactionManager : MonoBehaviour
 
 			//only expose to atmos impassable objects, since those are the things the flames would
 			//actually brush up against
-			var regTiles = matrix.Get<RegisterTile>(atLocalPosition, true);
-			foreach (var regTile in regTiles)
+			matrix.ForEachRegisterTileSafe(tile =>
 			{
-				if (!regTile.IsAtmosPassable(exposure.HotspotLocalPosition.To3Int(), true))
+				if (tile.IsAtmosPassable(exposure.HotspotLocalPosition.To3Int(), true))
 				{
-					var exposable = regTile.GetComponent<IFireExposable>();
-					exposable.OnExposed(exposure);
+					tile.OnExposed(exposure);
 				}
-			}
-
+			}, atLocalPosition, true);
 			//expose the tiles there
 			foreach (var tilemapDamage in tilemapDamages)
 			{
@@ -276,11 +273,7 @@ public class ReactionManager : MonoBehaviour
 		{
 			Profiler.BeginSample("DirectExposure");
 			//direct exposure logic
-			var fireExposables = matrix.Get<IFireExposable>(atLocalPosition, true);
-			foreach (var exposable in fireExposables)
-			{
-				exposable.OnExposed(exposure);
-			}
+			matrix.ForEachRegisterTileSafe(tile => tile.OnExposed(exposure), atLocalPosition, true);
 			//expose the tiles
 			foreach (var tilemapDamage in tilemapDamages)
 			{
