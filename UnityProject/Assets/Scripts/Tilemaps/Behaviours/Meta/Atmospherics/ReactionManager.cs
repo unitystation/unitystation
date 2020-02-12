@@ -5,6 +5,7 @@ using Atmospherics;
 using Objects;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -18,6 +19,8 @@ public class ReactionManager : MonoBehaviour
 
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
 	private UniqueQueue<MetaDataNode> winds;
+	private List<Hotspot> hotspotsToAdd;
+	private List<Vector3Int> hotspotsToRemove;
 	private TilemapDamage[] tilemapDamages;
 
 	private float timePassed;
@@ -32,6 +35,8 @@ public class ReactionManager : MonoBehaviour
 
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
 		winds = new UniqueQueue<MetaDataNode>();
+		hotspotsToRemove = new List<Vector3Int>();
+		hotspotsToAdd = new List<Hotspot>();
 		tilemapDamages = GetComponentsInChildren<TilemapDamage>();
 	}
 
@@ -40,6 +45,7 @@ public class ReactionManager : MonoBehaviour
 		timePassed += Time.deltaTime;
 		timePassed2 += Time.deltaTime;
 
+		Profiler.BeginSample("Wind");
 		if ( timePassed2 >= 0.1 )
 		{
 			int count = winds.Count;
@@ -84,13 +90,17 @@ public class ReactionManager : MonoBehaviour
 
 			timePassed2 = 0;
 		}
+		Profiler.EndSample();
 
 		if (timePassed < 0.5)
 		{
 			return;
 		}
 
-		foreach (MetaDataNode node in hotspots.Values.ToArray())
+
+		//process the current hotspots, potentially adding new ones and removing ones that have expired.
+		//(but we actually perform the add / remove in a separate pass so we don't concurrentlyu modify the dict
+		foreach (MetaDataNode node in hotspots.Values)
 		{
 			if (node.Hotspot != null)
 			{
@@ -113,10 +123,34 @@ public class ReactionManager : MonoBehaviour
 				}
 				else
 				{
+					Profiler.BeginSample("MarkForRemoval");
 					RemoveHotspot(node);
+					Profiler.EndSample();
 				}
 			}
 		}
+
+
+		Profiler.BeginSample("HotspotModify");
+		//process additions and removals to the dictionary
+		foreach (var addedHotspot in hotspotsToAdd)
+		{
+			if (!hotspots.ContainsKey(addedHotspot.node.Position))
+			{
+				hotspots.Add(addedHotspot.node.Position, addedHotspot.node);
+			}
+
+		}
+		foreach (var removedHotspot in hotspotsToRemove)
+		{
+			if (hotspots.ContainsKey(removedHotspot))
+			{
+				hotspots.Remove(removedHotspot);
+			}
+		}
+		hotspotsToAdd.Clear();
+		hotspotsToRemove.Clear();
+		Profiler.EndSample();
 
 		timePassed = 0;
 	}
@@ -127,10 +161,11 @@ public class ReactionManager : MonoBehaviour
 		ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)), temperature, volume);
 	}
 
-	void RemoveHotspot(MetaDataNode node)
+	private void RemoveHotspot(MetaDataNode node)
 	{
 		node.Hotspot = null;
-		hotspots.Remove(node.Position);
+		//removal will be done later in update
+		hotspotsToRemove.Add(node.Position);
 		tileChangeManager.RemoveTile(node.Position, LayerType.Effects);
 	}
 
@@ -151,16 +186,20 @@ public class ReactionManager : MonoBehaviour
 		}
 		else
 		{
+			Profiler.BeginSample("MarkForAddition");
 			MetaDataNode node = metaDataLayer.Get(localPosition);
 			GasMix gasMix = node.GasMix;
 
 			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PlasmaMaintainFire)
 			{
+
 				// igniting
 				Hotspot hotspot = new Hotspot(node, temperature, volume * 25);
 				node.Hotspot = hotspot;
-				hotspots[localPosition] = node;
+				//addition will be done later in Update
+				hotspotsToAdd.Add(hotspot);
 			}
+			Profiler.EndSample();
 		}
 
 		if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
@@ -178,7 +217,7 @@ public class ReactionManager : MonoBehaviour
 
 	private void Expose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)
 	{
-
+		Profiler.BeginSample("ExposureInit");
 		var isSideExposure = hotspotPosition != atLocalPosition;
 		//calculate world position
 		var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, MatrixManager.Get(matrix));
@@ -190,18 +229,27 @@ public class ReactionManager : MonoBehaviour
 			return;
 		}
 
+
 		var exposure = FireExposure.FromMetaDataNode(hotspots[hotspotPosition], hotspotWorldPosition.To2Int(), atLocalPosition.To2Int(), atWorldPosition.To2Int());
+		Profiler.EndSample();
+
 		if (isSideExposure)
 		{
+			Profiler.BeginSample("SideExposure");
 			//side exposure logic
 
 			//already exposed by a different hotspot
-			if (hotspots.ContainsKey(atLocalPosition)) return;
+			if (hotspots.ContainsKey(atLocalPosition))
+			{
+				Profiler.EndSample();
+				return;
+			}
 
 			var metadata = metaDataLayer.Get(atLocalPosition);
 			if (!metadata.IsOccupied)
 			{
 				//atmos can pass here, so no need to check side exposure (nothing to brush up against)
+				Profiler.EndSample();
 				return;
 			}
 
@@ -222,9 +270,11 @@ public class ReactionManager : MonoBehaviour
 			{
 				tilemapDamage.OnExposed(exposure);
 			}
+			Profiler.EndSample();
 		}
 		else
 		{
+			Profiler.BeginSample("DirectExposure");
 			//direct exposure logic
 			var fireExposables = matrix.Get<IFireExposable>(atLocalPosition, true);
 			foreach (var exposable in fireExposables)
@@ -236,6 +286,7 @@ public class ReactionManager : MonoBehaviour
 			{
 				tilemapDamage.OnExposed(exposure);
 			}
+			Profiler.EndSample();
 		}
 
 	}
