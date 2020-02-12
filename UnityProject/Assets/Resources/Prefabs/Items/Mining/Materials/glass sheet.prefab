@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5680136605834777345}
+  m_GameObject: {fileID: 6201122676745363040}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
@@ -17,7 +17,6 @@ MonoBehaviour:
     placeableOn: 5
     placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
       type: 2}
-    itemCost: 1
 --- !u!1001 &6201122676745358930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25,11 +24,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_Name
-      value: glass sheet
-      objectReference: {fileID: 0}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -85,11 +79,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_Name
+      value: glass sheet
+      objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 18cd7fb17fa20c346bc0bd71a2b07f9b,
+        type: 3}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
@@ -233,15 +238,9 @@ PrefabInstance:
       propertyPath: initialDescription
       value: HOLY SHEET! That is a lot of glass.
       objectReference: {fileID: 0}
-    - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 18cd7fb17fa20c346bc0bd71a2b07f9b,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
---- !u!1 &5680136605834777345 stripped
+--- !u!1 &6201122676745363040 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
     type: 3}

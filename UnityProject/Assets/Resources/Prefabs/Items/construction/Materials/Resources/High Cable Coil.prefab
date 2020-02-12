@@ -72,6 +72,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: CableType
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: CablePrefab
+      value: 
+      objectReference: {fileID: 1042895037894172, guid: e3cc6d69954ca7f44b1df783b70ee6e1,
+        type: 3}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: initialDescription
@@ -155,17 +166,6 @@ PrefabInstance:
       propertyPath: maxAmount
       value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: CableType
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: CablePrefab
-      value: 
-      objectReference: {fileID: 1042895037894172, guid: e3cc6d69954ca7f44b1df783b70ee6e1,
-        type: 3}
     - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: m_Sprite
