@@ -56,7 +56,7 @@ public class MetabolismSystem : NetworkBehaviour
 
 	public int NutritionLevel => nutritionLevel;
 
-	private int nutritionLevel = 125;
+	private int nutritionLevel = 150;
 	public HungerState HungerState
 	{
 		get
