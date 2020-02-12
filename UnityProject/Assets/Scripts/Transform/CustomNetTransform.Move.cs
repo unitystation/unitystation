@@ -638,7 +638,9 @@ public partial class CustomNetTransform
 	/// </Summary>
 	private bool CanDriftTo(Vector3Int originPos, Vector3Int targetPos, bool isServer)
 	{
-		return MatrixManager.IsPassableAt(originPos, targetPos, isServer, includingPlayers : false);
+		// If we're being thrown, collide like being airborne.
+		CollisionType colType = IsBeingThrown ? CollisionType.Airborne : CollisionType.Player;
+		return MatrixManager.IsPassableAt(originPos, targetPos, isServer, collisionType: colType, includingPlayers : false);
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
