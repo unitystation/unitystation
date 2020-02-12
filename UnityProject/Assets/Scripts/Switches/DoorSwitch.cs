@@ -137,6 +137,5 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		}
 		spriteRenderer.sprite = greenSprite;
-		status = false;
 	}
 }
