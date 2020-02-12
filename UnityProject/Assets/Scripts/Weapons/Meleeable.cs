@@ -3,9 +3,10 @@ using UnityEngine;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
-/// Allows an object or tiles to be attacked by melee.
+/// Allows an object or tiles to be attacked by melee. 
+/// Inventory interactable lets knife cut up materials in the target hand. 
 /// </summary>
-public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
+public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 {
 	[SerializeField]
 	private ItemTrait butcherKnifeTrait;
@@ -131,4 +132,54 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 	}
 
+	//check if item is being applied to offhand with cuttable object on it.
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
+	{
+	
+		//can the player act at all?
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		//interaction only occurs if cutting target is on a hand slot.
+		if (!interaction.IsToHandSlot) return false;
+
+		//if the item isn't a knife, no go.
+		if (!Validations.HasItemTrait(interaction.FromSlot.Item.gameObject, butcherKnifeTrait)) return false;
+		
+		//ToSlot must not be empty.
+		if (interaction.ToSlot == null) return false;
+
+		return true;
+	}
+	public void ServerPerformInteraction(InventoryApply interaction)
+	{
+
+		//is the target item cuttable?
+		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+		Ingredient ingredient = new Ingredient(attr.ArticleName);
+		GameObject cut = CraftingManager.Cuts.FindRecipe(new List<Ingredient> { ingredient });
+		if (cut)
+		{
+			Inventory.ServerDespawn(interaction.TargetSlot);
+
+			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Cuts.FindOutputMeal(cut.name), 
+			SpawnDestination.At(), 1);
+
+			if (spwn.Successful)
+			{
+				
+				//foreach (GameObject obj in spwn.GameObjects)
+				//{
+				//	Inventory.ServerAdd(obj,interaction.TargetSlot);
+				//}
+
+				Inventory.ServerAdd(spwn.GameObject ,interaction.TargetSlot);
+
+			}
+
+		} else {
+
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't cut this.");
+		}
+
+	}
 }
