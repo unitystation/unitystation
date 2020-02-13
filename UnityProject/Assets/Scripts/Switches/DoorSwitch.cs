@@ -12,29 +12,26 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public Sprite offSprite;
 	public Sprite redSprite;
 
+	[Header("Access Restrictions for ID")]
+	[Tooltip("Is this door restricted?")] public bool restricted;
+	[Tooltip("Access level to limit door if above is set.")] public Access access;
+
 
 	public DoorController[] doorControllers;
 
 	private bool buttonCoolDown = false;
-
 	private AccessRestrictions accessRestrictions;
-	public AccessRestrictions AccessRestrictions
-	{
-		get
-		{
-			if (!accessRestrictions)
-			{
-				accessRestrictions = GetComponent<AccessRestrictions>();
-			}
-			return accessRestrictions;
-		}
-	}
 
 	private void Start()
 	{
 		//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
 		gameObject.layer = LayerMask.NameToLayer("WallMounts");
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		accessRestrictions = gameObject.AddComponent<AccessRestrictions>();
+		if (restricted)
+		{
+			accessRestrictions.restriction = access;
+		}
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -54,7 +51,7 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (AccessRestrictions != null)
+		if (accessRestrictions != null && restricted)
 		{
 			if (accessRestrictions.CheckAccess(interaction.Performer))
 			{
