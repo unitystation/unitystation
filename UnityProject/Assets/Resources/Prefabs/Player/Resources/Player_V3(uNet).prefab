@@ -1137,6 +1137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canClickPickup: 0
   canQuickEmpty: 0
+  actionData: {fileID: 0}
 --- !u!114 &114908376472113748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1277,8 +1278,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3937990936
+  m_AssetId: 44a8a3be9127f4465a50b7811d059bb3
+  m_SceneId: 0
 --- !u!114 &441872716838640463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4411,6 +4412,7 @@ MonoBehaviour:
   - {fileID: 7057434370678830746, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   - {fileID: 6543762784068199679, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   spriteRend: {fileID: 6479668554434910921}
+  actionData: {fileID: 11400000, guid: 82e905f8f9e96df499feb90ee421b2ee, type: 2}
 --- !u!1 &5415306199211915668
 GameObject:
   m_ObjectHideFlags: 0

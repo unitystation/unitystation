@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
+using Mirror;
 /// <summary>
 /// Handles the overlays for the handcuff sprites
 /// </summary>
-public class RestraintOverlay : ClothingItem
+public class RestraintOverlay : ClothingItem, IActionGUI
 {
 	//TODO Different colored overlays for different restraints
 	[SerializeField]
@@ -16,6 +16,12 @@ public class RestraintOverlay : ClothingItem
 	private CancellationTokenSource cancelSource;
 	private float healthCache;
 	private Vector3Int positionCache;
+
+
+	[SerializeField]	
+	private ActionData actionData;
+
+	public ActionData ActionData => actionData;
 
 	public override void SetReference(GameObject Item)
 	{
@@ -45,11 +51,11 @@ public class RestraintOverlay : ClothingItem
 
 		if (GameObjectReference != null)
 		{
-			UIManager.AlertUI.ToggleAlertCuffed(true);
+			UIActionManager.Instance.SetAction(this, true);
 		}
 		else
 		{
-			UIManager.AlertUI.ToggleAlertCuffed(false);
+			UIActionManager.Instance.SetAction(this, false);
 		}
 	}
 
@@ -112,4 +118,13 @@ public class RestraintOverlay : ClothingItem
 
 		return true;
 	}
+
+	public void CallActionClient() {
+		Logger.Log("CallActionClient RO");
+		PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+	}
+	//public ActionData CallGetActionData()
+	//{
+	//	return (actionData);
+	//}
 }

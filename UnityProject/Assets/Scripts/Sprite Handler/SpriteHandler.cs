@@ -8,7 +8,7 @@ using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Serialization;
-
+using UnityEngine.UI;
 ///	<summary>
 ///	for Handling sprite animations
 ///	</summary>
@@ -24,6 +24,8 @@ public class SpriteHandler : MonoBehaviour
 		public float waitTime;
 	}
 	private SpriteRenderer spriteRenderer;
+
+	private Image image;
 
 	[SerializeField]
 	private int spriteIndex;
@@ -46,14 +48,51 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool Initialised;
 
+	private void SetImageColor(Color value) {
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.color = value;
+		}
+		else if (image != null){
+			image.color = value;
+		}
+	}
+
+	private void SetImageSprite(Sprite value)
+	{
+
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.sprite = value;
+		}
+		else if (image != null)
+		{
+			image.sprite = value;
+		}
+	}
+
+	private bool HasImageComponent()
+	{
+		if (spriteRenderer != null) return (true);
+		if (image != null) return (true);
+		return (false);
+	}
+
+	private void GetImageComponent()
+	{
+		spriteRenderer = this.GetComponent<SpriteRenderer>();
+		image = this.GetComponent<Image>();
+	}
+
 	private IEnumerator WaitForInitialisation()
 	{
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
+		GetImageComponent();
 		if (spriteData == null) {
 			spriteData = new SpriteData();
 		}
-		if (spriteRenderer != null && SetSpriteOnStartUp && spriteData.HasSprite())
+		if (HasImageComponent() && SetSpriteOnStartUp && spriteData.HasSprite())
 		{
 			PushTexture();
 		}
@@ -71,16 +110,16 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetColor(Color value)
 	{
-		if (spriteRenderer == null)
+		if (!HasImageComponent())
 		{
-			spriteRenderer = this.GetComponent<SpriteRenderer>();
+			GetImageComponent();
 		}
-		spriteRenderer.color = value;
+		SetImageColor(value);
 	}
 
 	public void PushClear()
 	{
-		spriteRenderer.sprite = null;
+		SetImageSprite(null);
 		TryToggleAnimationState(false);
 	}
 
@@ -107,7 +146,7 @@ public class SpriteHandler : MonoBehaviour
 					return;
 				}
 			}
-			spriteRenderer.sprite = null;
+			SetImageSprite(null);
 			TryToggleAnimationState(false);
 		}
 	}
@@ -129,7 +168,7 @@ public class SpriteHandler : MonoBehaviour
 		if (!isAnimation)
 		{
 			UpdateManager.Instance.Remove(UpdateMe);
-			spriteRenderer.sprite = null;
+			SetImageSprite(null);
 		}
 	}
 
@@ -137,16 +176,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		timeElapsed = 0;
 		waitTime = animationStills.waitTime;
-		if (spriteRenderer == null)
-		{
-			spriteRenderer = GetComponent<SpriteRenderer>();
-			if (spriteRenderer == null)
-			{
-				Logger.Log($"There is no spriterenderer on this object {name}");
-				return;
-			}
-		}
-		spriteRenderer.sprite = animationStills.sprite;
+		SetImageSprite(animationStills.sprite);
 	}
 
 	public void ChangeSprite(int newSprites)
@@ -199,6 +229,16 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+/// <summary>
+/// Used to set a singular sprite
+/// </summary>
+/// <param name="_sprite">Sprite.</param>
+	public void SetSprite(Sprite _sprite)
+	{
+		SetImageSprite(_sprite);
+		TryToggleAnimationState(false);
+	}
+
 	/// <summary>
 	/// Used to Set sprite handlers internal buffer to the single Texture specified and set Sprite
 	/// </summary>
@@ -229,6 +269,31 @@ public class SpriteHandler : MonoBehaviour
 		spriteIndex = _spriteIndex;
 		variantIndex = _variantIndex;
 		spriteData = _Info;
+		if (Initialised)
+		{
+			PushTexture();
+		}
+		else {
+			SetSpriteOnStartUp = true;
+		}
+	}
+
+
+	/// <summary>
+	/// Used to generate A buffer from a list of sprites
+	/// </summary>
+	/// <param name="_Info">The list of sprites</param>
+	/// <param name="_spriteIndex">Initial Sprite index.</param>
+	/// <param name="_variantIndex">Initial Variant index.</param>
+	public void SetInfo(List<SpriteSheetAndData> _Info, int _spriteIndex = 0, int _variantIndex = 0)
+	{
+		spriteIndex = _spriteIndex;
+		variantIndex = _variantIndex;
+		spriteData.List = new List<List<List<SpriteInfo>>>();
+		foreach (var Data in _Info)
+		{
+			spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Data));
+		}
 		if (Initialised)
 		{
 			PushTexture();
