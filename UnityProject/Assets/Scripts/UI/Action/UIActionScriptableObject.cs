@@ -10,14 +10,14 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI
 	private ActionData actionData;
 	public ActionData ActionData => actionData;
 
-	public void CallActionClient()
+	public virtual void CallActionClient()
 	{
 		Logger.Log("CallActionClient SO");
 		//Do whatever you want
 		//Remember if its networked do validationNot just
 	}
 
-	public void CallActionServer(ConnectedPlayer SentByPlayer)
+	public virtual void CallActionServer(ConnectedPlayer SentByPlayer)
 	{
 		Logger.Log("CallActionServer SO");
 		//Validation
