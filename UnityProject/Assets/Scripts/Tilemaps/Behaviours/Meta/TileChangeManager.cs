@@ -93,10 +93,10 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public void MetaUpdateFloor(Vector3Int cellPosition, LayerTile floorTile, LayerTile wallTile)
 	{
-		LayerTile metaFloor = metaTileMap.GetTile(cellPosition, layerTile.LayerType);
+		LayerTile metaFloor = metaTileMap.GetTile(cellPosition, floorTile.LayerType);
 		metaFloor.LayerType = wallTile.LayerType;
 		metaFloor.TileType = wallTile.TileType;
-		metaTileMap.SetTile(cellPosition, layerTile);
+		metaTileMap.SetTile(cellPosition, metaFloor);
 	}
 
 	[Server]
