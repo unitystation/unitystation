@@ -236,10 +236,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRegisterVote(string userId, bool isFor)
+	public void CmdRegisterVote(bool isFor)
 	{
 		if (VotingManager.Instance == null) return;
-		VotingManager.Instance.RegisterVote(userId, isFor);
+		var connectedPlayer = PlayerList.Instance.Get(gameObject);
+		if (connectedPlayer == ConnectedPlayer.Invalid) return;
+		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
 	}
 
 	/// <summary>
