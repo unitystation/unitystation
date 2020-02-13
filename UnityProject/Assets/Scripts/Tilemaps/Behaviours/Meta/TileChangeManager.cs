@@ -91,6 +91,15 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
+	public void MetaUpdateFloor(Vector3Int cellPosition, LayerTile floorTile, LayerTile wallTile)
+	{
+		LayerTile metaFloor = metaTileMap.GetTile(cellPosition, layerTile.LayerType);
+		metaFloor.LayerType = wallTile.LayerType;
+		metaFloor.TileType = wallTile.TileType;
+		metaTileMap.SetTile(cellPosition, layerTile);
+	}
+
+	[Server]
 	public void RemoveTile( Vector3Int cellPosition )
 	{
 		foreach ( var layerType in metaTileMap.LayersKeys )
