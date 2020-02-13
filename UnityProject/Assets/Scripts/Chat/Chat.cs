@@ -63,7 +63,7 @@ public partial class Chat : MonoBehaviour
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
 			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = ((player == null) ? Vector2.zero : (Vector2)player.gameObject.transform.position),
+			position = ((player == null) ? TransformState.HiddenPos : player.WorldPos),
 			channels = channels,
 			originator = sentByPlayer.GameObject
 		};
@@ -171,7 +171,7 @@ public partial class Chat : MonoBehaviour
 			speaker = originator.name,
 			message = originatorMessage,
 			messageOthers = othersMessage,
-			position = originator.transform.position,
+			position = originator.WorldPosServer(),
 			originator = originator
 		});
 	}
@@ -204,7 +204,7 @@ public partial class Chat : MonoBehaviour
 			message = originatorMsg,
 			messageOthers = othersMsg,
 			speaker = originator.name,
-			position = originator.transform.position,
+			position = originator.WorldPosServer(),
 			originator = originator
 		});
 	}
@@ -309,7 +309,7 @@ public partial class Chat : MonoBehaviour
 			channels = ChatChannel.Combat,
 			message = message,
 			messageOthers = messageOthers,
-			position = attacker.transform.position,
+			position = attacker.WorldPosServer(),
 			speaker = attacker.name,
 			originator = attacker
 		});
@@ -336,7 +336,7 @@ public partial class Chat : MonoBehaviour
 		{
 			channels = ChatChannel.Combat,
 			message = message,
-			position = victim.transform.position
+			position = victim.WorldPosServer()
 		});
 	}
 
@@ -422,6 +422,18 @@ public partial class Chat : MonoBehaviour
 				AddExamineMsgFromServer(recipient, message);
 				break;
 		}
+	}
+
+	public static void AddWarningMsgFromServer(GameObject recipient, string msg)
+	{
+		if (!IsServer()) return;
+		UpdateChatMessage.Send(recipient, ChatChannel.Warning, ChatModifier.None, msg);
+	}
+
+	public static void AddWarningMsgToClient(string message)
+	{
+		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None); //TODO: Put processing in a unified place for server and client.
+		Instance.addChatLogClient.Invoke(message, ChatChannel.Warning);
 	}
 
 	public static void AddAdminPrivMsg(string message, string adminId)
