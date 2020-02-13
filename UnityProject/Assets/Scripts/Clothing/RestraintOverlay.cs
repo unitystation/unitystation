@@ -98,9 +98,13 @@ public class RestraintOverlay : ClothingItem
 
 	bool CanUncuff()
 	{
-		if (!thisPlayerScript.playerHealth.serverPlayerConscious ||
-		    thisPlayerScript.registerTile.IsSlippingServer ||
-		    healthCache != thisPlayerScript.playerHealth.OverallHealth ||
+		PlayerHealth playerHealth = thisPlayerScript.playerHealth;
+		
+		if (playerHealth == null ||
+			playerHealth.ConsciousState == ConsciousState.DEAD ||
+			playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
+			playerHealth.OverallHealth != healthCache ||
+			thisPlayerScript.registerTile.IsSlippingServer ||
 		    positionCache != thisPlayerScript.registerTile.LocalPositionServer)
 		{
 			return false;

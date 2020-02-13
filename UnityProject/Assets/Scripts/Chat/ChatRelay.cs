@@ -87,6 +87,12 @@ public class ChatRelay : NetworkBehaviour
 					continue;
 				}
 
+				if (chatEvent.position == TransformState.HiddenPos)
+				{
+					//show messages with no provided position to everyone
+					continue;
+				}
+
 				if (Vector2.Distance(chatEvent.position,
 						(Vector3)players[i].Script.WorldPos) > 14f)
 				{
