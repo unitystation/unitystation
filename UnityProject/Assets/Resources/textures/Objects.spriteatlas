@@ -45,9 +45,6 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 30a7a1119ea109a4ea0d228bbb9f5297, type: 3}
     totalSpriteSurfaceArea: 21272880
     bindAsDefault: 1
-    storedHash:
-      serializedVersion: 2
-      Hash: 932544b1d8ed64787bcc265e8aee2569
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300012, guid: ab3ee0005aca93c4480055cb1838f42d, type: 3}
@@ -3110,6 +3107,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 112e7672d9b8da2458ae8e482d5b93c3, type: 3}
   - {fileID: 21300000, guid: 3ed6b77296bf0d945bc7ce67eaf3cba6, type: 3}
   - {fileID: 21300000, guid: fd9cb8728740c4c46991bbd261ab14d1, type: 3}
+  - {fileID: 21300000, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
+  - {fileID: 21300002, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
+  - {fileID: 21300004, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
   - {fileID: 21300000, guid: e657ca72d934b8844b9d8db19c9b8357, type: 3}
   - {fileID: 21300000, guid: 9f58da72bb557cf469e9e89dfd8f30a1, type: 3}
   - {fileID: 21300000, guid: 76a44b720c52f54459ddfbaf55dd8a45, type: 3}
@@ -11054,7 +11054,6 @@ SpriteAtlas:
   - {fileID: 21300006, guid: 337941491e6e5ca4c9476beac43fee15, type: 3}
   - {fileID: 21300000, guid: 337941491e6e5ca4c9476beac43fee15, type: 3}
   - {fileID: 21300002, guid: 337941491e6e5ca4c9476beac43fee15, type: 3}
-  - {fileID: 21300000, guid: dd8c8649a449dcc43842f7138d00b19a, type: 3}
   - {fileID: 21300000, guid: 193fd74920ab2b94386099488cacc28a, type: 3}
   - {fileID: 21300002, guid: 193fd74920ab2b94386099488cacc28a, type: 3}
   - {fileID: 21300004, guid: 193fd74920ab2b94386099488cacc28a, type: 3}
@@ -21953,6 +21952,9 @@ SpriteAtlas:
   - plasma_window_2-i
   - equipment_random_beebox
   - cocoon_cocoon1
+  - Chair buckles_0
+  - Chair buckles_1
+  - Chair buckles_2
   - brass_table_3-f
   - growing_mushrooms_polypore-grow2
   - atmos_siphon-open
@@ -29897,7 +29899,6 @@ SpriteAtlas:
   - oldcockinn_3
   - oldcockinn_0
   - oldcockinn_1
-  - chairs_Chair buckles
   - fill_opening_0
   - fill_opening_1
   - fill_opening_2

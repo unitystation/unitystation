@@ -7,33 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: doorOpened
-      value: 
-      objectReference: {fileID: 21300000, guid: 300d84635bd6fbc468cbec7d47ebaa31,
-        type: 3}
-    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: initialName
-      value: radiation crate
-      objectReference: {fileID: 0}
-    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: initialDescription
-      value: A crate with a radiation sign on it.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1621019177403175601, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3918525054062759918, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: cf0e9da173b120245a332e0e517d3c4f,
-        type: 3}
     - target: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       propertyPath: m_Name
@@ -94,5 +67,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: doorOpened
+      value: 
+      objectReference: {fileID: 21300000, guid: 300d84635bd6fbc468cbec7d47ebaa31,
+        type: 3}
+    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: initialName
+      value: radiation crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: initialDescription
+      value: A crate with a radiation sign on it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621019177403175601, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3918525054062759918, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cf0e9da173b120245a332e0e517d3c4f,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44071f490693c439896528fb8aca8917, type: 3}

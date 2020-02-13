@@ -7,17 +7,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 629610015080971027, guid: 75d6cbaeec177404eb927dde307c1d36,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ec814564fc7469e409b58c78ff1d0cd2,
-        type: 3}
     - target: {fileID: 742292832060491855, guid: 75d6cbaeec177404eb927dde307c1d36,
         type: 3}
       propertyPath: m_Name
       value: Magazine_12mm
       objectReference: {fileID: 0}
+    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
+        type: 3}
+      propertyPath: initialName
+      value: c20r45 Magazine
+      objectReference: {fileID: 0}
+    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
+        type: 3}
+      propertyPath: initialSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 876a70aadb2d64ee69a9fcecd369635c,
+        type: 2}
     - target: {fileID: 747216307189757243, guid: 75d6cbaeec177404eb927dde307c1d36,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -73,6 +93,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 853734485659153915, guid: 75d6cbaeec177404eb927dde307c1d36,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 813509439576448636, guid: 75d6cbaeec177404eb927dde307c1d36,
         type: 3}
       propertyPath: ammoType
@@ -83,36 +108,11 @@ PrefabInstance:
       propertyPath: magazineSize
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 853734485659153915, guid: 75d6cbaeec177404eb927dde307c1d36,
+    - target: {fileID: 629610015080971027, guid: 75d6cbaeec177404eb927dde307c1d36,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
+      objectReference: {fileID: 21300000, guid: ec814564fc7469e409b58c78ff1d0cd2,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
-        type: 3}
-      propertyPath: initialName
-      value: c20r45 Magazine
-      objectReference: {fileID: 0}
-    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
-        type: 3}
-      propertyPath: initialDescription
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
-        type: 3}
-      propertyPath: initialSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 909935833807922989, guid: 75d6cbaeec177404eb927dde307c1d36,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 876a70aadb2d64ee69a9fcecd369635c,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75d6cbaeec177404eb927dde307c1d36, type: 3}
