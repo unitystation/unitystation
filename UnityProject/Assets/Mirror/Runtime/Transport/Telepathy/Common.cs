@@ -1,6 +1,8 @@
 ﻿// common code used by server and client
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -137,12 +139,17 @@ namespace Telepathy
                 return stream.ReadExactly(content, size);
             }
 
+            //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
             Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
 			Logger.LogWarning($"Content: {content}");
 			Logger.LogWarning($"IP: {client.Client.RemoteEndPoint.ToString()}");
+			allocationAttackQueue.Enqueue(IPAddress.Parse(client.Client.RemoteEndPoint.ToString()).MapToIPv4().ToString());
 
 			return false;
         }
+
+        //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
+        public static Queue<string> allocationAttackQueue = new Queue<string>();
 
         // thread receive function is the same for client and server's clients
         // (static to reduce state for maximum reliability)
@@ -150,10 +157,9 @@ namespace Telepathy
         {
             // get NetworkStream from client
             NetworkStream stream = client.GetStream();
-
-            // keep track of last message queue warning
+	       // keep track of last message queue warning
             DateTime messageQueueLastWarning = DateTime.Now;
-
+            
             // absolutely must wrap with try/catch, otherwise thread exceptions
             // are silent
             try
