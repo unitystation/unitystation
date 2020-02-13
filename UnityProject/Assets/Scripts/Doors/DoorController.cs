@@ -33,6 +33,9 @@ using Mirror;
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
 
+		[Tooltip("Does this door open automatically when you walk into it?")]
+		public bool IsAutomatic = true;
+
 		public bool IsOpened;
 		[HideInInspector] public bool isPerformingAction;
 		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;

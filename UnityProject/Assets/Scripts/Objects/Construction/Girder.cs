@@ -22,6 +22,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[SerializeField]
 	private BasicTile wallTile;
 
+	[Tooltip("False Tile to spawn when wall is constructed.")]
+	[SerializeField]
+	private BasicTile falseTile;
+
 	//tracked server side only
 	private int plasteelSheetCount;
 
@@ -183,7 +187,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructWall(HandApply interaction)
 	{
-		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), wallTile);
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
@@ -200,6 +204,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	private void ConstructFalseWall(HandApply interaction)
 	{
 		Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject));
+		tileChangeManager.MetaUpdateFloor(Vector3Int.RoundToInt(transform.localPosition), falseTile, wallTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}

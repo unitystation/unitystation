@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +11,10 @@ public class GeneralDoorAnimator : DoorAnimator
 	[Tooltip("The resource path to the sprite sheet. i.e: icons/obj/doors/windoor")]
 	public string spritePath;
 
-	public int[] animFrames;
+	[Tooltip("A list of frame numbers for the open/close animation, not including the openFrame and closeFrame")]
+	public int[] animFrames; 
+
+	public int animLength;
 	public int closeFrame;
 	public int deniedFrame;
 	public int openFrame;
@@ -23,6 +26,7 @@ public class GeneralDoorAnimator : DoorAnimator
 
 	public void Awake()
 	{
+		animLength = animFrames.Length;
 		sprites = Resources.LoadAll<Sprite>(spritePath);
 		foreach (Transform child in transform)
 		{
@@ -82,11 +86,12 @@ public class GeneralDoorAnimator : DoorAnimator
 		}
 		else
 		{
-			for (int i = animFrames.Length - 1; i >= 0; i--)
+			var halfway = Mathf.RoundToInt(animLength/2);
+			for (int i = animLength - 1; i >= 0; i--)
 			{
 				doorbase.sprite = sprites[animFrames[i] + (int) direction];
 				//Stop movement half way through door opening to sync up with sortingOrder layer change
-				if (i == 3)
+				if (i == halfway)
 				{
 					doorController.BoxCollToggleOn();
 				}
@@ -103,16 +108,17 @@ public class GeneralDoorAnimator : DoorAnimator
 	{
 		if (skipAnimation)
 		{
-			doorbase.sprite = sprites[animFrames[animFrames.Length - 1] + (int) direction];
+			doorbase.sprite = sprites[animFrames[animLength - 1] + (int) direction];
 			doorController.BoxCollToggleOff();
 		}
 		else
 		{
-			for (int j = 0; j < animFrames.Length; j++)
+			var halfway = Mathf.RoundToInt(animLength/2);
+			for (int j = 0; j < animLength; j++)
 			{
 				doorbase.sprite = sprites[animFrames[j] + (int) direction];
 				//Allow movement half way through door opening to sync up with sortingOrder layer change
-				if (j == 3)
+				if (j == halfway)
 				{
 					doorController.BoxCollToggleOff();
 				}
@@ -129,7 +135,7 @@ public class GeneralDoorAnimator : DoorAnimator
 	private IEnumerator PlayDeniedAnim()
 	{
 		bool light = false;
-		for (int i = 0; i < animFrames.Length * 2; i++)
+		for (int i = 0; i < animLength * 2; i++)
 		{
 			if (!light)
 			{
