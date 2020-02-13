@@ -239,7 +239,10 @@ public static class PlayerSpawn
 			return;
 		}
 
-		Vector3Int spawnPosition = body.GetComponent<ObjectBehaviour>().AssumedWorldPositionServer().RoundToInt();
+		Vector3Int spawnPosition = TransformState.HiddenPos;
+		var objBeh = body.GetComponent<ObjectBehaviour>();
+		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer().RoundToInt();
+
 		if (spawnPosition == TransformState.HiddenPos)
 		{
 			//spawn ghost at occupation location if we can't determine where their body is

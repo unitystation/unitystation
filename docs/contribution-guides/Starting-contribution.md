@@ -49,6 +49,34 @@ Then you can press `Play` button on the `Game` tab to start the game in editor.
 
 ![](https://image.prntscr.com/image/G9xxyW59STqh14VslkpAzA.png)
 
+### Forking the repository
+So you have the repository downloaded, Unity opened, and want to help out. What do you do? Well first you will need to FORK the repository! This basically means that you are making a copy of the repository.
+
+So first what you are going to want to do is click on the **Fork** button.
+![](https://puu.sh/Fa9e6.png)
+
+After some time passes, you will get redirected to your newly created repository! It will be named *YourGitHubUsername/unitystation* From here you can do exactly what you did with the original repository, but with the addition of being able to submit the changes you make as Pull Requests! 
+
+## Updating the repository
+After a while, other people will begin submitting their own changes that will then get pulled into the original repository that everyones fork is based off of. When this happens, your forked repository will no longer be up to date and will need to be updated!
+
+To begin, you first will need to go back to your forked repository and click on the button that says `Compare`.
+![](https://puu.sh/Fa9lc.png)
+
+Next you will then need to click on the left most dropdown menu and click your forked repository.
+![](https://puu.sh/Fa9n2.png)
+
+After doing so, you may notice that the four dropdown menus with repositories have vanished and you are now left with two dropdown menus with branches on your own forked repository. No worry, just click on the hyperlink that says `compare across forks`
+![](https://puu.sh/Fa9oJ.png)
+
+Now just simply click the third dropdown menu and locate the original repository.
+![](https://puu.sh/Fa9rJ.png)
+
+Now you will be given the option to do a Pull Request of from *unitystation/unitystation* to *YourGitHubUsername/unitystation*. It is basically the reverse that you do when sending changes to the original repository! 
+
+Clicking on the `pull request` button will bring you to the final step of updating, which is to merge the pull request! Simply click on the `Merge` button on the bottom of the page and you will have your fork updated to the latest change submitted!
+
+It is very important, espescially when doing mapping, that you have your fork always updated! Changes happen everyday, so you won't want to do extra work that someone else has already done or even worse; to mess up what has been done!
 ***
 
 ## Now what?

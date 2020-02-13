@@ -109,8 +109,9 @@ public class GUI_ShuttleControl : NetTab
 	/// </summary>
 	private void AddEmagItems()
 	{
-		EntryList.AddItems( MapIconType.Human, GetObjectsOf<PlayerSync>() );
+		EntryList.AddItems( MapIconType.Human, GetObjectsOf<PlayerScript>(player => !player.IsDeadOrGhost) );
 		EntryList.AddItems( MapIconType.Ian , GetObjectsOf<CorgiAI>() );
+		EntryList.AddItems( MapIconType.Nuke , GetObjectsOf<Nuke>() );
 
 		RescanElements();
 

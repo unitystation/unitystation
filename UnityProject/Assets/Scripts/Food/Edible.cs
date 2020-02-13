@@ -8,13 +8,10 @@ using Mirror;
 /// </summary>
 public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClientInteractable<HandApply>
 {
-    public GameObject leavings;
-    protected bool isDrink = false;
+	public GameObject leavings;
+	protected bool isDrink = false;
 
-	//TODO remove after deathmatches
-	[Header("Being used for TDM")] public int healAmount;
-
-	public int healHungerAmount;
+	public int NutrientsHealAmount = 25;
 
 	private void Awake()
 	{

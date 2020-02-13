@@ -40,7 +40,7 @@ public class VotePopUp : MonoBehaviour
 		SoundManager.Play("Click01");
 		if (PlayerManager.PlayerScript != null)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(ServerData.UserID, true);
+			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(true);
 		}
 		ToggleButtons(false);
 	}
@@ -50,7 +50,7 @@ public class VotePopUp : MonoBehaviour
 		SoundManager.Play("Click01");
 		if (PlayerManager.PlayerScript != null)
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(ServerData.UserID, false);
+			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
 		}
 		ToggleButtons(false);
 	}
