@@ -86,7 +86,7 @@ namespace AdminTools
 
 		private static bool IsEnabled()
 		{
-			if (Instance != null || !GameData.IsHeadlessServer || Instance.loadedConfig == null) return false;
+			if (Instance == null || !GameData.IsHeadlessServer || Instance.loadedConfig == null) return false;
 			if (!Instance.loadedConfig.enableAutoMod) return false;
 			return true;
 		}
