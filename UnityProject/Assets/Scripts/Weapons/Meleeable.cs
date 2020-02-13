@@ -3,7 +3,7 @@ using UnityEngine;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
-/// Allows an object or tiles to be attacked by melee. 
+/// Allows an object or tiles to be attacked by melee.
 /// </summary>
 public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
@@ -130,6 +130,5 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			}
 		}
 	}
-
 
 }
