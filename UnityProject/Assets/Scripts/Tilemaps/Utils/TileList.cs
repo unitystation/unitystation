@@ -144,7 +144,7 @@ public class TileList
 	/// </summary>
 	/// <param name="localPosition"></param>
 	/// <returns></returns>
-	public void ForEachSafe(Action<RegisterTile> action, Vector3Int localPosition)
+	public void ForEachSafe(IRegisterTileAction action, Vector3Int localPosition)
 	{
 		if (lockedPosition != null && lockedPosition != localPosition)
 		{

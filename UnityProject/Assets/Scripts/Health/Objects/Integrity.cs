@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using Tilemaps.Behaviours.Meta;
+using UnityEngine.Profiling;
 using Object = System.Object;
 
 /// <summary>
@@ -270,10 +271,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Server]
 	public void OnExposed(FireExposure exposure)
 	{
+		Profiler.BeginSample("IntegrityExpose");
 		if (exposure.Temperature > HeatResistance)
 		{
 			ApplyDamage(exposure.StandardDamage(), AttackType.Fire, DamageType.Burn);
 		}
+		Profiler.EndSample();
 	}
 
 	public RightClickableResult GenerateRightClickOptions()

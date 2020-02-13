@@ -199,7 +199,7 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	/// <param name="localPosition"></param>
 	/// <returns></returns>
-	public void ForEachRegisterTileSafe(Action<RegisterTile> action, Vector3Int localPosition, bool isServer)
+	public void ForEachRegisterTileSafe(IRegisterTileAction action, Vector3Int localPosition, bool isServer)
 	{
 		(isServer ? ServerObjects : ClientObjects).ForEachSafe(action, localPosition);
 	}

@@ -27,6 +27,12 @@ public class ReactionManager : MonoBehaviour
 	private float timePassed2;
 	private static readonly string LogAddingWindyNode = "Adding windy node {0}, dir={1}, force={2}";
 
+	/// <summary>
+	/// reused when applying exposures to lots of tiles to avoid creating GC from
+	/// lambdas.
+	/// </summary>
+	private ApplyExposure applyExposure = new ApplyExposure();
+
 	private void Awake()
 	{
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
@@ -230,9 +236,9 @@ public class ReactionManager : MonoBehaviour
 		}
 
 
-		var exposure = FireExposure.FromMetaDataNode(hotspots[hotspotPosition], hotspotWorldPosition.To2Int(), atLocalPosition.To2Int(), atWorldPosition.To2Int());
+		//update fire exposure, reusing it to avoid creating GC.
+		applyExposure.Update(isSideExposure, hotspots[hotspotPosition], hotspotWorldPosition, atLocalPosition, atWorldPosition);
 		Profiler.EndSample();
-
 		if (isSideExposure)
 		{
 			Profiler.BeginSample("SideExposure");
@@ -255,17 +261,11 @@ public class ReactionManager : MonoBehaviour
 
 			//only expose to atmos impassable objects, since those are the things the flames would
 			//actually brush up against
-			matrix.ForEachRegisterTileSafe(tile =>
-			{
-				if (tile.IsAtmosPassable(exposure.HotspotLocalPosition.To3Int(), true))
-				{
-					tile.OnExposed(exposure);
-				}
-			}, atLocalPosition, true);
+			matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
 			//expose the tiles there
 			foreach (var tilemapDamage in tilemapDamages)
 			{
-				tilemapDamage.OnExposed(exposure);
+				tilemapDamage.OnExposed(applyExposure.FireExposure);
 			}
 			Profiler.EndSample();
 		}
@@ -273,11 +273,11 @@ public class ReactionManager : MonoBehaviour
 		{
 			Profiler.BeginSample("DirectExposure");
 			//direct exposure logic
-			matrix.ForEachRegisterTileSafe(tile => tile.OnExposed(exposure), atLocalPosition, true);
+			matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
 			//expose the tiles
 			foreach (var tilemapDamage in tilemapDamages)
 			{
-				tilemapDamage.OnExposed(exposure);
+				tilemapDamage.OnExposed(applyExposure.FireExposure);
 			}
 			Profiler.EndSample();
 		}
@@ -292,6 +292,46 @@ public class ReactionManager : MonoBehaviour
 			node.WindForce = pressureDifference;
 			node.WindDirection = windDirection;
 			winds.Enqueue( node );
+		}
+	}
+
+	/// <summary>
+	/// So we can avoid GC caused by creating lambdas, we create one instance of this and re-use it when
+	/// applying a fire exposure to multiple objects
+	/// </summary>
+	private class ApplyExposure : IRegisterTileAction
+	{
+		private FireExposure fireExposure = new FireExposure();
+		public FireExposure FireExposure => fireExposure;
+		private bool isSideExposure;
+
+		/// <summary>
+		/// Modify this exposure to be for a different node / tile
+		/// </summary>
+		/// <param name="hotspotNode"></param>
+		/// <param name="hotspotWorldPosition"></param>
+		/// <param name="atLocalPosition"></param>
+		/// <param name="atWorldPosition"></param>
+		public void Update(bool isSideExposure, MetaDataNode hotspotNode, Vector3Int hotspotWorldPosition,
+			Vector3Int atLocalPosition, Vector3Int atWorldPosition)
+		{
+			this.isSideExposure = isSideExposure;
+			FireExposure.Update(hotspotNode, hotspotWorldPosition, atLocalPosition, atWorldPosition);
+		}
+
+		public void Invoke(RegisterTile registerTile)
+		{
+			if (isSideExposure)
+			{
+				if (registerTile.IsAtmosPassable(FireExposure.HotspotLocalPosition, true))
+				{
+					registerTile.OnExposed(FireExposure);
+				}
+			}
+			else
+			{
+				registerTile.OnExposed(FireExposure);
+			}
 		}
 	}
 }
