@@ -12,6 +12,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
 
+	public GameObject FalseWall;
+
 	[Tooltip("Reinforced girder prefab.")]
 	[SerializeField]
 	private GameObject reinforcedGirder;
@@ -62,10 +64,19 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 		{
-			//TODO: false walls
 			if (objectBehaviour.IsPushable)
 			{
-				Chat.AddExamineMsg(interaction.Performer, "You've temporarily forgotten how to build false walls.");
+				if (!Validations.HasAtLeast(interaction.HandObject, 2))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "You need two sheets of metal to finish a false wall!");
+					return;
+				}
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+					"You start adding plating...",
+					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+					"You add the plating.",
+					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					() => ConstructFalseWall(interaction));
 			}
 			else
 			{
@@ -89,10 +100,15 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 			{
 				if (!Validations.HasAtLeast(interaction.HandObject, 2))
 				{
-					Chat.AddExamineMsg(interaction.Performer, "You need at least two sheets to create a false wall!");
+					Chat.AddExamineMsg(interaction.Performer, "You need at least two sheets to create a reinforced false wall!");
 					return;
 				}
-				Chat.AddExamineMsg(interaction.Performer, "You've temporarily forgotten how to build reinforced false walls.");
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+					"You start adding plating...",
+					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+					"You add the plating.",
+					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					() => ConstructReinforcedFalseWall(interaction));
 			}
 			else
 			{
@@ -180,5 +196,19 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		Despawn.ServerSingle(gameObject);
 	}
 
+	[Server]
+	private void ConstructFalseWall(HandApply interaction)
+	{
+		Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject));
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+		Despawn.ServerSingle(gameObject);
+	}
 
+	[Server]
+	private void ConstructReinforcedFalseWall(HandApply interaction)
+	{
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject));
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+		Despawn.ServerSingle(gameObject);
+	}
 }
