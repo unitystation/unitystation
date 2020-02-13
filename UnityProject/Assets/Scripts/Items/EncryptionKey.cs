@@ -53,8 +53,7 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Science, ChatChannel.Common | ChatChannel.Science},
 		{EncryptionKeyType.Security, ChatChannel.Common | ChatChannel.Security},
 		{EncryptionKeyType.Service, ChatChannel.Common | ChatChannel.Service},
-		{EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate | ChatChannel.Command | ChatChannel.Security |
-		                              ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science},
+		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate },
 		{EncryptionKeyType.Mining, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Science},
 		{EncryptionKeyType.Genetics, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Science}
 	};

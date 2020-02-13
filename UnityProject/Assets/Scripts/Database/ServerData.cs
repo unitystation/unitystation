@@ -97,7 +97,10 @@ namespace DatabaseAPI
 		{
 			if (config != null)
 			{
-				MonitorServerStatus();
+				if (!string.IsNullOrEmpty(config.HubUser) && !string.IsNullOrEmpty(config.HubPass))
+				{
+					MonitorServerStatus();
+				}
 			}
 		}
 
