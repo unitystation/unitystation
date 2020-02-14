@@ -49,6 +49,10 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 
 	private void EnsureInit()
 	{
+		if (this == null)
+		{
+			return;
+		}
 		directional = GetComponent<Directional>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();

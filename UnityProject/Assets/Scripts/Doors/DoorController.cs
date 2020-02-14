@@ -233,7 +233,7 @@ using Mirror;
 
 		public void ServerOpen()
 		{
-			if (gameObject == null) return; //probably destroyed by a shuttle crash
+			if (this == null || gameObject == null) return; //probably destroyed by a shuttle crash
 			ResetWaiting();
 			IsOpened = true;
 

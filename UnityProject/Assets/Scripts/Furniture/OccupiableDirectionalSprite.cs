@@ -93,11 +93,16 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 		//release the player
 		if (HasOccupant)
 		{
-			//fixme: InvalidOperationException - Sequence contains no matching element
-			var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
-				?.First(pm => pm.IsBuckled);
-			playerMoveAtPosition.Unbuckle();
+			var playerMoveAtPosition =
+				MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
+				.FirstOrDefault(pm => pm.IsBuckled);
+
+			if (playerMoveAtPosition != null)
+			{
+				playerMoveAtPosition.Unbuckle();
+			}
 		}
+
 	}
 
 	public override void OnStartClient()
