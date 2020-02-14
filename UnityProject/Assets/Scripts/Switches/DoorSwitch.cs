@@ -95,7 +95,7 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (sprite == null)
 			return;
 
-		// Highlighting all controlled doors with red lines and circles
+		//Highlighting all controlled doors with red lines and spheres
 		Gizmos.color = new Color(1, 0, 0, 1);
 		for (int i = 0; i < doorControllers.Length; i++)
 		{

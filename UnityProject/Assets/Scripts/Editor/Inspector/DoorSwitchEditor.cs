@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
@@ -14,15 +13,15 @@ public class DoorSwitchEditor : Editor
 
 	void Update()
 	{
-		//skip if not setup yet
+		//skip if not selecting
 		if (!isSelecting || doorSwitch == null)
 			return;
 
-		//if a new object was selected
+		//was a new object was selected?
 		GameObject newSelectedObject = (GameObject)Selection.activeObject;
 		if (newSelectedObject != doorSwitch.gameObject)
 		{
-			//remove controller if found, add if not
+			//remove DoorController if found, add if not
 			var doorController = newSelectedObject.GetComponent<DoorController>();
 			if (doorController != null)
 			{
@@ -65,5 +64,18 @@ public class DoorSwitchEditor : Editor
 				doorSwitch = null;
 			}
 		}
+	}
+
+	void OnSceneGUI()
+	{
+		//panic and quit selecting DoorControllers
+		if (HasPressedEscapeKey())
+			isSelecting = false;
+	}
+
+	bool HasPressedEscapeKey()
+	{
+		Event e = Event.current;
+		return e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape;
 	}
 }
