@@ -20,8 +20,8 @@ public class EdibleStack : Edible
 
 		} else {
 			//Multiply hunger and heal by the amoount of items stored, then try eat.
-			base.healAmount = stckCmp.Amount*base.healAmount;
-			base.healHungerAmount = stckCmp.Amount*base.healHungerAmount;
+			//base.healAmount = stckCmp.Amount*base.healAmount;
+			//base.healHungerAmount = stckCmp.Amount*base.healHungerAmount;
 			base.TryEat();
 		}
 		
