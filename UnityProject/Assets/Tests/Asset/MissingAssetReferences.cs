@@ -1,10 +1,7 @@
-﻿
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;
-using System.Linq;
 
 namespace Tests
 {
@@ -42,7 +39,7 @@ namespace Tests
 				Debug.LogFormat("Missing reference found in prefab {0}", s);
 			}
 
-			Assert.IsEmpty(listResult, "Missing references found: {0}", listResult.Aggregate((i, j) => i + "," + j));
+			Assert.IsEmpty(listResult, "Missing references found: {0}", string.Join(", ", listResult));
 		}
 	}
 }
