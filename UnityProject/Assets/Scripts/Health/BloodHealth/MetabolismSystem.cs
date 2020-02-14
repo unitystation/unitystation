@@ -47,7 +47,7 @@ public class MetabolismSystem : NetworkBehaviour
 	//TODO: Maybe make this dependent on the heart rate?
 	[SerializeField]
 	[Tooltip("How often a metabolism tick occurs (in seconds)")]
-	private float metabolismRate = 5f;
+	private float metabolismRate = 10f;
 
 	//TODO: Actually use this
 	//[SerializeField]
