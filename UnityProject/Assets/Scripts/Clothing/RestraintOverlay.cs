@@ -51,11 +51,11 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 
 		if (GameObjectReference != null)
 		{
-			UIActionManager.Instance.SetAction(this, true);
+			UIActionManager.Toggle(this, true);
 		}
 		else
 		{
-			UIActionManager.Instance.SetAction(this, false);
+			UIActionManager.Toggle(this, false);
 		}
 	}
 

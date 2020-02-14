@@ -6,13 +6,13 @@ using Mirror;
 public class RequestGameActionSO : ClientMessage
 {
 	public static short MessageType = (short)MessageTypes.RequestGameActionSO;
-	public string soName;
+	public ushort soID;
 
 	public override IEnumerator Process()
 	{
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
-			UIActionSOSingleton.Instance.ActionCallServer(soName, SentByPlayer);
+			UIActionSOSingleton.Instance.ActionCallServer(soID, SentByPlayer);
 		}
 		yield return null;
 	}
@@ -20,9 +20,10 @@ public class RequestGameActionSO : ClientMessage
 
 	public static RequestGameActionSO Send(UIActionScriptableObject uIActionScriptableObject)
 	{
+		
 		RequestGameActionSO msg = new RequestGameActionSO
 		{
-			soName = uIActionScriptableObject.name
+			soID = UIActionSOSingleton.ActionsTOID[uIActionScriptableObject]
 		};
 		msg.Send();
 		return msg;

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [CreateAssetMenu(fileName = "UIActionSOSingleton", menuName = "Singleton/UIActionSOSingleton")]
 public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton>
 {
 	public List<UIActionScriptableObject> uIActions = new List<UIActionScriptableObject>();
 
-	public static Dictionary<string, UIActionScriptableObject> actions = new Dictionary<string, UIActionScriptableObject>();
+	public static Dictionary<ushort, UIActionScriptableObject> IDtoActions = new Dictionary<ushort, UIActionScriptableObject>();
+	public static Dictionary<UIActionScriptableObject, ushort> ActionsTOID = new Dictionary<UIActionScriptableObject, ushort>();
 
 	private static bool Initialised = false;
 
@@ -18,41 +20,41 @@ public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton
 
 	void Setup()
 	{
-		foreach (var action in uIActions)
+		ushort ID = 1;
+		var alphabeticaluIActions= uIActions.OrderBy(X => X.name);
+
+		foreach (var action in alphabeticaluIActions)
 		{
-			if (actions.ContainsKey(action.name))
-			{
-				//continue;
-				Logger.LogError("There is an UIActionScriptableObject That has the same name as another UIActionScriptableObject > " + action.name);
-			}
-			actions[action.name] = action;
+			IDtoActions[ID] = action;
+			ActionsTOID[action] = ID;
+			ID++;
 		}
 		Initialised = true;
 	}
 
-	public IServerActionGUI ReturnFromName(string action)
+	public IServerActionGUI ReturnFromID(ushort ID)
 	{
 		if (!Initialised)
 		{
 			Setup();
 		}
 
-		if (actions.ContainsKey(action))
+		if (IDtoActions.ContainsKey(ID))
 		{
-			return (actions[action] as IServerActionGUI);
+			return (IDtoActions[ID] as IServerActionGUI);
 		}
 		return (null);
 	}
 
-	public void ActionCallServer(string action, ConnectedPlayer SentByPlayer)
+	public void ActionCallServer(ushort ID, ConnectedPlayer SentByPlayer)
 	{
 		if (!Initialised)
 		{
 			Setup();
 		}
-		if (actions.ContainsKey(action))
+		if (IDtoActions.ContainsKey(ID))
 		{
-			actions[action].CallActionServer(SentByPlayer);
+			IDtoActions[ID].CallActionServer(SentByPlayer);
 		}
 	}
 

@@ -29,29 +29,29 @@ public class UIActionManager : MonoBehaviour
 	public Dictionary<IActionGUI, UIAction> DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
 
 
-	public void SetAction(IActionGUI iActionGUI, bool Add, GameObject recipient = null)
+	public static void Toggle(IActionGUI iActionGUI, bool Add, GameObject recipient = null)
 	{
 
 		if (Add)
 		{
-			if (DicIActionGUI.ContainsKey(iActionGUI))
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
 				Logger.Log("iActionGUI Already added", Category.UI);
 				return;
 			}
-			AddAction(iActionGUI);
+			Show(iActionGUI);
 		}
 		else {
-			RemoveAction(iActionGUI);
+			Hide(iActionGUI);
 		}
 	}
 
 
-	public void SetSprite(IActionGUI iActionGUI, Sprite sprite)
+	public static void SetSprite(IActionGUI iActionGUI, Sprite sprite)
 	{
-		if (DicIActionGUI.ContainsKey(iActionGUI))
+		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
-			var _UIAction = DicIActionGUI[iActionGUI];
+			var _UIAction = Instance.DicIActionGUI[iActionGUI];
 			_UIAction.IconFront.SetSprite(sprite);
 		}
 		else {
@@ -61,11 +61,11 @@ public class UIActionManager : MonoBehaviour
 
 
 
-	public void SetSprite(IActionGUI iActionGUI, int Location)
+	public static void SetSprite(IActionGUI iActionGUI, int Location)
 	{
-		if (DicIActionGUI.ContainsKey(iActionGUI))
+		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
-			var _UIAction = DicIActionGUI[iActionGUI];
+			var _UIAction = Instance.DicIActionGUI[iActionGUI];
 			_UIAction.IconFront.ChangeSpriteVariant(Location);
 		}
 		else {
@@ -74,11 +74,11 @@ public class UIActionManager : MonoBehaviour
 		}
 	}
 
-	public void SetBackground(IActionGUI iActionGUI, int Location)
+	public static void SetBackground(IActionGUI iActionGUI, int Location)
 	{
-		if (DicIActionGUI.ContainsKey(iActionGUI))
+		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
-			var _UIAction = DicIActionGUI[iActionGUI];
+			var _UIAction = Instance.DicIActionGUI[iActionGUI];
 			_UIAction.IconBackground.ChangeSpriteVariant(Location);
 		}
 		else {
@@ -88,11 +88,11 @@ public class UIActionManager : MonoBehaviour
 	}
 
 
-	public void SetBackground(IActionGUI iActionGUI, Sprite sprite)
+	public static void SetBackground(IActionGUI iActionGUI, Sprite sprite)
 	{
-		if (DicIActionGUI.ContainsKey(iActionGUI))
+		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
-			var _UIAction = DicIActionGUI[iActionGUI];
+			var _UIAction = Instance.DicIActionGUI[iActionGUI];
 			_UIAction.IconBackground.SetSprite(sprite);
 		}
 		else {
@@ -100,31 +100,31 @@ public class UIActionManager : MonoBehaviour
 		}
 	}
 
-	public void AddAction(IActionGUI iActionGUI)
+	public static void Show(IActionGUI iActionGUI)
 	{
 		UIAction _UIAction;
-		if (PooledUIAction.Count > 0)
+		if (Instance.PooledUIAction.Count > 0)
 		{
-			_UIAction = PooledUIAction[0];
-			PooledUIAction.RemoveAt(0);
+			_UIAction = Instance.PooledUIAction[0];
+			Instance.PooledUIAction.RemoveAt(0);
 		}
 		else {
-			_UIAction = Instantiate(UIAction);
-			_UIAction.transform.SetParent(Panel.transform, false);
+			_UIAction = Instantiate(Instance.UIAction);
+			_UIAction.transform.SetParent(Instance.Panel.transform, false);
 		}
-		DicIActionGUI[iActionGUI] = _UIAction;
+		Instance.DicIActionGUI[iActionGUI] = _UIAction;
 		_UIAction.SetUp(iActionGUI);
 
 	}
 
-	public void RemoveAction(IActionGUI iActionGUI)
+	public static void Hide(IActionGUI iActionGUI)
 	{
-		if (DicIActionGUI.ContainsKey(iActionGUI))
+		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
-			var _UIAction = DicIActionGUI[iActionGUI];
+			var _UIAction = Instance.DicIActionGUI[iActionGUI];
 			_UIAction.Pool();
-			PooledUIAction.Add(_UIAction);
-			DicIActionGUI.Remove(iActionGUI);
+			Instance.PooledUIAction.Add(_UIAction);
+			Instance.DicIActionGUI.Remove(iActionGUI);
 		}
 		else {
 			Logger.Log("iActionGUI Not present", Category.UI);

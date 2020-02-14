@@ -452,7 +452,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
-			UIActionManager.Instance.SetAction(this, newBuckledTo != NetId.Empty);
+			UIActionManager.Toggle(this, newBuckledTo != NetId.Empty);
 		}
 
 		buckledObjectNetId = newBuckledTo;

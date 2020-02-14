@@ -64,7 +64,8 @@ public class RequestGameAction : ClientMessage
 		var iServerActionGUIs = netObject.GetComponentsInChildren(_ComponentType);
 		var _ComponentLocation = 0;
 		bool Found = false;
-		foreach (var _iServerActionGUI in iServerActionGUIs) {			if ((_iServerActionGUI as IServerActionGUI) == iServerActionGUI) {
+		foreach (var _iServerActionGUI in iServerActionGUIs) {
+			if ((_iServerActionGUI as IServerActionGUI) == iServerActionGUI) {
 				Found = true;
 				break;
 			}

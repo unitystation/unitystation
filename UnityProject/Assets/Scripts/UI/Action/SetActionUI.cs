@@ -11,7 +11,7 @@ public class SetActionUI : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.SetActionUI;
 
-	public string soName;
+	public ushort soID;
 	public int SpriteLocation;
 	public int ComponentLocation;
 	public uint NetObject;
@@ -22,9 +22,9 @@ public class SetActionUI : ServerMessage
 	public override IEnumerator Process()
 	{
 		IServerActionGUI IServerActionGUI = null;
-		if (soName != null && soName.Length > 0)
+		if (soID != 0)
 		{
-			IServerActionGUI = UIActionSOSingleton.Instance.ReturnFromName(soName);
+			IServerActionGUI = UIActionSOSingleton.Instance.ReturnFromID(soID);
 		}
 		else {
 
@@ -40,13 +40,13 @@ public class SetActionUI : ServerMessage
 			switch (ProposedAction)
 			{
 				case SetActionUIActions.FrontIcon:
-					UIActionManager.Instance.SetSprite(IServerActionGUI, SpriteLocation);
+					UIActionManager.SetSprite(IServerActionGUI, SpriteLocation);
 					break;
 				case SetActionUIActions.BackgroundIcon:
-					UIActionManager.Instance.SetBackground(IServerActionGUI, SpriteLocation);
+					UIActionManager.SetBackground(IServerActionGUI, SpriteLocation);
 					break;
 				case SetActionUIActions.StateChange:
-					UIActionManager.Instance.SetAction(IServerActionGUI, showAlert);
+					UIActionManager.Toggle(IServerActionGUI, showAlert);
 					break;
 			}
 		}
@@ -100,7 +100,7 @@ public class SetActionUI : ServerMessage
 			SetActionUI msg = new SetActionUI
 			{
 
-				soName = (iServerActionGUI as UIActionScriptableObject).name,
+				soID = UIActionSOSingleton.ActionsTOID[(iServerActionGUI as UIActionScriptableObject)],
 				showAlert = _showAlert,
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
@@ -132,7 +132,7 @@ public class SetActionUI : ServerMessage
 	{
 		base.Deserialize(reader);
 
-		soName = reader.ReadString();
+		soID = reader.ReadUInt16();
 		SpriteLocation = reader.ReadInt32();
 		ComponentLocation = reader.ReadInt32();
 		NetObject = reader.ReadUInt32();
@@ -145,7 +145,7 @@ public class SetActionUI : ServerMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.WriteString(soName);
+		writer.WriteUInt16(soID);
 		writer.WriteInt32(SpriteLocation);
 		writer.WriteInt32(ComponentLocation);
 		writer.WriteUInt32(NetObject);

@@ -280,7 +280,7 @@ public class SpriteHandler : MonoBehaviour
 
 
 	/// <summary>
-	/// Used to generate A buffer from a list of sprites
+	/// Set this sprite handler to be capable of displaying the elements defined in _Info and sets it  to display as the element in _Info indicated by _spriteIndex and _variantIndex
 	/// </summary>
 	/// <param name="_Info">The list of sprites</param>
 	/// <param name="_spriteIndex">Initial Sprite index.</param>
