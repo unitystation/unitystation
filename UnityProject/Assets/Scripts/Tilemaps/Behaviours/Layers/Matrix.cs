@@ -29,6 +29,9 @@ public class Matrix : MonoBehaviour
 
 	public MatrixMove MatrixMove { get; private set; }
 
+	private TileChangeManager tileChangeManager;
+	public TileChangeManager TileChangeManager => tileChangeManager;
+
 	public Color Color => colors.Wrap( Id ).WithAlpha( 0.7f );
 
 	/// <summary>
@@ -48,6 +51,7 @@ public class Matrix : MonoBehaviour
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
 		MatrixMove = GetComponentInParent<MatrixMove>();
+		tileChangeManager = GetComponentInParent<TileChangeManager>();
 
 
 		OnEarthquake.AddListener( ( worldPos, magnitude ) =>

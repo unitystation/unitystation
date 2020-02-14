@@ -90,6 +90,40 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Just like UpdateTile, but specifically for overlays (which go in the effecs layer). If other overlays occupy this position,
+	/// automatically stacks this one on top regardless of the z coordinate of cellPosition. Also prevents
+	/// duplicate overlays on the same tile position.
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <param name="tileName"></param>
+	[Server]
+	public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
+	{
+		//check which other overlays are already here, track their z position
+		//note: we always ensure that overlays are stacked at z 0 , -1, -2, etc...
+		//they never go positive z and there are never gaps.
+		var currentPosition = cellPosition;
+		cellPosition.z = 0;
+		//we assume there will never be more than 99 overlays on a tile
+		while (cellPosition.z > -99)
+		{
+			var overlay = GetLayerTile(currentPosition, LayerType.Effects);
+
+
+			currentPosition.z--;
+		}
+
+		if (IsDifferent(cellPosition, overlayTile))
+		{
+			InternalUpdateTile(cellPosition, layerTile);
+
+			RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
+
+			AddToChangeList(cellPosition, layerTile);
+		}
+	}
+
 	[Server]
 	public void RemoveTile( Vector3Int cellPosition )
 	{

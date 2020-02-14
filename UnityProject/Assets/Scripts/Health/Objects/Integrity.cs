@@ -72,6 +72,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private static GameObject SMALL_BURNING_PREFAB;
 	private static GameObject LARGE_BURNING_PREFAB;
 
+	private static OverlayTile SMALL_ASH;
+	private static OverlayTile LARGE_ASH;
 
 	// damage incurred each tick while an object is on fire
 	private static float BURNING_DAMAGE = 0.08f;
@@ -102,6 +104,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("SmallBurning");
 			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("LargeBurning");
+		}
+
+		if (SMALL_ASH == null)
+		{
+			SMALL_ASH = TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
+			LARGE_ASH = TileManager.GetTile(TileType.Effects, "LargeAsh") as OverlayTile;
 		}
 		registerTile = GetComponent<RegisterTile>();
 		pushable = GetComponent<IPushable>();
@@ -245,8 +253,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Server]
 	private void DefaultBurnUp(DestructionInfo info)
 	{
-		//just a guess - objects which can be picked up should have a smaller amount of ash
-		EffectsFactory.Ash(registerTile.WorldPosition.To2Int(), isLarge);
+		if (isLarge)
+		{
+			registerTile.TileChangeManager.AddOverlay();
+		}
 		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject.TileWorldPosition());
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		Despawn.ServerSingle(gameObject);

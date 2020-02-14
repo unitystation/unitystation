@@ -41,6 +41,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public ObjectLayer ObjectObjectLayer => objectLayer;
 
+	/// <summary>
+	/// Tile change manager of the matrix this object is on.
+	/// </summary>
+	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
+
 	[Tooltip("The kind of object this is.")]
 	[FormerlySerializedAs("ObjectType")] [SerializeField]
 	private ObjectType objectType;
