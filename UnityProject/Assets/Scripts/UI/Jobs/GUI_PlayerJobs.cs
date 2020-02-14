@@ -3,11 +3,25 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages the UI buttons for letting the player choose their desired job.
+/// </summary>
 public class GUI_PlayerJobs : MonoBehaviour
 {
 	public GameObject buttonPrefab;
 	private CustomNetworkManager networkManager;
-	public GameObject screen_Jobs;
+
+	/// <summary>
+	/// The gameobject displaying the various job selection buttons.
+	/// </summary>
+	public GameObject screen_Jobs = null;
+
+	/// <summary>
+	/// A gameobject that is shown after job selection when the player is waiting to spawn.
+	/// </summary>
+	[SerializeField]
+	[Tooltip("Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.")]
+	private GameObject waitMessage = null;
 
 	/// <summary>
 	/// After the player selects a job this timer will be used to keep track of how long they've waited.
@@ -36,6 +50,8 @@ public class GUI_PlayerJobs : MonoBehaviour
 		}
 		SoundManager.Play("Click01");
 		screen_Jobs.SetActive(false);
+		waitMessage.SetActive(true);
+
 		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
 		waitForSpawnTimer = waitForSpawnTimerMax;
 	}
@@ -57,6 +73,8 @@ public class GUI_PlayerJobs : MonoBehaviour
 				// Job selection is finished, close the window.
 				SoundManager.SongTracker.Stop();
 				gameObject.SetActive(false);
+				waitMessage.SetActive(false);
+				screen_Jobs.SetActive(true);
 			}
 
 			waitForSpawnTimer -= Mathf.Max(0, Time.deltaTime);
@@ -65,6 +83,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 				// Job selection failed, re-open it.
 				SoundManager.Play("Click01");
 				screen_Jobs.SetActive(true);
+				waitMessage.SetActive(false);
 			}
 		}
 	}
