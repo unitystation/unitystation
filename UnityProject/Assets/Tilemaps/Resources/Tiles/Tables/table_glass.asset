@@ -16,13 +16,17 @@ MonoBehaviour:
   LayerType: 2
   TileType: 4
   RequiredTiles: []
+  WalkingSoundCategory: 0
   atmosPassable: 1
   isSealed: 0
+  oreCategory: 0
+  MaxHealth: 0
+  HealthStates: []
   passable: 0
   mineable: 0
   passableException:
-    m_keys: 
-    m_values: 
+    m_keys: 02000000
+    m_values: 01
   maxHealth: 0
   healthStates: []
   resistances:
