@@ -241,7 +241,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 13
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300008, guid: dcf949580d3a6284d864910b327e7f94, type: 3}
+  m_Sprite: {fileID: 21300008, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -336,15 +336,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeSFX: {fileID: 0}
-  doorAnimationSize: 5
+  doorAnimationSize: 3
   doorAnimator: {fileID: 6980610262621646763}
-  DoorDeniedSpriteOffset: 5
-  DoorCoverSpriteOffset: 5
+  DoorDeniedSpriteOffset: 4
+  DoorCoverSpriteOffset: 4
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 15
   damageOnClose: 0
   ignorePassableChecks: 0
+  IsAutomatic: 0
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 0

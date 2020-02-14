@@ -8,7 +8,7 @@ using Mirror;
 public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 {
 	private TileChangeManager tileChangeManager;
-
+	private MetaTileMap metaTileMap;
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
 
@@ -187,7 +187,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructWall(HandApply interaction)
 	{
-		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), wallTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
@@ -203,8 +203,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructFalseWall(HandApply interaction)
 	{
+		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject));
-		tileChangeManager.MetaUpdateFloor(Vector3Int.RoundToInt(transform.localPosition), falseTile, wallTile);
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
+		//metaTileMap.GetTile(Vector3Int.RoundToInt(transform.localPosition));
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
