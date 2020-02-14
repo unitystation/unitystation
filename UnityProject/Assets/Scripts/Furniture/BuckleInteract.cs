@@ -82,7 +82,11 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 			.GetAt<PlayerMove>(transform.position.CutToInt(), true)?
 			.FirstOrDefault(pm => pm.IsBuckled);
 		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
-		playerMoveAtPosition.Unbuckle();
+		if (playerMoveAtPosition != null)
+		{
+			playerMoveAtPosition.Unbuckle();
+		}
+
 		//the above will then invoke onunbuckle as it was the callback passed to Restrain
 	}
 
