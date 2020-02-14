@@ -1,5 +1,5 @@
 ﻿/// <summary>
-///     Edible stack function for foods that stack. Reduces number on eat instead of eating the whole item.
+///     Edible stack function for foods that stack. Multiplies satiation and heal amount by number in stack before eating.
 /// </summary>
 public class EdibleStack : Edible
 {
@@ -11,9 +11,6 @@ public class EdibleStack : Edible
 
 	}
 
-	//TODO Implement this. Turns out eating this would require refactoring player eating method which
-	//I'm too scared to do yet. Right now it consumes the whole stack, but multiplies initial hunger/heal
-	//data by the amount stored.
 	public override void TryEat()
 	{
 		//Check if stack component exists. If not, consume whole stack normally.
