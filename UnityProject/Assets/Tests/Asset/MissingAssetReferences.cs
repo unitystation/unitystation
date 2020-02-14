@@ -42,7 +42,7 @@ namespace Tests
 				Debug.LogFormat("Missing reference found in prefab {0}", s);
 			}
 
-			Assert.IsEmpty(listResult, "Missing references found: {0}", listResult.Aggregate((i, j) => i + "," + j));
+			Assert.IsEmpty(listResult, "Missing references found: {0}", (listResult.Count==0? "None" : listResult.Aggregate((i, j) => i + "," + j)));
 		}
 	}
 }
