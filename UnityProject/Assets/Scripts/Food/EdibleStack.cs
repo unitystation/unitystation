@@ -1,5 +1,5 @@
 ﻿/// <summary>
-///     Edible stack function for foods that stack. Multiplies satiation and heal amount by number in stack before eating.
+///     Edible stack function for foods that stack. Multiplies satiation by number in stack before eating.
 /// </summary>
 public class EdibleStack : Edible
 {
@@ -19,9 +19,8 @@ public class EdibleStack : Edible
 			base.TryEat();
 
 		} else {
-			//Multiply hunger and heal by the amoount of items stored, then try eat.
-			//base.healAmount = stckCmp.Amount*base.healAmount;
-			//base.healHungerAmount = stckCmp.Amount*base.healHungerAmount;
+			//Multiply nutrient gain by the amoount of items stored, then try eat.
+			NutrientsHealAmount = stckCmp.Amount*NutrientsHealAmount;
 			base.TryEat();
 		}
 		
