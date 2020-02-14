@@ -9,13 +9,64 @@ public class GUI_PlayerJobs : MonoBehaviour
 	private CustomNetworkManager networkManager;
 	public GameObject screen_Jobs;
 
+	/// <summary>
+	/// After the player selects a job this timer will be used to keep track of how long they've waited.
+	/// When it is above 0 the timer will run and wait for the player to spawn.
+	/// </summary>
+	private float waitForSpawnTimer = 0;
+
+	/// <summary>
+	/// Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.
+	/// </summary>
+	[SerializeField]
+	[Range(0,15)]
+	[Tooltip("Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.")]
+	private float waitForSpawnTimerMax = 6;
+
+	/// <summary>
+	/// Called when the player select a job selection button.
+	/// Assigns the player that job and spawns them, unless the job was already taken.
+	/// </summary>
+	/// <param name="preference">The job associated with the button.</param>
 	private void BtnOk(JobType preference)
 	{
+		if(waitForSpawnTimer > 0)
+		{
+			return; // Disallowing picking a job while another job has been selected.
+		}
 		SoundManager.Play("Click01");
+		screen_Jobs.SetActive(false);
 		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
-		SoundManager.SongTracker.Stop();
-		// Close this window
-		gameObject.SetActive(false);
+		waitForSpawnTimer = waitForSpawnTimerMax;
+	}
+
+	void OnEnable()
+	{
+		screen_Jobs.SetActive(true);
+	}
+
+	/// <summary>
+	/// If a role has been selected this waits for the player to spawn.
+	/// </summary>
+	private void Update()
+	{
+		if (waitForSpawnTimer > 0)
+		{
+			if (PlayerManager.HasSpawned)
+			{
+				// Job selection is finished, close the window.
+				SoundManager.SongTracker.Stop();
+				gameObject.SetActive(false);
+			}
+
+			waitForSpawnTimer -= Mathf.Max(0, Time.deltaTime);
+			if (waitForSpawnTimer <= 0)
+			{
+				// Job selection failed, re-open it.
+				SoundManager.Play("Click01");
+				screen_Jobs.SetActive(true);
+			}
+		}
 	}
 
 	public void UpdateJobsList()
