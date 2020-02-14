@@ -35,7 +35,8 @@ public partial class CustomNetTransform
 	public float SpeedClient => PredictedState.speed;
 	public bool IsFloatingServer => serverState.WorldImpulse != Vector2.zero && serverState.Speed > 0f && !IsBeingPulledServer;
 	public bool IsFloatingClient => predictedState.WorldImpulse != Vector2.zero && predictedState.Speed > 0f && !IsBeingPulledClient;
-	public bool IsBeingThrown => !serverState.ActiveThrow.Equals(ThrowInfo.NoThrow);
+	public bool IsBeingThrownServer => !serverState.ActiveThrow.Equals(ThrowInfo.NoThrow);
+	public bool IsBeingThrownClient => !clientState.ActiveThrow.Equals(ThrowInfo.NoThrow);
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
 
@@ -44,7 +45,7 @@ public partial class CustomNetTransform
 	{
 		get
 		{
-			if (!IsBeingThrown)
+			if (!IsBeingThrownServer && !IsBeingThrownClient)
 			{
 				return true;
 			}
@@ -193,7 +194,7 @@ public partial class CustomNetTransform
         serverState.SpinRotation = transform.localRotation.eulerAngles.z;
         serverState.SpinFactor = 0;
 
-        if ( IsBeingThrown )
+        if ( IsBeingThrownServer )
         {
 			OnThrowEnd.Invoke(serverState.ActiveThrow);
         }
@@ -508,7 +509,7 @@ public partial class CustomNetTransform
 	private void AdvanceMovement(Vector3 tempOrigin, Vector3 tempGoal)
 	{
 		//Natural throw ending
-		if (IsBeingThrown && ShouldStopThrow)
+		if (IsBeingThrownServer && ShouldStopThrow)
 		{
 			//			Logger.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
 			OnThrowEnd.Invoke(serverState.ActiveThrow);
@@ -520,7 +521,7 @@ public partial class CustomNetTransform
 
 		serverState.WorldPosition = tempGoal;
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
-		if (!IsBeingThrown && !MatrixManager.IsSlipperyOrNoGravityAt(Vector3Int.RoundToInt(tempOrigin)))
+		if (!IsBeingThrownServer && !MatrixManager.IsSlipperyOrNoGravityAt(Vector3Int.RoundToInt(tempOrigin)))
 		{
 			//no slide inertia for tile snapped objects like closets
 			if (IsTileSnap)
@@ -638,7 +639,10 @@ public partial class CustomNetTransform
 	/// </Summary>
 	private bool CanDriftTo(Vector3Int originPos, Vector3Int targetPos, bool isServer)
 	{
-		return MatrixManager.IsPassableAt(originPos, targetPos, isServer, includingPlayers : false);
+		// If we're being thrown, collide like being airborne.
+
+		CollisionType colType = (isServer ? IsBeingThrownServer : IsBeingThrownClient) ? CollisionType.Airborne : CollisionType.Player;
+		return MatrixManager.IsPassableAt(originPos, targetPos, isServer, collisionType: colType, includingPlayers : false);
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere

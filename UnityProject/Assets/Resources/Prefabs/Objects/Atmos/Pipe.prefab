@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 114185907784239616}
   - component: {fileID: 114405250905390060}
   - component: {fileID: 7564706497059525126}
-  - component: {fileID: 114655540776166054}
   - component: {fileID: 9181656149164435648}
   - component: {fileID: -6026534052110882755}
   - component: {fileID: 8750409313360246655}
@@ -129,9 +128,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  registerTile: {fileID: 0}
-  objectBehaviour: {fileID: 0}
-  nodes: []
   direction: 0
   anchored: 0
   volume: 70
@@ -146,7 +142,6 @@ MonoBehaviour:
   - {fileID: 21300160, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
   - {fileID: 21300164, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
   spriteRenderer: {fileID: 1047382295693061733}
-  spriteSync: 0
 --- !u!114 &5640039996929275955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,18 +245,6 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
---- !u!114 &114655540776166054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9181656149164435648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,10 +257,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 878681949
 --- !u!114 &-6026534052110882755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +290,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
 --- !u!114 &8750409313360246655
 MonoBehaviour:
   m_ObjectHideFlags: 0

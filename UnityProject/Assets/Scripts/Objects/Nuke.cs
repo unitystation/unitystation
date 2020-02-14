@@ -63,6 +63,7 @@ public class Nuke : NetworkBehaviour
 	{
 		if (CurrentCode == NukeCode.ToString())
 		{
+			detonated = true;
 			//if yes, blow up the nuke
 			RpcDetonate();
 			//Kill Everyone in the universe

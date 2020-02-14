@@ -74,7 +74,6 @@ namespace DatabaseAPI
 	        if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
 	        {
 		        Logger.Log("Invalid Hub creds found, aborting HUB connection", Category.DatabaseAPI);
-		        config = null;
 		        yield break;
 	        }
 
