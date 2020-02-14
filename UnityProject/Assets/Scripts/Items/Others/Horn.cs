@@ -53,14 +53,15 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	public void ServerPerformInteraction( PositionalHandApply interaction )
 	{
 		bool inCloseRange = Validations.IsInReach( interaction.TargetVector );
-		var targetHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		var targetObject = interaction.TargetObject;
+		var targetHealth = targetObject != null ? targetObject.GetComponent<LivingHealthBehaviour>() : null;
 		bool isCrit = Random.Range( 0f, 1f ) <= CritChance;
 
 		// honking in someone's face
 		if ( inCloseRange && (targetHealth != null) )
 		{
 			interaction.Performer.GetComponent<WeaponNetworkActions>().RpcMeleeAttackLerp( interaction.TargetVector, gameObject );
-			Chat.AddAttackMsgToChat(interaction.Performer, interaction.TargetObject,BodyPartType.None, gameObject);
+			Chat.AddAttackMsgToChat(interaction.Performer, targetObject,BodyPartType.None, gameObject);
 
 			ClassicHonk();
 
