@@ -9,7 +9,6 @@ public class AdminReplyMessage : ClientMessage
 	public static short MessageType = (short) MessageTypes.AdminReplyMessage;
 
 	public string AdminId;
-	public string PlayerId;
 	public string Message;
 
 	public override IEnumerator Process()
@@ -21,23 +20,22 @@ public class AdminReplyMessage : ClientMessage
 			PlayerList.Instance.adminChatInbox.Add(AdminId, new List<AdminChatMessage>());
 		}
 
-		Logger.Log($"{PlayerList.Instance.GetByUserID(PlayerId).Name} replied to Admin {PlayerList.Instance.GetByUserID(AdminId).Name} with: {Message}", Category.Admin);
+		Logger.Log($"{SentByPlayer.Name} replied to Admin {PlayerList.Instance.GetByUserID(AdminId).Name} with: {Message}", Category.Admin);
 
 		PlayerList.Instance.adminChatInbox[AdminId].Add(new AdminChatMessage
 		{
-			fromUserid = PlayerId,
+			fromUserid = SentByPlayer.UserId,
 			toUserid = AdminId,
 			message = Message
 		});
 	}
 
 
-	public static AdminReplyMessage Send(string adminId, string playerId, string message)
+	public static AdminReplyMessage Send(string adminId, string message)
 	{
 		AdminReplyMessage msg = new AdminReplyMessage
 		{
 			AdminId = adminId,
-			PlayerId = playerId,
 			Message = message
 		};
 		msg.Send();
@@ -48,7 +46,6 @@ public class AdminReplyMessage : ClientMessage
 	{
 		base.Deserialize(reader);
 		AdminId = reader.ReadString();
-		PlayerId = reader.ReadString();
 		Message = reader.ReadString();
 	}
 
@@ -56,7 +53,6 @@ public class AdminReplyMessage : ClientMessage
 	{
 		base.Serialize(writer);
 		writer.WriteString(AdminId);
-		writer.WriteString(PlayerId);
 		writer.WriteString(Message);
 	}
 }

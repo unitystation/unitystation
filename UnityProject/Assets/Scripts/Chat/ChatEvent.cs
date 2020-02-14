@@ -62,7 +62,7 @@ public class ChatEvent
 	public ChatModifier modifiers = ChatModifier.None;
 	public string speaker;
 	public double timestamp;
-	public Vector2 position;
+	public Vector3 position = TransformState.HiddenPos;
 	public GameObject originator;
 
 	/// <summary>
