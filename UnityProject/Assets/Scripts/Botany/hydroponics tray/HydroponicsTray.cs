@@ -336,6 +336,11 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		if (newStage == plantSyncStage) return;
 
 		plantSyncStage = newStage;
+		if (plantData == null)
+		{
+			Logger.Log("BOD PLZ FIX BOTANY PLANT DATA IS NULL!");
+			return;
+		}
 		switch (plantSyncStage)
 		{
 			case PlantSpriteStage.None:
@@ -397,6 +402,12 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		growingPlantStage = growingStage;
 
 		plantSyncStage = spriteStage;
+
+		if (plantData == null)
+		{
+			Logger.Log("BOD PLZ FIX BOTANY PLANT DATA IS NULL!");
+			return;
+		}
 		switch (plantSyncStage)
 		{
 			case PlantSpriteStage.None:

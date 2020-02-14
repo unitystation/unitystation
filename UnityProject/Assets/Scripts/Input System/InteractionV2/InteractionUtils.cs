@@ -133,6 +133,8 @@ public static class InteractionUtils
 			{
 				RequestInteract(interaction, interactable);
 			}
+
+			return true;
 		}
 
 		return false;
