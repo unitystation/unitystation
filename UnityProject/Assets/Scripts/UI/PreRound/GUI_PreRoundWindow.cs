@@ -52,6 +52,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void UpdateUI()
 	{
+		if (PlayerList.Instance == null) return;
 		playerCount.text = PlayerList.Instance.ClientConnectedPlayers.Count.ToString();
 		currentGameMode.text = GameManager.Instance.GetGameModeName();
 		timer.text = TimeSpan.FromSeconds(this.countdownTime).ToString(@"mm\:ss");
