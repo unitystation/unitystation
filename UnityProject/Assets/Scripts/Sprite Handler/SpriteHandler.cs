@@ -147,6 +147,22 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 		spriteRenderer.sprite = animationStills.sprite;
+		MaterialPropertyBlock block = new MaterialPropertyBlock();
+		spriteRenderer.GetPropertyBlock(block);
+
+		if (spriteData.isPaletted)
+		{
+			List<Vector4> pal = spriteData.palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+			block.SetVectorArray("_ColorPalette", pal);
+			block.SetInt("_IsPaletted", 1);
+		}
+		else
+		{
+			block.SetInt("_IsPaletted", 0);
+		}
+		spriteRenderer.SetPropertyBlock(block);
+
+
 	}
 
 	public void ChangeSprite(int newSprites)
