@@ -58,6 +58,7 @@ public class ChatRelay : NetworkBehaviour
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players;
+
 		if (chatEvent.matrix != MatrixInfo.Invalid)
 		{
 			//get players only on provided matrix
@@ -65,12 +66,28 @@ public class ChatRelay : NetworkBehaviour
 		}
 		else
 		{
-			players = PlayerList.Instance.AllPlayers;
+			//Try get the matrix first:
+			if (chatEvent.originator != null)
+			{
+				var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
+				if (regiTile != null)
+				{
+					players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
+				}
+				else
+				{
+					players = PlayerList.Instance.AllPlayers;
+				}
+			}
+			else
+			{
+				players = PlayerList.Instance.AllPlayers;
+			}
 		}
 
 		//Local chat range checks:
-		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat
-													|| chatEvent.channels == ChatChannel.Action)
+		if (chatEvent.channels.HasFlag(ChatChannel.Local) || chatEvent.channels.HasFlag(ChatChannel.Combat)
+													|| chatEvent.channels.HasFlag(ChatChannel.Action))
 		{
 			for (int i = 0; i < players.Count; i++)
 			{
@@ -140,6 +157,7 @@ public class ChatRelay : NetworkBehaviour
 				{
 					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker);
+
 					continue;
 				}
 			}
