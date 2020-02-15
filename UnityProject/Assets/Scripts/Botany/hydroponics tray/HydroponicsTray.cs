@@ -338,7 +338,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		plantSyncStage = newStage;
 		if (plantData == null)
 		{
-			Logger.Log("BOD PLZ FIX BOTANY PLANT DATA IS NULL!");
+			//FIXME: BOD PLZ FIX BOTANY PLANT DATA IS NULL!
 			return;
 		}
 		switch (plantSyncStage)
@@ -405,7 +405,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 		if (plantData == null)
 		{
-			Logger.Log("BOD PLZ FIX BOTANY PLANT DATA IS NULL!");
+			//FIXME "BOD PLZ FIX BOTANY PLANT DATA IS NULL!"
 			return;
 		}
 		switch (plantSyncStage)

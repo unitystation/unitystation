@@ -330,7 +330,7 @@ public class GUI_Canister : NetTab
 		if (isOpen)
 		{
 			Chat.AddLocalMsgToChat($"Canister releasing at {container.ReleasePressure}",
-				container.transform.position);
+				container.transform.position, container?.gameObject);
 		}
 	}
 
