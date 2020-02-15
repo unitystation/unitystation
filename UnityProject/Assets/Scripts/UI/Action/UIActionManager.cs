@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// Used to set the action From the client
+/// </summary>
 public class UIActionManager : MonoBehaviour
 {
 	public GameObject Panel;
