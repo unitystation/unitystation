@@ -146,6 +146,11 @@ namespace Atmospherics
 			{
 				MetaDataNode node = nodes[i];
 
+				if (node == null)
+				{
+					continue;
+				}
+
 				for (int j = 0; j < Gas.Count; j++)
 				{
 					meanGasMix.Gases[j] += node.GasMix.Gases[j];
@@ -195,7 +200,7 @@ namespace Atmospherics
 		//Handles checking for vfx changes
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
 		private void GasVisualEffects(MetaDataNode node){
-			
+
 			if(node.GasMix.GetMoles(Gas.Plasma) > 0.4) 		//If node has an almost combustible ammount of plasma
 			{
 				if(!fogTiles.Contains(node.Position)) 		//And if it hasn't already been identified as a tile that should have plasma fx
@@ -207,7 +212,7 @@ namespace Atmospherics
 
 			else											//If there isn't 0.4 moles of plasma, remove the fx
 			{
-				if(fogTiles.Contains(node.Position) && (node.GasMix.GetMoles(Gas.Plasma) < 0.3))		
+				if(fogTiles.Contains(node.Position) && (node.GasMix.GetMoles(Gas.Plasma) < 0.3))
 				{
 					node.ReactionManager.RemoveFogEvent(node);
 					fogTiles.Remove(node.Position);
