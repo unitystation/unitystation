@@ -382,7 +382,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		}
 		else
 		{
-			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",(Vector3)worldPos);
+			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",(Vector3)worldPos, gameObject);
 		}
 
 		var spilledReagents = TakeReagents(AmountOfReagents(Contents));

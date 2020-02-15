@@ -345,7 +345,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		plantSyncStage = newStage;
 		if (plantData == null)
 		{
-			Logger.Log("BOD PLZ FIX BOTANY PLANT DATA IS NULL!");
+			//FIXME: BOD PLZ FIX BOTANY PLANT DATA IS NULL!
 			return;
 		}
 		switch (plantSyncStage)
@@ -434,6 +434,11 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Growing:
+				if (growingPlantStage >= plantData.GrowthSprites.Count)
+				{
+					Logger.Log($"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.Plantname}");
+					return;
+				}
 				plantSprite.spriteData =
 					SpriteFunctions.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
 				plantSprite.PushTexture();
