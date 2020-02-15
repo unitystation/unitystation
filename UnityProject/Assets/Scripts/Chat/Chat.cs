@@ -336,7 +336,8 @@ public partial class Chat : MonoBehaviour
 		{
 			channels = ChatChannel.Combat,
 			message = message,
-			position = victim.WorldPosServer()
+			position = victim.WorldPosServer(),
+			originator = victim
 		});
 	}
 
@@ -369,7 +370,7 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="worldPos">The position of the local message</param>
-	public static void AddLocalMsgToChat(string message, Vector2 worldPos)
+	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator)
 	{
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
@@ -378,7 +379,8 @@ public partial class Chat : MonoBehaviour
 		{
 			channels = ChatChannel.Local,
 			message = message,
-			position = worldPos
+			position = worldPos,
+			originator = originator
 		});
 	}
 
