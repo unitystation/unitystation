@@ -8,7 +8,6 @@ public class DoorSwitchEditor : Editor
 {
 	private DoorSwitch doorSwitch;
 	private bool isSelecting;
-	private bool isLeftMouseButtonDown;
 
 	void OnEnable()
 	{
@@ -24,32 +23,8 @@ public class DoorSwitchEditor : Editor
 
 	void Update()
 	{
-		//skip if not selecting
 		if (!isSelecting || doorSwitch == null)
 			return;
-
-		//was a new object was selected?
-		GameObject newSelectedObject = (GameObject)Selection.activeObject;
-		if (newSelectedObject != null && newSelectedObject != doorSwitch.gameObject)
-		{
-			//remove DoorController if found, add if not
-			var doorController = newSelectedObject.GetComponent<DoorController>();
-			if (doorController != null)
-			{
-				if (doorSwitch.doorControllers.Contains(doorController))
-				{
-					var list = doorSwitch.doorControllers.ToList();
-					list.Remove(doorController);
-					doorSwitch.doorControllers = list.ToArray();
-				}
-				else
-				{
-					var list = doorSwitch.doorControllers.ToList();
-					list.Add(doorController);
-					doorSwitch.doorControllers = list.ToArray();
-				}
-			}
-		}
 
 		//return selection to switch
 		Selection.activeGameObject = doorSwitch.gameObject;
@@ -65,11 +40,31 @@ public class DoorSwitchEditor : Editor
 
 		if (HasPressedLeftClick(e))
 		{
-			var point = GUIUtility.GUIToScreenPoint(e.mousePosition);
+			Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+			RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
 
-			// get gameobjects at point
+			// scan all hit objects for door controllers
+			for (int i = 0; i < hits.Length; i++)
+			{
+				RaycastHit2D hit = hits[i];
+				DoorController doorController = hit.transform.GetComponent<DoorController>();
 
-			Debug.Log("Left click was pressed at: " + point.ToString());
+				if (doorController != null)
+				{
+					if (doorSwitch.doorControllers.Contains(doorController))
+					{
+						var list = doorSwitch.doorControllers.ToList();
+						list.Remove(doorController);
+						doorSwitch.doorControllers = list.ToArray();
+					}
+					else
+					{
+						var list = doorSwitch.doorControllers.ToList();
+						list.Add(doorController);
+						doorSwitch.doorControllers = list.ToArray();
+					}
+				}
+			}
 		}
 	}
 
