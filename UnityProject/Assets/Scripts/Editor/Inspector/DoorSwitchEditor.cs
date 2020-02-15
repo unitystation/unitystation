@@ -1,15 +1,26 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 
 [CustomEditor(typeof(DoorSwitch))]
 public class DoorSwitchEditor : Editor
 {
 	private DoorSwitch doorSwitch;
 	private bool isSelecting;
+	private bool isLeftMouseButtonDown;
 
-	void OnEnable() { EditorApplication.update += Update; }
-	void OnDisable() { EditorApplication.update -= Update; }
+	void OnEnable()
+	{
+		EditorApplication.update += Update;
+		SceneView.duringSceneGui += OnScene;
+	}
+
+	void OnDisable()
+	{
+		EditorApplication.update -= Update;
+		SceneView.duringSceneGui -= OnScene;
+	}
 
 	void Update()
 	{
@@ -19,7 +30,7 @@ public class DoorSwitchEditor : Editor
 
 		//was a new object was selected?
 		GameObject newSelectedObject = (GameObject)Selection.activeObject;
-		if (newSelectedObject != doorSwitch.gameObject)
+		if (newSelectedObject != null && newSelectedObject != doorSwitch.gameObject)
 		{
 			//remove DoorController if found, add if not
 			var doorController = newSelectedObject.GetComponent<DoorController>();
@@ -38,9 +49,27 @@ public class DoorSwitchEditor : Editor
 					doorSwitch.doorControllers = list.ToArray();
 				}
 			}
+		}
 
-			//return selection to switch
-			Selection.activeGameObject = doorSwitch.gameObject;
+		//return selection to switch
+		Selection.activeGameObject = doorSwitch.gameObject;
+	}
+
+	void OnScene(SceneView scene)
+	{
+		//skip if not selecting
+		if (!isSelecting || doorSwitch == null)
+			return;
+
+		Event e = Event.current;
+
+		if (HasPressedLeftClick(e))
+		{
+			var point = GUIUtility.GUIToScreenPoint(e.mousePosition);
+
+			// get gameobjects at point
+
+			Debug.Log("Left click was pressed at: " + point.ToString());
 		}
 	}
 
@@ -77,5 +106,10 @@ public class DoorSwitchEditor : Editor
 	{
 		Event e = Event.current;
 		return e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape;
+	}
+
+	bool HasPressedLeftClick(Event e)
+	{
+		return e.type == EventType.MouseDown && e.button == 0;
 	}
 }
