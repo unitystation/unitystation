@@ -135,4 +135,20 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 		spriteRenderer.sprite = greenSprite;
 	}
+
+	void OnDrawGizmosSelected()
+	{
+		var sprite = GetComponentInChildren<SpriteRenderer>();
+		if (sprite == null)
+			return;
+
+		//Highlighting all controlled doors with red lines and spheres
+		Gizmos.color = new Color(1, 0, 0, 1);
+		for (int i = 0; i < doorControllers.Length; i++)
+		{
+			var doorController = doorControllers[i];
+			Gizmos.DrawLine(sprite.transform.position, doorController.transform.position);
+			Gizmos.DrawSphere(doorController.transform.position, 0.25f);
+		}
+	}
 }
