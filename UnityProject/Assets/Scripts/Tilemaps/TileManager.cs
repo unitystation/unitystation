@@ -36,6 +36,7 @@ public class TileDictionary : Dictionary<Tuple<TileType, string>, LayerTile>
 public class TileManager : MonoBehaviour
 {
 	private static TileDictionary tiles = new TileDictionary();
+	private static bool initialized;
 
 	private void Start()
 	{
@@ -55,10 +56,13 @@ public class TileManager : MonoBehaviour
 			}
 
 		}
+
+		initialized = true;
 	}
 
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
+		if (!initialized) LoadAllTiles();
 		return tiles[tileType, key];
 	}
 }

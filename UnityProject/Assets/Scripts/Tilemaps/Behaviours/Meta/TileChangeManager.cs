@@ -91,36 +91,26 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Just like UpdateTile, but specifically for overlays (which go in the effecs layer). If other overlays occupy this position,
-	/// automatically stacks this one on top regardless of the z coordinate of cellPosition. Also prevents
-	/// duplicate overlays on the same tile position.
+	/// Like UpdateTile, but operates on z=-1 of the affected layer.
+	/// Adds overlay tile as an overlay at z=-1 of the layer that overlayTile is configured for.
+	/// No effect if there is no tile at z=0 of the indicated position (there is nothing
+	/// to overlay on top of).
 	/// </summary>
 	/// <param name="cellPosition"></param>
 	/// <param name="tileName"></param>
 	[Server]
-	public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
+	public void UpdateOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
 	{
-		//check which other overlays are already here, track their z position
-		//note: we always ensure that overlays are stacked at z 0 , -1, -2, etc...
-		//they never go positive z and there are never gaps.
-		var currentPosition = cellPosition;
 		cellPosition.z = 0;
-		//we assume there will never be more than 99 overlays on a tile
-		while (cellPosition.z > -99)
-		{
-			var overlay = GetLayerTile(currentPosition, LayerType.Effects);
-
-
-			currentPosition.z--;
-		}
-
+		if (!metaTileMap.HasTile(cellPosition, overlayTile.LayerType, true)) return;
+		cellPosition.z = -1;
 		if (IsDifferent(cellPosition, overlayTile))
 		{
-			InternalUpdateTile(cellPosition, layerTile);
+			InternalUpdateTile(cellPosition, overlayTile);
 
-			RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
+			RpcUpdateTile(cellPosition, overlayTile.TileType, overlayTile.name);
 
-			AddToChangeList(cellPosition, layerTile);
+			AddToChangeList(cellPosition, overlayTile);
 		}
 	}
 
@@ -156,7 +146,7 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void RemoveEffect(Vector3Int cellPosition, LayerType layerType)
+	public void RemoveOverlay(Vector3Int cellPosition, LayerType layerType)
 	{
 		cellPosition.z = -1;
 
@@ -186,20 +176,20 @@ public class TileChangeManager : NetworkBehaviour
 		InternalRemoveTile(position, layerType, onlyRemoveEffect);
 	}
 
-	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
+	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveOverlay)
 	{
-		if (onlyRemoveEffect)
+		if (onlyRemoveOverlay)
 		{
 			position.z = -1;
 		}
 
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.RemoveTile(p, layerType, !onlyRemoveEffect);
+		metaTileMap.RemoveTile(p, layerType, !onlyRemoveOverlay);
 	}
 
 	[ClientRpc]
-	private void RpcUpdateTile(Vector3 position, TileType tileType, string tileName)
+	private void RpcUpdateTile(Vector3Int position, TileType tileType, string tileName)
 	{
 		if (isServer)
 		{
@@ -209,10 +199,19 @@ public class TileChangeManager : NetworkBehaviour
 		InternalUpdateTile(position, tileType, tileName);
 	}
 
-	private void InternalUpdateTile(Vector3 position, TileType tileType, string tileName)
+	private void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
-		metaTileMap.SetTile(position.RoundToInt(), layerTile);
+		metaTileMap.SetTile(position, layerTile);
+		//if we are changing a tile at z=0, make sure to remove any overlays it has as well
+		if (position.z == 0)
+		{
+			position.z = -1;
+			if (metaTileMap.HasTile(position, layerTile.LayerType, true))
+			{
+				metaTileMap.RemoveTile(position, layerTile.LayerType);
+			}
+		}
 	}
 
 	private void InternalUpdateTile(Vector3 position, LayerTile layerTile)
@@ -227,7 +226,7 @@ public class TileChangeManager : NetworkBehaviour
 		metaTileMap.SetTile(p, layerTile);
 	}
 
-	private void AddToChangeList(Vector3 position, LayerType layerType=LayerType.None, TileType tileType=TileType.None, string tileName=null, bool removeAll = false)
+	private void AddToChangeList(Vector3Int position, LayerType layerType=LayerType.None, TileType tileType=TileType.None, string tileName=null, bool removeAll = false)
 	{
 		changeList.List.Add(new TileChangeEntry()
 		{
@@ -239,7 +238,7 @@ public class TileChangeManager : NetworkBehaviour
 		});
 	}
 
-	private void AddToChangeList(Vector3 position, LayerTile layerTile, LayerType layerType=LayerType.None, bool removeAll = false)
+	private void AddToChangeList(Vector3Int position, LayerTile layerTile, LayerType layerType=LayerType.None, bool removeAll = false)
 	{
 		changeList.List.Add(new TileChangeEntry()
 		{
@@ -282,7 +281,7 @@ public class TileChangeList
 [System.Serializable]
 public class TileChangeEntry
 {
-	public Vector3 Position;
+	public Vector3Int Position;
 
 	public TileType TileType;
 
