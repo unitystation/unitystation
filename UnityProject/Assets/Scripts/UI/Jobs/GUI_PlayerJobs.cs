@@ -66,17 +66,18 @@ public class GUI_PlayerJobs : MonoBehaviour
 	/// </summary>
 	private void Update()
 	{
+		if (PlayerManager.HasSpawned)
+		{
+			// Job selection is finished, close the window.
+			waitForSpawnTimer = 0;
+			SoundManager.SongTracker.Stop();
+			gameObject.SetActive(false);
+			waitMessage.SetActive(false);
+			screen_Jobs.SetActive(true);
+		}
+
 		if (waitForSpawnTimer > 0)
 		{
-			if (PlayerManager.HasSpawned)
-			{
-				// Job selection is finished, close the window.
-				SoundManager.SongTracker.Stop();
-				gameObject.SetActive(false);
-				waitMessage.SetActive(false);
-				screen_Jobs.SetActive(true);
-			}
-
 			waitForSpawnTimer -= Mathf.Max(0, Time.deltaTime);
 			if (waitForSpawnTimer <= 0)
 			{
