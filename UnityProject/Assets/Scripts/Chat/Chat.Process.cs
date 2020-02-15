@@ -543,7 +543,7 @@ public partial class Chat
 			// it's a channel message! Can we take a second char?
 			if (playerInput.Length > 1)
 			{
-				var secondLetter = playerInput[1];
+				var secondLetter = char.ToLower(playerInput[1]);
 				// let's try find desired chanel
 				if (ChanelsTags.ContainsKey(secondLetter))
 				{
