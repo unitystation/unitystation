@@ -20,8 +20,35 @@ public class EscapeShuttle : NetworkBehaviour
 	public ShuttleStatusEvent OnShuttleUpdate = new ShuttleStatusEvent();
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
 
-	public Destination CentcomDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 150, 6 ), ApproachReversed = false};
-	public Destination StationDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 49, 6 ), ApproachReversed = true};
+
+	void Start()
+	{
+		if (OrientationRight == true)
+		{
+			CentcomDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationCentcom, ApproachReversed = false };
+			StationDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationStation, ApproachReversed = true };
+		}
+		if (OrientationUp == true)
+		{
+			CentcomDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationCentcom, ApproachReversed = false };
+			StationDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationStation, ApproachReversed = true };
+		}
+	}
+
+	public bool OrientationRight;
+	public bool OrientationUp;
+	public Vector2 DockingLocationStation;
+	public Destination CentcomDest;
+	public Vector2 DockingLocationCentcom;
+	public Destination StationDest;
+
+
+
+	//public Vector2 dockinglocation;
+	//public Destination CentcomDest = new Destination { Orientation = Orientation.Right, Position = dockinglocation, ApproachReversed = false };
+
+	//public Destination CentcomDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 150, 6 ), ApproachReversed = false};
+	//public Destination StationDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 49, 6 ), ApproachReversed = true};
 	private Destination currentDestination;
 
 	[Tooltip("If escape shuttle movement is blocked for longer than this amount of time, will end the round" +
