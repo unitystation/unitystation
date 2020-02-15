@@ -94,9 +94,12 @@ public class CargoShuttle : MonoBehaviour
 
 	IEnumerator ReverseIntoStation()
 	{
-		yield return new WaitForSeconds(3f);
-		mm.MoveFor(dockOffset);
-		yield return new WaitForSeconds(2f);
+		if (dockOffset != 0)
+		{
+			yield return new WaitForSeconds(3f);
+			mm.MoveFor(dockOffset);
+			yield return new WaitForSeconds(2f);
+		}
 		CargoManager.Instance.OnShuttleArrival();
 	}
 
