@@ -121,7 +121,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 					reagentContainer.Contents["water"] = reagentContainer.Contents["water"] - 0.1f;
 				}
 				else if (reagentContainer.Contents["water"] <= 0 &&
-				         !plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
+						 !plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
 				{
 					plantHealth = plantHealth + (((plantData.Endurance - 101f) / 100f) * 1);
 				}
@@ -250,8 +250,6 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			SyncWeed(false);
 		}
-
-		SendUpdateToNearbyPlayers();
 	}
 
 	[Server]
@@ -264,7 +262,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	private void SyncHarvest(bool newNotifier)
 	{
 		if (isSoilPile
-		    || newNotifier == syncHarvestNotifier) return;
+			|| newNotifier == syncHarvestNotifier) return;
 
 		syncHarvestNotifier = newNotifier;
 		if (syncHarvestNotifier)
@@ -277,13 +275,13 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 
 		//Force a refresh on nearby clients
-		if(isServer) SendUpdateToNearbyPlayers();
+		if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncWeed(bool newNotifier)
 	{
 		if (isSoilPile ||
-		    newNotifier == syncWeedNotifier) return;
+			newNotifier == syncWeedNotifier) return;
 
 		syncWeedNotifier = newNotifier;
 		if (syncWeedNotifier)
@@ -294,12 +292,15 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			weedNotifier.PushClear();
 		}
+
+		//Force a refresh on nearby clients
+		if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncWater(bool newNotifier)
 	{
 		if (isSoilPile ||
-		    newNotifier == syncWaterNotifier) return;
+			newNotifier == syncWaterNotifier) return;
 
 		syncWaterNotifier = newNotifier;
 		if (syncWaterNotifier)
@@ -311,12 +312,15 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			waterNotifier.PushClear();
 
 		}
+
+		//Force a refresh on nearby clients
+		if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncNutriment(bool newNotifier)
 	{
 		if (isSoilPile ||
-		    newNotifier == syncNutrimentNotifier) return;
+			newNotifier == syncNutrimentNotifier) return;
 
 		syncNutrimentNotifier = newNotifier;
 		if (syncNutrimentNotifier)
@@ -329,6 +333,9 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 			nutrimentNotifier.PushClear();
 		}
+
+		//Force a refresh on nearby clients
+		if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncStage(PlantSpriteStage newStage)
@@ -338,7 +345,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		plantSyncStage = newStage;
 		if (plantData == null)
 		{
-			Logger.Log("BOD PLZ FIX BOTANY PLANT DATA IS NULL!");
+			//FIXME: BOD PLZ FIX BOTANY PLANT DATA IS NULL!
 			return;
 		}
 		switch (plantSyncStage)
@@ -365,11 +372,17 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				plantSprite.PushTexture();
 				break;
 		}
+
+		//Force a refresh on nearby clients
+		if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncGrowingPlantStage(int newStage)
 	{
 		growingPlantStage = newStage;
+
+		//Force a refresh on nearby clients
+		if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncPlant(string newPlantString)
@@ -382,6 +395,9 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		{
 			plantData = DefaultPlantData.PlantDictionary[plantSyncString].plantData;
 		}
+
+		//Force a refresh on nearby clients
+		if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	public void ReceiveMessage(string plantString, int growingStage, PlantSpriteStage spriteStage,
@@ -403,11 +419,6 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 		plantSyncStage = spriteStage;
 
-		if (plantData == null)
-		{
-			Logger.Log("BOD PLZ FIX BOTANY PLANT DATA IS NULL!");
-			return;
-		}
 		switch (plantSyncStage)
 		{
 			case PlantSpriteStage.None:
@@ -423,6 +434,11 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Growing:
+				if (growingPlantStage >= plantData.GrowthSprites.Count)
+				{
+					Logger.Log($"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.Plantname}");
+					return;
+				}
 				plantSprite.spriteData =
 					SpriteFunctions.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
 				plantSprite.PushTexture();
@@ -497,13 +513,13 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	private static int SpecialStatMutation(float stat, float maxStat)
 	{
-		return ((int) stat + random.Next(0, (int) Math.Ceiling((maxStat / 100f) * 7)));
+		return ((int)stat + random.Next(0, (int)Math.Ceiling((maxStat / 100f) * 7)));
 	}
 
 	private static int StatMutation(float stat, float maxStat)
 	{
-		return ((int) stat + random.Next(-(int) Math.Ceiling((maxStat / 100f) * 2),
-			        (int) Math.Ceiling((maxStat / 100f) * 5)));
+		return ((int)stat + random.Next(-(int)Math.Ceiling((maxStat / 100f) * 2),
+					(int)Math.Ceiling((maxStat / 100f) * 5)));
 	}
 
 	private void CropDeath()
@@ -519,7 +535,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 		if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
 		{
-			Dictionary<string, float> reagent = new Dictionary<string, float> {["water"] = plantData.Potency};
+			Dictionary<string, float> reagent = new Dictionary<string, float> { ["water"] = plantData.Potency };
 			reagentContainer.AddReagents(reagent);
 		}
 

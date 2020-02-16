@@ -517,7 +517,7 @@ namespace IngameDebugConsole
 					Chat.AddChatMsgToChat(ConnectedPlayer.Invalid, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC);
 					break;
 				default:
-					Chat.AddLocalMsgToChat(DateTime.Now.ToFileTimeUtc().ToString(), new Vector2(Random.value*100,Random.value*100));
+					Chat.AddLocalMsgToChat(DateTime.Now.ToFileTimeUtc().ToString(), new Vector2(Random.value*100,Random.value*100), null);
 					break;
 			}
 
