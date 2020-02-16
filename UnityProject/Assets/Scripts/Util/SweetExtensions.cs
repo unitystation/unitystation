@@ -26,7 +26,7 @@ public static class SweetExtensions
 	public static string ExpensiveName(this GameObject go)
 	{
 		var item = go.Item();
-		if (item != null && !String.IsNullOrWhiteSpace(item.ArticleName)) return item.ArticleName.Replace("(Clone)","");
+		if (item != null && !String.IsNullOrWhiteSpace(item.ArticleName)) return item.ArticleName;
 
 		var player = go.Player();
 		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;

@@ -169,7 +169,7 @@ public class GUI_Canister : NetTab
 
 		if (externalExists)
 		{
-			externalTankName.SetValue = insertedContainer.ExpensiveName();
+			externalTankName.SetValue = insertedContainer.Item().InitialName;
 			externalTankImage.SetValue = "ExternalTankInserted@0";
 		}
 		else

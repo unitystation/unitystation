@@ -13,8 +13,8 @@ namespace Objects
 		public GasMix GasMix { get; set; }
 
 		public bool Opened;
-		public float MaximumMoles = 0f;
 		[Tooltip("This is the maximum moles the container should be able to contain without exploding.")]
+		public float MaximumMoles = 0f;
 		public float ReleasePressure = 101.325f;
 
 		// Keeping a copy of these values for initialization and the editor
