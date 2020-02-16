@@ -43,7 +43,7 @@ public class Occupation : ScriptableObject
 	private List<Access> allowedAccess;
 	public List<Access> AllowedAccess => allowedAccess;
 
-	[Header("Descriptions")]
+	[Header("Description")]
 	// Information that has no real gameplay impact, but is very useful for the player to see.
 
 	[SerializeField]
@@ -58,6 +58,11 @@ public class Occupation : ScriptableObject
 	[Tooltip("Color of this occupation's button in the occupation chooser")]
 	private Color choiceColor = Color.white;
 	public Color ChoiceColor => choiceColor;
+
+	[SerializeField]
+	[Tooltip("Sprite showing what the uniform (worn by a player) looks like.")]
+	private Sprite previewSprite = null;
+	public Sprite PreviewSprite => previewSprite;
 
 	[SerializeField]
 	[Tooltip("Display name for this occupation.")]
@@ -87,11 +92,12 @@ public class Occupation : ScriptableObject
 
 	[SerializeField]
 	[Tooltip("A concise description of this job's duties, suitable for being displayed in a single line.")]
+	[TextArea(3, 3)]
 	private string descriptionShort = "";
 	public string DescriptionShort => descriptionShort;
 
 	[SerializeField]
-	[TextArea(15, 20)]
+	[TextArea(10, 20)]
 	[Tooltip("An elaborate job description for newcomers. Should say what playing this job usually entails, similar to descriptionShort.")] 
 	private string descriptionLong = "";
 	public string DescriptionLong => descriptionLong;

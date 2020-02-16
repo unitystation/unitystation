@@ -1502,6 +1502,7 @@ MonoBehaviour:
   buttonPrefab: {fileID: 6841219424616931615, guid: f911aba3224cf47bcb38ce2c82b53c19,
     type: 3}
   screen_Jobs: {fileID: 8465448598027235102}
+  jobInfo: {fileID: 983924974610874109}
   waitMessage: {fileID: 6966413391240333405}
   waitForSpawnTimerMax: 4.5
 --- !u!1 &8465122399017204840
@@ -2675,6 +2676,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b542914667733642b0efffe6015068b, type: 3}
+--- !u!114 &983924974610874109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3337075678619761507, guid: 6b542914667733642b0efffe6015068b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2587377544402109854}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d69ab76b2a02704cb275b3a9fbbb912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3429227472507289906 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 900480354902066348, guid: 6b542914667733642b0efffe6015068b,
