@@ -351,6 +351,11 @@ public class GUI_ShuttleControl : NetTab
 	/// <param name="speedMultiplier"></param>
 	public void SetSpeed(float speedMultiplier)
 	{
+		if (MatrixMove == null)
+		{
+			Logger.LogWarning("Matrix move is missing for some reason on this shuttle", Category.Matrix);
+			return;
+		}
 		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
 		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 		MatrixMove.SetSpeed(speed);
