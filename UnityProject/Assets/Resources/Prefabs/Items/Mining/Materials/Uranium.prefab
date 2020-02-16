@@ -7,11 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
+    - target: {fileID: 18758610003781303, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
-      propertyPath: m_Name
-      value: Uranium1
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8969b45b680997249a52d173fed9da99,
+        type: 3}
     - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,6 +67,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_Name
+      value: Uranium
       objectReference: {fileID: 0}
     - target: {fileID: 227261219375573087, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
@@ -123,16 +129,26 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 6254655335276451647}
     - target: {fileID: 7218027344974714252, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: buildList
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 18758610003781303, guid: 208d0d984a62d439babfcfb9d8bfe087,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8969b45b680997249a52d173fed9da99,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}
+--- !u!1 &6254655335276451647 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
+    type: 3}
+  m_PrefabInstance: {fileID: 6088777242366952148}
+  m_PrefabAsset: {fileID: 0}
