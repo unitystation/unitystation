@@ -148,7 +148,8 @@ public class ChatRelay : NetworkBehaviour
 		for (var i = 0; i < players.Count; i++)
 		{
 		
-			if (players[i] == null) {
+			if (players[i] == null)
+			{
 				continue
 			}
 			
