@@ -1391,7 +1391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65, y: 57}
+  m_AnchoredPosition: {x: 0, y: 57}
   m_SizeDelta: {x: 600, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8533037814467261690
@@ -2669,10 +2669,40 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2235697507481662766, guid: 6b542914667733642b0efffe6015068b,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 149
+      objectReference: {fileID: 0}
     - target: {fileID: 4430800285270472519, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
       propertyPath: m_Name
       value: JobInfoWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 379
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 442
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 84
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 82
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b542914667733642b0efffe6015068b, type: 3}
