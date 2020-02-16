@@ -436,7 +436,6 @@ public class GUI_Canister : NetTab
 
 	public void EjectExternalTank()
 	{
-		GameObject player = PlayerManager.LocalPlayer;
 		Canister canister = Provider.GetComponent<Canister>();
 
 		if ( canister.InsertedContainer != null)
@@ -447,7 +446,7 @@ public class GUI_Canister : NetTab
 			}
 			else
 			{
-				canister.EjectInsertedContainer(player);
+				canister.EjectInsertedContainer();
 			}
 		}
 		else

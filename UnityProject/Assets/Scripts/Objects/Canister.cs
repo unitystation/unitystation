@@ -225,25 +225,16 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	public void EjectInsertedContainer(GameObject player)
+	public void EjectInsertedContainer()
 	{
 		if (InsertedContainer != null)
 		{
 			//create a new container based on the one currently in the canister, copy the properties over to it
-			if (Inventory.ServerAdd(InsertedContainer,
-								player.Player().Script.ItemStorage.GetActiveHandSlot(),
-								ReplacementStrategy.Cancel))
-			{
-				Chat.AddActionMsgToChat(player, $"You remove the {InsertedContainer.ExpensiveName()} from the canister.",
-													$"{player.ExpensiveName()} inserts a tank into the {this.ContentsName} tank.");
-				hasContainerInserted = false;
-				InsertedContainer = null;
-				ServerOnExternalTankInserted.Invoke(false);
-			}
-			else
-			{
-				Chat.AddExamineMsgToClient("You already have something in your hand.");
-			}
+			Spawn.ServerClone(InsertedContainer, this.registerTile.WorldPositionServer);
+			Chat.AddExamineMsgToClient($"You remove the {InsertedContainer.ExpensiveName()} from the canister.");
+			hasContainerInserted = false;
+			InsertedContainer = null;
+			ServerOnExternalTankInserted.Invoke(false);
 		}
 		else
 		{
