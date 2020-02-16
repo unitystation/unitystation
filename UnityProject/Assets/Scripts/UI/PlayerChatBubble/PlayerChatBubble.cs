@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// Handles the ChatIcon and PlayerChatBubble.
@@ -73,6 +71,8 @@ public class PlayerChatBubble : MonoBehaviour
 	private TextMeshProUGUI bubbleText;
 	[SerializeField]
 	private GameObject pointer;
+
+	private Camera camera;
 	class BubbleMsg
 	{
 		public float maxTime; public string msg; public float elapsedTime = 0f;
@@ -122,6 +122,7 @@ public class PlayerChatBubble : MonoBehaviour
 	void Start()
 	{
 		chatBubble.SetActive(false);
+		camera = Camera.main;
 		bubbleText.text = "";
 		chatBubbleRectTransform = chatBubble.GetComponent<RectTransform>();
 	}
@@ -263,7 +264,8 @@ public class PlayerChatBubble : MonoBehaviour
 	private void SetBubbleParameters(string msg, ChatModifier modifiers)
 	{
 		// Set default chat bubble values. Are overwritten by modifiers.
-		bubbleSize = bubbleSizeNormal;
+		var screenHeightMultiplier = (float)camera.scaledPixelHeight / 720f; //720 is the reference height
+		bubbleSize = bubbleSizeNormal * screenHeightMultiplier;
 		bubbleText.fontStyle = FontStyles.Normal;
 		bubbleText.font = fontDefault;
 
@@ -275,14 +277,14 @@ public class PlayerChatBubble : MonoBehaviour
 		}
 		else if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{
-			bubbleSize = bubbleSizeWhisper;
+			bubbleSize = bubbleSizeWhisper * screenHeightMultiplier;
 			bubbleText.fontStyle = FontStyles.Italic;
 			// TODO Differentiate emoting from whispering (e.g. dotted line around text)
 
 		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
-			bubbleSize = bubbleSizeCaps;
+			bubbleSize = bubbleSizeCaps * screenHeightMultiplier;
 			bubbleText.fontStyle = FontStyles.Bold;
 		}
 
@@ -304,7 +306,7 @@ public class PlayerChatBubble : MonoBehaviour
 	private void UpdateChatBubbleSize()
 	{
 		int zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
-		float bubbleScale = bubbleSize * zoomMultiplier.Evaluate(zoomLevel);
+		float bubbleScale = (bubbleSize * zoomMultiplier.Evaluate(zoomLevel));
 		chatBubbleRectTransform.localScale = new Vector3(bubbleScale, bubbleScale, 1);
 	}
 
