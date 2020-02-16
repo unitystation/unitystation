@@ -15,6 +15,9 @@ public class UpdateManager : MonoBehaviour
     public static bool IsInitialized { get { return instance != null; } }
 	private static UpdateManager instance;
 
+	// TODO: Obsolete, remove when no longer used.
+	public static UpdateManager Instance { get { return instance; } }
+
 	private class NamedAction
 	{
 		public Action Action;
@@ -34,6 +37,18 @@ public class UpdateManager : MonoBehaviour
 	public static void Add(CallbackType type, Action action)
 	{
 		instance.AddCallbackInternal(type, action);
+	}
+
+	[Obsolete("This will be removed in the future. Use UpdateManager.Add(CallbackType, Action) instead.")]
+	public void Add(Action updatable)
+	{
+		Add(CallbackType.UPDATE, updatable);
+	}
+
+	[Obsolete("This will be removed in the future. Use UpdateManager.Remove(CallbackType, Action) instead.")]
+	public void Remove(Action updatable)
+	{
+		Add(CallbackType.UPDATE, updatable);
 	}
 
 	public static void Add(ManagedNetworkBehaviour networkBehaviour)
