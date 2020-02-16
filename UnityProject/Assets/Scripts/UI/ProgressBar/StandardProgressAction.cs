@@ -217,7 +217,7 @@ public class StandardProgressAction : IProgressAction
 		{
 			//interrupt other progress bars of the same action type on the same location
 			var existingBars = UIManager.Instance.ProgressBars
-				.Where(pb => pb != ProgressBar && pb.ServerProgressAction is StandardProgressAction)
+				.Where(pb => ProgressBar != null && pb != ProgressBar && pb.ServerProgressAction is StandardProgressAction)
 				.Where(pb =>
 					((StandardProgressAction) pb.ServerProgressAction).progressActionConfig.StandardProgressActionType == progressActionConfig.StandardProgressActionType)
 				.Where(pb => pb.transform.parent == ProgressBar.transform.parent)
