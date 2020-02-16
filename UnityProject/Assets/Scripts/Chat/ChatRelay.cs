@@ -150,7 +150,7 @@ public class ChatRelay : NetworkBehaviour
 		
 			if (players[i] == null)
 			{
-				continue
+				continue;
 			}
 			
 			ChatChannel channels = chatEvent.channels;
