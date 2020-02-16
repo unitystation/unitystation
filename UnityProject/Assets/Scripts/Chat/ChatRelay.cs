@@ -89,12 +89,12 @@ public class ChatRelay : NetworkBehaviour
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) || chatEvent.channels.HasFlag(ChatChannel.Combat)
 													|| chatEvent.channels.HasFlag(ChatChannel.Action))
 		{
-			for (int i = 0; i < players.Count; i++)
+			for (int i = players.Count - 1; i >= 0; i--)
 			{
 				if (players[i].Script == null)
 				{
 					//joined viewer, don't message them
-					players[i] = null;
+					players.RemoveAt(i);
 					continue;
 				}
 
@@ -114,7 +114,7 @@ public class ChatRelay : NetworkBehaviour
 						(Vector3)players[i].Script.WorldPos) > 14f)
 				{
 					//Player in the list is too far away for local chat, remove them:
-					players[i] = null;
+					players.RemoveAt(i);
 				}
 				else
 				{
@@ -123,7 +123,7 @@ public class ChatRelay : NetworkBehaviour
 						(Vector3)players[i].Script.WorldPos, layerMask))
 					{
 						//if it hit a wall remove that player
-						players[i] = null;
+						players.RemoveAt(i);
 					}
 				}
 			}
@@ -146,13 +146,7 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		for (var i = 0; i < players.Count; i++)
-		{
-		
-			if (players[i] == null)
-			{
-				continue;
-			}
-			
+		{			
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
