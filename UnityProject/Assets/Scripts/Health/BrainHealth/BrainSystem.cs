@@ -61,13 +61,12 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Instance.Add(UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnDisable()
 	{
-		if (UpdateManager.Instance != null)
-			UpdateManager.Instance.Remove(UpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	// Controlled via UpdateManager
