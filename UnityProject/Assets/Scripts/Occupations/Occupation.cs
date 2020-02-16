@@ -91,7 +91,7 @@ public class Occupation : ScriptableObject
 	}
 
 	[SerializeField]
-	[Tooltip("A concise description of this job's duties, suitable for being displayed in a single line.")]
+	[Tooltip("A concise description of this job's duties, suitable for being displayed on three lines.")]
 	[TextArea(3, 3)]
 	private string descriptionShort = "";
 	public string DescriptionShort => descriptionShort;

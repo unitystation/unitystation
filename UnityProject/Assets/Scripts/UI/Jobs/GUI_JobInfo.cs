@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A window for displaying information about a certain job.
+/// The window contains a preview image and other useful info.
+/// </summary>
 public class GUI_JobInfo : MonoBehaviour
 {
 	[SerializeField]
-	[Tooltip("The job to display on this job info panel.")]
+	[Tooltip("The job info to display on this job info panel.")]
 	private Occupation job = null;
 	public Occupation Job
 	{
@@ -52,7 +56,7 @@ public class GUI_JobInfo : MonoBehaviour
 	// Values that are higher will be green.
 
 	/// <summary>
-	/// Make sure the correct job is shown at the start.
+	/// Make sure the correct job is shown when the script is loaded (in the editor, too).
 	/// </summary>
 	private void OnValidate()
 	{
@@ -119,6 +123,12 @@ public class GUI_JobInfo : MonoBehaviour
 		return result;
 	}
 
+	/// <summary>
+	/// Returns a string for the occupation's difficulty.
+	/// Has a nice prefix and color tags, too.
+	/// </summary>
+	/// <param name="difficulty">The difficulty of the job</param>
+	/// <returns>The difficulty as a string with color tags and other formatting.</returns>
 	private string GetFormattedDifficulty(Occupation.OccupationDifficulty difficulty)
 	{
 		string result = "<b>Difficulty: ";
