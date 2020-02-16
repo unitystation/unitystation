@@ -154,6 +154,7 @@ public class CargoShuttle : MonoBehaviour
 				var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;
 				if (orderedItem == null)
 				{
+					//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
 					Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
 					continue;
 
