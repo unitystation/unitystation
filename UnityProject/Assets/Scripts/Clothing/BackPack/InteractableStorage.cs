@@ -408,7 +408,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	// Client only method
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
 			return;
 
 		if (canClickPickup)

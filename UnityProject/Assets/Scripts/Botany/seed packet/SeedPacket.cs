@@ -35,7 +35,7 @@ public class SeedPacket : NetworkBehaviour
 
 	private void EnsureInit()
 	{
-		if (plantData == null && defaultPlantData != null)
+		if (defaultPlantData != null)
 		{
 			plantData = new PlantData();
 			plantData.SetValues(defaultPlantData);

@@ -33,6 +33,7 @@ public partial class Chat
 	public Color serviceColor;
 	public Color localColor;
 	public Color combatColor;
+	public Color warningColor;
 	public Color defaultColor;
 
 	/// <summary>
@@ -358,7 +359,7 @@ public partial class Chat
 			{
 				while (messageQueue.TryDequeue(out var msg))
 				{
-					AddLocalMsgToChat(msg.Message + postfix, msg.WorldPosition);
+					AddLocalMsgToChat(msg.Message + postfix, msg.WorldPosition, null);
 				}
 				continue;
 			}
@@ -366,8 +367,9 @@ public partial class Chat
 			//Combined message at average position
 			stringBuilder.Clear();
 
-			int averageX = 0;
-			int averageY = 0;
+//			int averageX = 0;
+//			int averageY = 0;
+			Vector2Int lastPos = Vector2Int.zero;
 			int count = 1;
 
 			while (messageQueue.TryDequeue(out DestroyChatMessage msg))
@@ -377,12 +379,14 @@ public partial class Chat
 					stringBuilder.Append(", ");
 				}
 				stringBuilder.Append(msg.Message);
-				averageX += msg.WorldPosition.x;
-				averageY += msg.WorldPosition.y;
+//				averageX += msg.WorldPosition.x;
+//				averageY += msg.WorldPosition.y;
+				lastPos = msg.WorldPosition;
 				count++;
 			}
 
-			AddLocalMsgToChat(stringBuilder.Append(postfix).ToString(), new Vector2Int(averageX / count, averageY / count));
+//			AddLocalMsgToChat(stringBuilder.Append(postfix).ToString(), new Vector2Int(averageX / count, averageY / count));
+			AddLocalMsgToChat(stringBuilder.Append(postfix).ToString(), lastPos, null);
 		}
 	}
 
@@ -474,6 +478,7 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Service)) return ColorUtility.ToHtmlStringRGBA(Instance.serviceColor);
 		if (channel.HasFlag(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
+		if (channel.HasFlag(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
 		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor); ;
 	}
 
@@ -521,7 +526,7 @@ public partial class Chat
 		if (string.IsNullOrEmpty(playerInput))
 			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None);
 
-		// all extracted channels from special chars 
+		// all extracted channels from special chars
 		ChatChannel extractedChanel = ChatChannel.None;
 		// how many special chars we need to delete
 		int specialCharCount = 0;
@@ -538,7 +543,7 @@ public partial class Chat
 			// it's a channel message! Can we take a second char?
 			if (playerInput.Length > 1)
 			{
-				var secondLetter = playerInput[1];
+				var secondLetter = char.ToLower(playerInput[1]);
 				// let's try find desired chanel
 				if (ChanelsTags.ContainsKey(secondLetter))
 				{

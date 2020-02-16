@@ -99,7 +99,6 @@ GameObject:
   - component: {fileID: 114450221674697092}
   - component: {fileID: 114481024304208226}
   - component: {fileID: 5591104723912208015}
-  - component: {fileID: 114288942117177720}
   - component: {fileID: -1280114811554306276}
   - component: {fileID: -461505412488338308}
   - component: {fileID: -6790079540501293182}
@@ -196,9 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  registerTile: {fileID: 0}
-  objectBehaviour: {fileID: 0}
-  nodes: []
   direction: 3
   anchored: 0
   volume: 70
@@ -209,7 +205,6 @@ MonoBehaviour:
   - {fileID: 21300036, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300034, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   spriteRenderer: {fileID: 212588640390319518}
-  spriteSync: 0
   connectionSprite:
   - {fileID: 21300056, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300058, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
@@ -341,18 +336,6 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
---- !u!114 &114288942117177720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1280114811554306276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,10 +348,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 475751778
 --- !u!114 &-461505412488338308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +381,19 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
 --- !u!114 &-6790079540501293182
 MonoBehaviour:
   m_ObjectHideFlags: 0

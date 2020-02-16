@@ -277,16 +277,4 @@ public class Synth : MonoBehaviour
 
 		SunVox.sv_deinit();
 	}
-
-	private void OnGUI()
-	{
-		if (Disabled) return;
-
-		Event e = Event.current;
-		if (e.type != EventType.Used && e.isMouse && e.button == 2)
-		{
-			PlayFX(FxModule);
-			e.Use();
-		}
-	}
 }

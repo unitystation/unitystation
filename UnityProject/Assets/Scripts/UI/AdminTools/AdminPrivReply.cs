@@ -30,7 +30,7 @@ namespace AdminTools
 		{
 			if (string.IsNullOrWhiteSpace(inputField.text)) return;
 
-			AdminReplyMessage.Send(adminID, ServerData.UserID, $"{PlayerManager.CurrentCharacterSettings.username} replied: " + inputField.text);
+			AdminReplyMessage.Send(adminID, $"{PlayerManager.CurrentCharacterSettings.username} replied: " + inputField.text);
 			Chat.AddAdminReplyMsg("PM to-<b>Admins</b>: " + inputField.text);
 			inputField.text = "";
 

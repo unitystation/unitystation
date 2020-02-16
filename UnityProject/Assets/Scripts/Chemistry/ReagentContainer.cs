@@ -41,7 +41,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	public bool TraitWhitelistOn => TraitWhitelist.Count > 0;
 	[FormerlySerializedAs("AcceptedReagents")]
 	public List<string> ReagentWhitelist;
-	public bool ReagentWhitelistOn => ReagentWhitelist.Count > 0;
+	public bool ReagentWhitelistOn => ReagentWhitelist != null && ReagentWhitelist.Count > 0;
 
 	public TransferMode TransferMode = TransferMode.Normal;
 
@@ -382,7 +382,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		}
 		else
 		{
-			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",(Vector3)worldPos);
+			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!",(Vector3)worldPos, gameObject);
 		}
 
 		var spilledReagents = TakeReagents(AmountOfReagents(Contents));

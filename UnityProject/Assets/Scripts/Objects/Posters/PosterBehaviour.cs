@@ -133,7 +133,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 
 		Chat.AddLocalMsgToChat(interaction.Performer.ExpensiveName() +
-		                       " rips the poster in a single, decisive motion!", pos);
+		                       " rips the poster in a single, decisive motion!", pos, gameObject);
 		SoundManager.PlayNetworkedAtPos("PosterRipped", pos);
 
 		SyncPosterType(posterVariant, Posters.Ripped);

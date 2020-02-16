@@ -236,10 +236,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRegisterVote(string userId, bool isFor)
+	public void CmdRegisterVote(bool isFor)
 	{
 		if (VotingManager.Instance == null) return;
-		VotingManager.Instance.RegisterVote(userId, isFor);
+		var connectedPlayer = PlayerList.Instance.Get(gameObject);
+		if (connectedPlayer == ConnectedPlayer.Invalid) return;
+		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
 	}
 
 	/// <summary>
@@ -478,13 +480,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
 		}
 
-		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+		Chat.AddActionMsgToChat(gameObject, $"You eat the {food.Item().ArticleName}.", $"{gameObject.Player().Name} eats the {food.Item().ArticleName}.");
 
-		//FIXME: remove blood changes after TDM
-		//and use this Cmd for healing hunger and applying
-		//food related attributes instead:
-		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
-		playerHealth.bloodSystem.StopBleedingAll();
+		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+		Edible edible = food.GetComponent<Edible>();
+
+		playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.NutrientsHealAmount, 0, MetabolismDuration.Food));
 
 		Inventory.ServerDespawn(slot);
 
