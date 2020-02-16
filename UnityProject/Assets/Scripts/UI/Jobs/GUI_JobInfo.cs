@@ -48,7 +48,7 @@ public class GUI_JobInfo : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("Progress will be colored red until progress reaches this value.")]
-	private int colorThresholdProgressRed = 33;
+	private int colorThresholdProgressRed = 20;
 
 	[SerializeField]
 	[Tooltip("Progress will be colored red until progress reaches this value.")]
