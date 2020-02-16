@@ -94,7 +94,7 @@ public class ChatRelay : NetworkBehaviour
 				if (players[i].Script == null)
 				{
 					//joined viewer, don't message them
-					players.Remove(players[i]);
+					players[i] = null;
 					continue;
 				}
 
@@ -114,7 +114,7 @@ public class ChatRelay : NetworkBehaviour
 						(Vector3)players[i].Script.WorldPos) > 14f)
 				{
 					//Player in the list is too far away for local chat, remove them:
-					players.Remove(players[i]);
+					players[i] = null;
 				}
 				else
 				{
@@ -123,7 +123,7 @@ public class ChatRelay : NetworkBehaviour
 						(Vector3)players[i].Script.WorldPos, layerMask))
 					{
 						//if it hit a wall remove that player
-						players.Remove(players[i]);
+						players[i] = null;
 					}
 				}
 			}
@@ -147,6 +147,11 @@ public class ChatRelay : NetworkBehaviour
 
 		for (var i = 0; i < players.Count; i++)
 		{
+		
+			if (players[i] == null) {
+				continue
+			}
+			
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
