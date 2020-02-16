@@ -424,9 +424,8 @@ public class GUI_Canister : NetTab
 		}
 		else if (usingTank && externalTank == null)
 		{
-			Chat.AddLocalMsgToChat("Tank valve lockout occured! You should close the valve, " +
-								   "insert a tank, and then open the tank valve.",
-								   container.transform.position);
+			Chat.AddExamineMsgToClient("Tank valve lockout occured! You should close the valve, " +
+								   "insert a tank, and then open the tank valve.");
 		}
 	}
 
@@ -444,8 +443,7 @@ public class GUI_Canister : NetTab
 		{
 			if (tankValveOpen)
 			{
-				Chat.AddLocalMsgToChat("Close the valve before removing the tank!",
-									   player.AssumedWorldPosServer());
+				Chat.AddExamineMsgToClient("Close the valve before removing the tank!");
 			}
 			else
 			{
@@ -454,7 +452,7 @@ public class GUI_Canister : NetTab
 		}
 		else
 		{
-			Chat.AddLocalMsgToChat("There is no tank inside this canister.", player.AssumedWorldPosServer());
+			Chat.AddExamineMsgToClient("There is no tank inside this canister.");
 		}
 	}
 
@@ -463,8 +461,7 @@ public class GUI_Canister : NetTab
 		container.Opened = isOpen;
 		if (isOpen)
 		{
-			Chat.AddLocalMsgToChat($"Canister releasing at {container.ReleasePressure}",
-				container.transform.position);
+			Chat.AddExamineMsgToClient($"Canister releasing at {container.ReleasePressure}");
 		}
 	}
 }

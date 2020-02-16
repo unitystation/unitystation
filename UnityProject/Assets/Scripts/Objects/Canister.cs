@@ -242,12 +242,12 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 			}
 			else
 			{
-				Chat.AddLocalMsgToChat("You already have something in your hand.", player.AssumedWorldPosServer());
+				Chat.AddExamineMsgToClient("You already have something in your hand.");
 			}
 		}
 		else
 		{
-			Chat.AddLocalMsgToChat("There is no tank inside this canister.", player.AssumedWorldPosServer());
+			Chat.AddExamineMsgToClient("There is no tank inside this canister.");
 		}
 		
 		
