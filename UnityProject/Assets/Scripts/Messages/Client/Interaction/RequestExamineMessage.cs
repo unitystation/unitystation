@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,9 +34,7 @@ public class RequestExamineMessage : ClientMessage
 
 		// Sort of translates one or more netId to gameobjects contained in NetworkObjects[]
 		// it's confusing AF.
-
 		yield return WaitFor(examineTarget);
-
 
 		// Check for ID and display job. Would like to see this move to ItemStorage eventually.
 		string  occupationString  = "";
@@ -46,7 +43,6 @@ public class RequestExamineMessage : ClientMessage
 		{
 			occupationString = ", " + idComponent.Occupation.DisplayName;
 		}
-
 
 		// Should this just move to Attributes.cs and other comps?
 		string msg = $"This is {NetworkObject.name + occupationString}. \n";
@@ -57,13 +53,11 @@ public class RequestExamineMessage : ClientMessage
 		var examinables = NetworkObject.GetComponents<IExaminable>();
 		foreach (var examinable in examinables)
 		{
-		msg += $"{examinable.examine()}";
+			msg += $"{examinable.examine()}";
 		}
-
 		
 		// Send the message.
-		GameObject  go = SentByPlayer.GameObject;
-		Chat.AddExamineMsgFromServer(go, msg);
+		Chat.AddExamineMsgFromServer(SentByPlayer.GameObject, msg);
 		
 		//TODO: example process body
 

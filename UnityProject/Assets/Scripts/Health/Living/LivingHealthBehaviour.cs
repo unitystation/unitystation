@@ -787,12 +787,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		// Assume animal
 		string pronoun = "It";
-
-		var cs = this.GetComponentInParent<PlayerScript>()?.characterSettings;
+		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
 		if (cs != null)
 		{
-		pronoun = cs.PersonalPronoun();
-		pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
+			pronoun = cs.PersonalPronoun();
+			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
 		}
 
 		healthString = pronoun + " is " + healthString;
