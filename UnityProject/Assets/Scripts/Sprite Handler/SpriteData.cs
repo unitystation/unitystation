@@ -7,8 +7,8 @@ using UnityEngine;
 public class SpriteData
 {
 	public List<List<List<SpriteHandler.SpriteInfo>>> List = new List<List<List<SpriteHandler.SpriteInfo>>>();
-	public bool isPaletted = false;
-	public List<Color> palette = new List<Color>(new Color[8]);
+	public List<bool> isPaletteds = new List<bool>();
+	public List<List<Color>> palettes = new List<List<Color>>();
 
 	public bool HasSprite()
 	{
