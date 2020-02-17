@@ -7,82 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_Name
-      value: High Cable Coil
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5712767464971415221, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: CableType
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      propertyPath: CablePrefab
-      value: 
-      objectReference: {fileID: 1042895037894172, guid: e3cc6d69954ca7f44b1df783b70ee6e1,
-        type: 3}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: initialDescription
@@ -161,11 +85,17 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: a7d0d4e8832cb994aaa526cf0fe37f0e, type: 3}
-    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: maxAmount
-      value: 30
+      propertyPath: CableType
+      value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: CablePrefab
+      value: 
+      objectReference: {fileID: 1042895037894172, guid: e3cc6d69954ca7f44b1df783b70ee6e1,
+        type: 3}
     - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: m_Sprite
@@ -187,5 +117,86 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Name
+      value: High Cable Coil
+      objectReference: {fileID: 0}
+    - target: {fileID: 5712767464971415221, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: maxAmount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 1431646644770877665}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
+--- !u!1 &1431646644770877665 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+    type: 3}
+  m_PrefabInstance: {fileID: 6705258602129204192}
+  m_PrefabAsset: {fileID: 0}

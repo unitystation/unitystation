@@ -200,7 +200,10 @@ namespace Atmospherics
 		//Handles checking for vfx changes
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
 		private void GasVisualEffects(MetaDataNode node){
-
+			if (node == null || node.ReactionManager == null)
+			{
+				return;
+			}
 			if(node.GasMix.GetMoles(Gas.Plasma) > 0.4) 		//If node has an almost combustible ammount of plasma
 			{
 				if(!fogTiles.Contains(node.Position)) 		//And if it hasn't already been identified as a tile that should have plasma fx

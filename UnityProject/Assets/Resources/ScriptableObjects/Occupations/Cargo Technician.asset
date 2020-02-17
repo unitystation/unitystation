@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Cargo Technician
   m_EditorClassIdentifier: 
   jobType: 7
-  displayName: Cargo Technician
   inventoryPopulator: {fileID: 11400000, guid: 0f9824c9eb3044bcd945b7f5b3aa7c5a, type: 2}
   limit: 3
   priority: 99
-  choiceColor: {r: 0.8627451, g: 0.7294118, b: 0.5921569, a: 1}
   allowedAccess: 08000000090000001a00000022000000310000003000000035000000360000003700000045000000
+  progress: 70
+  choiceColor: {r: 0.8627451, g: 0.7294118, b: 0.5921569, a: 1}
+  previewSprite: {fileID: 21300000, guid: fea018972445d3e4b830afd5335c2a0d, type: 3}
+  displayName: Cargo Technician
+  difficulty: 1
+  descriptionShort: "\u2022 Order things for people\n\u2022 Load and unload crates\n\u2022
+    Deliver the orders"
+  descriptionLong: 
