@@ -24,7 +24,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private ItemStorage itemStorage;
-
 	private void Awake()
 	{
 		playerMove = GetComponent<PlayerMove>();
@@ -415,7 +414,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerSpawnPlayerGhost()
 	{
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsDeadOrGhost)
+		//Only force to ghost if the mind belongs in to that body
+		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
