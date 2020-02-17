@@ -126,6 +126,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
+		// failsafe: drop all contents immediately
+		ServerHandleContentsOnStatusChange(false);
+
 		//force it open so it drops its contents
 		SyncLocked(isLocked, false);
 		SyncStatus(statusSync, ClosetStatus.Open);
