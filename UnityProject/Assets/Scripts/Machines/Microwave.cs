@@ -30,7 +30,7 @@ public class Microwave : NetworkBehaviour
 	/// When a stackable food goes into the microwave, hold onto the stack number so that stack.amount in = stack.amount out
 	/// </summary>
 	[HideInInspector]
-	public int mealCount;
+	public int mealCount = 0;
 
 
 	// Sprites for when the microwave is on or off.
