@@ -7,47 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: m_Name
-      value: Titanium Ore
+      propertyPath: stacksWith.Array.size
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialName
-      value: Titanium Ore
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialDescription
-      value: That stuff you get from the ground
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: exportCost
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: exportName
-      value: Ore
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: exportMessage
-      value: Ore
-      objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: stacksWith.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: e76a2305b1eac4c4786986115a5eb555,
-        type: 2}
-    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5776497215191974577}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -103,11 +72,58 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_Name
+      value: Titanium Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 05fd0ac598fe9934dadd98debbd7062a,
         type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialName
+      value: Titanium Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialDescription
+      value: That stuff you get from the ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportCost
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportName
+      value: Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportMessage
+      value: Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e76a2305b1eac4c4786986115a5eb555,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
+--- !u!1 &5776497215191974577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+    type: 3}
+  m_PrefabInstance: {fileID: 5257683740333858786}
+  m_PrefabAsset: {fileID: 0}
