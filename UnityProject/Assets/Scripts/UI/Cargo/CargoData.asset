@@ -95,7 +95,18 @@ MonoBehaviour:
       Items:
       - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
       - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
-  - CategoryName: Uniform Sets
+  - CategoryName: Science
+    Supplies:
+    - OrderName: Chemist kit Crate
+      CreditsCost: 800
+      Crate: {fileID: 7880601349656009979, guid: 907d16a099bbf496d9fc11b8c260ccf9,
+        type: 3}
+      Items:
+      - {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
+      - {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
+      - {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002, type: 3}
+      - {fileID: 7516689663430431150, guid: 8aa459a6447baed4a95b189f4950f59f, type: 3}
+      - CategoryName: Uniform Sets
     Supplies:
     - OrderName: Assistant Set
       CreditsCost: 800
@@ -519,6 +530,7 @@ MonoBehaviour:
       - {fileID: 2419386692754613975, guid: e632378292aa9a645bf4a8745061e44d, type: 3}
       - {fileID: 2419386692754613975, guid: 72539a60f847bd248bec932a82058e0b, type: 3}
       - {fileID: 1726396646920325504, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
+      - {fileID: 7516689663430431150, guid: 8aa459a6447baed4a95b189f4950f59f, type: 3}
     - OrderName: Wet floor signs Crate
       CreditsCost: 800
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
@@ -766,7 +778,7 @@ MonoBehaviour:
       - {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d, type: 3}
       - {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d, type: 3}
       - {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d, type: 3}
-    - OrderName: Plasma Crate
+    - OrderName: Solid Plasma Crate
       CreditsCost: 5000
       Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,
         type: 3}
