@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Tile which is merely an effect / overlay. Doesn't really
@@ -14,7 +15,9 @@ public class OverlayTile : LayerTile
 	private Sprite sprite;
 	public override Sprite PreviewSprite => sprite;
 
-	[Tooltip("Is this mopped up when the tile it's on is cleaned?")]
+	[FormerlySerializedAs("isMoppable")]
+	[Tooltip("Is this removed when the tile it's on is cleaned?")]
 	[SerializeField]
-	private bool isMoppable;
+	private bool isCleanable;
+	public bool IsCleanable => isCleanable;
 }

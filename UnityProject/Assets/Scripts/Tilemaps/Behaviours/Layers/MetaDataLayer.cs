@@ -157,6 +157,9 @@ public class MetaDataLayer : MonoBehaviour
 			floorDecals[i].TryClean();
 		}
 
+		//check for any moppable overlays
+		matrix.TileChangeManager.RemoveOverlay(localPosInt, LayerType.Floors);
+
 		if (!MatrixManager.IsSpaceAt(worldPosInt, true) && makeSlippery)
 		{
 			// Create a WaterSplat Decal (visible slippery tile)

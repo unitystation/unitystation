@@ -199,7 +199,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	private void SyncOnFire(bool wasOnFire, bool onFire)
+	private void  SyncOnFire(bool wasOnFire, bool onFire)
 	{
 		EnsureInit();
 		//do nothing if this can't burn
@@ -221,8 +221,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
+			Profiler.BeginSample("IntegrityOnWillDestroy");
 			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
+			Profiler.EndSample();
 
 			if (onFire)
 			{

@@ -146,12 +146,20 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void RemoveOverlay(Vector3Int cellPosition, LayerType layerType)
+	public void RemoveOverlay(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
 	{
 		cellPosition.z = -1;
 
 		if (metaTileMap.HasTile(cellPosition, layerType, true))
 		{
+			if (onlyIfCleanable)
+			{
+				//only remove it if it's a cleanable tile
+				var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
+				//it's not an overlay tile or it's not cleanable so don't remove it
+				if (tile == null || !tile.IsCleanable) return;
+			}
+
 			InternalRemoveTile(cellPosition, layerType, true);
 
 			RpcRemoveTile(cellPosition, layerType, true);
