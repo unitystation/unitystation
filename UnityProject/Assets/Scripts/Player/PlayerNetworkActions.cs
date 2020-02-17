@@ -24,6 +24,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private ItemStorage itemStorage;
+
 	private void Awake()
 	{
 		playerMove = GetComponent<PlayerMove>();
