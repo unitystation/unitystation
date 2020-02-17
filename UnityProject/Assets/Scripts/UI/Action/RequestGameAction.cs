@@ -59,7 +59,7 @@ public class RequestGameAction : ClientMessage
 
 	public static RequestGameAction Send(IServerActionGUI iServerActionGUI )
 	{
-		var netObject = iServerActionGUI.GetNetworkIdentity();
+		var netObject = (iServerActionGUI as Component).GetComponent<NetworkIdentity>();
 		var _ComponentType = iServerActionGUI.GetType();
 		var iServerActionGUIs = netObject.GetComponentsInChildren(_ComponentType);
 		var _ComponentLocation = 0;

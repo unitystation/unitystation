@@ -19,7 +19,6 @@ public interface IActionGUI
 public interface IServerActionGUI : IActionGUI
 {
 	void CallActionServer(ConnectedPlayer SentByPlayer); //Requires validation in this
-	NetworkIdentity GetNetworkIdentity(); //so since it needs Something to relate scripts
 }
 
 
@@ -52,13 +51,4 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 		//Validation
 		//do Action
 	}
-	public NetworkIdentity GetNetworkIdentity()
-	{
-		//Return the network identity that its going to find it from,
-		//**Dont** ues stuff that could change across server and client E.G station matrix
-		//return (this.GetComponent<NetworkIdentity>());
-		return (null);
-	}
-
-
 }

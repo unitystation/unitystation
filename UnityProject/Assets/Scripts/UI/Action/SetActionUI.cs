@@ -64,7 +64,7 @@ public class SetActionUI : ServerMessage
 	{
 		if (!(iServerActionGUI is UIActionScriptableObject))
 		{
-			var netObject = iServerActionGUI.GetNetworkIdentity();
+			var netObject = (iServerActionGUI as Component).GetComponent<NetworkIdentity>();
 			var _ComponentType = iServerActionGUI.GetType();
 			var iServerActionGUIs = netObject.GetComponentsInChildren(_ComponentType);
 			var _ComponentLocation = 0;
@@ -94,7 +94,6 @@ public class SetActionUI : ServerMessage
 
 			}
 			else {
-
 				Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
 			}
 		}
