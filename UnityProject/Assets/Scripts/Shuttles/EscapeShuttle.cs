@@ -47,8 +47,6 @@ public class EscapeShuttle : NetworkBehaviour
 	public Vector2 DockingLocationCentcom;
 	public Destination StationDest;
 
-	//public Destination CentcomDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 150, 6 ), ApproachReversed = false};
-	//public Destination StationDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 49, 6 ), ApproachReversed = true};
 	private Destination currentDestination;
 
 	[Tooltip("If escape shuttle movement is blocked for longer than this amount of time, will end the round" +
