@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Chief Engineer
   m_EditorClassIdentifier: 
   jobType: 10
-  displayName: Chief Engineer
   inventoryPopulator: {fileID: 11400000, guid: 10c1b9e247410430d8775c168c9faec5, type: 2}
   limit: 1
   priority: 2
-  choiceColor: {r: 1, g: 0.93333334, b: 0.6666667, a: 1}
   allowedAccess: 040000000a0000001a0000001e0000001f0000002100000022000000260000002c0000003100000032000000490000004a00000020000000
+  progress: 45
+  choiceColor: {r: 1, g: 0.93333334, b: 0.6666667, a: 1}
+  previewSprite: {fileID: 21300000, guid: 0064526ec17419d4bb04e5e9d4f69e24, type: 3}
+  displayName: Chief Engineer
+  difficulty: 3
+  descriptionShort: "\u2022 Coordinate Engineering\n\u2022 Keep the station powered\n\u2022
+    Prevent equipment theft"
+  descriptionLong: 
