@@ -113,6 +113,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		GasMix gasMix = container.GasMix;
 		GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true);
+		Vector3Int tileWorldPosition = gameObject.TileWorldPosition().To3Int();
+		Vector3Int position = transform.localPosition.RoundToInt();
+		MetaDataLayer metaDataLayer = MatrixManager.AtPoint(tileWorldPosition, true).MetaDataLayer;
 
 		float oxygenUsed = HandleBreathing(breathGasMix);
 
@@ -120,6 +123,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
 			node.GasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+			metaDataLayer.UpdateSystemsAt(position);
 		}
 
 		gasMix += breathGasMix;
