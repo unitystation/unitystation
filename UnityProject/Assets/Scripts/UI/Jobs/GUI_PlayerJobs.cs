@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
@@ -15,6 +16,11 @@ public class GUI_PlayerJobs : MonoBehaviour
 	/// The gameobject displaying the various job selection buttons.
 	/// </summary>
 	public GameObject screen_Jobs = null;
+
+	/// <summary>
+	/// The window showing information about a job.
+	/// </summary>
+	public GUI_JobInfo jobInfo = null;
 
 	/// <summary>
 	/// A gameobject that is shown after job selection when the player is waiting to spawn.
@@ -134,6 +140,13 @@ public class GUI_PlayerJobs : MonoBehaviour
 			{
 				occupationGO.GetComponent<Button>().onClick.AddListener(() => { BtnOk(jobType); });
 			}
+
+			// Job window listener
+			Occupation occupationOfTrigger = occupation;
+			EventTrigger.Entry entry = new EventTrigger.Entry();
+			entry.eventID = EventTriggerType.PointerEnter;
+			entry.callback.AddListener((eventData) => { jobInfo.Job = occupationOfTrigger; });
+			occupationGO.GetComponent<EventTrigger>().triggers.Add(entry);
 
 			occupationGO.SetActive(true);
 		}

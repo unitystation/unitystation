@@ -59,4 +59,5 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 
 		return false;
 	}
+	
 }
