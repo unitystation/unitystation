@@ -415,7 +415,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerSpawnPlayerGhost()
 	{
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsDeadOrGhost)
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
