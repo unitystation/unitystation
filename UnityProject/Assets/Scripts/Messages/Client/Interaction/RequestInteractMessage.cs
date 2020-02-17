@@ -100,7 +100,7 @@ public class RequestInteractMessage : ClientMessage
 	{
 		var performer = SentByPlayer.GameObject;
 
-		if (SentByPlayer == null || SentByPlayer.Script == null)
+		if (SentByPlayer == null || SentByPlayer.Script == null || SentByPlayer.Script.ItemStorage == null)
 		{
 			yield break;
 		}
@@ -206,6 +206,11 @@ public class RequestInteractMessage : ClientMessage
 	private void ProcessInteraction<T>(T interaction, GameObject processorObj)
 		where T : Interaction
 	{
+		if (processorObj == null)
+		{
+			Logger.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
+			return;
+		}
 		//find the indicated component
 		var component = processorObj.GetComponent(ComponentType);
 		if (component == null)

@@ -320,6 +320,12 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		ReleaseControl();
 	}
 
+	[Server]
+	public void ServerStopPulling()
+	{
+		ReleaseControl();
+	}
+
 	private void ReleaseControl() {
 		if ( !IsPullingSomethingServer ) {
 			return;
@@ -640,6 +646,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 			StopFollowing();
 		}
 	}
+
 	[Server]
 	public void StopFollowing() {
 		if ( !IsBeingPulled ) {

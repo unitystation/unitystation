@@ -445,7 +445,7 @@ public class MobPathFinder : MonoBehaviour
 			var getDoor = matrix.GetFirst<DoorController>(checkPos, true);
 			if (getDoor)
 			{
-				if ((int) getDoor.AccessRestrictions.restriction == 0)
+				if ( !getDoor.AccessRestrictions || (int)getDoor.AccessRestrictions.restriction == 0 )
 				{
 					node.nodeType = PathFinding.NodeType.Open;
 				}

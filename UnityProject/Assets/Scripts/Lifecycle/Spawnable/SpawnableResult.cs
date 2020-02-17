@@ -71,6 +71,12 @@ public class SpawnableResult
 	public static SpawnableResult Multiple(IEnumerable<GameObject> spawned, SpawnDestination destination)
 	{
 		var gameObjects = spawned as GameObject[] ?? spawned.ToArray();
+		if (gameObjects.Length == 0)
+		{
+			Logger.LogWarningFormat("SpawnableResult of Multiple objects has nothing to spawn at worldPos {0}", Category.ItemSpawn,
+				destination.WorldPosition);
+			return Fail(destination);
+		}
 		return new SpawnableResult(true, gameObjects.First(),
 			gameObjects,
 			destination);

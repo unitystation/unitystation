@@ -1,0 +1,126 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - develop
+    - master
+    paths:
+    - 'Tools/UnityLicense.ulf'
+    - 'UnityProject/**'
+    - '.github/workflows/**'
+    - 'Docker/**'
+  pull_request:
+    branches:
+    - develop
+    - master
+    paths:
+    - 'Tools/UnityLicense.ulf'
+    - 'UnityProject/**'
+    - '.github/workflows/**'
+
+jobs:
+
+  ########## HOW TO UPDATE UNITY_LICENSE ##########
+  # The job below is only used to request a new activation file
+  #
+  # !!! WARNING: Use a throw away Unity account for this since anyone will have access to the license file !!!
+  #
+  # If you need a new one follow these steps:
+  #   - Uncomment the job below and run it
+  #   - Download the manual activation file that appears as an artifact in a zip (Unity_v20XX.x.alf).
+  #   - Visit license.unity3d.com, sign in and upload it.
+  #   - You should now receive your license file (Unity_v20XX.x.ulf) as a download.
+  #   - Replace UnityLicense.ulf in the Tools directory with it.
+  #   - Make sure LICENSE_FILE_PATH in the 'Setup license' step still points to it.
+
+  # # Request license file job
+  # requestManualActivationFile:
+  #   name: Request manual activation file
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # Request manual activation file
+  #     - name: Request manual activation file
+  #       uses: webbertakken/unity-request-manual-activation-file@v1.1
+  #       id: getManualLicenseFile
+  #       with:
+  #         unityVersion: 2019.2.19f1
+  #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
+  #     - name: Expose as artifact
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+  #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+  
+  # Perform unit testing
+  performTest:
+    name: Unit testing on ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - UnityProject
+        unityVersion:
+          - 2019.2.19f1
+        targetPlatform:
+          - StandaloneWindows64
+    steps:
+      # Checkout repository (required to test local actions)
+      - name: Checkout repository
+        uses: actions/checkout@v2.0.0
+
+      # Cache the library directory to speed up builds
+      - name: Cache library directory
+        uses: actions/cache@v1.1.0
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+            Library-${{ matrix.projectPath }}-
+            Library-
+
+      # Set the UNITY_LICENSE environment variable
+      - name: Setup license
+        # This step:
+        #   - Grabs the license file contents from the $LICENSE_FILE_PATH
+        #   - Uses substitution to escape newline characters for GitHub Actions set-env.
+        #     (from: https://github.community/t5/GitHub-Actions/set-output-Truncates-Multiline-Strings/td-p/37870)
+        #   - Set the UNITY_LICENSE env var for all future steps using special GitHub Actions syntax
+        env:
+          LICENSE_FILE_PATH: ./Tools/UnityLicense.ulf
+        run: |
+          license=$(<"$LICENSE_FILE_PATH")
+          license="${license//'%'/'%25'}"
+          license="${license//$'\n'/'%0A'}"
+          license="${license//$'\r'/'%0D'}"
+          echo "::set-env name=UNITY_LICENSE::$license"
+      # Run tests - only edit mode supported
+      - name: Run tests
+        uses: webbertakken/unity-test-runner@v1.5
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          artifactsPath: ./testReports/${{ matrix.targetPlatform }}
+          testMode: editmode
+          
+      # Install dotnet
+      - name: Installing dotnet
+        if: always()
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '2.1.202'
+          
+      # Do the report magic
+      - name: Generate .html report
+        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
+        if: always()
+        
+      # Upload test results
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: Test results
+          path: ./testReports/${{ matrix.targetPlatform }}

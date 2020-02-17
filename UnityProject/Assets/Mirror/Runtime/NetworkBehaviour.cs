@@ -294,7 +294,7 @@ namespace Mirror
                 payload = writer.ToArraySegment() // segment to avoid reader allocations
             };
 
-            conn.Send(message, channelId);
+            if(conn != null) conn.Send(message, channelId);
         }
 
         /// <summary>

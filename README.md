@@ -1,5 +1,5 @@
 # unitystation
-![Build Project](https://github.com/unitystation/unitystation/workflows/Build%20Project/badge.svg?branch=develop)
+![Tests](https://github.com/unitystation/unitystation/workflows/Tests/badge.svg)![Build Project](https://github.com/unitystation/unitystation/workflows/Build%20Project/badge.svg?branch=develop)
 [![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop) [![Krihelimeter](http://www.krihelinator.xyz/badge/unitystation/unitystation)](http://www.krihelinator.xyz/repositories/unitystation/unitystation) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 <br>
 ![built-with-resentment](http://forthebadge.com/images/badges/built-with-resentment.svg) ![contains-technical-debt](http://forthebadge.com/images/badges/contains-technical-debt.svg)<br />

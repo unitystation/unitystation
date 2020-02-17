@@ -19,6 +19,10 @@ public class ReactionManager : MonoBehaviour
 
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
 	private UniqueQueue<MetaDataNode> winds;
+
+	private UniqueQueue<MetaDataNode> addFog; //List of tiles to add chemcial fx to
+	private UniqueQueue<MetaDataNode> removeFog; //List of tiles to remove the chemical fx from
+
 	private List<Hotspot> hotspotsToAdd;
 	private List<Vector3Int> hotspotsToRemove;
 	private TilemapDamage[] tilemapDamages;
@@ -41,6 +45,10 @@ public class ReactionManager : MonoBehaviour
 
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
 		winds = new UniqueQueue<MetaDataNode>();
+
+		addFog = new UniqueQueue<MetaDataNode>();
+		removeFog = new UniqueQueue<MetaDataNode>();
+
 		hotspotsToRemove = new List<Vector3Int>();
 		hotspotsToAdd = new List<Hotspot>();
 		tilemapDamages = GetComponentsInChildren<TilemapDamage>();
@@ -157,6 +165,46 @@ public class ReactionManager : MonoBehaviour
 		hotspotsToAdd.Clear();
 		hotspotsToRemove.Clear();
 		Profiler.EndSample();
+
+		//Here we check to see if chemical fog fx needs to be applied, and if so, add them. If not, we remove them
+		int addFogCount = addFog.Count;
+		if ( addFogCount > 0 )
+		{
+			for ( int i = 0; i < addFogCount; i++ )
+			{
+				if ( addFog.TryDequeue( out var addFogNode ) )
+				{
+					if( !hotspots.ContainsKey(addFogNode.Position) )  //Make sure the tile currently isn't on fire. If it is on fire, we don't want to overright the fire effect
+					{
+						tileChangeManager.UpdateTile(addFogNode.Position, TileType.Effects, "PlasmaAir");
+					}
+
+					else if( !removeFog.Contains(addFogNode) )  //If the tile is on fire, but there is still plasma on the tile, put this tile back into the queue so we can try again
+					{
+						addFog.Enqueue(addFogNode);
+					}
+				}
+			}
+		}
+
+		//Similar to above, but for removing chemical fog fx
+		int removeFogCount = removeFog.Count;
+		if ( removeFogCount > 0 )
+		{
+			for ( int i = 0; i < removeFogCount; i++ )
+			{
+				if ( removeFog.TryDequeue( out var removeFogNode ) )
+				{
+					if( !hotspots.ContainsKey(removeFogNode.Position) ) //Make sure the tile isn't on fire, as we don't want to delete fire effects here
+					{
+						tileChangeManager.RemoveTile(removeFogNode.Position, LayerType.Effects);
+					}
+
+					//If it's on fire, we don't need to do anything else, as the system managing fire will remove all effects from the tile
+					//after the fire burns out
+				}
+			}
+		}
 
 		timePassed = 0;
 	}
@@ -293,6 +341,20 @@ public class ReactionManager : MonoBehaviour
 			node.WindDirection = windDirection;
 			winds.Enqueue( node );
 		}
+	}
+
+	//Add tile to add fog effect queue
+	//Being called by AtmosSimulation
+	public void AddFogEvent( MetaDataNode node)
+	{
+		addFog.Enqueue( node );
+	}
+
+	//Add tile to remove fog effect queue
+	//Being called by AtmosSimulation
+	public void RemoveFogEvent( MetaDataNode node)
+	{
+		removeFog.Enqueue( node );
 	}
 
 	/// <summary>

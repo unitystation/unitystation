@@ -58,6 +58,7 @@ public class ChatRelay : NetworkBehaviour
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players;
+
 		if (chatEvent.matrix != MatrixInfo.Invalid)
 		{
 			//get players only on provided matrix
@@ -65,19 +66,35 @@ public class ChatRelay : NetworkBehaviour
 		}
 		else
 		{
-			players = PlayerList.Instance.AllPlayers;
+			//Try get the matrix first:
+			if (chatEvent.originator != null)
+			{
+				var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
+				if (regiTile != null)
+				{
+					players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
+				}
+				else
+				{
+					players = PlayerList.Instance.AllPlayers;
+				}
+			}
+			else
+			{
+				players = PlayerList.Instance.AllPlayers;
+			}
 		}
 
 		//Local chat range checks:
-		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat
-													|| chatEvent.channels == ChatChannel.Action)
+		if (chatEvent.channels.HasFlag(ChatChannel.Local) || chatEvent.channels.HasFlag(ChatChannel.Combat)
+													|| chatEvent.channels.HasFlag(ChatChannel.Action))
 		{
-			for (int i = 0; i < players.Count; i++)
+			for (int i = players.Count - 1; i >= 0; i--)
 			{
 				if (players[i].Script == null)
 				{
 					//joined viewer, don't message them
-					players.Remove(players[i]);
+					players.RemoveAt(i);
 					continue;
 				}
 
@@ -87,11 +104,17 @@ public class ChatRelay : NetworkBehaviour
 					continue;
 				}
 
+				if (chatEvent.position == TransformState.HiddenPos)
+				{
+					//show messages with no provided position to everyone
+					continue;
+				}
+
 				if (Vector2.Distance(chatEvent.position,
 						(Vector3)players[i].Script.WorldPos) > 14f)
 				{
 					//Player in the list is too far away for local chat, remove them:
-					players.Remove(players[i]);
+					players.RemoveAt(i);
 				}
 				else
 				{
@@ -100,7 +123,7 @@ public class ChatRelay : NetworkBehaviour
 						(Vector3)players[i].Script.WorldPos, layerMask))
 					{
 						//if it hit a wall remove that player
-						players.Remove(players[i]);
+						players.RemoveAt(i);
 					}
 				}
 			}
@@ -123,7 +146,7 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		for (var i = 0; i < players.Count; i++)
-		{
+		{			
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
@@ -134,6 +157,7 @@ public class ChatRelay : NetworkBehaviour
 				{
 					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker);
+
 					continue;
 				}
 			}

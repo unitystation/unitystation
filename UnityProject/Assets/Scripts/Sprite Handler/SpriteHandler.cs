@@ -50,7 +50,6 @@ public class SpriteHandler : MonoBehaviour
 	{
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
-		spriteRenderer = this.GetComponent<SpriteRenderer>();
 		if (spriteData == null) {
 			spriteData = new SpriteData();
 		}
@@ -58,6 +57,11 @@ public class SpriteHandler : MonoBehaviour
 		{
 			PushTexture();
 		}
+	}
+
+	private void OnEnable()
+	{
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
 	private void OnDisable()
@@ -124,7 +128,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 		if (!isAnimation)
 		{
-			UpdateManager.Instance.Remove(UpdateMe);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			spriteRenderer.sprite = null;
 		}
 	}
@@ -133,6 +137,15 @@ public class SpriteHandler : MonoBehaviour
 	{
 		timeElapsed = 0;
 		waitTime = animationStills.waitTime;
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = GetComponent<SpriteRenderer>();
+			if (spriteRenderer == null)
+			{
+				Logger.Log($"There is no spriterenderer on this object {name}");
+				return;
+			}
+		}
 		spriteRenderer.sprite = animationStills.sprite;
 	}
 
@@ -176,12 +189,12 @@ public class SpriteHandler : MonoBehaviour
 		//UpdateManager.Instance.Remove(UpdateMe);
 		if (turnOn && !isAnimation)
 		{
-			UpdateManager.Instance.Add(UpdateMe);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			isAnimation = true;
 		}
 		else if (!turnOn && isAnimation)
 		{
-			UpdateManager.Instance.Remove(UpdateMe);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			isAnimation = false;
 		}
 	}
@@ -201,7 +214,8 @@ public class SpriteHandler : MonoBehaviour
 			PushTexture();
 		}
 		else {
-			SetSpriteOnStartUp = true;		}
+			SetSpriteOnStartUp = true;
+		}
 	}
 
 	/// <summary>
@@ -227,7 +241,6 @@ public class SpriteHandler : MonoBehaviour
 	void Start()
 	{
 		AddSprites();
-		spriteRenderer = this.GetComponent<SpriteRenderer>();
 		StartCoroutine(WaitForInitialisation());
 	}
 

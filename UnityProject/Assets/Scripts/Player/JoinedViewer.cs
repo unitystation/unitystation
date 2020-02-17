@@ -157,11 +157,20 @@ public class JoinedViewer : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// At the moment players can choose their jobs on round start:
+	/// Used for requesting a job at round start.
+	/// Assigns the occupation to the player and spawns them on the station.
+	/// Fails if no more slots for that occupation are available.
 	/// </summary>
 	[Command]
 	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
 	{
+		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
+		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
+		if (slotsTaken >= slotsMax)
+		{
+			return;
+		}
+
 		var spawnRequest =
 			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
 		//regardless of their chosen occupation, they might spawn as an antag instead.

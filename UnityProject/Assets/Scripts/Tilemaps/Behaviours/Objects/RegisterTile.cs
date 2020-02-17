@@ -529,7 +529,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (crossMatrixRelationships == null)
 		{
 			crossMatrixRelationships = new List<BaseSpatialRelationship>();
-			UpdateManager.Instance.Add(UpdatePollCrossMatrixRelationships);
+			UpdateManager.Add(CallbackType.UPDATE, UpdatePollCrossMatrixRelationships);
 		}
 		crossMatrixRelationships.Add(toAdd);
 	}
@@ -554,7 +554,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		crossMatrixRelationships.Remove(toRemove);
 		if (crossMatrixRelationships.Count == 0)
 		{
-			UpdateManager.Instance.Remove(UpdatePollCrossMatrixRelationships);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdatePollCrossMatrixRelationships);
 			crossMatrixRelationships = null;
 		}
 	}

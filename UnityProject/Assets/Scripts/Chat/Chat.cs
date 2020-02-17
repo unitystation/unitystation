@@ -63,7 +63,7 @@ public partial class Chat : MonoBehaviour
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
 			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = ((player == null) ? Vector2.zero : (Vector2)player.gameObject.transform.position),
+			position = ((player == null) ? TransformState.HiddenPos : player.WorldPos),
 			channels = channels,
 			originator = sentByPlayer.GameObject
 		};
@@ -77,7 +77,7 @@ public partial class Chat : MonoBehaviour
 
 		// TODO the following code uses player.playerHealth, but ConciousState would be more appropriate.
 		// Check if the player is allowed to talk:
-		if (player.playerHealth != null)
+		if (player != null && player.playerHealth != null)
 		{
 			if (player.playerHealth.IsCrit || player.playerHealth.IsCardiacArrest)
 			{
@@ -171,7 +171,7 @@ public partial class Chat : MonoBehaviour
 			speaker = originator.name,
 			message = originatorMessage,
 			messageOthers = othersMessage,
-			position = originator.transform.position,
+			position = originator.WorldPosServer(),
 			originator = originator
 		});
 	}
@@ -204,7 +204,7 @@ public partial class Chat : MonoBehaviour
 			message = originatorMsg,
 			messageOthers = othersMsg,
 			speaker = originator.name,
-			position = originator.transform.position,
+			position = originator.WorldPosServer(),
 			originator = originator
 		});
 	}
@@ -309,7 +309,7 @@ public partial class Chat : MonoBehaviour
 			channels = ChatChannel.Combat,
 			message = message,
 			messageOthers = messageOthers,
-			position = attacker.transform.position,
+			position = attacker.WorldPosServer(),
 			speaker = attacker.name,
 			originator = attacker
 		});
@@ -336,7 +336,8 @@ public partial class Chat : MonoBehaviour
 		{
 			channels = ChatChannel.Combat,
 			message = message,
-			position = victim.transform.position
+			position = victim.WorldPosServer(),
+			originator = victim
 		});
 	}
 
@@ -369,7 +370,7 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="worldPos">The position of the local message</param>
-	public static void AddLocalMsgToChat(string message, Vector2 worldPos)
+	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator)
 	{
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
@@ -378,7 +379,8 @@ public partial class Chat : MonoBehaviour
 		{
 			channels = ChatChannel.Local,
 			message = message,
-			position = worldPos
+			position = worldPos,
+			originator = originator
 		});
 	}
 
@@ -422,6 +424,18 @@ public partial class Chat : MonoBehaviour
 				AddExamineMsgFromServer(recipient, message);
 				break;
 		}
+	}
+
+	public static void AddWarningMsgFromServer(GameObject recipient, string msg)
+	{
+		if (!IsServer()) return;
+		UpdateChatMessage.Send(recipient, ChatChannel.Warning, ChatModifier.None, msg);
+	}
+
+	public static void AddWarningMsgToClient(string message)
+	{
+		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None); //TODO: Put processing in a unified place for server and client.
+		Instance.addChatLogClient.Invoke(message, ChatChannel.Warning);
 	}
 
 	public static void AddAdminPrivMsg(string message, string adminId)
