@@ -121,7 +121,7 @@ public class Microwave : NetworkBehaviour
 			//If the resulting meal has a stackable component, set the amount to mealCount to ensure that food in = food out.
 			Stackable stck = result.GameObject.GetComponent<Stackable>();
 
-			if (stck != null)
+			if (stck != null && mealCount != 0)
 			{
 				//Get difference between new item's initial amount and the amount held by mealCount (amount of ingredient).
 				//If not 0, add the difference to make new item amount equal to old item amount.
