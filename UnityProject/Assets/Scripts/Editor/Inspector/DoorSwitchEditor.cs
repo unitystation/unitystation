@@ -8,40 +8,14 @@ public class DoorSwitchEditor : Editor
 	private DoorSwitch doorSwitch;
 	private bool isSelecting;
 
-	void OnEnable() { EditorApplication.update += Update; }
-	void OnDisable() { EditorApplication.update -= Update; }
-
-	void Update()
+	void OnEnable()
 	{
-		//skip if not selecting
-		if (!isSelecting || doorSwitch == null)
-			return;
+		SceneView.duringSceneGui += OnScene;
+	}
 
-		//was a new object was selected?
-		GameObject newSelectedObject = (GameObject)Selection.activeObject;
-		if (newSelectedObject != doorSwitch.gameObject)
-		{
-			//remove DoorController if found, add if not
-			var doorController = newSelectedObject.GetComponent<DoorController>();
-			if (doorController != null)
-			{
-				if (doorSwitch.doorControllers.Contains(doorController))
-				{
-					var list = doorSwitch.doorControllers.ToList();
-					list.Remove(doorController);
-					doorSwitch.doorControllers = list.ToArray();
-				}
-				else
-				{
-					var list = doorSwitch.doorControllers.ToList();
-					list.Add(doorController);
-					doorSwitch.doorControllers = list.ToArray();
-				}
-			}
-
-			//return selection to switch
-			Selection.activeGameObject = doorSwitch.gameObject;
-		}
+	void OnDisable()
+	{
+		SceneView.duringSceneGui -= OnScene;
 	}
 
 	public override void OnInspectorGUI()
@@ -66,16 +40,63 @@ public class DoorSwitchEditor : Editor
 		}
 	}
 
-	void OnSceneGUI()
+	void OnScene(SceneView scene)
 	{
-		//panic and quit selecting DoorControllers
-		if (HasPressedEscapeKey())
+		//skip if not selecting
+		if (!isSelecting || doorSwitch == null)
+			return;
+
+		Event e = Event.current;
+		if (e == null)
+			return;
+
+		if (HasPressedEscapeKey(e))
+		{
 			isSelecting = false;
+			return;
+		}
+
+		if (HasPressedLeftClick(e))
+		{
+			Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+			RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
+
+			// scan all hit objects for door controllers
+			for (int i = 0; i < hits.Length; i++)
+			{
+				var doorController = hits[i].transform.GetComponent<DoorController>();
+				if (doorController != null)
+					ToggleDoorController(doorSwitch, doorController);
+			}
+		}
+
+		//return selection to switch
+		Selection.activeGameObject = doorSwitch.gameObject;
 	}
 
-	bool HasPressedEscapeKey()
+	private void ToggleDoorController(DoorSwitch doorSwitch, DoorController doorController)
 	{
-		Event e = Event.current;
+		if (doorSwitch.doorControllers.Contains(doorController))
+		{
+			var list = doorSwitch.doorControllers.ToList();
+			list.Remove(doorController);
+			doorSwitch.doorControllers = list.ToArray();
+		}
+		else
+		{
+			var list = doorSwitch.doorControllers.ToList();
+			list.Add(doorController);
+			doorSwitch.doorControllers = list.ToArray();
+		}
+	}
+
+	private bool HasPressedEscapeKey(Event e)
+	{
 		return e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape;
+	}
+
+	private bool HasPressedLeftClick(Event e)
+	{
+		return e.type == EventType.MouseDown && e.button == 0;
 	}
 }

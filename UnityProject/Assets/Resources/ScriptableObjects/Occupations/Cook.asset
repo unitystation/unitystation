@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: Cook
   m_EditorClassIdentifier: 
   jobType: 14
-  displayName: Cook
   inventoryPopulator: {fileID: 11400000, guid: 47e9e0778706c4908b3cdf0e2f0c8af3, type: 2}
   limit: 2
   priority: 99
-  choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
   allowedAccess: 2d000000310000001a00000022000000
+  progress: 40
+  choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
+  previewSprite: {fileID: 21300000, guid: a0ebf24591b771643bdc9cf4a5974d7e, type: 3}
+  displayName: Cook
+  difficulty: 1
+  descriptionShort: "\u2022 Make food\n\u2022 Keep the crew fed\n\u2022 Acquire meat"
+  descriptionLong: 
