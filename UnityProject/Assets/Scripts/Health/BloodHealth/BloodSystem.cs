@@ -57,13 +57,12 @@ public class BloodSystem : MonoBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Instance.Add(UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnDisable()
 	{
-		if (UpdateManager.Instance != null)
-			UpdateManager.Instance.Remove(UpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	//Initial setting for blood type. Server only

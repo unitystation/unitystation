@@ -24,6 +24,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private ItemStorage itemStorage;
+	private bool alreadyGhosted = false;
 
 	private void Awake()
 	{
@@ -415,8 +416,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerSpawnPlayerGhost()
 	{
+		if (alreadyGhosted) return;
+		
 		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost)
 		{
+			alreadyGhosted = true;
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
 	}

@@ -457,6 +457,7 @@ namespace Mirror
         {
             if (NetworkIdentity.spawned.TryGetValue(netId, out NetworkIdentity identity))
             {
+	            if (identity == null || identity.gameObject == null) return null;
                 return identity.gameObject;
             }
             return null;

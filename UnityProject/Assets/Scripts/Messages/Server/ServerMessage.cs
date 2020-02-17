@@ -97,6 +97,8 @@ public abstract class ServerMessage : GameMessageBase
 		//Sends the message only to visible players:
 		foreach (ConnectedPlayer player in players)
 		{
+			if (player == null || player.Script == null || player.Script.netIdentity == null) continue;
+			
 			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
 			{
 				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);

@@ -169,7 +169,7 @@ public class GUI_Vendor : NetTab
 
 	private void SendToChat(string messageToSend)
 	{
-		Chat.AddLocalMsgToChat(messageToSend, vendor.transform.position);
+		Chat.AddLocalMsgToChat(messageToSend, vendor.transform.position, vendor?.gameObject);
 	}
 
 	private IEnumerator VendorInputCoolDown()

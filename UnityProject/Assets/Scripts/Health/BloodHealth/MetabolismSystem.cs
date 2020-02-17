@@ -47,7 +47,7 @@ public class MetabolismSystem : NetworkBehaviour
 	//TODO: Maybe make this dependent on the heart rate?
 	[SerializeField]
 	[Tooltip("How often a metabolism tick occurs (in seconds)")]
-	private float metabolismRate = 5f;
+	private float metabolismRate = 10f;
 
 	//TODO: Actually use this
 	//[SerializeField]
@@ -110,13 +110,12 @@ public class MetabolismSystem : NetworkBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Instance.Add(UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		effects = new List<MetabolismEffect>();
 	}
 	void OnDisable()
 	{
-		if (UpdateManager.Instance != null)
-			UpdateManager.Instance.Remove(UpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void UpdateMe()

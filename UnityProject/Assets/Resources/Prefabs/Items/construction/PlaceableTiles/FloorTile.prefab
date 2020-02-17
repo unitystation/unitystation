@@ -7,11 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: m_Name
-      value: FloorTile
-      objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: entries.Array.size
@@ -96,25 +91,46 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
         type: 2}
-    - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: Resistances.FireProof
+      propertyPath: waysToPlace.Array.data[1].itemCost
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].itemCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: initialName
+      value: floor tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: initialDescription
+      value: Those could work as a pretty decent throwing weapon.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: hitDamage
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: throwDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b16790bd650051044ae96a3849a79d70,
+        type: 3}
+    - target: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: m_Name
+      value: FloorTile
       objectReference: {fileID: 0}
     - target: {fileID: 5671578262437538495, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
@@ -171,31 +187,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    - target: {fileID: 5706845613525625471, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
-      propertyPath: initialName
-      value: floor tile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: initialDescription
-      value: Those could work as a pretty decent throwing weapon.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: hitDamage
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: throwDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
-        type: 3}
-      propertyPath: m_Sprite
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 21300000, guid: b16790bd650051044ae96a3849a79d70,
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8333640173086716004, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8333640173086716004, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 7602444472548548205}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a435d5d64bc4b48baa27fecfcab9e111, type: 3}
+--- !u!1 &7602444472548548205 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    type: 3}
+  m_PrefabInstance: {fileID: 2821420188953315750}
+  m_PrefabAsset: {fileID: 0}

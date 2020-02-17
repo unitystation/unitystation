@@ -74,10 +74,8 @@ namespace AdminTools
 			{
 				Logger.Log($"Auto mod has taken steps to protect against an allocation attack from {ipAddress}");
 				ProcessStartInfo processInfo = new ProcessStartInfo();
-				processInfo.FileName = "/bin/bash";
-				string argument = "-c \" ufw insert 1 deny from \"{0}\" to any;";
-				processInfo.Arguments = string.Format(argument, ipAddress);
-				processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+				processInfo.FileName = "ufw";
+				processInfo.Arguments = $"insert 1 deny from {ipAddress} to any";
 				processInfo.CreateNoWindow = true;
 				processInfo.UseShellExecute = false;
 				Process.Start(processInfo);
