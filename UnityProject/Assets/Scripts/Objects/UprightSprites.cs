@@ -62,17 +62,18 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 
 	public void OnDespawnClient(ClientDespawnInfo info)
 	{
-		UpdateManager.Instance.Remove(SetSpritesUpright);
+		UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
 	}
 
 	//makes sure it's removed from update manager at end of round since currently updatemanager is not
 	//reset on round end.
 	private void OnDisable()
 	{
-		if (UpdateManager.Instance)
-		{
-			UpdateManager.Instance.Remove(SetSpritesUpright);
-		}
+		// Make sure we're in play mode if running in editor.
+#if UNITY_EDITOR
+		if (Application.isPlaying)
+#endif
+			UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
 	}
 
 	private void SetSpritesUpright()
@@ -97,7 +98,7 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 			{
 				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 				{
-					UpdateManager.Instance.Add(SetSpritesUpright);
+					UpdateManager.Add(CallbackType.UPDATE, SetSpritesUpright);
 				}
 			}
 			else if (rotationInfo.IsEnding)
@@ -105,7 +106,7 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 				if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 				{
 					//stop reorienting to face upright
-					UpdateManager.Instance.Remove(SetSpritesUpright);
+					UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
 				}
 
 				SetSpritesUpright();
