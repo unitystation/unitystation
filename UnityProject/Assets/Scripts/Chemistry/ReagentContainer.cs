@@ -146,11 +146,10 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	{
 		var result = RightClickableResult.Create();
 
-		result.AddElement("Contents", ExamineContents);
-
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			//fixme: these only work on server
+			result.AddElement("Contents", ExamineContents);
 			//Pour / add can only be done if in reach
 			if (Validations.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
 			{
