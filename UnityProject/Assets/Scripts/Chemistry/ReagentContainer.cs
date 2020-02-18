@@ -479,7 +479,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		var one = interaction.UsedObject.GetComponent<ReagentContainer>();
 		var two = interaction.TargetObject.GetComponent<ReagentContainer>();
 
-		TransferInteraction(one, two, interaction.Performer);
+		ServerTransferInteraction(one, two, interaction.Performer);
 	}
 
 
@@ -492,10 +492,11 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 			var one = interaction.HandObject.GetComponent<ReagentContainer>();
 			var two = interaction.TargetObject.GetComponent<ReagentContainer>();
 
-			TransferInteraction(one, two, interaction.Performer);
+			ServerTransferInteraction(one, two, interaction.Performer);
 		}
 		else
 		{
+			//TODO: Move this to Spill right click interaction? Need to make 'RequestSpill'
 			var dstPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
 			SpillInteraction(this, srcPlayer, dstPlayer);
 		}
@@ -513,7 +514,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	/// <summary>
 	/// Transfers Reagents between two containers
 	/// </summary>
-	private void TransferInteraction(ReagentContainer one, ReagentContainer two, GameObject performer)
+	private void ServerTransferInteraction(ReagentContainer one, ReagentContainer two, GameObject performer)
 	{
 		ReagentContainer transferTo = null;
 		switch (one.TransferMode)
