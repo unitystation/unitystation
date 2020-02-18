@@ -33,11 +33,13 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 		var indent = EditorGUI.indentLevel;
 		EditorGUI.indentLevel = 0;
 		// Calculate rects
-		var amountRect = new Rect(position.x, position.y, position.width, position.height);
+		SerializedProperty texProp = property.FindPropertyRelative("Texture");
+		float texPropHeight = EditorGUI.GetPropertyHeight(texProp);
+		var amountRect = new Rect(position.x, position.y, position.width, texPropHeight);
 
 		// //Draw fields - passs GUIContent.none to each so they are drawn without labels
 		EditorGUI.BeginChangeCheck();
-		EditorGUI.PropertyField(amountRect, property.FindPropertyRelative("Texture"), GUIContent.none);
+		EditorGUI.PropertyField(amountRect, texProp, GUIContent.none);
 		property.serializedObject.ApplyModifiedProperties();
 		if (EditorGUI.EndChangeCheck())
 		{
@@ -46,10 +48,18 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 		}
 		EditorGUI.PropertyField(new Rect(1000, 1000, 1, 1), property.FindPropertyRelative("Sprites"), GUIContent.none);
 		EditorGUI.PropertyField(new Rect(1001, 1001, 1, 1), property.FindPropertyRelative("EquippedData"), GUIContent.none);
+
 		property.serializedObject.ApplyModifiedProperties();
 		EditorGUI.indentLevel = indent;
 
 		EditorGUI.EndProperty();
+	}
+
+	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+	{
+		float totalHeight = EditorGUI.GetPropertyHeight(property.FindPropertyRelative("Texture"));
+
+		return totalHeight;
 	}
 
 	public void GetAttributes(object Script, int Depth = 0)

@@ -81,6 +81,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			amountText.enabled = false;
 		}
 		image = GetComponent<Image>();
+		image.material = Instantiate(Resources.Load<Material>("Materials/Palettable UI"));
 		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
 		secondaryImage.enabled = false;
@@ -200,10 +201,26 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				image = GetComponent<Image>();
 			}
 
+			ItemAttributesV2 itemAttrs = item.GetComponent<ItemAttributesV2>();
+
 			spriteRends = spriteRends.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
 			sprite = spriteRends[0].sprite;
 			image.sprite = sprite;
 			image.color = spriteRends[0].color;
+			MaterialPropertyBlock pb = new MaterialPropertyBlock();
+			spriteRends[0].GetPropertyBlock(pb);
+			bool isPaletted = pb.GetInt("_IsPaletted") > 0;
+			if (itemAttrs.ItemSprites.InventoryIcon != null && itemAttrs.ItemSprites.IsPaletted)
+			{
+				image.material.SetInt("_IsPaletted", 1);
+				image.material.SetColorArray("_ColorPalette", itemAttrs.ItemSprites.Palette.ToArray());
+			}
+			else
+			{
+				image.material.SetInt("_IsPaletted", 0);
+			}
+			
+
 			if (spriteRends.Length > 1)
 			{
 				if (spriteRends[1].sprite != null)

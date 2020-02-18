@@ -96,7 +96,6 @@ public class UpdateManager : MonoBehaviour
 				continue;
 			}
 
-#if UNITY_EDITOR
 			Profiler.BeginSample(namedAction.Name);
 			try
 			{
@@ -112,9 +111,6 @@ public class UpdateManager : MonoBehaviour
 				RemoveCallbackInternal(collection, callback);
 			}
 			Profiler.EndSample();
-#else
-			callback?.Invoke();
-#endif
 		}
 
 		callbackList.RemoveRange(count, startCount - count);
