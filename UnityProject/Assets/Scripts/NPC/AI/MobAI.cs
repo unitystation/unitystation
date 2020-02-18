@@ -80,7 +80,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Instance.Add(UpdateMe);
 			health.applyDamageEvent += OnAttackReceived;
 			isServer = true;
 			AIStartServer();
@@ -91,7 +91,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	{
 		if (isServer)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Instance.Remove(UpdateMe);
 			health.applyDamageEvent += OnAttackReceived;
 		}
 	}

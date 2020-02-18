@@ -159,7 +159,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 		if (!isAnimation)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Instance.Remove(UpdateMe);
 			spriteRenderer.sprite = null;
 		}
 	}
@@ -242,12 +242,12 @@ public class SpriteHandler : MonoBehaviour
 		//UpdateManager.Instance.Remove(UpdateMe);
 		if (turnOn && !isAnimation)
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Instance.Add(UpdateMe);
 			isAnimation = true;
 		}
 		else if (!turnOn && isAnimation)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Instance.Remove(UpdateMe);
 			isAnimation = false;
 		}
 	}

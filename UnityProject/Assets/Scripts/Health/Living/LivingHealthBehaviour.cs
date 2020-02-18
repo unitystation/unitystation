@@ -143,12 +143,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Instance.Add(UpdateMe);
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (UpdateManager.Instance != null)
+			UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	/// Add any missing systems:
