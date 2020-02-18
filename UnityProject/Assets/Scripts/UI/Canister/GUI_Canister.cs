@@ -16,6 +16,7 @@ public class GUI_Canister : NetTab
 	public Image InnerPanelBG;
 	public Text LabelText;
 	public NumberSpinner InternalPressureDial;
+	public NumberSpinner ExternalPressureDial;
 	public NumberSpinner ReleasePressureDial;
 	public NetWheel ReleasePressureWheel;
 	private GasContainer container;
@@ -28,7 +29,7 @@ public class GUI_Canister : NetTab
 	public NetToggle SecondaryReleaseLever;
 
 	//external tank
-	public NetLabel externalTankName;
+	public NetLabel externalTankStatus;
 	public NetSpriteImage externalTankImage;
 
 	//LED stuff
@@ -142,11 +143,18 @@ public class GUI_Canister : NetTab
 		}
 
 		container = Provider.GetComponent<GasContainer>();
+		var canister = Provider.GetComponent<Canister>();
 		//init pressure dials
 		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
 		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
+		if (canister.hasContainerInserted)
+		{
+			GasContainer externalTank = canister.InsertedContainer.GetComponent<GasContainer>();
+			ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
+		}
+		else
+			ExternalPressureDial.ServerSpinTo(0);
 		//init connection status
-		var canister = Provider.GetComponent<Canister>();
 		canister.ServerOnConnectionStatusChange.AddListener(ServerUpdateConnectionStatus);
 		ServerUpdateConnectionStatus(canister.isConnected);
 		//init external tank status
@@ -169,13 +177,17 @@ public class GUI_Canister : NetTab
 
 		if (externalExists)
 		{
-			externalTankName.SetValue = insertedContainer.Item().InitialName;
+			externalTankStatus.SetValue = insertedContainer.Item().InitialName;
 			externalTankImage.SetValue = "ExternalTankInserted@0";
+			GasContainer externalTank = insertedContainer.GetComponent<GasContainer>();
+			ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
+
 		}
 		else
 		{
-			externalTankName.SetValue = "No Tank Inserted";
+			externalTankStatus.SetValue = "No Tank Inserted";
 			externalTankImage.SetValue = "ExternalTankEmpty@0";
+			ExternalPressureDial.ServerSpinTo(0);
 		}
 	}
 
@@ -412,20 +424,14 @@ public class GUI_Canister : NetTab
 				}
 
 			}
-
-			//dump the gases to the respective GasContainer's GasMix
-			int gasIteration = 0;
-			foreach (Gas gas in Gas.All)
-			{
-				canisterGas.SetGas(gas, updatedCanisterGases[gasIteration]);
-				tankGas.SetGas(gas, updatedTankGases[gasIteration]);
-				gasIteration++;
-			}
+			canisterTank.Gases = updatedCanisterGases;
+			canisterTank.UpdateGasMix();
+			externalTank.Gases = updatedTankGases;
+			externalTank.UpdateGasMix();
 		}
 		else if (usingTank && externalTank == null)
 		{
-			Chat.AddExamineMsgToClient("Tank valve lockout occured! You should close the valve, " +
-								   "insert a tank, and then open the tank valve.");
+			DisplayFlashingText("Tank valve lockout occured! Close the valve first!", 1F);
 		}
 	}
 
@@ -442,16 +448,17 @@ public class GUI_Canister : NetTab
 		{
 			if (tankValveOpen)
 			{
-				Chat.AddExamineMsgToClient("Close the valve before removing the tank!");
+				DisplayFlashingText("Close the valve before removing the tank!");
 			}
 			else
 			{
 				canister.EjectInsertedContainer();
+				DisplayFlashingText("Tank ejected!");
 			}
 		}
 		else
 		{
-			Chat.AddExamineMsgToClient("There is no tank inside this canister.");
+			DisplayFlashingText("There is no tank inside this canister.");
 		}
 	}
 
@@ -460,7 +467,25 @@ public class GUI_Canister : NetTab
 		container.Opened = isOpen;
 		if (isOpen)
 		{
-			Chat.AddExamineMsgToClient($"Canister releasing at {container.ReleasePressure}");
+			DisplayFlashingText($"Canister releasing at {container.ReleasePressure}");
 		}
+	}
+
+	private IEnumerator DisplayFlashingText(string text, float speed = 0.5F)
+	{
+		string initialInfoText = externalTankStatus.Element.text;
+		externalTankStatus.SetValue = text;
+		yield return WaitFor.Seconds(speed);
+		externalTankStatus.SetValue = "";
+		yield return WaitFor.Seconds(speed/2);
+		externalTankStatus.SetValue = text;
+		yield return WaitFor.Seconds(speed);
+		externalTankStatus.SetValue = "";
+		yield return WaitFor.Seconds(speed/2);
+		externalTankStatus.SetValue = text;
+		yield return WaitFor.Seconds(speed);
+		externalTankStatus.SetValue = "";
+		yield return WaitFor.Seconds(speed/2);
+		externalTankStatus.SetValue = initialInfoText;
 	}
 }
