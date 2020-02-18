@@ -113,6 +113,12 @@ public class Hands : MonoBehaviour
 	/// </summary>
 	public void Activate()
 	{
+
+		if(!isValidPlayer())
+		{
+			return;
+		}
+
 		// Is there an item in the active hand?
 		if (CurrentSlot.Item == null)
 		{
