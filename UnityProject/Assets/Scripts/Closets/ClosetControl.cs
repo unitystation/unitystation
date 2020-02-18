@@ -332,7 +332,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 					{
 						SyncLocked(isLocked, false);
 						ServerToggleClosed();
-					}	
+					}
 			}
 		}
 		else
@@ -420,11 +420,26 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		// Is the player trying to put something in the closet
-		if (interaction.HandObject != null && !IsClosed)
+		if (interaction.HandObject != null)
 		{
-			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			Vector3 performerPosition = interaction.Performer.WorldPosServer();
-			Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
+			if (!IsClosed)
+			{
+				Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
+				Vector3 performerPosition = interaction.Performer.WorldPosServer();
+				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
+			}
+			//if (Validations.HasComponent<IDCard>(interaction.HandObject))
+			else if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
+			{
+				if (isLocked)
+				{
+					SyncLocked(isLocked, false);	
+				}
+				else
+				{
+					SyncLocked(isLocked, true);	
+				}
+			}
 		}
 		else if (!IsLockable)
 		{
