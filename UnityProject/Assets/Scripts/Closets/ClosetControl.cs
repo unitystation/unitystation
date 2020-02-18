@@ -126,6 +126,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
+		// failsafe: drop all contents immediately
+		ServerHandleContentsOnStatusChange(false);
+
 		//force it open so it drops its contents
 		SyncLocked(isLocked, false);
 		SyncStatus(statusSync, ClosetStatus.Open);
@@ -393,6 +396,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 	}
 
+	/// <summary>
+	/// Removes all items currently inside of the closet
+	/// </summary>
 	private void OpenItemHandling()
 	{
 		foreach (ObjectBehaviour item in serverHeldItems)
@@ -446,6 +452,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		}
 	}
 
+	/// <summary>
+	/// Removes all players currently inside of the closet
+	/// </summary>
 	private void OpenPlayerHandling()
 	{
 		foreach (ObjectBehaviour player in serverHeldPlayers)
@@ -463,6 +472,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		serverHeldPlayers = new List<ObjectBehaviour>();
 	}
 
+	/// <summary>
+	/// Adds all players currently sitting on this closet into the closet
+	/// </summary>
 	private void ClosePlayerHandling()
 	{
 		var mobsFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);

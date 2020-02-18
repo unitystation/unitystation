@@ -73,7 +73,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 					pipe = foundPipe;
 					ToggleAnchored(true);
-					UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+					UpdateManager.Instance.Add(UpdateMe);
 					UpdateMe();
 					break;
 				}
@@ -85,7 +85,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		ToggleAnchored(false);
 		spriteSync = 0;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	void ToggleAnchored(bool value)
