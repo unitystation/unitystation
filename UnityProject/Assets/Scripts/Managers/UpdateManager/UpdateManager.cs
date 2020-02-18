@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
-using System.Collections.Generic;
-using UnityEngine.Profiling;
 
 /// <summary>
 ///     Handles the update methods for in game objects
@@ -10,35 +9,54 @@ using UnityEngine.Profiling;
 /// </summary>
 public class UpdateManager : MonoBehaviour
 {
-	private Dictionary<CallbackType, CallbackCollection> collections;
+	private static UpdateManager updateManager;
 
-    public static bool IsInitialized { get { return instance != null; } }
-	private static UpdateManager instance;
+	private event Action UpdateMe;
+	private event Action FixedUpdateMe;
+	private event Action LateUpdateMe;
+	private event Action UpdateAction;
 
+<<<<<<< HEAD
 	// TODO: Obsolete, remove when no longer used.
 	public static UpdateManager Instance { get { return instance; } }
 
 	private class NamedAction
+=======
+	public static UpdateManager Instance
+>>>>>>> parent of eef9bd6cb... refactored update manager
 	{
-		public Action Action;
-		public string Name;
-		public bool WaitingForRemove;
+		get
+		{
+			if (updateManager == null)
+			{
+				updateManager = FindObjectOfType<UpdateManager>();
+			}
+			return updateManager;
+		}
 	}
 
-	private class CallbackCollection
+	public void Add(ManagedNetworkBehaviour updatable)
 	{
-		// Double collection: List for fast iteration, dictionary for O(1) removal.
-		// Trading memory for cpu perf.
+		if (updatable.GetType().GetMethod(nameof(ManagedNetworkBehaviour.UpdateMe))?.DeclaringType == updatable.GetType())
+		{ //Avoiding duplicates:
+			UpdateMe -= updatable.UpdateMe;
+			UpdateMe += updatable.UpdateMe;
+		}
 
-		public readonly List<NamedAction> ActionList = new List<NamedAction>(128);
-		public readonly Dictionary<Action, NamedAction> ActionDictionary = new Dictionary<Action, NamedAction>(128);
+		if (updatable.GetType().GetMethod(nameof(ManagedNetworkBehaviour.FixedUpdateMe))?.DeclaringType == updatable.GetType())
+		{
+			FixedUpdateMe -= updatable.FixedUpdateMe;
+			FixedUpdateMe += updatable.FixedUpdateMe;
+		}
+
+		if (updatable.GetType().GetMethod(nameof(ManagedNetworkBehaviour.LateUpdateMe))?.DeclaringType == updatable.GetType())
+		{
+			LateUpdateMe -= updatable.LateUpdateMe;
+			LateUpdateMe += updatable.LateUpdateMe;
+		}
 	}
 
-	public static void Add(CallbackType type, Action action)
-	{
-		instance.AddCallbackInternal(type, action);
-	}
-
+<<<<<<< HEAD
 	[Obsolete("This will be removed in the future. Use UpdateManager.Add(CallbackType, Action) instead.")]
 	public void Add(Action updatable)
 	{
@@ -52,28 +70,29 @@ public class UpdateManager : MonoBehaviour
 	}
 
 	public static void Add(ManagedNetworkBehaviour networkBehaviour)
+=======
+	public void Add(Action updatable)
+>>>>>>> parent of eef9bd6cb... refactored update manager
 	{
-		instance.AddCallbackInternal(CallbackType.UPDATE, networkBehaviour.UpdateMe);
-		instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
-		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
+		UpdateAction -= updatable;
+		UpdateAction += updatable;
 	}
 
-	public static void Remove(CallbackType type, Action action)
+	public void Remove(ManagedNetworkBehaviour updatable)
 	{
-		var callbackCollection = instance.collections[type];
-
-		instance.RemoveCallbackInternal(callbackCollection, action);
+		UpdateMe -= updatable.UpdateMe;
+		FixedUpdateMe -= updatable.FixedUpdateMe;
+		LateUpdateMe -= updatable.LateUpdateMe;
 	}
 
-	public static void Remove(ManagedNetworkBehaviour networkBehaviour)
+	public void Remove(Action updatable)
 	{
-		Remove(CallbackType.UPDATE, networkBehaviour.UpdateMe);
-		Remove(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
-		Remove(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
+		UpdateAction -= updatable;
 	}
 
-	private void ProcessCallbacks(CallbackCollection collection)
+	private void OnEnable()
 	{
+<<<<<<< HEAD
 		List<NamedAction> callbackList = collection.ActionList;
 
 		// Iterate backwards so we can remove at O(1) while still iterating the rest.
@@ -112,103 +131,42 @@ public class UpdateManager : MonoBehaviour
 		}
 
 		callbackList.RemoveRange(count, startCount - count);
+=======
+		SceneManager.activeSceneChanged += SceneChanged;
+>>>>>>> parent of eef9bd6cb... refactored update manager
 	}
 
-	private void AddCallbackInternal(CallbackType type, Action action)
+	private void OnDisable()
 	{
-		NamedAction namedAction = new NamedAction();
-
-		// Give that shit a name so we can refer to it in profiler.
-#if UNITY_EDITOR
-		namedAction.Name = action.Target != null ?
-			action.Target.GetType().ToString() + "." + action.Method.ToString() :
-			action.Method.ToString();
-#endif
-		namedAction.Action = action;
-
-        CallbackCollection callbackCollection = collections[type];
-
-		// Check if it's already been added, should never be the case so avoiding the overhead in build.
-#if UNITY_EDITOR
-		if (callbackCollection.ActionDictionary.ContainsKey(action))
-		{
-			Debug.LogErrorFormat("Failed to add callback '{0}' to CallbackEvent '{1}' because it is already added.", namedAction.Name, type.ToString());
-			return;
-		}
-#endif
-
-		callbackCollection.ActionList.Add(namedAction);
-		callbackCollection.ActionDictionary.Add(action, namedAction);
+		SceneManager.activeSceneChanged -= SceneChanged;
 	}
 
-	private void RemoveCallbackInternal(CallbackCollection collection, Action callback)
+	private void SceneChanged(Scene prevScene, Scene newScene)
 	{
-		NamedAction namedAction;
-		if (collection.ActionDictionary.TryGetValue(callback, out namedAction))
-		{
-			namedAction.WaitingForRemove = true;
-			collection.ActionDictionary.Remove(callback);
-		}
+		Reset();
 	}
 
-	private void Awake()
+	private void Reset()
 	{
-		if (instance != null)
-		{
-			Destroy(gameObject);
-			return;
-		}
-
-		collections = new Dictionary<CallbackType, CallbackCollection>(3, new CallbackTypeComparer());
-		foreach (CallbackType callbackType in Enum.GetValues(typeof(CallbackType)))
-		{
-			collections.Add(callbackType, new CallbackCollection());
-		}
-
-		instance = this;
+		UpdateMe = null;
+		FixedUpdateMe = null;
+		LateUpdateMe = null;
+		UpdateAction = null;
 	}
 
 	private void Update()
 	{
-		ProcessCallbacks(collections[CallbackType.UPDATE]);
+		UpdateMe?.Invoke();
+		UpdateAction?.Invoke();
 	}
 
 	private void FixedUpdate()
 	{
-		ProcessCallbacks(collections[CallbackType.FIXED_UPDATE]);
+		FixedUpdateMe?.Invoke();
 	}
 
 	private void LateUpdate()
 	{
-		ProcessCallbacks(collections[CallbackType.LATE_UPDATE]);
-	}
-
-	private void OnDestroy()
-	{
-		if (instance == this)
-			instance = null;
-	}
-}
-
-public enum CallbackType : byte
-{
-	UPDATE,
-	FIXED_UPDATE,
-	LATE_UPDATE
-}
-
-/// <summary>
-/// Used to prevent garbage from boxing when comparing enums.
-/// </summary>
-public struct CallbackTypeComparer : IEqualityComparer<CallbackType>
-{
-	public bool Equals(CallbackType x, CallbackType y)
-	{
-		return x == y;
-	}
-
-	public int GetHashCode(CallbackType obj)
-	{
-		return (int)obj;
+		LateUpdateMe?.Invoke();
 	}
 }

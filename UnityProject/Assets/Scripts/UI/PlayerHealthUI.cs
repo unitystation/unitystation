@@ -27,12 +27,15 @@ public class PlayerHealthUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Instance.Add(UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (UpdateManager.Instance != null)
+		{
+			UpdateManager.Instance.Remove(UpdateMe);
+		}
 	}
 
 	private void DisableAll()

@@ -110,12 +110,13 @@ public class MetabolismSystem : NetworkBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Instance.Add(UpdateMe);
 		effects = new List<MetabolismEffect>();
 	}
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (UpdateManager.Instance != null)
+			UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	void UpdateMe()
