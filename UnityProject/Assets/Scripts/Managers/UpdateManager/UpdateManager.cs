@@ -96,7 +96,6 @@ public class UpdateManager : MonoBehaviour
 				continue;
 			}
 
-			Profiler.BeginSample(namedAction.Name);
 			try
 			{
 				callback?.Invoke();
@@ -110,7 +109,6 @@ public class UpdateManager : MonoBehaviour
 				// Get rid of it.
 				RemoveCallbackInternal(collection, callback);
 			}
-			Profiler.EndSample();
 		}
 
 		callbackList.RemoveRange(count, startCount - count);
