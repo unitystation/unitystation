@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using WebSocketSharp;
 
@@ -50,12 +51,18 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 
 	public float TransferAmount { get; private set; } = 20;
 
+	public List<float> PossibleTransferAmounts;
+
+	/// <summary>
+	/// Invoked server side when regent container spills all of its contents
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnSpillAllContents = new UnityEvent();
+
 	[Range(1, 100)]
 	[SerializeField]
 	[FormerlySerializedAs(nameof(TransferAmount))]
 	private float InitialTransferAmount = 20;
-
-	public List<float> PossibleTransferAmounts;
 
 	private RegisterTile registerTile;
 	private EmptyFullSync containerSprite;
@@ -372,8 +379,18 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 			worldPos = registerTile.CustomTransform.AssumedWorldPositionServer().CutToInt();
 		}
 
-		var mobs = MatrixManager.GetAt<LivingHealthBehaviour>(worldPos, true);
+		NotifyPlayersOfSpill(worldPos);
 
+		//todo: half decent regs spread
+		var spilledReagents = TakeReagents(AmountOfReagents(Contents));
+		MatrixManager.ReagentReact(spilledReagents, worldPos);
+
+		OnSpillAllContents.Invoke();
+	}
+
+	private void NotifyPlayersOfSpill(Vector3Int worldPos)
+	{
+		var mobs = MatrixManager.GetAt<LivingHealthBehaviour>(worldPos, true);
 		if (mobs.Count > 0)
 		{
 			foreach (var mob in mobs)
@@ -387,17 +404,6 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		{
 			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()}'s contents spill all over the floor!", (Vector3)worldPos, gameObject);
 		}
-
-		var spilledReagents = TakeReagents(AmountOfReagents(Contents));
-		MatrixManager.ReagentReact(spilledReagents, worldPos);
-
-		var welder = gameObject.GetComponent<Welder>();
-		if (welder != null)
-		{
-			welder.ServerEmptyWelder();
-		}
-
-		//todo: half decent regs spread
 	}
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -482,7 +488,6 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		ServerTransferInteraction(one, two, interaction.Performer);
 	}
 
-
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		var srcPlayer = interaction.Performer.GetComponent<PlayerScript>();
@@ -498,11 +503,11 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		{
 			//TODO: Move this to Spill right click interaction? Need to make 'RequestSpill'
 			var dstPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
-			SpillInteraction(this, srcPlayer, dstPlayer);
+			ServerSpillInteraction(this, srcPlayer, dstPlayer);
 		}
 	}
 
-	private void SpillInteraction(ReagentContainer reagentContainer, PlayerScript srcPlayer, PlayerScript dstPlayer)
+	private void ServerSpillInteraction(ReagentContainer reagentContainer, PlayerScript srcPlayer, PlayerScript dstPlayer)
 	{
 		if (reagentContainer.IsEmpty)
 		{
