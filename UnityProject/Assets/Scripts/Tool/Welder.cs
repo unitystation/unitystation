@@ -98,6 +98,13 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	}
 
 	[Server]
+	public void ServerEmptyWelder()
+	{
+		SyncIsOn(isOn, false);
+	}
+
+
+	[Server]
 	public void ServerToggleWelder(GameObject originator)
 	{
 		SyncIsOn(isOn, !isOn);
