@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine.Serialization;
 using UnityEngine;
 using System;
 
@@ -48,6 +49,8 @@ public class EquippedData
 	public SpriteSheetAndData InHandsLeft;
 	public SpriteSheetAndData InHandsRight;
 	public SpriteSheetAndData ItemIcon;
+	public Color[] Palette = new Color[8];
+	public bool IsPaletted = false;
 
 	public void Combine(EquippedData parent)
 	{

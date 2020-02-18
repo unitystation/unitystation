@@ -117,11 +117,13 @@ public class ClothingV2 : MonoBehaviour
 	private void SetUpFromClothingData(EquippedData equippedData)
 	{
 		var SpriteSOData = new ItemsSprites();
+		SpriteSOData.Palette = equippedData.Palette;
 		SpriteSOData.LeftHand = (equippedData.InHandsLeft);
 		SpriteSOData.RightHand = (equippedData.InHandsRight);
 		SpriteSOData.InventoryIcon = (equippedData.ItemIcon);
-		spriteHandlerController.SetSprites(SpriteSOData);
+		SpriteSOData.IsPaletted = equippedData.IsPaletted;
 
+		spriteHandlerController.SetSprites(SpriteSOData);
 	}
 
 
@@ -129,16 +131,24 @@ public class ClothingV2 : MonoBehaviour
 	private SpriteData SetUpSheetForClothingData(ClothingData clothingData)
 	{
 		var SpriteInfos = new SpriteData();
+
 		SpriteInfos.List = new List<List<List<SpriteHandler.SpriteInfo>>>();
+		SpriteInfos.isPaletteds = new List<bool>();
+		SpriteInfos.palettes = new List<List<Color>>();
 		int c = 0;
 
 		SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.Base.Equipped));
+		SpriteInfos.isPaletteds.Add(clothingData.Base.IsPaletted);
+		SpriteInfos.palettes.Add(new List<Color>(clothingData.Base.Palette));
+		
 		variantStore[ClothingVariantType.Default] = c;
 		c++;
 
 		if (clothingData.Base_Adjusted.Equipped.Texture != null)
 		{
 			SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.Base_Adjusted.Equipped));
+			SpriteInfos.isPaletteds.Add(clothingData.Base_Adjusted.IsPaletted);
+			SpriteInfos.palettes.Add(new List<Color>(clothingData.Base_Adjusted.Palette));
 			variantStore[ClothingVariantType.Tucked] = c;
 			c++;
 		}
@@ -146,6 +156,8 @@ public class ClothingV2 : MonoBehaviour
 		if (clothingData.DressVariant.Equipped.Texture != null)
 		{
 			SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.DressVariant.Equipped));
+			SpriteInfos.isPaletteds.Add(clothingData.DressVariant.IsPaletted);
+			SpriteInfos.palettes.Add(new List<Color>(clothingData.DressVariant.Palette));
 			variantStore[ClothingVariantType.Skirt] = c;
 			c++;
 		}
@@ -154,10 +166,13 @@ public class ClothingV2 : MonoBehaviour
 			foreach (var Variant in clothingData.Variants)
 			{
 				SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Equipped));
-				variantStore[ClothingVariantType.Skirt] = c;
+				SpriteInfos.isPaletteds.Add(Variant.IsPaletted);
+				SpriteInfos.palettes.Add(new List<Color>(Variant.Palette));
+				variantStore[ClothingVariantType.Skirt] = c; // Doesn't make sense
 				c++;
 			}
 		}
+
 		return (SpriteInfos);
 	}
 
