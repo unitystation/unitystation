@@ -49,7 +49,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	public override void OnStartServer()
 	{
 		EnsureInit();
-		UpdateManager.Instance.Add(ServerUpdate);
+		UpdateManager.Add(CallbackType.UPDATE, ServerUpdate);
 		IsServer = true;
 		if (isSoilPile)
 		{
@@ -79,7 +79,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	{
 		if (IsServer)
 		{
-			UpdateManager.Instance.Remove(ServerUpdate);
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdate);
 		}
 	}
 
