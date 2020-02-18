@@ -16,14 +16,7 @@ public class UpdateManager : MonoBehaviour
 	private event Action LateUpdateMe;
 	private event Action UpdateAction;
 
-<<<<<<< HEAD
-	// TODO: Obsolete, remove when no longer used.
-	public static UpdateManager Instance { get { return instance; } }
-
-	private class NamedAction
-=======
 	public static UpdateManager Instance
->>>>>>> parent of eef9bd6cb... refactored update manager
 	{
 		get
 		{
@@ -56,23 +49,7 @@ public class UpdateManager : MonoBehaviour
 		}
 	}
 
-<<<<<<< HEAD
-	[Obsolete("This will be removed in the future. Use UpdateManager.Add(CallbackType, Action) instead.")]
 	public void Add(Action updatable)
-	{
-		Add(CallbackType.UPDATE, updatable);
-	}
-
-	[Obsolete("This will be removed in the future. Use UpdateManager.Remove(CallbackType, Action) instead.")]
-	public void Remove(Action updatable)
-	{
-		Add(CallbackType.UPDATE, updatable);
-	}
-
-	public static void Add(ManagedNetworkBehaviour networkBehaviour)
-=======
-	public void Add(Action updatable)
->>>>>>> parent of eef9bd6cb... refactored update manager
 	{
 		UpdateAction -= updatable;
 		UpdateAction += updatable;
@@ -92,48 +69,7 @@ public class UpdateManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-<<<<<<< HEAD
-		List<NamedAction> callbackList = collection.ActionList;
-
-		// Iterate backwards so we can remove at O(1) while still iterating the rest.
-		int startCount = callbackList.Count;
-		int count = startCount;
-		for (int i = count - 1; i >= 0; --i)
-		{
-			NamedAction namedAction = callbackList[i];
-			Action callback = namedAction.Action;
-
-			if (namedAction.WaitingForRemove)
-			{
-				// When removing from a list, everything else will shift to fill in the gaps.
-				// To avoid this, we swap this item to the back of the list.
-				// At the end of iteration, we remove the items marked for removal from the back (can be multiple) so no other memory has to shift.
-				NamedAction last = callbackList[count - 1];
-				callbackList[count - 1] = namedAction;
-				callbackList[i] = last;
-				count--;
-				continue;
-			}
-
-			try
-			{
-				callback?.Invoke();
-			}
-			catch (Exception e)
-			{
-				// Catch the exception so it does not break flow of all callbacks
-				// But still log it to Unity console so we know something happened
-				Debug.LogException(e);
-
-				// Get rid of it.
-				RemoveCallbackInternal(collection, callback);
-			}
-		}
-
-		callbackList.RemoveRange(count, startCount - count);
-=======
 		SceneManager.activeSceneChanged += SceneChanged;
->>>>>>> parent of eef9bd6cb... refactored update manager
 	}
 
 	private void OnDisable()
