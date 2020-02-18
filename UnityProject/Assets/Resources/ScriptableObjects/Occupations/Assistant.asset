@@ -13,9 +13,28 @@ MonoBehaviour:
   m_Name: Assistant
   m_EditorClassIdentifier: 
   jobType: 2
-  displayName: Assistant
   inventoryPopulator: {fileID: 11400000, guid: e2b80cc04e0d84eef995adbf5f2ec39e, type: 2}
   limit: 99
   priority: 99
-  choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
   allowedAccess: 310000001a00000022000000
+  progress: 95
+  choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
+  previewSprite: {fileID: 21300000, guid: d880fa05e4462e5459a5ce4049797616, type: 3}
+  displayName: Assistant
+  difficulty: 0
+  descriptionShort: "\u2022 Assist the crew.\n\u2022 Learn Unitystation, use OOC for
+    help.\n\u2022 Ask the HOP for a job."
+  descriptionLong: 'The perfect job for new players. Assistants aren''t specialized,
+    and the crew won''t expect much of you.
+
+
+    Feel free to get to know the station at your leisure. Remember to use the OOC
+    chat channel if you have any questions about how to play.
+
+
+    Not sure what to do? Offer your help on the radio, or ask the Head of Personnel
+    for a job.
+
+
+    Experienced players might fly under the radar by being an Assistant. Which they
+    can use to their advantage...'

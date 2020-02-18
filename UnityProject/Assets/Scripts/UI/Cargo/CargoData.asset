@@ -73,19 +73,24 @@ MonoBehaviour:
       Crate: {fileID: 4501350970557495462, guid: e90789a74f1a247b585694b4a51e2ecb,
         type: 3}
       Items:
-      - {fileID: 4991786853530404300, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
-      - {fileID: 4991786853530404300, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
-      - {fileID: 4991786853530404300, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
-    - OrderName: Ointment Crate
+      - {fileID: 8635195139948178778, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
+      - {fileID: 8635195139948178778, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
+      - {fileID: 8635195139948178778, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
+    - OrderName: Burn Kit Crate
       CreditsCost: 800
       Crate: {fileID: 4501350970557495462, guid: e90789a74f1a247b585694b4a51e2ecb,
         type: 3}
       Items:
-      - {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de, type: 3}
-      - {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de, type: 3}
-      - {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de, type: 3}
-      - {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de, type: 3}
-      - {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de, type: 3}
+      - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
+      - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
+      - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
+    - OrderName: Body Bag Crate
+      CreditsCost: 800
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
+      - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
   - CategoryName: Uniform Sets
     Supplies:
     - OrderName: Assistant Set
@@ -422,11 +427,8 @@ MonoBehaviour:
       Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,
         type: 3}
       Items:
-      - {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
-      - {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad, type: 3}
-      - {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}
-      - {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}
-      - {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a, type: 3}
+      - {fileID: 1387665324668345695, guid: 371b9c216382844659c05791957b28c8, type: 3}
+      - {fileID: 1387665324668345695, guid: 371b9c216382844659c05791957b28c8, type: 3}
     - OrderName: Metal Crate
       CreditsCost: 700
       Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,

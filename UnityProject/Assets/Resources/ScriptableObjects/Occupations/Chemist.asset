@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Chemist
   m_EditorClassIdentifier: 
   jobType: 9
-  displayName: Chemist
   inventoryPopulator: {fileID: 11400000, guid: 2f0352dd65eed4792941053f944c8a53, type: 2}
   limit: 2
   priority: 99
-  choiceColor: {r: 1, g: 0.93333334, b: 0.9411765, a: 1}
   allowedAccess: 170000001a000000220000003100000033000000
+  progress: 30
+  choiceColor: {r: 1, g: 0.93333334, b: 0.9411765, a: 1}
+  previewSprite: {fileID: 21300000, guid: 041850facbfd8f94888f41156a3c4255, type: 3}
+  displayName: Chemist
+  difficulty: 2
+  descriptionShort: "\u2022 Mess with chemicals\n\u2022 Produce medicine\n\u2022 Produce
+    other substances"
+  descriptionLong: 
