@@ -37,6 +37,14 @@ public class RequestBuildMessage : ClientMessage
 		//if we are building something impassable, check if there is anything on the space other than the performer.
 		var atPosition =
 			MatrixManager.GetAt<RegisterTile>((Vector3Int) SentByPlayer.GameObject.TileWorldPosition(), true);
+
+		if (entry.Prefab == null)
+		{
+			//requires immediate attention, show it regardless of log filter:
+			Logger.Log($"Construction entry is missing prefab for {entry.Name}");
+			yield break;
+		}
+
 		var registerTile = entry.Prefab.GetComponent<RegisterTile>();
 		if (registerTile == null)
 		{
