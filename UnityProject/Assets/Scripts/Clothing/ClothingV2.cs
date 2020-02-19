@@ -30,6 +30,9 @@ public class ClothingV2 : MonoBehaviour
 	[SerializeField, EnumFlag]
 	private ClothingHideFlags hideClothingFlags;
 
+	private ItemAttributesV2 myItem;
+	private Pickupable myPickupable;
+
 	private Dictionary<ClothingVariantType, int> variantStore = new Dictionary<ClothingVariantType, int>();
 	private List<int> variantList;
 	private SpriteData spriteInfo;
@@ -60,6 +63,8 @@ public class ClothingV2 : MonoBehaviour
 	private void Awake()
 	{
 		spriteHandlerController = GetComponent<SpriteHandlerController>();
+		myItem = GetComponent<ItemAttributesV2>();
+		myPickupable = GetComponent<Pickupable>();
 		TryInit();
 	}
 
@@ -68,7 +73,6 @@ public class ClothingV2 : MonoBehaviour
 	{
 		if (clothData is ClothingData clothingData)
 		{
-			var item = GetComponent<ItemAttributesV2>();
 			spriteInfo = SetUpSheetForClothingData(clothingData);
 			SetUpFromClothingData(clothingData.Base);
 
@@ -94,19 +98,16 @@ public class ClothingV2 : MonoBehaviour
 		}
 		else if (clothData is ContainerData containerData)
 		{
-			var Item = GetComponent<ItemAttributesV2>();
 			this.spriteInfo = SpriteFunctions.SetupSingleSprite(containerData.Sprites.Equipped);
 			SetUpFromClothingData(containerData.Sprites);
 		}
 		else if (clothData is BeltData beltData)
 		{
-			var Item = GetComponent<ItemAttributesV2>();
 			this.spriteInfo = SpriteFunctions.SetupSingleSprite(beltData.sprites.Equipped);
 			SetUpFromClothingData(beltData.sprites);
 		}
 		else if (clothData is HeadsetData headsetData)
 		{
-			var Item = GetComponent<ItemAttributesV2>();
 			var Headset = GetComponent<Headset>();
 			this.spriteInfo = SpriteFunctions.SetupSingleSprite(headsetData.Sprites.Equipped);
 			SetUpFromClothingData(headsetData.Sprites);
@@ -117,7 +118,7 @@ public class ClothingV2 : MonoBehaviour
 	private void SetUpFromClothingData(EquippedData equippedData)
 	{
 		var SpriteSOData = new ItemsSprites();
-		SpriteSOData.Palette = equippedData.Palette;
+		SpriteSOData.Palette = new List<Color>(equippedData.Palette);
 		SpriteSOData.LeftHand = (equippedData.InHandsLeft);
 		SpriteSOData.RightHand = (equippedData.InHandsRight);
 		SpriteSOData.InventoryIcon = (equippedData.ItemIcon);
@@ -126,6 +127,16 @@ public class ClothingV2 : MonoBehaviour
 		spriteHandlerController.SetSprites(SpriteSOData);
 	}
 
+
+	public void AssignPaletteToSprites(List<Color> palette)
+	{
+		if (myItem.ItemSprites.IsPaletted)
+		{
+			spriteHandlerController.SetPaletteOfCurrentSprite(palette);
+			clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette);
+			myPickupable.SetPalette(palette);
+		}
+	}
 
 
 	private SpriteData SetUpSheetForClothingData(ClothingData clothingData)

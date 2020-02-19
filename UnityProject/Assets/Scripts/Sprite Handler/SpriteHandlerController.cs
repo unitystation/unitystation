@@ -82,4 +82,11 @@ public class SpriteHandlerController : NetworkBehaviour
 			spriteRenderer.sprite = newSprites.InventoryIcon.Data.ReturnFirstSprite();
 		}
 	}
+
+
+	public void SetPaletteOfCurrentSprite(List<Color> newPalette)
+	{
+		pickupable.RefreshUISlotImage();
+		spriteHandler.SetPaletteOfCurrentSprite(newPalette);
+	}
 }
