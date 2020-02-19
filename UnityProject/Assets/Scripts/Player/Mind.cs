@@ -17,6 +17,7 @@ public class Mind
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
+	//Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 	public bool IsSpectator => occupation == null || body == null;
 
 	//use Create to create a mind.
@@ -45,6 +46,7 @@ public class Mind
 		var playerScript = player.GetComponent<PlayerScript>();
 		var mind = new Mind { };
 		playerScript.mind = mind;
+		//Forces you into ghosting, the IsGhosting field should make it so it never points to Body
 		mind.Ghosting(player);
 	}
 

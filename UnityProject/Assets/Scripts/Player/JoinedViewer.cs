@@ -180,7 +180,7 @@ public class JoinedViewer : NetworkBehaviour
 		PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation, characterSettings);
 	}
 	/// <summary>
-	/// Calling to spactate a rowun
+	/// Command to spectate a round instead of spawning as a player
 	/// </summary>
 	/// <param name="jobType"></param>
 	/// <param name="characterSettings"></param>

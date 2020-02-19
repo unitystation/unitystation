@@ -289,15 +289,15 @@ public static class PlayerSpawn
 		//Hard coding to assistant
 		Vector3Int spawnPosition = GetSpawnForJob(JobType.ASSISTANT).transform.position.CutToInt();
 
+		//Get spawn location 
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 		var newPlayer = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation, parentTransform);
 		newPlayer.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
-		var newPlayerScript = newPlayer.GetComponent<PlayerScript>();
+		//Create the mind without a job refactor this to make it as a ghost mind 
 		Mind.Create(newPlayer);
-
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, EVENT.GhostSpawned, PlayerManager.CurrentCharacterSettings);
 
 	}

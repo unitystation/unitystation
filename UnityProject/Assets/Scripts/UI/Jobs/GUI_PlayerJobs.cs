@@ -164,11 +164,12 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 		screen_Jobs.SetActive(true);
 	}
-
+	/// <summary>
+	/// Code for loading the footer, currently only containing a spectate button
+	/// </summary>
 	public void SetFooter()
 	{
 		GameObject occupationGO = Instantiate(buttonPrefab, footer.transform);
-
 		occupationGO.GetComponent<Image>().color = Color.white;
 		occupationGO.GetComponentInChildren<Text>().text = "Spectate";
 		occupationGO.transform.localScale = new Vector3(1.0f, 1f, 1.0f);
