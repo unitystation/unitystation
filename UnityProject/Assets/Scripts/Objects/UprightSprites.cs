@@ -85,10 +85,6 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 		if (cnt != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
 		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
-			if (renderer == null)
-			{
-				continue;
-			}
 			renderer.transform.rotation = ExtraRotation;
 		}
 	}
