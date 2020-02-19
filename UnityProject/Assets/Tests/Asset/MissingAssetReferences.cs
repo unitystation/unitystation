@@ -7,66 +7,98 @@ namespace Tests
 {
 	public class MissingAssetReferences 
 	{
+		/// <summary>
+		/// Checks if there is any prefab with missing reference component
+		/// </summary>
 		[Test]
-		public void CheckMissingComponentsOnPrefabs()
+		public void CheckMissingComponentOnPrefabs()
 		{
 			List<string> listResult = new List<string>();
+
 			string[] allPrefabs = SearchAndDestroy.GetAllPrefabs();
 			foreach (string prefab in allPrefabs)
 			{
 				Object o = AssetDatabase.LoadMainAssetAtPath(prefab);
-				GameObject go;
-				try
-				{
-					go = (GameObject)o;
-					Component[] components = go.GetComponentsInChildren<Component>(true);
-					foreach (Component c in components)
-					{
-						if (c == null)
-						{
-							listResult.Add(prefab);
-						}
-					}
-				}
-				catch
+
+				// Check if it's gameobject
+				if (!(o is GameObject))
 				{
 					Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Tests, prefab);
+					continue;
+				}
+
+				var go = (GameObject)o;
+				Component[] components = go.GetComponentsInChildren<Component>(true);
+				foreach (Component c in components)
+				{
+					if (c == null)
+					{
+						listResult.Add(prefab);
+					}
 				}
 			}
 
 			foreach (string s in listResult)
 			{
-				Debug.LogFormat("Missing reference found in prefab {0}", s);
+				Logger.LogFormat("Missing reference found in prefab {0}", Category.Tests, s);
 			}
 
 			Assert.IsEmpty(listResult, "Missing references found: {0}", string.Join(", ", listResult));
 		}
 
+		/// <summary>
+		/// Check if there any field with MissingReference
+		/// </summary>
 		[Test]
 		public void CheckMissingReferenceFieldsOnPrefabs()
 		{
+			// GameObject name - Component Name - Field Nme
+			var listResult = new List<(string, string, string)>();
+
 			string[] allPrefabs = SearchAndDestroy.GetAllPrefabs();
 			foreach (string prefab in allPrefabs)
 			{
 				Object o = AssetDatabase.LoadMainAssetAtPath(prefab);
-				GameObject go;
-				try
+
+				// Check if it's gameobject
+				if (!(o is GameObject))
 				{
-					go = (GameObject)o;
-					Component[] components = go.GetComponentsInChildren<Component>(true);
-					foreach (Component c in components)
+					Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Tests, prefab);
+					continue;
+				}
+
+				var go = (GameObject)o;
+				Component[] components = go.GetComponentsInChildren<Component>(true);
+				foreach (Component c in components)
+				{
+					if (c == null)
+						continue;
+
+					SerializedObject so = new SerializedObject(c);
+					var sp = so.GetIterator();
+
+					while (sp.NextVisible(true))
 					{
-						if (c == null)
+						if (sp.propertyType == SerializedPropertyType.ObjectReference)
 						{
-							listResult.Add(prefab);
+							if (sp.objectReferenceValue == null
+								&& sp.objectReferenceInstanceIDValue != 0)
+							{
+								listResult.Add((go.name, c.name, sp.displayName));
+							}
 						}
 					}
 				}
-				catch
-				{
-					Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Tests, prefab);
-				}
 			}
+
+			foreach (var s in listResult)
+			{
+				Logger.Log($"Missing reference found in prefab {s.Item1} component {s.Item2} field {s.Item3}", Category.Tests);
+			}
+
+			Assert.IsEmpty(listResult, "Missing references found: {0}", string.Join(", ", listResult));
 		}
+
+
 	}
 }
