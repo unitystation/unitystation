@@ -406,10 +406,10 @@ public class GUI_Canister : NetTab
 				{
 					if (totalGases[i] > 0f && updatedTankMoles <= externalTank.MaximumMoles)
 					{
-						totalGases[i] -= 0.2f;
-						updatedCanisterGases[i] += 0.1f;
-						updatedTankGases[i] += 0.1f;
-						updatedTankMoles += 0.1f;
+						totalGases[i] -= 0.02f;
+						updatedCanisterGases[i] += 0.01f;
+						updatedTankGases[i] += 0.01f;
+						updatedTankMoles += 0.01f;
 					}
 
 				}
@@ -421,17 +421,32 @@ public class GUI_Canister : NetTab
 				{
 					updatedCanisterGases[i] += totalGases[i];
 					totalGases[i] = 0f;
+					//compensate for valve blowoff
+					updatedCanisterGases[i] -= 0.02052f;
 				}
 
 			}
-			canisterTank.Gases = updatedCanisterGases;
-			canisterTank.UpdateGasMix();
+
+			//make sure we're not marginally increasing gas in the tank
+			//due to float falloff
+			bool accuracyCheck = true;
+			for (int i = 0; i < canisterTank.Gases.Length; i++)
+			{
+				if (canisterTank.Gases[i] < updatedCanisterGases[i])
+					accuracyCheck = false;
+			}
+			if (accuracyCheck)
+			{
+				canisterTank.Gases = updatedCanisterGases;
+				canisterTank.UpdateGasMix();
+			}
 			externalTank.Gases = updatedTankGases;
 			externalTank.UpdateGasMix();
+			ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
 		}
 		else if (usingTank && externalTank == null)
 		{
-			DisplayFlashingText("Tank valve lockout occured! Close the valve first!", 1F);
+			StartCoroutine(DisplayFlashingText("Insert a tank before opening the valve!", 1F));
 		}
 	}
 
@@ -448,17 +463,17 @@ public class GUI_Canister : NetTab
 		{
 			if (tankValveOpen)
 			{
-				DisplayFlashingText("Close the valve before removing the tank!");
+				StartCoroutine(DisplayFlashingText("Close the valve first!"));
 			}
 			else
 			{
 				canister.EjectInsertedContainer();
-				DisplayFlashingText("Tank ejected!");
+				StartCoroutine(DisplayFlashingText("Tank ejected!"));
 			}
 		}
 		else
 		{
-			DisplayFlashingText("There is no tank inside this canister.");
+			StartCoroutine(DisplayFlashingText("No Tank Inserted"));
 		}
 	}
 
@@ -467,7 +482,7 @@ public class GUI_Canister : NetTab
 		container.Opened = isOpen;
 		if (isOpen)
 		{
-			DisplayFlashingText($"Canister releasing at {container.ReleasePressure}");
+			StartCoroutine(DisplayFlashingText($"Canister releasing at {container.ReleasePressure}"));
 		}
 	}
 
@@ -486,6 +501,17 @@ public class GUI_Canister : NetTab
 		yield return WaitFor.Seconds(speed);
 		externalTankStatus.SetValue = "";
 		yield return WaitFor.Seconds(speed/2);
-		externalTankStatus.SetValue = initialInfoText;
+
+		Canister canister = Provider.GetComponent<Canister>();
+
+		if (canister.InsertedContainer != null)
+		{
+			externalTankStatus.SetValue = $"{canister.InsertedContainer.Item().InitialName}";
+		}
+		else
+		{
+			externalTankStatus.SetValue = "No Tank Inserted";
+		}
+
 	}
 }
