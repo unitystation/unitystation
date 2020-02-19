@@ -63,7 +63,7 @@ public class MobAgent : Agent
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;
 
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Instance.Add(UpdateMe);
 
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -82,7 +82,7 @@ public class MobAgent : Agent
 		{
 			cnt.OnTileReached().RemoveListener(OnTileReached);
 		}
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	protected virtual void OnTileReached(Vector3Int tilePos)

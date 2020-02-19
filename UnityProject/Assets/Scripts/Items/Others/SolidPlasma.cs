@@ -18,7 +18,7 @@ public class SolidPlasma : NetworkBehaviour
 		{
 			burningPlasma = true;
 			burnSpeed = _burnSpeed;
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Instance.Add(UpdateMe);
 		}
 		else
 		{
@@ -30,14 +30,17 @@ public class SolidPlasma : NetworkBehaviour
 	public void StopBurningPlasma()
 	{
 		burningPlasma = false;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (UpdateManager.Instance != null)
+		{
+			UpdateManager.Instance.Remove(UpdateMe);
+		}
 	}
 
 	void OnDisable()
 	{
 		if (burningPlasma)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Instance.Remove(UpdateMe);
 		}
 	}
 
@@ -51,7 +54,10 @@ public class SolidPlasma : NetworkBehaviour
 			{
 				burningPlasma = false;
 				fuelExhausted.Invoke();
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				if (UpdateManager.Instance != null)
+				{
+					UpdateManager.Instance.Remove(UpdateMe);
+				}
 			}
 		}
 	}
