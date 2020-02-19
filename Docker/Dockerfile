@@ -8,7 +8,6 @@ COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 COPY server .
 RUN chmod +x UnityStation
-RUN mkdir UnityStation_Data/StreamingAssets/config
 CMD /server/entrypoint.sh
 EXPOSE 7777
 EXPOSE 7778
