@@ -31,10 +31,11 @@ public class Mind
 	/// <param name="occupation"></param>
 	public static void Create(GameObject player, Occupation occupation)
 	{
-		var mind = new Mind { occupation = occupation };
+		var mind = new Mind {occupation = occupation};
 		var playerScript = player.GetComponent<PlayerScript>();
 		mind.SetNewBody(playerScript);
 	}
+
 	/// <summary>
 	/// Create as a Ghost
 	/// </summary>
