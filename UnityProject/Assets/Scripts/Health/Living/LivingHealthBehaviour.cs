@@ -766,23 +766,33 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		var healthFraction = OverallHealth/maxHealth;
 		var healthString  = "";
-		if (healthFraction < 0.2f)
+		
+		if (!IsDead)
 		{
-			healthString = "heavily wounded.";
-		}			
-		else if (healthFraction < 0.6f)
-		{
-			healthString = "wounded.";
+			if (healthFraction < 0.2f)
+			{
+				healthString = "heavily wounded.";
+			}			
+			else if (healthFraction < 0.6f)
+			{
+				healthString = "wounded.";
+			}
+			else
+			{
+				healthString = "in good shape.";
+			}
+
+			// On fire?
+			if (FireStacks > 0)
+			{
+				healthString = "on fire!";
+			}
+
+			healthString = ConsciousState.ToString().ToLower().Replace("_", " ") + " and " + healthString;
 		}
 		else
 		{
-			healthString = "in good shape.";
-		}
-
-		// On fire?
-		if (FireStacks > 0)
-		{
-			healthString = "on fire!";
+			healthString = "limp and unresponsive. There are no signs of life...";
 		}
 
 		// Assume animal
@@ -794,8 +804,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
 		}
 
-		healthString = pronoun + " is " + ConsciousState.ToString().ToLower().Replace("_", " ") + " and " + healthString;
-
+		healthString = pronoun + " is " + healthString + (respiratorySystem.IsSuffocating && !IsDead ? " " + pronoun + " is having trouble breathing!" : "");
 		return healthString;
 	}
 }
