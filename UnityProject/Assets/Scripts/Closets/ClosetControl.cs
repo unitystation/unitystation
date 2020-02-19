@@ -309,38 +309,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	}
 
-	[Server]
-	public void TryLock(GameObject Originator)
-	{
-		if (AccessRestrictions != null)
-		{
-			if(!IsClosed)
-			{
-				ServerToggleClosed();
-				if (AccessRestrictions.CheckAccess(Originator))
-				{		
-					SyncLocked(isLocked, true);	
-				}		
-			}
-			else 
-			{
-				if(!IsLocked)
-				{
-					ServerToggleClosed();
-				}
-				else if (AccessRestrictions.CheckAccess(Originator))
-					{
-						SyncLocked(isLocked, false);
-						ServerToggleClosed();
-					}
-			}
-		}
-		else
-		{
-			Logger.LogError("Closet lacks access restriction component!", Category.Doors);
-		}
-	}
-
 	private void SyncStatus(ClosetStatus oldValue, ClosetStatus value)
 	{
 		EnsureInit();
@@ -428,26 +396,24 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				Vector3 performerPosition = interaction.Performer.WorldPosServer();
 				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 			}
-			//if (Validations.HasComponent<IDCard>(interaction.HandObject))
-			else if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
+			else if (IsLockable && AccessRestrictions != null)
 			{
-				if (isLocked)
+				if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
 				{
-					SyncLocked(isLocked, false);	
-				}
-				else
-				{
-					SyncLocked(isLocked, true);	
+					if (isLocked)
+					{
+						SyncLocked(isLocked, false);	
+					}
+					else
+					{
+						SyncLocked(isLocked, true);	
+					}
 				}
 			}
 		}
-		else if (!IsLockable)
-		{
-			ServerToggleClosed();
-		}
 		else
 		{
-			TryLock(interaction.Performer);
+			ServerToggleClosed();
 		}
 	}
 
@@ -603,9 +569,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
 	}
 }
-
-
-
 
 public enum ClosetStatus
 {
