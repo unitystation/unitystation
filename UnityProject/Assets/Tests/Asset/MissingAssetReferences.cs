@@ -8,7 +8,7 @@ namespace Tests
 	public class MissingAssetReferences 
 	{
 		[Test]
-		public void TestAllChannelsTag()
+		public void CheckMissingComponentsOnPrefabs()
 		{
 			List<string> listResult = new List<string>();
 			string[] allPrefabs = SearchAndDestroy.GetAllPrefabs();
@@ -30,7 +30,7 @@ namespace Tests
 				}
 				catch
 				{
-					Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.UI, prefab);
+					Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Tests, prefab);
 				}
 			}
 
@@ -40,6 +40,33 @@ namespace Tests
 			}
 
 			Assert.IsEmpty(listResult, "Missing references found: {0}", string.Join(", ", listResult));
+		}
+
+		[Test]
+		public void CheckMissingReferenceFieldsOnPrefabs()
+		{
+			string[] allPrefabs = SearchAndDestroy.GetAllPrefabs();
+			foreach (string prefab in allPrefabs)
+			{
+				Object o = AssetDatabase.LoadMainAssetAtPath(prefab);
+				GameObject go;
+				try
+				{
+					go = (GameObject)o;
+					Component[] components = go.GetComponentsInChildren<Component>(true);
+					foreach (Component c in components)
+					{
+						if (c == null)
+						{
+							listResult.Add(prefab);
+						}
+					}
+				}
+				catch
+				{
+					Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Tests, prefab);
+				}
+			}
 		}
 	}
 }
