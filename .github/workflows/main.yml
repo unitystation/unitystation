@@ -111,6 +111,7 @@ jobs:
           sudo apt-get install moreutils
           jq --arg v "$BUILD_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
           mkdir -p CONFIG_FOLDER_PATH
+          touch $CONFIG_PATH
           echo '{"RconPort": 7778}' > $CONFIG_PATH
           jq --arg v "$CDN_PATH_WIN" '.WinDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_OSX" '.OSXDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
