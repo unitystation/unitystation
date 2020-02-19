@@ -10,5 +10,5 @@ public interface IExaminable
 	/// <param name=""></param>
 	/// <returns>.</returns>
 	
-    string examine();
+    string Examine();
 }

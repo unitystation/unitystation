@@ -762,7 +762,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// so logic generating examine text can be completely separate from examine 
 	/// request or netmessage processing.
 	/// </summary>
-	public string examine()
+	public string Examine()
 	{
 		var healthFraction = OverallHealth/maxHealth;
 		var healthString  = "";
@@ -794,7 +794,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
 		}
 
-		healthString = pronoun + " is " + healthString;
+		healthString = pronoun + " is " + ConsciousState.ToString().ToLower().Replace("_", " ") + " and " + healthString;
 
 		return healthString;
 	}

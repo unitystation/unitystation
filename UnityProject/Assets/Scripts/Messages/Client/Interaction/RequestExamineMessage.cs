@@ -26,6 +26,8 @@ public class RequestExamineMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
+
+		string msg = "";
 		//TODO: example of break condition
 		if (SentByPlayer == null || SentByPlayer.Script == null)
 		{
@@ -37,15 +39,16 @@ public class RequestExamineMessage : ClientMessage
 		yield return WaitFor(examineTarget);
 
 		// Check for ID and display job. Would like to see this move to ItemStorage eventually.
-		string  occupationString  = "";
-		var idComponent = NetworkObject.GetComponent<ItemStorage>()?.GetNamedItemSlot(NamedSlot.id)?.ItemObject?.GetComponent<IDCard>();
-		if (idComponent != null)
-		{
-			occupationString = ", " + idComponent.Occupation.DisplayName;
-		}
+		// string  occupationString  = "";
+		// var idComponent = NetworkObject.GetComponent<ItemStorage>()?.GetNamedItemSlot(NamedSlot.id)?.ItemObject?.GetComponent<IDCard>();
+		// if (idComponent != null)
+		// {
+		// 	occupationString = ", " + idComponent.Occupation.DisplayName;
+		// }
 
-		// Should this just move to Attributes.cs and other comps?
-		string msg = $"This is {NetworkObject.name + occupationString}. \n";
+		// Should this just move to Attributes.cs and other comps? YES + TODO: removeme
+		//string msg = $"This is {NetworkObject.name + occupationString}. \n";
+		
 
 		// Here we build the message to send, by looking at the target's components. 
 		// anyone extending IExaminable gets a say in it.
@@ -53,7 +56,7 @@ public class RequestExamineMessage : ClientMessage
 		var examinables = NetworkObject.GetComponents<IExaminable>();
 		foreach (var examinable in examinables)
 		{
-			msg += $"{examinable.examine()}";
+			msg += $"{examinable.Examine()}\n";
 		}
 		
 		// Send the message.
