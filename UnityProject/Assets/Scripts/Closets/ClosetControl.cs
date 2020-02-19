@@ -411,7 +411,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				}
 			}
 		}
-		else
+		else if (!IsLocked)
 		{
 			ServerToggleClosed();
 		}
