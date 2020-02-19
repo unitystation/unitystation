@@ -179,6 +179,16 @@ public class JoinedViewer : NetworkBehaviour
 
 		PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation, characterSettings);
 	}
+	/// <summary>
+	/// Calling to spactate a rowun
+	/// </summary>
+	/// <param name="jobType"></param>
+	/// <param name="characterSettings"></param>
+	[Command]
+	public void CmdSpectacte()
+	{
+		PlayerSpawn.ServerSpawnGhost(this);
+	}
 
 	/// <summary>
 	/// Tells the client to start the countdown if it's already started

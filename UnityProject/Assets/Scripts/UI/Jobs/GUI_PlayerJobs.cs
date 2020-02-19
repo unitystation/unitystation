@@ -39,7 +39,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 	/// Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.
 	/// </summary>
 	[SerializeField]
-	[Range(0,15)]
+	[Range(0, 15)]
 	[Tooltip("Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.")]
 	private float waitForSpawnTimerMax = 6;
 
@@ -50,7 +50,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 	/// <param name="preference">The job associated with the button.</param>
 	private void BtnOk(JobType preference)
 	{
-		if(waitForSpawnTimer > 0)
+		if (waitForSpawnTimer > 0)
 		{
 			return; // Disallowing picking a job while another job has been selected.
 		}
@@ -150,6 +150,20 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 			occupationGO.SetActive(true);
 		}
+		//Ghost stuff
+		if (true)
+		{
+			GameObject occupationGO = Instantiate(buttonPrefab, screen_Jobs.transform);
+
+			occupationGO.GetComponent<Image>().color = Color.white;
+			occupationGO.GetComponentInChildren<Text>().text = "Spectator";
+			occupationGO.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			occupationGO.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.CmdSpectacte(); });
+
+
+
+		}
+
 		screen_Jobs.SetActive(true);
 	}
 }
