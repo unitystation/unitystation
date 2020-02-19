@@ -20,7 +20,7 @@ public class EdibleStack : Edible
 
 		} else {
 			//Multiply nutrient gain by the amoount of items stored, then try eat.
-			NutrientsHealAmount = stckCmp.Amount*NutrientsHealAmount;
+			nutritionLevel = stckCmp.Amount* nutritionLevel;
 			base.TryEat();
 		}
 		

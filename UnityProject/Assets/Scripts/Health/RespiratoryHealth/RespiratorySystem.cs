@@ -116,7 +116,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		if (oxygenUsed > 0)
 		{
 			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
-			breathGasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+			node.GasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+			MatrixManager.Get(playerScript.PlayerSync.ServerState.MatrixId).
+							  MetaDataLayer.UpdateSystemsAt(playerScript.PlayerSync.ServerLocalPosition);
 		}
 
 		gasMix += breathGasMix;
