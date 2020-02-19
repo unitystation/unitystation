@@ -67,7 +67,6 @@ jobs:
           - StandaloneWindows64
           - StandaloneOSX
           - StandaloneLinux64
-
     steps:
       # Checkout repository (required to test local actions)
       - name: Checkout repository
@@ -108,7 +107,7 @@ jobs:
           CDN_PATH_LIN: ${{ format('https://unitystationfile.b-cdn.net/lin{0}.zip', github.run_number) }}
         run: |
           sudo apt-get install moreutils
-          jq --arg v "$BUILD_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
+          jq --arg v "$GITHUB_RUN_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
           jq --arg v "$CDN_PATH_WIN" '.WinDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_OSX" '.OSXDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_LIN" '.LinuxDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
