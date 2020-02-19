@@ -11,7 +11,7 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 	public GameObject leavings;
 	protected bool isDrink = false;
 
-	public int NutrientsHealAmount = 25;
+	public int nutritionLevel = 5;
 
 	private void Awake()
 	{
@@ -31,10 +31,11 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 	public void NPCTryEat()
 	{
 		SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
-		if (leavings != null)
+		//Keeping this out allows food to be eaten and disappeared, change to despawn at some point.
+		/*if (leavings != null)
 		{
 			Spawn.ServerPrefab(leavings, transform.position, transform.parent);
-		}
+		}*/
 
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}

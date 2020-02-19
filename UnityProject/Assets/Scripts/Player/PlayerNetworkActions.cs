@@ -487,7 +487,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 		Edible edible = food.GetComponent<Edible>();
 
-		playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.NutrientsHealAmount, 0, MetabolismDuration.Food));
+		playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.nutritionLevel, 0, MetabolismDuration.Food));
 
 		Inventory.ServerDespawn(slot);
 
