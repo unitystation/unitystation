@@ -290,6 +290,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Opened: 0
+  MaximumMoles: 60932.95
   ReleasePressure: 101.325
   Volume: 1
   Temperature: 293.15
@@ -317,6 +318,7 @@ MonoBehaviour:
   ContentsName: 
   objectBehaviour: {fileID: 0}
   container: {fileID: 0}
+  hasContainerInserted: 0
   connector: {fileID: 0}
   isConnected: 0
   connectorRenderer: {fileID: 2306500756203524534}
@@ -383,10 +385,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2735100464
 --- !u!1 &3261001144065486905
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using Objects;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Atmospherics;
 
 public class GUI_Canister : NetTab
 {
@@ -15,13 +16,21 @@ public class GUI_Canister : NetTab
 	public Image InnerPanelBG;
 	public Text LabelText;
 	public NumberSpinner InternalPressureDial;
+	public NumberSpinner ExternalPressureDial;
 	public NumberSpinner ReleasePressureDial;
 	public NetWheel ReleasePressureWheel;
 	private GasContainer container;
 	public GameObject EditReleasePressurePopup;
 	public Image XButton;
 	public NetLabel ConnectionStatus;
-	public NetToggle ReleaseLever;
+	//release lever to open canister internals
+	public NetToggle PrimaryReleaseLever;
+	//release lever to switch between the main valve an the external tank
+	public NetToggle SecondaryReleaseLever;
+
+	//external tank
+	public NetLabel externalTankStatus;
+	public NetSpriteImage externalTankImage;
 
 	//LED stuff
 	public Graphic Red;
@@ -58,6 +67,8 @@ public class GUI_Canister : NetTab
 	private float prevInternalPressure;
 	private bool muteSounds = false;
 	private bool valveOpen;
+	//keep track of the tank lever for ejection
+	private bool tankValveOpen = false;
 	/// <summary>
 	/// Whether sounds should be muted on this instance of the UI.
 	/// </summary>
@@ -108,11 +119,12 @@ public class GUI_Canister : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 		//set the tab color and label based on the provider
-		var canister = Provider.GetComponent<Canister>();
+		Canister canister = Provider.GetComponent<Canister>();
 		BG.color = canister.UIBGTint;
 		InnerPanelBG.color = canister.UIInnerPanelTint;
-		LabelText.text = "Contains\n" + canister.ContentsName;
+		LabelText.text = "Contains " + canister.ContentsName;
 		XButton.color = canister.UIBGTint;
+
 		OnInternalPressureChanged(InternalPressureDial.SyncedValue);
 		InternalPressureDial.OnSyncedValueChanged.AddListener(OnInternalPressureChanged);
 	}
@@ -131,18 +143,52 @@ public class GUI_Canister : NetTab
 		}
 
 		container = Provider.GetComponent<GasContainer>();
+		var canister = Provider.GetComponent<Canister>();
 		//init pressure dials
 		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
 		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
+		if (canister.hasContainerInserted)
+		{
+			GasContainer externalTank = canister.InsertedContainer.GetComponent<GasContainer>();
+			ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
+		}
+		else
+			ExternalPressureDial.ServerSpinTo(0);
 		//init connection status
-		var canister = Provider.GetComponent<Canister>();
 		canister.ServerOnConnectionStatusChange.AddListener(ServerUpdateConnectionStatus);
 		ServerUpdateConnectionStatus(canister.isConnected);
+		//init external tank status
+		canister.ServerOnExternalTankInserted.AddListener(ServerUpdateExternalTank);
+		ServerUpdateExternalTank(canister.hasContainerInserted);
 
 		//init wheel
 		ReleasePressureWheel.SetValue = Mathf.RoundToInt(container.ReleasePressure).ToString();
 		StartCoroutine(ServerRefreshInternalPressure());
 
+	}
+
+	/// <summary>
+	/// Updates the displayed external tank
+	/// </summary>
+	private void ServerUpdateExternalTank(bool externalExists)
+	{
+		Canister canister = Provider.GetComponent<Canister>();
+		GameObject insertedContainer = canister.InsertedContainer;
+
+		if (externalExists)
+		{
+			externalTankStatus.SetValue = insertedContainer.Item().InitialName;
+			externalTankImage.SetValue = "ExternalTankInserted@0";
+			GasContainer externalTank = insertedContainer.GetComponent<GasContainer>();
+			ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
+
+		}
+		else
+		{
+			externalTankStatus.SetValue = "No Tank Inserted";
+			externalTankImage.SetValue = "ExternalTankEmpty@0";
+			ExternalPressureDial.ServerSpinTo(0);
+		}
 	}
 
 	/// <summary>
@@ -200,7 +246,7 @@ public class GUI_Canister : NetTab
 		{
 			var rate = prevInternalPressure - pressure;
 			prevInternalPressure = pressure;
-			if (ReleaseLever.Element.isOn && rate > 0)
+			if (PrimaryReleaseLever.Element.isOn && rate > 0)
 			{
 				//we lost pressure, hiss
 				timeSincePressureChange = 0f;
@@ -261,7 +307,7 @@ public class GUI_Canister : NetTab
 				}
 				//stop playing when we reach 0
 				//or release lever is closed
-				if (currentHissVolume == 0 || !ReleaseLever.Element.isOn)
+				if (currentHissVolume == 0 || !PrimaryReleaseLever.Element.isOn)
 				{
 					//will restart from 0 volume when resuming
 					currentHissVolume = 0;
@@ -326,16 +372,146 @@ public class GUI_Canister : NetTab
 	/// <param name="isOpen"></param>
 	public void ServerToggleRelease(bool isOpen)
 	{
-		container.Opened = isOpen;
-		if (isOpen)
+		VentContainer(isOpen);
+	}
+
+	/// <summary>
+	/// switch the secondary valve between internals valve and external tank
+	/// </summary>
+	/// <param name="usingTank">Is the valve set to tank.</param>
+	public void ServerToggleSecondary(bool usingTank)
+	{
+		tankValveOpen = usingTank;
+		Canister canister = Provider.GetComponent<Canister>();
+		GasContainer canisterTank = canister.GetComponent<GasContainer>();
+		GasContainer externalTank = canister.InsertedContainer?.GetComponent<GasContainer>();
+
+		if (usingTank && externalTank != null)
 		{
-			Chat.AddLocalMsgToChat($"Canister releasing at {container.ReleasePressure}",
-				container.transform.position, container?.gameObject);
+			GasMix canisterGas = canisterTank.GasMix;
+			GasMix tankGas = externalTank.GasMix;
+			float[] updatedCanisterGases = { 0f, 0f, 0f, 0f };
+			float[] updatedTankGases = { 0f, 0f, 0f, 0f };
+			float updatedTankMoles = 0f;
+
+			GasMix totalGas = canisterGas + tankGas;
+			float[] totalGases = totalGas.Gases;
+
+			//while: canister has greater pressure than external tank AND tank isn't full
+			while (canisterTank.ServerInternalPressure >= externalTank.ServerInternalPressure &&
+				   updatedTankMoles <= externalTank.MaximumMoles)
+			{
+				//iterate through gases and distribute between the canister and external tank
+				for (int i = 0; i < totalGases.Length; i++)
+				{
+					if (totalGases[i] > 0f && updatedTankMoles <= externalTank.MaximumMoles)
+					{
+						totalGases[i] -= 0.02f;
+						updatedCanisterGases[i] += 0.01f;
+						updatedTankGases[i] += 0.01f;
+						updatedTankMoles += 0.01f;
+					}
+
+				}
+			}
+			//add remaining gases to the canister values
+			for (int i = 0; i < totalGases.Length; i++)
+			{
+				if (totalGases[i] > 0f)
+				{
+					updatedCanisterGases[i] += totalGases[i];
+					totalGases[i] = 0f;
+					//compensate for valve blowoff
+					updatedCanisterGases[i] -= 0.02052f;
+				}
+
+			}
+
+			//make sure we're not marginally increasing gas in the tank
+			//due to float falloff
+			bool accuracyCheck = true;
+			for (int i = 0; i < canisterTank.Gases.Length; i++)
+			{
+				if (canisterTank.Gases[i] < updatedCanisterGases[i])
+					accuracyCheck = false;
+			}
+			if (accuracyCheck)
+			{
+				canisterTank.Gases = updatedCanisterGases;
+				canisterTank.UpdateGasMix();
+			}
+			externalTank.Gases = updatedTankGases;
+			externalTank.UpdateGasMix();
+			ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
+		}
+		else if (usingTank && externalTank == null)
+		{
+			StartCoroutine(DisplayFlashingText("Insert a tank before opening the valve!", 1F));
 		}
 	}
 
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);
+	}
+
+	public void EjectExternalTank()
+	{
+		Canister canister = Provider.GetComponent<Canister>();
+
+		if ( canister.InsertedContainer != null)
+		{
+			if (tankValveOpen)
+			{
+				StartCoroutine(DisplayFlashingText("Close the valve first!"));
+			}
+			else
+			{
+				canister.EjectInsertedContainer();
+				StartCoroutine(DisplayFlashingText("Tank ejected!"));
+			}
+		}
+		else
+		{
+			StartCoroutine(DisplayFlashingText("No Tank Inserted"));
+		}
+	}
+
+	private void VentContainer(bool isOpen)
+	{
+		container.Opened = isOpen;
+		if (isOpen)
+		{
+			StartCoroutine(DisplayFlashingText($"Canister releasing at {container.ReleasePressure}"));
+		}
+	}
+
+	private IEnumerator DisplayFlashingText(string text, float speed = 0.5F)
+	{
+		string initialInfoText = externalTankStatus.Element.text;
+		externalTankStatus.SetValue = text;
+		yield return WaitFor.Seconds(speed);
+		externalTankStatus.SetValue = "";
+		yield return WaitFor.Seconds(speed/2);
+		externalTankStatus.SetValue = text;
+		yield return WaitFor.Seconds(speed);
+		externalTankStatus.SetValue = "";
+		yield return WaitFor.Seconds(speed/2);
+		externalTankStatus.SetValue = text;
+		yield return WaitFor.Seconds(speed);
+		externalTankStatus.SetValue = "";
+		yield return WaitFor.Seconds(speed/2);
+
+		Canister canister = Provider.GetComponent<Canister>();
+
+		if (canister.InsertedContainer != null)
+		{
+			externalTankStatus.SetValue = $"{canister.InsertedContainer.Item().InitialName}";
+		}
+		else
+		{
+			externalTankStatus.SetValue = "No Tank Inserted";
+		}
+
 	}
 }
