@@ -1368,7 +1368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8530562246598747092
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2631,16 +2631,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 900480354902066348, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 412.90002
-      objectReference: {fileID: 0}
-    - target: {fileID: 900480354902066348, guid: 6b542914667733642b0efffe6015068b,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 526
-      objectReference: {fileID: 0}
-    - target: {fileID: 900480354902066348, guid: 6b542914667733642b0efffe6015068b,
-        type: 3}
       propertyPath: m_AnchorMin.x
       value: 1
       objectReference: {fileID: 0}
@@ -2672,7 +2662,7 @@ PrefabInstance:
     - target: {fileID: 2235697507481662766, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 149
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 4430800285270472519, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
@@ -2682,27 +2672,27 @@ PrefabInstance:
     - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
-      value: 379
+      value: 549
       objectReference: {fileID: 0}
     - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 442
+      value: 730
       objectReference: {fileID: 0}
     - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 84
+      value: 134
       objectReference: {fileID: 0}
     - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 82
+      value: 133
       objectReference: {fileID: 0}
     - target: {fileID: 4685931033313209486, guid: 6b542914667733642b0efffe6015068b,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 15
+      value: 19
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b542914667733642b0efffe6015068b, type: 3}
