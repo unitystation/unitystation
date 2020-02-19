@@ -42,12 +42,17 @@ public enum MetabolismDuration
 /// </summary>
 public class MetabolismSystem : NetworkBehaviour
 {
-	public static int MAX_NUTRITION_LEVEL = 200;
+	public static int NUTRITION_LEVEL_MAX = 500;
+	public static int NUTRITION_LEVEL_STUFFED = 450;
+	public static int NUTRITION_LEVEL_NORMAL = 300;
+	public static int NUTRITION_LEVEL_HUNGRY = 200;
+	public static int NUTRITION_LEVEL_MALNOURISHED = 100;
+	public static int NUTRITION_LEVEL_STARVING = 0;
 
 	//TODO: Maybe make this dependent on the heart rate?
 	[SerializeField]
 	[Tooltip("How often a metabolism tick occurs (in seconds)")]
-	private float metabolismRate = 10f;
+	private float metabolismRate = 5f;
 
 	//TODO: Actually use this
 	//[SerializeField]
@@ -56,7 +61,7 @@ public class MetabolismSystem : NetworkBehaviour
 
 	public int NutritionLevel => nutritionLevel;
 
-	private int nutritionLevel = 150;
+	private int nutritionLevel = 400;
 	public HungerState HungerState
 	{
 		get
@@ -95,7 +100,7 @@ public class MetabolismSystem : NetworkBehaviour
 	/// <summary>
 	/// How much hunger is applied per metabolism tick
 	/// </summary>
-	public int HungerRate { get; set; } = 1;
+	public int HungerRate { get; set; } = 2;
 
 	private BloodSystem bloodSystem;
 	private PlayerMove playerMove;
@@ -147,17 +152,17 @@ public class MetabolismSystem : NetworkBehaviour
 					effects[i] = e;
 				}
 
-				nutritionLevel = Mathf.Clamp(nutritionLevel, 0, MAX_NUTRITION_LEVEL);
+				nutritionLevel = Mathf.Clamp(nutritionLevel, 0, NUTRITION_LEVEL_MAX);
 
 				HungerState oldState = this.HungerState;
 
-				if (nutritionLevel > 150) //TODO: Make character nauseous when he's too full
+				if (nutritionLevel > NUTRITION_LEVEL_STUFFED) //TODO: Make character nauseous when he's too full
 					HungerState = HungerState.Full;
-				else if (nutritionLevel > 75)
+				else if (nutritionLevel > NUTRITION_LEVEL_NORMAL)
 					HungerState = HungerState.Normal;
-				else if (nutritionLevel > 25)
+				else if (nutritionLevel > NUTRITION_LEVEL_HUNGRY)
 					HungerState = HungerState.Hungry;
-				else if (nutritionLevel > 0)
+				else if (nutritionLevel > NUTRITION_LEVEL_MALNOURISHED)
 					HungerState = HungerState.Malnourished;
 				else
 					HungerState = HungerState.Starving;

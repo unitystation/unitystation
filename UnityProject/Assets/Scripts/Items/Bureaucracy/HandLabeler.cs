@@ -20,9 +20,6 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 	public void OnInputReceived(string input)
 	{
-		if (labelAmount == 0) return;
-
-		Chat.AddExamineMsgToClient("You set the " + this.gameObject.Item().InitialName.ToLower() + "s text to '" + input + "'.");
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestItemLabel(gameObject, input);
 		StartCoroutine(WaitToAllowInput());
 	}
@@ -50,14 +47,6 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 		if (interaction.HandObject != gameObject) return false;
 
-		if (currentLabel.Trim().Length == 0)
-		{
-			if (side == NetworkSide.Client)
-				Chat.AddExamineMsgToClient("You haven't set a text yet.");
-
-			return false;
-		}
-
 		return true;
 	}
 
@@ -65,7 +54,13 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 	{
 		if(labelAmount == 0)
 		{
-			Chat.AddExamineMsg(interaction.Performer, "No labels left!");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "No labels left!");
+			return;
+		}
+
+		if (currentLabel.Trim().Length == 0)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You haven't set a text yet.");
 			return;
 		}
 

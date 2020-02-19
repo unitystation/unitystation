@@ -521,6 +521,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestItemLabel(GameObject handLabeler, string label)
 	{
+		//if (!Validations.CanApply(playerScript, handLabeler, NetworkSide.Server)) return;
+
+		ItemStorage itemStorage = gameObject.GetComponent<ItemStorage>();
+		if (itemStorage.GetActiveHandSlot().Item.gameObject != handLabeler) return;
+
+		Chat.AddExamineMsgFromServer(gameObject, "You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 
