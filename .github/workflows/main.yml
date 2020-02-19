@@ -102,7 +102,6 @@ jobs:
       - name: Build number
         env:
           BUILDINFO_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/buildinfo.json
-          CONFIG_FOLDER_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/config
           CONFIG_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/config/config.json
           CDN_PATH_WIN: ${{ format('https://unitystationfile.b-cdn.net/win{0}.zip', github.run_number) }}
           CDN_PATH_OSX: ${{ format('https://unitystationfile.b-cdn.net/osx{0}.zip', github.run_number) }}
@@ -110,9 +109,6 @@ jobs:
         run: |
           sudo apt-get install moreutils
           jq --arg v "$BUILD_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
-          mkdir -p CONFIG_FOLDER_PATH
-          touch $CONFIG_PATH
-          echo '{"RconPort": 7778}' > $CONFIG_PATH
           jq --arg v "$CDN_PATH_WIN" '.WinDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_OSX" '.OSXDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_LIN" '.LinuxDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
