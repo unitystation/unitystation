@@ -7,10 +7,86 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4874007384897810848, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: Gases.Array.data[1]
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 21992246282985053, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 133441459033252841, guid: cbf90b2e22f389941aaf3912f2b607ee,
         type: 3}
       propertyPath: m_Name
       value: Oxygen Tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 228524490023866549, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8af1429ca219da24f893aa9ad0584dc6,
+        type: 3}
+    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
         type: 3}
@@ -90,71 +166,10 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 4f7b572fda2db694ea755c6480de4df4, type: 3}
-    - target: {fileID: 21992246282985053, guid: cbf90b2e22f389941aaf3912f2b607ee,
+    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 128799458545163933, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 228524490023866549, guid: cbf90b2e22f389941aaf3912f2b607ee,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8af1429ca219da24f893aa9ad0584dc6,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbf90b2e22f389941aaf3912f2b607ee, type: 3}

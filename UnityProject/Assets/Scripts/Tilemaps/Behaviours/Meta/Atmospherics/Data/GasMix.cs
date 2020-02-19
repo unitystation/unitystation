@@ -198,6 +198,19 @@ namespace Atmospherics
 			otherGas.Recalculate();
 		}
 
+		/// <summary>
+		/// Set the moles value of a gas inside of a GasMix.
+		/// </summary>
+		/// <param name="gas">The gas you want to set.</param>
+		/// <param name="moles">The amount to set the gas.</param>
+		public void SetGas(Gas gas, float moles)
+		{
+			TemperatureCache = Temperature;
+			Gases[gas] = moles;
+
+			RecalculateTemperatureCache();
+		}
+
 		public void AddGas(Gas gas, float moles)
 		{
 			TemperatureCache = Temperature;

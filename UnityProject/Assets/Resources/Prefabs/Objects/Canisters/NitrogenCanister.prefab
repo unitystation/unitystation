@@ -11,20 +11,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: NitrogenCanister
       objectReference: {fileID: 0}
-    - target: {fileID: 114615155852173970, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: Resistances.Flammable
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114835659847540804, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: Gases.Array.data[2]
-      value: 60933
+      value: 60932.95
       objectReference: {fileID: 0}
     - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
@@ -96,49 +130,15 @@ PrefabInstance:
       propertyPath: ContentsName
       value: Nitrogen
       objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalPosition.x
+    - target: {fileID: 114615155852173970, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: Resistances.Flammable
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4854478120677698, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+    - target: {fileID: 114835659847540804, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114922154882281400, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
