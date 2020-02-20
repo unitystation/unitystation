@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012887992874}
   - component: {fileID: 61000013173726114}
-  - component: {fileID: 114247149050027938}
   - component: {fileID: 114232321497863980}
+  - component: {fileID: 114247149050027938}
   - component: {fileID: 114990158330489740}
   - component: {fileID: 114298626141523242}
   - component: {fileID: 114897681876509866}
@@ -42,7 +42,7 @@ Transform:
   m_Children:
   - {fileID: 4183345251610980}
   - {fileID: 4000013698625186}
-  - {fileID: 7322139021859764651}
+  - {fileID: 6889267071701964348}
   - {fileID: 4300014015526388}
   - {fileID: 4390488788653686}
   m_Father: {fileID: 0}
@@ -74,21 +74,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114247149050027938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011462531918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
-  butcherTime: 2
-  butcherSound: BladeSlice
 --- !u!114 &114232321497863980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +95,7 @@ MonoBehaviour:
   DoorCoverSpriteOffset: 49
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
-  weldOverlay: {fileID: 2943727638702044015}
+  weldOverlay: {fileID: 5137714821279777868}
   weldSprite: {fileID: 21300000, guid: a02b4f763fa778d4ba5c9664ee50c42c, type: 3}
   doorType: 13
   damageOnClose: 0
@@ -124,6 +109,21 @@ MonoBehaviour:
   openSFX: {fileID: 82346760648337948}
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &114247149050027938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011462531918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114990158330489740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,7 +1108,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!1 &1318257543714340145
+--- !u!1 &7509354565332168853
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1116,8 +1116,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7322139021859764651}
-  - component: {fileID: 2943727638702044015}
+  - component: {fileID: 6889267071701964348}
+  - component: {fileID: 5137714821279777868}
   m_Layer: 18
   m_Name: overlay_Weld
   m_TagString: Untagged
@@ -1125,13 +1125,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7322139021859764651
+--- !u!4 &6889267071701964348
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318257543714340145}
+  m_GameObject: {fileID: 7509354565332168853}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1139,13 +1139,13 @@ Transform:
   m_Father: {fileID: 4000012887992874}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2943727638702044015
+--- !u!212 &5137714821279777868
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318257543714340145}
+  m_GameObject: {fileID: 7509354565332168853}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -1174,8 +1174,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayerID: -1825689229
+  m_SortingLayer: 17
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
