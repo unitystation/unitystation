@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;
+using System.Text;
 
 namespace Tests
 {
@@ -91,14 +92,15 @@ namespace Tests
 				}
 			}
 
+			var report = new StringBuilder();
 			foreach (var s in listResult)
 			{
-				Logger.Log($"Missing reference found in prefab {s.Item1} component {s.Item2} field {s.Item3}", Category.Tests);
+				var msg = $"Missing reference found in prefab {s.Item1} component {s.Item2} field {s.Item3}";
+				Logger.Log(msg, Category.Tests);
+				report.AppendLine(msg);
 			}
 
-			Assert.IsEmpty(listResult, "Missing references found: {0}", string.Join(", ", listResult));
+			Assert.IsEmpty(listResult, report.ToString());
 		}
-
-
 	}
 }
