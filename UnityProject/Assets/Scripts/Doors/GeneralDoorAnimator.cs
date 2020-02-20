@@ -28,6 +28,7 @@ public class GeneralDoorAnimator : DoorAnimator
 	public bool Hidden;
 	private Tilemap tilemap;
 	private MetaTileMap metaTileMap;
+	private TileChangeManager tileChangeManager;
 	private SpriteRenderer doorbase;
 	private Sprite[] sprites;
 	private static readonly int[] map =
@@ -46,8 +47,7 @@ public class GeneralDoorAnimator : DoorAnimator
 			if(cn.Contains("DOORBASE")) doorbase = child.gameObject.GetComponent<SpriteRenderer>();
 		}
 		doorbase.sprite = sprites[closeFrame + (int) direction];
-		metaTileMap = GetComponentInChildren<MetaTileMap>();
-		tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
+		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
 	public override void OpenDoor(bool skipAnimation)
@@ -121,6 +121,8 @@ public class GeneralDoorAnimator : DoorAnimator
 		}
 		if (Hidden)
 		{
+			metaTileMap = tileChangeManager.GetMetaTileMap();
+			tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
 			var layer = tilemap.GetComponent<Layer>();
 			Quaternion rotation;
