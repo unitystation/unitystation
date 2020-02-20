@@ -1,5 +1,9 @@
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEditor;
 
 /// <summary>
 /// Used for shutters, win doors or anything that just needs a
@@ -21,8 +25,16 @@ public class GeneralDoorAnimator : DoorAnimator
 
 	public DoorDirection direction;
 	public bool IncludeAccessDeniedAnim;
+	public bool Hidden;
+	private Tilemap tilemap;
+	private MetaTileMap metaTileMap;
 	private SpriteRenderer doorbase;
 	private Sprite[] sprites;
+	private static readonly int[] map =
+	{
+			0, 2, 4, 8, 1, 255, 3, 6, 12, 9, 10, 5, 7, 14, 13, 11, 15, 19, 38, 76, 137, 23, 39, 46, 78, 77, 141, 139, 27, 31, 47, 79, 143, 63, 111, 207, 159,
+			191, 127, 239, 223, 55, 110, 205, 155, 175, 95
+		};
 
 	public void Awake()
 	{
@@ -33,8 +45,9 @@ public class GeneralDoorAnimator : DoorAnimator
 			var cn = child.name.ToUpper();
 			if(cn.Contains("DOORBASE")) doorbase = child.gameObject.GetComponent<SpriteRenderer>();
 		}
-
 		doorbase.sprite = sprites[closeFrame + (int) direction];
+		metaTileMap = GetComponentInChildren<MetaTileMap>();
+		tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 	}
 
 	public override void OpenDoor(bool skipAnimation)
@@ -78,6 +91,13 @@ public class GeneralDoorAnimator : DoorAnimator
 		doorController.isPerformingAction = false;
 	}
 
+	private bool HasWall(Vector3Int position, Vector3Int direction, Quaternion rotation, Tilemap tilemap)
+	{
+		TileBase tile = tilemap.GetTile(position + (rotation * direction).RoundToInt());
+		ConnectedTile t = tile as ConnectedTile;
+		return t != null && t.connectCategory == ConnectCategory.Walls;
+	}
+
 	private IEnumerator PlayCloseAnim(bool skipAnimation)
 	{
 		if (skipAnimation)
@@ -99,8 +119,45 @@ public class GeneralDoorAnimator : DoorAnimator
 				yield return WaitFor.Seconds(0.1f);
 			}
 		}
-
-		doorbase.sprite = sprites[closeFrame + (int) direction];
+		if (Hidden)
+		{
+			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
+			var layer = tilemap.GetComponent<Layer>();
+			Quaternion rotation;
+			if (layer != null)
+			{
+				rotation = layer.RotationOffset.QuaternionInverted;
+			}
+			else
+			{
+				rotation = Quaternion.identity;
+			}
+			rotation = layer.RotationOffset.QuaternionInverted;
+			int mask = (HasWall(position, Vector3Int.up, rotation, tilemap) ? 1 : 0) + (HasWall(position, Vector3Int.right, rotation, tilemap) ? 2 : 0) +
+				   (HasWall(position, Vector3Int.down, rotation, tilemap) ? 4 : 0) + (HasWall(position, Vector3Int.left, rotation, tilemap) ? 8 : 0);
+			if ((mask & 3) == 3)
+			{
+				mask += HasWall(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? 16 : 0;
+			}
+			if ((mask & 6) == 6)
+			{
+				mask += HasWall(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? 32 : 0;
+			}
+			if ((mask & 12) == 12)
+			{
+				mask += HasWall(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? 64 : 0;
+			}
+			if ((mask & 9) == 9)
+			{
+				mask += HasWall(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? 128 : 0;
+			}
+			int i = Array.IndexOf(map, mask);
+			doorbase.sprite = sprites[i];
+		}
+		else
+		{
+			doorbase.sprite = sprites[closeFrame + (int) direction];
+		}
 		doorController.OnAnimationFinished();
 	}
 

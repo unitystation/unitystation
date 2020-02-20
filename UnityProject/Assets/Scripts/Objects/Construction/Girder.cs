@@ -203,10 +203,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructFalseWall(HandApply interaction)
 	{
-		metaTileMap = GetComponentInChildren<MetaTileMap>();
+		//metaTileMap = GetComponentInChildren<MetaTileMap>();
 		Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject));
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
-		//metaTileMap.GetTile(Vector3Int.RoundToInt(transform.localPosition));
+		//ConnectedTile t = titleChangeManager.GetWallTile(Vector3Int.RoundToInt(transform.localPosition))
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}

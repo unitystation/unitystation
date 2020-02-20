@@ -343,9 +343,9 @@ MonoBehaviour:
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
   doorType: 15
-  damageOnClose: 0
+  damageOnClose: 1
   ignorePassableChecks: 0
-  IsAutomatic: 0
+  IsAutomatic: 1
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 0
@@ -541,11 +541,13 @@ MonoBehaviour:
   doorController: {fileID: 1353812088112628038}
   spritePath: icons/obj/doors/metal_fwall_closing
   animFrames: 030000000200000001000000
+  animLength: 0
   closeFrame: 4
   deniedFrame: 4
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 0
+  Hidden: 1
 --- !u!1 &1395052083657109546
 GameObject:
   m_ObjectHideFlags: 0
