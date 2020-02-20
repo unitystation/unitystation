@@ -142,6 +142,12 @@ public class TileChangeManager : NetworkBehaviour
 		return metaTileMap.GetTile(cellPosition, layerType);
 	}
 
+	[Server]
+	public MetaTileMap GetMetaTileMap()
+	{
+		return metaTileMap;
+	}
+
 	[ClientRpc]
 	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
 	{
