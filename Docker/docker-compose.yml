@@ -6,4 +6,4 @@ services:
     ports:
       - 6666:7777
     volumes:
-      - /etc/unitystation/admin:/UnityStation_Data/StreamingAssets/admin
+      - /etc/UnityStation/admin:/UnityStation_Data/StreamingAssets/admin
