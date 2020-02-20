@@ -100,6 +100,7 @@ public class GeneralDoorAnimator : DoorAnimator
 
 	private IEnumerator PlayCloseAnim(bool skipAnimation)
 	{
+		Logger.LogError("PLAYCLOSEANIM BEGINS", Category.Doors);
 		if (skipAnimation)
 		{
 			doorController.BoxCollToggleOn();
@@ -121,6 +122,7 @@ public class GeneralDoorAnimator : DoorAnimator
 		}
 		if (Hidden)
 		{
+			Logger.LogError("Hidden code begins!!!", Category.Doors);
 			metaTileMap = tileChangeManager.GetMetaTileMap();
 			tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
@@ -154,6 +156,7 @@ public class GeneralDoorAnimator : DoorAnimator
 				mask += HasWall(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? 128 : 0;
 			}
 			int i = Array.IndexOf(map, mask);
+			Logger.LogError(i.ToString(), Category.Doors);
 			doorbase.sprite = sprites[i];
 		}
 		else
