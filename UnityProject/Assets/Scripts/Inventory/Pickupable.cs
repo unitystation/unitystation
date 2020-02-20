@@ -14,6 +14,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	IRightClickable, IServerDespawn, IServerInventoryMove
 {
 	private CustomNetTransform customNetTransform;
+	public CustomNetTransform CustomNetTransform => customNetTransform;
 	private ObjectBehaviour objectBehaviour;
 	private RegisterTile registerTile;
 

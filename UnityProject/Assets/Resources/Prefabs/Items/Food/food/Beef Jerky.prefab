@@ -7,6 +7,53 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 7785875528613525472, guid: 3589b6ce8b4d56f44b0d3efb1a5555c8,
+        type: 3}
+    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: healHungerAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: healAmount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialName
+      value: Scaredy's Private Reserve Beef Jerky
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialDescription
+      value: Beef jerky made from the finest space cows.
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7bc3f5b17f1ad9c4d8fdd9cede98a147,
+        type: 3}
+    - target: {fileID: 1024679538077702783, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
@@ -66,48 +113,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialName
-      value: Scaredy's Private Reserve Beef Jerky
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialDescription
-      value: Beef jerky made from the finest space cows.
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024679538077702783, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7bc3f5b17f1ad9c4d8fdd9cede98a147,
-        type: 3}
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: leavings
-      value: 
-      objectReference: {fileID: 1110193000772614, guid: 90aa1645ffac72c47a059d49ae38efc2,
-        type: 3}
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: healHungerAmount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: healAmount
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
