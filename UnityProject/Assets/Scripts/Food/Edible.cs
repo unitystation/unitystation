@@ -1,4 +1,4 @@
-﻿using System;
+﻿ quiusing System;
 using System.Collections;
 using UnityEngine;
 using Mirror;
@@ -31,11 +31,10 @@ public class Edible : NetworkBehaviour, IClientInteractable<HandActivate>, IClie
 	public void NPCTryEat()
 	{
 		SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
-		//Keeping this out allows food to be eaten and disappeared, change to despawn at some point.
-		/*if (leavings != null)
+		if (leavings != null)
 		{
 			Spawn.ServerPrefab(leavings, transform.position, transform.parent);
-		}*/
+		}
 
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
