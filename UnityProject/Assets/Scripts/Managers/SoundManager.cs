@@ -41,7 +41,9 @@ public class SoundManager : MonoBehaviour
 		{FloorSound.plating,
 			 new List<string> {"plating1","plating2","plating3","plating4", "plating5" }},
 		{FloorSound.wood,
-			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }}
+			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }},
+		{FloorSound.clownstep,
+			 new List<string> {"clownstep1","clownstep2" }},
 	};
 
 	private static bool Step;
@@ -529,6 +531,5 @@ public enum FloorSound
 	lava,
 	plating,
 	wood,
-
-
+	clownstep,
 }

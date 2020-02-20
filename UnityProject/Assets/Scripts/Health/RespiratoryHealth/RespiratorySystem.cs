@@ -29,7 +29,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	private float tickRate = 1f;
 	private float tick = 0f;
-	private PlayerScript playerScript;
+	private PlayerScript playerScript; //can be null since mobs also use this!
+	private RegisterTile registerTile;
 	private float breatheCooldown = 0;
 	public bool canBreathAnywhere { get; set; }
 
@@ -39,6 +40,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		bloodSystem = GetComponent<BloodSystem>();
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
 		playerScript = GetComponent<PlayerScript>();
+		registerTile = GetComponent<RegisterTile>();
 		equipment = GetComponent<Equipment>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
@@ -117,8 +119,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
 			node.GasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
-			MatrixManager.Get(playerScript.PlayerSync.ServerState.MatrixId).
-							  MetaDataLayer.UpdateSystemsAt(playerScript.PlayerSync.ServerLocalPosition);
+			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient);
 		}
 
 		gasMix += breathGasMix;
