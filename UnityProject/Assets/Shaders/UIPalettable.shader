@@ -105,7 +105,7 @@ Shader "UI/Palettable UI"
 				{
 					half4 textureSample = tex2D(_MainTex, IN.texcoord);
 					
-					fixed4 final = (textureSample + _TextureSampleAdd) * IN.color;
+					fixed4 final;
 
 					if (_IsPaletted)
 					{
@@ -113,8 +113,12 @@ Shader "UI/Palettable UI"
 						int paletteIndexB = min(textureSample.g, 0.99) * 8;
 						final = lerp(_ColorPalette[paletteIndexA], _ColorPalette[paletteIndexB], textureSample.b) * IN.color;
 					}
+					else
+					{
+						final  = (textureSample + _TextureSampleAdd) * IN.color;
+					}
 
-					final.a = textureSample.a * IN.color;
+					final.a = textureSample.a * IN.color.a;
 
 					#ifdef UNITY_UI_CLIP_RECT
 					final.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);

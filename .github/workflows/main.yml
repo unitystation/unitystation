@@ -98,6 +98,19 @@ jobs:
           license="${license//$'\n'/'%0A'}"
           license="${license//$'\r'/'%0D'}"
           echo "::set-env name=UNITY_LICENSE::$license"
+      - name: Build number
+        env:
+          BUILDINFO_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/buildinfo.json
+          CONFIG_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/config/config.json
+          CDN_PATH_WIN: ${{ format('https://unitystationfile.b-cdn.net/win{0}.zip', github.run_number) }}
+          CDN_PATH_OSX: ${{ format('https://unitystationfile.b-cdn.net/osx{0}.zip', github.run_number) }}
+          CDN_PATH_LIN: ${{ format('https://unitystationfile.b-cdn.net/lin{0}.zip', github.run_number) }}
+        run: |
+          sudo apt-get install moreutils
+          jq --arg v "$GITHUB_RUN_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
+          jq --arg v "$CDN_PATH_WIN" '.WinDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
+          jq --arg v "$CDN_PATH_OSX" '.OSXDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
+          jq --arg v "$CDN_PATH_LIN" '.LinuxDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
       # Build the project
       - name: Build project
         uses: webbertakken/unity-builder@v0.9
@@ -133,5 +146,27 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           context: Docker
-          #buildargs: BUILD_NUMBER=${{github.run_number}}
-          # tags: "latest,$GITHUB_RUN_NUMBER"
+  
+  Staging:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    needs: Imaging
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Deploy to remote
+      env:
+        DOCKER_HOST: ${{ format('ssh://{0}', secrets.SSH_USER) }}
+        SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+      run: |
+        echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        chmod 644 ~/.ssh/known_hosts
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        cd Docker
+        docker-compose pull
+        docker-compose up -d --remove-orphans
+

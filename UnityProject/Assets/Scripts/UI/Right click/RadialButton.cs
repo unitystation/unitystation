@@ -10,6 +10,7 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
 	[SerializeField] private Image circle;
 	[SerializeField] private Image icon;
+	private List<Color> palette;
 	[SerializeField] private Text title;
 	private RadialMenu menuControl;
 	private Color defaultColour;
@@ -19,6 +20,12 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	private bool isSelected;
 	private bool isTopLevel;
 	public List<RadialButton> childButtons = new List<RadialButton>();
+
+	private void Awake()
+	{
+		// unity doesn't support property blocks on ui renderers, so this is a workaround
+		icon.material = Instantiate(icon.material);
+	}
 
 	public void SetButton(Vector2 localPos, RadialMenu menuController, RightClickMenuItem menuItem, bool topLevel)
 	{
@@ -31,6 +38,17 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 		action = menuItem.Action;
 
 		icon.sprite = menuItem.IconSprite;
+		palette = menuItem.palette;
+		if (palette != null)
+		{
+			icon.material.SetInt("_IsPaletted", 1);
+			icon.material.SetColorArray("_ColorPalette", menuItem.palette.ToArray());
+		}
+		else
+		{
+			icon.material.SetInt("_IsPaletted", 0);
+		}
+
 		if (menuItem.BackgroundSprite != null)
 		{
 			circle.sprite = menuItem.BackgroundSprite;

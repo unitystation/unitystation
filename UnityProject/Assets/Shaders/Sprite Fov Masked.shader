@@ -73,14 +73,17 @@ Shader "Stencil/Unlit background masked" {
 		fixed4 textureSample = tex2D(_MainTex, i.texcoord);
 		fixed4 maskSample = tex2D(_ObjectFovMask, i.screencoord);
 
-		fixed4 final = textureSample * i.color;
+		fixed4 final;
 
-		
 		if (_IsPaletted)
 		{
 			int paletteIndexA = min(textureSample.r, 0.99) * 8;
 			int paletteIndexB = min(textureSample.g, 0.99) * 8;
 			final = lerp(_ColorPalette[paletteIndexA], _ColorPalette[paletteIndexB], textureSample.b) * i.color;
+		}
+		else
+		{
+			final = textureSample * i.color;
 		}
 		
 		float maskChennel = maskSample.g + maskSample.r;
