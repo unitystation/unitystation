@@ -221,6 +221,12 @@ namespace Lobby
 			ShowLoginScreen();
 		}
 
+		public void OnExit()
+		{
+			SoundManager.Play("Click01");
+			Application.Quit();
+		}
+
 		public void LoginSuccess(string msg)
 		{
 			loggingInText.text = "Login Success..";
