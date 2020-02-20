@@ -36,16 +36,13 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
-		UpdateManager.Instance.Add(UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
-		if (UpdateManager.Instance != null)
-		{
-			UpdateManager.Instance.Remove(UpdateMe);
-		}
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnSceneChange(Scene prev, Scene next)
