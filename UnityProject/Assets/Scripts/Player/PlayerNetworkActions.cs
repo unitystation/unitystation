@@ -488,17 +488,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 		Edible edible = food.GetComponent<Edible>();
+
 		playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.NutrientsHealAmount, 0, MetabolismDuration.Food));
 
-		//If food has a stack component, decrease amount by one instead of deleting the entire stack.
-		Stackable stack = food.GetComponent<Stackable>();
-		if (stack != null)
-		{
-			stack.ServerConsume(1);
-		} else {
-			Inventory.ServerDespawn(slot);
-		}
-		
+		Inventory.ServerDespawn(slot);
 
 		GameObject leavings = baseFood.leavings;
 		if (leavings != null)
