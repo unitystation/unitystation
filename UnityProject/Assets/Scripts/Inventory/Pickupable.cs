@@ -283,4 +283,15 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			CT.SetInHand(_ItemsSprites);
 		}
 	}
+
+	public void SetPalette(List<Color> palette)
+	{
+		if (itemSlot != null)
+		{
+			var equipment = itemSlot.Player.GetComponent<Equipment>();
+			if (equipment == null) return;
+			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
+			CT.spriteHandler.SetPaletteOfCurrentSprite(palette);
+		}
+	}
 }

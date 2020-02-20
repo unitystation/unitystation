@@ -86,24 +86,28 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool isPaletted()
 	{
-		if (spriteData.isPaletteds.Count == 0)
+		if (spriteData == null || spriteData.isPaletteds == null || spriteData.isPaletteds.Count == 0)
 			return false;
-		if (spriteData.isPaletteds.Count == 1)
-			return spriteData.isPaletteds[0];
 		return spriteData.isPaletteds[spriteIndex];
 	}
 
 	private List<Color> getPaletteOrNull()
 	{
-		bool _isPaletted = isPaletted();
-
-		if (!_isPaletted)
+		if (!isPaletted())
 			return null;
 
-		if (spriteData.palettes.Count == 1)
-			return spriteData.palettes[0];
 
 		return spriteData.palettes[spriteIndex];
+	}
+
+	public void SetPaletteOfCurrentSprite(List<Color> newPalette)
+	{
+		if (isPaletted())
+		{
+			spriteData.palettes[spriteIndex] = newPalette;
+			PushTexture();
+		}
+
 	}
 
 

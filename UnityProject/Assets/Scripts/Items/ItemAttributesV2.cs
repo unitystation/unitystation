@@ -279,4 +279,11 @@ public class ItemAttributesV2 : Attributes
 	{
 		itemSprites = newSprites;
 	}
+
+	[ContextMenu("Propagate Palette Changes")]
+	public void PropagatePaletteChanges()
+	{
+		ClothingV2 clothing = GetComponent<ClothingV2>();
+		if (clothing != null) clothing.AssignPaletteToSprites(this.ItemSprites.Palette);
+	}
 }
