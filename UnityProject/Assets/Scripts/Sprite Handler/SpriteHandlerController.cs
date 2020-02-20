@@ -41,7 +41,7 @@ public class SpriteHandlerController : NetworkBehaviour
 		Initialised = true;
 		if (itemAttributes.ItemSprites.InventoryIcon.Data.HasSprite())
 		{
-			SetIcon(itemAttributes.ItemSprites.InventoryIcon.Data);
+			SetIcon(itemAttributes.ItemSprites);
 		}
 	}
 
@@ -60,12 +60,12 @@ public class SpriteHandlerController : NetworkBehaviour
 		}
 		itemAttributes.SetSprites(newSprites);
 		pickupable.SetPlayerItemsSprites(newSprites);
-		SetIcon(newSprites.InventoryIcon.Data);
+		SetIcon(newSprites);
 		pickupable.RefreshUISlotImage();
 
 	}
 
-	private void SetIcon(SpriteData spriteData) {
+	private void SetIcon(ItemsSprites newSprites) {
 		
 		if (!Initialised)
 		{
@@ -73,10 +73,20 @@ public class SpriteHandlerController : NetworkBehaviour
 		}
 		if (spriteHandler != null)
 		{
-			spriteHandler.SetInfo(spriteData);
+			newSprites.InventoryIcon.Data.palettes = new List<List<Color>>(){ new List<Color>(newSprites.Palette) };
+			newSprites.InventoryIcon.Data.isPaletteds = new List<bool>() { newSprites.IsPaletted };
+
+			spriteHandler.SetInfo(newSprites.InventoryIcon.Data);
 		}
 		else if (spriteRenderer != null){
-			spriteRenderer.sprite = spriteData.ReturnFirstSprite();
+			spriteRenderer.sprite = newSprites.InventoryIcon.Data.ReturnFirstSprite();
 		}
+	}
+
+
+	public void SetPaletteOfCurrentSprite(List<Color> newPalette)
+	{
+		pickupable.RefreshUISlotImage();
+		spriteHandler.SetPaletteOfCurrentSprite(newPalette);
 	}
 }

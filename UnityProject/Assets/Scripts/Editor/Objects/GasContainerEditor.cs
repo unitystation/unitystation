@@ -37,12 +37,8 @@ public class GasContainerEditor : Editor
 
 	public override void OnInspectorGUI()
 	{
-		container.Opened = EditorGUILayout.Toggle("Opened", container.Opened);
-		container.ReleasePressure = EditorGUILayout.FloatField("Release Pressure", container.ReleasePressure);
+		base.OnInspectorGUI();
 
-		EditorGUILayout.Space();
-
-		container.Volume = EditorGUILayout.FloatField("Volume", container.Volume);
 		container.Temperature = EditorGUILayout.FloatField("Temperature", container.Temperature);
 
 		if (container.Temperature.Equals(float.NaN))

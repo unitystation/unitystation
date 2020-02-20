@@ -7,6 +7,52 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: healAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: healHungerAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialName
+      value: cookie
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialDescription
+      value: COOKIE!!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fbf9586070d0d7d4399fa095929fbb02,
+        type: 3}
+    - target: {fileID: 1024679538077702783, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
@@ -66,47 +112,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialName
-      value: cookie
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialDescription
-      value: COOKIE!!!
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: throwSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024679538077702783, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: fbf9586070d0d7d4399fa095929fbb02,
-        type: 3}
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: healAmount
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: healHungerAmount
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
