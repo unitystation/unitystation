@@ -37,6 +37,7 @@ namespace Lobby
 
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
+		public Text serverConnectionFailedText;
 		public Text dialogueTitle;
 		public Text pleaseWaitCreationText;
 		public Text loggingInText;
@@ -58,6 +59,14 @@ namespace Lobby
 		public void OnClientDisconnect()
 		{
 			gameObject.SetActive(true);
+			StartCoroutine(FlashConnectionFailedText());
+		}
+
+		IEnumerator FlashConnectionFailedText()
+		{
+			serverConnectionFailedText.gameObject.SetActive(true);
+			yield return WaitFor.Seconds(5);
+			serverConnectionFailedText.gameObject.SetActive(false);
 		}
 
 		public void ShowLoginScreen()
