@@ -25,7 +25,8 @@ public class GeneralDoorAnimator : DoorAnimator
 
 	public DoorDirection direction;
 	public bool IncludeAccessDeniedAnim;
-	public bool Hidden;
+	[Tooltip("Only check if the door changes appearance (smooths) based on nearby walls")]
+	public bool Smoothed;
 	private Tilemap tilemap;
 	private MetaTileMap metaTileMap;
 	private TileChangeManager tileChangeManager;
@@ -98,9 +99,47 @@ public class GeneralDoorAnimator : DoorAnimator
 		return t != null && t.connectCategory == ConnectCategory.Walls;
 	}
 
+	private int SmoothFrame()
+	{
+		metaTileMap = tileChangeManager.GetMetaTileMap();
+		tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
+		Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
+		var layer = tilemap.GetComponent<Layer>();
+		Quaternion rotation;
+		if (layer != null)
+		{
+			rotation = layer.RotationOffset.QuaternionInverted;
+		}
+		else
+		{
+			rotation = Quaternion.identity;
+		}
+		rotation = layer.RotationOffset.QuaternionInverted;
+		int mask = (HasWall(position, Vector3Int.up, rotation, tilemap) ? 1 : 0) + (HasWall(position, Vector3Int.right, rotation, tilemap) ? 2 : 0) +
+			   (HasWall(position, Vector3Int.down, rotation, tilemap) ? 4 : 0) + (HasWall(position, Vector3Int.left, rotation, tilemap) ? 8 : 0);
+		if ((mask & 3) == 3)
+		{
+			mask += HasWall(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? 16 : 0;
+		}
+		if ((mask & 6) == 6)
+		{
+			mask += HasWall(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? 32 : 0;
+		}
+		if ((mask & 12) == 12)
+		{
+			mask += HasWall(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? 64 : 0;
+		}
+		if ((mask & 9) == 9)
+		{
+			mask += HasWall(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? 128 : 0;
+		}
+		int i = Array.IndexOf(map, mask);
+		i+=6; //The first 6 frames are reserved for the animation
+		return i;
+	}
+
 	private IEnumerator PlayCloseAnim(bool skipAnimation)
 	{
-		Logger.LogError("PLAYCLOSEANIM BEGINS", Category.Doors);
 		if (skipAnimation)
 		{
 			doorController.BoxCollToggleOn();
@@ -120,43 +159,9 @@ public class GeneralDoorAnimator : DoorAnimator
 				yield return WaitFor.Seconds(0.1f);
 			}
 		}
-		if (Hidden)
+		if (Smoothed)
 		{
-			Logger.LogError("Hidden code begins!!!", Category.Doors);
-			metaTileMap = tileChangeManager.GetMetaTileMap();
-			tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
-			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
-			var layer = tilemap.GetComponent<Layer>();
-			Quaternion rotation;
-			if (layer != null)
-			{
-				rotation = layer.RotationOffset.QuaternionInverted;
-			}
-			else
-			{
-				rotation = Quaternion.identity;
-			}
-			rotation = layer.RotationOffset.QuaternionInverted;
-			int mask = (HasWall(position, Vector3Int.up, rotation, tilemap) ? 1 : 0) + (HasWall(position, Vector3Int.right, rotation, tilemap) ? 2 : 0) +
-				   (HasWall(position, Vector3Int.down, rotation, tilemap) ? 4 : 0) + (HasWall(position, Vector3Int.left, rotation, tilemap) ? 8 : 0);
-			if ((mask & 3) == 3)
-			{
-				mask += HasWall(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? 16 : 0;
-			}
-			if ((mask & 6) == 6)
-			{
-				mask += HasWall(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? 32 : 0;
-			}
-			if ((mask & 12) == 12)
-			{
-				mask += HasWall(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? 64 : 0;
-			}
-			if ((mask & 9) == 9)
-			{
-				mask += HasWall(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? 128 : 0;
-			}
-			int i = Array.IndexOf(map, mask);
-			Logger.LogError(i.ToString(), Category.Doors);
+			int i = SmoothFrame();
 			doorbase.sprite = sprites[i];
 		}
 		else

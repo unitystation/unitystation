@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 1405402336542020058}
   - component: {fileID: 6980610262621646763}
   m_Layer: 17
-  m_Name: FalseWall
+  m_Name: Suspicious Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -547,7 +547,7 @@ MonoBehaviour:
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 0
-  Hidden: 1
+  Smoothed: 1
 --- !u!1 &1395052083657109546
 GameObject:
   m_ObjectHideFlags: 0

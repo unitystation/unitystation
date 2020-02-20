@@ -13,6 +13,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	private ObjectBehaviour objectBehaviour;
 
 	public GameObject FalseWall;
+	public GameObject FalseReinforcedWall;
 
 	[Tooltip("Reinforced girder prefab.")]
 	[SerializeField]
@@ -22,7 +23,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[SerializeField]
 	private BasicTile wallTile;
 
-	[Tooltip("False Tile to spawn when wall is constructed.")]
+	[Tooltip("Tile to spawn when false wall is constructed.")]
 	[SerializeField]
 	private BasicTile falseTile;
 
@@ -99,7 +100,6 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 		{
-			//TODO: false reinforced walls
 			if (objectBehaviour.IsPushable)
 			{
 				if (!Validations.HasAtLeast(interaction.HandObject, 2))
@@ -203,10 +203,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructFalseWall(HandApply interaction)
 	{
-		//metaTileMap = GetComponentInChildren<MetaTileMap>();
 		Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject));
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
-		//ConnectedTile t = titleChangeManager.GetWallTile(Vector3Int.RoundToInt(transform.localPosition))
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
@@ -214,7 +212,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructReinforcedFalseWall(HandApply interaction)
 	{
-		Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, SpawnDestination.At(gameObject));
+		Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject));
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
