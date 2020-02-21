@@ -5625,6 +5625,11 @@ PrefabInstance:
       propertyPath: m_UseSimulator
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114548587638673570, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: onlineScene
+      value: BoxStationV1
+      objectReference: {fileID: 0}
     - target: {fileID: 114729471039765908, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: RoundTime
@@ -23754,6 +23759,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1479435844}
     m_Modifications:
+    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
+        type: 3}
+      propertyPath: m_Name
+      value: ChangeLogEntry
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2210627262343931100, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23858,16 +23873,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
-        type: 3}
-      propertyPath: m_Name
-      value: ChangeLogEntry
-      objectReference: {fileID: 0}
-    - target: {fileID: 5657038754949486771, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6963684659125650057, guid: 8aa915d84ac124abda89c0b2d5ed84e8,
         type: 3}
