@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1743772469580210405, guid: 868598a9acc5f40b0811af946a2c4c27,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd76d94970c3ea44ca7796c78b4f174b,
+        type: 3}
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: m_Name
@@ -80,18 +86,18 @@ PrefabInstance:
     - target: {fileID: 2030966178880945371, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: initialName
-      value: backpack
+      value: security backpack
       objectReference: {fileID: 0}
     - target: {fileID: 2030966178880945371, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: initialDescription
-      value: You wear this on your back and put items into it.
+      value: It's a very robust backpack.
       objectReference: {fileID: 0}
     - target: {fileID: 4809792473518981180, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 0e31871d3254bca629a068ac32801bfc,
+      objectReference: {fileID: 11400000, guid: 9f5a172dfcde7b5478be4141a5e3ae19,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 868598a9acc5f40b0811af946a2c4c27, type: 3}
