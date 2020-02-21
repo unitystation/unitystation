@@ -43,16 +43,19 @@ public class RequestExamineMessage : ClientMessage
 		// Look for examinables.
 		var examinables = NetworkObject.GetComponents<IExaminable>();
 		string msg = "";
-		foreach (var examinable in examinables)
+		IExaminable examinable;
+
+		for (int i = 0; i < examinables.Count(); i++) 
 		{
-			msg += $"{examinable.Examine()}\n";
+			examinable = examinables[i];
+			msg += $"{examinable.Examine()}";
+
+			if (i != examinables.Count() - 1)
+			{
+				msg += "\n";
+			}
 		}
 
-		if (msg.Length > 0)
-		{
-			msg = msg.Substring(0, msg.Length-2);
-		}
-		
 		// Send the message.
 		Chat.AddExamineMsgFromServer(SentByPlayer.GameObject, msg);
 	}
