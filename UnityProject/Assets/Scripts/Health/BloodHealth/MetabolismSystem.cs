@@ -99,6 +99,7 @@ public class MetabolismSystem : NetworkBehaviour
 
 	private BloodSystem bloodSystem;
 	private PlayerMove playerMove;
+	private ReagentContainer stomach;
 	private List<MetabolismEffect> effects;
 	private float tick = 0;
 
@@ -106,6 +107,7 @@ public class MetabolismSystem : NetworkBehaviour
 	{
 		bloodSystem = GetComponent<BloodSystem>();
 		playerMove = GetComponent<PlayerMove>();
+		stomach = GetComponent<ReagentContainer>();
 	}
 
 	void OnEnable()

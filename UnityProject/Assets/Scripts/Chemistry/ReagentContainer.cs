@@ -314,14 +314,12 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 
 		TransferResult transferResult;
 
-		if (!isDrink && !target.isPlayer) 
-		{
-			return new TransferResult { Success = false, TransferAmount = 0, Message = "" };
-		}
-
-
 		if (target != null)
 		{
+			if (!isDrink && !target.isPlayer) 
+			{
+				return new TransferResult { Success = false, TransferAmount = 0, Message = "" };
+			}
 			transferResult = target.AddReagentsKelvin(transferredReagents, TemperatureKelvin);
 			if (!transferResult.Success)
 			{ //don't consume contents if transfer failed
