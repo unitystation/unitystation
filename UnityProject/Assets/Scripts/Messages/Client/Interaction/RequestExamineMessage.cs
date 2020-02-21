@@ -27,7 +27,7 @@ public class RequestExamineMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 
-		string msg = "";
+		
 		//TODO: check break conditions
 		if (SentByPlayer == null || SentByPlayer.Script == null)
 		{
@@ -42,9 +42,15 @@ public class RequestExamineMessage : ClientMessage
 		// anyone extending IExaminable gets a say in it.
 		// Look for examinables.
 		var examinables = NetworkObject.GetComponents<IExaminable>();
+		string msg = "";
 		foreach (var examinable in examinables)
 		{
 			msg += $"{examinable.Examine()}\n";
+		}
+
+		if (msg.Length > 0)
+		{
+			msg = msg.Substring(0, msg.Length-2);
 		}
 		
 		// Send the message.

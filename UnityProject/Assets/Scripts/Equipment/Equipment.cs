@@ -152,9 +152,9 @@ public class Equipment : NetworkBehaviour, IExaminable
 	public String Examine()
 	{
 		// Collect clothing + ID info.
-		string msg = "This is " + GetIdentityFromID() + ".\n";
+		string msg = "This is " + GetIdentityFromID() + ".";
 
-		// LOOP items
+		// TODO: LOOP over items
 		// msg += blah;
 
 		return msg;

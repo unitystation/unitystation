@@ -145,7 +145,18 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 	// Initial implementation of shift examine behaviour
 	public string Examine()
 	{
-		string str = "This is a " + gameObject.ExpensiveName() + ".";
+		string displayName = "<error>";
+		if (string.IsNullOrWhiteSpace(articleName))
+		{
+			displayName = gameObject.ExpensiveName();
+		}
+		else
+		{
+			displayName = articleName;
+		}
+
+		string str = "This is a " + displayName + ".";
+
 		if (!string.IsNullOrEmpty(initialDescription))
 		{
 			str = str + " " + initialDescription;
