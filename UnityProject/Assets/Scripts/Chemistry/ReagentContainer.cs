@@ -157,7 +157,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (!isFood) {
+		if (!isFood && !isPlayer) {
 		var result = RightClickableResult.Create();
 
 		if (CustomNetworkManager.Instance._isServer)
@@ -293,7 +293,6 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	/// </summary>
 	public TransferResult MoveReagentsTo(float amount, ReagentContainer target)
 	{
-
 		return MoveReagentsTo(amount, target, out _);
 	}
 
@@ -316,7 +315,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 
 		if (target != null)
 		{
-			if (!isDrink && !target.isPlayer) 
+			if ((isFood || isPlayer) && !target.isPlayer) 
 			{
 				return new TransferResult { Success = false, TransferAmount = 0, Message = "" };
 			}
