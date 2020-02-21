@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 [CustomEditor(typeof(DoorSwitch))]
 public class DoorSwitchEditor : Editor
@@ -68,6 +70,8 @@ public class DoorSwitchEditor : Editor
 				if (doorController != null)
 					ToggleDoorController(doorSwitch, doorController);
 			}
+
+			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 		}
 
 		//return selection to switch

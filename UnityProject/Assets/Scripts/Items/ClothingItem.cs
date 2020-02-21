@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public enum SpriteHandType
 {
@@ -141,6 +142,13 @@ public class ClothingItem : MonoBehaviour
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
 		spriteHandler.spriteData = clothing.SpriteInfo;
+
+		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
+		if (palette != null)
+		{
+			spriteHandler.SetPaletteOfCurrentSprite(palette);
+		}
+
 		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
 		PushTexture();
 	}
@@ -194,12 +202,16 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
+				
 				spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
 			}
 			else
 			{
 				spriteHandler.spriteData = _ItemsSprites.LeftHand.Data;
 			}
+
+			spriteHandler.spriteData.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };
+			spriteHandler.spriteData.palettes = new List<List<Color>>() { new List<Color>(_ItemsSprites.Palette) };
 
 			PushTexture();
 		}

@@ -24,7 +24,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private ItemStorage itemStorage;
-	private bool alreadyGhosted = false;
 
 	private void Awake()
 	{
@@ -416,11 +415,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerSpawnPlayerGhost()
 	{
-		if (alreadyGhosted) return;
-		
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost)
+		//Only force to ghost if the mind belongs in to that body
+		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind.bodyMobID == currentMobID)
 		{
-			alreadyGhosted = true;
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
 	}
@@ -458,47 +456,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//no more input can be sent to the body.
 		GetComponent<MouseInputController>().enabled = false;
-	}
-
-	//FOOD
-	[Command]
-	public void CmdEatFood(GameObject food, NamedSlot fromSlot, bool isDrink)
-	{
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
-
-		var slot = itemStorage.GetNamedItemSlot(fromSlot);
-		if (slot.Item == null)
-		{
-			//Already been eaten or the food is no longer in hand
-			return;
-		}
-
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		Edible baseFood = food.GetComponent<Edible>();
-		if (isDrink)
-		{
-			SoundManager.PlayNetworkedAtPos("Slurp", transform.position);
-		}
-		else
-		{
-			SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
-		}
-
-		Chat.AddActionMsgToChat(gameObject, $"You eat the {food.Item().ArticleName}.", $"{gameObject.Player().Name} eats the {food.Item().ArticleName}.");
-
-		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
-		Edible edible = food.GetComponent<Edible>();
-
-		playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.NutrientsHealAmount, 0, MetabolismDuration.Food));
-
-		Inventory.ServerDespawn(slot);
-
-		GameObject leavings = baseFood.leavings;
-		if (leavings != null)
-		{
-			leavings = Spawn.ServerPrefab(leavings).GameObject;
-			Inventory.ServerAdd(leavings.GetComponent<Pickupable>(), slot);
-		}
 	}
 
 	[Command]

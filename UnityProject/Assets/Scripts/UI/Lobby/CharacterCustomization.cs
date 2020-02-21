@@ -767,6 +767,22 @@ public class CharacterSettings
 				return "their";
 		}
 	}
+
+	/// <summary>
+	/// Returns a personal pronoun string (i.e. "he", "she", "they") for the provided gender enum.
+	/// </summary>
+	public string PersonalPronoun()
+	{
+		switch (Gender)
+		{
+			case Gender.Male:
+				return "he";
+			case Gender.Female:
+				return "she";
+			default:
+				return "they";
+		}
+	}
 }
 
 public enum Gender

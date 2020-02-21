@@ -130,11 +130,11 @@ MonoBehaviour:
   anchored: 0
   spriteRenderer: {fileID: 1047382295693061733}
   spriteList:
-  - {fileID: 21300072, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
-  - {fileID: 21300004, guid: 0492631260daf4b259fb5cbe0a919ebf, type: 3}
-  - {fileID: 21300006, guid: 0492631260daf4b259fb5cbe0a919ebf, type: 3}
-  - {fileID: 21300018, guid: 0492631260daf4b259fb5cbe0a919ebf, type: 3}
-  - {fileID: 21300030, guid: 0492631260daf4b259fb5cbe0a919ebf, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spriteSync: 0
 --- !u!114 &114923609856049834
 MonoBehaviour:
@@ -285,6 +285,16 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
 --- !u!114 &5317582979494515227
 MonoBehaviour:
   m_ObjectHideFlags: 0

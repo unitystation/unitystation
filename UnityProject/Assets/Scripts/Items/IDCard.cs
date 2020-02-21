@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 /// <summary>
 ///     ID card properties
 /// </summary>
-public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
+public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExaminable
 {
 
 	[Tooltip("Sprite to use when the card is a normal card")]
@@ -215,12 +215,15 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 
 	}
 
-	public void OnExamine()
+	// When examine is triggered by the server on a player gameobj (by a shift click from another player)
+	// the target's Equipment component returns ID info based on presence of ID card in "viewable" slot (id and hands). 
+	// When ID card itself is examined, it should return full text.
+	public string Examine()
 	{
-		string message = "";
-		message = "This is " + registeredName + "'s ID card\nThey are the " + JobType + " of the station!";
-		Chat.AddExamineMsgToClient(message);
+		return "This is the ID card of " + registeredName + ", station " + JobType + ".";
 	}
+
+
 
 	/// <summary>
 	/// Checks if this id card has the indicated access.
@@ -309,10 +312,4 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn
 	{
 		SyncName(registeredName, newName);
 	}
-
-	public void OnHoverStart()
-	{
-		UIManager.SetToolTip = RegisteredName + (Occupation ? $" ({ Occupation.DisplayName })" : "");
-	}
-
 }

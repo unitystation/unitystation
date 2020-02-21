@@ -12,7 +12,7 @@ using Random = System.Random;
 
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
+public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExaminable
 {
 
 	[Tooltip("Display name of this item when spawned.")]
@@ -128,7 +128,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	}
 
 
-	// Sends examine event to all monobehaviors on gameobject
+	// Sends examine event to all monobehaviors on gameobject - keep for now - TODO: integrate w shift examine
 	public void SendExamine()
 	{
 		SendMessage("OnExamine");
@@ -140,6 +140,28 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 		{
 			Chat.AddExamineMsgToClient(initialDescription);
 		}
+	}
+
+	// Initial implementation of shift examine behaviour
+	public string Examine()
+	{
+		string displayName = "<error>";
+		if (string.IsNullOrWhiteSpace(articleName))
+		{
+			displayName = gameObject.ExpensiveName();
+		}
+		else
+		{
+			displayName = articleName;
+		}
+
+		string str = "This is a " + displayName + ".";
+
+		if (!string.IsNullOrEmpty(initialDescription))
+		{
+			str = str + " " + initialDescription;
+		}
+		return str;
 	}
 
 	public RightClickableResult GenerateRightClickOptions()

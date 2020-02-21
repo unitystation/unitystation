@@ -18,6 +18,8 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public String ContentsName;
 	public ObjectBehaviour objectBehaviour;
 	public GasContainer container;
+	public bool hasContainerInserted;
+	public GameObject InsertedContainer {get; set;}
 	public Connector connector;
 	[SyncVar(hook = nameof(SyncConnected))]
 	public bool isConnected;
@@ -36,6 +38,8 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	/// <returns></returns>
 	[NonSerialized]
 	public BoolEvent ServerOnConnectionStatusChange = new BoolEvent();
+	[NonSerialized]
+	public BoolEvent ServerOnExternalTankInserted = new BoolEvent();
 
 	private void Awake()
 	{
@@ -105,16 +109,26 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		//only wrench can be used
-		return DefaultWillInteract.HandApply(interaction, side) &&
-			   Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench);
+		//using wrench
+		if (DefaultWillInteract.HandApply(interaction, side) &&
+			Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
+			return true;
+		//using any fillable gas container
+		else if (DefaultWillInteract.HandApply(interaction, side) &&
+				 Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.CanisterFillable))
+			return true;
+		else
+			return false;
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-		GameObject handObj = interaction.HandObject;
+		var handObj = interaction.HandObject;
+		var playerPerformer = interaction.Performer;
+		ConnectedPlayer currentPlayer = playerPerformer.Player();
+
 		//can click on the canister with a wrench to connect/disconnect it from a connector
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
@@ -155,6 +169,36 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				}
 			}
 		}
+
+		//can click on the canister with a refillable tank to insert the refillable tank into the canister
+		if (Validations.HasItemTrait(handObj, CommonTraits.Instance.CanisterFillable))
+		{
+			//don't insert a container if one is already present, lest we wipe out the previous container from existance
+			if (!hasContainerInserted)
+			{
+				//always null check... always...
+				if (handObj.GetComponent<GasContainer>() != null)
+				{
+					//copy the containers properties over, delete the container from the player's hand
+					InsertedContainer = handObj;
+					hasContainerInserted = true;
+					Chat.AddActionMsgToChat(playerPerformer, $"You insert the {handObj.ExpensiveName()} into the canister.",
+											$"{playerPerformer.ExpensiveName()} inserts a tank into the {this.ContentsName} tank.");
+					Inventory.ServerDespawn(handObj);
+					ServerOnExternalTankInserted.Invoke(true);
+				}
+				else
+				{
+					Logger.LogError("Player tried inserting a tank into a canister, but the tank didn't have a GasContainer "+
+									"component associated with it. Something terrible has happened, or an item that should not "+
+									"has the CanisterFillable ItemTrait.");
+				}
+			}
+			else
+			{
+				Chat.AddExamineMsg(playerPerformer, "A tank is already inside this canister.");
+			}
+		}
 	}
 
 	public override void OnStartClient()
@@ -181,4 +225,12 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
+	public void EjectInsertedContainer()
+	{
+		//create a new container based on the one currently in the canister, copy the properties over to it
+		Spawn.ServerClone(InsertedContainer, this.registerTile.WorldPositionServer);
+		hasContainerInserted = false;
+		InsertedContainer = null;
+		ServerOnExternalTankInserted.Invoke(false);
+	}
 }

@@ -10,4 +10,7 @@ public class ItemsSprites
 
 	public SpriteSheetAndData InventoryIcon = new SpriteSheetAndData();
 
+	public List<Color> Palette = new List<Color>(new Color[8]);
+	public bool IsPaletted = false;
+
 }
