@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6128081887975287799}
+  m_GameObject: {fileID: 6532193109441330816}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
@@ -23,7 +23,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6128081887975287799}
+  m_GameObject: {fileID: 6532193109441330816}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4ad9570c5ec4b1e995fad54bc897280, type: 3}
@@ -38,6 +38,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialName
+      value: Meat Cutlet
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialDescription
+      value: Slices of meat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d58ef77f538a66348bddf1289b2d2c1f,
+        type: 3}
+    - target: {fileID: 1024679538077702783, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
@@ -98,31 +119,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1024679538077702783, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialName
-      value: Meat Cutlet
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialDescription
-      value: Slices of meat.
-      objectReference: {fileID: 0}
-    - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: d58ef77f538a66348bddf1289b2d2c1f,
-        type: 3}
     m_RemovedComponents:
     - {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
---- !u!1 &6128081887975287799 stripped
+--- !u!1 &6532193109441330816 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
     type: 3}
