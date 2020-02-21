@@ -37,6 +37,12 @@ public class ControlAction : MonoBehaviour
 
 		// if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowCuffed: true)); Commented out because it does... nothing?
 		UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
+
+		if(PlayerManager.LocalPlayerScript.IsGhost) 
+		{
+			return;
+		}
+	
 		if (currentSlot.Item == null)
 		{
 			return;

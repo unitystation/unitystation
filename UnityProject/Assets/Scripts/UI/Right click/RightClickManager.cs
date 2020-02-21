@@ -231,6 +231,18 @@ public class RightClickManager : MonoBehaviour
 		var label = forObject.name.Replace("(clone)","");
 		SpriteRenderer firstSprite = forObject.GetComponentInChildren<SpriteRenderer>();
 		Sprite sprite = null;
+
+		// check if is a paletted item
+		ItemAttributesV2 item = forObject.GetComponent<ItemAttributesV2>();
+		List<Color> palette = null;
+		if (item != null)
+		{
+			if (item.ItemSprites.IsPaletted)
+			{
+				palette = item.ItemSprites.Palette;
+			}
+		}
+
 		if (firstSprite != null)
 		{
 			sprite = firstSprite.sprite;
@@ -242,6 +254,6 @@ public class RightClickManager : MonoBehaviour
 			                        " on this object.", Category.UI, forObject.name);
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus);
+		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus, palette);
 	}
 }
