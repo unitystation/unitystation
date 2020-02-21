@@ -191,10 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1779364497
 --- !u!114 &3792903731296891434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,9 +229,9 @@ MonoBehaviour:
   Left: {fileID: 21300006, guid: e2e5f9e30e20b5144986ba78fad85463, type: 3}
   Up: {fileID: 21300002, guid: e2e5f9e30e20b5144986ba78fad85463, type: 3}
   spriteRenderer: {fileID: 212849400264349276}
-  OccupiedRight: {fileID: 21300004, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
-  OccupiedDown: {fileID: 21300000, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
-  OccupiedLeft: {fileID: 21300004, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
+  OccupiedRight: {fileID: 0}
+  OccupiedDown: {fileID: 0}
+  OccupiedLeft: {fileID: 0}
   OccupiedUp: {fileID: 0}
   spriteRendererFront: {fileID: 1777337980524091836}
 --- !u!114 &3665939516804425690

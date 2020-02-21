@@ -94,4 +94,5 @@ internal enum MessageTypes : short
 	AdminReplyMessage = 2041,
 	RequestGameAction = 2042,
 	RequestGameActionSO = 2043,
+	RequestExamine = 2044,
 }

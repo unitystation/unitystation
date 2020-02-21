@@ -212,23 +212,23 @@ MonoBehaviour:
   anchored: 0
   volume: 70
   pipeSprites:
-  - {fileID: 21300008, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
-  - {fileID: 21300024, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300026, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300028, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300030, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300072, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300074, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300076, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300078, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300120, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300124, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300122, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300126, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300168, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300170, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300172, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300174, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spriteRenderer: {fileID: 212588640390319518}
 --- !u!114 &5640039996929275955
 MonoBehaviour:
@@ -391,6 +391,16 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
 --- !u!114 &-2427645337683300516
 MonoBehaviour:
   m_ObjectHideFlags: 0

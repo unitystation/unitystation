@@ -33,7 +33,7 @@ public class AccessRestrictions : MonoBehaviour
 		return CheckAccessCard(playerStorage.GetActiveHandSlot().ItemObject);
 	}
 
-	private bool CheckAccessCard(GameObject idCardObj)
+	public bool CheckAccessCard(GameObject idCardObj)
 	{
 		if (idCardObj == null) return false;
 		var idcard = idCardObj.GetComponent<IDCard>();

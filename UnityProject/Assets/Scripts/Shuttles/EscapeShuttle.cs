@@ -20,8 +20,33 @@ public class EscapeShuttle : NetworkBehaviour
 	public ShuttleStatusEvent OnShuttleUpdate = new ShuttleStatusEvent();
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
 
-	public Destination CentcomDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 150, 6 ), ApproachReversed = false};
-	public Destination StationDest = new Destination {Orientation = Orientation.Right, Position = new Vector2( 49, 6 ), ApproachReversed = true};
+
+	void Start()
+	{
+		if (OrientationRight == true)
+		{
+			CentcomDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationCentcom, ApproachReversed = false };
+			StationDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationStation, ApproachReversed = true };
+		}
+		else if (OrientationUp == true)
+		{
+			CentcomDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationCentcom, ApproachReversed = false };
+			StationDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationStation, ApproachReversed = true };
+		}
+		else
+		{
+			CentcomDest = new Destination { Orientation = Orientation.Right, Position = new Vector2(150, 6), ApproachReversed = false };
+			StationDest = new Destination { Orientation = Orientation.Right, Position = new Vector2(49, 6), ApproachReversed = true };
+		}
+	}
+
+	public bool OrientationRight;
+	public bool OrientationUp;
+	public Vector2 DockingLocationStation;
+	public Destination CentcomDest;
+	public Vector2 DockingLocationCentcom;
+	public Destination StationDest;
+
 	private Destination currentDestination;
 
 	[Tooltip("If escape shuttle movement is blocked for longer than this amount of time, will end the round" +

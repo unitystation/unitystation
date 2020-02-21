@@ -29,4 +29,6 @@
 	Chemist,
 	Botany,
 	Church,
+	Clown,
+	Mime,
 }

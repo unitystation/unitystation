@@ -24,6 +24,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[SerializeField]
 	private LockLightController lockLight;
 
+	[Tooltip("Whether the container can be locked.")]
+	[SerializeField]
+	private bool IsLockable = false;
+
 	[Tooltip("Max amount of players that can fit in it at once.")]
 	[SerializeField]
 	private int playerLimit = 3;
@@ -77,6 +81,16 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	/// Current status of the closet, valid client / server side.
 	/// </summary>
 	public ClosetStatus ClosetStatus => statusSync;
+
+	private AccessRestrictions accessRestrictions;
+	public AccessRestrictions AccessRestrictions {
+		get {
+			if ( !accessRestrictions ) {
+				accessRestrictions = GetComponent<AccessRestrictions>();
+			}
+			return accessRestrictions;
+		}
+	}
 
 	[SyncVar(hook = nameof(SyncStatus))]
 	private ClosetStatus statusSync;
@@ -163,9 +177,17 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			}
 		}
 
-		//always spawn closed and unlocked
+		//always spawn closed, all lockable closets locked
 		SyncStatus(statusSync, ClosetStatus.Closed);
-		SyncLocked(isLocked, false);
+		if(IsLockable)
+		{
+			SyncLocked(isLocked, true);
+		}
+		else
+		{
+			SyncLocked(isLocked, false);
+		}
+
 
 		//if this is a mapped spawn, stick any items mapped on top of us in
 		if (info.SpawnType == SpawnType.Mapped)
@@ -369,11 +391,28 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		// Is the player trying to put something in the closet
-		if (interaction.HandObject != null && !IsClosed)
+		if (interaction.HandObject != null)
 		{
-			Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-			Vector3 performerPosition = interaction.Performer.WorldPosServer();
-			Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
+			if (!IsClosed)
+			{
+				Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
+				Vector3 performerPosition = interaction.Performer.WorldPosServer();
+				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
+			}
+			else if (IsLockable && AccessRestrictions != null)
+			{
+				if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
+				{
+					if (isLocked)
+					{
+						SyncLocked(isLocked, false);	
+					}
+					else
+					{
+						SyncLocked(isLocked, true);	
+					}
+				}
+			}
 		}
 		else if (!isLocked)
 		{
@@ -542,9 +581,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
 	}
 }
-
-
-
 
 public enum ClosetStatus
 {

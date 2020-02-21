@@ -113,6 +113,14 @@ public class KeyboardInputManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Checks if the left or right shift key has been pressed
+	/// </summary>
+	public static bool IsShiftPressed()
+	{
+		return CommonInput.GetKey(KeyCode.LeftShift) || CommonInput.GetKey(KeyCode.RightShift);
+	}
+
+	/// <summary>
 	/// Checks if the left or right alt key has been pressed (AltGr sends RightAlt)
 	/// </summary>
 	public static bool IsAltPressed()

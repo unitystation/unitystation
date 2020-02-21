@@ -18,7 +18,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private float lerpProgress;
 
 	//Lerp parameters
-	private Sprite lerpSprite;
+	private SpriteRenderer spriteRendererSource; // need renderer for shader configuration
 
 	private Vector3 lerpTo;
 	private PlayerMove playerMove;
@@ -31,7 +31,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
-		lerpSprite = null;
+		spriteRendererSource = null;
 	}
 
 	[Command]
@@ -197,15 +197,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		if (weapon && lerpSprite == null)
+		if (weapon && spriteRendererSource == null)
 		{
-			SpriteRenderer spriteRenderer = weapon.GetComponentInChildren<SpriteRenderer>();
-			lerpSprite = spriteRenderer.sprite;
+			spriteRendererSource = weapon.GetComponentInChildren<SpriteRenderer>();
 		}
 
-		if (lerpSprite != null)
+		if (spriteRendererSource != null)
 		{
-			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
+			playerScript.hitIcon.ShowHitIcon(stabDir, spriteRendererSource);
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;
@@ -272,6 +271,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerpProgress = 0f;
 		lerping = false;
 		isForLerpBack = false;
-		lerpSprite = null;
+		spriteRendererSource = null;
 	}
 }

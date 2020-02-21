@@ -363,7 +363,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 336da4a5fda7493ebd53fa0e22e735b7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -448,6 +448,7 @@ MonoBehaviour:
   Hidden: 0
   isPopOut: 1
   Provider: {fileID: 0}
+  ProviderRegisterTile: {fileID: 0}
   Type: 4
   textField: {fileID: 114575598953811100}
   contentSizeFitter: {fileID: 114459991742813864}

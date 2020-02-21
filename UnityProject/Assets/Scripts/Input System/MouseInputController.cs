@@ -124,12 +124,18 @@ public class MouseInputController : MonoBehaviour
 			{
 				//even if we didn't drag anything, nothing else should happen
 				CheckInitiatePull();
-
 				return;
 			}
 
-			//check the alt click and throw, which doesn't have any special logic
-			if (CheckAltClick()) return;
+			if  (KeyboardInputManager.IsShiftPressed())
+			{
+				//like above, send shift-click request, then do nothing else.  
+				CheckShiftClick();
+				return;
+			}
+
+            //check alt click and throw, which doesn't have any special logic
+            if (CheckAltClick()) return;
 			if (CheckThrow()) return;
 
 			if (loadedGun != null)
@@ -473,6 +479,20 @@ public class MouseInputController : MonoBehaviour
 		return null;
 	}
 
+	/// <summary>
+	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has 
+	/// storage and an ID card in-slot.
+	/// </summary>
+	/// <returns>false if no shiftclick, true if something was examined (for future chatbox related events, or gui)</returns>
+	private void CheckShiftClick()
+	{
+		// Get clickedObject from mousepos
+		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
+		
+		// TODO Prepare and send requestexaminemessage
+		// todo:  check if netid = 0.
+		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId);
+	}
 
 	private bool CheckAltClick()
 	{
@@ -510,6 +530,7 @@ public class MouseInputController : MonoBehaviour
 		}
 		return false;
 	}
+
 	private bool CheckThrow()
 	{
 		if (UIManager.IsThrow)
