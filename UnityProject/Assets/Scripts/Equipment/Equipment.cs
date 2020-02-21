@@ -11,7 +11,7 @@ using YamlDotNet.Samples;
 /// <summary>
 /// Component which manages all the equipment on a player.
 /// </summary>
-public class Equipment : NetworkBehaviour
+public class Equipment : NetworkBehaviour, IExaminable
 {
 	private Dictionary<NamedSlot, ClothingItem> clothingItems;
 	public bool IsInternalsEnabled;
@@ -123,5 +123,40 @@ public class Equipment : NetworkBehaviour
 	{
 		clothingItems.TryGetValue(namedSlot, out var clothingItem);
 		return clothingItem;
+	}
+
+	/// <summary>
+	/// Gets name and jobtype from ID card worn in ID slot if any.
+	/// </summary>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
+	public String GetIdentityFromID()
+		{
+			IDCard card = ItemSlot.GetNamed(itemStorage,NamedSlot.id)?.Item?.GetComponent<IDCard>();
+			
+			if (card != null)
+			{
+				return card.RegisteredName + " " + (card.Occupation ? $" ({ card.Occupation.DisplayName })" : "");
+			}
+			else
+			{
+				return "Unknown";
+			}
+		}
+	
+	public void OnHoverStart()
+	{
+		UIManager.SetToolTip = GetIdentityFromID();
+	}
+
+	public String Examine()
+	{
+		// Collect clothing + ID info.
+		string msg = "This is " + GetIdentityFromID() + ".";
+
+		// TODO: LOOP over items
+		// msg += blah;
+
+		return msg;
 	}
 }
