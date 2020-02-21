@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
+  m_Name: medical backpack
+  m_EditorClassIdentifier: 
+  Sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 18dd5d3670334d4408894ad2f696ccc1, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 18dd5d3670334d4408894ad2f696ccc1, type: 3}
+      - {fileID: 21300002, guid: 18dd5d3670334d4408894ad2f696ccc1, type: 3}
+      - {fileID: 21300004, guid: 18dd5d3670334d4408894ad2f696ccc1, type: 3}
+      - {fileID: 21300006, guid: 18dd5d3670334d4408894ad2f696ccc1, type: 3}
+      EquippedData: {fileID: 4900000, guid: 922e2ee3b9bd3fc41847fe441fac6df7, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 9e5c724e986b57a47bf642716d2242c0, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 9e5c724e986b57a47bf642716d2242c0, type: 3}
+      - {fileID: 21300002, guid: 9e5c724e986b57a47bf642716d2242c0, type: 3}
+      - {fileID: 21300004, guid: 9e5c724e986b57a47bf642716d2242c0, type: 3}
+      - {fileID: 21300006, guid: 9e5c724e986b57a47bf642716d2242c0, type: 3}
+      EquippedData: {fileID: 4900000, guid: 073a2efd78b285f4aa342b5e3bd7d1f4, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: cd504cc117caed247b8214315ece00c5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: cd504cc117caed247b8214315ece00c5, type: 3}
+      - {fileID: 21300002, guid: cd504cc117caed247b8214315ece00c5, type: 3}
+      - {fileID: 21300004, guid: cd504cc117caed247b8214315ece00c5, type: 3}
+      - {fileID: 21300006, guid: cd504cc117caed247b8214315ece00c5, type: 3}
+      EquippedData: {fileID: 4900000, guid: e4092df925827a34ebdcd8c9cc6a733e, type: 3}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: 298efc3197e5fd34f87f478691d47745, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 298efc3197e5fd34f87f478691d47745, type: 3}
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  StorageData:
+    maxSlots: 7
+    maxItemSize: 4

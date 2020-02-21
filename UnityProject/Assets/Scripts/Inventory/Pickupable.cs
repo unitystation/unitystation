@@ -14,6 +14,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	IRightClickable, IServerDespawn, IServerInventoryMove
 {
 	private CustomNetTransform customNetTransform;
+	public CustomNetTransform CustomNetTransform => customNetTransform;
 	private ObjectBehaviour objectBehaviour;
 	private RegisterTile registerTile;
 
@@ -281,6 +282,17 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			if (equipment == null) return;
 			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
 			CT.SetInHand(_ItemsSprites);
+		}
+	}
+
+	public void SetPalette(List<Color> palette)
+	{
+		if (itemSlot != null)
+		{
+			var equipment = itemSlot.Player.GetComponent<Equipment>();
+			if (equipment == null) return;
+			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
+			CT.spriteHandler.SetPaletteOfCurrentSprite(palette);
 		}
 	}
 }

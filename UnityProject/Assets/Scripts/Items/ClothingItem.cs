@@ -142,6 +142,13 @@ public class ClothingItem : MonoBehaviour
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
 		spriteHandler.spriteData = clothing.SpriteInfo;
+
+		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
+		if (palette != null)
+		{
+			spriteHandler.SetPaletteOfCurrentSprite(palette);
+		}
+
 		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
 		PushTexture();
 	}
