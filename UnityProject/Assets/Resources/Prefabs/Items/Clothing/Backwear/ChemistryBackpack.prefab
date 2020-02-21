@@ -11,12 +11,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b594a125e88a6db439f3321d6652a7ea,
+      objectReference: {fileID: 21300000, guid: 5a6d1ecba9c21474d8d344e293c81dd9,
         type: 3}
+    - target: {fileID: 1743772469580210405, guid: 868598a9acc5f40b0811af946a2c4c27,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743772469580210405, guid: 868598a9acc5f40b0811af946a2c4c27,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.32
+      objectReference: {fileID: 0}
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: m_Name
-      value: MedicalBackpack
+      value: ChemistryBackpack
       objectReference: {fileID: 0}
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
@@ -86,18 +96,18 @@ PrefabInstance:
     - target: {fileID: 2030966178880945371, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: initialName
-      value: medical backpack
+      value: chemistry backpack
       objectReference: {fileID: 0}
     - target: {fileID: 2030966178880945371, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: initialDescription
-      value: It's a backpack especially designed for use in a sterile environment.
+      value: A backpack specially designed to repel stains and hazardous liquids.
       objectReference: {fileID: 0}
     - target: {fileID: 4809792473518981180, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 6cb5c798db773150db6b6e8516036b8f,
+      objectReference: {fileID: 11400000, guid: d59e445a4fc36444298c4b9d7a4933ce,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 868598a9acc5f40b0811af946a2c4c27, type: 3}
