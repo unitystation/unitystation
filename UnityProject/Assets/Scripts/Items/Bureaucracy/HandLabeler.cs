@@ -20,8 +20,8 @@ public class HandLabeler : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 
 	public void OnInputReceived(string input)
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestItemLabel(gameObject, input);
 		StartCoroutine(WaitToAllowInput());
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestItemLabel(gameObject, input);
 	}
 
 	IEnumerator WaitToAllowInput()
