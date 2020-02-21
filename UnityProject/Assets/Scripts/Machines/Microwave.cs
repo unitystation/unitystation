@@ -124,13 +124,19 @@ public class Microwave : NetworkBehaviour
 			if (stck != null && mealCount != 0)
 			{
 				//Get difference between new item's initial amount and the amount held by mealCount (amount of ingredient).
-				//If not 0, add the difference to make new item amount equal to old item amount.
 				int stckChanger = mealCount-stck.Amount;
 
-				if (stckChanger != 0)
+				//If stckChanger is 0, do nothing.
+				//If stckChanger is positive, add to stack.
+				if (stckChanger > 0)
 				{
+					stck.ServerIncrease(stckChanger);
+				} else if (stckChanger < 0)
+				{
+					//If stckChanger is positive, remove stack.
 					stck.ServerConsume(-stckChanger);
 				}
+				
 			}
 
 
