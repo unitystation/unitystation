@@ -49,7 +49,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	public bool IsFull => CurrentCapacity >= MaxCapacity;
 	public bool IsEmpty => CurrentCapacity <= 0f;
 
-	public float TransferAmount { get; private set; } = 20;
+	public float TransferAmount { get; private set; }
 
 	public List<float> PossibleTransferAmounts;
 
@@ -63,6 +63,12 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	[SerializeField]
 	[FormerlySerializedAs(nameof(TransferAmount))]
 	private float InitialTransferAmount = 20;
+
+	public bool isFood;
+
+	public bool isDrink;
+	public bool isPlayer;
+	public GameObject leavings;
 
 	private RegisterTile registerTile;
 	private EmptyFullSync containerSprite;
@@ -151,6 +157,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
+		if (!isFood) {
 		var result = RightClickableResult.Create();
 
 		if (CustomNetworkManager.Instance._isServer)
@@ -165,6 +172,8 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		}
 
 		return result;
+		}
+		return null;
 	}
 
 	private void ExamineContents()
@@ -236,6 +245,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 
 		CurrentCapacity = AmountOfReagents(Contents);
 		float totalToAdd = AmountOfReagents(reagents);
+		
 
 		if (CurrentCapacity >= MaxCapacity)
 		{
@@ -283,6 +293,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	/// </summary>
 	public TransferResult MoveReagentsTo(float amount, ReagentContainer target)
 	{
+
 		return MoveReagentsTo(amount, target, out _);
 	}
 
@@ -302,6 +313,12 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		);
 
 		TransferResult transferResult;
+
+		if (!isDrink && !target.isPlayer) 
+		{
+			return new TransferResult { Success = false, TransferAmount = 0, Message = "" };
+		}
+
 
 		if (target != null)
 		{
@@ -334,6 +351,22 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		}
 		Contents = Calculations.RemoveEmptyReagents(Contents);
 		CurrentCapacity = AmountOfReagents(Contents);
+		Logger.Log(currentCapacity.ToString());
+		if (isFood || isDrink) {
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdEatFood(gameObject,
+            UIManager.Hands.CurrentSlot.NamedSlot, isDrink);
+
+			Logger.Log("is food");
+			if (currentCapacity <= 0) {
+				Logger.Log("is empty");
+				if (leavings != null)
+				{
+					Spawn.ServerPrefab(leavings, transform.position, transform.parent);
+				}
+				Logger.Log("disappear");
+				GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			}
+		}
 
 		return transferResult;
 	}
@@ -633,7 +666,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		}
 
 		TransferResult result = transferFrom.MoveReagentsTo(transferAmount, transferTo);
-
+		if (!isFood && !isDrink && !isPlayer) {
 		string resultMessage;
 		if (string.IsNullOrEmpty(result.Message))
 			resultMessage = useFillMessage
@@ -642,6 +675,7 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 		else
 			resultMessage = result.Message;
 		Chat.AddExamineMsg(performer, resultMessage);
+		}
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)

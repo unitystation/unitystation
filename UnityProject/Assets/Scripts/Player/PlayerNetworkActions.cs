@@ -470,9 +470,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//Already been eaten or the food is no longer in hand
 			return;
 		}
-
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		Edible baseFood = food.GetComponent<Edible>();
+		Logger.Log("before cooldowns");
+		// if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+		Logger.Log("past cooldowns");
+		ReagentContainer edible = food.GetComponent<ReagentContainer>();
 		if (isDrink)
 		{
 			SoundManager.PlayNetworkedAtPos("Slurp", transform.position);
@@ -482,23 +483,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
 		}
 
-		Chat.AddActionMsgToChat(gameObject, $"You eat the {food.Item().ArticleName}.", $"{gameObject.Player().Name} eats the {food.Item().ArticleName}.");
+		Chat.AddActionMsgToChat(gameObject, $"You take a bite of the {food.Item().ArticleName}.", $"{gameObject.Player().Name} eats the {food.Item().ArticleName}.");
 
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
-		Edible edible = food.GetComponent<Edible>();
 
-		playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.nutritionLevel, 0, MetabolismDuration.Food));
-
-		Inventory.ServerDespawn(slot);
-
-		GameObject leavings = baseFood.leavings;
-		if (leavings != null)
-		{
-			leavings = Spawn.ServerPrefab(leavings).GameObject;
-			Inventory.ServerAdd(leavings.GetComponent<Pickupable>(), slot);
+		// playerHealth.Metabolism.AddEffect(new MetabolismEffect(edible.nutritionLevel, 0, MetabolismDuration.Food));
+		GameObject leavings = edible.leavings;
+		if (edible.isFood && edible.IsEmpty) {
+			Inventory.ServerDespawn(slot);
+			if (leavings != null)
+			{
+				leavings = Spawn.ServerPrefab(leavings).GameObject;
+				Inventory.ServerAdd(leavings.GetComponent<Pickupable>(), slot);
+			}
 		}
-	}
 
+	}
 	[Command]
 	public void CmdSetActiveHand(NamedSlot hand)
 	{
