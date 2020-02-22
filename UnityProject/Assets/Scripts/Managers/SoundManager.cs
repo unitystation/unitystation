@@ -111,14 +111,7 @@ public class SoundManager : MonoBehaviour
 		//Mute Music Preference
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
 		{
-			if (PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0)
-			{
-				isMusicMute = true;
-			}
-			else
-			{
-				isMusicMute = false;
-			}
+			isMusicMute = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
 		}
 
 		//Ambient Volume Preference
