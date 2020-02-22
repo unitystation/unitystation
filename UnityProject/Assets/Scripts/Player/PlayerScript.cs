@@ -314,7 +314,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 	{
 		// TODO: Check inventory for head/mask items that hide face - atm just check you are not wearing a mask.
 		// needs helmet/hideface trait to be added and checked for. This way, we start with a "face name" our characters might know...
-		if (ItemSlot.GetNamed(ItemStorage,NamedSlot.mask).IsEmpty)
+		if (ItemSlot.GetNamed(ItemStorage, NamedSlot.mask).IsEmpty)
 		{
 			SyncVisibleName(playerName, playerName);
 		}
