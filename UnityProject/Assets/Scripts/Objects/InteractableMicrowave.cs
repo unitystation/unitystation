@@ -41,6 +41,15 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 
 			if (meal)
 			{
+
+				//If food item is stackable, set output amount to equal input amount.
+				Stackable stck = interaction.HandObject.GetComponent<Stackable>();
+				if (stck != null)
+				{
+					microwave.ServerSetOutputStackAmount(stck.Amount);
+				}
+
+
 				microwave.ServerSetOutputMeal(meal.name);
 				Despawn.ServerSingle(interaction.HandObject);
 				microwave.RpcStartCooking();
