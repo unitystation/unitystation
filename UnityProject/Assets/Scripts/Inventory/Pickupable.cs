@@ -79,6 +79,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//clear previous slot appearance
 			PlayerAppearanceMessage.SendToAll(info.FromPlayer.gameObject,
 				(int)info.FromSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
+
+			//ask target playerscript to update shown name.
+			info.FromPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 
 		if (info.ToPlayer != null &&
@@ -87,6 +90,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//change appearance based on new item
 			PlayerAppearanceMessage.SendToAll(info.ToPlayer.gameObject,
 				(int)info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
+
+			//ask target playerscript to update shown name.
+			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 	}
 

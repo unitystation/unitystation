@@ -18,6 +18,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 
 	[SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
+	[SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
 	public PlayerNetworkActions playerNetworkActions { get; set; }
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
@@ -302,10 +303,40 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		return transmitChannels | receiveChannels;
 	}
 
+	//Syncvisiblename
+	public void SyncVisibleName(string oldValue, string value)
+	{
+		visibleName = value;
+	}
+
+	//Update visible name.
+	public void RefreshVisibleName()
+	{
+		// TODO: Check inventory for head/mask items that hide face - atm just check you are not wearing a mask.
+		// needs helmet/hideface trait to be added and checked for. This way, we start with a "face name" our characters might know...
+		if (ItemSlot.GetNamed(ItemStorage,NamedSlot.mask).IsEmpty)
+		{
+			SyncVisibleName(playerName, playerName);
+		}
+		else
+		{
+			SyncVisibleName("Unknown", "Unknown");
+		}
+		
+		// ...but if ID card is in belt slot, override with ID card data.
+		string idname = Equipment.GetIdentityFromID();
+		if (!String.Equals(idname, ""))
+		{
+			SyncVisibleName(idname, idname);
+		}
+		
+		
+	}
+
 	//Tooltips inspector bar
 	public void OnHoverStart()
 	{
-		UIManager.SetToolTip = name;
+		UIManager.SetToolTip = visibleName;
 	}
 
 	public void OnHoverEnd()
