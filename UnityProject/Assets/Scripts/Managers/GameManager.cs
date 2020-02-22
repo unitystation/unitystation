@@ -6,9 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Random = System.Random;
 
 public partial class GameManager : MonoBehaviour
 {
