@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public partial class GameManager : MonoBehaviour
@@ -501,6 +500,6 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
+		CustomNetworkManager.Instance.ServerChangeScene(Maps[UnityEngine.Random.Range(0,Maps.Length)]);
 	}
 }

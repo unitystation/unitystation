@@ -133,7 +133,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 13
-  m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -176,6 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -251,7 +253,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -294,6 +296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -429,7 +433,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -472,6 +476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -645,7 +651,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 15
-  m_Sprite: {fileID: 21300072, guid: ddcc6eb0c41c448dbf9dbc0e495ebe51, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -688,6 +694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -966,6 +974,7 @@ MonoBehaviour:
   allowInput: 1
   moveList: 05000000060000000700000008000000
   pna: {fileID: 0}
+  InitialRunSpeed: 6
   RunSpeed: 6
   WalkSpeed: 3
   CrawlSpeed: 0.8
@@ -1017,6 +1026,7 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
+  metabolism: {fileID: 0}
 --- !u!114 &114418639699052366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1212,7 +1222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameOverride: 
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  iconOverride: {fileID: 21300750, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
+  iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
 --- !u!114 &4933264570295522567
 MonoBehaviour:
@@ -1275,10 +1285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3937990936
 --- !u!114 &441872716838640463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1380,7 +1389,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1423,6 +1432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -1599,7 +1610,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 7
-  m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1642,6 +1653,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -1760,6 +1773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2036,6 +2051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2154,6 +2171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2229,7 +2248,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2272,6 +2291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2347,7 +2368,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 6
-  m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2390,6 +2411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2508,6 +2531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2626,6 +2651,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2806,6 +2833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -2881,7 +2910,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 8
-  m_Sprite: {fileID: 21300384, guid: 81ec7ea9108d4e7cae05acd176cf43ca, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2924,6 +2953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -3042,6 +3073,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -3160,6 +3193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -3278,6 +3313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -3489,6 +3526,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -3731,6 +3770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -3806,7 +3847,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 15
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3849,6 +3890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -3967,6 +4010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -4085,6 +4130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -4300,6 +4347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -4525,6 +4574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -4643,6 +4694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -4786,6 +4839,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6868749942529127699, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: chatIcon
+      value: 
+      objectReference: {fileID: 114053825719430910}
+    - target: {fileID: 6868749942529127699, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: bubbleOpacityNormal
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 1165960983247551198, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -4815,16 +4878,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6868749942529127699, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: chatIcon
-      value: 
-      objectReference: {fileID: 114053825719430910}
-    - target: {fileID: 6868749942529127699, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: bubbleOpacityNormal
-      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5781423884290289158, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}

@@ -466,8 +466,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4172947130070054}
   - component: {fileID: 61963350373266860}
-  - component: {fileID: 114199714939546294}
   - component: {fileID: 114201876269245600}
+  - component: {fileID: 114199714939546294}
   - component: {fileID: 114955538477622776}
   - component: {fileID: 114796983354351306}
   - component: {fileID: 114984589981480830}
@@ -530,21 +530,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114199714939546294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457523303891292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
-  butcherTime: 2
-  butcherSound: BladeSlice
 --- !u!114 &114201876269245600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +565,21 @@ MonoBehaviour:
   openSFX: {fileID: 82155393946766332}
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &114199714939546294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457523303891292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114955538477622776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1114,7 +1114,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8090978763268200091}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1142,8 +1142,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1883797623
-  m_SortingLayer: 13
+  m_SortingLayerID: -1825689229
+  m_SortingLayer: 17
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

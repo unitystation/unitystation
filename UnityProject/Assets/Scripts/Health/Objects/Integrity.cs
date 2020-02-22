@@ -22,7 +22,7 @@ using Object = System.Object;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable
 {
 
 	/// <summary>
@@ -239,6 +239,16 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 			destroyed = true;
 		}
+	}
+
+	public string Examine()
+	{
+		string str = "";
+		if (integrity < 0.9f*initialIntegrity)
+		{
+			str = "It appears damaged.";
+		}
+		return str;
 	}
 
 	[Server]
