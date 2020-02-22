@@ -500,6 +500,6 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		CustomNetworkManager.Instance.ServerChangeScene(Maps[UnityEngine.Random.Range(0,2)]);
+		CustomNetworkManager.Instance.ServerChangeScene(Maps[UnityEngine.Random.Range(0,Maps.Length)]);
 	}
 }
