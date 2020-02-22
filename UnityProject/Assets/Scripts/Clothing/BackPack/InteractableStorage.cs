@@ -207,9 +207,19 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		// See if this item can click pickup
 		else if (canClickPickup)
 		{
+			bool pickedUpSomething = false;
+			Pickupable pickup;
 			switch (pickupMode)
 			{
 				case PickupMode.Single:
+					// Don't pick up items which aren't set as CanPickup
+					pickup = interaction.TargetObject.GetComponent<Pickupable>();
+					if (pickup == null || pickup.CanPickup == false)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+						return;
+					}
+
 					// Store the clicked item
 					var slot = itemStorage.GetBestSlotFor(interaction.TargetObject);
 					if (slot == null)
@@ -237,19 +247,36 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
 						return;
 					}
-
+					
 					foreach (var item in itemsOnTileSame)
 					{
+						// Don't pick up items which aren't set as CanPickup
+						pickup = item.gameObject.GetComponent<Pickupable>();
+						if(pickup == null || pickup.CanPickup == false)
+						{
+							continue;
+						}
+
 						// Only try to add it if it matches the target object's traits
 						if (item.HasAllTraits(interaction.TargetObject.Item().GetTraits()))
 						{
 							// Try to add each item to the storage
 							// Can't break this loop when it fails because some items might not fit and
 							// there might be stacks with space still
-							Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject));
+							if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+							{
+								pickedUpSomething = true;
+							}
 						}
 					}
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					if (pickedUpSomething)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					}
+					else
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+					}
 					break;
 
 				case PickupMode.All:
@@ -264,12 +291,29 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 					foreach (var item in itemsOnTileAll)
 					{
+						// Don't pick up items which aren't set as CanPickup
+						pickup = item.gameObject.GetComponent<Pickupable>();
+						if (pickup == null || pickup.CanPickup == false)
+						{
+							continue;
+						}
+
 						// Try to add each item to the storage
 						// Can't break this loop when it fails because some items might not fit and
 						// there might be stacks with space still
-						Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject));
+						if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+						{
+							pickedUpSomething = true;
+						}
 					}
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					if (pickedUpSomething)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					}
+					else
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+					}
 					break;
 			}
 		}
