@@ -857,6 +857,7 @@ MonoBehaviour:
     rightArmSpriteIndex: 4
     leftArmSpriteIndex: 8
   playerName: ' '
+  visibleName: ' '
 --- !u!114 &114285118255153820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,6 +973,7 @@ MonoBehaviour:
   syncInterval: 0.1
   diagonalMovement: 1
   allowInput: 1
+  actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   moveList: 05000000060000000700000008000000
   pna: {fileID: 0}
   InitialRunSpeed: 6
@@ -1147,6 +1149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canClickPickup: 0
   canQuickEmpty: 0
+  actionData: {fileID: 0}
 --- !u!114 &114908376472113748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,7 +1290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 
+  m_AssetId: 44a8a3be9127f4465a50b7811d059bb3
 --- !u!114 &441872716838640463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4460,6 +4463,7 @@ MonoBehaviour:
   - {fileID: 7057434370678830746, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   - {fileID: 6543762784068199679, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   spriteRend: {fileID: 6479668554434910921}
+  actionData: {fileID: 11400000, guid: 82e905f8f9e96df499feb90ee421b2ee, type: 2}
 --- !u!1 &5415306199211915668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4707,16 +4711,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4102488425209486}
     m_Modifications:
-    - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
-      propertyPath: m_Name
-      value: Light2D
-      objectReference: {fileID: 0}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
         type: 3}
+    - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_Name
+      value: Light2D
+      objectReference: {fileID: 0}
     - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.008
@@ -4804,11 +4808,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4102488425209486}
     m_Modifications:
-    - target: {fileID: 8239968386569427463, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
-        type: 3}
-      propertyPath: m_Name
-      value: ChatCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 6615217630540879312, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4838,6 +4837,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8239968386569427463, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
+        type: 3}
+      propertyPath: m_Name
+      value: ChatCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6868749942529127699, guid: fe2ac855b478c5c4cb6e7df2634f28d3,
         type: 3}
