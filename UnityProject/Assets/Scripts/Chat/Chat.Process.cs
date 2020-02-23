@@ -96,18 +96,14 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
-		else if (sentByPlayer.Script.mind != null &&
-				sentByPlayer.Script.mind.occupation != null &&
-				message.StartsWith("%"))
+		else if (message.StartsWith("%"))
 		{
 			message = message.Substring(1);
 			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}
 		// Sing alias
-		else if (sentByPlayer.Script.mind != null &&
-				sentByPlayer.Script.mind.occupation != null &&
-				message.StartsWith("/s "))
+		else if (message.StartsWith("/s "))
 		{
 			message = message.Substring(3);
 			message = Sing(message);
