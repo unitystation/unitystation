@@ -96,15 +96,21 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
-		else if (message.StartsWith("%"))
+		else if (sentByPlayer.Script.mind != null &&
+				sentByPlayer.Script.mind.occupation != null &&
+				message.StartsWith("%"))
 		{
 			message = message.Substring(1);
+			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}
 		// Sing alias
-		else if (message.StartsWith("/s " ))
+		else if (sentByPlayer.Script.mind != null &&
+				sentByPlayer.Script.mind.occupation != null &&
+				message.StartsWith("/s "))
 		{
 			message = message.Substring(3);
+			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}
 		// Involuntaly whisper due to not being fully concious
@@ -141,7 +147,6 @@ public partial class Chat
 			}
 			chatModifiers |= ChatModifier.Clown;
 		}
-
 		// TODO None of the followinger modifiers are currently in use.
 		// They have been commented out to prevent compile warnings.
 
@@ -256,7 +261,7 @@ public partial class Chat
 		else if ((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
 		{
 			verb = "sings,";
-			message = Sing(message);
+			message += " ♫" ;
 		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
@@ -377,8 +382,6 @@ public partial class Chat
 			}
 			song += current;
 		}
-
-		song += " ♫";
 
 		return song;
 	}

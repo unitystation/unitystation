@@ -284,7 +284,8 @@ public class PlayerChatBubble : MonoBehaviour
 		}
 		else if((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
 		{
-			msg = Sing(msg);
+			bubbleSize = bubbleSizeCaps * screenHeightMultiplier;
+			bubbleText.fontStyle = FontStyles.Italic;
 		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
@@ -354,27 +355,5 @@ public class PlayerChatBubble : MonoBehaviour
 		}
 
 		return PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1;
-	}
-
-	/// <summary>
-	/// Same modifier as in Chat.Process.cs
-	/// </summary>
-	private static string Sing(string m)
-	{
-		string song = "";
-
-		foreach (char c in m)
-		{
-			var current = c;
-			if(Random.Range(1,6) == 1)
-			{
-				current = char.ToUpper(c);
-			}
-			song = song + current;
-		}
-
-		song = song + " ♫";
-
-		return song;
 	}
 }
