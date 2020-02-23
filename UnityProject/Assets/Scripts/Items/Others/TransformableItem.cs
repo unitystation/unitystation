@@ -19,7 +19,19 @@ public class TransformableItem : MonoBehaviour , IPredictedCheckedInteractable<H
 		if (Validations.HasItemTrait(ObjectInHand, CommonTraits.Instance.Welder) && !Validations.HasUsedActiveWelder(interaction)) return false;
 		return true;
 	}
+	public void ClientPredictInteraction(HandApply interaction)
+	{
+	}
 
+	//this is invoked on the server when client requests an interaction
+	//but the server's WillInteract method returns false. So the server may need to tell
+	// the client their prediction is wrong, depending on how client prediction works for this
+	// interaction.
+	public void ServerRollbackClient(HandApply interaction)
+	{
+		//Server should send the client a message or invoke a ClientRpc telling it to
+		//undo its prediction or reset its state to sync with the server
+	}
 
 	[Tooltip("Choose an item to spawn.")]
 	[SerializeField]
