@@ -130,8 +130,9 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (SceneManager.GetActiveScene().name == "BoxStationV1")
 		{
-			minDistanceBetweenSpaceBodies = 300f;
+			minDistanceBetweenSpaceBodies = 200f;
 		}
+		//Change this for larger maps to avoid asteroid spawning on station.
 		else
 		{
 			minDistanceBetweenSpaceBodies = 200f;
