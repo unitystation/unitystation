@@ -9,6 +9,7 @@ public class UIAction : MonoBehaviour
 	public SpriteHandler IconFront;
 
 	public IActionGUI iActionGUI;
+
 	public void SetUp(IActionGUI _iActionGUI)
 	{
 		this.gameObject.SetActive(true);
@@ -21,7 +22,6 @@ public class UIAction : MonoBehaviour
 
 	public void Pool()
 	{
-		iActionGUI = null;
 		IconBackground.ChangeSpriteVariant(0);
 		IconFront.ChangeSpriteVariant(0);
 		IconBackground.SetInfo(DefaultIconBackground.Data);
@@ -36,6 +36,7 @@ public class UIAction : MonoBehaviour
 		{
 			iActionGUI.CallActionClient();
 		}
+
 		if (iActionGUI.ActionData.CallOnServer) {
 			if (iActionGUI is IServerActionGUI) {
 				if (iActionGUI is UIActionScriptableObject)

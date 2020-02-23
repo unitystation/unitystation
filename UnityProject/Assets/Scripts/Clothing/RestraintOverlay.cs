@@ -120,11 +120,6 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	}
 
 	public void CallActionClient() {
-		Logger.Log("CallActionClient RO");
 		PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
 	}
-	//public ActionData CallGetActionData()
-	//{
-	//	return (actionData);
-	//}
 }
