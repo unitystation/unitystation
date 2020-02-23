@@ -130,7 +130,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (SceneManager.GetActiveScene().name == "BoxStationV1")
 		{
-			minDistanceBetweenSpaceBodies = 250f;
+			minDistanceBetweenSpaceBodies = 300f;
 		}
 		else
 		{
