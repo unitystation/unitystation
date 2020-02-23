@@ -31,12 +31,6 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		//Occurs only if applied on the head.
-		if (interaction.TargetBodyPart != BodyPartType.Head) return false;
-
-		//Only the Chaplain can use the holy book.
-		if (PlayerList.Instance.Get(interaction.Performer).Job != JobType.CHAPLAIN) return false;
-
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
 
@@ -52,6 +46,16 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 		if (LHB.IsDead)
 		{
+			return;
+		}
+
+		//Occurs only if applied on the head.
+		if (interaction.TargetBodyPart != BodyPartType.Head) return;
+
+		//Only the Chaplain can use the holy book.
+		if (PlayerList.Instance.Get(interaction.Performer).Job != JobType.CHAPLAIN)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "A force restrains you. Non-Clergymen can't use this!");
 			return;
 		}
 
