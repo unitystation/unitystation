@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -132,11 +132,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
 	private PlayerScript playerScript;
-
-
-	[SerializeField]
-	private ActionData actionData;
-	public ActionData ActionData => actionData;
 
 	private void Awake()
 	{
@@ -452,7 +447,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
-			UIActionManager.Toggle(this, newBuckledTo != NetId.Empty);
+			//have to do this with a lambda otherwise the Cmd will not fire
+			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetId.Empty, () => CmdUnbuckle());
 		}
 
 		buckledObjectNetId = newBuckledTo;
@@ -470,11 +466,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		//ensure we are in sync with server
 		playerScript?.PlayerSync?.RollbackPrediction();
-	}
-
-	public void CallActionClient()
-	{
-		CmdUnbuckle();
 	}
 
 	[Server]

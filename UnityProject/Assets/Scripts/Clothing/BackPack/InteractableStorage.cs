@@ -1,17 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+
 /// <summary>
 /// Allows a storage object to be interacted with, to open/close it and drag things. Works for
 /// player inventories and normal indexed storages like backpacks
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(MouseDraggable))]
-[RequireComponent(typeof(ActionControlInventory))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>, 
-	IServerInventoryMove, IClientInventoryMove, IActionGUI
+	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove, IClientInventoryMove
 {
 
 	/// <summary>
@@ -52,11 +50,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// The current pickup mode used when clicking
 	/// </summary>
 	private PickupMode pickupMode = PickupMode.All;
-
-
-	[SerializeField]
-	private ActionData actionData;
-	public ActionData ActionData => actionData;
 
 	/// <summary>
 	/// Used on the server to switch the pickup mode of this InteractableStorage
@@ -468,13 +461,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
 			var showAlert = pna.GetActiveHandItem() == gameObject ||
 							pna.GetOffHandItem() == gameObject;
-
-			UIActionManager.Toggle(this,showAlert);
+			UIManager.AlertUI.ToggleAlertPickupMode(showAlert);
 		}
 	}
 
-	public void CallActionClient() {
-		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
-
-	}
 }
