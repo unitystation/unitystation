@@ -51,7 +51,8 @@ public enum ChatModifier
 	Yell    = 1 << 6, // Message is in capital letters
 	Emote   = 1 << 7, // Message starts with "/me"
 	Exclaim = 1 << 8, // Message ends with a "!"
-	Question= 1 << 9 // Message ends with a "?"
+	Question= 1 << 9, // Message ends with a "?"
+	Sing = 1 << 10
 }
 
 public class ChatEvent
