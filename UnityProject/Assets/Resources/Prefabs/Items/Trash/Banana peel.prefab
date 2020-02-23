@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: Banana peel1
+      value: Banana peel
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialName
       value: Banana peel
       objectReference: {fileID: 0}
@@ -91,6 +96,108 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 63ebb1ff93c93354994ab009bc8ccf7d,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: a69cda02ade347d43945c8c59fdfba6e, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a69cda02ade347d43945c8c59fdfba6e,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: a69cda02ade347d43945c8c59fdfba6e,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: a69cda02ade347d43945c8c59fdfba6e,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: a69cda02ade347d43945c8c59fdfba6e,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 4b41a720755a6bd4fb09b76cb468141e, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: f80df1a4b6b785f4999fa6d8e1510172, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: f80df1a4b6b785f4999fa6d8e1510172,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: f80df1a4b6b785f4999fa6d8e1510172,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: f80df1a4b6b785f4999fa6d8e1510172,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: f80df1a4b6b785f4999fa6d8e1510172,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: c07ae45c7fef96d4fa100795e08f844a, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 926bd4b2b7bf52141adf3249c5905274, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 926bd4b2b7bf52141adf3249c5905274,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: a69cda02ade347d43945c8c59fdfba6e,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: a69cda02ade347d43945c8c59fdfba6e,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: a69cda02ade347d43945c8c59fdfba6e,
+        type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.EquippedData
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite

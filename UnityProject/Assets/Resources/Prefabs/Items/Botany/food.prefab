@@ -95,6 +95,22 @@ MonoBehaviour:
   TransferMode: 4
   PossibleTransferAmounts: []
   InitialTransferAmount: 20
+--- !u!114 &6259075970471028923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953422017611688559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  leavings: {fileID: 0}
+  NutritionLevel: 10
 --- !u!114 &7234734607788621599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,22 +127,6 @@ MonoBehaviour:
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
---- !u!114 &6259075970471028923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4953422017611688559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  leavings: {fileID: 0}
-  nutritionLevel: 5
 --- !u!1001 &4953256935291295445
 PrefabInstance:
   m_ObjectHideFlags: 0
