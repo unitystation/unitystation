@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &5908745450454926434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,7 +67,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Cleanable: 1
-  SecondsUntilDisappear: -1
+  CanDryUp: 0
   PossibleSprites:
   - {fileID: 21300000, guid: 50f148f4e4cb8bb4b88f2704dbebbc43, type: 3}
   - {fileID: 21300000, guid: 21d7afd34a7cf9149981d3bf570261c0, type: 3}
@@ -89,11 +90,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
+  matrixDebugLogging: 0
+  objectType: 1
 --- !u!114 &114262681174990446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +107,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 1
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 1
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114758807010794188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,10 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
-  m_AssetId: b5d421f0156248b4297eecc918b8758a
-  m_SceneId: 0
+  m_AssetId: 
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +213,7 @@ SpriteRenderer:
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300276, guid: fb20967b568ff594b80875b3b35fbf33, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 50f148f4e4cb8bb4b88f2704dbebbc43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -216,6 +221,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

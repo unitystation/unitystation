@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public partial class GameManager : MonoBehaviour
@@ -63,7 +62,8 @@ public partial class GameManager : MonoBehaviour
 	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
 	private Queue<MatrixMove> PendingSpaceBodies = new Queue<MatrixMove>();
 	private bool isProcessingSpaceBody = false;
-	public float minDistanceBetweenSpaceBodies = 200f;
+	public float minDistanceBetweenSpaceBodies;
+
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
 	//---------------------------------
@@ -128,6 +128,15 @@ public partial class GameManager : MonoBehaviour
 
 	IEnumerator ProcessSpaceBody(MatrixMove mm)
 	{
+		if (SceneManager.GetActiveScene().name == "BoxStationV1")
+		{
+			minDistanceBetweenSpaceBodies = 200f;
+		}
+		//Change this for larger maps to avoid asteroid spawning on station.
+		else
+		{
+			minDistanceBetweenSpaceBodies = 200f;
+		}
 		bool validPos = false;
 		while (!validPos)
 		{
@@ -501,6 +510,6 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
+		CustomNetworkManager.Instance.ServerChangeScene(Maps[UnityEngine.Random.Range(0,Maps.Length)]);
 	}
 }
