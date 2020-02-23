@@ -370,15 +370,15 @@ public partial class Chat
 
 		foreach (char c in m)
 		{
-			var current = c;
+			char current = c;
 			if(Random.Range(1,6) == 1)
 			{
 				current = char.ToUpper(c);
 			}
-			song = song + current;
+			song += current;
 		}
 
-		song = song + " ♫";
+		song += " ♫";
 
 		return song;
 	}
