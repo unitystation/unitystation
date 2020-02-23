@@ -95,8 +95,8 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 		{
 			LHB.bloodSystem.OxygenDamage += healthModifier;
 			
-			Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head really hard.", 
-			$"{performerName}'s book slams into {victimName}'s head really hard.");
+			Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head, and not much else.", 
+			$"{performerName}'s book slams into {victimName}'s head, and not much else.");
 
 			SoundManager.PlayNetworkedAtPos("GenericHit", interaction.WorldPositionTarget);
 		} 
