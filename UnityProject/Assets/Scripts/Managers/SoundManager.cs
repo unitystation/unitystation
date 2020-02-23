@@ -6,6 +6,7 @@ using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -128,20 +129,27 @@ public class SoundManager : MonoBehaviour
 		var audioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
 		for (int i = 0; i < audioSources.Length; i++)
 		{
-			if (audioSources[i].gameObject.tag == "AmbientSound")
+			var audioSource = audioSources[i];
+			if (audioSource.gameObject.CompareTag("AmbientSound"))
 			{
-				ambientTracks.Add(audioSources[i]);
+				ambientTracks.Add(audioSource);
 				continue;
 
 			}
-			if (audioSources[i].gameObject.tag == "Music")
+			if (audioSource.gameObject.CompareTag("Music"))
 			{
-				musicTracks.Add(audioSources[i]);
+				musicTracks.Add(audioSource);
 				continue;
 			}
-			if (audioSources[i].gameObject.tag == "SoundFX")
+			if (audioSource.gameObject.CompareTag("SoundFX"))
 			{
-				sounds.Add(audioSources[i].name, audioSources[i]);
+				if (sounds.ContainsKey(audioSource.name))
+				{
+					Logger.LogErrorFormat("SoundManager: Duplicate sound name {0} on scene {1}, skipping!", Category.SoundFX,
+						audioSource.name, SceneManager.GetActiveScene().name);
+					continue;
+				}
+				sounds.Add(audioSource.name, audioSource);
 			}
 		}
 	}
@@ -291,7 +299,6 @@ public class SoundManager : MonoBehaviour
 			sound.Play();
 		}
 	}
-
 
 	/// <summary>
 	/// Play Footstep at given world position.

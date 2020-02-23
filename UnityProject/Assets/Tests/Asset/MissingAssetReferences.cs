@@ -3,6 +3,8 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;
 using System.Text;
+using System.Linq;
+using System.IO;
 
 namespace Tests
 {
@@ -48,7 +50,7 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Check if there any field with MissingReference
+		/// Check if there any prefab with MissingReference field 
 		/// </summary>
 		[Test]
 		public void CheckMissingReferenceFieldsOnPrefabs()
@@ -75,20 +77,10 @@ namespace Tests
 					if (c == null)
 						continue;
 
-					SerializedObject so = new SerializedObject(c);
-					var sp = so.GetIterator();
-
-					while (sp.NextVisible(true))
-					{
-						if (sp.propertyType == SerializedPropertyType.ObjectReference)
-						{
-							if (sp.objectReferenceValue == null
-								&& sp.objectReferenceInstanceIDValue != 0)
-							{
-								listResult.Add((go.name, c.name, sp.displayName));
-							}
-						}
-					}
+					var so = new SerializedObject(c);
+					var missingRefs = GetMissingRefs(so);
+					foreach (var miss in missingRefs)
+						listResult.Add((go.name, c.name, miss));
 				}
 			}
 
@@ -101,6 +93,103 @@ namespace Tests
 			}
 
 			Assert.IsEmpty(listResult, report.ToString());
+		}
+
+		/// <summary>
+		/// Check if there are scriptable objects that lost their script
+		/// </summary>
+		[Test]
+		public void CheckMissingScritpableObjects()
+		{
+			// Get all assets paths
+			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
+				.Where(p => p.Contains("Resources/"));
+
+			// Find all .asset (almost always it is SO)
+			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
+
+			var listResults = new List<string>();
+			foreach (var path in allAssetPaths)
+			{
+				var asset = AssetDatabase.LoadMainAssetAtPath(path);
+
+				// if we can't load it - something bad happend with SO
+				if (!asset)
+					listResults.Add(path);
+			}
+
+			// Form report
+			var report = new StringBuilder();
+			foreach (string s in listResults)
+			{
+				var fileName = Path.GetFileName(s);
+				var msg = $"Can't load asset {fileName}. Maybe linked ScriptableObject script is missing?";
+				Logger.Log(msg, Category.Tests);
+				report.AppendLine(msg);
+			}
+
+			Assert.IsEmpty(listResults, report.ToString());
+		}
+
+		/// <summary>
+		/// Check if there are scriptable objects that has missing reference fields 
+		/// </summary>
+		[Test]
+		public void CheckMissingRefenceFieldsScritpableObjects()
+		{
+			// Get all assets paths
+			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
+				.Where(p => p.Contains("Resources/"));
+
+			// Find all .asset (almost always it is SO)
+			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
+
+			var listResults = new List<(string, string)>();
+			foreach (var path in allAssetPaths)
+			{
+				var asset = AssetDatabase.LoadMainAssetAtPath(path);
+
+				// skip invalid assets
+				if (!asset || !(asset is ScriptableObject))
+					continue;
+
+				var so = new SerializedObject(asset);
+				var missRefs = GetMissingRefs(so);
+				foreach (var miss in missRefs)
+					listResults.Add((asset.name, miss));
+			}
+
+			// Form report
+			var report = new StringBuilder();
+			foreach (var s in listResults)
+			{
+				var msg = $"Missing reference found in scriptable object {s.Item1} field {s.Item2}";
+				Logger.Log(msg, Category.Tests);
+				report.AppendLine(msg);
+			}
+
+			Assert.IsEmpty(listResults, report.ToString());
+		}
+
+
+		private static List<string> GetMissingRefs(SerializedObject so)
+		{
+			var sp = so.GetIterator();
+			var listResult = new List<string>();
+
+			while (sp.NextVisible(true))
+			{
+				if (sp.propertyType == SerializedPropertyType.ObjectReference)
+				{
+					if (sp.objectReferenceValue == null
+						&& sp.objectReferenceInstanceIDValue != 0)
+					{
+						listResult.Add(sp.displayName);
+					}
+				}
+			}
+
+			return listResult;
 		}
 	}
 }
