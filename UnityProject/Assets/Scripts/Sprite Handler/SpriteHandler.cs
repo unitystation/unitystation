@@ -8,7 +8,7 @@ using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
+
 ///	<summary>
 ///	for Handling sprite animations
 ///	</summary>
@@ -24,8 +24,6 @@ public class SpriteHandler : MonoBehaviour
 		public float waitTime;
 	}
 	private SpriteRenderer spriteRenderer;
-
-	private Image image;
 
 	[SerializeField]
 	private int spriteIndex;
@@ -48,66 +46,14 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool Initialised;
 
-	private void SetImageColor(Color value) {
-		if (spriteRenderer != null)
-		{
-			spriteRenderer.color = value;
-		}
-		else if (image != null){
-			image.color = value;
-		}
-	}
-
-	private void SetImageSprite(Sprite value)
-	{
-
-		if (spriteRenderer != null)
-		{
-			spriteRenderer.sprite = value;
-			MaterialPropertyBlock block = new MaterialPropertyBlock();
-			spriteRenderer.GetPropertyBlock(block);
-			var palette = getPaletteOrNull();
-			if (palette != null)
-			{
-				List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
-				block.SetVectorArray("_ColorPalette", pal);
-				block.SetInt("_IsPaletted", 1);
-			}
-			else
-			{
-				block.SetInt("_IsPaletted", 0);
-			}
-			spriteRenderer.SetPropertyBlock(block);
-
-		}
-		else if (image != null)
-		{
-			image.sprite = value;
-		}
-	}
-
-	private bool HasImageComponent()
-	{
-		if (spriteRenderer != null) return (true);
-		if (image != null) return (true);
-		return (false);
-	}
-
-	private void GetImageComponent()
-	{
-		spriteRenderer = this.GetComponent<SpriteRenderer>();
-		image = this.GetComponent<Image>();
-	}
-
 	private IEnumerator WaitForInitialisation()
 	{
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
-		GetImageComponent();
 		if (spriteData == null) {
 			spriteData = new SpriteData();
 		}
-		if (HasImageComponent() && SetSpriteOnStartUp && spriteData.HasSprite())
+		if (spriteRenderer != null && SetSpriteOnStartUp && spriteData.HasSprite())
 		{
 			PushTexture();
 		}
@@ -125,16 +71,16 @@ public class SpriteHandler : MonoBehaviour
 
 	public void SetColor(Color value)
 	{
-		if (!HasImageComponent())
+		if (spriteRenderer == null)
 		{
-			GetImageComponent();
+			spriteRenderer = this.GetComponent<SpriteRenderer>();
 		}
-		SetImageColor(value);
+		spriteRenderer.color = value;
 	}
 
 	public void PushClear()
 	{
-		SetImageSprite(null);
+		spriteRenderer.sprite = null;
 		TryToggleAnimationState(false);
 	}
 
@@ -177,7 +123,7 @@ public class SpriteHandler : MonoBehaviour
 				{
 					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
 					
-					SetSprite(curSpriteInfo);
+					SetSprite(curSpriteInfo, getPaletteOrNull());
 
 					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 					return;
@@ -188,13 +134,13 @@ public class SpriteHandler : MonoBehaviour
 					animationIndex = 0;
 
 					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
-					SetSprite(curSpriteInfo);
+					SetSprite(curSpriteInfo, getPaletteOrNull());
 
 					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 					return;
 				}
 			}
-			SetImageSprite(null);
+			spriteRenderer.sprite = null;
 			TryToggleAnimationState(false);
 		}
 	}
@@ -213,7 +159,7 @@ public class SpriteHandler : MonoBehaviour
 			}
 
 			SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
-			SetSprite(curSpriteInfo);
+			SetSprite(curSpriteInfo, getPaletteOrNull());
 		}
 		if (!isAnimation)
 		{
@@ -222,11 +168,36 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
-	private void SetSprite(SpriteInfo animationStills)
+	private void SetSprite(SpriteInfo animationStills, List<Color> palette = null)
 	{
 		timeElapsed = 0;
 		waitTime = animationStills.waitTime;
-		SetImageSprite(animationStills.sprite);
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = GetComponent<SpriteRenderer>();
+			if (spriteRenderer == null)
+			{
+				Logger.Log($"There is no spriterenderer on this object {name}");
+				return;
+			}
+		}
+		spriteRenderer.sprite = animationStills.sprite;
+		MaterialPropertyBlock block = new MaterialPropertyBlock();
+		spriteRenderer.GetPropertyBlock(block);
+
+		if (palette != null)
+		{
+			List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+			block.SetVectorArray("_ColorPalette", pal);
+			block.SetInt("_IsPaletted", 1);
+		}
+		else
+		{
+			block.SetInt("_IsPaletted", 0);
+		}
+		spriteRenderer.SetPropertyBlock(block);
+
+
 	}
 
 	public void ChangeSprite(int newSprites)
@@ -241,7 +212,7 @@ public class SpriteHandler : MonoBehaviour
 				animationIndex = 0;
 
 				SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
-				SetSprite(curSpriteInfo);
+				SetSprite(curSpriteInfo, getPaletteOrNull());
 
 				TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 			}
@@ -263,7 +234,7 @@ public class SpriteHandler : MonoBehaviour
 				variantIndex = spriteVariant;
 
 				SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
-				SetSprite(curSpriteInfo);
+				SetSprite(curSpriteInfo, getPaletteOrNull());
 
 				TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 			}
@@ -283,16 +254,6 @@ public class SpriteHandler : MonoBehaviour
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			isAnimation = false;
 		}
-	}
-
-/// <summary>
-/// Used to set a singular sprite
-/// </summary>
-/// <param name="_sprite">Sprite.</param>
-	public void SetSprite(Sprite _sprite)
-	{
-		SetImageSprite(_sprite);
-		TryToggleAnimationState(false);
 	}
 
 	/// <summary>
@@ -325,31 +286,6 @@ public class SpriteHandler : MonoBehaviour
 		spriteIndex = _spriteIndex;
 		variantIndex = _variantIndex;
 		spriteData = _Info;
-		if (Initialised)
-		{
-			PushTexture();
-		}
-		else {
-			SetSpriteOnStartUp = true;
-		}
-	}
-
-
-	/// <summary>
-	/// Set this sprite handler to be capable of displaying the elements defined in _Info and sets it  to display as the element in _Info indicated by _spriteIndex and _variantIndex
-	/// </summary>
-	/// <param name="_Info">The list of sprites</param>
-	/// <param name="_spriteIndex">Initial Sprite index.</param>
-	/// <param name="_variantIndex">Initial Variant index.</param>
-	public void SetInfo(List<SpriteSheetAndData> _Info, int _spriteIndex = 0, int _variantIndex = 0)
-	{
-		spriteIndex = _spriteIndex;
-		variantIndex = _variantIndex;
-		spriteData.List = new List<List<List<SpriteInfo>>>();
-		foreach (var Data in _Info)
-		{
-			spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Data));
-		}
 		if (Initialised)
 		{
 			PushTexture();
