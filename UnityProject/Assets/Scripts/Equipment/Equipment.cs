@@ -133,26 +133,21 @@ public class Equipment : NetworkBehaviour, IExaminable
 	public String GetIdentityFromID()
 		{
 			IDCard card = ItemSlot.GetNamed(itemStorage,NamedSlot.id)?.Item?.GetComponent<IDCard>();
-			
+			//Logger.Log("ID Card: " + (card != null ? card.ToString() : "null"));
 			if (card != null)
 			{
 				return card.RegisteredName + " " + (card.Occupation ? $" ({ card.Occupation.DisplayName })" : "");
 			}
 			else
 			{
-				return "Unknown";
+				return "";
 			}
 		}
 	
-	public void OnHoverStart()
-	{
-		UIManager.SetToolTip = GetIdentityFromID();
-	}
-
 	public String Examine()
 	{
 		// Collect clothing + ID info.
-		string msg = "This is " + GetIdentityFromID() + ".";
+		string msg = "This is " + GetComponent<PlayerScript>().visibleName + ".";
 
 		// TODO: LOOP over items
 		// msg += blah;

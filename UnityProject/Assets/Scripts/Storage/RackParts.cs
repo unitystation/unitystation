@@ -67,7 +67,8 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
 				interaction.Performer.transform.parent);
 			var handObj = interaction.HandObject;
-			if (handObj.GetInstanceID() == gameObject.GetInstanceID()) // the rack parts were assembled from the hands, despawn in inventory-fashion
+			
+			if (handObj != null && handObj.GetInstanceID() == gameObject.GetInstanceID()) // the rack parts were assembled from the hands, despawn in inventory-fashion
 			{ // (note: instanceIDs used in case somebody starts assembling rack parts on the ground with rack parts in hand (which was not possible at the time this was written))
 				Inventory.ServerDespawn(interaction.HandSlot);
 			}
