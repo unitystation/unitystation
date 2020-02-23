@@ -102,7 +102,7 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Sing;
 		}
 		// Sing alias
-		else if (message.StartsWith("/s"))
+		else if (message.StartsWith("/s" ))
 		{
 			message = message.Substring(3);
 			chatModifiers |= ChatModifier.Sing;
