@@ -3,6 +3,8 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;
 using System.Text;
+using System.Linq;
+using System.IO;
 
 namespace Tests
 {
@@ -101,6 +103,42 @@ namespace Tests
 			}
 
 			Assert.IsEmpty(listResult, report.ToString());
+		}
+
+		/// <summary>
+		/// Check if there are scriptable objects that lost their script
+		/// </summary>
+		[Test]
+		public void CheckMissingScritpableObjects()
+		{
+			// Get all assets paths
+			var allResourcesPaths = AssetDatabase.GetAllAssetPaths()
+				.Where(p => p.Contains("Resources/"));
+
+			// Find all .asset (almost always it is SO)
+			var allAssetPaths = allResourcesPaths.Where((a) => a.EndsWith(".asset")).ToArray();
+
+			var listResults = new List<string>();
+			foreach (var path in allAssetPaths)
+			{
+				var asset = AssetDatabase.LoadMainAssetAtPath(path);
+
+				// if we can't load it - something bad happend with SO
+				if (!asset)
+					listResults.Add(path);
+			}
+
+			// Form report
+			var report = new StringBuilder();
+			foreach (string s in listResults)
+			{
+				var fileName = Path.GetFileName(s);
+				var msg = $"Can't load asset {fileName}. Maybe linked ScriptableObject script is missing?";
+				Logger.Log(msg, Category.Tests);
+				report.AppendLine(msg);
+			}
+
+			Assert.IsEmpty(listResults, report.ToString());
 		}
 	}
 }
