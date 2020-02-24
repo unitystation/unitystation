@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// The main girder component
 /// </summary>
-public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private TileChangeManager tileChangeManager;
 
@@ -23,15 +24,13 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
-	{
-
-	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+		Spawn.ServerPrefab("GlassShard", gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(2, 4),
+			scatterRadius: Random.Range(1, 2), cancelIfImpassable: true);
+
+		SoundManager.PlayNetworkedAtPos("GlassBreak0#", gameObject.TileWorldPosition().To3Int(), 1f);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -43,10 +42,10 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench, screwdriver in their hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
-			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return false;
+			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) { return false; }
 		return true;
 	}
-
+	//SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.TargetObject != gameObject) return;
@@ -103,6 +102,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 				Chat.AddExamineMsg(interaction.Performer, "You must unsecure it first.");
 			}
 		}
+		
 	}
 
 	[Server]
