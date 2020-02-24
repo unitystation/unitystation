@@ -58,6 +58,7 @@ public class NullRod : NetworkBehaviour, IInteractable<HandActivate>, IServerSpa
 		//UIManager.Instance.TextInputDialog.ShowDialog("Set label text", OnInputReceived);
 		if (transformTimes > 0)
 		{
+			//Open null rod select screen if there are some transformation charges left.
 			TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType.NullRod, TabAction.Open );
 		}
 		else 
