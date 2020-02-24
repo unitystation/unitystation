@@ -23,6 +23,11 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
+	public void OnSpawnServer(SpawnInfo info)
+	{
+
+	}
+
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
 		Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
