@@ -24,7 +24,6 @@ public class UIManager : MonoBehaviour
 	public ControlIntent intentControl;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
-	public AlertUI alertUI;
 	public Text toolTip;
 	public Text pingDisplay;
 	[SerializeField]
@@ -111,7 +110,6 @@ public class UIManager : MonoBehaviour
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
-	public static AlertUI AlertUI => Instance.alertUI;
 
 	public static Hands Hands => Instance.hands;
 

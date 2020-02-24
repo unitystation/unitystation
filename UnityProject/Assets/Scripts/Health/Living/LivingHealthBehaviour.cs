@@ -13,7 +13,7 @@ using Mirror;
 /// Monitors and calculates health
 /// </summary>
 [RequireComponent(typeof(HealthStateMonitor))]
-public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable
+public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IExaminable
 {
 	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
@@ -751,6 +751,61 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		}
 		Gizmos.color = Color.blue.WithAlpha( 0.5f );
 		Gizmos.DrawCube( registerTile.WorldPositionServer, Vector3.one );
+	}
+
+	/// <summary>
+	/// This is just a simple initial implementation of IExaminable to health;
+	/// can potentially be extended to return more details and let the server
+	/// figure out what to pass to the client, based on many parameters such as
+	/// role, medical skill (if they get implemented), equipped medical scanners,
+	/// etc. In principle takes care of building the string from start to finish,
+	/// so logic generating examine text can be completely separate from examine 
+	/// request or netmessage processing.
+	/// </summary>
+	public string Examine()
+	{
+		var healthFraction = OverallHealth/maxHealth;
+		var healthString  = "";
+		
+		if (!IsDead)
+		{
+			if (healthFraction < 0.2f)
+			{
+				healthString = "heavily wounded.";
+			}			
+			else if (healthFraction < 0.6f)
+			{
+				healthString = "wounded.";
+			}
+			else
+			{
+				healthString = "in good shape.";
+			}
+
+			// On fire?
+			if (FireStacks > 0)
+			{
+				healthString = "on fire!";
+			}
+
+			healthString = ConsciousState.ToString().ToLower().Replace("_", " ") + " and " + healthString;
+		}
+		else
+		{
+			healthString = "limp and unresponsive. There are no signs of life...";
+		}
+
+		// Assume animal
+		string pronoun = "It";
+		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
+		if (cs != null)
+		{
+			pronoun = cs.PersonalPronoun();
+			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
+		}
+
+		healthString = pronoun + " is " + healthString + (respiratorySystem.IsSuffocating && !IsDead ? " " + pronoun + " is having trouble breathing!" : "");
+		return healthString;
 	}
 }
 

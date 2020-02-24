@@ -45,57 +45,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counting: 0
-  Occupations:
-  - {fileID: 1907548023066798, guid: 21b1766adb51e3349890b2d2f9db3227, type: 3}
-  - {fileID: 1866127696583700, guid: 4ad72e00f3116964dba8efeaad0882d9, type: 3}
-  - {fileID: 1565708968720630, guid: c006a7ffbdddb904295cb509d53f609f, type: 3}
-  - {fileID: 1095216131823204, guid: fc6594ec54edd1b4a8b4f0c37614e1bd, type: 3}
-  - {fileID: 1387094316131694, guid: 1931ef679fdf9d140b5598d6284c902e, type: 3}
-  - {fileID: 1542514950764114, guid: 74b0f21957a9fac46abd326a8727b3bb, type: 3}
-  - {fileID: 1977045321645812, guid: c06c397454295e04d9ef175ea1b804d6, type: 3}
-  - {fileID: 1233643564516408, guid: c6b2b41cf82f3ef4c833e4f604bcc0fa, type: 3}
-  - {fileID: 1389842405221104, guid: de040a3e1948bdc4fb1b96e398ab3546, type: 3}
-  - {fileID: 1456289663796778, guid: c566621f9bf83ef43a0c4134e59e0e15, type: 3}
-  - {fileID: 1558448658196052, guid: 8eb826f1e18a51d45907f8e59b2df073, type: 3}
-  - {fileID: 1077496234113506, guid: 29edbb963514e864f8a9efe57cba71ad, type: 3}
-  - {fileID: 1927430407107944, guid: 6b55745ab58047d44a055e7e1524deec, type: 3}
-  - {fileID: 1564130566163522, guid: 363d5a9966200e745bbf44c6355a5ac7, type: 3}
-  - {fileID: 1639774341900186, guid: 2e9facb6298c467428bd6de4f511be15, type: 3}
-  - {fileID: 1361754647138198, guid: 340c2cfdf2ef5974b86e23bc54395d3b, type: 3}
-  - {fileID: 1217795466810960, guid: eb96e24ea81195a4aa320741597ed5da, type: 3}
-  - {fileID: 1493080786879964, guid: d046171d9de251b448307b00350af9b0, type: 3}
-  - {fileID: 1594083957048648, guid: 60d742d968b30144e8c8e34c99706a95, type: 3}
-  - {fileID: 1703511763521866, guid: 32b8e3be23877aa49bed3511613a669d, type: 3}
-  - {fileID: 1795478352249764, guid: 18449c976bad9694eaa68de8bb423288, type: 3}
-  - {fileID: 1791784211476486, guid: bf4c5d3dc83aa484b9a3f2dc8aff0f5c, type: 3}
-  - {fileID: 1155409023102902, guid: 6bf9ff28fdf62fe4e8bbce25601881da, type: 3}
-  - {fileID: 1558353132545772, guid: 236f5194e03cc694f9e753d8ac52e4c8, type: 3}
-  - {fileID: 1334888342882360, guid: dd34494fb334795478f8ad48bb7c9a46, type: 3}
-  - {fileID: 1048553205546368, guid: 6887a6540f33238488ee370b8dbfcaf8, type: 3}
-  - {fileID: 1710672413038410, guid: 45429c638a622df40a27fc4af7d1a37a, type: 3}
-  - {fileID: 1038932695181158, guid: 8e24a8fa58e3fb44abf98bd9ce692107, type: 3}
-  - {fileID: 1767374215272712, guid: b2f4f1d6bba6d274badb1a08a8f83b25, type: 3}
-  - {fileID: 1160015512762250, guid: 547f5d5a3b17a4044ba6f350892fd192, type: 3}
-  - {fileID: 1160015512762250, guid: 8ecf387cd4531408b94a7814e0ab8be4, type: 3}
   MinPlayersForCountdown: 1
-  PreRoundTime: 30
   startTime: 0
-  restartTime: 10
+  NextGameMode: Random
   RespawnAllowed: 1
   roundTimer: {fileID: 0}
-  StandardOutfit: {fileID: 1422542566252154, guid: 20382c4d00a98944f99ee2ddc86c0fe9,
-    type: 3}
   waitForStart: 0
-  waitForRestart: 0
   RoundsPerMap: 10
   Maps:
   - Assets/scenes/OutpostStation.unity
+  - Assets/scenes/BoxStationV1.unity
   SpaceBodies: []
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
   primaryEscapeShuttle: {fileID: 0}
-  AllGameModes: []
   GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
   SecretGameMode: 1
   CurrentRoundState: 0

@@ -212,11 +212,11 @@ MonoBehaviour:
   anchored: 0
   volume: 70
   pipeSprites:
-  - {fileID: 21300032, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
-  - {fileID: 21300072, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
-  - {fileID: 21300074, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
-  - {fileID: 21300076, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
-  - {fileID: 21300078, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spriteRenderer: {fileID: 212588640390319518}
 --- !u!114 &1017861296826197586
 MonoBehaviour:
@@ -379,6 +379,16 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
 --- !u!114 &6334083418781041707
 MonoBehaviour:
   m_ObjectHideFlags: 0

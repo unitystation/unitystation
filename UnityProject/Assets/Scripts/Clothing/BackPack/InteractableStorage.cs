@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Mirror;
 /// <summary>
 /// Allows a storage object to be interacted with, to open/close it and drag things. Works for
 /// player inventories and normal indexed storages like backpacks
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(MouseDraggable))]
+[RequireComponent(typeof(ActionControlInventory))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove, IClientInventoryMove
+	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>,
+	IServerInventoryMove, IClientInventoryMove, IActionGUI
 {
 
 	/// <summary>
@@ -50,6 +52,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// The current pickup mode used when clicking
 	/// </summary>
 	private PickupMode pickupMode = PickupMode.All;
+
+
+	[SerializeField]
+	private ActionData actionData;
+	public ActionData ActionData => actionData;
 
 	/// <summary>
 	/// Used on the server to switch the pickup mode of this InteractableStorage
@@ -118,7 +125,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		Inventory.ServerTransfer(interaction.FromSlot,
-			itemStorage.GetBestSlotFor(((Interaction) interaction).UsedObject));
+			itemStorage.GetBestSlotFor(((Interaction)interaction).UsedObject));
 	}
 
 	/// <summary>
@@ -207,9 +214,19 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		// See if this item can click pickup
 		else if (canClickPickup)
 		{
+			bool pickedUpSomething = false;
+			Pickupable pickup;
 			switch (pickupMode)
 			{
 				case PickupMode.Single:
+
+					// Don't pick up items which aren't set as CanPickup
+					pickup = interaction.TargetObject.GetComponent<Pickupable>();
+					if (pickup == null || pickup.CanPickup == false)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+						return;
+					}
 					// Store the clicked item
 					var slot = itemStorage.GetBestSlotFor(interaction.TargetObject);
 					if (slot == null)
@@ -240,13 +257,24 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 					foreach (var item in itemsOnTileSame)
 					{
+
+						// Don't pick up items which aren't set as CanPickup
+						pickup = item.gameObject.GetComponent<Pickupable>();
+						if (pickup == null || pickup.CanPickup == false)
+						{
+							continue;
+						}
+
 						// Only try to add it if it matches the target object's traits
 						if (item.HasAllTraits(interaction.TargetObject.Item().GetTraits()))
 						{
 							// Try to add each item to the storage
 							// Can't break this loop when it fails because some items might not fit and
 							// there might be stacks with space still
-							Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject));
+							if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+							{
+								pickedUpSomething = true;
+							}
 						}
 					}
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
@@ -264,12 +292,29 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 					foreach (var item in itemsOnTileAll)
 					{
+						// Don't pick up items which aren't set as CanPickup
+						pickup = item.gameObject.GetComponent<Pickupable>();
+						if (pickup == null || pickup.CanPickup == false)
+						{
+							continue;
+						}
 						// Try to add each item to the storage
 						// Can't break this loop when it fails because some items might not fit and
 						// there might be stacks with space still
-						Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject));
+						if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+						{
+							pickedUpSomething = true;
+
+						}
 					}
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					if (pickedUpSomething)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					}
+					else
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+					}
 					break;
 			}
 		}
@@ -417,8 +462,14 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
 			var showAlert = pna.GetActiveHandItem() == gameObject ||
 							pna.GetOffHandItem() == gameObject;
-			UIManager.AlertUI.ToggleAlertPickupMode(showAlert);
+
+			UIActionManager.Toggle(this, showAlert);
 		}
 	}
 
+	public void CallActionClient()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+
+	}
 }
