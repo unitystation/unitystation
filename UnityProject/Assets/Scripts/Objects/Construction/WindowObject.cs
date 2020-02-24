@@ -14,8 +14,6 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 
 	[Tooltip("Layer tile which this will create when placed.")]
 	public LayerTile layerTile;
-	//tracked server side only
-	private int plasteelSheetCount;
 
 	private void Start()
 	{
@@ -23,11 +21,6 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 		registerObject = GetComponent<RegisterObject>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		objectBehaviour = GetComponent<ObjectBehaviour>();
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		plasteelSheetCount = 0;
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
@@ -68,16 +61,12 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
 
-
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start securing the window...",
 						$"{interaction.Performer.ExpensiveName()} starts securing the window...",
 						"You secure the window.",
 						$"{interaction.Performer.ExpensiveName()} secures the window.",
 						() => ScrewToFloor(interaction));
-
-
-
 				}
 			}
 			else
