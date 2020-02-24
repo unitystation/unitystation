@@ -34,4 +34,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Welder;
 	public ItemTrait Shovel;
 	public ItemTrait Knife;
+	public ItemTrait Transforamble;
 }
