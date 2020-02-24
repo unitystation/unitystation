@@ -12,6 +12,8 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
 
+	[Tooltip("Layer tile which this will create when placed.")]
+	public LayerTile layerTile;
 	//tracked server side only
 	private int plasteelSheetCount;
 
@@ -59,18 +61,23 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 				//secure it if there's floor
 				if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true))
 				{
-					Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the girder!");
+					Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the window!");
 					return;
 				}
 
 				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
+
+
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start securing the window...",
 						$"{interaction.Performer.ExpensiveName()} starts securing the window...",
-						"You secure the girder.",
+						"You secure the window.",
 						$"{interaction.Performer.ExpensiveName()} secures the window.",
-						() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
+						() => ScrewToFloor(interaction));
+
+
+
 				}
 			}
 			else
@@ -79,7 +86,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start unsecuring the girder...",
 					$"{interaction.Performer.ExpensiveName()} starts unsecuring the window...",
-					"You unsecure the girder.",
+					"You unsecure the window.",
 					$"{interaction.Performer.ExpensiveName()} unsecures the window.",
 					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 			}
@@ -93,7 +100,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start to disassemble the window...",
 					$"{interaction.Performer.ExpensiveName()} starts to disassemble the window...",
-					"You disassemble the girder.",
+					"You disassemble the window.",
 					$"{interaction.Performer.ExpensiveName()} disassembles the window.",
 					() => Disassemble(interaction));
 			}
@@ -104,6 +111,15 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 		}
 	}
 
+	[Server]
+	private void ScrewToFloor(HandApply interaction)
+	{
+		var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
+		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
+		interactableTiles.TileChangeManager.UpdateTile(cellPos, layerTile);
+		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
+		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+	}
 	[Server]
 	private void Disassemble(HandApply interaction)
 	{
