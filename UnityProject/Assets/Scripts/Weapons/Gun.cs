@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ItemStorage))]
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
-	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn
+	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
@@ -292,6 +292,10 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		return false;
 	}
 
+	public string  Examine()
+	{
+		return WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null?(CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine"):"It's empty!") + ")";
+	}
 
 	#endregion
 

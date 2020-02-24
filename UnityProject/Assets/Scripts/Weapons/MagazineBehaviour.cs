@@ -5,7 +5,7 @@ using Mirror;
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this
 /// behavior, server and client ammo counts are stored separately but can be synced with SyncClientAmmoRemainsWithServer().
 /// </summary>
-public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
+public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 {
 	/*
 	We keep track of 2 ammo counts. The server's ammo count is authoritative, but when ammo is being
@@ -146,6 +146,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 	{
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
 		return currentRNG;
+	}
+
+	public String Examine()
+	{
+		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0?(ServerAmmoRemains.ToString() + " left"):"empty") + ")";
 	}
 }
 
