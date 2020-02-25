@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 031e5cf2e8f85524781852bc32b66c6d
+guid: cf381eb449cd3834a8c6f01107a06196
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8905504301376146211
-    second: genepack_0
+      213: 7987739224486189342
+    second: toxpack_0
   - first:
-      213: -10107332192171663
-    second: genepack_1
+      213: -8738237130716846773
+    second: toxpack_1
   - first:
-      213: 8814307753071084236
-    second: genepack_2
+      213: 7364799712452254498
+    second: toxpack_2
   - first:
-      213: 8025749515996584074
-    second: genepack_3
+      213: -9144155151955155741
+    second: toxpack_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -74,19 +74,19 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -98,7 +98,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: genepack_0
+      name: toxpack_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6b7c84a381bf8e48b923eaba38e4a9d
-      internalID: 8905504301376146211
+      spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 7987739224486189342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: genepack_1
+      name: toxpack_1
       rect:
         serializedVersion: 2
         x: 32
@@ -133,14 +133,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6abead4b0827a1544b0a31a6d6e18cf8
-      internalID: -10107332192171663
+      spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: -8738237130716846773
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: genepack_2
+      name: toxpack_2
       rect:
         serializedVersion: 2
         x: 64
@@ -154,14 +154,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 930a56f854c4e9049a09cc087c9fc172
-      internalID: 8814307753071084236
+      spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 7364799712452254498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: genepack_3
+      name: toxpack_3
       rect:
         serializedVersion: 2
         x: 96
@@ -175,8 +175,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21df52ce52dd3f04fbff1d1939c09787
-      internalID: 8025749515996584074
+      spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: -9144155151955155741
       vertices: []
       indices: 
       edges: []
@@ -184,7 +184,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 280b93732caf29f42b334a277f625760
     internalID: 0
     vertices: []
     indices: 
