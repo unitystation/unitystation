@@ -241,7 +241,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	public string Examine()
+	public string Examine(Vector3 worldPos)
 	{
 		string str = "";
 		if (integrity < 0.9f*initialIntegrity)
