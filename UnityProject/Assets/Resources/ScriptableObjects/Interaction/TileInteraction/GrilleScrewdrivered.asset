@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f0627a4860741578ec35e4340e83cc6, type: 3}
-  m_Name: DeconstructWhenWirecuttersUsed
+  m_Name: GrilleScrewdrivered
   m_EditorClassIdentifier: 
-  requiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+  requiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
   performerStartActionMessage: 
   othersStartActionMessage: 
-  seconds: 1
-  objectsToSpawn: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
+  seconds: 0.5
+  objectsToSpawn: {fileID: 11400000, guid: 3394d9840c0a6f54a9a42e92c998c3c5, type: 2}
   performerFinishActionMessage: 
   othersFinishActionMessage: 

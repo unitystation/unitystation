@@ -8,7 +8,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CommonPrefabsSingleton", menuName = "Singleton/CommonPrefabs")]
 public class CommonPrefabs : SingletonScriptableObject<CommonPrefabs>
 {
-
+	public GameObject MetalRod;
 	public GameObject Metal;
 	public GameObject Plasteel;
 	public GameObject GlassSheet;
