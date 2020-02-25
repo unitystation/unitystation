@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -80,16 +81,27 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	{
 		float waitTime = 0f;
 		bool canUncuff = false;
+
+		var handcuffs = thisPlayerScript.gameObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs).ItemObject;
+		float resistTime = handcuffs.GetComponent<Restraint>().ResistTime;
+
+		// Create progress bar
+		GameObject actor;
+		ProgressBar progressBar = StandardProgressAction
+			.Create(new StandardProgressActionConfig(StandardProgressActionType.Uncuff), () => { })
+			.ServerStartProgress((actor = thisPlayerScript.gameObject).RegisterTile(), resistTime, actor);
+
 		while (!canUncuff && !cancelToken.IsCancellationRequested)
 		{
 			waitTime += Time.deltaTime;
 			//Stop uncuff timer if needed
 			if (!CanUncuff())
 			{
+				progressBar.ServerInterruptProgress();
 				yield break;
 			}
 
-			if (waitTime > 30f)
+			if (waitTime > resistTime)
 			{
 				canUncuff = true;
 				thisPlayerScript.playerMove.Uncuff();
@@ -105,7 +117,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	bool CanUncuff()
 	{
 		PlayerHealth playerHealth = thisPlayerScript.playerHealth;
-		
+
 		if (playerHealth == null ||
 			playerHealth.ConsciousState == ConsciousState.DEAD ||
 			playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
