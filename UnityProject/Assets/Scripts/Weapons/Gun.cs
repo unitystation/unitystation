@@ -504,7 +504,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//this is our gun so we need to update our predictions
 			FireCountDown += 1.0 / FireRate;
-			CurrentMagazine.ExpendAmmo();
 			//add additional recoil after shooting for the next round
 			AppendRecoil();
 
@@ -520,6 +519,9 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			}
 			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 		}
+
+		//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
+		CurrentMagazine.ExpendAmmo();
 
 		//display the effects of the shot
 
