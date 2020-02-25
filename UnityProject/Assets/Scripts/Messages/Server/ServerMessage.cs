@@ -74,7 +74,7 @@ public abstract class ServerMessage : GameMessageBase
 
 		RaycastHit2D hit;
 		LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
-		for (int i = 0; i < players.Count; i++)
+		for (int i = players.Count - 1; i > 0; i--)
 		{
 			if (Vector2.Distance(worldPosition,
 				    players[i].GameObject.transform.position) > 14f)
@@ -98,7 +98,7 @@ public abstract class ServerMessage : GameMessageBase
 		foreach (ConnectedPlayer player in players)
 		{
 			if (player == null || player.Script == null || player.Script.netIdentity == null) continue;
-			
+
 			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
 			{
 				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);
@@ -114,7 +114,7 @@ public abstract class ServerMessage : GameMessageBase
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
-		for (int i = 0; i < players.Count; i++)
+		for (int i = players.Count - 1; i > 0; i--)
 		{
 			if (Vector2.Distance(worldPosition,
 				    players[i].GameObject.transform.position) > 15f)

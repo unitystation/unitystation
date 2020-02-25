@@ -17,7 +17,7 @@ public class RequestExamineMessage : ClientMessage
 	//members
 	// netid of target
 	public uint examineTarget;
-
+	public Vector3 mousePosition;
 	static RequestExamineMessage()
 	{
 		//constructor
@@ -48,7 +48,8 @@ public class RequestExamineMessage : ClientMessage
 		for (int i = 0; i < examinables.Count(); i++) 
 		{
 			examinable = examinables[i];
-			msg += $"{examinable.Examine()}";
+
+			msg += $"{examinable.Examine(mousePosition)}";
 
 			if (i != examinables.Count() - 1)
 			{
@@ -66,6 +67,17 @@ public class RequestExamineMessage : ClientMessage
 		var msg = new RequestExamineMessage()
 		{
 			examineTarget = targetNetId
+		};
+		msg.Send();
+	}
+
+	public static void Send(uint targetNetId, Vector3 mousePos)
+	{
+		// TODO: Log something?
+		var msg = new RequestExamineMessage()
+		{
+			examineTarget = targetNetId,
+			mousePosition = mousePos
 		};
 		msg.Send();
 	}
