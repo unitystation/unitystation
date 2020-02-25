@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// The main reinforced girder component
 /// </summary>
-public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IExaminable
 {
 	private TileChangeManager tileChangeManager;
 
@@ -108,6 +108,13 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 					});
 			}
 		}
+	}
+
+	public string Examine(Vector3 worldPos)
+	{
+		return (strutsUnsecured?"Secure support struts with a screwdriver, or remove the inner grille with a wirecutter."
+				:"Add Plasteel to finalize the reinforced wall, or use a screwdriver to unsecure the support struts.");
+
 	}
 
 	[Server]

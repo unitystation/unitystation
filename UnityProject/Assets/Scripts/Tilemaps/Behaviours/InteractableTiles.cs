@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 ///
 /// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>
+public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>, IExaminable
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -132,6 +132,12 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		}
 	}
 
+	public string Examine(Vector3 pos)
+	{
+		// Get Tile at position
+		LayerTile tile = LayerTileAt(pos);
+		return "A " + tile.DisplayName;
+	}
 
 	public bool Interact(PositionalHandApply interaction)
 	{

@@ -292,7 +292,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		return false;
 	}
 
-	public string  Examine()
+	public string  Examine(Vector3 pos)
 	{
 		return WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null?(CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine"):"It's empty!") + ")";
 	}
