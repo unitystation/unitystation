@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8710180731988369095, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: Reagents.Array.data[0]

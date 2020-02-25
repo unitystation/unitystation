@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8710180731988369095, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: Reagents.Array.data[0]
@@ -17,10 +22,36 @@ PrefabInstance:
       propertyPath: itemAttributes
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialName
+      value: Cognac
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 138f4cbbeec531c43b5adfb417f332d0,
+        type: 3}
+    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1129366686127204299, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: m_Name
-      value: Cognac1
+      value: Cognac
       objectReference: {fileID: 0}
     - target: {fileID: 1134857784536455871, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
@@ -77,31 +108,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialName
-      value: Cognac
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialDescription
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 138f4cbbeec531c43b5adfb417f332d0,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bffec0720d353440a0d06532a3221f6, type: 3}
