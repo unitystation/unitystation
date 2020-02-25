@@ -218,7 +218,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 	// When examine is triggered by the server on a player gameobj (by a shift click from another player)
 	// the target's Equipment component returns ID info based on presence of ID card in "viewable" slot (id and hands). 
 	// When ID card itself is examined, it should return full text.
-	public string Examine()
+	public string Examine(Vector3 worldPos)
 	{
 		return "This is the ID card of " + registeredName + ", station " + JobType + ".";
 	}
