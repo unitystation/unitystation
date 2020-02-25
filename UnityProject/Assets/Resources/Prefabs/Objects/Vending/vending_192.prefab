@@ -106,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114295623627170416
@@ -140,6 +139,8 @@ MonoBehaviour:
     Stock: 5
   - Item: {fileID: 7636118406116123594, guid: 5a6e2e3a0a44146198136e4fa2798db5, type: 3}
     Stock: 1
+  - Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
+    Stock: 10
   - Item: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
     Stock: 5
   HullColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
@@ -251,10 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 748728283
+  m_AssetId: f9d6bd1cf63124b3fbfbe23b71a13858
 --- !u!114 &-7662375091260369965
 MonoBehaviour:
   m_ObjectHideFlags: 0
