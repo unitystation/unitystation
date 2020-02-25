@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Mirror;
 
 public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler,
 	IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
@@ -26,6 +27,13 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 
 	public void OnClick()
 	{
+		//If shift is pressed, don't check anything, just send Examine on contained item if any.
+		if (KeyboardInputManager.IsShiftPressed() && itemSlot.Item != null)
+		{
+			RequestExamineMessage.Send(itemSlot.Item.GetComponent<NetworkIdentity>().netId);
+			return; 
+		}
+
 		SoundManager.Play("Click01");
 		//if there is an item in this slot, try interacting.
 		if (itemSlot.Item != null)

@@ -272,7 +272,7 @@ public class EncryptionKey : NetworkBehaviour
 
 	#endregion
 
-	public void OnExamine()
+	public void onExamine(Vector3 worldPos)
 	{
 		Chat.AddExamineMsgToClient(ExamineTexts[Type]);
 	}

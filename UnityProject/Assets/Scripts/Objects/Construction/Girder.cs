@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// The main girder component
 /// </summary>
-public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IExaminable
 {
 	private TileChangeManager tileChangeManager;
 
@@ -155,6 +155,12 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				Chat.AddExamineMsg(interaction.Performer, "You must unsecure it first.");
 			}
 		}
+	}
+
+	public string Examine(Vector3 worldPos)
+	{
+		return (objectBehaviour.IsPushable?"Use a wrench to secure to the floor, or a screwdriver to disassemble it."
+				:"Apply metal sheets to finalize the plating, or plasteel to reinforce the structure. Use a wrench to unsecure the girder.");
 	}
 
 	[Server]

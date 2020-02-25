@@ -1,14 +1,10 @@
+using UnityEngine;
+using System.Runtime.InteropServices;
 
 /// <summary>
 /// Indicates an Examinable Component -- Deets are coming later.
 /// </summary>
 public interface IExaminable
 {
-	/// <summary>
-	/// Describeme!
-	/// </summary>
-	/// <param name=""></param>
-	/// <returns>.</returns>
-	
-    string Examine();
+	string Examine(Vector3 worldPos = default(Vector3));
 }
