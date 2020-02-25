@@ -762,7 +762,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// so logic generating examine text can be completely separate from examine 
 	/// request or netmessage processing.
 	/// </summary>
-	public string Examine()
+	public string Examine(Vector3 worldPos)
 	{
 		var healthFraction = OverallHealth/maxHealth;
 		var healthString  = "";
