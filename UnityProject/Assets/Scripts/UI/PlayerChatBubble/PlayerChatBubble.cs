@@ -282,6 +282,11 @@ public class PlayerChatBubble : MonoBehaviour
 			// TODO Differentiate emoting from whispering (e.g. dotted line around text)
 
 		}
+		else if((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
+		{
+			bubbleSize = bubbleSizeCaps * screenHeightMultiplier;
+			bubbleText.fontStyle = FontStyles.Italic;
+		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
 			bubbleSize = bubbleSizeCaps * screenHeightMultiplier;

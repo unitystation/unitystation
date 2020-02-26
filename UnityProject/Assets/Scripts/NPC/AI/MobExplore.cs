@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// AI brain specifically trained to explore
@@ -10,10 +11,23 @@ public class MobExplore : MobAgent
 	//Add your targets as needed
 	public enum Target
 	{
-		food
+		food,
+		dirtyFloor,
+		missingFloor,
+		injuredPeople
 	}
 
 	public Target target;
+
+	[Tooltip("Indicates the time it takes for the mob to perform its main action. If the the time is 0, it means that the action is instantaneous.")]
+	[SerializeField]
+	private float actionPerformTime = 0.0f;
+
+	// Timer that indicates if the action perform time is reached and the action can be performed.
+	private float actionPerformTimer = 0.0f;
+
+	// Position at which an action is performed
+	protected Vector3Int actionPosition;
 
 	/// <summary>
 	/// Begin searching for the predefined target
@@ -39,7 +53,7 @@ public class MobExplore : MobAgent
 
 		ObserveAdjacentTiles();
 
-		//Search surrounding tiles for the food
+		//Search surrounding tiles for the target of interest (food, floors to clean, injured people, etc.)
 		for (int y = 1; y > -2; y--)
 		{
 			for (int x = -1; x < 2; x++)
@@ -70,6 +84,12 @@ public class MobExplore : MobAgent
 			case Target.food:
 				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null) return true;
 				return false;
+			case Target.dirtyFloor:
+				return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
+			case Target.missingFloor:
+				return false;
+			case Target.injuredPeople:
+				return false;
 		}
 
 		return false;
@@ -86,6 +106,14 @@ public class MobExplore : MobAgent
 				var edible = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
 				edible.NPCTryEat();
 				break;
+			case Target.dirtyFloor:
+				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).First(p => p.Cleanable);
+				floorDecal.TryClean();
+				break;
+			case Target.missingFloor:
+				break;
+			case Target.injuredPeople:
+				break;
 		}
 	}
 
@@ -94,13 +122,33 @@ public class MobExplore : MobAgent
 		PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
 	}
 
-
 	protected override void OnPushSolid(Vector3Int destination)
 	{
 		if (IsTargetFound(destination))
 		{
+			StartPerformAction(destination);
+		}
+	}
+
+	private void StartPerformAction(Vector3Int destination)
+	{
+		performingAction = true;
+		actionPosition = destination;
+
+		OnPerformAction();
+	}
+	
+	protected override void OnPerformAction()
+	{
+		actionPerformTimer += Time.deltaTime;
+
+		if ((actionPerformTime == 0) || (actionPerformTimer >= actionPerformTime))
+		{
 			SetReward(1f);
-			PerformTargetAction(destination);
+			PerformTargetAction(actionPosition);
+
+			actionPerformTimer = 0;
+			performingAction = false;
 		}
 	}
 }

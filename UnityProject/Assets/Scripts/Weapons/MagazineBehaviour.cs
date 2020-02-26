@@ -1,11 +1,12 @@
 ﻿using System;
 using Mirror;
+using UnityEngine;
 
 /// <summary>
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this
 /// behavior, server and client ammo counts are stored separately but can be synced with SyncClientAmmoRemainsWithServer().
 /// </summary>
-public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
+public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 {
 	/*
 	We keep track of 2 ammo counts. The server's ammo count is authoritative, but when ammo is being
@@ -37,7 +38,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 	/// RNG whose seed is based on the netID of the magazine and which provides a random value based
 	/// on how much ammo the magazine has left.
 	/// </summary>
-	private Random magSyncedRNG;
+	private System.Random magSyncedRNG;
 
 	private double currentRNG;
 
@@ -71,7 +72,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 	/// </summary>
 	public void SyncPredictionWithServer()
 	{
-		magSyncedRNG = new Random(GetComponent<NetworkIdentity>().netId.GetHashCode());
+		magSyncedRNG = new System.Random(GetComponent<NetworkIdentity>().netId.GetHashCode());
 		currentRNG = magSyncedRNG.NextDouble();
 		//fast forward RNG based on how many shots are spent
 		var shots = magazineSize - serverAmmoRemains;
@@ -146,6 +147,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn
 	{
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
 		return currentRNG;
+	}
+
+	public String Examine(Vector3 pos)
+	{
+		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0?(ServerAmmoRemains.ToString() + " left"):"empty") + ")";
 	}
 }
 
