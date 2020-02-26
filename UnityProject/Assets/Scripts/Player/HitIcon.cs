@@ -21,22 +21,27 @@ public class HitIcon : MonoBehaviour
 	/// </summary>
 	/// <param name="dir">direction of the animation in world space</param>
 	/// <param name="sprite">sprite to show</param>
-	public void ShowHitIcon(Vector2 dir, Sprite sprite)
+	public void ShowHitIcon(Vector2 dir, SpriteRenderer sourceSpriteRenderer)
 	{
 		if (isFading)
 		{
 			return;
 		}
+	
 
 		Vector3 lerpFromWorld = transform.position + (Vector3)(dir * 0.75f);
 		Vector3 lerpToWorld = transform.position + (Vector3)(dir);
 		Vector3 lerpFromLocal = transform.parent.InverseTransformPoint(lerpFromWorld);
 		Vector3 lerpToLocal = transform.parent.InverseTransformPoint(lerpToWorld);
+		MaterialPropertyBlock pb = new MaterialPropertyBlock();
+		sourceSpriteRenderer.GetPropertyBlock(pb);
 
 		lerpFrom = lerpFromLocal;
 		lerpTo = lerpToLocal;
 		isFading = true;
-		spriteRenderer.sprite = sprite;
+		spriteRenderer.sprite = sourceSpriteRenderer.sprite;
+		spriteRenderer.SetPropertyBlock(pb);
+		
 
 		if (gameObject.activeInHierarchy)
 		{

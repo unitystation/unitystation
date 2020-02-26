@@ -414,7 +414,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 336da4a5fda7493ebd53fa0e22e735b7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -552,16 +552,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 224967865624109758, guid: 0a36e7746e72ce54b9514a7008acebda,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 2.274994
-      objectReference: {fileID: 0}
-    - target: {fileID: 224967865624109758, guid: 0a36e7746e72ce54b9514a7008acebda,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -35.45
-      objectReference: {fileID: 0}
     - target: {fileID: 3596009023527299996, guid: 0a36e7746e72ce54b9514a7008acebda,
         type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.size
@@ -626,6 +616,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 224967865624109758, guid: 0a36e7746e72ce54b9514a7008acebda,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 2.274994
+      objectReference: {fileID: 0}
+    - target: {fileID: 224967865624109758, guid: 0a36e7746e72ce54b9514a7008acebda,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -35.45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a36e7746e72ce54b9514a7008acebda, type: 3}

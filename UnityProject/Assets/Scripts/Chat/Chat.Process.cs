@@ -72,7 +72,13 @@ public partial class Chat
 		}
 
 		// Emote
-		if (message.StartsWith("/me "))
+		if (message.StartsWith("*"))
+		{
+			message = message.Substring(1);
+			chatModifiers |= ChatModifier.Emote;
+		}
+		// Emote alias
+		else if (message.StartsWith("/me "))
 		{
 			message = message.Substring(4);
 			chatModifiers |= ChatModifier.Emote;
@@ -82,6 +88,26 @@ public partial class Chat
 		{
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Whisper;
+		}
+		// Whisper alias
+		else if (message.StartsWith("/w "))
+		{
+			message = message.Substring(3);
+			chatModifiers |= ChatModifier.Whisper;
+		}
+		// Sing
+		else if (message.StartsWith("%"))
+		{
+			message = message.Substring(1);
+			message = Sing(message);
+			chatModifiers |= ChatModifier.Sing;
+		}
+		// Sing alias
+		else if (message.StartsWith("/s "))
+		{
+			message = message.Substring(3);
+			message = Sing(message);
+			chatModifiers |= ChatModifier.Sing;
 		}
 		// Involuntaly whisper due to not being fully concious
 		else if (playerConsciousState == ConsciousState.BARELY_CONSCIOUS)
@@ -117,7 +143,6 @@ public partial class Chat
 			}
 			chatModifiers |= ChatModifier.Clown;
 		}
-
 		// TODO None of the followinger modifiers are currently in use.
 		// They have been commented out to prevent compile warnings.
 
@@ -229,6 +254,11 @@ public partial class Chat
 			verb = "whispers,";
 			message = $"<i>{message}</i>";
 		}
+		else if ((modifiers & ChatModifier.Sing) == ChatModifier.Sing)
+		{
+			verb = "sings,";
+			message += " ♫" ;
+		}
 		else if ((modifiers & ChatModifier.Yell) == ChatModifier.Yell)
 		{
 			verb = "yells,";
@@ -335,6 +365,23 @@ public partial class Chat
 		return stutter;
 	}
 
+	private static string Sing(string m)
+	{
+		string song = "";
+
+		foreach (char c in m)
+		{
+			char current = c;
+			if(Random.Range(1,6) == 1)
+			{
+				current = char.ToUpper(c);
+			}
+			song += current;
+		}
+
+		return song;
+	}
+
 	private static string AddMsgColor(ChatChannel channel, string message)
 	{
 		return $"<color=#{GetChannelColor(channel)}>{message}</color>";
@@ -359,7 +406,7 @@ public partial class Chat
 			{
 				while (messageQueue.TryDequeue(out var msg))
 				{
-					AddLocalMsgToChat(msg.Message + postfix, msg.WorldPosition);
+					AddLocalMsgToChat(msg.Message + postfix, msg.WorldPosition, null);
 				}
 				continue;
 			}
@@ -367,8 +414,9 @@ public partial class Chat
 			//Combined message at average position
 			stringBuilder.Clear();
 
-			int averageX = 0;
-			int averageY = 0;
+//			int averageX = 0;
+//			int averageY = 0;
+			Vector2Int lastPos = Vector2Int.zero;
 			int count = 1;
 
 			while (messageQueue.TryDequeue(out DestroyChatMessage msg))
@@ -378,12 +426,14 @@ public partial class Chat
 					stringBuilder.Append(", ");
 				}
 				stringBuilder.Append(msg.Message);
-				averageX += msg.WorldPosition.x;
-				averageY += msg.WorldPosition.y;
+//				averageX += msg.WorldPosition.x;
+//				averageY += msg.WorldPosition.y;
+				lastPos = msg.WorldPosition;
 				count++;
 			}
 
-			AddLocalMsgToChat(stringBuilder.Append(postfix).ToString(), new Vector2Int(averageX / count, averageY / count));
+//			AddLocalMsgToChat(stringBuilder.Append(postfix).ToString(), new Vector2Int(averageX / count, averageY / count));
+			AddLocalMsgToChat(stringBuilder.Append(postfix).ToString(), lastPos, null);
 		}
 	}
 
@@ -523,7 +573,7 @@ public partial class Chat
 		if (string.IsNullOrEmpty(playerInput))
 			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None);
 
-		// all extracted channels from special chars 
+		// all extracted channels from special chars
 		ChatChannel extractedChanel = ChatChannel.None;
 		// how many special chars we need to delete
 		int specialCharCount = 0;
@@ -540,7 +590,7 @@ public partial class Chat
 			// it's a channel message! Can we take a second char?
 			if (playerInput.Length > 1)
 			{
-				var secondLetter = playerInput[1];
+				var secondLetter = char.ToLower(playerInput[1]);
 				// let's try find desired chanel
 				if (ChanelsTags.ContainsKey(secondLetter))
 				{

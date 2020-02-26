@@ -47,15 +47,12 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 
 	private Directional directional;
 
-	void OnEnable()
-	{
-		EnsureInit();
-	}
-
 	private void EnsureInit()
 	{
-		if (directional != null || gameObject == null) return;
-
+		if (this == null)
+		{
+			return;
+		}
 		directional = GetComponent<Directional>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -69,7 +66,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		//and the rest of the mask caches:
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
-		WaitForLoad();
+		EnsureInit();
 		if(!SelfPowered) DetectAPC();
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
@@ -105,15 +102,9 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 	}
 	public override void OnStartClient()
 	{
+		base.OnStartClient();
 		EnsureInit();
 		SyncLightSwitch(isOn, this.isOn);
-		StartCoroutine(WaitForLoad());
-	}
-
-	private IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(3f);
-		SyncLightSwitch(isOn, isOn);
 	}
 
 	public bool Interact(HandApply interaction)

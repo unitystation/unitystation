@@ -67,10 +67,16 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	private void EnsureInit()
 	{
 		if (pickupable != null) return;
+
 		pickupable = GetComponent<Pickupable>();
-		reagentContainer = GetComponent<ReagentContainer>();
 		itemAtts = GetComponent<ItemAttributesV2>();
 		registerTile = GetComponent<RegisterTile>();
+
+		reagentContainer = GetComponent<ReagentContainer>();
+		if (reagentContainer != null)
+		{
+			reagentContainer.OnSpillAllContents.AddListener(ServerEmptyWelder);
+		}
 
 		damageOff = itemAtts.ServerHitDamage;
 
@@ -95,6 +101,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		ServerToggleWelder(interaction.Performer);
+	}
+
+	[Server]
+	public void ServerEmptyWelder()
+	{
+		SyncIsOn(isOn, false);
 	}
 
 	[Server]
@@ -209,5 +221,4 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 			yield return WaitFor.Seconds(.1f);
 		}
 	}
-
 }

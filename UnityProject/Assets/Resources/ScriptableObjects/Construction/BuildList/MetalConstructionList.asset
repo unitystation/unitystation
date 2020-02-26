@@ -70,15 +70,15 @@ MonoBehaviour:
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
-  - name: 4x Floor Tiles
+  - name: Floor Tiles x4
     prefab: {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
       type: 3}
     cost: 1
     buildTime: 5
     spawnAmount: 4
     onePerTile: 0
-  - name: 2x Metal Rods
-    prefab: {fileID: 4386653123902480855, guid: 2a170fdb7187e38459de34c4d2b131ad,
+  - name: Metal Rods x2
+    prefab: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
       type: 3}
     cost: 1
     buildTime: 5
@@ -104,14 +104,13 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
   - name: Low-voltage Machine Connector
-    prefab: {fileID: 783131783223160221, guid: eb3039e757a51bd42aa5d92b0a3711ef, type: 3}
+    prefab: {fileID: 1127054139694796, guid: e84d2342632015b4b8ce3227cb04533b, type: 3}
     cost: 2
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
   - name: Medium-voltage Machine Connector
-    prefab: {fileID: 2576181618821966758, guid: d88c145d60cabfd4092f839650cea997,
-      type: 3}
+    prefab: {fileID: 1127054139694796, guid: a6f87f3db636f2c4ba3aa4763aba4c3b, type: 3}
     cost: 2
     buildTime: 2
     spawnAmount: 1
@@ -125,6 +124,12 @@ MonoBehaviour:
   - name: Department Battery
     prefab: {fileID: 1575520830166772, guid: d72e24d0fc40a7545aad2f4e4f978d33, type: 3}
     cost: 30
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: SMES Battery
+    prefab: {fileID: 1575520830166772, guid: 35eed4273d90143b0926de4715bbc06e, type: 3}
+    cost: 40
     buildTime: 10
     spawnAmount: 1
     onePerTile: 1

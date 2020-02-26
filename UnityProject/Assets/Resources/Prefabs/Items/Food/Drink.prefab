@@ -14,9 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  leavings: {fileID: 0}
-  healAmount: 5
-  healHungerAmount: 5
+  leavings: {fileID: 5426160498802093876, guid: 73832b33f58924a40b5c771587f9707e,
+    type: 3}
+  plantData:
+    ProduceObject: {fileID: 0}
+    Name: 
+    Plantname: 
+    Description: 
+    PacketsSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    GrowthSprites: []
+    FullyGrownSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    WeedResistance: 5
+    WeedGrowthRate: 1
+    GrowthSpeed: 6
+    Potency: 15
+    Endurance: 15
+    Yield: 4
+    Lifespan: 25
+    PlantTrays: 
+    ReagentProduction: []
+    MutatesInTo: []
+  nutritionLevel: 5
 --- !u!114 &-8495944252109480343
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,10 +13,12 @@ public class Mind
 	public PlayerScript ghost;
 	public PlayerScript body;
 	private SpawnedAntag Antag;
-	public bool IsAntag => Antag !=null;
+	public bool IsAntag => Antag != null;
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
+	//Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
+	public bool IsSpectator => occupation == null || body == null;
 
 	//use Create to create a mind.
 	private Mind()
@@ -33,6 +35,19 @@ public class Mind
 		var mind = new Mind {occupation = occupation};
 		var playerScript = player.GetComponent<PlayerScript>();
 		mind.SetNewBody(playerScript);
+	}
+
+	/// <summary>
+	/// Create as a Ghost
+	/// </summary>
+	/// <param name="player"></param>
+	public static void Create(GameObject player)
+	{
+		var playerScript = player.GetComponent<PlayerScript>();
+		var mind = new Mind { };
+		playerScript.mind = mind;
+		//Forces you into ghosting, the IsGhosting field should make it so it never points to Body
+		mind.Ghosting(player);
 	}
 
 	public void SetNewBody(PlayerScript playerScript)
@@ -87,23 +102,24 @@ public class Mind
 
 	public bool ConfirmClone(int recordMobID)
 	{
-		if(bodyMobID != recordMobID){  //an old record might still exist even after several body swaps
+		if (bodyMobID != recordMobID)
+		{  //an old record might still exist even after several body swaps
 			return false;
 		}
-		if(DenyCloning)
+		if (DenyCloning)
 		{
 			return false;
 		}
 		var currentMob = GetCurrentMob();
-		if(!IsGhosting)
+		if (!IsGhosting)
 		{
 			var livingHealthBehaviour = currentMob.GetComponent<LivingHealthBehaviour>();
-			if(!livingHealthBehaviour.IsDead)
+			if (!livingHealthBehaviour.IsDead)
 			{
 				return false;
 			}
 		}
-		if(!IsOnline(currentMob))
+		if (!IsOnline(currentMob))
 		{
 			return false;
 		}

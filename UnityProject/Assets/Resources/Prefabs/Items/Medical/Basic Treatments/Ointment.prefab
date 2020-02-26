@@ -20,31 +20,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: m_Name
-      value: Ointment
+      propertyPath: stacksWith.Array.size
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 0
+      propertyPath: initialAmount
+      value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialName
-      value: Ointment
+      propertyPath: maxAmount
+      value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialDescription
-      value: Used to cure burn damage.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
-        type: 3}
-      propertyPath: m_AssetId
+      propertyPath: stacksWith.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6748581008247049004}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -100,15 +95,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: initialAmount
-      value: 6
+      propertyPath: m_Name
+      value: Ointment
       objectReference: {fileID: 0}
-    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
-      propertyPath: maxAmount
-      value: 6
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -116,6 +111,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9293241e3658c1948ab162518b0cd7ba,
         type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialName
+      value: Ointment
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialDescription
+      value: Used to cure burn damage.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
 --- !u!1 &6748581008247049004 stripped

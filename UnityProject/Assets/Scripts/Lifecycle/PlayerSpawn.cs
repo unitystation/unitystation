@@ -26,7 +26,7 @@ public static class PlayerSpawn
 		if (newPlayer)
 		{
 			if (occupation.JobType != JobType.SYNDICATE &&
-			    occupation.JobType != JobType.AI)
+				occupation.JobType != JobType.AI)
 			{
 				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
 			}
@@ -56,6 +56,9 @@ public static class PlayerSpawn
 	/// <param name="forMind"></param>
 	public static void ServerRespawnPlayer(Mind forMind)
 	{
+		if (forMind.IsSpectator)
+			return;
+
 		//get the settings from the mind
 		var occupation = forMind.occupation;
 		var oldBody = forMind.GetCurrentMob();
@@ -257,7 +260,7 @@ public static class PlayerSpawn
 			spawnPosition = spawnTransform.transform.position.CutToInt();
 		}
 
-		var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
+		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
@@ -278,6 +281,26 @@ public static class PlayerSpawn
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 	}
 
+	/// <summary>
+	/// Spawns as a ghost for spectating the Round
+	/// </summary>
+	public static void ServerSpawnGhost(JoinedViewer joinedViewer)
+	{
+		//Hard coding to assistant
+		Vector3Int spawnPosition = GetSpawnForJob(JobType.ASSISTANT).transform.position.CutToInt();
+
+		//Get spawn location 
+		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
+		var parentNetId = matrixInfo.NetID;
+		var parentTransform = matrixInfo.Objects;
+		var newPlayer = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation, parentTransform);
+		newPlayer.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
+
+		//Create the mind without a job refactor this to make it as a ghost mind 
+		Mind.Create(newPlayer);
+		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, EVENT.GhostSpawned, PlayerManager.CurrentCharacterSettings);
+
+	}
 
 	/// <summary>
 	/// Spawns an assistant dummy
@@ -312,7 +335,7 @@ public static class PlayerSpawn
 	{
 		//player is only spawned on server, we don't sync it to other players yet
 		var spawnPosition = spawnWorldPosition;
-		var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
+		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 
@@ -391,7 +414,7 @@ public static class PlayerSpawn
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
 		bool newMob = false;
-		if(characterSettings != null)
+		if (characterSettings != null)
 		{
 			playerScript.characterSettings = characterSettings;
 			playerScript.playerName = characterSettings.Name;
@@ -404,7 +427,7 @@ public static class PlayerSpawn
 			newMob = true;
 		}
 		var healthStateMonitor = newBody.GetComponent<HealthStateMonitor>();
-		if(healthStateMonitor)
+		if (healthStateMonitor)
 		{
 			healthStateMonitor.ProcessClientUpdateRequest(newBody);
 		}

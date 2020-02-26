@@ -16,7 +16,7 @@ public class NetSpriteImage : NetUIElement
 			externalChange = true;
 			//don't update if it's the same sprite
 			if ( spriteName != value ) {
-				var split = value.Split( new []{'@'} , StringSplitOptions.RemoveEmptyEntries );
+				string[] split = value.Split( new []{'@'} , StringSplitOptions.RemoveEmptyEntries );
 				switch ( split.Length ) {
 					case 0:
 						//don't load anything
@@ -31,7 +31,7 @@ public class NetSpriteImage : NetUIElement
 							Sprites.Add( spriteFile, Resources.LoadAll<Sprite>( spriteFile ) );
 						}
 
-						var spriteSheet = Sprites[spriteFile];
+						Sprite[] spriteSheet = Sprites[spriteFile];
 						int index;
 						if ( int.TryParse( split[1], out index ) && spriteSheet?.Length > 0 ) {
 							Element.sprite = spriteSheet[index];

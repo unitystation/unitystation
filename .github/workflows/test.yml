@@ -8,7 +8,7 @@ on:
     paths:
     - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
-    - '.github/workflows/main.yml'
+    - '.github/workflows/**'
     - 'Docker/**'
   pull_request:
     branches:
@@ -17,7 +17,7 @@ on:
     paths:
     - 'Tools/UnityLicense.ulf'
     - 'UnityProject/**'
-    - '.github/workflows/main.yml'
+    - '.github/workflows/**'
 
 jobs:
 
@@ -96,14 +96,30 @@ jobs:
           license="${license//$'\n'/'%0A'}"
           license="${license//$'\r'/'%0D'}"
           echo "::set-env name=UNITY_LICENSE::$license"
+      # Delete unity version file (test runner will crash otherwise)
+      - name: Delete ProjectVersion.txt
+        run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt        
       # Run tests - only edit mode supported
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.3
+        uses: webbertakken/unity-test-runner@v1.5
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
+          
+      # Install dotnet
+      - name: Installing dotnet
+        if: always()
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '2.1.202'
+          
+      # Do the report magic
+      - name: Generate .html report
+        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
+        if: always()
+        
       # Upload test results
       - name: Upload Test Results
         if: always()

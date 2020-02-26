@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Engineer
   m_EditorClassIdentifier: 
   jobType: 20
-  displayName: Engineer
   inventoryPopulator: {fileID: 11400000, guid: aeb66e4be690d4b7e9ca83169dc2871a, type: 2}
   limit: 5
   priority: 88
-  choiceColor: {r: 1, g: 0.9607843, b: 0.8, a: 1}
   allowedAccess: 1a0000001e0000001f00000020000000220000003100000032000000
+  progress: 45
+  choiceColor: {r: 1, g: 0.9607843, b: 0.8, a: 1}
+  previewSprite: {fileID: 21300000, guid: 43b5f4a4e76c75946ae59cae83ea7c6f, type: 3}
+  displayName: Engineer
+  difficulty: 2
+  descriptionShort: "\u2022 Do station repairs\n\u2022 Keep power flowing\n\u2022
+    Fix hull breaches"
+  descriptionLong: 
