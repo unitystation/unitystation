@@ -22,6 +22,12 @@ PrefabInstance:
       propertyPath: canQuickEmpty
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4584300732884025589, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: actionData
+      value: 
+      objectReference: {fileID: 11400000, guid: be9856a38a3b7d44198fc4fcd9df4d47,
+        type: 2}
     - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: initialName
@@ -204,6 +210,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Infos.AID
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732539154265465329, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: m_Name
+      value: TrashBag
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 781920904040974749, guid: a379cfb2056ee4a0f8ce1f68696ef45c, type: 3}
