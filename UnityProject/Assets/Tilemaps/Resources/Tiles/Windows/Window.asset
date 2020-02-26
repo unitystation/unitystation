@@ -50,7 +50,9 @@ MonoBehaviour:
     Bio: 0
   tileInteractions:
   - {fileID: 11400000, guid: 4635ca63f127a4b1cb58c7ff9de5695a, type: 2}
-  spawnOnDeconstruct: {fileID: 0}
+  - {fileID: 11400000, guid: 2d0f8701c6446414a87a614f7a51afef, type: 2}
+  spawnOnDeconstruct: {fileID: 7376449702682419346, guid: 57d7f51b1b16e5247960ddea2ddea03f,
+    type: 3}
   spawnAmountOnDeconstruct: 1
   connectCategory: 1
   connectType: 1
