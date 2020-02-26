@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
+//TODO: DOES NOT WORK AS EXPECTED. Damage randomization does not function yet. Will need to update how damage is calculated.
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
 /// Is a copy of Meleeable, does exactly what it does (Allows an object or tiles to be attacked by melee.) except
