@@ -140,4 +140,81 @@ public class UIActionManager : MonoBehaviour
 		}
 		DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
 	}
+
+	public void OnPlayerDie()
+	{
+		CheckEvent(EVENT.PlayerDied);
+	}
+
+	public void OnPlayerSpawn()
+	{
+		CheckEvent(EVENT.PlayerSpawned);
+	}
+
+	public void LoggedOut()
+	{
+		CheckEvent(EVENT.LoggedOut);
+	}
+
+
+	public void RoundStarted()
+	{
+		CheckEvent(EVENT.RoundStarted);
+	}
+
+
+	public void GhostSpawned()
+	{
+		CheckEvent(EVENT.GhostSpawned);
+	}
+
+
+	public void PlayerRejoined()
+	{
+		CheckEvent(EVENT.PlayerRejoined);
+	}
+
+	public void CheckEvent(EVENT Event)
+	{
+		var TOremove = new List<IActionGUI>();
+		foreach (var _Action in DicIActionGUI)
+		{
+			if (_Action.Key.ActionData.DisableOnEvent.Contains(Event)) { 
+				_Action.Value.Pool();
+				TOremove.Add(_Action.Key);
+			}
+		}
+		foreach (var Remove in TOremove) {
+			DicIActionGUI.Remove(Remove);
+		}
+	}
+
+
+
+
+	private void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDie);
+		EventManager.AddHandler(EVENT.PlayerSpawned, OnPlayerSpawn);
+
+		EventManager.AddHandler(EVENT.LoggedOut, LoggedOut);
+		EventManager.AddHandler(EVENT.RoundStarted, RoundStarted);
+		EventManager.AddHandler(EVENT.GhostSpawned, GhostSpawned);
+		EventManager.AddHandler(EVENT.PlayerRejoined, PlayerRejoined);
+	
+	}
+
+	private void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDie);
+		EventManager.RemoveHandler(EVENT.PlayerSpawned, OnPlayerSpawn);
+
+		EventManager.RemoveHandler(EVENT.LoggedOut, LoggedOut);
+		EventManager.RemoveHandler(EVENT.RoundStarted, RoundStarted);
+		EventManager.RemoveHandler(EVENT.GhostSpawned, GhostSpawned);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, PlayerRejoined);
+	}
+
 }
