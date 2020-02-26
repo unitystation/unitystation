@@ -27,8 +27,8 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		Spawn.ServerPrefab("GlassShard", gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(2, 4),
-			scatterRadius: Random.Range(1, 2), cancelIfImpassable: true);
+		Spawn.ServerPrefab("GlassShard", gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(1, 4),
+			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
 		SoundManager.PlayNetworkedAtPos("GlassBreak0#", gameObject.TileWorldPosition().To3Int(), 1f);
 	}
