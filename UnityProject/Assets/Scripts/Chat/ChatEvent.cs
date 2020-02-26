@@ -47,11 +47,12 @@ public enum ChatModifier
 	Mute 	= 1 << 2, // Dead, unconcious or naturally mute
 	Hiss 	= 1 << 3,
 	Clown 	= 1 << 4, // Having the clown occupation
-	Whisper = 1 << 5, // Message starts with "#"
+	Whisper = 1 << 5, // Message starts with "#" or "/w"
 	Yell    = 1 << 6, // Message is in capital letters
-	Emote   = 1 << 7, // Message starts with "/me"
+	Emote   = 1 << 7, // Message starts with "/me" or "*"
 	Exclaim = 1 << 8, // Message ends with a "!"
-	Question= 1 << 9 // Message ends with a "?"
+	Question= 1 << 9, // Message ends with a "?"
+	Sing = 1 << 10 // Message starts with "/s" or "%"
 }
 
 public class ChatEvent

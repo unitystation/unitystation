@@ -24,7 +24,9 @@ public class TabInteractMessage : ClientMessage
 	private void ProcessFurther(ConnectedPlayer player, GameObject tabProvider)
 	{
 		var playerScript = player.Script;
-		bool validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server);
+		//First Validations is for objects in the world (computers, etc), second check is for items in active hand (null rod, PADs).
+		bool validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
+		 || playerScript.ItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
 		if ( !validate ) {
 			FailValidation( player, tabProvider, "Can't interact/reach" );
 			return;

@@ -100,7 +100,7 @@ public class MetabolismSystem : NetworkBehaviour
 	/// <summary>
 	/// How much hunger is applied per metabolism tick
 	/// </summary>
-	public int HungerRate { get; set; } = 2;
+	public int HungerRate { get; set; } = 1;
 
 	private BloodSystem bloodSystem;
 	private PlayerMove playerMove;

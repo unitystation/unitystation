@@ -144,7 +144,7 @@ public class Equipment : NetworkBehaviour, IExaminable
 			}
 		}
 	
-	public String Examine()
+	public string Examine(Vector3 worldPos)
 	{
 		// Collect clothing + ID info.
 		string msg = "This is " + GetComponent<PlayerScript>().visibleName + ".";

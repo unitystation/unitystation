@@ -136,14 +136,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	private void OnExamine()
 	{
-		if (!string.IsNullOrEmpty(initialDescription))
-		{
-			Chat.AddExamineMsgToClient(initialDescription);
-		}
+		RequestExamineMessage.Send(GetComponent<NetworkIdentity>().netId);
 	}
 
 	// Initial implementation of shift examine behaviour
-	public string Examine()
+	public string Examine(Vector3 worldPos)
 	{
 		string displayName = "<error>";
 		if (string.IsNullOrWhiteSpace(articleName))
