@@ -40,6 +40,9 @@ public class DoorController : NetworkBehaviour
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
 
+		[Tooltip("Does this door open automatically when you walk into it?")]
+		public bool IsAutomatic = true;
+
 		public bool IsOpened;
 		[SyncVar(hook = nameof(SyncIsWelded))]
 		[HideInInspector]private bool isWelded = false;

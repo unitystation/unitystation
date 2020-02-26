@@ -51,7 +51,7 @@ public class InteractableDoor : MonoBehaviour, IPredictedCheckedInteractable<Han
 	/// </summary>
 	public void Bump(GameObject byPlayer)
 	{
-		if (!Controller.IsOpened)
+		if (!Controller.IsOpened && Controller.IsAutomatic)
 		{
 			Controller.ServerTryOpen(byPlayer);
 		}
