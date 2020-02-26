@@ -124,12 +124,12 @@ public class ChatBubble : MonoBehaviour
 	private void OnEnable()
 	{
 		cam = Camera.main;
-		UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
+		UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.FIXED_UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -275,7 +275,7 @@ public class ChatBubble : MonoBehaviour
     /// </summary>
     private void UpdateChatBubbleSize()
     {
-	    chatBubbleRectTransform.localScale = new Vector3(bubbleSize, bubbleSize, 1);
+	    transform.localScale = new Vector3(bubbleSize, bubbleSize, 1);
     }
 
     public void ReturnToPool()

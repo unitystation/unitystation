@@ -18,7 +18,7 @@ public class ShowChatBubbleMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(FollowTransform);
-		var target = NetworkObjects[0].transform;
+		var target = NetworkObject.transform;
 
 		if (IsPlayerChatBubble)
 		{
