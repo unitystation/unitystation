@@ -27,6 +27,11 @@ public class ChatBubbleManager : MonoBehaviour
 
     void Start()
     {
+	    if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
+	    {
+		    PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, 2f);
+		    PlayerPrefs.Save();
+	    }
 	    SceneManager.activeSceneChanged += OnSceneChange;
 	    StartCoroutine(InitCache());
     }

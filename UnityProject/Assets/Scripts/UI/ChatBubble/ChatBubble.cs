@@ -76,12 +76,7 @@ public class ChatBubble : MonoBehaviour
 	/// The current size of the chat bubble determined by vocalization. Will be scaled by the zoomMultiplier.
 	/// </summary>
 	private float bubbleSize = 2;
-
-	[SerializeField]
-	[Tooltip("The text size when the player speaks like a normal person.")]
-	[Range(1, 100)]
-	private float bubbleSizeNormal = 2;
-
+	
 	[SerializeField]
 	[Tooltip("The size multiplier of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
 	[Range(1, 100)]
@@ -230,7 +225,7 @@ public class ChatBubble : MonoBehaviour
     /// <param name="msg"> Player's chat message </param>
     private void SetBubbleParameters(string msg, ChatModifier modifiers)
     {
-	    bubbleSize = bubbleSizeNormal;
+	    bubbleSize = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
 	    bubbleText.fontStyle = FontStyles.Normal;
 	    bubbleText.font = fontDefault;
 
