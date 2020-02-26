@@ -23,6 +23,12 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 
 	public ActionData ActionData => actionData;
 
+	/// <summary>
+	/// Registers the uncuffing process.
+	/// </summary>
+	private bool isUnCuffing;
+	public bool IsUncuffing => isUnCuffing;
+
 
 	public override void SetReference(GameObject Item)
 	{
@@ -93,10 +99,12 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 
 		while (!canUncuff && !cancelToken.IsCancellationRequested)
 		{
+			isUnCuffing = true;
 			waitTime += Time.deltaTime;
 			//Stop uncuff timer if needed
 			if (!CanUncuff())
 			{
+				isUnCuffing = false;
 				progressBar.ServerInterruptProgress();
 				yield break;
 			}
@@ -104,6 +112,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 			if (waitTime > resistTime)
 			{
 				canUncuff = true;
+				isUnCuffing = false;
 				thisPlayerScript.playerMove.Uncuff();
 				Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 					thisPlayerScript.playerName + " has removed their cuffs");
