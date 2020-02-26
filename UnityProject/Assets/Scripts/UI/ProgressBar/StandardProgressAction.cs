@@ -256,9 +256,16 @@ public class StandardProgressAction : IProgressAction
 
 	private bool CanPlayerStillProgress()
 	{
+		bool isUnCuffing = false;
+		if (playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem) &&
+		    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+		{
+			isUnCuffing = restraintOverlay.IsUncuffing;
+		}
 		//note: doesn't check cross matrix situations.
 		return playerScript.playerHealth.ConsciousState == initialConsciousState &&
-		       !playerScript.playerMove.IsCuffed &&
+		       (!playerScript.playerMove.IsCuffed ||
+		        isUnCuffing) &&
 		       !playerScript.registerTile.IsSlippingServer &&
 		       (progressActionConfig.AllowTurning ||
 		        playerScript.playerDirectional.CurrentDirection != initialDirection) &&
