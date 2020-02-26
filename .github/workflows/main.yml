@@ -108,6 +108,7 @@ jobs:
         run: |
           sudo apt-get install moreutils
           jq --arg v "$GITHUB_RUN_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
+          jq --arg v "UnityStationDevelop" '.ForkName = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
           jq --arg v "$CDN_PATH_WIN" '.WinDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_OSX" '.OSXDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_LIN" '.LinuxDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
@@ -127,6 +128,34 @@ jobs:
         with:
           name: ${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+
+  Upload:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    needs: performBuild
+    name: Upload build to CDN
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneWindows64
+          - StandaloneOSX
+          - StandaloneLinux64
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: ${{ matrix.targetPlatform }}
+          path: ./Build
+      - uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq -r ./Zipped/${{ matrix.targetPlatform }}.zip ./Build
+      - name: FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@3.0.0
+        with:
+          ftp-server: ftp://${{ secrets.CDN_HOST }}/UnityStationDevelop/
+          ftp-username: ${{ secrets.CDN_USERNAME }}
+          ftp-password: ${{ secrets.CDN_PASSWORD }}
+          local-dir: ./Zipped/
 
   Imaging:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
