@@ -40,6 +40,34 @@ public class ChatBubbleManager : MonoBehaviour
 	    }
     }
 
+    /// <summary>
+    /// Display a chat bubble and make it follow a transform target
+    /// </summary>
+    /// <param name="msg">Text to show in the chat bubble</param>
+    /// <param name="followTarget">The transform in the world for the bubble to follow</param>
+    /// <param name="chatModifier">Any chat modifiers that need to be applied</param>
+    public static void ShowAChatBubble(Transform followTarget, string msg,
+	    ChatModifier chatModifier = ChatModifier.None)
+    {
+		Instance.GetChatBubbleFromPool().SetupBubble(followTarget, msg, chatModifier);
+    }
+
+    ChatBubble GetChatBubbleFromPool()
+    {
+	    var index = chatBubblePool.FindIndex(x => !x.gameObject.activeInHierarchy);
+
+	    if (index != -1)
+	    {
+		    return chatBubblePool[index];
+	    }
+	    else
+	    {
+		    var newBubble = SpawnNewChatBubble();
+		    chatBubblePool.Add(newBubble);
+		    return newBubble;
+	    }
+    }
+
     ChatBubble SpawnNewChatBubble()
     {
 	    var obj = Instantiate(chatBubblePrefab, Vector3.zero, Quaternion.identity);
