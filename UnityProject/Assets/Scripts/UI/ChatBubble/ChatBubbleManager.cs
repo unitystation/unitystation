@@ -20,10 +20,33 @@ public class ChatBubbleManager : MonoBehaviour
 		    return chatBubbleManager;
 	    }
     }
-    
+
+    private List<ChatBubble> chatBubblePool = new List<ChatBubble>();
+    [SerializeField] private GameObject chatBubblePrefab;
+    [SerializeField] private int initialPoolSize = 10;
+
     void Start()
     {
 	    SceneManager.activeSceneChanged += OnSceneChange;
+	    StartCoroutine(InitCache());
+    }
+
+    IEnumerator InitCache()
+    {
+	    while (chatBubblePool.Count < initialPoolSize)
+	    {
+		    chatBubblePool.Add(SpawnNewChatBubble());
+		    yield return WaitFor.EndOfFrame;
+	    }
+    }
+
+    ChatBubble SpawnNewChatBubble()
+    {
+	    var obj = Instantiate(chatBubblePrefab, Vector3.zero, Quaternion.identity);
+	    obj.transform.parent = transform;
+	    obj.transform.localScale = Vector3.one * 2f;
+	    obj.SetActive(false);
+	    return obj.GetComponent<ChatBubble>();
     }
 
     void OnDisable()
@@ -33,6 +56,17 @@ public class ChatBubbleManager : MonoBehaviour
 
     void OnSceneChange(Scene oldScene, Scene newScene)
     {
+		ResetAll();
+    }
 
+    void ResetAll()
+    {
+	    foreach (var cb in chatBubblePool)
+	    {
+		    if (cb.gameObject.activeInHierarchy)
+		    {
+			    cb.ReturnToPool();
+		    }
+	    }
     }
 }
