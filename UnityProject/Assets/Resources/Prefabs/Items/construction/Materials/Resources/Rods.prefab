@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4386653123902480855}
+  m_GameObject: {fileID: 4519819786599941225}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
@@ -124,9 +124,19 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: d5a7865af55516e4cb88c88eec45d127, type: 3}
+    - target: {fileID: 4564627145347699415, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564627145347699415, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 4519819786599941225}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ae289234c114e4faca591be88bdbb7, type: 3}
---- !u!1 &4386653123902480855 stripped
+--- !u!1 &4519819786599941225 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
     type: 3}

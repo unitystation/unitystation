@@ -191,7 +191,7 @@ public class SearchAndDestroy : EditorWindow
 		List<string> result = new List<string>();
 		foreach (string s in temp)
 		{
-			if (s.Contains(".prefab"))
+			if (s.EndsWith(".prefab") && s.StartsWith("Assets/"))
 			{
 				result.Add(s);
 			}

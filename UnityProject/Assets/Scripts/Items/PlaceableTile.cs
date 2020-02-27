@@ -15,6 +15,17 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	[SerializeField]
 	private List<PlaceableTileEntry> waysToPlace;
 
+	[Tooltip("How many seconds it takes to place.")]
+	[SerializeField]
+	private float placeTime = 1.0f;
+
+	[SerializeField]
+	private string placeSound = null;
+
+	[SerializeField]
+	private static readonly StandardProgressActionConfig ProgressConfig
+	= new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -45,6 +56,12 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 		return false;
 	}
+	public void ClientPredictInteraction(PositionalHandApply interaction)
+	{
+		//start clientside melee cooldown so we don't try to spam melee
+		//requests to server
+		Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Melee);
+	}
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
@@ -61,7 +78,6 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		{
 			itemAmount = stackable.Amount;
 		}
-
 		// find the first valid way possible to place a tile
 		foreach (var entry in waysToPlace)
 		{
@@ -86,9 +102,20 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 		if (placeableTileEntry != null)
 		{
-			interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
-			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-			Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
+			GameObject performer = interaction.Performer;
+			Vector2 targetPosition = interaction.WorldPositionTarget;
+
+
+			void ProgressFinishAction()
+			{
+				interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
+				interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
+				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
+				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);
+			}
+			
+			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+				.ServerStartProgress(targetPosition, placeTime, performer);
 		}
 	}
 

@@ -13,9 +13,22 @@ MonoBehaviour:
   m_Name: Janitor
   m_EditorClassIdentifier: 
   jobType: 24
-  displayName: Janitor
   inventoryPopulator: {fileID: 11400000, guid: 52e268511df7f4fdab75dc90b15f3b09, type: 2}
   limit: 2
   priority: 99
-  choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
   allowedAccess: 1a000000220000002b00000031000000
+  progress: 70
+  choiceColor: {r: 0.73333335, g: 0.8862745, b: 0.5686275, a: 1}
+  previewSprite: {fileID: 21300000, guid: bc48f7f03e7e02946afb2459f9fc38ab, type: 3}
+  displayName: Janitor
+  difficulty: 1
+  descriptionShort: "\u2022 Mop the floors\n\u2022 Collect trash\n\u2022 Use wet floor
+    signs"
+  descriptionLong: "You are the Janitor and you have a huge responsibility. If the
+    station looks like a zoo, you can take for granted that the crew will behave like
+    animals. You\u2019re single handedly the frontier between a sane station and full
+    anarchy.\r\n\r\nAs the janitor people will expect from you to keep the floors
+    clean and mop all the blood, vomit and other fluids. Pick up the trash, change
+    faulty light bulbs and put wet floor signs that no one pays attention to.\r\n\r\nNot
+    sure what to do? Point at your wet floor sign when someone inevitably slips. Answer
+    all the cleaning emergencies on the radio. Find illegal activity in maintenance.\r"

@@ -4,9 +4,8 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-
-	public class DoorController : MonoBehaviour
-	{
+public class DoorController : NetworkBehaviour
+{
 		//public bool isWindowed = false;
 		public enum OpeningDirection
 		{
@@ -17,6 +16,7 @@ using Mirror;
 		private int closedLayer;
 		private int closedSortingLayer;
 		public AudioSource closeSFX;
+		
 		private IEnumerator coWaitOpened;
 		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
 		public DoorAnimator doorAnimator;
@@ -25,6 +25,13 @@ using Mirror;
 		private int doorDirection;
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
+		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay;
+		[SerializeField] private Sprite weldSprite;
+		/// <summary>
+		/// Is door weldedable?
+		/// </summary>
+		public bool IsWeldable => (weldOverlay != null);
+
 		public DoorType doorType;
 
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
@@ -37,6 +44,12 @@ using Mirror;
 		public bool IsAutomatic = true;
 
 		public bool IsOpened;
+		[SyncVar(hook = nameof(SyncIsWelded))]
+		[HideInInspector]private bool isWelded = false;
+		/// <summary>
+		/// Is door welded shut?
+		/// </summary>
+		public bool IsWelded => isWelded;
 		[HideInInspector] public bool isPerformingAction;
 		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
 		[Tooltip("Does the door light animation only need 1 frame?")] public bool useSimpleLightAnimation = false;
@@ -49,6 +62,8 @@ using Mirror;
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
+
+		private TileChangeManager tileChangeManager;
 
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions {
@@ -84,6 +99,13 @@ using Mirror;
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			openLayer = LayerMask.NameToLayer("Door Open");
 			registerTile = gameObject.GetComponent<RegisterDoor>();
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
+		}
+
+		public override void OnStartClient()
+		{
+			EnsureInit();
+			SyncIsWelded(isWelded, isWelded);
 		}
 
 		/// <summary>
@@ -196,7 +218,7 @@ using Mirror;
 		}
 
 		public void ServerClose() {
-			if (gameObject == null) return; //probably destroyed by a shuttle crash
+			if (gameObject == null) return; // probably destroyed by a shuttle crash
 			IsOpened = false;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
@@ -209,6 +231,11 @@ using Mirror;
 
 		public void ServerTryOpen(GameObject Originator)
 		{
+			if (isWelded)
+			{
+				Chat.AddExamineMsgFromServer(Originator, "This door is welded shut.");
+				return;
+			}
 			if (AccessRestrictions != null)
 			{
 				if (AccessRestrictions.CheckAccess(Originator)) {
@@ -236,7 +263,7 @@ using Mirror;
 
 		public void ServerOpen()
 		{
-			if (gameObject == null) return; //probably destroyed by a shuttle crash
+			if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
 			ResetWaiting();
 			IsOpened = true;
 
@@ -246,13 +273,47 @@ using Mirror;
 			}
 		}
 
-		private void ServerDamageOnClose()
+		public void ServerTryWeld()
 		{
-			foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
+			if (!isPerformingAction && (weldOverlay != null))
 			{
-				healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
+				ServerWeld();
 			}
 		}
+
+		public void ServerWeld()
+		{
+			if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
+			if (!isPerformingAction)
+			{
+				SyncIsWelded(isWelded, !isWelded);
+			}
+		}
+
+		private void SyncIsWelded(bool _wasWelded, bool _isWelded)
+		{
+			isWelded = _isWelded;
+			if (weldOverlay != null) // if door is weldable
+			{
+				weldOverlay.sprite = isWelded ? weldSprite : null;
+			}
+		}
+		public void ServerDisassemble(HandApply interaction)
+		{
+			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
+			// tileChangeManager.RemoveTile(position, LayerType.Walls); Disabled until I can figure out
+			// tileChangeManager.SubsystemManager.UpdateAt(position); why removing a passable wall deletes atmos
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
+			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		}
+
+	private void ServerDamageOnClose()
+			{
+				foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
+				{
+					healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
+				}
+			}
 
 		private void ResetWaiting()
 		{
@@ -294,3 +355,5 @@ using Mirror;
 			}
 		}
 	}
+
+

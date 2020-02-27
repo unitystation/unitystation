@@ -1712,6 +1712,7 @@ SpriteAtlas:
   - {fileID: 21300006, guid: b72f46212c197e949b92577a9e3b1168, type: 3}
   - {fileID: 21300000, guid: b72f46212c197e949b92577a9e3b1168, type: 3}
   - {fileID: 21300002, guid: b72f46212c197e949b92577a9e3b1168, type: 3}
+  - {fileID: 21300000, guid: ca42a62169bf6fd4e83c91253c44cdcc, type: 3}
   - {fileID: 21300000, guid: 7c73c6213a5ed0543b804ac973ebc07e, type: 3}
   - {fileID: 21300000, guid: 8dbf1721dcf6c1441870090756b57fb2, type: 3}
   - {fileID: 21300002, guid: 8dbf1721dcf6c1441870090756b57fb2, type: 3}
@@ -3107,9 +3108,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 112e7672d9b8da2458ae8e482d5b93c3, type: 3}
   - {fileID: 21300000, guid: 3ed6b77296bf0d945bc7ce67eaf3cba6, type: 3}
   - {fileID: 21300000, guid: fd9cb8728740c4c46991bbd261ab14d1, type: 3}
-  - {fileID: 21300000, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
-  - {fileID: 21300002, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
-  - {fileID: 21300004, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
   - {fileID: 21300000, guid: e657ca72d934b8844b9d8db19c9b8357, type: 3}
   - {fileID: 21300000, guid: 9f58da72bb557cf469e9e89dfd8f30a1, type: 3}
   - {fileID: 21300000, guid: 76a44b720c52f54459ddfbaf55dd8a45, type: 3}
@@ -10011,11 +10009,6 @@ SpriteAtlas:
   - {fileID: 21300002, guid: 262bc758ee0b67242830a6500e0a9b16, type: 3}
   - {fileID: 21300000, guid: 262bc758ee0b67242830a6500e0a9b16, type: 3}
   - {fileID: 21300000, guid: 4c084858145177349b22d2d1ceff368d, type: 3}
-  - {fileID: 21300004, guid: dcf949580d3a6284d864910b327e7f94, type: 3}
-  - {fileID: 21300006, guid: dcf949580d3a6284d864910b327e7f94, type: 3}
-  - {fileID: 21300000, guid: dcf949580d3a6284d864910b327e7f94, type: 3}
-  - {fileID: 21300002, guid: dcf949580d3a6284d864910b327e7f94, type: 3}
-  - {fileID: 21300008, guid: dcf949580d3a6284d864910b327e7f94, type: 3}
   - {fileID: 21300000, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
   - {fileID: 21300002, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
   - {fileID: 21300004, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
@@ -11471,6 +11464,11 @@ SpriteAtlas:
   - {fileID: 21300006, guid: 9f52eeb9b48bf7f4c95b5713f5010d67, type: 3}
   - {fileID: 21300000, guid: 65456fb958ad7e04285f35599b84d362, type: 3}
   - {fileID: 21300000, guid: d0829fb9e1587b24ea34abcfd3874fd2, type: 3}
+  - {fileID: 21300004, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
+  - {fileID: 21300006, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
+  - {fileID: 21300000, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
+  - {fileID: 21300002, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
+  - {fileID: 21300008, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
   - {fileID: 21300004, guid: 51aeb0c97224284408575d9cb3ad5d81, type: 3}
   - {fileID: 21300006, guid: 51aeb0c97224284408575d9cb3ad5d81, type: 3}
   - {fileID: 21300000, guid: 51aeb0c97224284408575d9cb3ad5d81, type: 3}
@@ -20557,6 +20555,7 @@ SpriteAtlas:
   - dorm_taken_3
   - dorm_taken_0
   - dorm_taken_1
+  - chairs_Chair buckles
   - growing_ambrosiavulgaris-grow6
   - diagonal_crossing_0
   - diagonal_crossing_1
@@ -21952,9 +21951,6 @@ SpriteAtlas:
   - plasma_window_2-i
   - equipment_random_beebox
   - cocoon_cocoon1
-  - Chair buckles_0
-  - Chair buckles_1
-  - Chair buckles_2
   - brass_table_3-f
   - growing_mushrooms_polypore-grow2
   - atmos_siphon-open
@@ -28856,11 +28852,6 @@ SpriteAtlas:
   - hologram_whiteship_1
   - hologram_whiteship_0
   - door_assembly_door_as_vault3
-  - fwall_closing_2
-  - fwall_closing_3
-  - fwall_closing_0
-  - fwall_closing_1
-  - fwall_closing_4
   - snackorange_0
   - snackorange_1
   - snackorange_2
@@ -30316,6 +30307,11 @@ SpriteAtlas:
   - propulsion_r_old_3
   - brass_table_1-f
   - contraband_poster28
+  - fwall_closing_2
+  - fwall_closing_3
+  - fwall_closing_0
+  - fwall_closing_1
+  - fwall_closing_4
   - diverter1_2
   - diverter1_3
   - diverter1_0

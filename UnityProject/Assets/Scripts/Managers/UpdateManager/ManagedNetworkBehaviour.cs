@@ -2,20 +2,18 @@
 
 public class ManagedNetworkBehaviour : NetworkBehaviour
 {
-//    protected virtual void Awake()
-//    {
-//        UpdateManager.Instance.regularUpdate.Add(this);
-//    }
+	protected bool IsUpdating;
+
 	protected virtual void OnEnable()
 	{
-		UpdateManager.Instance.Add(this);
+		UpdateManager.Add(this);
+		IsUpdating = true;
 	}
 
 	protected virtual void OnDisable()
 	{
-		if (UpdateManager.Instance != null) {
-			UpdateManager.Instance.Remove(this);
-		}
+		UpdateManager.Remove(this);
+		IsUpdating = false;
 	}
 
 	/// <summary>

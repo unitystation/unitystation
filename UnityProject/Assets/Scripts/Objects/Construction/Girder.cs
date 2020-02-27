@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// The main girder component
 /// </summary>
-public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IExaminable
 {
 	private TileChangeManager tileChangeManager;
 	private MetaTileMap metaTileMap;
@@ -79,8 +79,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start adding plating...",
 					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
-					"You add the plating.",
-					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					"You create a false wall.",
+					$"{interaction.Performer.ExpensiveName()} creates a false wall.",
 					() => ConstructFalseWall(interaction));
 			}
 			else
@@ -93,8 +93,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start adding plating...",
 					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
-					"You add the plating.",
-					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					"You create a false wall.",
+					$"{interaction.Performer.ExpensiveName()} creates a false wall.",
 					() => ConstructWall(interaction));
 			}
 		}
@@ -177,6 +177,12 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		}
 	}
 
+	public string Examine(Vector3 worldPos)
+	{
+		return (objectBehaviour.IsPushable?"Use a wrench to secure to the floor, or a screwdriver to disassemble it."
+				:"Apply metal sheets to finalize the plating, or plasteel to reinforce the structure. Use a wrench to unsecure the girder.");
+	}
+
 	[Server]
 	private void Disassemble(HandApply interaction)
 	{
@@ -203,8 +209,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructFalseWall(HandApply interaction)
 	{
-		Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject));
+		GameObject theWall = Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject)).GameObject;
+		DoorController doorController = theWall.GetComponent<DoorController>();
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
+		doorController.ServerTryClose();
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
@@ -212,6 +220,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructReinforcedFalseWall(HandApply interaction)
 	{
+		GameObject theWall = Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject)).GameObject;
+		DoorController doorController = theWall.GetComponent<DoorController>();
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
+		doorController.ServerTryClose();
 		Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject));
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);

@@ -24,6 +24,8 @@ public class TileChangeManager : NetworkBehaviour
 	/// </summary>
 	public InteractableTiles InteractableTiles => interactableTiles;
 
+	public MetaTileMap MetaTileMap => metaTileMap;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();

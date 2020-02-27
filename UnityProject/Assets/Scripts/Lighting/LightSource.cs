@@ -318,6 +318,11 @@ public class LightSource : ObjectTrigger
 		int _baseIndex;
 		if (_spriteSheet != null && _splitedName.Length == 2 && int.TryParse(_splitedName[1], out _baseIndex))
 		{
+			mSpriteDictionary.Add(LightState.On, _assignedSprite);
+
+
+			/* these don't work as expected - _spriteSheet always is an empty array
+
 			Func<int, Sprite> ExtractSprite = delegate (int iIndex)
 			{
 				if (iIndex >= 0 && iIndex < _spriteSheet.Length)
@@ -327,11 +332,11 @@ public class LightSource : ObjectTrigger
 			};
 
 			// Extract sprites from sprite sheet based on spacing from base index.
-			mSpriteDictionary.Add(LightState.On, _assignedSprite);
 			mSpriteDictionary.Add(LightState.Off, ExtractSprite(_baseIndex + SheetSpacing));
 			mSpriteDictionary.Add(LightState.MissingBulb, ExtractSprite(_baseIndex + (SheetSpacing * 2)));
 			mSpriteDictionary.Add(LightState.Dirty, ExtractSprite(_baseIndex + (SheetSpacing * 3)));
 			mSpriteDictionary.Add(LightState.Broken, ExtractSprite(_baseIndex + (SheetSpacing * 4)));
+			*/
 		}
 		else
 		{

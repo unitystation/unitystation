@@ -14,6 +14,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	IRightClickable, IServerDespawn, IServerInventoryMove
 {
 	private CustomNetTransform customNetTransform;
+	public CustomNetTransform CustomNetTransform => customNetTransform;
 	private ObjectBehaviour objectBehaviour;
 	private RegisterTile registerTile;
 
@@ -78,6 +79,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//clear previous slot appearance
 			PlayerAppearanceMessage.SendToAll(info.FromPlayer.gameObject,
 				(int)info.FromSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
+
+			//ask target playerscript to update shown name.
+			info.FromPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 
 		if (info.ToPlayer != null &&
@@ -86,6 +90,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//change appearance based on new item
 			PlayerAppearanceMessage.SendToAll(info.ToPlayer.gameObject,
 				(int)info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), info.MovedObject.gameObject);
+
+			//ask target playerscript to update shown name.
+			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 	}
 
@@ -281,6 +288,17 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			if (equipment == null) return;
 			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
 			CT.SetInHand(_ItemsSprites);
+		}
+	}
+
+	public void SetPalette(List<Color> palette)
+	{
+		if (itemSlot != null)
+		{
+			var equipment = itemSlot.Player.GetComponent<Equipment>();
+			if (equipment == null) return;
+			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
+			CT.spriteHandler.SetPaletteOfCurrentSprite(palette);
 		}
 	}
 }
