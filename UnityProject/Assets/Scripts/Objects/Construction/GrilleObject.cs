@@ -23,7 +23,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
 		SoundManager.PlayNetworkedAtPos("GrillHit", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f));
-		Spawn.ServerPrefab("Rods", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 1,
+		Spawn.ServerPrefab("Rods", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
 			scatterRadius: Random.Range(0.9f, 1.8f), cancelIfImpassable: true);
 		
 	}
@@ -64,7 +64,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 						"You secure the grille.",
 						$"{interaction.Performer.ExpensiveName()} secures the grille.",
 						() => ScrewInPlace(interaction));
-					Despawn.ServerSingle(gameObject);
+					
 
 					return;
 
@@ -92,7 +92,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 				"You disassemble the grille.",
 				$"{interaction.Performer.ExpensiveName()} disassembles the grille.",
 				() => Disassemble(interaction));
-			Despawn.ServerSingle(gameObject);
+			
 
 			return;
 
@@ -103,16 +103,18 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void Disassemble(HandApply interaction)
 	{
 		Spawn.ServerPrefab("Rods", registerObject.WorldPositionServer, count: 2);
-		SoundManager.PlayNetworkedAtPos("wirecutter", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f));	
+		SoundManager.PlayNetworkedAtPos("wirecutter", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f));
+		Despawn.ServerSingle(gameObject);
 	}
 
 	[Server]
 	private void ScrewInPlace(HandApply interaction)
 	{
-		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), layerTile);
-		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
-		SoundManager.PlayNetworkedAtPos("screwdriver2", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f));
-		
+		var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
+		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
+		interactableTiles.TileChangeManager.UpdateTile(cellPos, layerTile);
+		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
+		Despawn.ServerSingle(gameObject);
 	}
 
 }
