@@ -129,7 +129,7 @@ jobs:
           name: ${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
 
-  Upload:
+  upload:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     needs: performBuild
     name: Upload ${{ matrix.targetPlatform }} to CDN
@@ -146,19 +146,25 @@ jobs:
         with:
           name: ${{ matrix.targetPlatform }}
           path: ./Build
-      - name: Create output directory
-        run: mkdir ./Zipped
       - uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -qq -r ./Zipped/${{ matrix.targetPlatform }}.zip ./Build
+          args: zip -qq -r ./${{ matrix.targetPlatform }}.zip ./Build
       - name: Upload to CDN
-        uses: sebastianpopp/ftp-action@releases/v1
-        with:
-          host: ftp://${{ secrets.CDN_HOST }}
-          user: ${{ secrets.CDN_USERNAME }}
-          password: ${{ secrets.CDN_PASSWORD }}
-          localDir: Zipped
-          remoteDir: UnityStationDevelop
+        env:
+          CDN_HOST: ${{ secrets.CDN_HOST }}
+          CDN_USERNAME: ${{ secrets.CDN_USERNAME }}
+          CDN_PASSWORD: ${{ secrets.CDN_PASSWORD }}
+          TARGET_PLATFORM: ${{ matrix.targetPlatform }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          ftp -invp <<EOF
+          open $CDN_HOST
+          user $CDN_USERNAME $CDN_PASSWORD
+          binary
+          mdel "UnityStationDevelop/$TARGET_PLATFORM*.zip"
+          put "./$TARGET_PLATFORM.zip" "UnityStationDevelop/$TARGET_PLATFORM$RUN_NUMBER.zip"
+          bye
+          EOF
 
   Imaging:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
