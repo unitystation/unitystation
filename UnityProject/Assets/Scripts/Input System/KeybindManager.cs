@@ -23,7 +23,7 @@ public enum KeyAction
 	MoveLeft,
 	MoveDown,
 	MoveRight,
-	ToggleWalkun,
+	ToggleWalkRun,
 
 	// Actions
 	ActionThrow,
@@ -264,7 +264,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.MoveLeft, 	new KeybindMetadata("Move Left", ActionType.Movement)},
 		{ KeyAction.MoveDown, 	new KeybindMetadata("Move Down", ActionType.Movement)},
 		{ KeyAction.MoveRight, 	new KeybindMetadata("Move Right", ActionType.Movement)},
-		{ KeyAction.ToggleWalkun, new KeybindMetadata("Toggle Walk/Run", ActionType.Movement)},
+		{ KeyAction.ToggleWalkRun, new KeybindMetadata("Toggle Walk/Run", ActionType.Movement)},
 
 		// Actions
 		{ KeyAction.ActionThrow,	new KeybindMetadata("Throw", ActionType.Action)},
@@ -306,7 +306,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.MoveLeft, 		new DualKeyCombo(new KeyCombo(KeyCode.A), new KeyCombo(KeyCode.LeftArrow))},
 		{ KeyAction.MoveDown, 		new DualKeyCombo(new KeyCombo(KeyCode.S), new KeyCombo(KeyCode.DownArrow))},
 		{ KeyAction.MoveRight, 		new DualKeyCombo(new KeyCombo(KeyCode.D), new KeyCombo(KeyCode.RightArrow))},
-		{ KeyAction.ToggleWalkun,   new DualKeyCombo(new KeyCombo(KeyCode.C), null)},
+		{ KeyAction.ToggleWalkRun,   new DualKeyCombo(new KeyCombo(KeyCode.C), null)},
 
 		// Actions
 		{ KeyAction.ActionThrow,	new DualKeyCombo(new KeyCombo(KeyCode.R),	new KeyCombo(KeyCode.End))},
