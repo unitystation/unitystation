@@ -474,13 +474,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	public void CallActionClient()
 	{
-		if (CanUnBuckeSelf())
+		if (CanUnBuckleSelf())
 		{
 			CmdUnbuckle();
 		}
 	}
 
-	private bool CanUnBuckeSelf()
+	private bool CanUnBuckleSelf()
 	{
 		PlayerHealth playerHealth = playerScript.playerHealth;
 
