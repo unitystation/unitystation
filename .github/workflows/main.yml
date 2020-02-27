@@ -146,15 +146,15 @@ jobs:
         with:
           name: ${{ matrix.targetPlatform }}
           path: ./Build
-      - uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r ./${{ matrix.targetPlatform }}.zip ./Build/*
+      - name: Zip Build
+        run: |
+          cd Build
+          zip -qq -r ../Build.zip .
       - name: Upload to CDN
         env:
           CDN_HOST: ${{ secrets.CDN_HOST }}
           CDN_USERNAME: ${{ secrets.CDN_USERNAME }}
           CDN_PASSWORD: ${{ secrets.CDN_PASSWORD }}
-          TARGET_PLATFORM: ${{ matrix.targetPlatform }}
           UPLOAD_FOLDER: UnityStationDevelop/${{ matrix.targetPlatform }}
           RUN_NUMBER: ${{ github.run_number }}
         run: |
@@ -163,7 +163,7 @@ jobs:
           user $CDN_USERNAME $CDN_PASSWORD
           binary
           rmdir "${UPLOAD_FOLDER}"
-          put "./$TARGET_PLATFORM.zip" "${UPLOAD_FOLDER}/${RUN_NUMBER}.zip"
+          put "./Build.zip" "${UPLOAD_FOLDER}/${RUN_NUMBER}.zip"
           bye
           EOF
 
