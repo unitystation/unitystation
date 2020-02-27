@@ -155,14 +155,15 @@ jobs:
           CDN_USERNAME: ${{ secrets.CDN_USERNAME }}
           CDN_PASSWORD: ${{ secrets.CDN_PASSWORD }}
           TARGET_PLATFORM: ${{ matrix.targetPlatform }}
+          UPLOAD_FOLDER: UnityStationDevelop/${{ matrix.targetPlatform }}
           RUN_NUMBER: ${{ github.run_number }}
         run: |
           ftp -invp <<EOF
           open $CDN_HOST
           user $CDN_USERNAME $CDN_PASSWORD
           binary
-          mdel "UnityStationDevelop/$TARGET_PLATFORM*.zip"
-          put "./$TARGET_PLATFORM.zip" "UnityStationDevelop/$TARGET_PLATFORM_v$RUN_NUMBER.zip"
+          rmdir "${UPLOAD_FOLDER}"
+          put "./$TARGET_PLATFORM.zip" "${UPLOAD_FOLDER}/${RUN_NUMBER}.zip"
           bye
           EOF
 
