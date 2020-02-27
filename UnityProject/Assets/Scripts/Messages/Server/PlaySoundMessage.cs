@@ -18,6 +18,13 @@ public class PlaySoundMessage : ServerMessage
 
 	public override IEnumerator Process() {
 		yield return null;
+
+		if (string.IsNullOrEmpty(SoundName))
+		{
+			Logger.LogError(ToString()+" has no SoundName!", Category.Audio);
+			yield break;
+		}
+
 		bool isPositionProvided = Position.RoundToInt() != TransformState.HiddenPos;
 
 		if ( isPositionProvided )
@@ -100,6 +107,6 @@ public class PlaySoundMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return $"[SoundMsg Name={SoundName}]";
+		return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Pitch)}: {Pitch}, {nameof(ShakeGround)}: {ShakeGround}, {nameof(ShakeIntensity)}: {ShakeIntensity}, {nameof(ShakeRange)}: {ShakeRange}, {nameof(Polyphonic)}: {Polyphonic}";
 	}
 }

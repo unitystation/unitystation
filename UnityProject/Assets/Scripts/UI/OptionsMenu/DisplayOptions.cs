@@ -18,6 +18,8 @@ namespace Unitystation.Options
 		private Toggle fullscreenToggle;
 		private CameraZoomHandler zoomHandler;
 		[SerializeField] private InputField frameRateTarget;
+		[SerializeField]
+		private Slider chatBubbleSizeSlider;
 
         void OnEnable()
         {
@@ -31,7 +33,14 @@ namespace Unitystation.Options
 
         void Refresh()
         {
-            camZoomSlider.value = zoomHandler.ZoomLevel;
+	        if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
+	        {
+		        PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, 2f);
+		        PlayerPrefs.Save();
+	        }
+
+	        chatBubbleSizeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
+	        camZoomSlider.value = zoomHandler.ZoomLevel;
             scrollWheelZoomToggle.isOn = zoomHandler.ScrollWheelZoom;
             frameRateTarget.text = PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate).ToString();
         }
@@ -40,6 +49,13 @@ namespace Unitystation.Options
         {
             zoomHandler.SetZoomLevel(camZoomSlider.value);
             Refresh();
+        }
+
+        public void OnChatBubbleSizeChange()
+        {
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, chatBubbleSizeSlider.value);
+			PlayerPrefs.Save();
+	        Refresh();
         }
 
         public void OnScrollWheelToggle()

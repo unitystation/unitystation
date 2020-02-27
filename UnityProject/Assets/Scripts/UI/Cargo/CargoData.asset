@@ -35,6 +35,34 @@ MonoBehaviour:
       - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
       - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
       - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+    - OrderName: Knife kit
+      CreditsCost: 500
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+      - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+      - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+    - OrderName: Energy Crate
+      CreditsCost: 500
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5, type: 3}
+      - {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5, type: 3}
+      - {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5, type: 3}
+      - {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5, type: 3}
+      - {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5, type: 3}
+    - OrderName: Better Eyes Crate
+      CreditsCost: 600
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 6602018046170396259, guid: 3f42bf93060678d43b3858247bc0696f, type: 3}
+      - {fileID: 6602018046170396259, guid: 3f42bf93060678d43b3858247bc0696f, type: 3}
+      - {fileID: 6602018046170396259, guid: 3f42bf93060678d43b3858247bc0696f, type: 3}
+      - {fileID: 6602018046170396259, guid: 3f42bf93060678d43b3858247bc0696f, type: 3}
+      - {fileID: 6602018046170396259, guid: 3f42bf93060678d43b3858247bc0696f, type: 3}
   - CategoryName: Security
     Supplies:
     - OrderName: Handcuffs  Crate
@@ -49,15 +77,15 @@ MonoBehaviour:
       - {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563, type: 3}
     - OrderName: Batons Crate
       CreditsCost: 1500
-      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+      Crate: {fileID: 3603551487888253092, guid: 19f122548a008234c96c29eceea0b0fc,
         type: 3}
       Items:
       - {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4, type: 3}
       - {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4, type: 3}
       - {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4, type: 3}
-    - OrderName: Shot gun Crate
+    - OrderName: Shotgun Crate
       CreditsCost: 5000
-      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+      Crate: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       Items:
       - {fileID: 8582594776399167655, guid: 8aa9c1617fcf44905b26d836feca524f, type: 3}
@@ -65,12 +93,28 @@ MonoBehaviour:
       - {fileID: 8582594776399167655, guid: 8aa9c1617fcf44905b26d836feca524f, type: 3}
     - OrderName: machine-gun Crate
       CreditsCost: 5000
-      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+      Crate: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       Items:
       - {fileID: 8582594776399167655, guid: a74cbb38ab9ab7c459eef728c98b21f0, type: 3}
       - {fileID: 8582594776399167655, guid: a74cbb38ab9ab7c459eef728c98b21f0, type: 3}
       - {fileID: 8582594776399167655, guid: a74cbb38ab9ab7c459eef728c98b21f0, type: 3}
+    - OrderName: Laser Gun Crate
+      CreditsCost: 4500
+      Crate: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      Items:
+      - {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
+      - {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
+      - {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
+    - OrderName: Laser Pistol Crate
+      CreditsCost: 4000
+      Crate: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      Items:
+      - {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f, type: 3}
+      - {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f, type: 3}
+      - {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f, type: 3}
   - CategoryName: Medical
     Supplies:
     - OrderName: First Aid Kit Crate
@@ -218,7 +262,7 @@ MonoBehaviour:
     Supplies:
     - OrderName: Hydroponics Crate
       CreditsCost: 800
-      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+      Crate: {fileID: 3725230815663287473, guid: ec5add60cfcc4754dbb63585d5244fdd,
         type: 3}
       Items:
       - {fileID: 11639533463445157, guid: 301047244e720e040b17d641c872719d, type: 3}
@@ -746,11 +790,10 @@ MonoBehaviour:
       - {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d, type: 3}
       - {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d, type: 3}
     - OrderName: Solid Plasma Crate
-      CreditsCost: 5000
-      Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,
+      CreditsCost: 3000
+      Crate: {fileID: 1102147915931524473, guid: 15783568e89845c45b49764f003fabe4,
         type: 3}
       Items:
-      - {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0, type: 3}
       - {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0, type: 3}
       - {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0, type: 3}
       - {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0, type: 3}

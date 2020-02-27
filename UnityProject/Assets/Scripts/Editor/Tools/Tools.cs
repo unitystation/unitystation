@@ -5,66 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Tools : Editor
 	{
-
-
-		[MenuItem("Tools/Reconnect TileConnect")]
-		private static void RevertTileConnect()
-		{
-			//            var triggers = FindObjectsOfType<ConnectTrigger>();
-			//
-			//            foreach (var t in triggers)
-			//            {
-			//                PrefabUtility.RevertPrefabInstance(t.gameObject);
-			//            }
-		}
-
-		[MenuItem("Tools/Set Ambient Tiles")]
-		private static void SetAmbientTiles()
-		{
-			FloorTile[] tiles = FindObjectsOfType<FloorTile>();
-
-			foreach (FloorTile t in tiles)
-			{
-				t.CheckAmbientTile();
-			}
-		}
-
-		[MenuItem("Tools/Revert To Prefab %r")]
-		private static void RevertPrefabs()
-		{
-			GameObject[] selection = Selection.gameObjects;
-
-			if (selection.Length > 0)
-			{
-				for (int i = 0; i < selection.Length; i++)
-				{
-					PrefabUtility.RevertPrefabInstance(selection[i]);
-					PrefabUtility.ReconnectToLastPrefab(selection[i]);
-				}
-			}
-			else
-			{
-				Logger.Log("Cannot revert to prefab - nothing selected");
-			}
-		}
-
-		// TODO replace for new tilemap system
-		//		[MenuItem("Tools/Resection Tiles")]
-		//		static void ConnectTiles2Sections()
-		//		{
-		//			var registerTiles = FindObjectsOfType<RegisterTile>();
-		//
-		//			foreach (var r in registerTiles) {
-		//				var p = r.transform.position;
-		//
-		//				int x = Mathf.RoundToInt(p.x);
-		//				int y = Mathf.RoundToInt(p.y);
-		//
-		//				r.transform.MoveToSection(Matrix.Matrix.At(x, y).Section);
-		//				//PrefabUtility.RevertPrefabInstance(r.gameObject);
-		//			}
-		//		}
-
 		//this is just for migrating from old way of setting wallmount directions to the new way
 		[MenuItem("Tools/Set Wallmount Directionals from Transforms")]
 		private static void FixWallmountDirectionals()
@@ -198,39 +138,4 @@ public class Tools : Editor
 
 			return null;
 		}
-
-		//for migrating from Old ItemAttributes to ItemAttributesV2
-//		[MenuItem("Prefabs/Migrate Item Attributes")]
-//		private static void MigrateItemAttributes()
-//		{
-//			//scan for prefabs which contain OldItemAttributes
-//			var prefabGUIDS = AssetDatabase.FindAssets("t:Prefab");
-//			foreach (var prefabGUID in prefabGUIDS)
-//			{
-//				var path = AssetDatabase.GUIDToAssetPath(prefabGUID);
-//				var toCheck = AssetDatabase.LoadAllAssetsAtPath(path);
-//
-//				//find the root gameobject
-//				var rootPrefabGO = GetRootPrefabGOFromAssets(toCheck);
-//
-//				if (rootPrefabGO == null)
-//				{
-//					continue;
-//				}
-//				//does component exist in it or any children?
-//				if (rootPrefabGO.GetComponent<ItemAttributesV2>() == null)
-//				{
-//					continue;
-//				}
-//
-//				//Found one that has OldItemAttributes, now create ItemAttributesV2 and migrate the
-//				//fields
-//				var addedAttributes = rootPrefabGO.AddComponent<ItemAttributesV2>();
-//				var oldAttributes = rootPrefabGO.GetComponent<ItemAttributes>();
-//				addedAttributes.MigrateFromOld(rootPrefabGO.GetComponent<ItemAttributes>());
-//				Logger.Log("Modified " + rootPrefabGO.name);
-//				DestroyImmediate(oldAttributes,true);
-//				PrefabUtility.SavePrefabAsset(rootPrefabGO);
-//			}
-//		}
 	}

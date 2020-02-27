@@ -520,8 +520,15 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 		}
 
-		//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
-		CurrentMagazine.ExpendAmmo();
+		if (CurrentMagazine == null)
+		{
+			Logger.Log("Why is CurrentMagazine null on this client?");
+		}
+		else
+		{
+			//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
+			CurrentMagazine.ExpendAmmo();
+		}
 
 		//display the effects of the shot
 

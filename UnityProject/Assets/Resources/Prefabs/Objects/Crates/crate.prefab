@@ -178,13 +178,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 0}
-  IsClosed: 0
-  IsLocked: 0
   lockLight: {fileID: 0}
+  IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
-  soundOnOpen: OpenClose
-  statusSync: 0
+  soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: e9727c12a7060784eac2751d8672cfbd, type: 3}
   spriteRenderer: {fileID: 3918525054062759918}
 --- !u!114 &-797998084699582951
@@ -276,71 +274,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialName
-      value: crate
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialDescription
-      value: A rectangular steel crate.
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: exportCost
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: exportName
-      value: crate
-      objectReference: {fileID: 0}
-    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: exportMessage
-      value: Thanks for participating in Nanotrasen Crates Recycling Program.
-      objectReference: {fileID: 0}
-    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      propertyPath: initialIntegrity
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -396,6 +329,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialDescription
+      value: A rectangular steel crate.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportCost
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportName
+      value: crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportMessage
+      value: Thanks for participating in Nanotrasen Crates Recycling Program.
+      objectReference: {fileID: 0}
     - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Layer
@@ -405,6 +363,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732959556644653524, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

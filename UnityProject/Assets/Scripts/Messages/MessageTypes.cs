@@ -55,6 +55,7 @@ internal enum MessageTypes : short
 	PlayAmbientTrack = 1051,
 	UpdateHungerStateMessage = 1052,
 	SetActionUI = 1053,
+	ShowChatBubble = 1054,
 
 
 	//Client messages - 2xxx
