@@ -474,7 +474,21 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	public void CallActionClient()
 	{
-		CmdUnbuckle();
+		if (CanUnBuckeSelf())
+		{
+			CmdUnbuckle();
+		}
+
+	}
+
+	private bool CanUnBuckeSelf()
+	{
+		PlayerHealth playerHealth = playerScript.playerHealth;
+
+		return !(playerHealth == null ||
+		         playerHealth.ConsciousState == ConsciousState.DEAD ||
+		         playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
+		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
 	}
 
 	[Server]
