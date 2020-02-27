@@ -300,11 +300,9 @@ public class DoorController : NetworkBehaviour
 		}
 		public void ServerDisassemble(HandApply interaction)
 		{
-			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
-			// tileChangeManager.RemoveTile(position, LayerType.Walls); Disabled until I can figure out
-			// tileChangeManager.SubsystemManager.UpdateAt(position); why removing a passable wall deletes atmos
+			tileChangeManager.RemoveTile(registerTile.LocalPositionServer, LayerType.Walls);
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			Despawn.ServerSingle(gameObject);
 		}
 
 	private void ServerDamageOnClose()
