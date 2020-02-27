@@ -79,8 +79,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start adding plating...",
 					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
-					"You add the plating.",
-					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					"You create a false wall.",
+					$"{interaction.Performer.ExpensiveName()} creates a false wall.",
 					() => ConstructFalseWall(interaction));
 			}
 			else
@@ -93,8 +93,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start adding plating...",
 					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
-					"You add the plating.",
-					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					"You create a false wall.",
+					$"{interaction.Performer.ExpensiveName()} creates a false wall.",
 					() => ConstructWall(interaction));
 			}
 		}
@@ -209,8 +209,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructFalseWall(HandApply interaction)
 	{
-		Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject));
+		GameObject theWall = Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject)).GameObject;
+		DoorController doorController = theWall.GetComponent<DoorController>();
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
+		doorController.ServerTryClose();
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
@@ -218,8 +220,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Server]
 	private void ConstructReinforcedFalseWall(HandApply interaction)
 	{
-		Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject));
+		GameObject theWall = Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject)).GameObject;
+		DoorController doorController = theWall.GetComponent<DoorController>();
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
+		doorController.ServerTryClose();
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}

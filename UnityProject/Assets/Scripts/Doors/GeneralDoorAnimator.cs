@@ -101,7 +101,7 @@ public class GeneralDoorAnimator : DoorAnimator
 
 	private int SmoothFrame()
 	{
-		metaTileMap = tileChangeManager.GetMetaTileMap();
+		metaTileMap = tileChangeManager.MetaTileMap;
 		tilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 		Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
 		var layer = tilemap.GetComponent<Layer>();

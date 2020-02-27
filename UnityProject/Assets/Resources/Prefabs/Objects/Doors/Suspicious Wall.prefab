@@ -241,7 +241,7 @@ SpriteRenderer:
   m_SortingLayerID: -1883797623
   m_SortingLayer: 13
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300008, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
+  m_Sprite: {fileID: 21300002, guid: a18f70c9270e2584ea594005815c39bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -335,6 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   closeSFX: {fileID: 0}
   doorAnimationSize: 3
   doorAnimator: {fileID: 6980610262621646763}
@@ -342,11 +344,13 @@ MonoBehaviour:
   DoorCoverSpriteOffset: 4
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
   doorType: 15
   damageOnClose: 0
   ignorePassableChecks: 0
   IsAutomatic: 0
-  IsOpened: 0
+  IsOpened: 1
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -367,7 +371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &1354086132998355932
@@ -400,7 +403,7 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   OneDirectionRestricted: 0
-  isClosed: 1
+  isClosed: 0
 --- !u!114 &1354017232916247320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,8 +524,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: Wall
+  initialName: wall
   initialDescription: Something seems a bit off...
+  willHighlight: 0
   exportCost: 0
   exportName: 
   exportMessage: 

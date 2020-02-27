@@ -24,6 +24,8 @@ public class TileChangeManager : NetworkBehaviour
 	/// </summary>
 	public InteractableTiles InteractableTiles => interactableTiles;
 
+	public MetaTileMap MetaTileMap => metaTileMap;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
@@ -140,12 +142,6 @@ public class TileChangeManager : NetworkBehaviour
 	public LayerTile GetLayerTile(Vector3Int cellPosition, LayerType layerType)
 	{
 		return metaTileMap.GetTile(cellPosition, layerType);
-	}
-
-	[Server]
-	public MetaTileMap GetMetaTileMap()
-	{
-		return metaTileMap;
 	}
 
 	[ClientRpc]

@@ -63,6 +63,8 @@ public class DoorController : NetworkBehaviour
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
 
+		private TileChangeManager tileChangeManager;
+
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions {
 			get {
@@ -97,6 +99,7 @@ public class DoorController : NetworkBehaviour
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			openLayer = LayerMask.NameToLayer("Door Open");
 			registerTile = gameObject.GetComponent<RegisterDoor>();
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
 		}
 
 		public override void OnStartClient()
@@ -294,6 +297,14 @@ public class DoorController : NetworkBehaviour
 			{
 				weldOverlay.sprite = isWelded ? weldSprite : null;
 			}
+		}
+		public void ServerDisassemble(HandApply interaction)
+		{
+			Vector3Int position = Vector3Int.RoundToInt(transform.localPosition);
+			// tileChangeManager.RemoveTile(position, LayerType.Walls); Disabled until I can figure out
+			// tileChangeManager.SubsystemManager.UpdateAt(position); why removing a passable wall deletes atmos
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
+			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		}
 
 	private void ServerDamageOnClose()

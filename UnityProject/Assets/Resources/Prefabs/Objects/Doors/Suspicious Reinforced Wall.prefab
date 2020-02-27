@@ -7,10 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1395021743432191680, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+    - target: {fileID: 1273753218130166476, guid: 6758ee1e3731dd6419af3471a3e3db4c,
         type: 3}
-      propertyPath: m_Name
-      value: Suspicious Reinforced Wall
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cc068196e6678c0408b39c13be566079,
+        type: 3}
+    - target: {fileID: 1353868630356860164, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+        type: 3}
+      propertyPath: isClosed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354070983760115302, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1354086132998355932, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+        type: 3}
+      propertyPath: isHidden
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1391885800605204268, guid: 6758ee1e3731dd6419af3471a3e3db4c,
         type: 3}
@@ -67,15 +83,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1354070983760115302, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+    - target: {fileID: 1395021743432191680, guid: 6758ee1e3731dd6419af3471a3e3db4c,
         type: 3}
-      propertyPath: m_AssetId
-      value: 
+      propertyPath: m_Name
+      value: Suspicious Reinforced Wall
       objectReference: {fileID: 0}
     - target: {fileID: 1405402336542020058, guid: 6758ee1e3731dd6419af3471a3e3db4c,
         type: 3}
       propertyPath: initialName
-      value: Reinforced Wall
+      value: reinforced wall
       objectReference: {fileID: 0}
     - target: {fileID: 6980610262621646763, guid: 6758ee1e3731dd6419af3471a3e3db4c,
         type: 3}
@@ -87,11 +103,5 @@ PrefabInstance:
       propertyPath: Smoothed
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1273753218130166476, guid: 6758ee1e3731dd6419af3471a3e3db4c,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: e94359500ef8de946938e3b9a3f30693,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6758ee1e3731dd6419af3471a3e3db4c, type: 3}
