@@ -112,6 +112,26 @@ public class GUI_JobPreferences : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Sets all jobs to a specific priority
+	/// /// </summary>
+	/// <param name="priority">The priority all jobs will be set to</param>
+	public void SetAllPriorities(Priority priority)
+	{
+		foreach (var entry in jobEntries.Values)
+		{
+			entry.SetPriority(priority);
+		}
+	}
+
+	/// <summary>
+	/// Resets all job priorities to 'None'
+	/// </summary>
+	public void ResetAllPriorities()
+	{
+		SetAllPriorities(Priority.None);
+	}
+
+	/// <summary>
 	/// Forces the department grid to resize
 	/// </summary>
 	/// <returns></returns>
