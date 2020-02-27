@@ -14,6 +14,8 @@ using Image = UnityEngine.UI.Image;
 public class DevSpawnerListItemController : MonoBehaviour
 {
 	public Image image;
+	bool isPaletted = false;
+	public List<Color> palette;
 	public Text titleText;
 	public Text detailText;
 	public GameObject drawingMessage;
@@ -34,6 +36,12 @@ public class DevSpawnerListItemController : MonoBehaviour
 
 	private LightingSystem lightingSystem;
 
+	void Awake()
+	{
+		// unity doesn't support property blocks on ui renderers, so this is a workaround
+		image.material = Instantiate(image.material);
+	}
+
 	private void OnEnable()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
@@ -52,6 +60,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		if (toUse != null)
 		{
 			image.sprite = toUse;
+			CheckAndApplyPalette();
 		}
 
 		detailText.text = "Prefab";
@@ -108,13 +117,52 @@ public class DevSpawnerListItemController : MonoBehaviour
 			}
 			//just chosen to be spawned on the map. Put our object under the mouse cursor
 			cursorObject = Instantiate(cursorPrefab, transform.root);
-			cursorObject.GetComponent<SpriteRenderer>().sprite = image.sprite;
+			SpriteRenderer curRend = cursorObject.GetComponent<SpriteRenderer>();
+			curRend.sprite = image.sprite;
+
+			if (isPaletted)
+			{
+				curRend.material = prefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial;
+				MaterialPropertyBlock block = new MaterialPropertyBlock();
+				curRend.GetPropertyBlock(block);
+				List<Vector4> pal = palette.ConvertAll((Color c) => new Vector4(c.r, c.g, c.b, c.a));
+				block.SetVectorArray("_ColorPalette", pal);
+				block.SetInt("_IsPaletted", 1);
+				curRend.SetPropertyBlock(block);
+			}
+			
 			UIManager.IsMouseInteractionDisabled = true;
 			escapeKeyTarget.enabled = true;
 			selectedItem = this;
 			drawingMessage.SetActive(true);
 			lightingSystem.enabled = false;
 		}
+	}
+
+	private void CheckAndApplyPalette()
+	{
+		isPaletted = false;
+		//image.material.SetInt("_IsPaletted", 0);
+
+		ClothingV2 prefabClothing = prefab.GetComponent<ClothingV2>();
+		if (prefabClothing != null)
+		{
+			palette = prefabClothing.GetPaletteOrNull();
+			if (palette != null)
+			{
+				isPaletted = true;
+				image.material.SetInt("_IsPaletted", 1);
+				image.material.SetColorArray("_ColorPalette", palette.ToArray());
+				palette = new List<Color>(image.material.GetColorArray("_ColorPalette"));
+			}
+		}
+
+		if (!isPaletted)
+		{
+			image.material.SetInt("_IsPaletted", 0);
+		}
+
+
 	}
 
 	/// <summary>
