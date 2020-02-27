@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 656301501147598195}
   - component: {fileID: 3665939516804425690}
   - component: {fileID: -3762999717013136981}
+  - component: {fileID: -7769837656819982877}
   m_Layer: 23
   m_Name: office_chair
   m_TagString: Untagged
@@ -128,7 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &-5848175386882574214
@@ -277,6 +277,23 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-7769837656819982877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289257713136752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799d5bd9e47a11b4588193b68921813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  resourcesMadeOf: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
+    type: 3}
+  howMany: 1
 --- !u!1 &1922606341189806
 GameObject:
   m_ObjectHideFlags: 0
