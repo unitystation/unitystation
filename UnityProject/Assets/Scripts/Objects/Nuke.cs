@@ -95,7 +95,7 @@ public class Nuke : NetworkBehaviour
 	public void CodeGenerator()
 	{
 		nukeCode = Random.Range(1000, 9999);
-		// Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
+		//Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
 	}
 
 	public void Clear() {
