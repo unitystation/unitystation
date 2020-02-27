@@ -148,7 +148,7 @@ jobs:
           path: ./Build
       - uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -qq -r ./${{ matrix.targetPlatform }}.zip ./Build
+          args: zip -qq -r ./${{ matrix.targetPlatform }}.zip ./Build/*
       - name: Upload to CDN
         env:
           CDN_HOST: ${{ secrets.CDN_HOST }}
