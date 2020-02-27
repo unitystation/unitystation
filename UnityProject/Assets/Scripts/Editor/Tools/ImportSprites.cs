@@ -3,6 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+
 public class ImportSprites : MonoBehaviour
 {
 	[MenuItem("Assets/Sprites/Slice Spritesheet", false, 1000)]
