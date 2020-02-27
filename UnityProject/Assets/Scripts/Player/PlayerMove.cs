@@ -478,7 +478,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			CmdUnbuckle();
 		}
-
 	}
 
 	private bool CanUnBuckeSelf()
