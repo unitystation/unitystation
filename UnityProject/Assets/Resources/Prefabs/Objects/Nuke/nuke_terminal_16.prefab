@@ -97,6 +97,9 @@ GameObject:
   - component: {fileID: 114865593340237248}
   - component: {fileID: 114613509149380128}
   - component: {fileID: 114799606624865704}
+  - component: {fileID: 790910487500350687}
+  - component: {fileID: 8788882867460085893}
+  - component: {fileID: 5431312055280098251}
   m_Layer: 11
   m_Name: nuke_terminal_16
   m_TagString: Untagged
@@ -229,7 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114613509149380128
@@ -258,13 +260,13 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   Resistances:
-    LavaProof: 0
-    FireProof: 0
+    LavaProof: 1
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
+    Indestructable: 1
+    FreezeProof: 1
   HeatResistance: 100
   initialIntegrity: 100
 --- !u!114 &114799606624865704
@@ -279,7 +281,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 2921722930
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 167815851
+--- !u!114 &790910487500350687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654230539544386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4594a796472cbd4439f4b75a6c889fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  cooldownTimer: 2
+  interactionMessage: You activate the terminal on the nuclear weapon
+  deniedMessage: The nuclear weapon rejects your Identification
+--- !u!114 &8788882867460085893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654230539544386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 2
+--- !u!114 &5431312055280098251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654230539544386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
