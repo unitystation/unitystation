@@ -301,8 +301,6 @@ public class LightSource : ObjectTrigger
 		// There is a bold assumption that sprite sheets associated with states are spaced 4 indexes between, and that nobody has changed any sprite names.
 		// My reimplementation just grabs more sprites for associated states.
 
-		const int SheetSpacing = 4;
-
 		var _assignedSprite = Renderer.sprite;
 
 		if (_assignedSprite == null)
@@ -313,10 +311,8 @@ public class LightSource : ObjectTrigger
 
 		// Try to parse base sprite index.
 		string[] _splitedName = _assignedSprite.name.Split('_');
-		var _spriteSheet = SpriteManager.LightSprites["lights"];
 
-		int _baseIndex;
-		if (_spriteSheet != null && _splitedName.Length == 2 && int.TryParse(_splitedName[1], out _baseIndex))
+		if (_splitedName.Length == 2 && int.TryParse(_splitedName[1], out _))
 		{
 			mSpriteDictionary.Add(LightState.On, _assignedSprite);
 
