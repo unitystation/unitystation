@@ -76,7 +76,7 @@ public class ChatBubble : MonoBehaviour
 	/// The current size of the chat bubble determined by vocalization. Will be scaled by the zoomMultiplier.
 	/// </summary>
 	private float bubbleSize = 2;
-	
+
 	[SerializeField]
 	[Tooltip("The size multiplier of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
 	[Range(1, 100)]
@@ -132,6 +132,9 @@ public class ChatBubble : MonoBehaviour
 	/// </summary>
 	public void SetupBubble(Transform _target, string msg, ChatModifier chatModifier = ChatModifier.None)
 	{
+		Vector3 viewPos = cam.WorldToScreenPoint(_target.position);
+		transform.position = viewPos;
+
 		gameObject.SetActive(true);
 		target = _target;
 
