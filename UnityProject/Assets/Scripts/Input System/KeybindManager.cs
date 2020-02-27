@@ -518,6 +518,31 @@ public class KeybindManager : MonoBehaviour {
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
+
+			
+				// Check if new hotkeys has been added to the default dict
+				// Adds them to the user settings in case one is found
+				if (userKeybinds.Count < defaultKeybinds.Count)
+				{
+					foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in defaultKeybinds)
+					{
+						if (!(userKeybinds.ContainsKey(entry.Key)))
+						{
+							userKeybinds.Add(entry.Key, entry.Value);
+						}
+					}
+				}
+				// If we remove a hotkey in the future, we remove it from userKeybinds here
+				else if (userKeybinds.Count > defaultKeybinds.Count)
+				{
+					foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in userKeybinds)
+					{
+						if (!(defaultKeybinds.ContainsKey(entry.Key)))
+						{
+							userKeybinds.Remove(entry.Key);
+						}
+					}
+				}
 		}
 		else
 		{
