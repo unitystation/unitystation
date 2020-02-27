@@ -132,7 +132,7 @@ jobs:
   Upload:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     needs: performBuild
-    name: Upload build to CDN
+    name: Upload ${{ matrix.targetPlatform }} to CDN
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -146,6 +146,8 @@ jobs:
         with:
           name: ${{ matrix.targetPlatform }}
           path: ./Build
+      - name: Create output directory
+        run: mkdir ./Zipped
       - uses: montudor/action-zip@v0.1.0
         with:
           args: zip -qq -r ./Zipped/${{ matrix.targetPlatform }}.zip ./Build
