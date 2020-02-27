@@ -102,9 +102,9 @@ jobs:
         env:
           BUILDINFO_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/buildinfo.json
           CONFIG_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/config/config.json
-          CDN_PATH_WIN: ${{ format('https://unitystationfile.b-cdn.net/win{0}.zip', github.run_number) }}
-          CDN_PATH_OSX: ${{ format('https://unitystationfile.b-cdn.net/osx{0}.zip', github.run_number) }}
-          CDN_PATH_LIN: ${{ format('https://unitystationfile.b-cdn.net/lin{0}.zip', github.run_number) }}
+          CDN_PATH_WIN: ${{ format('https://unitystationfile.b-cdn.net/UnityStationDevelop/StandaloneWindows64/{0}.zip', github.run_number) }}
+          CDN_PATH_OSX: ${{ format('https://unitystationfile.b-cdn.net/UnityStationDevelop/StandaloneOSX/{0}.zip', github.run_number) }}
+          CDN_PATH_LIN: ${{ format('https://unitystationfile.b-cdn.net/UnityStationDevelop/StandaloneLinux64/{0}.zip', github.run_number) }}
         run: |
           sudo apt-get install moreutils
           jq --arg v "$GITHUB_RUN_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
