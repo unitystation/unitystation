@@ -14848,6 +14848,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jobName: {fileID: 458704567607500704}
   jobImage: {fileID: 5532465755476183845}
+  dropdown: {fileID: 3045501818214856923}
+  jobPreferences: {fileID: 8779548482241700209}
 --- !u!1 &2692139654305178644
 GameObject:
   m_ObjectHideFlags: 0
@@ -20023,12 +20025,12 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 7142701528543599477}
+        m_MethodName: OnValueChanged
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

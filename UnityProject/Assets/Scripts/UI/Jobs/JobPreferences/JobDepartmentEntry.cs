@@ -22,11 +22,13 @@ public class JobDepartmentEntry : MonoBehaviour
 	/// Adds a job entry for an occupation
 	/// </summary>
 	/// <param name="occupation">The occupation to add</param>
-	public void Add(Occupation occupation)
+	public void Add(Occupation occupation, ref Dictionary<JobType, JobListEntry> jobEntries)
 	{
 		GameObject newEntry = Instantiate(jobEntryTemplate.gameObject, jobEntryTemplate.transform.parent);
 		var jobEntry = newEntry.GetComponent<JobListEntry>();
-		jobEntry.Set(occupation.DisplayName, occupation.PreviewSprite);
+		// Add a reference so the entry can be manipulated later
+		jobEntries.Add(occupation.JobType, jobEntry);
+		jobEntry.Setup(occupation);
 		newEntry.SetActive(true);
 	}
 
@@ -34,11 +36,11 @@ public class JobDepartmentEntry : MonoBehaviour
 	/// Adds job entries for a collection of occupations
 	/// </summary>
 	/// <param name="occupations">The collection occupations to add</param>
-	public void Add(IEnumerable<Occupation> occupations)
+	public void Add(IEnumerable<Occupation> occupations, ref Dictionary<JobType, JobListEntry> jobEntries)
 	{
 		foreach (var occupation in occupations)
 		{
-			Add(occupation);
+			Add(occupation, ref jobEntries);
 		}
 	}
 
@@ -47,11 +49,10 @@ public class JobDepartmentEntry : MonoBehaviour
 	/// for each occupation in the department
 	/// </summary>
 	/// <param name="department"></param>
-	public void Set(Department department)
+	public void Setup(Department department, ref Dictionary<JobType, JobListEntry> jobEntries)
 	{
-		Logger.Log($"SETTING DEPARTMENT: {department.DisplayName}");
 		header.text = department.DisplayName;
 		headerBackground.color = department.HeaderColor;
-		Add(department.Occupations);
+		Add(department.Occupations, ref jobEntries);
 	}
 }
