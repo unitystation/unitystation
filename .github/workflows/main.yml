@@ -162,7 +162,7 @@ jobs:
           user $CDN_USERNAME $CDN_PASSWORD
           binary
           mdel "UnityStationDevelop/$TARGET_PLATFORM*.zip"
-          put "./$TARGET_PLATFORM.zip" "UnityStationDevelop/$TARGET_PLATFORM$RUN_NUMBER.zip"
+          put "./$TARGET_PLATFORM.zip" "UnityStationDevelop/$TARGET_PLATFORM_v$RUN_NUMBER.zip"
           bye
           EOF
 
