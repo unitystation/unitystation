@@ -224,6 +224,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		DoorController doorController = theWall.GetComponent<DoorController>();
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
 		doorController.ServerTryClose();
+		Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject));
+		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), falseTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
 	}
