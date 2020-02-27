@@ -4,7 +4,6 @@ using Random = UnityEngine.Random;
 
 public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	private TileChangeManager tileChangeManager;
 
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
@@ -14,7 +13,6 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void Start()
 	{
-		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		objectBehaviour = GetComponent<ObjectBehaviour>();
