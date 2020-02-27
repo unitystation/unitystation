@@ -27,6 +27,8 @@ public class ControlDisplays : MonoBehaviour
 	private GameObject rightClickManager;
 
 	[SerializeField] private Animator uiAnimator;
+	[SerializeField] private VideoPlayerController videoController;
+	public VideoPlayerController VideoPlayer => videoController;
 
 	void OnEnable()
 	{
@@ -185,12 +187,7 @@ public class ControlDisplays : MonoBehaviour
 		preRoundWindow.SetActive(false);
 		jobSelectWindow.SetActive(true);
 	}
-
-	public void PlayNukeDetVideo()
-	{
-		uiAnimator.Play("NukeDetVideo");
-	}
-
+	
 	public void PlayStrandedVideo()
 	{
 		uiAnimator.Play("StrandedVideo");

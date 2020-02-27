@@ -26,6 +26,8 @@ MonoBehaviour:
     placeableOn: 4
     placeableOnlyOnTile: {fileID: 0}
     itemCost: 2
+  placeTime: 1
+  placeSound: 
 --- !u!1001 &4386653123902484753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,12 +35,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 47517029760484900, guid: a5ae289234c114e4faca591be88bdbb7,
+    - target: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: m_Name
+      value: Rods
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564627145347699415, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4564627145347699415, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 8afe5877eef9a4846b2c0b29496d5686,
+      objectReference: {fileID: 4519819786599941225}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
+      propertyPath: initialName
+      value: Rods
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: c7cca74482956574d9f3f02ec3602420, type: 3}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: d5a7865af55516e4cb88c88eec45d127, type: 3}
     - target: {fileID: 165128780772706316, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -94,46 +125,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: m_Name
-      value: Rods
-      objectReference: {fileID: 0}
     - target: {fileID: 273893261506824396, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+    - target: {fileID: -1963040542272998113, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
-      propertyPath: initialName
-      value: Rods
-      objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: initialDescription
+      propertyPath: buildList
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+      objectReference: {fileID: 11400000, guid: c4fd831915c844aeaaa984024e8a67e1,
+        type: 2}
+    - target: {fileID: 47517029760484900, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2800000, guid: c7cca74482956574d9f3f02ec3602420, type: 3}
-    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+      objectReference: {fileID: 21300000, guid: 8afe5877eef9a4846b2c0b29496d5686,
         type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: d5a7865af55516e4cb88c88eec45d127, type: 3}
-    - target: {fileID: 4564627145347699415, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: stacksWith.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4564627145347699415, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: stacksWith.Array.data[0]
-      value: 
-      objectReference: {fileID: 4519819786599941225}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ae289234c114e4faca591be88bdbb7, type: 3}
 --- !u!1 &4519819786599941225 stripped
