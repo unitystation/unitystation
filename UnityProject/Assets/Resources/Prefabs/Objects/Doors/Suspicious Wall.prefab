@@ -346,7 +346,7 @@ MonoBehaviour:
   DoorSpriteOffset: 2
   weldOverlay: {fileID: 0}
   weldSprite: {fileID: 0}
-  doorType: 15
+  doorType: 13
   damageOnClose: 0
   ignorePassableChecks: 0
   IsAutomatic: 0
@@ -371,7 +371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &1354086132998355932
@@ -386,6 +385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   allowInput: 1
 --- !u!114 &1353868630356860164
 MonoBehaviour:

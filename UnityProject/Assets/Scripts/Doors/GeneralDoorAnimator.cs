@@ -47,7 +47,14 @@ public class GeneralDoorAnimator : DoorAnimator
 			var cn = child.name.ToUpper();
 			if(cn.Contains("DOORBASE")) doorbase = child.gameObject.GetComponent<SpriteRenderer>();
 		}
-		doorbase.sprite = sprites[closeFrame + (int) direction];
+		if (!doorController.IsOpened)
+		{
+			doorbase.sprite = sprites[closeFrame + (int)direction];
+		}
+		else
+		{
+			doorbase.sprite = sprites[openFrame + (int)direction];
+		}
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
