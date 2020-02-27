@@ -54,6 +54,9 @@ public class EscapeShuttle : NetworkBehaviour
 	public bool OrientationRight;
 	public bool OrientationUp;
 	public bool OrientationDown;
+
+	//When Setting up map only pick ONE of the orientation options, picking more than one does nothing.
+
 	public Vector2 DockingLocationStation;
 	public bool StationApproachReversed;
 	public Destination CentcomDest;
