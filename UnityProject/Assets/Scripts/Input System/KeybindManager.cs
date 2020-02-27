@@ -520,29 +520,29 @@ public class KeybindManager : MonoBehaviour {
 			}
 
 			
-				// Check if new hotkeys has been added to the default dict
-				// Adds them to the user settings in case one is found
-				if (userKeybinds.Count < defaultKeybinds.Count)
+			// Check if new hotkeys has been added to the default dict
+			// Adds them to the user settings in case one is found
+			if (userKeybinds.Count < defaultKeybinds.Count)
+			{
+				foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in defaultKeybinds)
 				{
-					foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in defaultKeybinds)
+					if (!(userKeybinds.ContainsKey(entry.Key)))
 					{
-						if (!(userKeybinds.ContainsKey(entry.Key)))
-						{
-							userKeybinds.Add(entry.Key, entry.Value);
-						}
+						userKeybinds.Add(entry.Key, entry.Value);
 					}
 				}
-				// If we remove a hotkey in the future, we remove it from userKeybinds here
-				else if (userKeybinds.Count > defaultKeybinds.Count)
+			}
+			// If we remove a hotkey in the future, we remove it from userKeybinds here
+			else if (userKeybinds.Count > defaultKeybinds.Count)
+			{
+				foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in userKeybinds)
 				{
-					foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in userKeybinds)
+					if (!(defaultKeybinds.ContainsKey(entry.Key)))
 					{
-						if (!(defaultKeybinds.ContainsKey(entry.Key)))
-						{
-							userKeybinds.Remove(entry.Key);
-						}
+						userKeybinds.Remove(entry.Key);
 					}
 				}
+			}
 		}
 		else
 		{
