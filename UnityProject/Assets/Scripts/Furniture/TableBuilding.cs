@@ -48,10 +48,10 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
-						"You start constructing a glass table...",
-						$"{interaction.Performer.ExpensiveName()} starts constructing a glass table...",
-						"You are constructing a glass table.",
-						$"{interaction.Performer.ExpensiveName()} constructs a glass table.",
+						"You start deconstructing a table frame...",
+						$"{interaction.Performer.ExpensiveName()} starts deconstructing a table frame...",
+						"You are deconstructing a glass table.",
+						$"{interaction.Performer.ExpensiveName()} deconstructs a table frame.",
 						() => Disassemble(interaction));
 			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
 			
