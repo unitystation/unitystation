@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4612996799587298}
-  - {fileID: 2835794850317547609}
+  - {fileID: 6548115882612785176}
   m_Father: {fileID: 4354794864428666}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: c89d9cb2099a48847b69097880761a16, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6ff4332c3d21bad429a8f9a8c8bc664a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,16 +93,15 @@ GameObject:
   - component: {fileID: 4354794864428666}
   - component: {fileID: 61442980425183844}
   - component: {fileID: 61828718115089044}
-  - component: {fileID: 114014101349316756}
-  - component: {fileID: 114732841179402168}
+  - component: {fileID: 114444741572267014}
+  - component: {fileID: 114691238717007316}
   - component: {fileID: 114239634461430000}
-  - component: {fileID: 460845709627303480}
-  - component: {fileID: 114922293611875512}
-  - component: {fileID: 114142356391403884}
-  - component: {fileID: 114603204766106980}
-  - component: {fileID: 114659495049121970}
-  - component: {fileID: 4136559804677086486}
-  - component: {fileID: 904797467965077197}
+  - component: {fileID: 2982773529938248515}
+  - component: {fileID: 114689190573812974}
+  - component: {fileID: 114418841570268954}
+  - component: {fileID: 114367294292188536}
+  - component: {fileID: 114348464567647238}
+  - component: {fileID: 3337459902498497497}
   m_Layer: 11
   m_Name: Closet_Locker_Warden
   m_TagString: Untagged
@@ -178,7 +177,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5410156, y: 0.8852539}
   m_EdgeRadius: 0
---- !u!114 &114014101349316756
+--- !u!114 &114444741572267014
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +192,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114732841179402168
+--- !u!114 &114691238717007316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,7 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114239634461430000
@@ -223,14 +221,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 0}
-  lockLight: {fileID: 3303653664294033299}
+  lockLight: {fileID: 5116610659681085681}
   IsLockable: 1
   playerLimit: 3
   metalDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
-  doorOpened: {fileID: 21300000, guid: ac8ab584e698c0b4bb2b87e9b1b6f532, type: 3}
+  doorOpened: {fileID: 21300000, guid: 16d22887928ba5a4495c065f4985c6ce, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
---- !u!114 &460845709627303480
+--- !u!114 &2982773529938248515
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,7 +252,7 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114922293611875512
+--- !u!114 &114689190573812974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,7 +271,7 @@ MonoBehaviour:
   AtmosPassable: 1
   Passable: 0
   closetType: 0
---- !u!114 &114142356391403884
+--- !u!114 &114418841570268954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114603204766106980
+--- !u!114 &114367294292188536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,14 +299,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 30
-    Bullet: 50
-    Laser: 50
-    Energy: 100
-    Bomb: 0
+    Melee: 20
+    Bullet: 10
+    Laser: 10
+    Energy: 0
+    Bomb: 10
     Rad: 0
-    Fire: 80
-    Acid: 80
+    Fire: 70
+    Acid: 60
     Magic: 0
     Bio: 0
   Resistances:
@@ -320,8 +318,8 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 1370
-  initialIntegrity: 500
---- !u!114 &114659495049121970
+  initialIntegrity: 200
+--- !u!114 &114348464567647238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -336,7 +334,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &4136559804677086486
+--- !u!114 &3337459902498497497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -350,24 +348,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: Warden's locker
-  initialDescription: A very durable metal locker.
-  exportCost: 400
+  initialName: warden's locker
+  initialDescription: The locker for the warden.
+  exportCost: 200
   exportName: locker
   exportMessage: 
---- !u!114 &904797467965077197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615565101381030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 3
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +422,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aa40a4cded2d5564ea5032ee017b4291, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8c922106afb4c94f8e28ab80c77a5bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -478,7 +463,7 @@ Transform:
   m_Father: {fileID: 4625006096954862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5261276317988948804
+--- !u!1 &5240676666189087081
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -486,23 +471,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2835794850317547609}
-  - component: {fileID: 1309688368657885579}
-  - component: {fileID: 3303653664294033299}
+  - component: {fileID: 6548115882612785176}
+  - component: {fileID: 4026505045332566237}
+  - component: {fileID: 5116610659681085681}
   m_Layer: 0
-  m_Name: 'LockLight '
+  m_Name: LockLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2835794850317547609
+--- !u!4 &6548115882612785176
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5261276317988948804}
+  m_GameObject: {fileID: 5240676666189087081}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.030029297, y: -0.020019531, z: -0.10000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -510,13 +495,13 @@ Transform:
   m_Father: {fileID: 4625006096954862}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1309688368657885579
+--- !u!212 &4026505045332566237
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5261276317988948804}
+  m_GameObject: {fileID: 5240676666189087081}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -559,13 +544,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3303653664294033299
+--- !u!114 &5116610659681085681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5261276317988948804}
+  m_GameObject: {fileID: 5240676666189087081}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c21a6af2c615b34993352ed3e5e8aba, type: 3}
