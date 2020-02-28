@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: 21300006
     second: parrot_sit_3
+  - first:
+      213: 3151458610720283658
+    second: animals_parrot_sit_0
+  - first:
+      213: 3820961662809930519
+    second: animals_parrot_sit_1
+  - first:
+      213: 2387661665829768323
+    second: animals_parrot_sit_2
+  - first:
+      213: 3011742758317925764
+    second: animals_parrot_sit_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -98,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: parrot_sit_0
+      name: animals_parrot_sit_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 32
+        x: 9
+        y: 8
+        width: 16
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: da8e401a37a068d4ca86a96578c573e8
+      internalID: 3151458610720283658
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: parrot_sit_1
+      name: animals_parrot_sit_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
+        x: 41
+        y: 8
+        width: 16
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -133,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 411d89b997e59d947bccae548adc534c
+      internalID: 3820961662809930519
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: parrot_sit_2
+      name: animals_parrot_sit_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
+        x: 71
+        y: 8
+        width: 16
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 5ac4f734d3212cc47bcfdb36ca713e61
+      internalID: 2387661665829768323
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: parrot_sit_3
+      name: animals_parrot_sit_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
+        x: 105
+        y: 8
+        width: 16
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: 331fbdc08b801ae49afd5332e34f471c
+      internalID: 3011742758317925764
       vertices: []
       indices: 
       edges: []

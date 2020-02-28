@@ -256,7 +256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114247702066690794
@@ -306,10 +305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3356822372
 --- !u!114 &-8150763787947218092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,5 +347,5 @@ MonoBehaviour:
   TraitWhitelist: []
   ReagentWhitelist: []
   TransferMode: 2
-  InitialTransferAmount: 20
   PossibleTransferAmounts: []
+  InitialTransferAmount: 20

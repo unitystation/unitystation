@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: 21300006
     second: goose_3
+  - first:
+      213: 5056751218668678701
+    second: animals_goose_0
+  - first:
+      213: 3678317511807829774
+    second: animals_goose_1
+  - first:
+      213: 8664769781545241621
+    second: animals_goose_2
+  - first:
+      213: 3117982994872875133
+    second: animals_goose_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -98,12 +110,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: goose_0
+      name: animals_goose_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 0
-        width: 32
+        width: 18
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -112,19 +124,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: faba0559548236c4198806539c5c9b93
+      internalID: 5056751218668678701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: goose_1
+      name: animals_goose_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 39
         y: 0
-        width: 32
+        width: 18
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -133,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 74260d701f33fba40a23265279194b21
+      internalID: 3678317511807829774
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: goose_2
+      name: animals_goose_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 32
-        height: 32
+        width: 29
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 28e4ab1d46b05824bbec98991766fa5d
+      internalID: 8664769781545241621
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: goose_3
+      name: animals_goose_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 99
         y: 0
-        width: 32
-        height: 32
+        width: 29
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: aa25719c3e04c114a8e13ce5e21088cc
+      internalID: 3117982994872875133
       vertices: []
       indices: 
       edges: []
