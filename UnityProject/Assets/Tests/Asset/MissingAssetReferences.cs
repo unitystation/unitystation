@@ -174,7 +174,7 @@ namespace Tests
 
 
 		/// <summary>
-		/// Check if there are missing components in a scene
+		/// Check if there are missing components or reference fields in a scene
 		/// Checks only scenes selected for build
 		/// </summary>
 		[Test]
@@ -182,7 +182,8 @@ namespace Tests
 		{
 			var buildScenes = EditorBuildSettings.scenes;
 
-			var listResults = new List<(string, string)>();
+			var missingComponentsReport = new List<(string, string)>();
+			var missingFieldsReport = new List<(string, string, string, string)>();
 
 			foreach (var scene in buildScenes)
 			{
@@ -197,22 +198,41 @@ namespace Tests
 					{
 						if (c == null)
 						{
-							listResults.Add((currentSceneName, go.name));
+							missingComponentsReport.Add((currentSceneName, go.name));
+						}
+						else
+						{
+							var so = new SerializedObject(c);
+							var missingRefs = GetMissingRefs(so);
+							foreach (var miss in missingRefs)
+								missingFieldsReport.Add((currentSceneName, go.name, c.name, miss));
 						}
 					}
 				}
 			}
 
-			// Form report
+			// Form report about missing components
 			var report = new StringBuilder();
-			foreach (var s in listResults)
+			foreach (var s in missingComponentsReport)
 			{
-				var msg = $"Missing reference found in scene {s.Item1}, GameObject {s.Item2}";
-				Logger.Log(msg, Category.Tests);
-				report.AppendLine(msg);
+				var missingComponentMsg = $"Missing component found in scene {s.Item1}, GameObject {s.Item2}";
+				Logger.Log(missingComponentMsg, Category.Tests);
+				report.AppendLine(missingComponentMsg);
 			}
 
-			Assert.IsEmpty(listResults, report.ToString());
+			Assert.IsEmpty(missingComponentsReport, report.ToString());
+
+			// Form report about missing refs
+			report = new StringBuilder();
+			foreach (var s in missingFieldsReport)
+			{
+				var missingFieldsMsg = $"Missing reference found in scene {s.Item1}, GameObject {s.Item2}, Component {s.Item3}, FieldName {s.Item4}";
+				Logger.Log(missingFieldsMsg, Category.Tests);
+				report.AppendLine(missingFieldsMsg);
+			}
+
+			Assert.IsEmpty(missingFieldsReport, report.ToString());
+
 		}
 
 		private static List<string> GetMissingRefs(SerializedObject so)
