@@ -47,26 +47,49 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.TargetObject != gameObject) return;
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
+						"You start constructing a glass table...",
+						$"{interaction.Performer.ExpensiveName()} starts constructing a glass table...",
+						"You are constructing a glass table.",
+						$"{interaction.Performer.ExpensiveName()} constructs a glass table.",
+						() => Disassemble(interaction));
 			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
-			Disassemble(interaction);
+			
 			return;
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
-			SpawnTable(interaction, metalTable);
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
+						"You start constructing a metal table...",
+						$"{interaction.Performer.ExpensiveName()} starts constructing a metal table...",
+						"You are constructing a metal table.",
+						$"{interaction.Performer.ExpensiveName()} constructs a metal table.",
+						() => SpawnTable(interaction, metalTable));
+			;
 			return;
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
-			SpawnTable(interaction, glassTable);
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
+						"You start constructing a glass table...",
+						$"{interaction.Performer.ExpensiveName()} starts constructing a glass table...",
+						"You are constructing a glass table.",
+						$"{interaction.Performer.ExpensiveName()} constructs a glass table.",
+						() => SpawnTable(interaction, glassTable));
+			SoundManager.PlayNetworkedAtPos("GlassHit", gameObject.WorldPosServer(), 1f);
+			
 			return;
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
-			SpawnTable(interaction, woodTable);
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
+						"You start constructing a wooden table...",
+						$"{interaction.Performer.ExpensiveName()} starts constructing a wooden table...",
+						"You are constructing a wooden table.",
+						$"{interaction.Performer.ExpensiveName()} constructs a wooden table.",
+						() => SpawnTable(interaction, woodTable));
+			SoundManager.PlayNetworkedAtPos("wood3", gameObject.WorldPosServer(), 1f);
+			
 			return;
 		}
 
