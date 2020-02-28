@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 3525490832341156112, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_Name
-      value: BioSuit
+      value: SecurityBioSuit
       objectReference: {fileID: 0}
     - target: {fileID: 3525490832341156112, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -75,27 +75,27 @@ PrefabInstance:
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Melee
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Bullet
-      value: 0
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Laser
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Energy
-      value: 0
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Bomb
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -131,7 +131,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 73e182f625d7fda44afcfd9aa608789e,
+      objectReference: {fileID: 21300000, guid: 4ab4248d19806af48b8c27aee898befd,
         type: 3}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -147,12 +147,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 7f3fed116ed4ef84698eb867f80f72df,
+      objectReference: {fileID: 11400000, guid: 5aa3e378b1c9a2c468bf9411b91b4105,
         type: 2}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: hideClothingFlags
-      value: 13
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0c29a11d2c864b7982765b5340eed0e, type: 3}
