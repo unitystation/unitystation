@@ -304,7 +304,7 @@ MonoBehaviour:
     Bullet: 50
     Laser: 50
     Energy: 100
-    Bomb: 0
+    Bomb: 50
     Rad: 0
     Fire: 80
     Acid: 80
@@ -318,7 +318,7 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  HeatResistance: 1370
+  HeatResistance: 2000
   initialIntegrity: 500
 --- !u!114 &114659495049121970
 MonoBehaviour:
@@ -350,7 +350,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: armory locker
-  initialDescription: ' '
+  initialDescription: A very durable metal locker.
   exportCost: 400
   exportName: locker
   exportMessage: 
