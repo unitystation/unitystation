@@ -119,7 +119,7 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          buildName: UnityStation
+          buildName: Unitystation
           buildMethod: BuildScript.BuildProject
 
       # Upload distributables

@@ -10,4 +10,4 @@ services:
       HUB_PASSWORD: $HUB_PASSWORD
       SERVER_NAME: Unitystation - EU02 Staging
     volumes:
-      - /etc/UnityStation/admin:/UnityStation_Data/StreamingAssets/admin
+      - /etc/UnityStation/admin:/Unitystation_Data/StreamingAssets/admin
