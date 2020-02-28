@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 684769290395936646}
   - component: {fileID: 114626364792080042}
   - component: {fileID: -7767915788400301364}
+  - component: {fileID: 3075069526902458543}
   m_Layer: 11
   m_Name: bed
   m_TagString: Untagged
@@ -159,7 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &8536537474672733830
@@ -284,10 +284,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2489010413
 --- !u!114 &-7767915788400301364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,3 +306,20 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &3075069526902458543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609215198608670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799d5bd9e47a11b4588193b68921813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  resourcesMadeOf: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
+    type: 3}
+  howMany: 2
