@@ -8,9 +8,12 @@ using Mirror;
 public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IExaminable
 {
 	private TileChangeManager tileChangeManager;
-
+	private MetaTileMap metaTileMap;
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
+
+	public GameObject FalseWall;
+	public GameObject FalseReinforcedWall;
 
 	[Tooltip("Reinforced girder prefab.")]
 	[SerializeField]
@@ -19,6 +22,10 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[Tooltip("Tile to spawn when wall is constructed.")]
 	[SerializeField]
 	private BasicTile wallTile;
+
+	[Tooltip("Tile to spawn when false wall is constructed.")]
+	[SerializeField]
+	private BasicTile falseTile;
 
 	//tracked server side only
 	private int plasteelSheetCount;
@@ -62,10 +69,19 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 		{
-			//TODO: false walls
 			if (objectBehaviour.IsPushable)
 			{
-				Chat.AddExamineMsg(interaction.Performer, "You've temporarily forgotten how to build false walls.");
+				if (!Validations.HasAtLeast(interaction.HandObject, 2))
+				{
+					Chat.AddExamineMsg(interaction.Performer, "You need two sheets of metal to finish a false wall!");
+					return;
+				}
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+					"You start adding plating...",
+					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+					"You create a false wall.",
+					$"{interaction.Performer.ExpensiveName()} creates a false wall.",
+					() => ConstructFalseWall(interaction));
 			}
 			else
 			{
@@ -77,22 +93,26 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start adding plating...",
 					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
-					"You add the plating.",
-					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					"You create a false wall.",
+					$"{interaction.Performer.ExpensiveName()} creates a false wall.",
 					() => ConstructWall(interaction));
 			}
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 		{
-			//TODO: false reinforced walls
 			if (objectBehaviour.IsPushable)
 			{
 				if (!Validations.HasAtLeast(interaction.HandObject, 2))
 				{
-					Chat.AddExamineMsg(interaction.Performer, "You need at least two sheets to create a false wall!");
+					Chat.AddExamineMsg(interaction.Performer, "You need at least two sheets to create a reinforced false wall!");
 					return;
 				}
-				Chat.AddExamineMsg(interaction.Performer, "You've temporarily forgotten how to build reinforced false walls.");
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+					"You start adding plating...",
+					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+					"You add the plating.",
+					$"{interaction.Performer.ExpensiveName()} adds the plating.",
+					() => ConstructReinforcedFalseWall(interaction));
 			}
 			else
 			{
@@ -186,5 +206,25 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		Despawn.ServerSingle(gameObject);
 	}
 
+	[Server]
+	private void ConstructFalseWall(HandApply interaction)
+	{
+		GameObject theWall = Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject)).GameObject;
+		DoorController doorController = theWall.GetComponent<DoorController>();
+		tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+		Despawn.ServerSingle(gameObject);
+		doorController.ServerTryClose();
+	}
 
+	[Server]
+	private void ConstructReinforcedFalseWall(HandApply interaction)
+	{
+		GameObject theWall = Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject)).GameObject;
+		DoorController doorController = theWall.GetComponent<DoorController>();
+		tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+		Despawn.ServerSingle(gameObject);
+		doorController.ServerTryClose();
+	}
 }
