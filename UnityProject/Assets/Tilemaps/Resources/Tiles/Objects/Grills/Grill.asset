@@ -11,8 +11,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: Grill
-  m_EditorClassIdentifier:
-  displayName:
+  m_EditorClassIdentifier: 
+  displayName: 
   LayerType: 5
   TileType: 6
   RequiredTiles:
@@ -26,8 +26,8 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   passableException:
-    m_keys:
-    m_values:
+    m_keys: 
+    m_values: 
   maxHealth: 0
   healthStates: []
   resistances:
@@ -50,7 +50,8 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   tileInteractions:
-  - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
-  spawnOnDeconstruct: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,     type: 3}
+  - {fileID: 11400000, guid: 8e5b0c6f1995489408133f815f767c27, type: 2}
+  - {fileID: 11400000, guid: 107560a7c6045ac478f5555e9487ba89, type: 2}
+  spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}
