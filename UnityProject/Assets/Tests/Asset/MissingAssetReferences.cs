@@ -5,6 +5,7 @@ using UnityEditor;
 using System.Text;
 using System.Linq;
 using System.IO;
+using UnityEditor.SceneManagement;
 
 namespace Tests
 {
@@ -171,6 +172,48 @@ namespace Tests
 			Assert.IsEmpty(listResults, report.ToString());
 		}
 
+
+		/// <summary>
+		/// Check if there are missing components in a scene
+		/// Checks only scenes selected for build
+		/// </summary>
+		[Test]
+		public void CheckMissingComponentsOnScenes()
+		{
+			var buildScenes = EditorBuildSettings.scenes;
+
+			var listResults = new List<(string, string)>();
+
+			foreach (var scene in buildScenes)
+			{
+				var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
+				var currentSceneName = currentScene.name;
+
+				var allGO = GameObject.FindObjectsOfType<GameObject>();
+				foreach (var go in allGO)
+				{
+					Component[] components = go.GetComponents<Component>();
+					foreach (Component c in components)
+					{
+						if (c == null)
+						{
+							listResults.Add((currentSceneName, go.name));
+						}
+					}
+				}
+			}
+
+			// Form report
+			var report = new StringBuilder();
+			foreach (var s in listResults)
+			{
+				var msg = $"Missing reference found in scene {s.Item1}, GameObject {s.Item2}";
+				Logger.Log(msg, Category.Tests);
+				report.AppendLine(msg);
+			}
+
+			Assert.IsEmpty(listResults, report.ToString());
+		}
 
 		private static List<string> GetMissingRefs(SerializedObject so)
 		{
