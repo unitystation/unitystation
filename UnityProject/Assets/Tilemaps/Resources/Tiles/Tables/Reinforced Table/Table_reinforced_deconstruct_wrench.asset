@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f0627a4860741578ec35e4340e83cc6, type: 3}
-  m_Name: DeconstructWhenWrenchUsed
+  m_Name: Table_reinforced_deconstruct_wrench
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
-  performerStartActionMessage: 
-  othersStartActionMessage: 
-  seconds: 1
-  objectsToSpawn: {fileID: 0}
-  performerFinishActionMessage: 
-  othersFinishActionMessage: 
+  performerStartActionMessage: You struggle to unwrench the reinforced table...
+  othersStartActionMessage: '{performer}struggles to unwrench the reinforced table...'
+  seconds: 6
+  objectsToSpawn: {fileID: 11400000, guid: 9d86fbdfb4c3e3e4bbe0df28394963f3, type: 2}
+  performerFinishActionMessage: You deconstruct the reinforced table.
+  othersFinishActionMessage: '{performer} unwrenches the reinforced table.'

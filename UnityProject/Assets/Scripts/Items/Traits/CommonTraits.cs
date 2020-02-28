@@ -30,6 +30,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait MetalSheet;
 	public ItemTrait GlassSheet;
 	public ItemTrait PlasteelSheet;
+	public ItemTrait WoodenPlank;
 	public ItemTrait Cable;
 	public ItemTrait Welder;
 	public ItemTrait Shovel;
