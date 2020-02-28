@@ -7,16 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1743772469580210405, guid: 868598a9acc5f40b0811af946a2c4c27,
+    - target: {fileID: 1927960286214187049, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 21300000, guid: 343e2c77657e1fb44a7b8b7d5b3e929e,
+      objectReference: {fileID: 0}
+    - target: {fileID: 1927960286214210139, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
+      propertyPath: m_Name
+      value: SyndicateBackpack
+      objectReference: {fileID: 0}
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: m_Name
-      value: ExplorerBag
+      value: FireproofBackpack
       objectReference: {fileID: 0}
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
@@ -83,27 +87,32 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1970703474161549901, guid: 868598a9acc5f40b0811af946a2c4c27,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2030966178880945371, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: initialName
-      value: explorer bag
+      value: backpack
       objectReference: {fileID: 0}
     - target: {fileID: 2030966178880945371, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: initialDescription
-      value: A robust backpack for stashing your loot.
+      value: You wear this on your back and put items into it.
       objectReference: {fileID: 0}
     - target: {fileID: 4809792473518981180, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: ae1d5dddb36dbc34f955594c5fe0401d,
+      objectReference: {fileID: 11400000, guid: e33da839e54e7fd4394ce36343dc8bae,
         type: 2}
     - target: {fileID: 8333586519074616349, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: itemStoragePopulator
       value: 
-      objectReference: {fileID: 11400000, guid: 6876ca3ac5e9f254d8d1a969ad652613,
+      objectReference: {fileID: 11400000, guid: cab7233cb005aa14eaf7e7a30db41ee0,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 868598a9acc5f40b0811af946a2c4c27, type: 3}
