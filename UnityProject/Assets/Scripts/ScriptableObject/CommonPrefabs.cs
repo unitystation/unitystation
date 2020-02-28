@@ -12,6 +12,7 @@ public class CommonPrefabs : SingletonScriptableObject<CommonPrefabs>
 	public GameObject Metal;
 	public GameObject Plasteel;
 	public GameObject GlassSheet;
+	public GameObject WoodenPlank;
 	public GameObject SingleCableCoil;
 	public GameObject Mask;
 	public GameObject EmergencyOxygenTank;
