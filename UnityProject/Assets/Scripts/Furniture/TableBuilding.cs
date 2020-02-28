@@ -14,6 +14,9 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Tooltip("If apply Wood Plank.")]
 	public LayerTile woodTable;
 
+	[Tooltip("If apply Wood Plank.")]
+	public LayerTile reinforcedTable;
+
 	private Integrity integrity;
 
 	private void Start()
@@ -37,9 +40,11 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench, screwdriver in their hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
-			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet) &&
+			 !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet) &&
 			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet) &&
-			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank)) { return false; }
+			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank) &&
+		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet)){ return false; }
+		if (interaction.HandObject.GetComponent<Stackable>().Amount < 2) return false;
 		return true;
 	}
 	public void ServerPerformInteraction(HandApply interaction)
@@ -92,6 +97,18 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 			
 			return;
 		}
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
+		{
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start constructing a reinforced table...",
+						$"{interaction.Performer.ExpensiveName()} starts constructing a reinforced table...",
+						"You are constructing a reinforced table.",
+						$"{interaction.Performer.ExpensiveName()} constructs a reinforced table.",
+						() => SpawnTable(interaction, reinforcedTable));
+			SoundManager.PlayNetworkedAtPos("Deconstruct", gameObject.WorldPosServer(), 1f);
+
+			return;
+		}
 
 	}
 	[Server]
@@ -103,12 +120,13 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void SpawnTable(HandApply interaction, LayerTile tableToSpawn)
 	{
-		var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
-		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
-		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
-		interactableTiles.TileChangeManager.UpdateTile(cellPos, tableToSpawn);
-		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-		Despawn.ServerSingle(gameObject);
+		
+			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
+			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
+			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+			interactableTiles.TileChangeManager.UpdateTile(cellPos, tableToSpawn);
+			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
+			Despawn.ServerSingle(gameObject);
 	}
 
 }
