@@ -105,6 +105,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		interactableTiles.TileChangeManager.UpdateTile(cellPos, tableToSpawn);
 		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 		Despawn.ServerSingle(gameObject);
