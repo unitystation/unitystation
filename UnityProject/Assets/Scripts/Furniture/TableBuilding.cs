@@ -6,16 +6,13 @@ using Random = UnityEngine.Random;
 public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[Tooltip("If apply Metal Sheet.")]
-	public LayerTile metaltable;
+	public LayerTile metalTable;
 
 	[Tooltip("If apply Glass Sheet.")]
 	public LayerTile glassTable;
 
 	[Tooltip("If apply Wood Plank.")]
 	public LayerTile woodTable;
-
-	[Tooltip("How many will it drop on deconstruct.")]
-	public int howMany = 1;
 
 	private Integrity integrity;
 
@@ -57,7 +54,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
-			SpawnTable(interaction, metaltable);
+			SpawnTable(interaction, metalTable);
 			return;
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet))
@@ -77,7 +74,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void Disassemble(HandApply interaction)
 	{
-		Spawn.ServerPrefab("Rods", gameObject.WorldPosServer(), count: howMany);
+		Spawn.ServerPrefab("Rods", gameObject.WorldPosServer(), count: 2);
 		Despawn.ServerSingle(gameObject);
 	}
 	[Server]
