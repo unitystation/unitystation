@@ -196,16 +196,19 @@ namespace Tests
 					Component[] components = go.GetComponents<Component>();
 					foreach (Component c in components)
 					{
+						var parent = go.transform.parent;
+						var parentName = parent ? parent.name + '/' : "";
+
 						if (c == null)
 						{
-							missingComponentsReport.Add((currentSceneName, go.name));
+							missingComponentsReport.Add((currentSceneName, parentName + go.name));
 						}
 						else
 						{
 							var so = new SerializedObject(c);
 							var missingRefs = GetMissingRefs(so);
 							foreach (var miss in missingRefs)
-								missingFieldsReport.Add((currentSceneName, go.name, c.name, miss));
+								missingFieldsReport.Add((currentSceneName, parentName + go.name, c.name, miss));
 						}
 					}
 				}
