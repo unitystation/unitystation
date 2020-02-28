@@ -101,6 +101,9 @@ public class SpriteHandler : MonoBehaviour
 
 	private IEnumerator WaitForInitialisation()
 	{
+		// Don't show while configuring
+		spriteRenderer.enabled = false;
+
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
 		GetImageComponent();
@@ -111,6 +114,9 @@ public class SpriteHandler : MonoBehaviour
 		{
 			PushTexture();
 		}
+
+		// Show once done configuring
+		spriteRenderer.enabled = true;
 	}
 
 	private void OnEnable()
