@@ -132,6 +132,8 @@ public class ChatBubble : MonoBehaviour
 	/// </summary>
 	public void SetupBubble(Transform _target, string msg, ChatModifier chatModifier = ChatModifier.None)
 	{
+		if(cam == null) cam = Camera.main;
+		
 		Vector3 viewPos = cam.WorldToScreenPoint(_target.position);
 		transform.position = viewPos;
 
