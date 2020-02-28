@@ -16,7 +16,7 @@ public class DoorController : NetworkBehaviour
 		private int closedLayer;
 		private int closedSortingLayer;
 		public AudioSource closeSFX;
-		
+
 		private IEnumerator coWaitOpened;
 		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
 		public DoorAnimator doorAnimator;
@@ -245,7 +245,9 @@ public class DoorController : NetworkBehaviour
 			}
 			else
 			{
-				Logger.LogError("Door lacks access restriction component!", Category.Doors);
+				Logger.LogErrorFormat("Door {0} @{1} lacks access restriction component!", Category.Doors,
+					name,
+					registerTile ? registerTile.WorldPositionServer : transform.position);
 			}
 		}
 

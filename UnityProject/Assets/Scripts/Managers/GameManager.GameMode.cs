@@ -35,7 +35,17 @@ public partial class GameManager
 	/// <summary>
 	/// The state of the current round
 	/// </summary>
-	public RoundState CurrentRoundState;
+	public RoundState CurrentRoundState
+	{
+		get => currentRoundState;
+		private set
+		{
+			currentRoundState = value;
+			Logger.LogFormat("CurrentRoundState is now {0}!", Category.Round, value);
+		}
+	}
+
+	private RoundState currentRoundState;
 
 	/// <summary>
 	/// The current game mode

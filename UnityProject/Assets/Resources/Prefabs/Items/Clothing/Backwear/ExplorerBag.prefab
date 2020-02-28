@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: m_Name
-      value: ExplorerBackpack
+      value: ExplorerBag
       objectReference: {fileID: 0}
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
@@ -98,6 +98,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: ae1d5dddb36dbc34f955594c5fe0401d,
+        type: 2}
+    - target: {fileID: 8333586519074616349, guid: 868598a9acc5f40b0811af946a2c4c27,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: 6876ca3ac5e9f254d8d1a969ad652613,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 868598a9acc5f40b0811af946a2c4c27, type: 3}

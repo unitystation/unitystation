@@ -39,6 +39,17 @@ public class ClothingData : BaseClothData
 		return $"{name}";
 	}
 
+	public override List<Color> GetPaletteOrNull(int variantIndex)
+	{
+		// TODO: Get alternate palette if necessary.
+		//if (variantIndex == -1)
+		//{
+		return Base.IsPaletted ? new List<Color>(Base.Palette) : null;
+		//}
+
+		//return null;
+	}
+
 
 }
 

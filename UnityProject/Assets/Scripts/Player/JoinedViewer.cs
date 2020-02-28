@@ -164,6 +164,11 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
 	{
+		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
+		{
+			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
+			return;
+		}
 		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
 		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
 		if (slotsTaken >= slotsMax)

@@ -10,9 +10,15 @@ public class AtmosSystem : SubsystemBehaviour
 
 		foreach (Vector3Int position in bounds.allPositionsWithin)
 		{
+			//get toptile at pos to check if it should spawn with no air
+			bool spawnWithNoAir = false;
+			var topTile = metaTileMap.GetTile(position,true);
+			if (topTile is BasicTile)
+			{
+				spawnWithNoAir = (topTile as BasicTile).SpawnWithNoAir;
+			}
 			MetaDataNode node = metaDataLayer.Get(position, false);
-
-			node.GasMix = new GasMix( (node.IsRoom||node.IsOccupied) ? GasMixes.Air : GasMixes.Space );
+			node.GasMix = new GasMix( (node.IsRoom||node.IsOccupied) && !spawnWithNoAir ? GasMixes.Air : GasMixes.Space );
 		}
 	}
 

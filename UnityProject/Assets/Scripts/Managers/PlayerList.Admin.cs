@@ -137,8 +137,15 @@ public partial class PlayerList
 	//Check if tokens match and if the player is an admin or is banned
 	private async Task<bool> CheckUserState(string userid, string token, ConnectedPlayer playerConn, string clientID)
 	{
+		if (GameData.Instance.OfflineMode)
+		{
+			Logger.Log($"{playerConn.Username} logged in successfully in offline mode. " +
+			           $"userid: {userid}", Category.Admin);
+			return true;
+		}
+
 		//allow empty token for local offline testing
-		if ((string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid)) && !GameData.Instance.OfflineMode)
+		if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userid))
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A user tried to connect with null userid or token value" +
@@ -148,7 +155,7 @@ public partial class PlayerList
 		}
 
 		//check if they are already logged in, skip this check if offline mode is enable or if not a release build.
-		if (!GameData.Instance.OfflineMode && BuildPreferences.isForRelease)
+		if (BuildPreferences.isForRelease)
 		{
 			var otherUser = GetByUserID(userid);
 			if (otherUser != null)
@@ -173,13 +180,13 @@ public partial class PlayerList
 		var response = await ServerData.ValidateToken(refresh, true);
 
 		//fail, unless doing local offline testing
-		if (response == null && !GameData.Instance.OfflineMode)
+		if (response == null)
 		{
 			return false;
 		}
 
 		//allow error response for local offline testing
-		if (response != null && response.errorCode == 1 && !GameData.Instance.OfflineMode)
+		if (response.errorCode == 1)
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A spoof attempt was recorded. " +

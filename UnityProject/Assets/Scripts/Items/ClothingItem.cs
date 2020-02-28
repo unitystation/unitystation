@@ -25,17 +25,10 @@ public class ClothingItem : MonoBehaviour
 	/// </summary>
 	private Orientation currentDirection = Orientation.Down;
 
-	public int reference;
 	protected int referenceOffset;
-	public Color color = Color.white;
 	private int variantIndex = 0;
 
 	public SpriteHandler spriteHandler;
-
-	//public SpriteRenderer spriteRenderer;
-	private Sprite[] sprites;
-
-	public string spriteSheetName;
 
 	public GameObject GameObjectReference;
 
@@ -75,14 +68,11 @@ public class ClothingItem : MonoBehaviour
 
 	private void Awake()
 	{
-		sprites = SpriteManager.PlayerSprites[spriteSheetName];
 		UpdateSprite();
 	}
 
-
 	public void SetColor(Color value)
 	{
-		color = value;
 		if (spriteHandler != null)
 		{
 			spriteHandler.SetColor(value);
@@ -128,7 +118,7 @@ public class ClothingItem : MonoBehaviour
 
 				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
 				// But for the others, we call the OnClothingEquiped event.
-				if (equippedClothing) 
+				if (equippedClothing)
 				{
 					// call the event of equiped clothing
 					OnClothingEquiped?.Invoke(equippedClothing, true);
@@ -196,13 +186,12 @@ public class ClothingItem : MonoBehaviour
 		}
 	}
 
-
-	public void SetInHand(ItemsSprites _ItemsSprites) { 
+	public void SetInHand(ItemsSprites _ItemsSprites) {
 		if (_ItemsSprites != null)
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				
+
 				spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
 			}
 			else

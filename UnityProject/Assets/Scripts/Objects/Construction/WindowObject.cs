@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	private TileChangeManager tileChangeManager;
 
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
@@ -18,7 +17,6 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void Start()
 	{
-		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -71,6 +69,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 						"You secure the window.",
 						$"{interaction.Performer.ExpensiveName()} secures the window.",
 						() => ScrewToFloor(interaction));
+					return;
 				}
 			}
 			else
@@ -96,6 +95,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 					"You disassemble the window.",
 					$"{interaction.Performer.ExpensiveName()} disassembles the window.",
 					() => Disassemble(interaction));
+				return;
 			}
 			else
 			{
@@ -112,13 +112,13 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
 		interactableTiles.TileChangeManager.UpdateTile(cellPos, layerTile);
 		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		Despawn.ServerSingle(gameObject);
 	}
 	[Server]
 	private void Disassemble(HandApply interaction)
 	{
 		Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, registerObject.WorldPositionServer, count: 4);
-		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		Despawn.ServerSingle(gameObject);
 	}
 
 }
