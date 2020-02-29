@@ -12,6 +12,7 @@ public class RWindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private RegisterObject registerObject;
 	private ObjectBehaviour objectBehaviour;
 
+	[Header("Tile creation variables")]
 	[Tooltip("Layer tile which this will create.")]
 	public LayerTile layerTile;
 
@@ -138,7 +139,7 @@ public class RWindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void Disassemble(HandApply interaction)
 	{
 		Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDestroy);
-		SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f);
+		SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), 1f);
 		Despawn.ServerSingle(gameObject);
 	}
 
