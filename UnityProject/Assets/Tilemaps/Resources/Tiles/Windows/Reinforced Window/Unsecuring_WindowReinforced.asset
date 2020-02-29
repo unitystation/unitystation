@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b78698377d6a4aaf8d6e3a304a6cbc5e, type: 3}
-  m_Name: Unscrew_WindowReinforced
+  m_Name: Unsecuring_WindowReinforced
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-  performerStartActionMessage: 
-  othersStartActionMessage: 
+  performerStartActionMessage: You begin unsecuring safeties of the window...
+  othersStartActionMessage: '{performer} begins unsecuring safeties of the window...'
   seconds: 4
   objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 5c6a9fd33552c3b4a9f1872061904d22, type: 2}
-  performerFinishActionMessage: 
-  othersFinishActionMessage: 
+  performerFinishActionMessage: You unsecured safeties of the window.
+  othersFinishActionMessage: '{performer} begins unsecuring safeties of the window...'
