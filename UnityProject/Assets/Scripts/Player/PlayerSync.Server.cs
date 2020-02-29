@@ -555,8 +555,10 @@ public partial class PlayerSync
 		nextState.Speed = SpeedServer;
 		if (!playerScript.IsGhost)
 		{
+			var _inventory = playerScript.GetComponent<ItemStorage>();
+			var _shoes = _inventory.GetNamedItemSlot(NamedSlot.feet).Item;
 			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-			SoundManager.FootstepAtPosition(nextState.WorldPosition);
+			if (_shoes != null) SoundManager.FootstepAtPosition(nextState.WorldPosition, _shoes.gameObject);
 		}
 
 		return nextState;
