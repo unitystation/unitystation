@@ -41,11 +41,12 @@ public class SimpleAnimal : LivingHealthBehaviour
 	private void SetAliveState(bool oldState, bool state)
 	{
 		deadState = state;
-		registerObject.Passable = state;
+		
 		if (state)
 		{
 			spriteRend.sprite = deadSprite;
 			SetToBodyLayer();
+			registerObject.Passable = state;
 		}
 		else
 		{
