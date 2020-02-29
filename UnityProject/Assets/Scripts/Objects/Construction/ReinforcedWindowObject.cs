@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// The main girder component
 /// </summary>
-public class RWindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class ReinforcedWindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 
 	private RegisterObject registerObject;
@@ -29,7 +29,10 @@ public class RWindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public GameObject matsOnDestroy;
 
 	[Tooltip("Drops this count when destroyed.")]
-	public int countOfMatsOnDestroy;
+	public int minCountOfMatsOnDestroy;
+
+	[Tooltip("Drops this count when destroyed.")]
+	public int maxCountOfMatsOnDestroy;
 
 	[Tooltip("Sound when destroyed.")]
 	public string soundOnDestroy;
@@ -46,7 +49,7 @@ public class RWindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		Spawn.ServerPrefab(matsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(1, countOfMatsOnDestroy+1),
+		Spawn.ServerPrefab(matsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfMatsOnDestroy, maxCountOfMatsOnDestroy + 1),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
 		SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f);
@@ -138,7 +141,7 @@ public class RWindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void Disassemble(HandApply interaction)
 	{
-		Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDestroy);
+		Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
 		SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), 1f);
 		Despawn.ServerSingle(gameObject);
 	}

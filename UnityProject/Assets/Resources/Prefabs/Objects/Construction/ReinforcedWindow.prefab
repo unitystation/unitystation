@@ -301,5 +301,6 @@ MonoBehaviour:
   soundOnDeconstruct: Wrench
   matsOnDestroy: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
     type: 3}
-  countOfMatsOnDestroy: 4
+  minCountOfMatsOnDestroy: 1
+  maxCountOfMatsOnDestroy: 4
   soundOnDestroy: GlassBreak01
