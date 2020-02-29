@@ -16,6 +16,7 @@ public abstract class BasicTile : LayerTile
 {
 	[Tooltip("What it sounds like when walked over")]
 	public FloorSound WalkingSoundCategory =  FloorSound.floor;
+	public BarefootSound BarefootWalkingSoundCategory = BarefootSound.floor;
 
 	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
 	[FormerlySerializedAs("AtmosPassable")]
