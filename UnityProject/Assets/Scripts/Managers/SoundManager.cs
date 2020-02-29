@@ -45,6 +45,8 @@ public class SoundManager : MonoBehaviour
 			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }},
 		{FloorSound.clownstep,
 			 new List<string> {"clownstep1","clownstep2" }},
+		{FloorSound.boots,
+			 new List<string> {"suitstep1", "suitstep2"}},
 	};
 
 	private static bool Step;
@@ -303,7 +305,7 @@ public class SoundManager : MonoBehaviour
 	/// <summary>
 	/// Play Footstep at given world position.
 	/// </summary>
-	public static void FootstepAtPosition(Vector3 worldPos)
+	public static void FootstepAtPosition(Vector3 worldPos, GameObject shoes)
 	{
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
 
@@ -313,9 +315,25 @@ public class SoundManager : MonoBehaviour
 		{
 			if (Step)
 			{
-				PlayNetworkedAtPos(Instance.FootSteps[tile.WalkingSoundCategory][RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
-				                   worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-								   Global: false, polyphonic: true);
+				if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Squeaky))
+				{
+					PlayNetworkedAtPos(Instance.FootSteps[FloorSound.clownstep][RANDOM.Next(Instance.FootSteps[FloorSound.clownstep].Count)],
+					worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
+					Global: false, polyphonic: true);
+				}
+				else if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Boots))
+				{
+					PlayNetworkedAtPos(Instance.FootSteps[FloorSound.boots][RANDOM.Next(Instance.FootSteps[FloorSound.boots].Count)],
+					worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
+					Global: false, polyphonic: true);
+				}
+				else
+				{
+					PlayNetworkedAtPos(Instance.FootSteps[tile.WalkingSoundCategory][RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
+									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
+									Global: false, polyphonic: true);
+				}
+
 			}
 			Step = !Step;
 		}
@@ -545,4 +563,5 @@ public enum FloorSound
 	plating,
 	wood,
 	clownstep,
+	boots
 }
