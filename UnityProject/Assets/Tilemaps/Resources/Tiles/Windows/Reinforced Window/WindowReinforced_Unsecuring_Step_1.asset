@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
-  m_Name: WindowReinforced
+  m_Name: WindowReinforced_Unsecuring_Step_1
   m_EditorClassIdentifier: 
   displayName: 
   LayerType: 1
@@ -19,6 +19,7 @@ MonoBehaviour:
   WalkingSoundCategory: 0
   atmosPassable: 0
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []
@@ -49,9 +50,10 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   tileInteractions:
+  - {fileID: 11400000, guid: 50443094b78a109479ae69d71ba210a6, type: 2}
   - {fileID: 11400000, guid: 4635ca63f127a4b1cb58c7ff9de5695a, type: 2}
   spawnOnDeconstruct: {fileID: 0}
-  spawnAmountOnDeconstruct: 1
+  spawnAmountOnDeconstruct: 0
   connectCategory: 1
   connectType: 1
   spriteSheet:
