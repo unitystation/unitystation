@@ -322,9 +322,20 @@ public class SoundManager : MonoBehaviour
 									Global: false, polyphonic: true);
 	}
 
-	private static void SpecialFootwearAtPosition (GameObject shoes, Vector3 worldPos)
+	private static void SpecialShoesAtPosition (GameObject shoes, Vector3 worldPos)
 	{
-
+		if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Squeaky))
+		{
+			PlayNetworkedAtPos(Instance.FootSteps[FloorSound.clownstep][RANDOM.Next(Instance.FootSteps[FloorSound.clownstep].Count)],
+									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
+									Global: false, polyphonic: true);
+		}
+		else if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Squeaky))
+		{
+			PlayNetworkedAtPos(Instance.FootSteps[FloorSound.boots][RANDOM.Next(Instance.FootSteps[FloorSound.boots].Count)],
+									worldPos, 1f,
+									Global: false, polyphonic: true);
+		}
 	}
 
 	public static void FootstepAtPosition(Vector3 worldPos, Pickupable feetSlot)
@@ -345,7 +356,7 @@ public class SoundManager : MonoBehaviour
 				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky) ||
 						 Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Boots))
 				{
-					SpecialFootwearAtPosition(feetSlot.gameObject, worldPos);
+					SpecialShoesAtPosition(feetSlot.gameObject, worldPos);
 				}
 				else
 				{
