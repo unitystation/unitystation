@@ -46,7 +46,16 @@ public class SoundManager : MonoBehaviour
 		{FloorSound.clownstep,
 			 new List<string> {"clownstep1","clownstep2" }},
 		{FloorSound.boots,
-			 new List<string> {"suitstep1", "suitstep2"}},
+			 new List<string> {"suitstep1", "suitstep2"}}
+	};
+
+	private readonly Dictionary<BarefootSound, List<string>> BareFootStep = new Dictionary<BarefootSound, List<string>>(){
+		{BarefootSound.floor,
+			 new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}},
+		{BarefootSound.carpet,
+			 new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}},
+		{BarefootSound.wood,
+			 new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}}
 	};
 
 	private static bool Step;
@@ -305,27 +314,38 @@ public class SoundManager : MonoBehaviour
 	/// <summary>
 	/// Play Footstep at given world position.
 	/// </summary>
-	public static void FootstepAtPosition(Vector3 worldPos, GameObject shoes)
+	private static void BarefootAtPosition(Vector3 worldPos, BasicTile tile)
+	{
+		var WalkingSoundCategory = tile.BarefootWalkingSoundCategory;
+		PlayNetworkedAtPos(Instance.BareFootStep[WalkingSoundCategory][RANDOM.Next(Instance.BareFootStep[WalkingSoundCategory].Count)],
+									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
+									Global: false, polyphonic: true);
+	}
+
+	private static void SpecialFootwearAtPosition (GameObject shoes, Vector3 worldPos)
+	{
+
+	}
+
+	public static void FootstepAtPosition(Vector3 worldPos, Pickupable feetSlot)
 	{
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
 
 		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
 		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
+
 		if (tile != null)
 		{
 			if (Step)
 			{
-				if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Squeaky))
+				if (feetSlot == null) 
 				{
-					PlayNetworkedAtPos(Instance.FootSteps[FloorSound.clownstep][RANDOM.Next(Instance.FootSteps[FloorSound.clownstep].Count)],
-					worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-					Global: false, polyphonic: true);
+					BarefootAtPosition(worldPos, tile);
 				}
-				else if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Boots))
+				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky) ||
+						 Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Boots))
 				{
-					PlayNetworkedAtPos(Instance.FootSteps[FloorSound.boots][RANDOM.Next(Instance.FootSteps[FloorSound.boots].Count)],
-					worldPos, 1f,
-					Global: false, polyphonic: true);
+					SpecialFootwearAtPosition(feetSlot.gameObject, worldPos);
 				}
 				else
 				{
@@ -333,11 +353,11 @@ public class SoundManager : MonoBehaviour
 									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
 									Global: false, polyphonic: true);
 				}
-
 			}
 			Step = !Step;
 		}
 	}
+
 
 	/// <summary>
 	/// Play Glassknock at given world position.
@@ -564,4 +584,10 @@ public enum FloorSound
 	wood,
 	clownstep,
 	boots
+}
+public enum BarefootSound
+{
+	floor = FloorSound.floor,
+	carpet = FloorSound.carpet,
+	wood = FloorSound.wood
 }
