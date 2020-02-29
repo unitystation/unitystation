@@ -330,7 +330,7 @@ public class SoundManager : MonoBehaviour
 									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
 									Global: false, polyphonic: true);
 		}
-		else if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Squeaky))
+		else if (Validations.HasItemTrait(shoes, CommonTraits.Instance.Boots))
 		{
 			PlayNetworkedAtPos(Instance.FootSteps[FloorSound.boots][RANDOM.Next(Instance.FootSteps[FloorSound.boots].Count)],
 									worldPos, 1f,
