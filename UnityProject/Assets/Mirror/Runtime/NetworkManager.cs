@@ -684,9 +684,11 @@ namespace Mirror
                 }
                 if (LogFilter.Debug) Debug.Log("NetworkManager created singleton (DontDestroyOnLoad)");
                 singleton = this;
-                if (Application.isPlaying) DontDestroyOnLoad(gameObject);
-            }
-            else
+				// Commented out because DontDestroyOnLoad cannot be called and causes a Unity warning instead.
+				// "DontDestroyOnLoad only works for root GameObjects or components on root GameObjects."
+				// if (Application.isPlaying) DontDestroyOnLoad(gameObject);
+			}
+			else
             {
                 if (LogFilter.Debug) Debug.Log("NetworkManager created singleton (ForScene)");
                 singleton = this;
