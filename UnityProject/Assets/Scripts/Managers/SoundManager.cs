@@ -44,7 +44,7 @@ public class SoundManager : MonoBehaviour
 		{Footstep.wood,
 			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }},
 		{Footstep.sand,
-			 new List<string> {"lava1", "lava2", "lava3"}},
+			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
 		{Footstep.water,
 			 new List<string> {"water1", "water2", "water3", "water4"}},
 		{Footstep.clownstep,
@@ -69,7 +69,7 @@ public class SoundManager : MonoBehaviour
 		{BareFootstep.wood,
 			 new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}},
 		{BareFootstep.sand,
-			 new List<string> {"lava1", "lava2", "lava3"}},
+			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
 		{BareFootstep.water,
 			 new List<string> {"water1", "water2", "water3", "water4"}}
 	};
@@ -92,7 +92,7 @@ public class SoundManager : MonoBehaviour
 		{ClawFootstep.wood,
 			 new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}},
 		{ClawFootstep.sand,
-			 new List<string> {"lava1", "lava2", "lava3"}},
+			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
 		{ClawFootstep.water,
 			 new List<string> {"water1", "water2", "water3", "water4"}}
 	};
