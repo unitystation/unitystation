@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Unscrew_RWindow
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-  performerStartActionMessage: 
-  othersStartActionMessage: 
+  performerStartActionMessage: You begin unsecuring window from place...
+  othersStartActionMessage: '{performer} begins unsecuring window from place...'
   seconds: 4
   objectsToSpawn: {fileID: 11400000, guid: a77bbaaea44efe74f820aee41dd31119, type: 2}
-  performerFinishActionMessage: 
-  othersFinishActionMessage: 
+  performerFinishActionMessage: You unsecured the window from place.
+  othersFinishActionMessage: '{performer} unsecured window from place.'
