@@ -7,9 +7,10 @@ public class Tools : Editor
 {
 	class Conn
 	{
-		public Vector3Int worldPos;
+		public Vector3 worldPos;
 		public Connection wireEndA;
 		public Connection wireEndB;
+		public PowerTypeCategory wireType;
 
 	}
 
@@ -23,16 +24,21 @@ public class Tools : Editor
 		for (int i = allWires.Length - 1; i > 0; i--)
 		{
 			var w = allWires[i];
+			var cable = w.GetComponent<CableInheritance>();
+			if (cable == null) continue;
+
 			var c = new Conn
 			{
-				worldPos = Vector3Int.RoundToInt(w.transform.position),
+				worldPos = w.transform.position,
 				wireEndA = w.WireEndA,
-				wireEndB = w.WireEndB
+				wireEndB = w.WireEndB,
+				wireType = cable.ApplianceType
 			};
 
 			var index = testConns.FindIndex(x => x.worldPos == c.worldPos &&
 			                                     x.wireEndA == c.wireEndA &&
-			                                     x.wireEndB == c.wireEndB);
+			                                     x.wireEndB == c.wireEndB &&
+												 x.wireType == c.wireType);
 
 			if (index == -1)
 			{
