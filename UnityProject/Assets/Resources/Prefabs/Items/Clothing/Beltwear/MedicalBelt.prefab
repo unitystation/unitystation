@@ -7,12 +7,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3418033316280837315, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 163f0e7e8216d114395241ebda6aebfb,
+        type: 2}
     - target: {fileID: 781920904040974749, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: d87a119e23e0bd4cd877b4d084146ce3,
         type: 2}
+    - target: {fileID: 4732539154265465329, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: m_Name
+      value: MedicalBelt
+      objectReference: {fileID: 0}
     - target: {fileID: 5955107123228105240, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: m_Name

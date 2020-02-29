@@ -20,6 +20,7 @@ public enum NetTabType {
 	Comms = 11,
 	IdConsole = 12,
 	Rename = 13,
+	NullRod = 14,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab

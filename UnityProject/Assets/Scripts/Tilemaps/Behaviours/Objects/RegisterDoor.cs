@@ -9,6 +9,8 @@
 		private SubsystemManager subsystemManager;
 		private SubsystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<SubsystemManager>();
 
+		private TileChangeManager tileChangeManager;
+
 		public bool OneDirectionRestricted;
 
 		[SerializeField]
@@ -36,6 +38,7 @@
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 			//Doors/airlocks aren't supposed to switch matrices
 			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
 		}
 
 		public override void OnDespawnServer(DespawnInfo info)
@@ -43,6 +46,7 @@
 			base.OnDespawnServer(info);
 			//when we're going to be destroyed, need to tell all subsystems that our space is now passable
 			isClosed = false;
+			tileChangeManager.RemoveTile(LocalPositionServer, LayerType.Walls); //for false-wall meta-walls
 			if (SubsystemManager != null)
 			{
 				SubsystemManager.UpdateAt(LocalPositionServer);

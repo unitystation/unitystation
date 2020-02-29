@@ -38,7 +38,8 @@ public class SpawnPoint : NetworkStartPosition
 			{JobDepartment.Syndicate, new[] {JobType.SYNDICATE}},
 	};
 
-    public IEnumerable<JobType> JobRestrictions => DepartmentJobs[Department];
+    public IEnumerable<JobType> JobRestrictions =>
+	    DepartmentJobs.ContainsKey(Department) ? DepartmentJobs[Department] : new JobType[0];
 
     public JobDepartment Department;
 

@@ -25,13 +25,23 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		if (OrientationRight == true)
 		{
-			CentcomDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationCentcom, ApproachReversed = false };
-			StationDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationStation, ApproachReversed = true };
+			CentcomDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
+			StationDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
 		}
 		else if (OrientationUp == true)
 		{
-			CentcomDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationCentcom, ApproachReversed = false };
-			StationDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationStation, ApproachReversed = true };
+			CentcomDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
+			StationDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
+		}
+		else if (OrientationLeft == true)
+		{
+			CentcomDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
+			StationDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
+		}
+		else if (OrientationDown == true)
+		{
+			CentcomDest = new Destination { Orientation = Orientation.Down, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
+			StationDest = new Destination { Orientation = Orientation.Down, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
 		}
 		else
 		{
@@ -40,11 +50,18 @@ public class EscapeShuttle : NetworkBehaviour
 		}
 	}
 
+	public bool OrientationLeft;
 	public bool OrientationRight;
 	public bool OrientationUp;
+	public bool OrientationDown;
+
+	//When Setting up map only pick ONE of the orientation options, picking more than one does nothing.
+
 	public Vector2 DockingLocationStation;
+	public bool StationApproachReversed;
 	public Destination CentcomDest;
 	public Vector2 DockingLocationCentcom;
+	public bool CentcomApproachReversed;
 	public Destination StationDest;
 
 	private Destination currentDestination;

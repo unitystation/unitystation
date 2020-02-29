@@ -102,12 +102,13 @@ jobs:
         env:
           BUILDINFO_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/buildinfo.json
           CONFIG_PATH: ${{ matrix.projectPath }}/Assets/StreamingAssets/config/config.json
-          CDN_PATH_WIN: ${{ format('https://unitystationfile.b-cdn.net/win{0}.zip', github.run_number) }}
-          CDN_PATH_OSX: ${{ format('https://unitystationfile.b-cdn.net/osx{0}.zip', github.run_number) }}
-          CDN_PATH_LIN: ${{ format('https://unitystationfile.b-cdn.net/lin{0}.zip', github.run_number) }}
+          CDN_PATH_WIN: ${{ format('https://unitystationfile.b-cdn.net/UnityStationDevelop/StandaloneWindows64/{0}.zip', github.run_number) }}
+          CDN_PATH_OSX: ${{ format('https://unitystationfile.b-cdn.net/UnityStationDevelop/StandaloneOSX/{0}.zip', github.run_number) }}
+          CDN_PATH_LIN: ${{ format('https://unitystationfile.b-cdn.net/UnityStationDevelop/StandaloneLinux64/{0}.zip', github.run_number) }}
         run: |
           sudo apt-get install moreutils
           jq --arg v "$GITHUB_RUN_NUMBER" '.BuildNumber = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
+          jq --arg v "UnityStationDevelop" '.ForkName = $v' $BUILDINFO_PATH | sponge $BUILDINFO_PATH
           jq --arg v "$CDN_PATH_WIN" '.WinDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_OSX" '.OSXDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
           jq --arg v "$CDN_PATH_LIN" '.LinuxDownload = $v' $CONFIG_PATH | sponge $CONFIG_PATH
@@ -118,7 +119,7 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          buildName: UnityStation
+          buildName: Unitystation
           buildMethod: BuildScript.BuildProject
 
       # Upload distributables
@@ -127,6 +128,44 @@ jobs:
         with:
           name: ${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+
+  upload:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    needs: performBuild
+    name: Upload ${{ matrix.targetPlatform }} to CDN
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneWindows64
+          - StandaloneOSX
+          - StandaloneLinux64
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: ${{ matrix.targetPlatform }}
+          path: ./Build
+      - name: Zip Build
+        run: |
+          cd Build
+          zip -qq -r ../Build.zip .
+      - name: Upload to CDN
+        env:
+          CDN_HOST: ${{ secrets.CDN_HOST }}
+          CDN_USERNAME: ${{ secrets.CDN_USERNAME }}
+          CDN_PASSWORD: ${{ secrets.CDN_PASSWORD }}
+          UPLOAD_FOLDER: UnityStationDevelop/${{ matrix.targetPlatform }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          ftp -invp <<EOF
+          open $CDN_HOST
+          user $CDN_USERNAME $CDN_PASSWORD
+          binary
+          rmdir "${UPLOAD_FOLDER}"
+          put "./Build.zip" "${UPLOAD_FOLDER}/${RUN_NUMBER}.zip"
+          bye
+          EOF
 
   Imaging:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
@@ -161,6 +200,8 @@ jobs:
       env:
         DOCKER_HOST: ${{ format('ssh://{0}', secrets.SSH_USER) }}
         SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        HUB_USERNAME: ${{ secrets.HUB_USERNAME }}
+        HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
       run: |
         echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts

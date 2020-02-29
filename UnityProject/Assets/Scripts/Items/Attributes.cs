@@ -32,6 +32,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 	[SerializeField]
 	private string initialDescription;
 
+	[Tooltip("Will this item highlight on mouseover?")]
+	[SerializeField]
+	private bool willHighlight = true;
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
 	[SerializeField]
@@ -101,8 +104,10 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 	/// </summary>
 	public void OnHoverStart()
 	{
-		Highlight.HighlightThis(gameObject);
-
+		if(willHighlight)
+		{
+			Highlight.HighlightThis(gameObject);
+		}
 		string displayName = null;
 		if (string.IsNullOrWhiteSpace(articleName))
 		{
@@ -136,14 +141,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	private void OnExamine()
 	{
-		if (!string.IsNullOrEmpty(initialDescription))
-		{
-			Chat.AddExamineMsgToClient(initialDescription);
-		}
+		RequestExamineMessage.Send(GetComponent<NetworkIdentity>().netId);
 	}
 
 	// Initial implementation of shift examine behaviour
-	public string Examine()
+	public string Examine(Vector3 worldPos)
 	{
 		string displayName = "<error>";
 		if (string.IsNullOrWhiteSpace(articleName))

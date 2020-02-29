@@ -16,7 +16,7 @@ public class DoorController : NetworkBehaviour
 		private int closedLayer;
 		private int closedSortingLayer;
 		public AudioSource closeSFX;
-		
+
 		private IEnumerator coWaitOpened;
 		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
 		public DoorAnimator doorAnimator;
@@ -40,6 +40,9 @@ public class DoorController : NetworkBehaviour
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
 
+		[Tooltip("Does this door open automatically when you walk into it?")]
+		public bool IsAutomatic = true;
+
 		public bool IsOpened;
 		[SyncVar(hook = nameof(SyncIsWelded))]
 		[HideInInspector]private bool isWelded = false;
@@ -59,6 +62,8 @@ public class DoorController : NetworkBehaviour
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
+
+		private TileChangeManager tileChangeManager;
 
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions {
@@ -94,6 +99,7 @@ public class DoorController : NetworkBehaviour
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			openLayer = LayerMask.NameToLayer("Door Open");
 			registerTile = gameObject.GetComponent<RegisterDoor>();
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
 		}
 
 		public override void OnStartClient()
@@ -245,7 +251,9 @@ public class DoorController : NetworkBehaviour
 			}
 			else
 			{
-				Logger.LogError("Door lacks access restriction component!", Category.Doors);
+				Logger.LogErrorFormat("Door {0} @{1} lacks access restriction component!", Category.Doors,
+					name,
+					registerTile ? registerTile.WorldPositionServer : transform.position);
 			}
 		}
 
@@ -291,6 +299,12 @@ public class DoorController : NetworkBehaviour
 			{
 				weldOverlay.sprite = isWelded ? weldSprite : null;
 			}
+		}
+		public void ServerDisassemble(HandApply interaction)
+		{
+			tileChangeManager.RemoveTile(registerTile.LocalPositionServer, LayerType.Walls);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
+			Despawn.ServerSingle(gameObject);
 		}
 
 	private void ServerDamageOnClose()

@@ -4,6 +4,10 @@ services:
   unitystation:
     image: unitystation/unitystation:develop
     ports:
-      - 6666:7777
+      - 7777:7777
+    environment:
+      HUB_USERNAME: $HUB_USERNAME
+      HUB_PASSWORD: $HUB_PASSWORD
+      SERVER_NAME: Unitystation - EU02 Staging
     volumes:
-      - /etc/UnityStation/admin:/UnityStation_Data/StreamingAssets/admin
+      - /etc/UnityStation/admin:/Unitystation_Data/StreamingAssets/admin
