@@ -27,6 +27,9 @@ public abstract class BasicTile : LayerTile
 	[SerializeField]
 	private bool isSealed;
 
+	[Tooltip("Should this tile get initialized with Space gasmix at round start (e.g. asteroids)?")]
+	public bool SpawnWithNoAir;
+
 	[FormerlySerializedAs("OreCategorie")]
 	[SerializeField]
 	private OreCategory oreCategory;

@@ -17,19 +17,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
 
-	private PlayerChatBubble playerChatBubble;
-
 	private Equipment equipment;
 
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private ItemStorage itemStorage;
 
+	public Transform chatBubbleTarget;
+
 	private void Awake()
 	{
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
-		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		itemStorage = GetComponent<ItemStorage>();
 	}
 
@@ -293,13 +292,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		var body = playerScript.mind.body.gameObject;
-		if (itemStorage != null)
+
+		if (this == null || itemStorage == null)
 		{
-			//player gets inventory slot updates again
-			foreach (var slot in itemStorage.GetItemSlotTree())
-			{
-				slot.ServerAddObserverPlayer(body);
-			}
+			return;
+		}
+
+		//player gets inventory slot updates again
+		foreach (var slot in itemStorage.GetItemSlotTree())
+		{
+			slot.ServerAddObserverPlayer(body);
 		}
 	}
 
@@ -360,18 +362,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		RpcToggleChatIcon(turnOn, message, chatChannel, chatModifier);
-	}
-
-	[ClientRpc]
-	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
-	{
-		if (!playerChatBubble)
+		// Cancel right away if the player cannot speak.
+		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute)
 		{
-			playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
+			return;
 		}
 
-		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel, chatModifier);
+		ShowChatBubbleMessage.SendToNearby(gameObject, message, true, chatModifier);
 	}
 
 	[Command]
@@ -521,6 +518,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestItemLabel(GameObject handLabeler, string label)
 	{
+		ItemStorage itemStorage = gameObject.GetComponent<ItemStorage>();
+		Pickupable handItem = itemStorage.GetActiveHandSlot().Item;
+		if (handItem == null) return;
+		if (handItem.gameObject != handLabeler) return;
+
+		Chat.AddExamineMsgFromServer(gameObject, "You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 

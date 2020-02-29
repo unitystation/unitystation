@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: DeconstructWhenWrenchUsed
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
-  soundName: Wrench
+  performerStartActionMessage: 
+  othersStartActionMessage: 
+  seconds: 1
+  objectsToSpawn: {fileID: 0}
+  performerFinishActionMessage: 
+  othersFinishActionMessage: 

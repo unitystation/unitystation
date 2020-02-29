@@ -17,6 +17,17 @@ public class SpawnMessage : ServerMessage
 	{
 		yield return WaitFor(SpawnedObject, ClonedFrom);
 
+		if (NetworkObjects[0] == null)
+		{
+			Logger.LogWarning("Couldn't resolve SpawnedObject!", Category.NetMessage);
+			yield break;
+		}
+		if (NetworkObjects[1] == null)
+		{
+			Logger.LogWarning("Couldn't resolve ClonedFrom!", Category.NetMessage);
+			yield break;
+		}
+
 		//call all the hooks!
 		var comps = NetworkObjects[0].GetComponents<IClientSpawn>();
 		var spawnInfo = ClientSpawnInfo.Create(NetworkObjects[1]);

@@ -18,4 +18,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public CommonPrefabs CommonPrefabs;
 	public CommonCooldowns CommonCooldowns;
 	public AmmoPrefabs AmmoPrefabs;
+	public UIActionSOSingleton UIActionSOSingleton;
 }

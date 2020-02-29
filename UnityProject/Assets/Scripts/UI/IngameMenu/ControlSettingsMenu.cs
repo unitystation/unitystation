@@ -108,7 +108,7 @@ public class ControlSettingsMenu : MonoBehaviour
 			// Check if there is an entry for the action, not all of them will have entries
 			if (!tempKeybinds.ContainsKey(action)) continue;
 
-			DualKeyCombo    actionKeybind  = tempKeybinds[action];
+			DualKeyCombo actionKeybind = tempKeybinds[action];
 			KeybindMetadata actionMetadata = keybindManager.keyActionMetadata[action];
 
 			// Only add the action if it can be rebound
@@ -165,6 +165,8 @@ public class ControlSettingsMenu : MonoBehaviour
 		conflictingKVP = tempKeybinds.CheckConflict(capturedKeyCombo, ref isConflictPrimary);
 		KeyAction conflictingAction = conflictingKVP.Key;
 
+		KeybindMetadata conflictingKeybindMetadata;
+
 		if (conflictingAction == KeyAction.None)
 		{
 			// No conflicts found so set the new keybind and refresh the view
@@ -174,12 +176,19 @@ public class ControlSettingsMenu : MonoBehaviour
 			UIManager.IsInputFocus = false;
 			PopulateKeybindScrollView();
 		}
-		// Check that the conflict isn't with itself, if it is just ignore it
-		else if (conflictingAction != selectedAction)
+		// Check if the conflict is with itself
+		else if (conflictingAction == selectedAction)
 		{
 			// Get the metadata for the keybind
-			KeybindMetadata conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
-
+			conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
+			// Inform the user
+			modalPanelManager.Inform("\nThis combination is already being used by:\n" + conflictingKeybindMetadata.Name);
+			UIManager.IsInputFocus = false;
+		}
+		// Conflict with any other action
+		else
+		{
+			conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
 			// Check if the user wants to change the keybind
 			modalPanelManager.Confirm(
 				"Warning!\n\nThis combination is already being used by:\n" + conflictingKeybindMetadata.Name + "\nAre you sure you want to override it?",

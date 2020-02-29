@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -7,5 +8,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public abstract class BaseClothData : ScriptableObject
 {
-
+	public virtual List<Color> GetPaletteOrNull(int variantIndex)
+	{
+		return null;
+	}
 }

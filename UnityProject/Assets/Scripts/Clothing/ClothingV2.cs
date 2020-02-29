@@ -201,6 +201,11 @@ public class ClothingV2 : MonoBehaviour
 			clothingItem.RefreshFromClothing(this);
 		}
 	}
+
+	public List<Color> GetPaletteOrNull()
+	{
+		return clothData == null ? null : clothData.GetPaletteOrNull(variantIndex);
+	}
 }
 
 public enum ClothingVariantType

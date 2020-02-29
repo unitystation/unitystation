@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 3244569277471196838}
   - component: {fileID: 953878313788512146}
   - component: {fileID: -2482799812436144608}
+  - component: {fileID: 3956987875186302708}
   m_Layer: 11
   m_Name: wooden_chair
   m_TagString: Untagged
@@ -207,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4159882917939032427
@@ -332,6 +332,23 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &3956987875186302708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568171546625408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799d5bd9e47a11b4588193b68921813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  resourcesMadeOf: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
+    type: 3}
+  howMany: 1
 --- !u!1 &5276609779432803648
 GameObject:
   m_ObjectHideFlags: 0

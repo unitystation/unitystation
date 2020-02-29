@@ -208,9 +208,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  FalseWall: {fileID: 1395021743432191680, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+    type: 3}
+  FalseReinforcedWall: {fileID: 7559400922104186197, guid: 72ac4cacc3c1f734b9f6e1f9314ad414,
+    type: 3}
   reinforcedGirder: {fileID: 4943491835017597119, guid: 2fd10ec3332f84282b64353660ace1f9,
     type: 3}
   wallTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+  falseTile: {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
 --- !u!114 &114475937421885612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,10 +276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1552222938
 --- !u!114 &8501056774758602355
 MonoBehaviour:
   m_ObjectHideFlags: 0
