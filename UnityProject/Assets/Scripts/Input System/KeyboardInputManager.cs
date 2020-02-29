@@ -159,6 +159,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ActionDrop,		() => {	UIManager.Action.Drop(); }},
 		{ KeyAction.ActionResist,	() => { UIManager.Action.Resist(); }},
 		{ KeyAction.ActionStopPull, () => { UIManager.Action.StopPulling(); }},
+		{ KeyAction.ToggleWalkRun,   () => { UIManager.WalkRun.RunWalk(); }},
 
 		{  KeyAction.HandSwap, 		() => { UIManager.Hands.Swap(); }},
 		{  KeyAction.HandActivate,	() => { UIManager.Hands.Activate(); }},
