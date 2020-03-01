@@ -413,14 +413,14 @@ public class SoundManager : MonoBehaviour
 									Global: false, polyphonic: true);
 	}
 
-	// Creature is wearing boots
-	private static void HeavyStepAtPos(Vector3 worldPos, BasicTile tile)
-	{
-		var WalkingSoundCategory = tile.HeavyFootstepSoundCategory;
-		PlayNetworkedAtPos(Instance.HeavyFootsteps[WalkingSoundCategory][RANDOM.Next(Instance.HeavyFootsteps[WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-	}
+	// Creature is wearing hardsuit (This only works good with speed penalty, disabled for now)
+	// private static void HeavyStepAtPos(Vector3 worldPos, BasicTile tile)
+	// {
+	// 	var WalkingSoundCategory = tile.HeavyFootstepSoundCategory;
+	// 	PlayNetworkedAtPos(Instance.HeavyFootsteps[WalkingSoundCategory][RANDOM.Next(Instance.HeavyFootsteps[WalkingSoundCategory].Count)],
+	// 								worldPos, 1f,
+	// 								Global: false, polyphonic: true);
+	// }
 
 	// Creature is wearing clown shoes
 	private static void ClownStepAtPos(Vector3 worldPos, BasicTile tile)
@@ -448,10 +448,11 @@ public class SoundManager : MonoBehaviour
 					//TODO when we have creatures with claws, check here to make proper claw sound
 					BarefootAtPosition(worldPos, tile);
 				}
-				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Boots))
-				{
-					HeavyStepAtPos(worldPos, tile);
-				}
+				// Disabled boots sounds, they were actually meant for hardsuits + speed debuff
+				// else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Boots))
+				// {
+				// 	HeavyStepAtPos(worldPos, tile);
+				// }
 				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky))
 				{
 					ClownStepAtPos(worldPos, tile);
