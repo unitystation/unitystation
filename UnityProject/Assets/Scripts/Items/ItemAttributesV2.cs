@@ -109,7 +109,7 @@ public class ItemAttributesV2 : Attributes
 	private string hitSound = "GenericHit";
 
 
-	[Tooltip("Which sound to play.")]
+	[Tooltip("How to play sounds.")]
 	[SerializeField]
 	public SoundItemSettings hitSoundSettings;
 	/// <summary>

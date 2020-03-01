@@ -43,7 +43,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public UnityAction<DestructionInfo> OnBurnUpServer;
 
-	[Tooltip("Sound to play on hit.")]
+	[Tooltip("Sound to play when damage applied.")]
 	public string soundOnHit;
 	/// <summary>
 	/// Armor for this object.
