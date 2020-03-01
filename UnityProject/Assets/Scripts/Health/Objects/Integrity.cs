@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using Mirror;
 using Tilemaps.Behaviours.Meta;
 using Object = System.Object;
-
+using Random = UnityEngine.Random;
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
 /// take damage, and do things in response to integrity changes. Objects are destroyed when their integrity
@@ -43,6 +43,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public UnityAction<DestructionInfo> OnBurnUpServer;
 
+	[Tooltip("Sound to play on hit.")]
+	public string soundOnHit;
 	/// <summary>
 	/// Armor for this object.
 	/// </summary>
@@ -173,6 +175,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			integrity -= damage;
 			lastDamageType = damageType;
 			CheckDestruction();
+			SoundManager.PlayNetworkedAtPos(soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
 	}

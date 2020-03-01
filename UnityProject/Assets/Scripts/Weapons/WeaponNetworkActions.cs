@@ -141,6 +141,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			if (integrity != null)
 			{
 				//damaging an object
+				attackSoundName = "";
 				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
 				didHit = true;
 			}
