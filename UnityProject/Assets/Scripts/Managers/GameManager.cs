@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -50,9 +51,6 @@ public partial class GameManager : MonoBehaviour
 
 	public DateTime stationTime;
 	public int RoundsPerMap = 10;
-
-	public string[] Maps = { "Assets/scenes/OutpostStation.unity" };
-	//Put the scenes in the unity 3d editor.
 
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
@@ -510,6 +508,9 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		CustomNetworkManager.Instance.ServerChangeScene(Maps[UnityEngine.Random.Range(0,Maps.Length)]);
+		var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
+			"maps.json")));
+
+		CustomNetworkManager.Instance.ServerChangeScene(maps.GetRandomMap());
 	}
 }
