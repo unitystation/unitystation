@@ -28,7 +28,7 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-	private void Awake()
+	public override void Awake()
 	{
 		if (Instance == null)
 		{
@@ -40,7 +40,7 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	private void Start()
+	public override void Start()
 	{
 		SetSpawnableList();
 

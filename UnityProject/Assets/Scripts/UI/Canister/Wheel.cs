@@ -29,7 +29,7 @@ public class Wheel : Selectable
 	//degrees of rotation
 	private float degrees;
 
-	private void Awake()
+	protected override void Awake()
 	{
 		base.Start();
 		windowDrag = GetComponentInParent<WindowDrag>();
