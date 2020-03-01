@@ -78,6 +78,7 @@ namespace IngameDebugConsole
 			}
 
 			Logger.Log("Triggered round restart from DebugConsole.");
+			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.RestartRound();
 		}
 
@@ -94,6 +95,7 @@ namespace IngameDebugConsole
 			}
 
 			Logger.Log("Triggered round end from DebugConsole.");
+			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.EndRound();
 		}
 

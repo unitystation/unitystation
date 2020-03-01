@@ -140,8 +140,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 10.325195}
-  m_SizeDelta: {x: 0, y: -19.400024}
+  m_AnchoredPosition: {x: 0, y: 0.31262}
+  m_SizeDelta: {x: 0, y: 0.62512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2192618406025223950
 CanvasRenderer:
@@ -165,3 +165,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 2684419912577001204}
   nukeDetVid: {fileID: 32900000, guid: ac8c37bb3dc38654b81e47d36a7a66c1, type: 3}
+  roundRestartVid: {fileID: 32900000, guid: f8542aeb714476049b0c262aacf1e78d, type: 3}
