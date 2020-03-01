@@ -569,7 +569,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 		if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
 		{
-			result.AddElement("OpenClose", RightClickInteract);
+			var optionName = IsClosed ? "Open" : "Close";
+			result.AddElement("OpenClose", RightClickInteract, nameOverride: optionName);
 		}
 
 
