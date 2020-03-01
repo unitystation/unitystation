@@ -52,7 +52,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	/// </summary>
 	public void Bump(GameObject byPlayer)
 	{
-		if (!Controller.IsOpened && Controller.IsAutomatic)
+		if (Controller.IsClosed && Controller.IsAutomatic)
 		{
 			Controller.ServerTryOpen(byPlayer);
 		}
@@ -62,7 +62,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		//Server actions
 		// Close the door if it's open
-		if (Controller.IsOpened)
+		if (!Controller.IsClosed)
 		{
 			Controller.ServerTryClose();
 		}
