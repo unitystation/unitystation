@@ -12,11 +12,6 @@ public class GUI_IngameMenu : MonoBehaviour
 	/// </summary>
 	public GameObject menuWindow;
 
-	/// <summary>
-	/// Menu panel for the disclamer and links to our community.
-	/// </summary>
-	public GameObject disclamerWindow;
-
 	public VotePopUp VotePopUp;
 
 	private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
@@ -81,9 +76,8 @@ public class GUI_IngameMenu : MonoBehaviour
 	public void OpenMenuPanel()
 	{
 		SoundManager.Play("Click01");
-		Logger.Log($"Opening {menuWindow.name} and {disclamerWindow.name} menu", Category.UI);
+		Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(true);
-		disclamerWindow.SetActive(true);
 	}
 
 	/// <summary>
@@ -103,9 +97,8 @@ public class GUI_IngameMenu : MonoBehaviour
 	public void CloseMenuPanel()
 	{
 		SoundManager.Play("Click01");
-		Logger.Log($"Opening {menuWindow.name} and {disclamerWindow.name} menu", Category.UI);
+		Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(false);
-		disclamerWindow.SetActive(false);
 	}
 
 	public void OpenOptionsScreen()
@@ -179,6 +172,5 @@ public class GUI_IngameMenu : MonoBehaviour
 	private void HideAllMenus()
 	{
 		menuWindow.SetActive(false);
-		disclamerWindow.SetActive(false);
 	}
 }
