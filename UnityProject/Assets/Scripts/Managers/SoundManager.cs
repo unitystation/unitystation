@@ -402,7 +402,7 @@ public class SoundManager : MonoBehaviour
 	/// Play Footstep at given world position.
 	/// </summary>
 
-	//TODO claw sound method
+	//TODO creature has claws
 
 	// Creature is barefoot (with humanlike foot)
 	private static void BarefootAtPosition(Vector3 worldPos, BasicTile tile)
@@ -413,14 +413,7 @@ public class SoundManager : MonoBehaviour
 									Global: false, polyphonic: true);
 	}
 
-	// Creature is wearing boots
-	private static void HeavyStepAtPos(Vector3 worldPos, BasicTile tile)
-	{
-		var WalkingSoundCategory = tile.HeavyFootstepSoundCategory;
-		PlayNetworkedAtPos(Instance.HeavyFootsteps[WalkingSoundCategory][RANDOM.Next(Instance.HeavyFootsteps[WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-	}
+	// TODO Creature is wearing hardsuit
 
 	// Creature is wearing clown shoes
 	private static void ClownStepAtPos(Vector3 worldPos, BasicTile tile)
@@ -447,10 +440,6 @@ public class SoundManager : MonoBehaviour
 				{
 					//TODO when we have creatures with claws, check here to make proper claw sound
 					BarefootAtPosition(worldPos, tile);
-				}
-				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Boots))
-				{
-					HeavyStepAtPos(worldPos, tile);
 				}
 				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky))
 				{
@@ -706,7 +695,8 @@ public enum BareFootstep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
+	clownstep = Footstep.clownstep
 }
 
 public enum HeavyFootstep
@@ -720,7 +710,8 @@ public enum HeavyFootstep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
+	clownstep = Footstep.clownstep
 }
 
 public enum ClawFootstep
@@ -734,7 +725,8 @@ public enum ClawFootstep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
+	clownstep = Footstep.clownstep
 }
 
 public enum ClownFoostep 
@@ -748,5 +740,5 @@ public enum ClownFoostep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
 }
