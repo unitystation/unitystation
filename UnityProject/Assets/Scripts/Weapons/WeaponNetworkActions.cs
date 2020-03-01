@@ -149,7 +149,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
 				}
-				else if (weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject)
+				else if (weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit != "")
 				{
 					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
 					attackSoundName = "";
