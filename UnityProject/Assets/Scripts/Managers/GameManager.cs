@@ -351,12 +351,6 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.Ended;
 			counting = false;
 
-			// Prevents annoying sound duplicate when testing
-			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-			{
-				SoundManager.Instance.PlayRandomRoundEndSound();
-			}
-
 			GameMode.EndRound();
 			StartCoroutine(WaitForRoundRestart());
 		}
@@ -369,6 +363,13 @@ public partial class GameManager : MonoBehaviour
 	{
 		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
+		// Prevents annoying sound duplicate when testing
+		if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
+		{
+			SoundManager.Instance.PlayRandomRoundEndSound();
+		}
+
+		yield return WaitFor.Seconds(2.5f);
 		RestartRound();
 	}
 
