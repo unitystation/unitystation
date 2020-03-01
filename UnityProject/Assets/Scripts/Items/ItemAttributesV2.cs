@@ -30,8 +30,6 @@ public class ItemAttributesV2 : Attributes
 	private ItemSize initialSize;
 
 
-
-
 	/// <summary>
 	/// Current size.
 	/// </summary>
@@ -109,6 +107,17 @@ public class ItemAttributesV2 : Attributes
 	[Tooltip("Sound to be played when we click someone with harm intent")]
 	[SerializeField]
 	private string hitSound = "GenericHit";
+
+	public enum SoundSettings
+	{
+		Both = 0,
+		OnlyItem = 1,
+		OnlyObject = 2
+	}
+
+	[Tooltip("Which sound to play.")]
+	[SerializeField]
+	private SoundSettings hitSoundSettings = 0;
 	/// <summary>
 	/// Sound to be played when we click someone with harm intent, tracked server side only
 	/// </summary>
