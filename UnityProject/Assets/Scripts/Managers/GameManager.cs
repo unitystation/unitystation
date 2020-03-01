@@ -495,7 +495,7 @@ public partial class GameManager : MonoBehaviour
 				return;
 			}
 			CurrentRoundState = RoundState.Restarting;
-			StartCoroutine(WaitForRoundRestart());
+			StartCoroutine(ServerRoundRestart());
 		}
 	}
 
