@@ -16,9 +16,14 @@ MonoBehaviour:
   LayerType: 4
   TileType: 7
   RequiredTiles: []
-  WalkingSoundCategory: 0
+  WalkingSoundCategory: 3
+  BarefootWalkingSoundCategory: 3
+  ClawFootstepSoundCategory: 3
+  HeavyFootstepSoundCategory: 3
+  ClownFootstepSoundCategory: 3
   atmosPassable: 1
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []

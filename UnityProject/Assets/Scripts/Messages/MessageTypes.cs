@@ -56,6 +56,7 @@ internal enum MessageTypes : short
 	UpdateHungerStateMessage = 1052,
 	SetActionUI = 1053,
 	ShowChatBubble = 1054,
+	VideoPlayerMessage = 1055,
 
 
 	//Client messages - 2xxx
