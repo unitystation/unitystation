@@ -7,6 +7,7 @@ public class VideoPlayerController : MonoBehaviour
 {
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private VideoClip nukeDetVid;
+    [SerializeField] private VideoClip roundRestartVid;
 
     void Awake()
     {
@@ -34,6 +35,15 @@ public class VideoPlayerController : MonoBehaviour
 	    if (GameData.IsHeadlessServer) return;
 
 	    videoPlayer.clip = nukeDetVid;
+	    videoPlayer.gameObject.SetActive(true);
+	    videoPlayer.Play();
+    }
+
+    public void PlayRoundRestartVideo()
+    {
+	    if (GameData.IsHeadlessServer) return;
+
+	    videoPlayer.clip = roundRestartVid;
 	    videoPlayer.gameObject.SetActive(true);
 	    videoPlayer.Play();
     }
