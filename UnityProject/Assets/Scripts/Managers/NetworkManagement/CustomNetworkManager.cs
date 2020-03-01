@@ -65,15 +65,15 @@ public class CustomNetworkManager : NetworkManager
 		foreach (string dir in dirs)
 		{
 			//Should yield For a frame to Increase performance
-			loadFolder(dir);
+			LoadFolder(dir);
 			foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
 			{
-				loadFolder(subdir);
+				LoadFolder(subdir);
 			}
 		}
 	}
 
-	private void loadFolder(string folderpath)
+	private void LoadFolder(string folderpath)
 	{
 		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
 		foreach (NetworkIdentity netObj in Resources.LoadAll<NetworkIdentity>(folderpath))

@@ -15,7 +15,7 @@ public class SimpleAnimal : LivingHealthBehaviour
 
 	public RegisterObject registerObject;
 
-	void Awake()
+	public override void Awake()
 	{
 		registerObject = GetComponent<RegisterObject>();
 	}
