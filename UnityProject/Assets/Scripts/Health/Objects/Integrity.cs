@@ -175,7 +175,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			integrity -= damage;
 			lastDamageType = damageType;
 			CheckDestruction();
-			SoundManager.PlayNetworkedAtPos(soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
+			
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
 	}

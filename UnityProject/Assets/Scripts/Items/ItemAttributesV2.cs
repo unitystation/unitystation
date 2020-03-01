@@ -108,16 +108,10 @@ public class ItemAttributesV2 : Attributes
 	[SerializeField]
 	private string hitSound = "GenericHit";
 
-	public enum SoundSettings
-	{
-		Both = 0,
-		OnlyItem = 1,
-		OnlyObject = 2
-	}
 
 	[Tooltip("Which sound to play.")]
 	[SerializeField]
-	private SoundSettings hitSoundSettings = 0;
+	public SoundItemSettings hitSoundSettings;
 	/// <summary>
 	/// Sound to be played when we click someone with harm intent, tracked server side only
 	/// </summary>
@@ -305,4 +299,11 @@ public class ItemAttributesV2 : Attributes
 		ClothingV2 clothing = GetComponent<ClothingV2>();
 		if (clothing != null) clothing.AssignPaletteToSprites(this.ItemSprites.Palette);
 	}
+}
+
+public enum SoundItemSettings
+{
+	Both = 0,
+	OnlyItem = 1,
+	OnlyObject = 2
 }
