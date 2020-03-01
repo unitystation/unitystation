@@ -695,7 +695,8 @@ public enum BareFootstep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
+	clownstep = Footstep.clownstep
 }
 
 public enum HeavyFootstep
@@ -709,7 +710,8 @@ public enum HeavyFootstep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
+	clownstep = Footstep.clownstep
 }
 
 public enum ClawFootstep
@@ -723,7 +725,8 @@ public enum ClawFootstep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
+	clownstep = Footstep.clownstep
 }
 
 public enum ClownFoostep 
@@ -737,5 +740,5 @@ public enum ClownFoostep
 	plating = Footstep.plating,
 	wood = Footstep.wood,
 	sand = Footstep.sand,
-	water = Footstep.water
+	water = Footstep.water,
 }
