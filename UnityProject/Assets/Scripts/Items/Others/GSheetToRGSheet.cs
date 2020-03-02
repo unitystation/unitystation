@@ -10,15 +10,14 @@ public class GSheetToRGSheet : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		//start with the default HandApply WillInteract logic.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
+		GameObject ObjectInHand = interaction.HandObject;
 		//only care about interactions targeting us
-		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has more than 2 rods
-		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Rods) &&
-			(interaction.HandObject.GetComponent<Stackable>().Amount < 2)) { return false; }
-		return true;
+		if (Validations.HasItemTrait(ObjectInHand, CommonTraits.Instance.Rods)&&
+			(ObjectInHand.GetComponent<Stackable>().Amount >= 2)) { return true; }
+			//if((interaction.HandObject.GetComponent<Stackable>().Amount < 2)) { return false; }
+		return false;
 	}
-	//SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.TargetObject != gameObject) return;

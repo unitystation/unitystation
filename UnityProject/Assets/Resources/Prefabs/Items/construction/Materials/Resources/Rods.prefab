@@ -128,6 +128,12 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: d5a7865af55516e4cb88c88eec45d127, type: 3}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d823ef2f0f86bd240b865220bbd5c6a3,
+        type: 2}
     - target: {fileID: 4564627145347699415, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: stacksWith.Array.size
