@@ -37,10 +37,11 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 			Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
 			hasItem = false;
 		}
-		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired))
+		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && !hasItem)
 		{
 			hasItem = true;
 			//Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
+			Despawn.ServerSingle(interaction.HandObject);
 			Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
 		}
 	}
