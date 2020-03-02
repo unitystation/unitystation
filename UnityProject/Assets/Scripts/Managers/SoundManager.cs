@@ -71,7 +71,9 @@ public class SoundManager : MonoBehaviour
 		{BareFootstep.sand,
 			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
 		{BareFootstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}}
+			 new List<string> {"water1", "water2", "water3", "water4"}},
+		{BareFootstep.clownstep,
+			 new List<string> {"clownstep1","clownstep2" }}
 	};
 
 	private readonly Dictionary<ClawFootstep, List<string>> ClawFootsteps = new Dictionary<ClawFootstep, List<string>>(){
