@@ -111,7 +111,7 @@ public class GUI_JobInfo : MonoBehaviour
 	/// <returns>The progress with color style tags and other formatting.</returns>
 	private string GetFormattedProgress(int progress)
 	{
-		string result = "<b>Progress: ";
+		string result = "<b>";
 
 		switch (progress) {
 			case int n when (n < colorThresholdProgressRed):
@@ -125,7 +125,7 @@ public class GUI_JobInfo : MonoBehaviour
 				break;
 		}
 
-		result += $"{progress}%</color></b>";
+		result += $"{progress}% playable</color></b>";
 
 		return result;
 	}
