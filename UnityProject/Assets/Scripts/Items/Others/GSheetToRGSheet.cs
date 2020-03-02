@@ -5,17 +5,30 @@ using Random = UnityEngine.Random;
 
 public class GSheetToRGSheet : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
+	[Header("How many Rods and Glass Sheets to get Reinforced Glass Sheets")]
+	[Tooltip("How many rods to consume.")]
+	[SerializeField]
+	private int rods = 2;
+
+	[Tooltip("How many glass sheets to convert.")]
+	[SerializeField]
+	private int sheetsGlass = 1;
+
+	[Tooltip("How many reinforced glass sheets to get.")]
+	[SerializeField]
+	private int sheetsReinforcedGlass = 1;
+
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		//start with the default HandApply WillInteract logic.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
 		GameObject ObjectInHand = interaction.HandObject;
-		//only care about interactions targeting us
+
 		//only try to interact if the user has more than 2 rods
 		if (Validations.HasItemTrait(ObjectInHand, CommonTraits.Instance.Rods)&&
-			(ObjectInHand.GetComponent<Stackable>().Amount >= 2)) { return true; }
-			//if((interaction.HandObject.GetComponent<Stackable>().Amount < 2)) { return false; }
+			(ObjectInHand.GetComponent<Stackable>().Amount >= rods)) { return true; }
 		return false;
 	}
 	public void ServerPerformInteraction(HandApply interaction)
@@ -32,9 +45,9 @@ public class GSheetToRGSheet : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void convertGlass(HandApply interaction)
 	{
-		Spawn.ServerPrefab("ReinforcedGlassSheet", gameObject.WorldPosServer() , count: 1);
-		gameObject.GetComponent<Stackable>().ServerConsume(1);
-		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+		Spawn.ServerPrefab("ReinforcedGlassSheet", gameObject.WorldPosServer() , count: sheetsReinforcedGlass);
+		gameObject.GetComponent<Stackable>().ServerConsume(sheetsGlass);
+		interaction.HandObject.GetComponent<Stackable>().ServerConsume(rods);
 	}
 
 }
