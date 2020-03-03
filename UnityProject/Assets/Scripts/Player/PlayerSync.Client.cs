@@ -107,9 +107,18 @@ public partial class PlayerSync
 	private IEnumerator DoProcess(PlayerAction action)
 	{
 		MoveCooldown = true;
+		//When control is pressed, the player should only face in the right direction without attempting to move.
+		if (KeyboardInputManager.IsControlPressed())
+		{
+			if (PlayerManager.LocalPlayer == gameObject)
+			{
+				//don't change facing when diagonally opening a door
+				playerDirectional.FaceDirection(Orientation.From(action.Direction()));
+			}
+		}
 		//experiment: not enqueueing or processing action if floating.
 		//arguably it shouldn't really be like that in the future
-		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
+		else if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
 			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
 				action.Direction(), pendingActions.Count, ClientState, predictedState );
