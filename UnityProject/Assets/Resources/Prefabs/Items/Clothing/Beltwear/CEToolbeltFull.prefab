@@ -7,7 +7,7 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6700281191928912403, guid: 6c6ef3fa75d07454ebb448923ecfd255,
+    - target: {fileID: 5761721405755449850, guid: 6c6ef3fa75d07454ebb448923ecfd255,
         type: 3}
       propertyPath: m_Name
       value: CEToolbeltFull
@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6700281191928912403, guid: 6c6ef3fa75d07454ebb448923ecfd255,
+        type: 3}
+      propertyPath: m_Name
+      value: CEToolbeltFull
+      objectReference: {fileID: 0}
     - target: {fileID: 6730660045104179111, guid: 6c6ef3fa75d07454ebb448923ecfd255,
         type: 3}
       propertyPath: m_AssetId
@@ -76,7 +81,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemStoragePopulator
       value: 
-      objectReference: {fileID: 11400000, guid: e19b6f7cae2444fb5af25978e8965cdd,
+      objectReference: {fileID: 11400000, guid: 230c455d139a1caacba3b8814bb9fbd2,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c6ef3fa75d07454ebb448923ecfd255, type: 3}
