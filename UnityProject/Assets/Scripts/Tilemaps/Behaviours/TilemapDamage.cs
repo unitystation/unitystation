@@ -594,8 +594,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private void SpawnGlassShards(Vector3 pos)
 	{
 		//Spawn 2-4 glass shards
-		Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(2, 4),
-			scatterRadius: Spawn.DefaultScatterRadius);
+		Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(1, 4),
+			scatterRadius: Random.Range(0, 3));
 
 		//Play the breaking window sfx:
 		SoundManager.PlayNetworkedAtPos("GlassBreak0#", pos, 1f);

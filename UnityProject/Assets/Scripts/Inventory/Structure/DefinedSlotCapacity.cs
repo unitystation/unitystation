@@ -113,7 +113,7 @@ public class DefinedSlotCapacity : SlotCapacity
 		else
 		{
 			Logger.LogTraceFormat("Whitelist is {0}", Category.Inventory,
-				String.Join(", ", Whitelist.Select(it => it.name)));
+				String.Join(", ", Whitelist.Select(it => it == null ? "null" : it.name)));
 			if (itemAttrs == null)
 			{
 				Logger.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);

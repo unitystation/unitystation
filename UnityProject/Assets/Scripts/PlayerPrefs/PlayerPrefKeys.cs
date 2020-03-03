@@ -65,4 +65,8 @@
 	/// Sets the client side target frame rate preference
 	/// </summary>
 	public static string TargetFrameRate = "TargetFrameRate";
+	/// <summary>
+	/// Sets the normal chat bubble size preference
+	/// </summary>
+	public static string ChatBubbleSize = "ChatBubbleSize";
 }

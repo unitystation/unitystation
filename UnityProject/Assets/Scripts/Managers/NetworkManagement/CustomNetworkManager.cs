@@ -9,6 +9,7 @@ using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
+using UnityEngine.Events;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -20,6 +21,12 @@ public class CustomNetworkManager : NetworkManager
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
+
+	/// <summary>
+	/// Invoked client side when the player has disconnected from a server.
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnClientDisconnected = new UnityEvent();
 
 	private void Awake()
 	{
@@ -125,6 +132,12 @@ public class CustomNetworkManager : NetworkManager
 		this.RegisterClientHandlers(conn);
 
 		base.OnClientConnect(conn);
+	}
+
+	public override void OnClientDisconnect(NetworkConnection conn)
+	{
+		base.OnClientDisconnect(conn);
+		OnClientDisconnected.Invoke();
 	}
 
 	///Sync some position data explicitly, if it is required

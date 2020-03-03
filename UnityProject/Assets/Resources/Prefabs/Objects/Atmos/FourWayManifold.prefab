@@ -216,14 +216,14 @@ MonoBehaviour:
   anchored: 0
   volume: 70
   pipeSprites:
-  - {fileID: 21300132, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
-  - {fileID: 21300038, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   spriteRenderer: {fileID: 212588640390319518}
   connectionSprite:
-  - {fileID: 21300056, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300058, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300060, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300062, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   conectionRenderer:
   - {fileID: 3405745187045870037}
   - {fileID: 671696593743680170}
@@ -391,6 +391,16 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
 --- !u!114 &-1437310941191989404
 MonoBehaviour:
   m_ObjectHideFlags: 0

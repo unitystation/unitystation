@@ -18,8 +18,13 @@ MonoBehaviour:
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
   WalkingSoundCategory: 1
+  BarefootWalkingSoundCategory: 1
+  ClawFootstepSoundCategory: 1
+  HeavyFootstepSoundCategory: 1
+  ClownFootstepSoundCategory: 1
   atmosPassable: 1
   isSealed: 1
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []

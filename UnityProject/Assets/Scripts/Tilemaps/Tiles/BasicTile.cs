@@ -15,7 +15,11 @@ public struct TileState
 public abstract class BasicTile : LayerTile
 {
 	[Tooltip("What it sounds like when walked over")]
-	public FloorSound WalkingSoundCategory =  FloorSound.floor;
+	public Footstep WalkingSoundCategory =  Footstep.floor;
+	public BareFootstep BarefootWalkingSoundCategory = BareFootstep.floor;
+	public ClawFootstep ClawFootstepSoundCategory = ClawFootstep.floor;
+	public HeavyFootstep HeavyFootstepSoundCategory = HeavyFootstep.floor;
+	public ClownFoostep ClownFootstepSoundCategory = ClownFoostep.floor;
 
 	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
 	[FormerlySerializedAs("AtmosPassable")]
@@ -26,6 +30,9 @@ public abstract class BasicTile : LayerTile
 	[FormerlySerializedAs("IsSealed")]
 	[SerializeField]
 	private bool isSealed;
+
+	[Tooltip("Should this tile get initialized with Space gasmix at round start (e.g. asteroids)?")]
+	public bool SpawnWithNoAir;
 
 	[FormerlySerializedAs("OreCategorie")]
 	[SerializeField]

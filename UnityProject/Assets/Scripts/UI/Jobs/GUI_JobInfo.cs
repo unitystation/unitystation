@@ -66,7 +66,7 @@ public class GUI_JobInfo : MonoBehaviour
 	/// <summary>
 	/// Refreshes the visuals of the job info panel
 	/// </summary>
-	private void RefreshVisuals() // TODO what happens if null gets passed?
+	private void RefreshVisuals()
 	{
 		// Title
 		if (title != null)
@@ -93,7 +93,14 @@ public class GUI_JobInfo : MonoBehaviour
 		// Description
 		if (description != null)
 		{
-			description.text = job.DescriptionLong;
+			if (String.IsNullOrEmpty(job.DescriptionLong))
+			{
+				description.text = "<i>Description coming soon!<i>";
+			}
+			else
+			{
+				description.text = job.DescriptionLong;
+			}
 		}
 	}
 

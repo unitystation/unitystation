@@ -19,6 +19,7 @@ MonoBehaviour:
   WalkingSoundCategory: 0
   atmosPassable: 1
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []
@@ -49,9 +50,11 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   tileInteractions:
+  - {fileID: 11400000, guid: 60c558a8dfbf4ee4e8225a3484933424, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
-  spawnOnDeconstruct: {fileID: 0}
-  spawnAmountOnDeconstruct: 0
+  spawnOnDeconstruct: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
+    type: 3}
+  spawnAmountOnDeconstruct: 2
   connectCategory: 2
   connectType: 1
   spriteSheet:

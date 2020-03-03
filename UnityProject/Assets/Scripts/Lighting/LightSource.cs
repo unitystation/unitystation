@@ -301,8 +301,6 @@ public class LightSource : ObjectTrigger
 		// There is a bold assumption that sprite sheets associated with states are spaced 4 indexes between, and that nobody has changed any sprite names.
 		// My reimplementation just grabs more sprites for associated states.
 
-		const int SheetSpacing = 4;
-
 		var _assignedSprite = Renderer.sprite;
 
 		if (_assignedSprite == null)
@@ -313,11 +311,14 @@ public class LightSource : ObjectTrigger
 
 		// Try to parse base sprite index.
 		string[] _splitedName = _assignedSprite.name.Split('_');
-		var _spriteSheet = SpriteManager.LightSprites["lights"];
 
-		int _baseIndex;
-		if (_spriteSheet != null && _splitedName.Length == 2 && int.TryParse(_splitedName[1], out _baseIndex))
+		if (_splitedName.Length == 2 && int.TryParse(_splitedName[1], out _))
 		{
+			mSpriteDictionary.Add(LightState.On, _assignedSprite);
+
+
+			/* these don't work as expected - _spriteSheet always is an empty array
+
 			Func<int, Sprite> ExtractSprite = delegate (int iIndex)
 			{
 				if (iIndex >= 0 && iIndex < _spriteSheet.Length)
@@ -327,11 +328,11 @@ public class LightSource : ObjectTrigger
 			};
 
 			// Extract sprites from sprite sheet based on spacing from base index.
-			mSpriteDictionary.Add(LightState.On, _assignedSprite);
 			mSpriteDictionary.Add(LightState.Off, ExtractSprite(_baseIndex + SheetSpacing));
 			mSpriteDictionary.Add(LightState.MissingBulb, ExtractSprite(_baseIndex + (SheetSpacing * 2)));
 			mSpriteDictionary.Add(LightState.Dirty, ExtractSprite(_baseIndex + (SheetSpacing * 3)));
 			mSpriteDictionary.Add(LightState.Broken, ExtractSprite(_baseIndex + (SheetSpacing * 4)));
+			*/
 		}
 		else
 		{
