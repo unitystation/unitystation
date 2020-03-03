@@ -112,7 +112,6 @@ public partial class PlayerSync
 		{
 			if (PlayerManager.LocalPlayer == gameObject)
 			{
-				//don't change facing when diagonally opening a door
 				playerDirectional.FaceDirection(Orientation.From(action.Direction()));
 			}
 		}
