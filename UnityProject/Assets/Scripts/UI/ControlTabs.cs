@@ -183,8 +183,18 @@ public class ControlTabs : MonoBehaviour
 
 		RefreshTabHeaders();
 		Instance.HideTab(ClientTabType.ItemList);
+		Instance.HideTab(ClientTabType.Admin);
 
 		SelectTab(ClientTabType.Stats);
+	}
+
+	/// <summary>
+	/// Show admin panel if this client has been flagged as admin by the server
+	/// </summary>
+	public void ToggleOnAdminTab()
+	{
+		Instance.UnhideTab(ClientTabType.Admin);
+		Instance.SelectTab(ClientTabType.Stats);
 	}
 
 	//for every non-hidden tab: create new header and set its index value according to the tab index.
@@ -214,13 +224,6 @@ public class ControlTabs : MonoBehaviour
 			string tabName = tab.name.Replace("Tab", "").Replace("_", " ").Replace("(Clone)", "").Trim();
 			headerButton.gameObject.name = tabName;
 			headerButton.GetComponentInChildren<Text>().text = tabName;
-
-			((RectTransform)headerButton.transform).anchoredPosition = Vector2.right * (i * 40);
-			//need to wait till the next frame to set proper position
-			if (gameObject.activeInHierarchy)
-			{
-				StartCoroutine(SetHeaderPosition(headerButton.gameObject, i));
-			}
 
 			approvedHeaders.Add(headerButton);
 		}
@@ -256,16 +259,6 @@ public class ControlTabs : MonoBehaviour
 		}
 		//			Logger.LogError( $"No headers found for {tab}, wtf?" );
 		return null;
-	}
-
-	private IEnumerator SetHeaderPosition(GameObject header, int index = 0)
-	{
-		yield return WaitFor.EndOfFrame;
-
-		if (header != null)
-		{
-			((RectTransform)header.transform).anchoredPosition = Vector3.right * GetHeaderOffset(index);
-		}
 	}
 
 	private int GetHeaderOffset(int tabIndex)
@@ -676,6 +669,7 @@ public class ControlTabs : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 		yield return WaitFor.EndOfFrame;
+		transform.position = targetPos;
 		Vector3 newScale = rolloutIcon.localScale;
 		newScale.y = -newScale.y;
 		rolloutIcon.localScale = newScale;

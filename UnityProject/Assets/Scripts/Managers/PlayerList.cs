@@ -7,36 +7,40 @@ using Mirror;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
-public class PlayerList : NetworkBehaviour
+public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
-	private static List<ConnectedPlayer> values = new List<ConnectedPlayer>();
-	private static List<ConnectedPlayer> oldValues = new List<ConnectedPlayer>();
-
-	private static List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
-
+	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
+	private List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
 
 	public static PlayerList Instance;
-	public int ConnectionCount => values.Count;
-	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.Script != null );
-	public List<ConnectedPlayer> NonAntagPlayers => values.FindAll( player => player.Script != null && !player.Script.mind.IsAntag );
-	public List<ConnectedPlayer> AntagPlayers => values.FindAll( player => player.Script != null && player.Script.mind.IsAntag );
-	public List<ConnectedPlayer> AllPlayers => values.FindAll( player => (player.Script != null || player.ViewerScript != null));
+	public int ConnectionCount => loggedIn.Count;
+	public List<ConnectedPlayer> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
+
+	public List<ConnectedPlayer> NonAntagPlayers =>
+		loggedIn.FindAll(player => player.Script != null && !player.Script.mind.IsAntag);
+
+	public List<ConnectedPlayer> AntagPlayers =>
+		loggedIn.FindAll(player => player.Script != null && player.Script.mind.IsAntag);
+
+	public List<ConnectedPlayer> AllPlayers =>
+		loggedIn.FindAll(player => (player.Script != null || player.ViewerScript != null));
 
 	/// <summary>
 	/// Used to track who killed who. Could be used to check that a player actually killed someone themselves.
 	/// </summary>
-	public Dictionary<PlayerScript,List<PlayerScript>> KillTracker = new Dictionary<PlayerScript, List<PlayerScript>>();
+	public Dictionary<PlayerScript, List<PlayerScript>>
+		KillTracker = new Dictionary<PlayerScript, List<PlayerScript>>();
 
 	//Nuke Ops (TODO: throughoutly remove all unnecessary TDM variables)
 	public bool nukeSetOff = false;
 
 	private void Awake()
 	{
-		if ( Instance == null )
+		if (Instance == null)
 		{
 			Instance = this;
 			Instance.ResetSyncedState();
@@ -47,10 +51,18 @@ public class PlayerList : NetworkBehaviour
 		}
 	}
 
+	public override void OnStartServer()
+	{
+		base.OnStartServer();
+		InitAdminController();
+	}
+
 	/// Allowing players to sync after round restart
-	public void ResetSyncedState() {
-		for ( var i = 0; i < values.Count; i++ ) {
-			var player = values[i];
+	public void ResetSyncedState()
+	{
+		for (var i = 0; i < loggedIn.Count; i++)
+		{
+			var player = loggedIn[i];
 			player.Synced = false;
 		}
 	}
@@ -64,7 +76,7 @@ public class PlayerList : NetworkBehaviour
 		var perPlayer = perpetrator?.Player()?.Script;
 		var victimPlayer = victim?.Player()?.Script;
 
-		if ( perPlayer == null || victimPlayer == null )
+		if (perPlayer == null || victimPlayer == null)
 		{
 			return;
 		}
@@ -86,19 +98,19 @@ public class PlayerList : NetworkBehaviour
 	/// <summary>
 	/// Get all players currently located on provided matrix
 	/// </summary>
-	public List<ConnectedPlayer> GetPlayersOnMatrix( MatrixInfo matrix )
+	public List<ConnectedPlayer> GetPlayersOnMatrix(MatrixInfo matrix)
 	{
-		return InGamePlayers.FindAll( p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix.Id );
+		return InGamePlayers.FindAll(p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix.Id);
 	}
 
 	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
 	{
-		if ( players == null )
+		if (players == null)
 		{
 			players = InGamePlayers;
 		}
 
-		return players.FindAll( p => !p.Script.IsGhost && p.Script.playerMove.allowInput );
+		return players.FindAll(p => !p.Script.IsGhost && p.Script.playerMove.allowInput);
 	}
 
 	public void RefreshPlayerListText()
@@ -106,8 +118,10 @@ public class PlayerList : NetworkBehaviour
 		UIManager.Instance.playerListUIControl.nameList.text = "";
 		foreach (var player in ClientConnectedPlayers)
 		{
-			string curList = UIManager.Instance.playerListUIControl.nameList.text;
-			UIManager.Instance.playerListUIControl.nameList.text = $"{curList}{player.Name} ({player.Job.JobString()})\r\n";
+			if (player.PendingSpawn) continue;
+			if (player.Job == JobType.SYNDICATE) continue;
+			UIManager.Instance.playerListUIControl.nameList.text +=
+				$"{player.Name} ({player.Job.JobString()})\r\n";
 		}
 	}
 
@@ -115,7 +129,7 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	public void Clear()
 	{
-		values.Clear();
+		loggedIn.Clear();
 	}
 
 	/// <summary>
@@ -131,97 +145,96 @@ public class PlayerList : NetworkBehaviour
 		CheckRcon();
 	}
 
-	/// Add previous ConnectedPlayer state to the old values list
-	/// So that you could find owner of the long dead body GameObject
-	[Server]
-	public void AddPrevious( ConnectedPlayer oldPlayer )
-	{
-		oldValues.Add( ConnectedPlayer.ArchivedPlayer( oldPlayer ) );
-	}
-
 	//filling a struct without connections and gameobjects for client's ClientConnectedPlayers list
 	public List<ClientConnectedPlayer> ClientConnectedPlayerList =>
-		values.Aggregate(new List<ClientConnectedPlayer>(), (list, player) =>
+		loggedIn.Aggregate(new List<ClientConnectedPlayer>(), (list, player) =>
 		{
 			//not including headless server player
-			if ( !GameData.IsHeadlessServer || player.Connection != ConnectedPlayer.Invalid.Connection )
+			if (!GameData.IsHeadlessServer || player.Connection != ConnectedPlayer.Invalid.Connection)
 			{
 				list.Add(new ClientConnectedPlayer {Name = player.Name, Job = player.Job});
 			}
+
 			return list;
 		});
 
+	/// <summary>
+	/// Adds this connected player to the list, or updates an existing entry if there's already one for
+	/// this player's networkconnection. Returns the ConnectedPlayer that was added or updated.
+	/// </summary>
+	/// <param name="player"></param>
 	[Server]
-	private void TryAdd(ConnectedPlayer player)
+	public ConnectedPlayer AddOrUpdate(ConnectedPlayer player)
 	{
-		if ( player.Equals(ConnectedPlayer.Invalid) )
+		if (player.Equals(ConnectedPlayer.Invalid))
 		{
-			Logger.Log("Refused to add invalid connected player", Category.Connections);
+			Logger.Log("Refused to add invalid connected player to this server's player list", Category.Connections);
+			return player;
+		}
+
+		var loggedOffClient = GetLoggedOffClient(player.ClientId);
+
+		if (loggedOffClient  != null)
+		{
+			Logger.LogFormat(
+				"ConnectedPlayer {0} already exists in this server's PlayerList as {1}. Will update existing player instead of adding this new connected player.",
+				Category.Connections, player, loggedOff);
+
+			if (loggedOffClient.GameObject == null)
+			{
+				Logger.LogFormat(
+					$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry");
+				loggedOff.Remove(loggedOffClient);
+				return player;
+			}
+
+			player.GameObject = loggedOffClient.GameObject;
+			player.Name = loggedOffClient.Name; //Note that name won't be changed to empties/nulls
+			player.Job = loggedOffClient.Job;
+			player.ClientId = loggedOffClient.ClientId;
+		}
+
+		loggedIn.Add(player);
+		Logger.LogFormat("Added to this server's PlayerList {0}. Total:{1}; {2}", Category.Connections, player,
+			loggedIn.Count, string.Join(";", loggedIn));
+		CheckRcon();
+		return player;
+	}
+
+	[Server]
+	private void TryMoveClientToOfflineList(ConnectedPlayer player)
+	{
+		if (!loggedIn.Contains(player))
+		{
+			Logger.Log($"Player with name {player.Name} was not found in online players list. " +
+			           $"Verifying playerlists for integrity", Category.Connections);
+			ValidatePlayerListRecords();
 			return;
 		}
-		if ( ContainsConnection(player.Connection) )
-		{
-//			Logger.Log($"Updating {Get(player.Connection)} with {player}");
-			ConnectedPlayer existingPlayer = Get(player.Connection);
-			existingPlayer.GameObject = player.GameObject;
-			existingPlayer.Name = player.Name; //Note that name won't be changed to empties/nulls
-			existingPlayer.Job = player.Job;
-			existingPlayer.SteamId = player.SteamId;
-		}
-		else
-		{
-			values.Add(player);
-			Logger.LogFormat("Added {0}. Total:{1}; {2}", Category.Connections, player, values.Count, string.Join(";", values));
-			//Adding kick timer for new players only
-			StartCoroutine(KickTimer(player));
-		}
-		CheckRcon();
-	}
 
-	private IEnumerator KickTimer(ConnectedPlayer player)
-	{
-		if ( IsConnWhitelisted( player ) || !BuildPreferences.isForRelease )
-		{
-//			Logger.Log( "Ignoring kick timer for invalid connection" );
-			yield break;
-		}
-		int tries = 10; // 10 second wait, just incase of slow loading on lower end machines
-		while (!player.IsAuthenticated)
-		{
-			if (tries-- < 0)
-			{
-				CustomNetworkManager.Kick(player, "Auth timed out");
-				yield break;
-			}
-			yield return WaitFor.Seconds(1);
-		}
-	}
-
-	public static bool IsConnWhitelisted( ConnectedPlayer player )
-	{
-		return player.Connection == null ||
-			   player.Connection == ConnectedPlayer.Invalid.Connection ||
-			   !player.Connection.isConnected;
-	}
-
-	[Server]
-	private void TryRemove(ConnectedPlayer player)
-	{
-		Logger.Log($"Removed {player}", Category.Connections);
+		Logger.Log($"Added {player.Name} to offline player list", Category.Connections);
 		loggedOff.Add(player);
-		values.Remove(player);
-		AddPrevious( player );
+		loggedIn.Remove(player);
 		UpdateConnectedPlayersMessage.Send();
 		CheckRcon();
 	}
 
 	[Server]
-	public void Add(ConnectedPlayer player) => TryAdd(player);
-
-	[Server]
 	public bool ContainsConnection(NetworkConnection connection)
 	{
 		return !Get(connection).Equals(ConnectedPlayer.Invalid);
+	}
+
+	[Server]
+	public ConnectedPlayer GetLoggedOffClient(string clientID)
+	{
+		var index = loggedOff.FindIndex(x => x.ClientId == clientID);
+		if (index != -1)
+		{
+			return loggedOff[index];
+		}
+
+		return null;
 	}
 
 	[Server]
@@ -237,47 +250,42 @@ public class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public ConnectedPlayer Get(NetworkConnection byConnection, bool lookupOld = false)
+	public ConnectedPlayer Get(NetworkConnection byConnection)
 	{
-		return getInternal(player => player.Connection == byConnection, lookupOld);
+		return getInternal(player => player.Connection == byConnection);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(string byName, bool lookupOld = false)
+	public ConnectedPlayer Get(string byName)
 	{
-		return getInternal(player => player.Name == byName, lookupOld);
+		return getInternal(player => player.Name == byName);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(GameObject byGameObject, bool lookupOld = false)
+	public ConnectedPlayer Get(GameObject byGameObject)
 	{
-		return getInternal(player => player.GameObject == byGameObject, lookupOld);
+		return getInternal(player => player.GameObject == byGameObject);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(ulong bySteamId, bool lookupOld = false)
+	public ConnectedPlayer GetByUserID(string byUserID)
 	{
-		return getInternal(player => player.SteamId == bySteamId, lookupOld);
+		return getInternal(player => player.UserId == byUserID);
 	}
 
-	private ConnectedPlayer getInternal(Func<ConnectedPlayer,bool> condition, bool lookupOld = false)
+	[Server]
+	public List<ConnectedPlayer> GetAllByUserID(string byUserID)
 	{
-		for ( var i = 0; i < values.Count; i++ )
+		return loggedIn.FindAll(player => player.UserId == byUserID);
+	}
+
+	private ConnectedPlayer getInternal(Func<ConnectedPlayer, bool> condition)
+	{
+		for (var i = 0; i < loggedIn.Count; i++)
 		{
-			if ( condition(values[i]) )
+			if (condition(loggedIn[i]))
 			{
-				return values[i];
-			}
-		}
-		if ( lookupOld )
-		{
-			for ( var i = 0; i < oldValues.Count; i++ )
-			{
-				if ( condition(oldValues[i]) )
-				{
-					Logger.Log( $"Returning old player {oldValues[i]}", Category.Connections);
-					return oldValues[i];
-				}
+				return loggedIn[i];
 			}
 		}
 
@@ -287,20 +295,91 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	public void Remove(NetworkConnection connection)
 	{
-		ConnectedPlayer connectedPlayer = Get(connection);
-		if ( connectedPlayer.Equals(ConnectedPlayer.Invalid) )
+		if (connection == null)
 		{
-			Logger.LogError($"Cannot remove by {connection}, not found", Category.Connections);
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connection was null", Category.Connections);
+			ValidatePlayerListRecords();
+			return;
+		}
+
+		if (connection.playerController == null)
+		{
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - player controller was null IP:{connection.address}", Category.Connections);
+			ValidatePlayerListRecords();
+			return;
+		}
+
+		var connectedPlayer = ConnectedPlayer.Invalid;
+
+		var playerScript = connection.playerController.GetComponent<PlayerScript>();
+		if (playerScript != null)
+		{
+			var index = loggedIn.FindIndex(x => x.Script == playerScript);
+			if (index != -1)
+			{
+				connectedPlayer = loggedIn[index];
+			}
+		}
+
+		var joinedViewer = connection.playerController.GetComponent<JoinedViewer>();
+		if (joinedViewer != null)
+		{
+			var index = loggedIn.FindIndex(x => x.ViewerScript == joinedViewer);
+			if (index != -1)
+			{
+				connectedPlayer = loggedIn[index];
+			}
+		}
+
+		if (connectedPlayer.Equals(ConnectedPlayer.Invalid))
+		{
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connected player was invalid IP:{connection.address} Name:{connection.playerController.name}", Category.Connections);
+			ValidatePlayerListRecords();
 		}
 		else
 		{
-			TryRemove(connectedPlayer);
+			CheckForLoggedOffAdmin(connectedPlayer.UserId, connectedPlayer.Username);
+			TryMoveClientToOfflineList(connectedPlayer);
+		}
+	}
+
+	/// <summary>
+	/// Verify the data of the player lists
+	/// This is good to do if something unexpected has happened
+	/// </summary>
+	void ValidatePlayerListRecords()
+	{
+		//verify loggedIn clients:
+		for (int i = loggedIn.Count - 1; i >= 0; i--)
+		{
+			if (loggedIn[i].Connection == null || loggedIn[i].Equals(ConnectedPlayer.Invalid))
+			{
+				TryMoveClientToOfflineList(loggedIn[i]);
+			}
+		}
+
+		//verify loggedOff clients:
+		for (int i = loggedOff.Count - 1; i >= 0; i--)
+		{
+			if (loggedOff[i].Equals(ConnectedPlayer.Invalid))
+			{
+				loggedOff.RemoveAt(i);
+				continue;
+			}
+
+			if (loggedOff[i].GameObject == null)
+			{
+				loggedOff.RemoveAt(i);
+				continue;
+			}
 		}
 	}
 
 	[Server]
-	private void CheckRcon(){
-		if(RconManager.Instance != null){
+	private void CheckRcon()
+	{
+		if (RconManager.Instance != null)
+		{
 			RconManager.UpdatePlayerListRcon();
 		}
 	}
@@ -308,37 +387,52 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	public GameObject TakeLoggedOffPlayer(string clientId)
 	{
+		Logger.LogTraceFormat("Searching for logged off players with id {0}", Category.Connections, clientId);
 		foreach (var player in loggedOff)
 		{
+			Logger.LogTraceFormat("Found logged off player with id {0}", Category.Connections, player.ClientId);
 			if (player.ClientId == clientId)
 			{
 				loggedOff.Remove(player);
 				return player.GameObject;
 			}
 		}
+
 		return null;
 	}
 
 	[Server]
-	public void UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody){
+	public void UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody)
+	{
 		for (int i = 0; i < loggedOff.Count; i++)
 		{
 			var player = loggedOff[i];
-			if(player.GameObject == oldBody){
+			if (player.GameObject == oldBody)
+			{
 				player.GameObject = newBody;
 			}
 		}
 	}
+
+	private void OnDestroy()
+	{
+		if (adminListWatcher != null)
+		{
+			adminListWatcher.Changed -= LoadCurrentAdmins;
+			adminListWatcher.Dispose();
+		}
+	}
 }
 
-/// Minimalistic connected player information that all clients can posess
+[Serializable]/// Minimalistic connected player information that all clients can posess
 public struct ClientConnectedPlayer
 {
 	public string Name;
 	public JobType Job;
+	public bool PendingSpawn;
 
 	public override string ToString()
 	{
-		return $"[{nameof( Name )}='{Name}', {nameof( Job )}={Job}]";
+		return $"[{nameof(Name)}='{Name}', {nameof(Job)}={Job}]";
 	}
 }

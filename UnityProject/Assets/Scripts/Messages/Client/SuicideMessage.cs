@@ -8,20 +8,20 @@ public class SuicideMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		var livingHealthBehaviour = SentByPlayer.Script.GetComponent<LivingHealthBehaviour>();
 
-		if (livingHealthBehaviour.IsDead)
+		if (SentByPlayer.Script.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
 		{
-			Logger.LogError("Player '" + SentByPlayer.Name + "' is attempting to commit suicide but is already dead.", Category.Health);
-		}
-		else
-		{
-			Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
-			livingHealthBehaviour.Death();
+			if (livingHealthBehaviour.IsDead)
+			{
+				Logger.LogError("Player '" + SentByPlayer.Name + "' is attempting to commit suicide but is already dead.", Category.Health);
+			}
+			else
+			{
+				Logger.Log("Player '" + SentByPlayer.Name + "' has committed suicide", Category.Health);
+				livingHealthBehaviour.ApplyDamage(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
+			}
 		}
 
-
-		
 		yield return null;
 	}
 

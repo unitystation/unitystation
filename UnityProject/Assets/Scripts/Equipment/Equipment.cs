@@ -11,7 +11,7 @@ using YamlDotNet.Samples;
 /// <summary>
 /// Component which manages all the equipment on a player.
 /// </summary>
-public class Equipment : NetworkBehaviour
+public class Equipment : NetworkBehaviour, IExaminable
 {
 	private Dictionary<NamedSlot, ClothingItem> clothingItems;
 	public bool IsInternalsEnabled;
@@ -87,7 +87,7 @@ public class Equipment : NetworkBehaviour
 	{
 		var item = maskSlot?.Item;
 		if (item == null) return false;
-		var itemAttrs = item.GetComponent<ItemAttributes>();
+		var itemAttrs = item.GetComponent<ItemAttributesV2>();
 		if (itemAttrs == null) return false;
 
 		if (itemAttrs.HasTrait(CommonTraits.Instance.Mask))
@@ -123,5 +123,35 @@ public class Equipment : NetworkBehaviour
 	{
 		clothingItems.TryGetValue(namedSlot, out var clothingItem);
 		return clothingItem;
+	}
+
+	/// <summary>
+	/// Gets name and jobtype from ID card worn in ID slot if any.
+	/// </summary>
+	/// <param name="namedSlot"></param>
+	/// <returns></returns>
+	public String GetIdentityFromID()
+		{
+			IDCard card = ItemSlot.GetNamed(itemStorage,NamedSlot.id)?.Item?.GetComponent<IDCard>();
+			//Logger.Log("ID Card: " + (card != null ? card.ToString() : "null"));
+			if (card != null)
+			{
+				return card.RegisteredName + " " + (card.Occupation ? $" ({ card.Occupation.DisplayName })" : "");
+			}
+			else
+			{
+				return "";
+			}
+		}
+	
+	public string Examine(Vector3 worldPos)
+	{
+		// Collect clothing + ID info.
+		string msg = "This is " + GetComponent<PlayerScript>().visibleName + ".";
+
+		// TODO: LOOP over items
+		// msg += blah;
+
+		return msg;
 	}
 }

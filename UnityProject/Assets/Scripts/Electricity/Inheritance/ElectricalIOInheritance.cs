@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from
+public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn { //is the Bass class but every node inherits from
 	public Connection WireEndB;
 	public Connection WireEndA;
 
@@ -15,19 +16,30 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public HashSet<ElectricalOIinheritance> connectedDevices  = new HashSet<ElectricalOIinheritance>();
 
 	public RegisterItem registerTile;
-	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance
+	public Matrix Matrix => registerTile.Matrix; //This is a bit janky with inheritance
 	public bool connected = false;
 
 	public bool Logall = false;
 
+	private void Awake()
+	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (registerTile != null) return;
+		registerTile = GetComponent<RegisterItem>();
+	}
+
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		registerTile = gameObject.GetComponent<RegisterItem>();
+		EnsureInit();
 	}
 
 	public override void OnStartServer()
 	{
+		EnsureInit();
 		base.OnStartServer();
 		StartCoroutine(WaitForLoad());
 	}
@@ -38,6 +50,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(1f);
+		ElectricalSynchronisation.StructureChange = true;
 		FindPossibleConnections();
 	}
 
@@ -47,7 +60,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		if (registerTile != null) {
 			Data.connections = ElectricityFunctions.FindPossibleConnections(
 				transform.localPosition,
-				matrix,
+				Matrix,
 				InData.CanConnectTo,
 				GetConnPoints(),
 				this
@@ -80,6 +93,14 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 
 	public virtual GameObject GameObject()
 	{
+		//FIXME find out why this object has been destroyed?
+		//putting in this condition check as returning the null gameobject directly
+		//throws many NRE's on the server leading to unwanted behaviour
+		if (this == null || this.gameObject == null)
+		{
+			Logger.Log("The gameobject for this electrical object has been destroyed!!!!!", Category.Electrical);
+			return null;
+		}
 		return gameObject;
 	}
 
@@ -228,6 +249,15 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+	}
+
+	/// <summary>
+	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+	/// </summary>
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		ElectricalSynchronisation.StructureChange = true;
+		FlushConnectionAndUp();
 	}
 
 //

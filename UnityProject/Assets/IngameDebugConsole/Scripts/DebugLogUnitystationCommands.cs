@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Atmospherics;
 using PathFinding;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
 using Random = UnityEngine.Random;
+using DatabaseAPI;
 
 namespace IngameDebugConsole
 {
@@ -21,7 +23,7 @@ namespace IngameDebugConsole
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (!playerSpawned)
 			{
-				Logger.LogError("Cannot commit suicide. Player has not spawned.", Category.DebugConsole);
+				Logger.Log("Cannot commit suicide. Player has not spawned.");
 
 			}
 			else
@@ -30,47 +32,96 @@ namespace IngameDebugConsole
 			}
 		}
 
+		[ConsoleMethod("myid", "Prints your uuid for your player account")]
+		public static void RunPrintUID()
+		{
+			Logger.Log($"{ServerData.UserID}");
+		}
+
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
 		public static void RunDamageSelf(string bodyPartString, int burnDamage, int bruteDamage)
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
 			bool success = BodyPartType.TryParse(bodyPartString, true, out BodyPartType bodyPart);
 			if (success == false)
 			{
-				Logger.LogError("Invalid body part '" + bodyPartString + "'", Category.DebugConsole);
+				Logger.Log("Invalid body part '" + bodyPartString + "'");
 				return;
 			}
 
 			bool playerSpawned = (PlayerManager.LocalPlayer != null);
 			if (playerSpawned == false)
 			{
-				Logger.LogError("Cannot damage player. Player has not spawned.", Category.DebugConsole);
+				Logger.Log("Cannot damage player. Player has not spawned.");
 				return;
 			}
 
-			Logger.Log("Debugger inflicting " + burnDamage + " burn damage and " + bruteDamage + " brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name, Category.DebugConsole);
+			Logger.Log("Debugger inflicting " + burnDamage + " burn damage and " + bruteDamage + " brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name);
 			HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
 		}
 
 #if UNITY_EDITOR
 		[MenuItem("Networking/Restart round")]
 #endif
-		[ConsoleMethod("restart-round", "restarts the round. Server only cmd.")]
+		[ConsoleMethod("restart-round", "restarts the round immediately. Server only cmd.")]
 		public static void RunRestartRound()
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
-			Logger.Log("Triggered round restart from DebugConsole.", Category.DebugConsole);
-			GameManager.Instance.RestartRound();
+			Logger.Log("Triggered round restart from DebugConsole.");
+			VideoPlayerMessage.Send(VideoType.RestartRound);
+			GameManager.Instance.EndRound();
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/End round")]
+#endif
+		[ConsoleMethod("end-round", "ends the round, triggering normal round end logic, letting people see their greentext. Server only cmd.")]
+		public static void RunEndRound()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.Log("Can only execute command from server.");
+				return;
+			}
+
+			Logger.Log("Triggered round end from DebugConsole.");
+			VideoPlayerMessage.Send(VideoType.RestartRound);
+			GameManager.Instance.EndRound();
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Start now")]
+#endif
+		[ConsoleMethod("start-now", "Bypass start countdown and start immediately. Server only cmd.")]
+		public static void StartNow()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.Log("Can only execute command from server.");
+				return;
+			}
+
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
+			{
+				Logger.Log("Triggered round countdown skip (start now) from DebugConsole.");
+				GameManager.Instance.StartRound();
+			}
+			else
+			{
+				Logger.Log("Can only execute during pre-round / countdown.");
+				return;
+			}
+
 		}
 
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
@@ -78,18 +129,18 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
 			if (GameManager.Instance.PrimaryEscapeShuttle.Status == ShuttleStatus.DockedCentcom)
 			{
 				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
-				Logger.Log("Called Escape shuttle from DebugConsole: "+result, Category.DebugConsole);
+				Logger.Log("Called Escape shuttle from DebugConsole: "+result);
 			}
 			else
 			{
-				Logger.Log("Escape shuttle isn't docked at centcom to be called.", Category.DebugConsole);
+				Logger.Log("Escape shuttle isn't docked at centcom to be called.");
 			}
 		}
 
@@ -109,7 +160,7 @@ namespace IngameDebugConsole
 
 			if (!catFound)
 			{
-				Logger.Log("Category not found", Category.DebugConsole);
+				Logger.Log("Category not found");
 				return;
 			}
 
@@ -255,12 +306,12 @@ namespace IngameDebugConsole
 					}
 
 					usedMatrices.Add( movableMatrix );
-					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.State.Position);
+					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.ServerState.Position);
 					var mm = movableMatrix.MatrixMove;
 					mm.SetPosition( appearPos );
 					mm.RequiresFuel = false;
 					mm.SafetyProtocolsOn = false;
-					mm.RotateTo( Orientation.Right );
+					mm.SteerTo( Orientation.Right );
 					mm.SetSpeed( 15 );
 					mm.StartMovement();
 
@@ -289,8 +340,6 @@ namespace IngameDebugConsole
 				}
 			}
 		}
-		private static GameObject maskPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Clothing/Resources/BreathMask");
-		private static GameObject oxyTankPrefab = Resources.Load<GameObject>("Prefabs/Prefabs/Items/Other/Resources/Emergency Oxygen Tank");
 #if UNITY_EDITOR
 		[MenuItem("Networking/Make players EVA-ready")]
 #endif
@@ -301,13 +350,13 @@ namespace IngameDebugConsole
 				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
 				{
 
-					var helmet = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit helmet"]).GameObject;
-					var suit = Spawn.ServerCloth(Spawn.ClothingStoredData["mining hard suit"]).GameObject;
-					var mask = Spawn.ServerPrefab(maskPrefab).GameObject;
-					var oxyTank = Spawn.ServerPrefab(oxyTankPrefab).GameObject;
+					var helmet = Spawn.ServerPrefab("MiningHardsuitHelmet").GameObject;
+					var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
+					var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
+					var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
 
 					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.DropOther);
-					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
 					player.Script.Equipment.IsInternalsEnabled = true;
@@ -315,6 +364,46 @@ namespace IngameDebugConsole
 
 			}
 		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Incinerate local player")]
+#endif
+		private static void Incinerate()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				var playerScript = PlayerManager.LocalPlayerScript;
+				var matrix = MatrixManager.Get(playerScript.registerTile.Matrix);
+
+				foreach (var worldPos in playerScript.WorldPos.BoundsAround().allPositionsWithin)
+				{
+					var localPos = MatrixManager.WorldToLocalInt(worldPos, matrix);
+					var gasMix = matrix.MetaDataLayer.Get(localPos).GasMix;
+					gasMix.AddGas(Gas.Plasma, 100);
+					gasMix.AddGas(Gas.Oxygen, 100);
+					matrix.ReactionManager.ExposeHotspot(localPos, 1000, .2f);
+				}
+			}
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Heal up local player")]
+#endif
+		private static void HealUp()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				var playerScript = PlayerManager.LocalPlayerScript;
+				var health = playerScript.playerHealth;
+				foreach (var bodyPart in health.BodyParts)
+				{
+					bodyPart.HealDamage(200, DamageType.Brute);
+					bodyPart.HealDamage(200, DamageType.Burn);
+				}
+				playerScript.registerTile.ServerStandUp();
+			}
+		}
+
 #if UNITY_EDITOR
 		[MenuItem("Networking/Spawn Rods")]
 #endif
@@ -332,31 +421,122 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				PlayerManager.LocalPlayerScript.registerTile.Slip( true );
+				PlayerManager.LocalPlayerScript.registerTile.ServerSlip( true );
 			}
 		}
-		[ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
-		public static void SpawnAntag()
-		{
-			if (CustomNetworkManager.Instance._isServer == false)
-			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
-				return;
-			}
-
-			Antagonists.AntagManager.Instance.CreateAntag();
-		}
-		[ConsoleMethod("antag-status", "Shows status of all antag objectives. Server only command")]
+		// TODO: Removing this capability at the moment because some antags require an actual spawn (such as
+		// syndicate. and can't just be assigned an antag after they've already spawned. If there really is
+		// an actual need to be able to do this it will require refactoring GameMode system to support late reassignment.
+		// [ConsoleMethod("spawn-antag", "Spawns a random antag. Server only command")]
+		// public static void SpawnAntag()
+		// {
+		// 	if (CustomNetworkManager.Instance._isServer == false)
+		// 	{
+		// 		Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+		// 		return;
+		// 	}
+		//
+		// 	Antagonists.AntagManager.Instance.CreateAntag();
+		// }
+		[ConsoleMethod("antag-status", "System wide message, reports the status of all antag objectives to ALL players. Server only command")]
 		public static void ShowAntagObjectives()
 		{
 			if (CustomNetworkManager.Instance._isServer == false)
 			{
-				Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+				Logger.Log("Can only execute command from server.");
 				return;
 			}
 
 			Antagonists.AntagManager.Instance.ShowAntagStatusReport();
 		}
 
+		[ConsoleMethod("antag-remind", "Remind all antags of their own objectives. Server only command")]
+		public static void RemindAntagObjectives()
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.Log("Can only execute command from server.");
+				return;
+			}
+
+			Antagonists.AntagManager.Instance.RemindAntags();
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Trigger Stranded Ending")]
+#endif
+		private static void PlayStrandedEnding()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				//blow up the engines to trigger stranded ending for everyone
+				var escapeShuttle = GameObject.FindObjectOfType<EscapeShuttle>();
+				if (escapeShuttle != null)
+				{
+					foreach (var thruster in escapeShuttle.GetComponentsInChildren<ShipThruster>())
+					{
+						thruster.GetComponent<Integrity>().ApplyDamage(99999999, AttackType.Internal, DamageType.Brute);
+					}
+				}
+			}
+		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spam chat")]
+#endif
+		private static void SpamChat()
+		{
+			if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+			{
+				return;
+			}
+			isSpamming = true;
+			Chat.Instance.StartCoroutine(SpamChatCoroutine());
+			Chat.Instance.StartCoroutine(StopSpam());
+		}
+
+		private static IEnumerator StopSpam()
+		{
+			yield return WaitFor.Seconds(12);
+			isSpamming = false;
+		}
+
+		private static bool isSpamming = false;
+
+		private static IEnumerator SpamChatCoroutine()
+		{
+			if (!isSpamming)
+			{
+				yield break;
+			}
+
+			yield return WaitFor.Seconds(Random.Range(0.00001f, 0.01f));
+			switch (Random.Range(1,4))
+			{
+				case 1:
+					Chat.AddExamineMsgToClient(DateTime.Now.ToFileTimeUtc().ToString());
+					break;
+				case 2:
+					Chat.AddChatMsgToChat(ConnectedPlayer.Invalid, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC);
+					break;
+				default:
+					Chat.AddLocalMsgToChat(DateTime.Now.ToFileTimeUtc().ToString(), new Vector2(Random.value*100,Random.value*100), null);
+					break;
+			}
+
+			Chat.Instance.StartCoroutine(SpamChatCoroutine());
+		}
+
+
+		[ConsoleMethod("add-admin", "Promotes a user to admin using a user's account ID\nUsage: add-admin <account-id>")]
+		public static void AddAdmin(string userIDToPromote)
+		{
+			if (CustomNetworkManager.Instance._isServer == false)
+			{
+				Logger.Log("Can only execute command from server.");
+				return;
+			}
+
+			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
+		}
 	}
 }

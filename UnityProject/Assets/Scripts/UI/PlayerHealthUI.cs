@@ -27,15 +27,12 @@ public class PlayerHealthUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Instance.Add(UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		if (UpdateManager.Instance != null)
-		{
-			UpdateManager.Instance.Remove(UpdateMe);
-		}
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void DisableAll()
@@ -96,7 +93,7 @@ public class PlayerHealthUI : MonoBehaviour
 		float temperature = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.temperature;
 		float pressure = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.pressure;
 
-		if(temperature < 110)
+		if (temperature < 110)
 		{
 			SetSpecificVisibility(true, coldAlert);
 		}
@@ -138,7 +135,7 @@ public class PlayerHealthUI : MonoBehaviour
 		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.IsSuffocating, oxygenAlert);
 
 		SetSpecificVisibility(false, toxinAlert);
-		SetSpecificVisibility(false, hungerAlert);
+		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
 
 		if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
 		{

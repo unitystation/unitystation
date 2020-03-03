@@ -41,10 +41,10 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 
 	public void ToggleState()
 	{
-		UpdateState(!active);
+		UpdateState(active, !active);
 	}
 
-	private void UpdateState(bool newState)
+	private void UpdateState(bool oldValue, bool newState)
 	{
 		active = newState;
 
@@ -72,7 +72,7 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 
 	public void ServerRollbackClient(HandActivate interaction)
 	{
-		UpdateState(active);
+		UpdateState(active, active);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)

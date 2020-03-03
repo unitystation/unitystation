@@ -7,12 +7,12 @@ public class ConnectedPlayer
 	private string username;
 	private string name;
 	private JobType job;
-	private ulong steamId;
 	private GameObject gameObject;
 	private PlayerScript playerScript;
 	private JoinedViewer viewerScript;
 	private NetworkConnection connection;
 	private string clientID;
+	private string userID;
 
 	/// Flags if player received a bunch of sync messages upon joining
 	private bool synced;
@@ -20,32 +20,31 @@ public class ConnectedPlayer
 	//Name that is used if the client's character name is empty
 	private const string DEFAULT_NAME = "Anonymous Spessman";
 
-	public bool IsAuthenticated => steamId != 0;
-
 	public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
 	{
-		connection = new NetworkConnection("0.0.0.0"),
+		connection = null,
 		gameObject = null,
 		username = null,
 		name = "kek",
 		job = JobType.NULL,
-		steamId = 0,
 		synced = true,
-		clientID = ""
+		clientID = "",
+		userID = ""
 	};
 
 	public static ConnectedPlayer ArchivedPlayer( ConnectedPlayer player )
 	{
 		return new ConnectedPlayer
 		{
-			connection = Invalid.Connection,
+			connection = null,
 			gameObject = player.GameObject,
 			username = player.Username,
 			name = player.Name,
 			job = player.Job,
-			steamId = player.SteamId,
 			synced = player.synced,
-			clientID = player.clientID
+			clientID = player.clientID,
+			userID = player.userID,
+			viewerScript = player.ViewerScript
 		};
 	}
 
@@ -55,7 +54,7 @@ public class ConnectedPlayer
 	public NetworkConnection Connection
 	{
 		get { return connection; }
-		set { connection = value ?? Invalid.Connection; }
+		set { connection = value; }
 	}
 
 	public GameObject GameObject
@@ -63,14 +62,17 @@ public class ConnectedPlayer
 		get { return gameObject; }
 		set
 		{
-			if ( PlayerList.Instance != null && gameObject )
-			{
-				//Add to history if player had different body previously
-				PlayerList.Instance.AddPrevious( this );
-			}
 			gameObject = value;
-			playerScript = value.GetComponent<PlayerScript>();
-			viewerScript = value.GetComponent<JoinedViewer>();
+			if (gameObject != null)
+			{
+				playerScript = value.GetComponent<PlayerScript>();
+				viewerScript = value.GetComponent<JoinedViewer>();
+			}
+			else
+			{
+				playerScript = null;
+				viewerScript = null;
+			}
 		}
 	}
 
@@ -87,19 +89,6 @@ public class ConnectedPlayer
 		{
 			TryChangeName(value);
 			TrySendUpdate();
-		}
-	}
-
-	public ulong SteamId
-	{
-		get { return steamId; }
-		set
-		{
-			if ( value != 0 )
-			{
-				steamId = value;
-				Logger.Log( $"Updated steamID! {this}" , Category.Steam);
-			}
 		}
 	}
 
@@ -122,6 +111,12 @@ public class ConnectedPlayer
 	{
 		get => clientID;
 		set => clientID = value;
+	}
+
+	public string UserId
+	{
+		get => userID;
+		set => userID = value;
 	}
 
 	public bool HasNoName()
@@ -199,7 +194,9 @@ public class ConnectedPlayer
 
 	private static void TrySendUpdate()
 	{
-		if ( CustomNetworkManager.Instance != null && CustomNetworkManager.Instance._isServer && PlayerList.Instance != null )
+		if ( CustomNetworkManager.Instance != null
+		     && CustomNetworkManager.Instance._isServer
+		     && PlayerList.Instance != null )
 		{
 			UpdateConnectedPlayersMessage.Send();
 		}
@@ -207,6 +204,6 @@ public class ConnectedPlayer
 
 	public override string ToString()
 	{
-		return $"[conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|steamId={steamId}|synced={synced}]";
+		return $"[clientID={ClientId}|conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|synced={synced}]";
 	}
 }

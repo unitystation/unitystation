@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -19,5 +20,4 @@ public static class ExplosionUtils
 		string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
 		SoundManager.PlayNetworkedAtPos( sndName, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
 	}
-
 }

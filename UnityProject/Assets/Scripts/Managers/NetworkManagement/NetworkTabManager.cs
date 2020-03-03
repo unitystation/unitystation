@@ -56,8 +56,13 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	/// Used when a new dynamic element is added/removed
-	public void Rescan( NetTabDescriptor tabDescriptor ) {
-		Get( tabDescriptor ).RescanElements();
+	public void Rescan( NetTabDescriptor tabDescriptor )
+	{
+		var netTab = Get( tabDescriptor );
+		if (netTab != null)
+		{
+			netTab.RescanElements();
+		}
 	}
 
 	///Create new NetworkTabInfo if it doesn't exist, otherwise add player to it
@@ -84,12 +89,39 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	/// remove player from NetworkTabInfo, keeping the tab
-	public void Remove( NetTabDescriptor tabDescriptor, GameObject player ) {
+	public void Remove( NetTabDescriptor tabDescriptor, GameObject player )
+	{
+		if (!openTabs.ContainsKey(tabDescriptor)) return;
 		NetTab t = openTabs[tabDescriptor];
 		t.RemovePlayer( player );
 //		if ( t.Peepers.Count == 0 ) {
 //			t.gameObject.SetActive( false );
 //		}
+	}
+
+	/// <summary>
+	/// Completely remove the nettab from existence, removing all players from it.
+	/// </summary>
+	/// <param name="provider"></param>
+	/// <param name="type"></param>
+	public void RemoveTab( GameObject provider, NetTabType type)
+	{
+		var ntd = Tab(provider, type);
+		openTabs.TryGetValue(ntd, out var netTab);
+		if (netTab != null)
+		{
+			//remove all peepers
+			//safe copy so we can concurrently modify it
+			var peepers = netTab.Peepers.Select(cp => cp.GameObject).ToList();
+			foreach (var peeper in peepers)
+			{
+				Remove(provider, type, peeper);
+				TabUpdateMessage.Send( peeper, provider, type, TabAction.Close );
+			}
+			// completely get rid of the tab
+			openTabs.Remove(ntd);
+			Destroy(netTab.gameObject);
+		}
 	}
 
 	public NetTab Get( GameObject provider, NetTabType type ) {
@@ -127,6 +159,7 @@ public struct NetTabDescriptor {
 		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject, parent );
 		NetTab netTab = tabObject.GetComponent<NetTab>();
 		netTab.Provider = provider.gameObject;
+		netTab.ProviderRegisterTile = provider.RegisterTile();
 		return netTab;
 	}
 }

@@ -50,6 +50,11 @@ using UnityEngine;
 			return SaveSpriteToEditorPath(sprites, metaTile);
 		}
 
+		public static Sprite GetSpriteWithoutSaving(GameObject gameObject)
+		{
+			return MergeSprites(GetObjectSprites(gameObject));
+		}
+
 		private static IReadOnlyList<Sprite> GetObjectSprites(GameObject gameObject)
 		{
 			List<Sprite> sprites = new List<Sprite>();
@@ -74,6 +79,8 @@ using UnityEngine;
 
 		private static Sprite MergeSprites(IReadOnlyList<Sprite> sprites)
 		{
+			if (sprites[0] == null) return null;
+
 			Color[] colors = new Color[(int) (sprites[0].rect.width * sprites[0].rect.height)];
 			foreach (Sprite s in sprites)
 			{

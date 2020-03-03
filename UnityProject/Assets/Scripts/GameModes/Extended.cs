@@ -8,6 +8,13 @@ public class Extended : GameMode
 	/// Set up the station for the game mode
 	/// </summary>
 	public override void SetupRound() {}
+
+	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
+	{
+		//no antags
+		return false;
+	}
+
 	/// <summary>
 	/// Begin the round
 	/// </summary>
@@ -16,7 +23,4 @@ public class Extended : GameMode
 		Logger.Log("Starting extended round!", Category.GameMode);
 		base.StartRound();
 	}
-	public override void CheckEndCondition() {}
-	public override void EndRound() {}
-	public override void CheckAntags() {}
 }

@@ -79,7 +79,7 @@ public class XenoAI : MobAI
 	{
 		if (chatEvent.originator == null) return;
 
-		if (status == XenoStatus.Searching || status == XenoStatus.None )
+		if (status == XenoStatus.Searching || status == XenoStatus.None)
 		{
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
@@ -97,10 +97,11 @@ public class XenoAI : MobAI
 	//The alien has been attacked by something!
 	protected override void OnAttackReceived(GameObject damagedBy)
 	{
-		if ( damagedBy == null ) //when something is on fire, damagedBy is null
+		if (damagedBy == null) //when something is on fire, damagedBy is null
 		{
 			return;
 		}
+
 		if (health.OverallHealth < -20f)
 		{
 			//30% chance the xeno decides to flee:
@@ -128,7 +129,33 @@ public class XenoAI : MobAI
 
 	private void DoRandomMove()
 	{
-		NudgeInDir(Random.Range(1,9));
+		var nudgeDir = GetNudgeDirFromInt(Random.Range(0, 8));
+		if (registerObject.Matrix.IsSpaceAt(registerObject.LocalPosition + nudgeDir.To3Int(), true))
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				var testDir = GetNudgeDirFromInt(i);
+				var checkTile = registerObject.LocalPosition + testDir.To3Int();
+				if (!registerObject.Matrix.IsSpaceAt(checkTile, true))
+				{
+					if (registerObject.Matrix.IsPassableAt(checkTile, true))
+					{
+						nudgeDir = testDir;
+						break;
+					}
+					else
+					{
+						if (registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
+						{
+							nudgeDir = testDir;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		NudgeInDirection(nudgeDir);
 		movementTickRate = Random.Range(1f, 3f);
 	}
 
@@ -200,7 +227,6 @@ public class XenoAI : MobAI
 		base.ResetBehaviours();
 		status = XenoStatus.None;
 		searchWaitTime = 0f;
-
 	}
 
 	public override void OnDespawnServer(DespawnInfo info)

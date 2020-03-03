@@ -6,7 +6,7 @@ public static class EnumerableExt
 {
 	public static T PickRandom<T>(this IEnumerable<T> source)
 	{
-		return source.PickRandom(1).Single();
+		return source.PickRandom(1).SingleOrDefault();
 	}
 
 	public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)

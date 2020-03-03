@@ -13,8 +13,9 @@ public class TriggerEventMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		yield return null;
 		TriggerEvent();
+
+		yield return null;
 	}
 
 	/// Raise the specified event
@@ -22,7 +23,12 @@ public class TriggerEventMessage : ServerMessage
 	{
 		EventManager.Broadcast(EventType);
 	}
-	///     Sends the message to the player
+	/// <summary>
+	/// Sends the event message to the player.
+	/// </summary>
+	/// <param name="recipient"></param>
+	/// <param name="eventType"></param>
+	/// <returns></returns>
 	public static TriggerEventMessage Send(GameObject recipient, EVENT eventType)
 	{
 		TriggerEventMessage msg = new TriggerEventMessage();

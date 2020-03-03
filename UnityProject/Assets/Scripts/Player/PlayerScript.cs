@@ -2,8 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using System;
 
-public class PlayerScript : ManagedNetworkBehaviour
+public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -15,10 +16,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// </summary>
 	public CharacterSettings characterSettings = new CharacterSettings();
 
-	private float pingUpdate;
-
 	[SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
+	[SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
 	public PlayerNetworkActions playerNetworkActions { get; set; }
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
@@ -46,6 +46,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public RegisterPlayer registerTile { get; set; }
 
+	public HasCooldowns Cooldowns { get; set; }
+
 	public MouseInputController mouseInputController { get; set; }
 
 	public HitIcon hitIcon { get; set; }
@@ -60,35 +62,72 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private static bool verified;
 	private static ulong SteamID;
 
+	private Vector3IntEvent onTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnTileReached() => onTileReached;
+
 	public override void OnStartClient()
 	{
 		Init();
-		SyncPlayerName(playerName);
-		base.OnStartClient();
+		SyncPlayerName(playerName, playerName);
 	}
 
 	//isLocalPlayer is always called after OnStartClient
 	public override void OnStartLocalPlayer()
 	{
 		Init();
-		base.OnStartLocalPlayer();
 	}
 
 	//You know the drill
 	public override void OnStartServer()
 	{
 		Init();
-		base.OnStartServer();
 	}
 
-	void OnEnable()
+	protected override void OnEnable()
 	{
+		base.OnEnable();
+
 		EventManager.AddHandler(EVENT.PlayerRejoined, Init);
+		EventManager.AddHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
+		EventManager.AddHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
 	}
 
-	void OnDisable()
+	/// <summary>
+	/// This function enable fov and lighting
+	/// </summary>
+	/// <param name="enable"></param>
+	private void EnableLighting(bool enable)
 	{
+		// Get the lighting system
+		var lighting = Camera.main.GetComponent<LightingSystem>();
+		if (!lighting)
+		{
+			Logger.LogWarning("Local Player can't find lighting system on Camera.main", Category.Lighting);
+			return;
+		}
+
+		lighting.enabled = enable;
+	}
+
+	private void OnPlayerReturnedToBody()
+	{
+		Logger.Log("Local player become Ghost", Category.DebugConsole);
+		EnableLighting(true);
+	}
+
+	private void OnPlayerBecomeGhost()
+	{
+		Logger.Log("Local player returned to the body", Category.DebugConsole);
+		EnableLighting(false);
+	}
+
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, Init);
+		EventManager.RemoveHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
 	}
 
 	private void Awake()
@@ -105,12 +144,14 @@ public class PlayerScript : ManagedNetworkBehaviour
 		playerDirectional = GetComponent<Directional>();
 		ItemStorage = GetComponent<ItemStorage>();
 		Equipment = GetComponent<Equipment>();
+		Cooldowns = GetComponent<HasCooldowns>();
 	}
 
 	public void Init()
 	{
 		if (isLocalPlayer)
 		{
+			EnableLighting(true);
 			UIManager.ResetAllUI();
 			UIManager.DisplayManager.SetCameraFollowPos();
 			GetComponent<MouseInputController>().enabled = true;
@@ -138,7 +179,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 				UIManager.LinkUISlots();
 				//play the spawn sound
-				SoundManager.PlayAmbience();
+				SoundManager.Play("Ambient#");
+				SoundManager.PlayAmbience("ShipAmbience");
 				//Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
@@ -151,19 +193,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		}
 	}
 
-	public override void UpdateMe()
-	{
-		//Read out of ping in toolTip
-		pingUpdate += Time.deltaTime;
-		if (pingUpdate >= 5f)
-		{
-			pingUpdate = 0f;
-			int ping = (int)NetworkTime.rtt;
-			UIManager.SetPingDisplay = string.Format("ping: {0,-5:D}", ping);
-		}
-	}
-
-	public void SyncPlayerName(string value)
+	public void SyncPlayerName(string oldValue, string value)
 	{
 		playerName = value;
 		gameObject.name = value;
@@ -175,6 +205,22 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// True if this player is a ghost, meaning they exist in the ghost layer
 	/// </summary>
 	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
+
+	/// <summary>
+	/// Same as is ghost, but also true when player inside his dead body
+	/// </summary>
+	public bool IsDeadOrGhost
+	{
+		get
+		{
+			var isDeadOrGhost = IsGhost;
+			if (playerHealth != null)
+			{
+				isDeadOrGhost = playerHealth.IsDead;
+			}
+			return isDeadOrGhost;
+		}
+	}
 
 	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
 	{
@@ -193,54 +239,25 @@ public class PlayerScript : ManagedNetworkBehaviour
 	///  <inheritdoc cref="IsInReach(Vector3,float)"/>
 	public bool IsInReach(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance)
 	{
-		return IsInReach(registerTile, otherObject, isServer, interactDist);
+		return Validations.IsInReach(registerTile, otherObject, isServer, interactDist);
 	}
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance)
 	{
-		return IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
-	}
-
-	///Smart way to detect reach, supports high speeds in ships. Should use it more!
-	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = interactionDistance)
-	{
-		if ( isServer )
-		{
-			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionServer, to.LocalPositionServer, interactDist) ||
-			IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
-		}
-		else
-		{
-			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionClient, to.LocalPositionClient, interactDist) ||
-		       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
-		}
-	}
-
-	public static bool IsInReach( Vector3 targetVector, float interactDist = interactionDistance )
-	{
-		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
-	}
-
-	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)
-	{
-		var targetVector = from - to;
-		return IsInReach( targetVector );
+		return Validations.IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		var isDeadOrGhost = IsGhost;
-		if (playerHealth != null)
-		{
-			isDeadOrGhost = playerHealth.IsDead;
-		}
-
-		if (isDeadOrGhost)
+		if (IsDeadOrGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+				| ChatChannel.Supply | ChatChannel.Syndicate;
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;
@@ -286,39 +303,40 @@ public class PlayerScript : ManagedNetworkBehaviour
 		return transmitChannels | receiveChannels;
 	}
 
-	public ChatModifier GetCurrentChatModifiers()
+	//Syncvisiblename
+	public void SyncVisibleName(string oldValue, string value)
 	{
-		ChatModifier modifiers = ChatModifier.None;
-		if (IsGhost)
-		{
-			return ChatModifier.None;
-		}
-		if (playerHealth.IsCrit)
-		{
-			return ChatModifier.Mute;
-		}
-		if (playerHealth.IsSoftCrit)
-		{
-			modifiers |= ChatModifier.Whisper;
-		}
+		visibleName = value;
+	}
 
-		//TODO add missing modifiers
-		//TODO add if for being drunk
-		//ChatModifier modifiers = ChatModifier.Drunk;
-
-		if (mind.occupation.JobType == JobType.CLOWN)
+	//Update visible name.
+	public void RefreshVisibleName()
+	{
+		// TODO: Check inventory for head/mask items that hide face - atm just check you are not wearing a mask.
+		// needs helmet/hideface trait to be added and checked for. This way, we start with a "face name" our characters might know...
+		if (ItemSlot.GetNamed(ItemStorage, NamedSlot.mask).IsEmpty)
 		{
-			modifiers |= ChatModifier.Clown;
-
+			SyncVisibleName(playerName, playerName);
 		}
-
-		return modifiers;
+		else
+		{
+			SyncVisibleName("Unknown", "Unknown");
+		}
+		
+		// ...but if ID card is in belt slot, override with ID card data.
+		string idname = Equipment.GetIdentityFromID();
+		if (!String.Equals(idname, ""))
+		{
+			SyncVisibleName(idname, idname);
+		}
+		
+		
 	}
 
 	//Tooltips inspector bar
 	public void OnHoverStart()
 	{
-		UIManager.SetToolTip = name;
+		UIManager.SetToolTip = visibleName;
 	}
 
 	public void OnHoverEnd()
@@ -326,21 +344,19 @@ public class PlayerScript : ManagedNetworkBehaviour
 		UIManager.SetToolTip = "";
 	}
 
-	//MatrixMove is rotating (broadcast via MatrixMove)
-	public void MatrixMoveStartRotation()
+	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
-		if (PlayerManager.LocalPlayer == gameObject)
+		//We need to handle lighting stuff for matrix rotations for local player:
+		if (PlayerManager.LocalPlayer == gameObject && rotationInfo.IsClientside)
 		{
-			//We need to handle lighting stuff for matrix rotations for local player:
-			Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
-		}
-	}
-	public void MatrixMoveStopRotation()
-	{
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			//We need to handle lighting stuff for matrix rotations for local player:
-			Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
+			if (rotationInfo.IsStarting)
+			{
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
+			}
+			else if (rotationInfo.IsEnding)
+			{
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
+			}
 		}
 	}
 }

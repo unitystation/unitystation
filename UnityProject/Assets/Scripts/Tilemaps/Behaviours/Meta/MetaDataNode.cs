@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
 /// <summary>
@@ -54,22 +55,16 @@ public class MetaDataNode: IGasMixContainer
 	private float damage;
 	private float previousDamage;
 
+	/// <summary>
+	/// Direction of wind in local coordinates
+	/// </summary>
 	public Vector2Int 	WindDirection 	= Vector2Int.zero;
 	public float		WindForce 		= 0;
 
 	/// <summary>
 	/// Number of neighboring MetaDataNodes
 	/// </summary>
-	public int NeighborCount
-	{
-		get
-		{
-			lock (neighbors)
-			{
-				return neighbors.Count;
-			}
-		}
-	}
+	public int NeighborCount { get; private set; }
 
 	/// <summary>
 	/// Current drying coroutine.
@@ -86,7 +81,7 @@ public class MetaDataNode: IGasMixContainer
 	/// </summary>
 	public readonly MetaDataNode[] Neighbors = new MetaDataNode[4];
 
-	private List<MetaDataNode> neighbors;
+	private List<MetaDataNode> neighborList;
 
 	public ReactionManager ReactionManager => reactionManager;
 	private ReactionManager reactionManager;
@@ -99,8 +94,12 @@ public class MetaDataNode: IGasMixContainer
 	public MetaDataNode(Vector3Int position, ReactionManager reactionManager)
 	{
 		Position = position;
-		neighbors = new List<MetaDataNode>();
-		GasMix = GasMixes.Space;
+		neighborList = new List<MetaDataNode>(4);
+		for (var i = 0; i < neighborList.Capacity; i++)
+		{
+			neighborList.Add(null);
+		}
+		GasMix = new GasMix(GasMixes.Space);
 		this.reactionManager = reactionManager;
 	}
 
@@ -136,32 +135,52 @@ public class MetaDataNode: IGasMixContainer
 
 	public void AddNeighborsToList(ref List<MetaDataNode> list)
 	{
-		lock (neighbors)
+		lock (neighborList)
 		{
-			foreach (MetaDataNode neighbor in neighbors)
+			foreach (MetaDataNode neighbor in neighborList)
 			{
-				list.Add(neighbor);
+				if (neighbor != null && neighbor.Exists)
+				{
+					list.Add(neighbor);
+				}
 			}
 		}
 	}
 
 	public void ClearNeighbors()
 	{
-		lock (neighbors)
+		lock (neighborList)
 		{
-			neighbors.Clear();
+			for (int i = 0; i < 4; i++)
+			{
+				neighborList[i] = null;
+			}
 		}
 	}
 
-	public void AddNeighbor(MetaDataNode neighbor)
+	public void AddNeighbor(MetaDataNode neighbor, Vector3Int direction)
 	{
 		if (neighbor != this)
 		{
-			lock (neighbors)
+			lock (neighborList)
 			{
-				neighbors.Add(neighbor);
+				bool added = false;
+				for (var i = 0; i < MetaUtils.Directions.Length; i++)
+				{
+					if (MetaUtils.Directions[i] == direction)
+					{
+						neighborList[i] = neighbor;
+						added = true;
+						break;
+					}
+				}
 
-				SyncNeighbors();
+				if (added)
+				{
+					SyncNeighbors();
+					return;
+				}
+				Logger.LogErrorFormat("Failed adding neighbor {0} to node {1} at direction {2}", Category.Atmos, neighbor, this, direction);
 			}
 		}
 	}
@@ -171,22 +190,34 @@ public class MetaDataNode: IGasMixContainer
 
 	public void RemoveNeighbor(MetaDataNode neighbor)
 	{
-		lock (neighbors)
+		lock (neighborList)
 		{
-			neighbors.Remove(neighbor);
+			if (neighborList.Contains(neighbor))
+			{
+				neighborList[neighborList.IndexOf(neighbor)] = null;
 
-			SyncNeighbors();
+				SyncNeighbors();
+			}
 		}
 	}
 
-	public string WindowDmgType { get; set; } = "";
+	/// <summary>
+	/// The level of damage that a window has received if the node is a window.
+	/// </summary>
+	public WindowDamageLevel WindowDamage { get; set; } = WindowDamageLevel.Undamaged;
 
+	/// <summary>
+	/// The level of damage that a grill has received if the node is a grill.
+	/// </summary>
+	public GrillDamageLevel GrillDamage { get; set; } = GrillDamageLevel.Undamaged;
 
 	/// <returns>Damage before reset</returns>
 	public float ResetDamage()
 	{
 		Damage = 0;
 		IsScorched = false;
+		WindowDamage = WindowDamageLevel.Undamaged;
+		GrillDamage = GrillDamageLevel.Undamaged;
 		return previousDamage;
 	}
 
@@ -197,9 +228,15 @@ public class MetaDataNode: IGasMixContainer
 
 	private void SyncNeighbors()
 	{
-		for (int i = 0; i < Neighbors.Length; i++)
+		for (int i = 0, j = 0; i < Neighbors.Length; i++)
 		{
-			Neighbors[i] = i < neighbors.Count ? neighbors[i] : null;
+			Neighbors[i] = neighborList[i];
+
+			if (Neighbors[i] != null)
+			{
+				j++;
+				NeighborCount = j;
+			}
 		}
 	}
 }

@@ -28,10 +28,9 @@ public class ShipThruster : MonoBehaviour
 		{
 			return;
 		}
-		shipMatrixMove.OnClientStart.RemoveListener(UpdateEngineState);
-		shipMatrixMove.OnClientStop.RemoveListener(UpdateEngineState);
-		shipMatrixMove.OnRotateStart.RemoveListener(RotateFX);
-		shipMatrixMove.OnSpeedChange.RemoveListener(SpeedChange);
+		shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.RemoveListener(UpdateEngineState);
+		shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.RemoveListener(UpdateEngineState);
+		shipMatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(RotateFX);
 	}
 
 	IEnumerator Init()
@@ -49,10 +48,11 @@ public class ShipThruster : MonoBehaviour
 
 		}
 		yield return WaitFor.EndOfFrame;
-		shipMatrixMove.OnClientStart.AddListener(UpdateEngineState);
-		shipMatrixMove.OnClientStop.AddListener(UpdateEngineState);
-		shipMatrixMove.OnRotateStart.AddListener(RotateFX);
-		shipMatrixMove.OnSpeedChange.AddListener(SpeedChange);
+		shipMatrixMove.MatrixMoveEvents.OnStartMovementClient.AddListener(UpdateEngineState);
+		shipMatrixMove.MatrixMoveEvents.OnStopMovementClient.AddListener(UpdateEngineState);
+		//TODO: Refactor to use Directional
+		shipMatrixMove.MatrixMoveEvents.OnRotate.AddListener(RotateFX);
+		shipMatrixMove.MatrixMoveEvents.OnSpeedChange.AddListener(SpeedChange);
 	}
 
 	public void UpdateEngineState()
@@ -70,7 +70,7 @@ public class ShipThruster : MonoBehaviour
 	}
 
 	//Rotates FX as ship rotates
-	public void RotateFX(RotationOffset newRotationOffset, bool isInitialRotation)
+	public void RotateFX(MatrixRotationInfo info)
 	{
 		var mainFX = particleFX.main;
 

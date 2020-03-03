@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public enum SpriteHandType
 {
@@ -6,6 +7,8 @@ public enum SpriteHandType
 	RightHand,
 	LeftHand
 }
+
+public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEquiped);
 
 /// <summary>
 /// For the Individual clothing player sprite renderers
@@ -22,18 +25,10 @@ public class ClothingItem : MonoBehaviour
 	/// </summary>
 	private Orientation currentDirection = Orientation.Down;
 
-	public int reference;
-	private int referenceOffset;
-	public Color color = Color.white;
+	protected int referenceOffset;
 	private int variantIndex = 0;
-	private SpriteDataHandler SHD;
 
 	public SpriteHandler spriteHandler;
-
-	//public SpriteRenderer spriteRenderer;
-	private Sprite[] sprites;
-
-	public string spriteSheetName;
 
 	public GameObject GameObjectReference;
 
@@ -41,6 +36,11 @@ public class ClothingItem : MonoBehaviour
 	public SpriteHandType spriteType;
 
 	public PlayerScript thisPlayerScript;
+
+	/// <summary>
+	/// Player equipped or unequipped some clothing from ClothingItem slot
+	/// </summary>
+	public event OnClothingEquippedDelegate OnClothingEquiped;
 
 	/// <summary>
 	/// Direction clothing is facing (absolute)
@@ -55,70 +55,91 @@ public class ClothingItem : MonoBehaviour
 		get { return currentDirection; }
 	}
 
+	/// <summary>
+	/// Are we holding item or clothing in hands?
+	/// </summary>
+	private bool InHands
+	{
+		get
+		{
+			return spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand;
+		}
+	}
+
 	private void Awake()
 	{
-		sprites = SpriteManager.PlayerSprites[spriteSheetName];
 		UpdateSprite();
 	}
 
-
 	public void SetColor(Color value)
 	{
-		color = value;
 		if (spriteHandler != null)
 		{
 			spriteHandler.SetColor(value);
 		}
 	}
 
-	public void SetReference(GameObject Item)
+	public virtual void SetReference(GameObject Item)
 	{
 		UpdateReferenceOffset();
 		if (Item == null)
 		{
 			if (spriteHandler != null) //need to remove
 			{
-				spriteHandler.Infos = null;
+				spriteHandler.spriteData = null;
 				PushTexture();
 			}
+
+			if (!InHands)
+			{
+				// did we take off clothing?
+				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
+				if (unequippedClothing)
+					OnClothingEquiped?.Invoke(unequippedClothing, false);
+			}
+
+			GameObjectReference = null; // Remove the item from equipment
 		}
 
 		if (Item != null)
 		{
-			GameObjectReference = Item;
-			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
-			{
-				var equippedAttributes = Item.GetComponent<ItemAttributes>();
-				SHD = equippedAttributes?.spriteDataHandler;
-				if (SHD != null)
-				{
-					spriteHandler.Infos = SHD.Infos;
-					if (spriteType == SpriteHandType.RightHand)
-					{
-						spriteHandler.ChangeSprite((spriteHandler.Infos.VariantIndex * 2) + 1);
-					}
-					else
-					{
-						spriteHandler.ChangeSprite(spriteHandler.Infos.VariantIndex * 2);
-					}
+			GameObjectReference = Item; // Add item to equipment
 
-					PushTexture();
-				}
+			if (InHands)
+			{
+				var ItemAttributesV2 = Item.GetComponent<ItemAttributesV2>();
+				var InHandsSprites = ItemAttributesV2?.ItemSprites;
+				SetInHand(InHandsSprites);
 			}
 			else
 			{
-				var equippedClothing = Item.GetComponent<Clothing>();
-				equippedClothing?.SetClothingItem(this);
+				var equippedClothing = Item.GetComponent<ClothingV2>();
+				equippedClothing?.LinkClothingItem(this);
+
+				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
+				// But for the others, we call the OnClothingEquiped event.
+				if (equippedClothing)
+				{
+					// call the event of equiped clothing
+					OnClothingEquiped?.Invoke(equippedClothing, true);
+				}
 			}
 		}
 
 		UpdateReferenceOffset();
 	}
 
-	public void RefreshFromClothing(Clothing clothing)
+	public void RefreshFromClothing(ClothingV2 clothing)
 	{
-		spriteHandler.Infos = clothing.SpriteInfo;
-		spriteHandler.ChangeSprite(clothing.ReturnSetState());
+		spriteHandler.spriteData = clothing.SpriteInfo;
+
+		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
+		if (palette != null)
+		{
+			spriteHandler.SetPaletteOfCurrentSprite(palette);
+		}
+
+		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
 		PushTexture();
 	}
 
@@ -143,27 +164,15 @@ public class ClothingItem : MonoBehaviour
 		{
 			referenceOffset = 3;
 		}
-
 		UpdateSprite();
 	}
 
-	public void UpdateSprite()
+	public virtual void UpdateSprite()
 	{
 		if (spriteHandler != null)
 		{
-			if (spriteHandler.Infos != null)
+			if (spriteHandler.spriteData != null)
 			{
-				if (SHD)
-				{
-					if (spriteType == SpriteHandType.RightHand)
-					{
-						spriteHandler.ChangeSprite((SHD.Infos.VariantIndex * 2) + 1);
-					}
-					else
-					{
-						spriteHandler.ChangeSprite(SHD.Infos.VariantIndex * 2);
-					}
-				}
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
 		}
@@ -174,6 +183,26 @@ public class ClothingItem : MonoBehaviour
 		if (spriteHandler != null)
 		{
 			spriteHandler.PushTexture();
+		}
+	}
+
+	public void SetInHand(ItemsSprites _ItemsSprites) {
+		if (_ItemsSprites != null)
+		{
+			if (spriteType == SpriteHandType.RightHand)
+			{
+
+				spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
+			}
+			else
+			{
+				spriteHandler.spriteData = _ItemsSprites.LeftHand.Data;
+			}
+
+			spriteHandler.spriteData.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };
+			spriteHandler.spriteData.palettes = new List<List<Color>>() { new List<Color>(_ItemsSprites.Palette) };
+
+			PushTexture();
 		}
 	}
 }

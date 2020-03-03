@@ -25,14 +25,18 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 				continue;
 			}
 
-			if (entry.SlotPopulator == null)
+			if (entry.Prefab == null)
 			{
-				Logger.LogTraceFormat("Skipping populating slot {0} because Slot Populator was empty for this entry.",
+				Logger.LogTraceFormat("Skipping populating slot {0} because Prefab  Populator was empty for this entry.",
 					Category.Inventory, entry.NamedSlot);
 				continue;
 			}
 
-			entry.SlotPopulator.PopulateSlot(slot, context);
+			if (entry.Prefab != null)
+			{
+				var spawn = Spawn.ServerPrefab(entry.Prefab);
+				Inventory.ServerAdd(spawn.GameObject, slot);
+			}
 		}
 	}
 }
@@ -44,7 +48,7 @@ public class NamedSlotPopulatorEntry
 	         " more than once in these entries.")]
 	public NamedSlot NamedSlot;
 
-	[Tooltip("Populator to use to populate this slot.")]
-	public SlotPopulator SlotPopulator;
+	[Tooltip("Prefab to spawn in this slot. Takese precedence over slot populator.")]
+	public GameObject Prefab;
 }
 

@@ -7,11 +7,11 @@ public class DragAndDropInteractable : MonoBehaviour, IPointerEnterHandler, IPoi
 {
 	public void OnPointerEnter(PointerEventData data)
 	{
-		UIManager.DragAndDrop.EnteredInteractable();
+		UIManager.UiDragAndDrop.EnteredInteractable();
 	}
 
 	public void OnPointerExit(PointerEventData data)
 	{
-		UIManager.DragAndDrop.ResetInteractable();
+		UIManager.UiDragAndDrop.ResetInteractable();
 	}
 }

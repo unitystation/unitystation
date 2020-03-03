@@ -1,22 +1,88 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Mirror;
 /// <summary>
 /// Allows a storage object to be interacted with, to open/close it and drag things. Works for
 /// player inventories and normal indexed storages like backpacks
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(MouseDraggable))]
+[RequireComponent(typeof(ActionControlInventory))]
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
-	ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>, IServerInventoryMove
+	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>,
+	IServerInventoryMove, IClientInventoryMove, IActionGUI
 {
+
+	/// <summary>
+	/// The click pickup mode.
+	/// Single picks up one clicked item.
+	/// Same picks up all items of the same type on a tile.
+	/// All picks up all items on a tile
+	/// </summary>
+	enum PickupMode
+	{
+		Single,
+		Same,
+		All,
+	}
+
 	/// <summary>
 	/// Item storage that is being interacted with.
 	/// </summary>
 	public ItemStorage ItemStorage => itemStorage;
 
 	private ItemStorage itemStorage;
+
+	/// <summary>
+	/// Flag to determine if this can store items by clicking on them
+	/// </summary>
+	[SerializeField]
+	[Tooltip("Can you store items by clicking on them with this in hand?")]
+	private bool canClickPickup;
+
+	/// <summary>
+	/// Flag to determine if this can empty out all items by activating it
+	/// </summary>
+	[SerializeField]
+	[Tooltip("Can you empty out all items by activating this item?")]
+	private bool canQuickEmpty;
+
+	/// <summary>
+	/// The current pickup mode used when clicking
+	/// </summary>
+	private PickupMode pickupMode = PickupMode.All;
+
+
+	[SerializeField]
+	private ActionData actionData;
+	public ActionData ActionData => actionData;
+
+	/// <summary>
+	/// Used on the server to switch the pickup mode of this InteractableStorage
+	/// </summary>
+	public void ServerSwitchPickupMode(GameObject player)
+	{
+		pickupMode = pickupMode.Next();
+
+		string msg = "Nothing happens.";
+		switch (pickupMode)
+		{
+			case PickupMode.Single:
+				msg = $"The {gameObject.ExpensiveName()} now picks up one item at a time.";
+				break;
+			case PickupMode.Same:
+				msg = $"The {gameObject.ExpensiveName()} now picks up all items of a single type at once.";
+				break;
+			case PickupMode.All:
+				msg = $"The {gameObject.ExpensiveName()} now picks up all items in a tile at once.";
+				break;
+			default:
+				Logger.LogError($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
+				break;
+		}
+		Chat.AddExamineMsgFromServer(player, msg);
+	}
 
 	void Awake()
 	{
@@ -59,11 +125,231 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		Inventory.ServerTransfer(interaction.FromSlot,
-			itemStorage.GetBestSlotFor(((Interaction) interaction).UsedObject));
+			itemStorage.GetBestSlotFor(((Interaction)interaction).UsedObject));
 	}
 
+	/// <summary>
+	/// Client:
+	/// Allow items to be stored by clicking on bags with item in hand
+	/// and clicking items with bag in hand if CanClickPickup is enabled
+	/// </summary>
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	{
+		// Use default interaction checks
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		// See which item needs to be stored
+		if (Validations.IsTarget(gameObject, interaction))
+		{
+			// We're the target
+			// If player's hands are empty let Pickupable handle the interaction
+			if (interaction.HandObject == null) return false;
+
+			// There's something in the player's hands
+			// Check if item from the hand slot fits in this storage sitting in the world
+			if (!Validations.CanPutItemToStorage(interaction.PerformerPlayerScript,
+			itemStorage, interaction.HandObject, side, examineRecipient: interaction.Performer))
+			{
+				Chat.AddExamineMsgToClient($"The {interaction.HandObject.ExpensiveName()} doesn't fit!");
+				return false;
+			}
+			return true;
+		}
+		else if (canClickPickup)
+		{
+			// If we can click pickup then try to store the target object
+			switch (pickupMode)
+			{
+				case PickupMode.Single:
+					// See if there's an item to pickup
+					if (interaction.TargetObject == null ||
+						interaction.TargetObject.Item() == null)
+					{
+						Chat.AddExamineMsgToClient("There's nothing to pickup!");
+						return false;
+					}
+					if (!Validations.CanPutItemToStorage(interaction.PerformerPlayerScript,
+							itemStorage, interaction.TargetObject, side, examineRecipient: interaction.Performer))
+					{
+						// In Single pickup mode if the target item doesn't
+						// fit then don't interact
+						Chat.AddExamineMsgToClient($"The {interaction.TargetObject.ExpensiveName()} doesn't fit!");
+						return false;
+					}
+					break;
+				case PickupMode.Same:
+					if (interaction.TargetObject == null)
+					{
+						// If there's nothing to compare then don't interact
+						Chat.AddExamineMsgToClient("There's nothing to pickup!");
+						return false;
+					}
+					break;
+			}
+			// In Same and All pickup modes other items on the
+			// tile could still be picked up, so we interact
+			return true;
+		}
+		else
+		{
+			// We're not the target and we can't click pickup so don't do anything
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Server:
+	/// Allow items to be stored by clicking on bags with item in hand
+	/// and clicking items with bag in hand if CanClickPickup is enabled
+	///
+	/// </summary>
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		// See which item needs to be stored
+		if (Validations.IsTarget(gameObject, interaction))
+		{
+			// Add hand item to this storage
+			Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetBestSlotFor(interaction.HandObject));
+		}
+		// See if this item can click pickup
+		else if (canClickPickup)
+		{
+			bool pickedUpSomething = false;
+			Pickupable pickup;
+			switch (pickupMode)
+			{
+				case PickupMode.Single:
+
+					// Don't pick up items which aren't set as CanPickup
+					pickup = interaction.TargetObject.GetComponent<Pickupable>();
+					if (pickup == null || pickup.CanPickup == false)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+						return;
+					}
+					// Store the clicked item
+					var slot = itemStorage.GetBestSlotFor(interaction.TargetObject);
+					if (slot == null)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer,
+							$"The {interaction.TargetObject.ExpensiveName()} doesn't fit!");
+						return;
+					}
+					Inventory.ServerAdd(interaction.TargetObject, slot);
+					break;
+
+				case PickupMode.Same:
+					if (interaction.TargetObject == null ||
+						interaction.TargetObject.Item() == null)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+						return;
+					}
+
+					// Get all items of the same type on the tile and try to store them
+					var itemsOnTileSame = MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
+
+					if (itemsOnTileSame.Count == 0)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+						return;
+					}
+
+					foreach (var item in itemsOnTileSame)
+					{
+
+						// Don't pick up items which aren't set as CanPickup
+						pickup = item.gameObject.GetComponent<Pickupable>();
+						if (pickup == null || pickup.CanPickup == false)
+						{
+							continue;
+						}
+
+						// Only try to add it if it matches the target object's traits
+						if (item.HasAllTraits(interaction.TargetObject.Item().GetTraits()))
+						{
+							// Try to add each item to the storage
+							// Can't break this loop when it fails because some items might not fit and
+							// there might be stacks with space still
+							if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+							{
+								pickedUpSomething = true;
+							}
+						}
+					}
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					break;
+
+				case PickupMode.All:
+					// Get all items on the tile and try to store them
+					var itemsOnTileAll = MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
+
+					if (itemsOnTileAll.Count == 0)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+						return;
+					}
+
+					foreach (var item in itemsOnTileAll)
+					{
+						// Don't pick up items which aren't set as CanPickup
+						pickup = item.gameObject.GetComponent<Pickupable>();
+						if (pickup == null || pickup.CanPickup == false)
+						{
+							continue;
+						}
+						// Try to add each item to the storage
+						// Can't break this loop when it fails because some items might not fit and
+						// there might be stacks with space still
+						if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+						{
+							pickedUpSomething = true;
+
+						}
+					}
+					if (pickedUpSomething)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"You put everything you could in the {gameObject.ExpensiveName()}.");
+					}
+					else
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+					}
+					break;
+			}
+		}
+	}
+
+	//This is all client only interaction:
 	public bool Interact(HandActivate interaction)
 	{
+		if (canQuickEmpty)
+		{
+			// Drop all items that are inside this storage
+			var slots = itemStorage.GetItemSlots();
+
+			if (slots == null)
+			{
+				if (!CustomNetworkManager.Instance._isServer)
+				{
+					Chat.AddExamineMsgToClient("It's already empty!");
+				}
+
+				return false;
+			}
+
+			if (PlayerManager.PlayerScript == null) return false;
+
+			PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0).ItemStorageNetID);
+
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.ExpensiveName()}.");
+			}
+
+			return true;
+		}
+
 		//open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)
 		{
@@ -161,5 +447,29 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			ObserveInteractableStorageMessage.Send(fromRootPlayer.gameObject, this, false);
 		}
+	}
+
+	// TODO: this should be merged into a new AlertUI action system once it's implemented
+	// Client only method
+	public void OnInventoryMoveClient(ClientInventoryMove info)
+	{
+		if (CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
+			return;
+
+		if (canClickPickup)
+		{
+			// Show the 'switch pickup mode' action button if this is in either of the players hands
+			var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
+			var showAlert = pna.GetActiveHandItem() == gameObject ||
+							pna.GetOffHandItem() == gameObject;
+
+			UIActionManager.Toggle(this, showAlert);
+		}
+	}
+
+	public void CallActionClient()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+
 	}
 }

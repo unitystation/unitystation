@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Construction, allowMultiple: true);
 
 	public GameObject rackPrefab;
 
@@ -58,19 +60,26 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			return;
 		}
 
-		var progressFinishAction = new ProgressCompleteAction(() =>
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You assemble a rack.");
-				Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
-					interaction.Performer.transform.parent);
-				var handObj = interaction.HandObject;
+		void ProgressComplete()
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer,
+					"You assemble a rack.");
+			Spawn.ServerPrefab(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
+				interaction.Performer.transform.parent);
+			var handObj = interaction.HandObject;
+			
+			if (handObj != null && handObj.GetInstanceID() == gameObject.GetInstanceID()) // the rack parts were assembled from the hands, despawn in inventory-fashion
+			{ // (note: instanceIDs used in case somebody starts assembling rack parts on the ground with rack parts in hand (which was not possible at the time this was written))
 				Inventory.ServerDespawn(interaction.HandSlot);
 			}
-		);
+			else // the rack parts were assembled from the ground, despawn in general fashion
+			{
+				Despawn.ServerSingle(gameObject);
+			}
+		}
 
-		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer);
+		var bar = StandardProgressAction.Create(ProgressConfig, ProgressComplete)
+			.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(), 5f, interaction.Performer);
 		if (bar != null)
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You start constructing a rack...");

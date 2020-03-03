@@ -28,6 +28,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new RoomNumberCheck());
 		localChecks.Add(new AirlockCheck());
 		localChecks.Add(new SlipperyCheck());
+		localChecks.Add(new AtmosUpdateCheck());
 	}
 
 	public override void DrawContent()
@@ -131,6 +132,22 @@ public class MetaDataView : BasicView
 				GizmoUtils.DrawText($"{neighborCount}", p, false);
 			}
 		}
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+			foreach (MetaDataNode neighbor in node.Neighbors)
+			{
+				if (neighbor != null)
+				{
+					Vector3 p2 = LocalToWorld(neighbor.ReactionManager, neighbor.Position);
+
+					p2 = WorldToLocal(source, p2);
+
+					GizmoUtils.DrawRay(position, p2 - position);
+				}
+			}
+		}
 	}
 
 	private class PressureCheck : Check<MetaDataLayer>
@@ -214,6 +231,21 @@ public class MetaDataView : BasicView
 			}
 		}
 	}
+
+	private class AtmosUpdateCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Atmos Update";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+			if (AtmosThread.IsInUpdateList(node))
+			{
+				GizmoUtils.DrawCube( position, Color.blue, true );
+			}
+		}
+	}
+
 	private class AirlockCheck : Check<MetaDataLayer>
 	{
 		public override string Label { get; } = "Closed Airlock";
@@ -305,8 +337,13 @@ public class MetaDataView : BasicView
 		}
 	}
 
-	private static Vector3 LocalToWorld(Component source, Vector3Int position)
+	private static Vector3 LocalToWorld(Component source, Vector3 position)
 	{
 		return MatrixManager.LocalToWorld(position, MatrixManager.Get(source.GetComponent<Matrix>()));
+	}
+
+	private static Vector3 WorldToLocal(Component source, Vector3 position)
+	{
+		return MatrixManager.WorldToLocal(position, MatrixManager.Get(source.GetComponent<Matrix>()));
 	}
 }

@@ -6,11 +6,12 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Pickupable))]
-public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
+public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	ICheckedInteractable<InventoryApply>
 {
-	public ItemAttributes itemAttributes;
-	public SpriteHandler spriteHandler;
+	private SpriteHandlerController spriteHandlerController;
+	private ItemAttributesV2 itemAttributes;
+	public EswordSprites Sprites;
 	public PlayerLightControl playerLightControl;
 	public LightSprite worldLight;
 	public GameObject worldRenderer;
@@ -44,8 +45,16 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (itemAttributes != null) return;
+		itemAttributes = GetComponent<ItemAttributesV2>();
+		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		pickupable = GetComponent<Pickupable>();
-		if (color == (int)SwordColor.Random)
+		if (color == (int) SwordColor.Random)
 		{
 			color = Random.Range(1, 5);
 		}
@@ -55,18 +64,19 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public override void OnStartClient()
 	{
-		SyncColor(color);
-		base.OnStartClient();
+		EnsureInit();
+		SyncColor(color, color);
 	}
 
 	public override void OnStartServer()
 	{
-		SyncColor(color);
-		base.OnStartServer();
+		EnsureInit();
+		SyncColor(color, color);
 	}
 
-	private void SyncColor(int c)
+	private void SyncColor(int oldC, int c)
 	{
+		EnsureInit();
 		color = c;
 
 		var lightColor = Color.white;
@@ -112,7 +122,7 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 
 		if (interaction.TargetObject != gameObject
-		    || !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+			|| !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
 		{
 			return false;
 		}
@@ -152,23 +162,23 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				c = (int)SwordColor.Red;
 			}
 
-			SyncColor(c);
+			SyncColor(color, c);
 		}
 		else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Multitool))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
-			SyncColor((int)SwordColor.Rainbow);
+			SyncColor(color, (int)SwordColor.Rainbow);
 		}
 	}
 
 	public void ToggleState(Vector3 position)
 	{
-		UpdateState(!activated);
+		UpdateState(activated, !activated);
 
 		SoundManager.PlayNetworkedAtPos(activated ? "saberon" : "saberoff", position, 1f);
 	}
 
-	private void UpdateState(bool newState)
+	private void UpdateState(bool oldState, bool newState)
 	{
 		activated = newState;
 
@@ -182,43 +192,57 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	{
 		if (activated)
 		{
-			spriteHandler.ChangeSprite(12 + color);
-			spriteHandler.Infos.SetVariant(color);
+			switch ((SwordColor)color)
+			{
+				case SwordColor.Blue:
+					spriteHandlerController.SetSprites(Sprites.Blue);
+					break;
+				case SwordColor.Green:
+					spriteHandlerController.SetSprites(Sprites.Green);
+					break;
+				case SwordColor.Purple:
+					spriteHandlerController.SetSprites(Sprites.Purple);
+					break;
+				case SwordColor.Rainbow:
+					spriteHandlerController.SetSprites(Sprites.Rainbow);
+					break;
+				case SwordColor.Red:
+					spriteHandlerController.SetSprites(Sprites.Red);
+					break;
+			}
 		}
 		else
 		{
-			spriteHandler.ChangeSprite(12);
-			spriteHandler.Infos.SetVariant(0);
+			spriteHandlerController.SetSprites(Sprites.Off);
 		}
-		pickupable.RefreshUISlotImage();
 	}
 
 	private void UpdateValues()
 	{
 		if (originalVerbs.Count == 0)
 		{ // Get the initial values before we replace
-			originalHitDamage = itemAttributes.hitDamage;
-			originalThrowDamage = itemAttributes.throwDamage;
-			originalVerbs = itemAttributes.attackVerb;
-			originalSize = itemAttributes.size;
-			originalHitSound = itemAttributes.hitSound;
+			originalHitDamage = itemAttributes.ServerHitDamage;
+			originalThrowDamage = itemAttributes.ServerThrowDamage;
+			originalVerbs = new List<string>(itemAttributes.ServerAttackVerbs);
+			originalSize = itemAttributes.Size;
+			originalHitSound = itemAttributes.ServerHitSound;
 		}
 
 		if (activated)
 		{
-			itemAttributes.hitDamage = activatedHitDamage;
-			itemAttributes.throwDamage = activatedThrowDamage;
-			itemAttributes.attackVerb = activatedVerbs;
-			itemAttributes.size = activatedSize;
-			itemAttributes.hitSound = activatedHitSound;
+			itemAttributes.ServerHitDamage = activatedHitDamage;
+			itemAttributes.ServerThrowDamage = activatedThrowDamage;
+			itemAttributes.ServerAttackVerbs = activatedVerbs;
+			itemAttributes.ServerSetSize(activatedSize);
+			itemAttributes.ServerHitSound = activatedHitSound;
 		}
 		else
 		{
-			itemAttributes.hitDamage = originalHitDamage;
-			itemAttributes.throwDamage = originalThrowDamage;
-			itemAttributes.attackVerb = originalVerbs;
-			itemAttributes.size = originalSize;
-			itemAttributes.hitSound = originalHitSound;
+			itemAttributes.ServerHitDamage = originalHitDamage;
+			itemAttributes.ServerThrowDamage = originalThrowDamage;
+			itemAttributes.ServerAttackVerbs = originalVerbs;
+			itemAttributes.ServerSetSize(originalSize);
+			itemAttributes.ServerHitSound = originalHitSound;
 		}
 	}
 
@@ -237,4 +261,13 @@ public class EnergySword: NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		Purple = 4,
 		Rainbow = 5
 	}
+}
+[System.Serializable]
+public class EswordSprites{
+	public ItemsSprites Blue = new ItemsSprites();
+	public ItemsSprites Green = new ItemsSprites();
+	public ItemsSprites Purple = new ItemsSprites();
+	public ItemsSprites Rainbow = new ItemsSprites();
+	public ItemsSprites Red = new ItemsSprites();
+	public ItemsSprites Off = new ItemsSprites();
 }

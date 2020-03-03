@@ -23,33 +23,36 @@ namespace Items.Bureaucracy
 
 		private SpriteRenderer binRenderer;
 		private SpriteRenderer penRenderer;
-		private Sprite binEmpty;
-		private Sprite binLoaded;
+
+		public Sprite binEmpty;
+		public Sprite binLoaded;
 
 		#region Networking and Sync
 
-		private void SyncPaperCount(int newCount)
+		private void SyncPaperCount(int oldCount, int newCount)
 		{
+			EnsureInit();
 			paperCount = newCount;
 			UpdateSpriteState();
 		}
 
-		private void SyncStoredPen(GameObject pen)
+		private void SyncStoredPen(GameObject oldPen, GameObject pen)
 		{
+			EnsureInit();
 			storedPen = pen;
 			UpdateSpriteState();
 		}
 
 		public override void OnStartClient()
 		{
+			EnsureInit();
 			SyncEverything();
-			base.OnStartClient();
 		}
 
 		public override void OnStartServer()
 		{
+			EnsureInit();
 			SyncEverything();
-			base.OnStartServer();
 		}
 
 		private void SyncEverything()
@@ -57,15 +60,19 @@ namespace Items.Bureaucracy
 			var renderers = GetComponentsInChildren<SpriteRenderer>();
 			binRenderer = renderers[0];
 			penRenderer = renderers[1];
-			binEmpty = Resources.Load<Sprite>("textures/items/bureaucracy/bureaucracy_paper_bin0");
-			binLoaded = Resources.Load<Sprite>("textures/items/bureaucracy/bureaucracy_paper_bin1");
 
-			SyncPaperCount(paperCount);
-			SyncStoredPen(storedPen);
+			SyncPaperCount(paperCount, paperCount);
+			SyncStoredPen(storedPen, storedPen);
 		}
 
 		private void Awake()
 		{
+			EnsureInit();
+		}
+
+		private void EnsureInit()
+		{
+			if (itemStorage != null) return;
 			itemStorage = GetComponent<ItemStorage>();
 			penSlot = itemStorage.GetNamedItemSlot(NamedSlot.storage01);
 			SetupInitialValues();
@@ -165,7 +172,7 @@ namespace Items.Bureaucracy
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You take the pen out of the paper bin.");
 					Inventory.ServerTransfer(penSlot, interaction.HandSlot);
-					SyncStoredPen(null);
+					SyncStoredPen(storedPen, null);
 					return;
 				}
 
@@ -197,14 +204,14 @@ namespace Items.Bureaucracy
 					Inventory.ServerAdd(paper, interaction.HandSlot);
 				}
 
-				SyncPaperCount(paperCount - 1);
+				SyncPaperCount(paperCount, paperCount - 1);
 			}
 			else
 			{
 				// Player is adding a piece of paper or a pen
 				if (handObj.GetComponent<Pen>())
 				{
-					SyncStoredPen(handObj);
+					SyncStoredPen(storedPen, handObj);
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You put the pen in the paper bin.");
 					Inventory.ServerTransfer(interaction.HandSlot, penSlot);
 					return;
@@ -217,7 +224,7 @@ namespace Items.Bureaucracy
 				}
 				Chat.AddExamineMsgFromServer(interaction.Performer, "You put the paper in the paper bin.");
 				Inventory.ServerTransfer(interaction.HandSlot, freeSlot);
-				SyncPaperCount(paperCount + 1);
+				SyncPaperCount(paperCount, paperCount + 1);
 			}
 		}
 

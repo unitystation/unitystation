@@ -24,7 +24,7 @@ public static class MouseUtils
 		{
 			defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines",
 				"Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-				"HiddenWalls", "Objects", "Matrix", "Floor", "NPC");
+				"HiddenWalls", "Objects", "Matrix", "Floor", "NPC", "Lighting");
 		}
 	}
 

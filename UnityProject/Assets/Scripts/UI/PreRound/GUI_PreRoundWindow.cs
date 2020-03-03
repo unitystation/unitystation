@@ -52,6 +52,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void UpdateUI()
 	{
+		if (PlayerList.Instance == null) return;
 		playerCount.text = PlayerList.Instance.ClientConnectedPlayers.Count.ToString();
 		currentGameMode.text = GameManager.Instance.GetGameModeName();
 		timer.text = TimeSpan.FromSeconds(this.countdownTime).ToString(@"mm\:ss");
@@ -64,7 +65,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
 			return;
 		}
-		GameManager.Instance.RoundStart();
+		GameManager.Instance.StartRound();
 	}
 
 	public void SyncCountdown(bool started, float time)

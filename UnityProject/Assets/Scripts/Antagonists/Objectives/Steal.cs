@@ -57,7 +57,21 @@ namespace Antagonists
 
 			// Pick a random item and add it to the targeted list
 			var itemEntry = possibleItems.PickRandom();
-			ItemName = itemEntry.Key.Item().itemName;
+			if (itemEntry.Key == null)
+			{
+				Logger.LogError($"Objective steal item target failed because the item chosen is somehow destroyed." +
+				                " Definitely a programming bug. ", Category.Round);
+				return;
+			}
+			ItemName = itemEntry.Key.Item().InitialName;
+
+			if (string.IsNullOrEmpty(ItemName))
+			{
+				Logger.LogError($"Objective steal item target failed because the InitialName has not been" +
+				                $" set on this objects ItemAttributes. " +
+				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Round);
+				return;
+			}
 			Amount = itemEntry.Value;
 			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
 			// TODO randomise amount based on range/weightings?
@@ -70,9 +84,16 @@ namespace Antagonists
 			foreach (var slot in Owner.body.ItemStorage.GetItemSlotTree())
 			{
 				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributes>()?.itemName == ItemName)
+				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
 				{
-					count++;
+					if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
+					{
+						count += stackable.Amount;
+					}
+					else
+					{
+						count++;
+					}
 				}
 			}
 			// Check if the count is higher than the specified amount

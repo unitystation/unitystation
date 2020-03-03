@@ -1,6 +1,8 @@
 ﻿// common code used by server and client
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -112,7 +114,7 @@ namespace Telepathy
         }
 
         // read message (via stream) with the <size,content> message structure
-        protected static bool ReadMessageBlocking(NetworkStream stream, int MaxMessageSize, out byte[] content)
+        protected static bool ReadMessageBlocking(NetworkStream stream, int MaxMessageSize, out byte[] content, TcpClient client)
         {
             content = null;
 
@@ -136,9 +138,18 @@ namespace Telepathy
                 content = new byte[size];
                 return stream.ReadExactly(content, size);
             }
+
+            //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
             Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
-            return false;
+			Logger.LogWarning($"Content: {content}");
+			Logger.LogWarning($"IP: {client.Client.RemoteEndPoint.ToString()}");
+			allocationAttackQueue.Enqueue(IPAddress.Parse(client.Client.RemoteEndPoint.ToString()).MapToIPv4().ToString());
+
+			return false;
         }
+
+        //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
+        public static Queue<string> allocationAttackQueue = new Queue<string>();
 
         // thread receive function is the same for client and server's clients
         // (static to reduce state for maximum reliability)
@@ -146,10 +157,9 @@ namespace Telepathy
         {
             // get NetworkStream from client
             NetworkStream stream = client.GetStream();
-
-            // keep track of last message queue warning
+	       // keep track of last message queue warning
             DateTime messageQueueLastWarning = DateTime.Now;
-
+            
             // absolutely must wrap with try/catch, otherwise thread exceptions
             // are silent
             try
@@ -178,7 +188,7 @@ namespace Telepathy
                 {
                     // read the next message (blocking) or stop if stream closed
                     byte[] content;
-                    if (!ReadMessageBlocking(stream, MaxMessageSize, out content))
+                    if (!ReadMessageBlocking(stream, MaxMessageSize, out content, client))
                         break; // break instead of return so stream close still happens!
 
                     // queue it

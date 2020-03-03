@@ -21,6 +21,7 @@ public enum TileType
 //If you change numbers, scene layers will mess up
 public enum LayerType
 {
+	//None is the same as empty space
 	[Order(0)]	None 	= 7,
 	[Order(1)]	Effects = 6,
 	[Order(2)]	Walls 	= 0,

@@ -44,7 +44,7 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 
 		// If the player is using a wrench on the rack, deconstruct it
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)
-		    && !interaction.Performer.Player().Script.playerMove.IsHelpIntent)
+		    && interaction.Intent != Intent.Help)
 		{
 			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
 			Spawn.ServerPrefab(rackParts, interaction.WorldPositionTarget.RoundToInt(),
@@ -54,9 +54,12 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 			return;
 		}
 
-		// Like a table, but everything is neatly stacked.
-		Vector3 targetPosition = interaction.WorldPositionTarget.RoundToInt();
-		targetPosition.z = -0.2f;
-		pna.CmdPlaceItem(interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), targetPosition, interaction.Performer, true);
+		//drop it right in the middle of the rack. IN order to do that we have to calculate
+		//that position as an offset from the performer
+		//TODO: Make it less awkward by adding a serverdrop method that accepts absolute position instead of vector.
+		var targetTileWorldPosition = gameObject.TileWorldPosition();
+		var targetTileVector =
+			(Vector3Int) targetTileWorldPosition - interaction.PerformerPlayerScript.registerTile.WorldPositionServer;
+		Inventory.ServerDrop(interaction.HandSlot, targetTileVector.To2Int());
 	}
 }

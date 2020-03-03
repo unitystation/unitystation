@@ -113,6 +113,12 @@ public class Hands : MonoBehaviour
 	/// </summary>
 	public void Activate()
 	{
+
+		if(!isValidPlayer())
+		{
+			return;
+		}
+
 		// Is there an item in the active hand?
 		if (CurrentSlot.Item == null)
 		{
@@ -142,7 +148,12 @@ public class Hands : MonoBehaviour
 		//This checks which UI slot the item can be equiped to and swaps it there
 		//Try to equip the item into the appropriate slot
 		var bestSlot = BestSlotForTrait.Instance.GetBestSlot(CurrentSlot.Item, PlayerManager.LocalPlayerScript.ItemStorage);
-		if (bestSlot == null) return;
+		if (bestSlot == null)
+		{
+			Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, "There is no available slot for that");
+			return;
+		}
+
 		SwapItem(bestSlot.LocalUISlot);
 	}
 

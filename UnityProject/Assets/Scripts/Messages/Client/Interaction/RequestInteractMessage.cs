@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +19,8 @@ public class RequestInteractMessage : ClientMessage
 	public Type InteractionType;
 	//object that will process the interaction
 	public uint ProcessorObject;
+	//player's intent
+	public Intent Intent;
 
 	//note: below, some of these will be populated depending on the interaction type
 
@@ -43,6 +44,8 @@ public class RequestInteractMessage : ClientMessage
 	//named slot targeted in storage
 	public NamedSlot NamedSlot;
 
+	public int TileInteractionIndex;
+
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
 	private static readonly Dictionary<byte, Type> interactionIDToInteractionType = new Dictionary<byte, Type>();
@@ -59,6 +62,9 @@ public class RequestInteractMessage : ClientMessage
 			componentTypeToComponentID.Add(componentType, i);
 			i++;
 		}
+		//needed for tile apply, since it is a client-side only interaction it doesn't implement IInteractable<>
+		componentIDToComponentType.Add(i, typeof(InteractableTiles));
+		componentTypeToComponentID.Add(typeof(InteractableTiles), i);
 
 		var alphabeticalInteractionTypes =
 			typeof(Interaction).Assembly.GetTypes()
@@ -80,7 +86,8 @@ public class RequestInteractMessage : ClientMessage
 
 		return Assembly.GetExecutingAssembly()
 			.GetTypes()
-			.Where(t => ImplementsGenericType(t, genericType));
+			.Where(t => ImplementsGenericType(t, genericType))
+			.Where(t => typeof(Component).IsAssignableFrom(t));
 	}
 
 	private static bool ImplementsGenericType(Type toCheck, Type genericType)
@@ -92,6 +99,11 @@ public class RequestInteractMessage : ClientMessage
 	{
 		var performer = SentByPlayer.GameObject;
 
+		if (SentByPlayer == null || SentByPlayer.Script == null || SentByPlayer.Script.ItemStorage == null)
+		{
+			yield break;
+		}
+
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			//look up item in active hand slot
@@ -101,7 +113,7 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot);
+			var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot, Intent, TargetBodyPart);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(HandApply))
@@ -112,7 +124,7 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot);
+			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(AimApply))
@@ -122,7 +134,7 @@ public class RequestInteractMessage : ClientMessage
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 			yield return WaitFor(ProcessorObject);
 			var processorObj = NetworkObject;
-			var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState);
+			var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(MouseDrop))
@@ -131,7 +143,7 @@ public class RequestInteractMessage : ClientMessage
 			var usedObj = NetworkObjects[0];
 			var targetObj = NetworkObjects[1];
 			var processorObj = NetworkObjects[2];
-			var interaction = MouseDrop.ByClient(performer, usedObj, targetObj);
+			var interaction = MouseDrop.ByClient(performer, usedObj, targetObj, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(HandActivate))
@@ -143,7 +155,7 @@ public class RequestInteractMessage : ClientMessage
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-			var interaction = HandActivate.ByClient(performer, usedObject, usedSlot);
+			var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(InventoryApply))
@@ -173,8 +185,18 @@ public class RequestInteractMessage : ClientMessage
 			{
 				fromSlot = usedObj.GetComponent<Pickupable>().ItemSlot;
 			}
-			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot);
+			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
+		}
+		else if (InteractionType == typeof(TileApply))
+		{
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+			yield return WaitFor(ProcessorObject);
+			var processorObj = NetworkObject;
+			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
+				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent);
 		}
 
 
@@ -183,8 +205,12 @@ public class RequestInteractMessage : ClientMessage
 	private void ProcessInteraction<T>(T interaction, GameObject processorObj)
 		where T : Interaction
 	{
+		if (processorObj == null)
+		{
+			Logger.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
+			return;
+		}
 		//find the indicated component
-		var success = false;
 		var component = processorObj.GetComponent(ComponentType);
 		if (component == null)
 		{
@@ -203,7 +229,9 @@ public class RequestInteractMessage : ClientMessage
 		}
 
 		var interactable = (component as IInteractable<T>);
-		if (interactable.CheckInteract(interaction, NetworkSide.Server))
+		//server side interaction check and cooldown check, and start the cooldown
+		if (interactable.ServerCheckInteract(interaction) &&
+		    Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
 		{
 			//perform
 			interactable.ServerPerformInteraction(interaction);
@@ -222,6 +250,11 @@ public class RequestInteractMessage : ClientMessage
 	public static void Send<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
 	{
+		if (typeof(T) == typeof(TileApply))
+		{
+			Logger.LogError("Cannot use Send with TileApply, please use SendTileApply instead.", Category.Interaction);
+			return;
+		}
 		//never send anything for client-side-only interactions
 		if (interactableComponent is IClientInteractable<T> && !(interactableComponent is IInteractable<T>))
 		{
@@ -256,13 +289,15 @@ public class RequestInteractMessage : ClientMessage
 		{
 			ComponentType = interactableComponent.GetType(),
 			InteractionType = typeof(T),
-			ProcessorObject = comp.GetComponent<NetworkIdentity>().netId
+			ProcessorObject = comp.GetComponent<NetworkIdentity>().netId,
+			Intent = interaction.Intent
 		};
 		if (typeof(T) == typeof(PositionalHandApply))
 		{
 			var casted = interaction as PositionalHandApply;
 			msg.TargetObject = casted.TargetObject.NetId();
 			msg.TargetVector = casted.TargetVector;
+			msg.TargetBodyPart = casted.TargetBodyPart;
 		}
 		else if (typeof(T) == typeof(HandApply))
 		{
@@ -293,6 +328,36 @@ public class RequestInteractMessage : ClientMessage
 		msg.Send();
 	}
 
+	//only intended to be used by core if2 classes
+	public static void SendTileApply(TileApply tileApply, InteractableTiles interactableTiles, TileInteraction tileInteraction, int tileInteractionIndex)
+	{
+		//if we are client and the interaction has client prediction, trigger it.
+		//Note that client prediction is not triggered for server player.
+		if (!CustomNetworkManager.IsServer)
+		{
+			Logger.LogTraceFormat("Predicting TileApply interaction {0}", Category.Interaction, tileApply);
+			tileInteraction.ClientPredictInteraction(tileApply);
+		}
+		if (!tileApply.Performer.Equals(PlayerManager.LocalPlayer))
+		{
+			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
+			                " This is not allowed. Client can only perform an interaction as themselves. Message" +
+			                " will not be sent.", Category.NetMessage);
+			return;
+		}
+
+		var msg = new RequestInteractMessage()
+		{
+			ComponentType = typeof(InteractableTiles),
+			InteractionType = typeof(TileApply),
+			ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+			Intent = tileApply.Intent,
+			TargetVector = tileApply.TargetVector,
+			TileInteractionIndex = tileInteractionIndex
+		};
+		msg.Send();
+	}
+
 	public override void Deserialize(NetworkReader reader)
 	{
 
@@ -300,11 +365,13 @@ public class RequestInteractMessage : ClientMessage
 		ComponentType = componentIDToComponentType[reader.ReadUInt16()];
 		InteractionType = interactionIDToInteractionType[reader.ReadByte()];
 		ProcessorObject = reader.ReadUInt32();
+		Intent = (Intent) reader.ReadByte();
 
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			TargetObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
+			TargetBodyPart = (BodyPartType) reader.ReadUInt32();
 		}
 		else if (InteractionType == typeof(HandApply))
 		{
@@ -328,6 +395,11 @@ public class RequestInteractMessage : ClientMessage
 			SlotIndex = reader.ReadInt32();
 			NamedSlot = (NamedSlot) reader.ReadInt32();
 		}
+		else if (InteractionType == typeof(TileApply))
+		{
+			TargetVector = reader.ReadVector2();
+			TileInteractionIndex = reader.ReadByte();
+		}
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -336,11 +408,13 @@ public class RequestInteractMessage : ClientMessage
 		writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
 		writer.WriteByte(interactionTypeToInteractionID[InteractionType]);
 		writer.WriteUInt32(ProcessorObject);
+		writer.WriteByte((byte) Intent);
 
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			writer.WriteUInt32(TargetObject);
 			writer.WriteVector2(TargetVector);
+			writer.WriteInt32((int) TargetBodyPart);
 		}
 		else if (InteractionType == typeof(HandApply))
 		{
@@ -364,5 +438,11 @@ public class RequestInteractMessage : ClientMessage
 			writer.WriteInt32(SlotIndex);
 			writer.WriteInt32((int) NamedSlot);
 		}
+		else if (InteractionType == typeof(TileApply))
+		{
+			writer.WriteVector2(TargetVector);
+			writer.WriteByte((byte) TileInteractionIndex);
+		}
 	}
+
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using DatabaseAPI;
-using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
@@ -11,7 +10,7 @@ namespace Lobby
 {
 	public class GUI_LobbyDialogue : MonoBehaviour
 	{
-		private const string DefaultServerAddress = "localhost";
+		private const string DefaultServerAddress = "127.0.0.1";
 		private const ushort DefaultServerPort = 7777;
 		private const string UserNamePlayerPref = "PlayerName";
 
@@ -38,6 +37,7 @@ namespace Lobby
 
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
+		public Text serverConnectionFailedText;
 		public Text dialogueTitle;
 		public Text pleaseWaitCreationText;
 		public Text loggingInText;
@@ -50,23 +50,23 @@ namespace Lobby
 		void Start()
 		{
 			networkManager = CustomNetworkManager.Instance;
-
-			// Init server address and port defaults
-			if (BuildPreferences.isForRelease)
-			{
-				serverAddressInput.text = Managers.instance.serverIP;
-			}
-			else
-			{
-				serverAddressInput.text = DefaultServerAddress;
-			}
-
-			serverPortInput.text = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port.ToString();
-
+			networkManager.OnClientDisconnected.AddListener(OnClientDisconnect);
 			OnHostToggle();
-
 			// Init Lobby UI
 			InitPlayerName();
+		}
+
+		public void OnClientDisconnect()
+		{
+			gameObject.SetActive(true);
+			StartCoroutine(FlashConnectionFailedText());
+		}
+
+		IEnumerator FlashConnectionFailedText()
+		{
+			serverConnectionFailedText.gameObject.SetActive(true);
+			yield return WaitFor.Seconds(5);
+			serverConnectionFailedText.gameObject.SetActive(false);
 		}
 
 		public void ShowLoginScreen()
@@ -97,19 +97,19 @@ namespace Lobby
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.F6))
-				if (Input.GetKeyDown(KeyCode.F6) && !BuildPreferences.isForRelease)
+			//login skip only allowed (and only works properly) in offline mode
+			if (Input.GetKeyDown(KeyCode.F6) && GameData.Instance.OfflineMode)
+			{
+				//skip login
+				HideAllPanels();
+				connectionPanel.SetActive(true);
+				dialogueTitle.text = "Connection Panel";
+				//if there aren't char settings, default
+				if (PlayerManager.CurrentCharacterSettings == null)
 				{
-					//skip login
-					HideAllPanels();
-					connectionPanel.SetActive(true);
-					dialogueTitle.text = "Connection Panel";
-					//if there aren't char settings, default
-					if (PlayerManager.CurrentCharacterSettings == null)
-					{
-						PlayerManager.CurrentCharacterSettings = new CharacterSettings();
-					}
+					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
 				}
+			}
 		}
 
 		public void ShowConnectionPanel()
@@ -170,8 +170,8 @@ namespace Lobby
 		private void AccountCreationSuccess(CharacterSettings charSettings)
 		{
 			pleaseWaitCreationText.text = $"Success! An email has been sent to {emailAddressInput.text}. " +
-			                              $"Please click the link in the email to verify " +
-			                              $"your account before signing in.";
+										  $"Please click the link in the email to verify " +
+										  $"your account before signing in.";
 			PlayerManager.CurrentCharacterSettings = charSettings;
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			chosenPasswordInput.text = "";
@@ -209,6 +209,8 @@ namespace Lobby
 		public void ShowLoggingInStatus(string status)
 		{
 			HideAllPanels();
+			if (loggingInPanel == null) return;
+
 			loggingInPanel.SetActive(true);
 			loggingInText.text = status;
 			loginNextButton.SetActive(false);
@@ -220,11 +222,18 @@ namespace Lobby
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			ServerData.Auth.SignOut();
+			NetworkClient.Disconnect();
 			PlayerPrefs.SetString("username", "");
 			PlayerPrefs.SetString("cookie", "");
 			PlayerPrefs.SetInt("autoLogin", 0);
 			PlayerPrefs.Save();
 			ShowLoginScreen();
+		}
+
+		public void OnExit()
+		{
+			SoundManager.Play("Click01");
+			Application.Quit();
 		}
 
 		public void LoginSuccess(string msg)
@@ -271,11 +280,6 @@ namespace Lobby
 		{
 			SoundManager.Play("Click01");
 
-			if (!connectionPanel.activeInHierarchy)
-			{
-				return;
-			}
-
 			// Return if no network address is specified
 			if (string.IsNullOrEmpty(serverAddressInput.text))
 			{
@@ -287,7 +291,7 @@ namespace Lobby
 
 			// Start game
 			dialogueTitle.text = "Starting Game...";
-			if (BuildPreferences.isForRelease || !hostServerToggle.isOn)
+			if (!hostServerToggle.isOn)
 			{
 				ConnectToServer();
 			}
@@ -299,6 +303,13 @@ namespace Lobby
 			// Hide dialogue and show status text
 			gameObject.SetActive(false);
 			//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+		}
+
+		public void OnStartGameFromHub()
+		{
+			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
+			ConnectToServer();
+			gameObject.SetActive(false);
 		}
 
 		public void OnShowInformationPanel()
@@ -325,30 +336,19 @@ namespace Lobby
 			string serverAddress = serverAddressInput.text;
 			if (string.IsNullOrEmpty(serverAddress))
 			{
-				if (BuildPreferences.isForRelease)
-				{
-					serverAddress = Managers.instance.serverIP;
-				}
-
-				if (string.IsNullOrEmpty(serverAddress))
-				{
-					serverAddress = DefaultServerAddress;
-				}
+				serverAddress = DefaultServerAddress;
 			}
 
 			// Set network port
-			ushort serverPort = 0;
+			ushort serverPort = DefaultServerPort;
 			if (serverPortInput.text.Length >= 4)
 			{
 				ushort.TryParse(serverPortInput.text, out serverPort);
 			}
 
-			if (serverPort == 0)
-			{
-				serverPort = DefaultServerPort;
-			}
-
 			// Init network client
+			Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, serverAddress, serverPort);
+
 			networkManager.networkAddress = serverAddress;
 			networkManager.GetComponent<TelepathyTransport>().port = serverPort;
 			networkManager.StartClient();
@@ -358,11 +358,6 @@ namespace Lobby
 		{
 			string steamName = "";
 			string prefsName;
-
-			if (Client.Instance != null)
-			{
-				steamName = Client.Instance.Username;
-			}
 
 			if (!string.IsNullOrEmpty(steamName))
 			{
@@ -402,14 +397,40 @@ namespace Lobby
 		{
 			//FIXME
 			//	startGamePanel.SetActive(false);
-			accountLoginPanel.SetActive(false);
-			createAccountPanel.SetActive(false);
-			pendingCreationPanel.SetActive(false);
-			informationPanel.SetActive(false);
-			wrongVersionPanel.SetActive(false);
-			controlInformationPanel.SetActive(false);
-			loggingInPanel.SetActive(false);
-			connectionPanel.SetActive(false);
+			if (accountLoginPanel != null)
+			{
+				accountLoginPanel.SetActive(false);
+			}
+
+			if (createAccountPanel != null)
+			{
+				createAccountPanel.SetActive(false);
+			}
+
+			if (pendingCreationPanel != null)
+			{
+				pendingCreationPanel.SetActive(false);
+			}
+
+			if (informationPanel != null)
+			{
+				informationPanel.SetActive(false);
+			}
+
+			if (controlInformationPanel != null)
+			{
+				controlInformationPanel.SetActive(false);
+			}
+
+			if (loggingInPanel != null)
+			{
+				loggingInPanel.SetActive(false);
+			}
+
+			if (connectionPanel != null)
+			{
+				connectionPanel.SetActive(false);
+			}
 		}
 	}
 }

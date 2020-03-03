@@ -16,6 +16,6 @@ public class BulletStunOnHit : BulletHitTrigger
 
 	public override void BulletHitInteract(GameObject target)
 	{
-		target?.GetComponent<RegisterPlayer>()?.Stun(stunTime);
+		target?.GetComponent<RegisterPlayer>()?.ServerStun(stunTime);
 	}
 }

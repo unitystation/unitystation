@@ -13,6 +13,13 @@ public class SimpleAnimal : LivingHealthBehaviour
 
 	public SpriteRenderer spriteRend;
 
+	public RegisterObject registerObject;
+
+	void Awake()
+	{
+		registerObject = GetComponent<RegisterObject>();
+	}
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
@@ -22,7 +29,7 @@ public class SimpleAnimal : LivingHealthBehaviour
 	private IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(2f);
-		SetAliveState(deadState);
+		SetAliveState(deadState, deadState);
 	}
 
 	[Server]
@@ -31,16 +38,36 @@ public class SimpleAnimal : LivingHealthBehaviour
 		deadState = true;
 	}
 
-	private void SetAliveState(bool state)
+	private void SetAliveState(bool oldState, bool state)
 	{
 		deadState = state;
+		
 		if (state)
 		{
 			spriteRend.sprite = deadSprite;
+			SetToBodyLayer();
+			registerObject.Passable = state;
 		}
 		else
 		{
 			spriteRend.sprite = aliveSprite;
+			SetToNPCLayer();
 		}
+	}
+
+	/// <summary>
+	/// Set the sprite renderer to bodies when the mob has died
+	/// </summary>
+	public void SetToBodyLayer()
+	{
+		spriteRend.sortingLayerName = "Bodies";
+	}
+
+	/// <summary>
+	/// Set the mobs sprite renderer to NPC layer
+	/// </summary>
+	public void SetToNPCLayer()
+	{
+		spriteRend.sortingLayerName = "NPCs";
 	}
 }

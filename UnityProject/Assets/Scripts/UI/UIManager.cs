@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using UnityEditor;
+using Mirror;
+using UI.UI_Bottom;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Unitystation.Options;
 
 public class UIManager : MonoBehaviour
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
 	public BookshelfViewer BookshelfViewer;
+	public GUI_TextInputDialog TextInputDialog;
 	public ControlAction actionControl;
-	public DragAndDrop dragAndDrop;
+	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
 	public DisplayManager displayManager;
@@ -19,51 +24,65 @@ public class UIManager : MonoBehaviour
 	public ControlIntent intentControl;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
-	public AlertUI alertUI;
 	public Text toolTip;
 	public Text pingDisplay;
+	[SerializeField]
+	[Tooltip("Text displaying the game's version number.")]
+	public Text versionDisplay;
+	public GUI_Info infoWindow;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
+	public BuildMenu buildMenu;
 	public ZoneSelector zoneSelector;
 	public bool ttsToggle;
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
-	[HideInInspector]
+	public AnimationCurve strandedZoomOutCurve;
+	private bool preventChatInput;
+
+	public static bool PreventChatInput
+	{
+		get { return uiManager.preventChatInput; }
+		set { uiManager.preventChatInput = value; }
+	}
+
 	//map from progress bar id to actual progress bar component.
 	private Dictionary<int, ProgressBar> progressBars = new Dictionary<int, ProgressBar>();
+
+	/// <summary>
+	/// Current progress bars
+	/// </summary>
+	public IEnumerable<ProgressBar> ProgressBars => progressBars.Values;
 
 	///Global flag for focused input field. Movement keystrokes are ignored if true.
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
 	public static bool IsInputFocus
 	{
-		get
-		{
-			return Instance && Instance.isInputFocus;
-		}
+		get { return Instance && Instance.isInputFocus; }
 		set
 		{
 			if (!Instance)
 			{
 				return;
 			}
+
 			Instance.isInputFocus = value;
 		}
 	}
+
 	public bool isInputFocus;
 
 	///Global flag for when we are using the mouse to do something that shouldn't cause interaction with the game.
 	public static bool IsMouseInteractionDisabled
 	{
-		get
-		{
-			return Instance && Instance.isMouseInteractionDisabled;
-		}
+		get { return Instance && Instance.isMouseInteractionDisabled; }
 		set
 		{
 			if (!Instance)
 			{
 				return;
 			}
+
 			Instance.isMouseInteractionDisabled = value;
 		}
 	}
@@ -91,7 +110,6 @@ public class UIManager : MonoBehaviour
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
-	public static AlertUI AlertUI => Instance.alertUI;
 
 	public static Hands Hands => Instance.hands;
 
@@ -99,7 +117,7 @@ public class UIManager : MonoBehaviour
 
 	public static ControlAction Action => Instance.actionControl;
 
-	public static DragAndDrop DragAndDrop => Instance.dragAndDrop;
+	public static UIDragAndDrop UiDragAndDrop => Instance.uiDragAndDrop;
 
 	public static ControlWalkRun WalkRun => Instance.walkRunControl;
 
@@ -109,17 +127,36 @@ public class UIManager : MonoBehaviour
 	public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
 
 	public static DisplayManager DisplayManager => Instance.displayManager;
-	public static UI_StorageHandler StorageHandler => Instance.storageHandler;
+
+	public static UI_StorageHandler StorageHandler
+	{
+		get
+		{
+			if (Instance == null)
+			{
+				return null;
+			}
+
+			return Instance.storageHandler;
+		}
+	}
+
+	public static BuildMenu BuildMenu => Instance.buildMenu;
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
+
+	public static GUI_Info InfoWindow => Instance.infoWindow;
+
+
+	private float pingUpdate;
 
 	public static string SetToolTip
 	{
 		set { Instance.toolTip.text = value; }
 	}
 
-	public static string SetPingDisplay
+	public static string SetVersionDisplay
 	{
-		set { Instance.pingDisplay.text = value; }
+		set { Instance.versionDisplay.text = value; }
 	}
 
 	/// <summary>
@@ -131,10 +168,11 @@ public class UIManager : MonoBehaviour
 		set
 		{
 			currentIntent = value;
-			//update the intent of the player so it can be synced
+
+			//update the intent of the player on server so server knows we are swappable or not
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.IsHelpIntent = value == global::Intent.Help;
+				PlayerManager.LocalPlayerScript.playerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
 			}
 		}
 	}
@@ -158,6 +196,7 @@ public class UIManager : MonoBehaviour
 
 	private void Start()
 	{
+		DetermineInitialTargetFrameRate();
 		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI);
 
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
@@ -169,6 +208,37 @@ public class UIManager : MonoBehaviour
 		else
 		{
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
+		}
+
+
+
+		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
+	}
+
+	void DetermineInitialTargetFrameRate()
+	{
+		if(!PlayerPrefs.HasKey(PlayerPrefKeys.TargetFrameRate))
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, 99);
+			PlayerPrefs.Save();
+		}
+
+		var targetFrameRate = PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate);
+		targetFrameRate = Mathf.Clamp(targetFrameRate, 30, 144);
+		PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, targetFrameRate);
+		PlayerPrefs.Save();
+
+		Application.targetFrameRate = targetFrameRate;
+	}
+
+	private void Update()
+	{
+		//Read out of ping in toolTip
+		pingUpdate += Time.deltaTime;
+		if (pingUpdate >= 5f)
+		{
+			pingUpdate = 0f;
+			pingDisplay.text = $"ping: {(NetworkTime.rtt * 1000):0}ms";
 		}
 	}
 
@@ -186,10 +256,12 @@ public class UIManager : MonoBehaviour
 		{
 			slot.Reset();
 		}
+
 		foreach (DamageMonitorListener listener in Instance.GetComponentsInChildren<DamageMonitorListener>())
 		{
 			listener.Reset();
 		}
+
 		StorageHandler.CloseStorageUI();
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
@@ -250,7 +322,8 @@ public class UIManager : MonoBehaviour
 		var bar = GetProgressBar(progressBarId);
 		if (bar == null)
 		{
-			Logger.LogWarningFormat("Tried to destroy progress bar with unrecognized id {0}, nothing will be done.", Category.UI, progressBarId);
+			Logger.LogWarningFormat("Tried to destroy progress bar with unrecognized id {0}, nothing will be done.",
+				Category.UI, progressBarId);
 		}
 		else
 		{
@@ -261,33 +334,23 @@ public class UIManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// For progress action system internal use only. Please use ProgressAction.ServerStartProgress to initiate a progress action
+	/// on the server side.
 	/// Tries to create and begin animating a progress bar for a specific player. Returns null
 	/// if progress did not begin for some reason.
 	/// </summary>
 	/// <param name="progressAction">progress action being performed</param>
-	/// <param name="worldTilePos">tile position the action is being performed on</param>
+	/// <param name="actionTarget">target of the progress action</param>
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
-	/// <param name="progressEndAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
 	/// <returns>progress bar associated with this action (can use this to interrupt progress). Null if
 	/// progress was not started for some reason (such as already in progress for this action on the specified tile).</returns>
-	public static ProgressBar ServerStartProgress(ProgressAction progressAction, Vector3 worldTilePos, float timeForCompletion,
-		IProgressEndAction progressEndAction, GameObject player)
+	public static ProgressBar _ServerStartProgress(IProgressAction progressAction, ActionTarget actionTarget,
+		float timeForCompletion,
+		GameObject player)
 	{
-		if (!progressAction.AllowMultiple)
-		{
-			//check if we are already doing this action anywhere else
-			var existingAction = Instance.progressBars.Values
-				.Where(pb => pb.RegisterPlayer.gameObject == player)
-				.FirstOrDefault(pb => pb.ProgressAction == progressAction);
-			if (existingAction != null)
-			{
-				//already doing this action, and multiple is not allowed
-				return null;
-			}
-		}
 		//convert to an offset so local position ends up being correct even on moving matrix
-		var offsetFromPlayer = worldTilePos.To2Int() - player.TileWorldPosition();
+		var offsetFromPlayer = actionTarget.TargetWorldPosition.To2Int() - player.TileWorldPosition();
 		//convert to local position so it appears correct on moving matrix
 		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
 		var targetWorldPosition = player.transform.position + offsetFromPlayer.To3Int();
@@ -297,47 +360,30 @@ public class UIManager : MonoBehaviour
 		//snap to local position
 		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
 
-		//check if there is already progress at this location by this player
-		var existingBar = Instance.progressBars.Values
-			.Where(pb => pb.RegisterPlayer.gameObject == player)
-			.Where(pb => pb.transform.parent == targetParent)
-			.FirstOrDefault(pb => Vector3.Distance(pb.transform.localPosition, targetLocalPosition) < 0.1);
-
-		if (existingBar != null)
-		{
-			return null;
-		}
-
 		//back to world so we can call PoolClientInstantiate
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
 		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
-		progressBar.ServerStartProgress(progressAction, timeForCompletion, progressEndAction, player);
+
+		//make sure it should start and call start hooks
+		var startProgressInfo = new StartProgressInfo(timeForCompletion, actionTarget, player, progressBar);
+		if (!progressAction.OnServerStartProgress(startProgressInfo))
+		{
+			//stop it without even having started it
+			Logger.LogTraceFormat("Server cancelling progress start, OnServerStartProgress=false for {0}", Category.ProgressAction,
+				startProgressInfo);
+			Despawn.ClientSingle(barObject);
+			return null;
+		}
+
+
+		progressBar._ServerStartProgress(progressAction, startProgressInfo);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
 
+		Logger.LogTraceFormat("Server started progress bar {0} for {1}", Category.ProgressAction, progressBar.ID,
+			startProgressInfo);
+
 		return progressBar;
-	}
-
-	/// <summary>
-	/// Interrupts all other actions of the given progressaction at the specified local position in the specified parent.
-	/// </summary>
-	/// <param name="progressBar">progressbar which is causing the interruption</param>
-	/// <param name="progressAction">action type to interrupt</param>
-	/// <param name="transformLocalPosition">local position to interrupt at</param>
-	/// <param name="transformParent">parent to check children of for progress actions</param>
-	public static void ServerInterruptProgress(ProgressBar cause, ProgressAction progressAction, Vector3 transformLocalPosition, Transform transformParent)
-	{
-		var existingBars = Instance.progressBars.Values
-			.Where(pb => pb != cause)
-			.Where(pb => pb.ProgressAction == progressAction)
-			.Where(pb => pb.transform.parent == transformParent)
-			.Where(pb => Vector3.Distance(pb.transform.localPosition, transformLocalPosition) < 0.1)
-			.ToList();
-
-		foreach (var existingBar in existingBars)
-		{
-			existingBar.ServerInterruptProgress();
-		}
 	}
 
 	/// <summary>
@@ -350,5 +396,65 @@ public class UIManager : MonoBehaviour
 		{
 			uiSlot.LinkToLocalPlayer();
 		}
+	}
+
+	private float originalZoom = 5f;
+
+	public void PlayStrandedAnimation()
+	{
+		//turning off all the UI except for the right panel
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
+		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
+		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
+		ChatUI.Instance.CloseChatWindow();
+
+		//play the ending video and wait for it
+		Display.PlayStrandedVideo();
+		StartCoroutine(WaitForStrandedVideoEnd());
+
+		//NOTE: Disabl;ing zoom out as it's just a dumb gimmick
+		//and it is causing perf issues and crashing for some people
+		//start zooming out
+		//StartCoroutine(StrandedZoomOut());
+	}
+
+	private IEnumerator StrandedZoomOut()
+	{
+		var camera = Camera.main;
+		float time = 0f;
+		float end = strandedZoomOutCurve[strandedZoomOutCurve.length - 1].time;
+		originalZoom = camera.orthographicSize;
+
+		while (time < end)
+		{
+			var curVal = strandedZoomOutCurve.Evaluate(time);
+			camera.orthographicSize = curVal;
+			time += Time.deltaTime;
+
+			yield return null;
+		}
+
+		SoundManager.StopAmbient();
+
+	}
+
+	private IEnumerator WaitForStrandedVideoEnd()
+	{
+		yield return WaitFor.Seconds(11f);
+		//so we don't freak out the lighting system
+		Camera.main.orthographicSize = originalZoom;
+		//turn everything back on
+		yield return null;
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			UIManager.Display.hudBottomGhost.gameObject.SetActive(true);
+		}
+		else
+		{
+			UIManager.Display.hudBottomHuman.gameObject.SetActive(true);
+		}
+
+		ChatUI.Instance.OpenChatWindow();
 	}
 }

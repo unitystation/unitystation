@@ -22,8 +22,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		SyncSprite(spriteSync);
+		SyncSprite(0, spriteSync);
 	}
 
 	public void UpdateMe()
@@ -74,7 +73,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 					pipe = foundPipe;
 					ToggleAnchored(true);
-					UpdateManager.Instance.Add(UpdateMe);
+					UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 					UpdateMe();
 					break;
 				}
@@ -86,16 +85,16 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		ToggleAnchored(false);
 		spriteSync = 0;
-		UpdateManager.Instance.Remove(UpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void ToggleAnchored(bool value)
 	{
-		objectBehaviour.isNotPushable = value;
+		objectBehaviour.ServerSetPushable(!value);
 		anchored = value;
 	}
 
-	public void SyncSprite(int value)
+	public void SyncSprite(int oldValue, int value)
 	{
 		spriteRenderer.sprite = spriteList[value];
 	}

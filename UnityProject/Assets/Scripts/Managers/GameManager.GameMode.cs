@@ -11,7 +11,8 @@ public enum RoundState
 	None,
 	PreRound,
 	Started,
-	Ended
+	Ended,
+	Restarting,
 }
 
 /// <summary>
@@ -34,7 +35,17 @@ public partial class GameManager
 	/// <summary>
 	/// The state of the current round
 	/// </summary>
-	public RoundState CurrentRoundState;
+	public RoundState CurrentRoundState
+	{
+		get => currentRoundState;
+		private set
+		{
+			currentRoundState = value;
+			Logger.LogFormat("CurrentRoundState is now {0}!", Category.Round, value);
+		}
+	}
+
+	private RoundState currentRoundState;
 
 	/// <summary>
 	/// The current game mode
@@ -48,6 +59,11 @@ public partial class GameManager
 	{
 		GameMode selectedGM = GameModeData.GetGameMode(gmName);
 		SetGameMode(selectedGM);
+	}
+
+	public List<string> GetAvailableGameModeNames()
+	{
+		return GameModeData.GetAvailableGameModeNames();
 	}
 
 	/// <summary>
@@ -71,17 +87,36 @@ public partial class GameManager
 
 	/// <summary>
 	/// Gets the current game mode name. Will return Secret if it is being hidden.
+	/// Override secret is for getting game mode name on the server
 	/// </summary>
-	public string GetGameModeName()
+	public string GetGameModeName(bool overrideSecret = false)
 	{
+		if (overrideSecret)
+		{
+			if (GameMode == null)
+			{
+				return "null";
+			}
+			else
+			{
+				return GameMode.Name;
+			}
+		}
+
 		return SecretGameMode ? "Secret" : GameMode.Name;
 	}
 
 	/// <summary>
-	/// Check the player count and see if new antags are needed
+	/// Checks if the conditions are met to spawn an antag, and spawns them
+	/// as the antag if so, spawning them as an actual player and transferring them into the body
+	/// (meaning there's no need to call PlayerSpawn.ServerSpawnPlayer). Does nothing
+	/// if the conditions are not met to spawn this viewer as an antag.
+	///
 	/// </summary>
-	public void CheckAntags()
+	/// <param name="spawnRequest">spawn requested by the player</param>
+	/// <returns>true if the player was spawned as an antag.</returns>
+	public bool TrySpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		GameMode.CheckAntags();
+		return GameMode.TrySpawnAntag(spawnRequest);
 	}
 }

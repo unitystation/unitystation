@@ -42,7 +42,7 @@ public class CargoShuttle : MonoBehaviour
 	/// </summary>
 	public void MoveToStation()
 	{
-		mm.ChangeDir(Orientation.Down);
+		mm.ChangeFlyingDirection(Orientation.Down);
 		MoveTo(StationDest);
 	}
 
@@ -52,7 +52,7 @@ public class CargoShuttle : MonoBehaviour
 	/// </summary>
 	public void MoveToCentcom()
 	{
-		mm.ChangeDir(Orientation.Up);
+		mm.ChangeFlyingDirection(Orientation.Up);
 		MoveTo(centcomDest);
 	}
 
@@ -76,11 +76,11 @@ public class CargoShuttle : MonoBehaviour
 			moving = false;
 			mm.SetPosition(destination);
 			mm.StopMovement();
-			mm.RotateTo(Orientation.Up);
+			mm.SteerTo(Orientation.Up);
 
 			if (CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteStation)
 			{
-				mm.ChangeDir(Orientation.Down);
+				mm.ChangeFlyingDirection(Orientation.Down);
 				StartCoroutine(ReverseIntoStation());
 			}
 		}
@@ -94,9 +94,12 @@ public class CargoShuttle : MonoBehaviour
 
 	IEnumerator ReverseIntoStation()
 	{
-		yield return new WaitForSeconds(3f);
-		mm.MoveFor(dockOffset);
-		yield return new WaitForSeconds(2f);
+		if (dockOffset != 0)
+		{
+			yield return new WaitForSeconds(3f);
+			mm.MoveFor(dockOffset);
+			yield return new WaitForSeconds(2f);
+		}
 		CargoManager.Instance.OnShuttleArrival();
 	}
 
@@ -107,13 +110,19 @@ public class CargoShuttle : MonoBehaviour
 	void UnloadCargo()
 	{
 		//Destroy all items on the shuttle
+		//note: This scan also seems to find objects contained inside closets only if the object was placed
+		//into the crate after the crate was already on the cargo shuttle. Hence we are using alreadySold
+		//to avoid duplicate selling in lieu of a more thorough fix to closet held items logic.
 		Transform objectHolder = mm.MatrixInfo.Objects;
+		//track what we've already sold so it's not sold twice.
+		HashSet<GameObject> alreadySold = new HashSet<GameObject>();
 		for (int i = 0; i < objectHolder.childCount; i++)
 		{
 			ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
-			if (item != null)
+			//need VisibleState check because despawned objects still stick around on their matrix transform
+			if (item != null && item.VisibleState)
 			{
-				CargoManager.Instance.DestroyItem(item);
+				CargoManager.Instance.DestroyItem(item, alreadySold);
 			}
 		}
 	}
@@ -138,11 +147,41 @@ public class CargoShuttle : MonoBehaviour
 		if (pos == TransformState.HiddenPos)
 			return (false);
 
-		Spawn.ServerPrefab(order.Crate, pos);
-		for (int i = 0; i < order.Items.Count; i++)
+		var crate = Spawn.ServerPrefab(order.Crate, pos).GameObject;
+		//error occurred trying to spawn, just ignore this order.
+		if (crate == null) return true;
+		if (crate.TryGetComponent<ClosetControl>(out var closetControl))
 		{
-			Spawn.ServerPrefab(order.Items[i], pos);
+			for (int i = 0; i < order.Items.Count; i++)
+			{
+				var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;
+				if (orderedItem == null)
+				{
+					//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
+					Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+					continue;
+
+				}
+				else if (orderedItem.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
+				{
+					//ensure it is added to crate
+					closetControl.ServerAddInternalItem(objectBehaviour);
+				}
+				else
+				{
+					Logger.LogWarning($"Can't add ordered item {orderedItem.ExpensiveName()} to create because" +
+					                  $" it doesn't have an ObjectBehavior component.");
+				}
+			}
 		}
+		else
+		{
+			Logger.LogWarning($"{crate.ExpensiveName()} does not have ClosetControl. Please fix CargoData" +
+			                  $" to ensure that the crate prefab is actually a crate (with ClosetControl component)." +
+			                  $" This order will be ignored.");
+			return true;
+		}
+
 		CargoManager.Instance.CentcomMessage += "Loaded " + order.OrderName + " onto shuttle.\n";
 		return (true);
 	}
@@ -160,7 +199,7 @@ public class CargoShuttle : MonoBehaviour
 		{
 			for (int j = -shuttleWidth; j <= shuttleWidth; j++)
 			{
-				pos = mm.State.Position.RoundToInt();
+				pos = mm.ServerState.Position.RoundToInt();
 				//i + 1 because cargo shuttle center is offseted by 1
 				pos += new Vector3Int(j, i + 1, 0);
 				if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)

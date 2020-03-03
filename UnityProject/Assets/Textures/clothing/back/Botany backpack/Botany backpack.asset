@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
+  m_Name: Botany backpack
+  m_EditorClassIdentifier: 
+  Sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 14f1f2384f1eb814491b4d100ba5ac24, type: 3}
+      Sprites:
+      - {fileID: -797767137846081541, guid: 14f1f2384f1eb814491b4d100ba5ac24, type: 3}
+      - {fileID: -2125664072945231307, guid: 14f1f2384f1eb814491b4d100ba5ac24, type: 3}
+      - {fileID: -7332594712487980459, guid: 14f1f2384f1eb814491b4d100ba5ac24, type: 3}
+      - {fileID: -7846733449988206479, guid: 14f1f2384f1eb814491b4d100ba5ac24, type: 3}
+      EquippedData: {fileID: 4900000, guid: 9fdab23fc71e54a4d900374af942da51, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 224c8ff9f4b158e4b828f75cd570fec6, type: 3}
+      Sprites:
+      - {fileID: -797767137846081541, guid: 224c8ff9f4b158e4b828f75cd570fec6, type: 3}
+      - {fileID: -2125664072945231307, guid: 224c8ff9f4b158e4b828f75cd570fec6, type: 3}
+      - {fileID: -7332594712487980459, guid: 224c8ff9f4b158e4b828f75cd570fec6, type: 3}
+      - {fileID: -7846733449988206479, guid: 224c8ff9f4b158e4b828f75cd570fec6, type: 3}
+      EquippedData: {fileID: 4900000, guid: 7d92ae30e9dd25445a3dd427b63408e7, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: 2f05f69c819ec8246a5b3eaad3f4b95b, type: 3}
+      Sprites:
+      - {fileID: -797767137846081541, guid: 2f05f69c819ec8246a5b3eaad3f4b95b, type: 3}
+      - {fileID: -2125664072945231307, guid: 2f05f69c819ec8246a5b3eaad3f4b95b, type: 3}
+      - {fileID: -7332594712487980459, guid: 2f05f69c819ec8246a5b3eaad3f4b95b, type: 3}
+      - {fileID: -7846733449988206479, guid: 2f05f69c819ec8246a5b3eaad3f4b95b, type: 3}
+      EquippedData: {fileID: 4900000, guid: 079a6936f2c047e468256aa9c7be1d73, type: 3}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: b1dac3ebaf21cfa4f8859ccfe8e50ca3, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b1dac3ebaf21cfa4f8859ccfe8e50ca3, type: 3}
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  StorageData:
+    maxSlots: 7
+    maxItemSize: 4

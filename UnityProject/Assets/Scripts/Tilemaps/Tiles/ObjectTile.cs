@@ -24,6 +24,7 @@ using UnityEditor;
 		public Sprite wireSprite;
 
 #if UNITY_EDITOR
+
 		private void OnValidate()
 		{
 			if (Object != null)
@@ -39,8 +40,8 @@ using UnityEditor;
 						}
 						else
 						{
-						PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object) ??
-						                PreviewSpriteBuilder.Create(Object);
+							// PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object);
+									// PreviewSpriteBuilder.Create(Object);
 						}
 					};
 				}

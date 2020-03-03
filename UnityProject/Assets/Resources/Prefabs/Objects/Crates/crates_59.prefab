@@ -203,13 +203,14 @@ GameObject:
   - component: {fileID: 61590744280274906}
   - component: {fileID: 61087441100130190}
   - component: {fileID: 114967653116276958}
+  - component: {fileID: 114572156223799922}
   - component: {fileID: 114077872851233106}
   - component: {fileID: 8239539641171403942}
   - component: {fileID: 114713051113849806}
   - component: {fileID: 114829380719981106}
-  - component: {fileID: 114572156223799922}
   - component: {fileID: 114286038032828750}
   - component: {fileID: 114210493713494930}
+  - component: {fileID: -7743278728629965782}
   m_Layer: 11
   m_Name: crates_59
   m_TagString: Untagged
@@ -300,6 +301,21 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
+--- !u!114 &114572156223799922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716772823250544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114077872851233106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,7 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  initialContents: {fileID: 0}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -339,7 +355,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114713051113849806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,8 +378,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
   closetType: 1
@@ -372,18 +396,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114572156223799922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1716772823250544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114286038032828750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,14 +411,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
+    Melee: 20
+    Bullet: 10
+    Laser: 10
     Energy: 0
-    Bomb: 0
+    Bomb: 10
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: 70
+    Acid: 60
     Magic: 0
     Bio: 0
   Resistances:
@@ -418,7 +430,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 200
 --- !u!114 &114210493713494930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,5 +445,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 730423d14b4d3421eb34e6d89b2a2948
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1235334821
+--- !u!114 &-7743278728629965782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716772823250544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: large bin
+  initialDescription: Metal container for storing trash.
+  exportCost: 500
+  exportName: crate
+  exportMessage: Thanks for participating in Nanotrasen Crates Recycling Program.

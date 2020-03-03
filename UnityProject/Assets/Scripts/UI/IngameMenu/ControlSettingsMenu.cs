@@ -6,11 +6,13 @@ using static KeybindManager;
 
 public class ControlSettingsMenu : MonoBehaviour
 {
-	public GameObject KeybindItemTemplate;
-	public GameObject KeybindHeadingTemplate;
-	public GameObject KeyCapturePanel;
-	[HideInInspector]
-	public KeybindDict tempKeybinds;
+	[SerializeField]
+	private GameObject KeybindItemTemplate;
+	[SerializeField]
+	private GameObject KeybindHeadingTemplate;
+	[SerializeField]
+	private GameObject KeyCapturePanel;
+	private KeybindDict tempKeybinds;
 	private int KeybindCount;
 	private int ActionTypeCount;
 	private List<GameObject> KeybindItemList = new List<GameObject>();
@@ -106,7 +108,7 @@ public class ControlSettingsMenu : MonoBehaviour
 			// Check if there is an entry for the action, not all of them will have entries
 			if (!tempKeybinds.ContainsKey(action)) continue;
 
-			DualKeyCombo    actionKeybind  = tempKeybinds[action];
+			DualKeyCombo actionKeybind = tempKeybinds[action];
 			KeybindMetadata actionMetadata = keybindManager.keyActionMetadata[action];
 
 			// Only add the action if it can be rebound
@@ -129,6 +131,11 @@ public class ControlSettingsMenu : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Changes the keybind for an action. Must be run as a coroutine!
+	/// </summary>
+	/// <param name="selectedAction">The action to change the keybinding of</param>
+	/// <param name="isPrimary">Is this a primary or a secondary keybinding?</param>
 	public IEnumerator ChangeKeybind(KeyAction selectedAction, bool isPrimary)
 	{
 		KeyValuePair<KeyAction, DualKeyCombo> conflictingKVP;
@@ -158,6 +165,8 @@ public class ControlSettingsMenu : MonoBehaviour
 		conflictingKVP = tempKeybinds.CheckConflict(capturedKeyCombo, ref isConflictPrimary);
 		KeyAction conflictingAction = conflictingKVP.Key;
 
+		KeybindMetadata conflictingKeybindMetadata;
+
 		if (conflictingAction == KeyAction.None)
 		{
 			// No conflicts found so set the new keybind and refresh the view
@@ -167,12 +176,19 @@ public class ControlSettingsMenu : MonoBehaviour
 			UIManager.IsInputFocus = false;
 			PopulateKeybindScrollView();
 		}
-		// Check that the conflict isn't with itself, if it is just ignore it
-		else if (conflictingAction != selectedAction)
+		// Check if the conflict is with itself
+		else if (conflictingAction == selectedAction)
 		{
 			// Get the metadata for the keybind
-			KeybindMetadata conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
-
+			conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
+			// Inform the user
+			modalPanelManager.Inform("\nThis combination is already being used by:\n" + conflictingKeybindMetadata.Name);
+			UIManager.IsInputFocus = false;
+		}
+		// Conflict with any other action
+		else
+		{
+			conflictingKeybindMetadata = keybindManager.keyActionMetadata[conflictingAction];
 			// Check if the user wants to change the keybind
 			modalPanelManager.Confirm(
 				"Warning!\n\nThis combination is already being used by:\n" + conflictingKeybindMetadata.Name + "\nAre you sure you want to override it?",
@@ -192,5 +208,16 @@ public class ControlSettingsMenu : MonoBehaviour
 				}
 			);
 		}
+	}
+
+	/// <summary>
+	/// Removes a keybind for an action. Auto-saves the change immediately
+	/// </summary>
+	/// <param name="selectedAction">The action to remove a keybinding from</param>
+	/// <param name="isPrimary">Remove the primary or secondary keybinding?</param>
+	public void RemoveKeybind(KeyAction selectedAction, bool isPrimary)
+	{
+		tempKeybinds.Remove(selectedAction, isPrimary);
+		keybindManager.SaveKeybinds(tempKeybinds);
 	}
 }

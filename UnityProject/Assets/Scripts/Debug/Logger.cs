@@ -11,7 +11,7 @@ public static class Logger
 {
 	private static LoggerPreferences loggerPrefs;
 	/// Default Log level
-	private static readonly LogLevel LogLevel = LogLevel.Info;
+	public static readonly LogLevel LogLevel = LogLevel.Info;
 	private static Dictionary<Category, LogLevel> LogOverrides = new Dictionary<Category, LogLevel>();
 
 	public static void RefreshPreferences()
@@ -119,6 +119,12 @@ public static class Logger
 
 	private static void TryLog(string message, LogLevel messageLevel, Category category = Category.Unknown, params object[] args)
 	{
+		if (category == Category.Unknown)
+		{
+			Debug.Log(message);
+			return;
+		}
+		
 		LogLevel referenceLevel = LogLevel;
 		if (LogOverrides.ContainsKey(category))
 		{
@@ -244,7 +250,14 @@ public enum Category
 	Interaction,
 	Antags,
 	Hub,
-	SpatialRelationship
+	SpatialRelationship,
+	MLAgents,
+	Direction,
+	Admin,
+	BuckledMovement,
+	ProgressAction,
+	Botany,
+	SoundFX
 }
 
 [Serializable]

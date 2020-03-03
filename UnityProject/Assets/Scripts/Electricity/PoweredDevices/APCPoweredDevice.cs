@@ -20,18 +20,9 @@ public class APCPoweredDevice : NetworkBehaviour
 
 	private void Awake()
 	{
-		Powered = gameObject.GetComponent<IAPCPowered>();
+		EnsureInit();
 	}
 
-	public override void OnStartClient()
-	{
-		UpdateSynchronisedState(State);
-	}
-
-	public override void OnStartServer()
-	{
-		UpdateSynchronisedState(State);
-	}
 
 	void Start()
 	{
@@ -51,18 +42,64 @@ public class APCPoweredDevice : NetworkBehaviour
 			}
 		}
 	}
+
+	private void EnsureInit()
+	{
+		if (Powered != null) return;
+		Powered = GetComponent<IAPCPowered>();
+	}
+
+	public void SetAPC(APC _APC)
+	{
+		RemoveFromAPC();
+		RelatedAPC = _APC;
+		if (IsEnvironmentalDevice)
+		{
+			RelatedAPC.EnvironmentalDevices.Add(this);
+		}
+		else {
+			RelatedAPC.ConnectedDevices.Add(this);
+		}
+	}
+
+	public void RemoveFromAPC()
+	{
+		if (RelatedAPC != null)
+		{
+			if (IsEnvironmentalDevice)
+			{
+				if (RelatedAPC.EnvironmentalDevices.Contains(this))
+				{
+					RelatedAPC.EnvironmentalDevices.Remove(this);
+				}
+
+			}
+			else {
+				if (RelatedAPC.ConnectedDevices.Contains(this))
+				{
+					RelatedAPC.ConnectedDevices.Remove(this);
+				}
+			}
+		}
+	}
+
+	public override void OnStartClient()
+	{
+		EnsureInit();
+		UpdateSynchronisedState(State, State);
+	}
+
+	public override void OnStartServer()
+	{
+		EnsureInit();
+		UpdateSynchronisedState(State, State);
+	}
+
 	public void APCBroadcastToDevice(APC APC)
 	{
 		if (RelatedAPC == null)
 		{
-			RelatedAPC = APC;
-			if (IsEnvironmentalDevice)
-			{
-				RelatedAPC.EnvironmentalDevices.Add(this);
-			}
-			else {
-				RelatedAPC.ConnectedDevices.Add(this);
-			}
+			SetAPC(APC);
 		}
 	}
 	public void PowerNetworkUpdate(float Voltage) //Could be optimised to not update when voltage is same as previous voltage
@@ -96,25 +133,11 @@ public class APCPoweredDevice : NetworkBehaviour
 	}
 	public void OnDisable()
 	{
-		if (RelatedAPC != null)
-		{
-			if (IsEnvironmentalDevice)
-			{
-				if (RelatedAPC.EnvironmentalDevices.Contains(this))
-				{
-					RelatedAPC.EnvironmentalDevices.Remove(this);
-				}
-
-			}
-			else {
-				if (RelatedAPC.ConnectedDevices.Contains(this))
-				{
-					RelatedAPC.ConnectedDevices.Remove(this);
-				}
-			}
-		}
+		RemoveFromAPC();
 	}
-	private void UpdateSynchronisedState(PowerStates _State) {
+	private void UpdateSynchronisedState(PowerStates _OldState, PowerStates _State)
+	{
+		EnsureInit();
 		if (_State != State)
 		{
 			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), State, _State);
@@ -129,7 +152,8 @@ public class APCPoweredDevice : NetworkBehaviour
 }
 
 
-public enum PowerStates{
+public enum PowerStates
+{
 	Off,
 	LowVoltage,
 	On,

@@ -4,3 +4,18 @@
 *.meta linguist-generated
 *.prefab linguist-generated
 *.unity linguist-generated
+
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text=auto
+
+###############################################################################
+# Set the project and solution files to use CRLF line endings.
+###############################################################################
+
+*.sln    text eol=crlf
+*.csproj text eol=crlf
+
+# Use LF for shell scripts
+*.sh text eol=lf

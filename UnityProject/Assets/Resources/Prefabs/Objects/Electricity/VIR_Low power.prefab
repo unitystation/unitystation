@@ -54,11 +54,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 3
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
+  matrixDebugLogging: 0
+  objectType: 3
 --- !u!114 &114384843420873752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +71,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   SelfDestruct: 0
-  CableType: 0
+  CableType: 8
   CableSprites:
     Texture: {fileID: 2800000, guid: d6c25c040abc0364d9b60ffd14d03531, type: 3}
     Sprites:
@@ -267,7 +264,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2637308508
+  m_SceneId: 3481748410
 --- !u!1 &1282939714934272
 GameObject:
   m_ObjectHideFlags: 0
@@ -5076,7 +5073,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 16
+  m_SortingLayer: 15
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0
@@ -9829,7 +9826,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 16
+  m_SortingLayer: 15
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0

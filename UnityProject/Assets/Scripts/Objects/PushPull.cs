@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PushPull : NetworkBehaviour, IRightClickable {
+public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	public const float DEFAULT_PUSH_SPEED = 6;
+	/// <summary>
+	/// Maximum speed player can reach by throwing stuff in space
+	/// </summary>
+	public const float MAX_NEWTONIAN_SPEED = 12;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
 	public RegisterTile registerTile;
+	public FloorDecal floorDecal; // Used to make sure some objects are not causing gravity
 
 	/// <summary>
 	/// *** USE WITH CAUTION! ***
 	/// Setting it to true without parent container will make it appear at HiddenPos.
 	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
+	/// I think this is valid server side only
 	/// </summary>
 	public bool VisibleState
 	{
@@ -38,6 +46,36 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			}
 
 			_parentContainer = value;
+		}
+	}
+
+	/// <summary>
+	/// Experimental. Top owner object
+	/// </summary>
+	public PushPull TopContainer
+	{
+		get
+		{
+			if ( parentContainer )
+			{
+				return parentContainer.parentContainer;
+			}
+
+            if ( !VisibleState )
+            {
+	            var pu = GetComponent<Pickupable>();
+	            if ( pu != null && pu.ItemSlot != null )
+	            {
+		            //we are in an itemstorage, so report our root item storage object.
+		            var pushPull = pu.ItemSlot.GetRootStorage().GetComponent<PushPull>();
+		            if ( pushPull != null )
+		            {
+			            //our container has a pushpull, so use its parent
+			            return pushPull.TopContainer;
+		            }
+	            }
+            }
+            return this;
 		}
 	}
 
@@ -94,8 +132,74 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		return pos;
 	}
 
-	[SyncVar]
-	public bool isNotPushable = false;
+
+	[Tooltip("Whether this should be initially not pushable when it spawns")]
+	[FormerlySerializedAs("isNotPushable")]
+	[SerializeField]
+	private bool isInitiallyNotPushable;
+
+	[SyncVar(hook=nameof(SyncIsNotPushable))]
+	private bool isNotPushable;
+
+	/// <summary>
+	/// Checks if there is anything preventing this from being pushed regardless of direction
+	/// (basically if it's anchored)
+	/// </summary>
+	public bool IsPushable => !isNotPushable;
+	/// <summary>
+	/// Opposite of IsPushable
+	/// </summary>
+	public bool IsNotPushable => isNotPushable;
+
+	/// <summary>
+	/// Toggle whether this is pushable. Valid server side only.
+	/// </summary>
+	/// <param name="isPushable"></param>
+	[Server]
+	public void ServerSetPushable(bool isPushable)
+	{
+		SyncIsNotPushable(isNotPushable, !isPushable);
+	}
+
+	[Tooltip("The sound to play when pushed/pulled")]
+    [SerializeField]
+	private string pushPullSound = null;
+
+	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
+	[SerializeField]
+	private int soundDelayTime = 0;
+
+	[Tooltip("A minimum pitch variance from original sound for random effect (ex: 0.5 = 50% normal pitch)")]
+	[SerializeField]
+	private float soundMinimumPitchVariance = 1;
+
+	[Tooltip("A maximum pitch variance from original sound for random effect (ex: 0.5 = 50% normal pitch)")]
+	[SerializeField]
+	private float soundMaximumPitchVariance = 1;
+
+	private float lastPlayedSoundTime;
+
+	/// <summary>
+	/// Like ServerSetPushable, but has logic for preventing things from being anchored
+	/// if there is something on the same tile (not in the floor) and sends an examine message to performer if it's blocked.
+	/// </summary>
+	/// <param name="isAnchored"></param>
+	/// <param name="performer">player performing the anchoring, will be messaged if anchoring fails</param>
+	/// <param name="allowed">If defined, will be used to check each other registertile at the position. It should return
+	/// true if this object is allowed to be anchored on top of the given register tile, otherwise false.
+	/// If unspecified, all registertiles will be considered as blockers at the indicated position</param>
+	[Server]
+	public void ServerSetAnchored(bool isAnchored, GameObject performer, Func<RegisterTile, bool> allowed = null)
+	{
+		//check if blocked
+		if (isAnchored)
+		{
+			if (ServerValidations.IsConstructionBlocked(performer, gameObject,
+				(Vector2Int) registerTile.WorldPositionServer, allowed)) return;
+		}
+
+		SyncIsNotPushable(isNotPushable, isAnchored);
+	}
 
 	private IPushable pushableTransform;
 
@@ -118,6 +222,23 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			}
 			return pushable;
 		}
+	}
+
+
+
+	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
+	{
+		this.isNotPushable = isNowNotPushable;
+	}
+
+	public override void OnStartClient()
+	{
+		SyncIsNotPushable(isNotPushable, this.isNotPushable);
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		SyncIsNotPushable(isNotPushable, isInitiallyNotPushable);
 	}
 
 	private void OnHighSpeedCollision( CollisionInfo collision )
@@ -173,7 +294,22 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	public PushPull PulledObject => isServer ? PulledObjectServer : PulledObjectClient;
 
 	public bool IsPullingSomethingServer => PulledObjectServer != null;
-	public PushPull PulledObjectServer { get; private set; }
+
+	/// <summary>
+	/// Invoked server side only when this object starts / stops pulling something, after the change is made.
+	/// </summary>
+	public UnityEvent OnPullingSomethingChangedServer = new UnityEvent();
+
+	public PushPull PulledObjectServer
+	{
+		get => pulledObjectServer;
+		private set
+		{
+			pulledObjectServer = value;
+			OnPullingSomethingChangedServer.Invoke();
+		}
+	}
+	private PushPull pulledObjectServer;
 
 	public bool IsPullingSomethingClient => PulledObjectClient != null;
 	public PushPull PulledObjectClient { get; set; }
@@ -181,6 +317,12 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	/// Client requests to stop pulling any objects
 	[Command]
 	public void CmdStopPulling() {
+		ReleaseControl();
+	}
+
+	[Server]
+	public void ServerStopPulling()
+	{
 		ReleaseControl();
 	}
 
@@ -222,7 +364,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			return;
 		}
 
-		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile, true )
+		if ( Validations.IsInReach( pullable.registerTile, this.registerTile, true )
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
@@ -303,7 +445,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		else
 		{
 			//check if in range for pulling
-			if (PlayerScript.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			if (Validations.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
 			{
 				return RightClickableResult.Create()
 					.AddElement("Pull", TryPullThis);
@@ -315,7 +457,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 
 	protected void Awake() {
 		registerTile = GetComponent<RegisterTile>();
-
+		floorDecal = GetComponent<FloorDecal>();
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
@@ -356,6 +498,17 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			}
 		};
 	}
+	/// <summary>
+	/// Return true if the object causes gravity, otherwise false.
+	/// <returns>bool that represents if the object must cause gravity or not.</returns>
+	/// </summary>
+	public bool CausesGravity()
+    {
+		if (!isNotPushable || floorDecal!= null)
+			return false;
+
+		return true;
+    }
 
 	/// <summary>
 	/// Recursive method to get client speed of the train head
@@ -472,7 +625,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
 
 		//if puller can reach this + not trying to pull himself + not being pulled
-		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile, true )
+		if ( Validations.IsInReach( attachTo.registerTile, this.registerTile, true )
 		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
 		{
 			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
@@ -493,6 +646,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 			StopFollowing();
 		}
 	}
+
 	[Server]
 	public void StopFollowing() {
 		if ( !IsBeingPulled ) {
@@ -512,7 +666,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
-		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
+		if ( Validations.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
@@ -543,6 +697,20 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 
 		bool success = Pushable.Push( dir, speed, true );
 		if ( success ) {
+			// Pulling a directional component should change it's orientation to match the one that pulls it
+			Directional directionalComponent;
+			if (TryGetComponent(out directionalComponent))
+			{
+				directionalComponent.FaceDirection(PulledBy.GetComponent<Directional>().CurrentDirection);
+			}
+
+			// If there is a sound to be played
+			if (!string.IsNullOrWhiteSpace(pushPullSound) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
+			{
+				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance));
+				lastPlayedSoundTime = Time.time * 1000;
+			}
+
 			pushTarget = target;
 //			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
 		}
@@ -624,12 +792,12 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
+			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
 			{
 				StopFollowing();
 			}
 			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
+			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
 			{
 				ReleaseControl();
 			}
@@ -873,4 +1041,10 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		}
 	}
 #endif
+
+	private void OnValidate()
+	{
+		if (soundMinimumPitchVariance > soundMaximumPitchVariance)
+			soundMinimumPitchVariance = soundMaximumPitchVariance;
+	}
 }

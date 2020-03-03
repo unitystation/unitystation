@@ -55,6 +55,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: Gases.Array.data[3]
+      value: 60932.95
+      objectReference: {fileID: 0}
     - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: PrimaryUITint.r
@@ -130,11 +135,6 @@ PrefabInstance:
       propertyPath: ContentsName
       value: CO2
       objectReference: {fileID: 0}
-    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: Gases.Array.data[3]
-      value: 60933
-      objectReference: {fileID: 0}
     - target: {fileID: 114615155852173970, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: Resistances.FireProof
@@ -145,12 +145,6 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 212658998864179832, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 458a850a337ad3941849666ab9464cad,
-        type: 3}
     - target: {fileID: 114922154882281400, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: m_AssetId.i0
@@ -231,5 +225,11 @@ PrefabInstance:
       propertyPath: m_AssetId.i15
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212658998864179832, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 458a850a337ad3941849666ab9464cad,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}

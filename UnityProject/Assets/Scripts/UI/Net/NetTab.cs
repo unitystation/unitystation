@@ -20,12 +20,14 @@ public enum NetTabType {
 	Comms = 11,
 	IdConsole = 12,
 	Rename = 13,
+	NullRod = 14,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab
 public class NetTab : Tab {
 	[HideInInspector]
 	public GameObject Provider;
+	public RegisterTile ProviderRegisterTile;
 	public NetTabType Type = NetTabType.None;
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor( Provider, Type );
 	/// Is current tab a server tab?

@@ -27,6 +27,7 @@ public class PlayerMoveMessage : ServerMessage
 			if (State.ResetClientQueue)
 			{
 				playerSync.ClearQueueClient();
+				playerSync.RollbackPrediction();
 			}
 			if ( State.MoveNumber == 0 ) {
 	//			Logger.Log( "Zero step rollback" );

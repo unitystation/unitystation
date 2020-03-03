@@ -58,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: Gases.Array.data[0]
-      value: 60933
+      value: 60932.95
       objectReference: {fileID: 0}
     - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
@@ -150,12 +150,6 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 212658998864179832, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 650aac6939e3e714f89481743d7bca32,
-        type: 3}
     - target: {fileID: 114922154882281400, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: m_AssetId.i0
@@ -236,5 +230,11 @@ PrefabInstance:
       propertyPath: m_AssetId.i15
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212658998864179832, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 650aac6939e3e714f89481743d7bca32,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}

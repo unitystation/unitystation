@@ -83,7 +83,7 @@ public class MetaTileMap : MonoBehaviour
 	/// Apply damage to damageable layers, top to bottom.
 	/// If tile gets destroyed, remaining damage is applied to the layer below
 	/// </summary>
-	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos)
+	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
 		foreach ( var damageableLayer in DamageableLayers )
 		{
@@ -91,7 +91,7 @@ public class MetaTileMap : MonoBehaviour
 			{
 				return;
 			}
-			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos );
+			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos, attackType );
 		}
 	}
 
@@ -241,13 +241,15 @@ public class MetaTileMap : MonoBehaviour
 	/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
 	/// as world position.</param>
 	/// <returns></returns>
-	public LayerTile GetTile(Vector3Int cellPosition)
+	public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			LayerTile tile = LayersValues[i].GetTile(cellPosition);
 			if (tile != null)
 			{
+				if (ignoreEffectsLayer && tile.LayerType == LayerType.Effects) continue;
+
 				return tile;
 			}
 		}
@@ -304,12 +306,12 @@ public class MetaTileMap : MonoBehaviour
 					if (o is RegisterObject)
 					{
 						PushPull pushPull = o.GetComponent<PushPull>();
-						if (!pushPull)
+						if (pushPull == null && !o.IsPassable(isServer))
 						{
-							return o.IsPassable(isServer);
+							return false;
 						}
 
-						if (pushPull.isNotPushable)
+						if (pushPull != null && pushPull.CausesGravity())
 						{
 							return false;
 						}
@@ -408,6 +410,10 @@ public class MetaTileMap : MonoBehaviour
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
+		if (!Layers.ContainsKey(refLayer))
+		{
+			return;
+		}
 		Layers[refLayer].RemoveTile(position, removeAll);
 	}
 

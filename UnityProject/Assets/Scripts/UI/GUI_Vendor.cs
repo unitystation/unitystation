@@ -61,7 +61,11 @@ public class GUI_Vendor : NetTab
 		vendorContent = new List<VendorItem>();
 		for (int i = 0; i < vendor.VendorContent.Count; i++)
 		{
-			vendorContent.Add(new VendorItem(vendor.VendorContent[i]));
+			//protects against missing references
+			if (vendor.VendorContent[i] != null && vendor.VendorContent[i].Item != null)
+			{
+				vendorContent.Add(new VendorItem(vendor.VendorContent[i]));
+			}
 		}
 	}
 
@@ -96,6 +100,7 @@ public class GUI_Vendor : NetTab
 
 	public void VendItem(VendorItem item)
 	{
+		if (item == null || vendor == null) return;
 		VendorItem itemToSpawn = null;
 		foreach (var vendorItem in vendorContent)
 		{
@@ -113,12 +118,16 @@ public class GUI_Vendor : NetTab
 
 		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
 		var spawnedItem = Spawn.ServerPrefab(itemToSpawn.Item, spawnPos, vendor.transform.parent).GameObject;
+		//something went wrong trying to spawn the item
+		if (spawnedItem == null) return;
+
 		itemToSpawn.Stock--;
 
-		SendToChat($"{item.Item.name} was dispensed from the vending machine");
+		SendToChat($"{spawnedItem.ExpensiveName()} was dispensed from the vending machine");
 
 		//Ejecting in direction
-		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None)
+		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None &&
+		    spawnedItem.TryGetComponent<CustomNetTransform>(out var cnt))
 		{
 			Vector3 offset = Vector3.zero;
 			switch (vendor.EjectDirection)
@@ -133,12 +142,12 @@ public class GUI_Vendor : NetTab
 					offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
 					break;
 			}
-			spawnedItem.GetComponent<CustomNetTransform>()?.Throw(new ThrowInfo
+			cnt.Throw(new ThrowInfo
 			{
 				ThrownBy = gameObject,
 				Aim = BodyPartType.Chest,
-				OriginPos = spawnPos,
-				TargetPos = spawnPos + offset,
+				OriginWorldPos = spawnPos,
+				WorldTrajectory = offset,
 				SpinMode = (vendor.EjectDirection == EjectDirection.Random) ? SpinMode.Clockwise : SpinMode.None
 			});
 		}
@@ -160,7 +169,7 @@ public class GUI_Vendor : NetTab
 
 	private void SendToChat(string messageToSend)
 	{
-		Chat.AddLocalMsgToChat(messageToSend, vendor.transform.position);
+		Chat.AddLocalMsgToChat(messageToSend, vendor.transform.position, vendor?.gameObject);
 	}
 
 	private IEnumerator VendorInputCoolDown()

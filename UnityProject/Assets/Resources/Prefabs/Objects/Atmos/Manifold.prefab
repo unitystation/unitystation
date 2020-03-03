@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -92,14 +93,15 @@ GameObject:
   - component: {fileID: 114675370128025870}
   - component: {fileID: 5640039996929275955}
   - component: {fileID: 1454104143290876334}
-  - component: {fileID: 114836435796936700}
   - component: {fileID: 114007797438959630}
   - component: {fileID: 114923609856049834}
   - component: {fileID: 114185907784239616}
   - component: {fileID: 114450221674697092}
   - component: {fileID: 114481024304208226}
   - component: {fileID: 5591104723912208015}
-  - component: {fileID: 114288942117177720}
+  - component: {fileID: -1280114811554306276}
+  - component: {fileID: -461505412488338308}
+  - component: {fileID: -6790079540501293182}
   m_Layer: 10
   m_Name: Manifold
   m_TagString: Untagged
@@ -166,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &5640039996929275955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,8 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027d1f2fae780624ebb2115cfc6e78af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &1454104143290876334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,60 +195,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  registerTile: {fileID: 0}
-  objectBehaviour: {fileID: 0}
-  nodes: []
   direction: 3
   anchored: 0
   volume: 70
   pipeSprites:
-  - {fileID: 21300042, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
-  - {fileID: 21300032, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300030, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300036, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300034, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spriteRenderer: {fileID: 212588640390319518}
-  spriteSync: 0
   connectionSprite:
-  - {fileID: 21300056, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300058, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300060, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300062, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   conectionRenderer:
   - {fileID: 3405745187045870037}
   - {fileID: 671696593743680170}
   - {fileID: 2369631279410760376}
   - {fileID: 4656729331413939348}
   connectionSpriteSync: 0
---- !u!114 &114836435796936700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteHandlerData: {fileID: 0}
-  InventoryIcon: {fileID: 0}
-  itemName: Pipe
-  itemDescription: 
-  itemType: 0
-  size: 1
-  spriteType: 0
-  CanConnectToTank: 0
-  hitDamage: 0
-  damageType: 0
-  throwDamage: 0
-  throwSpeed: 2
-  throwRange: 7
-  hitSound: GenericHit
-  attackVerb: []
 --- !u!114 &114007797438959630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,11 +230,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  OnDropServer:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114923609856049834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,8 +245,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
-  isNotPushable: 0
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114185907784239616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,12 +268,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 0
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  matrixDebugLogging: 0
+  objectType: 0
 --- !u!114 &114450221674697092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114481024304208226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +319,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &5591104723912208015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,7 +336,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
---- !u!114 &114288942117177720
+--- !u!114 &-1280114811554306276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -375,17 +345,80 @@ MonoBehaviour:
   m_GameObject: {fileID: 1645856876941636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+--- !u!114 &-461505412488338308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  Infos:
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+  initialName: Pipe
+  initialDescription: 
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+  initialTraits: []
+  initialSize: 1
+  hitDamage: 0
+  damageType: 0
+  throwDamage: 0
+  throwSpeed: 2
+  throwRange: 7
+  hitSound: GenericHit
+  canConnectToTank: 0
+  isEVACapable: 0
+  attackVerbs: []
+  itemSprites:
+    LeftHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    RightHand:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InventoryIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+--- !u!114 &-6790079540501293182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 0}
 --- !u!1 &5219228456619383682
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,6 +475,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -521,6 +555,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -600,6 +635,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -679,6 +715,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

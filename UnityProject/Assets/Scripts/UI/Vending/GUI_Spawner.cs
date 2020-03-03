@@ -42,8 +42,10 @@ public class GUI_Spawner : NetTab
 
 	}
 
-	private void Start()
+	private IEnumerator Start()
 	{
+		yield return WaitFor.EndOfFrame;
+		
 		if ( IsServer )
 		{
 			//Storytelling
@@ -110,8 +112,8 @@ public class GUI_Spawner : NetTab
 		spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
 			ThrownBy = Provider,
 			Aim = BodyPartType.Chest,
-			OriginPos = originPos,
-			TargetPos = nearestPlayerPos, //haha
+			OriginWorldPos = originPos,
+			WorldTrajectory = nearestPlayerPos - originPos, //haha
 			SpinMode = SpinMode.CounterClockwise
 		} );
 	}

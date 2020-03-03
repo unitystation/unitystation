@@ -14,7 +14,12 @@ namespace Unitystation.Options
         private Slider camZoomSlider;
         [SerializeField]
         private Toggle scrollWheelZoomToggle;
-        private CameraZoomHandler zoomHandler;
+		[SerializeField]
+		private Toggle fullscreenToggle;
+		private CameraZoomHandler zoomHandler;
+		[SerializeField] private InputField frameRateTarget;
+		[SerializeField]
+		private Slider chatBubbleSizeSlider;
 
         void OnEnable()
         {
@@ -28,8 +33,16 @@ namespace Unitystation.Options
 
         void Refresh()
         {
-            camZoomSlider.value = zoomHandler.ZoomLevel;
+	        if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
+	        {
+		        PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, 2f);
+		        PlayerPrefs.Save();
+	        }
+
+	        chatBubbleSizeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
+	        camZoomSlider.value = zoomHandler.ZoomLevel;
             scrollWheelZoomToggle.isOn = zoomHandler.ScrollWheelZoom;
+            frameRateTarget.text = PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate).ToString();
         }
 
         public void OnZoomLevelChange()
@@ -38,11 +51,30 @@ namespace Unitystation.Options
             Refresh();
         }
 
+        public void OnChatBubbleSizeChange()
+        {
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, chatBubbleSizeSlider.value);
+			PlayerPrefs.Save();
+	        Refresh();
+        }
+
         public void OnScrollWheelToggle()
         {
             zoomHandler.ToggleScrollWheelZoom(scrollWheelZoomToggle.isOn);
             Refresh();
         }
+
+		/// <summary>
+		/// Toggles fullscreen. Fullscreen uses native resolution, windowed always uses 720p.
+		/// </summary>
+		public void OnFullscreenToggle()
+		{
+			int hRes = Screen.fullScreen ? 1280 : Display.main.systemWidth;
+			int vRes = Screen.fullScreen ? 720  : Display.main.systemHeight;
+			fullscreenToggle.isOn = !Screen.fullScreen; //This can't go into Refresh() because going fullscreen happens 1 too late
+			Screen.SetResolution(hRes, vRes, !Screen.fullScreen);
+
+		}
 
         public void ResetDefaults()
         {
@@ -55,6 +87,15 @@ namespace Unitystation.Options
                 },
                 "Reset"
             );
+        }
+
+        public void OnFrameRateTargetEdit()
+        {
+	        int newTarget = 99;
+	        int.TryParse(frameRateTarget.text, out newTarget);
+			PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, newTarget);
+			PlayerPrefs.Save();
+			Application.targetFrameRate = Mathf.Clamp(newTarget, 30, 144);
         }
     }
 }

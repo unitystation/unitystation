@@ -17,8 +17,7 @@ public class Disarmable : MonoBehaviour, IClientInteractable<PositionalHandApply
 		if (!PlayerManager.LocalPlayerScript.IsInReach(interaction.WorldPositionTarget, false) ||
 		    UIManager.CurrentIntent != Intent.Disarm ||
 		    performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    performerRegisterPlayer.IsDown ||
-		    performerRegisterPlayer.IsStunnedClient ||
+		    performerRegisterPlayer.IsLayingDown ||
 		    interaction.Performer == interaction.TargetObject)
 		{
 			return false;

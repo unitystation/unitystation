@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +32,7 @@ public class GUI_Cloning : NetTab
 		{
 			//Makes sure it connects with the dispenser properly
 			CloningConsole = Provider.GetComponentInChildren<CloningConsole>();
-			CloningConsole.consoleGUI = this;
+			CloningConsole.RegisterConsoleGUI(this);
 			//Subscribe to change event from CloningConsole.cs
 			CloningConsole.changeEvent += UpdateDisplay;
 			UpdateDisplay();
@@ -44,7 +45,7 @@ public class GUI_Cloning : NetTab
 		DisplayCurrentRecord();
 		DisplayPodStatus();
 		DisplayScannerStatus();
-		buttonTextViewRecord.SetValue = $"View Records({CloningConsole.CloningRecords.Count})";
+		buttonTextViewRecord.SetValue = $"View Records({CloningConsole.CloningRecords.Count()})";
 	}
 
 	public void OnDestroy()
@@ -61,7 +62,7 @@ public class GUI_Cloning : NetTab
 
 	public void LockScanner()
 	{
-		CloningConsole.ToggleLock();
+		CloningConsole.ServerToggleLock();
 		UpdateDisplay();
 	}
 
@@ -74,7 +75,7 @@ public class GUI_Cloning : NetTab
 
 	public void RemoveRecord()
 	{
-		CloningConsole.CloningRecords.Remove(specificRecord);
+		CloningConsole.RemoveRecord(specificRecord);
 		specificRecord = null;
 	}
 
@@ -114,26 +115,26 @@ public class GUI_Cloning : NetTab
 
 	public void DisplayAllRecords()
 	{
-		List<CloningRecord> cloningRecords = CloningConsole.CloningRecords;
-
 		recordList.Clear();
-		recordList.AddItems(cloningRecords.Count);
+		recordList.AddItems(CloningConsole.CloningRecords.Count());
 
-		for (int i = 0; i < cloningRecords.Count; i++)
+		var i = 0;
+		foreach (var cloningRecord in CloningConsole.CloningRecords)
 		{
 			GUI_CloningRecordItem item = recordList.Entries[i] as GUI_CloningRecordItem;
 			item.gui_Cloning = this;
-			item.cloningRecord = cloningRecords[i];
+			item.cloningRecord = cloningRecord;
 			item.SetValues();
+			i++;
 		}
 	}
 
 	public void DisplayPodStatus()
 	{
 		string text;
-		if(CloningConsole.cloningPod)
+		if(CloningConsole.CloningPod)
 		{
-			text = CloningConsole.cloningPod.statusString;
+			text = CloningConsole.CloningPod.statusString;
 		}
 		else
 		{
@@ -147,9 +148,9 @@ public class GUI_Cloning : NetTab
 
 	public void DisplayScannerStatus()
 	{
-		if(CloningConsole.scanner)
+		if(CloningConsole.Scanner)
 		{
-			scannerStatus.SetValue = CloningConsole.scanner.statusString;
+			scannerStatus.SetValue = CloningConsole.Scanner.statusString;
 		}
 		else
 		{

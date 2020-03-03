@@ -2,24 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 public class SecurityRecordsManager : MonoBehaviour
 {
 	public List<SecurityRecord> SecurityRecords = new List<SecurityRecord>();
 
-	private static SecurityRecordsManager instance;
+	public static SecurityRecordsManager Instance;
 
-	public static SecurityRecordsManager Instance
+	private void Awake()
 	{
-		get
+		if (Instance == null)
 		{
-			if (instance == null)
-			{
-				instance = FindObjectOfType<SecurityRecordsManager>();
-			}
-			return instance;
+			Instance = this;
 		}
+		else
+		{
+			Destroy(this);
+		}
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnRoundRestart;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnRoundRestart;
+	}
+
+	void OnRoundRestart(Scene scene, LoadSceneMode mode)
+	{
+		SecurityRecords.Clear();
 	}
 
 	/// <summary>

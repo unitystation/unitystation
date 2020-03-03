@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -14,18 +13,19 @@ namespace Mirror
     public abstract class MessageBase : IMessageBase
     {
         // De-serialize the contents of the reader into this message
-        public virtual void Deserialize(NetworkReader reader) {}
+        public virtual void Deserialize(NetworkReader reader) { }
 
         // Serialize the contents of this message into the writer
-        public virtual void Serialize(NetworkWriter writer) {}
+        public virtual void Serialize(NetworkWriter writer) { }
     }
 
     #region General Typed Messages
+    [Obsolete("Create your own message class instead")]
     public class StringMessage : MessageBase
     {
         public string value;
 
-        public StringMessage() {}
+        public StringMessage() { }
 
         public StringMessage(string v)
         {
@@ -43,11 +43,12 @@ namespace Mirror
         }
     }
 
+    [Obsolete("Create your own message class instead")]
     public class ByteMessage : MessageBase
     {
         public byte value;
 
-        public ByteMessage() {}
+        public ByteMessage() { }
 
         public ByteMessage(byte v)
         {
@@ -65,11 +66,12 @@ namespace Mirror
         }
     }
 
+    [Obsolete("Create your own message class instead")]
     public class BytesMessage : MessageBase
     {
         public byte[] value;
 
-        public BytesMessage() {}
+        public BytesMessage() { }
 
         public BytesMessage(byte[] v)
         {
@@ -87,11 +89,12 @@ namespace Mirror
         }
     }
 
+    [Obsolete("Create your own message class instead")]
     public class IntegerMessage : MessageBase
     {
         public int value;
 
-        public IntegerMessage() {}
+        public IntegerMessage() { }
 
         public IntegerMessage(int v)
         {
@@ -109,11 +112,12 @@ namespace Mirror
         }
     }
 
+    [Obsolete("Create your own message class instead")]
     public class DoubleMessage : MessageBase
     {
         public double value;
 
-        public DoubleMessage() {}
+        public DoubleMessage() { }
 
         public DoubleMessage(double v)
         {
@@ -131,16 +135,35 @@ namespace Mirror
         }
     }
 
+    [Obsolete("Create your own message class instead")]
     public class EmptyMessage : MessageBase
     {
-        public override void Deserialize(NetworkReader reader) {}
+        public override void Deserialize(NetworkReader reader) { }
 
-        public override void Serialize(NetworkWriter writer) {}
+        public override void Serialize(NetworkWriter writer) { }
     }
     #endregion
 
     #region Public System Messages
-    public class ErrorMessage : ByteMessage {}
+    public struct ErrorMessage : IMessageBase
+    {
+        public byte value;
+
+        public ErrorMessage(byte v)
+        {
+            value = v;
+        }
+
+        public void Deserialize(NetworkReader reader)
+        {
+            value = reader.ReadByte();
+        }
+
+        public void Serialize(NetworkWriter writer)
+        {
+            writer.WriteByte(value);
+        }
+    }
 
     public struct ReadyMessage : IMessageBase
     {
@@ -158,13 +181,25 @@ namespace Mirror
 
     public struct AddPlayerMessage : IMessageBase
     {
+        /// <summary>
+        /// Obsolete: Create your own message instead. See <a href="../Guides/GameObjects/SpawnPlayerCustom.md">Custom Players</a>
+        /// </summary>
+        [Obsolete("Create your own message instead. See https://mirror-networking.com/docs/Guides/GameObjects/SpawnPlayerCustom.html")]
         public byte[] value;
 
+        /// <summary>
+        /// Obsolete: Create your own message instead. See <a href="../Guides/GameObjects/SpawnPlayerCustom.md">Custom Players</a>
+        /// </summary>
+        [Obsolete("Create your own message instead. See https://mirror-networking.com/docs/Guides/GameObjects/SpawnPlayerCustom.html")]
         public void Deserialize(NetworkReader reader)
         {
             value = reader.ReadBytesAndSize();
         }
 
+        /// <summary>
+        /// Obsolete: Create your own message instead. See <a href="../Guides/GameObjects/SpawnPlayerCustom.md">Custom Players</a>
+        /// </summary>
+        [Obsolete("Create your own message instead. See https://mirror-networking.com/docs/Guides/GameObjects/SpawnPlayerCustom.html")]
         public void Serialize(NetworkWriter writer)
         {
             writer.WriteBytesAndSize(value);
@@ -195,27 +230,35 @@ namespace Mirror
     public struct SceneMessage : IMessageBase
     {
         public string sceneName;
-        public LoadSceneMode sceneMode; // Single = 0, Additive = 1
-        public LocalPhysicsMode physicsMode; // None = 0, Physics3D = 1, Physics2D = 2
+        public SceneOperation sceneOperation; // Normal = 0, LoadAdditive = 1, UnloadAdditive = 2
+        public bool customHandling;
 
         public void Deserialize(NetworkReader reader)
         {
             sceneName = reader.ReadString();
-            sceneMode = (LoadSceneMode)reader.ReadByte();
-            physicsMode = (LocalPhysicsMode)reader.ReadByte();
+            sceneOperation = (SceneOperation)reader.ReadByte();
+            customHandling = reader.ReadBoolean();
         }
 
         public void Serialize(NetworkWriter writer)
         {
             writer.WriteString(sceneName);
-            writer.WriteByte((byte)sceneMode);
-            writer.WriteByte((byte)physicsMode);
+            writer.WriteByte((byte)sceneOperation);
+            writer.WriteBoolean(customHandling);
         }
     }
+
+    public enum SceneOperation : byte
+    {
+        Normal,
+        LoadAdditive,
+        UnloadAdditive
+    }
+
     #endregion
 
     #region System Messages requried for code gen path
-    struct CommandMessage : IMessageBase
+    public struct CommandMessage : IMessageBase
     {
         public uint netId;
         public int componentIndex;
@@ -241,7 +284,7 @@ namespace Mirror
         }
     }
 
-    struct RpcMessage : IMessageBase
+    public struct RpcMessage : IMessageBase
     {
         public uint netId;
         public int componentIndex;
@@ -267,7 +310,7 @@ namespace Mirror
         }
     }
 
-    struct SyncEventMessage : IMessageBase
+    public struct SyncEventMessage : IMessageBase
     {
         public uint netId;
         public int componentIndex;
@@ -295,10 +338,12 @@ namespace Mirror
     #endregion
 
     #region Internal System Messages
-    struct SpawnPrefabMessage : IMessageBase
+    public struct SpawnMessage : IMessageBase
     {
         public uint netId;
-        public bool owner;
+        public bool isLocalPlayer;
+        public bool isOwner;
+        public ulong sceneId;
         public Guid assetId;
         public Vector3 position;
         public Quaternion rotation;
@@ -310,8 +355,13 @@ namespace Mirror
         public void Deserialize(NetworkReader reader)
         {
             netId = reader.ReadPackedUInt32();
-            owner = reader.ReadBoolean();
-            assetId = reader.ReadGuid();
+            isLocalPlayer = reader.ReadBoolean();
+            isOwner = reader.ReadBoolean();
+            sceneId = reader.ReadPackedUInt64();
+            if (sceneId == 0)
+            {
+                assetId = reader.ReadGuid();
+            }
             position = reader.ReadVector3();
             rotation = reader.ReadQuaternion();
             scale = reader.ReadVector3();
@@ -321,8 +371,13 @@ namespace Mirror
         public void Serialize(NetworkWriter writer)
         {
             writer.WritePackedUInt32(netId);
-            writer.WriteBoolean(owner);
-            writer.WriteGuid(assetId);
+            writer.WriteBoolean(isLocalPlayer);
+            writer.WriteBoolean(isOwner);
+            writer.WritePackedUInt64(sceneId);
+            if (sceneId == 0)
+            {
+                writer.WriteGuid(assetId);
+            }
             writer.WriteVector3(position);
             writer.WriteQuaternion(rotation);
             writer.WriteVector3(scale);
@@ -330,56 +385,21 @@ namespace Mirror
         }
     }
 
-    struct SpawnSceneObjectMessage : IMessageBase
-    {
-        public uint netId;
-        public bool owner;
-        public ulong sceneId;
-        public Vector3 position;
-        public Quaternion rotation;
-        public Vector3 scale;
-        // the serialized component data
-        // -> ArraySegment to avoid unnecessary allocations
-        public ArraySegment<byte> payload;
-
-        public void Deserialize(NetworkReader reader)
-        {
-            netId = reader.ReadPackedUInt32();
-            owner = reader.ReadBoolean();
-            sceneId = reader.ReadUInt64();
-            position = reader.ReadVector3();
-            rotation = reader.ReadQuaternion();
-            scale = reader.ReadVector3();
-            payload = reader.ReadBytesAndSizeSegment();
-        }
-
-        public void Serialize(NetworkWriter writer)
-        {
-            writer.WritePackedUInt32(netId);
-            writer.WriteBoolean(owner);
-            writer.WriteUInt64(sceneId);
-            writer.WriteVector3(position);
-            writer.WriteQuaternion(rotation);
-            writer.WriteVector3(scale);
-            writer.WriteBytesAndSizeSegment(payload);
-        }
-    }
-
-    struct ObjectSpawnStartedMessage : IMessageBase
+    public struct ObjectSpawnStartedMessage : IMessageBase
     {
         public void Deserialize(NetworkReader reader) { }
 
         public void Serialize(NetworkWriter writer) { }
     }
 
-    struct ObjectSpawnFinishedMessage : IMessageBase
+    public struct ObjectSpawnFinishedMessage : IMessageBase
     {
         public void Deserialize(NetworkReader reader) { }
 
         public void Serialize(NetworkWriter writer) { }
     }
 
-    struct ObjectDestroyMessage : IMessageBase
+    public struct ObjectDestroyMessage : IMessageBase
     {
         public uint netId;
 
@@ -394,7 +414,7 @@ namespace Mirror
         }
     }
 
-    struct ObjectHideMessage : IMessageBase
+    public struct ObjectHideMessage : IMessageBase
     {
         public uint netId;
 
@@ -409,25 +429,7 @@ namespace Mirror
         }
     }
 
-    struct ClientAuthorityMessage : IMessageBase
-    {
-        public uint netId;
-        public bool authority;
-
-        public void Deserialize(NetworkReader reader)
-        {
-            netId = reader.ReadPackedUInt32();
-            authority = reader.ReadBoolean();
-        }
-
-        public void Serialize(NetworkWriter writer)
-        {
-            writer.WritePackedUInt32(netId);
-            writer.WriteBoolean(authority);
-        }
-    }
-
-    struct UpdateVarsMessage : IMessageBase
+    public struct UpdateVarsMessage : IMessageBase
     {
         public uint netId;
         // the serialized component data
@@ -449,7 +451,7 @@ namespace Mirror
 
     // A client sends this message to the server
     // to calculate RTT and synchronize time
-    struct NetworkPingMessage : IMessageBase
+    public struct NetworkPingMessage : IMessageBase
     {
         public double clientTime;
 
@@ -466,12 +468,12 @@ namespace Mirror
         public void Serialize(NetworkWriter writer)
         {
             writer.WriteDouble(clientTime);
-        }        
+        }
     }
 
     // The server responds with this message
     // The client can use this to calculate RTT and sync time
-    struct NetworkPongMessage : IMessageBase
+    public struct NetworkPongMessage : IMessageBase
     {
         public double clientTime;
         public double serverTime;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseAPI;
@@ -9,12 +11,30 @@ using Firebase.Extensions;
 using Lobby;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
 	private static GameData gameData;
+
+	[Tooltip("Only use this when offline or you can't reach the auth server! Allows the game to still work in that situation and " +
+	         " allows skipping login. Host player will also be given admin privs." +
+	         "Not supported in release builds.")]
+	[SerializeField]
+	private bool offlineMode;
+
+	/// <summary>
+	/// Whether --offlinemode command line argument is passed. Enforces offline mode.
+	/// </summary>
+	private bool forceOfflineMode;
+
+	/// <summary>
+	/// Is offline mode enabled, allowing login skip / working without connection to server.?
+	/// Disabled always for release builds.
+	/// </summary>
+	public bool OfflineMode => (!BuildPreferences.isForRelease && offlineMode) || forceOfflineMode;
 
 	public bool testServer;
 	private RconManager rconManager;
@@ -28,6 +48,9 @@ public class GameData : MonoBehaviour
 
 	public static string LoggedInUsername { get; set; }
 
+	public static int BuildNumber { get; private set; }
+	public static string ForkName { get; private set; }
+
 	public static GameData Instance
 	{
 		get
@@ -35,21 +58,25 @@ public class GameData : MonoBehaviour
 			if (!gameData)
 			{
 				gameData = FindObjectOfType<GameData>();
-				gameData.Init();
 			}
 
 			return gameData;
 		}
 	}
 
-	public bool IsTestMode => SceneManager.GetActiveScene().name.StartsWith("InitTestScene");
+	void Awake()
+	{
+		Init();
+	}
 
 	private void Init()
 	{
-		if (IsTestMode)
-		{
-			return;
-		}
+		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+		BuildNumber = buildInfo.BuildNumber;
+		ForkName = buildInfo.ForkName;
+		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
+		Logger.Log($"Build Version is: {BuildNumber}. "+ (OfflineMode ? "Offline mode" : string.Empty) );
+		CheckHeadlessState();
 
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 
@@ -90,6 +117,8 @@ public class GameData : MonoBehaviour
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
+		if (LobbyManager.Instance == null) return;
+
 		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
 
 		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
@@ -97,7 +126,7 @@ public class GameData : MonoBehaviour
 			{
 				if (task.IsCanceled || task.IsFaulted)
 				{
-					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception.Message);
+					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception?.Message);
 					return;
 				}
 			});
@@ -109,7 +138,7 @@ public class GameData : MonoBehaviour
 	private async void HubToServerConnect(string ip, string port, string uid, string token)
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
-		
+
 		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
 
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
@@ -120,24 +149,13 @@ public class GameData : MonoBehaviour
 		refreshToken.refreshToken = token;
 		refreshToken.userID = uid;
 
-		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get, JsonUtility.ToJson(refreshToken));
+		var response = await ServerData.ValidateToken(refreshToken);
 
-		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
-
-		HttpResponseMessage res;
-		try
+		if (response == null)
 		{
-			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
-		}
-		catch(Exception e)
-		{
-			Logger.LogError($"Something went wrong with hub token validation {e.Message}", Category.Hub);
-			LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {e.Message}");
+			LobbyManager.Instance.lobbyDialogue.LoginError($"Unknown server error. Please check your logs for more information by press F5");
 			return;
 		}
-
-		string msg = await res.Content.ReadAsStringAsync();
-		var response = JsonUtility.FromJson<ApiResponse>(msg);
 
 		if (!string.IsNullOrEmpty(response.errorMsg))
 		{
@@ -168,6 +186,7 @@ public class GameData : MonoBehaviour
 				if (success)
 				{
 					Logger.Log("Signed in successfully with valid token", Category.Hub);
+					LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
 				}
 				else
 				{
@@ -175,33 +194,22 @@ public class GameData : MonoBehaviour
 						"Unknown error occured when verifying character settings on the server");
 				}
 			});
-
-		LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
 	}
 
 	void OnCharacterScreenCloseFromHubConnect()
 	{
-		LobbyManager.Instance.lobbyDialogue.OnStartGame();
+		LobbyManager.Instance.lobbyDialogue.OnStartGameFromHub();
 	}
 
 	private void OnEnable()
 	{
 		Logger.RefreshPreferences();
-		if (IsTestMode)
-		{
-			return;
-		}
 
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		if (IsTestMode)
-		{
-			return;
-		}
-
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
@@ -216,16 +224,12 @@ public class GameData : MonoBehaviour
 		{
 			IsInGame = true;
 			Managers.instance.SetScreenForGame();
-			SetPlayerPreferences();
 		}
 
 		if (CustomNetworkManager.Instance.isNetworkActive)
 		{
 			//Reset stuff
-			if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
-			{
-				IsHeadlessServer = true;
-			}
+			CheckHeadlessState();
 
 			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.Instance._isServer)
 			{
@@ -236,11 +240,14 @@ public class GameData : MonoBehaviour
 		}
 
 		//Check if running in batchmode (headless server)
-		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+		if (CheckHeadlessState())
 		{
-			float calcFrameRate = 1f / Time.deltaTime;
-			Application.targetFrameRate = (int) calcFrameRate;
-			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+//			float calcFrameRate = 1f / Time.deltaTime;
+//			Application.targetFrameRate = (int) calcFrameRate;
+//			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
+//				Category.Server);
+
+			Logger.Log($"FrameRate limiting has been disabled on Headless Server",
 				Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
@@ -254,19 +261,21 @@ public class GameData : MonoBehaviour
 		}
 	}
 
+	bool CheckHeadlessState()
+	{
+		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
+		{
+			IsHeadlessServer = true;
+			return true;
+		}
+
+		return false;
+	}
+
 	private IEnumerator WaitToStartServer()
 	{
 		yield return WaitFor.Seconds(0.1f);
 		CustomNetworkManager.Instance.StartHost();
-	}
-
-	private void SetPlayerPreferences()
-	{
-		//Ambient Volume
-		if (PlayerPrefs.HasKey("AmbientVol"))
-		{
-			SoundManager.Instance.ambientTrack.volume = PlayerPrefs.GetFloat("AmbientVol");
-		}
 	}
 
 	private string GetArgument(string name)

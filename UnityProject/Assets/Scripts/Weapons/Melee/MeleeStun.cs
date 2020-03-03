@@ -50,11 +50,10 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		// If we're not on help intent we deal damage!
 		// Note: this has to be done before the stun, because otherwise if we hit ourselves with an activated stun baton on harm intent
 		// we wouldn't deal damage to ourselves because CmdRequestMeleeAttack checks whether we're stunned
-		bool helpIntent = interaction.Performer.GetComponent<PlayerMove>().IsHelpIntent;
-		if (!helpIntent)
+		if (interaction.Intent != Intent.Help)
 		{
 			// Direction of attack towards the attack target.
-			wna.CmdRequestMeleeAttack(target, gameObject, dir, interaction.TargetBodyPart, LayerType.None);
+			wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
 		}
 
 		RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
@@ -62,11 +61,11 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		// Stun the victim. We checke whether the baton is activated in WillInteract
 		if (registerPlayerVictim)
 		{
-			registerPlayerVictim.Stun(stunTime);
+			registerPlayerVictim.ServerStun(stunTime);
 			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position);
 
 			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)
-			if (helpIntent && performer != target)
+			if (interaction.Intent == Intent.Help && performer != target)
 			{
 				wna.RpcMeleeAttackLerp(dir, gameObject);
 			}

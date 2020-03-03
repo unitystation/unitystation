@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Mirror;
 
-
-	public class DoorController : ManagedNetworkBehaviour
-	{
+public class DoorController : NetworkBehaviour
+{
 		//public bool isWindowed = false;
 		public enum OpeningDirection
 		{
@@ -16,6 +16,7 @@ using Mirror;
 		private int closedLayer;
 		private int closedSortingLayer;
 		public AudioSource closeSFX;
+
 		private IEnumerator coWaitOpened;
 		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
 		public DoorAnimator doorAnimator;
@@ -24,9 +25,31 @@ using Mirror;
 		private int doorDirection;
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
+		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay;
+		[SerializeField] private Sprite weldSprite;
+		/// <summary>
+		/// Is door weldedable?
+		/// </summary>
+		public bool IsWeldable => (weldOverlay != null);
+
 		public DoorType doorType;
 
+		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
+		public bool damageOnClose = false;
+
+		[Tooltip("Is this door designed no matter what is under neath it?")]
+		public bool ignorePassableChecks;
+
+		[Tooltip("Does this door open automatically when you walk into it?")]
+		public bool IsAutomatic = true;
+
 		public bool IsOpened;
+		[SyncVar(hook = nameof(SyncIsWelded))]
+		[HideInInspector]private bool isWelded = false;
+		/// <summary>
+		/// Is door welded shut?
+		/// </summary>
+		public bool IsWelded => isWelded;
 		[HideInInspector] public bool isPerformingAction;
 		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
 		[Tooltip("Does the door light animation only need 1 frame?")] public bool useSimpleLightAnimation = false;
@@ -40,6 +63,8 @@ using Mirror;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
 
+		private TileChangeManager tileChangeManager;
+
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions {
 			get {
@@ -52,9 +77,15 @@ using Mirror;
 
 		[HideInInspector] public SpriteRenderer spriteRenderer;
 
-		public override void OnStartClient()
+
+		private void Awake()
 		{
-			base.OnStartClient();
+			EnsureInit();
+		}
+
+		private void EnsureInit()
+		{
+			if (registerTile != null) return;
 			if (!isWindowedDoor)
 			{
 				closedLayer = LayerMask.NameToLayer("Door Closed");
@@ -67,9 +98,14 @@ using Mirror;
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			openLayer = LayerMask.NameToLayer("Door Open");
-
-
 			registerTile = gameObject.GetComponent<RegisterDoor>();
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
+		}
+
+		public override void OnStartClient()
+		{
+			EnsureInit();
+			SyncIsWelded(isWelded, isWelded);
 		}
 
 		/// <summary>
@@ -92,7 +128,7 @@ using Mirror;
 			// the below logic and reopen the door if the client got stuck in the door in the .15 s gap.
 
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
-			if (isServer && !IsOpened && !registerTile.OneDirectionRestricted)
+			if (CustomNetworkManager.IsServer && !IsOpened && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
 			{
 				if (!MatrixManager.IsPassableAt(registerTile.WorldPositionServer, registerTile.WorldPositionServer,
 					isServer: true, includingPlayers: true, context: this.gameObject))
@@ -100,7 +136,7 @@ using Mirror;
 					//something is in the way, open back up
 					//set this field to false so open command will actually work
 					isPerformingAction = false;
-					Open();
+					ServerOpen();
 				}
 			}
 
@@ -137,9 +173,9 @@ using Mirror;
 		{
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
-			if (isServer)
+			if (CustomNetworkManager.IsServer)
 			{
-				TryClose();
+				ServerTryClose();
 			}
 		}
 
@@ -169,12 +205,11 @@ using Mirror;
 			}
 		}
 
-		[Server]
-		public void TryClose()
+		public void ServerTryClose()
 		{
 			// Sliding door is not passable according to matrix
             if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
-	            Close();
+	            ServerClose();
             }
 			else
 			{
@@ -182,44 +217,55 @@ using Mirror;
 			}
 		}
 
-		[Server]
-		public void Close() {
+		public void ServerClose() {
+			if (gameObject == null) return; // probably destroyed by a shuttle crash
 			IsOpened = false;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
+				if (damageOnClose)
+				{
+					ServerDamageOnClose();
+				}
 			}
 		}
 
-		[Server]
-		public void TryOpen(GameObject Originator)
+		public void ServerTryOpen(GameObject Originator)
 		{
+			if (isWelded)
+			{
+				Chat.AddExamineMsgFromServer(Originator, "This door is welded shut.");
+				return;
+			}
 			if (AccessRestrictions != null)
 			{
 				if (AccessRestrictions.CheckAccess(Originator)) {
 					if (!IsOpened && !isPerformingAction) {
-						Open();
+						ServerOpen();
 					}
 				}
 				else {
 					if (!IsOpened && !isPerformingAction) {
-						AccessDenied();
+						ServerAccessDenied();
 					}
 				}
 			}
 			else
 			{
-				Logger.LogError("Door lacks access restriction component!", Category.Doors);
+				Logger.LogErrorFormat("Door {0} @{1} lacks access restriction component!", Category.Doors,
+					name,
+					registerTile ? registerTile.WorldPositionServer : transform.position);
 			}
 		}
-		[Server]
-		private void AccessDenied() {
+
+		private void ServerAccessDenied() {
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.AccessDenied );
 			}
 		}
 
-		[Server]
-		public void Open() {
+		public void ServerOpen()
+		{
+			if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
 			ResetWaiting();
 			IsOpened = true;
 
@@ -229,8 +275,50 @@ using Mirror;
 			}
 		}
 
+		public void ServerTryWeld()
+		{
+			if (!isPerformingAction && (weldOverlay != null))
+			{
+				ServerWeld();
+			}
+		}
+
+		public void ServerWeld()
+		{
+			if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
+			if (!isPerformingAction)
+			{
+				SyncIsWelded(isWelded, !isWelded);
+			}
+		}
+
+		private void SyncIsWelded(bool _wasWelded, bool _isWelded)
+		{
+			isWelded = _isWelded;
+			if (weldOverlay != null) // if door is weldable
+			{
+				weldOverlay.sprite = isWelded ? weldSprite : null;
+			}
+		}
+		public void ServerDisassemble(HandApply interaction)
+		{
+			tileChangeManager.RemoveTile(registerTile.LocalPositionServer, LayerType.Walls);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
+			Despawn.ServerSingle(gameObject);
+		}
+
+	private void ServerDamageOnClose()
+			{
+				foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
+				{
+					healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
+				}
+			}
+
 		private void ResetWaiting()
 		{
+			if (maxTimeOpen == -1) return;
+
 			if (coWaitOpened != null)
 			{
 				StopCoroutine(coWaitOpened);
@@ -267,3 +355,5 @@ using Mirror;
 			}
 		}
 	}
+
+

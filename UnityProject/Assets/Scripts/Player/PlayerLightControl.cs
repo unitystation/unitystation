@@ -36,7 +36,8 @@ public class PlayerLightControl : NetworkBehaviour, IServerInventoryMove
 		NamedSlot.back,
 		NamedSlot.storage01,
 		NamedSlot.storage02,
-		NamedSlot.suitStorage
+		NamedSlot.suitStorage,
+		NamedSlot.head
 	};
 
 	public float Intensity;

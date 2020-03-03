@@ -73,7 +73,7 @@
 
 				// Blend light with scene.
 				half3 bloom = (screenUnlit.rgb + bloomAdd) * pow(mixedLight.rgb, bloomSensitivity) * step(0.005, bloomSensitivity);
-				fixed4 screenLit = screenUnlit + fixed4(screenUnlit.rgb * mixedLight.rgb * lightMultyplier + bloom, screenUnlit.a) * 1;
+				fixed4 screenLit =  fixed4(screenUnlit.rgb * mixedLight.rgb * lightMultyplier + bloom, screenUnlit.a) * 1;
 
 				// Mix Background.
 				fixed4 background = tex2D(_BackgroundTex, i.uv);

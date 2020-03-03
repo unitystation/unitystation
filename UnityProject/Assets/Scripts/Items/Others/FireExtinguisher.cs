@@ -1,29 +1,52 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
-public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, ICheckedInteractable<AimApply>
+public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
+	IInteractable<HandActivate>,
+	ICheckedInteractable<AimApply>
 {
 	bool safety = true;
-	int travelDistance = 6;
+	public int travelDistance = 6;
+	private float travelTime => 1f / travelDistance;
 	public ReagentContainer reagentContainer;
 	public RegisterItem registerItem;
+	public Pickupable pickupable;
+
+	[SerializeField]
+	[Range(1,50)]
+	private int reagentsPerUse = 5;
 
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
 	public Sprite[] spriteList;
 
-	public ParticleSystem particleSystem;
-
-	[SyncVar(hook = nameof(SyncParticles))]
-	public float particleSync;
-
 	public override void OnStartClient()
 	{
-		SyncSprite(spriteSync);
-		base.OnStartClient();
+		EnsureInit();
+		SyncSprite(spriteSync, spriteSync);
+	}
+
+	public void Awake()
+	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if ( !pickupable )
+		{
+			pickupable = GetComponent<Pickupable>();
+		}
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		safety = true;
+		SyncSprite(spriteSync, 0);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -31,12 +54,12 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		if (safety)
 		{
 			safety = false;
-			spriteSync = 1;
+			SyncSprite(spriteSync, 1);
 		}
 		else
 		{
 			safety = true;
-			spriteSync = 0;
+			SyncSprite(spriteSync, 0);
 		}
 	}
 
@@ -52,29 +75,30 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (reagentContainer.CurrentCapacity >= 5 && !safety)
+		if ( reagentContainer.CurrentCapacity < reagentsPerUse || safety )
 		{
-			Vector2
-				startPos = interaction.Performer.transform
-					.position; //TODO: use registeritem position once picked up items get fixed
-			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x),
-				Mathf.RoundToInt(interaction.WorldPositionTarget.y));
-			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
-			StartCoroutine(Fire(positionList));
-
-			var points = GetParallelPoints(startPos, targetPos, true);
-			positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
-			StartCoroutine(Fire(positionList));
-
-			points = GetParallelPoints(startPos, targetPos, false);
-			positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
-			StartCoroutine(Fire(positionList));
-
-			var angle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * 180 / Mathf.PI;
-			particleSync = angle;
-			SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
-			reagentContainer.MoveReagentsTo(5);
+			return;
 		}
+
+		Vector2	startPos = gameObject.AssumedWorldPosServer();
+		Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
+		List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
+		StartCoroutine(Fire(positionList));
+
+		var points = GetParallelPoints(startPos, targetPos, true);
+		positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
+		StartCoroutine(Fire(positionList));
+
+		points = GetParallelPoints(startPos, targetPos, false);
+		positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
+		StartCoroutine(Fire(positionList));
+
+		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
+
+		SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
+		reagentContainer.TakeReagents(reagentsPerUse);
+
+		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}
 
 	/// <summary>
@@ -108,36 +132,24 @@ public class FireExtinguisher : NetworkBehaviour, IInteractable<HandActivate>, I
 		for (int i = 0; i < positionList.Count; i++)
 		{
 			ExtinguishTile(positionList[i]);
-			yield return WaitFor.Seconds(0.1f);
+			yield return WaitFor.Seconds(travelTime);
 		}
 	}
 
 	void ExtinguishTile(Vector3Int worldPos)
 	{
-		var matrix = MatrixManager.AtPoint(worldPos, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPos, matrix);
-		matrix.MetaDataLayer.ReagentReact(reagentContainer.Contents, worldPos, localPosInt);
+		//it actually uses remaining contents to react with world
+		//instead of the sprayed ones. not sure if this is right
+		MatrixManager.ReagentReact(reagentContainer.Contents, worldPos);
 	}
 
-	public void SyncSprite(int value)
+	public void SyncSprite(int oldValue, int value)
 	{
+		EnsureInit();
 		spriteSync = value;
 		spriteRenderer.sprite = spriteList[spriteSync];
 
-		if (UIManager.Hands.CurrentSlot && UIManager.Hands.CurrentSlot.Item == gameObject)
-		{
-			Inventory.RefreshUISlotImage(gameObject);
-		}
+		pickupable.RefreshUISlotImage();
 	}
 
-	public void SyncParticles(float value)
-	{
-		if (!gameObject.activeInHierarchy) return;
-
-		particleSystem.transform.position = registerItem.WorldPositionClient;
-		particleSystem.transform.rotation = Quaternion.Euler(0, 0, value);
-		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
-		renderer.enabled = true;
-		particleSystem.Play();
-	}
 }

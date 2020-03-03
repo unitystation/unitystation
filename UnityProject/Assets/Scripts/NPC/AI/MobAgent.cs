@@ -19,6 +19,8 @@ public class MobAgent : Agent
 	protected bool isServer;
 
 	public bool performingDecision;
+	public bool performingAction;
+
 	public bool activated;
 	public float tickRate = 1f;
 	private float tickWait;
@@ -63,7 +65,7 @@ public class MobAgent : Agent
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;
 
-		UpdateManager.Instance.Add(UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -82,7 +84,7 @@ public class MobAgent : Agent
 		{
 			cnt.OnTileReached().RemoveListener(OnTileReached);
 		}
-		UpdateManager.Instance.Remove(UpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	protected virtual void OnTileReached(Vector3Int tilePos)
@@ -95,6 +97,13 @@ public class MobAgent : Agent
 	/// </summary>
 	/// <param name="destination">The local matrix co-ords of the unpassable tile</param>
 	protected virtual void OnPushSolid(Vector3Int destination)
+	{
+	}
+
+	/// <summary>
+	/// Called when the mob is performing an action
+	/// </summary>	
+	protected virtual void OnPerformAction()
 	{
 	}
 
@@ -119,9 +128,17 @@ public class MobAgent : Agent
 
 	void MonitorDecisionMaking()
 	{
-		if (health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)
+		// Only living mobs have health.  Some like the bots have integrity instead.
+		if ((health != null) && (health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause))
 		{
 			//can't do anything this NPC is not capable of movement
+			return;
+		}
+
+		// If the mob is already performing an action, it's not the time to make a decision yet.
+		if (performingAction)
+		{
+			OnPerformAction();
 			return;
 		}
 
@@ -200,7 +217,7 @@ public class MobAgent : Agent
 						dest, true);
 				if (tryGetDoor)
 				{
-					tryGetDoor.TryOpen(gameObject);
+					tryGetDoor.ServerTryOpen(gameObject);
 				}
 			}
 			else
@@ -233,6 +250,13 @@ public class MobAgent : Agent
 	protected void ObserveAdjacentTiles(bool allowTargetPush = false, Transform target = null)
 	{
 		var curPos = registerObj.LocalPositionServer;
+
+		if (registerObj == null)
+		{
+			Logger.LogError($"RegisterObject is null for: {gameObject.name}. Pausing this MobAI", Category.MLAgents);
+			Pause = true;
+			return;
+		}
 		//Observe adjacent tiles
 		for (int y = 1; y > -2; y--)
 		{
@@ -281,15 +305,22 @@ public class MobAgent : Agent
 					}
 					else
 					{
-						//NPCs can open doors with no access restrictions
-						if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
+						if (tryGetDoor.AccessRestrictions != null)
 						{
-							AddVectorObs(true);
+							//NPCs can open doors with no access restrictions
+							if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
+							{
+								AddVectorObs(true);
+							}
+							else
+							{
+								//NPC does not have the access required
+								//TODO: Allow id cards to be placed on mobs
+								AddVectorObs(false);
+							}
 						}
 						else
 						{
-							//NPC does not have the access required
-							//TODO: Allow id cards to be placed on mobs
 							AddVectorObs(false);
 						}
 					}

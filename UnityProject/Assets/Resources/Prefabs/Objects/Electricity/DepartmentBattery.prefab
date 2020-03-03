@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 61366423541260584}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
+  - component: {fileID: -8468313094457109945}
   - component: {fileID: 114500746951952046}
   - component: {fileID: 114421102744754910}
   - component: {fileID: 3451459747492305769}
@@ -21,7 +22,6 @@ GameObject:
   - component: {fileID: 8556410435183048791}
   - component: {fileID: 114325058325635246}
   - component: {fileID: 114006907476957006}
-  - component: {fileID: -8468313094457109945}
   - component: {fileID: -476175051414813368}
   m_Layer: 11
   m_Name: DepartmentBattery
@@ -114,8 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114703946515217786
@@ -132,6 +132,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
+--- !u!114 &-8468313094457109945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114500746951952046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,19 +380,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
---- !u!114 &-8468313094457109945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_SceneId: 2728112746
 --- !u!114 &-476175051414813368
 MonoBehaviour:
   m_ObjectHideFlags: 0

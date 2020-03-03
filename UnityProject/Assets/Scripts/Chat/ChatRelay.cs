@@ -16,6 +16,15 @@ public class ChatRelay : NetworkBehaviour
 
 	private ChatChannel namelessChannels;
 	public List<ChatEvent> ChatLog { get; } = new List<ChatEvent>();
+	private LayerMask layerMask;
+	private LayerMask npcMask;
+
+
+	/// <summary>
+	/// The char indicating that the following text is speech.
+	/// For example: Player says, [Character goes here]"ALL CLOWNS MUST SUFFER"
+	/// </summary>
+	private char saysChar = ' '; // This is U+200A, a hair space.
 
 	private void Awake()
 	{
@@ -23,7 +32,7 @@ public class ChatRelay : NetworkBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-			Chat.RegisterChatRelay(Instance, AddToChatLogServer, AddToChatLogClient);
+			Chat.RegisterChatRelay(Instance, AddToChatLogServer, AddToChatLogClient, AddPrivMessageToClient);
 		}
 		else
 		{
@@ -34,7 +43,9 @@ public class ChatRelay : NetworkBehaviour
 	public void Start()
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
-		                   ChatChannel.Combat;
+						   ChatChannel.Combat;
+		layerMask = LayerMask.GetMask("Walls", "Door Closed");
+		npcMask = LayerMask.GetMask("NPC");
 	}
 
 	[Server]
@@ -47,6 +58,7 @@ public class ChatRelay : NetworkBehaviour
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players;
+
 		if (chatEvent.matrix != MatrixInfo.Invalid)
 		{
 			//get players only on provided matrix
@@ -54,38 +66,69 @@ public class ChatRelay : NetworkBehaviour
 		}
 		else
 		{
-			players = PlayerList.Instance.AllPlayers;
+			//Try get the matrix first:
+			if (chatEvent.originator != null)
+			{
+				var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
+				if (regiTile != null)
+				{
+					players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
+				}
+				else
+				{
+					players = PlayerList.Instance.AllPlayers;
+				}
+			}
+			else
+			{
+				players = PlayerList.Instance.AllPlayers;
+			}
 		}
 
 		//Local chat range checks:
-		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat
-		                                            || chatEvent.channels == ChatChannel.Action)
+		if (chatEvent.channels.HasFlag(ChatChannel.Local) || chatEvent.channels.HasFlag(ChatChannel.Combat)
+													|| chatEvent.channels.HasFlag(ChatChannel.Action))
 		{
-			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-			RaycastHit2D hit;
-			LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
-			for (int i = 0; i < players.Count(); i++)
+			for (int i = players.Count - 1; i >= 0; i--)
 			{
-				if (Vector2.Distance(chatEvent.position, //speaker.GameObject.transform.position,
-					    players[i].GameObject.transform.position) > 14f)
+				if (players[i].Script == null)
+				{
+					//joined viewer, don't message them
+					players.RemoveAt(i);
+					continue;
+				}
+
+				if (players[i].Script.IsGhost)
+				{
+					//send all to ghosts
+					continue;
+				}
+
+				if (chatEvent.position == TransformState.HiddenPos)
+				{
+					//show messages with no provided position to everyone
+					continue;
+				}
+
+				if (Vector2.Distance(chatEvent.position,
+						(Vector3)players[i].Script.WorldPos) > 14f)
 				{
 					//Player in the list is too far away for local chat, remove them:
-					players.Remove(players[i]);
+					players.RemoveAt(i);
 				}
 				else
 				{
 					//within range, but check if they are in another room or hiding behind a wall
-					if (Physics2D.Linecast(chatEvent.position, //speaker.GameObject.transform.position,
-						players[i].GameObject.transform.position, layerMask))
+					if (Physics2D.Linecast(chatEvent.position,
+						(Vector3)players[i].Script.WorldPos, layerMask))
 					{
 						//if it hit a wall remove that player
-						players.Remove(players[i]);
+						players.RemoveAt(i);
 					}
 				}
 			}
 
 			//Get NPCs in vicinity
-			var npcMask = LayerMask.GetMask("NPC");
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
 			foreach (Collider2D coll in npcs)
 			{
@@ -103,17 +146,18 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		for (var i = 0; i < players.Count; i++)
-		{
+		{			
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
-			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
-			    channels.HasFlag(ChatChannel.Action))
+				channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
+				channels.HasFlag(ChatChannel.Action))
 			{
-				if (!channels.HasFlag(ChatChannel.Binary))
+				if (!channels.HasFlag(ChatChannel.Binary) || players[i].Script.IsGhost)
 				{
 					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker);
+
 					continue;
 				}
 			}
@@ -154,22 +198,19 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
+	private void AddPrivMessageToClient(string message, string adminId)
+	{
+		trySendingTTS(message);
+
+		ChatUI.Instance.AddAdminPrivEntry(message, adminId);
+	}
+
+	[Client]
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
 		if (string.IsNullOrEmpty(message)) return;
-		
-		if (UIManager.Instance.ttsToggle)
-		{
-			//Text to Speech:
-			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
-			//message only atm
-			if (ttsString.Contains(":"))
-			{
-				string saysString = ":";
-				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
-				MaryTTS.Instance.Synthesize(messageString);
-			}
-		}
+
+		trySendingTTS(message);
 
 		if (PlayerManager.LocalPlayerScript == null)
 		{
@@ -179,6 +220,29 @@ public class ChatRelay : NetworkBehaviour
 		if (channels != ChatChannel.None)
 		{
 			ChatUI.Instance.AddChatEntry(message);
+		}
+	}
+
+	/// <summary>
+	/// Sends a message to TTS to vocalize.
+	/// They are required to contain the saysChar.
+	/// Messages must also contain at least one letter from the alphabet.
+	/// </summary>
+	/// <param name="message">The message to try to vocalize.</param>
+	private void trySendingTTS(string message)
+	{
+		if (UIManager.Instance.ttsToggle)
+		{
+			message = Regex.Replace(message, @"<[^>]*>", String.Empty); // Style tags
+			int saysCharIndex = message.IndexOf(saysChar);
+			if (saysCharIndex != -1)
+			{
+				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
+				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
+				{
+					MaryTTS.Instance.Synthesize(messageAfterSaysChar);
+				}
+			}
 		}
 	}
 }

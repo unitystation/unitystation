@@ -55,6 +55,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: Gases.Array.data[2]
+      value: 60932.95
+      objectReference: {fileID: 0}
     - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: PrimaryUITint.r
@@ -124,11 +129,6 @@ PrefabInstance:
         type: 3}
       propertyPath: ContentsName
       value: Nitrogen
-      objectReference: {fileID: 0}
-    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: Gases.Array.data[2]
-      value: 60933
       objectReference: {fileID: 0}
     - target: {fileID: 114615155852173970, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}

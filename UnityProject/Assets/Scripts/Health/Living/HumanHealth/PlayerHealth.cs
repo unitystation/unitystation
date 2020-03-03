@@ -9,6 +9,11 @@ using UnityEditor;
 /// </summary>
 public class PlayerHealth : LivingHealthBehaviour
 {
+	[SerializeField]
+	private MetabolismSystem metabolism;
+
+	public MetabolismSystem Metabolism { get => metabolism; }
+
 	private PlayerMove playerMove;
 
 	private PlayerNetworkActions playerNetworkActions;
@@ -22,11 +27,17 @@ public class PlayerHealth : LivingHealthBehaviour
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-	private void Awake()
+	public override void Awake()
 	{
 		base.Awake();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+
+		metabolism = GetComponent<MetabolismSystem>();
+		if (metabolism == null)
+		{
+			metabolism = gameObject.AddComponent<MetabolismSystem>();
+		}
 	}
 
 	public override void OnStartClient()
@@ -42,18 +53,20 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
-			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
-
 			ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
 
-			string killerName = "Stressful work";
+			string killerName = null;
 			if (LastDamagedBy != null)
 			{
-				killerName = PlayerList.Instance.Get(LastDamagedBy).Name;
+				killerName = PlayerList.Instance.Get(LastDamagedBy)?.Name;
 			}
 
-			string playerName = player.Name ?? "dummy";
+			if (killerName == null)
+			{
+				killerName = "Stressful work";
+			}
+
+			string playerName = player?.Name ?? "dummy";
 			if (killerName == playerName)
 			{
 				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
@@ -70,12 +83,27 @@ public class PlayerHealth : LivingHealthBehaviour
 			}
 
 			//drop items in hand
-			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
-			Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+			if (itemStorage != null)
+			{
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
+				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
+			}
 
 			if (isServer)
 			{
 				EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+				string descriptor = null;
+				if (player != null)
+				{
+					descriptor = player?.Script?.characterSettings?.PossessivePronoun();
+				}
+
+				if (descriptor == null)
+				{
+					descriptor = "their";
+				}
+
+				Chat.AddLocalMsgToChat($"<b>{playerName}</b> seizes up and falls limp, {descriptor} eyes dead and lifeless...", (Vector3)registerPlayer.WorldPositionServer, gameObject);
 			}
 
 			PlayerDeathMessage.Send(gameObject);
@@ -94,8 +122,15 @@ public class PlayerHealth : LivingHealthBehaviour
 		}
 	}
 
+	[Server]
+	public void ServerGibPlayer()
+	{
+		Gib();
+	}
+
 	protected override void Gib()
 	{
+		Death();
 		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
@@ -105,21 +140,8 @@ public class PlayerHealth : LivingHealthBehaviour
 			Inventory.ServerDrop(slot);
 		}
 
-		if (!playerMove.PlayerScript.IsGhost)
-		{ //dirty way to follow gibs. change this when implementing proper gibbing, perhaps make it follow brain
-			var gibsToFollow = MatrixManager.GetAt<RawMeat>( transform.position.CutToInt(), true );
-			if ( gibsToFollow.Count > 0 )
-			{
-				var gibs = gibsToFollow[0];
-				FollowCameraMessage.Send(gameObject, gibs.gameObject);
-				var gibsIntegrity = gibs.GetComponent<Integrity>();
-				if ( gibsIntegrity != null )
-				{	//Stop cam following gibs if they are destroyed
-					gibsIntegrity.OnWillDestroyServer.AddListener( x => FollowCameraMessage.Send( gameObject, null ) );
-				}
-			}
-		}
 		playerMove.PlayerScript.pushPull.VisibleState = false;
+		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
 
 	///     make player unconscious upon crit
@@ -130,14 +152,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
-		if (newState != ConsciousState.CONSCIOUS)
-		{
-			registerPlayer.LayDown();
-		}
-		else
-		{
-			registerPlayer.GetUp();
-		}
-
+		//we stay upright if buckled or conscious
+		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || playerMove.IsBuckled);
 	}
 }

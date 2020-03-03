@@ -20,22 +20,22 @@ public class Manifold : SimplePipe
 			for (int i = 0; i < nodes.Count; i++)
 			{
 				var pipe = nodes[i];
-				if (pipe.registerTile.WorldPositionServer.y < registerTile.WorldPositionServer.y)
+				if (pipe.RegisterTile.WorldPositionServer.y < RegisterTile.WorldPositionServer.y)
 				{
 					syncValue |= Direction.SOUTH;
 					SetConnectionSprite(0);
 				}
-				else if (pipe.registerTile.WorldPositionServer.y > registerTile.WorldPositionServer.y)
+				else if (pipe.RegisterTile.WorldPositionServer.y > RegisterTile.WorldPositionServer.y)
 				{
 					syncValue |= Direction.NORTH;
 					SetConnectionSprite(1);
 				}
-				else if (pipe.registerTile.WorldPositionServer.x > registerTile.WorldPositionServer.x)
+				else if (pipe.RegisterTile.WorldPositionServer.x > RegisterTile.WorldPositionServer.x)
 				{
 					syncValue |= Direction.EAST;
 					SetConnectionSprite(2);
 				}
-				else if (pipe.registerTile.WorldPositionServer.x < registerTile.WorldPositionServer.x)
+				else if (pipe.RegisterTile.WorldPositionServer.x < RegisterTile.WorldPositionServer.x)
 				{
 					syncValue |= Direction.WEST;
 					SetConnectionSprite(3);
@@ -67,10 +67,10 @@ public class Manifold : SimplePipe
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncConnectionSprite(connectionSpriteSync);
+		SyncConnectionSprite(Direction.NONE, connectionSpriteSync);
 	}
 
-	void SyncConnectionSprite(Direction value)
+	void SyncConnectionSprite(Direction oldValue, Direction value)
 	{
 		NullConnectionSprites();
 		for (int i = 0; i < allDirections.Length; i++)

@@ -18,6 +18,13 @@ public class PlaySoundMessage : ServerMessage
 
 	public override IEnumerator Process() {
 		yield return null;
+
+		if (string.IsNullOrEmpty(SoundName))
+		{
+			Logger.LogError(ToString()+" has no SoundName!", Category.Audio);
+			yield break;
+		}
+
 		bool isPositionProvided = Position.RoundToInt() != TransformState.HiddenPos;
 
 		if ( isPositionProvided )
@@ -40,6 +47,25 @@ public class PlaySoundMessage : ServerMessage
 			float intensity = Mathf.Clamp(ShakeIntensity/(float)byte.MaxValue, 0.01f, 10f);
 			Camera2DFollow.followControl.Shake(intensity, intensity);
 		}
+	}
+
+	public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos, float pitch,
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+	{
+		PlaySoundMessage msg = new PlaySoundMessage
+		{
+			SoundName = sndName,
+			Position = pos,
+			Pitch = pitch,
+			ShakeGround = shakeGround,
+			ShakeIntensity = shakeIntensity,
+			ShakeRange = shakeRange,
+			Polyphonic = polyphonic
+		};
+
+		msg.SendToNearbyPlayers(pos);
+		return msg;
 	}
 
 	public static PlaySoundMessage SendToAll( string sndName, Vector3 pos, float pitch,
@@ -81,6 +107,6 @@ public class PlaySoundMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return $"[SoundMsg Name={SoundName}]";
+		return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Pitch)}: {Pitch}, {nameof(ShakeGround)}: {ShakeGround}, {nameof(ShakeIntensity)}: {ShakeIntensity}, {nameof(ShakeRange)}: {ShakeRange}, {nameof(Polyphonic)}: {Polyphonic}";
 	}
 }

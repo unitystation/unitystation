@@ -46,4 +46,27 @@
 	/// we are not relying on SteamID as the identifier.
 	/// </summary>
 	public static string ClientID = "ClientID";
+
+	/// <summary>
+	/// MuteMusic toggle
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static string MuteMusic = "MuteMusic";
+
+
+	/// <summary>
+	/// Whether or not to show highlights on items
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static string EnableHighlights = "EnableHighlights";
+	/// <summary>
+	/// Sets the client side target frame rate preference
+	/// </summary>
+	public static string TargetFrameRate = "TargetFrameRate";
+	/// <summary>
+	/// Sets the normal chat bubble size preference
+	/// </summary>
+	public static string ChatBubbleSize = "ChatBubbleSize";
 }

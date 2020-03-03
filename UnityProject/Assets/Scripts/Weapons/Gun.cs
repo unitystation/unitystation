@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
- using UnityEngine;
+using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
- /// <summary>
+/// <summary>
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ItemStorage))]
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
-	 IClientInteractable<InventoryApply>, IServerInventoryMove
+	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
@@ -20,7 +20,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 	/// </summary>
-	public string AmmoType;
+	[FormerlySerializedAs("AmmoType")] public AmmoType ammoType;
 
 	//server-side flag indicating if the gun is currently held by a player
 	private bool serverIsHeld;
@@ -44,12 +44,14 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	///     The the current recoil variance this weapon has reached
 	/// </summary>
-	[HideInInspector] public float CurrentRecoilVariance;
+	[HideInInspector]
+	public float CurrentRecoilVariance;
 
 	/// <summary>
 	///     The countdown untill we can shoot again (seconds)
 	/// </summary>
-	[HideInInspector] public double FireCountDown;
+	[HideInInspector]
+	public double FireCountDown;
 
 	/// <summary>
 	///     The the name of the sound this gun makes when shooting
@@ -125,22 +127,30 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void Awake()
 	{
-		GetComponent<ItemAttributes>().AddTrait(CommonTraits.Instance.Gun);
+		GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
 		itemStorage = GetComponent<ItemStorage>();
 		magSlot = itemStorage.GetIndexedItemSlot(0);
 		registerTile = GetComponent<RegisterTile>();
 		//init weapon with missing settings
-		if (AmmoType == null)
-		{
-			AmmoType = "12mm";
-		}
 
-		if (Projectile == null)
-		{
-			Projectile = Resources.Load("Bullet_12mm") as GameObject;
-		}
 
 		queuedShots = new Queue<QueuedShot>();
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		Init();
+	}
+
+	private void Init()
+	{
+		//populate with a full mag on spawn
+		Logger.LogTraceFormat("Auto-populate magazine for {0}", Category.Inventory, name);
+
+		//AmmoPrefabs
+		GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
+
+		Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
@@ -218,7 +228,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//	ourselves.
 		var isSuicide = false;
 		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-		    (WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
+			(WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
 		{
 			isSuicide = interaction.IsAimingAtSelf;
 			AllowSuicide = isSuicide;
@@ -239,7 +249,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//	ourselves.
 		var isSuicide = false;
 		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-		    (WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
+			(WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
 		{
 			isSuicide = interaction.IsAimingAtSelf;
 			AllowSuicide = isSuicide;
@@ -254,7 +264,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public bool Interact(HandActivate interaction)
 	{
 		//try ejecting the mag
-		if(CurrentMagazine != null)
+		if (CurrentMagazine != null)
 		{
 			RequestUnload(CurrentMagazine);
 			return true;
@@ -282,6 +292,10 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		return false;
 	}
 
+	public string  Examine(Vector3 pos)
+	{
+		return WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null?(CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine"):"It's empty!") + ")";
+	}
 
 	#endregion
 
@@ -354,18 +368,18 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//RELOAD
 			// If the item used on the gun is a magazine, check type and reload
-			string ammoType = magazine.ammoType;
-			if (AmmoType == ammoType)
+			AmmoType ammoType = magazine.ammoType;
+			if (this.ammoType == ammoType)
 			{
 				var hand = UIManager.Hands.CurrentSlot.NamedSlot;
 				RequestReload(magazine.gameObject, hand, true);
 			}
-			if (AmmoType != ammoType)
+			if (this.ammoType != ammoType)
 			{
 				Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
 			}
 		}
-		else  if (AmmoType == magazine.ammoType)
+		else if (ammoType == magazine.ammoType)
 		{
 			Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
 		}
@@ -445,6 +459,9 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			//tell all the clients to display the shot
 			ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
 
+			//kickback
+			shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
+
 			if (SpawnsCaseing)
 			{
 				if (casingPrefab == null)
@@ -473,7 +490,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	{
 		//if this is our gun (or server), last check to ensure we really can shoot
 		if ((isServer || PlayerManager.LocalPlayer == shooter) &&
-		    CurrentMagazine.ClientAmmoRemains <= 0)
+			CurrentMagazine.ClientAmmoRemains <= 0)
 		{
 			if (isServer)
 			{
@@ -487,7 +504,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//this is our gun so we need to update our predictions
 			FireCountDown += 1.0 / FireRate;
-			CurrentMagazine.ExpendAmmo();
 			//add additional recoil after shooting for the next round
 			AppendRecoil();
 
@@ -502,6 +518,16 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 				};
 			}
 			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+		}
+
+		if (CurrentMagazine == null)
+		{
+			Logger.Log("Why is CurrentMagazine null on this client?");
+		}
+		else
+		{
+			//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
+			CurrentMagazine.ExpendAmmo();
 		}
 
 		//display the effects of the shot
@@ -553,7 +579,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//can happen if client is spamming CmdLoadWeapon
 			Logger.LogWarning("Player tried to queue a load action while a load action was already queued, ignoring the" +
-			                  " second load.", Category.Firearms);
+							  " second load.", Category.Firearms);
 		}
 		else
 		{
@@ -571,7 +597,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//this can happen if client is spamming CmdUnloadWeapon
 			Logger.LogWarning("Player tried to queue an unload action while an unload action was already queued. Ignoring the" +
-			                  " second unload.", Category.Firearms);
+							  " second unload.", Category.Firearms);
 		}
 		else if (queuedLoadMagNetID != NetId.Invalid)
 		{
@@ -606,12 +632,12 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void OutOfAmmoSFX()
 	{
-		SoundManager.PlayNetworkedAtPos( "OutOfAmmoAlarm", transform.position );
+		SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position);
 	}
 
 	private void PlayEmptySFX()
 	{
-		SoundManager.PlayNetworkedAtPos( "EmptyGunClick", transform.position );
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position);
 	}
 
 	#endregion
@@ -635,7 +661,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private float MagSyncedRandomFloat(float min, float max)
 	{
-		return (float) (CurrentMagazine.CurrentRNG() * (max - min) + min);
+		return (float)(CurrentMagazine.CurrentRNG() * (max - min) + min);
 	}
 
 	private void AppendRecoil()
@@ -657,31 +683,31 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	#endregion
 }
 
- /// <summary>
- /// Represents a shot that has been queued up to fire when the weapon is next able to. Only used on server side.
- /// </summary>
- struct QueuedShot
- {
-	 public readonly GameObject shooter;
-	 public readonly Vector2 finalDirection;
-	 public readonly BodyPartType damageZone;
-	 public readonly bool isSuicide;
+/// <summary>
+/// Represents a shot that has been queued up to fire when the weapon is next able to. Only used on server side.
+/// </summary>
+struct QueuedShot
+{
+	public readonly GameObject shooter;
+	public readonly Vector2 finalDirection;
+	public readonly BodyPartType damageZone;
+	public readonly bool isSuicide;
 
-	 public QueuedShot(GameObject shooter, Vector2 finalDirection, BodyPartType damageZone, bool isSuicide)
-	 {
-		 this.shooter = shooter;
-		 this.finalDirection = finalDirection;
-		 this.damageZone = damageZone;
-		 this.isSuicide = isSuicide;
-	 }
- }
+	public QueuedShot(GameObject shooter, Vector2 finalDirection, BodyPartType damageZone, bool isSuicide)
+	{
+		this.shooter = shooter;
+		this.finalDirection = finalDirection;
+		this.damageZone = damageZone;
+		this.isSuicide = isSuicide;
+	}
+}
 
- /// <summary>
- ///     Generic weapon types
- /// </summary>
- public enum WeaponType
- {
-	 SemiAutomatic = 0,
-	 FullyAutomatic = 1,
-	 Burst = 2
- }
+/// <summary>
+///     Generic weapon types
+/// </summary>
+public enum WeaponType
+{
+	SemiAutomatic = 0,
+	FullyAutomatic = 1,
+	Burst = 2
+}

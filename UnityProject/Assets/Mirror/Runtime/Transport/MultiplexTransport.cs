@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
@@ -9,6 +9,12 @@ namespace Mirror
     public class MultiplexTransport : Transport
     {
         public Transport[] transports;
+
+        Transport available;
+
+        // used to partition recipients for each one of the base transports
+        // without allocating a new list every time
+        List<int>[] recipientsCache;
 
         public void Awake()
         {
@@ -20,6 +26,19 @@ namespace Mirror
             InitServer();
         }
 
+        public override bool Available()
+        {
+            // available if any of the transports is available
+            foreach (Transport transport in transports)
+            {
+                if (transport.Available())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #region Client
         // clients always pick the first transport
         void InitClient()
@@ -27,53 +46,65 @@ namespace Mirror
             // wire all the base transports to my events
             foreach (Transport transport in transports)
             {
-                transport.OnClientConnected.AddListener(OnClientConnected.Invoke );
+                transport.OnClientConnected.AddListener(OnClientConnected.Invoke);
                 transport.OnClientDataReceived.AddListener(OnClientDataReceived.Invoke);
-                transport.OnClientError.AddListener(OnClientError.Invoke );
+                transport.OnClientError.AddListener(OnClientError.Invoke);
                 transport.OnClientDisconnected.AddListener(OnClientDisconnected.Invoke);
             }
         }
 
-        // The client just uses the first transport available
-        Transport GetAvailableTransport()
+        public override void ClientConnect(string address)
         {
             foreach (Transport transport in transports)
             {
                 if (transport.Available())
                 {
-                    return transport;
+                    available = transport;
+                    transport.ClientConnect(address);
+                    return;
                 }
             }
             throw new Exception("No transport suitable for this platform");
         }
 
-        public override void ClientConnect(string address)
+        public override void ClientConnect(Uri uri)
         {
-            GetAvailableTransport().ClientConnect(address);
+            foreach (Transport transport in transports)
+            {
+                if (transport.Available())
+                {
+                    try
+                    {
+                        transport.ClientConnect(uri);
+                        available = transport;
+                        return;
+                    }
+                    catch (ArgumentException)
+                    {
+                        // transport does not support the schema, just move on to the next one
+                    }
+                }
+            }
+            throw new Exception("No transport suitable for this platform");
         }
 
         public override bool ClientConnected()
         {
-            return GetAvailableTransport().ClientConnected();
+            return (object)available != null && available.ClientConnected();
         }
 
         public override void ClientDisconnect()
         {
-            GetAvailableTransport().ClientDisconnect();
+            if ((object)available != null)
+                available.ClientDisconnect();
         }
 
-        public override bool ClientSend(int channelId, byte[] data)
+        public override bool ClientSend(int channelId, ArraySegment<byte> segment)
         {
-            return GetAvailableTransport().ClientSend(channelId, data);
-        }
-
-        public override int GetMaxPacketSize(int channelId = 0)
-        {
-            return GetAvailableTransport().GetMaxPacketSize(channelId);
+            return available.ClientSend(channelId, segment);
         }
 
         #endregion
-
 
         #region Server
         // connection ids get mapped to base transports
@@ -98,9 +129,13 @@ namespace Mirror
 
         void InitServer()
         {
+            recipientsCache = new List<int>[transports.Length];
+
             // wire all the base transports to my events
             for (int i = 0; i < transports.Length; i++)
             {
+                recipientsCache[i] = new List<int>();
+
                 // this is required for the handlers,  if I use i directly
                 // then all the handlers will use the last i
                 int locali = i;
@@ -111,9 +146,9 @@ namespace Mirror
                     OnServerConnected.Invoke(FromBaseId(locali, baseConnectionId));
                 });
 
-                transport.OnServerDataReceived.AddListener((baseConnectionId, data) =>
+                transport.OnServerDataReceived.AddListener((baseConnectionId, data, channel) =>
                 {
-                    OnServerDataReceived.Invoke(FromBaseId(locali, baseConnectionId), data);
+                    OnServerDataReceived.Invoke(FromBaseId(locali, baseConnectionId), data, channel);
                 });
 
                 transport.OnServerError.AddListener((baseConnectionId, error) =>
@@ -127,9 +162,25 @@ namespace Mirror
             }
         }
 
+        // for now returns the first uri,
+        // should we return all available uris?
+        public override Uri ServerUri()
+        {
+            return transports[0].ServerUri();
+        }
+
+
         public override bool ServerActive()
         {
-            return transports.All(t => t.ServerActive());
+            // avoid Linq.All allocations
+            foreach (Transport transport in transports)
+            {
+                if (!transport.ServerActive())
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public override string ServerGetClientAddress(int connectionId)
@@ -146,11 +197,32 @@ namespace Mirror
             return transports[transportId].ServerDisconnect(baseConnectionId);
         }
 
-        public override bool ServerSend(int connectionId, int channelId, byte[] data)
+        public override bool ServerSend(List<int> connectionIds, int channelId, ArraySegment<byte> segment)
         {
-            int baseConnectionId = ToBaseId(connectionId);
-            int transportId = ToTransportId(connectionId);
-            return transports[transportId].ServerSend(baseConnectionId, channelId, data);
+            // the message may be for different transports,
+            // partition the recipients by transport
+            foreach (List<int> list in recipientsCache)
+            {
+                list.Clear();
+            }
+
+            foreach (int connectionId in connectionIds)
+            {
+                int baseConnectionId = ToBaseId(connectionId);
+                int transportId = ToTransportId(connectionId);
+                recipientsCache[transportId].Add(baseConnectionId);
+            }
+
+            bool result = true;
+            for (int i = 0; i < transports.Length; ++i)
+            {
+                List<int> baseRecipients = recipientsCache[i];
+                if (baseRecipients.Count > 0)
+                {
+                    result &= transports[i].ServerSend(baseRecipients, channelId, segment);
+                }
+            }
+            return result;
         }
 
         public override void ServerStart()
@@ -169,6 +241,28 @@ namespace Mirror
             }
         }
         #endregion
+
+        public override int GetMaxPacketSize(int channelId = 0)
+        {
+            // finding the max packet size in a multiplex environment has to be
+            // done very carefully:
+            // * servers run multiple transports at the same time
+            // * different clients run different transports
+            // * there should only ever be ONE true max packet size for everyone,
+            //   otherwise a spawn message might be sent to all tcp sockets, but
+            //   be too big for some udp sockets. that would be a debugging
+            //   nightmare and allow for possible exploits and players on
+            //   different platforms seeing a different game state.
+            // => the safest solution is to use the smallest max size for all
+            //    transports. that will never fail.
+            int mininumAllowedSize = int.MaxValue;
+            foreach (Transport transport in transports)
+            {
+                int size = transport.GetMaxPacketSize(channelId);
+                mininumAllowedSize = Mathf.Min(size, mininumAllowedSize);
+            }
+            return mininumAllowedSize;
+        }
 
         public override void Shutdown()
         {

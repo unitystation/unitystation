@@ -24,7 +24,7 @@ public abstract class ServerMessage : GameMessageBase
 
 		var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
 
-		foreach (KeyValuePair<int, NetworkConnection> connection in NetworkServer.connections)
+		foreach (KeyValuePair<int, NetworkConnectionToClient> connection in NetworkServer.connections)
 		{
 			if (connection.Value != null && connection.Value != excludedConnection)
 			{
@@ -43,6 +43,12 @@ public abstract class ServerMessage : GameMessageBase
 		}
 
 		NetworkConnection connection = recipient.GetComponent<NetworkIdentity>().connectionToClient;
+
+		if (connection == null)
+		{
+			return;
+		}
+
 //			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{
@@ -68,7 +74,7 @@ public abstract class ServerMessage : GameMessageBase
 
 		RaycastHit2D hit;
 		LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
-		for (int i = 0; i < players.Count; i++)
+		for (int i = players.Count - 1; i > 0; i--)
 		{
 			if (Vector2.Distance(worldPosition,
 				    players[i].GameObject.transform.position) > 14f)
@@ -91,6 +97,37 @@ public abstract class ServerMessage : GameMessageBase
 		//Sends the message only to visible players:
 		foreach (ConnectedPlayer player in players)
 		{
+			if (player == null || player.Script == null || player.Script.netIdentity == null) continue;
+
+			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
+			{
+				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Sends the network message only to players who are within a 15 tile radius
+	/// of the worldPostion. This method disregards if the player is visible or not
+	/// </summary>
+	public void SendToNearbyPlayers(Vector2 worldPosition)
+	{
+		var players = PlayerList.Instance.AllPlayers;
+
+		for (int i = players.Count - 1; i > 0; i--)
+		{
+			if (Vector2.Distance(worldPosition,
+				    players[i].GameObject.transform.position) > 15f)
+			{
+				//Player in the list is too far away for this message, remove them:
+				players.Remove(players[i]);
+			}
+		}
+
+		foreach (ConnectedPlayer player in players)
+		{
+			if (player.Script == null) continue;
+
 			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
 			{
 				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);

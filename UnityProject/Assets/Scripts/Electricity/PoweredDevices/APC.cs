@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
+public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -16,8 +16,8 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
-	[SyncVar (hook=nameof(SyncVoltage))] private float voltageSync;
-	private bool voltageInit;
+	[SyncVar(hook = nameof(SyncVoltage))]
+	private float voltageSync;
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
 	public bool PowerEnvironment = true;
@@ -35,24 +35,20 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// <summary>
 	/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 	/// </summary>
-	private void SyncVoltage(float newVoltage)
+	private void SyncVoltage(float oldVoltage, float newVoltage)
 	{
-		//optimization - do nothing if voltage already initialized and is unchanged
-		if (voltageSync == newVoltage && voltageInit) return;
 		voltageSync = newVoltage;
 		UpdateDisplay();
 	}
 
 	public override void OnStartServer()
 	{
-		SyncVoltage(voltageSync);
-		voltageInit = true;
+		SyncVoltage(voltageSync, voltageSync);
 	}
 
 	public override void OnStartClient()
 	{
-		SyncVoltage(voltageSync);
-		voltageInit = true;
+		SyncVoltage(voltageSync, voltageSync);
 	}
 
 	private void OnDisable()
@@ -63,30 +59,37 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	public void PowerNetworkUpdate()
 	{
 		//Logger.Log("humm...");
-		if (!(CashOfConnectedDevices == ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count)) {
+		if (!(CashOfConnectedDevices == ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count))
+		{
 			CashOfConnectedDevices = ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count;
-			ConnectedDepartmentBatteries.Clear ();
-			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices) {
-				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
-					if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
-						ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());
+			ConnectedDepartmentBatteries.Clear();
+			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices)
+			{
+				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery)
+				{
+					if (!(ConnectedDepartmentBatteries.Contains(Device.Key.GameObject().GetComponent<DepartmentBattery>())))
+					{
+						ConnectedDepartmentBatteries.Add(Device.Key.GameObject().GetComponent<DepartmentBattery>());
 					}
 				}
 			}
 		}
 		BatteryCharging = false;
-		foreach (var bat in ConnectedDepartmentBatteries) {
-			if (bat.BatterySupplyingModule.ChargingWatts > 0) {
+		foreach (var bat in ConnectedDepartmentBatteries)
+		{
+			if (bat.BatterySupplyingModule.ChargingWatts > 0)
+			{
 				BatteryCharging = true;
 			}
 		}
-		SyncVoltage(ElectricalNodeControl.Node.Data.ActualVoltage);
+		SyncVoltage(voltageSync, ElectricalNodeControl.Node.Data.ActualVoltage);
 		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
 		HandleDevices();
 		UpdateDisplay();
 	}
 
-	public void UpdateDisplay() {
+	public void UpdateDisplay()
+	{
 		if (Voltage > 270)
 		{
 			State = APCState.Critical;
@@ -112,10 +115,12 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// <summary>
 	/// Change brightness of lights connected to this APC proportionally to voltage
 	/// </summary>
-	public void HandleDevices() {
+	public void HandleDevices()
+	{
 		//Lights
 		float Voltages = Voltage;
-		if (Voltages > 270) {
+		if (Voltages > 270)
+		{
 			Voltages = 0.001f;
 		}
 		float CalculatingResistance = new float();
@@ -133,7 +138,8 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 			{
 				SwitchTrigger.Key.PowerNetworkUpdate(0);
@@ -181,7 +187,8 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 		ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
 	}
 
-	public void FindPoweredDevices() {
+	public void FindPoweredDevices()
+	{
 		//yeah They be manually assigned for now
 		//needs a way of checking that doesn't cause too much lag and  can respond adequately to changes in the environment E.G a device getting destroyed/a new device being made
 	}
@@ -205,15 +212,15 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// </summary>
 	public enum APCState
 	{
-		Full, 		// Internal battery full, sufficient power from wire
-		Charging,	// Not fully charged, sufficient power from wire to charge.
-		Critical,	// Running off of internal battery, not enough power from wire.
-		Dead		// Internal battery is empty, no power from wire.
+		Full,       // Internal battery full, sufficient power from wire
+		Charging,   // Not fully charged, sufficient power from wire to charge.
+		Critical,   // Running off of internal battery, not enough power from wire.
+		Dead        // Internal battery is empty, no power from wire.
 	}
 	private APCState _state = APCState.Full;
-//	/// <summary>
-//	/// The current state of this APC. Can only be set internally and calls OnStateChange when changed.
-//	/// </summary>
+	//	/// <summary>
+	//	/// The current state of this APC. Can only be set internally and calls OnStateChange when changed.
+	//	/// </summary>
 	public APCState State
 	{
 		get
@@ -255,9 +262,9 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 				break;
 		}
 	}
-//	// -----------------------------------------------------
-//	//					DISPLAY THINGS
-//	// -----------------------------------------------------
+	//	// -----------------------------------------------------
+	//	//					DISPLAY THINGS
+	//	// -----------------------------------------------------
 	/// <summary>
 	/// The screen sprites which are currently being displayed
 	/// </summary>
@@ -290,12 +297,12 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	private void StartRefresh()
 	{
 		RefreshDisplay = true;
-		StartCoroutine( Refresh() );
+		StartCoroutine(Refresh());
 	}
 	public void RefreshOnce()
 	{
 		RefreshDisplay = false;
-		StartCoroutine( Refresh() );
+		StartCoroutine(Refresh());
 	}
 	private void StopRefresh()
 	{
@@ -304,15 +311,16 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	private IEnumerator Refresh()
 	{
 		RefreshDisplayScreen();
-		yield return WaitFor.Seconds( 2f );
-		if ( RefreshDisplay ) {
-			StartCoroutine( Refresh() );
+		yield return WaitFor.Seconds(2f);
+		if (RefreshDisplay)
+		{
+			StartCoroutine(Refresh());
 		}
 	}
 
-//	///// <summary>
-//	///// Animates the APC screen sprites
-//	///// </summary>
+	//	///// <summary>
+	//	///// Animates the APC screen sprites
+	//	///// </summary>
 	private void RefreshDisplayScreen()
 	{
 		if (++displayIndex >= loadedScreenSprites.Length)
@@ -333,7 +341,7 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// <summary>
 	/// Dictionary of all the light switches and their lights connected to this APC
 	/// </summary>
-	public Dictionary<LightSwitch,List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitch,List<LightSource>> ();
+	public Dictionary<LightSwitch, List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitch, List<LightSource>>();
 
 	/// <summary>
 	/// list of connected machines to the APC
@@ -349,7 +357,7 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	/// <summary>
 	/// List of the department batteries connected to this APC
 	/// </summary>
-	public List<DepartmentBattery> ConnectedDepartmentBatteries = new List<DepartmentBattery> ();
+	public List<DepartmentBattery> ConnectedDepartmentBatteries = new List<DepartmentBattery>();
 
 	private bool _emergencyState = false;
 	/// <summary>
@@ -395,7 +403,7 @@ public class APC  : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 		}
 		for (int i = 0; i < ConnectedEmergencyLights.Count; i++)
 		{
-			if ( ConnectedEmergencyLights[i] ) //might be destroyed
+			if (ConnectedEmergencyLights[i]) //might be destroyed
 			{
 				ConnectedEmergencyLights[i].Toggle(isOn);
 			}

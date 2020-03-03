@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public partial class GameManager : MonoBehaviour
@@ -17,18 +17,28 @@ public partial class GameManager : MonoBehaviour
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
 	public int MinPlayersForCountdown = 1;
+
 	/// <summary>
 	/// How long the pre-round stage should last
 	/// </summary>
-	public float PreRoundTime = 30f;
+	[SerializeField]
+	private readonly float PreRoundTime = 30f;
+
+	/// <summary>
+	/// How long to wait between ending the round and starting a new one
+	/// </summary>
+	[SerializeField]
+	private readonly float RoundEndTime = 15f;
+
 	public float startTime;
-	public float restartTime = 10f;
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
 	/// Reset to the server setting of RespawnAllowed when the level loads.
 	/// </summary>
 	[NonSerialized]
 	public bool RespawnCurrentlyAllowed;
+
+	[HideInInspector] public string NextGameMode = "Random";
 
 	/// <summary>
 	/// Server setting - set in editor. Should not be changed in code.
@@ -38,13 +48,9 @@ public partial class GameManager : MonoBehaviour
 	public Text roundTimer;
 
 	public bool waitForStart;
-	public bool waitForRestart;
 
 	public DateTime stationTime;
 	public int RoundsPerMap = 10;
-
-	public string[] Maps = { "Assets/scenes/OutpostStation.unity" };
-	//Put the scenes in the unity 3d editor.
 
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
@@ -54,7 +60,8 @@ public partial class GameManager : MonoBehaviour
 	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
 	private Queue<MatrixMove> PendingSpaceBodies = new Queue<MatrixMove>();
 	private bool isProcessingSpaceBody = false;
-	public float minDistanceBetweenSpaceBodies = 200f;
+	public float minDistanceBetweenSpaceBodies;
+
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
 	//---------------------------------
@@ -91,11 +98,13 @@ public partial class GameManager : MonoBehaviour
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
 	}
 
 	///<summary>
@@ -105,7 +114,7 @@ public partial class GameManager : MonoBehaviour
 	///</summary>
 	public void ServerSetSpaceBody(MatrixMove mm)
 	{
-		if (mm.State.Position == TransformState.HiddenPos)
+		if (mm.ServerState.Position == TransformState.HiddenPos)
 		{
 			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
 				"ready before calling ServerSetSpaceBody ", Category.Server);
@@ -117,6 +126,15 @@ public partial class GameManager : MonoBehaviour
 
 	IEnumerator ProcessSpaceBody(MatrixMove mm)
 	{
+		if (SceneManager.GetActiveScene().name == "BoxStationV1")
+		{
+			minDistanceBetweenSpaceBodies = 200f;
+		}
+		//Change this for larger maps to avoid asteroid spawning on station.
+		else
+		{
+			minDistanceBetweenSpaceBodies = 200f;
+		}
 		bool validPos = false;
 		while (!validPos)
 		{
@@ -164,6 +182,22 @@ public partial class GameManager : MonoBehaviour
 		{
 			PreRoundStart();
 		}
+		ResetStaticsOnNewRound();
+	}
+
+	/// <summary>
+	/// Resets client and server side static fields to empty / round start values.
+	/// If you have any static pools / caches / fields, add logic here to reset them to ensure they'll be properly
+	/// cleared when a new round begins.
+	/// </summary>
+	private void ResetStaticsOnNewRound()
+	{
+		//reset pools
+		Spawn._ClearPools();
+		//clean up inventory system
+		ItemSlot.Cleanup();
+		//reset matrix init events
+		NetworkedMatrix._ClearInitEvents();
 	}
 
 	public void SyncTime(string currentTime)
@@ -180,9 +214,7 @@ public partial class GameManager : MonoBehaviour
 	public void ResetRoundTime()
 	{
 		stationTime = DateTime.Today.AddHours(12);
-		waitForRestart = false;
 		counting = true;
-		restartTime = 10f;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
 
@@ -200,20 +232,12 @@ public partial class GameManager : MonoBehaviour
 			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
 		}
 
-		if (waitForRestart)
-		{
-			restartTime -= Time.deltaTime;
-			if (restartTime <= 0f)
-			{
-				RestartRound();
-			}
-		}
-		else if (waitForStart)
+		if (waitForStart)
 		{
 			startTime -= Time.deltaTime;
 			if (startTime <= 0f)
 			{
-				RoundStart();
+				StartRound();
 			}
 		}
 		else if (counting)
@@ -222,7 +246,6 @@ public partial class GameManager : MonoBehaviour
 			roundTimer.text = stationTime.ToString("HH:mm");
 		}
 	}
-
 
 	/// <summary>
 	/// Calls the start of the preround
@@ -242,50 +265,51 @@ public partial class GameManager : MonoBehaviour
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
-
-		//wait for scene to be ready and fire mapped spawn hooks
-		StartCoroutine(WaitToFireHooks());
+		else
+		{
+			StartCoroutine(WaitToFireClientHooks());
+		}
 	}
 
-	private IEnumerator WaitToFireHooks()
+	void OnRoundStart()
 	{
-		//we have to wait to fire hooks until the root objects in the scene are active,
-		//otherwise our attempt to find the hooks to call will always return 0.
-		//TODO: Find a better way to do this, maybe there is a hook for this
-		while (FindUtils.FindInterfaceImplementersInScene<IServerSpawn>().Count == 0)
-		{
-			yield return WaitFor.Seconds(1);
-		}
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			//invoke all server + client side hooks on all objects that have them
-			foreach (var serverSpawn in FindUtils.FindInterfaceImplementersInScene<IServerSpawn>())
+			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
+			foreach (var s in iServerSpawns)
 			{
-				serverSpawn.OnSpawnServer(SpawnInfo.Mapped(((Component)serverSpawn).gameObject));
+				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 			}
 			Spawn._CallAllClientSpawnHooksInScene();
 		}
-		else
-		{
-			Spawn._CallAllClientSpawnHooksInScene();
-		}
 	}
 
+	private IEnumerator WaitToFireClientHooks()
+	{
+		yield return WaitFor.Seconds(3f);
+		Spawn._CallAllClientSpawnHooksInScene();
+	}
 
 	/// <summary>
 	/// Setup the station and then begin the round for the selected game mode
 	/// </summary>
-	public void RoundStart()
+	public void StartRound()
 	{
 		waitForStart = false;
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			// TODO hard coding gamemode for testing purposes
-			SetGameMode("Traitor");
-			if (GameMode == null)
+			if (string.IsNullOrEmpty(NextGameMode)
+			    || NextGameMode == "Random")
 			{
 				SetRandomGameMode();
+			}
+			else
+			{
+				SetGameMode(NextGameMode);
+				//set it back to random when it has been loaded
+				//TODO set default game modes
+				NextGameMode = "Random";
 			}
 			// Game mode specific setup
 			GameMode.SetupRound();
@@ -304,23 +328,49 @@ public partial class GameManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Calls the end of the round. Server only
+	/// Calls the end of the round which plays a sound and shows the round report. Server only
 	/// </summary>
-	public void RoundEnd()
+	public void EndRound()
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			counting = false;
-
-			// Prevents annoying sound duplicate when testing
-			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
+			if (CurrentRoundState != RoundState.Started)
 			{
-				SoundManager.PlayNetworked("ApcDestroyed", 1f);
+				if (CurrentRoundState == RoundState.Ended)
+				{
+					Logger.Log("Cannot end round, round has already ended!", Category.Round);
+				}
+				else
+				{
+					Logger.Log("Cannot end round, round has not started yet!", Category.Round);
+				}
+
+				return;
 			}
 
-			waitForRestart = true;
+			CurrentRoundState = RoundState.Ended;
+			counting = false;
+
 			GameMode.EndRound();
+			StartCoroutine(WaitForRoundRestart());
 		}
+	}
+
+	/// <summary>
+	///  Waits for the specified round end time before restarting.
+	/// </summary>
+	private IEnumerator WaitForRoundRestart()
+	{
+		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
+		yield return WaitFor.Seconds(RoundEndTime);
+		// Prevents annoying sound duplicate when testing
+		if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
+		{
+			SoundManager.Instance.PlayRandomRoundEndSound();
+		}
+
+		yield return WaitFor.Seconds(2.5f);
+		RestartRound();
 	}
 
 	/// <summary>
@@ -410,9 +460,13 @@ public partial class GameManager : MonoBehaviour
 		if (jobTypeRequest != JobType.NULL)
 		{
 			var occupation = OccupationList.Instance.Get(jobTypeRequest);
-			if (occupation.Limit > GetOccupationsCount(occupation.JobType) || occupation.Limit == -1)
+
+			if (occupation != null)
 			{
-				return occupation;
+				if (occupation.Limit > GetOccupationsCount(occupation.JobType) || occupation.Limit == -1)
+				{
+					return occupation;
+				}
 			}
 		}
 
@@ -428,16 +482,36 @@ public partial class GameManager : MonoBehaviour
 		return OccupationList.Instance.Get(JobType.ASSISTANT);
 	}
 
+	/// <summary>
+	/// Immediately restarts the round. Use RoundEnd instead to trigger normal end of round.
+	/// Only called on the server.
+	/// </summary>
 	public void RestartRound()
 	{
-		waitForRestart = false;
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			//TODO allow map change from admin portal
-
-			CurrentRoundState = RoundState.Ended;
-			EventManager.Broadcast(EVENT.RoundEnded);
-			CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
+			if (CurrentRoundState == RoundState.Restarting)
+			{
+				Logger.Log("Cannot restart round, round is already restarting!", Category.Round);
+				return;
+			}
+			CurrentRoundState = RoundState.Restarting;
+			StartCoroutine(ServerRoundRestart());
 		}
+	}
+
+	IEnumerator ServerRoundRestart()
+	{
+		Logger.Log("Server restarting round now.", Category.Round);
+
+		//Notify all clients that the round has ended
+		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
+
+		yield return WaitFor.Seconds(0.2f);
+
+		var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
+			"maps.json")));
+
+		CustomNetworkManager.Instance.ServerChangeScene(maps.GetRandomMap());
 	}
 }

@@ -29,7 +29,8 @@ public enum ChatChannel
 	[Description(":g")] Ghost 		= 1 << 15,
 	[Description("")] 	Combat 		= 1 << 16,
 	[Description("")]	Warning		= 1 << 17,
-	[Description("")]	Action		= 1 << 18
+	[Description("")]	Action		= 1 << 18,
+	[Description("")]	Admin		= 1 << 19
 }
 
 /// <summary>
@@ -38,13 +39,20 @@ public enum ChatChannel
 [Flags]
 public enum ChatModifier
 {
-	None 	= 0,
+	// The following comments are for easy reference. They may be out of date.
+	// See Chat.cs to see how a message's ChatModifier is determined.
+	None 	= 0,      // Default value
 	Drunk 	= 1 << 0,
 	Stutter = 1 << 1,
-	Mute 	= 1 << 2,
+	Mute 	= 1 << 2, // Dead, unconcious or naturally mute
 	Hiss 	= 1 << 3,
-	Clown 	= 1 << 4,
-	Whisper = 1 << 5,
+	Clown 	= 1 << 4, // Having the clown occupation
+	Whisper = 1 << 5, // Message starts with "#" or "/w"
+	Yell    = 1 << 6, // Message is in capital letters
+	Emote   = 1 << 7, // Message starts with "/me" or "*"
+	Exclaim = 1 << 8, // Message ends with a "!"
+	Question= 1 << 9, // Message ends with a "?"
+	Sing = 1 << 10 // Message starts with "/s" or "%"
 }
 
 public class ChatEvent
@@ -55,13 +63,19 @@ public class ChatEvent
 	public ChatModifier modifiers = ChatModifier.None;
 	public string speaker;
 	public double timestamp;
-	public Vector2 position;
+	public Vector3 position = TransformState.HiddenPos;
 	public GameObject originator;
 
 	/// <summary>
 	/// Send chat message only to those on this matrix
 	/// </summary>
-	public MatrixInfo matrix = MatrixInfo.Invalid;
+	public MatrixInfo matrix
+	{
+		get => _matrix;
+		set => _matrix = value;
+	}
+
+	private MatrixInfo _matrix = MatrixInfo.Invalid;
 
 	public ChatEvent() {
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;

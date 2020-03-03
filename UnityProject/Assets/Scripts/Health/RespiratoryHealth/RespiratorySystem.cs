@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Atmospherics;
-using Facepunch.Steamworks;
 using Objects;
 using UnityEngine;
 
@@ -30,7 +29,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	private float tickRate = 1f;
 	private float tick = 0f;
-	private PlayerScript playerScript;
+	private PlayerScript playerScript; //can be null since mobs also use this!
+	private RegisterTile registerTile;
 	private float breatheCooldown = 0;
 	public bool canBreathAnywhere { get; set; }
 
@@ -40,21 +40,19 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		bloodSystem = GetComponent<BloodSystem>();
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
 		playerScript = GetComponent<PlayerScript>();
+		registerTile = GetComponent<RegisterTile>();
 		equipment = GetComponent<Equipment>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	void OnEnable()
 	{
-		UpdateManager.Instance.Add(UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnDisable()
 	{
-		if (UpdateManager.Instance != null)
-		{
-			UpdateManager.Instance.Remove(UpdateMe);
-		}
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	//Handle by UpdateManager
@@ -120,7 +118,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		if (oxygenUsed > 0)
 		{
 			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
-			breathGasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+			node.GasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient);
 		}
 
 		gasMix += breathGasMix;
@@ -211,8 +210,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			return false;
 		}
 
-		ItemAttributes headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
-		ItemAttributes suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.exosuit).ItemAttributes;
+		ItemAttributesV2 headItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.head).ItemAttributes;
+		ItemAttributesV2 suitItem = playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear).ItemAttributes;
 
 		if (headItem != null && suitItem != null)
 		{

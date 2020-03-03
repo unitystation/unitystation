@@ -10,19 +10,20 @@ GameObject:
   m_Component:
   - component: {fileID: 4205639279356858}
   - component: {fileID: 61247865679427770}
+  - component: {fileID: -3592624819478316981}
+  - component: {fileID: 3892757361480040570}
   - component: {fileID: 114538119136657758}
   - component: {fileID: 114840369580293110}
   - component: {fileID: 114809207030236184}
   - component: {fileID: 5337989651947616586}
   - component: {fileID: 7309201818092580452}
   - component: {fileID: 3643045761793170736}
-  - component: {fileID: 3892757361480040570}
   - component: {fileID: 114272396163984250}
   - component: {fileID: 114348839316776372}
   - component: {fileID: 114168478660762876}
   - component: {fileID: 114619189916669420}
-  - component: {fileID: -3592624819478316981}
   - component: {fileID: 8587603746953740326}
+  - component: {fileID: -7278014346398554385}
   m_Layer: 19
   m_Name: APC
   m_TagString: APC
@@ -72,6 +73,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-3592624819478316981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
+--- !u!114 &3892757361480040570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 6
 --- !u!114 &114538119136657758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,8 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114809207030236184
@@ -229,19 +258,6 @@ MonoBehaviour:
   ListCanConnectTo: 09000000
   SelfDestruct: 0
   Reactions: []
---- !u!114 &3892757361480040570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638130848907210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 6
 --- !u!114 &114272396163984250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114619189916669420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,19 +317,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1801627989
---- !u!114 &-3592624819478316981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638130848907210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_SceneId: 1737181241
 --- !u!114 &8587603746953740326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,6 +353,25 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
+--- !u!114 &-7278014346398554385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: APC
+  initialDescription: Area Power Controller
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1670300920953744
 GameObject:
   m_ObjectHideFlags: 0

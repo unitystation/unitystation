@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class AtmosManager : MonoBehaviour
 {
-	public float Speed = 0.01f;
-
+	/// <summary>
+	/// Time it takes per update in milliseconds
+	/// </summary>
+	public float Speed = 40;
 	public int NumberThreads = 1;
 
 	public AtmosMode Mode = AtmosMode.Threaded;
@@ -15,34 +17,25 @@ public class AtmosManager : MonoBehaviour
 	public bool Running { get; private set; }
 
 	public bool roundStartedServer = false;
-	public List<Pipe> inGamePipes = new List<Pipe>();
-
+	public HashSet<Pipe> inGamePipes = new HashSet<Pipe>();
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
 	private static float tickCount = 0f;
 	private const int Steps = 5;
 
-	private static AtmosManager atmosManager;
+	public static AtmosManager Instance;
 
-	public static AtmosManager Instance
+	private void Awake()
 	{
-		get
+		if (Instance == null)
 		{
-			if (atmosManager == null)
-			{
-				atmosManager = FindObjectOfType<AtmosManager>();
-			}
-
-			return atmosManager;
+			Instance = this;
 		}
-	}
-
-	private void OnValidate()
-	{
-		AtmosThread.SetSpeed(Speed);
-
-		// TODO set number of threads
+		else
+		{
+			Destroy(this);
+		}
 	}
 
 	private void Start()
@@ -117,9 +110,9 @@ public class AtmosManager : MonoBehaviour
 	private IEnumerator SetPipes() /// TODO: FIX ALL MANAGERS LOADING ORDER AND REMOVE ANY WAITFORSECONDS
 	{
 		yield return new WaitForSeconds(2);
-		for (int i = 0; i < inGamePipes.Count; i++)
+		foreach (var pipe in inGamePipes)
 		{
-			inGamePipes[i].Attach();
+			pipe.ServerAttach();
 		}
 
 		roundStartedServer = true;
@@ -128,6 +121,7 @@ public class AtmosManager : MonoBehaviour
 	void OnRoundEnd()
 	{
 		roundStartedServer = false;
+		AtmosThread.ClearAllNodes();
 	}
 
 
@@ -142,6 +136,7 @@ public class AtmosManager : MonoBehaviour
 
 		if (Mode == AtmosMode.Threaded)
 		{
+			AtmosThread.SetSpeed((int)Speed);
 			AtmosThread.Start();
 		}
 	}
@@ -151,6 +146,11 @@ public class AtmosManager : MonoBehaviour
 		Running = false;
 
 		AtmosThread.Stop();
+	}
+
+	public static void SetInternalSpeed()
+	{
+		AtmosThread.SetSpeed((int)Instance.Speed);
 	}
 
 	public static void Update(MetaDataNode node)

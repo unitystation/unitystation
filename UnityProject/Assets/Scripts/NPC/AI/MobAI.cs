@@ -18,6 +18,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	protected NPCDirectionalSprites dirSprites;
 	protected CustomNetTransform cnt;
 	protected RegisterObject registerObject;
+	protected UprightSprites uprightSprites;
 	protected bool isServer;
 
 	private float followingTime = 0f;
@@ -28,6 +29,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 	private float fleeingTime = 0f;
 	private float fleeTimeMax;
+
+	private bool initialPassableState;
 
 	//Events:
 	protected UnityEvent followingStopped = new UnityEvent();
@@ -69,6 +72,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		dirSprites = GetComponent<NPCDirectionalSprites>();
 		cnt = GetComponent<CustomNetTransform>();
 		registerObject = GetComponent<RegisterObject>();
+		uprightSprites = GetComponent<UprightSprites>();
+		initialPassableState = registerObject.Passable;
 	}
 
 	public virtual void OnEnable()
@@ -78,7 +83,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			UpdateManager.Instance.Add(UpdateMe);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			health.applyDamageEvent += OnAttackReceived;
 			isServer = true;
 			AIStartServer();
@@ -89,7 +94,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	{
 		if (isServer)
 		{
-			UpdateManager.Instance.Remove(UpdateMe);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			health.applyDamageEvent += OnAttackReceived;
 		}
 	}
@@ -114,15 +119,6 @@ public class MobAI : MonoBehaviour, IServerDespawn
 				MonitorUprightState();
 			}
 			return;
-		}
-
-		//Maybe the mob was revived set passable back to false
-		//and put sprite render sort layer back to NPC:
-		if (registerObject.Passable)
-		{
-			registerObject.Passable = false;
-			dirSprites.SetToNPCLayer();
-			MonitorUprightState();
 		}
 
 		MonitorFollowingTime();
@@ -267,46 +263,74 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 	/// <summary>
 	/// please use these values:
-	/// 1 = N, 2 = NE, 3 = E, 4 = SE, 5 = S, 6 = SW, 7 = W, 8 = NW
+	/// 0 = N, 1 = NE, 2 = E, 3 = SE, 4 = S, 5 = SW, 6 = W, 7 = NW
 	/// This is because it is better to not allow any variations between the
 	/// defined directions
 	/// </summary>
-	protected void NudgeInDir(int dir)
+	protected Vector2Int GetNudgeDirFromInt(int dir)
 	{
+		//Apply offset to the nudge dir if this mob is on a rotated matrix
+		if (uprightSprites != null)
+		{
+			if (uprightSprites.ExtraRotation.eulerAngles != Vector3.zero)
+			{
+				var a = (uprightSprites.ExtraRotation.eulerAngles.z * -1f) / 45f;
+				var b = dir + (int) a;
+				if (b < -7)
+				{
+					b += 7;
+				} else if (b > 7)
+				{
+					b -= 7;
+				}
+
+				dir = b;
+			}
+		}
+
 		Vector2Int nudgeDir = Vector2Int.zero;
 		switch (dir)
 		{
-			case 1: //N
+			case 0: //N
 				nudgeDir = Vector2Int.up;
 				break;
-			case 2: //NE
+			case 1: //NE
 				nudgeDir = Vector2Int.one;
 				break;
-			case 3: //E
+			case 2: //E
 				nudgeDir = Vector2Int.right;
 				break;
-			case 4: //SE
+			case 3: //SE
 				nudgeDir = new Vector2Int(1, -1);
 				break;
-			case 5: //S
+			case 4: //S
 				nudgeDir = Vector2Int.down;
 				break;
-			case 6: //SW
+			case 5: //SW
 				nudgeDir = Vector2Int.one * -1;
 				break;
-			case 7: //W
+			case 6: //W
 				nudgeDir = Vector2Int.left;
 				break;
-			case 8: //NW
+			case 7: //NW
 				nudgeDir = new Vector2Int(-1, 1);
 				break;
 		}
 
-		if (nudgeDir != Vector2Int.zero)
+		return nudgeDir;
+	}
+
+	/// <summary>
+	/// Nudge the Mob in a certain direction
+	/// </summary>
+	/// <param name="dir"></param>
+	protected void NudgeInDirection(Vector2Int dir)
+	{
+		if (dir != Vector2Int.zero)
 		{
-			cnt.Push(nudgeDir);
-			var angleOfDir = Vector3.Angle((Vector2)nudgeDir, transform.up);
-			if (nudgeDir.x < 0f)
+			cnt.Push(dir);
+			var angleOfDir = Vector3.Angle((Vector2)dir, transform.up);
+			if (dir.x < 0f)
 			{
 				angleOfDir = -angleOfDir;
 			}

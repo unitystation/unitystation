@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 /// <summary>
@@ -12,6 +13,7 @@ using UnityEngine;
 /// check which side of the wall the mount is on so we can hide it if it's on the wrong side.
 /// This behavior makes the wallmount invisible if it is not facing towards the player.
 /// </summary>
+[DisallowMultipleComponent]
 public class WallmountSpriteBehavior : MonoBehaviour {
 	// This sprite's renderer
 	private SpriteRenderer spriteRenderer;
@@ -32,9 +34,6 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 		{
 			return;
 		}
-		//Allows getting parent's assumed position if inside object
-		ObjectBehaviour objectBehaviour = PlayerManager.LocalPlayerScript.pushPull;
-
 
 		//recalculate if it is facing the player
 		bool visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);

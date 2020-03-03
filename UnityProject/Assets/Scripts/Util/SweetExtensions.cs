@@ -1,26 +1,32 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public static class SweetExtensions
 {
+	public static IPushable Pushable(this GameObject go)
+	{
+		return go.GetComponent<IPushable>();
+	}
+
 	public static ConnectedPlayer Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);
 		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
 	}
-	public static ItemAttributes Item(this GameObject go)
+	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.GetComponent<ItemAttributes>();
+		return go.GetComponent<ItemAttributesV2>();
 	}
 
 	public static string ExpensiveName(this GameObject go)
 	{
 		var item = go.Item();
-		if (item != null && !String.IsNullOrWhiteSpace(item.itemName)) return item.itemName;
+		if (item != null && !String.IsNullOrWhiteSpace(item.ArticleName)) return item.ArticleName;
 
 		var player = go.Player();
 		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;
@@ -255,5 +261,58 @@ public static class SweetExtensions
 			return output.ToArray();
 
 		return null;
+	}
+
+	public static IEnumerable<T> ToIEnumerable<T>(this IEnumerator<T> enumerator) {
+		while ( enumerator.MoveNext() ) {
+			yield return enumerator.Current;
+		}
+	}
+
+	/// <summary>
+	/// Splits an enumerable into chunks of a specified size
+	/// Credit to: https://extensionmethod.net/csharp/ienumerable/ienumerable-chunk
+	/// </summary>
+	/// <param name="list"></param>
+	/// <param name="chunkSize"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	/// <exception cref="ArgumentException"></exception>
+	public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> list, int chunkSize)
+	{
+		if (chunkSize <= 0)
+		{
+			throw new ArgumentException("chunkSize must be greater than 0.");
+		}
+
+		while (list.Any())
+		{
+			yield return list.Take(chunkSize);
+			list = list.Skip(chunkSize);
+		}
+	}
+
+	/// <summary>
+	/// Helped function for enums to get the next value when sorted by their base type
+	/// </summary>
+	public static T Next<T>(this T src) where T : Enum
+	{
+		// if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argument {0} is not an Enum", typeof(T).FullName));
+
+		T[] Arr = (T[])Enum.GetValues(src.GetType());
+		int j = Array.IndexOf<T>(Arr, src) + 1;
+		return (Arr.Length==j) ? Arr[0] : Arr[j];
+	}
+
+	/// <summary>
+	/// Enumerate all flags as IEnumerable
+	/// </summary>
+	/// <param name="input"></param>
+	/// <returns></returns>
+	public static IEnumerable<Enum> GetFlags(this Enum input)
+	{
+		foreach (Enum value in Enum.GetValues(input.GetType()))
+			if (input.HasFlag(value))
+				yield return value;
 	}
 }

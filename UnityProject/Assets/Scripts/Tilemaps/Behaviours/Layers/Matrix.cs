@@ -31,6 +31,11 @@ public class Matrix : MonoBehaviour
 	public Color Color => colors.Wrap( Id ).WithAlpha( 0.7f );
 
 	/// <summary>
+	/// Does this have a matrix move and is that matrix move moving?
+	/// </summary>
+	public bool IsMovingServer => MatrixMove != null && MatrixMove.IsMovingServer;
+
+	/// <summary>
 	/// Invoked when some serious collision/explosion happens.
 	/// Should make people fall and shake items a bit
 	/// </summary>
@@ -59,7 +64,7 @@ public class Matrix : MonoBehaviour
 					{
 						continue;
 					}
-					player.registerTile.Slip(true);
+					player.registerTile.ServerSlip(true);
 				}
 				//maybe shake items somehow, too
 			}
@@ -79,9 +84,9 @@ public class Matrix : MonoBehaviour
 		}
 	}
 
-	public bool IsPassableAt(Vector3Int position, bool isServer)
+	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true)
 	{
-		return IsPassableAt(position, position, isServer);
+		return IsPassableAt(position, position, isServer, includingPlayers: includingPlayers);
 	}
 
 	/// <summary>
@@ -266,7 +271,10 @@ public class Matrix : MonoBehaviour
 	{
 		if (ServerObjects != null)
 		{
-			return ServerObjects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null).Where(y => y.enabled);
+			return ServerObjects.Get(position)
+				.Select(x => x != null ? x.GetComponent<ElectricalOIinheritance>() : null)
+				.Where(x => x != null)
+				.Where(y => y.enabled);
 		}
 		else
 		{

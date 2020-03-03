@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// Server only stuff
@@ -57,15 +58,15 @@ public class GUI_ShuttleControl : NetTab
 		Trigger = Provider.GetComponent<ShuttleConsole>();
 		Trigger.OnStateChange.AddListener(OnStateChange);
 
-		MatrixMove.coordReadoutScript = CoordReadout;
+		MatrixMove.RegisterCoordReadoutScript(CoordReadout);
 
 		//Not doing this for clients
 		if (IsServer)
 		{
 			EntryList.Origin = MatrixMove;
 			//Init listeners
-			MatrixMove.OnStart.AddListener(() => this["StartButton"].SetValue = "1");
-			MatrixMove.OnStop.AddListener(() =>
+			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => this["StartButton"].SetValue = "1");
+			MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(() =>
 		   {
 			   this["StartButton"].SetValue = "0";
 			   HideWaypoint();
@@ -87,8 +88,12 @@ public class GUI_ShuttleControl : NetTab
 
 	private void StartNormalOperation()
 	{
-		//			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
-		EntryList.AddItems(MapIconType.Ship, GetObjectsOf(new HashSet<MatrixMove>(new[] { MatrixMove })));
+		EntryList.AddItems(MapIconType.Ship, GetObjectsOf<MatrixMove>(
+			mm => mm != MatrixMove //ignore current ship
+			      && (mm.HasWorkingThrusters || mm.gameObject.name.Equals("Escape Pod")) //until pod gets engines
+		));
+
+		EntryList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
 		var stationBounds = MatrixManager.Get(0).MetaTileMap.GetBounds();
 		int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
 		EntryList.AddStaticItem(MapIconType.Station, stationBounds.center, stationRadius);
@@ -104,8 +109,9 @@ public class GUI_ShuttleControl : NetTab
 	/// </summary>
 	private void AddEmagItems()
 	{
-		EntryList.AddItems( MapIconType.Human, GetObjectsOf<PlayerSync>() );
+		EntryList.AddItems( MapIconType.Human, GetObjectsOf<PlayerScript>(player => !player.IsDeadOrGhost) );
 		EntryList.AddItems( MapIconType.Ian , GetObjectsOf<CorgiAI>() );
+		EntryList.AddItems( MapIconType.Nuke , GetObjectsOf<Nuke>() );
 
 		RescanElements();
 
@@ -130,6 +136,7 @@ public class GUI_ShuttleControl : NetTab
 	public void SetSafetyProtocols(bool on)
 	{
 		MatrixMove.SafetyProtocolsOn = on;
+		this["SafetyText"].SetValue = on ? "ON" : "OFF";
 	}
 
 	public void SetWaypoint(string position)
@@ -150,7 +157,7 @@ public class GUI_ShuttleControl : NetTab
 			return;
 		}
 		//Mind the ship's actual position
-		Waypoint.transform.position = (Vector2)proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
+		Waypoint.transform.position = (Vector2)proposedPos + Vector2Int.RoundToInt(MatrixMove.ServerState.Position);
 
 		EntryList.UpdateExclusive(Waypoint);
 
@@ -209,15 +216,15 @@ public class GUI_ShuttleControl : NetTab
 		}
 		EntryList.RefreshTrackedPos();
 		//Logger.Log((MatrixMove.shuttleFuelSystem.FuelLevel * 100).ToString());
-		if (MatrixMove.shuttleFuelSystem == null)
+		if (MatrixMove.ShuttleFuelSystem == null)
 		{
-			if (this["FuelGauge"].Value != "100") { 
+			if (this["FuelGauge"].Value != "100") {
 				this["FuelGauge"].SetValue = (100).ToString();
 			}
 
 		}
-		else { 
-			this["FuelGauge"].SetValue = Math.Round((MatrixMove.shuttleFuelSystem.FuelLevel * 100)).ToString();
+		else {
+			this["FuelGauge"].SetValue = Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString();
 		}
 		yield return WaitFor.Seconds(2f);
 
@@ -229,25 +236,20 @@ public class GUI_ShuttleControl : NetTab
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
 	/// todo: move, make it an util method
-	public static List<GameObject> GetObjectsOf<T>(HashSet<T> except = null, string nameFilter = "")
+	public static List<GameObject> GetObjectsOf<T>(Func<T, bool> condition = null)
 		where T : Behaviour
 	{
 		T[] foundBehaviours = FindObjectsOfType<T>();
 		var foundObjects = new List<GameObject>();
 
-		for (var i = 0; i < foundBehaviours.Length; i++)
+		foreach (var foundBehaviour in foundBehaviours)
 		{
-			if (except != null && except.Contains(foundBehaviours[i]))
-			{
-				continue;
-			}
-			var foundObject = foundBehaviours[i].gameObject;
-			if (nameFilter != "" && !foundObject.name.Contains(nameFilter))
+			if (condition != null && !condition(foundBehaviour))
 			{
 				continue;
 			}
 
-			foundObjects.Add(foundObject);
+			foundObjects.Add(foundBehaviour.gameObject);
 		}
 
 		return foundObjects;
@@ -271,6 +273,7 @@ public class GUI_ShuttleControl : NetTab
 				this["Rulers"].SetValue = rulersColor;
 				this["RadarScanRay"].SetValue = rayColor;
 				this["Crosshair"].SetValue = crosshairColor;
+				SetSafetyProtocols(@on: true);
 
 				break;
 			case TabState.Emagged:
@@ -283,12 +286,14 @@ public class GUI_ShuttleControl : NetTab
 				this["RadarScanRay"].SetValue = ChangeColorHue(rayColor, -80);
 				this["Crosshair"].SetValue = ChangeColorHue( crosshairColor, -80 );
 				AddEmagItems();
+				SetSafetyProtocols(@on: false);
 
 				break;
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
 				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.black);
+				SetSafetyProtocols(@on: true);
 
 				break;
 			default:
@@ -346,7 +351,12 @@ public class GUI_ShuttleControl : NetTab
 	/// <param name="speedMultiplier"></param>
 	public void SetSpeed(float speedMultiplier)
 	{
-		float speed = speedMultiplier * (MatrixMove.maxSpeed - 1) + 1;
+		if (MatrixMove == null)
+		{
+			Logger.LogWarning("Matrix move is missing for some reason on this shuttle", Category.Matrix);
+			return;
+		}
+		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
 		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 		MatrixMove.SetSpeed(speed);
 	}

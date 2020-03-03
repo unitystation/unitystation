@@ -38,19 +38,7 @@ public class KeyboardInputManager : MonoBehaviour
 			// Perform escape key action
 			if (CommonInput.GetKeyDown(KeyCode.Escape))
 			{
-				if(EscapeKeyTarget.TargetStack.Count > 0)
-				{
-					EscapeKeyTarget escapeKeyTarget = EscapeKeyTarget.TargetStack.Peek().GetComponent<EscapeKeyTarget>();
-					escapeKeyTarget.OnEscapeKey.Invoke();
-					if (escapeKeyTarget.DisableOnEscape)
-					{
-						GUI_IngameMenu.Instance.CloseMenuPanel(EscapeKeyTarget.TargetStack.Peek());
-					}
-				}
-				else
-				{
-					GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
-				}
+				EscapeKeyTarget.HandleEscapeKey();
 			}
 
 			// Perform the checks for all key actions which have functions defined here
@@ -93,6 +81,8 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <param name="keyEventType">Key event to check for like down, up or hold</param>
 	public static bool IsMovementPressed(KeyEventType keyEventType = KeyEventType.Down)
 	{
+		if (UIManager.IsInputFocus) return false;
+
 		return Instance.CheckKeyAction(KeyAction.MoveUp,   keyEventType) || Instance.CheckKeyAction(KeyAction.MoveDown,  keyEventType) ||
 		       Instance.CheckKeyAction(KeyAction.MoveLeft, keyEventType) || Instance.CheckKeyAction(KeyAction.MoveRight, keyEventType);
 	}
@@ -120,6 +110,14 @@ public class KeyboardInputManager : MonoBehaviour
 	{
 		return CommonInput.GetKey(KeyCode.LeftControl) || CommonInput.GetKey(KeyCode.RightControl) ||
 		       CommonInput.GetKey(KeyCode.LeftCommand) || CommonInput.GetKey(KeyCode.RightCommand);
+	}
+
+	/// <summary>
+	/// Checks if the left or right shift key has been pressed
+	/// </summary>
+	public static bool IsShiftPressed()
+	{
+		return CommonInput.GetKey(KeyCode.LeftShift) || CommonInput.GetKey(KeyCode.RightShift);
 	}
 
 	/// <summary>
@@ -161,6 +159,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ActionDrop,		() => {	UIManager.Action.Drop(); }},
 		{ KeyAction.ActionResist,	() => { UIManager.Action.Resist(); }},
 		{ KeyAction.ActionStopPull, () => { UIManager.Action.StopPulling(); }},
+		{ KeyAction.ToggleWalkRun,   () => { UIManager.WalkRun.RunWalk(); }},
 
 		{  KeyAction.HandSwap, 		() => { UIManager.Hands.Swap(); }},
 		{  KeyAction.HandActivate,	() => { UIManager.Hands.Activate(); }},
@@ -175,7 +174,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.IntentHarm, 	() => { UIManager.Intent.SetIntent(Intent.Harm); }},
 
 		// Chat
-		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(); }},
+		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Local); }},
 		{ KeyAction.ChatRadio,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Common); }},
 		{ KeyAction.ChatOOC,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.OOC); }},
 

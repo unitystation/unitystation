@@ -46,6 +46,20 @@ namespace DatabaseAPI
 			new Dictionary<string, Firebase.Auth.FirebaseUser>();
 
 		private Firebase.Auth.FirebaseUser user = null;
+
+		public static string UserID
+		{
+			get
+			{
+				if (Instance.user == null)
+				{
+					return "";
+				}
+
+				return Instance.user.UserId;
+			}
+		}
+
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
@@ -81,9 +95,12 @@ namespace DatabaseAPI
 
 		void Update()
 		{
-			if (connectedToHub)
+			if (config != null)
 			{
-				MonitorServerStatus();
+				if (!string.IsNullOrEmpty(config.HubUser) && !string.IsNullOrEmpty(config.HubPass))
+				{
+					MonitorServerStatus();
+				}
 			}
 		}
 

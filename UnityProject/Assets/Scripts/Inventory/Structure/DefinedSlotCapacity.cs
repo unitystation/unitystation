@@ -41,10 +41,10 @@ public class DefinedSlotCapacity : SlotCapacity
 		if (toCheck == null) return false;
 		Logger.LogTraceFormat("Checking if {0} can fit", Category.Inventory, toCheck.name);
 		ItemSize size = ItemSize.Huge;
-		var itemAttrs = toCheck.GetComponent<ItemAttributes>();
+		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (itemAttrs != null)
 		{
-			size = itemAttrs.size;
+			size = itemAttrs.Size;
 		}
 		else
 		{
@@ -113,7 +113,7 @@ public class DefinedSlotCapacity : SlotCapacity
 		else
 		{
 			Logger.LogTraceFormat("Whitelist is {0}", Category.Inventory,
-				String.Join(", ", Whitelist.Select(it => it.name)));
+				String.Join(", ", Whitelist.Select(it => it == null ? "null" : it.name)));
 			if (itemAttrs == null)
 			{
 				Logger.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);

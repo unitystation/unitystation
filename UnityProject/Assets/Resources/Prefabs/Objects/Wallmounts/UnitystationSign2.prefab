@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114471239075507338}
   - component: {fileID: 114110670182460418}
   - component: {fileID: 114540546283986936}
+  - component: {fileID: -9099963455985512340}
   m_Layer: 19
   m_Name: UnitystationSign2
   m_TagString: Untagged
@@ -100,8 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114620317380750088
@@ -159,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &114471239075507338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114110670182460418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +210,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+  initialIntegrity: 100
 --- !u!114 &114540546283986936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +226,26 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3421657771
+  m_SceneId: 282606321
+--- !u!114 &-9099963455985512340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011522901538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Unitystation sign
+  initialDescription: '"Join our Discord server!"'
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1000013907114358
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +303,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

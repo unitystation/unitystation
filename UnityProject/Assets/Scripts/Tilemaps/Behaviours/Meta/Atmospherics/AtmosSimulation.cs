@@ -17,11 +17,6 @@ namespace Atmospherics
 	public class AtmosSimulation
 	{
 		/// <summary>
-		/// Interval (seconds) between updates of the simulation.
-		/// </summary>
-		public float Speed = 0.01f;
-
-		/// <summary>
 		/// True if the atmos simulation has no updates to perform
 		/// </summary>
 		public bool IsIdle => updateList.IsEmpty;
@@ -30,12 +25,6 @@ namespace Atmospherics
 		/// Number of updates remaining for the atmos simulation to process
 		/// </summary>
 		public int UpdateListCount => updateList.Count;
-
-		/// <summary>
-		/// determines how much things change during an update, calculated based on the Speed and number of
-		/// updates that currently need processing.
-		/// </summary>
-		private float factor;
 
 		/// <summary>
 		/// Holds the nodes which are being processed during the current Update
@@ -47,17 +36,32 @@ namespace Atmospherics
 		/// </summary>
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
+		/// <summary>
+		/// List of tiles that currently have fog effects
+		/// Before we start telling the main thread to add/remove vfx, we can check to see if the tile has already been taken care of
+		/// While not nessecary for this feature to function, it should significantly reduce performance hits from this feature
+		/// </summary>
+		private HashSet<Vector3Int> fogTiles = new HashSet<Vector3Int>();
+
+		public bool IsInUpdateList(MetaDataNode node)
+		{
+			return updateList.Contains(node);
+		}
+
 		public void AddToUpdateList(MetaDataNode node)
 		{
 			updateList.Enqueue(node);
 		}
 
+		public void ClearUpdateList()
+		{
+			nodes.Clear();
+			updateList = new UniqueQueue<MetaDataNode>();
+		}
+
 		public void Run()
 		{
 			int count = updateList.Count;
-
-			factor = Mathf.Clamp(Speed * count / 100f, 0.01f, 1f);
-
 			for (int i = 0; i < count; i++)
 			{
 				if (updateList.TryDequeue(out MetaDataNode node))
@@ -69,22 +73,22 @@ namespace Atmospherics
 
 		private void Update(MetaDataNode node)
 		{
-			nodes.Clear();
-
-			if ( !node.IsClosedAirlock )
-			{ //Gases are frozen within closed airlocks
-				nodes.Add(node);
+			//Gases are frozen within closed airlocks or walls
+			if (node.IsOccupied || node.IsClosedAirlock)
+			{
+				return;
 			}
+
+			nodes.Clear();
+			nodes.Add(node);
 
 			node.AddNeighborsToList(ref nodes);
 
 			bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
-			if (node.IsOccupied || node.IsSpace || isPressureChanged)
+
+			if (isPressureChanged)
 			{
-				if ( isPressureChanged )
-				{
-					node.ReactionManager.AddWindEvent( node, windDirection, windForce ); //fixme: ass backwards
-				}
+				node.ReactionManager.AddWindEvent(node, windDirection, windForce);
 				Equalize();
 
 				for (int i = 1; i < nodes.Count; i++)
@@ -92,25 +96,46 @@ namespace Atmospherics
 					updateList.Enqueue(nodes[i]);
 				}
 			}
+
+			//Check to see if node needs vfx applied
+			GasVisualEffects(node);
 		}
 
+		/// <summary>
+		/// The thing that actually equalises the tiles
+		/// </summary>
 		private void Equalize()
 		{
-			GasMix gasMix = CalcMeanGasMix();
-
-			for (var i = 0; i < nodes.Count; i++)
+			// If there is just one isolated tile, it's not nescessary to calculate the mean.  Speeds up things a bit.
+			if (nodes.Count > 1)
 			{
-				MetaDataNode node = nodes[i];
+				//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
+				GasMix MeanGasMix = CalcMeanGasMix();
 
-				if (!node.IsOccupied)
+				for (var i = 0; i < nodes.Count; i++)
 				{
-					node.GasMix = CalcAtmos(node.GasMix, gasMix);
+					MetaDataNode node = nodes[i];
+
+					if (!node.IsOccupied)
+					{
+						node.GasMix = CalcAtmos(node.GasMix, MeanGasMix);
+
+						if (node.IsSpace)
+						{
+							//Set to 0 if space
+							node.GasMix *= 0;
+						}
+					}
 				}
 			}
 		}
 
 		private GasMix meanGasMix = new GasMix(GasMixes.Space);
 
+		/// <summary>
+		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
+		/// </summary>
+		/// <returns>The mean gas mix.</returns>
 		private GasMix CalcMeanGasMix()
 		{
 			meanGasMix.Copy(GasMixes.Space);
@@ -121,9 +146,9 @@ namespace Atmospherics
 			{
 				MetaDataNode node = nodes[i];
 
-				if (node.IsSpace)
+				if (node == null)
 				{
-					node.GasMix *= 1 - factor;
+					continue;
 				}
 
 				for (int j = 0; j < Gas.Count; j++)
@@ -139,36 +164,65 @@ namespace Atmospherics
 				}
 				else
 				{
-					node.GasMix *= 1 - factor;
-
-					if (node.GasMix.Pressure > AtmosConstants.MinPressureDifference)
-					{
-						updateList.Enqueue(node);
-					}
+					//Decay if occupied
+					node.GasMix *= 0;
 				}
 			}
 
-			for (int j = 0; j < Gas.Count; j++)
+			// Sometime, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos)
+			// This condition is to avoid a divide by zero error (or 0 / 0 that gives NaN)
+			if (targetCount != 0)
 			{
-				meanGasMix.Gases[j] /= targetCount;
-			}
+				for (int j = 0; j < Gas.Count; j++)
+				{
+					meanGasMix.Gases[j] /= targetCount;
+				}
 
-			meanGasMix.Pressure /= targetCount;
+				meanGasMix.Pressure /= targetCount;
+			}
 
 			return meanGasMix;
 		}
 
-
 		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)
 		{
+			//Used for updating tiles with the averagee Calculated gas
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				atmos.Gases[i] += (gasMix.Gases[i] - atmos.Gases[i]) * factor;
+				atmos.Gases[i] = gasMix.Gases[i];
 			}
 
-			atmos.Pressure += (gasMix.Pressure - atmos.Pressure) * factor;
+			atmos.Pressure = gasMix.Pressure;
 
 			return atmos;
+		}
+
+		//Handles checking for vfx changes
+		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
+		private void GasVisualEffects(MetaDataNode node){
+			if (node == null || node.ReactionManager == null)
+			{
+				return;
+			}
+			if(node.GasMix.GetMoles(Gas.Plasma) > 0.4) 		//If node has an almost combustible ammount of plasma
+			{
+				if(!fogTiles.Contains(node.Position)) 		//And if it hasn't already been identified as a tile that should have plasma fx
+				{
+					node.ReactionManager.AddFogEvent(node); //Add it to the atmos vfx queue in ReactionManager
+					fogTiles.Add(node.Position); 			//Add it to fogTiles
+				}
+			}
+
+			else											//If there isn't 0.4 moles of plasma, remove the fx
+			{
+				if(fogTiles.Contains(node.Position) && (node.GasMix.GetMoles(Gas.Plasma) < 0.3))
+				{
+					node.ReactionManager.RemoveFogEvent(node);
+					fogTiles.Remove(node.Position);
+				}
+			}
+
+
 		}
 	}
 }

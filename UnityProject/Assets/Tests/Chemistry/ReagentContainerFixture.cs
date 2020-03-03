@@ -16,7 +16,7 @@ namespace Tests.Chemistry
 			obj.AddComponent<ReagentContainer>();
 			ReagentContainer container = obj.GetComponent<ReagentContainer>();
 			container.MaxCapacity = maxCapacity;
-			container.Contents = contents;
+			container.AddReagents(contents);
 			return container;
 		}
 
@@ -52,7 +52,7 @@ namespace Tests.Chemistry
 			Dictionary<string, float> initial, Dictionary<string, float> toAdd, Dictionary<string, float> final)
         {
 			var container = GetContainer(capacity, initial);
-			container.AddReagents(toAdd, 20);
+			container.AddReagents(toAdd);
 			AssertContainerContentsEqualTo(container, final);
 		}
 

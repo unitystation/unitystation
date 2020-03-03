@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -40,6 +39,11 @@ public class LightingSystem : MonoBehaviour
 	//used for FOV checking is async readback is NOT supported
 	private Texture2D mTex2DWallFloorOcclusionMask;
 	private OperationParameters mOperationParameters;
+
+	/// <summary>
+	/// Lighting system was enabled/disabled
+	/// </summary>
+	public event System.Action<bool> OnLightingSystemEnabled;
 
 	public bool matrixRotationMode
 	{
@@ -256,11 +260,11 @@ public class LightingSystem : MonoBehaviour
 				" Light System may not work currently.", Category.Lighting);
 		}
 
-		if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.backgroundLayers))
+		/*if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.backgroundLayers))
 		{
 			Logger.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers!" +
 				"Light System wound be able to mask background and would not work correctly.", Category.Lighting);
-		}
+		}*/
 	}
 
 	private void OnEnable()
@@ -271,6 +275,8 @@ public class LightingSystem : MonoBehaviour
 		{
 			return;
 		}
+
+		OnLightingSystemEnabled?.Invoke(true);
 
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
@@ -285,6 +291,9 @@ public class LightingSystem : MonoBehaviour
 		if (mMainCamera == null)
 			throw new Exception("FovSystemManager require Camera component to operate.");
 
+		// Let's force camera to cull background light
+		mMainCamera.cullingMask &= ~renderSettings.backgroundLayers;
+		// Now validate other settings
 		ValidateMainCamera(mMainCamera, renderSettings);
 
 		if (mOcclusionRenderer == null)
@@ -330,6 +339,9 @@ public class LightingSystem : MonoBehaviour
 		{
 			return;
 		}
+
+		OnLightingSystemEnabled?.Invoke(false);
+
 		// Set object occlusion white, so occlusion dependent shaders will show appropriately while system is off.
 		Shader.SetGlobalTexture("_ObjectFovMask", Texture2D.whiteTexture);
 
@@ -338,9 +350,14 @@ public class LightingSystem : MonoBehaviour
 
 		HandlePPPositionRequest -= ProviderPPPosition;
 
+		// We can enable background layers again
+		if (mMainCamera)
+			mMainCamera.cullingMask |= renderSettings.backgroundLayers;
+
 		if (mTextureDataRequest != null)
 		{
-			mTextureDataRequest.DeallocateOnClose();
+			mTextureDataRequest.Dispose();
+			mTextureDataRequest = null;
 		}
 	}
 
@@ -485,7 +502,7 @@ public class LightingSystem : MonoBehaviour
 	/// <param name="iRequest">requested callback to wrap.</param>
 	private void AsyncReadCallback(AsyncGPUReadbackRequest iRequest)
 	{
-		if (iRequest.hasError || iRequest.done == false)
+		if (iRequest.hasError || iRequest.done == false || mTextureDataRequest == null)
 		{
 			return;
 		}

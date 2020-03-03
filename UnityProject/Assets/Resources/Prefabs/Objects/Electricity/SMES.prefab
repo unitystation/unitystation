@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4734855229797344}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212307946053701930
 SpriteRenderer:
@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 61366423541260584}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
+  - component: {fileID: -6323473989204236853}
   - component: {fileID: 114705152130084640}
   - component: {fileID: 1302529419740996430}
   - component: {fileID: 2683382063024116834}
@@ -100,7 +101,6 @@ GameObject:
   - component: {fileID: 2504760058904090374}
   - component: {fileID: 114897658894920132}
   - component: {fileID: 114429980035310924}
-  - component: {fileID: -6323473989204236853}
   - component: {fileID: 3432798136324343086}
   m_Layer: 11
   m_Name: SMES
@@ -120,10 +120,10 @@ Transform:
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4920401221825478}
   - {fileID: 4749551802443964}
   - {fileID: 4193881273235278}
   - {fileID: 4711369638043158}
-  - {fileID: 4920401221825478}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -193,8 +193,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
+  matrixDebugLogging: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114703946515217786
@@ -211,6 +211,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
+--- !u!114 &-6323473989204236853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherKnifeTrait: {fileID: 0}
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114705152130084640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,11 +246,11 @@ MonoBehaviour:
   offlineSprite: {fileID: 21300000, guid: a26830e3359196c4abfd80933b70aba2, type: 3}
   onlineSprite: {fileID: 21300000, guid: 03e8bd3eeae9aeb4a8f984ce5db604a7, type: 3}
   chargeIndicatorSprites:
-  - {fileID: 21300254, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  - {fileID: 21300256, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  - {fileID: 21300258, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  - {fileID: 21300260, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  - {fileID: 21300262, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  - {fileID: 21300000, guid: 2cea459d2cb20ee43b38e0d85f1e6420, type: 3}
+  - {fileID: 21300000, guid: 351db5b67d4e30940a0d1e2473cde149, type: 3}
+  - {fileID: 21300000, guid: 4232b2fc281c572409804eb848b853a7, type: 3}
+  - {fileID: 21300000, guid: 60c426b6209f81144bb13fbe62f1b232, type: 3}
+  - {fileID: 21300000, guid: e73cd4cbf0bd8da408c2bd7a125ba83c, type: 3}
   statusCriticalSprite: {fileID: 21300000, guid: 01d0b5d200837a1438f548434178888d,
     type: 3}
   statusSupplySprite: {fileID: 21300000, guid: 4135247828c256c4dbd1fdb1a39a2d1b, type: 3}
@@ -406,22 +422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2883979192
---- !u!114 &-6323473989204236853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3432798136324343086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,7 +489,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4734855229797344}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212327025118819594
 SpriteRenderer:
@@ -566,7 +569,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4734855229797344}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212514117955345912
 SpriteRenderer:
@@ -646,7 +649,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4734855229797344}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212962152979335194
 SpriteRenderer:

@@ -10,7 +10,7 @@ public abstract class TargetedInteraction: Interaction
 	private readonly GameObject targetObject;
 
 	/// <summary>
-	/// Object that is targeted by the interaction
+	/// Object that is targeted by the interaction. Null if clicking on open space.
 	/// </summary>
 	public GameObject TargetObject => targetObject;
 
@@ -20,8 +20,8 @@ public abstract class TargetedInteraction: Interaction
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="usedObject">Object that is being used</param>
 	/// <param name="targetObject">Object that is being targeted</param>
-	public TargetedInteraction(GameObject performer, GameObject usedObject, GameObject targetObject) :
-		base(performer, usedObject)
+	public TargetedInteraction(GameObject performer, GameObject usedObject, GameObject targetObject, Intent intent) :
+		base(performer, usedObject, intent)
 	{
 		this.targetObject = targetObject;
 	}

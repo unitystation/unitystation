@@ -25,14 +25,14 @@ namespace Atmospherics
 
 		public float TemperatureCache { get; private set; }
 
-		public float HeatCapacity
+		public float WholeHeatCapacity	//this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
 				float capacity = 0f;
 				foreach (Gas gas in Gas.All)
 				{
-					capacity += gas.SpecificHeat * Gases[gas];
+					capacity += gas.MolarHeatCapacity * Gases[gas];
 				}
 
 				return capacity;
@@ -150,7 +150,6 @@ namespace Atmospherics
 				removed.Volume = volume;
 				removed = FromTemperature(removed.Gases, Temperature, volume);
 			}
-
 			return removed;
 		}
 
@@ -168,6 +167,24 @@ namespace Atmospherics
 			return removed;
 		}
 
+
+		/// <summary>
+		/// Returns the gas as a percentage of the gas in the mix
+		/// </summary>
+		/// <returns>The ratio of the gas</returns>
+		/// <param name="_Gas">Gas.</param>
+		public float GasRatio(Gas _Gas)
+		{
+			if (Gases[_Gas] != 0)
+			{
+				return (Gases[_Gas] / Moles);
+			}
+			else {
+				return (0);
+			}
+
+		}
+
 		public void MergeGasMix(GasMix otherGas)
 		{
 			float totalVolume = Volume + otherGas.Volume;
@@ -179,6 +196,19 @@ namespace Atmospherics
 			}
 			Recalculate();
 			otherGas.Recalculate();
+		}
+
+		/// <summary>
+		/// Set the moles value of a gas inside of a GasMix.
+		/// </summary>
+		/// <param name="gas">The gas you want to set.</param>
+		/// <param name="moles">The amount to set the gas.</param>
+		public void SetGas(Gas gas, float moles)
+		{
+			TemperatureCache = Temperature;
+			Gases[gas] = moles;
+
+			RecalculateTemperatureCache();
 		}
 
 		public void AddGas(Gas gas, float moles)
@@ -226,7 +256,7 @@ namespace Atmospherics
 
 		public override string ToString()
 		{
-			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume * 1000} L";
+			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume}m^3 ";
 		}
 
 		private void Recalculate()

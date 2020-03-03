@@ -7,7 +7,17 @@ using UnityEngine.SceneManagement;
 
 public class GUI_IngameMenu : MonoBehaviour
 {
-	public GameObject mainIngameMenu;
+	/// <summary>
+	/// Menu window that will be deactivated when closing the menu.
+	/// </summary>
+	public GameObject menuWindow;
+
+	/// <summary>
+	/// Menu panel for the disclamer and links to our community.
+	/// </summary>
+	public GameObject disclamerWindow;
+
+	public VotePopUp VotePopUp;
 
 	private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
 
@@ -28,6 +38,24 @@ public class GUI_IngameMenu : MonoBehaviour
 		}
 	}
 
+	void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
+
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		if (scene.name != "Lobby")
+		{
+			CloseMenuPanel(); // Close disclaimer and menu on scene switch
+		}
+	}
+
 #if UNITY_EDITOR
 	[NonSerialized]
 	public bool isTest = false;
@@ -35,12 +63,33 @@ public class GUI_IngameMenu : MonoBehaviour
 
 	// Main Ingame Menu Functions
 	// ==================================================
+
+	/// <summary>
+	/// Opens a specific menu panel.
+	/// </summary>
+	/// <param name="nextMenuPanel">Menu panel to open</param>
 	public void OpenMenuPanel(GameObject nextMenuPanel)
 	{
 		SoundManager.Play("Click01");
 		Logger.Log("Opening " + nextMenuPanel.name + " menu", Category.UI);
 		nextMenuPanel.SetActive(true);
 	}
+
+	/// <summary>
+	/// Opens all menu panels (Menu and disclamer)
+	/// </summary>
+	public void OpenMenuPanel()
+	{
+		SoundManager.Play("Click01");
+		Logger.Log($"Opening {menuWindow.name} and {disclamerWindow.name} menu", Category.UI);
+		menuWindow.SetActive(true);
+		disclamerWindow.SetActive(true);
+	}
+
+	/// <summary>
+	/// Closes a specific menu panel.
+	/// </summary>
+	/// <param name="thisPanel">The menu panel to close.</param>
 	public void CloseMenuPanel(GameObject thisPanel)
 	{
 		SoundManager.Play("Click01");
@@ -48,10 +97,33 @@ public class GUI_IngameMenu : MonoBehaviour
 		thisPanel.SetActive(false);
 	}
 
+	/// <summary>
+	/// Closes all menu panels (Menu and disclamer)
+	/// </summary>
+	public void CloseMenuPanel()
+	{
+		SoundManager.Play("Click01");
+		Logger.Log($"Opening {menuWindow.name} and {disclamerWindow.name} menu", Category.UI);
+		menuWindow.SetActive(false);
+		disclamerWindow.SetActive(false);
+	}
+
 	public void OpenOptionsScreen()
 	{
 		Unitystation.Options.OptionsMenu.Instance.Open();
 		HideAllMenus();
+	}
+
+	public void InitiateRestartVote()
+	{
+		SoundManager.Play("Click01");
+
+		if (PlayerManager.PlayerScript == null) return;
+		if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+
+		PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateRestartVote();
+
+		CloseMenuPanel();
 	}
 
 	// Logout confirmation window functions
@@ -106,6 +178,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	}
 	private void HideAllMenus()
 	{
-		mainIngameMenu.SetActive(false);
+		menuWindow.SetActive(false);
+		disclamerWindow.SetActive(false);
 	}
 }

@@ -9,6 +9,7 @@ public class WireConnect : ElectricalOIinheritance
 {
 	public CableInheritance ControllingCable;
 	public CableLine RelatedLine;
+
 	public MachineConnectorSpriteHandler SpriteHandler;
 	//public override void OnStartServer()
 	//{
@@ -29,15 +30,20 @@ public class WireConnect : ElectricalOIinheritance
 	public override void FindPossibleConnections()
 	{
 		base.FindPossibleConnections();
-		if (SpriteHandler != null){
+		if (SpriteHandler != null)
+		{
 			SpriteHandler.Check();
 		}
 	}
 
-	public override void DirectionInput( GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null){
-		InputOutputFunctions.DirectionInput ( SourceInstance, ComingFrom, this);
-		if (PassOn == null) {
-			if (RelatedLine != null) {
+	public override void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom,
+		CableLine PassOn = null)
+	{
+		InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
+		if (PassOn == null)
+		{
+			if (RelatedLine != null)
+			{
 				//if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
 				//	//Logger.Log ("looc");
 				//} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
@@ -45,16 +51,22 @@ public class WireConnect : ElectricalOIinheritance
 				//} else {
 				//	//Logger.Log ("hELP{!!!");
 				//}
-			} else {
-				if (!(Data.connections.Count > 2)) {
-					RelatedLine = new CableLine ();
-					if (RelatedLine == null) {
+			}
+			else
+			{
+				if (!(Data.connections.Count > 2))
+				{
+					RelatedLine = new CableLine();
+					if (RelatedLine == null)
+					{
 						Logger.Log("DirectionInput: RelatedLine is null.", Category.Power);
 					}
+
 					RelatedLine.InitialGenerator = SourceInstance;
 					RelatedLine.TheStart = this;
-					lineExplore (RelatedLine, SourceInstance);
-					if (RelatedLine.TheEnd == null) {
+					lineExplore(RelatedLine, SourceInstance);
+					if (RelatedLine.TheEnd == null)
+					{
 						RelatedLine = null;
 					}
 				}
@@ -62,30 +74,41 @@ public class WireConnect : ElectricalOIinheritance
 		}
 	}
 
-	public override void DirectionOutput( GameObject SourceInstance){
-
+	public override void DirectionOutput(GameObject SourceInstance)
+	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString () + this.name + " <  name! ", Category.Electrical);
-		if (RelatedLine == null) {
-			InputOutputFunctions.DirectionOutput (SourceInstance, this);
-		} else {
-
+		if (RelatedLine == null)
+		{
+			InputOutputFunctions.DirectionOutput(SourceInstance, this);
+		}
+		else
+		{
 			ElectricalOIinheritance GoingTo;
-			if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
+			if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance>())
+			{
 				GoingTo = RelatedLine.TheStart;
-			} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
+			}
+			else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance>())
+			{
 				GoingTo = RelatedLine.TheEnd;
-			} else {
+			}
+			else
+			{
 				GoingTo = null;
 				return;
 			}
 
-			if (!(Data.SupplyDependent[SourceInstanceID].Downstream.Contains (GoingTo) || Data.SupplyDependent[SourceInstanceID].Upstream.Contains (GoingTo)) )  {
-				Data.SupplyDependent[SourceInstanceID].Downstream.Add (GoingTo);
+			if (!(Data.SupplyDependent[SourceInstanceID].Downstream.Contains(GoingTo) ||
+			      Data.SupplyDependent[SourceInstanceID].Upstream.Contains(GoingTo)))
+			{
+				Data.SupplyDependent[SourceInstanceID].Downstream.Add(GoingTo);
 
-				RelatedLine.DirectionInput (SourceInstance, this);
-			} else {
-				InputOutputFunctions.DirectionOutput (SourceInstance, this,RelatedLine);
+				RelatedLine.DirectionInput(SourceInstance, this);
+			}
+			else
+			{
+				InputOutputFunctions.DirectionOutput(SourceInstance, this, RelatedLine);
 			}
 		}
 	}
@@ -94,14 +117,14 @@ public class WireConnect : ElectricalOIinheritance
 	{
 		//Logger.Log (Current.ToString () + " How much current", Category.Electrical);
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
-		if (ControllingCable != null) {
+		if (ControllingCable != null)
+		{
 			ElectricalSynchronisation.CableUpdates.Add(ControllingCable);
 		}
 	}
 
 	public void lineExplore(CableLine PassOn, GameObject SourceInstance = null)
 	{
-
 		if (Data.connections.Count <= 0)
 		{
 			FindPossibleConnections();
@@ -122,6 +145,7 @@ public class WireConnect : ElectricalOIinheritance
 					PassOn.TheEnd = this;
 				}
 			}
+
 			foreach (ElectricalOIinheritance Related in Data.connections)
 			{
 				if (!(RelatedLine.Covering.Contains(Related) || RelatedLine.TheStart == Related))
@@ -135,6 +159,7 @@ public class WireConnect : ElectricalOIinheritance
 							canpass = false;
 						}
 					}
+
 					if (canpass)
 					{
 						if (Related.GameObject().GetComponent<WireConnect>() != null)
@@ -147,17 +172,18 @@ public class WireConnect : ElectricalOIinheritance
 		}
 	}
 
-
 	public override void FlushConnectionAndUp()
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
 		RelatedLine = null;
 	}
+
 	public override void FlushResistanceAndUp(GameObject SourceInstance = null)
 	{
 		//TODO: yeham, Might need to work on in future but not used Currently
 		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
 	}
+
 	public override void FlushSupplyAndUp(GameObject SourceInstance = null)
 	{
 		bool SendToline = false;
@@ -189,12 +215,14 @@ public class WireConnect : ElectricalOIinheritance
 				}
 			}
 		}
+
 		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);
 		if (SendToline)
 		{
 			RelatedLine.PassOnFlushSupplyAndUp(this, SourceInstance);
 		}
 	}
+
 	public override void RemoveSupply(GameObject SourceInstance = null)
 	{
 		bool SendToline = false;
@@ -213,15 +241,18 @@ public class WireConnect : ElectricalOIinheritance
 			else
 			{
 				int InstanceID = SourceInstance.GetInstanceID();
-				if (Data.SupplyDependent[InstanceID].Downstream.Count > 0 || Data.SupplyDependent[InstanceID].Upstream.Count > 0)
+				if (Data.SupplyDependent[InstanceID].Downstream.Count > 0 ||
+				    Data.SupplyDependent[InstanceID].Upstream.Count > 0)
 				{
 					SendToline = true;
 				}
 			}
 		}
+
 		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
-		if (SendToline){
-			RelatedLine.PassOnRemoveSupply (this, SourceInstance);
+		if (SendToline)
+		{
+			RelatedLine.PassOnRemoveSupply(this, SourceInstance);
 		}
 	}
 
@@ -249,8 +280,12 @@ public class WireConnect : ElectricalOIinheritance
 
 				foreach (var Supply in RelatedLine.TheEnd.Data.SupplyDependent) LogSupply(Supply);
 			}
-			Logger.Log(" ActualVoltage > " + Data.ActualVoltage + " CurrentInWire > " + Data.CurrentInWire + " EstimatedResistance >  " + Data.EstimatedResistance, Category.Electrical);
+
+			Logger.Log(
+				" ActualVoltage > " + Data.ActualVoltage + " CurrentInWire > " + Data.CurrentInWire +
+				" EstimatedResistance >  " + Data.EstimatedResistance, Category.Electrical);
 		}
+
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
 	}
 

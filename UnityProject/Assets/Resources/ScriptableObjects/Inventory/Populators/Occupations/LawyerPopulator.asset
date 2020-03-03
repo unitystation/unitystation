@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: LawyerPopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 12
+    Prefab: {fileID: 835768756810601639, guid: cbb088b408dd144688326b8eefb45f5d, type: 3}
+  - NamedSlot: 9
+    Prefab: {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+      type: 3}
+  - NamedSlot: 3
+    Prefab: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2,
+      type: 3}
+  - NamedSlot: 6
+    Prefab: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2,
+      type: 3}
+  - NamedSlot: 8
+    Prefab: {fileID: 8083738781321032728, guid: 72bda6e431bb4ca4db7de4dfddf8970f,
+      type: 3}

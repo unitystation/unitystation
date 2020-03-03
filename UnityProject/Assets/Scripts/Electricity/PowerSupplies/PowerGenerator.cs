@@ -4,6 +4,8 @@ using UnityEngine;
 using Mirror;
 public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 {
+	private const float PlasmaConsumptionRate = 0.02f;
+
 	public ObjectBehaviour objectBehaviour;
 	[SyncVar(hook = nameof(UpdateSecured))]
 	public bool isSecured; //To ground
@@ -27,6 +29,12 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
+		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
 	}
 
@@ -34,7 +42,8 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public override void OnStartServer()
 	{
-		UpdateSecured(startSecured);
+		EnsureInit();
+		UpdateSecured(isSecured, startSecured);
 		StartCoroutine(CheckStartingPlasma());
 	}
 
@@ -60,12 +69,13 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		UpdateState(isOn);
+		EnsureInit();
+		UpdateState(isOn, isOn);
 	}
 
-	public void UpdateState(bool isOn)
+	public void UpdateState(bool wasOn, bool isOn)
 	{
+		EnsureInit();
 		if (isOn)
 		{
 			generatorRunSfx.Play();
@@ -109,13 +119,15 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		}
 	}
 
-	void UpdateSecured(bool _isSecured)
+	void UpdateSecured(bool wasSecured, bool _isSecured)
 	{
+		EnsureInit();
 		isSecured = _isSecured;
 		if (isServer)
 		{
-			objectBehaviour.isNotPushable = isSecured;
+			objectBehaviour.ServerSetPushable(!isSecured);
 		}
+
 
 		SoundManager.PlayAtPosition("Wrench", transform.position);
 
@@ -138,16 +150,12 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 
 	bool TryBurnFuel()
 	{
-		if (plasmaFuel.Count == 0)
-		{
-			return false;
-		}
-
 		if (plasmaFuel.Count > 0)
 		{
-			plasmaFuel[0].StartBurningPlasma(0.4f, FuelExhaustedEvent);
+			plasmaFuel[0].StartBurningPlasma(PlasmaConsumptionRate, FuelExhaustedEvent);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -170,7 +178,8 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		var slot = interaction.HandSlot;
 		if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wrench))
 		{
-			UpdateSecured(!isSecured);
+			UpdateSecured(isSecured, !isSecured);
+			ElectricalNodeControl.PowerUpdateStructureChange();
 			if (!isSecured && isOn)
 			{
 				isOn = !isOn;
@@ -182,9 +191,8 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 		var solidPlasma = slot.Item != null ? slot.Item.GetComponent<SolidPlasma>() : null;
 		if (solidPlasma != null)
 		{
-			plasmaFuel.Add(solidPlasma);
-			//we just destroy the plasma because we consume it
-			Inventory.ServerDespawn(interaction.HandSlot);
+			var plasma = Inventory.ServerVanishStackable(interaction.HandSlot);
+			plasmaFuel.Add(plasma.GetComponent<SolidPlasma>());
 			return;
 		}
 

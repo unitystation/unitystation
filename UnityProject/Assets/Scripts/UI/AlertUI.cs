@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,28 +13,82 @@ public class AlertUI : MonoBehaviour
 {
 	[FormerlySerializedAs("restrained")]
 	public GameObject buckled;
-	private Action onClick;
+
+	public GameObject cuffed;
+	public GameObject pickupMode;
+	
+	bool shouldHideAllButtons = false;
+
+	private Action onClickBuckled;
 
 	//invoked when the restrained alert is clicked
 	public void OnClickAlertRestrained()
 	{
-		onClick?.Invoke();
+		SoundManager.Play("Click01");
+		onClickBuckled?.Invoke();
+	}
+
+	//called when the buckled button is clicked
+	public void OnClickCuffed()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+		SoundManager.Play("Click01");
+	}
+
+	/// <summary>
+	/// Called when the switch pickup mode action button is pressed
+	/// </summary>
+	public void OnClickSwitchPickupMode()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+		SoundManager.Play("Click01");
 	}
 
 	private void OnEnable()
 	{
 		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDie);
+		EventManager.AddHandler(EVENT.PlayerSpawned, OnPlayerSpawn);
 	}
 
 	private void OnDisable()
 	{
 		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDie);
+		EventManager.RemoveHandler(EVENT.PlayerSpawned, OnPlayerSpawn);
 	}
 
-	void OnRoundEnd()
+	/* hides alerts to be visible when player dies */
+	void OnPlayerDie()
 	{
-		onClick = null;
+		shouldHideAllButtons = true;
+
 		buckled.SetActive(false);
+		cuffed.SetActive(false);
+		pickupMode.SetActive(false);
+	}
+
+	/* allows alerts to be visible when player spawns/respawns */
+	void OnPlayerSpawn()
+	{
+		shouldHideAllButtons = false;
+
+		buckled.SetActive(PlayerManager.LocalPlayerScript.playerMove.IsBuckled);
+
+		cuffed.SetActive(PlayerManager.LocalPlayerScript.playerMove.IsCuffed);
+
+		// TODO: check if player spawns with something where pickupMode should be shown
+		pickupMode.SetActive(false);
+	}
+
+	public void OnRoundEnd()
+	{
+		onClickBuckled = null;
+		shouldHideAllButtons = false;
+
+		buckled.SetActive(false);
+		cuffed.SetActive(false);
+		pickupMode.SetActive(false);
 	}
 
 
@@ -44,10 +99,33 @@ public class AlertUI : MonoBehaviour
 	/// <param name="onClick">if show=true, callback to invoke when the alert is clicked</param>
 	public void ToggleAlertBuckled(bool show, Action onClick)
 	{
-		buckled.SetActive(show);
 		if (show)
 		{
-			this.onClick = onClick;
+			this.onClickBuckled = onClick;
 		}
+
+		if (!shouldHideAllButtons)
+			buckled.SetActive(show);
 	}
+
+	/// <summary>
+	/// Toggle Alert UI button for cuffed
+	/// </summary>
+	/// <param name="show"></param>
+	public void ToggleAlertCuffed(bool show)
+	{
+		if (!shouldHideAllButtons)
+			cuffed.SetActive(show);
+	}
+
+	/// <summary>
+	/// Toggle Alert UI button for pickup mode
+	/// </summary>
+	/// <param name="show"></param>
+	public void ToggleAlertPickupMode(bool show)
+	{
+		if (!shouldHideAllButtons)
+			pickupMode.SetActive(show);
+	}
+
 }
