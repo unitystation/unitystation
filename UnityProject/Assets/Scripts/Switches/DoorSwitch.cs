@@ -74,7 +74,7 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		for (int i = 0; i < doorControllers.Length; i++)
 		{
-			if (!doorControllers[i].IsOpened)
+			if (doorControllers[i].IsClosed)
 			{
 				doorControllers[i].ServerOpen();
 			}
