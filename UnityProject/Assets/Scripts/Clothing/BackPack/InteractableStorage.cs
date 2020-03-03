@@ -46,7 +46,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	[SerializeField]
 	[Tooltip("Can you empty out all items by activating this item?")]
-	private bool canQuickEmpty;
+	private bool canQuickEmpty = false;
 
 	/// <summary>
 	/// The current pickup mode used when clicking
@@ -55,7 +55,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 
 	[SerializeField]
-	private ActionData actionData;
+	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	/// <summary>

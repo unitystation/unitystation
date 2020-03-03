@@ -9,10 +9,10 @@ using UnityEngine;
 public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 {
 
-	[SerializeField] private StatefulState initialState;
-	[SerializeField] private StatefulState cablesAddedState;
-	[SerializeField] private StatefulState circuitScrewedState;
-	[SerializeField] private StatefulState glassAddedState;
+	[SerializeField] private StatefulState initialState = null;
+	[SerializeField] private StatefulState cablesAddedState = null;
+	[SerializeField] private StatefulState circuitScrewedState = null;
+	[SerializeField] private StatefulState glassAddedState = null;
 
 	private ItemSlot circuitBoardSlot;
 	private Stateful stateful;

@@ -22,7 +22,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 	private PlayerLightData CurrentLight = new PlayerLightData();
 
 	[SerializeField]
-	private LightSprite lightSprite;
+	private LightSprite lightSprite = null;
 	public GameObject mLightRendererObject;
 
 	[SyncVar(hook = nameof(UpdateHook))]

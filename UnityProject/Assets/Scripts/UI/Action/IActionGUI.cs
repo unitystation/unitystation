@@ -25,7 +25,7 @@ public interface IServerActionGUI : IActionGUI
 public class __ExampleIActionGUI__ : IActionGUI
 {
 	[SerializeField]
-	private ActionData actionData;
+	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	public void CallActionClient()
@@ -37,7 +37,7 @@ public class __ExampleIActionGUI__ : IActionGUI
 public class __ExampleIServerActionGUI__ : IServerActionGUI
 {
 	[SerializeField]
-	private ActionData actionData;
+	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	public void CallActionClient()

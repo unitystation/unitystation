@@ -12,11 +12,11 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 
 	[Tooltip("Required. Initial state when this object spawns. Must reference a state which exists in States.")]
 	[SerializeField]
-	private StatefulState initialState;
+	private StatefulState initialState = null;
 
 	[Tooltip("Possible states this object can be in.")]
 	[SerializeField]
-	private List<StatefulState> states;
+	private List<StatefulState> states = null;
 
 	//tracks the index of the state we are currently in.
 	[SyncVar(hook = nameof(SyncCurrentStateIndex))]

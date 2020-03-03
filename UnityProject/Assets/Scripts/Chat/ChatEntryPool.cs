@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChatEntryPool : MonoBehaviour
 {
 	[SerializeField]
-	private ChatUI chatInstance;
+	private ChatUI chatInstance = null;
 
 	void Start()
 	{

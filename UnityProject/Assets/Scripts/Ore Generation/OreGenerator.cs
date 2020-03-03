@@ -22,7 +22,7 @@ public class OreGenerator : MonoBehaviour
 	};
 
 	[FormerlySerializedAs("Data")] [SerializeField]
-	private OreGeneratorConfig config;
+	private OreGeneratorConfig config = null;
 
 
 	private static readonly System.Random RANDOM = new System.Random();

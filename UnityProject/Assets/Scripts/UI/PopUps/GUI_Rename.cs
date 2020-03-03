@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class GUI_Rename : NetTab
 {
 	[SerializeField]
-	private InputField textField;
+	private InputField textField = null;
 	[SerializeField]
-	private NetFilledInputField networkedInputField;
+	private NetFilledInputField networkedInputField = null;
 	[SerializeField]
-	private ContentSizeFitter contentSizeFitter;
+	private ContentSizeFitter contentSizeFitter = null;
 
 	private Renameable renameable;
 

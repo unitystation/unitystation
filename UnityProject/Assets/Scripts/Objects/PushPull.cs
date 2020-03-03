@@ -136,7 +136,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	[Tooltip("Whether this should be initially not pushable when it spawns")]
 	[FormerlySerializedAs("isNotPushable")]
 	[SerializeField]
-	private bool isInitiallyNotPushable;
+	private bool isInitiallyNotPushable = false;
 
 	[SyncVar(hook=nameof(SyncIsNotPushable))]
 	private bool isNotPushable;

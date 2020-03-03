@@ -10,9 +10,9 @@ namespace AdminTools
 {
 	public class PlayerChatPage : AdminPage
 	{
-		[SerializeField] private InputField inputField;
-		[SerializeField] private Transform chatContent;
-		[SerializeField] private GameObject adminChatEntryPrefab;
+		[SerializeField] private InputField inputField = null;
+		[SerializeField] private Transform chatContent = null;
+		[SerializeField] private GameObject adminChatEntryPrefab = null;
 		private List<AdminChatEntry> loadedChatEntries = new List<AdminChatEntry>();
 		private AdminPlayerEntry selectedPlayer;
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)

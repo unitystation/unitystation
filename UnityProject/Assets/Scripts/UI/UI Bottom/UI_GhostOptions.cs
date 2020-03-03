@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UI_GhostOptions : MonoBehaviour
 {
-	[SerializeField] private Text ghostHearText;
+	[SerializeField] private Text ghostHearText = null;
 
 	void OnEnable()
 	{

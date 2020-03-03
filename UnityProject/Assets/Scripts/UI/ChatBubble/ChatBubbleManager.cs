@@ -22,7 +22,7 @@ public class ChatBubbleManager : MonoBehaviour
     }
 
     private List<ChatBubble> chatBubblePool = new List<ChatBubble>();
-    [SerializeField] private GameObject chatBubblePrefab;
+    [SerializeField] private GameObject chatBubblePrefab = null;
     [SerializeField] private int initialPoolSize = 10;
 
     void Start()

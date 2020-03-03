@@ -10,17 +10,17 @@ public class GUI_SecurityRecordsItem : DynamicEntry
 	private GUI_SecurityRecords securityRecordsTab;
 	private SecurityRecord securityRecord;
 	[SerializeField]
-	private NetLabel recordNameText;
+	private NetLabel recordNameText = null;
 	[SerializeField]
-	private NetLabel recordIdText;
+	private NetLabel recordIdText = null;
 	[SerializeField]
-	private NetLabel recordRankText;
+	private NetLabel recordRankText = null;
 	[SerializeField]
-	private NetLabel recordFingerprintsText;
+	private NetLabel recordFingerprintsText = null;
 	[SerializeField]
-	private NetLabel recordStatusText;
+	private NetLabel recordStatusText = null;
 	[SerializeField]
-	private NetColorChanger recordBgColor;
+	private NetColorChanger recordBgColor = null;
 
 	public void ReInit(SecurityRecord record, GUI_SecurityRecords recordsTab)
 	{

@@ -7,7 +7,7 @@ public class TransformableItem : MonoBehaviour , IPredictedCheckedInteractable<H
 	
 	[Tooltip("Choose an item to spawn.")]
 	[SerializeField]
-	private ItemTrait TraitRequired;
+	private ItemTrait TraitRequired = null;
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		
@@ -35,7 +35,7 @@ public class TransformableItem : MonoBehaviour , IPredictedCheckedInteractable<H
 
 	[Tooltip("Choose an item to spawn.")]
 	[SerializeField]
-	private GameObject TransformTo;
+	private GameObject TransformTo = null;
 	//invoked when the server recieves the interaction request and WIllinteract returns true
 	public void ServerPerformInteraction(HandApply interaction)
 	{

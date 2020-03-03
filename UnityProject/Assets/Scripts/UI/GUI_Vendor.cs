@@ -15,9 +15,9 @@ public class GUI_Vendor : NetTab
 	private Vendor vendor;
 	private List<VendorItem> vendorContent = new List<VendorItem>();
 	[SerializeField]
-	private EmptyItemList itemList;
+	private EmptyItemList itemList = null;
 	[SerializeField]
-	private NetColorChanger hullColor;
+	private NetColorChanger hullColor = null;
 	private bool inited = false;
 	[SerializeField]
 	private string deniedMessage = "Bzzt.";

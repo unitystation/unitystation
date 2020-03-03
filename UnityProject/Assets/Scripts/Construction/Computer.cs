@@ -9,11 +9,11 @@ public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	[Tooltip("Frame prefab this computer should deconstruct into.")]
 	[SerializeField]
-	private GameObject framePrefab;
+	private GameObject framePrefab = null;
 
 	[Tooltip("Prefab of the circuit board that lives inside this computer.")]
 	[SerializeField]
-	private GameObject circuitBoardPrefab;
+	private GameObject circuitBoardPrefab = null;
 
 	/// <summary>
 	/// Prefab of the circuit board that lives inside this computer.

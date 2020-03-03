@@ -16,7 +16,7 @@ public class ClothingV2 : MonoBehaviour
 	//there's probably no situation where we'd want to re-use the same cloth data on more than one item.
 	[Tooltip("Clothing data describing the various sprites for this clothing.")]
 	[SerializeField]
-	private BaseClothData clothData;
+	private BaseClothData clothData = null;
 
 	[Tooltip("Index of the variant to use. -1 for default.")]
 	[SerializeField]

@@ -8,9 +8,9 @@ using UnityEngine;
 public class GUI_IdConsoleEntryOld : DynamicEntry
 {
 	[SerializeField]
-	private NetLabel displayedName;
+	private NetLabel displayedName = null;
 	[SerializeField]
-	private NetColorChanger displayedBg;
+	private NetColorChanger displayedBg = null;
 
 	//This button is used in two types - as access and assignment
 	private bool isAssignment;

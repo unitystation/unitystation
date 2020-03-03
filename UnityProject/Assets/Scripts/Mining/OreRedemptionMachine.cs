@@ -12,7 +12,7 @@ public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
 {
 	[FormerlySerializedAs("ExpectedOres")]
 	[SerializeField]
-	private List<OreToMaterial> expectedOres;
+	private List<OreToMaterial> expectedOres = null;
 
 	private RegisterObject registerObject;
 

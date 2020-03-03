@@ -7,7 +7,7 @@ public class NPCFactory : MonoBehaviour
 {
 	public static NPCFactory Instance;
 
-	[SerializeField] private GameObject xenoPrefab;
+	[SerializeField] private GameObject xenoPrefab = null;
 
 	void Awake()
 	{

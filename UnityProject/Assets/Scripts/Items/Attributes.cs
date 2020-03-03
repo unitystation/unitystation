@@ -17,7 +17,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
-	private string initialName;
+	private string initialName = null;
 
 	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
@@ -30,7 +30,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
-	private string initialDescription;
+	private string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
 	[SerializeField]
@@ -38,7 +38,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
 	[SerializeField]
-	private int exportCost;
+	private int exportCost = 0;
 	public int ExportCost
 	{
 		get
@@ -57,12 +57,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
 	[SerializeField]
-	private string exportName;
+	private string exportName = null;
 	public string ExportName => exportName;
 
 	[Tooltip("Additional message to display in the cargo console report.")]
 	[SerializeField]
-	private string exportMessage;
+	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
 
 	[SyncVar(hook = nameof(SyncArticleDescription))]

@@ -11,11 +11,11 @@ using UnityEngine.UI;
 public class GUI_TextInputDialog : MonoBehaviour
 {
 	[SerializeField]
-	private InputField textField;
+	private InputField textField = null;
 	[SerializeField]
-	private ContentSizeFitter contentSizeFitter;
+	private ContentSizeFitter contentSizeFitter = null;
 	[SerializeField]
-	private Text labelText;
+	private Text labelText = null;
 
 	private Action<string> callback;
 

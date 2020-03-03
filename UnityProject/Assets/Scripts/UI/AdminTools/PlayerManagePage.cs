@@ -10,8 +10,8 @@ namespace AdminTools
 	{
 		[SerializeField] private Button kickBtn;
 		[SerializeField] private Button banBtn;
-		[SerializeField] private Button deputiseBtn;
-		[SerializeField] private Button respawnBtn;
+		[SerializeField] private Button deputiseBtn = null;
+		[SerializeField] private Button respawnBtn = null;
 
 		private AdminPlayerEntry playerEntry;
 

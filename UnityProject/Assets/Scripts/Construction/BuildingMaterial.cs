@@ -11,7 +11,7 @@ namespace Construction
 	{
 
 		[Tooltip("List of things possible to build with this material.")] [SerializeField]
-		private BuildList buildList;
+		private BuildList buildList = null;
 
 		/// <summary>
 		/// List of things that can be built.

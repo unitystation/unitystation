@@ -8,10 +8,10 @@ using System.Reflection;
 
 public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-	[SerializeField] private Image circle;
-	[SerializeField] private Image icon;
+	[SerializeField] private Image circle = null;
+	[SerializeField] private Image icon = null;
 	private List<Color> palette;
-	[SerializeField] private Text title;
+	[SerializeField] private Text title = null;
 	private RadialMenu menuControl;
 	private Color defaultColour;
 	[HideInInspector]

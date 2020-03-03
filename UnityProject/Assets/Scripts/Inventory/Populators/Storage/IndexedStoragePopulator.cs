@@ -25,7 +25,7 @@ public class IndexedStoragePopulator : ItemStoragePopulator
 	[SerializeField]
 	[Tooltip("Prefabs to spawn in each indexed storage slot (index in list corresponds" +
 	         " to slot index that it will populate).")]
-	private GameObject[] Contents;
+	private GameObject[] Contents = null;
 
 
 	[SerializeField]

@@ -7,7 +7,7 @@ using Mirror;
 public class UIActionScriptableObject : ScriptableObject, IServerActionGUI
 {
 	[SerializeField]
-	private ActionData actionData;
+	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	public virtual void CallActionClient()

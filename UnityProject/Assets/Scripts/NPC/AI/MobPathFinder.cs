@@ -24,7 +24,7 @@ public class MobPathFinder : MonoBehaviour
 	private bool arrivedAtTile;
 
 	//For OnDrawGizmos
-	private List<Node> debugPath;
+	private List<Node> debugPath = null;
 	private Dictionary<Vector2, Color> debugSearch = new Dictionary<Vector2, Color>();
 
 	public enum Status

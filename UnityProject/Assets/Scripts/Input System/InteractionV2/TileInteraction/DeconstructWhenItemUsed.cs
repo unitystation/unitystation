@@ -12,31 +12,31 @@ public class DeconstructWhenItemUsed : TileInteraction
 {
 	[Tooltip("Trait required on the used item in order to deconstruct the tile. If welder, will check if welder is on.")]
 	[SerializeField]
-	private ItemTrait requiredTrait;
+	private ItemTrait requiredTrait = null;
 
 	[Tooltip("Action message to performer when they begin this interaction.")]
 	[SerializeField]
-	private string performerStartActionMessage;
+	private string performerStartActionMessage = null;
 
 	[Tooltip("Use {performer} for performer name. Action message to others when the performer begins this interaction.")]
 	[SerializeField]
-	private string othersStartActionMessage;
+	private string othersStartActionMessage = null;
 
 	[Tooltip("Seconds taken to perform this action. Leave at 0 for instant.")]
 	[SerializeField]
-	private float seconds;
+	private float seconds = 0;
 
 	[Tooltip("Additional objects to spawn in addition to the tile's deconstruction object.")]
 	[SerializeField]
-	private SpawnableList objectsToSpawn;
+	private SpawnableList objectsToSpawn = null;
 
 	[Tooltip("Action message to performer when they finish this interaction.")]
 	[SerializeField]
-	private string performerFinishActionMessage;
+	private string performerFinishActionMessage = null;
 
 	[Tooltip("Use {performer} for performer name. Action message to others when performer finishes this interaction.")]
 	[SerializeField]
-	private string othersFinishActionMessage;
+	private string othersFinishActionMessage = null;
 
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{

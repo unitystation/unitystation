@@ -12,13 +12,13 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	[SerializeField]
 	private List<Sprite> handCuffOverlays = new List<Sprite>();
 
-	[SerializeField] private SpriteRenderer spriteRend;
+	[SerializeField] private SpriteRenderer spriteRend = null;
 	private CancellationTokenSource cancelSource;
 	private float healthCache;
 	private Vector3Int positionCache;
 
 	[SerializeField]
-	private ActionData actionData;
+	private ActionData actionData = null;
 
 	public ActionData ActionData => actionData;
 

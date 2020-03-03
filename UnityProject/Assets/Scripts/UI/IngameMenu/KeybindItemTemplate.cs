@@ -12,7 +12,7 @@ public class KeybindItemTemplate : MonoBehaviour {
 	public Button SecondaryRemoveButton;
 
 	[SerializeField]
-	private ControlSettingsMenu controlSettingsMenu;
+	private ControlSettingsMenu controlSettingsMenu = null;
 	private KeyAction ItemAction;
 
 	public void SetupKeybindItem(KeyAction action, DualKeyCombo keybind, KeybindMetadata metadata)

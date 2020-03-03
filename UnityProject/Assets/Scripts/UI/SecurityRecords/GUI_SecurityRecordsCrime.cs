@@ -7,13 +7,13 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 	private SecurityRecordCrime crime;
 	private GUI_SecurityRecordsEntryPage entryPage;
 	[SerializeField]
-	private NetLabel crimeText;
+	private NetLabel crimeText = null;
 	[SerializeField]
-	private NetLabel detailsText;
+	private NetLabel detailsText = null;
 	[SerializeField]
-	private NetLabel authorText;
+	private NetLabel authorText = null;
 	[SerializeField]
-	private NetLabel timeText;
+	private NetLabel timeText = null;
 
 	public void ReInit(SecurityRecordCrime crimeToInit, GUI_SecurityRecordsEntryPage entryPageToInit)
 	{

@@ -10,12 +10,12 @@ public class UI_StorageHandler : MonoBehaviour
 	[Tooltip("Button which should close the storage UI. Will be positioned / made visible when" +
 	         " the UI is opened and made invisible when it is closed.")]
 	[SerializeField]
-	private GameObject closeStorageUIButton;
+	private GameObject closeStorageUIButton = null;
 	private GameObject inventorySlotPrefab;
 
 	[Tooltip("GameObject under which all the other player UI slots live (for showing another player's inventory)")]
 	[SerializeField]
-	private GameObject otherPlayerStorage;
+	private GameObject otherPlayerStorage = null;
 	private UI_ItemSlot[] otherPlayerSlots;
 
 

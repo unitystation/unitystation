@@ -18,17 +18,17 @@ public class DefinedSlotCapacity : SlotCapacity
 	[Tooltip("Items with at least one of these traits will be allowed, provided they also have all" +
 	         " the required traits. If empty, items will be allowed as long as they" +
 	         " don't have blacklisted traits and have all required traits.")]
-	private List<ItemTrait> Whitelist;
+	private List<ItemTrait> Whitelist = null;
 
 	[SerializeField]
 	[Tooltip("Item MUST have ALL of these traits in order to fit.")]
-	private List<ItemTrait> Required;
+	private List<ItemTrait> Required = null;
 
 	[SerializeField]
 	[Tooltip("Items with any of these traits will be disallowed, regardless of if they have the" +
 	         " required traits or whitelisted traits (blacklist takes priority over whitelist). " +
 	         "If blank, has no effect on capacity logic.")]
-	private List<ItemTrait> Blacklist;
+	private List<ItemTrait> Blacklist = null;
 
 	/// <summary>
 	/// Check if the given item is able to fit in this slot (regardless of whether it is occupied)

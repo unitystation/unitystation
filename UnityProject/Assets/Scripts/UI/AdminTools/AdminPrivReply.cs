@@ -9,9 +9,9 @@ namespace AdminTools
 {
 	public class AdminPrivReply : MonoBehaviour
 	{
-		[SerializeField] private Text adminGhostText;
-		[SerializeField] private Text adminDisplayTest;
-		[SerializeField] private InputField inputField;
+		[SerializeField] private Text adminGhostText = null;
+		[SerializeField] private Text adminDisplayTest = null;
+		[SerializeField] private InputField inputField = null;
 
 		private string adminID;
 

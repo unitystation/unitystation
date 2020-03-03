@@ -13,15 +13,15 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 
 	[Tooltip("Sprite to use when the card is a normal card")]
 	[SerializeField]
-	private Sprite standardSprite;
+	private Sprite standardSprite = null;
 
 	[Tooltip("Sprite to use when the card is a captain's card")]
 	[SerializeField]
-	private Sprite captainSprite;
+	private Sprite captainSprite = null;
 
 	[Tooltip("Sprite to use when the card is a command-tier card")]
 	[SerializeField]
-	private Sprite commandSprite;
+	private Sprite commandSprite = null;
 
 	[Tooltip("This is used to place ID cards via map editor and then setting their initial access type")]
 	[FormerlySerializedAs("ManuallyAddedAccess")]

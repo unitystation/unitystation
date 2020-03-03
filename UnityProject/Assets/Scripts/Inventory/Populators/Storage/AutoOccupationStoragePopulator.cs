@@ -11,7 +11,7 @@ public class AutoOccupationStoragePopulator : ItemStoragePopulator
 {
 	[SerializeField]
 	[Tooltip("Populator to use after the occupation-specific populator has been run.")]
-	private ItemStoragePopulator StandardPopulator;
+	private ItemStoragePopulator StandardPopulator = null;
 
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{

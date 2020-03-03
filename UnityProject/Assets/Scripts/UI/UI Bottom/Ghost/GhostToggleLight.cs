@@ -14,7 +14,7 @@ public class GhostToggleLight : MonoBehaviour
 	public Sprite lightOffSprite;
 
 	[SerializeField]
-	private Image image;
+	private Image image = null;
 
 	private LightingSystem lighting;
 	/// <summary>

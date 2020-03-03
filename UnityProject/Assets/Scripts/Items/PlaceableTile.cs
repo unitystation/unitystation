@@ -13,7 +13,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	[FormerlySerializedAs("entries")]
 	[Tooltip("Defines each possible way this item can be placed as a tile.")]
 	[SerializeField]
-	private List<PlaceableTileEntry> waysToPlace;
+	private List<PlaceableTileEntry> waysToPlace = null;
 
 	[Tooltip("How many seconds it takes to place.")]
 	[SerializeField]
@@ -126,7 +126,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	private class PlaceableTileEntry
 	{
 		[Tooltip("Layer tile which this will create when placed.")]
-		public LayerTile layerTile;
+		public LayerTile layerTile = null;
 
 		[Tooltip("What layer this can be placed on top of. Choose None to allow placing on empty space.")]
 		[SerializeField]
@@ -134,7 +134,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 		[Tooltip("Particular tile this is placeable on. Leave empty to allow placing on any tile.")]
 		[SerializeField]
-		public LayerTile placeableOnlyOnTile;
+		public LayerTile placeableOnlyOnTile = null;
 
 		[Tooltip("The amount of this item required to place tile.")]
 		[SerializeField]

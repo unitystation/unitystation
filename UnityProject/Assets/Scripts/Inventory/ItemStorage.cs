@@ -22,7 +22,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	[FormerlySerializedAs("ItemStorageStructure")]
 	[Tooltip("Configuration describing the structure of the slots - i.e. what" +
 			 " the slots are / how many there are.")]
-	private ItemStorageStructure itemStorageStructure;
+	private ItemStorageStructure itemStorageStructure = null;
 
 	/// <summary>
 	/// Storage structure of this object
@@ -32,7 +32,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	[SerializeField]
 	[FormerlySerializedAs("ItemStorageCapacity")]
 	[Tooltip("Capacity of this storage - what each slot is allowed to hold.")]
-	private ItemStorageCapacity itemStorageCapacity;
+	private ItemStorageCapacity itemStorageCapacity = null;
 
 	/// <summary>
 	/// Storage capacity of this object
@@ -44,7 +44,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	[Tooltip("Defines how the storage should be populated when the object spawns. You can also" +
 	         " invoke Populate to manually / dynamically populate this storage using a supplied populator." +
 	         " This will only run server side.")]
-	private ItemStoragePopulator itemStoragePopulator;
+	private ItemStoragePopulator itemStoragePopulator = null;
 
 	/// <summary>
 	/// Cached for quick lookup of what slots are actually available in this storage.

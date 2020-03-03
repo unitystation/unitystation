@@ -7,11 +7,11 @@ using static KeybindManager;
 public class ControlSettingsMenu : MonoBehaviour
 {
 	[SerializeField]
-	private GameObject KeybindItemTemplate;
+	private GameObject KeybindItemTemplate = null;
 	[SerializeField]
-	private GameObject KeybindHeadingTemplate;
+	private GameObject KeybindHeadingTemplate = null;
 	[SerializeField]
-	private GameObject KeyCapturePanel;
+	private GameObject KeyCapturePanel = null;
 	private KeybindDict tempKeybinds;
 	private int KeybindCount;
 	private int ActionTypeCount;

@@ -6,11 +6,11 @@ public class UIToggleChannel : MonoBehaviour
 {
 	public ChatChannel channel;
 	[SerializeField]
-	private GameObject tooltip;
+	private GameObject tooltip = null;
 	[SerializeField]
-	private Toggle toggle;
+	private Toggle toggle = null;
 	[SerializeField]
-	private Text displayText;
+	private Text displayText = null;
 	private Text tooltipText;
 	private RectTransform tooltipRect;
 	private void Start()

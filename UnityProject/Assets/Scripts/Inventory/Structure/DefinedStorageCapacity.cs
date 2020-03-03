@@ -21,12 +21,12 @@ public class DefinedStorageCapacity : ItemStorageCapacity
 
 	[SerializeField]
 	[Tooltip("Capacity of all indexed slots.")]
-	private SlotCapacity IndexedSlotCapacity;
+	private SlotCapacity IndexedSlotCapacity = null;
 
 	[SerializeField]
 	[Tooltip("Capacity capabilities of each named slot")]
 	[ArrayElementTitle("NamedSlot")]
-	private NamedDefinedCapacityEntry[] NamedSlotCapacity;
+	private NamedDefinedCapacityEntry[] NamedSlotCapacity = null;
 
 	public override bool CanFit(Pickupable toCheck, SlotIdentifier inSlot)
 	{

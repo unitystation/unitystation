@@ -12,12 +12,12 @@ namespace IngameDebugConsole
 	{
 		// Cached components
 		[SerializeField]
-		private RectTransform transformComponent;
+		private RectTransform transformComponent = null;
 		[SerializeField]
-		private RectTransform viewportTransform;
+		private RectTransform viewportTransform = null;
 
 		[SerializeField]
-		private DebugLogManager debugManager;
+		private DebugLogManager debugManager = null;
 
 		[SerializeField]
 		private Color logItemNormalColor1;

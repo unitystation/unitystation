@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text visibleText;
-	[SerializeField] private GameObject adminOverlay;
-	[SerializeField] private Shadow shadow;
-	[SerializeField] private RectTransform rectTransform;
-	[SerializeField] private ContentSizeFitter contentFitter;
-	[SerializeField] private LayoutElement layoutElement;
+	[SerializeField] private Text visibleText = null;
+	[SerializeField] private GameObject adminOverlay = null;
+	[SerializeField] private Shadow shadow = null;
+	[SerializeField] private RectTransform rectTransform = null;
+	[SerializeField] private ContentSizeFitter contentFitter = null;
+	[SerializeField] private LayoutElement layoutElement = null;
 	[SerializeField] private List<Text> allText = new List<Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
 	[SerializeField] private List<Button> allButtons = new List<Button>();

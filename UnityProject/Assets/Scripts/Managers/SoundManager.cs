@@ -158,7 +158,7 @@ public class SoundManager : MonoBehaviour
 	public List<AudioSource> musicTracks = new List<AudioSource>();
 
 	[SerializeField]
-	private SongTracker songTracker;
+	private SongTracker songTracker = null;
 	/// <summary>
 	/// For controlling the song play list. Includes random shuffle and auto play
 	/// </summary>

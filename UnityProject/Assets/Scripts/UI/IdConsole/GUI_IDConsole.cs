@@ -12,19 +12,19 @@ public class GUI_IDConsole : NetTab
 {
 	private IdConsole console;
 	[SerializeField]
-	private NetPageSwitcher pageSwitcher;
+	private NetPageSwitcher pageSwitcher = null;
 	[SerializeField]
-	private NetPage loginPage;
+	private NetPage loginPage = null;
 	[SerializeField]
-	private NetPage usercardPage;
+	private NetPage usercardPage = null;
 	[SerializeField]
-	private NetPage mainPage;
+	private NetPage mainPage = null;
 	[SerializeField]
-	private NetLabel targetCardName;
+	private NetLabel targetCardName = null;
 	[SerializeField]
-	private NetLabel accessCardName;
+	private NetLabel accessCardName = null;
 	[SerializeField]
-	private NetLabel loginCardName;
+	private NetLabel loginCardName = null;
 
 	//cached mapping from access to its corresponding entry for fast lookup
 	private Dictionary<Access,GUI_IDConsoleEntry> accessToEntry = new Dictionary<Access, GUI_IDConsoleEntry>();

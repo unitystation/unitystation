@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class VideoPlayerController : MonoBehaviour
 {
-    [SerializeField] private VideoPlayer videoPlayer;
-    [SerializeField] private VideoClip nukeDetVid;
-    [SerializeField] private VideoClip roundRestartVid;
+    [SerializeField] private VideoPlayer videoPlayer = null;
+    [SerializeField] private VideoClip nukeDetVid = null;
+    [SerializeField] private VideoClip roundRestartVid = null;
 
     void Awake()
     {

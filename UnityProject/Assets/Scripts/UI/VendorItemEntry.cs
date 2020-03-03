@@ -11,13 +11,13 @@ public class VendorItemEntry : DynamicEntry
 	private VendorItem vendorItem;
 	private GUI_Vendor vendorWindow;
 	[SerializeField]
-	private NetLabel itemName;
+	private NetLabel itemName = null;
 	[SerializeField]
-	private NetLabel itemCount;
+	private NetLabel itemCount = null;
 	[SerializeField]
-	private NetPrefabImage itemIcon;
+	private NetPrefabImage itemIcon = null;
 	[SerializeField]
-	private NetColorChanger itemBackground;
+	private NetColorChanger itemBackground = null;
 
 	public void SetItem(VendorItem item, GUI_Vendor correspondingWindow)
 	{

@@ -7,7 +7,7 @@ namespace AdminTools
 {
 	public class AdminChatEntry : MonoBehaviour
 	{
-		[SerializeField] private Text msgText;
+		[SerializeField] private Text msgText = null;
 
 		public void SetText(string msg)
 		{

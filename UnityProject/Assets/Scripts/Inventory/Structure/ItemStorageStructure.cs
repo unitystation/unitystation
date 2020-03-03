@@ -22,7 +22,7 @@ public class ItemStorageStructure : ScriptableObject
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlots")]
 	[Tooltip("Available named slots in this structure, accessible via enum. Must not contain duplicates")]
-	private NamedSlot[] namedSlots;
+	private NamedSlot[] namedSlots = null;
 	public NamedSlot[] NamedSlots => namedSlots;
 
 
