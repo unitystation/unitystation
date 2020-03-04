@@ -15,8 +15,13 @@ MonoBehaviour:
   displayName: 
   LayerType: 1
   TileType: 2
-  RequiredTiles: []
+  RequiredTiles:
+  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
   WalkingSoundCategory: 0
+  BarefootWalkingSoundCategory: 0
+  ClawFootstepSoundCategory: 0
+  HeavyFootstepSoundCategory: 0
+  ClownFootstepSoundCategory: 0
   atmosPassable: 0
   isSealed: 0
   SpawnWithNoAir: 0
