@@ -45,9 +45,17 @@ public class GSheetToRGSheet : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void convertGlass(HandApply interaction)
 	{
-		Spawn.ServerPrefab("ReinforcedGlassSheet", gameObject.WorldPosServer() , count: sheetsReinforcedGlass);
-		gameObject.GetComponent<Stackable>().ServerConsume(sheetsGlass);
-		interaction.HandObject.GetComponent<Stackable>().ServerConsume(rods);
+
+		if (gameObject.GetComponent<Stackable>().Amount >= sheetsGlass)
+		{
+			Spawn.ServerPrefab("ReinforcedGlassSheet", interaction.Performer.WorldPosServer(), count: sheetsReinforcedGlass);
+			gameObject.GetComponent<Stackable>().ServerConsume(sheetsGlass);
+			interaction.HandObject.GetComponent<Stackable>().ServerConsume(rods); ;
+		}
+		else
+		{
+			Chat.AddExamineMsgToClient("Not enough glass sheet.");
+		}
 	}
 
 }
