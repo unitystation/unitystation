@@ -24,6 +24,9 @@ public class CentComm : MonoBehaviour
 		"\n\n<color=white><size=60><b>Captain Announces</b></size></color>\n\n"
 	  + "<color=#FF151F><b>{0}</b></color>\n\n";
 
+	public static string CentCommAnnounceTemplate =
+		"\n\n<color=white><size=60><b>Central Command Announces</b></size></color>\n\n"
+	  + "<color=#FF151F><b>{0}</b></color>\n\n";
 	public static string PriorityAnnouncementTemplate =
 		"\n\n<color=white><size=60><b>Priority Announcement</b></size></color>\n\n"
 	  + "<color=#FF151F>{0}</color>\n\n";
@@ -114,7 +117,7 @@ public class CentComm : MonoBehaviour
 		SoundManager.PlayNetworked("InterceptMessage", 1f);
 	}
 
-	public static void MakeCaptainAnnouncement( string text )
+	public static void MakeAnnouncement( string template, string text )
 	{
 		if ( text.Trim() == string.Empty )
 		{
@@ -122,7 +125,7 @@ public class CentComm : MonoBehaviour
 		}
 
 		SoundManager.PlayNetworked( "Announce" );
-		Chat.AddSystemMsgToChat(string.Format( CaptainAnnounceTemplate, text ), MatrixManager.MainStationMatrix);
+		Chat.AddSystemMsgToChat(string.Format( template, text ), MatrixManager.MainStationMatrix);
 	}
 
 	/// <summary>
