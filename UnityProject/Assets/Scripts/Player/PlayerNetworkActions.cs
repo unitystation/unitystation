@@ -693,5 +693,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Spawn.ServerPoolTestRespawn(toRespawn);
 	}
 
+	[Command]
+	public void CmdSendCentCommAnnouncement (string adminId, string adminToken, string text)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+		
+		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text);
+	}
+
 	#endregion
 }

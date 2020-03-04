@@ -11,9 +11,12 @@ namespace AdminTools
 
         public void SendCentCommAnnouncement()
         {
+            
             string text = AnnouncementText.text;
-            Logger.Log( nameof(SendCentCommAnnouncement), Category.NetUI );
-            CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text);
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendCentCommAnnouncement(DatabaseAPI.ServerData.UserID, 
+                                                                                            PlayerList.Instance.AdminToken,
+                                                                                            text);
+            
             adminTools.ShowMainPage();
         }
     }
