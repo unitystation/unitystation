@@ -368,7 +368,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576083105101786}
-  m_LocalRotation: {x: 0.00000020116548, y: -0.00000086426724, z: -1, w: 0.00000012644065}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -506,7 +506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114424348708298150
@@ -521,6 +520,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   allowInput: 1
 --- !u!114 &114029210237443714
 MonoBehaviour:
@@ -543,9 +544,12 @@ MonoBehaviour:
   DoorCoverSpriteOffset: 17
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 2
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
   doorType: 15
   damageOnClose: 0
   ignorePassableChecks: 0
+  IsAutomatic: 1
   IsOpened: 0
   isPerformingAction: 0
   isWindowedDoor: 1
@@ -570,11 +574,13 @@ MonoBehaviour:
   doorController: {fileID: 114029210237443714}
   spritePath: icons/obj/doors/windoor
   animFrames: 3000000024000000200000001c0000001400000010000000
+  animLength: 0
   closeFrame: 76
   deniedFrame: 80
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 1
+  Smoothed: 0
 --- !u!114 &114476203546729768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,10 +689,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2012967759
 --- !u!114 &7724401135494436923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,6 +708,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: interior door
   initialDescription: A strong see-though door.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 

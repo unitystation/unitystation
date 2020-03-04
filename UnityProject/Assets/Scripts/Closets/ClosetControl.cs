@@ -390,7 +390,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		// Is the player trying to put something in the closet
+		// Is the player trying to put something in the closet?
 		if (interaction.HandObject != null)
 		{
 			if (!IsClosed)
@@ -399,24 +399,40 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				Vector3 performerPosition = interaction.Performer.WorldPosServer();
 				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 			}
-			else if (IsLockable && AccessRestrictions != null)
+		}
+		else
+		{
+			// player want to close locker?
+			if (!isLocked)
 			{
-				if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
-				{
-					if (isLocked)
-					{
-						SyncLocked(isLocked, false);	
-					}
-					else
-					{
-						SyncLocked(isLocked, true);	
-					}
-				}
+				ServerToggleClosed();
 			}
 		}
-		else if (!isLocked)
+
+
+		// player trying to unlock locker?
+		if (IsLockable && AccessRestrictions != null)
 		{
-			ServerToggleClosed();
+			// player trying to open lock by card?
+			if (AccessRestrictions.CheckAccessCard(interaction.HandObject))
+			{
+				if (isLocked)
+				{
+					SyncLocked(isLocked, false);
+				}
+				else
+				{
+					SyncLocked(isLocked, true);
+				}
+			}
+			// player with access can unlock just by click
+			else if (AccessRestrictions.CheckAccess(interaction.Performer))
+			{
+				if (isLocked)
+				{
+					SyncLocked(isLocked, false);
+				}
+			}
 		}
 	}
 
@@ -569,7 +585,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 		if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
 		{
-			result.AddElement("OpenClose", RightClickInteract);
+			var optionName = IsClosed ? "Open" : "Close";
+			result.AddElement("OpenClose", RightClickInteract, nameOverride: optionName);
 		}
 
 

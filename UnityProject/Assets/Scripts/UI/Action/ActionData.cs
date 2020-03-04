@@ -15,6 +15,9 @@ public class ActionData : ScriptableObject
 
 	public List<ActionController> PreventBeingControlledBy = new List<ActionController>();
 
+
+	public List<EVENT> DisableOnEvent = new List<EVENT>();
+
 }
 
 

@@ -292,13 +292,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		var body = playerScript.mind.body.gameObject;
-		if (itemStorage != null)
+
+		if (this == null || itemStorage == null)
 		{
-			//player gets inventory slot updates again
-			foreach (var slot in itemStorage.GetItemSlotTree())
-			{
-				slot.ServerAddObserverPlayer(body);
-			}
+			return;
+		}
+
+		//player gets inventory slot updates again
+		foreach (var slot in itemStorage.GetItemSlotTree())
+		{
+			slot.ServerAddObserverPlayer(body);
 		}
 	}
 

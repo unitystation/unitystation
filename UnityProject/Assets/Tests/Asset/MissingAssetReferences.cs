@@ -5,6 +5,7 @@ using UnityEditor;
 using System.Text;
 using System.Linq;
 using System.IO;
+using UnityEditor.SceneManagement;
 
 namespace Tests
 {
@@ -171,6 +172,71 @@ namespace Tests
 			Assert.IsEmpty(listResults, report.ToString());
 		}
 
+
+		/// <summary>
+		/// Check if there are missing components or reference fields in a scene
+		/// Checks only scenes selected for build
+		/// </summary>
+		[Test]
+		public void CheckMissingComponentsOnScenes()
+		{
+			var buildScenes = EditorBuildSettings.scenes;
+
+			var missingComponentsReport = new List<(string, string)>();
+			var missingFieldsReport = new List<(string, string, string, string)>();
+
+			foreach (var scene in buildScenes)
+			{
+				var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
+				var currentSceneName = currentScene.name;
+
+				var allGO = GameObject.FindObjectsOfType<GameObject>();
+				foreach (var go in allGO)
+				{
+					Component[] components = go.GetComponents<Component>();
+					foreach (Component c in components)
+					{
+						var parent = go.transform.parent;
+						var parentName = parent ? parent.name + '/' : "";
+
+						if (c == null)
+						{
+							missingComponentsReport.Add((currentSceneName, parentName + go.name));
+						}
+						else
+						{
+							var so = new SerializedObject(c);
+							var missingRefs = GetMissingRefs(so);
+							foreach (var miss in missingRefs)
+								missingFieldsReport.Add((currentSceneName, parentName + go.name, c.name, miss));
+						}
+					}
+				}
+			}
+
+			// Form report about missing components
+			var report = new StringBuilder();
+			foreach (var s in missingComponentsReport)
+			{
+				var missingComponentMsg = $"Missing component found in scene {s.Item1}, GameObject {s.Item2}";
+				Logger.Log(missingComponentMsg, Category.Tests);
+				report.AppendLine(missingComponentMsg);
+			}
+
+			Assert.IsEmpty(missingComponentsReport, report.ToString());
+
+			// Form report about missing refs
+			report = new StringBuilder();
+			foreach (var s in missingFieldsReport)
+			{
+				var missingFieldsMsg = $"Missing reference found in scene {s.Item1}, GameObject {s.Item2}, Component {s.Item3}, FieldName {s.Item4}";
+				Logger.Log(missingFieldsMsg, Category.Tests);
+				report.AppendLine(missingFieldsMsg);
+			}
+
+			Assert.IsEmpty(missingFieldsReport, report.ToString());
+
+		}
 
 		private static List<string> GetMissingRefs(SerializedObject so)
 		{

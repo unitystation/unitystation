@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CommonTraitsSingleton
   m_EditorClassIdentifier: 
   ReagentContainer: {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58, type: 2}
-  CanisterFillable: {fileID: 0}
+  CanisterFillable: {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58, type: 2}
   Gun: {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
   Food: {fileID: 11400000, guid: fe7314825ebf744c3b651ca76d282adc, type: 2}
   Mask: {fileID: 11400000, guid: 3858899698cc1425f86b8b93032ca57d, type: 2}
@@ -33,9 +33,14 @@ MonoBehaviour:
   MetalSheet: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
   GlassSheet: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}
   PlasteelSheet: {fileID: 11400000, guid: debdeac43ef6b474f934cecc7f43a273, type: 2}
+  ReinforcedGlassSheet: {fileID: 11400000, guid: d19286b34d74c144099285a94d7a0e01,
+    type: 2}
+  WoodenPlank: {fileID: 11400000, guid: 5b9f111eed52a4d4fa8a3fbbd459fdf6, type: 2}
   Cable: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
   Welder: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
-  Shovel: {fileID: 0}
+  Shovel: {fileID: 11400000, guid: b336a4abd9d45924cb48b49a49fdea2b, type: 2}
   Knife: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
   Transforamble: {fileID: 11400000, guid: eca72cf10c773424ab1605cf913b19a1, type: 2}
-  CanTransfrom: {fileID: 11400000, guid: 6ce59236613b88941a75d2d450cf5a85, type: 2}
+  Squeaky: {fileID: 11400000, guid: 66ec94743369ae744a8b1595701b0520, type: 2}
+  Boots: {fileID: 0}
+  Rods: {fileID: 11400000, guid: d823ef2f0f86bd240b865220bbd5c6a3, type: 2}

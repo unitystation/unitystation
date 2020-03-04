@@ -456,6 +456,14 @@ public partial class CustomNetTransform
 		}
 
 		Vector3Int intOrigin = Vector3Int.RoundToInt(worldPosition);
+
+		if (intOrigin.x > 5000 || intOrigin.x < -5000 || intOrigin.y > 5000 || intOrigin.y < -5000)
+		{
+			Stop();
+			Logger.Log($"ITEM {transform.name} was forced to stop at {intOrigin}", Category.Movement);
+			return true;
+		}
+
 		float distance = moveDelta.magnitude;
 		Vector3 newGoal;
 

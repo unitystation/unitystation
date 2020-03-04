@@ -51,7 +51,17 @@ public class ItemAttributesV2 : Attributes
 	/// </summary>
 	public float ServerHitDamage
 	{
-		get => hitDamage;
+		get {
+			
+			//If item has an ICustomDamageCalculation component, use that instead.
+			ICustomDamageCalculation part = GetComponent<ICustomDamageCalculation>();
+			if (part != null)
+			{
+				return part.ServerPerformDamageCalculation();
+			}
+
+			return hitDamage;
+		}
 		set => hitDamage = value;
 	}
 

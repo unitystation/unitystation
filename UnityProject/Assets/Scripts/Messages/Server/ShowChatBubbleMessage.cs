@@ -39,7 +39,7 @@ public class ShowChatBubbleMessage : ServerMessage
 			IsPlayerChatBubble = isPlayerChatBubble
 		};
 
-		msg.SendToVisiblePlayers(followTransform.WorldPosServer());
+		msg.SendToVisiblePlayers(followTransform.transform.position);
 		return msg;
 	}
 }

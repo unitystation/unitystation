@@ -16,7 +16,7 @@ public class DoorController : NetworkBehaviour
 		private int closedLayer;
 		private int closedSortingLayer;
 		public AudioSource closeSFX;
-		
+
 		private IEnumerator coWaitOpened;
 		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
 		public DoorAnimator doorAnimator;
@@ -40,7 +40,13 @@ public class DoorController : NetworkBehaviour
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
 
-		public bool IsOpened;
+		[Tooltip("Does this door open automatically when you walk into it?")]
+		public bool IsAutomatic = true;
+
+		/// <summary>
+		/// Makes registerTile door closed state accessible
+		/// </summary>
+		public bool IsClosed { get { return registerTile.IsClosed; } set { registerTile.IsClosed = value; } }
 		[SyncVar(hook = nameof(SyncIsWelded))]
 		[HideInInspector]private bool isWelded = false;
 		/// <summary>
@@ -59,6 +65,8 @@ public class DoorController : NetworkBehaviour
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
+
+		private TileChangeManager tileChangeManager;
 
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions {
@@ -94,6 +102,7 @@ public class DoorController : NetworkBehaviour
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			openLayer = LayerMask.NameToLayer("Door Open");
 			registerTile = gameObject.GetComponent<RegisterDoor>();
+			tileChangeManager = GetComponentInParent<TileChangeManager>();
 		}
 
 		public override void OnStartClient()
@@ -122,7 +131,7 @@ public class DoorController : NetworkBehaviour
 			// the below logic and reopen the door if the client got stuck in the door in the .15 s gap.
 
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
-			if (CustomNetworkManager.IsServer && !IsOpened && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
+			if (CustomNetworkManager.IsServer && IsClosed && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
 			{
 				if (!MatrixManager.IsPassableAt(registerTile.WorldPositionServer, registerTile.WorldPositionServer,
 					isServer: true, includingPlayers: true, context: this.gameObject))
@@ -138,7 +147,7 @@ public class DoorController : NetworkBehaviour
 
 		public void BoxCollToggleOn()
 		{
-			registerTile.IsClosed = true;
+			IsClosed = true;
 
 			SetLayer(closedLayer);
 
@@ -147,7 +156,7 @@ public class DoorController : NetworkBehaviour
 
 		public void BoxCollToggleOff()
 		{
-			registerTile.IsClosed = false;
+			IsClosed = false;
 
 			SetLayer(openLayer);
 
@@ -202,7 +211,7 @@ public class DoorController : NetworkBehaviour
 		public void ServerTryClose()
 		{
 			// Sliding door is not passable according to matrix
-            if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
+            if( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
 	            ServerClose();
             }
 			else
@@ -213,7 +222,7 @@ public class DoorController : NetworkBehaviour
 
 		public void ServerClose() {
 			if (gameObject == null) return; // probably destroyed by a shuttle crash
-			IsOpened = false;
+			IsClosed = true;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
 				if (damageOnClose)
@@ -233,19 +242,21 @@ public class DoorController : NetworkBehaviour
 			if (AccessRestrictions != null)
 			{
 				if (AccessRestrictions.CheckAccess(Originator)) {
-					if (!IsOpened && !isPerformingAction) {
+					if (IsClosed && !isPerformingAction) {
 						ServerOpen();
 					}
 				}
 				else {
-					if (!IsOpened && !isPerformingAction) {
+					if (IsClosed && !isPerformingAction) {
 						ServerAccessDenied();
 					}
 				}
 			}
 			else
 			{
-				Logger.LogError("Door lacks access restriction component!", Category.Doors);
+				Logger.LogErrorFormat("Door {0} @{1} lacks access restriction component!", Category.Doors,
+					name,
+					registerTile ? registerTile.WorldPositionServer : transform.position);
 			}
 		}
 
@@ -259,7 +270,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
 			ResetWaiting();
-			IsOpened = true;
+			IsClosed = false;
 
 			if (!isPerformingAction)
 			{
@@ -291,6 +302,12 @@ public class DoorController : NetworkBehaviour
 			{
 				weldOverlay.sprite = isWelded ? weldSprite : null;
 			}
+		}
+		public void ServerDisassemble(HandApply interaction)
+		{
+			tileChangeManager.RemoveTile(registerTile.LocalPositionServer, LayerType.Walls);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
+			Despawn.ServerSingle(gameObject);
 		}
 
 	private void ServerDamageOnClose()
@@ -335,7 +352,7 @@ public class DoorController : NetworkBehaviour
 		/// <param name="playerGameObject">game object of the player to inform</param>
 		public void NotifyPlayer(GameObject playerGameObject)
 		{
-			if (IsOpened)
+			if (!IsClosed)
 			{
 				DoorUpdateMessage.Send(playerGameObject, gameObject, DoorUpdateType.Open, true);
 			}

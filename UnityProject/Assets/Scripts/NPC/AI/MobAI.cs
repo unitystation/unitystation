@@ -30,6 +30,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	private float fleeingTime = 0f;
 	private float fleeTimeMax;
 
+	private bool initialPassableState;
+
 	//Events:
 	protected UnityEvent followingStopped = new UnityEvent();
 	protected UnityEvent exploringStopped = new UnityEvent();
@@ -71,6 +73,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		cnt = GetComponent<CustomNetTransform>();
 		registerObject = GetComponent<RegisterObject>();
 		uprightSprites = GetComponent<UprightSprites>();
+		initialPassableState = registerObject.Passable;
 	}
 
 	public virtual void OnEnable()
@@ -116,15 +119,6 @@ public class MobAI : MonoBehaviour, IServerDespawn
 				MonitorUprightState();
 			}
 			return;
-		}
-
-		//Maybe the mob was revived set passable back to false
-		//and put sprite render sort layer back to NPC:
-		if (registerObject.Passable)
-		{
-			registerObject.Passable = false;
-			dirSprites.SetToNPCLayer();
-			MonitorUprightState();
 		}
 
 		MonitorFollowingTime();

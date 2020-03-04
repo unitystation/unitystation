@@ -14,7 +14,9 @@ static class BuildScript
 	{
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/StartUp.unity","Assets/scenes/Lobby.unity",
-			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity"};
+			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity",
+			"Assets/scenes/PogStation.unity", "Assets/scenes/AsteroidStation.unity"
+		};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Server/Unitystation-Server";
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
 		buildPlayerOptions.options = BuildOptions.Development;
@@ -52,7 +54,9 @@ static class BuildScript
 
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/StartUp.unity","Assets/scenes/Lobby.unity",
-			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity"};
+			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity",
+			"Assets/scenes/PogStation.unity", "Assets/scenes/AsteroidStation.unity"
+		};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Windows/Unitystation.exe";
 		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
@@ -63,7 +67,9 @@ static class BuildScript
 	{
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/StartUp.unity","Assets/scenes/Lobby.unity",
-			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity"};
+			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity",
+			"Assets/scenes/PogStation.unity", "Assets/scenes/AsteroidStation.unity"
+		};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/OSX/Unitystation.app";
 		buildPlayerOptions.target = BuildTarget.StandaloneOSX;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
@@ -74,7 +80,9 @@ static class BuildScript
 	{
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/StartUp.unity","Assets/scenes/Lobby.unity",
-			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity"};
+			"Assets/scenes/BoxStationV1.unity", "Assets/scenes/OutpostStation.unity",
+			"Assets/scenes/PogStation.unity", "Assets/scenes/AsteroidStation.unity"
+		};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Linux/Unitystation";
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
 		buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
