@@ -39,15 +39,11 @@ public class RodsToMetal : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void convertRods(HandApply interaction)
 	{
-
-		if (gameObject.GetComponent<Stackable>().Amount >= rods)
+		Stackable stack = gameObject.GetComponent<Stackable>();
+		if (stack.Amount >= rods)
 		{
 			Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer(), count: metal);
-			gameObject.GetComponent<Stackable>().ServerConsume(rods);
-		}
-		else
-		{
-			Chat.AddExamineMsgToClient("Not enough rods.");
+			stack.ServerConsume(rods);
 		}
 	}
 
