@@ -131,6 +131,8 @@ public class CentComm : MonoBehaviour
 			paper.SetServerString(string.Format(CentCommReportTemplate, text));
 		}
 
+		Chat.AddSystemMsgToChat(CommandNewReportString(), MatrixManager.MainStationMatrix);
+
 		SoundManager.PlayNetworked("Notice2", 1f);
 		SoundManager.PlayNetworked("Commandreport", 1f);
 	}
@@ -192,7 +194,7 @@ public class CentComm : MonoBehaviour
 	private string CommandNewReportString()
 	{
 		return 	"\n\n<color=white><size=60><b>Priority Announcement</b></size></color>\n\n"
-	  	+ "<color=#FF151F>{0}</color>\n\n"
+	  	+ "<color=#FF151F>Attention, new Command report created!</color>\n\n"
 		+ "A report has been downloaded and printed out at all communications consoles.";
 	}
 
