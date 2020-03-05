@@ -1484,8 +1484,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnEscapeKey:
     m_PersistentCalls:
-      m_Calls: []
-  DisableOnEscape: 1
+      m_Calls:
+      - m_Target: {fileID: 4072559114180336216}
+        m_MethodName: CloseMenuPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  DisableOnEscape: 0
 --- !u!1 &4113897964920522952
 GameObject:
   m_ObjectHideFlags: 0

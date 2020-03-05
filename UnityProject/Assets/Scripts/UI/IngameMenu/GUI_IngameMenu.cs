@@ -71,13 +71,14 @@ public class GUI_IngameMenu : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Opens all menu panels (Menu and disclamer)
+	/// Opens all menu panels (Menu and disclaimer)
 	/// </summary>
 	public void OpenMenuPanel()
 	{
 		SoundManager.Play("Click01");
 		Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(true);
+		UIManager.Display.disclaimer.SetActive(true);
 	}
 
 	/// <summary>
@@ -92,13 +93,13 @@ public class GUI_IngameMenu : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Closes all menu panels (Menu and disclamer)
+	/// Closes all menu panels (Menu and disclaimer)
 	/// </summary>
 	public void CloseMenuPanel()
 	{
 		SoundManager.Play("Click01");
 		Logger.Log($"Closing {menuWindow.name} menu", Category.UI);
-		menuWindow.SetActive(false);
+		HideAllMenus();
 	}
 
 	public void OpenOptionsScreen()
@@ -172,5 +173,6 @@ public class GUI_IngameMenu : MonoBehaviour
 	private void HideAllMenus()
 	{
 		menuWindow.SetActive(false);
+		UIManager.Display.disclaimer.SetActive(false);
 	}
 }

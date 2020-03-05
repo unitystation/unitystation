@@ -21,8 +21,7 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject jobSelectWindow;
 	public GameObject preRoundWindow;
 	public GameObject teamSelectionWindow;
-	[SerializeField]
-	private GameObject disclaimer;
+	public GameObject disclaimer;
 	public RectTransform panelRight;
 
 	[SerializeField]
