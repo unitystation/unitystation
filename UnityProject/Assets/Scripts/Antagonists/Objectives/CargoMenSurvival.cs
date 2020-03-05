@@ -39,7 +39,7 @@ namespace Antagonists
 				}
 			}
 
-			if ((allCargomen / 2) <= allAliveCargomen)
+			if (allAliveCargomen >= (double)allCargomen / 2)
 			{
 				return true;
 			}

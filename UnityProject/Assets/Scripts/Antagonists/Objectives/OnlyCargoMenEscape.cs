@@ -35,7 +35,7 @@ namespace Antagonists
 					}
 				}
 			}
-			
+
 			return true;
 		}
 	}
