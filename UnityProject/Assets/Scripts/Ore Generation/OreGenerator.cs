@@ -58,11 +58,7 @@ public class OreGenerator : MonoBehaviour
 
 					if (wallTilemap.HasTile(localPlace))
 					{
-						var tile = wallTilemap.GetTile(localPlace);
-						if (tile.name.Contains("rock_wall"))
-						{
-							miningTiles.Add(localPlace);
-						}
+						miningTiles.Add(localPlace);
 					}
 				}
 			}
