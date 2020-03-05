@@ -708,7 +708,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		CentComm.MakeCommandReport(text);
+		GameManager.Instance.CentComm.MakeCommandReport(text);
 	}
 
 	#endregion

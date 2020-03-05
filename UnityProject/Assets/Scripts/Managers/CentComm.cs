@@ -18,7 +18,7 @@ public class CentComm : MonoBehaviour
 	//Server only:
 	private List<Vector2> AsteroidLocations = new List<Vector2>();
 	private int PlasmaOrderRequestAmt;
-	private static GameObject paperPrefab;
+	private GameObject paperPrefab;
 
 	public static string CaptainAnnounceTemplate =
 		"\n\n<color=white><size=60><b>Captain Announces</b></size></color>\n\n"
@@ -121,7 +121,7 @@ public class CentComm : MonoBehaviour
 		SoundManager.PlayNetworked("InterceptMessage", 1f);
 	}
 
-	public static void MakeCommandReport(string text)
+	public void MakeCommandReport(string text)
 	{
 		var commConsoles = FindObjectsOfType<CommsConsole>();
 		foreach (CommsConsole console in commConsoles)
