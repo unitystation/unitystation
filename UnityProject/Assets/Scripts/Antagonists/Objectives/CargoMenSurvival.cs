@@ -25,7 +25,8 @@ namespace Antagonists
 			foreach (var p in PlayerList.Instance.AllPlayers)
 			{
 				if (p.Script == null) continue;
-				if (p.Job == JobType.CARGOTECH || p.Job == JobType.QUARTERMASTER)
+				if (p.Job == JobType.CARGOTECH || p.Job == JobType.QUARTERMASTER
+				                               || p.Job == JobType.MINER)
 				{
 					allCargomen++;
 				}
