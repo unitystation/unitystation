@@ -7,15 +7,25 @@ namespace AdminTools
 {
     public class CentCommPage : AdminPage
     {
-        [SerializeField] InputFieldFocus AnnouncementText;
+        [SerializeField] InputFieldFocus CentCommInputBox;
 
         public void SendCentCommAnnouncement()
         {
             
-            string text = AnnouncementText.text;
+            string text = CentCommInputBox.text;
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendCentCommAnnouncement(DatabaseAPI.ServerData.UserID, 
                                                                                             PlayerList.Instance.AdminToken,
                                                                                             text);
+            
+            adminTools.ShowMainPage();
+        }
+
+        public void SendCentCommReport()
+        {
+            string text = CentCommInputBox.text;
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendCentCommReport(DatabaseAPI.ServerData.UserID, 
+                                                                                        PlayerList.Instance.AdminToken,
+                                                                                        text);
             
             adminTools.ShowMainPage();
         }

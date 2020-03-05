@@ -44,6 +44,9 @@ public class CentComm : MonoBehaviour
 //		+"Recall signal traced. Results can be viewed on any communications console.";
 		"\n\n{0}";
 
+	public static string CentCommReportTemplate =
+		"<size=40><b>CentComm Report</b></size> \n __________________________________\n\n";
+
 	void Start()
 	{
 		paperPrefab = Resources.Load<GameObject>("Paper");
@@ -117,6 +120,20 @@ public class CentComm : MonoBehaviour
 		SoundManager.PlayNetworked("InterceptMessage", 1f);
 	}
 
+	public void MakeCommandReport(string text)
+	{
+		var commConsoles = FindObjectsOfType<CommsConsole>();
+		foreach (CommsConsole console in commConsoles)
+		{
+			var p = Spawn.ServerPrefab(paperPrefab, console.transform.position, console.transform.parent).GameObject;
+			var paper = p.GetComponent<Paper>();
+			paper.SetServerString(string.Format(CentCommReportTemplate, text));
+		}
+
+		SoundManager.PlayNetworked("Notice2", 1f);
+		SoundManager.PlayNetworked("commandreport", 1f);
+	}
+
 	public static void MakeAnnouncement( string template, string text )
 	{
 		if ( text.Trim() == string.Empty )
@@ -169,6 +186,13 @@ public class CentComm : MonoBehaviour
 		}
 
 		return report;
+	}
+
+	private string CommandNewReportString()
+	{
+		return 	"\n\n<color=white><size=60><b>Priority Announcement</b></size></color>\n\n"
+	  	+ "<color=#FF151F>{0}</color>\n\n"
+		+ "A report has been downloaded and printed out at all communications consoles.";
 	}
 
 	private string CommandUpdateAnnouncementString()
