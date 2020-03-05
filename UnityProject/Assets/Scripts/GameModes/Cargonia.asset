@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: Cargonia
   m_EditorClassIdentifier: 
   Name: Cargonia
-  Description: 
+  Description: A band of cargo technicians, who after an argument with Human Resources
+    over labor rights and subsequent firing, have covertly secured positions aboard
+    this stations cargo department. Their time for action is now, and they plan to
+    secede and form Cargonia. They have no intention of being stopped, and this time
+    they're the ones doing the firing.
   CanRespawn: 0
   MinPlayers: 1
   MinAntags: 1
-  PossibleAntags: []
+  PossibleAntags:
+  - {fileID: 11400000, guid: 6eb4b2c2fcd1e8f4bba13a622f480144, type: 2}
