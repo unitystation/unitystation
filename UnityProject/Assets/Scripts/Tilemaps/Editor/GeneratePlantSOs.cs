@@ -29,9 +29,11 @@ public class GeneratePlantSOs : EditorWindow
 			//\\	Logger.Log(Datapiece.Key);
 			//\\}
 
-			var plantdata = new PlantData();
-			plantdata.ProduceObject = food;
-			plantdata.Name = plat["name"] as string;
+			var plantdata = new PlantData
+			{
+				ProduceObject = food,
+				Name = plat["name"] as string
+			};
 			if (plat.ContainsKey("plantname"))
 			{
 				plantdata.Plantname = plat["plantname"] as string;
@@ -241,9 +243,9 @@ public class GeneratePlantSOs : EditorWindow
 
 				foreach (var Chemical in Chemicals)
 				{
-					var SInt = new StringInt();
-					SInt.Int = (int)(Chemical.Value * 100);
-					SInt.String = Chemical.Key;
+					var SInt = new Reagent();
+					SInt.Ammount = (int)(Chemical.Value * 100);
+					SInt.Name = Chemical.Key;
 					plantdata.ReagentProduction.Add(SInt);
 				}
 			}

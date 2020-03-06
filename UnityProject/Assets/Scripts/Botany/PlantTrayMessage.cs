@@ -47,7 +47,7 @@ public class PlantTrayMessage : ServerMessage
 			SyncWaterNotifier = waterNotifier,
 			SyncWeedNotifier = weedNotifier
 		};
-		msg.SendToNearbyPlayers(tray.transform.position);
+		msg.SendToAll();
 		return msg;
 	}
 }

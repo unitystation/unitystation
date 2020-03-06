@@ -6,7 +6,7 @@ using Mirror;
 /// <summary>
 /// Where the magic happens in botany. This tray grows all of the plants
 /// </summary>
-public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
+public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 {
 	public bool syncHarvestNotifier;
 	public bool syncWeedNotifier;
@@ -15,6 +15,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 
 	private RegisterTile registerTile;
 
+	[SyncVar(hook = nameof(SyncGrowingPlantStage))]
 	public PlantSpriteStage plantSyncStage;
 	public int growingPlantStage;
 	public string plantSyncString;
@@ -26,14 +27,19 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	public ReagentContainer reagentContainer;
 	public SpriteHandler plantSprite;
 
+	[SyncVar(hook = nameof(SyncHarvest))]
 	public SpriteHandler harvestNotifier;
+	[SyncVar(hook = nameof(SyncWeed))]
 	public SpriteHandler weedNotifier;
+	[SyncVar(hook = nameof(SyncWater))]
 	public SpriteHandler waterNotifier;
+	[SyncVar(hook = nameof(SyncNutriment))]
 	public SpriteHandler nutrimentNotifier;
+	[SyncVar(hook = nameof(SyncPlant))]
 	public PlantData plantData;
 	public bool hasPlant;
 
-	private static System.Random random = new System.Random();
+	private static readonly System.Random random = new System.Random();
 
 	public float tickRate = 0.1f;
 	public float tickCount;
@@ -49,7 +55,6 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 	public override void OnStartServer()
 	{
 		EnsureInit();
-		UpdateManager.Add(CallbackType.UPDATE, ServerUpdate);
 		IsServer = true;
 		if (isSoilPile)
 		{
@@ -64,7 +69,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 	}
 
-	public void OnEnable()
+	protected void Awake()
 	{
 		EnsureInit();
 	}
@@ -75,28 +80,23 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		registerTile = GetComponent<RegisterTile>();
 	}
 
-	public void OnDisable()
+	/// <summary>
+	/// Server checks plant status and updates clients as needed
+	/// </summary>
+	public override void UpdateMe()
 	{
-		if (IsServer)
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdate);
-		}
-	}
-
-	void ServerUpdate()
-	{
+		//Only server checks plant status
 		if (!isServer) return;
 
+		//Only update at set rate
 		tickCount += Time.deltaTime;
-		if (tickCount > tickRate)
+		if (tickCount < tickRate)
 		{
-			DoTick();
-			tickCount = 0f;
+			return;
 		}
-	}
+		tickCount = 0f;
 
-	public void DoTick()
-	{
+
 		if (hasPlant)
 		{
 			if (weedLevel < 10)
@@ -169,8 +169,9 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 								SyncStage(PlantSpriteStage.FullyGrown);
 								readyToHarvest = true;
 								ProduceCrop();
-								SyncHarvest(true);
+								
 							}
+							SyncHarvest(true);
 						}
 					}
 					else
@@ -252,12 +253,12 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 	}
 
-	[Server]
+	/*[Server]
 	private void SendUpdateToNearbyPlayers()
 	{
 		PlantTrayMessage.SendToNearbyPlayers(gameObject, plantSyncString, growingPlantStage, plantSyncStage,
 			syncHarvestNotifier, syncWeedNotifier, syncWaterNotifier, syncNutrimentNotifier);
-	}
+	}*/
 
 	private void SyncHarvest(bool newNotifier)
 	{
@@ -274,8 +275,9 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			harvestNotifier.PushClear();
 		}
 
+	
 		//Force a refresh on nearby clients
-		if (isServer) SendUpdateToNearbyPlayers();
+		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncWeed(bool newNotifier)
@@ -294,7 +296,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 
 		//Force a refresh on nearby clients
-		if (isServer) SendUpdateToNearbyPlayers();
+		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncWater(bool newNotifier)
@@ -314,7 +316,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 
 		//Force a refresh on nearby clients
-		if (isServer) SendUpdateToNearbyPlayers();
+		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncNutriment(bool newNotifier)
@@ -335,7 +337,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 
 		//Force a refresh on nearby clients
-		if (isServer) SendUpdateToNearbyPlayers();
+		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncStage(PlantSpriteStage newStage)
@@ -374,7 +376,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 
 		//Force a refresh on nearby clients
-		if (isServer) SendUpdateToNearbyPlayers();
+		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	private void SyncGrowingPlantStage(int newStage)
@@ -382,9 +384,13 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		growingPlantStage = newStage;
 
 		//Force a refresh on nearby clients
-		if (isServer) SendUpdateToNearbyPlayers();
+		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
+	/// <summary>
+	/// Syncroneses 
+	/// </summary>
+	/// <param name="newPlantString"></param>
 	private void SyncPlant(string newPlantString)
 	{
 		if (newPlantString == plantSyncString) return;
@@ -397,12 +403,13 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 
 		//Force a refresh on nearby clients
-		if (isServer) SendUpdateToNearbyPlayers();
+		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	public void ReceiveMessage(string plantString, int growingStage, PlantSpriteStage spriteStage,
 		bool harvestSync, bool weedSync, bool waterSync, bool nutrimentSync)
 	{
+
 		plantSyncString = plantString;
 
 		SyncHarvest(harvestSync);
@@ -581,6 +588,10 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 		}
 	}
 
+	/// <summary>
+	/// Triggers plant in tray to mutate if possible
+	/// Loads a random mutation out of the plants MutatesInTo list
+	/// </summary>
 	private void Mutation()
 	{
 		if (plantData.MutatesInTo.Count == 0) return;
@@ -676,7 +687,7 @@ public class HydroponicsTray : NetworkBehaviour, IInteractable<HandApply>
 			Inventory.ServerVanish(slot);
 
 			//Force a quick refresh:
-			SendUpdateToNearbyPlayers();
+			//SendUpdateToNearbyPlayers();
 			return;
 		}
 

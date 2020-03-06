@@ -15,6 +15,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	[SyncVar(hook = nameof(SyncPlant))]
 	public string PlantSyncString;
 
+
 	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
 	{
 		PlantSyncString = _PlantSyncString;
@@ -76,25 +77,29 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 			var ChemicalDictionary = new Dictionary<string, float>();
 			foreach (var Chemical in plantData.ReagentProduction)
 			{
-				ChemicalDictionary[Chemical.String] = (Chemical.Int * (plantData.Potency / 100f));
+				ChemicalDictionary[Chemical.Name] = (Chemical.Ammount * (plantData.Potency / 100f));
 			}
 			reagentContainer.AddReagents(ChemicalDictionary);
 
 		}
 	}
 
+	/// <summary>
+	/// Gets seeds for plant and replaces held food with seeds
+	/// </summary>
+	/// <param name="interaction"></param>
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (plantData != null)
 		{
-			var _Object = Spawn.ServerPrefab(SeedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject;
-			var seedPacket = _Object.GetComponent<SeedPacket>();
+			var seedObject = Spawn.ServerPrefab(SeedPacket, interaction.Performer.RegisterTile().WorldPositionServer, parent: interaction.Performer.transform.parent).GameObject;
+			var seedPacket = seedObject.GetComponent<SeedPacket>();
 			seedPacket.plantData = plantData;
 
 			seedPacket.SyncPlant(null, plantData.Name);
 
 			var slot = interaction.HandSlot;
-			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DespawnOther);
+			Inventory.ServerAdd(seedObject, interaction.HandSlot, ReplacementStrategy.DespawnOther);
 		}
 
 

@@ -24,10 +24,13 @@ public class PlantData
 	public int Yield = 4;//-1;
 	public int Lifespan = 25;//-1;
 	public List<PlantTrays> PlantTrays = new List<PlantTrays>();
-	public List<StringInt> ReagentProduction = new List<StringInt>();
+	public List<Reagent> ReagentProduction = new List<Reagent>();
 	public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
 
-
+	/// <summary>
+	/// Mutates the plant instance this is run against
+	/// </summary>
+	/// <param name="_DefaultPlantData"></param>
 	public void MutateTo(DefaultPlantData _DefaultPlantData)
 	{
 		if (_DefaultPlantData == null) return;
@@ -56,6 +59,10 @@ public class PlantData
 		CombineReagentProduction(_DefaultPlantData.ReagentProduction);
 	}
 
+	/// <summary>
+	/// Initializes plant with data another plant object
+	/// </summary>
+	/// <param name="_PlantData">data to copy</param>
 	public void SetValues(PlantData _PlantData)
 	{
 		Plantname = _PlantData.Plantname;
@@ -79,7 +86,11 @@ public class PlantData
 		MutatesInTo = _PlantData.MutatesInTo;
 	}
 
-
+	/// <summary>
+	/// Initializes plant with data from default plant
+	/// Leaves some existing plant data if plant already exists?
+	/// </summary>
+	/// <param name="DefaultPlantData">DefaultPlantData.plantdata's values are copied</param>
 	public void SetValues(DefaultPlantData DefaultPlantData)
 	{
 		var _PlantData = DefaultPlantData.plantData;
@@ -127,10 +138,13 @@ public class PlantData
 		CombineReagentProduction(_PlantData.ReagentProduction);
 	}
 
-
-	public void CombineReagentProduction(List<StringInt> Reagents)
+	/// <summary>
+	/// Combine plants reagents removing any duplicates, Keeps highest yield
+	/// </summary>
+	/// <param name="Reagents">New reagents to combine</param>
+	public void CombineReagentProduction(List<Reagent> Reagents)
 	{
-		var ToRemove = new List<StringInt>();
+		var ToRemove = new List<Reagent>();
 		Reagents.AddRange(ReagentProduction);
 		foreach (var Reagent in Reagents)
 		{
@@ -138,9 +152,9 @@ public class PlantData
 			{
 				if (_Reagent != Reagent)
 				{
-					if (_Reagent.String == Reagent.String)
+					if (_Reagent.Name == Reagent.Name)
 					{
-						if (_Reagent.Int > Reagent.Int)
+						if (_Reagent.Ammount > Reagent.Ammount)
 						{
 							ToRemove.Add(Reagent);
 						}
@@ -159,12 +173,16 @@ public class PlantData
 	}
 }
 
+/// <summary>
+/// Holds Reagent information
+/// </summary>
 [System.Serializable]
-public class StringInt
+public class Reagent
 {
-	public string String;
-	public int Int;
+	public string Name;
+	public int Ammount;
 }
+
 
 public enum PlantTrays
 {
