@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Used to synchronise all the sprites of the PlantTray
 /// </summary>
-public class PlantTrayMessage : ServerMessage
+/*public class PlantTrayMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.PlantTrayMessage;
 	public string PlantSyncString;
@@ -50,4 +50,4 @@ public class PlantTrayMessage : ServerMessage
 		msg.SendToAll();
 		return msg;
 	}
-}
+}*/

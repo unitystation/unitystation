@@ -260,7 +260,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			syncHarvestNotifier, syncWeedNotifier, syncWaterNotifier, syncNutrimentNotifier);
 	}*/
 
-	private void SyncHarvest(bool newNotifier)
+	private void SyncHarvest(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile
 			|| newNotifier == syncHarvestNotifier) return;
@@ -274,13 +274,9 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		{
 			harvestNotifier.PushClear();
 		}
-
-	
-		//Force a refresh on nearby clients
-		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
-	private void SyncWeed(bool newNotifier)
+	private void SyncWeed(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile ||
 			newNotifier == syncWeedNotifier) return;
@@ -294,12 +290,9 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		{
 			weedNotifier.PushClear();
 		}
-
-		//Force a refresh on nearby clients
-		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
-	private void SyncWater(bool newNotifier)
+	private void SyncWater(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile ||
 			newNotifier == syncWaterNotifier) return;
@@ -314,12 +307,9 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			waterNotifier.PushClear();
 
 		}
-
-		//Force a refresh on nearby clients
-		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
-	private void SyncNutriment(bool newNotifier)
+	private void SyncNutriment(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile ||
 			newNotifier == syncNutrimentNotifier) return;
@@ -335,19 +325,16 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 
 			nutrimentNotifier.PushClear();
 		}
-
-		//Force a refresh on nearby clients
-		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
-	private void SyncStage(PlantSpriteStage newStage)
+	private void SyncStage(PlantSpriteStage oldValue, PlantSpriteStage newValue)
 	{
-		if (newStage == plantSyncStage) return;
+		if (newValue == plantSyncStage) return;
 
-		plantSyncStage = newStage;
+		plantSyncStage = newValue;
 		if (plantData == null)
 		{
-			//FIXME: BOD PLZ FIX BOTANY PLANT DATA IS NULL!
+			Debug.LogError("Can't sync stage plant data is null.", this);
 			return;
 		}
 		switch (plantSyncStage)
@@ -374,36 +361,24 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 				plantSprite.PushTexture();
 				break;
 		}
-
-		//Force a refresh on nearby clients
-		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
-	private void SyncGrowingPlantStage(int newStage)
+	private void SyncGrowingPlantStage(int oldgrowingPlantStage, int newgrowingPlantStage)
 	{
-		growingPlantStage = newStage;
-
-		//Force a refresh on nearby clients
-		//if (isServer) SendUpdateToNearbyPlayers();
+		growingPlantStage = newgrowingPlantStage;
 	}
 
-	/// <summary>
-	/// Syncroneses 
-	/// </summary>
-	/// <param name="newPlantString"></param>
-	private void SyncPlant(string newPlantString)
-	{
-		if (newPlantString == plantSyncString) return;
 
-		plantSyncString = newPlantString;
+	private void SyncPlant(string oldPlantSyncString, string newPlantSyncString)
+	{
+		if (newPlantSyncString == plantSyncString) return;
+
+		plantSyncString = newPlantSyncString;
 
 		if (DefaultPlantData.PlantDictionary.ContainsKey(plantSyncString))
 		{
 			plantData = DefaultPlantData.PlantDictionary[plantSyncString].plantData;
 		}
-
-		//Force a refresh on nearby clients
-		//if (isServer) SendUpdateToNearbyPlayers();
 	}
 
 	public void ReceiveMessage(string plantString, int growingStage, PlantSpriteStage spriteStage,
