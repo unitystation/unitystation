@@ -17,6 +17,16 @@ public class ChatIcon : MonoBehaviour
 		spriteRend.enabled = false;
 	}
 
+	public void ShowTypingAnimation()
+	{
+		Logger.Log("Player is typing");
+	}
+
+	private void HideTypingAnimation()
+	{
+		Logger.Log("Player has stopped typing");
+	}
+
 	public void ToggleChatIcon(bool toggle, ChatModifier chatModifier)
 	{
 		if (toggle)
