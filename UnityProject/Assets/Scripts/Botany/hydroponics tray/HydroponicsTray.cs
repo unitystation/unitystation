@@ -16,6 +16,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	public bool syncWaterNotifier;
 	[SyncVar(hook = nameof(SyncNutriment))]
 	public bool syncNutrimentNotifier;
+	[SyncVar(hook = nameof(SyncStage))]
+	public PlantSpriteStage plantCurrentStage;
 	[SyncVar(hook = nameof(SyncGrowingPlantStage))]
 	public int growingPlantStage;
 	[SyncVar(hook = nameof(SyncPlant))]
@@ -47,7 +49,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	public float nutritionLevel = 100;
 
 	public int numberOfUpdatesAlive;
-	public PlantSpriteStage plantCurrentStage;
+	
 	public int plantSubStage;
 	public float plantHealth = 100;
 	public bool readyToHarvest;
@@ -64,7 +66,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			plantData.SetValues(DefaultPlantData.PlantDictionary.Values.PickRandom());
 			SyncPlant(null, plantData.Name);
 			//NaturalMutation();
-			SyncStage(PlantSpriteStage.None, PlantSpriteStage.FullyGrown);
+			SyncStage((int)PlantSpriteStage.None, PlantSpriteStage.FullyGrown);
 			readyToHarvest = true;
 			ProduceCrop();
 		}
@@ -330,9 +332,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 
 	private void SyncStage(PlantSpriteStage oldValue, PlantSpriteStage newValue)
 	{
-		if (newValue == plantCurrentStage) return;
-
 		plantCurrentStage = newValue;
+		
 		if (plantData == null)
 		{
 			Debug.LogError("Can't sync stage plant data is null.", this);
@@ -639,7 +640,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 					CropDeath();
 				}
 
-				SyncStage(plantCurrentStage, PlantSpriteStage.None);
+				SyncStage(plantCurrentStage, (int)PlantSpriteStage.None);
 				return;
 			}
 		}
@@ -660,7 +661,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			plantData.SetValues(slot.Item.GetComponent<SeedPacket>().plantData);
 			SyncPlant(null, plantData.Name);
 			SyncGrowingPlantStage(0, 0);
-			SyncStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
+			SyncStage((int)PlantSpriteStage.None, PlantSpriteStage.Growing);
 			Inventory.ServerVanish(slot);
 
 			//Force a quick refresh:
@@ -694,14 +695,14 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 					plantData = null;
 					hasPlant = false;
 					readyToHarvest = false;
-					SyncStage(plantCurrentStage, PlantSpriteStage.None);
+					SyncStage(plantCurrentStage, (int)PlantSpriteStage.None);
 					SyncHarvest(harvestNotifier, false);
 				}
 			}
 		}
 		else
 		{
-			SyncStage(plantCurrentStage, PlantSpriteStage.None);
+			SyncStage(plantCurrentStage, (int)PlantSpriteStage.None);
 		}
 	}
 }
