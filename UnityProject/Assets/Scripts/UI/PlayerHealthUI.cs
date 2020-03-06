@@ -25,16 +25,6 @@ public class PlayerHealthUI : MonoBehaviour
 		DisableAll();
 	}
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-
-	private void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
 	private void DisableAll()
 	{
 		Transform[] childrenList = GetComponentsInChildren<Transform>(true);
@@ -71,12 +61,18 @@ public class PlayerHealthUI : MonoBehaviour
 		}
 	}
 
-	void UpdateMe()
+	void Update()
 	{
 		if (PlayerManager.LocalPlayer == null)
 		{
 			return;
 		}
+
+		if (humanUI && !oxygenButton.gameObject.activeInHierarchy)
+		{
+			EnableAlwaysVisible();
+		}
+
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			if(humanUI)
@@ -85,6 +81,8 @@ public class PlayerHealthUI : MonoBehaviour
 			}
 			return;
 		}
+
+
 		if(!PlayerManager.LocalPlayerScript.IsGhost && !humanUI)
 		{
 			EnableAlwaysVisible();

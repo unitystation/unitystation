@@ -26,8 +26,23 @@ public class MobExplore : MobAgent
 	// Timer that indicates if the action perform time is reached and the action can be performed.
 	private float actionPerformTimer = 0.0f;
 
-	// Position at which an action is performed
-	protected Vector3Int actionPosition;
+	private InteractableTiles _interactableTiles = null;
+
+	private InteractableTiles interactableTiles
+	{
+		get
+		{
+			if (_interactableTiles == null)
+			{
+				_interactableTiles = InteractableTiles.GetAt((Vector2Int)registerObj.LocalPositionServer, true);
+			}
+
+			return _interactableTiles;
+		}
+	}
+
+// Position at which an action is performed
+protected Vector3Int actionPosition;
 
 	/// <summary>
 	/// Begin searching for the predefined target
@@ -87,7 +102,8 @@ public class MobExplore : MobAgent
 			case Target.dirtyFloor:
 				return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
 			case Target.missingFloor:
-				return false;
+				// Checks the topmost tile if its the base layer (below the floor)
+				return interactableTiles.MetaTileMap.GetTile(checkPos).LayerType == LayerType.Base;
 			case Target.injuredPeople:
 				return false;
 		}
@@ -111,6 +127,7 @@ public class MobExplore : MobAgent
 				floorDecal.TryClean();
 				break;
 			case Target.missingFloor:
+				interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
 				break;
 			case Target.injuredPeople:
 				break;
