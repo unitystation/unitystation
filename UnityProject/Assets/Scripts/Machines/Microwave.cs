@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Mirror;
 
 /// <summary>
@@ -64,10 +65,20 @@ public class Microwave : NetworkBehaviour
 		SPRITE_OFF = spriteRenderer.sprite;
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE,UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE,UpdateMe);
+	}
+
 	/// <summary>
 	/// Count remaining time to microwave previously inserted food.
 	/// </summary>
-	private void Update()
+	private void UpdateMe()
 	{
 		if (MicrowaveTimer > 0)
 		{
@@ -117,7 +128,7 @@ public class Microwave : NetworkBehaviour
 		{
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
 			SpawnResult result = Spawn.ServerPrefab(mealPrefab, GetComponent<RegisterTile>().WorldPosition, transform.parent);
-			
+
 			//If the resulting meal has a stackable component, set the amount to mealCount to ensure that food in = food out.
 			Stackable stck = result.GameObject.GetComponent<Stackable>();
 
@@ -136,7 +147,7 @@ public class Microwave : NetworkBehaviour
 					//If stckChanger is positive, remove stack.
 					stck.ServerConsume(-stckChanger);
 				}
-				
+
 			}
 
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class OutsideFlashingLight : MonoBehaviour
 {
@@ -10,7 +11,17 @@ public class OutsideFlashingLight : MonoBehaviour
 	public Color spriteOnCol;
 	private float timeCount;
 
-	private void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		timeCount += Time.deltaTime;
 		if (timeCount >= flashWaitTime)

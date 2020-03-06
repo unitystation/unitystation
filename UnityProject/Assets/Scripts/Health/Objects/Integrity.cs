@@ -94,6 +94,16 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		EnsureInit();
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void EnsureInit()
 	{
 		if (registerTile != null) return;
@@ -177,7 +187,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (onFire && isServer)
 		{
