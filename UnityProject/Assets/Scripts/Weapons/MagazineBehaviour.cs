@@ -6,7 +6,7 @@ using UnityEngine;
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this
 /// behavior, server and client ammo counts are stored separately but can be synced with SyncClientAmmoRemainsWithServer().
 /// </summary>
-public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
+public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, ICheckedInteractable<InventoryApply>
 {
 	/*
 	We keep track of 2 ammo counts. The server's ammo count is authoritative, but when ammo is being
@@ -16,8 +16,8 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 	(server thinks we've only shot once when we've already shot thrice). So instead
 	we keep our own private ammo count (clientAmmoRemains) and only sync it up with the server when we need it
 	*/
-	[SyncVar]
-	private int serverAmmoRemains = -1;
+	[SyncVar(hook = "SyncServerAmmo")]
+	private int serverAmmoRemains;
 	private int clientAmmoRemains;
 
 	/// <summary>
@@ -31,6 +31,14 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 	/// </summary>
 	public int ClientAmmoRemains => Math.Min(clientAmmoRemains, serverAmmoRemains);
 
+
+	private double[] RNGContents;
+
+	/// <summary>
+	///	Whether this can be used to reload other (internal or external) magazines.
+	/// </summary>
+	public bool isClip;
+
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
 
@@ -40,11 +48,9 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 	/// </summary>
 	private System.Random magSyncedRNG;
 
-	private double currentRNG;
-
 	public override void OnStartClient()
 	{
-		SyncPredictionWithServer();
+		SetupRNG();
 	}
 
 	public override void OnStartServer()
@@ -59,71 +65,81 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 
 	private void ServerInit()
 	{
-		//set to max ammo if uninitialized
-		if (serverAmmoRemains == -1)
+		//set to max ammo on initialization
+		clientAmmoRemains = -1;
+		SyncServerAmmo(magazineSize, magazineSize);
+		SetupRNG();
+	}
+
+	/// <summary>
+	/// Changes size of magazine and reloads it. Be sure to call this on every client and the server if you do, or face the consequences.
+	/// Also sets the contained ammunition to full.
+	/// </summary>
+	/// <param name="newSize"></param>
+	public void ChangeSize(int newSize)
+	{
+		magazineSize = newSize;
+		clientAmmoRemains = -1;
+		SyncServerAmmo(newSize, newSize);
+		SetupRNG();
+	}
+
+	/// <summary>
+	/// Creates the RNG table.
+	/// </summary>
+	public void SetupRNG()
+	{
+		RNGContents = new double[magazineSize + 1];
+		magSyncedRNG = new System.Random(GetComponent<NetworkIdentity>().netId.GetHashCode());
+		for (int i = 0; i <= magazineSize; i++)
 		{
-			serverAmmoRemains = magazineSize;
-			SyncPredictionWithServer();
+			RNGContents[magazineSize - i] = magSyncedRNG.NextDouble();
 		}
 	}
 
 	/// <summary>
-	/// Force client count to sync with server regardless of any prediction
+	/// Syncs server and client ammo.
 	/// </summary>
-	public void SyncPredictionWithServer()
+	private void SyncServerAmmo(int oldAmmo, int newAmmo)
 	{
-		magSyncedRNG = new System.Random(GetComponent<NetworkIdentity>().netId.GetHashCode());
-		currentRNG = magSyncedRNG.NextDouble();
-		//fast forward RNG based on how many shots are spent
-		var shots = magazineSize - serverAmmoRemains;
-		for (int i = 0; i < shots; i++)
-		{
-			currentRNG = magSyncedRNG.NextDouble();
-		}
+		serverAmmoRemains = newAmmo;
 		clientAmmoRemains = serverAmmoRemains;
 	}
 
 	/// <summary>
-	/// Decrease server's ammo count by one.
+	/// Decrease ammo count by given number.
 	/// </summary>
 	/// <returns></returns>
-	public void ExpendAmmo()
+	public void ExpendAmmo(int amount = 1)
 	{
-		if (clientAmmoRemains > serverAmmoRemains)
+		if (ClientAmmoRemains < amount)
 		{
-			//unusual situation, we think we have more ammo than the server thinks we do, so we should reset our client predicted
-			//value to what the server thinks. This can happen when client has just picked up a gun that already has
-			//spent ammo, as their count is not synced unless they are the one shooting.
-			Logger.LogWarningFormat("Unusual ammo mismatch client {0} server {1}, syncing back to server" +
-									" value.", Category.Firearms, clientAmmoRemains, serverAmmoRemains);
-			SyncPredictionWithServer();
-		}
-
-		if (isServer)
-		{
-			if (ServerAmmoRemains <= 0)
-			{
-				Logger.LogWarning("Server ammo count is already zero, cannot expend more ammo. Make sure" +
-								  " to check ammo count before expending it.", Category.Firearms);
-			}
-			else
-			{
-				serverAmmoRemains--;
-			}
-		}
-
-		if (ClientAmmoRemains <= 0)
-		{
-			Logger.LogWarning("Client ammo count is already zero, cannot expend more ammo. Make sure" +
+			Logger.LogWarning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
 							  " to check ammo count before expending it.", Category.Firearms);
 		}
 		else
 		{
-			clientAmmoRemains--;
-			currentRNG = magSyncedRNG.NextDouble();
+			clientAmmoRemains -= amount;
 		}
 
-		Logger.LogTraceFormat("Expended shot, now serverAmmo {0} clientAmmo {1}", Category.Firearms, serverAmmoRemains, clientAmmoRemains);
+		if (isServer)
+		{
+			if (ServerAmmoRemains < amount)
+			{
+				Logger.LogWarning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
+								  " to check ammo count before expending it.", Category.Firearms);
+			}
+			else
+			{
+				SyncServerAmmo(serverAmmoRemains, serverAmmoRemains - amount);
+				if (isClip && serverAmmoRemains == 0)
+				{
+					Despawn.ServerSingle(gameObject);
+				}
+			}
+		}
+
+		Logger.LogTraceFormat("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
 	}
 
 	/// <summary>
@@ -133,10 +149,41 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 	[Server]
 	public void ServerSetAmmoRemains(int remaining)
 	{
-		serverAmmoRemains = remaining;
-		//fast forward RNG based on how many shots are spent
-		SyncPredictionWithServer();
+		SyncServerAmmo(serverAmmoRemains, remaining);
 	}
+
+	/// <summary>
+	/// Loads as much ammo as possible from the given clip. Returns reloading message.
+	/// </summary>
+	public String LoadFromClip( MagazineBehaviour clip)
+	{
+		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
+
+		clip.ExpendAmmo(toTransfer);
+		ServerSetAmmoRemains(serverAmmoRemains + toTransfer);
+
+		return ("Loaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
+	}
+
+	public bool WillInteract(InventoryApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+
+		if (mag == null) return false;
+
+		if (mag.ammoType != ammoType || !isClip) return false;
+
+		return true;
+	}
+
+	public void ServerPerformInteraction(InventoryApply interaction)
+	{
+		MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+		Chat.AddExamineMsg(interaction.Performer, LoadFromClip(clip));
+	}
+
 
 	/// <summary>
 	/// Gets an RNG double which is based on the current ammo remaining and this mag's net ID so client
@@ -145,13 +192,14 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable
 	/// <returns></returns>
 	public double CurrentRNG()
 	{
+		double currentRNG = RNGContents[clientAmmoRemains];
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
 		return currentRNG;
 	}
 
 	public String Examine(Vector3 pos)
 	{
-		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0?(ServerAmmoRemains.ToString() + " left"):"empty") + ")";
+		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
 	}
 }
 
@@ -169,5 +217,6 @@ public enum AmmoType
 	Slug,
 	smg9mm,
 	Syringe,
-	uzi9mm
+	uzi9mm,
+	Internal
 }
