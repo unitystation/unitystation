@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -154,6 +155,16 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 
 		queuedShots = new Queue<QueuedShot>();
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -350,7 +361,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	#region Weapon Firing Mechanism
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//don't process if we are server and the gun is not held by anyone
 		if (isServer && serverHolder == null) return;
@@ -782,9 +793,9 @@ public enum WeaponType
 			DrawDefaultInspector(); // for other non-HideInInspector fields
 
 			Gun script = (Gun)target;
-		
+
 			script.MagInternal = EditorGUILayout.Toggle("Magazine Internal", script.MagInternal);
-		
+
 			if (script.MagInternal) // show exclusive fields depending on whether magazine is internal
 			{
 				script.MagSize = EditorGUILayout.IntField("Internal Magazine Size", script.MagSize);
