@@ -15,10 +15,16 @@ MonoBehaviour:
   displayName: 
   LayerType: 1
   TileType: 2
-  RequiredTiles: []
+  RequiredTiles:
+  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
   WalkingSoundCategory: 0
+  BarefootWalkingSoundCategory: 0
+  ClawFootstepSoundCategory: 0
+  HeavyFootstepSoundCategory: 0
+  ClownFootstepSoundCategory: 0
   atmosPassable: 0
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []
@@ -50,7 +56,9 @@ MonoBehaviour:
     Bio: 0
   tileInteractions:
   - {fileID: 11400000, guid: 4635ca63f127a4b1cb58c7ff9de5695a, type: 2}
-  spawnOnDeconstruct: {fileID: 0}
+  - {fileID: 11400000, guid: 2d0f8701c6446414a87a614f7a51afef, type: 2}
+  spawnOnDeconstruct: {fileID: 7376449702682419346, guid: 57d7f51b1b16e5247960ddea2ddea03f,
+    type: 3}
   spawnAmountOnDeconstruct: 1
   connectCategory: 1
   connectType: 1

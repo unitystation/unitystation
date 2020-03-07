@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine.Serialization;
 using UnityEngine;
 using System;
 
@@ -38,6 +39,17 @@ public class ClothingData : BaseClothData
 		return $"{name}";
 	}
 
+	public override List<Color> GetPaletteOrNull(int variantIndex)
+	{
+		// TODO: Get alternate palette if necessary.
+		//if (variantIndex == -1)
+		//{
+		return Base.IsPaletted ? new List<Color>(Base.Palette) : null;
+		//}
+
+		//return null;
+	}
+
 
 }
 
@@ -48,6 +60,8 @@ public class EquippedData
 	public SpriteSheetAndData InHandsLeft;
 	public SpriteSheetAndData InHandsRight;
 	public SpriteSheetAndData ItemIcon;
+	public Color[] Palette = new Color[8];
+	public bool IsPaletted = false;
 
 	public void Combine(EquippedData parent)
 	{

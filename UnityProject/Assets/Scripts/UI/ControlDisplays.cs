@@ -27,6 +27,8 @@ public class ControlDisplays : MonoBehaviour
 	private GameObject rightClickManager;
 
 	[SerializeField] private Animator uiAnimator;
+	[SerializeField] private VideoPlayerController videoController;
+	public VideoPlayerController VideoPlayer => videoController;
 
 	void OnEnable()
 	{
@@ -66,6 +68,31 @@ public class ControlDisplays : MonoBehaviour
 		{
 			HumanUI();
 		}
+	}
+
+	void Update()
+	{
+		TempFixMissingRightHud();
+	}
+
+	//Temp fix for strange bug where right hud is missing when joining headless server
+	void TempFixMissingRightHud()
+	{
+		if (CustomNetworkManager.Instance == null) return;
+		if (CustomNetworkManager.Instance._isServer) return;
+		if (PlayerManager.LocalPlayerScript == null) return;
+		if (PlayerManager.LocalPlayerScript.playerHealth == null) return;
+		if (!PlayerManager.LocalPlayerScript.playerHealth.IsDead &&
+		    !UIManager.PlayerHealthUI.gameObject.activeInHierarchy)
+		{
+			UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		}
+		if (!PlayerManager.LocalPlayerScript.playerHealth.IsDead &&
+		    !UIManager.PlayerHealthUI.humanUI)
+		{
+			UIManager.PlayerHealthUI.humanUI = true;
+		}
+
 	}
 
 	void HumanUI()
@@ -139,7 +166,7 @@ public class ControlDisplays : MonoBehaviour
 		SoundManager.SongTracker.StartPlayingRandomPlaylist();
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		UIManager.AlertUI.OnRoundEnd();
+		UIActionManager.Instance.OnRoundEnd();
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
@@ -184,11 +211,6 @@ public class ControlDisplays : MonoBehaviour
 	{
 		preRoundWindow.SetActive(false);
 		jobSelectWindow.SetActive(true);
-	}
-
-	public void PlayNukeDetVideo()
-	{
-		uiAnimator.Play("NukeDetVideo");
 	}
 
 	public void PlayStrandedVideo()

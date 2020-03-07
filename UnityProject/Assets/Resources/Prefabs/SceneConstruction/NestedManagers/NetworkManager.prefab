@@ -50,10 +50,10 @@ MonoBehaviour:
   serverTickRate: 100
   showDebugMessages: 0
   offlineScene: Lobby
-  onlineScene: OutpostStation
+  onlineScene: PogStation
   transport: {fileID: -6421047455593414382}
   networkAddress: localhost
-  maxConnections: 64
+  maxConnections: 100
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
     type: 3}

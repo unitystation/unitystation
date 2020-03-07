@@ -10,6 +10,7 @@ using UnityEngine;
 public class CommonTraits : SingletonScriptableObject<CommonTraits>
 {
 	public ItemTrait ReagentContainer;
+	public ItemTrait CanisterFillable;
 	public ItemTrait Gun;
 	public ItemTrait Food;
 	public ItemTrait Mask;
@@ -29,8 +30,14 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait MetalSheet;
 	public ItemTrait GlassSheet;
 	public ItemTrait PlasteelSheet;
+	public ItemTrait ReinforcedGlassSheet;
+	public ItemTrait WoodenPlank;
 	public ItemTrait Cable;
 	public ItemTrait Welder;
 	public ItemTrait Shovel;
 	public ItemTrait Knife;
+	public ItemTrait Transforamble;
+	public ItemTrait Squeaky;
+	public ItemTrait Boots;
+	public ItemTrait Rods;
 }

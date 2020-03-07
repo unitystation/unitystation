@@ -18,7 +18,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private float lerpProgress;
 
 	//Lerp parameters
-	private Sprite lerpSprite;
+	private SpriteRenderer spriteRendererSource; // need renderer for shader configuration
 
 	private Vector3 lerpTo;
 	private PlayerMove playerMove;
@@ -31,7 +31,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
-		lerpSprite = null;
+		spriteRendererSource = null;
 	}
 
 	[Command]
@@ -107,8 +107,13 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		var damageType = isWeapon ? weaponAttr.ServerDamageType : DamageType.Brute;
 		var attackSoundName = isWeapon ? weaponAttr.ServerHitSound : "Punch#";
 		LayerTile attackedTile = null;
-
 		bool didHit = false;
+
+		ItemAttributesV2 weaponStats = null;
+		if (isWeapon)
+		{
+			weaponStats = weapon.GetComponent<ItemAttributesV2>();
+		}
 
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
@@ -122,7 +127,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
-				attackSoundName = "";
+				if (isWeapon && weaponStats != null &&
+				    weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject)
+				{
+					attackSoundName = "";
+				}
 				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
 				tileMapDamage.DoMeleeDamage(worldPos,
@@ -140,7 +149,19 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			var integrity = victim.GetComponent<Integrity>();
 			if (integrity != null)
 			{
+
 				//damaging an object
+				if(isWeapon && weaponStats != null &&
+					weaponStats.hitSoundSettings == SoundItemSettings.Both)
+				{
+					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
+				}
+				else if (isWeapon && weaponStats != null &&
+				         weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit != "")
+				{
+					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
+					attackSoundName = "";
+				}
 				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
 				didHit = true;
 			}
@@ -197,15 +218,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		if (weapon && lerpSprite == null)
+		if (weapon && spriteRendererSource == null)
 		{
-			SpriteRenderer spriteRenderer = weapon.GetComponentInChildren<SpriteRenderer>();
-			lerpSprite = spriteRenderer.sprite;
+			spriteRendererSource = weapon.GetComponentInChildren<SpriteRenderer>();
 		}
 
-		if (lerpSprite != null)
+		if (spriteRendererSource != null)
 		{
-			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
+			playerScript.hitIcon.ShowHitIcon(stabDir, spriteRendererSource);
 		}
 
 		Vector3 lerpFromWorld = spritesObj.transform.position;
@@ -272,6 +292,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerpProgress = 0f;
 		lerping = false;
 		isForLerpBack = false;
-		lerpSprite = null;
+		spriteRendererSource = null;
 	}
 }

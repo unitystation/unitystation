@@ -1,16 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
+
+#if UNITY_EDITOR
+ using UnityEditor;
+#endif
+
 /// <summary>
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ItemStorage))]
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
-	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn
+	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 {
 	//constants for calculating screen shake due to recoil
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
@@ -22,8 +28,9 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// </summary>
 	[FormerlySerializedAs("AmmoType")] public AmmoType ammoType;
 
-	//server-side flag indicating if the gun is currently held by a player
-	private bool serverIsHeld;
+	//server-side object indicating the player holding the weapon (null if none)
+	private GameObject serverHolder;
+
 
 	/// <summary>
 	///     The current magazine for this weapon, null means empty
@@ -37,9 +44,22 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public bool SpawnsCaseing = true;
 
 	/// <summary>
-	///     If the gun should eject it's magazine automatically
+	///     Whether the gun uses an internal magazine.
 	/// </summary>
+	[HideInInspector]
+	public bool MagInternal = false;
+
+	/// <summary>
+	///     If the gun should eject it's magazine automatically (external-magazine-specific)
+	/// </summary>
+	[HideInInspector] // will be shown by the code at the very end, if appropriate
 	public bool SmartGun = false;
+
+	/// <summary>
+	///     Size of the internal magazine (internal-magazine-specific)
+	/// </summary>
+	[HideInInspector] // will be shown by the code at the very end, if appropriate
+	public int MagSize = 10;
 
 	/// <summary>
 	///     The the current recoil variance this weapon has reached
@@ -137,6 +157,16 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		queuedShots = new Queue<QueuedShot>();
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		Init();
@@ -144,18 +174,49 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void Init()
 	{
-		//populate with a full mag on spawn
-		Logger.LogTraceFormat("Auto-populate magazine for {0}", Category.Inventory, name);
+		if (MagInternal)
+		{
+			//automatic ejection always disabled
+			SmartGun = false;
 
-		//AmmoPrefabs
-		GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
+			//populate with a full internal mag on spawn
+			Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
 
-		Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
+			//Make generic magazine and modify it to fit weapon
+			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
+
+			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
+
+			CurrentMagazine.ChangeSize(MagSize);
+			CurrentMagazine.ammoType = ammoType;
+
+			if (isServer)
+			{
+				CurrentMagazine.ServerSetAmmoRemains(MagSize);
+			}
+		}
+		else
+		{
+			//populate with a full external mag on spawn
+			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
+
+			//AmmoPrefabs
+			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
+
+			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
+		}
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		serverIsHeld = info.ToPlayer != null;
+		if (info.ToPlayer != null)
+		{
+			serverHolder = info.ToPlayer.gameObject;
+		}
+		else
+		{
+			serverHolder = null;
+		}
 	}
 
 	#endregion
@@ -172,7 +233,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			{
 				Logger.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
 			}
-
 			return false;
 		}
 
@@ -182,7 +242,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//firing countdown
 		if (Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
-			if (SmartGun)
+			if (SmartGun) // should be forced off when using an internal magazine
 			{
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
@@ -195,7 +255,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			{
 				Logger.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
 			}
-
 			return false;
 		}
 
@@ -263,8 +322,8 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	public bool Interact(HandActivate interaction)
 	{
-		//try ejecting the mag
-		if (CurrentMagazine != null)
+		//try ejecting the mag if external
+		if (CurrentMagazine != null && !MagInternal)
 		{
 			RequestUnload(CurrentMagazine);
 			return true;
@@ -275,15 +334,15 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	public bool Interact(InventoryApply interaction)
 	{
-		//only reload if the gun is the target and mag is in hand slot
+		//only reload if the gun is the target and mag/clip is in hand slot
 		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 		{
 			if (interaction.UsedObject != null)
 			{
-				MagazineBehaviour magazine = interaction.UsedObject.GetComponent<MagazineBehaviour>();
-				if (magazine)
+				MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+				if (mag)
 				{
-					TryReload(magazine);
+					TryReload(mag.gameObject);
 					return true;
 				}
 			}
@@ -292,16 +351,20 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		return false;
 	}
 
+	public string Examine(Vector3 pos)
+	{
+		return WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")";
+	}
 
 	#endregion
 
 
 	#region Weapon Firing Mechanism
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//don't process if we are server and the gun is not held by anyone
-		if (isServer && !serverIsHeld) return;
+		if (isServer && serverHolder == null) return;
 
 		//if we are client, make sure we've initialized
 		if (!isServer && !PlayerManager.LocalPlayer) return;
@@ -339,7 +402,8 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
-			//due to the syncvar hook
+			// due to the syncvar hook
+			// there should not be an unload action for internal magazines
 			Inventory.ServerDrop(magSlot);
 			queuedUnload = false;
 
@@ -348,19 +412,31 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
-			var magazine = NetworkIdentity.spawned[queuedLoadMagNetID];
-			var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
-			Inventory.ServerTransfer(fromSlot, magSlot);
-			queuedLoadMagNetID = NetId.Invalid;
+			if (MagInternal)
+			{
+				var clip = NetworkIdentity.spawned[queuedLoadMagNetID];
+				MagazineBehaviour clipComp = clip.GetComponent<MagazineBehaviour>();
+				string message = CurrentMagazine.LoadFromClip(clipComp);
+				Chat.AddExamineMsg(serverHolder, message);
+				queuedLoadMagNetID = NetId.Invalid;
+			}
+			else
+			{
+				var magazine = NetworkIdentity.spawned[queuedLoadMagNetID];
+				var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
+				Inventory.ServerTransfer(fromSlot, magSlot);
+				queuedLoadMagNetID = NetId.Invalid;
+			}
 		}
 	}
 
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
-	private void TryReload(MagazineBehaviour magazine)
+	private void TryReload(GameObject ammo)
 	{
-		if (CurrentMagazine == null)
+		MagazineBehaviour magazine = ammo.GetComponent<MagazineBehaviour>();
+		if (CurrentMagazine == null || (MagInternal && magazine.isClip))
 		{
 			//RELOAD
 			// If the item used on the gun is a magazine, check type and reload
@@ -500,7 +576,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//this is our gun so we need to update our predictions
 			FireCountDown += 1.0 / FireRate;
-			CurrentMagazine.ExpendAmmo();
 			//add additional recoil after shooting for the next round
 			AppendRecoil();
 
@@ -515,6 +590,16 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 				};
 			}
 			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+		}
+
+		if (CurrentMagazine == null)
+		{
+			Logger.Log("Why is CurrentMagazine null on this client?");
+		}
+		else
+		{
+			//call ExpendAmmo outside of previous check, or it won't run serverside and state will desync.
+			CurrentMagazine.ExpendAmmo();
 		}
 
 		//display the effects of the shot
@@ -698,3 +783,26 @@ public enum WeaponType
 	FullyAutomatic = 1,
 	Burst = 2
 }
+
+#if UNITY_EDITOR
+	[CustomEditor(typeof(Gun), true)]
+	public class GunEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector(); // for other non-HideInInspector fields
+
+			Gun script = (Gun)target;
+
+			script.MagInternal = EditorGUILayout.Toggle("Magazine Internal", script.MagInternal);
+
+			if (script.MagInternal) // show exclusive fields depending on whether magazine is internal
+			{
+				script.MagSize = EditorGUILayout.IntField("Internal Magazine Size", script.MagSize);
+			}
+			else{
+				script.SmartGun = EditorGUILayout.Toggle("Smart Gun", script.SmartGun);
+			}
+		}
+	}
+#endif

@@ -26,11 +26,20 @@ public class BurningOverlay : MonoBehaviour
 		StopBurning();
 	}
 
+	private void OnDisable()
+	{
+		if (burn)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+	}
+
 	/// <summary>
 	/// start displaying the burning animation
 	/// </summary>
 	public void Burn()
 	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
 		spriteRenderer.enabled = true;
 		burn = true;
@@ -44,9 +53,10 @@ public class BurningOverlay : MonoBehaviour
 		spriteRenderer.sprite = null;
 		spriteRenderer.enabled = false;
 		burn = false;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (!burn) return;
 		animSpriteTime += Time.deltaTime;

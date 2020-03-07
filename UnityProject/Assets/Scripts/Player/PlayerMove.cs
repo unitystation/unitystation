@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -69,6 +69,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 	public bool IsHelpIntentServer => isHelpIntentServer;
 	//starts true because all players spawn with help intent.
 	private bool isHelpIntentServer = true;
+
+
+	[SerializeField]
+	private ActionData actionData;
+	public ActionData ActionData => actionData;
 
 	/// <summary>
 	/// Whether this player meets all the conditions for being swapped with (being the swapee).
@@ -447,8 +452,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
-			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetId.Empty, () => CmdUnbuckle());
+			UIActionManager.Toggle(this, newBuckledTo != NetId.Empty);
 		}
 
 		buckledObjectNetId = newBuckledTo;
@@ -466,6 +470,24 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn
 
 		//ensure we are in sync with server
 		playerScript?.PlayerSync?.RollbackPrediction();
+	}
+
+	public void CallActionClient()
+	{
+		if (CanUnBuckleSelf())
+		{
+			CmdUnbuckle();
+		}
+	}
+
+	private bool CanUnBuckleSelf()
+	{
+		PlayerHealth playerHealth = playerScript.playerHealth;
+
+		return !(playerHealth == null ||
+		         playerHealth.ConsciousState == ConsciousState.DEAD ||
+		         playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
+		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
 	}
 
 	[Server]

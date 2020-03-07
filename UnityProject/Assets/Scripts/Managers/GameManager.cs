@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public partial class GameManager : MonoBehaviour
@@ -52,9 +52,6 @@ public partial class GameManager : MonoBehaviour
 	public DateTime stationTime;
 	public int RoundsPerMap = 10;
 
-	public string[] Maps = { "Assets/scenes/OutpostStation.unity" };
-	//Put the scenes in the unity 3d editor.
-
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
 
@@ -63,7 +60,8 @@ public partial class GameManager : MonoBehaviour
 	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
 	private Queue<MatrixMove> PendingSpaceBodies = new Queue<MatrixMove>();
 	private bool isProcessingSpaceBody = false;
-	public float minDistanceBetweenSpaceBodies = 200f;
+	public float minDistanceBetweenSpaceBodies;
+
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
 	//---------------------------------
@@ -128,6 +126,15 @@ public partial class GameManager : MonoBehaviour
 
 	IEnumerator ProcessSpaceBody(MatrixMove mm)
 	{
+		if (SceneManager.GetActiveScene().name == "BoxStationV1")
+		{
+			minDistanceBetweenSpaceBodies = 200f;
+		}
+		//Change this for larger maps to avoid asteroid spawning on station.
+		else
+		{
+			minDistanceBetweenSpaceBodies = 200f;
+		}
 		bool validPos = false;
 		while (!validPos)
 		{
@@ -344,12 +351,6 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.Ended;
 			counting = false;
 
-			// Prevents annoying sound duplicate when testing
-			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-			{
-				SoundManager.Instance.PlayRandomRoundEndSound();
-			}
-
 			GameMode.EndRound();
 			StartCoroutine(WaitForRoundRestart());
 		}
@@ -362,6 +363,13 @@ public partial class GameManager : MonoBehaviour
 	{
 		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
+		// Prevents annoying sound duplicate when testing
+		if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
+		{
+			SoundManager.Instance.PlayRandomRoundEndSound();
+		}
+
+		yield return WaitFor.Seconds(2.5f);
 		RestartRound();
 	}
 
@@ -501,6 +509,9 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
+		var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
+			"maps.json")));
+
+		CustomNetworkManager.Instance.ServerChangeScene(maps.GetRandomMap());
 	}
 }

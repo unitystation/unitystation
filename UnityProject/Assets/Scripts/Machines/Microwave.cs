@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Mirror;
 
 /// <summary>
@@ -25,6 +26,13 @@ public class Microwave : NetworkBehaviour
 	/// </summary>
 	[HideInInspector]
 	public string meal;
+
+	/// <summary>
+	/// When a stackable food goes into the microwave, hold onto the stack number so that stack.amount in = stack.amount out
+	/// </summary>
+	[HideInInspector]
+	public int mealCount = 0;
+
 
 	// Sprites for when the microwave is on or off.
 	public Sprite SPRITE_ON;
@@ -57,10 +65,20 @@ public class Microwave : NetworkBehaviour
 		SPRITE_OFF = spriteRenderer.sprite;
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE,UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE,UpdateMe);
+	}
+
 	/// <summary>
 	/// Count remaining time to microwave previously inserted food.
 	/// </summary>
-	private void Update()
+	private void UpdateMe()
 	{
 		if (MicrowaveTimer > 0)
 		{
@@ -84,6 +102,11 @@ public class Microwave : NetworkBehaviour
 		meal = mealName;
 	}
 
+		public void ServerSetOutputStackAmount(int stackCount)
+	{
+		mealCount = stackCount;
+	}
+
 	/// <summary>
 	/// Starts the microwave, cooking the food for {MicrowaveTimer} seconds.
 	/// </summary>
@@ -104,9 +127,34 @@ public class Microwave : NetworkBehaviour
 		if (isServer)
 		{
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
-			Spawn.ServerPrefab(mealPrefab, GetComponent<RegisterTile>().WorldPosition, transform.parent);
+			SpawnResult result = Spawn.ServerPrefab(mealPrefab, GetComponent<RegisterTile>().WorldPosition, transform.parent);
+
+			//If the resulting meal has a stackable component, set the amount to mealCount to ensure that food in = food out.
+			Stackable stck = result.GameObject.GetComponent<Stackable>();
+
+			if (stck != null && mealCount != 0)
+			{
+				//Get difference between new item's initial amount and the amount held by mealCount (amount of ingredient).
+				int stckChanger = mealCount-stck.Amount;
+
+				//If stckChanger is 0, do nothing.
+				//If stckChanger is positive, add to stack.
+				if (stckChanger > 0)
+				{
+					stck.ServerIncrease(stckChanger);
+				} else if (stckChanger < 0)
+				{
+					//If stckChanger is positive, remove stack.
+					stck.ServerConsume(-stckChanger);
+				}
+
+			}
+
+
+
 		}
 		meal = null;
+		mealCount = 0;
 	}
 
 }

@@ -132,15 +132,15 @@ MonoBehaviour:
   anchored: 0
   volume: 70
   pipeSprites:
-  - {fileID: 21300000, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
-  - {fileID: 21300016, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300020, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300112, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300064, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300068, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300116, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300160, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
-  - {fileID: 21300164, guid: 7c4fb2dfd69292045b1a3300b683390a, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spriteRenderer: {fileID: 1047382295693061733}
 --- !u!114 &5640039996929275955
 MonoBehaviour:
@@ -303,6 +303,16 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
 --- !u!114 &8750409313360246655
 MonoBehaviour:
   m_ObjectHideFlags: 0

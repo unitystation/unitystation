@@ -12,9 +12,11 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public Sprite offSprite;
 	public Sprite redSprite;
 
-	[Header("Access Restrictions for ID")]
-	[Tooltip("Is this door restricted?")] public bool restricted;
-	[Tooltip("Access level to limit door if above is set.")] public Access access;
+	[Header("Access Restrictions for ID")] [Tooltip("Is this door restricted?")]
+	public bool restricted;
+
+	[Tooltip("Access level to limit door if above is set.")]
+	public Access access;
 
 
 	public DoorController[] doorControllers;
@@ -74,13 +76,19 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		for (int i = 0; i < doorControllers.Length; i++)
 		{
-			if (!doorControllers[i].IsOpened)
+			if (doorControllers[i].IsClosed)
 			{
-				doorControllers[i].ServerOpen();
+				if (doorControllers[i] != null)
+				{
+					doorControllers[i].ServerOpen();
+				}
 			}
 			else
 			{
-				doorControllers[i].ServerClose();
+				if (doorControllers[i] != null)
+				{
+					doorControllers[i].ServerClose();
+				}
 			}
 		}
 	}
@@ -117,6 +125,7 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 				{
 					spriteRenderer.sprite = greenSprite;
 				}
+
 				yield return WaitFor.Seconds(0.2f);
 			}
 			else
@@ -129,10 +138,11 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 				{
 					spriteRenderer.sprite = redSprite;
 				}
+
 				yield return WaitFor.Seconds(0.1f);
 			}
-
 		}
+
 		spriteRenderer.sprite = greenSprite;
 	}
 

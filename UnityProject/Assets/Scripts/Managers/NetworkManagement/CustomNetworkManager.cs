@@ -9,6 +9,7 @@ using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
+using UnityEngine.Events;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -21,7 +22,13 @@ public class CustomNetworkManager : NetworkManager
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
 
-	private void Awake()
+	/// <summary>
+	/// Invoked client side when the player has disconnected from a server.
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnClientDisconnected = new UnityEvent();
+
+	public override void Awake()
 	{
 		if (Instance == null)
 		{
@@ -33,7 +40,7 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	private void Start()
+	public override void Start()
 	{
 		SetSpawnableList();
 
@@ -58,15 +65,15 @@ public class CustomNetworkManager : NetworkManager
 		foreach (string dir in dirs)
 		{
 			//Should yield For a frame to Increase performance
-			loadFolder(dir);
+			LoadFolder(dir);
 			foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
 			{
-				loadFolder(subdir);
+				LoadFolder(subdir);
 			}
 		}
 	}
 
-	private void loadFolder(string folderpath)
+	private void LoadFolder(string folderpath)
 	{
 		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
 		foreach (NetworkIdentity netObj in Resources.LoadAll<NetworkIdentity>(folderpath))
@@ -125,6 +132,12 @@ public class CustomNetworkManager : NetworkManager
 		this.RegisterClientHandlers(conn);
 
 		base.OnClientConnect(conn);
+	}
+
+	public override void OnClientDisconnect(NetworkConnection conn)
+	{
+		base.OnClientDisconnect(conn);
+		OnClientDisconnected.Invoke();
 	}
 
 	///Sync some position data explicitly, if it is required

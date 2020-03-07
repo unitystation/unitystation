@@ -97,6 +97,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	/// </summary>
 	public bool WillInteract( PositionalHandApply interaction, NetworkSide side )
 	{
+		if (interaction.HandObject != gameObject) return false;  
 		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector)
 				&& allowUse;
 	}

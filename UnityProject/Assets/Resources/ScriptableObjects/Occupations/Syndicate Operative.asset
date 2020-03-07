@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: Syndicate Operative
   m_EditorClassIdentifier: 
   jobType: 36
-  displayName: Syndicate Operative
   inventoryPopulator: {fileID: 11400000, guid: d3fa80a1a5cc14a0b86b26aaddff5a7d, type: 2}
   limit: 10
   priority: 99
+  allowedAccess: 220000002300000031000000470000001b0000002d000000
+  progress: 50
   choiceColor: {r: 1, g: 1, b: 1, a: 1}
-  allowedAccess: 220000002300000031000000
+  previewSprite: {fileID: 0}
+  displayName: Syndicate Operative
+  difficulty: 2
+  descriptionShort: 
+  descriptionLong: 

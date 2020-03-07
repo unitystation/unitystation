@@ -37,19 +37,6 @@ public static class EffectsFactory
 		}
 	}
 
-	//FileTiles are client side effects only, no need for network sync (triggered by same event on all clients/server)
-	public static void SpawnFireTileClient(float fuelAmt, Vector3 localPosition, Transform parent)
-	{
-		EnsureInit();
-		//ClientSide pool spawn
-		GameObject fireObj = Spawn.ClientPrefab(fireTile, Vector3.zero).GameObject;
-		//Spawn tiles need to be placed in a local matrix:
-		fireObj.transform.parent = parent;
-		fireObj.transform.localPosition = localPosition;
-		FireTile fT = fireObj.GetComponent<FireTile>();
-		fT.StartFire(fuelAmt);
-	}
-
 	public static void BloodSplat(Vector3 worldPos, BloodSplatSize splatSize, BloodSplatType bloodColorType)
 	{
 		EnsureInit();
@@ -97,7 +84,7 @@ public static class EffectsFactory
 		if (chosenTile != null)
 		{
 			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), true);
-			if (!(matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() > 0))
+			if (matrix.Matrix.Get<FloorDecal>(worldPos.ToLocalInt(matrix.Matrix), true).Count() == 0)
 			{
 				Spawn.ServerPrefab(chosenTile, worldPos,
 								   matrix.Objects);

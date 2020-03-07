@@ -12,13 +12,16 @@ public class MobAgent : Agent
 	protected CustomNetTransform cnt;
 	protected RegisterObject registerObj;
 	protected NPCDirectionalSprites dirSprites;
-	protected LivingHealthBehaviour health;
+	protected LivingHealthBehaviour health; // For living beings
+	protected Integrity integrity; // For bots
 
 	private Vector3 startPos;
 
 	protected bool isServer;
 
 	public bool performingDecision;
+	public bool performingAction;
+
 	public bool activated;
 	public float tickRate = 1f;
 	private float tickWait;
@@ -32,6 +35,7 @@ public class MobAgent : Agent
 		registerObj = GetComponent<RegisterObject>();
 		dirSprites = GetComponent<NPCDirectionalSprites>();
 		health = GetComponent<LivingHealthBehaviour>();
+		integrity = GetComponent<Integrity>();
 		agentParameters.onDemandDecision = true;
 	}
 
@@ -99,6 +103,13 @@ public class MobAgent : Agent
 	}
 
 	/// <summary>
+	/// Called when the mob is performing an action
+	/// </summary>	
+	protected virtual void OnPerformAction()
+	{
+	}
+
+	/// <summary>
 	/// Make sure to call base.UpdateMe if overriding
 	/// </summary>
 	protected virtual void UpdateMe()
@@ -119,9 +130,18 @@ public class MobAgent : Agent
 
 	void MonitorDecisionMaking()
 	{
-		if (health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)
+		// Only living mobs have health.  Some like the bots have integrity instead.
+		if (((health != null) && (health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)) ||
+			((integrity != null) && (integrity.integrity <= 0)))
 		{
 			//can't do anything this NPC is not capable of movement
+			return;
+		}
+
+		// If the mob is already performing an action, it's not the time to make a decision yet.
+		if (performingAction)
+		{
+			OnPerformAction();
 			return;
 		}
 

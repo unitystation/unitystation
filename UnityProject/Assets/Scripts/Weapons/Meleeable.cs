@@ -8,9 +8,6 @@ using UnityEngine;
 public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
 	[SerializeField]
-	private ItemTrait butcherKnifeTrait;
-
-	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig
 	= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
@@ -114,7 +111,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			//butcher check
 			GameObject victim = interaction.TargetObject;
 			var healthComponent = victim.GetComponent<LivingHealthBehaviour>();
-			if (healthComponent && healthComponent.allowKnifeHarvest && healthComponent.IsDead && Validations.HasItemTrait(interaction.HandObject, butcherKnifeTrait) && interaction.Intent == Intent.Harm)
+			if (healthComponent && healthComponent.allowKnifeHarvest && healthComponent.IsDead && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Knife) && interaction.Intent == Intent.Harm)
 			{
 				GameObject performer = interaction.Performer;
 

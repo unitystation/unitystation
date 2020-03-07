@@ -37,6 +37,7 @@ namespace Lobby
 
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
+		public Text serverConnectionFailedText;
 		public Text dialogueTitle;
 		public Text pleaseWaitCreationText;
 		public Text loggingInText;
@@ -49,9 +50,23 @@ namespace Lobby
 		void Start()
 		{
 			networkManager = CustomNetworkManager.Instance;
+			networkManager.OnClientDisconnected.AddListener(OnClientDisconnect);
 			OnHostToggle();
 			// Init Lobby UI
 			InitPlayerName();
+		}
+
+		public void OnClientDisconnect()
+		{
+			gameObject.SetActive(true);
+			StartCoroutine(FlashConnectionFailedText());
+		}
+
+		IEnumerator FlashConnectionFailedText()
+		{
+			serverConnectionFailedText.gameObject.SetActive(true);
+			yield return WaitFor.Seconds(5);
+			serverConnectionFailedText.gameObject.SetActive(false);
 		}
 
 		public void ShowLoginScreen()
@@ -155,8 +170,8 @@ namespace Lobby
 		private void AccountCreationSuccess(CharacterSettings charSettings)
 		{
 			pleaseWaitCreationText.text = $"Success! An email has been sent to {emailAddressInput.text}. " +
-			                              $"Please click the link in the email to verify " +
-			                              $"your account before signing in.";
+										  $"Please click the link in the email to verify " +
+										  $"your account before signing in.";
 			PlayerManager.CurrentCharacterSettings = charSettings;
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			chosenPasswordInput.text = "";
@@ -213,6 +228,12 @@ namespace Lobby
 			PlayerPrefs.SetInt("autoLogin", 0);
 			PlayerPrefs.Save();
 			ShowLoginScreen();
+		}
+
+		public void OnExit()
+		{
+			SoundManager.Play("Click01");
+			Application.Quit();
 		}
 
 		public void LoginSuccess(string msg)
@@ -315,26 +336,19 @@ namespace Lobby
 			string serverAddress = serverAddressInput.text;
 			if (string.IsNullOrEmpty(serverAddress))
 			{
-				if (string.IsNullOrEmpty(serverAddress))
-				{
-					serverAddress = DefaultServerAddress;
-				}
+				serverAddress = DefaultServerAddress;
 			}
 
 			// Set network port
-			ushort serverPort = 0;
+			ushort serverPort = DefaultServerPort;
 			if (serverPortInput.text.Length >= 4)
 			{
 				ushort.TryParse(serverPortInput.text, out serverPort);
 			}
 
-			if (serverPort == 0)
-			{
-				serverPort = DefaultServerPort;
-			}
-
 			// Init network client
 			Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, serverAddress, serverPort);
+
 			networkManager.networkAddress = serverAddress;
 			networkManager.GetComponent<TelepathyTransport>().port = serverPort;
 			networkManager.StartClient();

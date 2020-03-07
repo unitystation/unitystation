@@ -164,6 +164,11 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
 	{
+		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
+		{
+			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
+			return;
+		}
 		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
 		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
 		if (slotsTaken >= slotsMax)
@@ -178,6 +183,16 @@ public class JoinedViewer : NetworkBehaviour
 		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
 
 		PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation, characterSettings);
+	}
+	/// <summary>
+	/// Command to spectate a round instead of spawning as a player
+	/// </summary>
+	/// <param name="jobType"></param>
+	/// <param name="characterSettings"></param>
+	[Command]
+	public void CmdSpectacte()
+	{
+		PlayerSpawn.ServerSpawnGhost(this);
 	}
 
 	/// <summary>

@@ -12,7 +12,7 @@ using Random = System.Random;
 
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
+public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExaminable
 {
 
 	[Tooltip("Display name of this item when spawned.")]
@@ -32,6 +32,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	[SerializeField]
 	private string initialDescription;
 
+	[Tooltip("Will this item highlight on mouseover?")]
+	[SerializeField]
+	private bool willHighlight = true;
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
 	[SerializeField]
@@ -101,8 +104,10 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	/// </summary>
 	public void OnHoverStart()
 	{
-		Highlight.HighlightThis(gameObject);
-
+		if(willHighlight)
+		{
+			Highlight.HighlightThis(gameObject);
+		}
 		string displayName = null;
 		if (string.IsNullOrWhiteSpace(articleName))
 		{
@@ -128,7 +133,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 	}
 
 
-	// Sends examine event to all monobehaviors on gameobject
+	// Sends examine event to all monobehaviors on gameobject - keep for now - TODO: integrate w shift examine
 	public void SendExamine()
 	{
 		SendMessage("OnExamine");
@@ -136,10 +141,29 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn
 
 	private void OnExamine()
 	{
+		RequestExamineMessage.Send(GetComponent<NetworkIdentity>().netId);
+	}
+
+	// Initial implementation of shift examine behaviour
+	public string Examine(Vector3 worldPos)
+	{
+		string displayName = "<error>";
+		if (string.IsNullOrWhiteSpace(articleName))
+		{
+			displayName = gameObject.ExpensiveName();
+		}
+		else
+		{
+			displayName = articleName;
+		}
+
+		string str = "This is a " + displayName + ".";
+
 		if (!string.IsNullOrEmpty(initialDescription))
 		{
-			Chat.AddExamineMsgToClient(initialDescription);
+			str = str + " " + initialDescription;
 		}
+		return str;
 	}
 
 	public RightClickableResult GenerateRightClickOptions()

@@ -41,13 +41,6 @@ public class Nuke : NetworkBehaviour
 		return false;
 	}
 
-	IEnumerator PlayNukeDetSound()
-	{
-		// Wait for 1 second so audio syncs up
-		yield return WaitFor.Seconds(1f);
-		SoundManager.Play("SelfDestruct");
-	}
-
 	IEnumerator WaitForDeath()
 	{
 		yield return WaitFor.Seconds(5f);
@@ -96,16 +89,14 @@ public class Nuke : NetworkBehaviour
 		ChatUI.Instance.CloseChatWindow();
 
 		//Playing the video
-		UIManager.Display.PlayNukeDetVideo();
-
-		//Playing the sound
-		StartCoroutine(PlayNukeDetSound());
+		UIManager.Display.VideoPlayer.PlayNukeDetVideo();
 	}
 
 	[Server]
 	public void CodeGenerator()
 	{
 		nukeCode = Random.Range(1000, 9999);
+		//Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
 	}
 
 	public void Clear() {
