@@ -407,11 +407,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
-        type: 3}
-      propertyPath: m_Name
-      value: Tazer
-      objectReference: {fileID: 0}
     - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: ProjectileVelocity
@@ -427,6 +422,17 @@ PrefabInstance:
       propertyPath: SpawnsCaseing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootTazer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f264a8df03da4284f9e6b61552375398,
+        type: 3}
     - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -481,6 +487,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_Name
+      value: Tazer
       objectReference: {fileID: 0}
     - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
         type: 3}
@@ -566,12 +577,6 @@ PrefabInstance:
       value: A low-capacity, energy-based stun gun used by security teams to subdue
         targets at range.
       objectReference: {fileID: 0}
-    - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: f264a8df03da4284f9e6b61552375398,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
 --- !u!4 &6511642736210826542 stripped
