@@ -16,7 +16,14 @@ public class ClientTypingMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		throw new System.NotImplementedException();
+		if (SentByPlayer == ConnectedPlayer.Invalid)
+			yield break;
+
+		var playerScript = SentByPlayer.Script;
+		if (!playerScript)
+			yield break;
+
+		var typingIcon = playerScript.chatIcon;
 	}
 
 	public static ClientTypingMessage Send(TypingState state)
