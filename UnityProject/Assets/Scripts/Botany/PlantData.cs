@@ -88,7 +88,6 @@ public class PlantData
 
 	/// <summary>
 	/// Initializes plant with data from default plant
-	/// Leaves some existing plant data if plant already exists?
 	/// </summary>
 	/// <param name="DefaultPlantData">DefaultPlantData.plantdata's values are copied</param>
 	public void SetValues(DefaultPlantData DefaultPlantData)

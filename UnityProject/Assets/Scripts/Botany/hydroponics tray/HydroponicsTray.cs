@@ -358,7 +358,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 
 		if (DefaultPlantData.PlantDictionary.ContainsKey(plantSyncString))
 		{
-			plantData = DefaultPlantData.PlantDictionary[plantSyncString].plantData;
+			plantData = new PlantData();
+			plantData.SetValues(DefaultPlantData.PlantDictionary[plantSyncString].plantData);
 		}
 		UpdateSprite();
 	}
