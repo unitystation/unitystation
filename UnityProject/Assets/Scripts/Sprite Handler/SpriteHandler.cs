@@ -101,14 +101,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private IEnumerator WaitForInitialisation()
 	{
-		// Don't show while configuring
-		if (spriteRenderer == null)
-		{
-			Logger.Log("Sprite render is null!!!! Fix please!!!");
-			yield break;
-		}
-		spriteRenderer.enabled = false;
-
+		ImageComponentStatus(false);
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
 		GetImageComponent();
@@ -119,20 +112,31 @@ public class SpriteHandler : MonoBehaviour
 		{
 			PushTexture();
 		}
-
-		// Show once done configuring
-		spriteRenderer.enabled = true;
+		ImageComponentStatus(true);
 	}
 
 	void Start()
 	{
 		AddSprites();
+		GetImageComponent();
 		StartCoroutine(WaitForInitialisation());
+	}
+
+	private void ImageComponentStatus(bool Status)
+	{
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.enabled = Status;
+		}
+		else if (image != null){
+			image.enabled = Status;
+		}
+	
 	}
 
 	private void OnEnable()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
+		GetImageComponent();
 	}
 
 	private void OnDisable()
