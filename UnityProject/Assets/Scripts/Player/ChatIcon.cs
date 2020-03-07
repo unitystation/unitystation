@@ -9,7 +9,8 @@ public class ChatIcon : MonoBehaviour
 	private const int ExclaimSprite = 2;
 	private const int TalkSprite = 3;
 
-	public SpriteHandler spriteHandler;
+	[SerializeField]
+	private SpriteHandler spriteHandler;
 	[Tooltip("Time after which chat icon disapear")]
 	public float IconTimeout = 3f;
 
@@ -19,6 +20,19 @@ public class ChatIcon : MonoBehaviour
 	private void Start()
 	{
 		spriteHandler.gameObject.SetActive(false);
+	}
+
+	public void ToggleTypingIcon(bool toggle)
+	{
+		if (toggle)
+		{
+			spriteHandler.gameObject.SetActive(true);
+			//spriteHandler.ChangeSprite(TypingSprite);
+		}
+		else
+		{
+			spriteHandler.gameObject.SetActive(false);
+		}
 	}
 	
 	public void ToggleChatIcon(bool toggle, ChatModifier chatModifier)

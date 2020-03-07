@@ -122,6 +122,8 @@ public class SpriteHandler : MonoBehaviour
 	private void OnEnable()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		// try to restart last animation
+		TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
 	}
 
 	private void OnDisable()

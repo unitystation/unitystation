@@ -30,6 +30,7 @@ public class ChatTypingSync : MonoBehaviour
 	{
 		if (isPlayerTyping)
 		{
+			// check if player doesn't enter anything new recently
 			var nothingTypedTime = Time.time - lastTypingTime;
 			if (nothingTypedTime > typingTimeout)
 				StopTyping();
@@ -73,6 +74,8 @@ public class ChatTypingSync : MonoBehaviour
 		isPlayerTyping = true;
 		lastTypingTime = Time.time;
 
+		ClientTypingMessage.Send(TypingState.TYPING);
+
 		Logger.Log("Client starts typping to chat", Category.Chat);
 	}
 
@@ -82,6 +85,8 @@ public class ChatTypingSync : MonoBehaviour
 			return;
 
 		isPlayerTyping = false;
+
+		ClientTypingMessage.Send(TypingState.STOP_TYPING);
 
 		Logger.Log("Client stopped typping to chat", Category.Chat);
 	}

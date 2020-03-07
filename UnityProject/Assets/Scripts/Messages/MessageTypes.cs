@@ -57,6 +57,7 @@ internal enum MessageTypes : short
 	SetActionUI = 1053,
 	ShowChatBubble = 1054,
 	VideoPlayerMessage = 1055,
+	ServerTypingMessage = 1056,
 
 
 	//Client messages - 2xxx

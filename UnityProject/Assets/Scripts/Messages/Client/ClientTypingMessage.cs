@@ -12,7 +12,7 @@ public class ClientTypingMessage : ClientMessage
 {
 	public static short MessageType = (short)MessageTypes.ClientTypingMessage;
 
-	public TypingState TypingState;
+	public TypingState state;
 
 	public override IEnumerator Process()
 	{
@@ -23,14 +23,15 @@ public class ClientTypingMessage : ClientMessage
 		if (!playerScript)
 			yield break;
 
-		var typingIcon = playerScript.chatIcon;
+		// resend it to all nearby players
+		ServerTypingMessage.Send(playerScript, state);
 	}
 
-	public static ClientTypingMessage Send(TypingState state)
+	public static ClientTypingMessage Send(TypingState newState)
 	{
 		var msg = new ClientTypingMessage()
 		{
-			TypingState = state
+			state = newState
 		};
 		msg.Send();
 		return msg;
