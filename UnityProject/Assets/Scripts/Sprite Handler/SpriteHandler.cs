@@ -102,6 +102,11 @@ public class SpriteHandler : MonoBehaviour
 	private IEnumerator WaitForInitialisation()
 	{
 		// Don't show while configuring
+		if (spriteRenderer == null)
+		{
+			Logger.Log("Sprite render is null!!!! Fix please!!!");
+			yield break;
+		}
 		spriteRenderer.enabled = false;
 
 		yield return WaitFor.EndOfFrame;
@@ -117,6 +122,12 @@ public class SpriteHandler : MonoBehaviour
 
 		// Show once done configuring
 		spriteRenderer.enabled = true;
+	}
+
+	void Start()
+	{
+		AddSprites();
+		StartCoroutine(WaitForInitialisation());
 	}
 
 	private void OnEnable()
@@ -182,7 +193,7 @@ public class SpriteHandler : MonoBehaviour
 					animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
 				{
 					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
-					
+
 					SetSprite(curSpriteInfo);
 
 					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
@@ -363,12 +374,6 @@ public class SpriteHandler : MonoBehaviour
 		else {
 			SetSpriteOnStartUp = true;
 		}
-	}
-
-	void Start()
-	{
-		AddSprites();
-		StartCoroutine(WaitForInitialisation());
 	}
 
 	private void AddSprites()
