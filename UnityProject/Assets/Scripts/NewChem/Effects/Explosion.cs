@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Chemistry.Effects
 {
-	public class Explosion : ScriptableObject, IEffect
+	public class Explosion : Effect
 	{
 		public float strength;
 		[Tooltip("Explosion effect prefab, which creates when timer ends")]
 		public Explosion explosionPrefab;
 
-		public void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, float amount)
 		{
 			// if (sender is NetworkBehaviour netSender)
 			// {

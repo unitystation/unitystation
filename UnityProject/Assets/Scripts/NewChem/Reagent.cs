@@ -7,12 +7,18 @@ namespace Chemistry
 	[CreateAssetMenu(fileName = "reagent", menuName = "ScriptableObjects/Chemistry/Reagent")]
 	public class Reagent : ScriptableObject
 	{
-		[SerializeField] string displayName;
+		[SerializeField]
+		[Tooltip("This is optional")]
+		string displayName;
+		[TextArea]
 		public string description;
 		public Color color;
-		public string tasteDescription;
 		public ReagentState state;
 
-		public string Name => displayName ?? name;
+		public string Name
+		{
+			get => displayName ?? name;
+			set => displayName = value;
+		}
 	}
 }
