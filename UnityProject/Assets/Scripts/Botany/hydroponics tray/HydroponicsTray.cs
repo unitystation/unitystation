@@ -53,12 +53,11 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	public int plantSubStage;
 	public float plantHealth = 100;
 	public bool readyToHarvest;
-	private bool IsServer; //separate flag as NetworkBehaviour isServer is not accurate when destroying an object
+	//private bool IsServer; //separate flag as NetworkBehaviour isServer is not accurate when destroying an object
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		EnsureInit();
-		IsServer = true;
 		if (isSoilPile)
 		{
 			hasPlant = false;
