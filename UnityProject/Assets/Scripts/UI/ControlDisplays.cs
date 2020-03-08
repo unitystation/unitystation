@@ -21,6 +21,7 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject jobSelectWindow;
 	public GameObject preRoundWindow;
 	public GameObject teamSelectionWindow;
+	public GameObject disclaimer;
 	public RectTransform panelRight;
 
 	[SerializeField]
@@ -174,18 +175,18 @@ public class ControlDisplays : MonoBehaviour
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(false);
-		GUI_IngameMenu.Instance.disclamerWindow.SetActive(true);
+		disclaimer.SetActive(true);
 	}
 
 	public void SetScreenForGame()
 	{
-		GUI_IngameMenu.Instance.disclamerWindow.SetActive(false);
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(false);
 		uiAnimator.Play("idle");
+		disclaimer.SetActive(false);
 	}
 
 	public void SetScreenForPreRound()
