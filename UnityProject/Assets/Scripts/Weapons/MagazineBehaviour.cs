@@ -180,6 +180,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
+		if (interaction.UsedObject == null || interaction.Performer == null) return;
 		MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 		Chat.AddExamineMsg(interaction.Performer, LoadFromClip(clip));
 	}

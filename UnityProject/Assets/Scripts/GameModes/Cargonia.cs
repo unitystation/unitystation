@@ -38,7 +38,8 @@ public class Cargonia : GameMode
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
 		if (spawnRequest.RequestedOccupation.JobType == JobType.CARGOTECH
-		    || spawnRequest.RequestedOccupation.JobType == JobType.QUARTERMASTER)
+		    || spawnRequest.RequestedOccupation.JobType == JobType.QUARTERMASTER
+		    || spawnRequest.RequestedOccupation.JobType == JobType.MINER)
 		{
 			return true;
 		}

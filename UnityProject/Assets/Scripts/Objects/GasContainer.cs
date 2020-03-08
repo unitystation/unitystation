@@ -1,3 +1,4 @@
+using System;
 using Atmospherics;
 using Mirror;
 using UnityEngine;
@@ -32,7 +33,16 @@ namespace Objects
 		{
 			UpdateGasMix();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 
+		}
+
+		private void OnDisable()
+		{
+			if (isServer)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
 		private void OnWillDestroyServer(DestructionInfo info)
@@ -54,7 +64,7 @@ namespace Objects
 			ExplosionUtils.PlaySoundAndShake(tileWorldPosition, shakeIntensity, (int) shakeDistance);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (isServer)
 			{

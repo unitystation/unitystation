@@ -107,8 +107,13 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		var damageType = isWeapon ? weaponAttr.ServerDamageType : DamageType.Brute;
 		var attackSoundName = isWeapon ? weaponAttr.ServerHitSound : "Punch#";
 		LayerTile attackedTile = null;
-
 		bool didHit = false;
+
+		ItemAttributesV2 weaponStats = null;
+		if (isWeapon)
+		{
+			weaponStats = weapon.GetComponent<ItemAttributesV2>();
+		}
 
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
@@ -122,7 +127,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				.GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
-				attackSoundName = "";
+				if (isWeapon && weaponStats != null &&
+				    weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject)
+				{
+					attackSoundName = "";
+				}
 				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
 				tileMapDamage.DoMeleeDamage(worldPos,
@@ -140,7 +149,19 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			var integrity = victim.GetComponent<Integrity>();
 			if (integrity != null)
 			{
+
 				//damaging an object
+				if(isWeapon && weaponStats != null &&
+					weaponStats.hitSoundSettings == SoundItemSettings.Both)
+				{
+					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
+				}
+				else if (isWeapon && weaponStats != null &&
+				         weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit != "")
+				{
+					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
+					attackSoundName = "";
+				}
 				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
 				didHit = true;
 			}

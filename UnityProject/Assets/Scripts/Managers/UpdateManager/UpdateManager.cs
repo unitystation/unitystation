@@ -12,6 +12,10 @@ public class UpdateManager : MonoBehaviour
 {
 	private Dictionary<CallbackType, CallbackCollection> collections;
 
+	private List<Action> updateActions = new List<Action>();
+	private List<Action> fixedUpdateActions = new List<Action>();
+	private List<Action> lateUpdateActions = new List<Action>();
+
     public static bool IsInitialized { get { return instance != null; } }
 	private static UpdateManager instance;
 
@@ -60,9 +64,35 @@ public class UpdateManager : MonoBehaviour
 
 	public static void Remove(CallbackType type, Action action)
 	{
-		var callbackCollection = instance.collections[type];
+		if (type == CallbackType.UPDATE)
+		{
+			if (Instance.updateActions.Contains(action))
+			{
+				Instance.updateActions.Remove(action);
+				return;
+			}
+		}
 
-		instance.RemoveCallbackInternal(callbackCollection, action);
+		if (type == CallbackType.FIXED_UPDATE)
+		{
+			if (Instance.fixedUpdateActions.Contains(action))
+			{
+				Instance.fixedUpdateActions.Remove(action);
+				return;
+			}
+		}
+
+		if (type == CallbackType.LATE_UPDATE)
+		{
+			if (Instance.lateUpdateActions.Contains(action))
+			{
+				Instance.lateUpdateActions.Remove(action);
+				return;
+			}
+		}
+		//var callbackCollection = instance.collections[type];
+
+		//instance.RemoveCallbackInternal(callbackCollection, action);
 	}
 
 	public static void Remove(ManagedNetworkBehaviour networkBehaviour)
@@ -116,6 +146,37 @@ public class UpdateManager : MonoBehaviour
 
 	private void AddCallbackInternal(CallbackType type, Action action)
 	{
+
+		if (type == CallbackType.UPDATE)
+		{
+			if (!Instance.updateActions.Contains(action))
+			{
+				Instance.updateActions.Add(action);
+				return;
+			}
+		}
+
+		if (type == CallbackType.FIXED_UPDATE)
+		{
+			if (!Instance.fixedUpdateActions.Contains(action))
+			{
+				Instance.fixedUpdateActions.Add(action);
+				return;
+			}
+		}
+
+		if (type == CallbackType.LATE_UPDATE)
+		{
+			if (!Instance.lateUpdateActions.Contains(action))
+			{
+				Instance.lateUpdateActions.Add(action);
+				return;
+			}
+		}
+
+		//FIXME current system is 2 x slower possibly because of garbage being created
+		//in ProcessCallbacks()
+		return;
 		NamedAction namedAction = new NamedAction();
 
 		// Give that shit a name so we can refer to it in profiler.
@@ -170,17 +231,41 @@ public class UpdateManager : MonoBehaviour
 
 	private void Update()
 	{
-		ProcessCallbacks(collections[CallbackType.UPDATE]);
+		for (int i = updateActions.Count; i > 0; i--)
+		{
+			if (i > 0 && i < updateActions.Count)
+			{
+				updateActions[i].Invoke();
+			}
+		}
+		//Fixme
+		//ProcessCallbacks(collections[CallbackType.UPDATE]);
 	}
 
 	private void FixedUpdate()
 	{
-		ProcessCallbacks(collections[CallbackType.FIXED_UPDATE]);
+		for (int i = fixedUpdateActions.Count; i > 0; i--)
+		{
+			if (i > 0 && i < fixedUpdateActions.Count)
+			{
+				fixedUpdateActions[i].Invoke();
+			}
+		}
+		//Fixme
+		//ProcessCallbacks(collections[CallbackType.FIXED_UPDATE]);
 	}
 
 	private void LateUpdate()
 	{
-		ProcessCallbacks(collections[CallbackType.LATE_UPDATE]);
+		for (int i = lateUpdateActions.Count; i > 0; i--)
+		{
+			if (i > 0 && i < lateUpdateActions.Count)
+			{
+				lateUpdateActions[i].Invoke();
+			}
+		}
+		//Fixme
+		//ProcessCallbacks(collections[CallbackType.LATE_UPDATE]);
 	}
 
 	private void OnDestroy()
