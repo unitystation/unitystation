@@ -40,4 +40,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Squeaky;
 	public ItemTrait Boots;
 	public ItemTrait Rods;
+	public ItemTrait SolidPlasma;
 }
