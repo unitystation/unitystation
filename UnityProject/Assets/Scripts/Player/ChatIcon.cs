@@ -27,7 +27,8 @@ public class ChatIcon : MonoBehaviour
 		if (toggle)
 		{
 			spriteHandler.gameObject.SetActive(true);
-			//spriteHandler.ChangeSprite(TypingSprite);
+			spriteHandler.ChangeSprite(TypingSprite);
+			spriteHandler.PushTexture();
 		}
 		else
 		{

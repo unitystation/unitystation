@@ -8,6 +8,9 @@ public enum TypingState
 	STOP_TYPING
 }
 
+/// <summary>
+/// Messsage from client to server that indicate that local player starts/stops typing
+/// </summary>
 public class ClientTypingMessage : ClientMessage
 {
 	public static short MessageType = (short)MessageTypes.ClientTypingMessage;
@@ -16,6 +19,7 @@ public class ClientTypingMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
+		// server side logic
 		if (SentByPlayer == ConnectedPlayer.Invalid)
 			yield break;
 
@@ -23,7 +27,7 @@ public class ClientTypingMessage : ClientMessage
 		if (!playerScript)
 			yield break;
 
-		// resend it to all nearby players
+		// send it to server that will decide what should be done next
 		ServerTypingMessage.Send(playerScript, state);
 	}
 
