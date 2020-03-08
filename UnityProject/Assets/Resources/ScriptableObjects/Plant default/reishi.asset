@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: reishi
@@ -55,21 +55,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 4f54d8f1560f06e4f918247b2cb36eb9, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 5
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 50
     Potency: 15
     Endurance: 35
-    Yield: 4
+    Yield: 40
     Lifespan: 35
     PlantTrays: 02000000
     ReagentProduction:
-    - String: morphine
-      Int: 34
-    - String: charcoal
-      Int: 34
-    - String: nutriment
-      Int: 0
+    - Name: morphine
+      Ammount: 34
+    - Name: charcoal
+      Ammount: 34
+    - Name: nutriment
+      Ammount: 0
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

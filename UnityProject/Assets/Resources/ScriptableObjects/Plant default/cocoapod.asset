@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: cocoapod
@@ -59,19 +59,19 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 36f46b111de5cca4ab9041752ed8fc31, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 5
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 50
     Potency: 10
     Endurance: 15
-    Yield: 2
+    Yield: 20
     Lifespan: 20
     PlantTrays: 00000000
     ReagentProduction:
-    - String: cocoa
-      Int: 25
-    - String: nutriment
-      Int: 10
+    - Name: cocoa
+      Ammount: 25
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo:
     - {fileID: 11400000, guid: 01d66054fab82884d91317a45d96b3d1, type: 2}
   WeedResistanceChange: 0
