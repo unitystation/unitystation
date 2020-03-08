@@ -11,7 +11,7 @@ _Please enter any other relevant information here_
 
 - [ ] Code is sufficiently commented
 - [ ] Code is indented with tabs and not spaces
-- [ ] The PR does not include any unnecessary .meta, .prefab or <b>.unity (scene) changes</b>
+- [ ] The PR does not include any unnecessary .meta, .prefab or **.unity (scene) changes**
 - [ ] The PR does not bring up any new compile errors
 - [ ] The PR has been tested in editor
 - [ ] Any new files are named using PascalCase (to avoid issues on case sensitive file systems)
