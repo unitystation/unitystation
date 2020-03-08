@@ -113,7 +113,7 @@ public class CentComm : MonoBehaviour
 
 	IEnumerator WaitToCargoniaReport()
 	{
-		yield return WaitFor.Seconds(10f);
+		yield return WaitFor.Seconds(600f);
 		MakeCommandReport(CargoniaReport(), UpdateType.alert);
 	}
 
