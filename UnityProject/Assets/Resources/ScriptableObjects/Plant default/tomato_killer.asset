@@ -47,12 +47,12 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: b24b675188a5dce4b949ea81b2b5a793, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 15
-    Yield: 3
+    Yield: 30
     Lifespan: 25
     PlantTrays: 04000000
     ReagentProduction:
@@ -66,7 +66,7 @@ MonoBehaviour:
   GrowthSpeedChange: 0
   PotencyChange: 0
   EnduranceChange: 0
-  YieldChange: 3
+  YieldChange: 30
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
