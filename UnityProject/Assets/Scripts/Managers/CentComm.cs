@@ -103,6 +103,30 @@ public class CentComm : MonoBehaviour
 		//Determine Plasma order:
 		PlasmaOrderRequestAmt = Random.Range(5, 50);
 		SendReportToStation();
+
+		//Check for coup game modes:
+		if (GameManager.Instance.GetGameModeName(true) == "Cargonia")
+		{
+			StartCoroutine(WaitToNotifySecOfCoup());
+		}
+	}
+
+	IEnumerator WaitToNotifySecOfCoup()
+	{
+		yield return WaitFor.Seconds(600f);
+
+		foreach (var p in PlayerList.Instance.AllPlayers)
+		{
+			if (p.Script == null || p.Script.playerHealth == null || p.Script.playerHealth.IsDead) continue;
+
+			if (p.Job == JobType.SECURITY_OFFICER || p.Job == JobType.HOS
+			                                      || p.Job != JobType.DETECTIVE
+			                                      || p.Job != JobType.WARDEN)
+			{
+				UpdateChatMessage.Send(p.GameObject, ChatChannel.System, ChatModifier.None,
+					"<color=red><size=50><b>Attention! It is believed that some of the crew on-station may be planning to stage a coup!</b></size></color>");
+			}
+		}
 	}
 
 	private void SendReportToStation()

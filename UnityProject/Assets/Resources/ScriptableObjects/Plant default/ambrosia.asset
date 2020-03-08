@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: ambrosia
@@ -60,31 +60,30 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 26d76a23886fc4540b3c7c66c5ba1a1d, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 5bf3b95bfa2e9934098a178cf2957752, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 5bf3b95bfa2e9934098a178cf2957752, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 5
     Endurance: 25
-    Yield: 6
+    Yield: 60
     Lifespan: 60
     PlantTrays: 00000000
     ReagentProduction:
-    - String: space_drugs
-      Int: 15
-    - String: bicaridine
-      Int: 10
-    - String: kelotane
-      Int: 10
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 5
-    - String: toxin
-      Int: 10
+    - Name: space_drugs
+      Ammount: 15
+    - Name: bicaridine
+      Ammount: 10
+    - Name: kelotane
+      Ammount: 10
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 5
+    - Name: toxin
+      Ammount: 10
     MutatesInTo:
     - {fileID: 11400000, guid: 00e1d8a7450c9c745a4914c2e1a8f236, type: 2}
   WeedResistanceChange: 0

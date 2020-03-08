@@ -82,15 +82,15 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 		Vector2	startPos = gameObject.AssumedWorldPosServer();
 		Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
-		List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
+		List<Vector3Int> positionList = CheckPassableTiles(startPos, targetPos);
 		StartCoroutine(Fire(positionList));
 
 		var points = GetParallelPoints(startPos, targetPos, true);
-		positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
+		positionList = CheckPassableTiles(points[0], points[1]);
 		StartCoroutine(Fire(positionList));
 
 		points = GetParallelPoints(startPos, targetPos, false);
-		positionList = MatrixManager.GetTiles(points[0], points[1], travelDistance);
+		positionList = CheckPassableTiles(points[0], points[1]);
 		StartCoroutine(Fire(positionList));
 
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
@@ -151,5 +151,18 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 		pickupable.RefreshUISlotImage();
 	}
-
+	private List<Vector3Int> CheckPassableTiles(Vector2 startPos, Vector2 targetPos)
+	{
+		List<Vector3Int> passableTiles = new List<Vector3Int>();
+		List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
+		for (int i = 0; i < positionList.Count; i++)
+		{
+			if (!MatrixManager.IsAtmosPassableAt(positionList[i],true))
+			{
+				return passableTiles;
+			}
+			passableTiles.Add(positionList[i]);
+		}
+		return passableTiles;
+	}
 }

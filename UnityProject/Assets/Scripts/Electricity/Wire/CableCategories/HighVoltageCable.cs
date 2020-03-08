@@ -5,16 +5,17 @@ using Mirror;
 
 public class HighVoltageCable : CableInheritance
 {
-	public override void _OnStartServer()
+	public new HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
-		CanConnectTo = new HashSet<PowerTypeCategory>()
-		{
 			PowerTypeCategory.PowerGenerator,
 			PowerTypeCategory.RadiationCollector,
 			PowerTypeCategory.HighVoltageCable,
 			PowerTypeCategory.Transformer,
 			PowerTypeCategory.PowerSink,
-		};
+	};
+
+	public override void _OnStartServer()
+	{		
 		ApplianceType = PowerTypeCategory.HighVoltageCable;
 		CableType = WiringColor.high;
 		wireConnect.InData.CanConnectTo = CanConnectTo;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class SMES : NetworkBehaviour, IInteractable<HandApply>, INodeControl
+public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
 {
 	public bool ResistanceChange = false;
 
@@ -32,7 +32,13 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	{
 		UpdateState(isOn, isOn);
 	}
-
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		if (interaction.HandObject != null) return false;
+		return true;
+	}
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;

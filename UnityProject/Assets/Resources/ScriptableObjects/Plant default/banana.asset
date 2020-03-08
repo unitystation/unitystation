@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: banana
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 7482468388035873950, guid: b9a013031b66f5a4e8ea045a09340254,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
     Name: banana
     Plantname: Banana Tree
@@ -64,23 +64,23 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: f810eeefbbdcf474d866a2429be1e50e, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 30
-    Yield: 3
+    Yield: 30
     Lifespan: 50
     PlantTrays: 0600000000000000
     ReagentProduction:
-    - String: banana
-      Int: 10
-    - String: potassium
-      Int: 10
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 1
+    - Name: banana
+      Ammount: 10
+    - Name: potassium
+      Ammount: 10
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 1
     MutatesInTo:
     - {fileID: 11400000, guid: 471d2cde86dc4484ab1f20adb44c01dd, type: 2}
     - {fileID: 11400000, guid: 8e548a11796a49e4a8b9985da8a5ba61, type: 2}

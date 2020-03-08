@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: random
@@ -36,12 +36,12 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 15
-    Yield: 3
+    Yield: 30
     Lifespan: 25
     PlantTrays: 
     ReagentProduction: []
