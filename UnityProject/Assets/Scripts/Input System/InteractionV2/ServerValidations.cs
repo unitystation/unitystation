@@ -25,6 +25,11 @@ public static class ServerValidations
 	{
 		var floorLayer = LayerMask.NameToLayer("Floor");
 		var wallmountLayer = LayerMask.NameToLayer("WallMounts");
+		var itemsLayer = LayerMask.NameToLayer("Items");
+		var machinesLayer = LayerMask.NameToLayer("Machines");
+		var lightingLayer = LayerMask.NameToLayer("Lighting");
+		//blood splat layer is default
+		var defaultLayer = LayerMask.NameToLayer("Default");
 		if (allowed == null) allowed = (rt) => false;
 		var blocker =
 			MatrixManager.GetAt<RegisterTile>(worldPosition.To3Int(), true)
@@ -33,7 +38,12 @@ public static class ServerValidations
 				//ignore performer
 				.Where(rt => rt.gameObject != performer)
 				//ignore stuff in floor and wallmounts
-				.Where(rt => rt.gameObject.layer != floorLayer && rt.gameObject.layer != wallmountLayer)
+				.Where(rt => rt.gameObject.layer != floorLayer &&
+				rt.gameObject.layer != wallmountLayer &&
+				rt.gameObject.layer != itemsLayer &&
+				rt.gameObject.layer != machinesLayer &&
+				rt.gameObject.layer != lightingLayer &&
+				rt.gameObject.layer != defaultLayer)
 				.FirstOrDefault(rt => !allowed.Invoke(rt));
 		if (blocker != null)
 		{
