@@ -157,6 +157,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// </summary>
 	public String LoadFromClip( MagazineBehaviour clip)
 	{
+		if (clip == null) return "";
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
 		clip.ExpendAmmo(toTransfer);
