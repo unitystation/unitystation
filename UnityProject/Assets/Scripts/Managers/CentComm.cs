@@ -103,6 +103,28 @@ public class CentComm : MonoBehaviour
 		//Determine Plasma order:
 		PlasmaOrderRequestAmt = Random.Range(5, 50);
 		SendReportToStation();
+		if (GameManager.Instance.GetGameModeName(true) == "Cargonia")
+		{
+			StartCoroutine(WaitToNotifySecOfCargonia());
+		}
+	}
+
+	IEnumerator WaitToNotifySecOfCargonia()
+	{
+		yield return WaitFor.Seconds(600f);
+
+		foreach (var p in PlayerList.Instance.AllPlayers)
+		{
+			if (p.Script == null || p.Script.playerHealth == null || p.Script.playerHealth.IsDead) continue;
+
+			if (p.Job == JobType.SECURITY_OFFICER || p.Job == JobType.HOS
+			                                      || p.Job != JobType.DETECTIVE
+			                                      || p.Job != JobType.WARDEN)
+			{
+				UpdateChatMessage.Send(p.GameObject, ChatChannel.System, ChatModifier.None,
+					"<color=red>Direct Centcomm Intelligence Report: It appears that cargo technicians may be planning to stage a coup on board this station.</color>");
+			}
+		}
 	}
 
 	private void SendReportToStation()

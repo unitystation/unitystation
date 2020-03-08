@@ -5,11 +5,8 @@ using System.Linq;
 
 namespace Antagonists
 {
-	/// <summary>
-	/// An objective to set off the nuke on the station
-	/// </summary>
-	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/OnlyCargoMenEscape")]
-	public class OnlyCargoMenEscape : Objective
+	[CreateAssetMenu(menuName="ScriptableObjects/Objectives/CargoEliminateSecurity")]
+	public class CargoEliminateSecurity : Objective
 	{
 		protected override void Setup()
 		{
@@ -17,16 +14,15 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			int playersFound = 0;
 			foreach (Transform t in GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo.Objects.transform)
 			{
 				var player = t.GetComponent<PlayerScript>();
 				if (player != null)
 				{
-					playersFound++;
 					var playerDetails = PlayerList.Instance.Get(player.gameObject);
-					if (playerDetails.Job != JobType.CARGOTECH && playerDetails.Job != JobType.MINER
-					                                           && playerDetails.Job != JobType.QUARTERMASTER)
+					if (playerDetails.Job == JobType.SECURITY_OFFICER || playerDetails.Job == JobType.HOS
+					                                           || playerDetails.Job != JobType.DETECTIVE
+					                                           || playerDetails.Job != JobType.WARDEN)
 					{
 						if(playerDetails.Script == null || playerDetails.Script.playerHealth == null) continue;
 						if (!playerDetails.Script.playerHealth.IsDead)
@@ -37,12 +33,7 @@ namespace Antagonists
 				}
 			}
 
-			if (playersFound != 0)
-			{
-				return true;
-			}
-
-			return false;
+			return true;
 		}
 	}
 }
