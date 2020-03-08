@@ -100,6 +100,6 @@ public class ChatIcon : MonoBehaviour
 	private IEnumerator WaitToTurnOff(float time)
 	{
 		yield return WaitFor.Seconds(time);
-		spriteHandler.gameObject.SetActive(true);
+		spriteHandler.gameObject.SetActive(false);
 	}
 }
