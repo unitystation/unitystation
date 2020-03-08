@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour
 {
-
+	#region Server
 	private IEnumerator coroutine;
 
 	public void Animator(AnimationInfo anim, SpriteRenderer spriteRenderer)
@@ -31,6 +31,8 @@ public class AnimationHandler : MonoBehaviour
 		yield return new WaitForSeconds(waitTime);
 		sRenderer.sprite = anim.sprites[i];
 	}
+
+	#endregion
 
 	// Start is called before the first frame update
 	void Start()
