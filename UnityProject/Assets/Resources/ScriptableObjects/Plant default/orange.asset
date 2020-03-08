@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: orange
@@ -72,12 +72,12 @@ MonoBehaviour:
     Lifespan: 55
     PlantTrays: 00000000
     ReagentProduction:
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 5
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 5
     MutatesInTo:
-    - {fileID: 11400000, guid: f3be5b6a53fcb074194d95f7554989a3, type: 2}
+    - {fileID: 0}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0
@@ -87,13 +87,13 @@ MonoBehaviour:
   LifespanChange: 55
   PlantTrays: 
   ReagentProduction:
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 5
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 5
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 5
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 5

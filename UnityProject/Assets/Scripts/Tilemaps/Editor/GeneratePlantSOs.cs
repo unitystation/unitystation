@@ -250,9 +250,11 @@ public class GeneratePlantSOs : EditorWindow
 				}
 			}
 
-			var DefaultPlantData = new DefaultPlantData();
+			var DefaultPlantData = new DefaultPlantData
+			{
+				plantData = plantdata
+			};
 			//\\ Creates the folder path
-			DefaultPlantData.plantData = plantdata;
 
 
 			//\\ Creates the file in the folder path

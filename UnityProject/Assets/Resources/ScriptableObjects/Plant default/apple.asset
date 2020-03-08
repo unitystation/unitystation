@@ -72,13 +72,12 @@ MonoBehaviour:
     Lifespan: 55
     PlantTrays: 00000000
     ReagentProduction:
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 10
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo:
     - {fileID: 11400000, guid: 4c02d7049024367408d35facef2df7a7, type: 2}
-    - {fileID: 11400000, guid: e9bd46a773ca79a4c9cdbc82887045ff, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

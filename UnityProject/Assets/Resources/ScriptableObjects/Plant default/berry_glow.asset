@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: berry_glow
@@ -72,14 +72,14 @@ MonoBehaviour:
     Lifespan: 20
     PlantTrays: 0c0000000e00000000000000
     ReagentProduction:
-    - String: uranium
-      Int: 25
-    - String: iodine
-      Int: 20
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 10
+    - Name: uranium
+      Ammount: 25
+    - Name: iodine
+      Ammount: 20
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -90,17 +90,17 @@ MonoBehaviour:
   LifespanChange: 20
   PlantTrays: 0c0000000e000000
   ReagentProduction:
-  - String: uranium
-    Int: 25
-  - String: iodine
-    Int: 20
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 10
+  - Name: uranium
+    Ammount: 25
+  - Name: iodine
+    Ammount: 20
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 10
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 10
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 10

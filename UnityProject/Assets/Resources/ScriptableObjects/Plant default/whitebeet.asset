@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: whitebeet
@@ -72,14 +72,14 @@ MonoBehaviour:
     Lifespan: 60
     PlantTrays: 
     ReagentProduction:
-    - String: vitamin
-      Int: 3
-    - String: sugar
-      Int: 20
-    - String: nutriment
-      Int: 5
+    - Name: vitamin
+      Ammount: 3
+    - Name: sugar
+      Ammount: 20
+    - Name: nutriment
+      Ammount: 5
     MutatesInTo:
-    - {fileID: 11400000}
+    - {fileID: 11400000, guid: 716c89d90785f4548b1340f33a97cc52, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

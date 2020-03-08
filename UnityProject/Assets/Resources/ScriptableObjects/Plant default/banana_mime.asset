@@ -7,13 +7,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: banana_mime
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 7482468388035873950, guid: b9a013031b66f5a4e8ea045a09340254,
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
       type: 3}
     Name: banana_mime
     Plantname: Mimana Tree
@@ -65,12 +65,12 @@ MonoBehaviour:
     Lifespan: 50
     PlantTrays: 0600000000000000
     ReagentProduction:
-    - String: nothing
-      Int: 10
-    - String: mutetoxin
-      Int: 10
-    - String: nutriment
-      Int: 1
+    - Name: nothing
+      Ammount: 10
+    - Name: mutetoxin
+      Ammount: 10
+    - Name: nutriment
+      Ammount: 1
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -81,19 +81,19 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: nothing
-    Int: 10
-  - String: mutetoxin
-    Int: 10
-  - String: nutriment
-    Int: 1
+  - Name: nothing
+    Ammount: 10
+  - Name: mutetoxin
+    Ammount: 10
+  - Name: nutriment
+    Ammount: 1
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: banana
-    Int: 10
-  - String: potassium
-    Int: 10
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 1
+  - Name: banana
+    Ammount: 10
+  - Name: potassium
+    Ammount: 10
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 1

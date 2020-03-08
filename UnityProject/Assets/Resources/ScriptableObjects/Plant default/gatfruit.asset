@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: gatfruit
@@ -56,14 +56,14 @@ MonoBehaviour:
     Lifespan: 20
     PlantTrays: 00000000
     ReagentProduction:
-    - String: sulfur
-      Int: 10
-    - String: carbon
-      Int: 10
-    - String: nitrogen
-      Int: 7
-    - String: potassium
-      Int: 5
+    - Name: sulfur
+      Ammount: 10
+    - Name: carbon
+      Ammount: 10
+    - Name: nitrogen
+      Ammount: 7
+    - Name: potassium
+      Ammount: 5
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

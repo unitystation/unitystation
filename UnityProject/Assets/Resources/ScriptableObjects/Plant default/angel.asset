@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: angel
@@ -60,14 +60,14 @@ MonoBehaviour:
     Lifespan: 50
     PlantTrays: 02000000
     ReagentProduction:
-    - String: mushroomhallucinogen
-      Int: 3
-    - String: amatoxin
-      Int: 10
-    - String: nutriment
-      Int: 0
-    - String: amanitin
-      Int: 20
+    - Name: mushroomhallucinogen
+      Ammount: 3
+    - Name: amatoxin
+      Ammount: 10
+    - Name: nutriment
+      Ammount: 0
+    - Name: amanitin
+      Ammount: 20
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -78,21 +78,21 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: mushroomhallucinogen
-    Int: 3
-  - String: amatoxin
-    Int: 10
-  - String: nutriment
-    Int: 0
-  - String: amanitin
-    Int: 20
+  - Name: mushroomhallucinogen
+    Ammount: 3
+  - Name: amatoxin
+    Ammount: 10
+  - Name: nutriment
+    Ammount: 0
+  - Name: amanitin
+    Ammount: 20
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: mushroomhallucinogen
-    Int: 3
-  - String: amatoxin
-    Int: 34
-  - String: nutriment
-    Int: 0
-  - String: growthserum
-    Int: 10
+  - Name: mushroomhallucinogen
+    Ammount: 3
+  - Name: amatoxin
+    Ammount: 34
+  - Name: nutriment
+    Ammount: 0
+  - Name: growthserum
+    Ammount: 10

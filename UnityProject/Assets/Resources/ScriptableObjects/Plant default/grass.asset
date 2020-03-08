@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: grass
@@ -56,10 +56,10 @@ MonoBehaviour:
     Lifespan: 40
     PlantTrays: 00000000
     ReagentProduction:
-    - String: nutriment
-      Int: 1
-    - String: hydrogen
-      Int: 5
+    - Name: nutriment
+      Ammount: 1
+    - Name: hydrogen
+      Ammount: 5
     MutatesInTo:
     - {fileID: 11400000, guid: 30ec9532585acaa479a6106681658c3c, type: 2}
   WeedResistanceChange: 0

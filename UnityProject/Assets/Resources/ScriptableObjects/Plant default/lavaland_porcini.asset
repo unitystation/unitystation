@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: lavaland_porcini
@@ -26,9 +26,8 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 41160a03e77b9144a94e585a88e16d20, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 2800000, guid: 3bcfd4b69f3d66a499d97c1f07168e8b, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 3bcfd4b69f3d66a499d97c1f07168e8b, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 75d4cb04fe6c9704aa9487bde16197d5, type: 3}
@@ -62,8 +61,8 @@ MonoBehaviour:
     Lifespan: 50
     PlantTrays: 02000000
     ReagentProduction:
-    - String: nutriment
-      Int: 10
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
