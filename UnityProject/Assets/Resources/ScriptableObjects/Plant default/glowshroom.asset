@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: glowshroom
@@ -55,21 +55,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 8fb42f3766cabbe438bb8a74dfd4f7f1, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 1
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 10
     Potency: 30
     Endurance: 30
-    Yield: 3
+    Yield: 30
     Lifespan: 100
     PlantTrays: 0d00000002000000
     ReagentProduction:
-    - String: radium
-      Int: 10
-    - String: phosphorus
-      Int: 10
-    - String: nutriment
-      Int: 3
+    - Name: radium
+      Ammount: 10
+    - Name: phosphorus
+      Ammount: 10
+    - Name: nutriment
+      Ammount: 3
     MutatesInTo:
     - {fileID: 11400000, guid: b66b4832a50905445b989c15f6978ea6, type: 2}
     - {fileID: 11400000, guid: d6105e6c076365e4e93a55f5442a765f, type: 2}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
+public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -55,7 +55,13 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	{
 		ElectricalSynchronisation.PoweredDevices.Remove(ElectricalNodeControl);
 	}
-
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		if (interaction.HandObject != null) return false;
+		return true;
+	}
 	public void PowerNetworkUpdate()
 	{
 		//Logger.Log("humm...");

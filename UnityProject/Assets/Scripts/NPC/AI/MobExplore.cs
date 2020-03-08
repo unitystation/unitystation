@@ -116,15 +116,20 @@ protected Vector3Int actionPosition;
 	/// </summary>
 	protected virtual void PerformTargetAction(Vector3Int checkPos)
 	{
+		if (registerObj == null || registerObj.Matrix == null)
+		{
+			return;
+		}
+
 		switch (target)
 		{
 			case Target.food:
 				var edible = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
-				edible.NPCTryEat();
+				if(edible != null) edible.NPCTryEat();
 				break;
 			case Target.dirtyFloor:
 				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).First(p => p.Cleanable);
-				floorDecal.TryClean();
+				if(floorDecal != null) floorDecal.TryClean();
 				break;
 			case Target.missingFloor:
 				interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
@@ -154,7 +159,7 @@ protected Vector3Int actionPosition;
 
 		OnPerformAction();
 	}
-	
+
 	protected override void OnPerformAction()
 	{
 		actionPerformTimer += Time.deltaTime;

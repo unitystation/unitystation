@@ -157,6 +157,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// </summary>
 	public String LoadFromClip( MagazineBehaviour clip)
 	{
+		if (clip == null) return "";
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
 		clip.ExpendAmmo(toTransfer);
@@ -180,6 +181,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
+		if (interaction.UsedObject == null || interaction.Performer == null) return;
 		MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 		Chat.AddExamineMsg(interaction.Performer, LoadFromClip(clip));
 	}
