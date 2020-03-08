@@ -168,7 +168,7 @@ public class GUI_Comms : NetTab
 	public void MakeAnAnnouncement(string text)
 	{
 		Logger.Log( nameof(MakeAnAnnouncement), Category.NetUI );
-		CentComm.MakeCaptainAnnouncement( text );
+		CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text);
 		OpenMenu();
 	}
 	public void ChangeAlertLevel()

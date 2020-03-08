@@ -62,7 +62,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			if (value)
 			{
-				LogMatrixDebug($"Matrix set from {matrix} to {value}");
+				//LogMatrixDebug($"Matrix set from {matrix} to {value}");
 				if (matrix != null && matrix.MatrixMove != null)
 				{
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
@@ -71,7 +71,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				matrix = value;
 				if (matrix != null && matrix.MatrixMove != null)
 				{
-					LogMatrixDebug($"Registered OnRotate to {matrix}");
+					//LogMatrixDebug($"Registered OnRotate to {matrix}");
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 					if (isServer)
 					{
@@ -294,7 +294,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
-		LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
+		//LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
 		EnsureInit();
 		//note: previously we returned immediately if the new ID matched our current networkMatrixNetId,
 		//but because Mirror actually sets our networkMatrixNetId for us prior to this hook being called
@@ -396,7 +396,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 			CheckSameMatrixRelationships();
 		}
-		LogMatrixDebug($"Server position from {prevPosition} to {LocalPositionServer}");
+		//LogMatrixDebug($"Server position from {prevPosition} to {LocalPositionServer}");
 	}
 
 	public virtual void UpdatePositionClient()
@@ -404,7 +404,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		var prevPosition = LocalPositionClient;
 		LocalPositionClient = CustomTransform ? CustomTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
-		LogMatrixDebug($"Client position from {LocalPositionClient} to {prevPosition}");
+		//LogMatrixDebug($"Client position from {LocalPositionClient} to {prevPosition}");
 		CheckSameMatrixRelationships();
 	}
 

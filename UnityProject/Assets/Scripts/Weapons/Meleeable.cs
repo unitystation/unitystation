@@ -93,12 +93,17 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
+		bool emptyHand = interaction.HandSlot.IsEmpty;
 		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
-		if (interactableTiles != null)
+		if (interactableTiles != null && !emptyHand)
 		{
 			//attacking tiles
 			var tileAt = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, true);
 			if (tileAt == null)
+			{
+				return;
+			}
+			if(tileAt.TileType == TileType.Wall)
 			{
 				return;
 			}
@@ -127,6 +132,8 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			}
 			else
 			{
+				if (gameObject.GetComponent<Integrity>() && emptyHand) return;
+				
 				wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
 			}
 		}

@@ -21,6 +21,7 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject jobSelectWindow;
 	public GameObject preRoundWindow;
 	public GameObject teamSelectionWindow;
+	public GameObject disclaimer;
 	public RectTransform panelRight;
 
 	[SerializeField]
@@ -68,6 +69,31 @@ public class ControlDisplays : MonoBehaviour
 		{
 			HumanUI();
 		}
+	}
+
+	void Update()
+	{
+		TempFixMissingRightHud();
+	}
+
+	//Temp fix for strange bug where right hud is missing when joining headless server
+	void TempFixMissingRightHud()
+	{
+		if (CustomNetworkManager.Instance == null) return;
+		if (CustomNetworkManager.Instance._isServer) return;
+		if (PlayerManager.LocalPlayerScript == null) return;
+		if (PlayerManager.LocalPlayerScript.playerHealth == null) return;
+		if (!PlayerManager.LocalPlayerScript.playerHealth.IsDead &&
+		    !UIManager.PlayerHealthUI.gameObject.activeInHierarchy)
+		{
+			UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		}
+		if (!PlayerManager.LocalPlayerScript.playerHealth.IsDead &&
+		    !UIManager.PlayerHealthUI.humanUI)
+		{
+			UIManager.PlayerHealthUI.humanUI = true;
+		}
+
 	}
 
 	void HumanUI()
@@ -149,18 +175,18 @@ public class ControlDisplays : MonoBehaviour
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(false);
-		GUI_IngameMenu.Instance.disclamerWindow.SetActive(true);
+		disclaimer.SetActive(true);
 	}
 
 	public void SetScreenForGame()
 	{
-		GUI_IngameMenu.Instance.disclamerWindow.SetActive(false);
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(false);
 		uiAnimator.Play("idle");
+		disclaimer.SetActive(false);
 	}
 
 	public void SetScreenForPreRound()
@@ -187,7 +213,7 @@ public class ControlDisplays : MonoBehaviour
 		preRoundWindow.SetActive(false);
 		jobSelectWindow.SetActive(true);
 	}
-	
+
 	public void PlayStrandedVideo()
 	{
 		uiAnimator.Play("StrandedVideo");
