@@ -113,7 +113,7 @@ public class ReactionManager : MonoBehaviour
 
 
 		//process the current hotspots, potentially adding new ones and removing ones that have expired.
-		//(but we actually perform the add / remove in a separate pass so we don't concurrentlyu modify the dict
+		//(but we actually perform the add / remove after this loop so we don't concurrently modify the dict)
 		foreach (MetaDataNode node in hotspots.Values)
 		{
 			if (node.Hotspot != null)
@@ -157,8 +157,10 @@ public class ReactionManager : MonoBehaviour
 		}
 		foreach (var removedHotspot in hotspotsToRemove)
 		{
-			if (hotspots.ContainsKey(removedHotspot))
+			if (hotspots.TryGetValue(removedHotspot, out var affectedNode))
 			{
+				affectedNode.Hotspot = null;
+				tileChangeManager.RemoveTile(affectedNode.Position, LayerType.Effects);
 				hotspots.Remove(removedHotspot);
 			}
 		}
@@ -217,10 +219,8 @@ public class ReactionManager : MonoBehaviour
 
 	private void RemoveHotspot(MetaDataNode node)
 	{
-		node.Hotspot = null;
-		//removal will be done later in update
+		//removal will be processed later in update
 		hotspotsToRemove.Add(node.Position);
-		tileChangeManager.RemoveTile(node.Position, LayerType.Effects);
 	}
 
 	public void ExtinguishHotspot(Vector3Int localPosition)
