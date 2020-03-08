@@ -16,12 +16,12 @@ public class PlantData
 	public SpriteSheetAndData FullyGrownSprite;
 	public SpriteSheetAndData DeadSprite;
 	//add Fully grown sprite with Animations
-	public int WeedResistance = 5;// -1; //Dank
-	public int WeedGrowthRate = 1;//-1;
-	public int GrowthSpeed = 6;//-1;
+	public int WeedResistance = 50;// -1; //Dank
+	public int WeedGrowthRate = 10;//-1;
+	public int GrowthSpeed = 60;//-1;
 	public int Potency = 15;//-1;
 	public int Endurance = 15;//-1;
-	public int Yield = 4;//-1;
+	public int Yield = 40;//-1;
 	public int Lifespan = 25;//-1;
 	public List<PlantTrays> PlantTrays = new List<PlantTrays>();
 	public List<Reagent> ReagentProduction = new List<Reagent>();

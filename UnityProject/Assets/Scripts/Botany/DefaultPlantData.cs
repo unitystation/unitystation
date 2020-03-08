@@ -52,7 +52,10 @@ public class DefaultPlantData : ScriptableObject
 		}
 
 #endif
-		InitializePool();
+		if (this?.name != null)
+		{
+			InitializePool();
+		}
 	}
 
 	private void OnEnable()

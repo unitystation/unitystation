@@ -2,7 +2,9 @@
 using UnityEngine;
 using Mirror;
 
-
+//Used when spawning the food
+[RequireComponent(typeof(CustomNetTransform))]
+[DisallowMultipleComponent]
 public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
 	public GameObject SeedPacket;

@@ -281,7 +281,8 @@ public class GeneratePlantSOs : EditorWindow
 						if (PlantDictionary[Mutation] != null)
 						{
 							MutationComparison(pant.Value, PlantDictionary[Mutation]);
-							pant.Value.plantData.MutatesInTo.Add(PlantDictionary[Mutation]);
+							pant.Value.plantData.MutatesInTo.Add((DefaultPlantData)AssetDatabase.LoadAssetAtPath(@"Assets\Resources\ScriptableObjects\Plant default\" + PlantDictionary[Mutation].plantData.Name + ".asset", typeof(DefaultPlantData)));
+							
 						}
 
 
