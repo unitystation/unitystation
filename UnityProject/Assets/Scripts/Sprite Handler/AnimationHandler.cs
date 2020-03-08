@@ -1,76 +1,35 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour
 {
-	public Sprite[] sprites;
 
-	// Sets the AnimationHandler construct.
-	public AnimationHandler(Sprite[] sprites) {
-		this.sprites = sprites;
-	}
+	private IEnumerator coroutine;
 
-	// Defines new frames to be added to the end of the Animation.
-	public AnimationHandler addSprite(AnimationHandler animhand, Sprite sprite) {
-		int len = animhand.sprites.Length;
-		if (len != 0)
-		{
-			Array.Resize(ref animhand.sprites, len + 1);
-			animhand.sprites[len + 1] = sprite;
-		}
-		else
-		{
-			animhand.sprites[0] = sprite;
-		}
-		return animhand;
-	}
-
-	// Removes the latest frame.
-	public AnimationHandler removeSprite(AnimationHandler animhand)
+	public void Animator(AnimationInfo anim, SpriteRenderer spriteRenderer)
 	{
-		int len = animhand.sprites.Length;
-		if (len != 0)
-		{
-			Array.Resize(ref animhand.sprites, len - 1);
-		}
-		return animhand;
-	}
+		int len = anim.sprites.Length;
+		int FPS = anim.FramesPerSecond;
 
-	// Removes the designated sprite.
-	public AnimationHandler extractSprite(AnimationHandler animhand, int removedsprite)
-	{
-		int len = animhand.sprites.Length;
-		AnimationHandler handanim;
-		handanim = animhand;
-		if (len >= 0 || removedsprite < len)
+		if (len == 0)
 		{
-			for (int i = removedsprite; i < len - 1; i++)
+			spriteRenderer.sprite = anim.sprites[0];
+		}
+		else if (len > 0)
+		{
+			for (int i = 0; i > len; i++)
 			{
-				handanim.sprites[i] = animhand.sprites[i + 1];
+				coroutine = WaitAndShow(1 / FPS, spriteRenderer, anim, i);
+				StartCoroutine(coroutine);
 			}
-			Array.Resize(ref handanim.sprites, len - 1);
 		}
-		return handanim;
 	}
 
-	// Inserts the designated sprite.
-	public AnimationHandler insertSprite(AnimationHandler animhand, int insertedSprite, Sprite sprite)
+	private IEnumerator WaitAndShow(float waitTime, SpriteRenderer sRenderer, AnimationInfo anim, int i)
 	{
-		int len = animhand.sprites.Length;
-		AnimationHandler handanim;
-		handanim = animhand;
-		if (len >= 0 || insertedSprite < len)
-		{
-			Array.Resize(ref handanim.sprites, len + 1);
-			for (int i = len + 1; i > insertedSprite; i--)
-			{
-				handanim.sprites[i] = animhand.sprites[i - 1];
-			}
-			handanim.sprites[insertedSprite] = sprite;
-		}
-		return handanim;
+		yield return new WaitForSeconds(waitTime);
+		sRenderer.sprite = anim.sprites[i];
 	}
 
 	// Start is called before the first frame update
