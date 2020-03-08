@@ -13,6 +13,8 @@ public class ChatIcon : MonoBehaviour
 	private SpriteHandler spriteHandler;
 	[Tooltip("Time after which chat icon disapear")]
 	public float IconTimeout = 3f;
+	[Tooltip("The max time of non-stop typing. After this point, player might be disconected")]
+	public float TypingTimeout = 20f;
 
 	private Coroutine coWaitToTurnOff;
 
@@ -29,10 +31,18 @@ public class ChatIcon : MonoBehaviour
 			spriteHandler.gameObject.SetActive(true);
 			spriteHandler.ChangeSprite(TypingSprite);
 			spriteHandler.PushTexture();
+
+			// start coroutine to wait for TypingTimeout
+			// if we didn't recived any change for so long - other player must be disconected
+			if (coWaitToTurnOff != null)
+				StopCoroutine(coWaitToTurnOff);
+			coWaitToTurnOff = StartCoroutine(WaitToTurnOff(TypingTimeout));
 		}
 		else
 		{
 			spriteHandler.gameObject.SetActive(false);
+			if (coWaitToTurnOff != null)
+				StopCoroutine(coWaitToTurnOff);
 		}
 	}
 	
@@ -74,7 +84,7 @@ public class ChatIcon : MonoBehaviour
 			StopCoroutine(coWaitToTurnOff);
 			coWaitToTurnOff = null;
 		}
-		coWaitToTurnOff = StartCoroutine(WaitToTurnOff());
+		coWaitToTurnOff = StartCoroutine(WaitToTurnOff(IconTimeout));
 	}
 
 	public void TurnOffTalkIcon()
@@ -87,9 +97,9 @@ public class ChatIcon : MonoBehaviour
 		spriteHandler.gameObject.SetActive(false);
 	}
 
-	private IEnumerator WaitToTurnOff()
+	private IEnumerator WaitToTurnOff(float time)
 	{
-		yield return WaitFor.Seconds(IconTimeout);
+		yield return WaitFor.Seconds(time);
 		spriteHandler.gameObject.SetActive(true);
 	}
 }
