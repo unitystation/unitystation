@@ -196,7 +196,7 @@ public partial class PlayerList
 		}
 
 
-		var banEntry = banList.CheckForEntry(userid, playerConn.Connection.address);
+		var banEntry = banList?.CheckForEntry(userid, playerConn.Connection.address);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);

@@ -41,6 +41,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public ObjectLayer ObjectObjectLayer => objectLayer;
 
+	/// <summary>
+	/// Tile change manager of the matrix this object is on.
+	/// </summary>
+	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
+
 	[Tooltip("The kind of object this is.")]
 	[FormerlySerializedAs("ObjectType")] [SerializeField]
 	private ObjectType objectType;
@@ -198,6 +203,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 	private CustomNetTransform cnt;
+	//cached for fast fire exposure without gc
+	private IFireExposable[] fireExposables;
 	private bool hasCachedComponents;
 
 	protected virtual void Awake()
@@ -210,6 +217,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (hasCachedComponents) return;
 		cnt = GetComponent<CustomNetTransform>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
+		fireExposables = GetComponents<IFireExposable>();
 	}
 
 
@@ -645,6 +653,20 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
+	/// <summary>
+	/// Efficient fire exposure for all IFireExposable components on this register tile.
+	/// Uses cached IFireExposable so no GC caused by GetComponent
+	/// </summary>
+	/// <param name="exposure"></param>
+	/// <exception cref="NotImplementedException"></exception>
+	public void OnExposed(FireExposure exposure)
+	{
+		if (fireExposables == null) return;
+		foreach (var fireExposable in fireExposables)
+		{
+			fireExposable.OnExposed(exposure);
+		}
+	}
 }
 
  /// <summary>

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
+using UnityEngine.Profiling;
 
 /// <summary>
 /// The Required component for all living creatures
@@ -406,7 +407,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public void OnExposed(FireExposure exposure)
 	{
+		Profiler.BeginSample("PlayerExpose");
 		ApplyDamage(null, 1, AttackType.Fire, DamageType.Burn);
+		Profiler.EndSample();
 	}
 
 	/// ---------------------------

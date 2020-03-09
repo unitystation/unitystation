@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Profiling;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -475,7 +476,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <param name="hitPos">Where exactly the bullet hit</param>
 	/// <param name="attackType">The type of attack that did the damage</param>
 	/// <returns>The remaining damage to apply to the tile if the window is broken, 0 otherwise.</returns>
-	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType)
+	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType, bool spawnPieces = true)
 	{
 		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
 
@@ -504,7 +505,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			data.WindowDamage = WindowDamageLevel.Broken;
 
 			//Spawn 3 glass shards with different sprites:
-			SpawnGlassShards(hitPos);
+			if (spawnPieces)
+			{
+				SpawnGlassShards(hitPos);
+			}
 
 			//Play the breaking window sfx:
 			SoundManager.PlayNetworkedAtPos("GlassBreak0#", hitPos, 1f);
@@ -515,7 +519,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return 0; // The remaining damage after cracking the window.
 	}
 
-	private float AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)
+	private float AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType, bool spawnPieces = true)
 	{
 		data.Damage += GRILL_ARMOR.GetDamage(damage, attackType);
 
@@ -530,7 +534,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
 				//Spawn rods
-				if (Random.value < 0.7f)
+				if (Random.value < 0.7f && spawnPieces)
 				{
 					SpawnRods(bulletHitTarget);
 				}
@@ -545,7 +549,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
 			//Spawn rods
-			if (Random.value < 0.7f)
+			if (Random.value < 0.7f && spawnPieces)
 			{
 				SpawnRods(bulletHitTarget);
 			}
@@ -603,14 +607,28 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public void OnExposed(FireExposure exposure)
 	{
-		var cellPos = exposure.ExposedLocalPosition.To3Int();
+		Profiler.BeginSample("TileExpose");
+		var cellPos = exposure.ExposedLocalPosition;
 		if (Layer.LayerType == LayerType.Floors)
 		{
 			//floor scorching
-			if (exposure.IsSideExposure) return;
-			if (!(exposure.Temperature > TILE_MIN_SCORCH_TEMPERATURE)) return;
+			if (exposure.IsSideExposure)
+			{
+				Profiler.EndSample();
+				return;
+			}
 
-			if (!metaTileMap.HasTile(cellPos, true)) return;
+			if (!(exposure.Temperature > TILE_MIN_SCORCH_TEMPERATURE))
+			{
+				Profiler.EndSample();
+				return;
+			}
+
+			if (!metaTileMap.HasTile(cellPos, true))
+			{
+				Profiler.EndSample();
+				return;
+			}
 			TryScorch(cellPos);
 		}
 		else if (Layer.LayerType == LayerType.Windows)
@@ -618,9 +636,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
 				//window damage
-				SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
-				AddWindowDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition.To3Int(), AttackType.Melee);
-				return;
+				SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition, Random.Range(0.9f, 1.1f));
+				AddWindowDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Melee, false);
 			}
 
 		}
@@ -632,11 +649,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
-					SoundManager.PlayNetworkedAtPos("GrillHit", exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
-					AddGrillDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition.To3Int(), AttackType.Melee);
+					SoundManager.PlayNetworkedAtPos("GrillHit", exposure.ExposedWorldPosition, Random.Range(0.9f, 1.1f));
+					AddGrillDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Melee, false);
 				}
 			}
 		}
+		Profiler.EndSample();
 	}
 
 	public void TryScorch(Vector3Int cellPos)

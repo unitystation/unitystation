@@ -5,6 +5,7 @@ using Atmospherics;
 using Objects;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -12,6 +13,9 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class ReactionManager : MonoBehaviour
 {
+	private static readonly int PLASMA_FX_Z = -3;
+	private static readonly int FIRE_FX_Z = -2;
+
 	private TileChangeManager tileChangeManager;
 	private MetaDataLayer metaDataLayer;
 	private Matrix matrix;
@@ -22,11 +26,19 @@ public class ReactionManager : MonoBehaviour
 	private UniqueQueue<MetaDataNode> addFog; //List of tiles to add chemcial fx to
 	private UniqueQueue<MetaDataNode> removeFog; //List of tiles to remove the chemical fx from
 
+	private List<Hotspot> hotspotsToAdd;
+	private List<Vector3Int> hotspotsToRemove;
 	private TilemapDamage[] tilemapDamages;
 
 	private float timePassed;
 	private float timePassed2;
 	private static readonly string LogAddingWindyNode = "Adding windy node {0}, dir={1}, force={2}";
+
+	/// <summary>
+	/// reused when applying exposures to lots of tiles to avoid creating GC from
+	/// lambdas.
+	/// </summary>
+	private ApplyExposure applyExposure = new ApplyExposure();
 
 	private void Awake()
 	{
@@ -40,6 +52,8 @@ public class ReactionManager : MonoBehaviour
 		addFog = new UniqueQueue<MetaDataNode>();
 		removeFog = new UniqueQueue<MetaDataNode>();
 
+		hotspotsToRemove = new List<Vector3Int>();
+		hotspotsToAdd = new List<Hotspot>();
 		tilemapDamages = GetComponentsInChildren<TilemapDamage>();
 	}
 
@@ -48,6 +62,7 @@ public class ReactionManager : MonoBehaviour
 		timePassed += Time.deltaTime;
 		timePassed2 += Time.deltaTime;
 
+		Profiler.BeginSample("Wind");
 		if ( timePassed2 >= 0.1 )
 		{
 			int count = winds.Count;
@@ -92,13 +107,17 @@ public class ReactionManager : MonoBehaviour
 
 			timePassed2 = 0;
 		}
+		Profiler.EndSample();
 
 		if (timePassed < 0.5)
 		{
 			return;
 		}
 
-		foreach (MetaDataNode node in hotspots.Values.ToArray())
+
+		//process the current hotspots, potentially adding new ones and removing ones that have expired.
+		//(but we actually perform the add / remove after this loop so we don't concurrently modify the dict)
+		foreach (MetaDataNode node in hotspots.Values)
 		{
 			if (node.Hotspot != null)
 			{
@@ -116,15 +135,52 @@ public class ReactionManager : MonoBehaviour
 							}
 						}
 					}
-
-					tileChangeManager.UpdateTile(node.Position, TileType.Effects, "Fire");
 				}
 				else
 				{
+					Profiler.BeginSample("MarkForRemoval");
 					RemoveHotspot(node);
+					Profiler.EndSample();
 				}
 			}
 		}
+
+
+		Profiler.BeginSample("HotspotModify");
+		//perform the actual logic that needs to happen for adding / removing hotspots that have been
+		//queued up to be added / removed
+		foreach (var addedHotspot in hotspotsToAdd)
+		{
+			if (!hotspots.ContainsKey(addedHotspot.node.Position) &&
+				// only process the addition if it hasn't already been done, which
+				// could happen if multiple things try to add a hotspot to the same tile
+			    addedHotspot.node.Hotspot == null)
+			{
+				addedHotspot.node.Hotspot = addedHotspot;
+				hotspots.Add(addedHotspot.node.Position, addedHotspot.node);
+				tileChangeManager.UpdateTile(
+					new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
+					TileType.Effects, "Fire");
+			}
+
+		}
+		foreach (var removedHotspot in hotspotsToRemove)
+		{
+			if (hotspots.TryGetValue(removedHotspot, out var affectedNode) &&
+				// only process the removal if it hasn't already been done, which
+				// could happen if multiple things try to remove a hotspot to the same tile)
+				affectedNode.HasHotspot)
+			{
+				affectedNode.Hotspot = null;
+				tileChangeManager.RemoveTile(
+					new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
+					LayerType.Effects, false);
+				hotspots.Remove(removedHotspot);
+			}
+		}
+		hotspotsToAdd.Clear();
+		hotspotsToRemove.Clear();
+		Profiler.EndSample();
 
 		//Here we check to see if chemical fog fx needs to be applied, and if so, add them. If not, we remove them
 		int addFogCount = addFog.Count;
@@ -134,15 +190,9 @@ public class ReactionManager : MonoBehaviour
 			{
 				if ( addFog.TryDequeue( out var addFogNode ) )
 				{
-					if( !hotspots.ContainsKey(addFogNode.Position) )  //Make sure the tile currently isn't on fire. If it is on fire, we don't want to overright the fire effect
-					{
-						tileChangeManager.UpdateTile(addFogNode.Position, TileType.Effects, "PlasmaAir");
-					}
-
-					else if( !removeFog.Contains(addFogNode) )  //If the tile is on fire, but there is still plasma on the tile, put this tile back into the queue so we can try again
-					{
-						addFog.Enqueue(addFogNode);
-					}
+					tileChangeManager.UpdateTile(
+						new Vector3Int(addFogNode.Position.x, addFogNode.Position.y, PLASMA_FX_Z),
+						TileType.Effects, "PlasmaAir");
 				}
 			}
 		}
@@ -155,13 +205,8 @@ public class ReactionManager : MonoBehaviour
 			{
 				if ( removeFog.TryDequeue( out var removeFogNode ) )
 				{
-					if( !hotspots.ContainsKey(removeFogNode.Position) ) //Make sure the tile isn't on fire, as we don't want to delete fire effects here
-					{
-						tileChangeManager.RemoveTile(removeFogNode.Position, LayerType.Effects);
-					}
-
-					//If it's on fire, we don't need to do anything else, as the system managing fire will remove all effects from the tile
-					//after the fire burns out
+					tileChangeManager.RemoveTile(
+						new Vector3Int(removeFogNode.Position.x, removeFogNode.Position.y, PLASMA_FX_Z),  LayerType.Effects, false);
 				}
 			}
 		}
@@ -175,11 +220,10 @@ public class ReactionManager : MonoBehaviour
 		ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)), temperature, volume);
 	}
 
-	void RemoveHotspot(MetaDataNode node)
+	private void RemoveHotspot(MetaDataNode node)
 	{
-		node.Hotspot = null;
-		hotspots.Remove(node.Position);
-		tileChangeManager.RemoveTile(node.Position, LayerType.Effects);
+		//removal will be processed later in update
+		hotspotsToRemove.Add(node.Position);
 	}
 
 	public void ExtinguishHotspot(Vector3Int localPosition)
@@ -199,16 +243,17 @@ public class ReactionManager : MonoBehaviour
 		}
 		else
 		{
+			Profiler.BeginSample("MarkForAddition");
 			MetaDataNode node = metaDataLayer.Get(localPosition);
 			GasMix gasMix = node.GasMix;
 
 			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PlasmaMaintainFire)
 			{
 				// igniting
-				Hotspot hotspot = new Hotspot(node, temperature, volume * 25);
-				node.Hotspot = hotspot;
-				hotspots[localPosition] = node;
+				//addition will be done later in Update
+				hotspotsToAdd.Add( new Hotspot(node, temperature, volume * 25));
 			}
+			Profiler.EndSample();
 		}
 
 		if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
@@ -226,7 +271,7 @@ public class ReactionManager : MonoBehaviour
 
 	private void Expose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)
 	{
-
+		Profiler.BeginSample("ExposureInit");
 		var isSideExposure = hotspotPosition != atLocalPosition;
 		//calculate world position
 		var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, MatrixManager.Get(matrix));
@@ -238,52 +283,51 @@ public class ReactionManager : MonoBehaviour
 			return;
 		}
 
-		var exposure = FireExposure.FromMetaDataNode(hotspots[hotspotPosition], hotspotWorldPosition.To2Int(), atLocalPosition.To2Int(), atWorldPosition.To2Int());
+
+		//update fire exposure, reusing it to avoid creating GC.
+		applyExposure.Update(isSideExposure, hotspots[hotspotPosition], hotspotWorldPosition, atLocalPosition, atWorldPosition);
+		Profiler.EndSample();
 		if (isSideExposure)
 		{
+			Profiler.BeginSample("SideExposure");
 			//side exposure logic
 
 			//already exposed by a different hotspot
-			if (hotspots.ContainsKey(atLocalPosition)) return;
+			if (hotspots.ContainsKey(atLocalPosition))
+			{
+				Profiler.EndSample();
+				return;
+			}
 
 			var metadata = metaDataLayer.Get(atLocalPosition);
 			if (!metadata.IsOccupied)
 			{
 				//atmos can pass here, so no need to check side exposure (nothing to brush up against)
+				Profiler.EndSample();
 				return;
 			}
 
 			//only expose to atmos impassable objects, since those are the things the flames would
 			//actually brush up against
-			var regTiles = matrix.Get<RegisterTile>(atLocalPosition, true);
-			foreach (var regTile in regTiles)
-			{
-				if (!regTile.IsAtmosPassable(exposure.HotspotLocalPosition.To3Int(), true))
-				{
-					var exposable = regTile.GetComponent<IFireExposable>();
-					exposable.OnExposed(exposure);
-				}
-			}
-
+			matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
 			//expose the tiles there
 			foreach (var tilemapDamage in tilemapDamages)
 			{
-				tilemapDamage.OnExposed(exposure);
+				tilemapDamage.OnExposed(applyExposure.FireExposure);
 			}
+			Profiler.EndSample();
 		}
 		else
 		{
+			Profiler.BeginSample("DirectExposure");
 			//direct exposure logic
-			var fireExposables = matrix.Get<IFireExposable>(atLocalPosition, true);
-			foreach (var exposable in fireExposables)
-			{
-				exposable.OnExposed(exposure);
-			}
+			matrix.ForEachRegisterTileSafe(applyExposure, atLocalPosition, true);
 			//expose the tiles
 			foreach (var tilemapDamage in tilemapDamages)
 			{
-				tilemapDamage.OnExposed(exposure);
+				tilemapDamage.OnExposed(applyExposure.FireExposure);
 			}
+			Profiler.EndSample();
 		}
 
 	}
@@ -311,5 +355,45 @@ public class ReactionManager : MonoBehaviour
 	public void RemoveFogEvent( MetaDataNode node)
 	{
 		removeFog.Enqueue( node );
+	}
+
+	/// <summary>
+	/// So we can avoid GC caused by creating lambdas, we create one instance of this and re-use it when
+	/// applying a fire exposure to multiple objects
+	/// </summary>
+	private class ApplyExposure : IRegisterTileAction
+	{
+		private FireExposure fireExposure = new FireExposure();
+		public FireExposure FireExposure => fireExposure;
+		private bool isSideExposure;
+
+		/// <summary>
+		/// Modify this exposure to be for a different node / tile
+		/// </summary>
+		/// <param name="hotspotNode"></param>
+		/// <param name="hotspotWorldPosition"></param>
+		/// <param name="atLocalPosition"></param>
+		/// <param name="atWorldPosition"></param>
+		public void Update(bool isSideExposure, MetaDataNode hotspotNode, Vector3Int hotspotWorldPosition,
+			Vector3Int atLocalPosition, Vector3Int atWorldPosition)
+		{
+			this.isSideExposure = isSideExposure;
+			FireExposure.Update(hotspotNode, hotspotWorldPosition, atLocalPosition, atWorldPosition);
+		}
+
+		public void Invoke(RegisterTile registerTile)
+		{
+			if (isSideExposure)
+			{
+				if (registerTile.IsAtmosPassable(FireExposure.HotspotLocalPosition, true))
+				{
+					registerTile.OnExposed(FireExposure);
+				}
+			}
+			else
+			{
+				registerTile.OnExposed(FireExposure);
+			}
+		}
 	}
 }

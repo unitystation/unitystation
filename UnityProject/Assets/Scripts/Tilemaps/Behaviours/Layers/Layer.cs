@@ -173,6 +173,7 @@ using UnityEngine.Tilemaps;
 			{
 				position.z = 0;
 
+				//TODO: OVERLAYS - This wouldn't work reliably if there is something at level -3 but nothing at -1 and -2.
 				while (tilemap.HasTile(position))
 				{
 					InternalSetTile(position, null);
