@@ -13,7 +13,10 @@ namespace Unitystation.Options
         [SerializeField]
         private Toggle ttsToggle;
 
-        void OnEnable()
+		[SerializeField]
+		private Slider masterSlider;
+
+		void OnEnable()
         {      
             Refresh();
         }
@@ -32,7 +35,9 @@ namespace Unitystation.Options
         {
             ambientSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey);
             ttsToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
-        }
+			masterSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey);
+
+		}
 
         public void ResetDefaults()
         {
@@ -42,6 +47,7 @@ namespace Unitystation.Options
                 {
                     UIManager.ToggleTTS(false);
                     SoundManager.AmbientVolume(1f);
+					AudioListener.volume = 1;
                     Refresh();
                 },
                 "Reset"
