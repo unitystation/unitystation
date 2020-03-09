@@ -9,8 +9,8 @@ public class GeneratePlantSOs : EditorWindow
 	[MenuItem("Tools/GeneratePlantSOs")]
 	public static void Generate()
 	{
-		float progressbarStep = 0;
-		float progressbarState = 0;
+		float progressbarStep;
+		float progressbarState;
 		DirectoryInfo d = new DirectoryInfo(Application.dataPath + @"\Textures\objects\hydroponics\growing");
 		FileInfo[] Files = d.GetFiles("*.png");// \\Getting Text files
 		var ListFiles = new List<string>();
@@ -25,10 +25,11 @@ public class GeneratePlantSOs : EditorWindow
 		var json = (Resources.Load(@"Metadata\plants") as TextAsset).ToString();
 		var plats = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
 
-		progressbarStep = 1f / plats.Count;
+		progressbarStep = 1f / plats.Count * ListFiles.Count;
 		progressbarState = 0;
 		foreach (var plat in plats)
 		{
+			EditorUtility.DisplayProgressBar("Progress", "Loading plant: " + plat["name"], progressbarState);
 			//\\foreach (var Datapiece in plat)
 			//\\{
 			//\\	Logger.Log(Datapiece.Key);
@@ -106,7 +107,7 @@ public class GeneratePlantSOs : EditorWindow
 			//var Growingsprites = new List<string>();
 			foreach (var ListFile in ListFiles)
 			{
-				EditorUtility.DisplayProgressBar("Progress", "Loading plant: " + ListFile, progressbarState += progressbarStep);
+				EditorUtility.DisplayProgressBar("Progress", $"Loading sprite '{ListFile}' for plant {plantdata.Name}", progressbarState);
 				if (ListFile.Contains(seed_packet))
 				{
 					var Namecheck = ListFile;
@@ -165,6 +166,7 @@ public class GeneratePlantSOs : EditorWindow
 						plantdata.FullyGrownSprite = plantdata.GrowthSprites[plantdata.GrowthSprites.Count - 1];
 					}
 				}
+				progressbarState += progressbarStep;
 			}
 			plantdata.WeedResistance = int.Parse(plat["weed_resistance"].ToString());
 			plantdata.WeedGrowthRate = int.Parse(plat["weed_growth_rate"].ToString());
