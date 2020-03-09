@@ -19,7 +19,8 @@ namespace Unitystation.Options
 		void OnEnable()
         {      
             Refresh();
-        }
+			
+		}
 
         public void OnAmbientVolumeChange()
         {
@@ -36,7 +37,7 @@ namespace Unitystation.Options
             ambientSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey);
             ttsToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 			masterSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey);
-
+			
 		}
 
         public void ResetDefaults()

@@ -224,6 +224,19 @@ public class SoundManager : MonoBehaviour
 		{
 			AmbientVolume(1f);
 		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
+		{
+			AudioListener.volume = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey);
+			PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, AudioListener.volume);
+			PlayerPrefs.Save();
+		}
+		else
+		{
+			PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, 1f);
+			PlayerPrefs.Save();
+		}
+
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 		// Cache all sounds in the tree
 		var audioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
