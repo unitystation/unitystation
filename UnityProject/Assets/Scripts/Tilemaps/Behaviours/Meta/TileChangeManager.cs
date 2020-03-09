@@ -125,15 +125,24 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Removes the tile at the indicated cell position. By default all tiles in that layer
+	/// at all z levels will be removed. If removeAll is true, then only the tile at cellPosition.z will
+	/// be removed.
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <param name="layerType"></param>
+	/// <param name="removeAll"></param>
+	/// <returns></returns>
 	[Server]
-	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType)
+	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType, bool removeAll=true)
 	{
 		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
-			InternalRemoveTile(cellPosition, layerType, false);
+			InternalRemoveTile(cellPosition, layerType, removeAll);
 
-			RpcRemoveTile(cellPosition, layerType, false);
+			RpcRemoveTile(cellPosition, layerType, removeAll);
 
 			AddToChangeList(cellPosition, layerType);
 
@@ -162,9 +171,9 @@ public class TileChangeManager : NetworkBehaviour
 				if (tile == null || !tile.IsCleanable) return;
 			}
 
-			InternalRemoveTile(cellPosition, layerType, true);
+			InternalRemoveTile(cellPosition, layerType, false);
 
-			RpcRemoveTile(cellPosition, layerType, true);
+			RpcRemoveTile(cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType, removeAll:true);
 		}
@@ -177,25 +186,20 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
+	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
 	{
 		if ( isServer )
 		{
 			return;
 		}
-		InternalRemoveTile(position, layerType, onlyRemoveEffect);
+		InternalRemoveTile(position, layerType, removeAll);
 	}
 
-	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveOverlay)
+	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
 	{
-		if (onlyRemoveOverlay)
-		{
-			position.z = -1;
-		}
-
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.RemoveTile(p, layerType, !onlyRemoveOverlay);
+		metaTileMap.RemoveTile(p, layerType, removeAll);
 	}
 
 	[ClientRpc]
@@ -214,6 +218,9 @@ public class TileChangeManager : NetworkBehaviour
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 		metaTileMap.SetTile(position, layerTile);
 		//if we are changing a tile at z=0, make sure to remove any overlays it has as well
+
+		//TODO: OVERLAYS - right now it only removes at z = -1, but we will eventually need
+		//to allow multiple overlays on a given location which would require multiple z levels.
 		if (position.z == 0)
 		{
 			position.z = -1;

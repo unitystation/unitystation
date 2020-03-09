@@ -13,6 +13,9 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class ReactionManager : MonoBehaviour
 {
+	private static readonly int PLASMA_FX_Z = -3;
+	private static readonly int FIRE_FX_Z = -2;
+
 	private TileChangeManager tileChangeManager;
 	private MetaDataLayer metaDataLayer;
 	private Matrix matrix;
@@ -132,8 +135,6 @@ public class ReactionManager : MonoBehaviour
 							}
 						}
 					}
-
-					tileChangeManager.UpdateTile(node.Position, TileType.Effects, "Fire");
 				}
 				else
 				{
@@ -146,21 +147,34 @@ public class ReactionManager : MonoBehaviour
 
 
 		Profiler.BeginSample("HotspotModify");
-		//process additions and removals to the dictionary
+		//perform the actual logic that needs to happen for adding / removing hotspots that have been
+		//queued up to be added / removed
 		foreach (var addedHotspot in hotspotsToAdd)
 		{
-			if (!hotspots.ContainsKey(addedHotspot.node.Position))
+			if (!hotspots.ContainsKey(addedHotspot.node.Position) &&
+				// only process the addition if it hasn't already been done, which
+				// could happen if multiple things try to add a hotspot to the same tile
+			    addedHotspot.node.Hotspot == null)
 			{
+				addedHotspot.node.Hotspot = addedHotspot;
 				hotspots.Add(addedHotspot.node.Position, addedHotspot.node);
+				var fireUpdate = addedHotspot.node.Position;
+				fireUpdate.z = FIRE_FX_Z;
+				tileChangeManager.UpdateTile(fireUpdate, TileType.Effects, "Fire");
 			}
 
 		}
 		foreach (var removedHotspot in hotspotsToRemove)
 		{
-			if (hotspots.TryGetValue(removedHotspot, out var affectedNode))
+			if (hotspots.TryGetValue(removedHotspot, out var affectedNode) &&
+				// only process the removal if it hasn't already been done, which
+				// could happen if multiple things try to remove a hotspot to the same tile)
+				affectedNode.HasHotspot)
 			{
 				affectedNode.Hotspot = null;
-				tileChangeManager.RemoveTile(affectedNode.Position, LayerType.Effects);
+				var fireUpdate = affectedNode.Position;
+				fireUpdate.z = FIRE_FX_Z;
+				tileChangeManager.RemoveTile(fireUpdate, LayerType.Effects, false);
 				hotspots.Remove(removedHotspot);
 			}
 		}
@@ -176,15 +190,9 @@ public class ReactionManager : MonoBehaviour
 			{
 				if ( addFog.TryDequeue( out var addFogNode ) )
 				{
-					if( !hotspots.ContainsKey(addFogNode.Position) )  //Make sure the tile currently isn't on fire. If it is on fire, we don't want to overright the fire effect
-					{
-						tileChangeManager.UpdateTile(addFogNode.Position, TileType.Effects, "PlasmaAir");
-					}
-
-					else if( !removeFog.Contains(addFogNode) )  //If the tile is on fire, but there is still plasma on the tile, put this tile back into the queue so we can try again
-					{
-						addFog.Enqueue(addFogNode);
-					}
+					var plasmaUpdate = addFogNode.Position;
+					plasmaUpdate.z = PLASMA_FX_Z;
+					tileChangeManager.UpdateTile(plasmaUpdate, TileType.Effects, "PlasmaAir");
 				}
 			}
 		}
@@ -197,13 +205,9 @@ public class ReactionManager : MonoBehaviour
 			{
 				if ( removeFog.TryDequeue( out var removeFogNode ) )
 				{
-					if( !hotspots.ContainsKey(removeFogNode.Position) ) //Make sure the tile isn't on fire, as we don't want to delete fire effects here
-					{
-						tileChangeManager.RemoveTile(removeFogNode.Position, LayerType.Effects);
-					}
-
-					//If it's on fire, we don't need to do anything else, as the system managing fire will remove all effects from the tile
-					//after the fire burns out
+					var plasmaUpdate = removeFogNode.Position;
+					plasmaUpdate.z = PLASMA_FX_Z;
+					tileChangeManager.RemoveTile(plasmaUpdate, LayerType.Effects, false);
 				}
 			}
 		}
@@ -246,12 +250,9 @@ public class ReactionManager : MonoBehaviour
 
 			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PlasmaMaintainFire)
 			{
-
 				// igniting
-				Hotspot hotspot = new Hotspot(node, temperature, volume * 25);
-				node.Hotspot = hotspot;
 				//addition will be done later in Update
-				hotspotsToAdd.Add(hotspot);
+				hotspotsToAdd.Add( new Hotspot(node, temperature, volume * 25));
 			}
 			Profiler.EndSample();
 		}
