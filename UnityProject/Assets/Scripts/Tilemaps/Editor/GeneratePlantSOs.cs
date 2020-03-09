@@ -25,11 +25,11 @@ public class GeneratePlantSOs : EditorWindow
 		var json = (Resources.Load(@"Metadata\plants") as TextAsset).ToString();
 		var plats = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
 
-		progressbarStep = 1f / plats.Count * ListFiles.Count;
+		progressbarStep = 1f / (plats.Count * ListFiles.Count);
 		progressbarState = 0;
 		foreach (var plat in plats)
 		{
-			EditorUtility.DisplayProgressBar("Progress", "Loading plant: " + plat["name"], progressbarState);
+			EditorUtility.DisplayProgressBar("Step 1/3 Setting Sprites", "Loading plant: " + plat["name"], progressbarState);
 			//\\foreach (var Datapiece in plat)
 			//\\{
 			//\\	Logger.Log(Datapiece.Key);
@@ -107,7 +107,7 @@ public class GeneratePlantSOs : EditorWindow
 			//var Growingsprites = new List<string>();
 			foreach (var ListFile in ListFiles)
 			{
-				EditorUtility.DisplayProgressBar("Progress", $"Loading sprite '{ListFile}' for plant {plantdata.Name}", progressbarState);
+				
 				if (ListFile.Contains(seed_packet))
 				{
 					var Namecheck = ListFile;
@@ -120,6 +120,7 @@ public class GeneratePlantSOs : EditorWindow
 
 					if (Namecheck == seed_packet)
 					{
+						EditorUtility.DisplayProgressBar("Step 1/3 Setting Sprites", $"Loading sprite '{ListFile}' for plant {plantdata.Name}", progressbarState);
 						if (!ListFile.Contains("-dead"))
 						{
 							if (!ListFile.Contains("-harvest"))
@@ -281,7 +282,7 @@ public class GeneratePlantSOs : EditorWindow
 		progressbarState = 0;
 		foreach (var pant in PlantDictionary)
 		{
-			EditorUtility.DisplayProgressBar("Progress", "Loading mutations for: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
+			EditorUtility.DisplayProgressBar("Step 2/3 Setting Mutations", "Loading mutations for: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
 			if (PlantDictionaryObject.ContainsKey(pant.Value.plantData.Name))
 			{
 				var Mutations = JsonConvert.DeserializeObject<List<string>>(PlantDictionaryObject[pant.Value.plantData.Name].ToString());
@@ -328,13 +329,13 @@ public class GeneratePlantSOs : EditorWindow
 			DefaultPlantData defaultPlant = AssetDatabase.LoadMainAssetAtPath(@"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset") as DefaultPlantData;
 			if (defaultPlant != null)
 			{
-				EditorUtility.DisplayProgressBar("Progress", "Updating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
+				EditorUtility.DisplayProgressBar("Step 3/3 Saving ScriptObjects", "Updating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
 				EditorUtility.CopySerialized(pant.Value, defaultPlant);
 				AssetDatabase.SaveAssets();
 			}
 			else
 			{
-				EditorUtility.DisplayProgressBar("Progress", "Creating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
+				EditorUtility.DisplayProgressBar("Step 3/3 Saving ScriptObjects", "Creating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
 				defaultPlant = new DefaultPlantData();
 				EditorUtility.CopySerialized(pant.Value, defaultPlant);
 				AssetDatabase.CreateAsset(pant.Value, @"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset");
