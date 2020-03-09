@@ -9,6 +9,8 @@ public class GeneratePlantSOs : EditorWindow
 	[MenuItem("Tools/GeneratePlantSOs")]
 	public static void Generate()
 	{
+		float progressbarStep = 0;
+		float progressbarState = 0;
 		DirectoryInfo d = new DirectoryInfo(Application.dataPath + @"\Textures\objects\hydroponics\growing");
 		FileInfo[] Files = d.GetFiles("*.png");// \\Getting Text files
 		var ListFiles = new List<string>();
@@ -22,6 +24,9 @@ public class GeneratePlantSOs : EditorWindow
 		var food = (Resources.Load(@"Prefabs\Items\Botany\food") as GameObject);
 		var json = (Resources.Load(@"Metadata\plants") as TextAsset).ToString();
 		var plats = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+
+		progressbarStep = 1f / plats.Count;
+		progressbarState = 0;
 		foreach (var plat in plats)
 		{
 			//\\foreach (var Datapiece in plat)
@@ -101,7 +106,7 @@ public class GeneratePlantSOs : EditorWindow
 			//var Growingsprites = new List<string>();
 			foreach (var ListFile in ListFiles)
 			{
-
+				EditorUtility.DisplayProgressBar("Progress", "Loading plant: " + ListFile, progressbarState += progressbarStep);
 				if (ListFile.Contains(seed_packet))
 				{
 					var Namecheck = ListFile;
@@ -270,9 +275,11 @@ public class GeneratePlantSOs : EditorWindow
 			//\\Logger.Log(plantdata.GrowthSprites.Count.ToString());
 		}
 
-
+		progressbarStep = 1f / PlantDictionary.Count;
+		progressbarState = 0;
 		foreach (var pant in PlantDictionary)
 		{
+			EditorUtility.DisplayProgressBar("Progress", "Loading mutations for: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
 			if (PlantDictionaryObject.ContainsKey(pant.Value.plantData.Name))
 			{
 				var Mutations = JsonConvert.DeserializeObject<List<string>>(PlantDictionaryObject[pant.Value.plantData.Name].ToString());
@@ -309,10 +316,34 @@ public class GeneratePlantSOs : EditorWindow
 				}
 			}
 		}
+		progressbarStep = 1f / PlantDictionary.Count;
+		progressbarState = 0;
 		foreach (var pant in PlantDictionary)
 		{
-			AssetDatabase.CreateAsset(pant.Value, @"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset");
+			
+
+
+			DefaultPlantData defaultPlant = AssetDatabase.LoadMainAssetAtPath(@"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset") as DefaultPlantData;
+			if (defaultPlant != null)
+			{
+				EditorUtility.DisplayProgressBar("Progress", "Updating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
+				EditorUtility.CopySerialized(pant.Value, defaultPlant);
+				AssetDatabase.SaveAssets();
+			}
+			else
+			{
+				EditorUtility.DisplayProgressBar("Progress", "Creating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
+				defaultPlant = new DefaultPlantData();
+				EditorUtility.CopySerialized(pant.Value, defaultPlant);
+				AssetDatabase.CreateAsset(pant.Value, @"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset");
+			}
+
+
+			
 		}
+		EditorUtility.ClearProgressBar();
+		EditorUtility.DisplayDialog("Complete", "Generating default plant ScriptObjects complete", "Close");
+
 	}
 
 	public static void MutationComparison(DefaultPlantData f_rom, DefaultPlantData to)
