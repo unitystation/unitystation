@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
       propertyPath: m_Name
-      value: CultBackpack
+      value: TrophyRack
       objectReference: {fileID: 0}
     - target: {fileID: 1928361214078489529, guid: 868598a9acc5f40b0811af946a2c4c27,
         type: 3}
@@ -98,6 +98,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 7dcc7a13a4b324d458765c51da5dbea9,
+        type: 2}
+    - target: {fileID: 8333586519074616349, guid: 868598a9acc5f40b0811af946a2c4c27,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: f562ec3be6b9826ba8452f8b60a205a2,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 868598a9acc5f40b0811af946a2c4c27, type: 3}
