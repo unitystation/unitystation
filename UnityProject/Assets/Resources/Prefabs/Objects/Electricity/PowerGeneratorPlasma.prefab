@@ -5164,7 +5164,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0
@@ -5200,6 +5200,7 @@ GameObject:
   - component: {fileID: 4297268230046392}
   - component: {fileID: 61778593853642650}
   - component: {fileID: 114738137265545768}
+  - component: {fileID: 2031766418865421906}
   - component: {fileID: 114537316452419530}
   - component: {fileID: 114093731737732554}
   - component: {fileID: 820786687953803850}
@@ -5208,6 +5209,7 @@ GameObject:
   - component: {fileID: 579887912259031821}
   - component: {fileID: 114102132577365772}
   - component: {fileID: 114904772816368656}
+  - component: {fileID: 1348606562097783112}
   m_Layer: 11
   m_Name: PowerGeneratorPlasma
   m_TagString: Untagged
@@ -5277,6 +5279,20 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &2031766418865421906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &114537316452419530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5445,12 +5461,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114904772816368656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5463,7 +5480,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3703473536
+  m_AssetId: 69c27c4a07b053d458c6fec363e66403
+--- !u!114 &1348606562097783112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  soundOnHit: 
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+  initialIntegrity: 300

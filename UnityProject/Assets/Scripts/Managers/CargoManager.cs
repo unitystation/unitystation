@@ -26,7 +26,7 @@ public class CargoManager : MonoBehaviour
 	public CargoUpdateEvent OnTimerUpdate = new CargoUpdateEvent();
 
 	[SerializeField]
-	private CargoData cargoData;
+	private CargoData cargoData = null;
 
 	[SerializeField]
 	private float shuttleFlyDuration = 10f;

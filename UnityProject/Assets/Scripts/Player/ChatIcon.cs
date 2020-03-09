@@ -3,20 +3,49 @@ using UnityEngine;
 
 public class ChatIcon : MonoBehaviour
 {
-	public Sprite exclaimSprite;
-	public Sprite questionSprite;
-	private SpriteRenderer spriteRend;
-	public Sprite talkSprite;
+	// indexes for sprite handler
+	private const int TypingSprite = 0;
+	private const int QuestionSprite = 1;
+	private const int ExclaimSprite = 2;
+	private const int TalkSprite = 3;
+
+	[SerializeField]
+	private SpriteHandler spriteHandler;
+	[Tooltip("Time after which chat icon disapear")]
+	public float IconTimeout = 3f;
+	[Tooltip("The max time of non-stop typing. After this point, player might be disconected")]
+	public float TypingTimeout = 20f;
 
 	private Coroutine coWaitToTurnOff;
 
 	// Use this for initialization
 	private void Start()
 	{
-		spriteRend = GetComponent<SpriteRenderer>();
-		spriteRend.enabled = false;
+		spriteHandler.gameObject.SetActive(false);
 	}
 
+	public void ToggleTypingIcon(bool toggle)
+	{
+		if (toggle)
+		{
+			spriteHandler.gameObject.SetActive(true);
+			spriteHandler.ChangeSprite(TypingSprite);
+			spriteHandler.PushTexture();
+
+			// start coroutine to wait for TypingTimeout
+			// if we didn't recived any change for so long - other player must be disconected
+			if (coWaitToTurnOff != null)
+				StopCoroutine(coWaitToTurnOff);
+			coWaitToTurnOff = StartCoroutine(WaitToTurnOff(TypingTimeout));
+		}
+		else
+		{
+			spriteHandler.gameObject.SetActive(false);
+			if (coWaitToTurnOff != null)
+				StopCoroutine(coWaitToTurnOff);
+		}
+	}
+	
 	public void ToggleChatIcon(bool toggle, ChatModifier chatModifier)
 	{
 		if (toggle)
@@ -39,24 +68,23 @@ public class ChatIcon : MonoBehaviour
 		switch (chatModifier)
 		{
 			case ChatModifier.Yell:
-				goto case ChatModifier.Exclaim;
 			case ChatModifier.Exclaim:
-				spriteRend.sprite = exclaimSprite;
+				spriteHandler.ChangeSprite(ExclaimSprite);
 				break;
 			case ChatModifier.Question:
-				spriteRend.sprite = questionSprite;
+				spriteHandler.ChangeSprite(QuestionSprite);
 				break;
 			default:
-				spriteRend.sprite = talkSprite;
+				spriteHandler.ChangeSprite(TalkSprite);
 				break;
 		}
-		spriteRend.enabled = true;
+		spriteHandler.gameObject.SetActive(true);
 		if (coWaitToTurnOff != null)
 		{
 			StopCoroutine(coWaitToTurnOff);
 			coWaitToTurnOff = null;
 		}
-		coWaitToTurnOff = StartCoroutine(WaitToTurnOff());
+		coWaitToTurnOff = StartCoroutine(WaitToTurnOff(IconTimeout));
 	}
 
 	public void TurnOffTalkIcon()
@@ -66,12 +94,12 @@ public class ChatIcon : MonoBehaviour
 			StopCoroutine(coWaitToTurnOff);
 			coWaitToTurnOff = null;
 		}
-		spriteRend.enabled = false;
+		spriteHandler.gameObject.SetActive(false);
 	}
 
-	private IEnumerator WaitToTurnOff()
+	private IEnumerator WaitToTurnOff(float time)
 	{
-		yield return WaitFor.Seconds(3f);
-		spriteRend.enabled = false;
+		yield return WaitFor.Seconds(time);
+		spriteHandler.gameObject.SetActive(false);
 	}
 }

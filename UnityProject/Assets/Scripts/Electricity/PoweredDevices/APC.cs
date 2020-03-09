@@ -134,6 +134,10 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		{
 			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 			{
+				//TODO: This check is needed because destroyed lightswitches aren't being de-registered from the APC.
+				//Instead, it should be ensured that they are deregistered when destroyed. Doing
+				//it after this loop would create GC so it should instead be done via a destruction / despawn hook
+				if (SwitchTrigger.Key == null) continue;
 				SwitchTrigger.Key.PowerNetworkUpdate(Voltages);
 				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
 				{

@@ -25,8 +25,8 @@ public class DoorController : NetworkBehaviour
 		private int doorDirection;
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
-		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay;
-		[SerializeField] private Sprite weldSprite;
+		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay = null;
+		[SerializeField] private Sprite weldSprite = null;
 		/// <summary>
 		/// Is door weldedable?
 		/// </summary>

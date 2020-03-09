@@ -21,8 +21,8 @@ namespace Antagonists
 				{
 					var playerDetails = PlayerList.Instance.Get(player.gameObject);
 					if (playerDetails.Job == JobType.SECURITY_OFFICER || playerDetails.Job == JobType.HOS
-					                                           || playerDetails.Job != JobType.DETECTIVE
-					                                           || playerDetails.Job != JobType.WARDEN)
+					                                           || playerDetails.Job == JobType.DETECTIVE
+					                                           || playerDetails.Job == JobType.WARDEN)
 					{
 						if(playerDetails.Script == null || playerDetails.Script.playerHealth == null) continue;
 						if (!playerDetails.Script.playerHealth.IsDead)

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: banana_mime
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 7482468388035873950, guid: a371ae9df60b6c84d8528e5d88bce199,
       type: 3}
     Name: banana_mime
     Plantname: Mimana Tree
@@ -85,8 +85,12 @@ MonoBehaviour:
     Ammount: 10
   - Name: mutetoxin
     Ammount: 10
-  - Name: nutriment
-    Ammount: 1
+  - Name: banana
+    Ammount: 10
+  - Name: potassium
+    Ammount: 10
+  - Name: vitamin
+    Ammount: 3
   RemovePlantTrays: 
   RemoveReagentProduction:
   - Name: banana

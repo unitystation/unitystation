@@ -22,7 +22,7 @@ public class ChatBubbleManager : MonoBehaviour
     }
 
     private List<ChatBubble> chatBubblePool = new List<ChatBubble>();
-    [SerializeField] private GameObject chatBubblePrefab;
+    [SerializeField] private GameObject chatBubblePrefab = null;
     [SerializeField] private int initialPoolSize = 10;
 
     void Start()
@@ -76,7 +76,7 @@ public class ChatBubbleManager : MonoBehaviour
     ChatBubble SpawnNewChatBubble()
     {
 	    var obj = Instantiate(chatBubblePrefab, Vector3.zero, Quaternion.identity);
-	    obj.transform.parent = transform;
+		obj.transform.SetParent(transform, false); // Suggestion by compiler, instead of obj.transform.parent = transform;
 	    obj.transform.localScale = Vector3.one * 2f;
 	    obj.SetActive(false);
 	    return obj.GetComponent<ChatBubble>();

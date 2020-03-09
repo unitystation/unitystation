@@ -23,7 +23,7 @@ public class ItemAttributesV2 : Attributes
 {
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
-	private List<ItemTrait> initialTraits;
+	private List<ItemTrait> initialTraits = null;
 
 	[Tooltip("Size of this item when spawned.")]
 	[SerializeField]

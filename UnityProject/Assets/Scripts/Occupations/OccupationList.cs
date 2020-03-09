@@ -15,7 +15,7 @@ public class OccupationList : SingletonScriptableObject<OccupationList>
 	[SerializeField]
 	[Tooltip("Allowed occupations, and the order in which they should be displayed in" +
 	         " occupation chooser.")]
-	private Occupation[] occcupations;
+	private Occupation[] occcupations = null;
 	public IEnumerable<Occupation> Occupations => occcupations;
 
 	/// <summary>

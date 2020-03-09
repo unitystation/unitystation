@@ -11,15 +11,15 @@ namespace Unitystation.Options
     public class DisplayOptions : MonoBehaviour
     {
         [SerializeField]
-        private Slider camZoomSlider;
+        private Slider camZoomSlider = null;
         [SerializeField]
-        private Toggle scrollWheelZoomToggle;
+        private Toggle scrollWheelZoomToggle = null;
 		[SerializeField]
-		private Toggle fullscreenToggle;
+		private Toggle fullscreenToggle = null;
 		private CameraZoomHandler zoomHandler;
-		[SerializeField] private InputField frameRateTarget;
+		[SerializeField] private InputField frameRateTarget = null;
 		[SerializeField]
-		private Slider chatBubbleSizeSlider;
+		private Slider chatBubbleSizeSlider = null;
 
         void OnEnable()
         {

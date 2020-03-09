@@ -64,7 +64,10 @@ public class UpdateManager : MonoBehaviour
 
 	public static void Remove(CallbackType type, Action action)
 	{
-		if (type == CallbackType.UPDATE)
+
+		if (action == null || Instance == null) return;
+
+			if (type == CallbackType.UPDATE)
 		{
 			if (Instance.updateActions.Contains(action))
 			{

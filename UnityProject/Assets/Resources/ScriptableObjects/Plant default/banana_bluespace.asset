@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: banana_bluespace
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 7482468388035873950, guid: 577965e19ebcebb45af735eb8997f406,
       type: 3}
     Name: banana_bluespace
     Plantname: Bluespace Banana Tree
@@ -25,8 +25,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 1029559942504d04e991feae6b0d4bea, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 0cba270313518844cb8ac7d47ccdf84b, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 0cba270313518844cb8ac7d47ccdf84b, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: b97704a4e09faa645bb3da61882cb7db, type: 3}

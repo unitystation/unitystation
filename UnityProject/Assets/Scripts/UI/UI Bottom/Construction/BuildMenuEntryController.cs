@@ -12,31 +12,31 @@ namespace UI.UI_Bottom
 	{
 		[Tooltip("Main image of the object to build")]
 		[SerializeField]
-		private Image image;
+		private Image image = null;
 
 		[Tooltip("Secondary image of the object to build")]
 		[SerializeField]
-		private Image secondaryImage;
+		private Image secondaryImage = null;
 
 		[Tooltip("Tertiary image of the object to build")] //example: airlocks
 		[SerializeField]
-		private Image tertiaryImage;
+		private Image tertiaryImage = null;
 
 		[Tooltip("Name describing what this entry is.")]
 		[SerializeField]
-		private Text entryName;
+		private Text entryName = null;
 
 		[Tooltip("Amount of material required for this entry.")]
 		[SerializeField]
-		private Text materialCost;
+		private Text materialCost = null;
 
 		[Tooltip("Image of the material required.")]
 		[SerializeField]
-		private Image materialImage;
+		private Image materialImage = null;
 
 		[Tooltip("Secondary image of the material required.")]
 		[SerializeField]
-		private Image materialSecondaryImage;
+		private Image materialSecondaryImage = null;
 
 		//menu and entry this entry is for
 		private BuildingMaterial buildingMaterial;

@@ -17,7 +17,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
 
-	private Equipment equipment;
+	private Equipment equipment = null;
 
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
@@ -699,16 +699,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 		
-		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text);
+		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateType.announce);
 	}
 
 	[Command]
 	public void CmdSendCentCommReport (string adminId, string adminToken, string text)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		GameManager.Instance.CentComm.MakeCommandReport(text);
+		if (admin == null) return; 
+		GameManager.Instance.CentComm.MakeCommandReport(text, 
+														CentComm.UpdateType.notice);
 	}
 
 	#endregion
