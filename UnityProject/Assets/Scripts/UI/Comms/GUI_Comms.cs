@@ -10,29 +10,29 @@ using UnityEngine.UI;
 public class GUI_Comms : NetTab
 {
 	[SerializeField]
-	private NetPageSwitcher mainSwitcher;
+	private NetPageSwitcher mainSwitcher = null;
 	[SerializeField]
-	private NetPage menuPage;
+	private NetPage menuPage = null;
 
 	[SerializeField]
-	private NetPageSwitcher captainOnlySwitcher;
+	private NetPageSwitcher captainOnlySwitcher = null;
 	[SerializeField]
-	private NetPage noCaptainAccessPage;
+	private NetPage noCaptainAccessPage = null;
 	[SerializeField]
-	private NetPage captainAccessPage;
+	private NetPage captainAccessPage = null;
 
 	[SerializeField]
-	private NetLabel idLabel;
+	private NetLabel idLabel = null;
 	[SerializeField]
-	private NetLabel shuttleStatusLabel;
+	private NetLabel shuttleStatusLabel = null;
 	[SerializeField]
-	private NetLabel shuttleTimerLabel;
+	private NetLabel shuttleTimerLabel = null;
 	[SerializeField]
-	private NetLabel shuttleCallResultLabel;
+	private NetLabel shuttleCallResultLabel = null;
 	[SerializeField]
-	private NetLabel shuttleCallButtonLabel;
+	private NetLabel shuttleCallButtonLabel = null;
 	[SerializeField]
-	private NetSpriteImage statusImage;
+	private NetSpriteImage statusImage = null;
 
 	private CommsConsole console;
 	private EscapeShuttle shuttle;

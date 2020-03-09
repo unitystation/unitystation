@@ -18,11 +18,11 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
 	         " locker spawns.")]
 	[SerializeField]
-	private SpawnableList initialContents;
+	private SpawnableList initialContents = null;
 
 	[Tooltip("Lock light status indicator component")]
 	[SerializeField]
-	private LockLightController lockLight;
+	private LockLightController lockLight = null;
 
 	[Tooltip("Whether the container can be locked.")]
 	[SerializeField]
@@ -43,7 +43,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 
 	[Tooltip("Sprite to show when door is open.")]
 	[SerializeField]
-	private Sprite doorOpened;
+	private Sprite doorOpened = null;
 
 	[Tooltip("Renderer for the whole locker")]
 	[SerializeField]

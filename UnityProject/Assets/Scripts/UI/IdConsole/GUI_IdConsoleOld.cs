@@ -10,23 +10,23 @@ public class GUI_IdConsoleOld : NetTab
 {
 	private IdConsole console;
 	[SerializeField]
-	private List<EmptyItemList> accessCategoriesList;
+	private List<EmptyItemList> accessCategoriesList = null;
 	[SerializeField]
-	private EmptyItemList assignList;
+	private EmptyItemList assignList = null;
 	[SerializeField]
-	private NetPageSwitcher pageSwitcher;
+	private NetPageSwitcher pageSwitcher = null;
 	[SerializeField]
-	private NetPage loginPage;
+	private NetPage loginPage = null;
 	[SerializeField]
-	private NetPage usercardPage;
+	private NetPage usercardPage = null;
 	[SerializeField]
-	private NetPage mainPage;
+	private NetPage mainPage = null;
 	[SerializeField]
-	private NetLabel targetCardName;
+	private NetLabel targetCardName = null;
 	[SerializeField]
-	private NetLabel accessCardName;
+	private NetLabel accessCardName = null;
 	[SerializeField]
-	private NetLabel loginCardName;
+	private NetLabel loginCardName = null;
 	private int jobsCount;
 
 	/// <summary>

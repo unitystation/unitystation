@@ -7,7 +7,7 @@ public class RawMeat : MonoBehaviour
 {
 	private Integrity integrity;
 	[SerializeField]
-	private GameObject meatSteakPrefab;
+	private GameObject meatSteakPrefab = null;
 	private RegisterTile registerTile;
 
 	private void Awake()

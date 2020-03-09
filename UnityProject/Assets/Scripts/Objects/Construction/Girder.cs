@@ -17,15 +17,15 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 
 	[Tooltip("Reinforced girder prefab.")]
 	[SerializeField]
-	private GameObject reinforcedGirder;
+	private GameObject reinforcedGirder = null;
 
 	[Tooltip("Tile to spawn when wall is constructed.")]
 	[SerializeField]
-	private BasicTile wallTile;
+	private BasicTile wallTile = null;
 
 	[Tooltip("Tile to spawn when false wall is constructed.")]
 	[SerializeField]
-	private BasicTile falseTile;
+	private BasicTile falseTile = null;
 
 	//tracked server side only
 	private int plasteelSheetCount;

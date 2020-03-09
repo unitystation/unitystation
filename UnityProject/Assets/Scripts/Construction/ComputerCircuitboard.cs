@@ -10,7 +10,7 @@ namespace Construction
 	{
 		[Tooltip("Computer which should be spawned when this circuitboard's frame is constructed.")]
 		[SerializeField]
-		private GameObject computerToSpawn;
+		private GameObject computerToSpawn = null;
 
 		/// <summary>
 		/// Computer which should be spawned when this circuitboard's frame is constructed

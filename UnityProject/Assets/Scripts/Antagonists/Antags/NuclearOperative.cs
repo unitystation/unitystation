@@ -9,7 +9,7 @@ namespace Antagonists
 
 		[Tooltip("Occupation that nuclear operatives should spawn as.")]
 		[SerializeField]
-		private Occupation nuclearOperativeOccupation;
+		private Occupation nuclearOperativeOccupation = null;
 
 		// add any NuclearOperative specific logic here
 		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)

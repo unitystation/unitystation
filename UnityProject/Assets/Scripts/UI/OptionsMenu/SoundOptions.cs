@@ -8,10 +8,10 @@ namespace Unitystation.Options
     public class SoundOptions : MonoBehaviour
     {
         [SerializeField]
-        private Slider ambientSlider;
+        private Slider ambientSlider = null;
 
         [SerializeField]
-        private Toggle ttsToggle;
+        private Toggle ttsToggle = null;
 
 		[SerializeField]
 		private Slider masterSlider;

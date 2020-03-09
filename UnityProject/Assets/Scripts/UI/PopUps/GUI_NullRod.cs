@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GUI_NullRod : NetTab
 {
 	[SerializeField]
-	private GameObject[] rodTransforms;
+	private GameObject[] rodTransforms = null;
 
 
 	private void Awake()

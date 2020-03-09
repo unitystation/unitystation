@@ -14,7 +14,7 @@ namespace Unitystation.Options
 	{
 		public static OptionsMenu Instance;
 		[SerializeField]
-		private GameObject screen;
+		private GameObject screen = null;
 		//All the nav buttons in the left column
 		private List<OptionsButton> optionButtons = new List<OptionsButton>();
 
