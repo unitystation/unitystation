@@ -107,7 +107,6 @@ protected Vector3Int actionPosition;
 			case Target.injuredPeople:
 				return false;
 		}
-
 		return false;
 	}
 
@@ -128,7 +127,7 @@ protected Vector3Int actionPosition;
 				if(edible != null) edible.NPCTryEat();
 				break;
 			case Target.dirtyFloor:
-				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).First(p => p.Cleanable);
+				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).FirstOrDefault(p => p.Cleanable);
 				if(floorDecal != null) floorDecal.TryClean();
 				break;
 			case Target.missingFloor:
