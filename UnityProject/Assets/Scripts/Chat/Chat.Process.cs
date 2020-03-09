@@ -36,6 +36,19 @@ public partial class Chat
 	public Color warningColor;
 	public Color defaultColor;
 
+
+	/// <summary>
+	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
+	/// </summary>
+	public const ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost;
+
+	/// <summary>
+	/// This channels are OOC or service messages and shouldn't affect IC communications
+	/// </summary>
+	public const ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
+		| ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System | ChatChannel.Warning;
+
+
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.
 	/// 1. Detects which modifiers should be present in the messages.
