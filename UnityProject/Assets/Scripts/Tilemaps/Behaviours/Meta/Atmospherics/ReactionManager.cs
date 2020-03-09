@@ -158,9 +158,9 @@ public class ReactionManager : MonoBehaviour
 			{
 				addedHotspot.node.Hotspot = addedHotspot;
 				hotspots.Add(addedHotspot.node.Position, addedHotspot.node);
-				var fireUpdate = addedHotspot.node.Position;
-				fireUpdate.z = FIRE_FX_Z;
-				tileChangeManager.UpdateTile(fireUpdate, TileType.Effects, "Fire");
+				tileChangeManager.UpdateTile(
+					new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
+					TileType.Effects, "Fire");
 			}
 
 		}
@@ -172,9 +172,9 @@ public class ReactionManager : MonoBehaviour
 				affectedNode.HasHotspot)
 			{
 				affectedNode.Hotspot = null;
-				var fireUpdate = affectedNode.Position;
-				fireUpdate.z = FIRE_FX_Z;
-				tileChangeManager.RemoveTile(fireUpdate, LayerType.Effects, false);
+				tileChangeManager.RemoveTile(
+					new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
+					LayerType.Effects, false);
 				hotspots.Remove(removedHotspot);
 			}
 		}
@@ -190,9 +190,9 @@ public class ReactionManager : MonoBehaviour
 			{
 				if ( addFog.TryDequeue( out var addFogNode ) )
 				{
-					var plasmaUpdate = addFogNode.Position;
-					plasmaUpdate.z = PLASMA_FX_Z;
-					tileChangeManager.UpdateTile(plasmaUpdate, TileType.Effects, "PlasmaAir");
+					tileChangeManager.UpdateTile(
+						new Vector3Int(addFogNode.Position.x, addFogNode.Position.y, PLASMA_FX_Z),
+						TileType.Effects, "PlasmaAir");
 				}
 			}
 		}
@@ -205,9 +205,8 @@ public class ReactionManager : MonoBehaviour
 			{
 				if ( removeFog.TryDequeue( out var removeFogNode ) )
 				{
-					var plasmaUpdate = removeFogNode.Position;
-					plasmaUpdate.z = PLASMA_FX_Z;
-					tileChangeManager.RemoveTile(plasmaUpdate, LayerType.Effects, false);
+					tileChangeManager.RemoveTile(
+						new Vector3Int(removeFogNode.Position.x, removeFogNode.Position.y, PLASMA_FX_Z),  LayerType.Effects, false);
 				}
 			}
 		}
