@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Mirror;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Main behavior for progress bars. Progress bars progress is tracked on the server and the client
@@ -107,6 +109,16 @@ public class ProgressBar : MonoBehaviour
 		ProgressBarMessage.SendCreate(startInfo.Performer, 0, (transform.position - startInfo.Performer.transform.position).To2Int(), id);
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	/// <summary>
 	/// Invoke when bar is created client side, assigns the id
 	/// </summary>
@@ -194,7 +206,7 @@ public class ProgressBar : MonoBehaviour
 		spriteRenderer.sprite = progressSprites[newSpriteIndex];
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		if (done) return;
 		if (animIdx != -1 && lastSpriteIndex >= animIdx)

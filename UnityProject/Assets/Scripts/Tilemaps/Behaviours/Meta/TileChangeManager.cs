@@ -92,6 +92,30 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Like UpdateTile, but operates on z=-1 of the affected layer.
+	/// Adds overlay tile as an overlay at z=-1 of the layer that overlayTile is configured for.
+	/// No effect if there is no tile at z=0 of the indicated position (there is nothing
+	/// to overlay on top of).
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <param name="tileName"></param>
+	[Server]
+	public void UpdateOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
+	{
+		cellPosition.z = 0;
+		if (!metaTileMap.HasTile(cellPosition, overlayTile.LayerType, true)) return;
+		cellPosition.z = -1;
+		if (IsDifferent(cellPosition, overlayTile))
+		{
+			InternalUpdateTile(cellPosition, overlayTile);
+
+			RpcUpdateTile(cellPosition, overlayTile.TileType, overlayTile.name);
+
+			AddToChangeList(cellPosition, overlayTile);
+		}
+	}
+
 	[Server]
 	public void RemoveTile( Vector3Int cellPosition )
 	{
@@ -101,15 +125,24 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Removes the tile at the indicated cell position. By default all tiles in that layer
+	/// at all z levels will be removed. If removeAll is true, then only the tile at cellPosition.z will
+	/// be removed.
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <param name="layerType"></param>
+	/// <param name="removeAll"></param>
+	/// <returns></returns>
 	[Server]
-	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType)
+	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType, bool removeAll=true)
 	{
 		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
-			InternalRemoveTile(cellPosition, layerType, false);
+			InternalRemoveTile(cellPosition, layerType, removeAll);
 
-			RpcRemoveTile(cellPosition, layerType, false);
+			RpcRemoveTile(cellPosition, layerType, removeAll);
 
 			AddToChangeList(cellPosition, layerType);
 
@@ -124,15 +157,23 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void RemoveEffect(Vector3Int cellPosition, LayerType layerType)
+	public void RemoveOverlay(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
 	{
 		cellPosition.z = -1;
 
 		if (metaTileMap.HasTile(cellPosition, layerType, true))
 		{
-			InternalRemoveTile(cellPosition, layerType, true);
+			if (onlyIfCleanable)
+			{
+				//only remove it if it's a cleanable tile
+				var tile = metaTileMap.GetTile(cellPosition, layerType) as OverlayTile;
+				//it's not an overlay tile or it's not cleanable so don't remove it
+				if (tile == null || !tile.IsCleanable) return;
+			}
 
-			RpcRemoveTile(cellPosition, layerType, true);
+			InternalRemoveTile(cellPosition, layerType, false);
+
+			RpcRemoveTile(cellPosition, layerType, false);
 
 			AddToChangeList(cellPosition, layerType, removeAll:true);
 		}
@@ -145,29 +186,24 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
+	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
 	{
 		if ( isServer )
 		{
 			return;
 		}
-		InternalRemoveTile(position, layerType, onlyRemoveEffect);
+		InternalRemoveTile(position, layerType, removeAll);
 	}
 
-	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
+	private void InternalRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
 	{
-		if (onlyRemoveEffect)
-		{
-			position.z = -1;
-		}
-
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.RemoveTile(p, layerType, !onlyRemoveEffect);
+		metaTileMap.RemoveTile(p, layerType, removeAll);
 	}
 
 	[ClientRpc]
-	private void RpcUpdateTile(Vector3 position, TileType tileType, string tileName)
+	private void RpcUpdateTile(Vector3Int position, TileType tileType, string tileName)
 	{
 		if (isServer)
 		{
@@ -177,10 +213,22 @@ public class TileChangeManager : NetworkBehaviour
 		InternalUpdateTile(position, tileType, tileName);
 	}
 
-	private void InternalUpdateTile(Vector3 position, TileType tileType, string tileName)
+	private void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
-		metaTileMap.SetTile(position.RoundToInt(), layerTile);
+		metaTileMap.SetTile(position, layerTile);
+		//if we are changing a tile at z=0, make sure to remove any overlays it has as well
+
+		//TODO: OVERLAYS - right now it only removes at z = -1, but we will eventually need
+		//to allow multiple overlays on a given location which would require multiple z levels.
+		if (position.z == 0)
+		{
+			position.z = -1;
+			if (metaTileMap.HasTile(position, layerTile.LayerType, true))
+			{
+				metaTileMap.RemoveTile(position, layerTile.LayerType);
+			}
+		}
 	}
 
 	private void InternalUpdateTile(Vector3 position, LayerTile layerTile)
@@ -195,7 +243,7 @@ public class TileChangeManager : NetworkBehaviour
 		metaTileMap.SetTile(p, layerTile);
 	}
 
-	private void AddToChangeList(Vector3 position, LayerType layerType=LayerType.None, TileType tileType=TileType.None, string tileName=null, bool removeAll = false)
+	private void AddToChangeList(Vector3Int position, LayerType layerType=LayerType.None, TileType tileType=TileType.None, string tileName=null, bool removeAll = false)
 	{
 		changeList.List.Add(new TileChangeEntry()
 		{
@@ -207,7 +255,7 @@ public class TileChangeManager : NetworkBehaviour
 		});
 	}
 
-	private void AddToChangeList(Vector3 position, LayerTile layerTile, LayerType layerType=LayerType.None, bool removeAll = false)
+	private void AddToChangeList(Vector3Int position, LayerTile layerTile, LayerType layerType=LayerType.None, bool removeAll = false)
 	{
 		changeList.List.Add(new TileChangeEntry()
 		{
@@ -250,7 +298,7 @@ public class TileChangeList
 [System.Serializable]
 public class TileChangeEntry
 {
-	public Vector3 Position;
+	public Vector3Int Position;
 
 	public TileType TileType;
 

@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: tower
@@ -24,9 +24,8 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 397a3d20fd4db8d448742c20980a992e, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 2800000, guid: 20c7f3d751d3d7e4aa59ea007e7e67e0, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 20c7f3d751d3d7e4aa59ea007e7e67e0, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: eb96ff9f7c02baa4dbbde481253ee625, type: 3}
@@ -51,12 +50,12 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 4c2cce256a5e5b24494cf89a23c1f65e, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 1
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 10
     Potency: 50
     Endurance: 50
-    Yield: 5
+    Yield: 50
     Lifespan: 80
     PlantTrays: 02000000
     ReagentProduction: []

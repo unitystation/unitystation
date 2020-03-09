@@ -8,31 +8,33 @@
 public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 {
 	[SerializeField]
-	private GameObject _12mm = null;
+	private GameObject _12mm;
 	[SerializeField]
-	private GameObject _5Point56mm = null;
+	private GameObject _5Point56mm;
 	[SerializeField]
-	private GameObject _9mm = null;
+	private GameObject _9mm;
 	[SerializeField]
-	private GameObject _38 = null;
+	private GameObject _38;
 	[SerializeField]
-	private GameObject _46x30mmtT = null;
+	private GameObject _46x30mmtT;
 	[SerializeField]
-	private GameObject _50mm = null;
+	private GameObject _50mm;
 	[SerializeField]
-	private GameObject _357mm = null;
+	private GameObject _357mm;
 	[SerializeField]
-	private GameObject A762 = null;
+	private GameObject A762;
 	[SerializeField]
-	private GameObject FusionCells = null;
+	private GameObject FusionCells;
 	[SerializeField]
-	private GameObject Slug = null;
+	private GameObject Slug;
 	[SerializeField]
-	private GameObject smg9mm = null;
+	private GameObject smg9mm;
 	[SerializeField]
-	private GameObject Syringe = null;
+	private GameObject Syringe;
 	[SerializeField]
-	private GameObject uzi9mm = null;
+	private GameObject uzi9mm;
+	[SerializeField]
+	private GameObject Internal;
 
 	/// <summary>
 	/// Get the prefab of the ammo type so you can
@@ -68,6 +70,8 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 				return Instance._5Point56mm;
 			case AmmoType._9mm:
 				return Instance._9mm;
+			case AmmoType.Internal:
+				return Instance.Internal;
 		}
 		return null;
 	}

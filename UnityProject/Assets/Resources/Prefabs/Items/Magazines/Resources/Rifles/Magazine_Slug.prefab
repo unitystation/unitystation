@@ -7,11 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3097138933977987719, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
-      propertyPath: m_Name
-      value: Magazine_Slug
+      propertyPath: m_LightProbeUsage
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fbf0091e6ffa65a4e826e55f089f97ab,
+        type: 3}
     - target: {fileID: 3091929310079895539, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,20 +78,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3097138933977987719, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_Name
+      value: Magazine_Slug
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129732272286336819, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: magazineSize
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: ammoType
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 3129732272286336819, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
-      propertyPath: m_AssetId
-      value: 
+      propertyPath: isClip
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
@@ -90,7 +111,7 @@ PrefabInstance:
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: initialName
-      value: Shutgun Slug
+      value: Shotgun Slug
       objectReference: {fileID: 0}
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
@@ -108,21 +129,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c5ea118354e234f9fa2e1e18ce0adff8,
         type: 2}
-    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: m_LightProbeUsage
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: m_ReflectionProbeUsage
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: fbf0091e6ffa65a4e826e55f089f97ab,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c406df2572ceba47af8a9de4f9a50ba, type: 3}

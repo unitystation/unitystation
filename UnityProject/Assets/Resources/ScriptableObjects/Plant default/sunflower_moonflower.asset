@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: sunflower_moonflower
@@ -51,21 +51,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 9b768b149d32ba54fa7c67d4805fb96b, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 2
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 20
     Potency: 10
     Endurance: 20
-    Yield: 2
+    Yield: 20
     Lifespan: 25
     PlantTrays: 
     ReagentProduction:
-    - String: moonshine
-      Int: 20
-    - String: vitamin
-      Int: 1
-    - String: nutriment
-      Int: 1
+    - Name: moonshine
+      Ammount: 20
+    - Name: vitamin
+      Ammount: 1
+    - Name: nutriment
+      Ammount: 1
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -76,15 +76,15 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: moonshine
-    Int: 20
-  - String: vitamin
-    Int: 1
-  - String: nutriment
-    Int: 1
+  - Name: moonshine
+    Ammount: 20
+  - Name: vitamin
+    Ammount: 1
+  - Name: nutriment
+    Ammount: 1
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: cornoil
-    Int: 7
-  - String: nutriment
-    Int: 3
+  - Name: cornoil
+    Ammount: 7
+  - Name: nutriment
+    Ammount: 3

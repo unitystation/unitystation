@@ -255,6 +255,7 @@ public class LightSource : ObjectTrigger
 			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 	}
 
+	#if UNITY_EDITOR
 	void Update()
 	{
 		if (!Application.isPlaying)
@@ -271,6 +272,7 @@ public class LightSource : ObjectTrigger
 			return;
 		}
 	}
+	#endif
 
 	void Start()
 	{

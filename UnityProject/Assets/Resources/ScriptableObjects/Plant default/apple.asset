@@ -63,22 +63,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: d4b46fd80b396d444aa5ecffcd4f0245, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 35
-    Yield: 5
+    Yield: 50
     Lifespan: 55
     PlantTrays: 00000000
     ReagentProduction:
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 10
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo:
     - {fileID: 11400000, guid: 4c02d7049024367408d35facef2df7a7, type: 2}
-    - {fileID: 11400000, guid: e9bd46a773ca79a4c9cdbc82887045ff, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

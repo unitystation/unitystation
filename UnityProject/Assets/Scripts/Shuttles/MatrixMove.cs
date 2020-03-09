@@ -289,13 +289,18 @@ public class MatrixMove : ManagedNetworkBehaviour
 	}
 
 	///managed by UpdateManager
-	public override void UpdateMe()
+	public override void FixedUpdateMe()
 	{
 		if (isServer)
 		{
 			CheckMovementServer();
 		}
 
+		
+	}
+
+	public override void UpdateMe()
+	{
 		AnimateMovement();
 	}
 
@@ -375,6 +380,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		//To stop autopilot
 		DisableAutopilotTarget();
 		TryNotifyPlayers();
+		
 	}
 
 	/// Move for n tiles, regardless of direction, and stop

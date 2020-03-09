@@ -102,14 +102,23 @@ public partial class PlayerSync
 		}
 		return false;
 	}
-
+	//Extracted to its own function, to make reasoning about it easier for me.
+	private bool ShouldPlayerMove()
+	{
+		return !blockClientMovement && !KeyboardInputManager.IsControlPressed() && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost);
+	}
+	//Extracted to slightly reduce code duplication.
+	private void UpdateFacingDirection(PlayerAction action)
+	{
+		playerDirectional.FaceDirection(Orientation.From(action.Direction()));
+	}
 	//main client prediction and validation logic lives here
 	private IEnumerator DoProcess(PlayerAction action)
 	{
 		MoveCooldown = true;
 		//experiment: not enqueueing or processing action if floating.
 		//arguably it shouldn't really be like that in the future
-		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
+		if (ShouldPlayerMove())
 		{
 			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
 				action.Direction(), pendingActions.Count, ClientState, predictedState );
@@ -169,12 +178,13 @@ public partial class PlayerSync
 						var dir = action.Direction();
 						if (!(dir.x != 0 && dir.y != 0 && clientBump == BumpType.ClosedDoor))
 						{
-							playerDirectional.FaceDirection( Orientation.From( action.Direction() ) );
+							UpdateFacingDirection(action);
 						}
 					}
 				}
 				else
 				{
+					
 					//cannot move but it's not due to bumping, so don't even send it.
 					cancelMove = true;
 					Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
@@ -194,6 +204,11 @@ public partial class PlayerSync
 		}
 		else
 		{
+			//Update Facing Direction anyways, as it seems to work in all relevant cases for now. For Being downed, this can be a source of Bugs in the future, as being downed
+			//currently only has one direction to it.
+			//Currently allows setting the position in free floating.
+			//This is to keep it behaving the same as with setting the direction via mouse.
+			UpdateFacingDirection(action);
 			//don't even check the bump, just cancel the move
 			Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
 				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );

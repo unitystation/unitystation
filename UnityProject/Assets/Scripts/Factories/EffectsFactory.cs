@@ -92,18 +92,6 @@ public static class EffectsFactory
 		}
 	}
 
-	/// <summary>
-	/// Creates ash at the specified tile position
-	/// </summary>
-	/// <param name="worldTilePos"></param>
-	/// <param name="large">if true, spawns the large ash pile, otherwise spawns the small one</param>
-	public static void Ash(Vector2Int worldTilePos, bool large)
-	{
-		EnsureInit();
-		Spawn.ServerPrefab(large ? largeAshTile : smallAshTile, worldTilePos.To3Int(),
-			MatrixManager.AtPoint(worldTilePos.To3Int(), true).Objects);
-	}
-
 	public static void WaterSplat(Vector3Int worldPos)
 	{
 		if (MatrixManager.IsSpaceAt(worldPos, true))

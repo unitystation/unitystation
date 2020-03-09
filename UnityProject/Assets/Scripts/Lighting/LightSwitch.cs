@@ -49,7 +49,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 
 	private void EnsureInit()
 	{
-		if (this == null)
+		if (this == null || directional != null)
 		{
 			return;
 		}

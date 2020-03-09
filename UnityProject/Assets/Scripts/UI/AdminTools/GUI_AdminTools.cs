@@ -8,23 +8,24 @@ namespace AdminTools
 {
 	public class GUI_AdminTools : MonoBehaviour
 	{
-		[SerializeField] private GameObject retrievingDataScreen = null;
+		[SerializeField] private GameObject retrievingDataScreen;
 
-		[SerializeField] private GameObject backBtn = null;
-		[SerializeField] private GameObject gameModePage = null;
-		[SerializeField] private GameObject mainPage = null;
-		[SerializeField] private GameObject playerManagePage = null;
-		[SerializeField] private GameObject playerChatPage = null;
-		[SerializeField] private GameObject playersScrollView = null;
+		[SerializeField] private GameObject backBtn;
+		[SerializeField] private GameObject gameModePage;
+		[SerializeField] private GameObject mainPage;
+		[SerializeField] private GameObject playerManagePage;
+		[SerializeField] private GameObject playerChatPage;
+		[SerializeField] private GameObject playersScrollView;
+		[SerializeField] private GameObject CentCommPage;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
 		public AreYouSurePage areYouSurePage;
 
-		[SerializeField] private Transform playerListContent = null;
-		[SerializeField] private GameObject playerEntryPrefab = null;
+		[SerializeField] private Transform playerListContent;
+		[SerializeField] private GameObject playerEntryPrefab;
 
-		[SerializeField] private Text windowTitle = null;
+		[SerializeField] private Text windowTitle;
 
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
 		public string SelectedPlayer { get; private set; }
@@ -87,6 +88,14 @@ namespace AdminTools
 			retrievingDataScreen.SetActive(true);
 		}
 
+		public void ShowCentCommPage()
+		{
+			DisableAllPages();
+			CentCommPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "CENTCOMM";
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -95,6 +104,7 @@ namespace AdminTools
 			backBtn.SetActive(false);
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
+			CentCommPage.SetActive(false);
 			playersScrollView.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);

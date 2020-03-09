@@ -73,6 +73,16 @@ public class ChatUI : MonoBehaviour
 	public event Action checkPositionEvent;
 
 	/// <summary>
+	/// Invokes when player edited chat input field. 
+	/// </summary>
+	public event Action<string, ChatChannel> OnChatInputChanged;
+
+	/// <summary>
+	/// Invokes when player closed chat window
+	/// </summary>
+	public event Action OnChatWindowClosed;
+
+	/// <summary>
 	/// The main channels which shouldn't be active together.
 	/// Local, Ghost and OOC.
 	/// Order determines default selection priority so DON'T CHANGE THE ORDER!
@@ -432,6 +442,8 @@ public class ChatUI : MonoBehaviour
 		// That create a lot of misunderstanding and can lead to IC in OOC
 		// also clears ParsedChatInput as a side effect
 		InputFieldChat.text = "";
+
+		OnChatWindowClosed?.Invoke();
 	}
 
 	IEnumerator WindowCoolDown()
@@ -853,5 +865,7 @@ public class ChatUI : MonoBehaviour
 			// delete all tags from input
 			InputFieldChat.text = parsedInput.ClearMessage;
 		}
+
+		OnChatInputChanged?.Invoke(rawInput, selectedChannels);
 	}
 }

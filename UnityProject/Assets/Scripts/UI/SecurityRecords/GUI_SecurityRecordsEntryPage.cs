@@ -33,10 +33,10 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	private NetLabel currentlyEditingField;
 	private SecurityRecordCrime currentlyEditingCrime;
 
-	public NetSpriteAndColor head;
-	public NetSpriteAndColor torso;
-	public NetSpriteAndColor beard;
-	public NetSpriteAndColor hair;
+	public NetSpriteImage head;
+	public NetSpriteImage torso;
+	public NetSpriteImage beard;
+	public NetSpriteImage hair;
 	public NetColorChanger rightLeg;
 	public NetColorChanger leftLeg;
 	public NetColorChanger rightArm;

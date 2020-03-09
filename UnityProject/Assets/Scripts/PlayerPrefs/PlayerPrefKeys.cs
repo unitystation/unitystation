@@ -29,6 +29,12 @@
 	public static string AmbientVolumeKey = "AmbientVol";
 
 	/// <summary>
+	/// Master Volume level
+	/// 0 - 1f
+	/// </summary>
+	public static string MasterVolumeKey = "MasterVol";
+
+	/// <summary>
 	/// TTS Toggle Pref.
 	/// 0 = disabled
 	/// 1 = enabled

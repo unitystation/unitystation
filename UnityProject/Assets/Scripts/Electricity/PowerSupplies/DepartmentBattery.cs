@@ -11,7 +11,7 @@ public enum BatteryStateSprite
 	Empty,
 }
 
-public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INodeControl
+public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
 {
 	public DepartmentBatterySprite CurrentSprite  = DepartmentBatterySprite.Default;
 	public SpriteRenderer Renderer;
@@ -134,11 +134,19 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, INo
 		}
 
 	}
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
+		if (interaction.HandObject != null) return false;
+
+		return true;
+	}
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		isOn = !isOn;
-		UpdateServerState(isOn);
+			isOn = !isOn;
+			UpdateServerState(isOn);
+		
 	}
 	public void UpdateServerState(bool _isOn)
 	{

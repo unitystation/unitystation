@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: chili_ghost
@@ -63,42 +63,42 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 825562d7a39dede4c8d0540bf4627e49, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 5
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 50
     Potency: 20
     Endurance: 15
-    Yield: 4
+    Yield: 40
     Lifespan: 20
     PlantTrays: 00000000
     ReagentProduction:
-    - String: condensedcapsaicin
-      Int: 30
-    - String: capsaicin
-      Int: 55
-    - String: nutriment
-      Int: 3
+    - Name: condensedcapsaicin
+      Ammount: 30
+    - Name: capsaicin
+      Ammount: 55
+    - Name: nutriment
+      Ammount: 3
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
-  GrowthSpeedChange: 5
+  GrowthSpeedChange: 50
   PotencyChange: 0
   EnduranceChange: 15
-  YieldChange: 4
+  YieldChange: 40
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: condensedcapsaicin
-    Int: 30
-  - String: capsaicin
-    Int: 55
-  - String: nutriment
-    Int: 3
+  - Name: condensedcapsaicin
+    Ammount: 30
+  - Name: capsaicin
+    Ammount: 55
+  - Name: nutriment
+    Ammount: 3
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: capsaicin
-    Int: 25
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 3
+  - Name: capsaicin
+    Ammount: 25
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 3

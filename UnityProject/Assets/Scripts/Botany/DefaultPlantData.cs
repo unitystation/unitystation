@@ -21,10 +21,10 @@ public class DefaultPlantData : ScriptableObject
 	public int LifespanChange;
 
 	public List<PlantTrays> PlantTrays = new List<PlantTrays>();
-	public List<StringInt> ReagentProduction = new List<StringInt>();
+	public List<Reagent> ReagentProduction = new List<Reagent>();
 
 	public List<PlantTrays> RemovePlantTrays = new List<PlantTrays>();
-	public List<StringInt> RemoveReagentProduction = new List<StringInt>();
+	public List<Reagent> RemoveReagentProduction = new List<Reagent>();
 
 	public static void getDatas(List<DefaultPlantData> Datas)
 	{
@@ -52,7 +52,8 @@ public class DefaultPlantData : ScriptableObject
 		}
 
 #endif
-		InitializePool();
+
+			InitializePool();
 	}
 
 	private void OnEnable()
