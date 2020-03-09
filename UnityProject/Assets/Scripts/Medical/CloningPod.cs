@@ -44,7 +44,7 @@ public class CloningPod : NetworkBehaviour
 		{
 			console.UpdateDisplay();
 		}
-		if(record.mind.IsOnline(record.mind.GetCurrentMob()))
+		if (record.mind.IsOnline(record.mind.GetCurrentMob()))
 		{
 			PlayerSpawn.ServerClonePlayer(record.mind, transform.position.CutToInt());
 		}
@@ -53,15 +53,7 @@ public class CloningPod : NetworkBehaviour
 
 	public bool CanClone()
 	{
-		if(statusSync == CloningPodStatus.Cloning)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
+		return statusSync == CloningPodStatus.Empty;
 	}
 
 	public void SyncSprite(CloningPodStatus oldValue, CloningPodStatus value)
