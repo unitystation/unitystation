@@ -130,11 +130,7 @@ public class Mind
 	public bool IsOnline(GameObject currentMob)
 	{
 		NetworkConnection connection = currentMob.GetComponent<NetworkIdentity>().connectionToClient;
-		if (PlayerList.Instance.ContainsConnection(connection) == false)
-		{
-			return false;
-		}
-		return true;
+		return PlayerList.Instance.ContainsConnection(connection);
 	}
 
 	/// <summary>
