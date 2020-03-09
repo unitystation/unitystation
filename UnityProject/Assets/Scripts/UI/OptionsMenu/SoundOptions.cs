@@ -27,7 +27,12 @@ namespace Unitystation.Options
             SoundManager.AmbientVolume(ambientSlider.value);
         }
 
-        public void TTSToggle()
+		public void OnMasterVolumeChange()
+		{
+			SoundManager.MasterVolume(masterSlider.value);
+		}
+
+		public void TTSToggle()
         {
             UIManager.ToggleTTS(ttsToggle.isOn);
         }

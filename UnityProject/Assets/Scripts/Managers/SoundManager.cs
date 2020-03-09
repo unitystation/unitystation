@@ -225,16 +225,15 @@ public class SoundManager : MonoBehaviour
 			AmbientVolume(1f);
 		}
 
+		//Master Volume 
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
 		{
-			AudioListener.volume = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey);
-			PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, AudioListener.volume);
-			PlayerPrefs.Save();
+			MasterVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey));
+			
 		}
 		else
 		{
-			PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, 1f);
-			PlayerPrefs.Save();
+			MasterVolume(1f);
 		}
 
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
@@ -653,6 +652,17 @@ public class SoundManager : MonoBehaviour
 		}
 
 		PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
+		PlayerPrefs.Save();
+	}
+
+	/// <summary>
+	/// Sets all Sounds volume
+	/// </summary>
+	/// <param name="volume"></param>
+	public static void MasterVolume(float volume)
+	{
+		AudioListener.volume = volume;
+		PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
 		PlayerPrefs.Save();
 	}
 
