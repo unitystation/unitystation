@@ -42,6 +42,15 @@ namespace Objects
 			GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnWillDestroyServer);
 		}
 
+		private void OnDisable()
+		{
+			//for safety.
+			if (isServer)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+		}
+
 		private void OnWillDestroyServer(DestructionInfo info)
 		{
 			var tileWorldPosition = gameObject.TileWorldPosition().To3Int();
