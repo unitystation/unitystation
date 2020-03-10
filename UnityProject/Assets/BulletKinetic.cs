@@ -40,18 +40,14 @@ public class BulletKinetic : BulletBehaviour
 
 	public IEnumerator KineticAnim()
 	{
-		/*Vector3 posBullet = rigidBody.gameObject.AssumedWorldPosServer();
-		Vector3 vec = posBullet;
-		vec.z = 0;
-		posBullet +=(vec * 0.2f);
-		*/
+
 		Transform cellTransform = rigidBody.gameObject.transform;
 		MetaTileMap layerMetaTile = cellTransform.GetComponentInParent<MetaTileMap>();
 		var position = layerMetaTile.WorldToCell(Vector3Int.RoundToInt(rigidBody.gameObject.AssumedWorldPosServer()));
-		if (position == null) Chat.AddGameWideSystemMsgToChat("position is null");
+
 		TileChangeManager tileChangeManager = transform.GetComponentInParent<TileChangeManager>();
-		if (tileChangeManager == null) Chat.AddGameWideSystemMsgToChat("position is null");
-		// Store the old effect for restoring after fire is gone
+
+		// Store the old effect
 		LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(position, LayerType.Effects);
 
 		tileChangeManager.UpdateTile(position, TileType.Effects, "KineticAnimation");
