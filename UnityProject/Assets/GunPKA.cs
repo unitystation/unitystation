@@ -6,6 +6,7 @@ public class GunPKA : Gun
 {
 
 	bool allowRecharge = true;
+	public float rechargeTime = 2.0f;
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
 		ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, false);
@@ -17,7 +18,7 @@ public class GunPKA : Gun
 	private IEnumerator StartCooldown()
 	{
 		allowRecharge = false;
-		yield return WaitFor.Seconds(3);
+		yield return WaitFor.Seconds(rechargeTime);
 		CurrentMagazine.ExpendAmmo(-1);
 		SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer());
 		allowRecharge = true;
