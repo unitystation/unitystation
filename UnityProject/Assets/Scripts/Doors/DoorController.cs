@@ -38,7 +38,7 @@ public class DoorController : NetworkBehaviour
 		public bool damageOnClose = false;
 
 		[Tooltip("Amount of damage when closed on someone.")]
-		public float damageClosed = 30;
+		public float damageClosed = 90;
 
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
@@ -361,5 +361,4 @@ public class DoorController : NetworkBehaviour
 			}
 		}
 	}
-
 
