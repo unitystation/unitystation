@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ElectronicSupplyData
 {
-	public Dictionary<ElectricalOIinheritance, float> CurrentGoingTo = new Dictionary<ElectricalOIinheritance, float>();
-	public Dictionary<ElectricalOIinheritance, float> CurrentComingFrom  = new Dictionary<ElectricalOIinheritance, float>();
-	public Dictionary<ElectricalOIinheritance, float> ResistanceGoingTo = new Dictionary<ElectricalOIinheritance, float>();
-	public Dictionary<ElectricalOIinheritance, float> ResistanceComingFrom = new Dictionary<ElectricalOIinheritance, float>();
-	public float SourceVoltages;
+	public Dictionary<IntrinsicElectronicData, VIRCurrent> CurrentGoingTo = new Dictionary<IntrinsicElectronicData, VIRCurrent>();
+	public Dictionary<IntrinsicElectronicData, VIRCurrent> CurrentComingFrom  = new Dictionary<IntrinsicElectronicData, VIRCurrent>();
+	public Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceGoingTo = new Dictionary<IntrinsicElectronicData, VIRResistances>();
+	public Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceComingFrom = new Dictionary<IntrinsicElectronicData, VIRResistances>();
+	public List<double> SourceVoltages = new List<double>();
 	public HashSet<ElectricalOIinheritance> Downstream = new HashSet<ElectricalOIinheritance>();
 	public HashSet<ElectricalOIinheritance> Upstream = new HashSet<ElectricalOIinheritance>();
 }

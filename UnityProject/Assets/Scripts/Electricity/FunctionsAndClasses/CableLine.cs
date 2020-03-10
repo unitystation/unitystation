@@ -21,31 +21,31 @@ public class CableLine { //Meant to be an intermediary for long stretches of cab
 			TheStart.DirectionInput(SourceInstance, ComingFrom);
 		}
 	}
-	public void PassOnFlushSupplyAndUp(ElectricalOIinheritance ComingFrom,GameObject SourceInstance = null)
-	{
-		if (ComingFrom == TheStart) {
+	//public void PassOnFlushSupplyAndUp(ElectricalOIinheritance ComingFrom,GameObject SourceInstance = null)
+	//{
+	//	if (ComingFrom == TheStart) {
 
-			TheEnd.FlushSupplyAndUp(SourceInstance);
-		} else if (ComingFrom == TheEnd) {
-			TheStart.FlushSupplyAndUp(SourceInstance);
-		}
-	}
+	//		TheEnd.FlushSupplyAndUp(SourceInstance);
+	//	} else if (ComingFrom == TheEnd) {
+	//		TheStart.FlushSupplyAndUp(SourceInstance);
+	//	}
+	//}
 
-	public void PassOnRemoveSupply(ElectricalOIinheritance ComingFrom,GameObject SourceInstance = null)
-	{
-		if (ComingFrom == TheStart) {
+	//public void PassOnRemoveSupply(ElectricalOIinheritance ComingFrom,GameObject SourceInstance = null)
+	//{
+	//	if (ComingFrom == TheStart) {
 
-			TheEnd.RemoveSupply(SourceInstance);
-		} else if (ComingFrom == TheEnd) {
-			TheStart.RemoveSupply(SourceInstance);
-		}
-		for (int i = 0; i<Covering.Count; i++)
-		{
-			Covering[i].Data.ActualVoltage = 0;
-			Covering[i].Data.CurrentInWire = 0;
-			Covering[i].Data.EstimatedResistance = 0;
-		}
-	}
+	//		TheEnd.RemoveSupply(SourceInstance);
+	//	} else if (ComingFrom == TheEnd) {
+	//		TheStart.RemoveSupply(SourceInstance);
+	//	}
+	//	for (int i = 0; i<Covering.Count; i++)
+	//	{
+	//		Covering[i].Data.ActualVoltage = 0;
+	//		Covering[i].Data.CurrentInWire = 0;
+	//		Covering[i].Data.EstimatedResistance = 0;
+	//	}
+	//}
 
 	public void UpdateCoveringCable()
 	{

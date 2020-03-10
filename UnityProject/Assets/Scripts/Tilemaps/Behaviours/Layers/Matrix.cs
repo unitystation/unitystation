@@ -293,9 +293,9 @@ public class Matrix : MonoBehaviour
 		if (ServerObjects != null)
 		{
 			return ServerObjects.Get(position)
-				.Select(x => x != null ? x.GetComponent<ElectricalOIinheritance>() : null)
-				.Where(x => x != null)
-				.Where(y => y.enabled);
+								.Select(x => x?.ElectricalData)
+								.Where(x => x != null);
+				               
 		}
 		else
 		{

@@ -5,6 +5,9 @@ using Mirror;
 
 public class MachineConnectorSpriteHandler : NetworkBehaviour
 {
+
+	public List<PowerTypeCategory> CanConnectTo = new List<PowerTypeCategory>();
+	public HashSet<PowerTypeCategory> HashSetCanConnectTo;
 	public char InNorth = '0';
 	public char InSouth = '0';
 	public char InWest = '0';
@@ -22,13 +25,16 @@ public class MachineConnectorSpriteHandler : NetworkBehaviour
 	public WireConnect Wire;
 	public void Check()
 	{
+		if (HashSetCanConnectTo == null) {
+			HashSetCanConnectTo = new HashSet<PowerTypeCategory>(CanConnectTo);
+		}
 		InNorth = '0';
 		InSouth = '0';
 		InWest = '0';
 		InEast = '0';
 		Syncstring = "0000";
 		HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance>();
-		connections = ElectricityFunctions.SwitchCaseConnections(Wire.transform.localPosition, Wire.Matrix, Wire.InData.CanConnectTo, Connection.MachineConnect, Wire);
+		connections = ElectricityFunctions.SwitchCaseConnections(Wire.transform.localPosition, Wire.Matrix,HashSetCanConnectTo, Connection.MachineConnect, Wire);
 		foreach (var cn in connections)
 		{
 			Vector3 v3 = (cn.transform.localPosition - Wire.transform.localPosition).CutToInt();
