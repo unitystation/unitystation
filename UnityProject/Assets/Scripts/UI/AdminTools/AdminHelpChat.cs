@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,12 +33,12 @@ namespace AdminTools
 		{
 			if (string.IsNullOrWhiteSpace(chatInputField.text))
 			{
-				CloseWindow();
 				return;
 			}
 
-			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + chatInputField.text);
-			Chat.AddAdminPrivMsg("You: " + chatInputField.text);
+			var msg = Regex.Replace(chatInputField.text, @"\t|\n|\r", "");
+			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + msg);
+			Chat.AddAdminPrivMsg("You: " + msg);
 			chatInputField.text = "";
 		}
 	}
