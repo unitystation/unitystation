@@ -9,55 +9,66 @@ using Mirror;
 public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn
 {
 	[SyncVar(hook = nameof(UpdateHarvestFlag))]
-	public bool showHarvestFlag;
+	private bool showHarvestFlag;
 	[SyncVar(hook = nameof(UpdateWeedsFlag))]
-	public bool showWeedsFlag;
+	private bool showWeedsFlag;
 	[SyncVar(hook = nameof(UpdateWaterFlag))]
-	public bool showWaterFlag;
+	private bool showWaterFlag;
 	[SyncVar(hook = nameof(UpdateNutrimentFlag))]
-	public bool showNutrimenetFlag;
+	private bool showNutrimenetFlag;
 	[SyncVar(hook = nameof(UpdatePlantStage))]
-	public PlantSpriteStage plantCurrentStage;
+	private PlantSpriteStage plantCurrentStage;
 	[SyncVar(hook = nameof(UpdatePlantGrowthStage))]
-	public int growingPlantStage;
+	private int growingPlantStage;
 	[SyncVar(hook = nameof(UpdatePlant))]
-	public string plantSyncString;
+	private string plantSyncString;
 
+	[SerializeField]
 	private RegisterTile registerTile;
+	[SerializeField]
+	private bool isSoilPile;
+	[SerializeField]
+	private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
+	[SerializeField]
+	private PlantTrayModification modification;
+	[SerializeField]
+	private ReagentContainer reagentContainer;
+	[SerializeField]
+	private SpriteHandler plantSprite;
+	[SerializeField]
+	private SpriteHandler harvestNotifier;
+	[SerializeField]
+	private SpriteHandler weedNotifier;
+	[SerializeField]
+	private SpriteHandler waterNotifier;
+	[SerializeField]
+	private SpriteHandler nutrimentNotifier;
+	[SerializeField]
+	private PlantData plantData;
+	[SerializeField]
+	private float tickRate;
 
-	
-	
-	public bool isSoilPile;
-	public List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
-	public List<GameObject> readyProduce = new List<GameObject>();
-	public PlantTrayModification modification;
-	public ReagentContainer reagentContainer;
-	public SpriteHandler plantSprite;
-
-	public SpriteHandler harvestNotifier;
-	public SpriteHandler weedNotifier;
-	public SpriteHandler waterNotifier;
-	public SpriteHandler nutrimentNotifier;
-	public PlantData plantData;
-	public bool hasPlant;
 
 	private static readonly System.Random random = new System.Random();
-
-	public float tickRate = 0.1f;
-	public float tickCount;
-	public float weedLevel; //10
-	public float nutritionLevel = 100;
-
-	public int numberOfUpdatesAlive;
 	
-	public int plantSubStage;
-	public float plantHealth = 100;
-	public bool readyToHarvest;
+
+	private readonly List<GameObject> readyProduce = new List<GameObject>();
+	private float tickCount;
+	private float weedLevel; //10
+	private float nutritionLevel;
+	private bool hasPlant;
+	private int numberOfUpdatesAlive;
+	private int plantNextGrowthStageProgress;
+	private float plantHealth;
+	private bool readyToHarvest;
 	//private bool IsServer; //separate flag as NetworkBehaviour isServer is not accurate when destroying an object
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		EnsureInit();
+		nutritionLevel = 100;
+		plantHealth = 100;
+		numberOfUpdatesAlive = 0;
 		if (isSoilPile)
 		{
 			hasPlant = false;
@@ -69,6 +80,19 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			readyToHarvest = true;
 			ProduceCrop();
 		}
+		else
+		{
+			plantData = null;
+			hasPlant = false;
+		}
+		UpdateHarvestFlag(showHarvestFlag, false);
+		UpdateWeedsFlag(showWeedsFlag, false);
+		UpdateWaterFlag(showWaterFlag, false);
+		UpdateNutrimentFlag(showNutrimenetFlag, false);
+		UpdatePlant(plantSyncString, null);
+		UpdatePlantStage(plantCurrentStage, PlantSpriteStage.None);
+		UpdatePlantGrowthStage(growingPlantStage, 0);
+
 	}
 
 	/// <summary>
@@ -148,12 +172,12 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			//Logger.Log(plantData.NumberOfUpdatesAlive.ToString());
 			if (!readyToHarvest)
 			{
-				plantSubStage = plantSubStage + (int)Math.Round(plantData.GrowthSpeed / 10f);
+				plantNextGrowthStageProgress = plantNextGrowthStageProgress + (int)Math.Round(plantData.GrowthSpeed / 10f);
 
-				if (plantSubStage > 100)
+				if (plantNextGrowthStageProgress > 100)
 				{
 					//Logger.Log("NutritionLevel" + NutritionLevel);
-					plantSubStage = 0;
+					plantNextGrowthStageProgress = 0;
 					if (nutritionLevel > 0 || plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
 					{
 						if (!plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
@@ -519,7 +543,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		}
 
 		UpdatePlantGrowthStage(growingPlantStage, 0);
-		plantSubStage = 0;
+		plantNextGrowthStageProgress = 0;
 		plantHealth = 100;
 		readyToHarvest = false;
 		numberOfUpdatesAlive = 0;
@@ -700,7 +724,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			{
 				hasPlant = true;
 				readyToHarvest = false;
-				plantSubStage = 0;
+				plantNextGrowthStageProgress = 0;
 				UpdatePlantGrowthStage(growingPlantStage,0);
 				UpdatePlantStage(plantCurrentStage, PlantSpriteStage.Growing);
 				UpdateHarvestFlag(harvestNotifier, false);
