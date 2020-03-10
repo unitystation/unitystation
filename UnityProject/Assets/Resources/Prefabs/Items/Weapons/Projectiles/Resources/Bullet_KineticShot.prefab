@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4714298942886824}
-  - component: {fileID: 931388571632054408}
   - component: {fileID: 2579689209752563969}
+  - component: {fileID: 3949658910475039848}
   m_Layer: 15
   m_Name: Bullet_KineticShot
   m_TagString: Untagged
@@ -33,21 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &931388571632054408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560634355228308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f675267d1792141f686e9eda7b1cfcac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  damageType: 0
-  attackType: 1
 --- !u!114 &2579689209752563969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +43,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1537c25af20102c47ac7797d1df13a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 25
+  damageType: 0
+  attackType: 1
+  maxBulletDistance: 2
+--- !u!114 &3949658910475039848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560634355228308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d7a289e50ce7b47a57c85ec8f5624d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1577029797726278
