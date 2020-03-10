@@ -54,7 +54,7 @@ public class BulletKinetic : BulletBehaviour
 		// Store the old effect for restoring after fire is gone
 		LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(position, LayerType.Effects);
 
-		tileChangeManager.UpdateTile(position, TileType.Effects, "Kinetic");
+		tileChangeManager.UpdateTile(position, TileType.Effects, "KineticAnimation");
 
 		yield return WaitFor.Seconds(.4f);
 
