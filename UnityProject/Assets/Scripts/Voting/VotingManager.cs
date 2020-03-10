@@ -153,6 +153,7 @@ public class VotingManager : NetworkBehaviour
 					if (voteRestartSuccess) return;
 					voteRestartSuccess = true;
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
+					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.EndRound();
 					break;
 			}

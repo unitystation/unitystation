@@ -65,22 +65,26 @@ namespace Lobby
 
 		public void UpdateSprite()
 		{
-			if (image != null)
+			if (image == null)
 			{
-				if (sprites != null && sprites.Count > 0)
+				// It's possible that UpdateSprite gets called before Awake
+				// so grab the image here just in case that happens
+				image = GetComponent<Image>();
+			}
+
+			if (sprites != null && sprites.Count > 0)
+			{
+				image.enabled = true;
+				//If reference -1 then clear the sprite
+				if (sprites != null)
 				{
-					image.enabled = true;
-					//If reference -1 then clear the sprite
-					if (sprites != null)
-					{
-						image.sprite = sprites[referenceOffset][0].sprite;
-					}
+					image.sprite = sprites[referenceOffset][0].sprite;
 				}
-				else
-				{
-					image.sprite = null;
-					image.enabled = false;
-				}
+			}
+			else
+			{
+				image.sprite = null;
+				image.enabled = false;
 			}
 		}
 

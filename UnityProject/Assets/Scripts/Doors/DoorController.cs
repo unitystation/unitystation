@@ -25,8 +25,8 @@ public class DoorController : NetworkBehaviour
 		private int doorDirection;
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
-		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay;
-		[SerializeField] private Sprite weldSprite;
+		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay = null;
+		[SerializeField] private Sprite weldSprite = null;
 		/// <summary>
 		/// Is door weldedable?
 		/// </summary>
@@ -43,7 +43,10 @@ public class DoorController : NetworkBehaviour
 		[Tooltip("Does this door open automatically when you walk into it?")]
 		public bool IsAutomatic = true;
 
-		public bool IsOpened;
+		/// <summary>
+		/// Makes registerTile door closed state accessible
+		/// </summary>
+		public bool IsClosed { get { return registerTile.IsClosed; } set { registerTile.IsClosed = value; } }
 		[SyncVar(hook = nameof(SyncIsWelded))]
 		[HideInInspector]private bool isWelded = false;
 		/// <summary>
@@ -128,7 +131,7 @@ public class DoorController : NetworkBehaviour
 			// the below logic and reopen the door if the client got stuck in the door in the .15 s gap.
 
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
-			if (CustomNetworkManager.IsServer && !IsOpened && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
+			if (CustomNetworkManager.IsServer && IsClosed && !registerTile.OneDirectionRestricted && !ignorePassableChecks)
 			{
 				if (!MatrixManager.IsPassableAt(registerTile.WorldPositionServer, registerTile.WorldPositionServer,
 					isServer: true, includingPlayers: true, context: this.gameObject))
@@ -144,7 +147,7 @@ public class DoorController : NetworkBehaviour
 
 		public void BoxCollToggleOn()
 		{
-			registerTile.IsClosed = true;
+			IsClosed = true;
 
 			SetLayer(closedLayer);
 
@@ -153,7 +156,7 @@ public class DoorController : NetworkBehaviour
 
 		public void BoxCollToggleOff()
 		{
-			registerTile.IsClosed = false;
+			IsClosed = false;
 
 			SetLayer(openLayer);
 
@@ -208,7 +211,7 @@ public class DoorController : NetworkBehaviour
 		public void ServerTryClose()
 		{
 			// Sliding door is not passable according to matrix
-            if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
+            if( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
 	            ServerClose();
             }
 			else
@@ -219,7 +222,7 @@ public class DoorController : NetworkBehaviour
 
 		public void ServerClose() {
 			if (gameObject == null) return; // probably destroyed by a shuttle crash
-			IsOpened = false;
+			IsClosed = true;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
 				if (damageOnClose)
@@ -239,12 +242,12 @@ public class DoorController : NetworkBehaviour
 			if (AccessRestrictions != null)
 			{
 				if (AccessRestrictions.CheckAccess(Originator)) {
-					if (!IsOpened && !isPerformingAction) {
+					if (IsClosed && !isPerformingAction) {
 						ServerOpen();
 					}
 				}
 				else {
-					if (!IsOpened && !isPerformingAction) {
+					if (IsClosed && !isPerformingAction) {
 						ServerAccessDenied();
 					}
 				}
@@ -267,7 +270,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
 			ResetWaiting();
-			IsOpened = true;
+			IsClosed = false;
 
 			if (!isPerformingAction)
 			{
@@ -349,7 +352,7 @@ public class DoorController : NetworkBehaviour
 		/// <param name="playerGameObject">game object of the player to inform</param>
 		public void NotifyPlayer(GameObject playerGameObject)
 		{
-			if (IsOpened)
+			if (!IsClosed)
 			{
 				DoorUpdateMessage.Send(playerGameObject, gameObject, DoorUpdateType.Open, true);
 			}

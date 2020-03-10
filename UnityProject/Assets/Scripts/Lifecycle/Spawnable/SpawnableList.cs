@@ -11,7 +11,7 @@ public class SpawnableList : ScriptableObject, ISpawnable
 {
 	[Tooltip("Prefabs to spawn.")]
 	[SerializeField]
-	private List<GameObject> contents;
+	private List<GameObject> contents = null;
 
 	/// <summary>
 	/// Spawns the things defined in this list at the indicated destination

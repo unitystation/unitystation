@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: pumpkin_blumpkin
@@ -51,21 +51,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 7db4038149dd302419de0027d2bf2cb5, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 40
-    Yield: 3
+    Yield: 30
     Lifespan: 50
     PlantTrays: 00000000
     ReagentProduction:
-    - String: ammonia
-      Int: 20
-    - String: chlorine
-      Int: 10
-    - String: nutriment
-      Int: 20
+    - Name: ammonia
+      Ammount: 20
+    - Name: chlorine
+      Ammount: 10
+    - Name: nutriment
+      Ammount: 20
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -76,15 +76,15 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: ammonia
-    Int: 20
-  - String: chlorine
-    Int: 10
-  - String: nutriment
-    Int: 20
+  - Name: ammonia
+    Ammount: 20
+  - Name: chlorine
+    Ammount: 10
+  - Name: nutriment
+    Ammount: 20
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 20
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 20

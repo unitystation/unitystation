@@ -56,6 +56,8 @@ internal enum MessageTypes : short
 	UpdateHungerStateMessage = 1052,
 	SetActionUI = 1053,
 	ShowChatBubble = 1054,
+	VideoPlayerMessage = 1055,
+	ServerTypingMessage = 1056,
 
 
 	//Client messages - 2xxx
@@ -96,4 +98,5 @@ internal enum MessageTypes : short
 	RequestGameAction = 2042,
 	RequestGameActionSO = 2043,
 	RequestExamine = 2044,
+	ClientTypingMessage = 2045,
 }

@@ -47,7 +47,13 @@ public class GeneralDoorAnimator : DoorAnimator
 			var cn = child.name.ToUpper();
 			if(cn.Contains("DOORBASE")) doorbase = child.gameObject.GetComponent<SpriteRenderer>();
 		}
-		if (!doorController.IsOpened)
+		tileChangeManager = GetComponentInParent<TileChangeManager>();
+	}
+
+	public void Start()
+	{
+		//Call doorController after awake so it has a chance to init
+		if (doorController.IsClosed)
 		{
 			doorbase.sprite = sprites[closeFrame + (int)direction];
 		}
@@ -55,7 +61,6 @@ public class GeneralDoorAnimator : DoorAnimator
 		{
 			doorbase.sprite = sprites[openFrame + (int)direction];
 		}
-		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
 	public override void OpenDoor(bool skipAnimation)

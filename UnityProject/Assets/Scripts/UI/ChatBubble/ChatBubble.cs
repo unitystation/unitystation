@@ -13,18 +13,18 @@ public class ChatBubble : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("The default font used when speaking.")]
-	private TMP_FontAsset fontDefault;
+	private TMP_FontAsset fontDefault = null;
 	[SerializeField]
 	[Tooltip("The font used when the player is an abominable clown.")]
-	private TMP_FontAsset fontClown;
+	private TMP_FontAsset fontClown = null;
 	[SerializeField]
-	private TextMeshProUGUI bubbleText;
+	private TextMeshProUGUI bubbleText = null;
 	[SerializeField]
 	[Tooltip("The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
 	[Range(1, 200)]
 	private int maxMessageLength = 70;
 
-	[SerializeField] private GameObject chatBubble;
+	[SerializeField] private GameObject chatBubble = null;
 
 	class BubbleMsg
 	{
@@ -80,7 +80,7 @@ public class ChatBubble : MonoBehaviour
 	[SerializeField]
 	[Tooltip("The size multiplier of the chat bubble when the player has typed in all caps or ends the sentence with !!.")]
 	[Range(1, 100)]
-	private float bubbleSizeCaps = 1.5f;
+	private float bubbleSizeCaps = 1.2f;
 
 	[SerializeField]
 	[Tooltip("The size multipler of the chat bubble when starts the sentence with #.")]
@@ -133,7 +133,7 @@ public class ChatBubble : MonoBehaviour
 	public void SetupBubble(Transform _target, string msg, ChatModifier chatModifier = ChatModifier.None)
 	{
 		if(cam == null) cam = Camera.main;
-		
+
 		Vector3 viewPos = cam.WorldToScreenPoint(_target.position);
 		transform.position = viewPos;
 

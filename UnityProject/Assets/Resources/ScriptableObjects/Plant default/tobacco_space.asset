@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: tobacco_space
@@ -51,21 +51,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 209a8391ffc5a954992ea9b92fa38a39, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 5
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 50
     Potency: 10
     Endurance: 15
-    Yield: 10
+    Yield: 100
     Lifespan: 20
     PlantTrays: 
     ReagentProduction:
-    - String: salbutamol
-      Int: 5
-    - String: nicotine
-      Int: 7
-    - String: nutriment
-      Int: 2
+    - Name: salbutamol
+      Ammount: 5
+    - Name: nicotine
+      Ammount: 7
+    - Name: nutriment
+      Ammount: 2
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -76,15 +76,15 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: salbutamol
-    Int: 5
-  - String: nicotine
-    Int: 7
-  - String: nutriment
-    Int: 2
+  - Name: salbutamol
+    Ammount: 5
+  - Name: nicotine
+    Ammount: 7
+  - Name: nutriment
+    Ammount: 2
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: nicotine
-    Int: 2
-  - String: nutriment
-    Int: 2
+  - Name: nicotine
+    Ammount: 2
+  - Name: nutriment
+    Ammount: 2

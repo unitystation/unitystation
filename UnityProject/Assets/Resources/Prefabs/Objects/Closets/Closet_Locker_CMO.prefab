@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4612996799587298}
-  - {fileID: 5138648728450464689}
+  - {fileID: 4288548258313063441}
   m_Father: {fileID: 4354794864428666}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 7ba6214e92aeaac4e86e1ca7f6883362, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4e412da3771b8104196201daf5f6a50d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,16 +93,16 @@ GameObject:
   - component: {fileID: 4354794864428666}
   - component: {fileID: 61442980425183844}
   - component: {fileID: 61828718115089044}
-  - component: {fileID: 114819687656175812}
-  - component: {fileID: 114098304295291438}
+  - component: {fileID: 114204169222423732}
+  - component: {fileID: 114730002614233440}
   - component: {fileID: 114239634461430000}
-  - component: {fileID: 8881526303799773611}
-  - component: {fileID: 114649345137454126}
-  - component: {fileID: 114854720885297536}
-  - component: {fileID: 114467813415429724}
-  - component: {fileID: 114635920524582264}
-  - component: {fileID: -5827031967781418075}
-  - component: {fileID: 1190762607956886646}
+  - component: {fileID: 3782995635667095493}
+  - component: {fileID: 114644364860119310}
+  - component: {fileID: 114679315888303910}
+  - component: {fileID: 114184619831133766}
+  - component: {fileID: 114739185875198414}
+  - component: {fileID: 6673630204173322286}
+  - component: {fileID: 3130159393336934288}
   m_Layer: 11
   m_Name: Closet_Locker_CMO
   m_TagString: Untagged
@@ -178,7 +178,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5410156, y: 0.8852539}
   m_EdgeRadius: 0
---- !u!114 &114819687656175812
+--- !u!114 &114204169222423732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +193,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114098304295291438
+--- !u!114 &114730002614233440
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,7 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114239634461430000
@@ -223,14 +222,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 11400000, guid: 0924c7c2f344c4a38a1932e0bf0cf5ce, type: 2}
-  lockLight: {fileID: 5256432704198374381}
+  lockLight: {fileID: 6386868790767408658}
   IsLockable: 1
   playerLimit: 3
   metalDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
-  doorOpened: {fileID: 21300000, guid: d7b97659b5ce1f04498d7e5d13bdfbdd, type: 3}
+  doorOpened: {fileID: 21300000, guid: 38742088f0e6a244cb4b23e79e3e25b1, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
---- !u!114 &8881526303799773611
+--- !u!114 &3782995635667095493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,7 +253,7 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114649345137454126
+--- !u!114 &114644364860119310
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,7 +272,7 @@ MonoBehaviour:
   AtmosPassable: 1
   Passable: 0
   closetType: 0
---- !u!114 &114854720885297536
+--- !u!114 &114679315888303910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114467813415429724
+--- !u!114 &114184619831133766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,7 +320,7 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 1370
   initialIntegrity: 200
---- !u!114 &114635920524582264
+--- !u!114 &114739185875198414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -336,7 +335,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &-5827031967781418075
+--- !u!114 &6673630204173322286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,10 +351,11 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: CMO's locker
   initialDescription: The Chief Medical Officer's locker.
+  willHighlight: 1
   exportCost: 200
   exportName: locker
   exportMessage: 
---- !u!114 &1190762607956886646
+--- !u!114 &3130159393336934288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,7 +437,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6b63e12d32a94a449bfec4d0d3056746, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 923c6eb60c2027641a9ae22d270454c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -478,7 +478,7 @@ Transform:
   m_Father: {fileID: 4625006096954862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2868844276167481100
+--- !u!1 &175688545138389512
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -486,37 +486,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5138648728450464689}
-  - component: {fileID: 5930878925064012743}
-  - component: {fileID: 5256432704198374381}
+  - component: {fileID: 4288548258313063441}
+  - component: {fileID: 5905252398956959616}
+  - component: {fileID: 6386868790767408658}
   m_Layer: 0
-  m_Name: LockLight
+  m_Name: 'LockLight '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5138648728450464689
+--- !u!4 &4288548258313063441
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2868844276167481100}
+  m_GameObject: {fileID: 175688545138389512}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -0.02, z: -0.1}
+  m_LocalPosition: {x: 0.030029297, y: -0.020019531, z: -0.10000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4625006096954862}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5930878925064012743
+--- !u!212 &5905252398956959616
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2868844276167481100}
+  m_GameObject: {fileID: 175688545138389512}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -559,13 +559,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5256432704198374381
+--- !u!114 &6386868790767408658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2868844276167481100}
+  m_GameObject: {fileID: 175688545138389512}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c21a6af2c615b34993352ed3e5e8aba, type: 3}

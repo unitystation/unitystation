@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: potato_sweet
@@ -55,21 +55,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 8b4221e9fc98e8446998dfe87cc7e598, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 1
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 10
     Potency: 10
     Endurance: 15
-    Yield: 4
+    Yield: 40
     Lifespan: 30
     PlantTrays: 09000000
     ReagentProduction:
-    - String: vitamin
-      Int: 10
-    - String: sugar
-      Int: 10
-    - String: nutriment
-      Int: 10
+    - Name: vitamin
+      Ammount: 10
+    - Name: sugar
+      Ammount: 10
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -80,15 +80,15 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: vitamin
-    Int: 10
-  - String: sugar
-    Int: 10
-  - String: nutriment
-    Int: 10
+  - Name: vitamin
+    Ammount: 10
+  - Name: sugar
+    Ammount: 10
+  - Name: nutriment
+    Ammount: 10
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 10
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 10

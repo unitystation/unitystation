@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: carrot_parsnip
@@ -51,19 +51,19 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 0fa3dfa4ecad4014c9b1b162949e79c9, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 1
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 10
     Potency: 10
     Endurance: 15
-    Yield: 5
+    Yield: 50
     Lifespan: 25
     PlantTrays: 
     ReagentProduction:
-    - String: vitamin
-      Int: 5
-    - String: nutriment
-      Int: 5
+    - Name: vitamin
+      Ammount: 5
+    - Name: nutriment
+      Ammount: 5
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -74,15 +74,15 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: vitamin
-    Int: 5
-  - String: nutriment
-    Int: 5
+  - Name: vitamin
+    Ammount: 5
+  - Name: nutriment
+    Ammount: 5
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: oculine
-    Int: 25
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 5
+  - Name: oculine
+    Ammount: 25
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 5

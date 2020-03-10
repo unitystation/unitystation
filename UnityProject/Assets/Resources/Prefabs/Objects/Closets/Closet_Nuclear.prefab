@@ -203,7 +203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114239634461430000
@@ -220,14 +219,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 0}
-  IsClosed: 0
-  IsLocked: 0
+  initialContents: {fileID: 11400000, guid: d47025ff1a2f4d8439605a460a79aaf0, type: 2}
   lockLight: {fileID: 0}
+  IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
-  soundOnOpen: OpenClose
-  statusSync: 0
+  soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: 746f8347d7fb9b14ebc1903b16df2a2f, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
 --- !u!114 &2123884027975894421
@@ -333,10 +330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 841893947
 --- !u!114 &7162373815689847262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +349,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: nuclear locker
   initialDescription: A radiation-proof metal closet.
+  willHighlight: 1
   exportCost: 200
   exportName: closet
   exportMessage: 

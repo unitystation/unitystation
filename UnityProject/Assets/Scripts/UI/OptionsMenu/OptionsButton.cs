@@ -11,11 +11,11 @@ namespace Unitystation.Options
     public class OptionsButton : MonoBehaviour, IPointerDownHandler
     {
         [SerializeField]
-        private GameObject selectedLine;
+        private GameObject selectedLine = null;
         [SerializeField]
         [Tooltip("This is the actual window that contains all of the" +
             " GUI buttons/inputs for this particular settings option")]
-        private GameObject contentWindow;
+        private GameObject contentWindow = null;
         public bool IsActive{ get { return selectedLine.activeSelf; } }
 
         public void OnPointerDown(PointerEventData data)

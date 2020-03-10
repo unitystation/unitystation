@@ -45,7 +45,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	[SerializeField]
 	[Header("Set main station matrix here")]
-	private Matrix mainStationMatrix;
+	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 

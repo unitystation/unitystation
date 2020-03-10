@@ -41,6 +41,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public ObjectLayer ObjectObjectLayer => objectLayer;
 
+	/// <summary>
+	/// Tile change manager of the matrix this object is on.
+	/// </summary>
+	public TileChangeManager TileChangeManager => Matrix ? Matrix.TileChangeManager : null;
+
 	[Tooltip("The kind of object this is.")]
 	[FormerlySerializedAs("ObjectType")] [SerializeField]
 	private ObjectType objectType;
@@ -62,7 +67,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			if (value)
 			{
-				LogMatrixDebug($"Matrix set from {matrix} to {value}");
+				//LogMatrixDebug($"Matrix set from {matrix} to {value}");
 				if (matrix != null && matrix.MatrixMove != null)
 				{
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
@@ -71,7 +76,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				matrix = value;
 				if (matrix != null && matrix.MatrixMove != null)
 				{
-					LogMatrixDebug($"Registered OnRotate to {matrix}");
+					//LogMatrixDebug($"Registered OnRotate to {matrix}");
 					matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);
 					if (isServer)
 					{
@@ -198,6 +203,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 	private CustomNetTransform cnt;
+	//cached for fast fire exposure without gc
+	private IFireExposable[] fireExposables;
 	private bool hasCachedComponents;
 
 	protected virtual void Awake()
@@ -210,6 +217,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (hasCachedComponents) return;
 		cnt = GetComponent<CustomNetTransform>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
+		fireExposables = GetComponents<IFireExposable>();
 	}
 
 
@@ -294,7 +302,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
-		LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
+		//LogMatrixDebug($"Sync parent net id {networkedMatrixNetId}");
 		EnsureInit();
 		//note: previously we returned immediately if the new ID matched our current networkMatrixNetId,
 		//but because Mirror actually sets our networkMatrixNetId for us prior to this hook being called
@@ -396,7 +404,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 			CheckSameMatrixRelationships();
 		}
-		LogMatrixDebug($"Server position from {prevPosition} to {LocalPositionServer}");
+		//LogMatrixDebug($"Server position from {prevPosition} to {LocalPositionServer}");
 	}
 
 	public virtual void UpdatePositionClient()
@@ -404,7 +412,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 		var prevPosition = LocalPositionClient;
 		LocalPositionClient = CustomTransform ? CustomTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
-		LogMatrixDebug($"Client position from {LocalPositionClient} to {prevPosition}");
+		//LogMatrixDebug($"Client position from {LocalPositionClient} to {prevPosition}");
 		CheckSameMatrixRelationships();
 	}
 
@@ -645,6 +653,20 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
+	/// <summary>
+	/// Efficient fire exposure for all IFireExposable components on this register tile.
+	/// Uses cached IFireExposable so no GC caused by GetComponent
+	/// </summary>
+	/// <param name="exposure"></param>
+	/// <exception cref="NotImplementedException"></exception>
+	public void OnExposed(FireExposure exposure)
+	{
+		if (fireExposables == null) return;
+		foreach (var fireExposable in fireExposables)
+		{
+			fireExposable.OnExposed(exposure);
+		}
+	}
 }
 
  /// <summary>

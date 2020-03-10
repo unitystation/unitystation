@@ -53,7 +53,7 @@ MonoBehaviour:
   waitForStart: 0
   RoundsPerMap: 10
   Maps:
-  - Assets/scenes/OutpostStation.unity
+  - Assets/scenes/PogStation.unity
   SpaceBodies: []
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
@@ -61,7 +61,6 @@ MonoBehaviour:
   primaryEscapeShuttle: {fileID: 0}
   GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
   SecretGameMode: 1
-  CurrentRoundState: 0
 --- !u!114 &5244294626086762232
 MonoBehaviour:
   m_ObjectHideFlags: 0

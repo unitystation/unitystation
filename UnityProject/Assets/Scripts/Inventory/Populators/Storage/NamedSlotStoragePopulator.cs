@@ -10,7 +10,7 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 	[SerializeField]
 	[Tooltip("What to use to populate each named slot")]
 	[ArrayElementTitle("NamedSlot")]
-	private NamedSlotPopulatorEntry[] Entries;
+	private NamedSlotPopulatorEntry[] Entries = null;
 
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{

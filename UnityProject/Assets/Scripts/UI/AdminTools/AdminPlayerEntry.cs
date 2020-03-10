@@ -10,10 +10,10 @@ namespace AdminTools
 	{
 		private GUI_AdminTools adminTools;
 
-		[SerializeField] private Text displayName;
-		[SerializeField] private Image bg;
-		[SerializeField] private GameObject msgPendingNot;
-		[SerializeField] private Text msgPendingCount;
+		[SerializeField] private Text displayName = null;
+		[SerializeField] private Image bg = null;
+		[SerializeField] private GameObject msgPendingNot = null;
+		[SerializeField] private Text msgPendingCount = null;
 		public Button button;
 
 		public Color selectedColor;

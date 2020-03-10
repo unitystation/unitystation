@@ -1,3 +1,4 @@
+using System;
 using Atmospherics;
 using Mirror;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 namespace Objects
 {
 	[RequireComponent(typeof(Integrity))]
-	public class GasContainer : NetworkBehaviour, IGasMixContainer
+	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerLifecycle
 	{
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
@@ -28,11 +29,26 @@ namespace Objects
 
 		public float ServerInternalPressure => GasMix.Pressure;
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			UpdateGasMix();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
 
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnWillDestroyServer);
+		}
+
+		private void OnDisable()
+		{
+			//for safety.
+			if (isServer)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
 		private void OnWillDestroyServer(DestructionInfo info)
@@ -54,7 +70,7 @@ namespace Objects
 			ExplosionUtils.PlaySoundAndShake(tileWorldPosition, shakeIntensity, (int) shakeDistance);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (isServer)
 			{

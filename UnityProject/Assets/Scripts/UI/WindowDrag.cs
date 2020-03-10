@@ -34,7 +34,7 @@ public class WindowDrag : MonoBehaviour
 	/// Resets the window to its start position relative to the screen size.
 	/// </summary>
 	private void OnDisable () {
-		if (Camera.main == null)
+		if (Camera.main == null || !isReady)
 		{
 			return;
 		}

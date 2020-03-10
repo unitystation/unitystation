@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: plump
@@ -24,9 +24,8 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 0dfb4bf7dfe1edf40885d6781de7ee7d, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 2800000, guid: f3f7a1901039e6b48bf190c6f1b54c5f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: f3f7a1901039e6b48bf190c6f1b54c5f, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
@@ -51,19 +50,19 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 6ff228960d280e74cb8ca3e842718fe9, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 1
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 10
     Potency: 15
     Endurance: 15
-    Yield: 4
+    Yield: 40
     Lifespan: 25
     PlantTrays: 02000000
     ReagentProduction:
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 10
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo:
     - {fileID: 11400000, guid: 0a47c9c3d7837ba48bb6b23d704d716d, type: 2}
   WeedResistanceChange: 0

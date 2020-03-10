@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class GUI_SecurityRecords : NetTab
 {
 	[SerializeField]
-	private NetPageSwitcher nestedSwitcher;
+	private NetPageSwitcher nestedSwitcher = null;
 	[SerializeField]
-	private GUI_SecurityRecordsEntriesPage entriesPage;
+	private GUI_SecurityRecordsEntriesPage entriesPage = null;
 	[SerializeField]
-	private GUI_SecurityRecordsEntryPage entryPage;
+	private GUI_SecurityRecordsEntryPage entryPage = null;
 	[SerializeField]
-	private NetLabel idText;
+	private NetLabel idText = null;
 	private SecurityRecordsConsole console;
 
 	public override void OnEnable()

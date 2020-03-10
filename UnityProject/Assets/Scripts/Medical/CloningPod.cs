@@ -44,7 +44,7 @@ public class CloningPod : NetworkBehaviour
 		{
 			console.UpdateDisplay();
 		}
-		if(record.mind.IsOnline(record.mind.GetCurrentMob()))
+		if (record.mind.IsOnline(record.mind.GetCurrentMob()))
 		{
 			PlayerSpawn.ServerClonePlayer(record.mind, transform.position.CutToInt());
 		}
@@ -53,16 +53,26 @@ public class CloningPod : NetworkBehaviour
 
 	public bool CanClone()
 	{
-		if(statusSync == CloningPodStatus.Cloning)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
+		return statusSync == CloningPodStatus.Empty;
 	}
+
+	/// <summary>
+	/// Updates the cloning pod's status string according to a mind's state
+	/// </summary>
+	public void UpdateStatusString(CloneableStatus status)
+	{
+		statusString = statusStrings[status];
+	}
+
+	private static Dictionary<CloneableStatus, string> statusStrings =
+		new Dictionary<CloneableStatus, string>
+		{
+			{ CloneableStatus.Cloneable, "Cloning will commence shortly." },
+			{ CloneableStatus.OldRecord, "Outdated record." },
+			{ CloneableStatus.DenyingCloning, "Spirit is denying cloning." },
+			{ CloneableStatus.StillAlive, "Person is still alive." },
+			{ CloneableStatus.Offline, "Spirit cannot be found." }
+		};
 
 	public void SyncSprite(CloningPodStatus oldValue, CloningPodStatus value)
 	{

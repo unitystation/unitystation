@@ -14,21 +14,21 @@ public class ChatUI : MonoBehaviour
 	public Transform content;
 	public GameObject chatEntryPrefab;
 	public int maxLogLength = 90;
-	[SerializeField] private Text chatInputLabel;
-	[SerializeField] private RectTransform channelPanel;
-	[SerializeField] private GameObject channelToggleTemplate;
-	[SerializeField] private GameObject background;
-	[SerializeField] private GameObject uiObj;
-	[SerializeField] private GameObject activeRadioChannelPanel;
-	[SerializeField] private GameObject activeChannelTemplate;
-	[SerializeField] private InputField InputFieldChat;
-	[SerializeField] private Image toggleChatBubbleImage;
+	[SerializeField] private Text chatInputLabel = null;
+	[SerializeField] private RectTransform channelPanel = null;
+	[SerializeField] private GameObject channelToggleTemplate = null;
+	[SerializeField] private GameObject background = null;
+	[SerializeField] private GameObject uiObj = null;
+	[SerializeField] private GameObject activeRadioChannelPanel = null;
+	[SerializeField] private GameObject activeChannelTemplate = null;
+	[SerializeField] private InputField InputFieldChat = null;
+	[SerializeField] private Image toggleChatBubbleImage = null;
 	[SerializeField] private Color toggleOffCol;
 	[SerializeField] private Color toggleOnCol;
-	[SerializeField] private Image scrollHandle;
-	[SerializeField] private Image scrollBackground;
-	[SerializeField] private AdminPrivReply adminReply;
-	[SerializeField] private Transform thresholdMarker;
+	[SerializeField] private Image scrollHandle = null;
+	[SerializeField] private Image scrollBackground = null;
+	[SerializeField] private AdminPrivReply adminReply = null;
+	[SerializeField] private Transform thresholdMarker = null;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -71,6 +71,16 @@ public class ChatUI : MonoBehaviour
 	private bool scrollBarInteract = false;
 	public event Action<bool> scrollBarEvent;
 	public event Action checkPositionEvent;
+
+	/// <summary>
+	/// Invokes when player edited chat input field. 
+	/// </summary>
+	public event Action<string, ChatChannel> OnChatInputChanged;
+
+	/// <summary>
+	/// Invokes when player closed chat window
+	/// </summary>
+	public event Action OnChatWindowClosed;
 
 	/// <summary>
 	/// The main channels which shouldn't be active together.
@@ -432,6 +442,8 @@ public class ChatUI : MonoBehaviour
 		// That create a lot of misunderstanding and can lead to IC in OOC
 		// also clears ParsedChatInput as a side effect
 		InputFieldChat.text = "";
+
+		OnChatWindowClosed?.Invoke();
 	}
 
 	IEnumerator WindowCoolDown()
@@ -853,5 +865,7 @@ public class ChatUI : MonoBehaviour
 			// delete all tags from input
 			InputFieldChat.text = parsedInput.ClearMessage;
 		}
+
+		OnChatInputChanged?.Invoke(rawInput, selectedChannels);
 	}
 }

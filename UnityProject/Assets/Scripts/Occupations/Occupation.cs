@@ -22,13 +22,13 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	[Tooltip("Populator to use to populate the player's inventory" +
 			 " on spawn when they choose this occupation.")]
-	private ItemStoragePopulator inventoryPopulator;
+	private ItemStoragePopulator inventoryPopulator = null;
 	public ItemStoragePopulator InventoryPopulator => inventoryPopulator;
 
 	[FormerlySerializedAs("Limit")]
 	[SerializeField]
 	[Tooltip("Maximum simultaneous players with this occupation. Set to -1 for unlimited")]
-	private int limit;
+	private int limit = 0;
 	public int Limit => limit;
 
 	[SerializeField]
@@ -40,7 +40,7 @@ public class Occupation : ScriptableObject
 	[FormerlySerializedAs("AllowedAccess")]
 	[SerializeField]
 	[Tooltip("Default access allowed for this occupation.")]
-	private List<Access> allowedAccess;
+	private List<Access> allowedAccess = null;
 	public List<Access> AllowedAccess => allowedAccess;
 
 	[Header("Description")]
@@ -66,7 +66,7 @@ public class Occupation : ScriptableObject
 
 	[SerializeField]
 	[Tooltip("Display name for this occupation.")]
-	private string displayName;
+	private string displayName = null;
 	public string DisplayName => displayName;
 
 	[SerializeField]

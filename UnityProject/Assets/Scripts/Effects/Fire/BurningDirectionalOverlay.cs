@@ -31,12 +31,21 @@ public class BurningDirectionalOverlay : MonoBehaviour
 		StopBurning();
 	}
 
+	private void OnDisable()
+	{
+		if (burn)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+	}
+
 	/// <summary>
 	/// Display the burning animation in the specified direction
 	/// </summary>
 	/// <param name="direction"></param>
 	public void Burn(Orientation direction)
 	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		orientation = direction;
 		burn = true;
 		spriteRenderer.enabled = true;
@@ -71,9 +80,10 @@ public class BurningDirectionalOverlay : MonoBehaviour
 		spriteRenderer.sprite = null;
 		spriteRenderer.enabled = false;
 		burn = false;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (!burn) return;
 		animSpriteTime += Time.deltaTime;

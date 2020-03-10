@@ -205,14 +205,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 0}
-  IsClosed: 0
-  IsLocked: 0
+  initialContents: {fileID: 11400000, guid: fe55899fa8e8d4e4ab395599e3564203, type: 2}
   lockLight: {fileID: 0}
+  IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
-  soundOnOpen: OpenClose
-  statusSync: 0
+  soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: c7f847bda05023f4e8208d4edf68c5bc, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
 --- !u!114 &5576590868308224840
@@ -283,7 +281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114743726468459702
@@ -333,10 +330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3196340654
 --- !u!114 &-4249458516495516063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +349,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: biohazard closet
   initialDescription: An acid-proof locker.
+  willHighlight: 1
   exportCost: 200
   exportName: closet
   exportMessage: 

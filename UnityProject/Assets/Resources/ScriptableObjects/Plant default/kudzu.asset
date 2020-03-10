@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: kudzu
@@ -24,8 +24,9 @@ MonoBehaviour:
       - {fileID: 21300000, guid: bf04229f2071a194f8b50006c31341b6, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 452ec1814b4b1bb47973bdf7a71dd63b, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 452ec1814b4b1bb47973bdf7a71dd63b, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: aa606050fcca0f449bc6f3f3fc552d36, type: 3}
@@ -54,19 +55,19 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 783df3920edb0894eb691de2338b66f4, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 10
-    Yield: 4
+    Yield: 40
     Lifespan: 20
     PlantTrays: 0000000001000000
     ReagentProduction:
-    - String: charcoal
-      Int: 3
-    - String: nutriment
-      Int: 1
+    - Name: charcoal
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 1
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

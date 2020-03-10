@@ -31,11 +31,13 @@ public class EscapeKeyTarget : MonoBehaviour {
 			escapeKeyTarget.OnEscapeKey.Invoke();
 			if (escapeKeyTarget.DisableOnEscape)
 			{
-				GUI_IngameMenu.Instance.CloseMenuPanel();
+				// Close the escape key target at the top of the stack
+				GUI_IngameMenu.Instance.CloseMenuPanel(escapeKeyTarget.gameObject);
 			}
 		}
-		else
+		else if (GameData.IsInGame)
 		{
+			// Player is in-game and no escape key targets on the stack, so open the in-game menu
 			GUI_IngameMenu.Instance.OpenMenuPanel();
 		}
 	}

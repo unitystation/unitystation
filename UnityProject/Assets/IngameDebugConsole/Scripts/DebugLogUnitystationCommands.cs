@@ -78,7 +78,8 @@ namespace IngameDebugConsole
 			}
 
 			Logger.Log("Triggered round restart from DebugConsole.");
-			GameManager.Instance.RestartRound();
+			VideoPlayerMessage.Send(VideoType.RestartRound);
+			GameManager.Instance.EndRound();
 		}
 
 #if UNITY_EDITOR
@@ -94,6 +95,7 @@ namespace IngameDebugConsole
 			}
 
 			Logger.Log("Triggered round end from DebugConsole.");
+			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.EndRound();
 		}
 

@@ -2,7 +2,9 @@
 using UnityEngine;
 using Mirror;
 
-
+//Used when spawning the food
+[RequireComponent(typeof(CustomNetTransform))]
+[DisallowMultipleComponent]
 public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
 	public GameObject SeedPacket;
@@ -15,6 +17,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	[SyncVar(hook = nameof(SyncPlant))]
 	public string PlantSyncString;
 
+
 	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
 	{
 		PlantSyncString = _PlantSyncString;
@@ -23,7 +26,8 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 
 			if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
 			{
-				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
+				plantData = new PlantData();
+				plantData.SetValues(DefaultPlantData.PlantDictionary[PlantSyncString].plantData);
 			}
 		}
 		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
@@ -76,25 +80,31 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 			var ChemicalDictionary = new Dictionary<string, float>();
 			foreach (var Chemical in plantData.ReagentProduction)
 			{
-				ChemicalDictionary[Chemical.String] = (Chemical.Int * (plantData.Potency / 100f));
+				ChemicalDictionary[Chemical.Name] = (Chemical.Ammount * (plantData.Potency / 100f));
 			}
 			reagentContainer.AddReagents(ChemicalDictionary);
 
 		}
 	}
 
+	/// <summary>
+	/// Gets seeds for plant and replaces held food with seeds
+	/// Might not work as activate eats instead?
+	/// </summary>
+	/// <param name="interaction"></param>
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		if (plantData != null)
 		{
-			var _Object = Spawn.ServerPrefab(SeedPacket, interaction.Performer.transform.position, parent: interaction.Performer.transform.parent).GameObject;
-			var seedPacket = _Object.GetComponent<SeedPacket>();
-			seedPacket.plantData = plantData;
+			var seedObject = Spawn.ServerPrefab(SeedPacket, interaction.Performer.RegisterTile().WorldPositionServer, parent: interaction.Performer.transform.parent).GameObject;
+			var seedPacket = seedObject.GetComponent<SeedPacket>();
+			seedPacket.plantData = new PlantData();
+			seedPacket.plantData.SetValues(plantData);
 
 			seedPacket.SyncPlant(null, plantData.Name);
 
 			var slot = interaction.HandSlot;
-			Inventory.ServerAdd(_Object, interaction.HandSlot, ReplacementStrategy.DespawnOther);
+			Inventory.ServerAdd(seedObject, interaction.HandSlot, ReplacementStrategy.DespawnOther);
 		}
 
 
