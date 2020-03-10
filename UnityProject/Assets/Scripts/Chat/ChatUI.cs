@@ -244,8 +244,7 @@ public class ChatUI : MonoBehaviour
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();
 		chatEntry.thresholdMarker = adminHelpChat.ThresholdMarker;
-		chatEntry.SetText("<color=red>" + message + "</color>");
-		//chatEntry.SetAdminPrivateMsg(message, adminId);
+		chatEntry.SetText(message);
 		entry.transform.SetParent(adminHelpChat.Content, false);
 		entry.transform.localScale = Vector3.one;
 

@@ -11,6 +11,19 @@ public partial class PlayerList
     public Dictionary<string, List<AdminChatMessage>> adminChatInbox
 	    = new Dictionary<string, List<AdminChatMessage>>();
 
+    public void AddPlayerReply(string message, string fromUserID)
+    {
+	    foreach (var a in adminChatInbox)
+	    {
+			a.Value.Add(new AdminChatMessage
+			{
+				fromUserid = fromUserID,
+				toUserid = a.Key,
+				message = message
+			});
+	    }
+    }
+
     public List<AdminChatMessage> CheckAdminInbox(string adminUserID)
     {
 	    var list = new List<AdminChatMessage>();

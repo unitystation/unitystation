@@ -17,6 +17,21 @@ namespace AdminTools
 		public void CloseWindow()
 		{
 			gameObject.SetActive(false);
+			chatInputField.text = "";
 		}
+
+		public void OnInputEnter()
+		{
+			if (string.IsNullOrWhiteSpace(chatInputField.text))
+			{
+				CloseWindow();
+				return;
+			}
+
+			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + chatInputField.text);
+			Chat.AddAdminReplyMsg("You: " + chatInputField.text);
+		}
+
+
 	}
 }
