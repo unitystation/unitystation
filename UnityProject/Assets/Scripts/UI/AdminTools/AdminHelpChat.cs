@@ -7,7 +7,7 @@ namespace AdminTools
 {
 	public class AdminHelpChat : MonoBehaviour
 	{
-		[SerializeField] private InputField chatInputField = null;
+		[SerializeField] private InputFieldFocus chatInputField = null;
 		[SerializeField] private Transform content = null;
 		[SerializeField] private Transform thresholdMarker = null;
 
@@ -20,6 +20,14 @@ namespace AdminTools
 			chatInputField.text = "";
 		}
 
+		void Update()
+		{
+			if (chatInputField.IsFocused && KeyboardInputManager.IsEnterPressed())
+			{
+				OnInputEnter();
+			}
+		}
+
 		public void OnInputEnter()
 		{
 			if (string.IsNullOrWhiteSpace(chatInputField.text))
@@ -29,9 +37,8 @@ namespace AdminTools
 			}
 
 			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + chatInputField.text);
-			Chat.AddAdminReplyMsg("You: " + chatInputField.text);
+			Chat.AddAdminPrivMsg("You: " + chatInputField.text);
+			chatInputField.text = "";
 		}
-
-
 	}
 }

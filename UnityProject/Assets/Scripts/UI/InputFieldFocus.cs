@@ -13,6 +13,11 @@ public class InputFieldFocus : InputField
 	/// Button that will cause the field to lose focus
 	/// </summary>
 	public KeyCode ExitButton = KeyCode.Escape;
+	/// <summary>
+	/// if isFocused is not working then try this IsFocused property. It is updated via the
+	/// Disable and Enable Input events on InputFieldFocus
+	/// </summary>
+	public bool IsFocused { get; private set; }
 
 //disabling auto focus on enable temporarily because it causes NREs
 //	protected override void OnEnable() {
@@ -36,17 +41,20 @@ public class InputFieldFocus : InputField
 	{
 		UIManager.IsInputFocus = true;
 		UIManager.PreventChatInput = true;
+		IsFocused = true;
 	}
 
 	private void EnableInput()
 	{
 		UIManager.IsInputFocus = false;
 		UIManager.PreventChatInput = false;
+		IsFocused = false;
 	}
 
 	protected override void OnDisable()
 	{
 		base.OnDisable();
+		IsFocused = false;
 		if(gameObject.activeInHierarchy)
 			StartCoroutine(DelayedEnableInput());
 	}

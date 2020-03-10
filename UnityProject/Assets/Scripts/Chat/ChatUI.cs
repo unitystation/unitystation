@@ -239,7 +239,7 @@ public class ChatUI : MonoBehaviour
 		}
 	}
 
-	public void AddAdminPrivEntry(string message, string adminId)
+	public void AddAdminPrivEntry(string message)
 	{
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();

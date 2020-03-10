@@ -31,7 +31,7 @@ namespace AdminTools
 			if (string.IsNullOrWhiteSpace(inputField.text)) return;
 
 			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + inputField.text);
-			Chat.AddAdminReplyMsg("PM to-<b>Admins</b>: " + inputField.text);
+			Chat.AddAdminPrivMsg("You: " + inputField.text);
 			inputField.text = "";
 
 			StartCoroutine(CloseWindow());
