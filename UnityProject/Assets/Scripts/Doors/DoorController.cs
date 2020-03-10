@@ -37,6 +37,9 @@ public class DoorController : NetworkBehaviour
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		public bool damageOnClose = false;
 
+		[Tooltip("Amount of damage when closed on someone.")]
+		public float damageClosed = 30;
+
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
 
@@ -314,7 +317,7 @@ public class DoorController : NetworkBehaviour
 			{
 				foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
 				{
-					healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
+					healthBehaviour.ApplyDamage(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
 				}
 			}
 
