@@ -56,6 +56,24 @@ public class CloningPod : NetworkBehaviour
 		return statusSync == CloningPodStatus.Empty;
 	}
 
+	/// <summary>
+	/// Updates the cloning pod's status string according to a mind's state
+	/// </summary>
+	public void UpdateStatusString(CloneableStatus status)
+	{
+		statusString = statusStrings[status];
+	}
+
+	private static Dictionary<CloneableStatus, string> statusStrings =
+		new Dictionary<CloneableStatus, string>
+		{
+			{ CloneableStatus.Cloneable, "Cloning will commence shortly." },
+			{ CloneableStatus.OldRecord, "Outdated record." },
+			{ CloneableStatus.DenyingCloning, "Spirit is denying cloning." },
+			{ CloneableStatus.StillAlive, "Person is still alive." },
+			{ CloneableStatus.Offline, "Spirit cannot be found." }
+		};
+
 	public void SyncSprite(CloningPodStatus oldValue, CloningPodStatus value)
 	{
 		statusSync = value;
