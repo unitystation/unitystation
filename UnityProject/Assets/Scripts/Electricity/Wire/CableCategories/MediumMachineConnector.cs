@@ -12,8 +12,8 @@ public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<Po
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.MediumMachineConnector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.SMES,
-		PowerTypeCategory.SolarPanelController,
+		//PowerTypeCategory.SMES,
+		//PowerTypeCategory.SolarPanelController,
 	};
 
 	public void PotentialDestroyed(){

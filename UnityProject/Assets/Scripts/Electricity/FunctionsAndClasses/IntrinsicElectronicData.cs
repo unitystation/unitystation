@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 public class IntrinsicElectronicData  {
+
+
+	public override string ToString()
+	{
+		if (Present != null)
+		{
+			return Present.name;
+		}
+		else {
+			return (Categorytype.ToString());
+		}
+	}
 	public PowerTypeCategory Categorytype;
 	public HashSet<PowerTypeCategory> CanConnectTo =new HashSet<PowerTypeCategory>(); 
 	/// <summary>
@@ -13,4 +25,13 @@ public class IntrinsicElectronicData  {
 	public bool DirectionOverride = false;
 	public bool ResistanceOverride = false;
 	public bool ElectricityOverride = false;
+
+	public ElectricalOIinheritance Present;
+
+	public void SetDeadEnd() {
+		Categorytype = PowerTypeCategory.DeadEndConnection;
+	
+	}
+
+
 }

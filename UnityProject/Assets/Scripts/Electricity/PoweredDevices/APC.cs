@@ -69,7 +69,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		{
 			CashOfConnectedDevices = ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count;
 			ConnectedDepartmentBatteries.Clear();
-			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices)
+			foreach (var Device in ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices)
 			{
 				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery)
 				{
@@ -88,6 +88,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 				BatteryCharging = true;
 			}
 		}
+		ElectricityFunctions.WorkOutActualNumbers(ElectricalNodeControl.Node);
 		SyncVoltage(voltageSync, ElectricalNodeControl.Node.Data.ActualVoltage);
 		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
 		HandleDevices();
