@@ -681,16 +681,29 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		var foodObject = slot?.Item?.GetComponent<GrownFood>();
 		if (foodObject != null)
 		{
-			hasPlant = true;
-			plantData = new PlantData();
-			plantData.SetValues(foodObject.plantData);
-			UpdatePlant(null, plantData.Name);
-			UpdatePlantGrowthStage(0, 0);
-			UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
-			Inventory.ServerVanish(slot);
-			/*nutritionLevel = nutritionLevel + foodObject.plantData.Potency;
-			Despawn.ServerSingle(interaction.HandObject);
-			return;*/
+			if (hasPlant)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}",
+						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}");
+				nutritionLevel = nutritionLevel + foodObject.plantData.Potency;
+				Despawn.ServerSingle(interaction.HandObject);
+				return;
+			}
+			else
+			{
+				hasPlant = true;
+				plantData = new PlantData();
+				plantData.SetValues(foodObject.plantData);
+				UpdatePlant(null, plantData.Name);
+				UpdatePlantGrowthStage(0, 0);
+				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
+				Inventory.ServerVanish(slot);
+				Chat.AddActionMsgToChat(interaction.Performer,
+						$"You plant the {foodObject.name} in the {gameObject.ExpensiveName()}",
+						$"{interaction.Performer.name} plants the {foodObject.name} in the {gameObject.ExpensiveName()}");
+			}
+			
 		}
 
 		//If hand slot contains seeds, plant the seeds
@@ -704,7 +717,9 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			UpdatePlantGrowthStage(0, 0);
 			UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
 			Inventory.ServerVanish(slot);
-
+			Chat.AddActionMsgToChat(interaction.Performer,
+						$"You plant the {Object.name} in the {gameObject.ExpensiveName()}",
+						$"{interaction.Performer.name} plants the {Object.name} in the {gameObject.ExpensiveName()}");
 			return;
 		}
 
