@@ -17,6 +17,7 @@ namespace AdminTools
 		[SerializeField] private GameObject playerChatPage;
 		[SerializeField] private GameObject playersScrollView;
 		[SerializeField] private GameObject CentCommPage;
+		[SerializeField] private AdminChatButtons adminChatButtons;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
