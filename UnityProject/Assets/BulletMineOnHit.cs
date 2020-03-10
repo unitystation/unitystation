@@ -6,29 +6,16 @@ using Mirror;
 
 public class BulletMineOnHit : MonoBehaviour
 {
-	public void bulletEnter2D(Collision2D coll, Vector2 Direction)
+
+	public void BulletHitInteract(Collision2D coll, Vector2 Direction)
 	{
-
-		GameObject objectColl = coll.gameObject;
-
-		InteractableTiles interTile = objectColl.GetComponent<InteractableTiles>();
-
-
 		Transform cellTransform = coll.transform;
 		MetaTileMap layerMetaTile = cellTransform.GetComponentInParent<MetaTileMap>();
-
-
 		TileChangeManager tileChangeManager = cellTransform.GetComponentInParent<TileChangeManager>();
 
-
 		ContactPoint2D firstContact = coll.GetContact(0);
-		Vector2 dirOfForce = Direction;
-		BulletHitInteract(dirOfForce, firstContact.point, layerMetaTile, tileChangeManager);
-	}
-
-	public void BulletHitInteract(Vector3 forceDir, Vector3 hitPos, MetaTileMap layerMetaTile, TileChangeManager tileChangeManager)
-	{
-
+		Vector3 hitPos = firstContact.point;
+		Vector3 forceDir = Direction;
 		forceDir.z = 0;
 		Vector3 bulletHitTarget = hitPos + (forceDir *0.2f);
 		Vector3Int cellPos = layerMetaTile.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));

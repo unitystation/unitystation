@@ -22,7 +22,7 @@ public class BulletKinetic : BulletBehaviour
 
 	public override void HandleCollisionEnter2D(Collision2D coll)
 	{
-		GetComponent<BulletMineOnHit>()?.bulletEnter2D(coll,Direction);
+		GetComponent<BulletMineOnHit>()?.BulletHitInteract(coll,Direction);
 		ReturnToPool();
 	}
 
