@@ -32,6 +32,7 @@ MonoBehaviour:
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 1
+  rechargeTime: 2
 --- !u!1001 &3520465010449138795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141,80 +142,79 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
-      objectReference: {fileID: 2800000, guid: 2f85300042afa5e4a8d6b89de3cf00dc, type: 3}
+      objectReference: {fileID: 2800000, guid: a353a1408a2289d448a78f694ede75fc, type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
+      objectReference: {fileID: 21300000, guid: a353a1408a2289d448a78f694ede75fc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300002, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
+      objectReference: {fileID: 21300002, guid: a353a1408a2289d448a78f694ede75fc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300004, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
+      objectReference: {fileID: 21300004, guid: a353a1408a2289d448a78f694ede75fc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
       value: 
-      objectReference: {fileID: 21300006, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
+      objectReference: {fileID: 21300006, guid: a353a1408a2289d448a78f694ede75fc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: 91353faa27e057c41889d5e47106e9c8, type: 3}
+      objectReference: {fileID: 4900000, guid: 44372fff3691c7f4f95cd7bc626d41be, type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Texture
       value: 
-      objectReference: {fileID: 2800000, guid: 5e09b2295b9f33f46ba5056f546288b4, type: 3}
+      objectReference: {fileID: 2800000, guid: e49b990c4bc93ac40ac985bb332ea095, type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 5e09b2295b9f33f46ba5056f546288b4,
+      objectReference: {fileID: 21300000, guid: e49b990c4bc93ac40ac985bb332ea095,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300002, guid: 5e09b2295b9f33f46ba5056f546288b4,
+      objectReference: {fileID: 21300002, guid: e49b990c4bc93ac40ac985bb332ea095,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300004, guid: 5e09b2295b9f33f46ba5056f546288b4,
+      objectReference: {fileID: 21300004, guid: e49b990c4bc93ac40ac985bb332ea095,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
       value: 
-      objectReference: {fileID: 21300006, guid: 5e09b2295b9f33f46ba5056f546288b4,
+      objectReference: {fileID: 21300006, guid: e49b990c4bc93ac40ac985bb332ea095,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: 4714ab66aef6cd1418a64f83c1dca4d5, type: 3}
+      objectReference: {fileID: 4900000, guid: 522b915f466b2334796d18ee3a122081, type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: initialName
-      value: Laser Gun
+      value: Proto Kinetic Accelerator
       objectReference: {fileID: 0}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: initialDescription
-      value: A basic energy-based laser gun that fires concentrated beams of light
-        which pass through glass and thin metal.
+      value: 'Miner''s best friend. '
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e, type: 3}
