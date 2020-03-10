@@ -173,6 +173,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				// Punches have 90% chance to hit, otherwise it is a miss.
 				if (isWeapon || 90 >= rng.Next(1, 100))
 				{
+					if (victimHealth == null || gameObject == null) return;
 					// The attack hit.
 					victimHealth.ApplyDamageToBodypart(gameObject, (int)damage, AttackType.Melee, damageType, damageZone);
 					didHit = true;
