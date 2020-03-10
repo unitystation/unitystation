@@ -23,7 +23,7 @@ public class BulletKinetic : BulletBehaviour
 	public override void HandleCollisionEnter2D(Collision2D coll)
 	{
 		GetComponent<BulletMineOnHit>()?.BulletHitInteract(coll,Direction);
-		ReturnToPool();
+		ReturnToPool(coll);
 	}
 
 	protected override void ReturnToPool()
@@ -35,6 +35,18 @@ public class BulletKinetic : BulletBehaviour
 
 		rigidBody.velocity = Vector2.zero;
 		StartCoroutine(KineticAnim());
+
+	}
+
+	protected void ReturnToPool(Collision2D coll)
+	{
+		if (trailRenderer != null)
+		{
+			trailRenderer.ShotDone();
+		}
+
+		rigidBody.velocity = Vector2.zero;
+		StartCoroutine(KineticAnim(coll));
 
 	}
 
@@ -55,11 +67,41 @@ public class BulletKinetic : BulletBehaviour
 		yield return WaitFor.Seconds(.4f);
 
 		tileChangeManager.RemoveTile(position, LayerType.Effects);
+
+		// Restore the old effect if any (ex: cracked glass)
+		if (oldEffectLayerTile)
+			tileChangeManager.UpdateTile(position, oldEffectLayerTile);
+		Despawn.ClientSingle(gameObject);
+	}
+
+	public IEnumerator KineticAnim(Collision2D coll)
+	{
+
+		Transform cellTransform = rigidBody.gameObject.transform;
+		MetaTileMap layerMetaTile = cellTransform.GetComponentInParent<MetaTileMap>();
+
+		ContactPoint2D firstContact = coll.GetContact(0);
+		Vector3 hitPos = firstContact.point;
+		Vector3 forceDir = Direction;
+		forceDir.z = 0;
+		Vector3 bulletHitTarget = hitPos + (forceDir * 0.2f);
+		Vector3Int cellPos = layerMetaTile.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));
+
+		TileChangeManager tileChangeManager = transform.GetComponentInParent<TileChangeManager>();
+
+		// Store the old effect
+		LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(cellPos, LayerType.Effects);
+
+		tileChangeManager.UpdateTile(cellPos, TileType.Effects, "KineticAnimation");
+
+		yield return WaitFor.Seconds(.4f);
+
+		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
 		//tileChangeManager.RemoveEffect(position, LayerType.Effects);
 		Chat.AddGameWideSystemMsgToChat("Remove was called");
 		// Restore the old effect if any (ex: cracked glass)
 		if (oldEffectLayerTile)
-			tileChangeManager.UpdateTile(position, oldEffectLayerTile);
+			tileChangeManager.UpdateTile(cellPos, oldEffectLayerTile);
 		Despawn.ClientSingle(gameObject);
 	}
 
