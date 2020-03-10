@@ -39,6 +39,11 @@ public class InventoryApply : TargetedInteraction
 	                               targetSlot.SlotIdentifier.NamedSlot == NamedSlot.rightHand);
 
 	/// <summary>
+	/// True if the alt button is pressed by the user.
+	/// </summary>
+	public bool IsAltClick => KeyboardInputManager.IsAltPressed();
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the InventoryApply</param>

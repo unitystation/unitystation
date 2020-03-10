@@ -21,6 +21,11 @@ public class HandApply : BodyPartTargetedInteraction
 	public GameObject HandObject => UsedObject;
 
 	/// <summary>
+	/// True if the alt button is pressed by the user.
+	/// </summary>
+	public bool IsAltClick => KeyboardInputManager.IsAltPressed();
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
