@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ResistanceSourceModule : ElectricalModuleInheritance
 {
+
+	private IntrinsicElectronicData ComingFromDevice = new IntrinsicElectronicData();
+
 	public Resistance resistance = new Resistance();
 	private float _resistance = 9999999999;
 
@@ -54,8 +57,11 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		};
 		ModuleType = ElectricalModuleTypeCategory.ResistanceSource;
 		ControllingNode = Node;
-		resistance.Ohms = ReactionTo.ResistanceReactionA.Resistance.Ohms;
+		//resistance.Ohms = ReactionTo.ResistanceReactionA.Resistance.Ohms;
 		ReactionTo.ResistanceReactionA.Resistance = resistance;
+		if (resistance.Ohms == 0) {
+			resistance.Ohms = 9999991;
+		}
 		ControllingNode.Node.InData.ConnectionReaction[ReactionTo.ConnectingDevice] = ReactionTo;
 		ElectricalSynchronisation.PoweredDevices.Add(ControllingNode);
 		Node.AddModule(this);
@@ -73,21 +79,84 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 
 	public override void InitialPowerUpdateResistance()
 	{
-		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+		foreach (var Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
 		{
-			ControllingNode.Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
+			foreach (var Connections in Supplie.Value)
+			{
+				if (!Connections.Value.BeenProcessed)
+				{
+					var TT = new ResistanceWrap();
+					TT.resistance = resistance;
+
+					var ToNext = new List<ElectricalDirectionStep>();
+					foreach (var Direction in Connections.Value.Steps)
+					{
+						if (Direction != null)
+						{
+
+							ToNext.Add(Direction.Upstream);
+
+							///Direction.Downstream 
+
+
+							var Step = new ElectricalDirectionStep();
+							Step.Upstream = Direction;
+							Step.InData = ComingFromDevice;
+							Step.Sources.Add(resistance);
+							Step.resistance.AddResistance(TT);
+							Direction.Downstream.Add(Step);
+							Direction.Sources.Add(resistance);
+							Direction.resistance.AddResistance(TT);
+							if (Direction.Upstream != null)
+							{
+								Direction.Upstream.Downstream.Add(Direction);
+								Direction.Upstream.Sources.Add(resistance);
+								Direction.Upstream.resistance.AddResistance(TT);
+							}
+						}
+					}
+
+					//ControllingNode.Node.InData.ConnectionReaction[Connections.Key.InData.Categorytype].ResistanceReactionA.Resistance.Ohms = 240;
+
+
+
+					//Logger.LogError(Connections.Key.name + "FFFFFFFF", Category.Electrical);
+					ComingFromDevice.SetDeadEnd();
+					ControllingNode.Node.ResistanceInput(
+						//ControllingNode.Node.InData.ConnectionReaction[Connections.Key.InData.Categorytype].ResistanceReactionA.Resistance,
+						TT,
+						Supplie.Key,//Issue needs to get ID out of Thread
+						ComingFromDevice,
+						ToNext
+						);
+					Connections.Value.BeenProcessed = true;
+				}
+			}
 			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+
 		}
+
 	}
 
 	public override void PowerUpdateResistanceChange()
 	{
-		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+		foreach (var Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
 		{
-			ControllingNode.Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
+			//foreach (var Connections in Supplie.Value)
+			//{
+
+			//	Logger.LogError(Connections.Key.name + "F2222222FFFFFFF", Category.Electrical); 
+			//	ComingFromDevice.SetDeadEnd();
+			//	ControllingNode.Node.ResistanceInput(
+			//		//ControllingNode.Node.InData.ConnectionReaction[Connections.Key.InData.Categorytype].ResistanceReactionA.Resistance.Ohms,
+			//		240,
+			//		Supplie.Key.GameObject(),
+			//		ComingFromDevice,
+			//		Connections.Value
+			//);
+			//}
 			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
 		}
-
 	}
 
 	public override void PowerNetworkUpdate()
@@ -105,13 +174,13 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 			resistance.Ohms = Resistance;
 			dirtyResistance = false;
 			ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
-			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
-			{
-				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable))
-				{
-					ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
-				}
-			}
+			//foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+			//{
+			//	if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)) //wtf is here?
+			//	{
+			//		ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+			//	}
+			//}
 		}
 	}
 }

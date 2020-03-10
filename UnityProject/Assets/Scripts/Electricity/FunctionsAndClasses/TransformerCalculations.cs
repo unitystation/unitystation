@@ -59,7 +59,7 @@ public static class TransformerCalculations  {
 		return (returnsE);
 	}
 
-	public static Tuple<float, float> ResistanceStageTransformerCalculate(TransformerModule TransformInformation, float ResistanceToModify = 0, bool FromHighSide = false)
+	public static ResistanceWrap ResistanceStageTransformerCalculate(TransformerModule TransformInformation, ResistanceWrap ResistanceToModify, bool FromHighSide = false)
 	{
 		float TurnRatio = TransformInformation.TurnRatio;
 		if (FromHighSide) //Since is travelling different directions
@@ -77,17 +77,19 @@ public static class TransformerCalculations  {
 		//float V1 = (V2*Turn_ratio);
 		//float I1 = (V2/V1)*I2;
 		//float R1 = V1/I1;
-		Tuple<float, float> returns = new Tuple<float, float>(
-			(float)Math.Pow(TurnRatio, 2.0) * (ResistanceToModify),
-			0);
-		return (returns);
+
+		var Resistancewrap = new ResistanceWrap();
+		Resistancewrap.resistance = ResistanceToModify.resistance;
+		Resistancewrap.Strength = ResistanceToModify.Strength;
+		Resistancewrap.Strength = (float)(1/(Math.Pow(TurnRatio, 2.0)) * (Resistancewrap.Strength));
+		return (Resistancewrap);
 
 	}
 
 
-	public static Tuple<float, float> ElectricalStageTransformerCalculate(TransformerModule TransformInformation, float Voltage = 0, float ResistanceModified = 0, bool FromHighSide = false)
+	public static Tuple<double, double> ElectricalStageTransformerCalculate(TransformerModule TransformInformation, double Voltage = 0, float ResistanceModified = 0, bool FromHighSide = false)
 	{
-		float TurnRatio = TransformInformation.TurnRatio;
+		double TurnRatio = TransformInformation.TurnRatio;
 		if (!FromHighSide)
 		{
 			TurnRatio = 1 / TransformInformation.TurnRatio;
@@ -95,9 +97,9 @@ public static class TransformerCalculations  {
 		//Logger.Log(TransformInformation.TurnRatio + " < TurnRatio " + TransformInformation.VoltageLimiting + " < VoltageLimiting " + TransformInformation.VoltageLimitedTo + " < VoltageLimitedTo ");
 		if (!(Voltage == 0))
 		{
-			float offcut = 0;
-			float V2 = Voltage / TurnRatio;
-			float R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
+			double offcut = 0;
+			double V2 = Voltage / TurnRatio;
+			double R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
 			if (!(TransformInformation.VoltageLimiting == 0))
 			{ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
 			  //float VVoltage = ElectricityFunctions.WorkOutVoltage(TransformInformation.ControllingNode.Node);
@@ -111,14 +113,14 @@ public static class TransformerCalculations  {
 					}
 				}
 			}
-			float I2 = V2 / R2;
-			Tuple<float, float> returns = new Tuple<float, float>(
+			double I2 = V2 / R2;
+			Tuple<double, double> returns = new Tuple<double, double>(
 				I2,
 				offcut
 			);
 			return (returns);
 		}
-		Tuple<float, float> returnsE = new Tuple<float, float>(0.0f, 0);
+		Tuple<double, double> returnsE = new Tuple<double, double>(0.0f, 0);
 		return (returnsE);
 	}
 }

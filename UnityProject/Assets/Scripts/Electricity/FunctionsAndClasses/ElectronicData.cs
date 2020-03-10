@@ -9,9 +9,10 @@ public class ElectronicData  { //to Store data about the electrical device
 	/// <summary>
 	/// Stores for each supply how is the supply connected to that Device.
 	/// </summary>
-	public Dictionary<ElectricalOIinheritance,HashSet<PowerTypeCategory>> ResistanceToConnectedDevices = new Dictionary<ElectricalOIinheritance,HashSet<PowerTypeCategory>>();
+	public Dictionary<ElectricalOIinheritance,Dictionary<ElectricalOIinheritance, ElectronicStepAndProcessed>> 
+	ResistanceToConnectedDevices = new Dictionary<ElectricalOIinheritance, Dictionary<ElectricalOIinheritance, ElectronicStepAndProcessed>>();
 
-	public Dictionary<int, ElectronicSupplyData> SupplyDependent = new Dictionary<int, ElectronicSupplyData>();
+	public Dictionary<ElectricalOIinheritance, ElectronicSupplyData> SupplyDependent = new Dictionary<ElectricalOIinheritance, ElectronicSupplyData>();
 	/// <summary>
 	/// The things connected in the vicinity of this
 	/// </summary>
@@ -25,4 +26,9 @@ public class ElectronicData  { //to Store data about the electrical device
 	public bool ChangeToOff;
 
 	public float CurrentStoreValue; //I'm lazy and it's cheaper than making a key value And putting it into a hash set
+}
+
+public class ElectronicStepAndProcessed {
+	public HashSet<ElectricalDirectionStep> Steps = new HashSet<ElectricalDirectionStep>();
+	public bool BeenProcessed = false; 
 }

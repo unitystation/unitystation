@@ -11,6 +11,10 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	public float PreviousInternalResistance = 0;
 	public float InternalResistance = 0;
 
+	public WrapCurrent WrapCurrentSource = new WrapCurrent();
+
+	public ElectricalDirections NetworkMap = new ElectricalDirections();
+
 	public virtual void BroadcastSetUpMessage(ElectricalNodeControl Node)
 	{
 		RequiresUpdateOn = new HashSet<ElectricalUpdateTypeCategory>
@@ -45,28 +49,38 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		}
 
 	}
-	public override void PowerUpdateStructureChange() {
+	public override void PowerUpdateStructureChange()
+	{
 		ControllingNode.Node.FlushConnectionAndUp();
 		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 	}
 
-	public override void PowerUpdateStructureChangeReact() {
-		PowerSupplyFunction.PowerUpdateStructureChangeReact(this);
-		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
+	public override void PowerUpdateStructureChangeReact()
+	{
+		NetworkMap.Pool();
+		NetworkMap = new ElectricalDirections();
+		NetworkMap.StartSearch(ControllingNode);
+		//ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 	}
 
-	public override void OnDespawnServer(DespawnInfo info) {
+	public override void OnDespawnServer(DespawnInfo info)
+	{
 		ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
-		ControllingNode.Node.FlushSupplyAndUp(this.gameObject);
+		ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node);
+	}
+
+	[RightClickMethod]
+	public void FlushSupplyAndUp() { 
+		ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node);
 	}
 
 	public override void PowerUpdateCurrentChange()
 	{
-		PowerSupplyFunction.PowerUpdateCurrentChange (this);
+		PowerSupplyFunction.PowerUpdateCurrentChange(this);
 	}
 
 	public override void TurnOnSupply()

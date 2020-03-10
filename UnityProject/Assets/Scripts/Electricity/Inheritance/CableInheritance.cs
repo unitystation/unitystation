@@ -85,7 +85,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		SelfDestruct = true;
 		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 		//ElectricalSynchronisation.StructureChange = true;
-		ElectricalSynchronisation.NUCableStructureChange.Add(this);
+		PowerUpdateStructureChange();
 	}
 
 	void Awake()
@@ -113,6 +113,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 			wireConnect.registerTile.UnregisterServer();
 			if (this != null)
 			{
+				wireConnect.DestroyThisPlease();
 				Despawn.ServerSingle(gameObject);
 			}
 		}
@@ -132,20 +133,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 			if (MaximumBreakdownCurrent < wireConnect.Data.CurrentInWire) {
 				if (CheckDestruction)
 				{
-					if (wireConnect.RelatedLine != null)
-					{
-						foreach (var CB in wireConnect.RelatedLine.Covering)
-							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
-					}
 					QueueForDemolition(this);
 					return;
 				}
 				else
 				{
-					if (wireConnect.RelatedLine != null) {
-						foreach (var CB in wireConnect.RelatedLine.Covering)
-							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Play();
-					}
 					Smoke.Play();
 					StartCoroutine(WaitForDemolition());
 					return;
@@ -154,25 +146,14 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 			if (CheckDestruction)
 			{
 				CheckDestruction = false;
-				if (wireConnect.RelatedLine != null)
-				{
-					foreach (var CB in wireConnect.RelatedLine.Covering)
-						CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
-				}
 				Smoke.Stop();
 			}
-
-			if (IsSparking())
-			{
-				Sparks.Stop();
-			}
+			Sparks.Stop();
 		}
 	}
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
 	{
-		if (!IsSparking())
-			Sparks.Play();
 		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
 		if (ElectricalSynchronisation.CableToDestroy != null)
 		{
@@ -222,7 +203,6 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	// Use this for initialization
 	private void Start()
 	{
-		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 		SetDirection(WireEndB, WireEndA, CableType);
 	}
 

@@ -1,32 +1,84 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Atmospherics;
+using Tilemaps.Behaviours.Meta;
+using System.Diagnostics;
+using System;
+using System.Threading;
+
 
 public class ElectricalManager : MonoBehaviour
 {
 	public static ElectricalManager Instance;
 	public DeadEndConnection defaultDeadEnd;
 	private bool roundStartedServer = false;
+	public bool Running { get; private set; }
+	public float MSSpeed = 100;
+	public ElectricalMode Mode = ElectricalMode.Threaded;
 
-	void Awake()
+
+	public void StartSimulation()
 	{
-		if (Instance == null)
+		Running = true;
+
+		if (Mode == ElectricalMode.Threaded)
 		{
-			Instance = this;
-			defaultDeadEnd.InData.Categorytype = PowerTypeCategory.DeadEndConnection;
-		}
-		else
-		{
-			Destroy(this);
+			ElectricalSynchronisation.SetSpeed((int)MSSpeed);
+			ElectricalSynchronisation.Start();
 		}
 	}
 
-	void Update()
+	public void StopSimulation()
 	{
-		if (roundStartedServer && CustomNetworkManager.Instance._isServer)
+		Running = false;
+		ElectricalSynchronisation.Stop();
+	}
+
+	private void Update()
+	{
+		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Mode == ElectricalMode.GameLoop && Running)
 		{
-			ElectricalSynchronisation.DoUpdate();
+			//try
+			//{
+				ElectricalSynchronisation.DoUpdate(false);
+			//}
+			//catch (Exception e)
+			//{
+			//	Logger.LogError($"Exception in Electrical Thread! Will no longer Electrical!!\n{e.StackTrace}",
+			//	                Category.Electrical);
+			//	throw;
+			//}
 		}
+
+		lock (ElectricalSynchronisation.Electriclock)
+		{
+			if (ElectricalSynchronisation.MainThreadProcess) {
+				ElectricalSynchronisation.PowerNetworkUpdate();
+			}
+			ElectricalSynchronisation.MainThreadProcess = false;
+			Monitor.Pulse(ElectricalSynchronisation.Electriclock);
+		}
+
+	}
+
+
+	private void Start()
+	{
+		if (Mode != ElectricalMode.Manual)
+		{
+			StartSimulation();
+		}
+	}
+
+	private void OnApplicationQuit()
+	{
+		StopSimulation();
 	}
 
 	void OnEnable()
@@ -53,4 +105,11 @@ public class ElectricalManager : MonoBehaviour
 		ElectricalSynchronisation.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
 	}
+}
+
+public enum ElectricalMode
+{
+	Threaded,
+	GameLoop,
+	Manual
 }

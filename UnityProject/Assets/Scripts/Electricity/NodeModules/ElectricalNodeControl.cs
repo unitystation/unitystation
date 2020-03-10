@@ -12,7 +12,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	public HashSet<PowerTypeCategory> CanConnectTo;
 	public bool SelfDestruct;
 	public List<PowerInputReactions> Reactions;
-	public Dictionary<PowerTypeCategory,float> ResistanceRestorepoints = new Dictionary<PowerTypeCategory, float>();
+	public Dictionary<PowerTypeCategory, float> ResistanceRestorepoints = new Dictionary<PowerTypeCategory, float>();
 
 	public INodeControl NodeControl;
 
@@ -52,7 +52,8 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		}
 
 	}
-	public void OverlayInternalResistance(float InternalResistance, PowerTypeCategory Connecting) {
+	public void OverlayInternalResistance(float InternalResistance, PowerTypeCategory Connecting)
+	{
 		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (!(ResistanceRestorepoints.ContainsKey(Connecting))))
 		{
 			ResistanceRestorepoints[Connecting] = Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms;
@@ -61,7 +62,8 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		ElectricalSynchronisation.InitialiseResistanceChange.Add(this);
 
 	}
-	public void RestoreResistance(PowerTypeCategory Connecting) {
+	public void RestoreResistance(PowerTypeCategory Connecting)
+	{
 		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (ResistanceRestorepoints.ContainsKey(Connecting)))
 		{
 			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = ResistanceRestorepoints[Connecting];
@@ -73,7 +75,8 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 	/// </summary>
-	public void OnDespawnServer(DespawnInfo info) {
+	public void OnDespawnServer(DespawnInfo info)
+	{
 		Node.FlushConnectionAndUp();
 		UpDespawn(info);
 	}
@@ -87,7 +90,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		UpTurnOffSupply();
 	}
 
-	public  void PowerUpdateStructureChange()
+	public void PowerUpdateStructureChange()
 	{
 		UpPowerUpdateStructureChange();
 	}
@@ -96,23 +99,13 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		UpPowerUpdateStructureChangeReact();
 	}
 
-	public  void InitialPowerUpdateResistance()
+	public void InitialPowerUpdateResistance()
 	{
-		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in Node.Data.ResistanceToConnectedDevices)
-		{
-			Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
-		}
 		UpInitialPowerUpdateResistance();
 	}
 
-	public  void PowerUpdateResistanceChange()
+	public void PowerUpdateResistanceChange()
 	{
-		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in Node.Data.ResistanceToConnectedDevices)
-		{
-			Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
-		}
 		UpPowerUpdateResistanceChange();
 	}
 
@@ -139,22 +132,22 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public  float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
+	public double ModifyElectricityInput(double  Current, ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		return (UpModifyElectricityInput(Current, SourceInstance, ComingFrom));
 	}
-	public  float ModifyElectricityOutput(float Current, GameObject SourceInstance)
+	public double ModifyElectricityOutput(double  Current, ElectricalOIinheritance SourceInstance)
 	{
 		return (UpModifyElectricityOutput(Current, SourceInstance));
 	}
 
-	public  float ModifyResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
+	public ResistanceWrap ModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
 	{
 		return (UpModifyResistanceInput(Resistance, SourceInstance, ComingFrom));
 	}
-	public  float ModifyResistancyOutput(float Resistance, GameObject SourceInstance)
+	public ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
 	{
-		return (UpModifyResistancyOutput(Resistance,SourceInstance));
+		return (UpModifyResistancyOutput(Resistance, SourceInstance));
 	}
 
 
@@ -180,7 +173,8 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	public void UpDespawn(DespawnInfo info) {
+	public void UpDespawn(DespawnInfo info)
+	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.GoingOffStage))
 		{
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.GoingOffStage])
@@ -312,7 +306,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public float UpModifyResistancyOutput(float Resistance, GameObject SourceInstance)
+	public ResistanceWrap UpModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistancyOutput))
 		{
@@ -324,7 +318,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		return (Resistance);
 	}
 
-	public float UpModifyResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
+	public ResistanceWrap UpModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistanceInput))
 		{
@@ -337,7 +331,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public float UpModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
+	public double  UpModifyElectricityInput(double  Current, ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityInput))
 		{
@@ -349,7 +343,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		return (Current);
 	}
 
-	public float UpModifyElectricityOutput(float Current, GameObject SourceInstance)
+	public double  UpModifyElectricityOutput(double  Current, ElectricalOIinheritance SourceInstance)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityOutput))
 		{
