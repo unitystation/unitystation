@@ -85,7 +85,7 @@ public partial class Chat
 		}
 
 		// Emote
-		if (message.StartsWith("*")||message.StartsWith("/me ",true))
+		if (message.StartsWith("*") || message.StartsWith("/me ",true))
 		{
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Emote;
