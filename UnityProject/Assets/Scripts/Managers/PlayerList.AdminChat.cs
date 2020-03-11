@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -77,7 +78,7 @@ public partial class PlayerList
 		    entryName = "[A] " + adminPlayer.Name;
 	    }
 
-	    File.AppendAllText(filePath, $"{entryName}: {entry.message}");
+	    File.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.message}");
 
 	    if (serverAdminChatLogs[playerId].Count == 70)
 	    {
