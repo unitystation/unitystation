@@ -77,6 +77,10 @@ public class CentComm : MonoBehaviour
 		{
 			yield break;
 		}
+		//Generic AI welcome message
+		//this sound will feel just like home once we have the proper job allocation.
+		//it plays as soon as the round starts.
+		SoundManager.PlayNetworked("Welcome", 1f);
 		//Wait some time after the round has started
 		yield return WaitFor.Seconds(60f);
 
