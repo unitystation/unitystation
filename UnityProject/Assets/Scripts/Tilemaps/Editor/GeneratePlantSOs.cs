@@ -16,6 +16,7 @@ public class GeneratePlantSOs : EditorWindow
 		DirectoryInfo d = new DirectoryInfo(Application.dataPath + @"\Textures\objects\hydroponics\growing");
 		FileInfo[] Files = d.GetFiles("*.png");// \\Getting Text files
 		var ListFiles = new List<string>();
+		dictonaryErrors = new Dictionary<string, string>();
 		var PlantDictionary = new Dictionary<string, DefaultPlantData>();
 		var PlantDictionaryObject = new Dictionary<string, System.Object>();
 		
@@ -447,7 +448,7 @@ public class GeneratePlantSOs : EditorWindow
 	{
 		if (dictonaryErrors.ContainsKey(key))
 		{
-			dictonaryErrors.Add(key, $"dictonaryErrors[key]\n{error}");
+			dictonaryErrors[key] = $"{dictonaryErrors[key]}\n{error}";
 		}
 		else
 			dictonaryErrors.Add(key, error);
