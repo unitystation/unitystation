@@ -46,10 +46,11 @@ namespace AdminTools
 				displayName.fontStyle = FontStyle.Normal;
 			}
 		}
-
+		
 		public void OnClick()
 		{
 			adminTools.SelectPlayerInList(this);
+			PlayerList.Instance.ClientGetUnreadMessages(PlayerData.uid);
 		}
 
 		public void ClearMessageNot()

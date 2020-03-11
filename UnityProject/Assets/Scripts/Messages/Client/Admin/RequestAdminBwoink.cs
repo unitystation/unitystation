@@ -30,7 +30,7 @@ public class RequestAdminBwoink : ClientMessage
 			foreach (var r in recipient)
 			{
 				AdminBwoinkMessage.Send(r.GameObject, Userid, "<color=red>" + Message + "</color>");
-				PlayerList.Instance.ServerAddAdminReply(Message, UserToBwoink, Userid);
+				PlayerList.Instance.ServerAddChatRecord(Message, UserToBwoink, Userid);
 			}
 		}
 	}

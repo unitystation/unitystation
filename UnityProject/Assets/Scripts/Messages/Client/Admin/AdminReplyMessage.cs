@@ -16,7 +16,7 @@ public class AdminReplyMessage : ClientMessage
 
 		Logger.Log($"{SentByPlayer.Name} replied to Admins: {Message}");
 
-		PlayerList.Instance.ServerAddPlayerReply(Message, SentByPlayer.UserId);
+		PlayerList.Instance.ServerAddChatRecord(Message, SentByPlayer.UserId);
 	}
 
 
