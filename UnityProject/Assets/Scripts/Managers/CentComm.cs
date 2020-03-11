@@ -222,7 +222,7 @@ public class CentComm : MonoBehaviour
 		Delta
 	}
 
-	public enum AlertLevelString {
+	private enum AlertLevelString {
 		DownToGreen,
 		UpToBlue,
 		DownToBlue,
