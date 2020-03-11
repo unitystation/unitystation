@@ -85,40 +85,21 @@ public partial class Chat
 		}
 
 		// Emote
-		if (message.StartsWith("*"))
+		if (message.StartsWith("*")||message.StartsWith("/me ",true))
 		{
 			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Emote;
-		}
-		// Emote alias
-		else if (message.StartsWith("/me "))
-		{
-			message = message.Substring(4);
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
-		else if (message.StartsWith("#"))
+		else if (message.StartsWith("#") || (message.StartsWith("/w ",true))
 		{
 			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Whisper;
-		}
-		// Whisper alias
-		else if (message.StartsWith("/w "))
-		{
-			message = message.Substring(3);
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
-		else if (message.StartsWith("%"))
+		else if (message.StartsWith("%") || message.StartsWith("/s ",true))
 		{
 			message = message.Substring(1);
-			message = Sing(message);
-			chatModifiers |= ChatModifier.Sing;
-		}
-		// Sing alias
-		else if (message.StartsWith("/s "))
-		{
-			message = message.Substring(3);
 			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}
