@@ -91,7 +91,7 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
-		else if (message.StartsWith("#") || (message.StartsWith("/w ",true))
+		else if (message.StartsWith("#") || message.StartsWith("/w ",true))
 		{
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Whisper;
