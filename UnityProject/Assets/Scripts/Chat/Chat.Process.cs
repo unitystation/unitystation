@@ -85,19 +85,19 @@ public partial class Chat
 		}
 
 		// Emote
-		if (message.StartsWith("*") || message.StartsWith("/me ",true))
+		if (message.StartsWith("*") || message.StartsWith("/me ",true,CultureInfo.CurrentCulture))
 		{
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
-		else if (message.StartsWith("#") || message.StartsWith("/w ",true))
+		else if (message.StartsWith("#") || message.StartsWith("/w ",true,CultureInfo.CurrentCulture))
 		{
 			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
-		else if (message.StartsWith("%") || message.StartsWith("/s ",true))
+		else if (message.StartsWith("%") || message.StartsWith("/s ",true,CultureInfo.CurrentCulture))
 		{
 			message = message.Substring(1);
 			message = Sing(message);
