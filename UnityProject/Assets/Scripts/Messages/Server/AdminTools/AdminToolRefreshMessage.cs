@@ -52,8 +52,6 @@ public class AdminToolRefreshMessage : ServerMessage
 	{
 		var playerList = new List<AdminPlayerEntryData>();
 		if (string.IsNullOrEmpty(adminID)) return playerList;
-
-		var checkMessages = PlayerList.Instance.CheckAdminInbox(adminID);
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
 			if (player == null) continue;
@@ -75,14 +73,6 @@ public class AdminToolRefreshMessage : ServerMessage
 			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
 			entry.isOnline = true;
-
-			foreach (var msg in checkMessages)
-			{
-				if (msg.fromUserid == entry.uid)
-				{
-					entry.newMessages.Add(msg);
-				}
-			}
 
 			playerList.Add(entry);
 		}

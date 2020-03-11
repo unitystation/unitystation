@@ -23,7 +23,7 @@ public class AdminBwoinkMessage : ServerMessage
 			AdminUID = adminUid,
 			Message = message
 		};
-
+		
 		msg.SendTo(recipient);
 
 		return msg;

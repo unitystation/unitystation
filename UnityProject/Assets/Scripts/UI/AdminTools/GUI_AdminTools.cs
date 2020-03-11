@@ -151,7 +151,6 @@ namespace AdminTools
 					{
 						playerChatPageScript.SetData(entry);
 						SelectedPlayer = entry.PlayerData.uid;
-						AddPendingMessagesToLogs(entry.PlayerData.uid, entry.GetPendingMessage());
 					}
 
 					if (playerManagePage.activeInHierarchy)
@@ -187,7 +186,6 @@ namespace AdminTools
 			if (playerChatPage.activeInHierarchy)
 			{
 				playerChatPageScript.SetData(selectedEntry);
-				AddPendingMessagesToLogs(selectedEntry.PlayerData.uid, selectedEntry.GetPendingMessage());
 			}
 
 			if (playerManagePage.activeInHierarchy)

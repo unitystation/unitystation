@@ -11,6 +11,7 @@ namespace AdminTools
 		[SerializeField] private InputFieldFocus chatInputField = null;
 		[SerializeField] private Transform content = null;
 		[SerializeField] private Transform thresholdMarker = null;
+		private List<ChatEntry> chatEntries = new List<ChatEntry>();
 
 		public Transform ThresholdMarker => thresholdMarker;
 		public Transform Content => content;
@@ -19,6 +20,17 @@ namespace AdminTools
 		{
 			gameObject.SetActive(false);
 			chatInputField.text = "";
+		}
+
+		public void AddChatEntry(ChatEntry entry)
+		{
+			chatEntries.Add(entry);
+			if (chatEntries.Count == 70)
+			{
+				var oldEntry = chatEntries[0];
+				oldEntry.ReturnToPool();
+				chatEntries.Remove(oldEntry);
+			}
 		}
 
 		void Update()

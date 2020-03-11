@@ -8,31 +8,49 @@ using AdminTools;
 /// </summary>
 public partial class PlayerList
 {
-    public Dictionary<string, List<AdminChatMessage>> adminChatInbox
+	/// <summary>
+	/// All messages sent and recieved from players to admins
+	/// </summary>
+    private Dictionary<string, List<AdminChatMessage>> serverAdminChatLogs
 	    = new Dictionary<string, List<AdminChatMessage>>();
 
-    public void AddPlayerReply(string message, string fromUserID)
+	/// <summary>
+	/// The admins client local cache for the ui
+	/// </summary>
+    private Dictionary<string, List<AdminChatMessage>> clientAdminChatLogs
+	    = new Dictionary<string, List<AdminChatMessage>>();
+
+    public void ServerAddPlayerReply(string message, string fromUserID)
     {
-	    foreach (var a in adminChatInbox)
+	    if (!serverAdminChatLogs.ContainsKey(fromUserID))
 	    {
-			a.Value.Add(new AdminChatMessage
-			{
-				fromUserid = fromUserID,
-				toUserid = a.Key,
-				message = message
-			});
+		    serverAdminChatLogs.Add(fromUserID, new List<AdminChatMessage>());
 	    }
+
+	    serverAdminChatLogs[fromUserID].Add(new AdminChatMessage
+	    {
+		    fromUserid = fromUserID,
+		    message = message
+	    });
     }
 
-    public List<AdminChatMessage> CheckAdminInbox(string adminUserID)
+    public void ServerAddAdminReply(string message, string playerId, string adminId)
     {
-	    var list = new List<AdminChatMessage>();
+	    if (!serverAdminChatLogs.ContainsKey(playerId))
+	    {
+		    serverAdminChatLogs.Add(playerId, new List<AdminChatMessage>());
+	    }
 
-	    if (!adminChatInbox.ContainsKey(adminUserID)) return list;
-	    if (adminChatInbox[adminUserID].Count == 0) return list;
-
-	    list = new List<AdminChatMessage>(adminChatInbox[adminUserID]);
-	    adminChatInbox[adminUserID].Clear();
-	    return list;
+	    serverAdminChatLogs[playerId].Add(new AdminChatMessage
+	    {
+		    fromUserid = adminId,
+		    message = message,
+		    wasFromAdmin = true
+	    });
     }
+
+//    public List<AdminChatMessage> ServerGetUnreadMessages(string playerId)
+//    {
+//
+//    }
 }

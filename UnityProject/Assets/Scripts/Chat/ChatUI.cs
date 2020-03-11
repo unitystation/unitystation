@@ -249,9 +249,7 @@ public class ChatUI : MonoBehaviour
 		entry.transform.localScale = Vector3.one;
 
 		adminHelpChat.gameObject.SetActive(true);
-		//TODO for admin:
-		//	allEntries.Add(chatEntry);
-		//	SetEntryTransform(entry);
+		adminHelpChat.AddChatEntry(chatEntry);
 	}
 
 	public void OpenAdminReply(string message, string adminId)

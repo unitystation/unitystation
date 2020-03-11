@@ -21,24 +21,12 @@ namespace AdminTools
 		public Color antagTextColor;
 
 		public AdminPlayerEntryData PlayerData { get; set; }
-		private List<AdminChatMessage> pendingMessages = new List<AdminChatMessage>();
 
 		public void UpdateButton(AdminPlayerEntryData playerEntryData, GUI_AdminTools adminTools)
 		{
-			pendingMessages.AddRange(playerEntryData.newMessages);
 			this.adminTools = adminTools;
 			PlayerData = playerEntryData;
 			displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress}";
-
-			if (PlayerData.newMessages.Count > 0)
-			{
-				msgPendingNot.SetActive(true);
-				msgPendingCount.text = PlayerData.newMessages.Count.ToString();
-			}
-			else
-			{
-				msgPendingNot.SetActive(false);
-			}
 
 			if (PlayerData.isAntag)
 			{
@@ -57,19 +45,6 @@ namespace AdminTools
 			{
 				displayName.fontStyle = FontStyle.Normal;
 			}
-
-			if (adminTools.SelectedPlayer == playerEntryData.uid)
-			{
-				adminTools.AddPendingMessagesToLogs(playerEntryData.uid, GetPendingMessage());
-			}
-		}
-
-		public List<AdminChatMessage> GetPendingMessage()
-		{
-			var list = new List<AdminChatMessage>(pendingMessages);
-			pendingMessages.Clear();
-			ClearMessageNot();
-			return list;
 		}
 
 		public void OnClick()
