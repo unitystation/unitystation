@@ -215,6 +215,80 @@ public class CentComm : MonoBehaviour
 		{UpdateType.announce, "Announce"}
 	};
 
+	public enum AlertLevel {
+		Green,
+		Blue,
+		Red,
+		Delta
+	}
+
+	public enum AlertLevelString {
+		DownToGreen,
+		UpToBlue,
+		DownToBlue,
+		UpToRed,
+		DownToRed,
+		UpToDelta
+	}
+
+	private static string AlertLevelTemplate =
+			"<color=#FF151F><size=36><b>{0}</b></size></color>\n"+
+			"<color=white><b>Attention! Security level {1}:</b></color>";
+
+	private static readonly Dictionary<AlertLevelString, string> AlertLevelStrings = new Dictionary<AlertLevelString, string> {
+		{
+			AlertLevelString.DownToGreen,
+			string.Format(CentCommAnnounceTemplate,
+				string.Format(AlertLevelTemplate,
+					"lowered to green",
+					"All threats to the station have passed. Security may not have weapons visible,"+
+					" privacy laws are once again fully enforced."))
+		},
+		{
+			AlertLevelString.UpToBlue,
+			string.Format(CentCommAnnounceTemplate,
+				string.Format(AlertLevelTemplate,
+					"elevated to blue",
+					"The station has received reliable information about possible hostile activity"+
+					" on the station. Security staff may have weapons visible, random searches are permitted."))
+					
+		},
+		{
+			AlertLevelString.DownToBlue,
+			string.Format(CentCommAnnounceTemplate,
+				string.Format(AlertLevelTemplate,
+					"lowered to blue",
+					"The immediate threat has passed. Security may no longer have weapons drawn at all times,"+
+					" but may continue to have them visible. Random searches are still allowed."))
+		},
+		{
+			AlertLevelString.UpToRed,
+			string.Format(CentCommAnnounceTemplate,
+				string.Format(AlertLevelTemplate,
+					"elevated to red",
+					"There is an immediate serious threat to the station. Security may have weapons unholstered"+
+					" at all times. Random searches are allowed and advised."))
+		},
+		{
+			AlertLevelString.DownToRed,
+			string.Format(CentCommAnnounceTemplate,
+				string.Format(AlertLevelTemplate,
+					"lowered to red",
+					"The station's destruction has been averted. There is still however an immediate serious"+
+					" threat to the station. Security may have weapons unholstered at all times, random searches"+
+					" are allowed and advised."))
+		},
+		{
+			AlertLevelString.UpToDelta,
+			string.Format(CentCommAnnounceTemplate,
+				string.Format(AlertLevelTemplate,
+					"elevated to delta",
+					"Destruction of the station is imminent. All crew are instructed to obey all instructions"+
+					" given by heads of staff. Any violations of these orders can be punished by death."+
+					" This is not a drill."))
+		}
+	};
+
 	private string CommandNewReportString()
 	{
 		return "<color=#FF151F>Incoming Classified Message</color>\n\n"
@@ -223,7 +297,7 @@ public class CentComm : MonoBehaviour
 
 	private string CommandUpdateAnnouncementString()
 	{
-		return "\n\n<color=white><size=60><b>Central Command Update</b></size>"
+		return "\n\n<color=white><size=60><b>Central Command Update</b></size=36>"
 		+ "\n\n<b><size=40>Enemy communication intercepted. Security level elevated."
 		+ "</size></b></color>\n\n<color=#FF151F><size=36>A summary has been copied and"
 		+ " printed to all communications consoles. </size></color>\n\n<color=#FF151F><b>"
