@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {
-	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, Intent.Help);
+	private static readonly InventoryApply Invalid = new InventoryApply(null, null, null, Intent.Help, false);
 
 	private ItemSlot fromSlot;
 	private ItemSlot targetSlot;
@@ -39,9 +39,9 @@ public class InventoryApply : TargetedInteraction
 	                               targetSlot.SlotIdentifier.NamedSlot == NamedSlot.rightHand);
 
 	/// <summary>
-	/// True if the alt button is pressed by the user.
+	/// True if the alt button is pressed by the user. Performed clientside
 	/// </summary>
-	public bool IsAltClick => KeyboardInputManager.IsAltPressed();
+	public bool IsAltClick;
 
 	/// <summary>
 	///
@@ -50,11 +50,12 @@ public class InventoryApply : TargetedInteraction
 	/// <param name="targetSlot">object that the player applying the used object to</param>
 	/// <param name="fromSlot">hand slot if clicking on something in inventory, otherwise slot
 	/// the item is being dragged from</param>
-	private InventoryApply(GameObject performer, ItemSlot targetSlot, ItemSlot fromSlot, Intent intent) :
+	private InventoryApply(GameObject performer, ItemSlot targetSlot, ItemSlot fromSlot, Intent intent, bool IsAltClick) :
 		base(performer, fromSlot?.ItemObject, targetSlot?.ItemObject, intent)
 	{
 		this.fromSlot = fromSlot;
 		this.targetSlot = targetSlot;
+		this.IsAltClick = IsAltClick;
 	}
 
 	/// <summary>
@@ -71,7 +72,7 @@ public class InventoryApply : TargetedInteraction
 			return Invalid;
 		}
 		return new InventoryApply(PlayerManager.LocalPlayer,
-			targetObjectSlot, fromSlot, UIManager.CurrentIntent);
+			targetObjectSlot, fromSlot, UIManager.CurrentIntent, KeyboardInputManager.IsAltPressed());
 	}
 
 	/// <summary>
@@ -88,8 +89,8 @@ public class InventoryApply : TargetedInteraction
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 
 	public static InventoryApply ByClient(GameObject clientPlayer, ItemSlot targetObjectSlot,
-		ItemSlot fromSlot, Intent intent)
+		ItemSlot fromSlot, Intent intent, bool IsAltClick)
 	{
-		return new InventoryApply(clientPlayer, targetObjectSlot, fromSlot, intent);
+		return new InventoryApply(clientPlayer, targetObjectSlot, fromSlot, intent, IsAltClick);
 	}
 }
