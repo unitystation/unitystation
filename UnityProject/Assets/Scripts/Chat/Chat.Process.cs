@@ -87,19 +87,22 @@ public partial class Chat
 		// Emote
 		if (message.StartsWith("*") || message.StartsWith("/me ",true,CultureInfo.CurrentCulture))
 		{
-			message = message.Substring(message.StartsWith("/me ") ? 4 : 1);
+			message = message.Replace("/me","") // note that there is no space here as compared to the above if
+			message = message.Substring(1);     // so that this substring can properly cut off both * and the space
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
 		else if (message.StartsWith("#") || message.StartsWith("/w ",true,CultureInfo.CurrentCulture))
 		{
-			message = message.Substring(message.StartsWith("/w ") ? 3 : 1);
+			message = message.Replace("/w","")
+			message = message.Substring(1); 
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
 		else if (message.StartsWith("%") || message.StartsWith("/s ",true,CultureInfo.CurrentCulture))
 		{
-			message = message.Substring(message.StartsWith("/s ") ? 3 : 1);
+			message = message.Replace("/s","")
+			message = message.Substring(1); 
 			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}
