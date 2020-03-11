@@ -622,6 +622,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 					if (!objectContainer.InSolidForm)
 					{
 						objectContainer.MoveReagentsTo(5, reagentContainer);
+						Chat.AddActionMsgToChat(interaction.Performer, $"You add reagents to the {gameObject.ExpensiveName()}.",
+							$"{interaction.Performer.name} adds reagents to the {gameObject.ExpensiveName()}.");
 						if (reagentContainer.Contains("mutagen", 5))
 						{
 							reagentContainer.Contents["mutagen"] = reagentContainer.Contents["mutagen"] - 5;
@@ -655,7 +657,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			if (objectItemAttributes.HasTrait(CommonTraits.Instance.Bucket))
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"You water the {gameObject.ExpensiveName()}.",
-					$"{interaction.Performer.name} waters the tray.");
+					$"{interaction.Performer.name} waters the {gameObject.ExpensiveName()}.");
 				reagentContainer.Contents["water"] = 100f;
 				return;
 			}
@@ -684,8 +686,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			if (hasPlant)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}",
-						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}");
+						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
 				nutritionLevel = nutritionLevel + foodObject.plantData.Potency;
 				Despawn.ServerSingle(interaction.HandObject);
 				return;
@@ -700,8 +702,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
 				Inventory.ServerVanish(slot);
 				Chat.AddActionMsgToChat(interaction.Performer,
-						$"You plant the {foodObject.name} in the {gameObject.ExpensiveName()}",
-						$"{interaction.Performer.name} plants the {foodObject.name} in the {gameObject.ExpensiveName()}");
+						$"You plant the {foodObject.name} in the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer.name} plants the {foodObject.name} in the {gameObject.ExpensiveName()}.");
 			}
 			
 		}
@@ -718,8 +720,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.Growing);
 			Inventory.ServerVanish(slot);
 			Chat.AddActionMsgToChat(interaction.Performer,
-						$"You plant the {Object.name} in the {gameObject.ExpensiveName()}",
-						$"{interaction.Performer.name} plants the {Object.name} in the {gameObject.ExpensiveName()}");
+						$"You plant the {Object.name} in the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer.name} plants the {Object.name} in the {gameObject.ExpensiveName()}.");
 			return;
 		}
 
