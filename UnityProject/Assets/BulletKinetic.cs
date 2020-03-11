@@ -27,49 +27,7 @@ public class BulletKinetic : BulletBehaviour
 		ReturnToPool(coll);
 	}
 
-	public override void HandleTriggerEnter2D(Collider2D coll)
-	{
-		//only harm others if it's not a suicide
-		if (coll.gameObject == shooter && !isSuicide)
-		{
-			return;
-		}
-
-		//only harm the shooter if it's a suicide
-		if (coll.gameObject != shooter && isSuicide)
-		{
-			return;
-		}
-
-		//body or object?
-		var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
-		var integrity = coll.GetComponent<Integrity>();
-		if (integrity != null)
-		{
-			//damage object
-			integrity.ApplyDamage(damage, attackType, damageType);
-			Chat.AddAttackMsgToChat(shooter, coll.gameObject, BodyPartType.None, weapon.gameObject);
-			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, integrity.gameObject.name, damage);
-		}
-		else
-		{
-			//damage human if there is one
-			if (livingHealth == null || livingHealth.IsDead)
-			{
-				return;
-			}
-
-			// Trigger for things like stuns
-			GetComponent<BulletHitTrigger>()?.BulletHitInteract(coll.gameObject);
-
-			var aim = isSuicide ? bodyAim : bodyAim.Randomize();
-			livingHealth.ApplyDamageToBodypart(shooter, damage, attackType, damageType, aim);
-			Chat.AddAttackMsgToChat(shooter, coll.gameObject, aim, weapon.gameObject);
-			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, livingHealth.gameObject.name, damage);
-		}
-
-		//ReturnToPool();
-	}
+	
 
 	protected override void ReturnToPool()
 	{
@@ -116,15 +74,12 @@ public class BulletKinetic : BulletBehaviour
 		LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(position, LayerType.Effects);
 
 		tileChangeManager.UpdateTile(position, TileType.Effects, "KineticAnimation");
-		Chat.AddGameWideSystemMsgToChat("--------------------------------");
-		Chat.AddGameWideSystemMsgToChat("UpdateTile is called. No CALL.");
 
 		yield return WaitFor.Seconds(.4f);
 
 		tileChangeManager.RemoveTile(position, LayerType.Effects);
-		Chat.AddGameWideSystemMsgToChat("RemoveTile is called. No COLL.");
-		Chat.AddGameWideSystemMsgToChat("--------------------------------");
-		// Restore the old effect if any (ex: cracked glass)
+
+		// Restore the old effect if any (ex: cracked glass, does not work)
 		if (oldEffectLayerTile)
 			tileChangeManager.UpdateTile(position, oldEffectLayerTile);
 		isOnDespawn = false;
@@ -150,15 +105,12 @@ public class BulletKinetic : BulletBehaviour
 		LayerTile oldEffectLayerTile = tileChangeManager.GetLayerTile(cellPos, LayerType.Effects);
 
 		tileChangeManager.UpdateTile(cellPos, TileType.Effects, "KineticAnimation");
-		Chat.AddGameWideSystemMsgToChat("--------------------------------");
-		Chat.AddGameWideSystemMsgToChat("UpdateTile is called. With COLL.");
+
 		yield return WaitFor.Seconds(.4f);
 
 		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
-		//tileChangeManager.RemoveEffect(position, LayerType.Effects);
-		Chat.AddGameWideSystemMsgToChat("RemoveTile is called. With COLL.");
-		Chat.AddGameWideSystemMsgToChat("--------------------------------");
-		// Restore the old effect if any (ex: cracked glass)
+
+		// Restore the old effect if any (ex: cracked glass, does not work)
 		if (oldEffectLayerTile)
 		{
 			tileChangeManager.UpdateTile(cellPos, oldEffectLayerTile);
