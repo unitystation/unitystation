@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using YamlDotNet.Serialization;
@@ -68,36 +69,57 @@ namespace Chemistry.Editor
 		private void Export()
 		{
 			var reagentFiles = Directory.EnumerateFiles(reagentsPath);
-			var reagentsText = File.ReadAllText(reagentsPath);
-			var reagentsData = deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(reagentsText);
 
-			var reactionText = File.ReadAllText(reactionPath);
-			var reactionsData = deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(reactionText);
-
-			var reagents = reagentFiles
+			var reagentGroups = reagentFiles
 				.Select(file => (file, data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(file))))
-				.Select(reagents => new Grouping<string, Dictionary<string, Reagent>>(reagents.file, 
+				.Select(reagents => new Grouping<string, KeyValuePair<string, Reagent>>(reagents.file,
 					reagents.data
 					.Where(dict => dict.Value.ContainsKey("name"))
 					.ToDictionary(reagentData => reagentData.Key, ToReagent)));
 
-			var flatReagents = reagents
+			var flatReagents = reagentGroups
 				.SelectMany(dict => dict)
 				.ToDictionary(pair => pair.Key, pair => pair.Value);
 
-			var reactions = reactionsData
-				.ToDictionary(r => r.Key, reactionData => ToReaction(reactionData, flatReagents));
+			var reactionFiles = Directory.EnumerateFiles(reactionPath);
 
-			foreach (var reagent in reagents)
+			var reactionGroups = reactionFiles
+				.Select(file => (file, data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(file))))
+				.Select(reactions => new Grouping<string, KeyValuePair<string, Reaction>>(
+					reactions.file,
+					reactions.data
+						.ToDictionary(r => r.Key, r => ToReaction(r, flatReagents))));
+
+			foreach (var reagentsGroup in reagentGroups)
 			{
-				var path = Path.Combine(reagentExportPath + reagent., reagent.Value.Name + ".asset");
-				AssetDatabase.CreateAsset(reagent.Value, path);
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key)).Replace("Reagents", "");
+				Logger.Log(prefix);
+				var prefixPath = Path.Combine(reagentExportPath, prefix);
+				if(!Directory.Exists(prefixPath))
+				{
+					Directory.CreateDirectory(prefixPath);
+				}
+				foreach (var reagent in reagentsGroup)
+				{
+					var path = Path.Combine(prefixPath, reagent.Value.Name + ".asset");
+					AssetDatabase.CreateAsset(reagent.Value, path);
+				}
 			}
 
-			foreach (var reaction in reactions)
+			foreach (var reactionsGroup in reactionGroups)
 			{
-				var path = Path.Combine(reactionExportPath, reaction.Key.Replace("datum/chemical_reaction/", "").Replace('/', '_') + ".asset");
-				AssetDatabase.CreateAsset(reaction.Value, path);
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key));
+				Logger.Log(prefix);
+				var prefixPath = Path.Combine(reactionExportPath, prefix);
+				if(!Directory.Exists(prefixPath))
+				{
+					Directory.CreateDirectory(prefixPath);
+				}
+				foreach (var reaction in reactionsGroup)
+				{
+					var path = Path.Combine(prefixPath, reaction.Key.Replace("datum/chemical_reaction/", "").Replace('/', '_') + ".asset");
+					AssetDatabase.CreateAsset(reaction.Value, path);
+				}
 			}
 		}
 
@@ -203,6 +225,20 @@ namespace Chemistry.Editor
 			}
 
 			return reagent;
+		}
+
+		public string ToPascalCase(string original)
+		{
+			var startsWithLowerCaseChar = new Regex("^[a-z]");
+
+			// replace white spaces with undescore, then replace all invalid chars with empty string
+			var pascalCase = original
+				// split by underscores
+				.Split(new char[] {'_'}, StringSplitOptions.RemoveEmptyEntries)
+				// set first letter to uppercase
+				.Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()));
+
+			return string.Concat(pascalCase);
 		}
 
 		private class Grouping<TKey, TElement> : IGrouping<TKey, TElement>
