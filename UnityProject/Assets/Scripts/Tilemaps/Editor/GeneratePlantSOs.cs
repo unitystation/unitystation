@@ -74,7 +74,34 @@ public class GeneratePlantSOs : EditorWindow
 
 			plantdata.ProduceSprite = new SpriteSheetAndData();
 			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + ".png", typeof(Texture2D)) as Texture2D);
+			if (plantdata.ProduceSprite.Texture == null)
+			{
+				plantdata.ProduceSprite = new SpriteSheetAndData();
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pile.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (plantdata.ProduceSprite.Texture == null)
+			{
+				plantdata.ProduceSprite = new SpriteSheetAndData();
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "_leaves.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (plantdata.ProduceSprite.Texture == null)
+			{
+				plantdata.ProduceSprite = new SpriteSheetAndData();
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pod.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (plantdata.ProduceSprite.Texture == null)
+			{
+				plantdata.ProduceSprite = new SpriteSheetAndData();
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "s.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (plantdata.ProduceSprite.Texture == null)
+			{
+				plantdata.ProduceSprite = new SpriteSheetAndData();
+				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pepper.png", typeof(Texture2D)) as Texture2D);
+			}
 			plantdata.ProduceSprite.setSprites();
+
+
 
 			var dead_sprite = (plat.ContainsKey("dead_Sprite")) ? (plat["dead_Sprite"] as string) : species + "-dead";
 
