@@ -19,8 +19,8 @@
             "ambrosia_deus"
         ],
         "reagents_add": {
-            "aiuri": 0.1,
-            "libital": 0.1,
+            "C2/aiuri": 0.1,
+            "C2/libital": 0.1,
             "space_drugs": 0.15,
             "vitamin": 0.04,
             "nutriment": 0.05,
@@ -194,7 +194,7 @@
         ],
         "reagents_add": {
             "nothing": 0.1,
-            "mutetoxin": 0.1,
+            "toxin/mutetoxin": 0.1,
             "nutriment": 0.02
         },
         "species": "mimana",
@@ -281,7 +281,7 @@
             ""
         ],
         "reagents_add": {
-            "carpotoxin": 0.1,
+            "toxin/carpotoxin": 0.1,
             "vitamin": 0.04,
             "nutriment": 0.05
         },
@@ -335,8 +335,8 @@
             "berry_death"
         ],
         "reagents_add": {
-            "cyanide": 0.15,
-            "staminatoxin": 0.2,
+            "toxin/cyanide": 0.15,
+            "toxin/staminatoxin": 0.2,
             "vitamin": 0.04,
             "nutriment": 0.1
         },
@@ -363,8 +363,8 @@
             ""
         ],
         "reagents_add": {
-            "coniine": 0.08,
-            "staminatoxin": 0.1,
+            "toxin/coniine": 0.08,
+            "toxin/staminatoxin": 0.1,
             "vitamin": 0.04,
             "nutriment": 0.1
         },
@@ -527,7 +527,7 @@
             "vitamin": 0.04,
             "nutriment": 0.1,
             "sugar": 0.1,
-            "aiuri": 0.2
+            "C2/aiuri": 0.2
         },
         "species": "greengrape"
     },
@@ -553,7 +553,7 @@
         ],
         "reagents_add": {
             "space_drugs": 0.15,
-            "lipolicide": 0.35
+            "toxin/lipolicide": 0.35
         },
         "species": "cannabis",
         "produce_name": "cannabis leaf",
@@ -583,8 +583,8 @@
             "colorful_reagent": 0.05,
             "psicodine": 0.03,
             "happiness": 0.1,
-            "mindbreaker": 0.1,
-            "lipolicide": 0.15
+            "toxin/mindbreaker": 0.1,
+            "toxin/lipolicide": 0.15
         },
         "species": "megacannabis",
         "produce_name": "rainbow cannabis leaf",
@@ -611,9 +611,9 @@
             ""
         ],
         "reagents_add": {
-            "cyanide": 0.35,
+            "toxin/cyanide": 0.35,
             "space_drugs": 0.15,
-            "lipolicide": 0.15
+            "toxin/lipolicide": 0.15
         },
         "species": "blackcannabis",
         "produce_name": "death cannabis leaf",
@@ -642,7 +642,7 @@
         "reagents_add": {
             "omnizine": 0.35,
             "space_drugs": 0.15,
-            "lipolicide": 0.15
+            "toxin/lipolicide": 0.15
         },
         "species": "whitecannabis",
         "produce_name": "white cannabis leaf",
@@ -663,27 +663,14 @@
         "growing_icon": "goon/icons/obj/hydroponics",
         "dead_Sprite": "cannabis-dead",
         "genes": [
-            "Perennial_Growth"
+            "Perennial_Growth",
+            "Bioluminescence/green"
         ],
         "mutates_into": [
             ""
         ],
         "reagents_add": {
-            "space_drugs": 0.3,
-            "mindbreaker": 0.3,
-            "mercury": 0.15,
-            "lithium": 0.15,
-            "atropine": 0.15,
-            "haloperidol": 0.15,
-            "methamphetamine": 0.15,
-            "capsaicin": 0.15,
-            "barbers_aid": 0.15,
-            "bath_salts": 0.15,
-            "itching_powder": 0.15,
-            "crank": 0.15,
-            "krokodil": 0.15,
-            "histamine": 0.15,
-            "lipolicide": 0.15
+            "space_drugs": 0.3
         },
         "species": "ocannabis"
     },
@@ -1220,7 +1207,7 @@
             "poppy_lily"
         ],
         "reagents_add": {
-            "libital": 0.2,
+            "C2/libital": 0.2,
             "nutriment": 0.05
         },
         "species": "poppy",
@@ -1245,7 +1232,7 @@
             "poppy_lily_trumpet"
         ],
         "reagents_add": {
-            "libital": 0.2,
+            "C2/libital": 0.2,
             "nutriment": 0.05
         },
         "species": "lily",
@@ -1295,7 +1282,7 @@
             ""
         ],
         "reagents_add": {
-            "libital": 0.2,
+            "C2/libital": 0.2,
             "nutriment": 0.05
         },
         "species": "geranium",
@@ -1515,7 +1502,7 @@
             "Weed Adaptation"
         ],
         "reagents_add": {
-            "multiver": 0.04,
+            "C2/multiver": 0.04,
             "nutriment": 0.02
         },
         "species": "kudzu"
@@ -1768,7 +1755,7 @@
         ],
         "reagents_add": {
             "morphine": 0.35,
-            "multiver": 0.35,
+            "C2/multiver": 0.35,
             "nutriment": 0
         },
         "species": "reishi"
@@ -1794,7 +1781,7 @@
         ],
         "reagents_add": {
             "mushroomhallucinogen": 0.04,
-            "amatoxin": 0.35,
+            "toxin/amatoxin": 0.35,
             "nutriment": 0,
             "growthserum": 0.1
         },
@@ -1818,9 +1805,9 @@
         ],
         "reagents_add": {
             "mushroomhallucinogen": 0.04,
-            "amatoxin": 0.1,
+            "toxin/amatoxin": 0.1,
             "nutriment": 0,
-            "amanitin": 0.2
+            "toxin/amanitin": 0.2
         },
         "species": "angel"
     },
@@ -2045,7 +2032,7 @@
             "nettle_death"
         ],
         "reagents_add": {
-            "acid": 0.5
+            "toxin/acid": 0.5
         },
         "species": "nettle"
     },
@@ -2070,8 +2057,8 @@
             ""
         ],
         "reagents_add": {
-            "acid/fluacid": 0.5,
-            "acid": 0.5
+            "toxin/acid/fluacid": 0.5,
+            "toxin/acid": 0.5
         },
         "species": "deathnettle",
         "produce_name": "deathnettle",
@@ -2454,7 +2441,7 @@
         "reagents_add": {
             "synaptizine": 0.1,
             "vitamin": 0.04,
-            "teapowder": 0.1
+            "toxin/teapowder": 0.1
         },
         "species": "teaastra",
         "produce_name": "Tea Astra tips",
@@ -2481,7 +2468,7 @@
         ],
         "reagents_add": {
             "vitamin": 0.04,
-            "coffeepowder": 0.1
+            "toxin/coffeepowder": 0.1
         },
         "species": "coffeea",
         "produce_name": "coffee arabica beans",
@@ -2509,7 +2496,7 @@
         "reagents_add": {
             "ephedrine": 0.1,
             "vitamin": 0.04,
-            "coffeepowder": 0.1
+            "toxin/coffeepowder": 0.1
         },
         "species": "coffeer"
     },

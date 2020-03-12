@@ -49,82 +49,54 @@ public class GeneratePlantSOs : EditorWindow
 				plantdata.Plantname = plat["plantname"] as string;
 			}
 			plantdata.Description = plat["Description"] as string;
-			var seed_packet = "";
+			var species = "";
 			if (plat.ContainsKey("species"))
 			{
-				seed_packet = (plat["species"] as string);
+				species = (plat["species"] as string);
 			}
 			else
 			{
 				Debug.Log($"Unable to find 'species' tag for plant {plantdata.Name}, using 'seed_packet' instead");
-				seed_packet = (plat["seed_packet"] as string);
-				if (seed_packet.Contains("seed-"))
+				species = (plat["seed_packet"] as string);
+				if (species.Contains("seed-"))
 				{
-					seed_packet = seed_packet.Replace("seed-", "");
+					species = species.Replace("seed-", "");
 				}
-				else if (seed_packet.Contains("mycelium-"))
+				else if (species.Contains("mycelium-"))
 				{
-					seed_packet = seed_packet.Replace("mycelium-", "");
+					species = species.Replace("mycelium-", "");
 				}
-			}
-
-			//
-			Logger.Log(seed_packet);
-			//Logger.Log(plat["seed_packet"] as string);
-			//Logger.Log("harvest_" + seed_packet);
+			};
 
 			plantdata.PacketsSprite = new SpriteSheetAndData();
-			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\seeds_" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
-			if(plantdata.PacketsSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find seed packet sprite for plant {plantdata.Name}"); }
+			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
 			plantdata.PacketsSprite.setSprites();
 
 			plantdata.ProduceSprite = new SpriteSheetAndData();
-			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + ".png", typeof(Texture2D)) as Texture2D);
-
-			//Application.dataPath
-			if (plantdata.ProduceSprite.Texture == null)
-			{
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "pile" + ".png", typeof(Texture2D)) as Texture2D);
-			}
-			if (plantdata.ProduceSprite.Texture == null)
-			{
-				var EEEseed_packet = (plat["seed_packet"] as string);
-				if (EEEseed_packet.Contains("seed-"))
-				{
-					EEEseed_packet = EEEseed_packet.Replace("seed-", "");
-				}
-				else if (EEEseed_packet.Contains("mycelium-"))
-				{
-					EEEseed_packet = EEEseed_packet.Replace("mycelium-", "");
-				}
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet + ".png", typeof(Texture2D)) as Texture2D);
-				if (plantdata.ProduceSprite.Texture == null)
-				{
-					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet + "s" + ".png", typeof(Texture2D)) as Texture2D);
-				}
-				if (plantdata.ProduceSprite.Texture == null)
-				{
-					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "s" + ".png", typeof(Texture2D)) as Texture2D);
-				}
-			}
-			if (plantdata.ProduceSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find produce sprite"); }
+			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + ".png", typeof(Texture2D)) as Texture2D);
 			plantdata.ProduceSprite.setSprites();
+
+			var dead_sprite = (plat.ContainsKey("dead_Sprite")) ? (plat["dead_Sprite"] as string) : species + "-dead";
+
+			plantdata.DeadSprite = new SpriteSheetAndData();
+			plantdata.DeadSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + dead_sprite + ".png", typeof(Texture2D)) as Texture2D);
+			plantdata.DeadSprite.setSprites();
 
 			plantdata.GrowthSprites = new List<SpriteSheetAndData>();
 			foreach (var ListFile in ListFiles)
 			{
 				
-				if (ListFile.Contains(seed_packet))
+				if (ListFile.Contains(species))
 				{
 					var Namecheck = ListFile;
-					Namecheck = Namecheck.Replace("growing_flowers_", "");
+					/*Namecheck = Namecheck.Replace("growing_flowers_", "");
 					Namecheck = Namecheck.Replace("growing_fruits_", "");
 					Namecheck = Namecheck.Replace("growing_mushrooms_", "");
 					Namecheck = Namecheck.Replace("growing_vegetables_", "");
-					Namecheck = Namecheck.Replace("growing_", "");
+					Namecheck = Namecheck.Replace("growing_", "");*/
 					Namecheck = Namecheck.Split('-')[0];
 
-					if (Namecheck == seed_packet)
+					if (Namecheck == species)
 					{
 						EditorUtility.DisplayProgressBar("Step 1/3 Setting Sprites", $"Loading sprite '{ListFile}' for plant {plantdata.Name}", progressbarState);
 						if (!ListFile.Contains("-dead"))
@@ -148,13 +120,6 @@ public class GeneratePlantSOs : EditorWindow
 							}
 
 						}
-						else
-						{
-							var _SpriteSheetAndData = new SpriteSheetAndData();
-							_SpriteSheetAndData.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + ListFile, typeof(Texture2D)) as Texture2D);
-							_SpriteSheetAndData.setSprites();
-							plantdata.DeadSprite = _SpriteSheetAndData;
-						}
 
 					}
 
@@ -171,9 +136,12 @@ public class GeneratePlantSOs : EditorWindow
 				progressbarState += progressbarStep;
 			}
 			//check if sprites are missing
+			if (plantdata.PacketsSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find seed packet sprite for plant {plantdata.Name}"); }
+			if (plantdata.ProduceSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find produce sprite"); }
+			if (plantdata.DeadSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find dead sprite"); }
 			if (plantdata.GrowthSprites.Count == 0) { AppendError(plantdata.Name, $"Unable to find growth sprites for plant {plantdata.Name}"); }
 			if (plantdata.FullyGrownSprite == null) { AppendError(plantdata.Name, $"Unable to find fully grown sprite"); }
-			if (plantdata.DeadSprite == null) { AppendError(plantdata.Name, $"Unable to find dead sprite"); }
+			
 
 
 			plantdata.WeedResistance = int.Parse(plat["weed_resistance"].ToString());
@@ -353,12 +321,12 @@ public class GeneratePlantSOs : EditorWindow
 				
 				if(mutationNameList.Contains(pant.Value.plantData.Name))
 				{
-					AppendError(pant.Value.plantData.Name, $"Mutation {pant.Value.plantData.Name} has some missing sprites");
+					dictonaryErrors[pant.Value.plantData.Name] = $"Mutation {pant.Value.plantData.Name} has some missing sprites\n{dictonaryErrors[pant.Value.plantData.Name]}";
 					Debug.LogWarning(dictonaryErrors[pant.Value.plantData.Name]);
 				}
 				else
 				{
-					AppendError(pant.Value.plantData.Name, $"Plant {pant.Value.plantData.Name} has some missing sprites");
+					dictonaryErrors[pant.Value.plantData.Name] = $"Plant {pant.Value.plantData.Name} has some missing sprites\n{dictonaryErrors[pant.Value.plantData.Name]}";
 					Debug.LogError(dictonaryErrors[pant.Value.plantData.Name]);
 				}
 			}
