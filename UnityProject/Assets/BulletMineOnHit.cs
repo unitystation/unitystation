@@ -6,7 +6,7 @@ using Mirror;
 
 public class BulletMineOnHit : MonoBehaviour
 {
-
+	//Script does not work on asteroids but mines AsteroidStation ore
 	public void BulletHitInteract(Collision2D coll, Vector2 Direction)
 	{
 		Transform cellTransform = coll.transform;

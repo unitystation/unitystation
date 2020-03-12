@@ -709,7 +709,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void PlayEmptySFX()
 	{
-		SoundManager.PlayNetworkedAtPos("EmptyGunClick", gameObject.AssumedWorldPosServer());
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position);
 	}
 
 	#endregion

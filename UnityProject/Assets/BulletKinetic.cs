@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class BulletKinetic : BulletBehaviour
 {
 	public float maxBulletDistance;
-
+	//to control Kinetic animation with it
 	private bool isOnDespawn = false;
 
 	public override void Shoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
