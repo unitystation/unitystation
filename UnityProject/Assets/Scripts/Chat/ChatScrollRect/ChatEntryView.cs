@@ -11,6 +11,7 @@ public class ChatEntryView : MonoBehaviour
 	private ChatEntryData entryData;
 	private ChatScrollRect chatScrollRect;
 	private bool isResetting = false;
+	public bool SpawnedOutside { get; private set; }
 
 	/// <summary>
 	/// The current message of the ChatEntry
@@ -28,10 +29,22 @@ public class ChatEntryView : MonoBehaviour
 		chatScrollRect = chatScroll;
 		tMarkerBottom = markerBottom;
 		tMarkerTop = markerTop;
-		isResetting = false;
+		isResetting = true;
 		visibleText.text = data.Message;
 		entryData = data;
 		gameObject.SetActive(true);
+
+		var bottomTest = transform.position - tMarkerBottom.position;
+		var topTest = transform.position - tMarkerTop.position;
+		if (bottomTest.y < -20f || topTest.y > 20f)
+		{
+			SpawnedOutside = true;
+		}
+		else
+		{
+			SpawnedOutside = false;
+		}
+		isResetting = false;
 	}
 
 	private void OnEnable()
@@ -54,17 +67,16 @@ public class ChatEntryView : MonoBehaviour
 	void CheckPosition()
 	{
 		var bottomTest = transform.position - tMarkerBottom.position;
-		if (bottomTest.y < -20f)
-		{
-			ReturnToPool(true);
-			return;
-		}
-
 		var topTest = transform.position - tMarkerTop.position;
-		if (topTest.y > 20f)
+
+		if (SpawnedOutside)
 		{
-			ReturnToPool();
-			return;
+			if (bottomTest.y > 0f || topTest.y < 0f) SpawnedOutside = false;
+		}
+		else
+		{
+			if (bottomTest.y < -20f) ReturnToPool(true);
+			if (topTest.y > 20f) ReturnToPool();
 		}
 	}
 
