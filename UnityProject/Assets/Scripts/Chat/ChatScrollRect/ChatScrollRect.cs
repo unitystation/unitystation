@@ -44,12 +44,26 @@ public class ChatScrollRect : ScrollRect
 		isInit = true;
 	}
 
+	/// <summary>
+	/// Removes all previous content and reloads the chat with
+	/// the new chat logs
+	/// </summary>
+	/// <param name="chatLogsToLoad">A list of the chatlogs you want to load into the scroll rect</param>
 	public void LoadChatEntries(List<ChatEntryData> chatLogsToLoad)
 	{
 		chatLog.Clear();
 		chatLog = new List<ChatEntryData>(chatLogsToLoad);
 
 		StartCoroutine(LoadAllChatEntries());
+	}
+
+	/// <summary>
+	/// This adds a new chat entry and displays it at the bottom of the scroll feed
+	/// </summary>
+	public void AddNewChatEntry(ChatEntryData chatEntry)
+	{
+		chatLog.Insert(0, chatEntry);
+		ForceViewRefresh();
 	}
 
 	IEnumerator LoadAllChatEntries()
@@ -81,6 +95,14 @@ public class ChatScrollRect : ScrollRect
 		obj.transform.localScale = Vector3.one;
 		obj.SetActive(false);
 		return obj.GetComponent<ChatEntryView>();
+	}
+
+	void ForceViewRefresh()
+	{
+		foreach (var v in displayPool)
+		{
+			v.SetChatEntryView(chatLog[v.Index], this, markerBottom, markerTop, v.Index);
+		}
 	}
 
 	public void ReturnViewToPool(ChatEntryView view, bool isExitBottom, bool onlyRemove = false)

@@ -11,6 +11,7 @@ public class ChatEntryView : MonoBehaviour
 	private ChatEntryData entryData;
 	private ChatScrollRect chatScrollRect;
 	private bool isResetting = false;
+	public int Index { get; private set; }
 	public bool SpawnedOutside { get; private set; }
 
 	/// <summary>
@@ -24,8 +25,9 @@ public class ChatEntryView : MonoBehaviour
 	public ChatEntryData EntryData => entryData;
 
 	public void SetChatEntryView(ChatEntryData data, ChatScrollRect chatScroll, Transform markerBottom,
-		Transform markerTop)
+		Transform markerTop, int index)
 	{
+		Index = index;
 		chatScrollRect = chatScroll;
 		tMarkerBottom = markerBottom;
 		tMarkerTop = markerTop;
