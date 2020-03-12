@@ -38,23 +38,23 @@ public class CentComm : MonoBehaviour
 		"\nNature of emergency:" +
 		"\n\n{1}";
 	// Not traced yet, but eventually will:
-//		+"\n\nCall signal traced. Results can be viewed on any communications console.";
+	//		+"\n\nCall signal traced. Results can be viewed on any communications console.";
 
 	public static string ShuttleRecallSubTemplate =
 		"\n\nThe emergency shuttle has been recalled. " +
 	// Not traced yet, but eventually will:
-//		+"Recall signal traced. Results can be viewed on any communications console.";
+	//		+"Recall signal traced. Results can be viewed on any communications console.";
 		"\n\n{0}";
 
 	public static string CentCommReportTemplate =
 		"<size=40><b>CentComm Report</b></size> \n __________________________________\n\n{0}";
 
-	private string InitialUpdateTemplate =
+	private readonly string InitialUpdateTemplate =
 		"<color=white><size=40><b>{0}</b></size></color>\n\n"+
 		"<color=#FF151F>A summary has been copied and"+
 		" printed to all communications consoles</color>";
 
-	private string ExtendedInitialUpdate =
+	private readonly string ExtendedInitialUpdate =
 		"Thanks to the tireless efforts of our security and intelligence divisions,"+
 		" there are currently no credible threats to the station."+ //TODO use real Station name here
 		" All station construction projects have been authorized. Have a secure shift!";
@@ -144,19 +144,53 @@ public class CentComm : MonoBehaviour
 	}
 	private void SendAntagUpdate()
 	{
+		SoundManager.PlayNetworked("InterceptMessage", 1f);
 		MakeAnnouncement(CentCommAnnounceTemplate, 
 						string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
 						UpdateSound.alert);
 		SpawnReports(StationObjectiveReport());
 		SpawnReports(AntagThreatReport);
+		ChangeAlertLevel(AlertLevel.Blue, false);
 	}
 
 	IEnumerator WaitToCargoniaReport()
 	{
 		yield return WaitFor.Seconds(Random.Range(600f,1200f));
-		MakeCommandReport(CargoniaReport(), UpdateSound.notice);
+		MakeCommandReport(CargoniaReport, UpdateSound.notice);
 	}
 
+	/// <summary>
+	/// Changes current Alert Level. You can omit the announcement! Must be called on server.
+	/// </summary>
+	/// <param name="ToLevel">Value from AlertLevel that represent the desired level</param>
+	/// <param name="Announce">Optional, Should we announce the change? Default is true.</param>
+
+	public void ChangeAlertLevel(AlertLevel ToLevel, bool Announce = true)
+	{
+		if (CurrentAlertLevel == ToLevel) return;
+
+		if (CurrentAlertLevel > ToLevel && Announce)
+		{
+			int _levelString = (int) ToLevel * -1;
+			MakeAnnouncement(CentCommAnnounceTemplate, 
+							AlertLevelStrings[(AlertLevelString)_levelString], 
+							ToLevel==AlertLevel.Green ? UpdateSound.notice:UpdateSound.alert);
+		}
+		else if (CurrentAlertLevel < ToLevel && Announce)
+		{
+			MakeAnnouncement(CentCommAnnounceTemplate,
+							AlertLevelStrings[(AlertLevelString)ToLevel],
+							ToLevel==AlertLevel.Green ? UpdateSound.notice:UpdateSound.alert);
+		}
+
+		CurrentAlertLevel = ToLevel;
+
+	}
+
+	/// <summary>
+	/// Spawns written reports at every comms console. Must be called on server.
+	/// </summary>
+	/// <param name="text">String that will be the report body</param>
 	private void SpawnReports(string text)
 	{
 		var commConsoles = FindObjectsOfType<CommsConsole>();
@@ -168,16 +202,27 @@ public class CentComm : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Makes and announce a written report that will spawn at all comms consoles. Must be called on server.
+	/// </summary>
+	/// <param name="text">String that will be the report body</param>
+	/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
 	public void MakeCommandReport(string text, UpdateSound type)
 	{
 		SpawnReports(text);
 
-		Chat.AddSystemMsgToChat(string.Format(CentCommAnnounceTemplate, CommandNewReportString()), MatrixManager.MainStationMatrix);
+		Chat.AddSystemMsgToChat(string.Format(CentCommAnnounceTemplate, CommandNewReportString), MatrixManager.MainStationMatrix);
 
 		SoundManager.PlayNetworked(UpdateTypes[type], 1f);
 		SoundManager.PlayNetworked("Commandreport", 1f);
 	}
 
+	/// <summary>
+	/// Makes an announcement for all players. Must be called on server.
+	/// </summary>
+	/// <param name="template">String that will be the header of the annoucement. We have a couple ready to use </param>
+	/// <param name="text">String that will be the message body</param>
+	/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
 	public static void MakeAnnouncement( string template, string text, UpdateSound type )
 	{
 		if ( text.Trim() == string.Empty )
@@ -232,7 +277,7 @@ public class CentComm : MonoBehaviour
 		return report;
 	}
 
-	private string AntagThreatReport =
+	private readonly string AntagThreatReport =
 	"<size=26>Central Command has intercepted and partially decoded a Syndicate transmission with vital"+
 	" information regarding their movements.\n\n"+
 	"CentComm believes there might be Syndicate activity in the Station. We will keep you informed as we gather more "+
@@ -253,22 +298,22 @@ public class CentComm : MonoBehaviour
 	};
 
 	public enum AlertLevel {
-		Green,
-		Blue,
-		Red,
-		Delta
+		Green = 1,
+		Blue = 2,
+		Red = 3,
+		Delta = 4
 	}
 
 	private enum AlertLevelString {
-		DownToGreen,
-		UpToBlue,
-		DownToBlue,
-		UpToRed,
-		DownToRed,
-		UpToDelta
+		DownToGreen = AlertLevel.Green,
+		UpToBlue = AlertLevel.Blue,
+		DownToBlue = -AlertLevel.Blue,
+		UpToRed = AlertLevel.Red,
+		DownToRed = -AlertLevel.Red,
+		UpToDelta = AlertLevel.Delta
 	}
 
-	private static string AlertLevelTemplate =
+	private static readonly string AlertLevelTemplate =
 			"<color=#FF151F><size=40><b>Attention! Security level {0}:</b></size></color>\n"+
 			"<color=white><b>{1}</b></color>";
 
@@ -326,15 +371,11 @@ public class CentComm : MonoBehaviour
 		}
 	};
 
-	private string CommandNewReportString()
-	{
-		return "<color=#FF151F>Incoming Classified Message</color>\n\n"
+	private readonly string CommandNewReportString =
+		"<color=#FF151F>Incoming Classified Message</color>\n\n"
 		+ "A report has been downloaded and printed out at all communications consoles.";
-	}
 
-	private string CargoniaReport()
-	{
-		return
+	private readonly string CargoniaReport =
 			" <size=26>Confidential information disclosed:</size>\n\n"
 			+ "CentComm has reliable information to believe some of the crewmembers on the station"
 			+ " are planning to stage a coup.\n\n"
@@ -342,6 +383,5 @@ public class CentComm : MonoBehaviour
 			+ "<color=blue><size=32>New Station Objectives:</size></color>\n\n"
 			+ "<size=24>- Find the revolted crewmembers and neutralize the threat\n\n"
 			+ "- Be cautious and restore order in the station</size>";
-	}
 
 }
