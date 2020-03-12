@@ -7,12 +7,12 @@ using Mirror;
 [DisallowMultipleComponent]
 public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
-	public GameObject SeedPacket;
-	public SpriteRenderer SpriteSizeAdjustment;
-	public SpriteHandler SpriteHandler;
 	public PlantData plantData;
 	public ReagentContainer reagentContainer;
-	public ItemAttributesV2 ItemAttributesV2;
+	private GameObject SeedPacket;
+	private SpriteRenderer SpriteSizeAdjustment;
+	private SpriteHandler Sprite;
+	private ItemAttributesV2 ItemAttributesV2;
 
 
 
@@ -26,6 +26,10 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		SpriteSizeAdjustment.transform.localScale = new Vector3((SizeScale), (SizeScale), (SizeScale));
 	}
 
+	private void Awake()
+	{
+		Sprite.PushTexture();
+	}
 
 	public override void OnStartClient()
 	{
@@ -33,15 +37,18 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		base.OnStartClient();
 	}
 
-	public void SetUpFood()
+	/// <summary>
+	/// Called when plant creates food
+	/// </summary>
+	public void SetUpFood(PlantData newPlantData)
 	{
-		SpriteHandler.PushTexture();
-		SyncSize(SizeScale, 0.5f + (plantData.Potency / 100f));
+		plantData.SetValues(newPlantData);
+		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 100f));
 	}
 
 	/// <summary>
 	/// Gets seeds for plant and replaces held food with seeds
-	/// Might not work as activate eats instead?
+	/// DOES NOT WORK, eating overrides this.
 	/// </summary>
 	/// <param name="interaction"></param>
 	public void ServerPerformInteraction(HandActivate interaction)

@@ -153,6 +153,36 @@ PrefabInstance:
       propertyPath: plantData.Lifespan
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[0]
+      value: nutriment
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[1]
+      value: hydrogen
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[0]
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[1]
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size
@@ -267,12 +297,18 @@ PrefabInstance:
     - target: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: m_Name
-      value: food
+      value: grass
       objectReference: {fileID: 0}
     - target: {fileID: 4983833925385836507, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 90dfc684e081a8441970a4baaf0f97fe,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}

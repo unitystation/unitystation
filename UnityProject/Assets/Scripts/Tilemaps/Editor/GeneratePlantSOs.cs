@@ -278,27 +278,32 @@ public class GeneratePlantSOs : EditorWindow
 				//itemAttr.itemSprites = (new ItemsSprites() { InventoryIcon = produceSprite });
 
 				//add sprite to food
-				//var spriteRenderer = prefabVariant.GetComponentInChildren<SpriteRenderer>();
-
-				//spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
+				var spriteRenderer = prefabVariant.GetComponentInChildren<SpriteRenderer>();
+				spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
 
 				var newFood = prefabVariant.GetComponent<GrownFood>();
 
 				//Set plant data for food
 				newFood.plantData = plantdata;
-				
+
+				var newReagents = prefabVariant.GetComponent<ReagentContainer>();
+
 				//add reagents to food
 				if (plat.ContainsKey("reagents_add"))
 				{
 					var Chemicals = JsonConvert.DeserializeObject<Dictionary<string, float>>(plat["reagents_add"].ToString());
 
-					var ChemicalDictionary = new Dictionary<string, float>();
+					var reagents = new List<string>();
+					var amounts = new List<float>();
 					foreach (var Chemical in Chemicals)
 					{
-						ChemicalDictionary[Chemical.Key] = (((int)(Chemical.Value * 100)) * (plantdata.Potency / 100f));
+						//ChemicalDictionary[Chemical.Key] = (((int)(Chemical.Value * 100)) * (plantdata.Potency / 100f));
+						reagents.Add(Chemical.Key);
+						amounts.Add(((int)(Chemical.Value * 100)) * (plantdata.Potency / 100f));
 					}
-					newFood.reagentContainer.AddReagents(ChemicalDictionary);
 
+					newReagents.Reagents = reagents;
+					newReagents.Amounts = amounts;
 				}
 
 				plantdata.ProduceObject = PrefabUtility.SaveAsPrefabAsset(prefabVariant, @"Assets/Resources/Prefabs/Items/Botany/" + plantdata.Name + ".prefab");

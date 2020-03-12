@@ -197,6 +197,66 @@ PrefabInstance:
       propertyPath: plantData.Yield
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[0]
+      value: colorful_reagent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[1]
+      value: psicodine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[2]
+      value: happiness
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[3]
+      value: mindbreaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[4]
+      value: lipolicide
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[1]
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[3]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[4]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size
@@ -346,12 +406,18 @@ PrefabInstance:
     - target: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: m_Name
-      value: food
+      value: cannabis_rainbow
       objectReference: {fileID: 0}
     - target: {fileID: 4983833925385836507, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2091061532200764047, guid: 5c4b5e265c53b054aa73c0345817e4aa,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}

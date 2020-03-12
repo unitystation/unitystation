@@ -191,6 +191,46 @@ PrefabInstance:
       propertyPath: plantData.PlantTrays.Array.data[0]
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[0]
+      value: nothing
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[1]
+      value: mutetoxin
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[2]
+      value: nutriment
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[2]
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size
@@ -312,6 +352,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 042b8c0576d1f5c498a8c039c2379777,
+        type: 3}
     - target: {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: leavings

@@ -578,9 +578,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			var food = produceObject.GetComponent<GrownFood>();
 			if (food != null)
 			{
-				food.plantData = new PlantData();
-				food.plantData.SetValues(plantData);
-				food.SetUpFood();
+				food.SetUpFood(plantData);
 			}
 
 			netTransform.DisappearFromWorldServer();
