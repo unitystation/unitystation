@@ -80,9 +80,9 @@ public class ChatScrollRect : ScrollRect
 
 		displayPool.Clear();
 
-		foreach (var c in chatLog)
+		for (int i = 0; i < chatLog.Count; i++)
 		{
-			if (!TryShowView(c, false))
+			if (!TryShowView(chatLog[i], false, i))
 			{
 				break;
 			}
@@ -123,7 +123,7 @@ public class ChatScrollRect : ScrollRect
 
 			if ((topIndex + 1) < chatLog.Count)
 			{
-				TryShowView(chatLog[topIndex + 1], false);
+				TryShowView(chatLog[topIndex + 1], false, topIndex + 1);
 			}
 		}
 		else
@@ -132,12 +132,12 @@ public class ChatScrollRect : ScrollRect
 			topIndex = Mathf.Clamp(dataIndex - 1, 0, chatLog.Count - 1);
 			if ((bottomIndex - 1) >= 0)
 			{
-				TryShowView(chatLog[bottomIndex - 1], true);
+				TryShowView(chatLog[bottomIndex - 1], true, bottomIndex - 1);
 			}
 		}
 	}
 
-	bool TryShowView(ChatEntryData data, bool forBottom)
+	bool TryShowView(ChatEntryData data, bool forBottom, int proposedIndex)
 	{
 		if (displayPool.Count > 1)
 		{
@@ -160,17 +160,17 @@ public class ChatScrollRect : ScrollRect
 		if (forBottom)
 		{
 			entry.transform.SetAsLastSibling();
-			bottomIndex--;
+			bottomIndex = proposedIndex;
 			displayPool.Insert(0, entry);
 		}
 		else
 		{
 			entry.transform.SetAsFirstSibling();
 			displayPool.Add(entry);
-			topIndex++;
+			topIndex = proposedIndex;
 		}
 
-		entry.SetChatEntryView(data, this, markerBottom, markerTop);
+		entry.SetChatEntryView(data, this, markerBottom, markerTop, proposedIndex);
 		return true;
 	}
 
