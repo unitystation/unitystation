@@ -38,6 +38,8 @@ public class GUI_Comms : NetTab
 	private EscapeShuttle shuttle;
 	private Coroutine callResultHandle;
 
+	private CentComm.AlertLevel AlertLevel = CentComm.AlertLevel.Green;
+
 	protected override void InitServer()
 	{
 		if (CustomNetworkManager.Instance._isServer)
@@ -173,9 +175,29 @@ public class GUI_Comms : NetTab
 	}
 	public void ChangeAlertLevel()
 	{
-		//todo
 		Logger.Log( nameof(ChangeAlertLevel), Category.NetUI );
+		GameManager.Instance.CentComm.ChangeAlertLevel(AlertLevel);
+		OpenMenu();
 	}
+
+	public void SelectAlertGreen()
+	{
+		AlertLevel = CentComm.AlertLevel.Green;
+	}
+	public void SelectAlertBlue()
+	{
+		AlertLevel = CentComm.AlertLevel.Blue;
+	}
+	public void SelectAlertRed()
+	{
+		AlertLevel = CentComm.AlertLevel.Red;
+	}
+	public void SelectAlertDelta()
+	{
+		AlertLevel = CentComm.AlertLevel.Delta;
+	}
+
+
 	public void RequestNukeCodes()
 	{
 		//todo
