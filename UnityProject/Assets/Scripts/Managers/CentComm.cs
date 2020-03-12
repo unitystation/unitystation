@@ -15,6 +15,8 @@ public class CentComm : MonoBehaviour
 
 	public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
 
+	public AlertLevel CurrentAlertLevel = AlertLevel.Green;
+
 	//Server only:
 	private List<Vector2> AsteroidLocations = new List<Vector2>();
 	private int PlasmaOrderRequestAmt;
@@ -47,6 +49,18 @@ public class CentComm : MonoBehaviour
 	public static string CentCommReportTemplate =
 		"<size=40><b>CentComm Report</b></size> \n __________________________________\n\n{0}";
 
+	private string InitialUpdateTemplate =
+		"<color=white><size=40><b>{0}</b></size></color>\n\n"+
+		"<color=#FF151F>A summary has been copied and"+
+		" printed to all communications consoles</color>";
+
+	private string ExtendedInitialUpdate =
+		"Thanks to the tireless efforts of our security and intelligence divisions,"+
+		" there are currently no credible threats to the station."+ //TODO use real Station name here
+		" All station construction projects have been authorized. Have a secure shift!";
+
+	private string AntagInitialUpdate =
+		"Enemy communication intercepted. Security level elevated.";
 
 	void Start()
 	{
@@ -103,41 +117,47 @@ public class CentComm : MonoBehaviour
 
 		//Shuffle the list:
 		AsteroidLocations = AsteroidLocations.OrderBy(x => Random.value).ToList();
-
-		//Determine Plasma order:
 		PlasmaOrderRequestAmt = Random.Range(5, 50);
-		SendReportToStation();
 
-		//Check for coup game modes:
-		if (GameManager.Instance.GetGameModeName(true) == "Cargonia")
+		// Checks if there will be antags this round and sets the initial update/report
+		if (GameManager.Instance.GetGameModeName(true) != "Extended")
 		{
-			StartCoroutine(WaitToCargoniaReport());
+			SendAntagUpdate();
+
+			if (GameManager.Instance.GetGameModeName(true) == "Cargonia")
+			{
+				StartCoroutine(WaitToCargoniaReport());
+			}
+
 		}
+		else
+		{
+			SendExtendedUpdate();
+		}
+	}
+
+	private void SendExtendedUpdate()
+	{
+		MakeAnnouncement(CentCommAnnounceTemplate, string.Format(InitialUpdateTemplate, ExtendedInitialUpdate),
+						UpdateSound.notice);
+		SpawnReports(StationObjectiveReport());
+	}
+	private void SendAntagUpdate()
+	{
+		MakeAnnouncement(CentCommAnnounceTemplate, 
+						string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
+						UpdateSound.alert);
+		SpawnReports(StationObjectiveReport());
+		SpawnReports(AntagThreatReport);
 	}
 
 	IEnumerator WaitToCargoniaReport()
 	{
-		yield return WaitFor.Seconds(600f);
-		MakeCommandReport(CargoniaReport(), UpdateType.alert);
+		yield return WaitFor.Seconds(Random.Range(600f,1200f));
+		MakeCommandReport(CargoniaReport(), UpdateSound.notice);
 	}
 
-	private void SendReportToStation()
-	{
-		var commConsoles = FindObjectsOfType<CommsConsole>();
-		foreach (CommsConsole console in commConsoles)
-		{
-			var p = Spawn.ServerPrefab(paperPrefab, console.transform.position, console.transform.parent).GameObject;
-			var paper = p.GetComponent<Paper>();
-			paper.SetServerString(CreateStartGameReport());
-		}
-
-		Chat.AddSystemMsgToChat(CommandUpdateAnnouncementString(), MatrixManager.MainStationMatrix);
-
-		SoundManager.PlayNetworked("Notice1", 1f);
-		SoundManager.PlayNetworked("InterceptMessage", 1f);
-	}
-
-	public void MakeCommandReport(string text, UpdateType type)
+	private void SpawnReports(string text)
 	{
 		var commConsoles = FindObjectsOfType<CommsConsole>();
 		foreach (CommsConsole console in commConsoles)
@@ -146,6 +166,11 @@ public class CentComm : MonoBehaviour
 			var paper = p.GetComponent<Paper>();
 			paper.SetServerString(string.Format(CentCommReportTemplate, text));
 		}
+	}
+
+	public void MakeCommandReport(string text, UpdateSound type)
+	{
+		SpawnReports(text);
 
 		Chat.AddSystemMsgToChat(string.Format(CentCommAnnounceTemplate, CommandNewReportString()), MatrixManager.MainStationMatrix);
 
@@ -153,7 +178,7 @@ public class CentComm : MonoBehaviour
 		SoundManager.PlayNetworked("Commandreport", 1f);
 	}
 
-	public static void MakeAnnouncement( string template, string text, UpdateType type )
+	public static void MakeAnnouncement( string template, string text, UpdateSound type )
 	{
 		if ( text.Trim() == string.Empty )
 		{
@@ -189,9 +214,9 @@ public class CentComm : MonoBehaviour
 		PlaySoundMessage.SendToAll("ShuttleRecalled", Vector3.zero, 1f);
 	}
 
-	private string CreateStartGameReport()
+	private string StationObjectiveReport()
 	{
-		string report = "<size=38>CentComm Report</size> \n __________________________________ \n \n" +
+		string report =
 			" <size=26>Asteroid bodies have been sighted in the local area around " +
 			"OutpostStation IV. Locate and exploit local sources for plasma deposits.</size>\n \n " +
 			"<color=blue><size=32>Crew Objectives:</size></color>\n \n <size=24>- Locate and mine " +
@@ -207,16 +232,24 @@ public class CentComm : MonoBehaviour
 		return report;
 	}
 
-	public enum UpdateType {
+	private string AntagThreatReport =
+	"<size=26>Central Command has intercepted and partially decoded a Syndicate transmission with vital"+
+	" information regarding their movements.\n\n"+
+	"CentComm believes there might be Syndicate activity in the Station. We will keep you informed as we gather more "+
+	" intelligence.</size>\n\n"+
+	"<color=blue><size=32>Crew Objectives:</size></color>\n\n"+
+	"<size=24>- Subvert the threat.\n\n- Keep the productivity in the station.</size>";
+
+	public enum UpdateSound {
 		notice,
 		alert,
 		announce
 	}
 
-	private static readonly Dictionary<UpdateType, string> UpdateTypes = new Dictionary<UpdateType, string> {
-		{UpdateType.notice, "Notice2"},
-		{UpdateType.alert, "Notice1"},
-		{UpdateType.announce, "Announce"}
+	private static readonly Dictionary<UpdateSound, string> UpdateTypes = new Dictionary<UpdateSound, string> {
+		{UpdateSound.notice, "Notice2"},
+		{UpdateSound.alert, "Notice1"},
+		{UpdateSound.announce, "Announce"}
 	};
 
 	public enum AlertLevel {
@@ -236,60 +269,60 @@ public class CentComm : MonoBehaviour
 	}
 
 	private static string AlertLevelTemplate =
-			"<color=#FF151F><size=36><b>{0}</b></size></color>\n"+
-			"<color=white><b>Attention! Security level {1}:</b></color>";
+			"<color=#FF151F><size=40><b>Attention! Security level {0}:</b></size></color>\n"+
+			"<color=white><b>{1}</b></color>";
 
 	private static readonly Dictionary<AlertLevelString, string> AlertLevelStrings = new Dictionary<AlertLevelString, string> {
 		{
 			AlertLevelString.DownToGreen,
-			string.Format(CentCommAnnounceTemplate,
-				string.Format(AlertLevelTemplate,
+			
+			string.Format(AlertLevelTemplate,
 					"lowered to green",
 					"All threats to the station have passed. Security may not have weapons visible,"+
-					" privacy laws are once again fully enforced."))
+					" privacy laws are once again fully enforced.")
 		},
 		{
 			AlertLevelString.UpToBlue,
-			string.Format(CentCommAnnounceTemplate,
-				string.Format(AlertLevelTemplate,
+			
+			string.Format(AlertLevelTemplate,
 					"elevated to blue",
 					"The station has received reliable information about possible hostile activity"+
-					" on the station. Security staff may have weapons visible, random searches are permitted."))
+					" on the station. Security staff may have weapons visible, random searches are permitted.")
 					
 		},
 		{
 			AlertLevelString.DownToBlue,
-			string.Format(CentCommAnnounceTemplate,
-				string.Format(AlertLevelTemplate,
+			
+			string.Format(AlertLevelTemplate,
 					"lowered to blue",
 					"The immediate threat has passed. Security may no longer have weapons drawn at all times,"+
-					" but may continue to have them visible. Random searches are still allowed."))
+					" but may continue to have them visible. Random searches are still allowed.")
 		},
 		{
 			AlertLevelString.UpToRed,
-			string.Format(CentCommAnnounceTemplate,
-				string.Format(AlertLevelTemplate,
+			
+			string.Format(AlertLevelTemplate,
 					"elevated to red",
 					"There is an immediate serious threat to the station. Security may have weapons unholstered"+
-					" at all times. Random searches are allowed and advised."))
+					" at all times. Random searches are allowed and advised.")
 		},
 		{
 			AlertLevelString.DownToRed,
-			string.Format(CentCommAnnounceTemplate,
-				string.Format(AlertLevelTemplate,
+			
+			string.Format(AlertLevelTemplate,
 					"lowered to red",
 					"The station's destruction has been averted. There is still however an immediate serious"+
 					" threat to the station. Security may have weapons unholstered at all times, random searches"+
-					" are allowed and advised."))
+					" are allowed and advised.")
 		},
 		{
 			AlertLevelString.UpToDelta,
-			string.Format(CentCommAnnounceTemplate,
-				string.Format(AlertLevelTemplate,
+			
+			string.Format(AlertLevelTemplate,
 					"elevated to delta",
 					"Destruction of the station is imminent. All crew are instructed to obey all instructions"+
 					" given by heads of staff. Any violations of these orders can be punished by death."+
-					" This is not a drill."))
+					" This is not a drill.")
 		}
 	};
 
@@ -297,18 +330,6 @@ public class CentComm : MonoBehaviour
 	{
 		return "<color=#FF151F>Incoming Classified Message</color>\n\n"
 		+ "A report has been downloaded and printed out at all communications consoles.";
-	}
-
-	private string CommandUpdateAnnouncementString()
-	{
-		return "\n\n<color=white><size=60><b>Central Command Update</b></size=36>"
-		+ "\n\n<b><size=40>Enemy communication intercepted. Security level elevated."
-		+ "</size></b></color>\n\n<color=#FF151F><size=36>A summary has been copied and"
-		+ " printed to all communications consoles. </size></color>\n\n<color=#FF151F><b>"
-		+ "Attention! Security level elevated to blue:</b></color>\n<color=white><size=36>"
-		+ "<b>The station has received reliable information about possible hostile activity"
-		+ " on the station. Security staff may have weapons visible. Searches are permitted"
-		+ " only with probable cause.</b></size></color>\n\n";
 	}
 
 	private string CargoniaReport()
