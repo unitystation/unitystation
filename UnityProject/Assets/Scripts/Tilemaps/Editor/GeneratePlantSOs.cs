@@ -292,30 +292,31 @@ public class GeneratePlantSOs : EditorWindow
 					if(!mutationNameList.Contains(Mutation)){ mutationNameList.Add(Mutation); }
 					if (Mutation.Length != 0)
 					{
-						if (PlantDictionary[Mutation] != null)
+						if (PlantDictionary.ContainsKey(Mutation))
 						{
 							MutationComparison(pant.Value, PlantDictionary[Mutation]);
 							pant.Value.plantData.MutatesInTo.Add((DefaultPlantData)AssetDatabase.LoadAssetAtPath(@"Assets\Resources\ScriptableObjects\Plant default\" + PlantDictionary[Mutation].plantData.Name + ".asset", typeof(DefaultPlantData)));
-							
-						}
 
 
 
-						if (PlantDictionary[Mutation].plantData.DeadSprite?.Texture == null)
-						{
 
-							if (pant.Value.plantData.DeadSprite?.Texture != null)
+
+							if (PlantDictionary[Mutation].plantData.DeadSprite?.Texture == null)
 							{
-								PlantDictionary[Mutation].plantData.DeadSprite = new SpriteSheetAndData();
-								PlantDictionary[Mutation].plantData.DeadSprite.Texture = pant.Value.plantData.DeadSprite.Texture;
-								PlantDictionary[Mutation].plantData.DeadSprite.setSprites();
+
+								if (pant.Value.plantData.DeadSprite?.Texture != null)
+								{
+									PlantDictionary[Mutation].plantData.DeadSprite = new SpriteSheetAndData();
+									PlantDictionary[Mutation].plantData.DeadSprite.Texture = pant.Value.plantData.DeadSprite.Texture;
+									PlantDictionary[Mutation].plantData.DeadSprite.setSprites();
+								}
+
 							}
 
-						}
-
-						if (PlantDictionary[Mutation].plantData.GrowthSprites.Count == 0)
-						{
-							PlantDictionary[Mutation].plantData.GrowthSprites = pant.Value.plantData.GrowthSprites;
+							if (PlantDictionary[Mutation].plantData.GrowthSprites.Count == 0)
+							{
+								PlantDictionary[Mutation].plantData.GrowthSprites = pant.Value.plantData.GrowthSprites;
+							}
 						}
 					}
 				}

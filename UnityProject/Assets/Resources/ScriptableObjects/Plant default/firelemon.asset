@@ -20,24 +20,25 @@ MonoBehaviour:
     Description: When life gives you lemons, don't make lemonade. Make life take the
       lemons back! Get mad! I don't want your damn lemons!
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: ff60d16d9f226684db8b523bb1083c94, type: 3}
+      Texture: {fileID: 2800000, guid: 055dea0bdb6b8084a9ae002b4774282a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ff60d16d9f226684db8b523bb1083c94, type: 3}
+      - {fileID: 21300000, guid: 055dea0bdb6b8084a9ae002b4774282a, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
-      Texture: {fileID: 2800000, guid: a252ae56dbdd4f341962c1c268f344d8, type: 3}
+      Texture: {fileID: 2800000, guid: 82cfd024cb5627944b73e01a9abe0547, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: a252ae56dbdd4f341962c1c268f344d8, type: 3}
+      - {fileID: 21300000, guid: 82cfd024cb5627944b73e01a9abe0547, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites: []
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 088289ff07bc60844a18e27a5517b40b, type: 3}
+      Texture: {fileID: 2800000, guid: 99997618ef1493e4ba4c2dc68a778a44, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 088289ff07bc60844a18e27a5517b40b, type: 3}
+      - {fileID: 21300000, guid: 99997618ef1493e4ba4c2dc68a778a44, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 6388b517967db314cbcaed32b8b3f7fb, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6388b517967db314cbcaed32b8b3f7fb, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10

@@ -19,9 +19,9 @@ MonoBehaviour:
     Plantname: Omega Weed
     Description: These seeds grow into omega weed.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: f37887c1e9c822f4289b4b78efb843c7, type: 3}
+      Texture: {fileID: 2800000, guid: a2a190abeec32714c96f562485fcca4b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f37887c1e9c822f4289b4b78efb843c7, type: 3}
+      - {fileID: 21300000, guid: a2a190abeec32714c96f562485fcca4b, type: 3}
       EquippedData: {fileID: 0}
     ProduceSprite:
       Texture: {fileID: 0}
@@ -84,40 +84,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: space_drugs
-    Ammount: 30
-  - Name: mindbreaker
-    Ammount: 30
-  - Name: mercury
-    Ammount: 15
-  - Name: lithium
-    Ammount: 15
-  - Name: atropine
-    Ammount: 15
-  - Name: haloperidol
-    Ammount: 15
-  - Name: methamphetamine
-    Ammount: 15
-  - Name: capsaicin
-    Ammount: 15
-  - Name: barbers_aid
-    Ammount: 15
-  - Name: bath_salts
-    Ammount: 15
-  - Name: itching_powder
-    Ammount: 15
-  - Name: crank
-    Ammount: 15
-  - Name: krokodil
-    Ammount: 15
-  - Name: histamine
-    Ammount: 15
-  - Name: lipolicide
-    Ammount: 15
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: space_drugs
-    Ammount: 15
-  - Name: lipolicide
-    Ammount: 34
+  RemoveReagentProduction: []

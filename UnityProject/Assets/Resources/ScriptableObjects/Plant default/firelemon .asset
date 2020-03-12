@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
+  m_Name: 'firelemon '
+  m_EditorClassIdentifier: 
+  plantData:
+    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+      type: 3}
+    Name: 'firelemon '
+    Plantname: Combustible Lemon Tree
+    Description: When life gives you lemons, don't make lemonade. Make life take the
+      lemons back! Get mad! I don't want your damn lemons!
+    PacketsSprite:
+      Texture: {fileID: 2800000, guid: 055dea0bdb6b8084a9ae002b4774282a, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 055dea0bdb6b8084a9ae002b4774282a, type: 3}
+      EquippedData: {fileID: 0}
+    ProduceSprite:
+      Texture: {fileID: 2800000, guid: 82cfd024cb5627944b73e01a9abe0547, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 82cfd024cb5627944b73e01a9abe0547, type: 3}
+      EquippedData: {fileID: 0}
+    GrowthSprites: []
+    FullyGrownSprite:
+      Texture: {fileID: 2800000, guid: 99997618ef1493e4ba4c2dc68a778a44, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 99997618ef1493e4ba4c2dc68a778a44, type: 3}
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 2800000, guid: 6388b517967db314cbcaed32b8b3f7fb, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6388b517967db314cbcaed32b8b3f7fb, type: 3}
+      EquippedData: {fileID: 0}
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
+    Potency: 10
+    Endurance: 45
+    Yield: 40
+    Lifespan: 55
+    PlantTrays: 00000000
+    ReagentProduction:
+    - Name: nutriment
+      Ammount: 5
+    MutatesInTo: []
+  WeedResistanceChange: 0
+  WeedGrowthRateChange: 0
+  GrowthSpeedChange: 0
+  PotencyChange: 0
+  EnduranceChange: 0
+  YieldChange: 0
+  LifespanChange: 0
+  PlantTrays: 
+  ReagentProduction: []
+  RemovePlantTrays: 
+  RemoveReagentProduction: []
