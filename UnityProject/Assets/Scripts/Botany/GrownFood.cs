@@ -9,10 +9,13 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
 	public PlantData plantData;
 	public ReagentContainer reagentContainer;
+
+	[SerializeField]
 	private GameObject SeedPacket;
+	[SerializeField]
 	private SpriteRenderer SpriteSizeAdjustment;
+	[SerializeField]
 	private SpriteHandler Sprite;
-	private ItemAttributesV2 ItemAttributesV2;
 
 
 
@@ -28,6 +31,9 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void Awake()
 	{
+		var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
+		spritesheet.setSprites();
+		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
 		Sprite.PushTexture();
 	}
 
@@ -43,7 +49,24 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	public void SetUpFood(PlantData newPlantData)
 	{
 		plantData.SetValues(newPlantData);
-		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 100f));
+		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
+		SetupChemicalContents();
+	}
+
+	/// <summary>
+	/// Takes initial values and scales them based on potency
+	/// </summary>
+	private void SetupChemicalContents()
+	{
+		List<string> nameList = new List<string>();
+		List<float> amountList = new List<float>();
+		for (int i = 0; i < reagentContainer.Amounts.Count; i++)
+		{
+			nameList.Add(reagentContainer.Reagents[i]);
+			amountList.Add(reagentContainer.Amounts[i] * plantData.Potency);
+		}
+		//Reset container
+		reagentContainer.ResetContents(nameList, amountList);
 	}
 
 	/// <summary>
