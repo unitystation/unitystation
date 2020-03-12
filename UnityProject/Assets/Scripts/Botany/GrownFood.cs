@@ -4,6 +4,7 @@ using Mirror;
 
 //Used when spawning the food
 [RequireComponent(typeof(CustomNetTransform))]
+[RequireComponent(typeof(ReagentContainer))]
 [DisallowMultipleComponent]
 public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
@@ -16,7 +17,8 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	private SpriteRenderer SpriteSizeAdjustment;
 	[SerializeField]
 	private SpriteHandler Sprite;
-
+	[SerializeField]
+	private Edible edible;
 
 
 
@@ -51,6 +53,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		plantData.SetValues(newPlantData);
 		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
 		SetupChemicalContents();
+		SetupEdible();
 	}
 
 	/// <summary>
@@ -69,6 +72,14 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		reagentContainer.ResetContents(nameList, amountList);
 	}
 
+	/// <summary>
+	/// Set NutritionLevel to be equal to nuriment amount 
+	/// </summary>
+	private void SetupEdible()
+	{
+		edible.NutritionLevel = Mathf.FloorToInt(reagentContainer.AmountOfReagent("nutriment"));
+	}
+	
 	/// <summary>
 	/// Gets seeds for plant and replaces held food with seeds
 	/// DOES NOT WORK, eating overrides this.
