@@ -159,7 +159,6 @@ public class ChatEntry : MonoBehaviour
 		}
 
 		waitToCheck = null;
-
 	}
 
 	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)

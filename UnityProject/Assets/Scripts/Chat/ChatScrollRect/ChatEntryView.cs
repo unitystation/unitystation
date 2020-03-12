@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class ChatEntryView : MonoBehaviour
 {
 	[SerializeField] private Text visibleText = null;
+	[SerializeField] private RectTransform rectTransform = null;
+	[SerializeField] private ContentSizeFitter contentFitter = null;
+	[SerializeField] private LayoutElement layoutElement = null;
 	private Transform tMarkerBottom;
 	private Transform tMarkerTop;
 	private ChatEntryData entryData;
-	private ChatScrollRect chatScrollRect;
+	private ChatScroll chatScroll;
 	private bool isResetting = false;
 	public int Index { get; private set; }
 	public bool SpawnedOutside { get; private set; }
@@ -24,11 +27,11 @@ public class ChatEntryView : MonoBehaviour
 	/// </summary>
 	public ChatEntryData EntryData => entryData;
 
-	public void SetChatEntryView(ChatEntryData data, ChatScrollRect chatScroll, Transform markerBottom,
+	public void SetChatEntryView(ChatEntryData data, ChatScroll chatScroll, Transform markerBottom,
 		Transform markerTop, int index)
 	{
 		Index = index;
-		chatScrollRect = chatScroll;
+		this.chatScroll = chatScroll;
 		tMarkerBottom = markerBottom;
 		tMarkerTop = markerTop;
 		isResetting = true;
@@ -46,7 +49,19 @@ public class ChatEntryView : MonoBehaviour
 		{
 			SpawnedOutside = false;
 		}
+
 		isResetting = false;
+		StartCoroutine(UpdateMinHeight());
+	}
+
+
+	IEnumerator UpdateMinHeight()
+	{
+		contentFitter.enabled = true;
+		yield return WaitFor.EndOfFrame;
+		layoutElement.minHeight = rectTransform.rect.height / 2;
+		yield return WaitFor.EndOfFrame;
+		contentFitter.enabled = false;
 	}
 
 	private void OnEnable()
@@ -85,6 +100,6 @@ public class ChatEntryView : MonoBehaviour
 	public void ReturnToPool(bool isExitBottom = false)
 	{
 		isResetting = true;
-		chatScrollRect.ReturnViewToPool(this, isExitBottom);
+		chatScroll.ReturnViewToPool(this, isExitBottom);
 	}
 }

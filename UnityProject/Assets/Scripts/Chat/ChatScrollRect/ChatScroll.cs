@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// chat messages. Loosely based off MVVM where
 /// this would be the ViewModel
 /// </summary>
-public class ChatScrollRect : ScrollRect
+public class ChatScroll : MonoBehaviour
 {
 	[SerializeField] private Transform chatContentParent = null;
 	[SerializeField] private InputField inputField = null;
