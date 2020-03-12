@@ -8,8 +8,7 @@ namespace AdminTools
 {
 	public class AdminPlayerEntry : MonoBehaviour
 	{
-		private GUI_AdminTools adminTools;
-
+		private Action<AdminPlayerEntry> OnClickEvent;
 		[SerializeField] private Text displayName = null;
 		[SerializeField] private Image bg = null;
 		[SerializeField] private GameObject msgPendingNot = null;
@@ -22,9 +21,9 @@ namespace AdminTools
 
 		public AdminPlayerEntryData PlayerData { get; set; }
 
-		public void UpdateButton(AdminPlayerEntryData playerEntryData, GUI_AdminTools adminTools)
+		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent)
 		{
-			this.adminTools = adminTools;
+			OnClickEvent = onClickEvent;
 			PlayerData = playerEntryData;
 			displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress}";
 
@@ -46,11 +45,13 @@ namespace AdminTools
 				displayName.fontStyle = FontStyle.Normal;
 			}
 		}
-		
+
 		public void OnClick()
 		{
-			adminTools.SelectPlayerInList(this);
-			PlayerList.Instance.ClientGetUnreadMessages(PlayerData.uid);
+			if (OnClickEvent != null)
+			{
+				OnClickEvent.Invoke(this);
+			}
 		}
 
 		public void ClearMessageNot()

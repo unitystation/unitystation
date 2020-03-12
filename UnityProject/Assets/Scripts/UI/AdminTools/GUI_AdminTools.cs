@@ -129,7 +129,7 @@ namespace AdminTools
 			{
 				var e = Instantiate(playerEntryPrefab, playerListContent);
 				var entry = e.GetComponent<AdminPlayerEntry>();
-				entry.UpdateButton(p, this);
+				entry.UpdateButton(p, SelectPlayerInList);
 
 				if (p.isOnline)
 				{
