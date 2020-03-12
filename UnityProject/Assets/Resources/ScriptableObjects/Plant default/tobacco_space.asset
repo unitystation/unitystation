@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: tobacco_space
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: tobacco_space
     Plantname: Space Tobacco Plant
     Description: These seeds grow into space tobacco plants.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 35788a9d341ed5f448ba90c175337387, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 35788a9d341ed5f448ba90c175337387, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: f201531ecbffb97468c97656cb9b80c9, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: f201531ecbffb97468c97656cb9b80c9, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: a6165eb72c21efa47aa01d623d1ac669, type: 3}
@@ -59,13 +53,7 @@ MonoBehaviour:
     Yield: 100
     Lifespan: 20
     PlantTrays: 
-    ReagentProduction:
-    - Name: salbutamol
-      Ammount: 5
-    - Name: nicotine
-      Ammount: 7
-    - Name: nutriment
-      Ammount: 2
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -75,16 +63,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: salbutamol
-    Ammount: 5
-  - Name: nicotine
-    Ammount: 7
-  - Name: nutriment
-    Ammount: 2
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: nicotine
-    Ammount: 2
-  - Name: nutriment
-    Ammount: 2
+  RemoveReagentProduction: []

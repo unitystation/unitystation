@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: chili
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 2914187089340959348, guid: c739c4a30856b2641b45ab60205de7e8,
       type: 3}
     Name: chili
     Plantname: Chili Plants
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 46614f5b12465f7469c13ce673ef3acd, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 46614f5b12465f7469c13ce673ef3acd, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: f78e56d6b9f9e66408df3282dadd1985, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: f78e56d6b9f9e66408df3282dadd1985, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 906fd1d47cbbf2148ad7eeca74bed9d1, type: 3}
@@ -71,13 +66,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: capsaicin
-      Ammount: 25
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 3
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: a18ddd4ee98c61748be5466ec42a232b, type: 2}
     - {fileID: 11400000, guid: 9764bd7c81b9ca7488446bd023e5142a, type: 2}

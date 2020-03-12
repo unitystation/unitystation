@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: redbeet
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: redbeet
     Plantname: Red-Beet Plants
     Description: These seeds grow into red beet producing plants.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: e03e69da4116fc74390988358945810f, type: 3}
       Sprites:
       - {fileID: 21300000, guid: e03e69da4116fc74390988358945810f, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: b5c6a499f1615364d908d58a4646868c, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: b5c6a499f1615364d908d58a4646868c, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 472e413d74d8d6c45951b0f91890d81c, type: 3}
@@ -71,11 +65,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 60
     PlantTrays: 08000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 5
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -85,16 +75,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 08000000
-  ReagentProduction:
-  - Name: vitamin
-    Ammount: 5
-  - Name: nutriment
-    Ammount: 5
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: sugar
-    Ammount: 20
-  - Name: nutriment
-    Ammount: 5
+  RemoveReagentProduction: []

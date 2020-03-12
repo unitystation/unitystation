@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: ambrosia_gaia
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: ambrosia_gaia
     Plantname: Ambrosia Gaia
     Description: These seeds grow into ambrosia gaia, filled with infinite potential.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: a4f5b779065b26d4a8352a59f9b2656a, type: 3}
       Sprites:
       - {fileID: 21300000, guid: a4f5b779065b26d4a8352a59f9b2656a, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 848f30b9561aaf74086ab311be2bb09d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 848f30b9561aaf74086ab311be2bb09d, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: d1e1d9ddb782a2c49a2fbd39be81e9df, type: 3}
@@ -74,13 +68,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 60
     PlantTrays: 
-    ReagentProduction:
-    - Name: earthsblood
-      Ammount: 5
-    - Name: nutriment
-      Ammount: 5
-    - Name: vitamin
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 00e1d8a7450c9c745a4914c2e1a8f236, type: 2}
   WeedResistanceChange: 0
@@ -91,22 +79,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: earthsblood
-    Ammount: 5
-  - Name: nutriment
-    Ammount: 5
-  - Name: vitamin
-    Ammount: 5
+  ReagentProduction: []
   RemovePlantTrays: 00000000
-  RemoveReagentProduction:
-  - Name: omnizine
-    Ammount: 15
-  - Name: synaptizine
-    Ammount: 15
-  - Name: space_drugs
-    Ammount: 10
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 5
+  RemoveReagentProduction: []

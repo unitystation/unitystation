@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tomato
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 6693895242995806903, guid: 2b61bf47738c3b04c958d764675d8e56,
       type: 3}
     Name: tomato
     Plantname: Tomato Plants
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: ee463340b77d96e458a5b1edd6253676, type: 3}
       Sprites:
       - {fileID: 21300000, guid: ee463340b77d96e458a5b1edd6253676, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 76527061099035f4d892b856cea26f3a, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 76527061099035f4d892b856cea26f3a, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: af5a1c7d465c6214fa5bac70c5335ad9, type: 3}
@@ -71,11 +66,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 25
     PlantTrays: 0400000000000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 9840428e223b28a45b64d3523fe14232, type: 2}
     - {fileID: 11400000, guid: 5f8789c65479bbc47a729f523148dbfb, type: 2}

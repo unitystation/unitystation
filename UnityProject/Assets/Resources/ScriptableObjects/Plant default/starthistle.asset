@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: starthistle
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: starthistle
     Plantname: Starthistle
     Description: A robust species of weed that often springs up in-between the cracks
@@ -23,10 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: fd8eab74b4bc76549baeccf2349dbcbc, type: 3}
       Sprites:
       - {fileID: 21300000, guid: fd8eab74b4bc76549baeccf2349dbcbc, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 4a7110cc1707b1c40a0e3a51a98ad4c0, type: 3}

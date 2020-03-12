@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: grape_green
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: grape_green
     Plantname: Green-Grape Vine
     Description: These seeds grow into green-grape vines.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: fa96a021d5272084c9013469f1919da0, type: 3}
       Sprites:
       - {fileID: 21300000, guid: fa96a021d5272084c9013469f1919da0, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: f58672aac1c799f438ffaa9b9ddd1200, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: f58672aac1c799f438ffaa9b9ddd1200, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: de1de22470238f24983f6ab738ce066f, type: 3}
@@ -55,15 +49,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 50
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
-    - Name: sugar
-      Ammount: 10
-    - Name: aiuri
-      Ammount: 20
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -73,20 +59,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
-  - Name: sugar
-    Ammount: 10
-  - Name: aiuri
-    Ammount: 20
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
-  - Name: sugar
-    Ammount: 10
+  RemoveReagentProduction: []

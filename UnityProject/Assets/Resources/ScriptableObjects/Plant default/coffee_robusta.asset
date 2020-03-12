@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: coffee_robusta
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: coffee_robusta
     Plantname: Coffee Robusta Bush
     Description: These seeds grow into coffee robusta bushes.
@@ -22,10 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: b76320dee8820d54b82a6a53a2667bc9, type: 3}
       Sprites:
       - {fileID: 21300000, guid: b76320dee8820d54b82a6a53a2667bc9, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 4bd481f665c4d8b4a8ff3db1780f1b40, type: 3}
@@ -66,13 +61,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 30
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: ephedrine
-      Ammount: 10
-    - Name: vitamin
-      Ammount: 3
-    - Name: coffeepowder
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -82,16 +71,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: ephedrine
-    Ammount: 10
-  - Name: vitamin
-    Ammount: 3
-  - Name: coffeepowder
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: coffeepowder
-    Ammount: 10
+  RemoveReagentProduction: []

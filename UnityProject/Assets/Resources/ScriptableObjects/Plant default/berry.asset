@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: berry
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: berry
     Plantname: Berry Bush
     Description: These seeds grow into berry bushes.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 02216f417c573c744bafd7c548379d07, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 02216f417c573c744bafd7c548379d07, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 5cab45e277ab68e4da40a4a449d2309d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 5cab45e277ab68e4da40a4a449d2309d, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 2d49f181fa8a6e64593604f057070619, type: 3}
@@ -71,11 +65,7 @@ MonoBehaviour:
     Yield: 20
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: b5b9d5ceb3a5c1e468bc186e0520e033, type: 2}
     - {fileID: 11400000, guid: 183636dee6ec5f048b149b9fb78af347, type: 2}

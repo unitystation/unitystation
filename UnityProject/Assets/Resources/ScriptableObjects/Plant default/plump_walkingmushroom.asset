@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: plump_walkingmushroom
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: plump_walkingmushroom
     Plantname: Walking Mushrooms
     Description: This mycelium will grow into huge stuff!
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 3103618395a1777478f3629e373f7f31, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 3103618395a1777478f3629e373f7f31, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: a0ad8150409556e42997470c08b07d13, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a0ad8150409556e42997470c08b07d13, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 904d1340d403aba4da275db6c1555fab, type: 3}
@@ -59,11 +53,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 25
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 5
-    - Name: nutriment
-      Ammount: 15
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -73,14 +63,6 @@ MonoBehaviour:
   YieldChange: 40
   LifespanChange: 25
   PlantTrays: 
-  ReagentProduction:
-  - Name: vitamin
-    Ammount: 5
-  - Name: nutriment
-    Ammount: 15
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

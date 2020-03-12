@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: cherry_bulb
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: cherry_bulb
     Plantname: Cherry Bulb Tree
     Description: The glowy kind of cherries.
@@ -22,10 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: d5f1d67077a904a4aafe0a481fbf1e02, type: 3}
       Sprites:
       - {fileID: 21300000, guid: d5f1d67077a904a4aafe0a481fbf1e02, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: d398f0858f15c6a4fbe9643aa21959b1, type: 3}
@@ -65,11 +60,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 35
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 7
-    - Name: sugar
-      Ammount: 7
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -79,14 +70,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: nutriment
-    Ammount: 7
-  - Name: sugar
-    Ammount: 7
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: nutriment
-    Ammount: 7
-  - Name: sugar
-    Ammount: 7
+  RemoveReagentProduction: []

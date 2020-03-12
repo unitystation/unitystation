@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: reishi
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: reishi
     Plantname: Reishi
     Description: This mycelium grows into something medicinal and relaxing.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: b723a95d929f0634ba0512cc2e556945, type: 3}
       Sprites:
       - {fileID: 21300000, guid: b723a95d929f0634ba0512cc2e556945, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 72bed5bd7450ffd419bef297030f0dda, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 72bed5bd7450ffd419bef297030f0dda, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 5a8d167da970b6042bce5bc51b34551e, type: 3}
@@ -63,13 +57,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 35
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: morphine
-      Ammount: 34
-    - Name: multiver
-      Ammount: 34
-    - Name: nutriment
-      Ammount: 0
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

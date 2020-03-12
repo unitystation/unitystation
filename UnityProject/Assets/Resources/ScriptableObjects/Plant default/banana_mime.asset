@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: banana_mime
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 8400942758267973506, guid: 4e5bf7ebd6976114cbb0b59217562e7b,
       type: 3}
     Name: banana_mime
     Plantname: Mimana Tree
@@ -23,11 +23,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: e1c9abf3aede5454e88009fdee27b686, type: 3}
       Sprites:
       - {fileID: 21300000, guid: e1c9abf3aede5454e88009fdee27b686, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 042b8c0576d1f5c498a8c039c2379777, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 042b8c0576d1f5c498a8c039c2379777, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 8da7ec2c8f5531548b8ae0e2ec672fd2, type: 3}
@@ -64,13 +59,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 50
     PlantTrays: 0600000000000000
-    ReagentProduction:
-    - Name: nothing
-      Ammount: 10
-    - Name: mutetoxin
-      Ammount: 10
-    - Name: nutriment
-      Ammount: 1
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -80,20 +69,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: nothing
-    Ammount: 10
-  - Name: mutetoxin
-    Ammount: 10
-  - Name: nutriment
-    Ammount: 1
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: banana
-    Ammount: 10
-  - Name: potassium
-    Ammount: 10
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 1
+  RemoveReagentProduction: []

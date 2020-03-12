@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: rainbow_bunch
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: rainbow_bunch
     Plantname: Rainbow Flowers
     Description: A pack of seeds that'll grow into a beautiful bush of various colored
@@ -23,10 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: cdb213b11f30ab4468eef4129eead1f4, type: 3}
       Sprites:
       - {fileID: 21300000, guid: cdb213b11f30ab4468eef4129eead1f4, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 3eb9c4b022369124b857df2907f882d3, type: 3}
@@ -63,9 +58,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 25
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

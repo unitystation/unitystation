@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: chanter_jupitercup
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: chanter_jupitercup
     Plantname: Jupiter Cups
     Description: This mycelium grows into jupiter cups. Zeus would be envious at the
@@ -23,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 17333dfd7a79e4242b83685bd36f12e1, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 17333dfd7a79e4242b83685bd36f12e1, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: d9949b68052927a49af7f12f455a24bb, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: d9949b68052927a49af7f12f455a24bb, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 9aa534f75d382264f874008a91177c9a, type: 3}
@@ -56,9 +50,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 35
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -68,10 +60,6 @@ MonoBehaviour:
   YieldChange: 50
   LifespanChange: 35
   PlantTrays: 
-  ReagentProduction:
-  - Name: nutriment
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

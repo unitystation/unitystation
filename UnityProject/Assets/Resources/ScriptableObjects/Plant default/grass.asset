@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: grass
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 1364400331073994010, guid: f6f339c7e9812a74691af5d44f5793d0,
       type: 3}
     Name: grass
     Plantname: Grass
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 0450ecb8da250cb4495e12838c34611d, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 0450ecb8da250cb4495e12838c34611d, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 90dfc684e081a8441970a4baaf0f97fe, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 90dfc684e081a8441970a4baaf0f97fe, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 06354c34aee20984684cd1db7eb1e8b1, type: 3}
@@ -55,11 +50,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 40
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 1
-    - Name: hydrogen
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 30ec9532585acaa479a6106681658c3c, type: 2}
     - {fileID: 11400000, guid: a4e64b37717722c45a13160798dfcf36, type: 2}

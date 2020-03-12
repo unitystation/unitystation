@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: replicapod
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: replicapod
     Plantname: Replica Pod
     Description: These seeds grow into replica pods. They say these are used to harvest
@@ -23,10 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: d1d19a4e30d72af4d8f4d341a6b6d519, type: 3}
       Sprites:
       - {fileID: 21300000, guid: d1d19a4e30d72af4d8f4d341a6b6d519, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 1ae9bb6a07b7e8d4c880f9465f5d3ed9, type: 3}
@@ -83,8 +78,4 @@ MonoBehaviour:
   PlantTrays: 
   ReagentProduction: []
   RemovePlantTrays: 00000000
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

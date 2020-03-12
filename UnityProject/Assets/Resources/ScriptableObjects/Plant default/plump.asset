@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: plump
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: plump
     Plantname: Plump-Helmet Mushrooms
     Description: This mycelium grows into helmets... maybe.
@@ -22,10 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 0fe3001a1e4fffc4a816a714f89f979c, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 0fe3001a1e4fffc4a816a714f89f979c, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 34500ad68e505834fa9001bdf0a3e6db, type: 3}
@@ -58,11 +53,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 25
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 0a47c9c3d7837ba48bb6b23d704d716d, type: 2}
   WeedResistanceChange: 0

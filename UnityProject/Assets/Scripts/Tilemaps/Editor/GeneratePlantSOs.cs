@@ -72,34 +72,34 @@ public class GeneratePlantSOs : EditorWindow
 			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
 			plantdata.PacketsSprite.setSprites();
 
-			plantdata.ProduceSprite = new SpriteSheetAndData();
-			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + ".png", typeof(Texture2D)) as Texture2D);
-			if (plantdata.ProduceSprite.Texture == null)
+			SpriteSheetAndData produceSprite = new SpriteSheetAndData();
+			produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + ".png", typeof(Texture2D)) as Texture2D);
+			if (produceSprite.Texture == null)
 			{
-				plantdata.ProduceSprite = new SpriteSheetAndData();
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pile.png", typeof(Texture2D)) as Texture2D);
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pile.png", typeof(Texture2D)) as Texture2D);
 			}
-			if (plantdata.ProduceSprite.Texture == null)
+			if (produceSprite.Texture == null)
 			{
-				plantdata.ProduceSprite = new SpriteSheetAndData();
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "_leaves.png", typeof(Texture2D)) as Texture2D);
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "_leaves.png", typeof(Texture2D)) as Texture2D);
 			}
-			if (plantdata.ProduceSprite.Texture == null)
+			if (produceSprite.Texture == null)
 			{
-				plantdata.ProduceSprite = new SpriteSheetAndData();
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pod.png", typeof(Texture2D)) as Texture2D);
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pod.png", typeof(Texture2D)) as Texture2D);
 			}
-			if (plantdata.ProduceSprite.Texture == null)
+			if (produceSprite.Texture == null)
 			{
-				plantdata.ProduceSprite = new SpriteSheetAndData();
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "s.png", typeof(Texture2D)) as Texture2D);
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "s.png", typeof(Texture2D)) as Texture2D);
 			}
-			if (plantdata.ProduceSprite.Texture == null)
+			if (produceSprite.Texture == null)
 			{
-				plantdata.ProduceSprite = new SpriteSheetAndData();
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pepper.png", typeof(Texture2D)) as Texture2D);
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pepper.png", typeof(Texture2D)) as Texture2D);
 			}
-			plantdata.ProduceSprite.setSprites();
+			produceSprite.setSprites();
 
 
 
@@ -164,7 +164,7 @@ public class GeneratePlantSOs : EditorWindow
 			}
 			//check if sprites are missing
 			if (plantdata.PacketsSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find seed packet sprite for plant {plantdata.Name}"); }
-			if (plantdata.ProduceSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find produce sprite"); }
+			//if (plantdata.ProduceSprite.Texture == null) {  }
 			if (plantdata.DeadSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find dead sprite"); }
 			if (plantdata.GrowthSprites.Count == 0) { AppendError(plantdata.Name, $"Unable to find growth sprites for plant {plantdata.Name}"); }
 			if (plantdata.FullyGrownSprite == null) { AppendError(plantdata.Name, $"Unable to find fully grown sprite"); }
@@ -247,17 +247,65 @@ public class GeneratePlantSOs : EditorWindow
 					}
 				}
 			}
-			if (plat.ContainsKey("reagents_add"))
-			{
-				var Chemicals = JsonConvert.DeserializeObject<Dictionary<string, float>>(plat["reagents_add"].ToString());
+			
+				
+			
 
-				foreach (var Chemical in Chemicals)
+
+			//Creating/updating food prefabs
+			if (plat.ContainsKey("produce_name"))
+			{
+				//load existing prefab variant if possible
+				GameObject prefabVariant = (GameObject)AssetDatabase.LoadAssetAtPath(@"Assets/Resources/Prefabs/Items/Botany/" + plantdata.Name + ".prefab", typeof(GameObject));
+
+				if (prefabVariant == null)
 				{
-					var SInt = new Reagent();
-					SInt.Ammount = (int)(Chemical.Value * 100);
-					SInt.Name = Chemical.Key;
-					plantdata.ReagentProduction.Add(SInt);
+					GameObject originalPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(@"Assets/Resources/Prefabs/Items/Botany/food.prefab", typeof(GameObject));
+					prefabVariant = PrefabUtility.InstantiatePrefab(originalPrefab) as GameObject;
 				}
+				else
+				{
+					prefabVariant = PrefabUtility.InstantiatePrefab(prefabVariant) as GameObject;
+				}
+
+				
+
+				var itemAttr = prefabVariant.GetComponent<ItemAttributesV2>();
+
+				//Commented since this are normally private
+				itemAttr.initialName = plat["produce_name"] as string;
+				itemAttr.initialDescription = plat["description"] as string;
+				itemAttr.itemSprites = (new ItemsSprites() { InventoryIcon = produceSprite });
+
+				//add sprite to food
+				//var spriteRenderer = prefabVariant.GetComponentInChildren<SpriteRenderer>();
+
+				//spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
+
+				var newFood = prefabVariant.GetComponent<GrownFood>();
+
+				//Set plant data for food
+				newFood.plantData = plantdata;
+				
+				//add reagents to food
+				if (plat.ContainsKey("reagents_add"))
+				{
+					var Chemicals = JsonConvert.DeserializeObject<Dictionary<string, float>>(plat["reagents_add"].ToString());
+
+					var ChemicalDictionary = new Dictionary<string, float>();
+					foreach (var Chemical in Chemicals)
+					{
+						ChemicalDictionary[Chemical.Key] = (((int)(Chemical.Value * 100)) * (plantdata.Potency / 100f));
+					}
+					newFood.reagentContainer.AddReagents(ChemicalDictionary);
+
+				}
+
+				plantdata.ProduceObject = PrefabUtility.SaveAsPrefabAsset(prefabVariant, @"Assets/Resources/Prefabs/Items/Botany/" + plantdata.Name + ".prefab");
+			}
+			else
+			{
+				plantdata.ProduceObject = null;
 			}
 
 			var DefaultPlantData = ScriptableObject.CreateInstance<DefaultPlantData>();
@@ -276,7 +324,11 @@ public class GeneratePlantSOs : EditorWindow
 
 
 			//\\Logger.Log(plantdata.GrowthSprites.Count.ToString());
+			
 		}
+
+
+		
 
 		progressbarStep = 1f / PlantDictionary.Count;
 		progressbarState = 0;

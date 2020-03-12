@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: poppy_geranium
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 8815016386844460592, guid: a7b2f521c1e073b449e41bde4cb7fd54,
       type: 3}
     Name: poppy_geranium
     Plantname: Geranium Plants
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 45eed9e2301746b4da94ee1a7b98117f, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 45eed9e2301746b4da94ee1a7b98117f, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 5dd9bd6a3116cbb45bbb71c804e75990, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 5dd9bd6a3116cbb45bbb71c804e75990, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: fbf8f6075d481e645afcfab063e1c5de, type: 3}
@@ -59,11 +54,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: libital
-      Ammount: 20
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -73,14 +64,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: libital
-    Ammount: 20
-  - Name: nutriment
-    Ammount: 5
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: libital
-    Ammount: 20
-  - Name: nutriment
-    Ammount: 5
+  RemoveReagentProduction: []

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: liberty
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: liberty
     Plantname: Liberty-Caps
     Description: This mycelium grows into liberty-cap mushrooms.
@@ -22,10 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 6767a0e3a13770d4db2e20e6f2539f6b, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 6767a0e3a13770d4db2e20e6f2539f6b, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 26833f18f3014424ba78a801ce2e9184, type: 3}
@@ -58,11 +53,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 25
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: mushroomhallucinogen
-      Ammount: 25
-    - Name: nutriment
-      Ammount: 1
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

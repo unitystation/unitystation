@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tomato_killer
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 3991821857712621184, guid: 41096b524abbe8d45a5b8098f0076ed5,
       type: 3}
     Name: tomato_killer
     Plantname: Killer-Tomato Plants
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 2ee9d3f0195ba1940bc224d12a9ec2a2, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 2ee9d3f0195ba1940bc224d12a9ec2a2, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 2f0c06c8016a88c4396822978d1a172d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 2f0c06c8016a88c4396822978d1a172d, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: a4f6abee53b22dd43bc8b9b11a0c34b5, type: 3}
@@ -55,11 +50,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 25
     PlantTrays: 04000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -69,14 +60,6 @@ MonoBehaviour:
   YieldChange: 30
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 00000000
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

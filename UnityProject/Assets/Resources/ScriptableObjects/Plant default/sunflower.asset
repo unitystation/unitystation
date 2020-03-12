@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: sunflower
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: sunflower
     Plantname: Sunflowers
     Description: These seeds grow into sunflowers.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 65c73406d86533647b91a0c071bc1a7a, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 65c73406d86533647b91a0c071bc1a7a, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 6ee02c82bd786df4d906ac1468761c83, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 6ee02c82bd786df4d906ac1468761c83, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: acb9f66de0210f14ab2e500ed6aaea3b, type: 3}
@@ -59,11 +53,7 @@ MonoBehaviour:
     Yield: 20
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: cornoil
-      Ammount: 7
-    - Name: nutriment
-      Ammount: 3
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 3cb773f02a2ce3546b2526d183f271c9, type: 2}
     - {fileID: 11400000, guid: 431403ff59d65d441a9a61e1432e2971, type: 2}

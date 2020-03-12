@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: lemon
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: lemon
     Plantname: Lemon Tree
     Description: These are sour seeds.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 028b642707d9b284b9782776b3b7b207, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 028b642707d9b284b9782776b3b7b207, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 7b9d8593f5b7243409c8d1ed6fd40a3f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7b9d8593f5b7243409c8d1ed6fd40a3f, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites: []
     FullyGrownSprite:
@@ -47,11 +41,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 55
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

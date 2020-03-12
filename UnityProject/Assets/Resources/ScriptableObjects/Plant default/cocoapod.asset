@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cocoapod
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 8696132313420561986, guid: 3749e9de5534c0849b4a7a1e7ac3b214,
       type: 3}
     Name: cocoapod
     Plantname: Cocao Tree
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 899ac8c29177ffc498f706cbdeb79fd6, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 899ac8c29177ffc498f706cbdeb79fd6, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 0db5ebdf3af41304c922aa218b005f6a, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 0db5ebdf3af41304c922aa218b005f6a, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 5d7bedd23202931499c0021298711b37, type: 3}
@@ -67,11 +62,7 @@ MonoBehaviour:
     Yield: 20
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: coco
-      Ammount: 25
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 01d66054fab82884d91317a45d96b3d1, type: 2}
     - {fileID: 11400000, guid: 8159a9f9ab4f1204da7838e2cbac3359, type: 2}

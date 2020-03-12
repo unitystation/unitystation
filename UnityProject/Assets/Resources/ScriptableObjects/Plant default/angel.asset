@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: angel
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: angel
     Plantname: Destroying Angels
     Description: This mycelium grows into something devastating.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 923dda988337d4e49bc30016a97685cf, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 923dda988337d4e49bc30016a97685cf, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 55c5dccc3d166e442a4b3cec970f297d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 55c5dccc3d166e442a4b3cec970f297d, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: ce81c2ac17d73684b87fa30f96c9b760, type: 3}
@@ -59,15 +53,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 50
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: mushroomhallucinogen
-      Ammount: 3
-    - Name: amatoxin
-      Ammount: 10
-    - Name: nutriment
-      Ammount: 0
-    - Name: amanitin
-      Ammount: 20
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -77,22 +63,6 @@ MonoBehaviour:
   YieldChange: 40
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: mushroomhallucinogen
-    Ammount: 3
-  - Name: amatoxin
-    Ammount: 10
-  - Name: nutriment
-    Ammount: 0
-  - Name: amanitin
-    Ammount: 20
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: mushroomhallucinogen
-    Ammount: 3
-  - Name: amatoxin
-    Ammount: 34
-  - Name: nutriment
-    Ammount: 0
-  - Name: growthserum
-    Ammount: 10
+  RemoveReagentProduction: []

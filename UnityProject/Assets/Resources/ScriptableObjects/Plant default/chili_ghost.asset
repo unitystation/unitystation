@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: chili_ghost
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: chili_ghost
     Plantname: Ghost Chili Plants
     Description: These seeds grow into a chili said to be the hottest in the galaxy.
@@ -22,10 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: c0f4dc18f17d70f469a26a42485ff373, type: 3}
       Sprites:
       - {fileID: 21300000, guid: c0f4dc18f17d70f469a26a42485ff373, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 906fd1d47cbbf2148ad7eeca74bed9d1, type: 3}
@@ -70,13 +65,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: condensedcapsaicin
-      Ammount: 30
-    - Name: capsaicin
-      Ammount: 55
-    - Name: nutriment
-      Ammount: 3
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -86,18 +75,6 @@ MonoBehaviour:
   YieldChange: 40
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: condensedcapsaicin
-    Ammount: 30
-  - Name: capsaicin
-    Ammount: 55
-  - Name: nutriment
-    Ammount: 3
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: capsaicin
-    Ammount: 25
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 3
+  RemoveReagentProduction: []

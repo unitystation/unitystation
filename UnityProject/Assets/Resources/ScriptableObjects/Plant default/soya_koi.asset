@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: soya_koi
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: soya_koi
     Plantname: Koibean Plants
     Description: These seeds grow into koibean plants.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 9a98dd410ea5a3240a09ff872214c8f7, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 9a98dd410ea5a3240a09ff872214c8f7, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 9c8205e46da780e47a917d17a8ea94ba, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 9c8205e46da780e47a917d17a8ea94ba, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 179bed5ddd6665f4e9de3344f2932f81, type: 3}
@@ -63,13 +57,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 25
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: carpotoxin
-      Ammount: 10
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -79,18 +67,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: carpotoxin
-    Ammount: 10
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 5
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 5
-  - Name: cooking_oil
-    Ammount: 2
+  RemoveReagentProduction: []

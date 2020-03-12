@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: apple_gold
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: apple_gold
     Plantname: Golden Apple Tree
     Description: These seeds grow into golden apple trees. Good thing there are no
@@ -24,18 +23,6 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 8d7b8c37c6b826644ba2421047c5efea, type: 3}
       EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      Sprites:
-      - {fileID: -8196908270968541667, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      - {fileID: 9166903383350874885, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      - {fileID: 7528997726865941060, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      - {fileID: 7585001025897769992, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      - {fileID: 9010664353375371765, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      - {fileID: -7983532206474145859, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      - {fileID: 8118519817537441594, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      - {fileID: 8330964889646580386, guid: b5f24a378aa290c428522d8ec92167e2, type: 3}
-      EquippedData: {fileID: 4900000, guid: e5bf99c54c6c44441ae922bf4b2d0d9c, type: 3}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: ac638fe376224f04a8c7880ce4565632, type: 3}
       Sprites:
@@ -86,13 +73,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 55
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: gold
-      Ammount: 20
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -102,16 +83,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: gold
-    Ammount: 20
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

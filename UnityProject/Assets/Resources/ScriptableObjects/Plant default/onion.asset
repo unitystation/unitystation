@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: onion
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 2886007955915617334, guid: 77c8ff311aa88744ea4ebc5fe12cb813,
       type: 3}
     Name: onion
     Plantname: Onion Sprouts
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 2b7659adad9c1464eb13698eccafa8a3, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 2b7659adad9c1464eb13698eccafa8a3, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 0a92732452c028a4a8b8580bdc83f82d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 0a92732452c028a4a8b8580bdc83f82d, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 779fd452554ecd54bbbe53551317986a, type: 3}
@@ -59,11 +54,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 20
     PlantTrays: 
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 6d7d4e8d57262ab4cbf9bb6506159ccc, type: 2}
   WeedResistanceChange: 0

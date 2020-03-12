@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: berry_poison
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: berry_poison
     Plantname: Poison-Berry Bush
     Description: These seeds grow into poison-berry bushes.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 1c2f404a85eb2334486753d64a37cb1e, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 1c2f404a85eb2334486753d64a37cb1e, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: a884eec893ac0b14dbe819e6cac4d665, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a884eec893ac0b14dbe819e6cac4d665, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 2d49f181fa8a6e64593604f057070619, type: 3}
@@ -71,15 +65,7 @@ MonoBehaviour:
     Yield: 20
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: cyanide
-      Ammount: 15
-    - Name: staminatoxin
-      Ammount: 20
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: b8f80bf2c78fc014a916e67035818968, type: 2}
   WeedResistanceChange: 0
@@ -90,18 +76,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: cyanide
-    Ammount: 15
-  - Name: staminatoxin
-    Ammount: 20
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

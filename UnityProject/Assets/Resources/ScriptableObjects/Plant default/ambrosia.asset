@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ambrosia
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 95037077670195807, guid: e3788251dc0f3594f99d449924e5b64f,
       type: 3}
     Name: ambrosia
     Plantname: Ambrosia Vulgaris
@@ -23,11 +23,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 074c24cb5cdcf494dba9361c00af011f, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 074c24cb5cdcf494dba9361c00af011f, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 16e7cccc397d9d7488a9f08e18a320a2, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 16e7cccc397d9d7488a9f08e18a320a2, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: b1a20d5c75688e740a5f5624879c431d, type: 3}
@@ -72,19 +67,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 60
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: aiuri
-      Ammount: 10
-    - Name: libital
-      Ammount: 10
-    - Name: space_drugs
-      Ammount: 15
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 5
-    - Name: toxin
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 00e1d8a7450c9c745a4914c2e1a8f236, type: 2}
   WeedResistanceChange: 0

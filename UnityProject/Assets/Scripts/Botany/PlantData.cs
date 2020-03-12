@@ -11,7 +11,7 @@ public class PlantData
 	public string Plantname;
 	public string Description;
 	public SpriteSheetAndData PacketsSprite;
-	public SpriteSheetAndData ProduceSprite;
+	//public SpriteSheetAndData ProduceSprite;
 	public List<SpriteSheetAndData> GrowthSprites = new List<SpriteSheetAndData>();
 	public SpriteSheetAndData FullyGrownSprite;
 	public SpriteSheetAndData DeadSprite;
@@ -39,7 +39,7 @@ public class PlantData
 		Name = _DefaultPlantData.plantData.Name;
 		ProduceObject = _DefaultPlantData.plantData.ProduceObject;
 		PacketsSprite = _DefaultPlantData.plantData.PacketsSprite;
-		ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
+		//ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
 		GrowthSprites = _DefaultPlantData.plantData.GrowthSprites;
 		FullyGrownSprite = _DefaultPlantData.plantData.FullyGrownSprite;
 		DeadSprite = _DefaultPlantData.plantData.DeadSprite;
@@ -70,7 +70,7 @@ public class PlantData
 		Name = _PlantData.Name;
 		ProduceObject = _PlantData.ProduceObject;
 		PacketsSprite = _PlantData.PacketsSprite;
-		ProduceSprite = _PlantData.ProduceSprite;
+		//ProduceSprite = _PlantData.ProduceSprite;
 		GrowthSprites = _PlantData.GrowthSprites;
 		FullyGrownSprite = _PlantData.FullyGrownSprite;
 		DeadSprite = _PlantData.DeadSprite;
@@ -104,10 +104,10 @@ public class PlantData
 		{
 			PacketsSprite = _PlantData.PacketsSprite;
 		}
-		if (ProduceSprite?.Texture == null)
-		{
-			ProduceSprite = _PlantData.ProduceSprite;
-		}
+		//if (ProduceSprite?.Texture == null)
+		//{
+		//	ProduceSprite = _PlantData.ProduceSprite;
+		//}
 
 		if (GrowthSprites.Count == 0)
 		{

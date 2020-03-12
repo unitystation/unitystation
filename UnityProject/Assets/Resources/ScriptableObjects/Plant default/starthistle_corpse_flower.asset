@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: starthistle_corpse_flower
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: starthistle_corpse_flower
     Plantname: Corpse flower
     Description: A species of plant that emits a horrible odor. The odor stops being
@@ -23,10 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 5f823736d2ce75742af7ba66946d737d, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 5f823736d2ce75742af7ba66946d737d, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 4a7110cc1707b1c40a0e3a51a98ad4c0, type: 3}

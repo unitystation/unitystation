@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cabbage
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 4239428557354597529, guid: d339d79259c7d274abf3d683e31cbbca,
       type: 3}
     Name: cabbage
     Plantname: Cabbages
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 17d0741600260f949a5d2d6740bad1d2, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 17d0741600260f949a5d2d6740bad1d2, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: da6335faa3233b04cbbd72246b31cefa, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: da6335faa3233b04cbbd72246b31cefa, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 1d969ea99774d244fa5e895ba5bfbf82, type: 3}
@@ -51,11 +46,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 50
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 6f49aeb7c454e9a4aacaa8ec970c9268, type: 2}
   WeedResistanceChange: 0

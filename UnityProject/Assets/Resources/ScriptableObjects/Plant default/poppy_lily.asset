@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: poppy_lily
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 5095399122049072460, guid: 0d987b03a31929045a4e22e2cd695444,
       type: 3}
     Name: poppy_lily
     Plantname: Lily Plants
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 73291da1e78f1cc4a8242522816231a5, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 73291da1e78f1cc4a8242522816231a5, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: ef6a33e8f3c28454e98e4d50626d0098, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: ef6a33e8f3c28454e98e4d50626d0098, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: fbf8f6075d481e645afcfab063e1c5de, type: 3}
@@ -59,11 +54,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: libital
-      Ammount: 20
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 62164156b5b805f49b6ad4b6719786bf, type: 2}
   WeedResistanceChange: 0
@@ -74,14 +65,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: libital
-    Ammount: 20
-  - Name: nutriment
-    Ammount: 5
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: libital
-    Ammount: 20
-  - Name: nutriment
-    Ammount: 5
+  RemoveReagentProduction: []

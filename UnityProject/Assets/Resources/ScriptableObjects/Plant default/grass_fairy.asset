@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: grass_fairy
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 8672155110169914008, guid: dfb0e1cde999f3342b2b2d72a9eef15c,
       type: 3}
     Name: grass_fairy
     Plantname: Fairygrass
@@ -22,11 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 9d8adc143fc48d94ab5c4f5b83d38d46, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 9d8adc143fc48d94ab5c4f5b83d38d46, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: e6f73f5db9b97254eb4f3b2f02b95549, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: e6f73f5db9b97254eb4f3b2f02b95549, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 7550dae78381f4d4986d6cd7a67430d6, type: 3}
@@ -55,13 +50,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 40
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 1
-    - Name: hydrogen
-      Ammount: 5
-    - Name: space_drugs
-      Ammount: 15
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -71,16 +60,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: nutriment
-    Ammount: 1
-  - Name: hydrogen
-    Ammount: 5
-  - Name: space_drugs
-    Ammount: 15
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: nutriment
-    Ammount: 1
-  - Name: hydrogen
-    Ammount: 5
+  RemoveReagentProduction: []

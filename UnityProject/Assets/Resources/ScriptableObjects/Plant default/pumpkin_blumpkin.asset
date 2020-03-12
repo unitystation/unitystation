@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: pumpkin_blumpkin
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: pumpkin_blumpkin
     Plantname: Blumpkin Vines
     Description: These seeds grow into blumpkin vines.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 2a873e2bd57425742a16adea74c45122, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 2a873e2bd57425742a16adea74c45122, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 0a1321a531ef4e1409241b42148af8bb, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 0a1321a531ef4e1409241b42148af8bb, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: f6cc02f4ce42634418eb4cdec3b4633f, type: 3}
@@ -59,13 +53,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 50
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: ammonia
-      Ammount: 20
-    - Name: chlorine
-      Ammount: 10
-    - Name: nutriment
-      Ammount: 20
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -75,16 +63,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: ammonia
-    Ammount: 20
-  - Name: chlorine
-    Ammount: 10
-  - Name: nutriment
-    Ammount: 20
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 20
+  RemoveReagentProduction: []

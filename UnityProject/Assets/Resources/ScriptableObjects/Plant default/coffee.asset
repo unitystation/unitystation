@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: coffee
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 9102142429281296002, guid: 40ec24a2562802b4bb95541a963ed4df,
       type: 3}
     Name: coffee
     Plantname: Coffee Arabica Bush
@@ -22,10 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 53d0fb461e7aa2e44a6ac15598f58875, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 53d0fb461e7aa2e44a6ac15598f58875, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: c0602cd1e0006494ea95e026c350bcd4, type: 3}
@@ -66,11 +62,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 30
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: coffeepowder
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 15d43dbf3b561cc44a8e4ef4a3539e47, type: 2}
   WeedResistanceChange: 0

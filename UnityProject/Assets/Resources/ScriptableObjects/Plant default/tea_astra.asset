@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tea_astra
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 5825327171690503504, guid: 88bb843b55993f64f8f1c71a0cadde06,
       type: 3}
     Name: tea_astra
     Plantname: Tea Astra Plant
@@ -22,10 +22,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 8d704e8d5fb9b7f468d1ba2ac37d987e, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 8d704e8d5fb9b7f468d1ba2ac37d987e, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: 859d0c8645d50464083febe6e191e137, type: 3}
@@ -66,13 +62,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: synaptizine
-      Ammount: 10
-    - Name: vitamin
-      Ammount: 3
-    - Name: teapowder
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -82,12 +72,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: synaptizine
-    Ammount: 10
-  - Name: vitamin
-    Ammount: 3
-  - Name: teapowder
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 
   RemoveReagentProduction: []
