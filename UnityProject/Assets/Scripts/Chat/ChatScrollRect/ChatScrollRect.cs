@@ -27,6 +27,8 @@ public class ChatScrollRect : ScrollRect
 	private int bottomIndex;
 	private int topIndex;
 
+	private bool isInit = false;
+
 	void Awake()
 	{
 		InitPool();
@@ -37,6 +39,39 @@ public class ChatScrollRect : ScrollRect
 		for (int i = 0; i < 20; i++)
 		{
 			chatViewPool.Add(InstantiateChatView());
+		}
+
+		isInit = true;
+	}
+
+	public void LoadChatEntries(List<ChatEntryData> chatLogsToLoad)
+	{
+		chatLog.Clear();
+		chatLog = new List<ChatEntryData>(chatLogsToLoad);
+
+		StartCoroutine(LoadAllChatEntries());
+	}
+
+	IEnumerator LoadAllChatEntries()
+	{
+		while (!isInit)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		foreach (var v in displayPool)
+		{
+			ReturnViewToPool(v, true, true);
+		}
+
+		displayPool.Clear();
+
+		foreach (var c in chatLog)
+		{
+			if (!TryShowView(c, false))
+			{
+				break;
+			}
 		}
 	}
 
@@ -56,7 +91,7 @@ public class ChatScrollRect : ScrollRect
 		displayPool.Remove(view);
 
 		if (onlyRemove) return;
-		
+
 		if (chatLog.Count == 0) return;
 
 		if (isExitBottom)
@@ -80,7 +115,7 @@ public class ChatScrollRect : ScrollRect
 		}
 	}
 
-	void TryShowView(ChatEntryData data, bool forBottom)
+	bool TryShowView(ChatEntryData data, bool forBottom)
 	{
 		if (displayPool.Count > 1)
 		{
@@ -88,13 +123,13 @@ public class ChatScrollRect : ScrollRect
 			{
 				if (displayPool[0].SpawnedOutside ||
 				    displayPool[0].EntryData == data)
-					return;
+					return false;
 			}
 			else
 			{
 				if (displayPool[displayPool.Count - 1].SpawnedOutside ||
 				    displayPool[displayPool.Count - 1].EntryData == data)
-					return;
+					return false;
 			}
 		}
 
@@ -114,6 +149,7 @@ public class ChatScrollRect : ScrollRect
 		}
 
 		entry.SetChatEntryView(data, this, markerBottom, markerTop);
+		return true;
 	}
 
 	ChatEntryView GetViewFromPool()
