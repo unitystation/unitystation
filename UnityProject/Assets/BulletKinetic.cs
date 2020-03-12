@@ -6,6 +6,7 @@ public class BulletKinetic : BulletBehaviour
 	public float maxBulletDistance;
 
 	private bool isOnDespawn = false;
+
 	public override void Shoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 	{
 		StartShoot(dir, controlledByPlayer, fromWeapon, targetZone);
@@ -23,11 +24,9 @@ public class BulletKinetic : BulletBehaviour
 
 	public override void HandleCollisionEnter2D(Collision2D coll)
 	{
-		GetComponent<BulletMineOnHit>()?.BulletHitInteract(coll,Direction);
+		//GetComponent<BulletMineOnHit>()?.BulletHitInteract(coll,Direction);
 		ReturnToPool(coll);
 	}
-
-	
 
 	protected override void ReturnToPool()
 	{

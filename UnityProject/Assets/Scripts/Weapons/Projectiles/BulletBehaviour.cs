@@ -20,6 +20,8 @@ public class BulletBehaviour : MonoBehaviour
 	public DamageType damageType;
 	public AttackType attackType = AttackType.Bullet;
 	private bool isSuicide = false;
+
+	public bool isMiningBullet = false;
 	/// <summary>
 	/// Cached trailRenderer. Note that not all bullets have a trail, thus this can be null.
 	/// </summary>
