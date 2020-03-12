@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 99e76e2b1ffad3845a9f6a53ec1b4e75
+guid: efc716ad69eb7c240a2560d7ca333a96
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: 21300006
     second: sec_helm_3
+  - first:
+      213: -8209561901130358773
+    second: bombsuit_sec_head_0
+  - first:
+      213: -3795170390838511193
+    second: bombsuit_sec_head_1
+  - first:
+      213: -5726677326297260176
+    second: bombsuit_sec_head_2
+  - first:
+      213: 4066611890519368714
+    second: bombsuit_sec_head_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -98,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sec_helm_0
+      name: bombsuit_sec_head_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 7ef99c2ffb6733545af1c88b91778acb
+      internalID: -8209561901130358773
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sec_helm_1
+      name: bombsuit_sec_head_1
       rect:
         serializedVersion: 2
         x: 32
@@ -133,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: b4bf9cff21668ea499696aa8541c017a
+      internalID: -3795170390838511193
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sec_helm_2
+      name: bombsuit_sec_head_2
       rect:
         serializedVersion: 2
         x: 64
@@ -154,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 77387f43941c1e6469726169643a9e5e
+      internalID: -5726677326297260176
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sec_helm_3
+      name: bombsuit_sec_head_3
       rect:
         serializedVersion: 2
         x: 96
@@ -175,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: 7552b6ca460ebef46a2acc9c36f269bd
+      internalID: 4066611890519368714
       vertices: []
       indices: 
       edges: []

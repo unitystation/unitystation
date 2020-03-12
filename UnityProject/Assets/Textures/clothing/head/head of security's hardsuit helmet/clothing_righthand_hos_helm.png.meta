@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 99e76e2b1ffad3845a9f6a53ec1b4e75
+guid: fe55d79da9d3bbe44b0c7e50dd8a9d87
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: 21300006
     second: sec_helm_3
+  - first:
+      213: 8132044108265372646
+    second: hos_helm_0
+  - first:
+      213: -4368411818941074246
+    second: hos_helm_1
+  - first:
+      213: -4928262823121204297
+    second: hos_helm_2
+  - first:
+      213: -5426143506563184089
+    second: hos_helm_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -98,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sec_helm_0
+      name: hos_helm_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 627e12bba9d61ba40ae7194d3bab5ef0
+      internalID: 8132044108265372646
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sec_helm_1
+      name: hos_helm_1
       rect:
         serializedVersion: 2
         x: 32
@@ -133,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 1546ea56b2c26d447aa9557b15bb4f07
+      internalID: -4368411818941074246
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sec_helm_2
+      name: hos_helm_2
       rect:
         serializedVersion: 2
         x: 64
@@ -154,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 388453cc4bcda8043a2b07fe55ccc9bd
+      internalID: -4928262823121204297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sec_helm_3
+      name: hos_helm_3
       rect:
         serializedVersion: 2
         x: 96
@@ -175,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: f15202a4dd185174e88f003db021620d
+      internalID: -5426143506563184089
       vertices: []
       indices: 
       edges: []
