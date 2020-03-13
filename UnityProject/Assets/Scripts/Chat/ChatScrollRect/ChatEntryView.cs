@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class ChatEntryView : MonoBehaviour
 {
 	[SerializeField] private Text visibleText = null;
-	[SerializeField] private RectTransform rectTransform = null;
+	[SerializeField] private RectTransform textRectTransform = null;
+	[SerializeField] private RectTransform thisRectTransform = null;
 	[SerializeField] private ContentSizeFitter contentFitter = null;
-	[SerializeField] private LayoutElement layoutElement = null;
 	private Transform tMarkerBottom;
 	private Transform tMarkerTop;
 	private ChatEntryData entryData;
@@ -28,8 +28,15 @@ public class ChatEntryView : MonoBehaviour
 	public ChatEntryData EntryData => entryData;
 
 	public void SetChatEntryView(ChatEntryData data, ChatScroll chatScroll, Transform markerBottom,
-		Transform markerTop, int index)
+		Transform markerTop, int index, float contentViewWidth)
 	{
+		var thisDelta = thisRectTransform.sizeDelta;
+		thisDelta.x = contentViewWidth;
+		thisRectTransform.sizeDelta = thisDelta;
+		var textDelta = textRectTransform.sizeDelta;
+		textDelta.x = contentViewWidth / textRectTransform.localScale.x;
+		textRectTransform.sizeDelta = textDelta;
+
 		Index = index;
 		this.chatScroll = chatScroll;
 		tMarkerBottom = markerBottom;
@@ -54,14 +61,19 @@ public class ChatEntryView : MonoBehaviour
 		StartCoroutine(UpdateMinHeight());
 	}
 
-
+	[ContextMenu("Do Test")]
+	void TestSize()
+	{
+		var rect = GetComponent<RectTransform>();
+		rect.sizeDelta = new Vector2(textRectTransform.rect.width * textRectTransform.localScale.x, textRectTransform.rect.height * textRectTransform.localScale.y);
+		Debug.Log("DONE");
+	}
 	IEnumerator UpdateMinHeight()
 	{
-		contentFitter.enabled = true;
 		yield return WaitFor.EndOfFrame;
-		layoutElement.minHeight = rectTransform.rect.height / 2;
-		yield return WaitFor.EndOfFrame;
-		contentFitter.enabled = false;
+		var thisRectDelta = thisRectTransform.sizeDelta;
+		thisRectDelta.y = textRectTransform.rect.height * textRectTransform.localScale.y;
+		thisRectTransform.sizeDelta = thisRectDelta;
 	}
 
 	private void OnEnable()

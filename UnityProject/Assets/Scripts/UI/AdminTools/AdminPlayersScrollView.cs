@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AdminTools
 {
@@ -15,6 +16,8 @@ namespace AdminTools
 
 		//Loaded playerEntries
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
+
+		public OnSelectPlayerEvent OnSelectPlayer;
 
 		public string SelectedPlayer { get; private set; }
 
@@ -94,6 +97,7 @@ namespace AdminTools
 			}
 
 			SelectedPlayer = selectedEntry.PlayerData.uid;
+			if(OnSelectPlayer != null) OnSelectPlayer.Invoke(selectedEntry.PlayerData);
 		}
 	}
 
@@ -103,4 +107,7 @@ namespace AdminTools
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
 	}
+
+	[Serializable]
+	public class OnSelectPlayerEvent : UnityEvent<AdminPlayerEntryData>{}
 }

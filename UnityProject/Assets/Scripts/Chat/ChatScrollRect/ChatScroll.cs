@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
@@ -13,7 +14,7 @@ using UnityEngine.UI;
 public class ChatScroll : MonoBehaviour
 {
 	[SerializeField] private Transform chatContentParent = null;
-	[SerializeField] private InputField inputField = null;
+	[SerializeField] private InputFieldFocus inputField = null;
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
 	[SerializeField] private Transform markerTop = null;
 	[SerializeField] private Transform markerBottom = null;
@@ -26,12 +27,16 @@ public class ChatScroll : MonoBehaviour
 
 	private int bottomIndex;
 	private int topIndex;
+	private float contentWidth;
+
+	public UnityEvent<string> OnInputFieldSubmit;
 
 	private bool isInit = false;
 
 	void Awake()
 	{
 		InitPool();
+		contentWidth = chatContentParent.GetComponent<RectTransform>().rect.width;
 	}
 
 	void InitPool()
@@ -62,8 +67,7 @@ public class ChatScroll : MonoBehaviour
 	/// </summary>
 	public void AddNewChatEntry(ChatEntryData chatEntry)
 	{
-		chatLog.Insert(0, chatEntry);
-		ForceViewRefresh();
+		TryShowView(chatEntry, true, 0);
 	}
 
 	IEnumerator LoadAllChatEntries()
@@ -101,7 +105,7 @@ public class ChatScroll : MonoBehaviour
 	{
 		foreach (var v in displayPool)
 		{
-			v.SetChatEntryView(chatLog[v.Index], this, markerBottom, markerTop, v.Index);
+			v.SetChatEntryView(chatLog[v.Index], this, markerBottom, markerTop, v.Index, contentWidth);
 		}
 	}
 
@@ -170,7 +174,7 @@ public class ChatScroll : MonoBehaviour
 			topIndex = proposedIndex;
 		}
 
-		entry.SetChatEntryView(data, this, markerBottom, markerTop, proposedIndex);
+		entry.SetChatEntryView(data, this, markerBottom, markerTop, proposedIndex, contentWidth);
 		return true;
 	}
 
@@ -188,4 +192,33 @@ public class ChatScroll : MonoBehaviour
 		chatViewPool.Add(newView);
 		return newView;
 	}
+
+	public void OnInputSubmit()
+	{
+		if (string.IsNullOrEmpty(inputField.text)) return;
+
+//		AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You: {inputField.text}");
+//		RefreshChatLog(selectedPlayer.PlayerData.uid);
+//		var message = $"{PlayerManager.CurrentCharacterSettings.username}: {inputField.text}";
+//		RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.PlayerData.uid,
+//			message);
+		AddNewChatEntry(new ChatEntryData
+		{
+			Message = $"You: {inputField.text}"
+		});
+
+		if(OnInputFieldSubmit != null) OnInputFieldSubmit.Invoke(inputField.text);
+
+		inputField.text = "";
+		inputField.ActivateInputField();
+		StartCoroutine(AfterSubmit());
+
+	}
+
+	IEnumerator AfterSubmit()
+	{
+		yield return WaitFor.EndOfFrame;
+		UIManager.IsInputFocus = true;
+	}
+
 }
