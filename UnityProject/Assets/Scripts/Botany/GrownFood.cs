@@ -31,7 +31,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		SpriteSizeAdjustment.transform.localScale = new Vector3((SizeScale), (SizeScale), (SizeScale));
 	}
 
-	private void Awake()
+	/*private void Awake()
 	{
 		if (SpriteSizeAdjustment.sprite.texture == null)
 		{
@@ -42,7 +42,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		spritesheet.setSprites();
 		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
 		Sprite.PushTexture();
-	}
+	}*/
 
 	public override void OnStartClient()
 	{

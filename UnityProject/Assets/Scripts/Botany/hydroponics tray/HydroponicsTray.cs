@@ -599,6 +599,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		//var tint = random.Next(plantData.MutatesInTo.Count);\
 		//only use mutations with valid produce
 		var data = plantData.MutatesInTo.Where(mutation => mutation.plantData.ProduceObject != null).PickRandom();
+		if (data == null) { return; }
 		var oldPlantData = plantData;
 		plantData.MutateTo(data);
 		UpdatePlant(oldPlantData.Name, plantData.Name);
