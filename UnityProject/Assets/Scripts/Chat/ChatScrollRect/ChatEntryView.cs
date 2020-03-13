@@ -12,7 +12,7 @@ public class ChatEntryView : MonoBehaviour
 	private ChatEntryData entryData;
 	private ChatScroll chatScroll;
 
-	public int Index; //{ get; private set; }
+	public int Index { get; private set; }
 
 	/// <summary>
 	/// The current message of the ChatEntry

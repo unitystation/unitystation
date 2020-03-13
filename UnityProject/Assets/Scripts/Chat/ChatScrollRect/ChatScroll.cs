@@ -18,7 +18,7 @@ public class ChatScroll : MonoBehaviour
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	private List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
 	//Pool of entries that are currently visible with index 0 being the bottom
-	public List<ChatEntryView> displayPool = new List<ChatEntryView>();
+	private List<ChatEntryView> displayPool = new List<ChatEntryView>();
 
 	[Tooltip("the max amount of views to display in the view. This would be how many " +
 	         "of the minimum sized entries until it touches the top of your viewport")]
