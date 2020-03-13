@@ -39,6 +39,7 @@ public class InputFieldFocus : InputField
 
 	private void DisableInput()
 	{
+		if (UIManager.Instance == null) return;
 		UIManager.IsInputFocus = true;
 		UIManager.PreventChatInput = true;
 		IsFocused = true;
@@ -46,6 +47,7 @@ public class InputFieldFocus : InputField
 
 	private void EnableInput()
 	{
+		if (UIManager.Instance == null) return;
 		UIManager.IsInputFocus = false;
 		UIManager.PreventChatInput = false;
 		IsFocused = false;

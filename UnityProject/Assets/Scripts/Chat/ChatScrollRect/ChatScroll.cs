@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 /// <summary>
 /// A specific ScrollRect that also handles the
@@ -16,17 +14,15 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private Transform chatContentParent = null;
 	[SerializeField] private InputFieldFocus inputField = null;
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
-	[SerializeField] private Transform markerTop = null;
-	[SerializeField] private Transform markerBottom = null;
-
 
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	private List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
 	//Pool of entries that are currently visible with index 0 being the bottom
 	private List<ChatEntryView> displayPool = new List<ChatEntryView>();
 
-	private int bottomIndex;
-	private int topIndex;
+	[Tooltip("the max amount of views to display in the view. This would be how many " +
+	         "of the minimum sized entries until it touches the top of your viewport")]
+	[SerializeField] private int MaxViews = 17;
 	private float contentWidth;
 
 	public UnityEvent<string> OnInputFieldSubmit;
@@ -67,6 +63,7 @@ public class ChatScroll : MonoBehaviour
 	/// </summary>
 	public void AddNewChatEntry(ChatEntryData chatEntry)
 	{
+		chatLog.Add(chatEntry);
 		TryShowView(chatEntry, true, 0);
 	}
 
@@ -79,17 +76,14 @@ public class ChatScroll : MonoBehaviour
 
 		foreach (var v in displayPool)
 		{
-			ReturnViewToPool(v, true, true);
+			ReturnViewToPool(v);
 		}
 
 		displayPool.Clear();
 
-		for (int i = 0; i < chatLog.Count; i++)
+		for (int i = 0; i < chatLog.Count && i < MaxViews; i++)
 		{
-			if (!TryShowView(chatLog[i], false, i))
-			{
-				break;
-			}
+			TryShowView(chatLog[i], false, i);
 		}
 	}
 
@@ -101,81 +95,40 @@ public class ChatScroll : MonoBehaviour
 		return obj.GetComponent<ChatEntryView>();
 	}
 
-	void ForceViewRefresh()
+	public void ReturnViewToPool(ChatEntryView view)
 	{
-		foreach (var v in displayPool)
-		{
-			v.SetChatEntryView(chatLog[v.Index], this, markerBottom, markerTop, v.Index, contentWidth);
-		}
-	}
-
-	public void ReturnViewToPool(ChatEntryView view, bool isExitBottom, bool onlyRemove = false)
-	{
-		var data = view.EntryData;
-		var dataIndex = chatLog.IndexOf(data);
 		view.gameObject.SetActive(false);
 		displayPool.Remove(view);
-
-		if (onlyRemove) return;
-
-		if (chatLog.Count == 0) return;
-
-		if (isExitBottom)
-		{
-			if (dataIndex == chatLog.Count - 1) return;
-			bottomIndex = Mathf.Clamp(dataIndex + 1, 0, chatLog.Count - 1);
-
-			if ((topIndex + 1) < chatLog.Count)
-			{
-				TryShowView(chatLog[topIndex + 1], false, topIndex + 1);
-			}
-		}
-		else
-		{
-			if (dataIndex == 0) return;
-			topIndex = Mathf.Clamp(dataIndex - 1, 0, chatLog.Count - 1);
-			if ((bottomIndex - 1) >= 0)
-			{
-				TryShowView(chatLog[bottomIndex - 1], true, bottomIndex - 1);
-			}
-		}
 	}
 
-	bool TryShowView(ChatEntryData data, bool forBottom, int proposedIndex)
+	void TryShowView(ChatEntryData data, bool forBottom, int proposedIndex, ScrollButtonDirection scrollDir = ScrollButtonDirection.None)
 	{
-		if (displayPool.Count > 1)
-		{
-			if (forBottom)
-			{
-				if (displayPool[0].SpawnedOutside ||
-				    displayPool[0].EntryData == data)
-					return false;
-			}
-			else
-			{
-				if (displayPool[displayPool.Count - 1].SpawnedOutside ||
-				    displayPool[displayPool.Count - 1].EntryData == data)
-					return false;
-			}
-		}
-
 		var entry = GetViewFromPool();
 
 		if (forBottom)
 		{
 			entry.transform.SetAsLastSibling();
-			bottomIndex = proposedIndex;
 			displayPool.Insert(0, entry);
 		}
 		else
 		{
 			entry.transform.SetAsFirstSibling();
 			displayPool.Add(entry);
-			topIndex = proposedIndex;
 		}
 
-		entry.SetChatEntryView(data, this, markerBottom, markerTop, proposedIndex, contentWidth);
-		return true;
+		entry.SetChatEntryView(data, this, proposedIndex, contentWidth);
+		DetermineTrim(scrollDir);
+	}
+
+	void DetermineTrim(ScrollButtonDirection scrollDir)
+	{
+		if (scrollDir != ScrollButtonDirection.None
+		    || displayPool.Count < MaxViews) return;
+
+		for (int i = displayPool.Count - 1; i >= MaxViews - 1; i--)
+		{
+			ReturnViewToPool(displayPool[i]);
+		}
 	}
 
 	ChatEntryView GetViewFromPool()
@@ -221,4 +174,11 @@ public class ChatScroll : MonoBehaviour
 		UIManager.IsInputFocus = true;
 	}
 
+}
+
+public enum ScrollButtonDirection
+{
+	None,
+	Up,
+	Down
 }
