@@ -33,9 +33,14 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void Awake()
 	{
-		//var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
-		//spritesheet.setSprites();
-		//Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
+		if (SpriteSizeAdjustment.sprite.texture == null)
+		{
+			Debug.LogError("Attempted awake on food, failed to find texture", this);
+			return;
+		}
+		var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
+		spritesheet.setSprites();
+		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
 		Sprite.PushTexture();
 	}
 
