@@ -711,11 +711,5 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 														CentComm.UpdateSound.notice);
 	}
 
-	[Command]
-	public void CmdChangeAlertLevel (CentComm.AlertLevel ToLevel)
-	{
-		GameManager.Instance.CentComm.ChangeAlertLevel(ToLevel);
-	}
-
 	#endregion
 }
