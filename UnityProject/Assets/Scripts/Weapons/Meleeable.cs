@@ -93,6 +93,10 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
+		var itemAttributes = GetComponent<ItemAttributesV2>();
+
+		var integrity = GetComponent<Integrity>();
+
 		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
 		if (interactableTiles != null)
 		{
@@ -103,6 +107,10 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 				return;
 			}
 			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
+			if (Validations.HasItemTrait(gameObject, CommonTraits.Instance.Breakable))
+			{
+				gameObject.GetComponent<ItemBreakable>().AddDamage();
+			}
 		}
 		else
 		{
@@ -128,6 +136,10 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			else
 			{
 				wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
+				if(Validations.HasItemTrait(gameObject, CommonTraits.Instance.Breakable))
+				{
+					gameObject.GetComponent<ItemBreakable>().AddDamage();
+				}
 			}
 		}
 	}
