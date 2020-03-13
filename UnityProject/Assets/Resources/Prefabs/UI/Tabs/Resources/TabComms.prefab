@@ -1204,7 +1204,7 @@ GameObject:
   - component: {fileID: 3203863321933570528}
   - component: {fileID: 2134783228239730639}
   - component: {fileID: 620430627689732428}
-  - component: {fileID: 8950775807356712394}
+  - component: {fileID: 2393295818584755014}
   m_Layer: 5
   m_Name: BLUE
   m_TagString: Untagged
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8950775807356712394}
+      - m_Target: {fileID: 2393295818584755014}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -1322,7 +1322,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8950775807356712394
+--- !u!114 &2393295818584755014
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1331,7 +1331,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2044075326663258675}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6face2694cc3485db44d405b2016ed07, type: 3}
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
@@ -1348,7 +1348,17 @@ MonoBehaviour:
           m_StringArgument: Blue
           m_BoolArgument: 0
         m_CallState: 2
-  SourceInputField: {fileID: 0}
+      - m_Target: {fileID: 5503594006269639926}
+        m_MethodName: UpdateAlertLevelLabels
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2177786210958352366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,7 +2585,7 @@ GameObject:
   - component: {fileID: 848300694198194219}
   - component: {fileID: 202255804096200159}
   - component: {fileID: 3003332066828533836}
-  - component: {fileID: 5698843276162863932}
+  - component: {fileID: 8800880108798021303}
   m_Layer: 5
   m_Name: DELTA
   m_TagString: Untagged
@@ -2682,7 +2692,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5698843276162863932}
+      - m_Target: {fileID: 8800880108798021303}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -2693,7 +2703,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5698843276162863932
+--- !u!114 &8800880108798021303
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2702,7 +2712,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3153393163981814118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6face2694cc3485db44d405b2016ed07, type: 3}
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
@@ -2719,7 +2729,17 @@ MonoBehaviour:
           m_StringArgument: Delta
           m_BoolArgument: 0
         m_CallState: 2
-  SourceInputField: {fileID: 0}
+      - m_Target: {fileID: 5503594006269639926}
+        m_MethodName: UpdateAlertLevelLabels
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3301632210822489074
 GameObject:
   m_ObjectHideFlags: 0
@@ -3025,7 +3045,7 @@ GameObject:
   - component: {fileID: 6565443378528978533}
   - component: {fileID: 4588572649187183059}
   - component: {fileID: 7985052716440265394}
-  - component: {fileID: 4961263979116352660}
+  - component: {fileID: 2396281946426891652}
   m_Layer: 5
   m_Name: ConfirmButton
   m_TagString: Untagged
@@ -3132,7 +3152,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4961263979116352660}
+      - m_Target: {fileID: 2396281946426891652}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -3143,7 +3163,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4961263979116352660
+--- !u!114 &2396281946426891652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3152,7 +3172,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3480437470275957650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6face2694cc3485db44d405b2016ed07, type: 3}
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
@@ -3169,7 +3189,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  SourceInputField: {fileID: 0}
 --- !u!1 &3583549633800520828
 GameObject:
   m_ObjectHideFlags: 0
@@ -4538,6 +4557,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5503594006269639926}
+        m_MethodName: UpdateAlertLevelLabels
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5363340654944557437
 GameObject:
   m_ObjectHideFlags: 0
@@ -5728,7 +5758,7 @@ GameObject:
   - component: {fileID: 4989076193908012909}
   - component: {fileID: 2265107433782599310}
   - component: {fileID: 7185566801374151722}
-  - component: {fileID: 291803548124434150}
+  - component: {fileID: 4972982041148516131}
   m_Layer: 5
   m_Name: RED
   m_TagString: Untagged
@@ -5835,7 +5865,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 291803548124434150}
+      - m_Target: {fileID: 4972982041148516131}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -5846,7 +5876,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &291803548124434150
+--- !u!114 &4972982041148516131
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5855,7 +5885,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7067373089635077450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6face2694cc3485db44d405b2016ed07, type: 3}
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
@@ -5872,7 +5902,17 @@ MonoBehaviour:
           m_StringArgument: Red
           m_BoolArgument: 0
         m_CallState: 2
-  SourceInputField: {fileID: 0}
+      - m_Target: {fileID: 5503594006269639926}
+        m_MethodName: UpdateAlertLevelLabels
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7148670239413407084
 GameObject:
   m_ObjectHideFlags: 0
@@ -6503,6 +6543,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5503594006269639926}
         m_MethodName: CloseTab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5503594006269639926}
+        m_MethodName: UpdateAlertLevelLabels
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7630,7 +7681,7 @@ GameObject:
   - component: {fileID: 2984618481481566078}
   - component: {fileID: 3242134456724197725}
   - component: {fileID: 3275782562607314309}
-  - component: {fileID: 6485706475690863305}
+  - component: {fileID: 4400528674417839695}
   m_Layer: 5
   m_Name: GREEN
   m_TagString: Untagged
@@ -7737,7 +7788,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6485706475690863305}
+      - m_Target: {fileID: 4400528674417839695}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -7748,7 +7799,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6485706475690863305
+--- !u!114 &4400528674417839695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7757,7 +7808,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8475885566402538195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6face2694cc3485db44d405b2016ed07, type: 3}
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
@@ -7774,7 +7825,17 @@ MonoBehaviour:
           m_StringArgument: Green
           m_BoolArgument: 0
         m_CallState: 2
-  SourceInputField: {fileID: 0}
+      - m_Target: {fileID: 5503594006269639926}
+        m_MethodName: UpdateAlertLevelLabels
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8648665006256947033
 GameObject:
   m_ObjectHideFlags: 0
