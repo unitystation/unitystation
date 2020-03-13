@@ -31,7 +31,7 @@ namespace AdminTools
 
 		void UpdateMe()
 		{
-			currentCount += Time.deltaTime
+			currentCount += Time.deltaTime;
 			if (currentCount > refreshTime)
 			{
 				RefreshPlayerList();
@@ -45,7 +45,55 @@ namespace AdminTools
 
 		public void ReceiveUpdatedPlayerList(AdminPlayersList playerList)
 		{
+			RefreshOnlinePlayerList(playerList);
+		}
 
+		void RefreshOnlinePlayerList(AdminPlayersList playerList)
+		{
+			foreach (var p in playerList.players)
+			{
+				var index = playerEntries.FindIndex(x => x.PlayerData.uid == p.uid);
+				if (index != -1)
+				{
+					playerEntries[index].UpdateButton(p, SelectPlayerInList);
+				}
+				else
+				{
+					var e = Instantiate(playerEntryPrefab, playerListContent);
+					var entry = e.GetComponent<AdminPlayerEntry>();
+					entry.UpdateButton(p, SelectPlayerInList);
+					playerEntries.Add(entry);
+					index = playerEntries.Count - 1;
+				}
+
+				if (!p.isOnline)
+				{
+					playerEntries[index].transform.SetAsLastSibling();
+				}
+			}
+
+			if (string.IsNullOrEmpty(SelectedPlayer))
+			{
+				SelectPlayerInList(playerEntries[0]);
+			}
+		}
+
+		void SelectPlayerInList(AdminPlayerEntry selectedEntry)
+		{
+			foreach (var p in playerEntries)
+			{
+				if (p != selectedEntry)
+				{
+					p.DeselectPlayer();
+				}
+				else
+				{
+					p.SelectPlayer();
+					SelectedPlayer = selectedEntry.PlayerData.uid;
+				}
+			}
+
+			SelectedPlayer = selectedEntry.PlayerData.uid;
 		}
 	}
 

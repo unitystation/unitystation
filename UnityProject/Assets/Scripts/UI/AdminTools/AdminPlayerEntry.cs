@@ -13,6 +13,7 @@ namespace AdminTools
 		[SerializeField] private Image bg = null;
 		[SerializeField] private GameObject msgPendingNot = null;
 		[SerializeField] private Text msgPendingCount = null;
+		[SerializeField] private GameObject offlineNot = null;
 		public Button button;
 
 		public Color selectedColor;
@@ -43,6 +44,15 @@ namespace AdminTools
 			else
 			{
 				displayName.fontStyle = FontStyle.Normal;
+			}
+
+			if (PlayerData.isOnline)
+			{
+				offlineNot.SetActive(false);
+			}
+			else
+			{
+				offlineNot.SetActive(true);
 			}
 		}
 

@@ -25,8 +25,6 @@ public class AdminToolRefreshMessage : ServerMessage
 
 	public static AdminToolRefreshMessage Send(GameObject recipient, string adminID)
 	{
-
-
 		//Gather the data:
 		var pageData = new AdminPageRefreshData();
 

@@ -52,17 +52,25 @@ public class AdminPlayerListRefreshMessage : ServerMessage
 			entry.uid = player.UserId;
 			entry.currentJob = player.Job.ToString();
 			entry.accountName = player.Username;
-			entry.ipAddress = player.Connection.address;
-			if (player.Script != null && player.Script.playerHealth != null)
+			if (player.Connection != null)
 			{
-				entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
-			} else
-			{
-				entry.isAdmin = false;
+				entry.ipAddress = player.Connection.address;
+				if (player.Script != null && player.Script.playerHealth != null)
+				{
+					entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
+				}
+				else
+				{
+					entry.isAdmin = false;
+				}
+				entry.isOnline = true;
+				entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
+				entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
 			}
-			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
-			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
-			entry.isOnline = true;
+			else
+			{
+				entry.isOnline = false;
+			}
 
 			playerList.Add(entry);
 		}
