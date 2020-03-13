@@ -33,12 +33,14 @@ public class GUI_Comms : NetTab
 	private NetLabel shuttleCallButtonLabel = null;
 	[SerializeField]
 	private NetSpriteImage statusImage = null;
+	[SerializeField]
+	private NetLabel CurrentAlertLevelLabel = null;
+	[SerializeField]
+	private NetLabel NewAlertLevelLabel = null;
 
 	private CommsConsole console;
 	private EscapeShuttle shuttle;
 	private Coroutine callResultHandle;
-
-	private CentComm.AlertLevel AlertLevel = CentComm.AlertLevel.Green;
 
 	protected override void InitServer()
 	{
@@ -176,27 +178,18 @@ public class GUI_Comms : NetTab
 	public void ChangeAlertLevel()
 	{
 		Logger.Log( nameof(ChangeAlertLevel), Category.NetUI );
-		GameManager.Instance.CentComm.ChangeAlertLevel(AlertLevel);
+		CentComm.AlertLevel level = (CentComm.AlertLevel)Enum.Parse(typeof(CentComm.AlertLevel), NewAlertLevelLabel.ToString());
+		GameManager.Instance.CentComm.ChangeAlertLevel(level);
+		CurrentAlertLevelLabel.SetValue = NewAlertLevelLabel.ToString().ToUpper();
 		OpenMenu();
 	}
 
-	public void SelectAlertGreen()
+	public void SelectAlertLevel(string enumName)
 	{
-		AlertLevel = CentComm.AlertLevel.Green;
+		CentComm.AlertLevel level = 
+			(CentComm.AlertLevel)Enum.Parse(typeof(CentComm.AlertLevel), enumName);
+		NewAlertLevelLabel.SetValue = enumName.ToUpper();
 	}
-	public void SelectAlertBlue()
-	{
-		AlertLevel = CentComm.AlertLevel.Blue;
-	}
-	public void SelectAlertRed()
-	{
-		AlertLevel = CentComm.AlertLevel.Red;
-	}
-	public void SelectAlertDelta()
-	{
-		AlertLevel = CentComm.AlertLevel.Delta;
-	}
-
 
 	public void RequestNukeCodes()
 	{
