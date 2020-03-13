@@ -17,6 +17,9 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 	public SpriteRenderer spriteRenderer;
 	public SpriteRenderer spriteRendererLightOn;
 
+	private LightSource lightSource;
+	private LightSwitch lightSwitch;
+
 	private Orientation orientation;
 	bool hasItem = true;
 
@@ -25,6 +28,8 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 	private void Awake()
 	{
+		lightSource = GetComponent<LightSource>();
+		lightSwitch = lightSource.relatedLightSwitch;
 		orientation = GetComponent<Directional>().CurrentDirection;
 		//itemStorage = GetComponent<ItemStorage>();
 		//itemSlot = itemStorage.GetIndexedItemSlot(0);
@@ -43,6 +48,8 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 			//take out mountedItem
 			//Inventory.ServerAdd(appliableItem, interaction.HandSlot);
+			
+			lightSource.Trigger(false);
 			Chat.AddGameWideSystemMsgToChat(orientation.Degrees.ToString());
 			spriteRenderer.sprite = GetSprite(spriteListEmpty);
 			spriteRendererLightOn.sprite = null;
@@ -53,8 +60,17 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && !hasItem)
 		{
+			if (lightSwitch.isOn == LightSwitch.States.On)
+			{
+				lightSource.Trigger(true);
+				spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+			}
+			else
+			{
+				lightSource.Trigger(false);
+				spriteRendererLightOn.sprite = null;
+			}
 			spriteRenderer.sprite = GetSprite(spriteListFull);
-			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
 			//Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 			Despawn.ServerSingle(interaction.HandObject);
 			Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
