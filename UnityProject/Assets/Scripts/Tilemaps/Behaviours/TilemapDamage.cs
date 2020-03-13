@@ -253,19 +253,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				LayerTile getTile = metaTileMap.GetTile(cellPos, LayerType.Walls);
 				if (getTile != null)
 				{
-					Chat.AddGameWideSystemMsgToChat("You hit layer Wall.");
-					//TODO damage amt based off type of bullet
 						if (Validations.IsMineableAt(bulletHitTarget, metaTileMap))
 						{
-							Chat.AddGameWideSystemMsgToChat("Minable!");
 							SoundManager.PlayNetworkedAtPos("BreakStone", bulletHitTarget);
 							var tile = getTile as BasicTile;
 							Spawn.ServerPrefab(tile.SpawnOnDeconstruct, bulletHitTarget, count: tile.SpawnAmountOnDeconstruct);
 							tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-							//tileChangeManager.RemoveEffect(cellPos, LayerType.Effects);
-							return;
 						}
-					return;
 				}
 
 			}

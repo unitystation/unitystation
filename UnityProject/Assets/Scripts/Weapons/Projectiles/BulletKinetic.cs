@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 public class BulletKinetic : BulletBehaviour
 {
+
 	public float maxBulletDistance;
+
 	//to control Kinetic animation with it
 	private bool isOnDespawn = false;
 
@@ -16,7 +18,6 @@ public class BulletKinetic : BulletBehaviour
 	private IEnumerator countTiles()
 	{
 		Vector2 startPos = gameObject.AssumedWorldPosServer();
-		//List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, dir, 3);
 		float time = maxBulletDistance / weapon.ProjectileVelocity;
 		yield return WaitFor.Seconds(time);
 		ReturnToPool();
@@ -24,6 +25,10 @@ public class BulletKinetic : BulletBehaviour
 
 	public override void HandleCollisionEnter2D(Collision2D coll)
 	{
+		//This one is not working right now as intended
+		//Bullet get the wall tiles of the station
+		//but doesn't mine asteroid walls
+		//it just collides with them
 		//GetComponent<BulletMineOnHit>()?.BulletHitInteract(coll,Direction);
 		ReturnToPool(coll);
 	}
