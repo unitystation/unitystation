@@ -18,7 +18,7 @@ public class ChatScroll : MonoBehaviour
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	private List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
 	//Pool of entries that are currently visible with index 0 being the bottom
-	private List<ChatEntryView> displayPool = new List<ChatEntryView>();
+	public List<ChatEntryView> displayPool = new List<ChatEntryView>();
 
 	[Tooltip("the max amount of views to display in the view. This would be how many " +
 	         "of the minimum sized entries until it touches the top of your viewport")]
@@ -64,7 +64,7 @@ public class ChatScroll : MonoBehaviour
 	public void AddNewChatEntry(ChatEntryData chatEntry)
 	{
 		chatLog.Add(chatEntry);
-		TryShowView(chatEntry, true, 0);
+		TryShowView(chatEntry, true, chatLog.Count - 1);
 	}
 
 	IEnumerator LoadAllChatEntries()
@@ -123,12 +123,48 @@ public class ChatScroll : MonoBehaviour
 	void DetermineTrim(ScrollButtonDirection scrollDir)
 	{
 		if (scrollDir != ScrollButtonDirection.None
-		    || displayPool.Count < MaxViews) return;
+		    || displayPool.Count <= MaxViews) return;
 
-		for (int i = displayPool.Count - 1; i >= MaxViews - 1; i--)
+		for (int i = displayPool.Count - 1; i >= 0; i--)
 		{
+			if (i < MaxViews) continue;
 			ReturnViewToPool(displayPool[i]);
 		}
+	}
+
+	public void OnScrollDown()
+	{
+		if (chatLog.Count <= MaxViews) return;
+		if (displayPool.Count == 0) return;
+
+
+		//Player wants to see chat entries further up
+		//get the data index of the view at the top of the display list
+		var index = displayPool[displayPool.Count - 1].Index;
+		//check to see if we can scroll any further up
+		if (index == 0) return;
+		//if so then spawn a new view at the top and remove on from the bottom
+		var proposedIndex = index - 1;
+		TryShowView(chatLog[proposedIndex], false, proposedIndex, ScrollButtonDirection.Down);
+		ReturnViewToPool(displayPool[0]);
+	}
+
+	public void OnScrollUp()
+	{
+		if (chatLog.Count <= MaxViews) return;
+		if (displayPool.Count == 0) return;
+
+		//Player wants to see chat entries further down
+		//get the data index of the view on the bottom
+		var index = displayPool[0].Index;
+
+		//check to see if we can scroll any further based off this index
+		if (index == chatLog.Count - 1) return;
+		//if so then spawn a new view at the bottom and remove one from the top
+		var proposedIndex = index + 1;
+
+		TryShowView(chatLog[proposedIndex], true, proposedIndex, ScrollButtonDirection.Down);
+		ReturnViewToPool(displayPool[displayPool.Count - 1]);
 	}
 
 	ChatEntryView GetViewFromPool()
