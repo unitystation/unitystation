@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: apple_poisoned
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: apple_poisoned
     Plantname: Apple Tree
     Description: These seeds grow into apple trees.
@@ -22,11 +21,6 @@ MonoBehaviour:
       Texture: {fileID: 2800000, guid: 2e2bebb02f499b6468194e3f15438170, type: 3}
       Sprites:
       - {fileID: 21300000, guid: 2e2bebb02f499b6468194e3f15438170, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: f3dcbaf83997cef45957bb1625dc3d36, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: f3dcbaf83997cef45957bb1625dc3d36, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: ac638fe376224f04a8c7880ce4565632, type: 3}
