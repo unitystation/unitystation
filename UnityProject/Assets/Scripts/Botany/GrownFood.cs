@@ -33,9 +33,9 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void Awake()
 	{
-		var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
-		spritesheet.setSprites();
-		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
+		//var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
+		//spritesheet.setSprites();
+		//Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
 		Sprite.PushTexture();
 	}
 
