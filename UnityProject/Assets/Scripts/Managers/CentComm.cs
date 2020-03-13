@@ -80,6 +80,7 @@ public class CentComm : MonoBehaviour
 	private void OnRoundStart()
 	{
 		AsteroidLocations.Clear();
+		CurrentAlertLevel = AlertLevel.Green;
 		StartCoroutine(WaitToPrepareReport());
 	}
 
