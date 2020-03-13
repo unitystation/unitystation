@@ -169,22 +169,27 @@ public class CentComm : MonoBehaviour
 	{
 		if (CurrentAlertLevel == ToLevel) return;
 
-		if (CurrentAlertLevel > ToLevel && Announce)
+		if (CurrentAlertLevel > ToLevel && ToLevel == AlertLevel.Green)
+		{
+			MakeAnnouncement(CentCommAnnounceTemplate,
+							AlertLevelStrings[AlertLevelString.DownToGreen],
+							UpdateSound.notice);
+		}
+		else if (CurrentAlertLevel > ToLevel && Announce)
 		{
 			int _levelString = (int) ToLevel * -1;
 			MakeAnnouncement(CentCommAnnounceTemplate, 
 							AlertLevelStrings[(AlertLevelString)_levelString], 
-							ToLevel==AlertLevel.Green ? UpdateSound.notice:UpdateSound.alert);
+							UpdateSound.alert);
 		}
 		else if (CurrentAlertLevel < ToLevel && Announce)
 		{
 			MakeAnnouncement(CentCommAnnounceTemplate,
 							AlertLevelStrings[(AlertLevelString)ToLevel],
-							ToLevel==AlertLevel.Green ? UpdateSound.notice:UpdateSound.alert);
+							UpdateSound.alert);
 		}
 
 		CurrentAlertLevel = ToLevel;
-
 	}
 
 	/// <summary>

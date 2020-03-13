@@ -42,6 +42,8 @@ public class GUI_Comms : NetTab
 	private EscapeShuttle shuttle;
 	private Coroutine callResultHandle;
 
+	private CentComm.AlertLevel LocalAlertLevel = CentComm.AlertLevel.Green;
+
 	protected override void InitServer()
 	{
 		if (CustomNetworkManager.Instance._isServer)
@@ -175,20 +177,24 @@ public class GUI_Comms : NetTab
 		CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text, CentComm.UpdateSound.announce);
 		OpenMenu();
 	}
+	
+	public void UpdateAlertLevelLabels()
+	{
+		CurrentAlertLevelLabel.SetValue = GameManager.Instance.CentComm.CurrentAlertLevel.ToString().ToUpper();
+		NewAlertLevelLabel.SetValue = LocalAlertLevel.ToString().ToUpper();
+	}
 	public void ChangeAlertLevel()
 	{
 		Logger.Log( nameof(ChangeAlertLevel), Category.NetUI );
-		CentComm.AlertLevel level = (CentComm.AlertLevel)Enum.Parse(typeof(CentComm.AlertLevel), NewAlertLevelLabel.ToString());
-		GameManager.Instance.CentComm.ChangeAlertLevel(level);
-		CurrentAlertLevelLabel.SetValue = NewAlertLevelLabel.ToString().ToUpper();
+		GameManager.Instance.CentComm.ChangeAlertLevel(LocalAlertLevel);
+
 		OpenMenu();
 	}
 
-	public void SelectAlertLevel(string enumName)
+	public void SelectAlertLevel(string levelName)
 	{
-		CentComm.AlertLevel level = 
-			(CentComm.AlertLevel)Enum.Parse(typeof(CentComm.AlertLevel), enumName);
-		NewAlertLevelLabel.SetValue = enumName.ToUpper();
+		LocalAlertLevel =
+			(CentComm.AlertLevel)Enum.Parse(typeof(CentComm.AlertLevel), levelName);
 	}
 
 	public void RequestNukeCodes()
