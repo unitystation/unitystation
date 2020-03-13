@@ -11,7 +11,7 @@ public class BulletKinetic : BulletBehaviour
 
 	public override void Shoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 	{
-		StartShoot(dir, controlledByPlayer, fromWeapon, targetZone);
+		base.Shoot(dir, controlledByPlayer, fromWeapon, targetZone);
 		StartCoroutine(countTiles());
 	}
 
