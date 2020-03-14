@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -27,9 +28,16 @@ public class ChatScroll : MonoBehaviour
 	[Tooltip("the max amount of views to display in the view. This would be how many " +
 	         "of the minimum sized entries until it touches the top of your viewport")]
 	[SerializeField] private int MaxViews = 17;
+	[Tooltip("If this is set to true then the input field will not add a chat entry to the" +
+	         "chatlogs. You do this because you want to handle the entry manually")]
+	[SerializeField] private bool doNotAddInputToChatLog;
+
 	private float contentWidth;
 
-	public ChatInputSubmitEvent OnInputFieldSubmit;
+	/// <summary>
+	/// Subscribe to this event to receive the inputfield text on submit
+	/// </summary>
+	public event Action<string> OnInputFieldSubmit;
 
 	private float scrollTime;
 	private bool isUsingScrollBar;
@@ -65,6 +73,17 @@ public class ChatScroll : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Appends new chat logs to an already loaded chat scroll
+	/// </summary>
+	public void AppendChatEntries(List<ChatEntryData> chatLogsToAppend)
+	{
+		foreach (var e in chatLogsToAppend)
+		{
+			AddNewChatEntry(e);
+		}
+	}
+
+	/// <summary>
 	/// This adds a new chat entry and displays it at the bottom of the scroll feed
 	/// </summary>
 	public void AddNewChatEntry(ChatEntryData chatEntry)
@@ -84,10 +103,10 @@ public class ChatScroll : MonoBehaviour
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-
-		foreach (var v in displayPool)
+		
+		for (int i = displayPool.Count - 1; i >= 0 && i < displayPool.Count - 1; i--)
 		{
-			ReturnViewToPool(v);
+			ReturnViewToPool(displayPool[i]);
 		}
 
 		displayPool.Clear();
@@ -197,22 +216,19 @@ public class ChatScroll : MonoBehaviour
 	{
 		if (string.IsNullOrEmpty(inputField.text)) return;
 
-//		AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You: {inputField.text}");
-//		RefreshChatLog(selectedPlayer.PlayerData.uid);
-//		var message = $"{PlayerManager.CurrentCharacterSettings.username}: {inputField.text}";
-//		RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.PlayerData.uid,
-//			message);
-		AddNewChatEntry(new ChatEntryData
+		if (!doNotAddInputToChatLog)
 		{
-			Message = $"You: {inputField.text}"
-		});
+			AddNewChatEntry(new ChatEntryData
+			{
+				Message = $"You: {inputField.text}"
+			});
+		}
 
 		if(OnInputFieldSubmit != null) OnInputFieldSubmit.Invoke(inputField.text);
 
 		inputField.text = "";
 		inputField.ActivateInputField();
 		StartCoroutine(AfterSubmit());
-
 	}
 
 	IEnumerator AfterSubmit()
@@ -285,6 +301,3 @@ public enum ScrollButtonDirection
 	Up,
 	Down
 }
-
-[Serializable]
-public class ChatInputSubmitEvent : UnityEvent<string> { }

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 
@@ -61,7 +63,8 @@ namespace AdminTools
 
 			if (!File.Exists(filePath))
 			{
-				File.Create(filePath);
+				var stream = File.Create(filePath);
+				stream.Close();
 				string header = $"Username: {connectedPlayer.Username} Player Name: {connectedPlayer.Name} \r\n" +
 				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(connectedPlayer)}  role: {connectedPlayer.Job} \r\n" +
 				                $"-----Chat Log----- \r\n" +
@@ -117,7 +120,13 @@ namespace AdminTools
 				clientAdminPlayerChatLogs.Add(playerId, new List<AdminChatMessage>());
 			}
 
-			clientAdminPlayerChatLogs[playerId].AddRange(JsonUtility.FromJson<AdminChatUpdate>(unreadMessagesJson).messages);
+			var update = JsonUtility.FromJson<AdminChatUpdate>(unreadMessagesJson);
+			clientAdminPlayerChatLogs[playerId].AddRange(update.messages);
+
+			if (selectedPlayer != null && selectedPlayer.uid == playerId)
+			{
+				chatScroll.AppendChatEntries(update.messages.Cast<ChatEntryData>().ToList());
+			}
 		}
 
 		public void OnPlayerSelect(AdminPlayerEntryData playerData)
@@ -129,7 +138,32 @@ namespace AdminTools
 				clientAdminPlayerChatLogs.Add(playerData.uid, new List<AdminChatMessage>());
 			}
 
+			chatScroll.LoadChatEntries(clientAdminPlayerChatLogs[playerData.uid].Cast<ChatEntryData>().ToList());
+		}
 
+		private void OnEnable()
+		{
+			chatScroll.OnInputFieldSubmit += OnInputSend;
+		}
+
+		private void OnDisable()
+		{
+			chatScroll.OnInputFieldSubmit -= OnInputSend;
+		}
+
+		public void OnInputSend(string message)
+		{
+			var adminMsg = new AdminChatMessage
+			{
+				fromUserid = ServerData.UserID,
+				Message = message,
+				wasFromAdmin = true
+			};
+
+			clientAdminPlayerChatLogs[selectedPlayer.uid].Add(adminMsg);
+			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
+			RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,
+			msg);
 		}
 	}
 }
