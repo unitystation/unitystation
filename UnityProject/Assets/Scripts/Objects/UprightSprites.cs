@@ -15,7 +15,7 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 		SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation;
 
 	[Tooltip("Ignore additional rotation (for example, when object is knocked down)")]
-	public SpriteRenderer[] ignoreExtraRotation;
+	public SpriteRenderer[] ignoreExtraRotation = new SpriteRenderer[0];
 
 	/// <summary>
 	/// Client side only! additional rotation to apply to the sprites. Can be used to give the object an appearance
