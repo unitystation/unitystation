@@ -9,8 +9,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using Tilemaps.Behaviours.Meta;
+using UnityEngine.Profiling;
 using Object = System.Object;
-
+using Random = UnityEngine.Random;
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
 /// take damage, and do things in response to integrity changes. Objects are destroyed when their integrity
@@ -45,6 +46,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public UnityAction<DestructionInfo> OnBurnUpServer;
 
+	[Tooltip("Sound to play when damage applied.")]
+	public string soundOnHit;
 	/// <summary>
 	/// Armor for this object.
 	/// </summary>
@@ -73,6 +76,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private static GameObject SMALL_BURNING_PREFAB;
 	private static GameObject LARGE_BURNING_PREFAB;
 
+	private static OverlayTile SMALL_ASH;
+	private static OverlayTile LARGE_ASH;
 
 	// damage incurred each tick while an object is on fire
 	private static float BURNING_DAMAGE = 0.08f;
@@ -96,6 +101,16 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		EnsureInit();
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void EnsureInit()
 	{
 		if (registerTile != null) return;
@@ -103,6 +118,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("SmallBurning");
 			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("LargeBurning");
+		}
+
+		if (SMALL_ASH == null)
+		{
+			SMALL_ASH = TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
+			LARGE_ASH = TileManager.GetTile(TileType.Effects, "LargeAsh") as OverlayTile;
 		}
 		registerTile = GetComponent<RegisterTile>();
 		pushable = GetComponent<IPushable>();
@@ -178,11 +199,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			lastDamageType = damageType;
 			OnApllyDamage.Invoke(damageInfo);
 			CheckDestruction();
+			
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (onFire && isServer)
 		{
@@ -195,7 +217,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	private void SyncOnFire(bool wasOnFire, bool onFire)
+	private void  SyncOnFire(bool wasOnFire, bool onFire)
 	{
 		EnsureInit();
 		//do nothing if this can't burn
@@ -217,8 +239,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
+			Profiler.BeginSample("IntegrityOnWillDestroy");
 			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
+			Profiler.EndSample();
 
 			if (onFire)
 			{
@@ -259,11 +283,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Server]
 	private void DefaultBurnUp(DestructionInfo info)
 	{
-		//just a guess - objects which can be picked up should have a smaller amount of ash
-		EffectsFactory.Ash(registerTile.WorldPosition.To2Int(), isLarge);
+		Profiler.BeginSample("DefaultBurnUp");
+		registerTile.TileChangeManager.UpdateOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
 		Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject.TileWorldPosition());
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		Despawn.ServerSingle(gameObject);
+		Profiler.EndSample();
 	}
 
 	[Server]
@@ -285,10 +310,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Server]
 	public void OnExposed(FireExposure exposure)
 	{
+		Profiler.BeginSample("IntegrityExpose");
 		if (exposure.Temperature > HeatResistance)
 		{
 			ApplyDamage(exposure.StandardDamage(), AttackType.Fire, DamageType.Burn);
 		}
+		Profiler.EndSample();
 	}
 
 	public RightClickableResult GenerateRightClickOptions()

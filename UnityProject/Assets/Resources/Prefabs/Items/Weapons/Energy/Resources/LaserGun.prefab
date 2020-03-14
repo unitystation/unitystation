@@ -7,11 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
-        type: 3}
-      propertyPath: m_Name
-      value: LaserGun
-      objectReference: {fileID: 0}
     - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: SmartGun
@@ -22,6 +17,18 @@ PrefabInstance:
       propertyPath: SpawnsCaseing
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 1553142956179786, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+    - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7ff9b33435841a54cac3a5d90c8cf4af,
+        type: 3}
     - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,6 +84,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_Name
+      value: LaserGun
+      objectReference: {fileID: 0}
     - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_AssetId
@@ -86,75 +98,80 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
-      objectReference: {fileID: 2800000, guid: efc1d4b461ca5fe4089b89553cec342e, type: 3}
+      objectReference: {fileID: 2800000, guid: 2f85300042afa5e4a8d6b89de3cf00dc, type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: efc1d4b461ca5fe4089b89553cec342e,
+      objectReference: {fileID: 21300000, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300002, guid: efc1d4b461ca5fe4089b89553cec342e,
+      objectReference: {fileID: 21300002, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300004, guid: efc1d4b461ca5fe4089b89553cec342e,
+      objectReference: {fileID: 21300004, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
       value: 
-      objectReference: {fileID: 21300006, guid: efc1d4b461ca5fe4089b89553cec342e,
+      objectReference: {fileID: 21300006, guid: 2f85300042afa5e4a8d6b89de3cf00dc,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: 3f33ec054a23d2949944de1e2c5eef6d, type: 3}
+      objectReference: {fileID: 4900000, guid: 91353faa27e057c41889d5e47106e9c8, type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Texture
       value: 
-      objectReference: {fileID: 2800000, guid: a4f36344f06ade54c8e4c3bc37078e40, type: 3}
+      objectReference: {fileID: 2800000, guid: 5e09b2295b9f33f46ba5056f546288b4, type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: a4f36344f06ade54c8e4c3bc37078e40,
+      objectReference: {fileID: 21300000, guid: 5e09b2295b9f33f46ba5056f546288b4,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300002, guid: a4f36344f06ade54c8e4c3bc37078e40,
+      objectReference: {fileID: 21300002, guid: 5e09b2295b9f33f46ba5056f546288b4,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300004, guid: a4f36344f06ade54c8e4c3bc37078e40,
+      objectReference: {fileID: 21300004, guid: 5e09b2295b9f33f46ba5056f546288b4,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
       value: 
-      objectReference: {fileID: 21300006, guid: a4f36344f06ade54c8e4c3bc37078e40,
+      objectReference: {fileID: 21300006, guid: 5e09b2295b9f33f46ba5056f546288b4,
         type: 3}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: 2a4d746a9f25d324c892b96f8422d01b, type: 3}
-    - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
+      objectReference: {fileID: 4900000, guid: 4714ab66aef6cd1418a64f83c1dca4d5, type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7ff9b33435841a54cac3a5d90c8cf4af,
+      propertyPath: initialName
+      value: Laser Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
+      propertyPath: initialDescription
+      value: A basic energy-based laser gun that fires concentrated beams of light
+        which pass through glass and thin metal.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}

@@ -1923,6 +1923,7 @@ GameObject:
   - component: {fileID: 114720228895401702}
   - component: {fileID: 4984957583611271286}
   - component: {fileID: 585662512790831443}
+  - component: {fileID: 6966695477916288822}
   m_Layer: 0
   m_Name: ChatSystem
   m_TagString: Untagged
@@ -2039,6 +2040,19 @@ MonoBehaviour:
   numMessagesDecayMinutes: 0.083333336
   numMessagesWarning: You struggled to speak as you catch your breath.
   numMessagesWarningOOC: You are sending too many messages, please wait a few seconds.
+--- !u!114 &6966695477916288822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897758349740974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04bf252dd1f38424f862a3a5eb0478f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typingTimeout: 5
 --- !u!1 &240195806562193236
 GameObject:
   m_ObjectHideFlags: 0
@@ -4301,15 +4315,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a311e2bde4b0f554c980666c969a060c, type: 3}
---- !u!1 &8380570029279695647 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
-    type: 3}
-  m_PrefabInstance: {fileID: 4168157131774070329}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &942134156153933411 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3804247380278558810, guid: a311e2bde4b0f554c980666c969a060c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4168157131774070329}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8380570029279695647 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
     type: 3}
   m_PrefabInstance: {fileID: 4168157131774070329}
   m_PrefabAsset: {fileID: 0}
@@ -4431,15 +4445,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 115e79e65ed316546aea2bf6ffdcc366, type: 3}
---- !u!1 &9091622191222137699 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1618776996635460, guid: 115e79e65ed316546aea2bf6ffdcc366,
-    type: 3}
-  m_PrefabInstance: {fileID: 9092255765942517799}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &9021516341056411997 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224321409555159418, guid: 115e79e65ed316546aea2bf6ffdcc366,
+    type: 3}
+  m_PrefabInstance: {fileID: 9092255765942517799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9091622191222137699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1618776996635460, guid: 115e79e65ed316546aea2bf6ffdcc366,
     type: 3}
   m_PrefabInstance: {fileID: 9092255765942517799}
   m_PrefabAsset: {fileID: 0}

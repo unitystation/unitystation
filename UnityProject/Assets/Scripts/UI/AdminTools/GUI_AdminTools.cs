@@ -16,6 +16,7 @@ namespace AdminTools
 		[SerializeField] private GameObject playerManagePage;
 		[SerializeField] private GameObject playerChatPage;
 		[SerializeField] private GameObject playersScrollView;
+		[SerializeField] private GameObject CentCommPage;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
@@ -87,6 +88,14 @@ namespace AdminTools
 			retrievingDataScreen.SetActive(true);
 		}
 
+		public void ShowCentCommPage()
+		{
+			DisableAllPages();
+			CentCommPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "CENTCOMM";
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -95,6 +104,7 @@ namespace AdminTools
 			backBtn.SetActive(false);
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
+			CentCommPage.SetActive(false);
 			playersScrollView.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);

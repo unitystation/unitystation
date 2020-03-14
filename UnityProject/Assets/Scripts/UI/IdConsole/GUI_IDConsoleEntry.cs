@@ -12,10 +12,10 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 	//This button is used in two types - as access and assignment
 	[Tooltip("Whether this is an assignment (occupation) or an access (individual permission)")]
 	[SerializeField]
-	private bool isOccupation;
+	private bool isOccupation = false;
 	[Tooltip("If assignment, occupation this button will grant.")]
 	[SerializeField]
-	private Occupation occupation;
+	private Occupation occupation = null;
 	[Tooltip("If access, access this button will grant")]
 	[SerializeField]
 	private Access access;

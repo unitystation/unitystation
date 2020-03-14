@@ -22,7 +22,7 @@ public class OreGenerator : MonoBehaviour
 	};
 
 	[FormerlySerializedAs("Data")] [SerializeField]
-	private OreGeneratorConfig config;
+	private OreGeneratorConfig config = null;
 
 
 	private static readonly System.Random RANDOM = new System.Random();
@@ -58,7 +58,11 @@ public class OreGenerator : MonoBehaviour
 
 					if (wallTilemap.HasTile(localPlace))
 					{
-						miningTiles.Add(localPlace);
+						var tile = wallTilemap.GetTile(localPlace);
+						if (tile.name.Contains("rock_wall"))
+						{
+							miningTiles.Add(localPlace);
+						}
 					}
 				}
 			}

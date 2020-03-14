@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: firelemon
@@ -36,21 +36,20 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 088289ff07bc60844a18e27a5517b40b, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: d4b46fd80b396d444aa5ecffcd4f0245, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: d4b46fd80b396d444aa5ecffcd4f0245, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 45
-    Yield: 4
+    Yield: 40
     Lifespan: 55
     PlantTrays: 00000000
     ReagentProduction:
-    - String: nutriment
-      Int: 5
+    - Name: nutriment
+      Ammount: 5
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -61,11 +60,11 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: nutriment
-    Int: 5
+  - Name: nutriment
+    Ammount: 5
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 5
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 5

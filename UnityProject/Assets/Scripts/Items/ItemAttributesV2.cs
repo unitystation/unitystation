@@ -23,13 +23,11 @@ public class ItemAttributesV2 : Attributes
 {
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
-	private List<ItemTrait> initialTraits;
+	private List<ItemTrait> initialTraits = null;
 
 	[Tooltip("Size of this item when spawned.")]
 	[SerializeField]
 	private ItemSize initialSize;
-
-
 
 
 	/// <summary>
@@ -109,6 +107,11 @@ public class ItemAttributesV2 : Attributes
 	[Tooltip("Sound to be played when we click someone with harm intent")]
 	[SerializeField]
 	private string hitSound = "GenericHit";
+
+
+	[Tooltip("How to play sounds.")]
+	[SerializeField]
+	public SoundItemSettings hitSoundSettings;
 	/// <summary>
 	/// Sound to be played when we click someone with harm intent, tracked server side only
 	/// </summary>
@@ -296,4 +299,11 @@ public class ItemAttributesV2 : Attributes
 		ClothingV2 clothing = GetComponent<ClothingV2>();
 		if (clothing != null) clothing.AssignPaletteToSprites(this.ItemSprites.Palette);
 	}
+}
+
+public enum SoundItemSettings
+{
+	Both = 0,
+	OnlyItem = 1,
+	OnlyObject = 2
 }

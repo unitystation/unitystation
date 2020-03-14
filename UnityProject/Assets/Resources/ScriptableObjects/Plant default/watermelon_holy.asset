@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: watermelon_holy
@@ -63,21 +63,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: cd5af39df353fa54a975911bfa57bddc, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 40
-    Yield: 3
+    Yield: 30
     Lifespan: 50
     PlantTrays: 00000000
     ReagentProduction:
-    - String: holywater
-      Int: 20
-    - String: vitamin
-      Int: 3
-    - String: nutriment
-      Int: 10
+    - Name: holywater
+      Ammount: 20
+    - Name: vitamin
+      Ammount: 3
+    - Name: nutriment
+      Ammount: 10
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -88,17 +88,17 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: holywater
-    Int: 20
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 10
+  - Name: holywater
+    Ammount: 20
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 10
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: water
-    Int: 20
-  - String: vitamin
-    Int: 3
-  - String: nutriment
-    Int: 20
+  - Name: water
+    Ammount: 20
+  - Name: vitamin
+    Ammount: 3
+  - Name: nutriment
+    Ammount: 20

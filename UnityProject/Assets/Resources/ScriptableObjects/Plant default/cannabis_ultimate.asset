@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: cannabis_ultimate
@@ -36,45 +36,45 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 20
     Endurance: 15
-    Yield: 3
+    Yield: 30
     Lifespan: 25
     PlantTrays: 00000000
     ReagentProduction:
-    - String: space_drugs
-      Int: 30
-    - String: mindbreaker
-      Int: 30
-    - String: mercury
-      Int: 15
-    - String: lithium
-      Int: 15
-    - String: atropine
-      Int: 15
-    - String: haloperidol
-      Int: 15
-    - String: methamphetamine
-      Int: 15
-    - String: capsaicin
-      Int: 15
-    - String: barbers_aid
-      Int: 15
-    - String: bath_salts
-      Int: 15
-    - String: itching_powder
-      Int: 15
-    - String: crank
-      Int: 15
-    - String: krokodil
-      Int: 15
-    - String: histamine
-      Int: 15
-    - String: lipolicide
-      Int: 15
+    - Name: space_drugs
+      Ammount: 30
+    - Name: mindbreaker
+      Ammount: 30
+    - Name: mercury
+      Ammount: 15
+    - Name: lithium
+      Ammount: 15
+    - Name: atropine
+      Ammount: 15
+    - Name: haloperidol
+      Ammount: 15
+    - Name: methamphetamine
+      Ammount: 15
+    - Name: capsaicin
+      Ammount: 15
+    - Name: barbers_aid
+      Ammount: 15
+    - Name: bath_salts
+      Ammount: 15
+    - Name: itching_powder
+      Ammount: 15
+    - Name: crank
+      Ammount: 15
+    - Name: krokodil
+      Ammount: 15
+    - Name: histamine
+      Ammount: 15
+    - Name: lipolicide
+      Ammount: 15
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -85,39 +85,39 @@ MonoBehaviour:
   LifespanChange: 0
   PlantTrays: 
   ReagentProduction:
-  - String: space_drugs
-    Int: 30
-  - String: mindbreaker
-    Int: 30
-  - String: mercury
-    Int: 15
-  - String: lithium
-    Int: 15
-  - String: atropine
-    Int: 15
-  - String: haloperidol
-    Int: 15
-  - String: methamphetamine
-    Int: 15
-  - String: capsaicin
-    Int: 15
-  - String: barbers_aid
-    Int: 15
-  - String: bath_salts
-    Int: 15
-  - String: itching_powder
-    Int: 15
-  - String: crank
-    Int: 15
-  - String: krokodil
-    Int: 15
-  - String: histamine
-    Int: 15
-  - String: lipolicide
-    Int: 15
+  - Name: space_drugs
+    Ammount: 30
+  - Name: mindbreaker
+    Ammount: 30
+  - Name: mercury
+    Ammount: 15
+  - Name: lithium
+    Ammount: 15
+  - Name: atropine
+    Ammount: 15
+  - Name: haloperidol
+    Ammount: 15
+  - Name: methamphetamine
+    Ammount: 15
+  - Name: capsaicin
+    Ammount: 15
+  - Name: barbers_aid
+    Ammount: 15
+  - Name: bath_salts
+    Ammount: 15
+  - Name: itching_powder
+    Ammount: 15
+  - Name: crank
+    Ammount: 15
+  - Name: krokodil
+    Ammount: 15
+  - Name: histamine
+    Ammount: 15
+  - Name: lipolicide
+    Ammount: 15
   RemovePlantTrays: 
   RemoveReagentProduction:
-  - String: space_drugs
-    Int: 15
-  - String: lipolicide
-    Int: 34
+  - Name: space_drugs
+    Ammount: 15
+  - Name: lipolicide
+    Ammount: 34

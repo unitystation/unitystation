@@ -158,7 +158,7 @@ public class SoundManager : MonoBehaviour
 	public List<AudioSource> musicTracks = new List<AudioSource>();
 
 	[SerializeField]
-	private SongTracker songTracker;
+	private SongTracker songTracker = null;
 	/// <summary>
 	/// For controlling the song play list. Includes random shuffle and auto play
 	/// </summary>
@@ -224,6 +224,18 @@ public class SoundManager : MonoBehaviour
 		{
 			AmbientVolume(1f);
 		}
+
+		//Master Volume 
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
+		{
+			MasterVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey));
+			
+		}
+		else
+		{
+			MasterVolume(1f);
+		}
+
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 		// Cache all sounds in the tree
 		var audioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
@@ -640,6 +652,17 @@ public class SoundManager : MonoBehaviour
 		}
 
 		PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
+		PlayerPrefs.Save();
+	}
+
+	/// <summary>
+	/// Sets all Sounds volume
+	/// </summary>
+	/// <param name="volume"></param>
+	public static void MasterVolume(float volume)
+	{
+		AudioListener.volume = volume;
+		PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
 		PlayerPrefs.Save();
 	}
 

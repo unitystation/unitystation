@@ -288,6 +288,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		return bump;
 	}
 
+
 	#region spess interaction logic
 
 	private bool IsAroundPushables(PlayerState state, bool isServer)
@@ -470,11 +471,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		onTileReached.AddListener(Cross);
 		EventManager.AddHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	private void OnDisable()
 	{
 		onTileReached.RemoveListener(Cross);
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, setLocalPlayer);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -496,7 +499,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// </summary>
 	private bool didWiggle = false;
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (isLocalPlayer && playerMove != null)
 		{

@@ -43,4 +43,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait LightBulb;
 	public ItemTrait Broken;
 	public ItemTrait Breakable;
+	public ItemTrait Rods;
+	public ItemTrait SolidPlasma;
+
 }

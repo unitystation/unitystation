@@ -33,7 +33,7 @@ public class KeyboardInputManager : MonoBehaviour
 
 	void CheckKeyboardInput()
 	{
-		if (!UIManager.IsInputFocus && GameData.IsInGame && CustomNetworkManager.Instance.IsClientConnected())
+		if (!UIManager.IsInputFocus)
 		{
 			// Perform escape key action
 			if (CommonInput.GetKeyDown(KeyCode.Escape))
@@ -41,15 +41,27 @@ public class KeyboardInputManager : MonoBehaviour
 				EscapeKeyTarget.HandleEscapeKey();
 			}
 
-			// Perform the checks for all key actions which have functions defined here
-			foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
+			// Only check for keyboard input once in-game
+			if (GameData.IsInGame && CustomNetworkManager.Instance.IsClientConnected())
 			{
-				if (!keyActionFunctions.ContainsKey(entry.Key)) continue;
-				if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
-				{
-					// Call the function associated with the KeyAction enum
-					keyActionFunctions[entry.Key]();
-				}
+				CheckInGameKeybinds();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Checks all keybinds which are only used in-game
+	/// </summary>
+	void CheckInGameKeybinds()
+	{
+		// Perform the checks for all key actions which have functions defined here
+		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
+		{
+			if (!keyActionFunctions.ContainsKey(entry.Key)) continue;
+			if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
+			{
+				// Call the function associated with the KeyAction enum
+				keyActionFunctions[entry.Key]();
 			}
 		}
 	}

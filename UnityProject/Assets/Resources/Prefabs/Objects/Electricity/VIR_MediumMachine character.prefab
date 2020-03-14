@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4025345055859194}
   - component: {fileID: 114947796331066130}
-  - component: {fileID: -3181088053320797584}
   - component: {fileID: 114906788329055910}
   - component: {fileID: 114008051345712512}
   - component: {fileID: 114969823251644552}
@@ -18,7 +17,6 @@ GameObject:
   - component: {fileID: 3643008678441238377}
   - component: {fileID: 114854152648262332}
   - component: {fileID: 114828964617408344}
-  - component: {fileID: -645348354636420746}
   m_Layer: 22
   m_Name: VIR_MediumMachine character
   m_TagString: Untagged
@@ -60,22 +58,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
-  objectType: 0
---- !u!114 &-3181088053320797584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127054139694796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
-  butcherTime: 2
-  butcherSound: BladeSlice
+  objectType: 3
 --- !u!114 &114906788329055910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114828964617408344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,45 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 945595909
---- !u!114 &-645348354636420746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127054139694796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-  Resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 100
 --- !u!1 &1816013858564998
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,14 +28,14 @@ namespace IngameDebugConsole
 		private CanvasGroup canvasGroup;
 
 		[SerializeField]
-		private DebugLogManager debugManager;
+		private DebugLogManager debugManager = null;
 
 		[SerializeField]
-		private Text newInfoCountText;
+		private Text newInfoCountText = null;
 		[SerializeField]
-		private Text newWarningCountText;
+		private Text newWarningCountText = null;
 		[SerializeField]
-		private Text newErrorCountText;
+		private Text newErrorCountText = null;
 
 		/// <summary>
 		/// Number of new debug entries since the log window has been closed

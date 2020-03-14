@@ -28,7 +28,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// How long it takes for self to remove the restraints
 	/// </summary>
 	[SerializeField]
-	private float resistTime;
+	private float resistTime = 0;
 	public float ResistTime => resistTime;
 
 	/// <summary>
