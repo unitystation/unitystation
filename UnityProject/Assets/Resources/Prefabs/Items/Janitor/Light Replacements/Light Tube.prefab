@@ -120,7 +120,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialSize
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -243,6 +243,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 60eb23733e11e9846a3d394077064678,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: hitSound
+      value: GlassHit
+      objectReference: {fileID: 0}
     - target: {fileID: 1397050043076861577, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: spriteHandler

@@ -8,7 +8,7 @@ using UnityEngine;
 // Note: Judging the "lighting" sprite sheet it seems that light source can have many disabled states.
 // At this point i just want to do a basic setup for an obvious extension, so only On / Off states are actually implemented
 // and for other states is just a state and sprite assignment.
-internal enum LightState
+public enum LightState
 {
 	None = 0,
 
@@ -171,15 +171,7 @@ public class LightSource : ObjectTrigger
 				else
 				{
 					State = Received.state ? LightState.On : LightState.Off;
-					if(State == LightState.On)
-					{
-						wallMount.ChangeState(true);
-					}
-					else
-					{
-						wallMount.ChangeState(false);
-					}
-
+					wallMount.ChangeState(State);
 				}
 			}
 

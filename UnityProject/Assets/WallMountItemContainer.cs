@@ -91,7 +91,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && state == LightMountState.MissingBulb)
 		{
 
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.BrokenLightTube))
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
 				lightSource.Trigger(false);
 				Despawn.ServerSingle(interaction.HandObject);
@@ -125,18 +125,18 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
-	public void ChangeState(bool isOn)
+	public void ChangeState(LightState state)
 	{
-
-		if(isOn)
+	
+		if (state == LightState.On)
 		{
 			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
-			state = LightMountState.On;
+			this.state = LightMountState.On;
 		}
 		else
 		{
 			spriteRendererLightOn.sprite = null;
-			state = LightMountState.Off;
+			this.state = LightMountState.Off;
 		}
 	}
 

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6683878051609785215}
   - component: {fileID: 804569472849686567}
   - component: {fileID: 2703357943102309780}
+  - component: {fileID: 5557519185721823485}
   m_Layer: 13
   m_Name: LightBulb
   m_TagString: Untagged
@@ -131,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114115352977703776
@@ -181,10 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 964890539
 --- !u!114 &6683878051609785215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +225,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabChildrenOrientation: 3
+--- !u!114 &5557519185721823485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614508754264130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e5e266068f11342af7c5acf40e5258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  traitRequired: {fileID: 0}
+  appliableItem: {fileID: 0}
+  appliableBrokenItem: {fileID: 0}
+  spriteListBroken: []
+  spriteListEmpty: []
+  spriteListFull: []
+  spriteListLightOn: []
+  spriteRenderer: {fileID: 0}
+  spriteRendererLightOn: {fileID: 0}
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +315,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 18
+  m_SortingLayer: 19
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: bd3225efc525643479b237af41876cf0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: BrokenLightTube
+      value: BrokenLightBulb
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -64,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 79485dbc556a4164bbb2b1112982a0fa,
+      objectReference: {fileID: 21300000, guid: ce2f28e1e94aa644cb17b3617804c0e6,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -94,17 +94,17 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: broken light tube
+      value: broken light bulb
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: it's a broken light tube.
+      value: it's broken light bulb.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialSize
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -208,18 +208,18 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.InventoryIcon.Texture
       value: 
-      objectReference: {fileID: 2800000, guid: 79485dbc556a4164bbb2b1112982a0fa, type: 3}
+      objectReference: {fileID: 2800000, guid: 84770c8e79df73b4b8f1bd6d61e042e5, type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 79485dbc556a4164bbb2b1112982a0fa,
+      objectReference: {fileID: 21300000, guid: 84770c8e79df73b4b8f1bd6d61e042e5,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: ffdd5e034694dd04b81326395a467dc8,
+      objectReference: {fileID: 11400000, guid: 1ad8fbc3ea067b3488277d8e8572a5b7,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
