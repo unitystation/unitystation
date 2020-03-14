@@ -24,7 +24,7 @@ public class ItemBreakable : MonoBehaviour
 	public void AddDamage()
 	{
 		integrity.ApplyDamage(damageOnHit, AttackType.Melee, DamageType.Brute);
-		if(integrity.integrity <= integrityHealth)
+		if(integrity.integrity <= integrityHealth && !Validations.HasItemTrait(gameObject, CommonTraits.Instance.BrokenLightTube))
 		{
 			ChangeState();
 		}
