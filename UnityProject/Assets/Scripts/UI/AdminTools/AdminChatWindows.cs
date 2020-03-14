@@ -7,9 +7,9 @@ namespace AdminTools
 {
 	public class AdminChatWindows : MonoBehaviour
 	{
-		[SerializeField] private AdminPlayerChat adminPlayerChat = null;
-		[SerializeField] private AdminToAdminChat adminToAdminChat = null;
-		[SerializeField] private PlayerPrayerWindow playerPrayerWindow = null;
+		public AdminPlayerChat adminPlayerChat = null;
+		public AdminToAdminChat adminToAdminChat = null;
+		public PlayerPrayerWindow playerPrayerWindow = null;
 
 		public AdminChatWindow SelectedWindow { get; private set; }
 		public event Action<AdminChatWindow> WindowChangeEvent;

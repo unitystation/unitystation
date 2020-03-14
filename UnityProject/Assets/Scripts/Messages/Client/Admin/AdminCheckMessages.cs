@@ -14,7 +14,7 @@ public class AdminCheckMessages : ClientMessage
 	public override IEnumerator Process()
 	{
 		yield return new WaitForEndOfFrame();
-		PlayerList.Instance.ServerGetUnreadMessages(PlayerId, CurrentCount, SentByPlayer.Connection);
+		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerGetUnreadMessages(PlayerId, CurrentCount, SentByPlayer.Connection);
 	}
 
 	public static AdminCheckMessages Send(string playerId, int currentCount)

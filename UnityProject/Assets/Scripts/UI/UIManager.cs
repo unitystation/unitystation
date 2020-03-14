@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
 	public GamePad gamePad;
 	public AnimationCurve strandedZoomOutCurve;
 	public AdminChatButtons adminChatButtons;
+	public AdminChatWindows adminChatWindows;
 	private bool preventChatInput;
 
 	public static bool PreventChatInput

@@ -27,8 +27,7 @@ public enum EVENT
 	UpdateChatChannels,
 	ToggleChatBubbles,
 	PlayerRejoined,
-	PreRoundStarted,
-	UpdatedAdminChatLogs
+	PreRoundStarted
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

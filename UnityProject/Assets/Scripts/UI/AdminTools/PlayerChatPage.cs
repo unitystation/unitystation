@@ -58,7 +58,7 @@ namespace AdminTools
 		{
 			foreach (var msg in pendingMessages)
 			{
-				AddMessageToLogs(userID, msg.message);
+				AddMessageToLogs(userID, msg.Message);
 			}
 		}
 

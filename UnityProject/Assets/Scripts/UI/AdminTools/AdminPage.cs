@@ -61,10 +61,9 @@ namespace AdminTools
 	}
 
 	[Serializable]
-	public class AdminChatMessage
+	public class AdminChatMessage : ChatEntryData
 	{
 		public string fromUserid;
-		public string message;
 		public bool wasFromAdmin;
 	}
 
