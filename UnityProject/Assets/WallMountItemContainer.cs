@@ -25,13 +25,13 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
-	[Header("Item with this trait will be put in.")]
+	[Tooltip("Item with this trait will be put in.")]
 	public ItemTrait traitRequired;
 
-	[Header("In On/Off state will drop this item.")]
+	[Tooltip("In On/Off state will drop this item.")]
 	public GameObject appliableItem;
 
-	[Header("In Broken state will drop this item.")]
+	[Tooltip("In Broken state will drop this item.")]
 	public GameObject appliableBrokenItem;
 
 	//Sprite sheets for each state
@@ -50,9 +50,11 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 	private LightSwitch lightSwitch;
 	private Integrity integrity;
 
-	[Header("Multiplier for integrity broken state.")]
+	[Tooltip("Multiplier for integrity broken state.")]
 	[Range(0.0f, 0.90f)]
-	public float brokenStateIntegrity;
+	public float integMultiplier = 0.60f;
+
+	private float brokenStateIntegrity;
 
 	private Orientation orientation;
 
@@ -64,7 +66,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 		integrity = GetComponent<Integrity>();
 
-		brokenStateIntegrity = integrity.initialIntegrity * 0.70f;
+		brokenStateIntegrity = integrity.initialIntegrity * integMultiplier;
 
 		orientation = GetComponent<Directional>().CurrentDirection;
 		integrity.OnApllyDamage.AddListener(OnDamageReceived);
