@@ -64,6 +64,15 @@ public abstract class ServerMessage : GameMessageBase
 		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 	}
 
+	public void SendTo(NetworkConnection recipient)
+	{
+
+		if (PlayerList.Instance.ContainsConnection(recipient))
+		{
+			recipient.Send(GetMessageType(), this);
+		}
+	}
+
 	/// <summary>
 	/// Sends the network message only to players who are visible from the
 	/// worldPosition
@@ -99,9 +108,9 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (player == null || player.Script == null || player.Script.netIdentity == null) continue;
 
-			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
+			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);
+				player.Connection.Send(GetMessageType(),this);
 			}
 		}
 	}
@@ -128,9 +137,22 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (player.Script == null) continue;
 
-			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
+			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);
+				player.Connection.Send(GetMessageType(),this);
+			}
+		}
+	}
+
+	public void SendToAdmins()
+	{
+		var admins = PlayerList.Instance.GetAllAdmins();
+
+		foreach (var admin in admins)
+		{
+			if (PlayerList.Instance.ContainsConnection(admin.Connection))
+			{
+				admin.Connection.Send(GetMessageType(), this);
 			}
 		}
 	}

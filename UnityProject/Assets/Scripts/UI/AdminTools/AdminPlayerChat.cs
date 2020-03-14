@@ -43,11 +43,11 @@ namespace AdminTools
 				entry.wasFromAdmin = true;
 			}
 			serverAdminPlayerChatLogs[playerId].Add(entry);
-
-			ServerMessageRecordingAndTrim(playerId, entry);
+			AdminPlayerChatUpdateMessage.SendSingleEntryToAdmins(entry, playerId);
+			ServerMessageRecording(playerId, entry);
 		}
 
-		void ServerMessageRecordingAndTrim(string playerId, AdminChatMessage entry)
+		void ServerMessageRecording(string playerId, AdminChatMessage entry)
 		{
 			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
 			if (!Directory.Exists(chatlogDir))
@@ -77,12 +77,6 @@ namespace AdminTools
 			}
 
 			File.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}");
-
-			if (serverAdminPlayerChatLogs[playerId].Count == 70)
-			{
-				var firstEntry = serverAdminPlayerChatLogs[playerId][0];
-				serverAdminPlayerChatLogs[playerId].Remove(firstEntry);
-			}
 		}
 
 		public void ServerGetUnreadMessages(string playerId, int currentCount, NetworkConnection requestee)
@@ -101,8 +95,7 @@ namespace AdminTools
 			update.messages = serverAdminPlayerChatLogs[playerId].GetRange(currentCount - 1,
 				serverAdminPlayerChatLogs[playerId].Count - currentCount);
 
-			//FIXME: MESSAGE BACK!!
-			//TargetUpdateChatLog(requestee, JsonUtility.ToJson(update), playerId);
+			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId);
 		}
 
 		void ClientGetUnreadAdminPlayerMessages(string playerId)
@@ -115,8 +108,7 @@ namespace AdminTools
 			AdminCheckMessages.Send(playerId, clientAdminPlayerChatLogs[playerId].Count);
 		}
 
-		//FIXME THE MESSAGE BACK TO CLIENT
-		public void TargetUpdateChatLog(string unreadMessagesJson, string playerId)
+		public void ClientUpdateChatLog(string unreadMessagesJson, string playerId)
 		{
 			if (string.IsNullOrEmpty(unreadMessagesJson)) return;
 

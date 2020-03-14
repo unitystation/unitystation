@@ -59,6 +59,7 @@ internal enum MessageTypes : short
 	VideoPlayerMessage = 1055,
 	ServerTypingMessage = 1056,
 	AdminPlayerListRefreshMessage = 1057,
+	AdminPlayerChatUpdateMessage = 1058,
 
 
 	//Client messages - 2xxx
