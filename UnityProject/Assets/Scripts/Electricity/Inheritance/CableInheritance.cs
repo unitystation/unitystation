@@ -162,7 +162,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 				Smoke.Stop();
 			}
 
-			if ( Sparks )
+			if (IsSparking())
 			{
 				Sparks.Stop();
 			}
@@ -171,7 +171,8 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
 	{
-		Sparks.Play();
+		if (!IsSparking())
+			Sparks.Play();
 		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
 		if (ElectricalSynchronisation.CableToDestroy != null)
 		{
@@ -339,6 +340,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 				sparks = Instantiate(sparksPrefab, transform);
 			return sparks;
 		}
+	}
+
+	public bool IsSparking()
+	{
+		return sparks != null && sparks.isPlaying;
 	}
 
 	private ParticleSystem smoke;
