@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using YamlDotNet.Serialization;
+using Unity.EditorCoroutines.Editor;
 
 namespace Chemistry.Editor
 {
@@ -18,6 +20,8 @@ namespace Chemistry.Editor
 
 		private string reagentsPath;
 		private string reactionPath;
+		private int progress;
+		private int maxProgress;
 
 
 		[MenuItem("Window/Chemistry Importer")]
@@ -38,7 +42,16 @@ namespace Chemistry.Editor
 
 			if (GUILayout.Button("Save"))
 			{
-				Export();
+				this.StartCoroutine(Export());
+			}
+
+			if (progress != 0)
+			{
+				EditorUtility.DisplayProgressBar("Chemistry import", "Importing chemicals...", progress / (float)maxProgress);
+			}
+			else
+			{
+				EditorUtility.ClearProgressBar();
 			}
 
 			EditorGUI.EndDisabledGroup();
@@ -66,29 +79,37 @@ namespace Chemistry.Editor
 			EditorGUILayout.EndHorizontal();
 		}
 
-		private void Export()
+		private IEnumerator Export()
 		{
+			progress = 0;
 			var reagentFiles = Directory.EnumerateFiles(reagentsPath);
 
 			var reagentGroups = reagentFiles
-				.Select(file => (file, data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(file))))
+				.Select(file => (file,
+					data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(
+						File.ReadAllText(file))))
 				.Select(reagents => new Grouping<string, KeyValuePair<string, Reagent>>(reagents.file,
 					reagents.data
-					.Where(dict => dict.Value.ContainsKey("name"))
-					.ToDictionary(reagentData => reagentData.Key, ToReagent)));
+						.Where(dict => dict.Value.ContainsKey("name"))
+						.ToDictionary(reagentData => reagentData.Key, ToReagent)))
+				.ToArray();
 
 			var flatReagents = reagentGroups
 				.SelectMany(dict => dict)
 				.ToDictionary(pair => pair.Key, pair => pair.Value);
 
-			var reactionFiles = Directory.EnumerateFiles(reactionPath);
+			var reactionFiles = Directory.EnumerateFiles(reactionPath)
+				.ToArray();
 
 			var reactionGroups = reactionFiles
 				.Select(file => (file, data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(file))))
 				.Select(reactions => new Grouping<string, KeyValuePair<string, Reaction>>(
 					reactions.file,
 					reactions.data
-						.ToDictionary(r => r.Key, r => ToReaction(r, flatReagents))));
+						.ToDictionary(r => r.Key, r => ToReaction(r, flatReagents))))
+				.ToArray();
+
+			maxProgress = flatReagents.Count + reactionGroups.Sum(r => r.Count());
 
 			foreach (var reagentsGroup in reagentGroups)
 			{
@@ -103,6 +124,9 @@ namespace Chemistry.Editor
 				{
 					var path = Path.Combine(prefixPath, reagent.Value.Name + ".asset");
 					AssetDatabase.CreateAsset(reagent.Value, path);
+
+					progress++;
+					yield return new EditorWaitForSeconds(0f);
 				}
 			}
 
@@ -119,11 +143,17 @@ namespace Chemistry.Editor
 				{
 					var path = Path.Combine(prefixPath, reaction.Key.Replace("datum/chemical_reaction/", "").Replace('/', '_') + ".asset");
 					AssetDatabase.CreateAsset(reaction.Value, path);
+
+					progress++;
+					yield return new EditorWaitForSeconds(0f);
 				}
 			}
+			progress = 0;
 		}
 
-		private static Reaction ToReaction(KeyValuePair<string, Dictionary<string, object>> reactionData, Dictionary<string, Reagent> reagents)
+		private static Reaction ToReaction(
+			KeyValuePair<string, Dictionary<string, object>> reactionData,
+			Dictionary<string, Reagent> reagents)
 		{
 			var value = reactionData.Value;
 			var reaction = CreateInstance<Reaction>();
