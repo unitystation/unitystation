@@ -51,7 +51,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 	private Integrity integrity;
 
 	[Tooltip("Multiplier for integrity broken state.")]
-	[Range(0.0f, 0.90f)]
+	[Range(0.40f, 0.90f)]
 	public float integMultiplier = 0.60f;
 
 	private float brokenStateIntegrity;
