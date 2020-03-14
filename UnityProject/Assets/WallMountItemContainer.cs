@@ -40,14 +40,20 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 	private LightSource lightSource;
 	private LightSwitch lightSwitch;
+	private Integrity integrity;
 
 	private Orientation orientation;
 
 	private void Awake()
 	{
 		lightSource = GetComponent<LightSource>();
+
 		lightSwitch = lightSource.relatedLightSwitch;
+
+		integrity = GetComponent<Integrity>();
+
 		orientation = GetComponent<Directional>().CurrentDirection;
+		integrity.OnApllyDamage.AddListener(OnDamageReceived);
 	}
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -156,9 +162,19 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
-	// Update is called once per frame
-	void Update()
+	private void OnDamageReceived(DamageInfo arg0)
 	{
+		if(integrity.integrity <= 70)
+		{
+			Vector3 pos = gameObject.AssumedWorldPosServer();
+			lightSource.Trigger(false);
+			spriteRenderer.sprite = GetSprite(spriteListBroken);
+			spriteRendererLightOn.sprite = null;
+			state = LightMountState.Broken;
+			SoundManager.PlayNetworkedAtPos("GlassStep", pos);
+			Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
+			scatterRadius: Random.Range(0, 2));
+		}
 
 	}
 }

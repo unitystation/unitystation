@@ -33,6 +33,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public DestructionEvent OnWillDestroyServer = new DestructionEvent();
 
+	[NonSerialized]
+	public DamagedEvent OnApllyDamage = new DamagedEvent();
 	/// <summary>
 	/// Server-side burn up logic - invoked when integrity reaches 0 due to burn damage.
 	/// Setting this will override the default burn up logic.
@@ -163,6 +165,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
+		var damageInfo = new DamageInfo(damage, attackType, damageType);
+
 		damage = Armor.GetDamage(damage, attackType);
 		if (damage > 0)
 		{
@@ -172,6 +176,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
+			OnApllyDamage.Invoke(damageInfo);
 			CheckDestruction();
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
@@ -334,3 +339,19 @@ public class DestructionInfo
 /// Event fired when an object is destroyed
 /// </summary>
 public class DestructionEvent : UnityEvent<DestructionInfo>{}
+public class DamagedEvent : UnityEvent<DamageInfo> {}
+
+public class DamageInfo
+{
+	public readonly DamageType DamageType;
+
+	public readonly AttackType AttackType;
+
+	public readonly float Damage;
+	public DamageInfo(float damage, AttackType attackType, DamageType damageType)
+	{
+		DamageType = damageType;
+		Damage = damage;
+		AttackType = attackType;
+	}
+}
