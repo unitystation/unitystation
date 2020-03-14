@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -28,7 +29,7 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private int MaxViews = 17;
 	private float contentWidth;
 
-	public UnityEvent<string> OnInputFieldSubmit;
+	public ChatInputSubmitEvent OnInputFieldSubmit;
 
 	private float scrollTime;
 	private bool isUsingScrollBar;
@@ -68,6 +69,11 @@ public class ChatScroll : MonoBehaviour
 	/// </summary>
 	public void AddNewChatEntry(ChatEntryData chatEntry)
 	{
+		if (displayPool.Count != 0 && displayPool[0].Index != chatLog.Count - 1)
+		{
+			chatLog.Add(chatEntry);
+			return;
+		}
 		chatLog.Add(chatEntry);
 		TryShowView(chatEntry, true, chatLog.Count - 1);
 	}
@@ -223,7 +229,14 @@ public class ChatScroll : MonoBehaviour
 	public void OnScrollPointerUp()
 	{
 		isUsingScrollBar = false;
-		scrollBar.value = 0.5f;
+		if (displayPool.Count != 0 && displayPool[0].Index != chatLog.Count - 1)
+		{
+			scrollBar.value = 0.5f;
+		}
+		else
+		{
+			scrollBar.value = 0f;
+		}
 	}
 
 	void Update()
@@ -249,13 +262,11 @@ public class ChatScroll : MonoBehaviour
 		{
 			direction = ScrollButtonDirection.Down;
 			speedMulti = Mathf.Lerp(0.1f, 1f, scrollValue / 0.45f);
-			Debug.Log("DOWN SPEED MULTI: " + speedMulti);
 		}
 		else
 		{
 			direction = ScrollButtonDirection.Up;
 			speedMulti = Mathf.Lerp(0.1f, 1f, (1f - scrollValue) / 0.45f);
-			Debug.Log("Up SPEED MULTI: " + speedMulti);
 		}
 
 		if (scrollTime >= scrollSpeed * speedMulti)
@@ -274,3 +285,6 @@ public enum ScrollButtonDirection
 	Up,
 	Down
 }
+
+[Serializable]
+public class ChatInputSubmitEvent : UnityEvent<string> { }
