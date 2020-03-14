@@ -18,7 +18,8 @@ public class ItemBreakable : MonoBehaviour
 	void Awake()
     {
 		integrity = GetComponent<Integrity>();
-    }
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
 
 	public void AddDamage()
 	{
@@ -31,10 +32,19 @@ public class ItemBreakable : MonoBehaviour
 	private void ChangeState()
 	{
 		spriteRenderer.sprite = sprite;
+		SoundManager.PlayNetworkedAtPos("GlassBreak0#", gameObject.AssumedWorldPosServer());
 		GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.BrokenLightTube);
 	}
-    // Update is called once per frame
-    void Update()
+
+	private void OnWillDestroyServer(DestructionInfo arg0)
+	{
+		SoundManager.PlayNetworkedAtPos("GlassBreak0#", gameObject.AssumedWorldPosServer());
+		Spawn.ServerPrefab("GlassShard", gameObject.AssumedWorldPosServer(), transform.parent, count: 1,
+			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         
     }

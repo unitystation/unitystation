@@ -97,6 +97,8 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 		var integrity = GetComponent<Integrity>();
 
+		var handObject = interaction.HandObject;
+
 		var wna = interaction.Performer.GetComponent<WeaponNetworkActions>();
 		if (interactableTiles != null)
 		{
@@ -107,9 +109,9 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 				return;
 			}
 			wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, BodyPartType.None, tileAt.LayerType);
-			if (Validations.HasItemTrait(gameObject, CommonTraits.Instance.Breakable))
+			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
 			{
-				gameObject.GetComponent<ItemBreakable>().AddDamage();
+				handObject.GetComponent<ItemBreakable>().AddDamage();
 			}
 		}
 		else
@@ -119,7 +121,7 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			//butcher check
 			GameObject victim = interaction.TargetObject;
 			var healthComponent = victim.GetComponent<LivingHealthBehaviour>();
-			if (healthComponent && healthComponent.allowKnifeHarvest && healthComponent.IsDead && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Knife) && interaction.Intent == Intent.Harm)
+			if (healthComponent && healthComponent.allowKnifeHarvest && healthComponent.IsDead && Validations.HasItemTrait(handObject, CommonTraits.Instance.Knife) && interaction.Intent == Intent.Harm)
 			{
 				GameObject performer = interaction.Performer;
 
@@ -136,9 +138,9 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			else
 			{
 				wna.ServerPerformMeleeAttack(gameObject, interaction.TargetVector, interaction.TargetBodyPart, LayerType.None);
-				if(Validations.HasItemTrait(gameObject, CommonTraits.Instance.Breakable))
+				if(Validations.HasItemTrait(handObject, CommonTraits.Instance.Breakable))
 				{
-					gameObject.GetComponent<ItemBreakable>().AddDamage();
+					handObject.GetComponent<ItemBreakable>().AddDamage();
 				}
 			}
 		}
