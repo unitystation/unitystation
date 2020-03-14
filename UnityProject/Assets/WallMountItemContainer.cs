@@ -6,7 +6,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 {
 	// Start is called before the first frame update
 
-	internal enum LightMountState
+	public enum LightMountState
 	{
 		None = 0,
 		On,
@@ -17,6 +17,14 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 	}
 
 	private LightMountState state = LightMountState.On;
+
+	public LightMountState State
+	{
+		get
+		{
+			return state;
+		}
+	}
 
 	public ItemTrait traitRequired;
 	public GameObject appliableItem;
@@ -114,6 +122,21 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 				}
 			}
 			
+		}
+	}
+
+	public void ChangeState(bool isOn)
+	{
+
+		if(isOn)
+		{
+			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+			state = LightMountState.On;
+		}
+		else
+		{
+			spriteRendererLightOn.sprite = null;
+			state = LightMountState.Off;
 		}
 	}
 
