@@ -24,16 +24,16 @@ public class ItemBreakable : MonoBehaviour
 	public void AddDamage()
 	{
 		integrity.ApplyDamage(damageOnHit, AttackType.Melee, DamageType.Brute);
-		if(integrity.integrity <= integrityHealth && !Validations.HasItemTrait(gameObject, CommonTraits.Instance.BrokenLightTube))
+		if(integrity.integrity <= integrityHealth)
 		{
 			ChangeState();
 		}
 	}
 	private void ChangeState()
 	{
-		spriteRenderer.sprite = sprite;
 		SoundManager.PlayNetworkedAtPos("GlassBreak0#", gameObject.AssumedWorldPosServer());
-		GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.BrokenLightTube);
+		Spawn.ServerPrefab("BrokenLightTube", gameObject.AssumedWorldPosServer());
+		Despawn.ServerSingle(gameObject);
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)

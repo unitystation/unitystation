@@ -6,8 +6,21 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 {
 	// Start is called before the first frame update
 
+	internal enum LightMountState
+	{
+		None = 0,
+		On,
+		Off,
+		MissingBulb,
+		Broken,
+		TypeCount,
+	}
+
+	private LightMountState state = LightMountState.On;
+
 	public ItemTrait traitRequired;
 	public GameObject appliableItem;
+	public GameObject appliableBrokenItem;
 
 	public Sprite[] spriteListBroken;
 	public Sprite[] spriteListEmpty;
@@ -21,18 +34,12 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 	private LightSwitch lightSwitch;
 
 	private Orientation orientation;
-	bool hasItem = true;
-
-	//private ItemStorage itemStorage;
-	//private ItemSlot itemSlot;
 
 	private void Awake()
 	{
 		lightSource = GetComponent<LightSource>();
 		lightSwitch = lightSource.relatedLightSwitch;
 		orientation = GetComponent<Directional>().CurrentDirection;
-		//itemStorage = GetComponent<ItemStorage>();
-		//itemSlot = itemStorage.GetIndexedItemSlot(0);
 	}
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -43,38 +50,70 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (interaction.HandObject == null && hasItem)
+		if (interaction.HandObject == null)
 		{
 
-			//take out mountedItem
-			//Inventory.ServerAdd(appliableItem, interaction.HandSlot);
-			
-			lightSource.Trigger(false);
-			Chat.AddGameWideSystemMsgToChat(orientation.Degrees.ToString());
-			spriteRenderer.sprite = GetSprite(spriteListEmpty);
-			spriteRendererLightOn.sprite = null;
-			Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
-			//Inventory.ServerTransfer(itemSlot, interaction.HandSlot);
-			Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
-			hasItem = false;
-		}
-		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && !hasItem)
-		{
-			if (lightSwitch.isOn == LightSwitch.States.On)
+			if(state == LightMountState.On)
 			{
-				lightSource.Trigger(true);
-				spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+				lightSource.Trigger(false);
+				spriteRenderer.sprite = GetSprite(spriteListEmpty);
+				spriteRendererLightOn.sprite = null;
+				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
+				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
+				state = LightMountState.MissingBulb;
+			}
+			else if(state == LightMountState.Off)
+			{
+				spriteRenderer.sprite = GetSprite(spriteListEmpty);
+				spriteRendererLightOn.sprite = null;
+				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
+				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
+				state = LightMountState.MissingBulb;
+			}
+			else if(state == LightMountState.Broken)
+			{
+				spriteRenderer.sprite = GetSprite(spriteListEmpty);
+				spriteRendererLightOn.sprite = null;
+				Spawn.ServerPrefab(appliableBrokenItem, interaction.Performer.WorldPosServer());
+				Chat.AddExamineMsg(interaction.Performer, "You took the broken light tube out!");
+				state = LightMountState.MissingBulb;
+			}
+					
+		}
+		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && state == LightMountState.MissingBulb)
+		{
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.BrokenLightTube))
+			{
+				lightSource.Trigger(false);
+				Despawn.ServerSingle(interaction.HandObject);
+				spriteRenderer.sprite = GetSprite(spriteListBroken);
+				spriteRendererLightOn.sprite = null;
+				Chat.AddExamineMsg(interaction.Performer, "You put broken light tube in!");
+				state = LightMountState.Broken;
 			}
 			else
 			{
-				lightSource.Trigger(false);
-				spriteRendererLightOn.sprite = null;
+				if (lightSwitch.isOn == LightSwitch.States.On)
+				{
+					lightSource.Trigger(true);
+					Despawn.ServerSingle(interaction.HandObject);
+					spriteRenderer.sprite = GetSprite(spriteListFull);
+					spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
+					state = LightMountState.On;
+				}
+				else
+				{
+					lightSource.Trigger(false);
+					Despawn.ServerSingle(interaction.HandObject);
+					spriteRenderer.sprite = GetSprite(spriteListFull);
+					spriteRendererLightOn.sprite = null;
+					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
+					state = LightMountState.Off;
+				}
 			}
-			spriteRenderer.sprite = GetSprite(spriteListFull);
-			//Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
-			Despawn.ServerSingle(interaction.HandObject);
-			Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
-			hasItem = true;
+			
 		}
 	}
 
