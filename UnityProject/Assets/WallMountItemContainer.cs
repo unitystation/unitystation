@@ -4,8 +4,7 @@ using Mirror;
 
 public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	// Start is called before the first frame update
-
+	//Burned out state is missing
 	public enum LightMountState
 	{
 		None = 0,
@@ -26,21 +25,34 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
+	[Header("Item with this trait will be put in.")]
 	public ItemTrait traitRequired;
+
+	[Header("In On/Off state will drop this item.")]
 	public GameObject appliableItem;
+
+	[Header("In Broken state will drop this item.")]
 	public GameObject appliableBrokenItem;
 
+	//Sprite sheets for each state
 	public Sprite[] spriteListBroken;
 	public Sprite[] spriteListEmpty;
 	public Sprite[] spriteListFull;
 	public Sprite[] spriteListLightOn;
 
+	//Actual bulb
 	public SpriteRenderer spriteRenderer;
+
+	//Second layer for light effect
 	public SpriteRenderer spriteRendererLightOn;
 
 	private LightSource lightSource;
 	private LightSwitch lightSwitch;
 	private Integrity integrity;
+
+	[Header("Multiplier for integrity broken state.")]
+	[Range(0.0f, 0.90f)]
+	public float brokenStateIntegrity;
 
 	private Orientation orientation;
 
@@ -52,9 +64,12 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 		integrity = GetComponent<Integrity>();
 
+		brokenStateIntegrity = integrity.initialIntegrity * 0.70f;
+
 		orientation = GetComponent<Directional>().CurrentDirection;
 		integrity.OnApllyDamage.AddListener(OnDamageReceived);
 	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -72,6 +87,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 				lightSource.Trigger(false);
 				spriteRenderer.sprite = GetSprite(spriteListEmpty);
 				spriteRendererLightOn.sprite = null;
+				integrity.soundOnHit = "";
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
 				state = LightMountState.MissingBulb;
@@ -80,6 +96,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 			{
 				spriteRenderer.sprite = GetSprite(spriteListEmpty);
 				spriteRendererLightOn.sprite = null;
+				integrity.soundOnHit = "";
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
 				state = LightMountState.MissingBulb;
@@ -88,6 +105,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 			{
 				spriteRenderer.sprite = GetSprite(spriteListEmpty);
 				spriteRendererLightOn.sprite = null;
+				integrity.soundOnHit = "";
 				Spawn.ServerPrefab(appliableBrokenItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the broken light tube out!");
 				state = LightMountState.MissingBulb;
@@ -103,6 +121,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 				Despawn.ServerSingle(interaction.HandObject);
 				spriteRenderer.sprite = GetSprite(spriteListBroken);
 				spriteRendererLightOn.sprite = null;
+				integrity.soundOnHit = "GlassStep";
 				Chat.AddExamineMsg(interaction.Performer, "You put broken light tube in!");
 				state = LightMountState.Broken;
 			}
@@ -114,6 +133,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 					Despawn.ServerSingle(interaction.HandObject);
 					spriteRenderer.sprite = GetSprite(spriteListFull);
 					spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+					integrity.soundOnHit = "GlassHit";
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
 					state = LightMountState.On;
 				}
@@ -123,6 +143,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 					Despawn.ServerSingle(interaction.HandObject);
 					spriteRenderer.sprite = GetSprite(spriteListFull);
 					spriteRendererLightOn.sprite = null;
+					integrity.soundOnHit = "GlassHit";
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
 					state = LightMountState.Off;
 				}
@@ -130,7 +151,8 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 			
 		}
 	}
-
+	//This one is for LightSource to make sure sprites and states are correct
+	//when lights switch state is changed
 	public void ChangeState(LightState state)
 	{
 	
@@ -146,6 +168,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
+	//Gets sprites for eash state
 	private Sprite GetSprite(Sprite[] spriteList)
 	{
 		int angle = orientation.Degrees;
@@ -162,15 +185,17 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
+	//Changes state when Integrity's ApplyDamage called
 	private void OnDamageReceived(DamageInfo arg0)
 	{
-		if(integrity.integrity <= (integrity.initialIntegrity * 0.70f))
+		if(integrity.integrity <= brokenStateIntegrity)
 		{
 			Vector3 pos = gameObject.AssumedWorldPosServer();
 			lightSource.Trigger(false);
 			spriteRenderer.sprite = GetSprite(spriteListBroken);
 			spriteRendererLightOn.sprite = null;
 			state = LightMountState.Broken;
+			integrity.soundOnHit = "GlassStep";
 			SoundManager.PlayNetworkedAtPos("GlassStep", pos);
 			Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
 			scatterRadius: Random.Range(0, 2));
