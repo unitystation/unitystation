@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 /// <summary>
 /// A specific ScrollRect that also handles the
@@ -14,6 +15,8 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private Transform chatContentParent = null;
 	[SerializeField] private InputFieldFocus inputField = null;
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
+	[SerializeField] private Scrollbar scrollBar = null;
+	[SerializeField] private float scrollSpeed = 0.5f;
 
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	private List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
@@ -27,6 +30,8 @@ public class ChatScroll : MonoBehaviour
 
 	public UnityEvent<string> OnInputFieldSubmit;
 
+	private float scrollTime;
+	private bool isUsingScrollBar;
 	private bool isInit = false;
 
 	void Awake()
@@ -132,7 +137,7 @@ public class ChatScroll : MonoBehaviour
 		}
 	}
 
-	public void OnScrollDown()
+	public void OnScrollUp()
 	{
 		if (chatLog.Count <= MaxViews) return;
 		if (displayPool.Count == 0) return;
@@ -149,7 +154,7 @@ public class ChatScroll : MonoBehaviour
 		ReturnViewToPool(displayPool[0]);
 	}
 
-	public void OnScrollUp()
+	public void OnScrollDown()
 	{
 		if (chatLog.Count <= MaxViews) return;
 		if (displayPool.Count == 0) return;
@@ -208,6 +213,57 @@ public class ChatScroll : MonoBehaviour
 	{
 		yield return WaitFor.EndOfFrame;
 		UIManager.IsInputFocus = true;
+	}
+
+	public void OnScrollPointerDown()
+	{
+		isUsingScrollBar = true;
+	}
+
+	public void OnScrollPointerUp()
+	{
+		isUsingScrollBar = false;
+		scrollBar.value = 0.5f;
+	}
+
+	void Update()
+	{
+		if(isUsingScrollBar) DetermineScrollRate();
+	}
+
+	void DetermineScrollRate()
+	{
+		scrollTime += Time.deltaTime;
+
+		var scrollValue = scrollBar.value;
+
+		if (scrollValue > 0.45f && scrollValue < 0.55f)
+		{
+			scrollTime = 0f;
+			return;
+		}
+
+		var speedMulti = 0.1f;
+		ScrollButtonDirection direction = ScrollButtonDirection.None;
+		if (scrollValue < 0.45f)
+		{
+			direction = ScrollButtonDirection.Down;
+			speedMulti = Mathf.Lerp(0.1f, 1f, scrollValue / 0.45f);
+			Debug.Log("DOWN SPEED MULTI: " + speedMulti);
+		}
+		else
+		{
+			direction = ScrollButtonDirection.Up;
+			speedMulti = Mathf.Lerp(0.1f, 1f, (1f - scrollValue) / 0.45f);
+			Debug.Log("Up SPEED MULTI: " + speedMulti);
+		}
+
+		if (scrollTime >= scrollSpeed * speedMulti)
+		{
+			scrollTime = 0f;
+			if (direction == ScrollButtonDirection.Up) OnScrollUp();
+			if (direction == ScrollButtonDirection.Down) OnScrollDown();
+		}
 	}
 
 }
