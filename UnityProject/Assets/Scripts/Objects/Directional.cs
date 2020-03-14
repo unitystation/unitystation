@@ -97,7 +97,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	public Orientation CurrentDirection =>
 		(isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection);
 
-	void OnDrawGizmos ()
+	void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
 
