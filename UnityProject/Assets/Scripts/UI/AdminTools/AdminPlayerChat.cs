@@ -144,6 +144,10 @@ namespace AdminTools
 		private void OnEnable()
 		{
 			chatScroll.OnInputFieldSubmit += OnInputSend;
+			if (selectedPlayer != null)
+			{
+				OnPlayerSelect(selectedPlayer);
+			}
 		}
 
 		private void OnDisable()
@@ -160,7 +164,6 @@ namespace AdminTools
 				wasFromAdmin = true
 			};
 
-			clientAdminPlayerChatLogs[selectedPlayer.uid].Add(adminMsg);
 			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
 			RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.uid,
 			msg);

@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4096933467302549808
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56,6 +56,7 @@ MonoBehaviour:
     type: 3}
   scrollBar: {fileID: 0}
   scrollSpeed: 0.5
+  displayPool: []
   MaxViews: 17
   doNotAddInputToChatLog: 0
 --- !u!1 &62084924430182382
@@ -2515,7 +2516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7578215830238924170
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2823,7 +2824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5396924289837378405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8025,7 +8026,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &455031834548423823
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8065,6 +8066,7 @@ MonoBehaviour:
     type: 3}
   scrollBar: {fileID: 0}
   scrollSpeed: 0.5
+  displayPool: []
   MaxViews: 17
   doNotAddInputToChatLog: 0
 --- !u!1 &9003013584637315019

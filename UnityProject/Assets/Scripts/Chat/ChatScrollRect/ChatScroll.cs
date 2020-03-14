@@ -66,6 +66,17 @@ public class ChatScroll : MonoBehaviour
 	/// <param name="chatLogsToLoad">A list of the chatlogs you want to load into the scroll rect</param>
 	public void LoadChatEntries(List<ChatEntryData> chatLogsToLoad)
 	{
+		foreach (Transform t in chatContentParent.transform)
+		{
+			var c = t.GetComponent<ChatEntryView>();
+			if (c != null && t.gameObject.activeInHierarchy)
+			{
+				ReturnViewToPool(c);
+			}
+		}
+
+		displayPool.Clear();
+
 		chatLog.Clear();
 		chatLog = new List<ChatEntryData>(chatLogsToLoad);
 
@@ -103,15 +114,8 @@ public class ChatScroll : MonoBehaviour
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		
-		for (int i = displayPool.Count - 1; i >= 0 && i < displayPool.Count - 1; i--)
-		{
-			ReturnViewToPool(displayPool[i]);
-		}
 
-		displayPool.Clear();
-
-		for (int i = 0; i < chatLog.Count && i < MaxViews; i++)
+		for (int i = chatLog.Count - 1; i >= 0 && i < MaxViews; i--)
 		{
 			TryShowView(chatLog[i], false, i);
 		}
@@ -128,7 +132,10 @@ public class ChatScroll : MonoBehaviour
 	public void ReturnViewToPool(ChatEntryView view)
 	{
 		view.gameObject.SetActive(false);
-		displayPool.Remove(view);
+		if (displayPool.Contains(view))
+		{
+			displayPool.Remove(view);
+		}
 	}
 
 	void TryShowView(ChatEntryData data, bool forBottom, int proposedIndex, ScrollButtonDirection scrollDir = ScrollButtonDirection.None)
@@ -146,6 +153,7 @@ public class ChatScroll : MonoBehaviour
 			displayPool.Add(entry);
 		}
 
+		if (!gameObject.activeInHierarchy) return;
 		entry.SetChatEntryView(data, this, proposedIndex, contentWidth);
 		DetermineTrim(scrollDir);
 	}
@@ -292,7 +300,6 @@ public class ChatScroll : MonoBehaviour
 			if (direction == ScrollButtonDirection.Down) OnScrollDown();
 		}
 	}
-
 }
 
 public enum ScrollButtonDirection

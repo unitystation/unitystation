@@ -13,12 +13,10 @@ public class AdminReplyMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 		yield return new WaitForEndOfFrame();
-
-		Logger.Log($"{SentByPlayer.Name} replied to Admins: {Message}");
-
+		
 		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(Message, SentByPlayer.UserId);
 	}
-	
+
 	public static AdminReplyMessage Send(string message)
 	{
 		AdminReplyMessage msg = new AdminReplyMessage

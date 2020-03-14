@@ -24,8 +24,6 @@ public class RequestAdminBwoink : ClientMessage
 		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
 		if (player != null)
 		{
-			Logger.Log($"Admin {PlayerList.Instance.GetByUserID(Userid).Name} sent a message to {PlayerList.Instance.GetByUserID(UserToBwoink).Name}: " +
-			           $"{Message}");
 			var recipient = PlayerList.Instance.GetAllByUserID(UserToBwoink);
 			foreach (var r in recipient)
 			{
