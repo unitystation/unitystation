@@ -164,7 +164,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 	private void OnDamageReceived(DamageInfo arg0)
 	{
-		if(integrity.integrity <= 70)
+		if(integrity.integrity <= (integrity.initialIntegrity * 0.70f))
 		{
 			Vector3 pos = gameObject.AssumedWorldPosServer();
 			lightSource.Trigger(false);
