@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,6 +65,47 @@ namespace AdminTools
 			adminNotification.ClearAll();
 			playerNotification.ClearAll();
 			prayerNotification.ClearAll();
+		}
+
+		/// <summary>
+		/// Use for initialization of admin chat notifications when the admin logs in
+		/// </summary>
+		/// <param name="adminConn"></param>
+		public void ServerUpdateAdminNotifications(NetworkConnection adminConn)
+		{
+			var update = new AdminChatNotificationFullUpdate();
+
+			foreach (var n in adminNotification.notifications)
+			{
+				update.notificationEntries.Add(new AdminChatNotificationEntry
+				{
+					Amount = n.Value,
+					Key = n.Key,
+					TargetWindow = AdminChatWindow.AdminToAdminChat
+				});
+			}
+
+			foreach (var n in playerNotification.notifications)
+			{
+				update.notificationEntries.Add(new AdminChatNotificationEntry
+				{
+					Amount = n.Value,
+					Key = n.Key,
+					TargetWindow = AdminChatWindow.AdminPlayerChat
+				});
+			}
+
+			foreach (var n in prayerNotification.notifications)
+			{
+				update.notificationEntries.Add(new AdminChatNotificationEntry
+				{
+					Amount = n.Value,
+					Key = n.Key,
+					TargetWindow = AdminChatWindow.PrayerWindow
+				});
+			}
+
+			AdminChatNotifications.Send(adminConn, update);
 		}
 
 		public void ClientUpdateNotifications(string notificationKey, AdminChatWindow targetWindow,

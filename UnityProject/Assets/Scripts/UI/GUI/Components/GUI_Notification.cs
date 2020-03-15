@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// </summary>
 public class GUI_Notification : MonoBehaviour
 {
-	private Dictionary<string, int> notifications = new Dictionary<string, int>();
+	public Dictionary<string, int> notifications = new Dictionary<string, int>();
 	[SerializeField] private Text label;
 	[SerializeField] private Image background;
 
@@ -31,7 +31,7 @@ public class GUI_Notification : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Removes a key entry and its notifications count
+	/// Removes the entry and its notifications count
 	/// </summary>
 	/// <param name="key"></param>
 	public void RemoveNotification(string key)

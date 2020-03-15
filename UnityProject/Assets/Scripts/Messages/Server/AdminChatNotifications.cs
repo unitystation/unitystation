@@ -29,7 +29,13 @@ public class AdminChatNotifications : ServerMessage
 		else
 		{
 			UIManager.Instance.adminChatButtons.ClearAllNotifications();
+			var notiUpdate = JsonUtility.FromJson<AdminChatNotificationFullUpdate>(FullUpdateJson);
 
+			foreach (var n in notiUpdate.notificationEntries)
+			{
+				UIManager.Instance.adminChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
+					Amount, false);
+			}
 		}
 	}
 
@@ -78,4 +84,5 @@ public class AdminChatNotificationEntry
 {
 	public string Key;
 	public int Amount;
+	public AdminChatWindow TargetWindow;
 }
