@@ -16,16 +16,8 @@ namespace AdminTools
 		[SerializeField] private Color selectedColor;
 		[SerializeField] private Color unSelectedColor;
 
-		void ResetNotifications()
-		{
-			adminNotification.gameObject.SetActive(false);
-			playerNotification.gameObject.SetActive(false);
-			prayerNotification.gameObject.SetActive(false);
-		}
-
 		private void OnEnable()
 		{
-			ResetNotifications();
 			adminChatWindows.WindowChangeEvent += OnAdminChatWindowChange;
 			ToggleButtons(AdminChatWindow.None);
 		}
@@ -111,8 +103,40 @@ namespace AdminTools
 		public void ClientUpdateNotifications(string notificationKey, AdminChatWindow targetWindow,
 			int amt, bool clearAll)
 		{
+			switch (targetWindow)
+			{
+				case AdminChatWindow.AdminPlayerChat:
+					if (clearAll)
+					{
+						playerNotification.RemoveNotification(notificationKey);
+					}
 
+					//No need to update notification if the player is already selected in admin chat
+					if (adminChatWindows.SelectedWindow == AdminChatWindow.AdminPlayerChat)
+					{
+						if (adminChatWindows.adminPlayerChat.SelectedPlayer != null
+						    && adminChatWindows.adminPlayerChat.SelectedPlayer.uid == notificationKey)
+						{
+							break;
+						}
+					}
+					playerNotification.AddNotification(notificationKey, amt);
+					break;
+				case AdminChatWindow.AdminToAdminChat:
+					if (clearAll)
+					{
+						adminNotification.RemoveNotification(notificationKey);
+					}
+					adminNotification.AddNotification(notificationKey, amt);
+					break;
+				case AdminChatWindow.PrayerWindow:
+					if (clearAll)
+					{
+						prayerNotification.AddNotification(notificationKey, amt);
+					}
+					prayerNotification.AddNotification(notificationKey, amt);
+					break;
+			}
 		}
-
 	}
 }
