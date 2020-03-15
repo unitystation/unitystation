@@ -92,8 +92,9 @@ GameObject:
   - component: {fileID: 5118887010994997172}
   - component: {fileID: 1684997301633760367}
   - component: {fileID: 6779973232272182644}
+  - component: {fileID: -2172561099785088609}
   m_Layer: 15
-  m_Name: Bullet_Slug
+  m_Name: Bullet_Shotgun_Beanbag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f675267d1792141f686e9eda7b1cfcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 12.5
+  damage: 5
   damageType: 0
   attackType: 1
 --- !u!114 &1684997301633760367
@@ -258,6 +259,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
+--- !u!114 &-2172561099785088609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932369758612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b0e0d3e81d5a844b4d0da1b327bf16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 4
 --- !u!1 &1420832746781357952
 GameObject:
   m_ObjectHideFlags: 0
