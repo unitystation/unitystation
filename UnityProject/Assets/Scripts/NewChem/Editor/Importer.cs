@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using YamlDotNet.Serialization;
 using Unity.EditorCoroutines.Editor;
+using UnityScript.Macros;
 
 namespace Chemistry.Editor
 {
@@ -17,11 +18,13 @@ namespace Chemistry.Editor
 		Deserializer deserializer = new DeserializerBuilder().Build();
 		private string reagentExportPath;
 		private string reactionExportPath;
+		private string reactionSetExportPath;
 
 		private string reagentsPath;
 		private string reactionPath;
 		private int progress;
 		private int maxProgress;
+		private bool cancel;
 
 
 		[MenuItem("Window/Chemistry Importer")]
@@ -34,6 +37,7 @@ namespace Chemistry.Editor
 
 			reagentExportPath = EditorGUILayout.TextField("Reagent export path", reagentExportPath);
 			reactionExportPath = EditorGUILayout.TextField("Reaction export path", reactionExportPath);
+			reactionSetExportPath = EditorGUILayout.TextField("Reaction set export path", reactionSetExportPath);
 
 			EditorGUI.BeginDisabledGroup(
 				!Directory.Exists(reagentsPath) ||
@@ -47,7 +51,11 @@ namespace Chemistry.Editor
 
 			if (progress != 0)
 			{
-				EditorUtility.DisplayProgressBar("Chemistry import", "Importing chemicals...", progress / (float)maxProgress);
+				if (EditorUtility.DisplayCancelableProgressBar("Chemistry import", "Importing chemicals...",
+					progress / (float) maxProgress))
+				{
+					cancel = true;
+				}
 			}
 			else
 			{
@@ -101,19 +109,21 @@ namespace Chemistry.Editor
 			var reactionFiles = Directory.EnumerateFiles(reactionPath)
 				.ToArray();
 
+			var reactionSetsData = new Dictionary<string, List<Reaction>>();
+
 			var reactionGroups = reactionFiles
 				.Select(file => (file, data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(file))))
 				.Select(reactions => new Grouping<string, KeyValuePair<string, Reaction>>(
 					reactions.file,
 					reactions.data
-						.ToDictionary(r => r.Key, r => ToReaction(r, flatReagents))))
+						.ToDictionary(r => r.Key, r => ToReaction(r, flatReagents, reactionSetsData))))
 				.ToArray();
 
 			maxProgress = flatReagents.Count + reactionGroups.Sum(r => r.Count());
 
 			foreach (var reagentsGroup in reagentGroups)
 			{
-				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key)).Replace("Reagents", "");
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key), new char[] {'_'}).Replace("Reagents", "");
 				Logger.Log(prefix);
 				var prefixPath = Path.Combine(reagentExportPath, prefix);
 				if(!Directory.Exists(prefixPath))
@@ -126,34 +136,93 @@ namespace Chemistry.Editor
 					AssetDatabase.CreateAsset(reagent.Value, path);
 
 					progress++;
+					if (cancel)
+					{
+						progress = 0;
+						cancel = false;
+						yield break;
+					}
 					yield return new EditorWaitForSeconds(0f);
 				}
 			}
 
 			foreach (var reactionsGroup in reactionGroups)
 			{
-				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key));
-				Logger.Log(prefix);
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key), new char[] {'_'});
 				var prefixPath = Path.Combine(reactionExportPath, prefix);
+				Logger.Log(prefix);
+				foreach (var reaction in reactionsGroup)
+				{
+					var path = Path.Combine(
+						prefixPath,
+						ToPascalCase(reaction.Key.Replace("datum/chemical_reaction/", ""),new char[] {'_', ' '}) +
+						".asset");
+
+					try
+					{
+						if (!Directory.Exists(Path.GetDirectoryName(path)))
+						{
+							Directory.CreateDirectory(Path.GetDirectoryName(path));
+						}
+
+						AssetDatabase.CreateAsset(reaction.Value, path);
+
+					}
+					catch (Exception e)
+					{
+
+					}
+
+					progress++;
+					if (cancel)
+					{
+						progress = 0;
+						cancel = false;
+						yield break;
+					}
+					yield return new EditorWaitForSeconds(0f);
+				}
+			}
+
+			foreach (var reactionSetData in reactionSetsData)
+			{
+				var reactionSet = CreateInstance<ReactionSet>();
+				reactionSet.reactions = reactionSetData.Value.ToArray();
+
+				var prefix = ToPascalCase(
+					Path.GetDirectoryName(reactionSetData.Key
+						.Replace("obj/item/", "")),
+					new char[] {'_'});
+
+				var prefixPath = Path.Combine(reactionSetExportPath, prefix);
+
 				if(!Directory.Exists(prefixPath))
 				{
 					Directory.CreateDirectory(prefixPath);
 				}
-				foreach (var reaction in reactionsGroup)
-				{
-					var path = Path.Combine(prefixPath, reaction.Key.Replace("datum/chemical_reaction/", "").Replace('/', '_') + ".asset");
-					AssetDatabase.CreateAsset(reaction.Value, path);
 
-					progress++;
-					yield return new EditorWaitForSeconds(0f);
+				var path = Path.Combine(
+						prefixPath,
+						ToPascalCase(Path.GetFileName(reactionSetData.Key), new char[] {'_'}) +
+						".asset");
+
+				AssetDatabase.CreateAsset(reactionSet, path);
+
+				if (cancel)
+				{
+					progress = 0;
+					cancel = false;
+					yield break;
 				}
+				yield return new EditorWaitForSeconds(0f);
 			}
 			progress = 0;
 		}
 
 		private static Reaction ToReaction(
 			KeyValuePair<string, Dictionary<string, object>> reactionData,
-			Dictionary<string, Reagent> reagents)
+			Dictionary<string, Reagent> reagents,
+			Dictionary<string, List<Reaction>> reactionSets)
 		{
 			var value = reactionData.Value;
 			var reaction = CreateInstance<Reaction>();
@@ -211,6 +280,16 @@ namespace Chemistry.Editor
 				}
 			}
 
+			if (value.TryGetValue("required_container", out var containerObj))
+			{
+				var container = (string) containerObj;
+				if (!reactionSets.ContainsKey(container))
+				{
+					reactionSets[container] = new List<Reaction>();
+				}
+				reactionSets[container].Add(reaction);
+			}
+
 			return reaction;
 		}
 
@@ -257,14 +336,14 @@ namespace Chemistry.Editor
 			return reagent;
 		}
 
-		public string ToPascalCase(string original)
+		public string ToPascalCase(string original, char[] seperator)
 		{
 			var startsWithLowerCaseChar = new Regex("^[a-z]");
 
 			// replace white spaces with undescore, then replace all invalid chars with empty string
 			var pascalCase = original
 				// split by underscores
-				.Split(new char[] {'_'}, StringSplitOptions.RemoveEmptyEntries)
+				.Split(seperator, StringSplitOptions.RemoveEmptyEntries)
 				// set first letter to uppercase
 				.Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()));
 
