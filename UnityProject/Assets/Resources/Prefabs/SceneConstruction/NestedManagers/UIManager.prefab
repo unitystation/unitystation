@@ -56,6 +56,7 @@ MonoBehaviour:
     type: 3}
   scrollBar: {fileID: 0}
   scrollSpeed: 0.5
+  layoutRoot: {fileID: 0}
   MaxViews: 17
   doNotAddInputToChatLog: 0
 --- !u!1 &62084924430182382
@@ -6697,7 +6698,7 @@ RectTransform:
   m_GameObject: {fileID: 8279052517544373581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.80429995, y: 0.80429995, z: 0.80429995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6889367266754540930}
   m_RootOrder: 0
@@ -6728,7 +6729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
+  m_Color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8067,6 +8068,7 @@ MonoBehaviour:
     type: 3}
   scrollBar: {fileID: 0}
   scrollSpeed: 0.5
+  layoutRoot: {fileID: 0}
   MaxViews: 17
   doNotAddInputToChatLog: 0
 --- !u!1 &9003013584637315019
