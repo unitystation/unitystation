@@ -132,7 +132,7 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 	}
 	//changes the rendered sprite in editor so its always upright
 #if UNITY_EDITOR
-	private void Update()
+	private void OnValidate()
 	{
 		if (Application.isEditor && !Application.isPlaying)
 		{
