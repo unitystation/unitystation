@@ -13,7 +13,10 @@ namespace AdminTools
 	{
 		[SerializeField] private ChatScroll chatScroll = null;
 		private AdminPlayerEntryData selectedPlayer;
-
+		public AdminPlayerEntryData SelectedPlayer
+		{
+			get { return selectedPlayer; }
+		}
 		/// <summary>
 		/// All messages sent and recieved from players to admins
 		/// </summary>

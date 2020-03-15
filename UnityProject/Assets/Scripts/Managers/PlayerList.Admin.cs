@@ -253,7 +253,7 @@ public partial class PlayerList
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
 				loggedInAdmins.Add(userid, newToken);
-				AdminEnableMessage.Send(playerConn.GameObject, newToken);
+				AdminEnableMessage.Send(playerConn.Connection, newToken);
 			}
 		}
 	}
@@ -302,7 +302,7 @@ public partial class PlayerList
 		if (!loggedInAdmins.ContainsKey(userToPromote))
 		{
 			loggedInAdmins.Add(userToPromote, newToken);
-			AdminEnableMessage.Send(user.GameObject, newToken);
+			AdminEnableMessage.Send(user.Connection, newToken);
 		}
 	}
 

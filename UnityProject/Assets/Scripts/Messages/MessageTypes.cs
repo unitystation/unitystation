@@ -60,6 +60,7 @@ internal enum MessageTypes : short
 	ServerTypingMessage = 1056,
 	AdminPlayerListRefreshMessage = 1057,
 	AdminPlayerChatUpdateMessage = 1058,
+	AdminChatNotifications = 1059,
 
 
 	//Client messages - 2xxx
