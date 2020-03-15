@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
 using Mirror;
@@ -73,7 +74,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		{
 			hasPlant = false;
 			plantData = new PlantData();
-			plantData.SetValues(DefaultPlantData.PlantDictionary.Values.PickRandom());
+			//only select plants that have valid produce
+			plantData.SetValues(DefaultPlantData.PlantDictionary.Values.Where(plant => plant.plantData.ProduceObject != null).PickRandom());
 			UpdatePlant(null, plantData.Name);
 			//NaturalMutation();
 			UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.FullyGrown);
@@ -578,9 +580,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			var food = produceObject.GetComponent<GrownFood>();
 			if (food != null)
 			{
-				food.plantData = new PlantData();
-				food.plantData.SetValues(plantData);
-				food.SetUpFood();
+				food.SetUpFood(plantData);
 			}
 
 			netTransform.DisappearFromWorldServer();
@@ -596,8 +596,10 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	{
 		if (plantData.MutatesInTo.Count == 0) return;
 
-		var tint = random.Next(plantData.MutatesInTo.Count);
-		var data = plantData.MutatesInTo[tint];
+		//var tint = random.Next(plantData.MutatesInTo.Count);\
+		//only use mutations with valid produce
+		var data = plantData.MutatesInTo.Where(mutation => mutation.plantData.ProduceObject != null).PickRandom();
+		if (data == null) { return; }
 		var oldPlantData = plantData;
 		plantData.MutateTo(data);
 		UpdatePlant(oldPlantData.Name, plantData.Name);

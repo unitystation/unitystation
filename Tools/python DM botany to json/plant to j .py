@@ -1,7 +1,11 @@
 
+#reads plans.py and outputs plants.json
+#Handles any value conversions needed for unitystation data
+
 import json
 
-import plans
+import plants
+import produce
 
 
 
@@ -11,7 +15,7 @@ import plans
 Plants = []
 
 
-for Design in plans.List_of_plants:
+for Design in plants.List_of_plants:
     Dictionary = {'name':Design.name}
 
     if hasattr(Design,'plantname'):
@@ -30,19 +34,19 @@ for Design in plans.List_of_plants:
         Dictionary['endurance'] = Design.endurance
 
     if hasattr(Design,'production'):
-        Dictionary['production'] = Design.production
+        Dictionary['production'] = Design.production * 10
 
     if hasattr(Design,'plant_yield'):
-        Dictionary['plant_yield'] = Design.plant_yield
+        Dictionary['plant_yield'] = Design.plant_yield * 10
 
     if hasattr(Design,'potency'):
         Dictionary['potency'] = Design.potency
 
     if hasattr(Design,'weed_growth_rate'):
-        Dictionary['weed_growth_rate'] = Design.weed_growth_rate
+        Dictionary['weed_growth_rate'] = Design.weed_growth_rate * 10
 
     if hasattr(Design,'weed_resistance'):
-        Dictionary['weed_resistance'] = Design.weed_resistance
+        Dictionary['weed_resistance'] = Design.weed_resistance * 10
 
     if hasattr(Design,'growing_icon'):
         Dictionary['growing_icon'] = Design.growing_icon
@@ -65,6 +69,11 @@ for Design in plans.List_of_plants:
 
     if hasattr(Design,'species'):
         Dictionary['species'] = Design.species
+
+    for Produce in produce.List_of_produce:
+        if Produce.name == Design.name:
+            Dictionary['produce_name'] = Produce.pretty_name 
+            Dictionary['description'] = Produce.desc 
         
     Plants.append(Dictionary)
     #print(Dictionary)

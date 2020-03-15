@@ -13,35 +13,30 @@ MonoBehaviour:
   m_Name: cabbage
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 8506999060297378416, guid: d339d79259c7d274abf3d683e31cbbca,
       type: 3}
     Name: cabbage
     Plantname: Cabbages
     Description: These seeds grow into cabbages.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: bebb78401841f1d43a0dfabe46aee39d, type: 3}
+      Texture: {fileID: 2800000, guid: 17d0741600260f949a5d2d6740bad1d2, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: bebb78401841f1d43a0dfabe46aee39d, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: a9f12960aaed5ae4c91b8df26a0d08c3, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a9f12960aaed5ae4c91b8df26a0d08c3, type: 3}
+      - {fileID: 21300000, guid: 17d0741600260f949a5d2d6740bad1d2, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: f8c4452813383774cbc3a72568520cd7, type: 3}
+    - Texture: {fileID: 2800000, guid: 1d969ea99774d244fa5e895ba5bfbf82, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f8c4452813383774cbc3a72568520cd7, type: 3}
+      - {fileID: 21300000, guid: 1d969ea99774d244fa5e895ba5bfbf82, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 5da538abfb0f4694ca027397087a84f0, type: 3}
+      Texture: {fileID: 2800000, guid: a5e68920f1e2de04db22c54b2e0eb325, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5da538abfb0f4694ca027397087a84f0, type: 3}
+      - {fileID: 21300000, guid: a5e68920f1e2de04db22c54b2e0eb325, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: f3052e449eed6b843a6f1d5c587a6026, type: 3}
+      Texture: {fileID: 2800000, guid: 5df4187ee2388624ba37492a849110a3, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f3052e449eed6b843a6f1d5c587a6026, type: 3}
+      - {fileID: 21300000, guid: 5df4187ee2388624ba37492a849110a3, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -51,11 +46,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 50
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 6f49aeb7c454e9a4aacaa8ec970c9268, type: 2}
   WeedResistanceChange: 0

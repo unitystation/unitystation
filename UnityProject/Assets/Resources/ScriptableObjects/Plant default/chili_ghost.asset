@@ -13,55 +13,49 @@ MonoBehaviour:
   m_Name: chili_ghost
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: chili_ghost
     Plantname: Ghost Chili Plants
     Description: These seeds grow into a chili said to be the hottest in the galaxy.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 7b5d2716158748941a0ef88a8fdb14c7, type: 3}
+      Texture: {fileID: 2800000, guid: c0f4dc18f17d70f469a26a42485ff373, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 7b5d2716158748941a0ef88a8fdb14c7, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 5d2619d359f632f43982b1d38be459fe, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 5d2619d359f632f43982b1d38be459fe, type: 3}
+      - {fileID: 21300000, guid: c0f4dc18f17d70f469a26a42485ff373, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 371304afa19b3294c8e9c4b5422a72ed, type: 3}
+    - Texture: {fileID: 2800000, guid: 906fd1d47cbbf2148ad7eeca74bed9d1, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 371304afa19b3294c8e9c4b5422a72ed, type: 3}
+      - {fileID: 21300000, guid: 906fd1d47cbbf2148ad7eeca74bed9d1, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 163a62d24a34d9845bd7f8ae01b6e6f5, type: 3}
+    - Texture: {fileID: 2800000, guid: eca9f3448fbedfd489683b5951f87850, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 163a62d24a34d9845bd7f8ae01b6e6f5, type: 3}
+      - {fileID: 21300000, guid: eca9f3448fbedfd489683b5951f87850, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 8a79406513cd2ee4981aece3cfdd022e, type: 3}
+    - Texture: {fileID: 2800000, guid: 635dac09e8c5614419799b039f0ba06e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8a79406513cd2ee4981aece3cfdd022e, type: 3}
+      - {fileID: 21300000, guid: 635dac09e8c5614419799b039f0ba06e, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: cd9383e9328ac914a94c51c4eb530ba6, type: 3}
+    - Texture: {fileID: 2800000, guid: 4259f7bc74d2d5c4182aba6b702918b5, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: cd9383e9328ac914a94c51c4eb530ba6, type: 3}
+      - {fileID: 21300000, guid: 4259f7bc74d2d5c4182aba6b702918b5, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 84126cab5dc3e63458708059bfc7c94f, type: 3}
+    - Texture: {fileID: 2800000, guid: 548ec160fa604854291740dea294de2d, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 84126cab5dc3e63458708059bfc7c94f, type: 3}
+      - {fileID: 21300000, guid: 548ec160fa604854291740dea294de2d, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 37c1a2586a2b55442ad356f7fc56542c, type: 3}
+    - Texture: {fileID: 2800000, guid: b1a17520485975f4d8ef73ff0dc68c29, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 37c1a2586a2b55442ad356f7fc56542c, type: 3}
+      - {fileID: 21300000, guid: b1a17520485975f4d8ef73ff0dc68c29, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 17da2a4bf8f2ea14ca0d4de57387c7b0, type: 3}
+      Texture: {fileID: 2800000, guid: c1e3d57e890d4c5469fc305820c4697f, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 17da2a4bf8f2ea14ca0d4de57387c7b0, type: 3}
+      - {fileID: 21300000, guid: c1e3d57e890d4c5469fc305820c4697f, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 825562d7a39dede4c8d0540bf4627e49, type: 3}
+      Texture: {fileID: 2800000, guid: d248a2c1e5ce37844b07337794730361, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 825562d7a39dede4c8d0540bf4627e49, type: 3}
+      - {fileID: 21300000, guid: d248a2c1e5ce37844b07337794730361, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -71,13 +65,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: condensedcapsaicin
-      Ammount: 30
-    - Name: capsaicin
-      Ammount: 55
-    - Name: nutriment
-      Ammount: 3
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -87,18 +75,6 @@ MonoBehaviour:
   YieldChange: 40
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: condensedcapsaicin
-    Ammount: 30
-  - Name: capsaicin
-    Ammount: 55
-  - Name: nutriment
-    Ammount: 3
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: capsaicin
-    Ammount: 25
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 3
+  RemoveReagentProduction: []

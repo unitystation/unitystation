@@ -13,47 +13,42 @@ MonoBehaviour:
   m_Name: potato
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 1662777722259686839, guid: 747f310926c1b30488972b51ca6b3ee4,
       type: 3}
     Name: potato
     Plantname: Potato Plants
     Description: Boil 'em! Mash 'em! Stick 'em in a stew!
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: d77af97020e764b4a9f174ac76ca5999, type: 3}
+      Texture: {fileID: 2800000, guid: 565b408ec33350340ad047e43f98b293, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: d77af97020e764b4a9f174ac76ca5999, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 167bbb3016e316e409103713fab4f228, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 167bbb3016e316e409103713fab4f228, type: 3}
+      - {fileID: 21300000, guid: 565b408ec33350340ad047e43f98b293, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: f4acb131634bb8942915172ff8599037, type: 3}
+    - Texture: {fileID: 2800000, guid: 72bac2262c5c95a4091b4f764cb289ba, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f4acb131634bb8942915172ff8599037, type: 3}
+      - {fileID: 21300000, guid: 72bac2262c5c95a4091b4f764cb289ba, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: cbba07c3304bdf444a8f263fe60ff33f, type: 3}
+    - Texture: {fileID: 2800000, guid: b0c490c9267f69f449c233c0a91ee87c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: cbba07c3304bdf444a8f263fe60ff33f, type: 3}
+      - {fileID: 21300000, guid: b0c490c9267f69f449c233c0a91ee87c, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 55015794936232942a96dbd1be17262a, type: 3}
+    - Texture: {fileID: 2800000, guid: aa0a3a9472401134aa8e04f2ca16aaca, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 55015794936232942a96dbd1be17262a, type: 3}
+      - {fileID: 21300000, guid: aa0a3a9472401134aa8e04f2ca16aaca, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: ced8ba63d7372224ba2da03f6fab9ba1, type: 3}
+    - Texture: {fileID: 2800000, guid: 6d87035f7d90f554eb72a0a52a7f1da8, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ced8ba63d7372224ba2da03f6fab9ba1, type: 3}
+      - {fileID: 21300000, guid: 6d87035f7d90f554eb72a0a52a7f1da8, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 8ac8e5d4a6f2beb41991a1e1ca8d7795, type: 3}
+      Texture: {fileID: 2800000, guid: e6bab7d5c81d8154eb9193a6ddcd73ae, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8ac8e5d4a6f2beb41991a1e1ca8d7795, type: 3}
+      - {fileID: 21300000, guid: e6bab7d5c81d8154eb9193a6ddcd73ae, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 8b4221e9fc98e8446998dfe87cc7e598, type: 3}
+      Texture: {fileID: 2800000, guid: 53ad1a68096065d44a0601e2f1e36ee4, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8b4221e9fc98e8446998dfe87cc7e598, type: 3}
+      - {fileID: 21300000, guid: 53ad1a68096065d44a0601e2f1e36ee4, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -63,11 +58,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 30
     PlantTrays: 09000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: d88b7d26a168fbf4696bb3125bd585e2, type: 2}
   WeedResistanceChange: 0

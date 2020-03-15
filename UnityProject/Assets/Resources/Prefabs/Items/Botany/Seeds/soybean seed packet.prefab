@@ -74,8 +74,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0e665a32708ce794db3f047c2a486985,
+      objectReference: {fileID: 21300000, guid: e003555828a472549a4dd6d60a672450,
         type: 3}
+    - target: {fileID: 212351652085156724, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
         type: 3}
       propertyPath: defaultPlantData

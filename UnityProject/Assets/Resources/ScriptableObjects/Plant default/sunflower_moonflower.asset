@@ -13,43 +13,37 @@ MonoBehaviour:
   m_Name: sunflower_moonflower
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: sunflower_moonflower
     Plantname: Moonflowers
     Description: These seeds grow into moonflowers.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: f4c7097efce29d149b52c1e0ea126f7e, type: 3}
+      Texture: {fileID: 2800000, guid: d9ade59c6fb23d54caa1456ef31b8e64, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f4c7097efce29d149b52c1e0ea126f7e, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 3b442e414a9e2354b8fa3d22718704c3, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 3b442e414a9e2354b8fa3d22718704c3, type: 3}
+      - {fileID: 21300000, guid: d9ade59c6fb23d54caa1456ef31b8e64, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 795e61d89497bcd489128e6658e36900, type: 3}
+    - Texture: {fileID: 2800000, guid: 107f73bbe52f74b42a2a883833b25c21, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 795e61d89497bcd489128e6658e36900, type: 3}
+      - {fileID: 21300000, guid: 107f73bbe52f74b42a2a883833b25c21, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 24febb62dd9141e47809eb968b2f2981, type: 3}
+    - Texture: {fileID: 2800000, guid: 912a119aa3b1fed4fabcf5261efd5d72, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 24febb62dd9141e47809eb968b2f2981, type: 3}
+      - {fileID: 21300000, guid: 912a119aa3b1fed4fabcf5261efd5d72, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: efffc2359d604b540b2f1b0afa947cc6, type: 3}
+    - Texture: {fileID: 2800000, guid: d006759ab4e008b4e98ac32e1ced4898, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: efffc2359d604b540b2f1b0afa947cc6, type: 3}
+      - {fileID: 21300000, guid: d006759ab4e008b4e98ac32e1ced4898, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: d7072d650bb70224e9b76b7cdc05a0ce, type: 3}
+      Texture: {fileID: 2800000, guid: 165b3ca4aa0b70848be8732268b674a2, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: d7072d650bb70224e9b76b7cdc05a0ce, type: 3}
+      - {fileID: 21300000, guid: 165b3ca4aa0b70848be8732268b674a2, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 9b768b149d32ba54fa7c67d4805fb96b, type: 3}
+      Texture: {fileID: 2800000, guid: 38c48ef105fb6e0429b3d94ee4fab101, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 9b768b149d32ba54fa7c67d4805fb96b, type: 3}
+      - {fileID: 21300000, guid: 38c48ef105fb6e0429b3d94ee4fab101, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,13 +53,7 @@ MonoBehaviour:
     Yield: 20
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: moonshine
-      Ammount: 20
-    - Name: vitamin
-      Ammount: 1
-    - Name: nutriment
-      Ammount: 1
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -75,16 +63,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: moonshine
-    Ammount: 20
-  - Name: vitamin
-    Ammount: 1
-  - Name: nutriment
-    Ammount: 1
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: cornoil
-    Ammount: 7
-  - Name: nutriment
-    Ammount: 3
+  RemoveReagentProduction: []

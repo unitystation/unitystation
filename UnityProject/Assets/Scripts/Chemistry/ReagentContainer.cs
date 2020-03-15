@@ -131,6 +131,18 @@ public class ReagentContainer : Container, IRightClickable, IServerSpawn,
 	}
 
 	/// <summary>
+	/// Reinitialise the contents if there are any with the passed in values
+	/// </summary>
+	/// <param name="reagents">List of reagent names</param>
+	/// <param name="amounts">List of reagent amounts</param>
+	public void ResetContents(List<string> reagents, List<float> amounts)
+	{
+		Reagents = reagents;
+		Amounts = amounts;
+		ResetContents();
+	}
+
+	/// <summary>
 	/// (Re)initialise the contents if there are any
 	/// </summary>
 	protected override void ResetContents()

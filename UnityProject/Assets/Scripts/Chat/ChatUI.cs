@@ -22,13 +22,11 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private GameObject activeRadioChannelPanel = null;
 	[SerializeField] private GameObject activeChannelTemplate = null;
 	[SerializeField] private InputField InputFieldChat = null;
-	[SerializeField] private Image toggleChatBubbleImage = null;
-	[SerializeField] private Color toggleOffCol;
-	[SerializeField] private Color toggleOnCol;
 	[SerializeField] private Image scrollHandle = null;
 	[SerializeField] private Image scrollBackground = null;
 	[SerializeField] private AdminPrivReply adminReply = null;
 	[SerializeField] private Transform thresholdMarker = null;
+	[SerializeField] private AdminHelpChat adminHelpChat = null;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -73,7 +71,7 @@ public class ChatUI : MonoBehaviour
 	public event Action checkPositionEvent;
 
 	/// <summary>
-	/// Invokes when player edited chat input field. 
+	/// Invokes when player edited chat input field.
 	/// </summary>
 	public event Action<string, ChatChannel> OnChatInputChanged;
 
@@ -131,25 +129,10 @@ public class ChatUI : MonoBehaviour
 			Instance = this;
 			DontDestroyOnLoad(gameObject);
 			uiObj.SetActive(true);
-			InitPrefs();
 		}
 		else
 		{
 			Destroy(gameObject); //Kill the whole tree
-		}
-	}
-
-	void InitPrefs()
-	{
-		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleKey))
-		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 1);
-			PlayerPrefs.Save();
-		}
-
-		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1)
-		{
-			toggleChatBubbleImage.color = toggleOnCol;
 		}
 	}
 
@@ -256,14 +239,17 @@ public class ChatUI : MonoBehaviour
 		}
 	}
 
-	public void AddAdminPrivEntry(string message, string adminId)
+	public void AddAdminPrivEntry(string message)
 	{
 		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
 		var chatEntry = entry.GetComponent<ChatEntry>();
-		chatEntry.thresholdMarker = thresholdMarker;
-		chatEntry.SetAdminPrivateMsg(message, adminId);
-		allEntries.Add(chatEntry);
-		SetEntryTransform(entry);
+		chatEntry.thresholdMarker = adminHelpChat.ThresholdMarker;
+		chatEntry.SetText(message);
+		entry.transform.SetParent(adminHelpChat.Content, false);
+		entry.transform.localScale = Vector3.one;
+
+		adminHelpChat.gameObject.SetActive(true);
+		adminHelpChat.AddChatEntry(chatEntry);
 	}
 
 	public void OpenAdminReply(string message, string adminId)
@@ -348,27 +334,6 @@ public class ChatUI : MonoBehaviour
 		}
 
 		CloseChatWindow();
-	}
-
-	/// <summary>
-	/// Toggles the Chat Icon / Chat Bubble preference
-	/// </summary>
-	public void OnClickToggleBubble()
-	{
-		SoundManager.Play("Click01");
-		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1)
-		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
-			toggleChatBubbleImage.color = toggleOffCol;
-		}
-		else
-		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 1);
-			toggleChatBubbleImage.color = toggleOnCol;
-		}
-
-		PlayerPrefs.Save();
-		EventManager.Broadcast(EVENT.ToggleChatBubbles);
 	}
 
 	private void PlayerSendChat(string sendMessage)
@@ -867,5 +832,14 @@ public class ChatUI : MonoBehaviour
 		}
 
 		OnChatInputChanged?.Invoke(rawInput, selectedChannels);
+	}
+
+	/// <summary>
+	/// Opens the admin help window to talk to the admins
+	/// </summary>
+	public void OnAdminHelpButton()
+	{
+		CloseChatWindow();
+		adminHelpChat.gameObject.SetActive(true);
 	}
 }

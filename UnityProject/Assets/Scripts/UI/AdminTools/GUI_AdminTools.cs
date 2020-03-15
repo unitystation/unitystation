@@ -17,6 +17,7 @@ namespace AdminTools
 		[SerializeField] private GameObject playerChatPage;
 		[SerializeField] private GameObject playersScrollView;
 		[SerializeField] private GameObject CentCommPage;
+		[SerializeField] private AdminChatButtons adminChatButtons;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
@@ -128,7 +129,7 @@ namespace AdminTools
 			{
 				var e = Instantiate(playerEntryPrefab, playerListContent);
 				var entry = e.GetComponent<AdminPlayerEntry>();
-				entry.UpdateButton(p, this);
+				entry.UpdateButton(p, SelectPlayerInList);
 
 				if (p.isOnline)
 				{
@@ -150,7 +151,6 @@ namespace AdminTools
 					{
 						playerChatPageScript.SetData(entry);
 						SelectedPlayer = entry.PlayerData.uid;
-						AddPendingMessagesToLogs(entry.PlayerData.uid, entry.GetPendingMessage());
 					}
 
 					if (playerManagePage.activeInHierarchy)
@@ -186,7 +186,6 @@ namespace AdminTools
 			if (playerChatPage.activeInHierarchy)
 			{
 				playerChatPageScript.SetData(selectedEntry);
-				AddPendingMessagesToLogs(selectedEntry.PlayerData.uid, selectedEntry.GetPendingMessage());
 			}
 
 			if (playerManagePage.activeInHierarchy)

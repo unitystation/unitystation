@@ -13,30 +13,26 @@ MonoBehaviour:
   m_Name: cherry_bomb
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 1768710514441028620, guid: 2e7c2aebdf4485144aea29bab30e7d62,
       type: 3}
     Name: cherry_bomb
     Plantname: Cherry Bomb Tree
     Description: They give you vibes of dread and frustration.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 84f89c00a583d6243831aba0a417decf, type: 3}
+      Texture: {fileID: 2800000, guid: d8d3186c3cc7909488bbfe343fbc56f4, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 84f89c00a583d6243831aba0a417decf, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 9ece229416d663f469822d4f16df2a6e, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 9ece229416d663f469822d4f16df2a6e, type: 3}
+      - {fileID: 21300000, guid: d8d3186c3cc7909488bbfe343fbc56f4, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites: []
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 8a7e28228f35f9543aa8f96c610f2ff8, type: 3}
+      Texture: {fileID: 2800000, guid: 629f3906bc9ffff448ea83c35f20c959, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8a7e28228f35f9543aa8f96c610f2ff8, type: 3}
+      - {fileID: 21300000, guid: 629f3906bc9ffff448ea83c35f20c959, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 4d01eeb22a801704498abe74ca65e0a4, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 4d01eeb22a801704498abe74ca65e0a4, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -46,13 +42,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 35
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 10
-    - Name: sugar
-      Ammount: 10
-    - Name: blackpowder
-      Ammount: 69
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0

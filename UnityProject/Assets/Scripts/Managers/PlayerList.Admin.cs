@@ -108,6 +108,22 @@ public partial class PlayerList
 	}
 
 	[Server]
+	public List<ConnectedPlayer> GetAllAdmins()
+	{
+		var admins = new List<ConnectedPlayer>();
+		foreach (var a in loggedInAdmins)
+		{
+			var getConn = GetByUserID(a.Key);
+			if (getConn != null)
+			{
+				admins.Add(getConn);
+			}
+		}
+
+		return admins;
+	}
+
+	[Server]
 	public bool IsAdmin(string userID)
 	{
 		return adminUsers.Contains(userID);

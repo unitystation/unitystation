@@ -13,55 +13,50 @@ MonoBehaviour:
   m_Name: whitebeet
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 536245801440864704, guid: d2382a188e882f2419aa9e6945db4dea,
       type: 3}
     Name: whitebeet
     Plantname: White-Beet Plants
     Description: These seeds grow into sugary beet producing plants.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: d82eb35d22bf1124db1dbaf459107a3f, type: 3}
+      Texture: {fileID: 2800000, guid: 46446813c3ff12147af52a0cca1b5d6a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: d82eb35d22bf1124db1dbaf459107a3f, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: ad514582926628a468a40dcad9fbd7fd, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: ad514582926628a468a40dcad9fbd7fd, type: 3}
+      - {fileID: 21300000, guid: 46446813c3ff12147af52a0cca1b5d6a, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: b1c9dc385862ef24b8c9bd9086602d96, type: 3}
+    - Texture: {fileID: 2800000, guid: ebf238599ae625a4c8de5b68d12e0ded, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b1c9dc385862ef24b8c9bd9086602d96, type: 3}
+      - {fileID: 21300000, guid: ebf238599ae625a4c8de5b68d12e0ded, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 79e658c83edac1544a13fbb6c103fe90, type: 3}
+    - Texture: {fileID: 2800000, guid: d995999e6e0a8584d942422ea643a445, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 79e658c83edac1544a13fbb6c103fe90, type: 3}
+      - {fileID: 21300000, guid: d995999e6e0a8584d942422ea643a445, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 131c859f0cad09442bf26ad5f1f2cd8a, type: 3}
+    - Texture: {fileID: 2800000, guid: 2984a6d401508444d9433f45038f8dcb, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 131c859f0cad09442bf26ad5f1f2cd8a, type: 3}
+      - {fileID: 21300000, guid: 2984a6d401508444d9433f45038f8dcb, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 7eef8878881b61c418182cedbd1d54ab, type: 3}
+    - Texture: {fileID: 2800000, guid: 55eae3231093cec44871c9407ff5a317, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 7eef8878881b61c418182cedbd1d54ab, type: 3}
+      - {fileID: 21300000, guid: 55eae3231093cec44871c9407ff5a317, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: f0d5744b075fcd9449311a53ba4f4692, type: 3}
+    - Texture: {fileID: 2800000, guid: 21d0a98174212e1458a90ae97c4556eb, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f0d5744b075fcd9449311a53ba4f4692, type: 3}
+      - {fileID: 21300000, guid: 21d0a98174212e1458a90ae97c4556eb, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: befeef8e4f03f194283d8debce7afb7d, type: 3}
+    - Texture: {fileID: 2800000, guid: 2f6a8f6689bb33942b0e773c1141b0d2, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: befeef8e4f03f194283d8debce7afb7d, type: 3}
+      - {fileID: 21300000, guid: 2f6a8f6689bb33942b0e773c1141b0d2, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 3edfe98783f86a24d98cea1e13e26889, type: 3}
+      Texture: {fileID: 2800000, guid: 8a780e02d50921141988fde77c560b29, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 3edfe98783f86a24d98cea1e13e26889, type: 3}
+      - {fileID: 21300000, guid: 8a780e02d50921141988fde77c560b29, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 55a47a02d9f93514c86d91f5d28056f7, type: 3}
+      Texture: {fileID: 2800000, guid: 44fc16e3037e6dc4b93b8716d83f4429, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 55a47a02d9f93514c86d91f5d28056f7, type: 3}
+      - {fileID: 21300000, guid: 44fc16e3037e6dc4b93b8716d83f4429, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -71,13 +66,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 60
     PlantTrays: 
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: sugar
-      Ammount: 20
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 716c89d90785f4548b1340f33a97cc52, type: 2}
   WeedResistanceChange: 0
