@@ -37,8 +37,7 @@ public class SeedPacket : NetworkBehaviour
 	{
 		if (defaultPlantData != null)
 		{
-			plantData = new PlantData();
-			plantData.SetValues(defaultPlantData);
+			plantData = PlantData.CreateNewPlant(defaultPlantData);
 		}
 	}
 
