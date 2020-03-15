@@ -19,6 +19,7 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
 	[SerializeField] private Scrollbar scrollBar = null;
 	[SerializeField] private float scrollSpeed = 0.5f;
+	[SerializeField] private RectTransform layoutRoot;
 
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	private List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
@@ -156,6 +157,11 @@ public class ChatScroll : MonoBehaviour
 		if (!gameObject.activeInHierarchy) return;
 		entry.SetChatEntryView(data, this, proposedIndex, contentWidth);
 		DetermineTrim(scrollDir);
+	}
+
+	public void RebuildLayoutGroup()
+	{
+		LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
 	}
 
 	void DetermineTrim(ScrollButtonDirection scrollDir)
