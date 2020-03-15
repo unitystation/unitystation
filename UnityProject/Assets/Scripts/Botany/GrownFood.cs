@@ -55,7 +55,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	/// </summary>
 	public void SetUpFood(PlantData newPlantData)
 	{
-		plantData.SetValues(newPlantData);
+		plantData = PlantData.CreateNewPlant(newPlantData);
 		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
 		SetupChemicalContents();
 		SetupEdible();
@@ -96,8 +96,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		{
 			var seedObject = Spawn.ServerPrefab(SeedPacket, interaction.Performer.RegisterTile().WorldPositionServer, parent: interaction.Performer.transform.parent).GameObject;
 			var seedPacket = seedObject.GetComponent<SeedPacket>();
-			seedPacket.plantData = new PlantData();
-			seedPacket.plantData.SetValues(plantData);
+			seedPacket.plantData = PlantData.CreateNewPlant(plantData);
 
 			seedPacket.SyncPlant(null, plantData.Name);
 
