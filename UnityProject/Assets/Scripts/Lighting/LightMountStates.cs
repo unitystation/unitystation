@@ -2,7 +2,7 @@
 using UnityEngine;
 using Mirror;
 
-public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	//Burned out state is missing
 	public enum LightMountState

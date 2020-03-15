@@ -41,7 +41,7 @@ public class LightSource : ObjectTrigger
 	public float Resistance = 1200;
 	private bool tempStateCache;
 	private float _intensity;
-	private WallMountItemContainer wallMount;
+	private LightMountStates wallMount;
 	/// <summary>
 	/// Current intensity of the lights, automatically clamps and updates sprites when set
 	/// </summary>
@@ -120,8 +120,8 @@ public class LightSource : ObjectTrigger
 	//on which switch owns which light
 	public void Received(LightSwitchData Received)
 	{
-		if (wallMount.State != WallMountItemContainer.LightMountState.Broken &&
-			wallMount.State != WallMountItemContainer.LightMountState.MissingBulb)
+		if (wallMount.State != LightMountStates.LightMountState.Broken &&
+			wallMount.State != LightMountStates.LightMountState.MissingBulb)
 		{
 			//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
 			tempStateCache = Received.state;
@@ -249,7 +249,7 @@ public class LightSource : ObjectTrigger
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 		}
 
-		wallMount = GetComponent<WallMountItemContainer>();
+		wallMount = GetComponent<LightMountStates>();
 
 		State = InitialState;
 
