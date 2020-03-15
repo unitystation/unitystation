@@ -134,6 +134,9 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 #if UNITY_EDITOR
 	private void OnValidate()
 	{
+		if (spriteRenderers == null)
+			return;
+
 		if (Application.isEditor && !Application.isPlaying)
 		{
 			foreach (var spriteRenderer in spriteRenderers)
