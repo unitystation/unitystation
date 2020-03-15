@@ -72,11 +72,14 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 	public Sprite[] spriteListMissingBulb;
 
 	private float integrityStateMissingBulb;
+	private void Start()
+	{
+		lightSwitch = lightSource.relatedLightSwitch;
+	}
 	private void Awake()
 	{
 		lightSource = GetComponent<LightSource>();
 
-		lightSwitch = lightSource.relatedLightSwitch;
 
 		integrity = GetComponent<Integrity>();
 
@@ -132,6 +135,10 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 			}
 			else
 			{
+				if(lightSwitch == null)
+				{
+					lightSwitch = lightSource.relatedLightSwitch;
+				}
 				if (lightSwitch.isOn == LightSwitch.States.On)
 				{
 					Despawn.ServerSingle(interaction.HandObject);
@@ -212,13 +219,11 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 					Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
 					scatterRadius: Random.Range(0, 2));
 				}
-				else
+				else if(state != LightMountState.Broken)
 				{
 					
 					ChangeState(LightMountState.Broken, spriteListBroken, null, "GlassStep", false);
 					SoundManager.PlayNetworkedAtPos("GlassStep", pos);
-					Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
-					scatterRadius: Random.Range(0, 2));
 				}
 			}
 	}

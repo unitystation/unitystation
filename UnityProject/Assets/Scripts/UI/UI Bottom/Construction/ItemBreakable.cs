@@ -10,7 +10,7 @@ public class ItemBreakable : MonoBehaviour
 
 	public int integrityHealth;
 
-	GameObject brokenItem;
+	public GameObject brokenItem;
 
 	public string soundOnBreak;
 
@@ -18,6 +18,8 @@ public class ItemBreakable : MonoBehaviour
 	void Awake()
     {
 		integrity = GetComponent<Integrity>();
+
+		integrity.OnApllyDamage.AddListener(OnDamageReceived);
 	}
 
 	public void AddDamage()
@@ -35,4 +37,11 @@ public class ItemBreakable : MonoBehaviour
 		Despawn.ServerSingle(gameObject);
 	}
 
+	private void OnDamageReceived(DamageInfo arg0)
+	{
+		if (integrity.integrity <= integrityHealth)
+		{
+			ChangeState();
+		}
+	}
 }
