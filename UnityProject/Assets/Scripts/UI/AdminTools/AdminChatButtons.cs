@@ -17,7 +17,7 @@ namespace AdminTools
 		[SerializeField] private Button prayerWindowButton = null;
 		[SerializeField] private Color selectedColor;
 		[SerializeField] private Color unSelectedColor;
-		
+
 		void ResetNotifications()
 		{
 			adminNotification.gameObject.SetActive(false);
@@ -60,6 +60,19 @@ namespace AdminTools
 					prayerWindowButton.image.color = selectedColor;
 					break;
 			}
+		}
+
+		public void ClearAllNotifications()
+		{
+			adminNotification.ClearAll();
+			playerNotification.ClearAll();
+			prayerNotification.ClearAll();
+		}
+
+		public void ClientUpdateNotifications(string notificationKey, AdminChatWindow targetWindow,
+			int amt, bool clearAll)
+		{
+
 		}
 
 	}
