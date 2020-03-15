@@ -189,7 +189,8 @@ public class DoorController : NetworkBehaviour
 		{
 			if (openSFX != null)
 			{
-				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition);
+				// Need to play this sound as global - this will ignore muffle effect
+				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, isGlobal: true);
 			}
 		}
 
