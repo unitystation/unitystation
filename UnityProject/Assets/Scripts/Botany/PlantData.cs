@@ -27,6 +27,41 @@ public class PlantData
 	public List<Reagent> ReagentProduction = new List<Reagent>();
 	public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
 
+	public int Age { get; set; }
+	public int NextGrowthStageProgress { get; set; }
+	public float Health { get; set; }
+
+	//Use static methods to create new instances of PlantData
+	private PlantData() { }
+
+	/// <summary>
+	/// Gets a new instance of PlantData based on param
+	/// </summary>
+	/// <param name="defaultPlantData">DefaultPlantData to copy</param>
+	/// <returns></returns>
+	public static PlantData CreateNewPlant(DefaultPlantData defaultPlantData)
+	{
+		PlantData newPlant = new PlantData();
+		newPlant.SetValues(defaultPlantData);
+		newPlant.Health = 100;
+		newPlant.Age = 0;
+		return newPlant;
+	}
+
+	/// <summary>
+	/// Gets a new instance of PlantData based on param
+	/// </summary>
+	/// <param name="plantData">PlantData to copy</param>
+	/// <returns></returns>
+	public static PlantData CreateNewPlant(PlantData plantData)
+	{
+		PlantData newPlant = new PlantData();
+		newPlant.SetValues(plantData);
+		newPlant.Health = 100;
+		newPlant.Age = 0;
+		return newPlant;
+	}
+
 	/// <summary>
 	/// Mutates the plant instance this is run against
 	/// </summary>
@@ -63,7 +98,7 @@ public class PlantData
 	/// Initializes plant with data another plant object
 	/// </summary>
 	/// <param name="_PlantData">data to copy</param>
-	public void SetValues(PlantData _PlantData)
+	private void SetValues(PlantData _PlantData)
 	{
 		Plantname = _PlantData.Plantname;
 		Description = _PlantData.Description;
@@ -90,7 +125,7 @@ public class PlantData
 	/// Initializes plant with data from default plant
 	/// </summary>
 	/// <param name="DefaultPlantData">DefaultPlantData.plantdata's values are copied</param>
-	public void SetValues(DefaultPlantData DefaultPlantData)
+	private void SetValues(DefaultPlantData DefaultPlantData)
 	{
 		var _PlantData = DefaultPlantData.plantData;
 		Name = _PlantData.Name;
@@ -141,7 +176,7 @@ public class PlantData
 	/// Combine plants reagents removing any duplicates, Keeps highest yield
 	/// </summary>
 	/// <param name="Reagents">New reagents to combine</param>
-	public void CombineReagentProduction(List<Reagent> Reagents)
+	private void CombineReagentProduction(List<Reagent> Reagents)
 	{
 		var ToRemove = new List<Reagent>();
 		Reagents.AddRange(ReagentProduction);

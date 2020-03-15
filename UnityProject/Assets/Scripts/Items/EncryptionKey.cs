@@ -46,7 +46,7 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.HeadOfSecurity, ChatChannel.Common | ChatChannel.Security | ChatChannel.Command},
 		{EncryptionKeyType.ResearchDirector, ChatChannel.Common | ChatChannel.Science | ChatChannel.Command},
 		{EncryptionKeyType.Supply, ChatChannel.Common | ChatChannel.Supply},
-		{EncryptionKeyType.QuarterMaster, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Command},
+		{EncryptionKeyType.QuarterMaster, ChatChannel.Common | ChatChannel.Supply},
 		{EncryptionKeyType.CentComm, ChatChannel.Common | ChatChannel.CentComm},
 		{EncryptionKeyType.Engineering, ChatChannel.Common | ChatChannel.Engineering},
 		{EncryptionKeyType.Medical, ChatChannel.Common | ChatChannel.Medical},

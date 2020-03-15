@@ -16,10 +16,9 @@ public class AdminPlayerListRefreshMessage : ServerMessage
 		yield return WaitFor(Recipient);
 		var listData = JsonUtility.FromJson<AdminPlayersList>(JsonData);
 
-		var scrollViews = GameObject.FindObjectsOfType<AdminPlayersScrollView>();
-		foreach (var v in scrollViews)
+		foreach (var v in UIManager.Instance.adminChatWindows.playerListViews)
 		{
-			v.GetComponent<AdminPlayersScrollView>().ReceiveUpdatedPlayerList(listData);
+			v.ReceiveUpdatedPlayerList(listData);
 		}
 	}
 

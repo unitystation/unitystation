@@ -39,11 +39,10 @@ public class GeneratePlantSOs : EditorWindow
 			//\\	Logger.Log(Datapiece.Key);
 			//\\}
 
-			var plantdata = new PlantData
-			{
-				ProduceObject = food,
-				Name = plat["name"] as string
-			};
+			var plantdata = PlantData.CreateNewPlant((PlantData)null);
+			plantdata.ProduceObject = food;
+			plantdata.Name = plat["name"] as string;
+
 			if (plat.ContainsKey("plantname"))
 			{
 				plantdata.Plantname = plat["plantname"] as string;

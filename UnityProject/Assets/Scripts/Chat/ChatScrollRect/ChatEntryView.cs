@@ -48,5 +48,6 @@ public class ChatEntryView : MonoBehaviour
 		var thisRectDelta = thisRectTransform.sizeDelta;
 		thisRectDelta.y = textRectTransform.rect.height * textRectTransform.localScale.y;
 		thisRectTransform.sizeDelta = thisRectDelta;
+		chatScroll.RebuildLayoutGroup();
 	}
 }
