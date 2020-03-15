@@ -13,43 +13,37 @@ MonoBehaviour:
   m_Name: angel
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: angel
     Plantname: Destroying Angels
     Description: This mycelium grows into something devastating.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 3f0c6b151d0e83e42b2ded1899faf076, type: 3}
+      Texture: {fileID: 2800000, guid: 923dda988337d4e49bc30016a97685cf, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 3f0c6b151d0e83e42b2ded1899faf076, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: caa34900a85ccc949b8f6cbef3f6f706, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: caa34900a85ccc949b8f6cbef3f6f706, type: 3}
+      - {fileID: 21300000, guid: 923dda988337d4e49bc30016a97685cf, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: dc007cbe82f98b74fbd2cfc46bc104c1, type: 3}
+    - Texture: {fileID: 2800000, guid: ce81c2ac17d73684b87fa30f96c9b760, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: dc007cbe82f98b74fbd2cfc46bc104c1, type: 3}
+      - {fileID: 21300000, guid: ce81c2ac17d73684b87fa30f96c9b760, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 4e5b69b63be315c448c3c18f10125563, type: 3}
+    - Texture: {fileID: 2800000, guid: 5757bbffc6647ad4aa7e4571de56068e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 4e5b69b63be315c448c3c18f10125563, type: 3}
+      - {fileID: 21300000, guid: 5757bbffc6647ad4aa7e4571de56068e, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: f9d79d8e8c10f2e47b73631e55090224, type: 3}
+    - Texture: {fileID: 2800000, guid: b5c7e940880281942851f68f11c3c0a1, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f9d79d8e8c10f2e47b73631e55090224, type: 3}
+      - {fileID: 21300000, guid: b5c7e940880281942851f68f11c3c0a1, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: dc007cbe82f98b74fbd2cfc46bc104c1, type: 3}
+      Texture: {fileID: 2800000, guid: ce81c2ac17d73684b87fa30f96c9b760, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: dc007cbe82f98b74fbd2cfc46bc104c1, type: 3}
+      - {fileID: 21300000, guid: ce81c2ac17d73684b87fa30f96c9b760, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 006348484a532294b84a4a74617c0774, type: 3}
+      Texture: {fileID: 2800000, guid: 22a0fa73dc967f348b3c9228f59d3a3c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 006348484a532294b84a4a74617c0774, type: 3}
+      - {fileID: 21300000, guid: 22a0fa73dc967f348b3c9228f59d3a3c, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,15 +53,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 50
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: mushroomhallucinogen
-      Ammount: 3
-    - Name: amatoxin
-      Ammount: 10
-    - Name: nutriment
-      Ammount: 0
-    - Name: amanitin
-      Ammount: 20
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -77,22 +63,6 @@ MonoBehaviour:
   YieldChange: 40
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: mushroomhallucinogen
-    Ammount: 3
-  - Name: amatoxin
-    Ammount: 10
-  - Name: nutriment
-    Ammount: 0
-  - Name: amanitin
-    Ammount: 20
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: mushroomhallucinogen
-    Ammount: 3
-  - Name: amatoxin
-    Ammount: 34
-  - Name: nutriment
-    Ammount: 0
-  - Name: growthserum
-    Ammount: 10
+  RemoveReagentProduction: []

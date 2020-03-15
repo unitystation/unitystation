@@ -13,7 +13,7 @@ public class AdminBwoinkMessage : ServerMessage
 	{
 		yield return null;
 		SoundManager.Play("Bwoink");
-		Chat.AddAdminPrivMsg(Message, AdminUID);
+		Chat.AddAdminPrivMsg(Message);
 	}
 
 	public static AdminBwoinkMessage  Send(GameObject recipient, string adminUid, string message)
@@ -23,7 +23,7 @@ public class AdminBwoinkMessage : ServerMessage
 			AdminUID = adminUid,
 			Message = message
 		};
-
+		
 		msg.SendTo(recipient);
 
 		return msg;

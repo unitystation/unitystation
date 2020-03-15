@@ -4,46 +4,22 @@ using Mirror;
 
 //Used when spawning the food
 [RequireComponent(typeof(CustomNetTransform))]
+[RequireComponent(typeof(ReagentContainer))]
 [DisallowMultipleComponent]
 public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
-	public GameObject SeedPacket;
-	public SpriteRenderer SpriteSizeAdjustment;
-	public SpriteHandler SpriteHandler;
 	public PlantData plantData;
 	public ReagentContainer reagentContainer;
-	public ItemAttributesV2 ItemAttributesV2;
 
-	[SyncVar(hook = nameof(SyncPlant))]
-	public string PlantSyncString;
+	[SerializeField]
+	private GameObject SeedPacket;
+	[SerializeField]
+	private SpriteRenderer SpriteSizeAdjustment;
+	[SerializeField]
+	private SpriteHandler Sprite;
+	[SerializeField]
+	private Edible edible;
 
-
-	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
-	{
-		PlantSyncString = _PlantSyncString;
-		if (!isServer)
-		{
-
-			if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
-			{
-				plantData = new PlantData();
-				plantData.SetValues(DefaultPlantData.PlantDictionary[PlantSyncString].plantData);
-			}
-		}
-		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
-		SpriteHandler.PushTexture();
-		if (ItemAttributesV2 == null)
-		{
-			ItemAttributesV2 = this.GetComponent<ItemAttributesV2>();
-		}
-		if (isServer && ItemAttributesV2 != null)
-		{
-			ItemAttributesV2.ServerSetArticleDescription(plantData.Description);
-			ItemAttributesV2.ServerSetArticleName(plantData.Plantname);
-		}
-		this.name = plantData.Plantname;
-
-	}
 
 
 	[SyncVar(hook = nameof(SyncSize))]
@@ -55,41 +31,63 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		SpriteSizeAdjustment.transform.localScale = new Vector3((SizeScale), (SizeScale), (SizeScale));
 	}
 
+	/*private void Awake()
+	{
+		if (SpriteSizeAdjustment.sprite.texture == null)
+		{
+			Debug.LogError("Attempted awake on food, failed to find texture", this);
+			return;
+		}
+		var spritesheet = new SpriteSheetAndData { Texture = SpriteSizeAdjustment.sprite.texture };
+		spritesheet.setSprites();
+		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(spritesheet);
+		Sprite.PushTexture();
+	}*/
 
 	public override void OnStartClient()
 	{
-		SyncPlant(null, this.PlantSyncString);
 		SyncSize(this.SizeScale, this.SizeScale);
 		base.OnStartClient();
 	}
 
-	public void SetUpFood()
+	/// <summary>
+	/// Called when plant creates food
+	/// </summary>
+	public void SetUpFood(PlantData newPlantData)
 	{
-		SyncPlant(null, plantData.Name);
-		SpriteHandler.spriteData = SpriteFunctions.SetupSingleSprite(plantData.ProduceSprite);
-		SpriteHandler.PushTexture();
+		plantData.SetValues(newPlantData);
+		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
 		SetupChemicalContents();
-		SyncSize(SizeScale, 0.5f + (plantData.Potency / 100f));
-	}
-
-
-	public void SetupChemicalContents()
-	{
-		if (plantData.ReagentProduction.Count > 0)
-		{
-			var ChemicalDictionary = new Dictionary<string, float>();
-			foreach (var Chemical in plantData.ReagentProduction)
-			{
-				ChemicalDictionary[Chemical.Name] = (Chemical.Ammount * (plantData.Potency / 100f));
-			}
-			reagentContainer.AddReagents(ChemicalDictionary);
-
-		}
+		SetupEdible();
 	}
 
 	/// <summary>
+	/// Takes initial values and scales them based on potency
+	/// </summary>
+	private void SetupChemicalContents()
+	{
+		List<string> nameList = new List<string>();
+		List<float> amountList = new List<float>();
+		for (int i = 0; i < reagentContainer.Amounts.Count; i++)
+		{
+			nameList.Add(reagentContainer.Reagents[i]);
+			amountList.Add(reagentContainer.Amounts[i] * plantData.Potency);
+		}
+		//Reset container
+		reagentContainer.ResetContents(nameList, amountList);
+	}
+
+	/// <summary>
+	/// Set NutritionLevel to be equal to nuriment amount 
+	/// </summary>
+	private void SetupEdible()
+	{
+		edible.NutritionLevel = Mathf.FloorToInt(reagentContainer.AmountOfReagent("nutriment"));
+	}
+	
+	/// <summary>
 	/// Gets seeds for plant and replaces held food with seeds
-	/// Might not work as activate eats instead?
+	/// DOES NOT WORK, eating overrides this.
 	/// </summary>
 	/// <param name="interaction"></param>
 	public void ServerPerformInteraction(HandActivate interaction)

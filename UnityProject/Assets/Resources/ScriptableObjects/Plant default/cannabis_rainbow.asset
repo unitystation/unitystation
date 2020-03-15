@@ -13,28 +13,40 @@ MonoBehaviour:
   m_Name: cannabis_rainbow
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 2378421277069371359, guid: 23b1ee9e60adf8b4a83c62e0ac60f97f,
       type: 3}
     Name: cannabis_rainbow
     Plantname: Rainbow Weed
-    Description: These seeds grow into rainbow weed. Groovy.
+    Description: These seeds grow into rainbow weed. Groovy... and also highly addictive.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 4c7dde87f8be1d041b1deba82bedeb1a, type: 3}
+      Texture: {fileID: 2800000, guid: c82aa60267a13014097bf53f024c5e3d, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 4c7dde87f8be1d041b1deba82bedeb1a, type: 3}
+      - {fileID: 21300000, guid: c82aa60267a13014097bf53f024c5e3d, type: 3}
       EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    GrowthSprites: []
+    GrowthSprites:
+    - Texture: {fileID: 2800000, guid: 482be46dc5a49a64885d25e5dce5829c, type: 3}
+      Sprites:
+      - {fileID: 5299748781988056347, guid: 482be46dc5a49a64885d25e5dce5829c, type: 3}
+      - {fileID: 564121474130741737, guid: 482be46dc5a49a64885d25e5dce5829c, type: 3}
+      - {fileID: 2340483665669496210, guid: 482be46dc5a49a64885d25e5dce5829c, type: 3}
+      - {fileID: -5545485670233961397, guid: 482be46dc5a49a64885d25e5dce5829c, type: 3}
+      - {fileID: -2127616676371586820, guid: 482be46dc5a49a64885d25e5dce5829c, type: 3}
+      - {fileID: -7901374541206413795, guid: 482be46dc5a49a64885d25e5dce5829c, type: 3}
+      EquippedData: {fileID: 4900000, guid: 91fc13e065c3b924ea5784dd60c9e45a, type: 3}
     FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 5cba3eb70c8be6848b364a847a5b3c6a, type: 3}
+      Sprites:
+      - {fileID: 2271194230493385335, guid: 5cba3eb70c8be6848b364a847a5b3c6a, type: 3}
+      - {fileID: -2487127142305408914, guid: 5cba3eb70c8be6848b364a847a5b3c6a, type: 3}
+      - {fileID: -4401924610618428265, guid: 5cba3eb70c8be6848b364a847a5b3c6a, type: 3}
+      - {fileID: -5416178128048673814, guid: 5cba3eb70c8be6848b364a847a5b3c6a, type: 3}
+      - {fileID: 8416195929775280776, guid: 5cba3eb70c8be6848b364a847a5b3c6a, type: 3}
+      - {fileID: 8581163739486645557, guid: 5cba3eb70c8be6848b364a847a5b3c6a, type: 3}
+      EquippedData: {fileID: 4900000, guid: 0e6b94392a10d9641831eb598b4b4191, type: 3}
     DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: daa56fbfb28ed494baac7e0d2aae68fc, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: daa56fbfb28ed494baac7e0d2aae68fc, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -44,11 +56,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 25
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: mindbreaker
-      Ammount: 15
-    - Name: lipolicide
-      Ammount: 34
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -58,14 +66,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: mindbreaker
-    Ammount: 15
-  - Name: lipolicide
-    Ammount: 34
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: space_drugs
-    Ammount: 15
-  - Name: lipolicide
-    Ammount: 34
+  RemoveReagentProduction: []

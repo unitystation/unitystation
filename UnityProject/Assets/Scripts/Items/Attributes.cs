@@ -17,7 +17,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
-	private string initialName = null;
+	private string initialName;
 
 	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
@@ -30,7 +30,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
-	private string initialDescription = null;
+	private string initialDescription;
 
 	[Tooltip("Will this item highlight on mouseover?")]
 	[SerializeField]
@@ -75,8 +75,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	public override void OnStartClient()
 	{
-		SyncArticleName(articleName, this.name);
-		SyncArticleDescription(articleDescription, this.articleDescription);
+		SyncArticleName(articleName, articleName);
+		SyncArticleDescription(articleDescription, articleDescription);
 		base.OnStartClient();
 	}
 

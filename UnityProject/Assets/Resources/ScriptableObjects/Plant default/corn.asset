@@ -13,43 +13,38 @@ MonoBehaviour:
   m_Name: corn
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 2224251115547465615, guid: ad54ff96a1ccf6b478fcee3d06bd84ce,
       type: 3}
     Name: corn
     Plantname: Corn Stalks
     Description: I don't mean to sound corny...
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 837c026d6b80cc34bb2a604c7c9c933e, type: 3}
+      Texture: {fileID: 2800000, guid: e1c7f8e7bf8d2004f92224b9fafca288, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 837c026d6b80cc34bb2a604c7c9c933e, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 6b73e528adf41da4ba0544e4d5b8e20f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 6b73e528adf41da4ba0544e4d5b8e20f, type: 3}
+      - {fileID: 21300000, guid: e1c7f8e7bf8d2004f92224b9fafca288, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: e7837d5a9944a3646b9645789ba3ff73, type: 3}
+    - Texture: {fileID: 2800000, guid: 61fa6539a18859540ab3a5bf5ac7876a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: e7837d5a9944a3646b9645789ba3ff73, type: 3}
+      - {fileID: 21300000, guid: 61fa6539a18859540ab3a5bf5ac7876a, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 995db2967701a5443bb257a7799584ce, type: 3}
+    - Texture: {fileID: 2800000, guid: b5dbca1d5084d444e8ef6a133477ae59, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 995db2967701a5443bb257a7799584ce, type: 3}
+      - {fileID: 21300000, guid: b5dbca1d5084d444e8ef6a133477ae59, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 0cbb11cadd2093845a54c76f05552801, type: 3}
+    - Texture: {fileID: 2800000, guid: d73c35abc4e6bd140862528c7a522d9e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 0cbb11cadd2093845a54c76f05552801, type: 3}
+      - {fileID: 21300000, guid: d73c35abc4e6bd140862528c7a522d9e, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 8587fa4c38f08bc4a960f9c8d15f6a55, type: 3}
+      Texture: {fileID: 2800000, guid: 24428bba933f2f247aa020b3da7f3874, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8587fa4c38f08bc4a960f9c8d15f6a55, type: 3}
+      - {fileID: 21300000, guid: 24428bba933f2f247aa020b3da7f3874, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: a9dc8b5532d4ccc4ba730d221b1352f4, type: 3}
+      Texture: {fileID: 2800000, guid: 1d8bd458f5cf40644850067c6d6362ce, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: a9dc8b5532d4ccc4ba730d221b1352f4, type: 3}
+      - {fileID: 21300000, guid: 1d8bd458f5cf40644850067c6d6362ce, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,13 +54,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: cornoil
-      Ammount: 20
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 1ad6ed55cfd941442a593394b4fa2025, type: 2}
   WeedResistanceChange: 0

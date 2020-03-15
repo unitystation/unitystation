@@ -105,17 +105,6 @@ public class ChatEntry : MonoBehaviour
 		StartCoroutine(UpdateMinHeight());
 	}
 
-	public void SetAdminPrivateMsg(string msg, string adminID)
-	{
-		adminId = adminID;
-		isAdminMsg = true;
-		SetText(msg);
-		visibleText.text += "\r\n    \r\n   ";
-		adminOverlay.SetActive(true);
-		shadow.enabled = false;
-		StartCoroutine(UpdateMinHeight());
-	}
-
 	IEnumerator UpdateMinHeight()
 	{
 		contentFitter.enabled = true;
@@ -170,7 +159,6 @@ public class ChatEntry : MonoBehaviour
 		}
 
 		waitToCheck = null;
-
 	}
 
 	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)

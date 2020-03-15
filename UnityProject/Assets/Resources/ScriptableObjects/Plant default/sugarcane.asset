@@ -13,43 +13,38 @@ MonoBehaviour:
   m_Name: sugarcane
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 1524533421589811513, guid: 504cbd527c8f73745b00fa6707951e31,
       type: 3}
     Name: sugarcane
     Plantname: Sugarcane
     Description: These seeds grow into sugarcane.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 9e160087fb87f1e41b35c428fb455743, type: 3}
+      Texture: {fileID: 2800000, guid: 3c914da8345da1d48bf30b94341bcfc8, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 9e160087fb87f1e41b35c428fb455743, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 896a46ed85eeaf74197d8e4925778635, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 896a46ed85eeaf74197d8e4925778635, type: 3}
+      - {fileID: 21300000, guid: 3c914da8345da1d48bf30b94341bcfc8, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 03ddf8f3c870a2d48a53366f6a7036ea, type: 3}
+    - Texture: {fileID: 2800000, guid: f7d3d901d84ef2d4db6b3686578efdce, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 03ddf8f3c870a2d48a53366f6a7036ea, type: 3}
+      - {fileID: 21300000, guid: f7d3d901d84ef2d4db6b3686578efdce, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: eabaf6caf1a765d4cb1df4d3a17b7de9, type: 3}
+    - Texture: {fileID: 2800000, guid: 6b6e1c8e6fc8edb4d92dcc91c6da5fe5, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: eabaf6caf1a765d4cb1df4d3a17b7de9, type: 3}
+      - {fileID: 21300000, guid: 6b6e1c8e6fc8edb4d92dcc91c6da5fe5, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 773f14b097ac3a34ebe3acd1579b7cb4, type: 3}
+    - Texture: {fileID: 2800000, guid: e46b13fbf3973164d9b2f60589ab6eeb, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 773f14b097ac3a34ebe3acd1579b7cb4, type: 3}
+      - {fileID: 21300000, guid: e46b13fbf3973164d9b2f60589ab6eeb, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 1a8bd44c127804f4eb2cda9fe1d442dc, type: 3}
+      Texture: {fileID: 2800000, guid: 2e0297d162ada8049adb8f7ea22c9b43, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 1a8bd44c127804f4eb2cda9fe1d442dc, type: 3}
+      - {fileID: 21300000, guid: 2e0297d162ada8049adb8f7ea22c9b43, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: db1207701ee91294085f3c2fce9b4e10, type: 3}
+      Texture: {fileID: 2800000, guid: 22d4516556f5a6a4e8120e5542b54fdd, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: db1207701ee91294085f3c2fce9b4e10, type: 3}
+      - {fileID: 21300000, guid: 22d4516556f5a6a4e8120e5542b54fdd, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,10 +54,9 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 60
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: sugar
-      Ammount: 25
-    MutatesInTo: []
+    ReagentProduction: []
+    MutatesInTo:
+    - {fileID: 11400000, guid: 91ad7441ce0c3a8428d4d1e254d6273d, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

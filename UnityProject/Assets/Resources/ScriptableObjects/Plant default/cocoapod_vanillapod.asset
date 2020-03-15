@@ -13,51 +13,45 @@ MonoBehaviour:
   m_Name: cocoapod_vanillapod
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: cocoapod_vanillapod
     Plantname: Vanilla Tree
     Description: These seeds grow into vanilla trees. They look fattening.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: ddf544d3c1a03e74f97f16b8778e94dc, type: 3}
+      Texture: {fileID: 2800000, guid: a71f98fba57b4c04aa94f5a9ae1b71fd, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ddf544d3c1a03e74f97f16b8778e94dc, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 842c97617f9af374099f067a8afe4c74, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 842c97617f9af374099f067a8afe4c74, type: 3}
+      - {fileID: 21300000, guid: a71f98fba57b4c04aa94f5a9ae1b71fd, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 681166e26c1d252429fbbc51fa9cb8a6, type: 3}
+    - Texture: {fileID: 2800000, guid: 5d7bedd23202931499c0021298711b37, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 681166e26c1d252429fbbc51fa9cb8a6, type: 3}
+      - {fileID: 21300000, guid: 5d7bedd23202931499c0021298711b37, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 20c6b10c0caae0f4bb7859e225b97443, type: 3}
+    - Texture: {fileID: 2800000, guid: fbd64466be1683b4798f96f4bf326223, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 20c6b10c0caae0f4bb7859e225b97443, type: 3}
+      - {fileID: 21300000, guid: fbd64466be1683b4798f96f4bf326223, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 300d6590cd8e0ec4788bf91555cdc69a, type: 3}
+    - Texture: {fileID: 2800000, guid: 107fdcac0f11d0244936634f9809f9d7, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 300d6590cd8e0ec4788bf91555cdc69a, type: 3}
+      - {fileID: 21300000, guid: 107fdcac0f11d0244936634f9809f9d7, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 5bd0fe52772547544b3cd6edb6ca1e50, type: 3}
+    - Texture: {fileID: 2800000, guid: 15faf727c8c88dd429e940f870b4ecc0, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5bd0fe52772547544b3cd6edb6ca1e50, type: 3}
+      - {fileID: 21300000, guid: 15faf727c8c88dd429e940f870b4ecc0, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 80a4ef652fdcafd43bda1401868e76f4, type: 3}
+    - Texture: {fileID: 2800000, guid: 534d53f5803b3b34f8c65cb4a557eb73, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 80a4ef652fdcafd43bda1401868e76f4, type: 3}
+      - {fileID: 21300000, guid: 534d53f5803b3b34f8c65cb4a557eb73, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: cc7d82b2121cf054b8373a65ce65ee9a, type: 3}
+      Texture: {fileID: 2800000, guid: a33fe47c857a17944a764c5cb67ef973, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: cc7d82b2121cf054b8373a65ce65ee9a, type: 3}
+      - {fileID: 21300000, guid: a33fe47c857a17944a764c5cb67ef973, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 36f46b111de5cca4ab9041752ed8fc31, type: 3}
+      Texture: {fileID: 2800000, guid: 4d1bb6160a7ce054db34497bbeb249f8, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 36f46b111de5cca4ab9041752ed8fc31, type: 3}
+      - {fileID: 21300000, guid: 4d1bb6160a7ce054db34497bbeb249f8, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -67,11 +61,7 @@ MonoBehaviour:
     Yield: 20
     Lifespan: 20
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vanilla
-      Ammount: 25
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -81,14 +71,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: vanilla
-    Ammount: 25
-  - Name: nutriment
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: cocoa
-    Ammount: 25
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

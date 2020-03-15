@@ -8,12 +8,12 @@ namespace AdminTools
 {
 	public class AdminPlayerEntry : MonoBehaviour
 	{
-		private GUI_AdminTools adminTools;
-
+		private Action<AdminPlayerEntry> OnClickEvent;
 		[SerializeField] private Text displayName = null;
 		[SerializeField] private Image bg = null;
 		[SerializeField] private GameObject msgPendingNot = null;
 		[SerializeField] private Text msgPendingCount = null;
+		[SerializeField] private GameObject offlineNot = null;
 		public Button button;
 
 		public Color selectedColor;
@@ -21,24 +21,12 @@ namespace AdminTools
 		public Color antagTextColor;
 
 		public AdminPlayerEntryData PlayerData { get; set; }
-		private List<AdminChatMessage> pendingMessages = new List<AdminChatMessage>();
 
-		public void UpdateButton(AdminPlayerEntryData playerEntryData, GUI_AdminTools adminTools)
+		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent)
 		{
-			pendingMessages.AddRange(playerEntryData.newMessages);
-			this.adminTools = adminTools;
+			OnClickEvent = onClickEvent;
 			PlayerData = playerEntryData;
 			displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress}";
-
-			if (PlayerData.newMessages.Count > 0)
-			{
-				msgPendingNot.SetActive(true);
-				msgPendingCount.text = PlayerData.newMessages.Count.ToString();
-			}
-			else
-			{
-				msgPendingNot.SetActive(false);
-			}
 
 			if (PlayerData.isAntag)
 			{
@@ -58,23 +46,22 @@ namespace AdminTools
 				displayName.fontStyle = FontStyle.Normal;
 			}
 
-			if (adminTools.SelectedPlayer == playerEntryData.uid)
+			if (PlayerData.isOnline)
 			{
-				adminTools.AddPendingMessagesToLogs(playerEntryData.uid, GetPendingMessage());
+				offlineNot.SetActive(false);
 			}
-		}
-
-		public List<AdminChatMessage> GetPendingMessage()
-		{
-			var list = new List<AdminChatMessage>(pendingMessages);
-			pendingMessages.Clear();
-			ClearMessageNot();
-			return list;
+			else
+			{
+				offlineNot.SetActive(true);
+			}
 		}
 
 		public void OnClick()
 		{
-			adminTools.SelectPlayerInList(this);
+			if (OnClickEvent != null)
+			{
+				OnClickEvent.Invoke(this);
+			}
 		}
 
 		public void ClearMessageNot()

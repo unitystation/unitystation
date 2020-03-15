@@ -354,10 +354,10 @@ RectTransform:
   m_Children:
   - {fileID: 2926733026500802913}
   - {fileID: 8848015536832186106}
+  - {fileID: 8552750518125020287}
   - {fileID: 6735707998103042567}
   - {fileID: 6460945125158060582}
   - {fileID: 8132930701282559590}
-  - {fileID: 8552750518125020287}
   m_Father: {fileID: 4427713382983301975}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2296,12 +2296,12 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
-  m_CaretWidth: 1
+  m_CaretWidth: 5
   m_ReadOnly: 0
   ExitButton: 27
 --- !u!1 &1709124477587848807
@@ -2322,7 +2322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6735707998103042567
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2336,12 +2336,12 @@ RectTransform:
   m_Children:
   - {fileID: 3190859489191132384}
   m_Father: {fileID: 4462596262340534428}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 723.91003, y: -174.805}
+  m_SizeDelta: {x: 180.05, y: 119.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9143061363295099683
 CanvasRenderer:
@@ -2542,7 +2542,7 @@ RectTransform:
   m_Children:
   - {fileID: 8880997883149303530}
   m_Father: {fileID: 4462596262340534428}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4953,6 +4953,7 @@ MonoBehaviour:
   playerChatPage: {fileID: 6693884490480179547}
   playersScrollView: {fileID: 676723518419385346}
   CentCommPage: {fileID: 7256900654566482340}
+  adminChatButtons: {fileID: 0}
   kickBanEntryPage: {fileID: 6043628368617621809}
   areYouSurePage: {fileID: 4445449029384234806}
   playerListContent: {fileID: 8175451287347996716}
@@ -6143,7 +6144,7 @@ RectTransform:
   m_Children:
   - {fileID: 5119733438374682768}
   m_Father: {fileID: 4462596262340534428}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9487,7 +9488,7 @@ RectTransform:
   m_Children:
   - {fileID: 3307344929089480623}
   m_Father: {fileID: 4462596262340534428}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

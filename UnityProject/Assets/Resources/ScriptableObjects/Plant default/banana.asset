@@ -13,56 +13,51 @@ MonoBehaviour:
   m_Name: banana
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 7482468388035873950, guid: b9a013031b66f5a4e8ea045a09340254,
+    ProduceObject: {fileID: 3739299181377926567, guid: b9a013031b66f5a4e8ea045a09340254,
       type: 3}
     Name: banana
     Plantname: Banana Tree
     Description: They're seeds that grow into banana trees. When grown, keep away
       from clown.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: d780fdd97a25f7a4a9046ef289110e9d, type: 3}
+      Texture: {fileID: 2800000, guid: 1884447e5ba54144e90415dcaf6888cd, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: d780fdd97a25f7a4a9046ef289110e9d, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 7d26fcc7f01872a43844a0ece1632b75, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7d26fcc7f01872a43844a0ece1632b75, type: 3}
+      - {fileID: 21300000, guid: 1884447e5ba54144e90415dcaf6888cd, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: b97704a4e09faa645bb3da61882cb7db, type: 3}
+    - Texture: {fileID: 2800000, guid: 0c65ae8cde3a27c4fa69f1ef28888c82, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b97704a4e09faa645bb3da61882cb7db, type: 3}
+      - {fileID: 21300000, guid: 0c65ae8cde3a27c4fa69f1ef28888c82, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: a9992461b6ba7ab4ba18ea914b2cad69, type: 3}
+    - Texture: {fileID: 2800000, guid: bc33f1e29b3d6e644bccf88b6973bc1c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: a9992461b6ba7ab4ba18ea914b2cad69, type: 3}
+      - {fileID: 21300000, guid: bc33f1e29b3d6e644bccf88b6973bc1c, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: ced94c5fe4db90249bb82d1e45ce7d03, type: 3}
+    - Texture: {fileID: 2800000, guid: 7f6b7b3f7cee0c243b03898462627ac2, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ced94c5fe4db90249bb82d1e45ce7d03, type: 3}
+      - {fileID: 21300000, guid: 7f6b7b3f7cee0c243b03898462627ac2, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 14137333da388874aa95156fbb0a6657, type: 3}
+    - Texture: {fileID: 2800000, guid: 308a6f40f505e6f4784dbed7923c9f1c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 14137333da388874aa95156fbb0a6657, type: 3}
+      - {fileID: 21300000, guid: 308a6f40f505e6f4784dbed7923c9f1c, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: c14bce216d4fdbb44bbb5f07332b85d5, type: 3}
+    - Texture: {fileID: 2800000, guid: e66d66fe31e2a9e4bb54e2e4ae3d76ad, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: c14bce216d4fdbb44bbb5f07332b85d5, type: 3}
+      - {fileID: 21300000, guid: e66d66fe31e2a9e4bb54e2e4ae3d76ad, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 81f6a478444948643a30206a63919fcf, type: 3}
+    - Texture: {fileID: 2800000, guid: 23831b68333de5c41acb343fc3b5108c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 81f6a478444948643a30206a63919fcf, type: 3}
+      - {fileID: 21300000, guid: 23831b68333de5c41acb343fc3b5108c, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 1caeb63affa5985438cdef7f337d1320, type: 3}
+      Texture: {fileID: 2800000, guid: 49ccd0e70e0afb446b23533aeedd7e95, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 1caeb63affa5985438cdef7f337d1320, type: 3}
+      - {fileID: 21300000, guid: 49ccd0e70e0afb446b23533aeedd7e95, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: f810eeefbbdcf474d866a2429be1e50e, type: 3}
+      Texture: {fileID: 2800000, guid: b6c17b1c5923bd74581bf18aae4531f8, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f810eeefbbdcf474d866a2429be1e50e, type: 3}
+      - {fileID: 21300000, guid: b6c17b1c5923bd74581bf18aae4531f8, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -72,18 +67,10 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 50
     PlantTrays: 0600000000000000
-    ReagentProduction:
-    - Name: banana
-      Ammount: 10
-    - Name: potassium
-      Ammount: 10
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 1
+    ReagentProduction: []
     MutatesInTo:
-    - {fileID: 11400000, guid: 471d2cde86dc4484ab1f20adb44c01dd, type: 2}
     - {fileID: 11400000, guid: 8e548a11796a49e4a8b9985da8a5ba61, type: 2}
+    - {fileID: 11400000, guid: 471d2cde86dc4484ab1f20adb44c01dd, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

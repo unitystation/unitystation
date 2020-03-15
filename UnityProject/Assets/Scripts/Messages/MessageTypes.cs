@@ -58,6 +58,8 @@ internal enum MessageTypes : short
 	ShowChatBubble = 1054,
 	VideoPlayerMessage = 1055,
 	ServerTypingMessage = 1056,
+	AdminPlayerListRefreshMessage = 1057,
+	AdminPlayerChatUpdateMessage = 1058,
 
 
 	//Client messages - 2xxx
@@ -99,4 +101,6 @@ internal enum MessageTypes : short
 	RequestGameActionSO = 2043,
 	RequestExamine = 2044,
 	ClientTypingMessage = 2045,
+	AdminCheckMessages = 2046,
+	RequestAdminPlayerList = 2047
 }

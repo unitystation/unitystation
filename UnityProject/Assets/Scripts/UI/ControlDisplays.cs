@@ -176,6 +176,7 @@ public class ControlDisplays : MonoBehaviour
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(false);
 		disclaimer.SetActive(true);
+		UIManager.Instance.adminChatButtons.gameObject.SetActive(false);
 	}
 
 	public void SetScreenForGame()

@@ -13,51 +13,45 @@ MonoBehaviour:
   m_Name: cherry
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: cherry
     Plantname: Cherry Tree
     Description: Careful not to crack a tooth on one... That'd be the pits.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 5e0a742a97562db4fbfbd52af8c92f97, type: 3}
+      Texture: {fileID: 2800000, guid: e9b5c792ddecb7749bcf398a88836b85, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5e0a742a97562db4fbfbd52af8c92f97, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 8c58633571ee79c499e4d0740a7c8a1e, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 8c58633571ee79c499e4d0740a7c8a1e, type: 3}
+      - {fileID: 21300000, guid: e9b5c792ddecb7749bcf398a88836b85, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 571de919c7c78ce4bb83d4398151b5b2, type: 3}
+    - Texture: {fileID: 2800000, guid: d398f0858f15c6a4fbe9643aa21959b1, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 571de919c7c78ce4bb83d4398151b5b2, type: 3}
+      - {fileID: 21300000, guid: d398f0858f15c6a4fbe9643aa21959b1, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: df0e2c2805f7ddc42aead11e95321240, type: 3}
+    - Texture: {fileID: 2800000, guid: 9b1e8212b6d2e0e4ab448aea9474d367, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: df0e2c2805f7ddc42aead11e95321240, type: 3}
+      - {fileID: 21300000, guid: 9b1e8212b6d2e0e4ab448aea9474d367, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 66e63b7bf8805584898020aa0ea86302, type: 3}
+    - Texture: {fileID: 2800000, guid: e852f02db5fa30745889651f4c24ec9c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 66e63b7bf8805584898020aa0ea86302, type: 3}
+      - {fileID: 21300000, guid: e852f02db5fa30745889651f4c24ec9c, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 006585af9d02c8e44a56354a78c7b3bf, type: 3}
+    - Texture: {fileID: 2800000, guid: 53c31221b24b47d4587ac5a4b7c6de7e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 006585af9d02c8e44a56354a78c7b3bf, type: 3}
+      - {fileID: 21300000, guid: 53c31221b24b47d4587ac5a4b7c6de7e, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: fd26c1bc2edb11e46896c5ad2c83aa80, type: 3}
+    - Texture: {fileID: 2800000, guid: d96d83c1f99cd994aa5fcc28e632f32c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: fd26c1bc2edb11e46896c5ad2c83aa80, type: 3}
+      - {fileID: 21300000, guid: d96d83c1f99cd994aa5fcc28e632f32c, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 55874d1c01722b74aa36aba5788740a2, type: 3}
+      Texture: {fileID: 2800000, guid: 6a19b9c2bdb472e41884d366bd32bfb5, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 55874d1c01722b74aa36aba5788740a2, type: 3}
+      - {fileID: 21300000, guid: 6a19b9c2bdb472e41884d366bd32bfb5, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: e2ce150e18b9f5f48b5f1a46f862c1c3, type: 3}
+      Texture: {fileID: 2800000, guid: 4d01eeb22a801704498abe74ca65e0a4, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: e2ce150e18b9f5f48b5f1a46f862c1c3, type: 3}
+      - {fileID: 21300000, guid: 4d01eeb22a801704498abe74ca65e0a4, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -67,13 +61,10 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 35
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 7
-    - Name: sugar
-      Ammount: 7
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: a92b40c6f1bce484691b41d3f4074265, type: 2}
+    - {fileID: 11400000, guid: 6f36016e539b37b4abebdf76bf023aad, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

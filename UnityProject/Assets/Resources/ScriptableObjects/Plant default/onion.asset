@@ -13,43 +13,38 @@ MonoBehaviour:
   m_Name: onion
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 6292252231756530421, guid: 77c8ff311aa88744ea4ebc5fe12cb813,
       type: 3}
     Name: onion
     Plantname: Onion Sprouts
     Description: These seeds grow into onions.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: c3d04a57380db7c418ccb6bcdcd423ee, type: 3}
+      Texture: {fileID: 2800000, guid: 2b7659adad9c1464eb13698eccafa8a3, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: c3d04a57380db7c418ccb6bcdcd423ee, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: e1fca5cfa806c9044a8ce183bea0932e, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: e1fca5cfa806c9044a8ce183bea0932e, type: 3}
+      - {fileID: 21300000, guid: 2b7659adad9c1464eb13698eccafa8a3, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 1c72a05820941b04ebed0d47ad1673df, type: 3}
+    - Texture: {fileID: 2800000, guid: 779fd452554ecd54bbbe53551317986a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 1c72a05820941b04ebed0d47ad1673df, type: 3}
+      - {fileID: 21300000, guid: 779fd452554ecd54bbbe53551317986a, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 8bb44ea17a455f849adc50f95d530ae0, type: 3}
+    - Texture: {fileID: 2800000, guid: fc5b6be0ac2817846b722529b3354f53, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8bb44ea17a455f849adc50f95d530ae0, type: 3}
+      - {fileID: 21300000, guid: fc5b6be0ac2817846b722529b3354f53, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: e452d5fc6657a92428f4d87077e4a975, type: 3}
+    - Texture: {fileID: 2800000, guid: efc21667026689c43aa0dd6ebdbf5bfd, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: e452d5fc6657a92428f4d87077e4a975, type: 3}
+      - {fileID: 21300000, guid: efc21667026689c43aa0dd6ebdbf5bfd, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: b9037d32a45da88458bbb53498034748, type: 3}
+      Texture: {fileID: 2800000, guid: 7e5e8400717975d40baacf1f2e9c05e3, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b9037d32a45da88458bbb53498034748, type: 3}
+      - {fileID: 21300000, guid: 7e5e8400717975d40baacf1f2e9c05e3, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 55124f59ac621984cb2c71ea4fbfaadc, type: 3}
+      Texture: {fileID: 2800000, guid: 0176f26b3db57724c939194196393d93, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 55124f59ac621984cb2c71ea4fbfaadc, type: 3}
+      - {fileID: 21300000, guid: 0176f26b3db57724c939194196393d93, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,11 +54,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 20
     PlantTrays: 
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 6d7d4e8d57262ab4cbf9bb6506159ccc, type: 2}
   WeedResistanceChange: 0
