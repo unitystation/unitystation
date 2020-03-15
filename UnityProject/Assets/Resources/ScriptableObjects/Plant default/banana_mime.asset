@@ -13,48 +13,43 @@ MonoBehaviour:
   m_Name: banana_mime
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 7482468388035873950, guid: a371ae9df60b6c84d8528e5d88bce199,
+    ProduceObject: {fileID: 6194845657117051362, guid: 4e5bf7ebd6976114cbb0b59217562e7b,
       type: 3}
     Name: banana_mime
     Plantname: Mimana Tree
     Description: They're seeds that grow into mimana trees. When grown, keep away
       from mime.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 7d8000104f770a84f817d673ee475c15, type: 3}
+      Texture: {fileID: 2800000, guid: e1c9abf3aede5454e88009fdee27b686, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 7d8000104f770a84f817d673ee475c15, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: eda173a49bd71fc41846a052c8e6034d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: eda173a49bd71fc41846a052c8e6034d, type: 3}
+      - {fileID: 21300000, guid: e1c9abf3aede5454e88009fdee27b686, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 888982ab79b3b0f499e5b411da86a82a, type: 3}
+    - Texture: {fileID: 2800000, guid: 8da7ec2c8f5531548b8ae0e2ec672fd2, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 888982ab79b3b0f499e5b411da86a82a, type: 3}
+      - {fileID: 21300000, guid: 8da7ec2c8f5531548b8ae0e2ec672fd2, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 6e655120ca12ba04b945d3e4ec82e489, type: 3}
+    - Texture: {fileID: 2800000, guid: fa0c980c9506800409e0c8bbfe161392, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 6e655120ca12ba04b945d3e4ec82e489, type: 3}
+      - {fileID: 21300000, guid: fa0c980c9506800409e0c8bbfe161392, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 8b76e8a2cb79fff42b85b55338a6e1d1, type: 3}
+    - Texture: {fileID: 2800000, guid: 8f68f02e375452146801749ecf65152e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8b76e8a2cb79fff42b85b55338a6e1d1, type: 3}
+      - {fileID: 21300000, guid: 8f68f02e375452146801749ecf65152e, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: b8a6b5a0cd55ed24e96fae8db9deca6d, type: 3}
+    - Texture: {fileID: 2800000, guid: 73dccfbb408d2284ab9dfa8e7f24f3cf, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b8a6b5a0cd55ed24e96fae8db9deca6d, type: 3}
+      - {fileID: 21300000, guid: 73dccfbb408d2284ab9dfa8e7f24f3cf, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: eda600f17bfe94e4dabb900b0381fec7, type: 3}
+      Texture: {fileID: 2800000, guid: e1fb160b56ff29e4286c91d087deb483, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: eda600f17bfe94e4dabb900b0381fec7, type: 3}
+      - {fileID: 21300000, guid: e1fb160b56ff29e4286c91d087deb483, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: f810eeefbbdcf474d866a2429be1e50e, type: 3}
+      Texture: {fileID: 2800000, guid: b6c17b1c5923bd74581bf18aae4531f8, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f810eeefbbdcf474d866a2429be1e50e, type: 3}
+      - {fileID: 21300000, guid: b6c17b1c5923bd74581bf18aae4531f8, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -64,13 +59,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 50
     PlantTrays: 0600000000000000
-    ReagentProduction:
-    - Name: nothing
-      Ammount: 10
-    - Name: mutetoxin
-      Ammount: 10
-    - Name: nutriment
-      Ammount: 1
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -80,24 +69,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: nothing
-    Ammount: 10
-  - Name: mutetoxin
-    Ammount: 10
-  - Name: banana
-    Ammount: 10
-  - Name: potassium
-    Ammount: 10
-  - Name: vitamin
-    Ammount: 3
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: banana
-    Ammount: 10
-  - Name: potassium
-    Ammount: 10
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 1
+  RemoveReagentProduction: []

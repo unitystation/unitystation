@@ -13,42 +13,37 @@ MonoBehaviour:
   m_Name: wheat_rice
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: wheat_rice
     Plantname: Rice Stalks
     Description: These may, or may not, grow into rice.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 50107b525573dd7478b6edd9f19aa1e7, type: 3}
+      Texture: {fileID: 2800000, guid: df3cbb3bd1bdb724ab5591d4e831cda0, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 50107b525573dd7478b6edd9f19aa1e7, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 3fe52537b0cafa84d8d8f1deabc71731, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 3fe52537b0cafa84d8d8f1deabc71731, type: 3}
+      - {fileID: 21300000, guid: df3cbb3bd1bdb724ab5591d4e831cda0, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 046cffc925479a9479708f538cd81064, type: 3}
+    - Texture: {fileID: 2800000, guid: 7ce4a83ba291c2948a3a9aa232c0b1d3, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 046cffc925479a9479708f538cd81064, type: 3}
+      - {fileID: 21300000, guid: 7ce4a83ba291c2948a3a9aa232c0b1d3, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: d780a0465e843d84b9fc180fcc9222be, type: 3}
+    - Texture: {fileID: 2800000, guid: df0146ddb909be247b71ff70e9694961, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: d780a0465e843d84b9fc180fcc9222be, type: 3}
+      - {fileID: 21300000, guid: df0146ddb909be247b71ff70e9694961, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 313d9d015809f344fb9b27d532c06a39, type: 3}
+    - Texture: {fileID: 2800000, guid: 3aa30231dfb578143af3d72e9fd5c2ae, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 313d9d015809f344fb9b27d532c06a39, type: 3}
+      - {fileID: 21300000, guid: 3aa30231dfb578143af3d72e9fd5c2ae, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 2486123797ca502438e997a97278472e, type: 3}
+      Texture: {fileID: 2800000, guid: 408fca47de5c7c14fb0ee4ce3c9c5bd9, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 2486123797ca502438e997a97278472e, type: 3}
+      - {fileID: 21300000, guid: 408fca47de5c7c14fb0ee4ce3c9c5bd9, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: aa121deacdc901a44bb52d130344e35b, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: aa121deacdc901a44bb52d130344e35b, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -58,9 +53,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 3
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
