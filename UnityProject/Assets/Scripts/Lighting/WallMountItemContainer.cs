@@ -25,39 +25,53 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
-	[Tooltip("Item with this trait will be put in.")]
-	public ItemTrait traitRequired;
-
-	[Tooltip("In On/Off state will drop this item.")]
-	public GameObject appliableItem;
-
-	[Tooltip("In Broken state will drop this item.")]
-	public GameObject appliableBrokenItem;
-
-	//Sprite sheets for each state
-	public Sprite[] spriteListBroken;
-	public Sprite[] spriteListEmpty;
-	public Sprite[] spriteListFull;
-	public Sprite[] spriteListLightOn;
-
-	//Actual bulb
+	[Tooltip("Sprite for bulb.")]
 	public SpriteRenderer spriteRenderer;
 
 	//Second layer for light effect
-	public SpriteRenderer spriteRendererLightOn;
-
+	
 	private LightSource lightSource;
 	private LightSwitch lightSwitch;
 	private Integrity integrity;
-
-	[Tooltip("Multiplier for integrity broken state.")]
-	[Range(0.40f, 0.90f)]
-	public float integMultiplier = 0.60f;
-
-	private float brokenStateIntegrity;
-
 	private Orientation orientation;
 
+	[Tooltip("Item with this trait will be put in.")]
+	public ItemTrait traitRequired;
+
+	[Header("Properly functional state.")]
+	[Tooltip("In On/Off state will drop this item.")]
+	public GameObject appliableItem;
+
+	public Sprite[] spriteListFull;
+
+	
+	public Sprite[] spriteListLightOn;
+
+	[Tooltip("Sprite for light effect.")]
+	public SpriteRenderer spriteRendererLightOn;
+
+
+	
+	[Header("Broken state.")]
+	[Tooltip("In Broken state will drop this item.")]
+	public GameObject appliableBrokenItem;
+
+	public Sprite[] spriteListBroken;
+	
+	[Tooltip("On what % of integrity mount changes state.")]
+	[Range(0.40f, 0.90f)]
+	public float multiplierBroken = 0.60f;
+
+	private float integrityStateBroken;
+
+	[Header("Empty state.")]
+	[Tooltip("On what % of integrity mount changes state.")]
+	[Range(0.40f, 0.90f)]
+	public float multiplierMissingBulb;
+
+	public Sprite[] spriteListMissingBulb;
+
+	private float integrityStateMissingBulb;
 	private void Awake()
 	{
 		lightSource = GetComponent<LightSource>();
@@ -66,9 +80,12 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 		integrity = GetComponent<Integrity>();
 
-		brokenStateIntegrity = integrity.initialIntegrity * integMultiplier;
+		integrityStateBroken = integrity.initialIntegrity * multiplierBroken;
+
+		integrityStateMissingBulb = integrity.initialIntegrity * multiplierMissingBulb;
 
 		orientation = GetComponent<Directional>().CurrentDirection;
+
 		integrity.OnApllyDamage.AddListener(OnDamageReceived);
 	}
 
@@ -86,31 +103,21 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 			if(state == LightMountState.On)
 			{
-				lightSource.Trigger(false);
-				spriteRenderer.sprite = GetSprite(spriteListEmpty);
-				spriteRendererLightOn.sprite = null;
-				integrity.soundOnHit = "";
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
-				state = LightMountState.MissingBulb;
+				ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "", false);
 			}
 			else if(state == LightMountState.Off)
 			{
-				spriteRenderer.sprite = GetSprite(spriteListEmpty);
-				spriteRendererLightOn.sprite = null;
-				integrity.soundOnHit = "";
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
-				state = LightMountState.MissingBulb;
+				ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "");
 			}
 			else if(state == LightMountState.Broken)
 			{
-				spriteRenderer.sprite = GetSprite(spriteListEmpty);
-				spriteRendererLightOn.sprite = null;
-				integrity.soundOnHit = "";
 				Spawn.ServerPrefab(appliableBrokenItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the broken light tube out!");
-				state = LightMountState.MissingBulb;
+				ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "");
 			}
 					
 		}
@@ -119,43 +126,45 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
-				lightSource.Trigger(false);
 				Despawn.ServerSingle(interaction.HandObject);
-				spriteRenderer.sprite = GetSprite(spriteListBroken);
-				spriteRendererLightOn.sprite = null;
-				integrity.soundOnHit = "GlassStep";
 				Chat.AddExamineMsg(interaction.Performer, "You put broken light tube in!");
-				state = LightMountState.Broken;
+				ChangeState(LightMountState.Broken, spriteListBroken, null, "GlassStep", false);
 			}
 			else
 			{
 				if (lightSwitch.isOn == LightSwitch.States.On)
 				{
-					lightSource.Trigger(true);
 					Despawn.ServerSingle(interaction.HandObject);
-					spriteRenderer.sprite = GetSprite(spriteListFull);
-					spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
-					integrity.soundOnHit = "GlassHit";
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
-					state = LightMountState.On;
+					ChangeState(LightMountState.On, spriteListFull, spriteListLightOn, "GlassHit", true);
 				}
 				else
 				{
-					lightSource.Trigger(false);
 					Despawn.ServerSingle(interaction.HandObject);
-					spriteRenderer.sprite = GetSprite(spriteListFull);
-					spriteRendererLightOn.sprite = null;
-					integrity.soundOnHit = "GlassHit";
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
-					state = LightMountState.Off;
+					ChangeState(LightMountState.Off, spriteListFull, null, "GlassHit", false);
 				}
 			}
 			
 		}
 	}
+
+	private void ChangeState(LightMountState state, Sprite[] spriteListBulb, Sprite[] spriteListLight, string sound, bool? triggerState = null)
+	{
+
+		if (triggerState != null)
+		{
+			lightSource.Trigger(triggerState.Value);
+		}
+		spriteRenderer.sprite = GetSprite(spriteListBulb);
+		spriteRendererLightOn.sprite = GetSprite(spriteListLight);
+		integrity.soundOnHit = sound;
+		this.state = state;
+	}
+
 	//This one is for LightSource to make sure sprites and states are correct
 	//when lights switch state is changed
-	public void ChangeState(LightState state)
+	public void SwitchChangeState(LightState state)
 	{
 	
 		if (state == LightState.On)
@@ -173,6 +182,10 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 	//Gets sprites for eash state
 	private Sprite GetSprite(Sprite[] spriteList)
 	{
+		if(spriteList == null)
+		{
+			return null;
+		}
 		int angle = orientation.Degrees;
 		switch(angle)
 		{
@@ -187,21 +200,32 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 		}
 	}
 
+	private void CheckIntegrityState()
+	{
+			if (integrity.integrity <= integrityStateBroken && state != LightMountState.MissingBulb)
+			{
+				Vector3 pos = gameObject.AssumedWorldPosServer();
+				
+				if(integrity.integrity <= integrityStateMissingBulb)
+				{
+					ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "", false);
+					Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
+					scatterRadius: Random.Range(0, 2));
+				}
+				else
+				{
+					
+					ChangeState(LightMountState.Broken, spriteListBroken, null, "GlassStep", false);
+					SoundManager.PlayNetworkedAtPos("GlassStep", pos);
+					Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
+					scatterRadius: Random.Range(0, 2));
+				}
+			}
+	}
+
 	//Changes state when Integrity's ApplyDamage called
 	private void OnDamageReceived(DamageInfo arg0)
 	{
-		if(integrity.integrity <= brokenStateIntegrity)
-		{
-			Vector3 pos = gameObject.AssumedWorldPosServer();
-			lightSource.Trigger(false);
-			spriteRenderer.sprite = GetSprite(spriteListBroken);
-			spriteRendererLightOn.sprite = null;
-			state = LightMountState.Broken;
-			integrity.soundOnHit = "GlassStep";
-			SoundManager.PlayNetworkedAtPos("GlassStep", pos);
-			Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
-			scatterRadius: Random.Range(0, 2));
-		}
-
+		CheckIntegrityState();
 	}
 }

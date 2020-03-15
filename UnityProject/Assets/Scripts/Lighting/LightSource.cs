@@ -171,7 +171,7 @@ public class LightSource : ObjectTrigger
 				else
 				{
 					State = Received.state ? LightState.On : LightState.Off;
-					wallMount.ChangeState(State);
+					wallMount.SwitchChangeState(State);
 				}
 			}
 
