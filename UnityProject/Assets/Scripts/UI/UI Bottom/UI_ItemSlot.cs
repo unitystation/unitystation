@@ -295,11 +295,9 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			return;
 		}
-
 		sprite = null;
 		image.enabled = false;
 		secondaryImage.enabled = false;
-		ControlTabs.CheckTabClose();
 		image.sprite = null;
 		secondarySprite = null;
 		secondaryImage.sprite = null;
@@ -307,6 +305,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			amountText.enabled = false;
 		}
+
 
 	}
 
