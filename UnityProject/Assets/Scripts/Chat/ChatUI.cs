@@ -24,7 +24,6 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private InputField InputFieldChat = null;
 	[SerializeField] private Image scrollHandle = null;
 	[SerializeField] private Image scrollBackground = null;
-	[SerializeField] private AdminPrivReply adminReply = null;
 	[SerializeField] private Transform thresholdMarker = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
 	private bool windowCoolDown = false;
@@ -241,20 +240,8 @@ public class ChatUI : MonoBehaviour
 
 	public void AddAdminPrivEntry(string message)
 	{
-		GameObject entry = Instantiate(chatEntryPrefab, Vector3.zero, Quaternion.identity);
-		var chatEntry = entry.GetComponent<ChatEntry>();
-		chatEntry.thresholdMarker = adminHelpChat.ThresholdMarker;
-		chatEntry.SetText(message);
-		entry.transform.SetParent(adminHelpChat.Content, false);
-		entry.transform.localScale = Vector3.one;
-
 		adminHelpChat.gameObject.SetActive(true);
-		adminHelpChat.AddChatEntry(chatEntry);
-	}
-
-	public void OpenAdminReply(string message, string adminId)
-	{
-		Instance.adminReply.OpenAdminPrivReplay(message, adminId);
+		adminHelpChat.AddChatEntry(message);
 	}
 
 	void SetEntryTransform(GameObject entry)

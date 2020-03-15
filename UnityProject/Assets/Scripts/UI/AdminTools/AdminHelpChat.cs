@@ -1,57 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace AdminTools
 {
 	public class AdminHelpChat : MonoBehaviour
 	{
-		[SerializeField] private InputFieldFocus chatInputField = null;
-		[SerializeField] private Transform content = null;
-		[SerializeField] private Transform thresholdMarker = null;
-		private List<ChatEntry> chatEntries = new List<ChatEntry>();
-
-		public Transform ThresholdMarker => thresholdMarker;
-		public Transform Content => content;
+		[SerializeField] private ChatScroll chatScroll = null;
 
 		public void CloseWindow()
 		{
 			gameObject.SetActive(false);
-			chatInputField.text = "";
 		}
 
-		public void AddChatEntry(ChatEntry entry)
+		private void OnEnable()
 		{
-			chatEntries.Add(entry);
-			if (chatEntries.Count == 70)
-			{
-				var oldEntry = chatEntries[0];
-				oldEntry.ReturnToPool();
-				chatEntries.Remove(oldEntry);
-			}
+			chatScroll.OnInputFieldSubmit += OnInputReceived;
 		}
 
-		void Update()
+		private void OnDisable()
 		{
-			if (chatInputField.IsFocused && KeyboardInputManager.IsEnterPressed())
-			{
-				OnInputEnter();
-			}
+			chatScroll.OnInputFieldSubmit -= OnInputReceived;
 		}
 
-		public void OnInputEnter()
+		public void AddChatEntry(string message)
 		{
-			if (string.IsNullOrWhiteSpace(chatInputField.text))
+			chatScroll.AddNewChatEntry(new ChatEntryData
 			{
-				return;
-			}
+				Message = message
+			});
+		}
 
-			var msg = Regex.Replace(chatInputField.text, @"\t|\n|\r", "");
-			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + msg);
-			Chat.AddAdminPrivMsg("You: " + msg);
-			chatInputField.text = "";
+		void OnInputReceived(string message)
+		{
+			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + message);
 		}
 	}
 }
