@@ -17,7 +17,7 @@ MonoBehaviour:
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  SetSpriteOnStartUp: 0
 --- !u!114 &-9006715302198902684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,20 +32,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SeedPacket: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
-    type: 3}
-  SpriteSizeAdjustment: {fileID: 5066517181570930995}
-  SpriteHandler: {fileID: 7640553959568001153}
   plantData:
     ProduceObject: {fileID: 0}
     Name: 
     Plantname: 
     Description: 
     PacketsSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    ProduceSprite:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
@@ -69,8 +61,11 @@ MonoBehaviour:
     ReagentProduction: []
     MutatesInTo: []
   reagentContainer: {fileID: 3608205971236566501}
-  ItemAttributesV2: {fileID: 4779319350699623693}
-  PlantSyncString: 
+  SeedPacket: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
+    type: 3}
+  SpriteSizeAdjustment: {fileID: 5066517181570930995}
+  Sprite: {fileID: 1294793839381664232}
+  edible: {fileID: 6259075970471028923}
   SizeScale: 0
 --- !u!114 &3608205971236566501
 MonoBehaviour:
@@ -201,18 +196,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4953256935291295445}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4779319350699623693 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 4953256935291295445}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4953422017611688559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4952068174319894345 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1344926539164060, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -225,3 +208,15 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 4953256935291295445}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1294793839381664232 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 4953256935291295445}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4952068174319894345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

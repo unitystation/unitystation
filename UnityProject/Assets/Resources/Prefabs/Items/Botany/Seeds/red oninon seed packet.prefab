@@ -19,7 +19,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1519710982558066, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_Name
-      value: onion_red seed packet
+      value: red oninon seed packet
       objectReference: {fileID: 0}
     - target: {fileID: 4949321775558472, guid: 61fbb88e43b8b4f48a44b030453bdedc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -74,8 +74,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9cd626fe73aaa71488cd2328a6b0b57a,
+      objectReference: {fileID: 21300000, guid: a5dc5a127f54d5b4ebb9992dddbd2be8,
         type: 3}
+    - target: {fileID: 212351652085156724, guid: 61fbb88e43b8b4f48a44b030453bdedc,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7775367136764396337, guid: 61fbb88e43b8b4f48a44b030453bdedc,
         type: 3}
       propertyPath: defaultPlantData

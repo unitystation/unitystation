@@ -13,39 +13,34 @@ MonoBehaviour:
   m_Name: grass
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 8314482175768777610, guid: f6f339c7e9812a74691af5d44f5793d0,
       type: 3}
     Name: grass
     Plantname: Grass
     Description: These seeds grow into grass. Yummy!
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 4b23a14d3285a274fae6d73c268d477c, type: 3}
+      Texture: {fileID: 2800000, guid: 0450ecb8da250cb4495e12838c34611d, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 4b23a14d3285a274fae6d73c268d477c, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 2f16b4b0a9d81444d943e0e41610ab4e, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 2f16b4b0a9d81444d943e0e41610ab4e, type: 3}
+      - {fileID: 21300000, guid: 0450ecb8da250cb4495e12838c34611d, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: af852960097e896448cf187ac2a996ac, type: 3}
+    - Texture: {fileID: 2800000, guid: 06354c34aee20984684cd1db7eb1e8b1, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: af852960097e896448cf187ac2a996ac, type: 3}
+      - {fileID: 21300000, guid: 06354c34aee20984684cd1db7eb1e8b1, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 5b1804ade92a4c442aec1a08c92016c6, type: 3}
+    - Texture: {fileID: 2800000, guid: 2917c70d3dcd99e43aadf8d8e8071895, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5b1804ade92a4c442aec1a08c92016c6, type: 3}
+      - {fileID: 21300000, guid: 2917c70d3dcd99e43aadf8d8e8071895, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: b3401d75e60b8004eab77107e5fd4fe3, type: 3}
+      Texture: {fileID: 2800000, guid: 2785ed170f02a1042b30d1be73315ac2, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b3401d75e60b8004eab77107e5fd4fe3, type: 3}
+      - {fileID: 21300000, guid: 2785ed170f02a1042b30d1be73315ac2, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: ee6cc0245f22d6748b4fe49ff4a49eef, type: 3}
+      Texture: {fileID: 2800000, guid: b42e59067e805204b98d8afe6f745dcb, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ee6cc0245f22d6748b4fe49ff4a49eef, type: 3}
+      - {fileID: 21300000, guid: b42e59067e805204b98d8afe6f745dcb, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -55,13 +50,10 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 40
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: nutriment
-      Ammount: 1
-    - Name: hydrogen
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 30ec9532585acaa479a6106681658c3c, type: 2}
+    - {fileID: 11400000, guid: a4e64b37717722c45a13160798dfcf36, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

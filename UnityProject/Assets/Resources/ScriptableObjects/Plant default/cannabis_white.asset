@@ -13,29 +13,31 @@ MonoBehaviour:
   m_Name: cannabis_white
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 6953126509651611950, guid: c260c81e141096842ad748473738c174,
       type: 3}
     Name: cannabis_white
     Plantname: Lifeweed
     Description: I will give unto him that is munchies of the fountain of the cravings
       of life, freely.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: d5ead7f2a52c2144aab7d0dd06476c8b, type: 3}
+      Texture: {fileID: 2800000, guid: a07cc586528dad349942943cf918dec1, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: d5ead7f2a52c2144aab7d0dd06476c8b, type: 3}
+      - {fileID: 21300000, guid: a07cc586528dad349942943cf918dec1, type: 3}
       EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+    GrowthSprites:
+    - Texture: {fileID: 2800000, guid: 970bf3666eec6b145a617e699e73d182, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 970bf3666eec6b145a617e699e73d182, type: 3}
       EquippedData: {fileID: 0}
-    GrowthSprites: []
     FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 09ae8e8d578272b4cb6eca1757bc7688, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 09ae8e8d578272b4cb6eca1757bc7688, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: daa56fbfb28ed494baac7e0d2aae68fc, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: daa56fbfb28ed494baac7e0d2aae68fc, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -45,13 +47,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 25
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: omnizine
-      Ammount: 34
-    - Name: space_drugs
-      Ammount: 15
-    - Name: lipolicide
-      Ammount: 15
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -61,16 +57,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: omnizine
-    Ammount: 34
-  - Name: space_drugs
-    Ammount: 15
-  - Name: lipolicide
-    Ammount: 15
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: space_drugs
-    Ammount: 15
-  - Name: lipolicide
-    Ammount: 34
+  RemoveReagentProduction: []

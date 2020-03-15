@@ -13,47 +13,41 @@ MonoBehaviour:
   m_Name: potato_sweet
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: potato_sweet
     Plantname: Sweet Potato Plants
     Description: These seeds grow into sweet potato plants.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 4024ea4e6e846c8408de2876b1129838, type: 3}
+      Texture: {fileID: 2800000, guid: 8deed7ab67952e24cafd4fa8cfbaee8a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 4024ea4e6e846c8408de2876b1129838, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 84fc37b47c512f84585b21dfc7b663e2, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 84fc37b47c512f84585b21dfc7b663e2, type: 3}
+      - {fileID: 21300000, guid: 8deed7ab67952e24cafd4fa8cfbaee8a, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: f4acb131634bb8942915172ff8599037, type: 3}
+    - Texture: {fileID: 2800000, guid: 72bac2262c5c95a4091b4f764cb289ba, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f4acb131634bb8942915172ff8599037, type: 3}
+      - {fileID: 21300000, guid: 72bac2262c5c95a4091b4f764cb289ba, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: cbba07c3304bdf444a8f263fe60ff33f, type: 3}
+    - Texture: {fileID: 2800000, guid: b0c490c9267f69f449c233c0a91ee87c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: cbba07c3304bdf444a8f263fe60ff33f, type: 3}
+      - {fileID: 21300000, guid: b0c490c9267f69f449c233c0a91ee87c, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 55015794936232942a96dbd1be17262a, type: 3}
+    - Texture: {fileID: 2800000, guid: aa0a3a9472401134aa8e04f2ca16aaca, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 55015794936232942a96dbd1be17262a, type: 3}
+      - {fileID: 21300000, guid: aa0a3a9472401134aa8e04f2ca16aaca, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: ced8ba63d7372224ba2da03f6fab9ba1, type: 3}
+    - Texture: {fileID: 2800000, guid: 6d87035f7d90f554eb72a0a52a7f1da8, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ced8ba63d7372224ba2da03f6fab9ba1, type: 3}
+      - {fileID: 21300000, guid: 6d87035f7d90f554eb72a0a52a7f1da8, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: c2290456f0f22ca4c892cc1065803c75, type: 3}
+      Texture: {fileID: 2800000, guid: 241b505686bda4b45b0a4f9e5fd44097, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: c2290456f0f22ca4c892cc1065803c75, type: 3}
+      - {fileID: 21300000, guid: 241b505686bda4b45b0a4f9e5fd44097, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 8b4221e9fc98e8446998dfe87cc7e598, type: 3}
+      Texture: {fileID: 2800000, guid: 53ad1a68096065d44a0601e2f1e36ee4, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8b4221e9fc98e8446998dfe87cc7e598, type: 3}
+      - {fileID: 21300000, guid: 53ad1a68096065d44a0601e2f1e36ee4, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -63,13 +57,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 30
     PlantTrays: 09000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 10
-    - Name: sugar
-      Ammount: 10
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -79,16 +67,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: vitamin
-    Ammount: 10
-  - Name: sugar
-    Ammount: 10
-  - Name: nutriment
-    Ammount: 10
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 10
+  RemoveReagentProduction: []

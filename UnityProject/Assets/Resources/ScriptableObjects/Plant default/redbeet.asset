@@ -13,55 +13,49 @@ MonoBehaviour:
   m_Name: redbeet
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: redbeet
     Plantname: Red-Beet Plants
     Description: These seeds grow into red beet producing plants.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 7041b44b458c0904283db3f91e638473, type: 3}
+      Texture: {fileID: 2800000, guid: e03e69da4116fc74390988358945810f, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 7041b44b458c0904283db3f91e638473, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 6d6bbf18a6cc8e7419ba3a9da0bb6fc6, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 6d6bbf18a6cc8e7419ba3a9da0bb6fc6, type: 3}
+      - {fileID: 21300000, guid: e03e69da4116fc74390988358945810f, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 5ff4c7d41c634cb47a37228e5bc27b16, type: 3}
+    - Texture: {fileID: 2800000, guid: 472e413d74d8d6c45951b0f91890d81c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5ff4c7d41c634cb47a37228e5bc27b16, type: 3}
+      - {fileID: 21300000, guid: 472e413d74d8d6c45951b0f91890d81c, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 250d534782639ef43bd85531ca9d6238, type: 3}
+    - Texture: {fileID: 2800000, guid: ee3cecdcf7ce8b24f8853d646bdfd0fb, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 250d534782639ef43bd85531ca9d6238, type: 3}
+      - {fileID: 21300000, guid: ee3cecdcf7ce8b24f8853d646bdfd0fb, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: bfb82e6ea3591264bb2a828ccd384f49, type: 3}
+    - Texture: {fileID: 2800000, guid: ddb1daace3c6a8f4a9ee91a3f650a940, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: bfb82e6ea3591264bb2a828ccd384f49, type: 3}
+      - {fileID: 21300000, guid: ddb1daace3c6a8f4a9ee91a3f650a940, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: e5dcf9818c4fc394e8d4c61d33bf4886, type: 3}
+    - Texture: {fileID: 2800000, guid: 264693bd0e11a0c4da3a28da0851dc83, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: e5dcf9818c4fc394e8d4c61d33bf4886, type: 3}
+      - {fileID: 21300000, guid: 264693bd0e11a0c4da3a28da0851dc83, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 2cf4cbd682ce64a4eb8d7e71214572eb, type: 3}
+    - Texture: {fileID: 2800000, guid: 83902f03c5ba817499286e0f2a204228, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 2cf4cbd682ce64a4eb8d7e71214572eb, type: 3}
+      - {fileID: 21300000, guid: 83902f03c5ba817499286e0f2a204228, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: bb3c8ac456d0ffe45a6166e52413c45b, type: 3}
+    - Texture: {fileID: 2800000, guid: ee5dff008dd2c4c47b56ee564909553b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: bb3c8ac456d0ffe45a6166e52413c45b, type: 3}
+      - {fileID: 21300000, guid: ee5dff008dd2c4c47b56ee564909553b, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: daf9171c9a3e1e740aeff1ffcc5e679f, type: 3}
+      Texture: {fileID: 2800000, guid: 013c8ad1b3f53c34c88be785216ed43e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: daf9171c9a3e1e740aeff1ffcc5e679f, type: 3}
+      - {fileID: 21300000, guid: 013c8ad1b3f53c34c88be785216ed43e, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 55a47a02d9f93514c86d91f5d28056f7, type: 3}
+      Texture: {fileID: 2800000, guid: 44fc16e3037e6dc4b93b8716d83f4429, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 55a47a02d9f93514c86d91f5d28056f7, type: 3}
+      - {fileID: 21300000, guid: 44fc16e3037e6dc4b93b8716d83f4429, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -71,11 +65,7 @@ MonoBehaviour:
     Yield: 60
     Lifespan: 60
     PlantTrays: 08000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 5
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -85,16 +75,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 08000000
-  ReagentProduction:
-  - Name: vitamin
-    Ammount: 5
-  - Name: nutriment
-    Ammount: 5
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: vitamin
-    Ammount: 3
-  - Name: sugar
-    Ammount: 20
-  - Name: nutriment
-    Ammount: 5
+  RemoveReagentProduction: []

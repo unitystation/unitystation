@@ -32,3 +32,17 @@ MonoBehaviour:
     buildTime: 6
     spawnAmount: 1
     onePerTile: 1
+  - name: Light Tube
+    prefab: {fileID: 2419386692754613975, guid: 7abc699f6eb559d438d8be44aa19fec6,
+      type: 3}
+    cost: 1
+    buildTime: 0
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Light Bulb
+    prefab: {fileID: 2419386692754613975, guid: 261899e20322a8d49be66502efd6f09e,
+      type: 3}
+    cost: 1
+    buildTime: 0
+    spawnAmount: 1
+    onePerTile: 0

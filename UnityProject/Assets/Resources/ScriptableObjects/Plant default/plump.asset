@@ -13,42 +13,37 @@ MonoBehaviour:
   m_Name: plump
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: plump
     Plantname: Plump-Helmet Mushrooms
     Description: This mycelium grows into helmets... maybe.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 0dfb4bf7dfe1edf40885d6781de7ee7d, type: 3}
+      Texture: {fileID: 2800000, guid: 0fe3001a1e4fffc4a816a714f89f979c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 0dfb4bf7dfe1edf40885d6781de7ee7d, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      - {fileID: 21300000, guid: 0fe3001a1e4fffc4a816a714f89f979c, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
+    - Texture: {fileID: 2800000, guid: 34500ad68e505834fa9001bdf0a3e6db, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
+      - {fileID: 21300000, guid: 34500ad68e505834fa9001bdf0a3e6db, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 5330b55cbed9e77489f8acdb432cdb62, type: 3}
+    - Texture: {fileID: 2800000, guid: c01cbdb9c9eb7fb43ac69d217c6fbd0d, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5330b55cbed9e77489f8acdb432cdb62, type: 3}
+      - {fileID: 21300000, guid: c01cbdb9c9eb7fb43ac69d217c6fbd0d, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: c337823b22c8e024cae1a4865f4dbda7, type: 3}
+    - Texture: {fileID: 2800000, guid: cb858aa6d3a1d594685f131a2f3b6974, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: c337823b22c8e024cae1a4865f4dbda7, type: 3}
+      - {fileID: 21300000, guid: cb858aa6d3a1d594685f131a2f3b6974, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
+      Texture: {fileID: 2800000, guid: 34500ad68e505834fa9001bdf0a3e6db, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ca1e3bae34c9b2c46ae2247fd9dd4703, type: 3}
+      - {fileID: 21300000, guid: 34500ad68e505834fa9001bdf0a3e6db, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 6ff228960d280e74cb8ca3e842718fe9, type: 3}
+      Texture: {fileID: 2800000, guid: 60c85761ea5ce0247add60ce2f2541ca, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 6ff228960d280e74cb8ca3e842718fe9, type: 3}
+      - {fileID: 21300000, guid: 60c85761ea5ce0247add60ce2f2541ca, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -58,11 +53,7 @@ MonoBehaviour:
     Yield: 40
     Lifespan: 25
     PlantTrays: 02000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 0a47c9c3d7837ba48bb6b23d704d716d, type: 2}
   WeedResistanceChange: 0

@@ -13,43 +13,38 @@ MonoBehaviour:
   m_Name: tobacco
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 1500254669938527285, guid: 57fe79bdbfee7f54287a001c4630c250,
       type: 3}
     Name: tobacco
     Plantname: Tobacco Plant
     Description: These seeds grow into tobacco plants.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 1d09d1da57fe6014380251fd9a96a044, type: 3}
+      Texture: {fileID: 2800000, guid: 16449a67eeb61084eac77053263f8500, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 1d09d1da57fe6014380251fd9a96a044, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: a594d6527cae4cb4d909a5fd82f4f7eb, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a594d6527cae4cb4d909a5fd82f4f7eb, type: 3}
+      - {fileID: 21300000, guid: 16449a67eeb61084eac77053263f8500, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 04b827b902c7e054daeb790afa827dfb, type: 3}
+    - Texture: {fileID: 2800000, guid: 7b9b1fe4729208f4e8e23fcb5443e957, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 04b827b902c7e054daeb790afa827dfb, type: 3}
+      - {fileID: 21300000, guid: 7b9b1fe4729208f4e8e23fcb5443e957, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 9ed98c140aa3e5a46bdd5f9bcd9640bf, type: 3}
+    - Texture: {fileID: 2800000, guid: dd1fab7ad7d0c4f4a953c1914a802c8b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 9ed98c140aa3e5a46bdd5f9bcd9640bf, type: 3}
+      - {fileID: 21300000, guid: dd1fab7ad7d0c4f4a953c1914a802c8b, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 8bbe043a29dccee469388cac67fc695e, type: 3}
+    - Texture: {fileID: 2800000, guid: 625603ed80496cb4e97c7b51d629a190, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8bbe043a29dccee469388cac67fc695e, type: 3}
+      - {fileID: 21300000, guid: 625603ed80496cb4e97c7b51d629a190, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: da6d36c5d67758d4e9978b8be9fbba60, type: 3}
+      Texture: {fileID: 2800000, guid: 82c22ef6d2b423a4cacce71d8bdbc53c, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: da6d36c5d67758d4e9978b8be9fbba60, type: 3}
+      - {fileID: 21300000, guid: 82c22ef6d2b423a4cacce71d8bdbc53c, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 209a8391ffc5a954992ea9b92fa38a39, type: 3}
+      Texture: {fileID: 2800000, guid: 521e0c157be1ed64f9d8182a8daaf7d4, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 209a8391ffc5a954992ea9b92fa38a39, type: 3}
+      - {fileID: 21300000, guid: 521e0c157be1ed64f9d8182a8daaf7d4, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,11 +54,7 @@ MonoBehaviour:
     Yield: 100
     Lifespan: 20
     PlantTrays: 
-    ReagentProduction:
-    - Name: nicotine
-      Ammount: 2
-    - Name: nutriment
-      Ammount: 2
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: b0c3413d7b4421f4b92b97508fe0611d, type: 2}
   WeedResistanceChange: 0
