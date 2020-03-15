@@ -241,21 +241,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteRenderer: {fileID: 212082969356704250}
   traitRequired: {fileID: 11400000, guid: 1ad8fbc3ea067b3488277d8e8572a5b7, type: 2}
   appliableItem: {fileID: 2419386692754613975, guid: 261899e20322a8d49be66502efd6f09e,
     type: 3}
-  appliableBrokenItem: {fileID: 2419386692754613975, guid: 688a61a1dd2778d4abd6547034a02c18,
-    type: 3}
-  spriteListBroken:
-  - {fileID: 21300000, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  - {fileID: 21300002, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  - {fileID: 21300004, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  - {fileID: 21300006, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  spriteListEmpty:
-  - {fileID: 21300000, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
-  - {fileID: 21300002, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
-  - {fileID: 21300004, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
-  - {fileID: 21300006, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
   spriteListFull:
   - {fileID: 21300000, guid: bd3225efc525643479b237af41876cf0, type: 3}
   - {fileID: 21300002, guid: bd3225efc525643479b237af41876cf0, type: 3}
@@ -266,9 +255,21 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
   - {fileID: 21300004, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
   - {fileID: 21300006, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
-  spriteRenderer: {fileID: 212082969356704250}
   spriteRendererLightOn: {fileID: 4574553568601611457}
-  integMultiplier: 0.6
+  appliableBrokenItem: {fileID: 2419386692754613975, guid: 688a61a1dd2778d4abd6547034a02c18,
+    type: 3}
+  spriteListBroken:
+  - {fileID: 21300000, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
+  - {fileID: 21300002, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
+  - {fileID: 21300004, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
+  - {fileID: 21300006, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
+  multiplierBroken: 0.7
+  multiplierMissingBulb: 0.3
+  spriteListMissingBulb:
+  - {fileID: 21300000, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
+  - {fileID: 21300002, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
+  - {fileID: 21300004, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
+  - {fileID: 21300006, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0

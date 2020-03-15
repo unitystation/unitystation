@@ -66,7 +66,7 @@ public class WallMountItemContainer : NetworkBehaviour, ICheckedInteractable<Han
 
 	[Header("Empty state.")]
 	[Tooltip("On what % of integrity mount changes state.")]
-	[Range(0.40f, 0.90f)]
+	[Range(0.2f, 0.6f)]
 	public float multiplierMissingBulb;
 
 	public Sprite[] spriteListMissingBulb;
