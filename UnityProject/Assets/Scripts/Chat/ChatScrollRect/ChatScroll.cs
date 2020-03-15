@@ -19,6 +19,7 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
 	[SerializeField] private Scrollbar scrollBar = null;
 	[SerializeField] private float scrollSpeed = 0.5f;
+	[SerializeField] private RectTransform layoutRoot;
 
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	private List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
@@ -47,6 +48,12 @@ public class ChatScroll : MonoBehaviour
 	{
 		InitPool();
 		contentWidth = chatContentParent.GetComponent<RectTransform>().rect.width;
+	}
+
+	private void OnDisable()
+	{
+		UIManager.IsInputFocus = false;
+		UIManager.PreventChatInput = false;
 	}
 
 	void InitPool()
@@ -158,6 +165,11 @@ public class ChatScroll : MonoBehaviour
 		DetermineTrim(scrollDir);
 	}
 
+	public void RebuildLayoutGroup()
+	{
+		LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
+	}
+
 	void DetermineTrim(ScrollButtonDirection scrollDir)
 	{
 		if (scrollDir != ScrollButtonDirection.None
@@ -266,6 +278,10 @@ public class ChatScroll : MonoBehaviour
 	void Update()
 	{
 		if(isUsingScrollBar) DetermineScrollRate();
+		if (inputField.IsFocused && KeyboardInputManager.IsEnterPressed())
+		{
+			OnInputSubmit();
+		}
 	}
 
 	void DetermineScrollRate()
