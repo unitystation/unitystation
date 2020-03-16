@@ -49,6 +49,7 @@ namespace AdminTools
 			}
 			serverAdminPlayerChatLogs[playerId].Add(entry);
 			AdminPlayerChatUpdateMessage.SendSingleEntryToAdmins(entry, playerId);
+			AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 1);
 			ServerMessageRecording(playerId, entry);
 		}
 
@@ -98,7 +99,8 @@ namespace AdminTools
 			}
 
 			AdminChatUpdate update = new AdminChatUpdate();
-			update.messages = serverAdminPlayerChatLogs[playerId].GetRange(currentCount - 1,
+
+			update.messages = serverAdminPlayerChatLogs[playerId].GetRange(currentCount,
 				serverAdminPlayerChatLogs[playerId].Count - currentCount);
 
 			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId);

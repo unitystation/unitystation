@@ -5845,6 +5845,7 @@ MonoBehaviour:
   playerListContent: {fileID: 1288939916313151906}
   playerEntryPrefab: {fileID: 1424975127111674072, guid: 3195071ba03a8f542aef14b2db314f68,
     type: 3}
+  masterNotification: {fileID: 1859950109048121962}
   OnSelectPlayer:
     m_PersistentCalls:
       m_Calls:
@@ -10312,7 +10313,7 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0.41528565
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}

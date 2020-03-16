@@ -6,9 +6,9 @@ namespace AdminTools
 {
 	public class AdminChatButtons : MonoBehaviour
 	{
-		[SerializeField] private GUI_Notification adminNotification = null;
-		[SerializeField] private GUI_Notification playerNotification = null;
-		[SerializeField] private GUI_Notification prayerNotification = null;
+		public GUI_Notification adminNotification = null;
+		public GUI_Notification playerNotification = null;
+		public GUI_Notification prayerNotification = null;
 		[SerializeField] private AdminChatWindows adminChatWindows = null;
 		[SerializeField] private Button adminChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
@@ -110,7 +110,6 @@ namespace AdminTools
 					{
 						playerNotification.RemoveNotification(notificationKey);
 					}
-
 					//No need to update notification if the player is already selected in admin chat
 					if (adminChatWindows.SelectedWindow == AdminChatWindow.AdminPlayerChat)
 					{

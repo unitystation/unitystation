@@ -9,8 +9,10 @@ namespace AdminTools
 {
 	public class AdminPlayersScrollView : MonoBehaviour
 	{
-		[SerializeField] private Transform playerListContent;
-		[SerializeField] private GameObject playerEntryPrefab;
+		[SerializeField] private Transform playerListContent = null;
+		[SerializeField] private GameObject playerEntryPrefab = null;
+		[Tooltip("Used to send the master notification reference to the admin player buttons")]
+		[SerializeField] private GUI_Notification masterNotification = null;
 		private float refreshTime = 5f;
 		private float currentCount = 0f;
 
@@ -37,6 +39,7 @@ namespace AdminTools
 			currentCount += Time.deltaTime;
 			if (currentCount > refreshTime)
 			{
+				currentCount = 0;
 				RefreshPlayerList();
 			}
 		}
@@ -58,13 +61,13 @@ namespace AdminTools
 				var index = playerEntries.FindIndex(x => x.PlayerData.uid == p.uid);
 				if (index != -1)
 				{
-					playerEntries[index].UpdateButton(p, SelectPlayerInList);
+					playerEntries[index].UpdateButton(p, SelectPlayerInList, masterNotification);
 				}
 				else
 				{
 					var e = Instantiate(playerEntryPrefab, playerListContent);
 					var entry = e.GetComponent<AdminPlayerEntry>();
-					entry.UpdateButton(p, SelectPlayerInList);
+					entry.UpdateButton(p, SelectPlayerInList, masterNotification);
 					playerEntries.Add(entry);
 					index = playerEntries.Count - 1;
 				}

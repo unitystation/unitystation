@@ -113,7 +113,7 @@ public class ChatEntry : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 		contentFitter.enabled = false;
 	}
-	
+
 	public void OnChatFocused()
 	{
 		//Revist fades in chat system v2

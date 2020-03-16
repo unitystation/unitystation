@@ -34,7 +34,7 @@ public class AdminChatNotifications : ServerMessage
 			foreach (var n in notiUpdate.notificationEntries)
 			{
 				UIManager.Instance.adminChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
-					Amount, false);
+					n.Amount, false);
 			}
 		}
 	}
