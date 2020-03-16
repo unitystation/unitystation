@@ -63,28 +63,31 @@ public static class GizmoUtils
 
 	private static void DrawGizmos<S>(S source, BoundsInt bounds, IReadOnlyCollection<Check<S>> checks)
 	{
-		foreach (Vector3Int position in bounds.allPositionsWithin)
+		foreach (Check<S> check in checks)
 		{
-			foreach (Check<S> check in checks)
+			if (check.Active)
 			{
-				if (check.Active)
+				foreach (Vector3Int position in bounds.allPositionsWithin)
 				{
 					check.DrawGizmo(source, position);
 				}
 			}
 		}
+
+
 	}
 
 	private static void DrawLabels<S>(S source, BoundsInt bounds, IReadOnlyCollection<Check<S>> checks)
 	{
-		foreach (Vector3Int position in bounds.allPositionsWithin)
+		foreach (Check<S> check in checks)
 		{
-			foreach (Check<S> check in checks)
+			if (check.Active)
 			{
-				if (check.Active)
+				foreach (Vector3Int position in bounds.allPositionsWithin)
 				{
 					check.DrawLabel(source, position);
 				}
+
 			}
 		}
 	}
