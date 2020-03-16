@@ -114,11 +114,6 @@ public class ChatEntry : MonoBehaviour
 		contentFitter.enabled = false;
 	}
 
-	public void ReplyToAdminMessage()
-	{
-		ChatUI.Instance.OpenAdminReply(visibleText.text, adminId);
-	}
-
 	public void OnChatFocused()
 	{
 		//Revist fades in chat system v2

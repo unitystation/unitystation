@@ -13,7 +13,7 @@ public class AdminReplyMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 		yield return new WaitForEndOfFrame();
-		
+
 		UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(Message, SentByPlayer.UserId);
 	}
 

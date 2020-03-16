@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,26 +6,18 @@ namespace AdminTools
 {
 	public class AdminChatButtons : MonoBehaviour
 	{
-		[SerializeField] private GUI_Notification adminNotification = null;
-		[SerializeField] private GUI_Notification playerNotification = null;
-		[SerializeField] private GUI_Notification prayerNotification = null;
+		public GUI_Notification adminNotification = null;
+		public GUI_Notification playerNotification = null;
+		public GUI_Notification prayerNotification = null;
 		[SerializeField] private AdminChatWindows adminChatWindows = null;
 		[SerializeField] private Button adminChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
 		[SerializeField] private Button prayerWindowButton = null;
 		[SerializeField] private Color selectedColor;
 		[SerializeField] private Color unSelectedColor;
-		
-		void ResetNotifications()
-		{
-			adminNotification.gameObject.SetActive(false);
-			playerNotification.gameObject.SetActive(false);
-			prayerNotification.gameObject.SetActive(false);
-		}
 
 		private void OnEnable()
 		{
-			ResetNotifications();
 			adminChatWindows.WindowChangeEvent += OnAdminChatWindowChange;
 			ToggleButtons(AdminChatWindow.None);
 		}
@@ -62,5 +52,95 @@ namespace AdminTools
 			}
 		}
 
+		public void ClearAllNotifications()
+		{
+			adminNotification.ClearAll();
+			playerNotification.ClearAll();
+			prayerNotification.ClearAll();
+		}
+
+		/// <summary>
+		/// Use for initialization of admin chat notifications when the admin logs in
+		/// </summary>
+		/// <param name="adminConn"></param>
+		public void ServerUpdateAdminNotifications(NetworkConnection adminConn)
+		{
+			var update = new AdminChatNotificationFullUpdate();
+
+			foreach (var n in adminNotification.notifications)
+			{
+				update.notificationEntries.Add(new AdminChatNotificationEntry
+				{
+					Amount = n.Value,
+					Key = n.Key,
+					TargetWindow = AdminChatWindow.AdminToAdminChat
+				});
+			}
+
+			foreach (var n in playerNotification.notifications)
+			{
+				update.notificationEntries.Add(new AdminChatNotificationEntry
+				{
+					Amount = n.Value,
+					Key = n.Key,
+					TargetWindow = AdminChatWindow.AdminPlayerChat
+				});
+			}
+
+			foreach (var n in prayerNotification.notifications)
+			{
+				update.notificationEntries.Add(new AdminChatNotificationEntry
+				{
+					Amount = n.Value,
+					Key = n.Key,
+					TargetWindow = AdminChatWindow.PrayerWindow
+				});
+			}
+
+			AdminChatNotifications.Send(adminConn, update);
+		}
+
+		public void ClientUpdateNotifications(string notificationKey, AdminChatWindow targetWindow,
+			int amt, bool clearAll)
+		{
+			switch (targetWindow)
+			{
+				case AdminChatWindow.AdminPlayerChat:
+					if (clearAll)
+					{
+						playerNotification.RemoveNotification(notificationKey);
+						if (amt == 0) return;
+					}
+					//No need to update notification if the player is already selected in admin chat
+					if (adminChatWindows.SelectedWindow == AdminChatWindow.AdminPlayerChat)
+					{
+						if (adminChatWindows.adminPlayerChat.SelectedPlayer != null
+						    && adminChatWindows.adminPlayerChat.SelectedPlayer.uid == notificationKey)
+						{
+							break;
+						}
+					}
+					playerNotification.AddNotification(notificationKey, amt);
+					break;
+				case AdminChatWindow.AdminToAdminChat:
+					if (clearAll)
+					{
+						adminNotification.RemoveNotification(notificationKey);
+						if (amt == 0) return;
+					}
+
+					if (adminChatWindows.adminToAdminChat.gameObject.activeInHierarchy) return;
+					
+					adminNotification.AddNotification(notificationKey, amt);
+					break;
+				case AdminChatWindow.PrayerWindow:
+					if (clearAll)
+					{
+						prayerNotification.AddNotification(notificationKey, amt);
+					}
+					prayerNotification.AddNotification(notificationKey, amt);
+					break;
+			}
+		}
 	}
 }
