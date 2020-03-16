@@ -13,18 +13,18 @@ public class ChatBubble : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("The default font used when speaking.")]
-	private TMP_FontAsset fontDefault;
+	private TMP_FontAsset fontDefault = null;
 	[SerializeField]
 	[Tooltip("The font used when the player is an abominable clown.")]
-	private TMP_FontAsset fontClown;
+	private TMP_FontAsset fontClown = null;
 	[SerializeField]
-	private TextMeshProUGUI bubbleText;
+	private TextMeshProUGUI bubbleText = null;
 	[SerializeField]
 	[Tooltip("The maximum length of text inside a single text bubble. Longer texts will display multiple bubbles sequentially.")]
 	[Range(1, 200)]
 	private int maxMessageLength = 70;
 
-	[SerializeField] private GameObject chatBubble;
+	[SerializeField] private GameObject chatBubble = null;
 
 	class BubbleMsg
 	{

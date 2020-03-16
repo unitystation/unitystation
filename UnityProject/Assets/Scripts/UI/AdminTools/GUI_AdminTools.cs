@@ -16,6 +16,8 @@ namespace AdminTools
 		[SerializeField] private GameObject playerManagePage;
 		[SerializeField] private GameObject playerChatPage;
 		[SerializeField] private GameObject playersScrollView;
+		[SerializeField] private GameObject CentCommPage;
+		[SerializeField] private AdminChatButtons adminChatButtons;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
@@ -87,6 +89,14 @@ namespace AdminTools
 			retrievingDataScreen.SetActive(true);
 		}
 
+		public void ShowCentCommPage()
+		{
+			DisableAllPages();
+			CentCommPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "CENTCOMM";
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -95,6 +105,7 @@ namespace AdminTools
 			backBtn.SetActive(false);
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
+			CentCommPage.SetActive(false);
 			playersScrollView.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
@@ -118,7 +129,7 @@ namespace AdminTools
 			{
 				var e = Instantiate(playerEntryPrefab, playerListContent);
 				var entry = e.GetComponent<AdminPlayerEntry>();
-				entry.UpdateButton(p, this);
+				entry.UpdateButton(p, SelectPlayerInList);
 
 				if (p.isOnline)
 				{
@@ -140,7 +151,6 @@ namespace AdminTools
 					{
 						playerChatPageScript.SetData(entry);
 						SelectedPlayer = entry.PlayerData.uid;
-						AddPendingMessagesToLogs(entry.PlayerData.uid, entry.GetPendingMessage());
 					}
 
 					if (playerManagePage.activeInHierarchy)
@@ -176,7 +186,6 @@ namespace AdminTools
 			if (playerChatPage.activeInHierarchy)
 			{
 				playerChatPageScript.SetData(selectedEntry);
-				AddPendingMessagesToLogs(selectedEntry.PlayerData.uid, selectedEntry.GetPendingMessage());
 			}
 
 			if (playerManagePage.activeInHierarchy)

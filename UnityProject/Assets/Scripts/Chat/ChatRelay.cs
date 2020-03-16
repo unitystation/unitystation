@@ -146,7 +146,7 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		for (var i = 0; i < players.Count; i++)
-		{			
+		{
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
@@ -198,11 +198,11 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void AddPrivMessageToClient(string message, string adminId)
+	private void AddPrivMessageToClient(string message)
 	{
 		trySendingTTS(message);
 
-		ChatUI.Instance.AddAdminPrivEntry(message, adminId);
+		ChatUI.Instance.AddAdminPrivEntry(message);
 	}
 
 	[Client]

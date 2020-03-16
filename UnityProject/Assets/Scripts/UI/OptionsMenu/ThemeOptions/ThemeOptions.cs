@@ -15,7 +15,7 @@ namespace Unitystation.Options
 		public Dropdown chatBubbleDropDown;
 
 		[SerializeField]
-		private Toggle HighlightToggle;
+		private Toggle HighlightToggle = null;
 
 		void OnEnable()
 		{

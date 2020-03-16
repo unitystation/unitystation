@@ -36,6 +36,19 @@ public partial class Chat
 	public Color warningColor;
 	public Color defaultColor;
 
+
+	/// <summary>
+	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
+	/// </summary>
+	public const ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost;
+
+	/// <summary>
+	/// This channels are OOC or service messages and shouldn't affect IC communications
+	/// </summary>
+	public const ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
+		| ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System | ChatChannel.Warning;
+
+
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.
 	/// 1. Detects which modifiers should be present in the messages.
@@ -72,40 +85,24 @@ public partial class Chat
 		}
 
 		// Emote
-		if (message.StartsWith("*"))
+		if (message.StartsWith("*") || message.StartsWith("/me ",true,CultureInfo.CurrentCulture))
 		{
-			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Emote;
-		}
-		// Emote alias
-		else if (message.StartsWith("/me "))
-		{
-			message = message.Substring(4);
+			message = message.Replace("/me",""); // note that there is no space here as compared to the above if
+			message = message.Substring(1);      // so that this substring can properly cut off both * and the space
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
-		else if (message.StartsWith("#"))
+		else if (message.StartsWith("#") || message.StartsWith("/w ",true,CultureInfo.CurrentCulture))
 		{
-			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Whisper;
-		}
-		// Whisper alias
-		else if (message.StartsWith("/w "))
-		{
-			message = message.Substring(3);
+			message = message.Replace("/w","");
+			message = message.Substring(1); 
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
-		else if (message.StartsWith("%"))
+		else if (message.StartsWith("%") || message.StartsWith("/s ",true,CultureInfo.CurrentCulture))
 		{
-			message = message.Substring(1);
-			message = Sing(message);
-			chatModifiers |= ChatModifier.Sing;
-		}
-		// Sing alias
-		else if (message.StartsWith("/s "))
-		{
-			message = message.Substring(3);
+			message = message.Replace("/s","");
+			message = message.Substring(1); 
 			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}

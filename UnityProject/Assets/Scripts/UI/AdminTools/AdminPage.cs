@@ -44,7 +44,6 @@ namespace AdminTools
 
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
-
 	}
 
 	[Serializable]
@@ -59,14 +58,18 @@ namespace AdminTools
 		public bool isAdmin;
 		public bool isOnline;
 		public string ipAddress;
-		public List<AdminChatMessage> newMessages = new List<AdminChatMessage>();
 	}
 
 	[Serializable]
-	public class AdminChatMessage
+	public class AdminChatMessage : ChatEntryData
 	{
 		public string fromUserid;
-		public string toUserid;
-		public string message;
+		public bool wasFromAdmin;
+	}
+
+	[Serializable]
+	public class AdminChatUpdate
+	{
+		public List<AdminChatMessage> messages = new List<AdminChatMessage>();
 	}
 }

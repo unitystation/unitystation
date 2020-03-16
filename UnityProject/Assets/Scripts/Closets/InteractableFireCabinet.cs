@@ -76,38 +76,49 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	{
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 
-		if (IsClosed)
+		//If alt is pressed, close the cabinet.
+		if (interaction.IsAltClick)
 		{
-			if(isFull && interaction.HandObject == null) {
-				ServerRemoveExtinguisher(interaction.HandSlot);
-			}
-			IsClosed = false;
+			if (!IsClosed)
+				IsClosed = true;
 		}
-		else
+		else // Take out or put in object into cabinet.
 		{
-			if (isFull)
+
+			if (IsClosed)
 			{
-				if (interaction.HandObject == null)
-				{
+				if(isFull && interaction.HandObject == null) {
 					ServerRemoveExtinguisher(interaction.HandSlot);
 				}
-				else
-				{
-					IsClosed = true;
-				}
+				IsClosed = false;
 			}
 			else
 			{
-				if (interaction.HandObject && interaction.HandObject.GetComponent<FireExtinguisher>())
+				if (isFull)
 				{
-					ServerAddExtinguisher(interaction);
+					if (interaction.HandObject == null)
+					{
+						ServerRemoveExtinguisher(interaction.HandSlot);
+					}
+					else
+					{
+						IsClosed = true;
+					}
 				}
 				else
 				{
-					IsClosed = true;
+					if (interaction.HandObject && interaction.HandObject.GetComponent<FireExtinguisher>())
+					{
+						ServerAddExtinguisher(interaction);
+					}
+					else
+					{
+						IsClosed = true;
+					}
 				}
 			}
 		}
+
 	}
 
 	private void ServerRemoveExtinguisher(ItemSlot toSlot)

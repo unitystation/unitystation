@@ -194,6 +194,12 @@ static class BuildScript
 			locationPathName = locationPathName,
 			target = target,
 		};
+
+		if (target == BuildTarget.StandaloneLinux64)
+		{
+			buildOptions.options = BuildOptions.Development;
+		}
+		
 		ReportOptions(buildOptions);
 
 		// Perform build

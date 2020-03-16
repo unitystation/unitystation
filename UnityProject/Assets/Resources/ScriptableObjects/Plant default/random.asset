@@ -7,25 +7,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5953e758ed6e4d42928f91e4d30851b, type: 3}
   m_Name: random
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: random
     Plantname: strange plant
     Description: Mysterious seeds as strange as their name implies. Spooky.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: f82f591c6456b6247a6282bcca82179b, type: 3}
+      Texture: {fileID: 2800000, guid: b0ac13a2ab7fb4242b28801066de55ab, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: f82f591c6456b6247a6282bcca82179b, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      - {fileID: 21300000, guid: b0ac13a2ab7fb4242b28801066de55ab, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites: []
     FullyGrownSprite:
@@ -33,15 +28,16 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 872abb21c3099254eb416cead4a8de40, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 872abb21c3099254eb416cead4a8de40, type: 3}
       EquippedData: {fileID: 0}
-    WeedResistance: 5
-    WeedGrowthRate: 1
-    GrowthSpeed: 6
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
     Potency: 10
     Endurance: 15
-    Yield: 3
+    Yield: 30
     Lifespan: 25
     PlantTrays: 
     ReagentProduction: []

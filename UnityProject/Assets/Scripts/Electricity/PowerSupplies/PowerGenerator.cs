@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeControl
+public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
 {
 	private const float PlasmaConsumptionRate = 0.02f;
 
@@ -172,11 +172,19 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 			}
 		}
 	}
-
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		if (interaction.HandObject != null && 
+		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
+		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
+		return true;
+	}
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		var slot = interaction.HandSlot;
-		if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wrench))
+
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			UpdateSecured(isSecured, !isSecured);
 			ElectricalNodeControl.PowerUpdateStructureChange();
@@ -188,8 +196,7 @@ public class PowerGenerator : NetworkBehaviour, IInteractable<HandApply>, INodeC
 			return;
 		}
 
-		var solidPlasma = slot.Item != null ? slot.Item.GetComponent<SolidPlasma>() : null;
-		if (solidPlasma != null)
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
 		{
 			var plasma = Inventory.ServerVanishStackable(interaction.HandSlot);
 			plasmaFuel.Add(plasma.GetComponent<SolidPlasma>());

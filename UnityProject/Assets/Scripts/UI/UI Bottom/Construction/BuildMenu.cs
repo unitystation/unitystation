@@ -10,7 +10,7 @@ namespace UI.UI_Bottom
 	{
 		[Tooltip("Prefab that should be used for each list item")]
 		[SerializeField]
-		private GameObject listItemPrefab;
+		private GameObject listItemPrefab = null;
 
 		[Tooltip("content panel into which the list items should be placed")]
 		[SerializeField]

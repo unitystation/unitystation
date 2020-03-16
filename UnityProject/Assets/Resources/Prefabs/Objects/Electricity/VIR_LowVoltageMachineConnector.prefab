@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4025345055859194}
   - component: {fileID: 114947796331066130}
-  - component: {fileID: 870447227101467930}
   - component: {fileID: 114217685053654352}
   - component: {fileID: 114008051345712512}
   - component: {fileID: 5437261449283511172}
@@ -18,7 +17,6 @@ GameObject:
   - component: {fileID: 61506100139303226}
   - component: {fileID: 114004853824327828}
   - component: {fileID: 114328546139034518}
-  - component: {fileID: -8286469531888557596}
   m_Layer: 22
   m_Name: VIR_LowVoltageMachineConnector
   m_TagString: Untagged
@@ -34,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127054139694796}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: -34, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4741424964789636}
@@ -60,22 +58,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
-  objectType: 0
---- !u!114 &870447227101467930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127054139694796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
-  butcherTime: 2
-  butcherSound: BladeSlice
+  objectType: 3
 --- !u!114 &114217685053654352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114328546139034518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,45 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3346847698
---- !u!114 &-8286469531888557596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127054139694796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-  Resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 100
 --- !u!1 &1816013858564998
 GameObject:
   m_ObjectHideFlags: 0

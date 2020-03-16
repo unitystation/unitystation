@@ -29,7 +29,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	//Inhands
 	private int leftHandOriginal;
-	private int rightHandOriginal;
+	private int rightHandOriginal = 0;
 	private int leftHandFlame;
 	private int rightHandFlame;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
+public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -55,7 +55,13 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 	{
 		ElectricalSynchronisation.PoweredDevices.Remove(ElectricalNodeControl);
 	}
-
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		if (interaction.HandObject != null) return false;
+		return true;
+	}
 	public void PowerNetworkUpdate()
 	{
 		//Logger.Log("humm...");
@@ -128,6 +134,10 @@ public class APC : NetworkBehaviour, IInteractable<HandApply>, INodeControl
 		{
 			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 			{
+				//TODO: This check is needed because destroyed lightswitches aren't being de-registered from the APC.
+				//Instead, it should be ensured that they are deregistered when destroyed. Doing
+				//it after this loop would create GC so it should instead be done via a destruction / despawn hook
+				if (SwitchTrigger.Key == null) continue;
 				SwitchTrigger.Key.PowerNetworkUpdate(Voltages);
 				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
 				{

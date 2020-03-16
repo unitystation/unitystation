@@ -25,8 +25,8 @@ public class DoorController : NetworkBehaviour
 		private int doorDirection;
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
-		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay;
-		[SerializeField] private Sprite weldSprite;
+		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay = null;
+		[SerializeField] private Sprite weldSprite = null;
 		/// <summary>
 		/// Is door weldedable?
 		/// </summary>
@@ -36,6 +36,9 @@ public class DoorController : NetworkBehaviour
 
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		public bool damageOnClose = false;
+
+		[Tooltip("Amount of damage when closed on someone.")]
+		public float damageClosed = 90;
 
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
@@ -314,7 +317,7 @@ public class DoorController : NetworkBehaviour
 			{
 				foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
 				{
-					healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
+					healthBehaviour.ApplyDamage(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
 				}
 			}
 
@@ -358,5 +361,4 @@ public class DoorController : NetworkBehaviour
 			}
 		}
 	}
-
 

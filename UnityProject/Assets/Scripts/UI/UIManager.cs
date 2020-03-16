@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using AdminTools;
 using Mirror;
 using UI.UI_Bottom;
 using UnityEngine;
@@ -38,6 +39,8 @@ public class UIManager : MonoBehaviour
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
 	public AnimationCurve strandedZoomOutCurve;
+	public AdminChatButtons adminChatButtons;
+	public AdminChatWindows adminChatWindows;
 	private bool preventChatInput;
 
 	public static bool PreventChatInput
@@ -210,8 +213,7 @@ public class UIManager : MonoBehaviour
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 		}
 
-
-
+		adminChatButtons.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
 	}
 

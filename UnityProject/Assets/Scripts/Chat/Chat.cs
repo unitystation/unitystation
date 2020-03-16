@@ -28,7 +28,7 @@ public partial class Chat : MonoBehaviour
 	private ChatRelay chatRelay;
 	private Action<ChatEvent> addChatLogServer;
 	private Action<string, ChatChannel> addChatLogClient;
-	private Action<string, string> addAdminPriv;
+	private Action<string> addAdminPriv;
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
@@ -36,7 +36,7 @@ public partial class Chat : MonoBehaviour
 	/// Set the scene based chat relay at the start of every round
 	/// </summary>
 	public static void RegisterChatRelay(ChatRelay relay, Action<ChatEvent> serverChatMethod,
-		Action<string, ChatChannel> clientChatMethod, Action<string, string> adminMethod)
+		Action<string, ChatChannel> clientChatMethod, Action<string> adminMethod)
 	{
 		Instance.chatRelay = relay;
 		Instance.addChatLogServer = serverChatMethod;
@@ -438,14 +438,9 @@ public partial class Chat : MonoBehaviour
 		Instance.addChatLogClient.Invoke(message, ChatChannel.Warning);
 	}
 
-	public static void AddAdminPrivMsg(string message, string adminId)
+	public static void AddAdminPrivMsg(string message)
 	{
-		Instance.addAdminPriv.Invoke(message, adminId);
-	}
-
-	public static void AddAdminReplyMsg(string message)
-	{
-		Instance.addChatLogClient.Invoke(message, ChatChannel.System);
+		Instance.addAdminPriv.Invoke(message);
 	}
 
 	/// <summary>

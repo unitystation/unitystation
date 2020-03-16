@@ -17,29 +17,29 @@ namespace IngameDebugConsole
 		/// Cached transform components
 		/// </summary>
 		[SerializeField]
-		private RectTransform transformComponent;
+		private RectTransform transformComponent = null;
 		public RectTransform Transform { get { return transformComponent; } }
 
 		/// <summary>
 		/// Cached image components
 		/// </summary>
 		[SerializeField]
-		private Image imageComponent;
+		private Image imageComponent = null;
 		public Image Image { get { return imageComponent; } }
 
 		/// <summary>
 		/// Cached logText components
 		/// </summary>
 		[SerializeField]
-		private Text logText;
+		private Text logText = null;
 		[SerializeField]
-		private Image logTypeImage;
+		private Image logTypeImage = null;
 
 		// Objects related to the collapsed count of the debug entry
 		[SerializeField]
-		private GameObject logCountParent;
+		private GameObject logCountParent = null;
 		[SerializeField]
-		private Text logCountText;
+		private Text logCountText = null;
 
 		/// <summary>
 		/// Debug entry to show with this log item

@@ -98,14 +98,16 @@ public class CloningConsole : MonoBehaviour, IServerSpawn
 	{
 		if (cloningPod && cloningPod.CanClone())
 		{
-			if(record.mind.ConfirmClone(record.mobID))
+			var status = record.mind.GetCloneableStatus(record.mobID);
+
+			if(status == CloneableStatus.Cloneable)
 			{
 				cloningPod.ServerStartCloning(record);
 				cloningRecords.Remove(record);
 			}
 			else
 			{
-				cloningPod.statusString = "Initialisation failure.";
+				cloningPod.UpdateStatusString(status);
 			}
 		}
 	}

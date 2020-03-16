@@ -10,9 +10,9 @@ namespace AdminTools
 {
 	public class PlayerChatPage : AdminPage
 	{
-		[SerializeField] private InputField inputField;
-		[SerializeField] private Transform chatContent;
-		[SerializeField] private GameObject adminChatEntryPrefab;
+		[SerializeField] private InputField inputField = null;
+		[SerializeField] private Transform chatContent = null;
+		[SerializeField] private GameObject adminChatEntryPrefab = null;
 		private List<AdminChatEntry> loadedChatEntries = new List<AdminChatEntry>();
 		private AdminPlayerEntry selectedPlayer;
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
@@ -58,7 +58,7 @@ namespace AdminTools
 		{
 			foreach (var msg in pendingMessages)
 			{
-				AddMessageToLogs(userID, msg.message);
+				AddMessageToLogs(userID, msg.Message);
 			}
 		}
 
@@ -96,9 +96,9 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(inputField.text)) return;
 
-			AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You wrote: {inputField.text}");
+			AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You: {inputField.text}");
 			RefreshChatLog(selectedPlayer.PlayerData.uid);
-			var message = $"Admin PM from {PlayerManager.CurrentCharacterSettings.username}: {inputField.text}";
+			var message = $"{PlayerManager.CurrentCharacterSettings.username}: {inputField.text}";
 			              RequestAdminBwoink.Send(ServerData.UserID, PlayerList.Instance.AdminToken, selectedPlayer.PlayerData.uid,
 				message);
 			inputField.text = "";

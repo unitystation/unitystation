@@ -35,7 +35,8 @@ public class RequestInteractMessage : ClientMessage
 	public Vector2 TargetVector;
 	//state of the mouse - whether this is initial press or being held down.
 	public MouseButtonState MouseButtonState;
-
+	//whether or not the player had the alt key pressed when performing the interaction.
+	public bool IsAltUsed;
 	//these are all used when it's an InventoryApply to denote the target slot
 	//netid of targeted storage
 	public uint Storage;
@@ -124,7 +125,7 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent);
+			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent, IsAltUsed);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(AimApply))
@@ -185,7 +186,7 @@ public class RequestInteractMessage : ClientMessage
 			{
 				fromSlot = usedObj.GetComponent<Pickupable>().ItemSlot;
 			}
-			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent);
+			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent, IsAltUsed);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(TileApply))
@@ -304,6 +305,7 @@ public class RequestInteractMessage : ClientMessage
 			var casted = interaction as HandApply;
 			msg.TargetObject = casted.TargetObject.NetId();
 			msg.TargetBodyPart = casted.TargetBodyPart;
+			msg.IsAltUsed = casted.IsAltClick;
 		}
 		else if (typeof(T) == typeof(AimApply))
 		{
@@ -324,6 +326,7 @@ public class RequestInteractMessage : ClientMessage
 			msg.SlotIndex = casted.TargetSlot.SlotIdentifier.SlotIndex;
 			msg.NamedSlot = casted.TargetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none);
 			msg.UsedObject = casted.UsedObject.NetId();
+			msg.IsAltUsed = casted.IsAltClick;
 		}
 		msg.Send();
 	}
@@ -377,6 +380,7 @@ public class RequestInteractMessage : ClientMessage
 		{
 			TargetObject = reader.ReadUInt32();
 			TargetBodyPart = (BodyPartType) reader.ReadUInt32();
+			IsAltUsed = reader.ReadBoolean();
 		}
 		else if (InteractionType == typeof(AimApply))
 		{
@@ -394,6 +398,7 @@ public class RequestInteractMessage : ClientMessage
 			Storage = reader.ReadUInt32();
 			SlotIndex = reader.ReadInt32();
 			NamedSlot = (NamedSlot) reader.ReadInt32();
+			IsAltUsed = reader.ReadBoolean();
 		}
 		else if (InteractionType == typeof(TileApply))
 		{
@@ -420,6 +425,7 @@ public class RequestInteractMessage : ClientMessage
 		{
 			writer.WriteUInt32(TargetObject);
 			writer.WriteInt32((int) TargetBodyPart);
+			writer.WriteBoolean(IsAltUsed);
 		}
 		else if (InteractionType == typeof(AimApply))
 		{
@@ -437,6 +443,7 @@ public class RequestInteractMessage : ClientMessage
 			writer.WriteUInt32(Storage);
 			writer.WriteInt32(SlotIndex);
 			writer.WriteInt32((int) NamedSlot);
+			writer.WriteBoolean(IsAltUsed);
 		}
 		else if (InteractionType == typeof(TileApply))
 		{

@@ -108,6 +108,22 @@ public partial class PlayerList
 	}
 
 	[Server]
+	public List<ConnectedPlayer> GetAllAdmins()
+	{
+		var admins = new List<ConnectedPlayer>();
+		foreach (var a in loggedInAdmins)
+		{
+			var getConn = GetByUserID(a.Key);
+			if (getConn != null)
+			{
+				admins.Add(getConn);
+			}
+		}
+
+		return admins;
+	}
+
+	[Server]
 	public bool IsAdmin(string userID)
 	{
 		return adminUsers.Contains(userID);
@@ -196,7 +212,7 @@ public partial class PlayerList
 		}
 
 
-		var banEntry = banList.CheckForEntry(userid, playerConn.Connection.address);
+		var banEntry = banList?.CheckForEntry(userid, playerConn.Connection.address);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
@@ -237,7 +253,7 @@ public partial class PlayerList
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
 				loggedInAdmins.Add(userid, newToken);
-				AdminEnableMessage.Send(playerConn.GameObject, newToken);
+				AdminEnableMessage.Send(playerConn.Connection, newToken);
 			}
 		}
 	}
@@ -286,7 +302,7 @@ public partial class PlayerList
 		if (!loggedInAdmins.ContainsKey(userToPromote))
 		{
 			loggedInAdmins.Add(userToPromote, newToken);
-			AdminEnableMessage.Send(user.GameObject, newToken);
+			AdminEnableMessage.Send(user.Connection, newToken);
 		}
 	}
 
