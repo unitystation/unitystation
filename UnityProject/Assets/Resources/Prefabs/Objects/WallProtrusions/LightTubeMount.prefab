@@ -99,8 +99,9 @@ GameObject:
   - component: {fileID: -584882335963469257}
   - component: {fileID: 2168658977310716751}
   - component: {fileID: 8801529538964132052}
+  - component: {fileID: 7430843453514057946}
   m_Layer: 13
-  m_Name: LightTube
+  m_Name: LightTubeMount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,6 +307,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabChildrenOrientation: 3
+--- !u!114 &7430843453514057946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc9a0c60c1ba8a4fab121f8403a66ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4425836223823806458
 GameObject:
   m_ObjectHideFlags: 0
