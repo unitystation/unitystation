@@ -254,7 +254,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	private void SyncLightState(LightMountState oldState,LightMountState newState)
 	{
 		state = newState;
-		//any other logic needed goes here
 		ChangeLightState(newState);
 	}
 
@@ -266,14 +265,12 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	public void OnSpawnServer(SpawnInfo spawnInfo)
 	{
-		//object starts with editor-configured initial name
 		SyncLightState(state, this.state);
 	}
 
 	[Server]
 	private void ServerChangeLightState(LightMountState newState)
 	{
-		//YES! GOOD! DO THIS INSTEAD!
 		SyncLightState(this.state,newState);
 	}
 }
