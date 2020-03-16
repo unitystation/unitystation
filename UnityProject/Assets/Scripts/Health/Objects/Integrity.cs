@@ -192,7 +192,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
 		var damageInfo = new DamageInfo(damage, attackType, damageType);
-		OnApllyDamage.Invoke(damageInfo);
+		
 
 		damage = Armor.GetDamage(damage, attackType);
 		if (damage > 0)
@@ -203,7 +203,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
-
+			OnApllyDamage.Invoke(damageInfo);
 			CheckDestruction();
 
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
