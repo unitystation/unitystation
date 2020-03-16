@@ -35,6 +35,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public DestructionEvent OnWillDestroyServer = new DestructionEvent();
 
 	/// <summary>
+	/// Server-side event invoked when ApplyDamage is called
+	/// and Integrity is about to apply damage.
+	/// </summary>
+	[NonSerialized]
+	public DamagedEvent OnApllyDamage = new DamagedEvent();
+
+	/// <summary>
 	/// Server-side burn up logic - invoked when integrity reaches 0 due to burn damage.
 	/// Setting this will override the default burn up logic.
 	/// See OnWillDestroyServer if you only want an event when the object is destroyed
@@ -92,7 +99,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)
 	private bool isLarge;
 
-	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size/10f);
+	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size / 10f);
 
 	private void Awake()
 	{
@@ -184,6 +191,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
+		var damageInfo = new DamageInfo(damage, attackType, damageType);
+		
+
 		damage = Armor.GetDamage(damage, attackType);
 		if (damage > 0)
 		{
@@ -193,8 +203,9 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
+			OnApllyDamage.Invoke(damageInfo);
 			CheckDestruction();
-			
+
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
 		}
 	}
@@ -212,7 +223,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
-	private void  SyncOnFire(bool wasOnFire, bool onFire)
+	private void SyncOnFire(bool wasOnFire, bool onFire)
 	{
 		EnsureInit();
 		//do nothing if this can't burn
@@ -268,7 +279,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public string Examine(Vector3 worldPos)
 	{
 		string str = "";
-		if (integrity < 0.9f*initialIntegrity)
+		if (integrity < 0.9f * initialIntegrity)
 		{
 			str = "It appears damaged.";
 		}
@@ -360,4 +371,23 @@ public class DestructionInfo
 /// <summary>
 /// Event fired when an object is destroyed
 /// </summary>
-public class DestructionEvent : UnityEvent<DestructionInfo>{}
+public class DestructionEvent : UnityEvent<DestructionInfo> { }
+public class DamagedEvent : UnityEvent<DamageInfo> { }
+
+/// <summary>
+/// Event fired when ApplyDamage is called
+/// </summary>
+public class DamageInfo
+{
+	public readonly DamageType DamageType;
+
+	public readonly AttackType AttackType;
+
+	public readonly float Damage;
+	public DamageInfo(float damage, AttackType attackType, DamageType damageType)
+	{
+		DamageType = damageType;
+		Damage = damage;
+		AttackType = attackType;
+	}
+}
