@@ -61,7 +61,7 @@ MonoBehaviour:
     ReagentProduction: []
     MutatesInTo: []
   reagentContainer: {fileID: 3608205971236566501}
-  SeedPacket: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
+  seedPacket: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
     type: 3}
   SpriteSizeAdjustment: {fileID: 5066517181570930995}
   Sprite: {fileID: 1294793839381664232}
@@ -188,6 +188,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4eb779a3651df484598c51f7fe0ddee7,
         type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &4953422017611688559 stripped

@@ -10,9 +10,10 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
 	public PlantData plantData;
 	public ReagentContainer reagentContainer;
+	public GameObject SeedPacket => seedPacket;
 
 	[SerializeField]
-	private GameObject SeedPacket;
+	private GameObject seedPacket;
 	[SerializeField]
 	private SpriteRenderer SpriteSizeAdjustment;
 	[SerializeField]
@@ -94,7 +95,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	{
 		if (plantData != null)
 		{
-			var seedObject = Spawn.ServerPrefab(SeedPacket, interaction.Performer.RegisterTile().WorldPositionServer, parent: interaction.Performer.transform.parent).GameObject;
+			var seedObject = Spawn.ServerPrefab(this.seedPacket, interaction.Performer.RegisterTile().WorldPositionServer, parent: interaction.Performer.transform.parent).GameObject;
 			var seedPacket = seedObject.GetComponent<SeedPacket>();
 			seedPacket.plantData = PlantData.CreateNewPlant(plantData);
 
