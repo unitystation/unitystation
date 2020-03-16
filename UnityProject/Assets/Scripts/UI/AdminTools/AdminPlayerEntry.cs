@@ -24,7 +24,8 @@ namespace AdminTools
 
 		public AdminPlayerEntryData PlayerData { get; set; }
 
-		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent, GUI_Notification masterNotification = null)
+		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent, GUI_Notification masterNotification = null,
+			bool disableInteract = false)
 		{
 			parentNotification = masterNotification;
 			OnClickEvent = onClickEvent;
@@ -56,6 +57,16 @@ namespace AdminTools
 			else
 			{
 				offlineNot.SetActive(true);
+			}
+
+			if (disableInteract)
+			{
+				button.interactable = false;
+				bg.color = selectedColor;
+			}
+			else
+			{
+				button.interactable = true;
 			}
 
 			RefreshNotification();

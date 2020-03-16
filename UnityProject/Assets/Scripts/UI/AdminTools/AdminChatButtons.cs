@@ -126,7 +126,11 @@ namespace AdminTools
 					if (clearAll)
 					{
 						adminNotification.RemoveNotification(notificationKey);
+						if (amt == 0) return;
 					}
+
+					if (adminChatWindows.adminToAdminChat.gameObject.activeInHierarchy) return;
+					
 					adminNotification.AddNotification(notificationKey, amt);
 					break;
 				case AdminChatWindow.PrayerWindow:
