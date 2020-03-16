@@ -2,7 +2,7 @@
 using UnityEngine;
 using Mirror;
 
-public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 {
 	//Burned out state is missing
 	public enum LightMountState
@@ -15,15 +15,11 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 		TypeCount,
 	}
 
+	[SyncVar(hook = nameof(SyncLightState))]
 	private LightMountState state = LightMountState.On;
 
-	public LightMountState State
-	{
-		get
-		{
-			return state;
-		}
-	}
+	public LightMountState State => state;
+	
 
 	[Tooltip("Sprite for bulb.")]
 	public SpriteRenderer spriteRenderer;
@@ -108,19 +104,19 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			{
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
-				ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "", false);
+				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 			else if(state == LightMountState.Off)
 			{
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
-				ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "");
+				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 			else if(state == LightMountState.Broken)
 			{
 				Spawn.ServerPrefab(appliableBrokenItem, interaction.Performer.WorldPosServer());
 				Chat.AddExamineMsg(interaction.Performer, "You took the broken light tube out!");
-				ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "");
+				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 					
 		}
@@ -131,7 +127,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			{
 				Despawn.ServerSingle(interaction.HandObject);
 				Chat.AddExamineMsg(interaction.Performer, "You put broken light tube in!");
-				ChangeState(LightMountState.Broken, spriteListBroken, null, "GlassStep", false);
+				ServerChangeLightState(LightMountState.Broken);
 			}
 			else
 			{
@@ -143,30 +139,53 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 				{
 					Despawn.ServerSingle(interaction.HandObject);
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
-					ChangeState(LightMountState.On, spriteListFull, spriteListLightOn, "GlassHit", true);
+					ServerChangeLightState(LightMountState.On);
 				}
 				else
 				{
 					Despawn.ServerSingle(interaction.HandObject);
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
-					ChangeState(LightMountState.Off, spriteListFull, null, "GlassHit", false);
+					ServerChangeLightState(LightMountState.Off);
 				}
 			}
 			
 		}
 	}
 
-	private void ChangeState(LightMountState state, Sprite[] spriteListBulb, Sprite[] spriteListLight, string sound, bool? triggerState = null)
+	private void ChangeLightState(LightMountState newState)
 	{
-
-		if (triggerState != null)
+		if(newState == LightMountState.MissingBulb)
 		{
-			lightSource.Trigger(triggerState.Value);
+			lightSource.Trigger(false);
+			spriteRenderer.sprite = GetSprite(spriteListMissingBulb);
+			spriteRendererLightOn.sprite = null;
+			integrity.soundOnHit = "";
+			this.state = newState;
 		}
-		spriteRenderer.sprite = GetSprite(spriteListBulb);
-		spriteRendererLightOn.sprite = GetSprite(spriteListLight);
-		integrity.soundOnHit = sound;
-		this.state = state;
+		else if (newState == LightMountState.Broken)
+		{
+			lightSource.Trigger(false);
+			spriteRenderer.sprite = GetSprite(spriteListBroken);
+			spriteRendererLightOn.sprite = null;
+			integrity.soundOnHit = "GlassStep";
+			this.state = newState;
+		}
+		else if (newState == LightMountState.Off)
+		{
+			lightSource.Trigger(false);
+			spriteRenderer.sprite = GetSprite(spriteListFull);
+			spriteRendererLightOn.sprite = null;
+			integrity.soundOnHit = "GlassHit";
+			this.state = newState;
+		}
+		else if (newState == LightMountState.On)
+		{
+			lightSource.Trigger(true);
+			spriteRenderer.sprite = GetSprite(spriteListFull);
+			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+			integrity.soundOnHit = "GlassHit";
+			this.state = newState;
+		}
 	}
 
 	//This one is for LightSource to make sure sprites and states are correct
@@ -176,13 +195,11 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	
 		if (state == LightState.On)
 		{
-			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
-			this.state = LightMountState.On;
+			ServerChangeLightState(LightMountState.On);
 		}
 		else
 		{
-			spriteRendererLightOn.sprite = null;
-			this.state = LightMountState.Off;
+			ServerChangeLightState(LightMountState.Off);
 		}
 	}
 
@@ -215,14 +232,14 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 				
 				if(integrity.integrity <= integrityStateMissingBulb)
 				{
-					ChangeState(LightMountState.MissingBulb, spriteListMissingBulb, null, "", false);
+				ServerChangeLightState(LightMountState.MissingBulb);
 					Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
 					scatterRadius: Random.Range(0, 2));
 				}
 				else if(state != LightMountState.Broken)
 				{
-					
-					ChangeState(LightMountState.Broken, spriteListBroken, null, "GlassStep", false);
+
+				ServerChangeLightState(LightMountState.Broken);
 					SoundManager.PlayNetworkedAtPos("GlassStep", pos);
 				}
 			}
@@ -232,5 +249,31 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	private void OnDamageReceived(DamageInfo arg0)
 	{
 		CheckIntegrityState();
+	}
+
+	private void SyncLightState(LightMountState oldState,LightMountState newState)
+	{
+		state = newState;
+		//any other logic needed goes here
+		ChangeLightState(newState);
+	}
+
+	public override void OnStartClient()
+	{
+		SyncLightState(state,this.state);
+		base.OnStartClient();
+	}
+
+	public void OnSpawnServer(SpawnInfo spawnInfo)
+	{
+		//object starts with editor-configured initial name
+		SyncLightState(state, this.state);
+	}
+
+	[Server]
+	private void ServerChangeLightState(LightMountState newState)
+	{
+		//YES! GOOD! DO THIS INSTEAD!
+		SyncLightState(this.state,newState);
 	}
 }

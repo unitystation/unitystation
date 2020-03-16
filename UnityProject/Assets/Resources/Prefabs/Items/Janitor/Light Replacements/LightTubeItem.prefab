@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageOnHit: 15
   integrityHealth: 50
-  brokenItem: {fileID: 2419386692754613975, guid: 1e66e56ef4485bb4eaf9b947ec94478e,
+  brokenItem: {fileID: 2418701848222616315, guid: 1e66e56ef4485bb4eaf9b947ec94478e,
     type: 3}
   soundOnBreak: GlassStep
 --- !u!1001 &2418701848222554733
@@ -26,7 +26,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: Light Tube
+      value: LightTubeItem
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
