@@ -49,7 +49,15 @@ namespace AdminTools
 			}
 			serverAdminPlayerChatLogs[playerId].Add(entry);
 			AdminPlayerChatUpdateMessage.SendSingleEntryToAdmins(entry, playerId);
-			AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 1);
+			if (!string.IsNullOrEmpty(adminId))
+			{
+				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 0, true);
+			}
+			else
+			{
+				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 1);
+			}
+
 			ServerMessageRecording(playerId, entry);
 		}
 

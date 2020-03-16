@@ -109,6 +109,7 @@ namespace AdminTools
 					if (clearAll)
 					{
 						playerNotification.RemoveNotification(notificationKey);
+						if (amt == 0) return;
 					}
 					//No need to update notification if the player is already selected in admin chat
 					if (adminChatWindows.SelectedWindow == AdminChatWindow.AdminPlayerChat)
