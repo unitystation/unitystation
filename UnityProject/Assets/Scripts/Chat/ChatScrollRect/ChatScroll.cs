@@ -86,8 +86,10 @@ public class ChatScroll : MonoBehaviour
 
 		chatLog.Clear();
 		chatLog = new List<ChatEntryData>(chatLogsToLoad);
-
-		StartCoroutine(LoadAllChatEntries());
+		if (gameObject.activeInHierarchy)
+		{
+			StartCoroutine(LoadAllChatEntries());
+		}
 	}
 
 	/// <summary>
