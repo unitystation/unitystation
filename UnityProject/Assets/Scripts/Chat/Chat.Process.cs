@@ -95,14 +95,14 @@ public partial class Chat
 		else if (message.StartsWith("#") || message.StartsWith("/w ",true,CultureInfo.CurrentCulture))
 		{
 			message = message.Replace("/w","");
-			message = message.Substring(1); 
+			message = message.Substring(1);
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
 		else if (message.StartsWith("%") || message.StartsWith("/s ",true,CultureInfo.CurrentCulture))
 		{
 			message = message.Replace("/s","");
-			message = message.Substring(1); 
+			message = message.Substring(1);
 			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}
@@ -229,6 +229,12 @@ public partial class Chat
 		//Check for OOC. If selected, remove all other channels and modifiers (could happen if UI fucks up or someone tampers with it)
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
+			//ooc name quick fix
+			var name = Regex.Replace(speaker, @"\t\n\r", "");
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				name = "nerd";
+			}
 			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
 			return message;
 		}
