@@ -372,8 +372,6 @@ public class DoorController : NetworkBehaviour
 		/// <summary>
 		///  Checks each side of the door, returns true if not considered safe and updates pressureLevel.
 		///  Used to allow the player to be made aware of the pressure difference for safety.
-		///  TODO: Evaluate if necessary to check that a side has gas (e.g. not a wall).
-		///  TODO: Investigate if a wall constructed in space has different pressure reading than a pre-existing wall.
 		/// </summary>
 		/// <returns></returns>
 		private bool DoorUnderPressure()
@@ -384,15 +382,26 @@ public class DoorController : NetworkBehaviour
 				return false;
 			}
 
+			// Obtain the adjacent tiles to the door.
 			var upMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.up);
 			var downMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.down);
 			var leftMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.left);
 			var rightMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.right);
 
-			// Two comparisons: top and bottom, left and right. May not work if passage through the airlock is at right angles.
-			var vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
-			var horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
-
+			// Only find the pressure comparison if both opposing sides are atmos. passable.
+			// If both sides are not atmos. passable, then we don't care about the pressure difference.
+			var vertPressureDiff = 0.0;
+			var horzPressureDiff = 0.0;
+			if (!upMetaNode.IsOccupied || !downMetaNode.IsOccupied)
+			{
+				vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
+			}
+			if (!leftMetaNode.IsOccupied || !rightMetaNode.IsOccupied)
+			{
+				horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
+			}
+			
+			// Set pressureLevel according to the pressure difference found.
 			if (vertPressureDiff >= pressureThresholdWarning || horzPressureDiff >= pressureThresholdWarning)
 			{
 				pressureLevel = PressureLevel.Warning;
