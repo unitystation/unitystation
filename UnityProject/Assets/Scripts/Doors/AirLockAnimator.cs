@@ -51,7 +51,6 @@ using UnityEditor;
 			}
 		}
 
-		// TODO: Add SFX for quicker player association with the pressure warning
 		public override void PressureWarn(bool skipAnimation)
 		{
 			if (skipAnimation)
@@ -59,7 +58,9 @@ using UnityEditor;
 				//do nothing
 				return;
 			}
+
 			doorController.isPerformingAction = true;
+			SoundManager.PlayAtPosition("TripleBeep", transform.position, polyphonic: true, isGlobal: true);
 			StartCoroutine(PlayPressureWarnAnim());
 		}
 
