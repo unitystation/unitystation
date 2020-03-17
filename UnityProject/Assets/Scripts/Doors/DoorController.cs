@@ -15,7 +15,7 @@ public class DoorController : NetworkBehaviour
 
 		private int closedLayer;
 		private int closedSortingLayer;
-		public AudioSource closeSFX;
+		public string openSFX = "AirlockOpen", closeSFX = "AirlockClose";
 
 		private IEnumerator coWaitOpened;
 		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
@@ -62,7 +62,6 @@ public class DoorController : NetworkBehaviour
 		[Tooltip("Does the denied light animation only toggle 1 frame on and?")] public bool useSimpleDeniedAnimation = false;
 		public float maxTimeOpen = 5;
 		private int openLayer;
-		public AudioSource openSFX;
 		private int openSortingLayer;
 
 		public OpeningDirection openingDirection;
@@ -190,7 +189,8 @@ public class DoorController : NetworkBehaviour
 		{
 			if (openSFX != null)
 			{
-				openSFX.Play();
+				// Need to play this sound as global - this will ignore muffle effect
+				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, isGlobal: true);
 			}
 		}
 
@@ -198,16 +198,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (closeSFX != null)
 			{
-				closeSFX.Play();
-			}
-		}
-
-		public void PlayCloseSFXshort()
-		{
-			if (closeSFX != null)
-			{
-				closeSFX.time = 0.6f;
-				closeSFX.Play();
+				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition);
 			}
 		}
 

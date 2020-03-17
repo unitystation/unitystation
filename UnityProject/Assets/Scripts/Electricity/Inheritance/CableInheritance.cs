@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Mirror;
+using UnityEngine.Serialization;
 
 public class CableInheritance : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IDeviceControl
 {
@@ -15,8 +16,13 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 
-	public ParticleSystem Sparks;
-	public ParticleSystem Smoke;
+	[SerializeField]
+	[FormerlySerializedAs("Sparks")]
+	private ParticleSystem sparksPrefab;
+
+	[SerializeField]
+	[FormerlySerializedAs("Sparks")]
+	private ParticleSystem smokePrefab;
 
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
@@ -156,7 +162,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 				Smoke.Stop();
 			}
 
-			if ( Sparks )
+			if (IsSparking())
 			{
 				Sparks.Stop();
 			}
@@ -165,7 +171,8 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
 	{
-		Sparks.Play();
+		if (!IsSparking())
+			Sparks.Play();
 		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
 		if (ElectricalSynchronisation.CableToDestroy != null)
 		{
@@ -321,6 +328,33 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		if (SR.sprite == null)
 		{
 			Logger.LogError("SetSprite: Couldn't find wire sprite, sprite value didn't return anything!", Category.Electrical);
+		}
+	}
+
+	private ParticleSystem sparks;
+	public ParticleSystem Sparks
+	{
+		get
+		{
+			if (!sparks)
+				sparks = Instantiate(sparksPrefab, transform);
+			return sparks;
+		}
+	}
+
+	public bool IsSparking()
+	{
+		return sparks != null && sparks.isPlaying;
+	}
+
+	private ParticleSystem smoke;
+	public ParticleSystem Smoke
+	{
+		get
+		{
+			if (!smoke)
+				smoke = Instantiate(smokePrefab, transform);
+			return smoke;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 /// <summary>
@@ -39,6 +38,11 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Transforamble;
 	public ItemTrait Squeaky;
 	public ItemTrait Boots;
+	public ItemTrait LightTube;
+	public ItemTrait LightBulb;
+	public ItemTrait Broken;
+	public ItemTrait Breakable;
 	public ItemTrait Rods;
 	public ItemTrait SolidPlasma;
+
 }
