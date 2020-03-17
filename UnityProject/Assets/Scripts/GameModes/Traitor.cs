@@ -48,7 +48,6 @@ public class Traitor : GameMode
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		
 		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
 				&& AntagManager.Instance.AntagCount == 0 
 				&& PlayerList.Instance.InGamePlayers.Count > 0;
