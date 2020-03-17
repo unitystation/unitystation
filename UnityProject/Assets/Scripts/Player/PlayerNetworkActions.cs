@@ -93,7 +93,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		NamedSlot enumA = (NamedSlot) Enum.Parse(typeof(NamedSlot), slotName);
 		equipment.SetReference((int) enumA, Item);
 	}
-	
+
 	/// <summary>
 	/// Server handling of the request to perform a resist action.
 	/// </summary>
@@ -364,12 +364,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void UpdateInventorySlots()
 	{
-		var body = playerScript.mind.body.gameObject;
-
-		if (this == null || itemStorage == null)
+		if (this == null || itemStorage == null || playerScript == null
+		    || playerScript.mind == null || playerScript.mind.body == null)
 		{
 			return;
 		}
+
+		var body = playerScript.mind.body.gameObject;
 
 		//player gets inventory slot updates again
 		foreach (var slot in itemStorage.GetItemSlotTree())
@@ -771,7 +772,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
-		
+
 		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.announce);
 	}
 
@@ -779,8 +780,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSendCentCommReport (string adminId, string adminToken, string text)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return; 
-		GameManager.Instance.CentComm.MakeCommandReport(text, 
+		if (admin == null) return;
+		GameManager.Instance.CentComm.MakeCommandReport(text,
 														CentComm.UpdateSound.notice);
 	}
 
