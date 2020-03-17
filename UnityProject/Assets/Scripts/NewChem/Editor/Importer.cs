@@ -73,6 +73,7 @@ namespace Chemistry.Editor
 			{
 				EditorGUILayout.LabelField($"Contains {Directory.GetFiles(reagentsPath, "*.yml").Length} reagents");
 			}
+
 			EditorGUILayout.EndHorizontal();
 		}
 
@@ -84,6 +85,7 @@ namespace Chemistry.Editor
 			{
 				EditorGUILayout.LabelField($"Contains {Directory.GetFiles(reactionPath, "*.yml").Length} reactions");
 			}
+
 			EditorGUILayout.EndHorizontal();
 		}
 
@@ -112,7 +114,9 @@ namespace Chemistry.Editor
 			var reactionSetsData = new Dictionary<string, List<Reaction>>();
 
 			var reactionGroups = reactionFiles
-				.Select(file => (file, data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(file))))
+				.Select(file => (file,
+					data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(
+						File.ReadAllText(file))))
 				.Select(reactions => new Grouping<string, KeyValuePair<string, Reaction>>(
 					reactions.file,
 					reactions.data
@@ -123,13 +127,15 @@ namespace Chemistry.Editor
 
 			foreach (var reagentsGroup in reagentGroups)
 			{
-				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key), new char[] {'_'}).Replace("Reagents", "");
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key), new char[] {'_'})
+					.Replace("Reagents", "");
 				Logger.Log(prefix);
 				var prefixPath = Path.Combine(reagentExportPath, prefix);
-				if(!Directory.Exists(prefixPath))
+				if (!Directory.Exists(prefixPath))
 				{
 					Directory.CreateDirectory(prefixPath);
 				}
+
 				foreach (var reagent in reagentsGroup)
 				{
 					var path = Path.Combine(prefixPath, reagent.Value.Name + ".asset");
@@ -142,6 +148,7 @@ namespace Chemistry.Editor
 						cancel = false;
 						yield break;
 					}
+
 					yield return new EditorWaitForSeconds(0f);
 				}
 			}
@@ -155,23 +162,16 @@ namespace Chemistry.Editor
 				{
 					var path = Path.Combine(
 						prefixPath,
-						ToPascalCase(reaction.Key.Replace("datum/chemical_reaction/", ""),new char[] {'_', ' '}) +
+						ToPascalCase(reaction.Key.Replace("datum/chemical_reaction/", ""), new char[] {'_', ' '}) +
 						".asset");
 
-					try
+					if (!Directory.Exists(Path.GetDirectoryName(path)))
 					{
-						if (!Directory.Exists(Path.GetDirectoryName(path)))
-						{
-							Directory.CreateDirectory(Path.GetDirectoryName(path));
-						}
-
-						AssetDatabase.CreateAsset(reaction.Value, path);
-
+						Directory.CreateDirectory(Path.GetDirectoryName(path));
 					}
-					catch (Exception e)
-					{
 
-					}
+					AssetDatabase.CreateAsset(reaction.Value, path);
+
 
 					progress++;
 					if (cancel)
@@ -180,6 +180,7 @@ namespace Chemistry.Editor
 						cancel = false;
 						yield break;
 					}
+
 					yield return new EditorWaitForSeconds(0f);
 				}
 			}
@@ -196,15 +197,15 @@ namespace Chemistry.Editor
 
 				var prefixPath = Path.Combine(reactionSetExportPath, prefix);
 
-				if(!Directory.Exists(prefixPath))
+				if (!Directory.Exists(prefixPath))
 				{
 					Directory.CreateDirectory(prefixPath);
 				}
 
 				var path = Path.Combine(
-						prefixPath,
-						ToPascalCase(Path.GetFileName(reactionSetData.Key), new char[] {'_'}) +
-						".asset");
+					prefixPath,
+					ToPascalCase(Path.GetFileName(reactionSetData.Key), new char[] {'_'}) +
+					".asset");
 
 				AssetDatabase.CreateAsset(reactionSet, path);
 
@@ -214,8 +215,10 @@ namespace Chemistry.Editor
 					cancel = false;
 					yield break;
 				}
+
 				yield return new EditorWaitForSeconds(0f);
 			}
+
 			progress = 0;
 		}
 
@@ -230,9 +233,9 @@ namespace Chemistry.Editor
 			if (value.TryGetValue("results", out var resultsData))
 			{
 				reaction.results = new ReagentMix();
-				var results = ((Dictionary<object, object>)resultsData).ToDictionary(
-					r => reagents[(string)r.Key],
-					r => int.Parse((string)r.Value));
+				var results = ((Dictionary<object, object>) resultsData).ToDictionary(
+					r => reagents[(string) r.Key],
+					r => int.Parse((string) r.Value));
 
 				foreach (var result in results)
 				{
@@ -243,9 +246,9 @@ namespace Chemistry.Editor
 			if (value.TryGetValue("required_reagents", out var ingredientsData))
 			{
 				reaction.ingredients = new ReagentMix();
-				var ingredients = ((Dictionary<object, object>)ingredientsData).ToDictionary(
-					r => reagents[(string)r.Key],
-					r => int.Parse((string)r.Value));
+				var ingredients = ((Dictionary<object, object>) ingredientsData).ToDictionary(
+					r => reagents[(string) r.Key],
+					r => int.Parse((string) r.Value));
 
 				foreach (var ingredient in ingredients)
 				{
@@ -256,9 +259,9 @@ namespace Chemistry.Editor
 			if (value.TryGetValue("required_catalysts", out var catalystsData))
 			{
 				reaction.catalysts = new ReagentMix();
-				var catalysts = ((Dictionary<object, object>)catalystsData).ToDictionary(
-					r => reagents[(string)r.Key],
-					r => int.Parse((string)r.Value));
+				var catalysts = ((Dictionary<object, object>) catalystsData).ToDictionary(
+					r => reagents[(string) r.Key],
+					r => int.Parse((string) r.Value));
 
 				foreach (var catalyst in catalysts)
 				{
@@ -268,7 +271,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("required_temp", out var temperatureData))
 			{
-				var temp = int.Parse((string)temperatureData);
+				var temp = int.Parse((string) temperatureData);
 
 				if (value.TryGetValue("is_cold_recipe", out var coldRecipe))
 				{
@@ -280,15 +283,14 @@ namespace Chemistry.Editor
 				}
 			}
 
-			if (value.TryGetValue("required_container", out var containerObj))
+			value.TryGetValue("required_container", out var containerObj);
+			var container = (string) containerObj ?? "Default";
+			if (!reactionSets.ContainsKey(container))
 			{
-				var container = (string) containerObj;
-				if (!reactionSets.ContainsKey(container))
-				{
-					reactionSets[container] = new List<Reaction>();
-				}
-				reactionSets[container].Add(reaction);
+				reactionSets[container] = new List<Reaction>();
 			}
+
+			reactionSets[container].Add(reaction);
 
 			return reaction;
 		}
@@ -301,17 +303,17 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("name", out var name))
 			{
-				reagent.Name = (string)name;
+				reagent.Name = (string) name;
 			}
 
 			if (value.TryGetValue("description", out var description))
 			{
-				reagent.description = (string)description;
+				reagent.description = (string) description;
 			}
 
 			if (value.TryGetValue("color", out var colorString))
 			{
-				if (ColorUtility.TryParseHtmlString((string)colorString, out var color))
+				if (ColorUtility.TryParseHtmlString((string) colorString, out var color))
 				{
 					reagent.color = new Color(color.r, color.g, color.b, color.a);
 				}

@@ -11,8 +11,8 @@ namespace Chemistry
 	{
 		public ReagentMix ingredients;
 		public ReagentMix catalysts;
-		public float tempMin;
-		public float tempMax;
+		public float? tempMin;
+		public float? tempMax;
 		public ReagentMix results;
 		public Effect[] effects;
 
