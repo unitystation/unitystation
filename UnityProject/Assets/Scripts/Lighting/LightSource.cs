@@ -154,9 +154,16 @@ public class LightSource : ObjectTrigger
 					}
 					else if (State == LightState.On)
 					{
-						if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
+						if (RelatedAPC.ConnectedSwitchesAndLights.ContainsKey(relatedLightSwitch))
 						{
-							RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
+							if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
+							{
+								RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
+							}
+						}
+						else
+						{
+							RelatedAPC.ConnectedSwitchesAndLights.Add(relatedLightSwitch, new List<LightSource>{this});
 						}
 					}
 				}
