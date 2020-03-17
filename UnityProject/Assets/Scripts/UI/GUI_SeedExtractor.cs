@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GUI_SeedExtractor : NetTab
@@ -10,7 +11,7 @@ public class GUI_SeedExtractor : NetTab
 	private float cooldownTimer = 2f;
 
 	private SeedExtractor seedExtractor;
-	private List<GameObject> seedExtractorContent = new List<GameObject>();
+	private Dictionary<string, List<GameObject>> seedExtractorContent = new Dictionary<string, List<GameObject>>();
 	[SerializeField]
 	private EmptyItemList itemList = null;
 	[SerializeField]
@@ -53,10 +54,17 @@ public class GUI_SeedExtractor : NetTab
 			return;
 		}
 
-		seedExtractorContent = new List<GameObject>();
-		foreach(var seedPacket in seedExtractor.seedPackets)
+		seedExtractorContent = new Dictionary<string, List<GameObject>>();
+		foreach (var seedPacket in seedExtractor.seedPackets)
 		{
-			seedExtractorContent.Add(seedPacket);
+			if (seedExtractorContent.ContainsKey(seedPacket.name))
+			{
+				seedExtractorContent[seedPacket.name].Add(seedPacket);
+			}
+			else
+			{
+				seedExtractorContent.Add(seedPacket.name, new List<GameObject> { seedPacket });
+			}
 		}
 	}
 
@@ -90,8 +98,8 @@ public class GUI_SeedExtractor : NetTab
 		itemList.AddItems(seedExtractorContent.Count);
 		for (int i = 0; i < seedExtractorContent.Count; i++)
 		{
-			SeedExtractorItemEntry item = itemList.Entries[i] as SeedExtractorItemEntry;
-			item.SetItem(seedExtractorContent[i], this);
+			SeedExtractorItemTypeEntry item = itemList.Entries[i] as SeedExtractorItemTypeEntry;
+			item.SetItem(seedExtractorContent.Values.ToList()[i], this);
 		}
 	}
 
@@ -99,7 +107,7 @@ public class GUI_SeedExtractor : NetTab
 	{
 		if (item == null || seedExtractor == null) return;
 		GameObject itemToSpawn = null;
-		foreach (var vendorItem in seedExtractorContent)
+		foreach (var vendorItem in seedExtractorContent[item.name])
 		{
 			if (vendorItem == item)
 			{
@@ -118,7 +126,11 @@ public class GUI_SeedExtractor : NetTab
 		//something went wrong trying to spawn the item
 		if (spawnedItem == null) return;
 
-		seedExtractorContent.Remove(itemToSpawn);
+		seedExtractorContent[itemToSpawn.name].Remove(itemToSpawn);
+		if(seedExtractorContent[itemToSpawn.name].Count == 0)
+		{
+			seedExtractorContent.Remove(itemToSpawn.name);
+		}
 
 		SendToChat($"{spawnedItem.ExpensiveName()} was dispensed from the seed extractor");
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SeedExtractorItemEntry : DynamicEntry
@@ -25,14 +26,14 @@ public class SeedExtractorItemEntry : DynamicEntry
 		seedExtractorWindow = correspondingWindow;
 		itemName.SetValue = seedPacket.name;
 		itemIcon.SetValue = seedPacket.name;
-		//itemCount.SetValue = $"({vendorItem.Stock.ToString()})";
+		//itemCount.SetValue = $"({seedPackets.Count.ToString()})";
 		/*if (vendorItem.Stock <= 0)
 		{
 			itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(emptyStockColor);
 		}
 		else
 		{*/
-			itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
+		itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
 		//}
 	}
 
