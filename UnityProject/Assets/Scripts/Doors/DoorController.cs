@@ -13,6 +13,13 @@ public class DoorController : NetworkBehaviour
 			Vertical
 		}
 
+		public enum PressureLevel
+		{
+			Safe,
+			Caution,
+			Warning
+		}
+
 		private int closedLayer;
 		private int closedSortingLayer;
 		public string openSFX = "AirlockOpen", closeSFX = "AirlockClose";
@@ -66,13 +73,15 @@ public class DoorController : NetworkBehaviour
 
 		[Tooltip("Toggle whether door checks for pressure differences to warn about space wind")]
 		public bool enablePressureWarning = false;
+		// Upper yellow emergency access lights - 22 for glass door and space ship, 12 for exterior airlocks. 25 for standard airlocks.
 		[Tooltip("First frame of the door pressure light animation")]
 		public int DoorPressureSpriteOffset = 25;
-		// Upper yellow emergency access lights - 22 for glass door and space ship, 12 for exterior airlocks.
 		// After pressure alert issued, time until it will display the alert again instead of opening.
 		private int pressureWarningCooldown = 5;
-		private int pressureThreshold = 30; // kPa
+		private int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
+		private int pressureThresholdWarning = 120;
 		private bool pressureWarnActive = false;
+		public PressureLevel pressureLevel = PressureLevel.Safe;
 
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
@@ -361,7 +370,7 @@ public class DoorController : NetworkBehaviour
 		}
 
 		/// <summary>
-		///  Checks each side of the door and returns true if there is a pressure difference between opposing sides.
+		///  Checks each side of the door, returns true if not considered safe and updates pressureLevel.
 		///  Used to allow the player to be made aware of the pressure difference for safety.
 		///  TODO: Evaluate if necessary to check that a side has gas (e.g. not a wall).
 		///  TODO: Investigate if a wall constructed in space has different pressure reading than a pre-existing wall.
@@ -371,7 +380,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (!enablePressureWarning)
 			{
-				// Pressure warning system is disabled, so pretend there is no pressure difference.
+				// Pressure warning system is disabled, so pretend everything is fine.
 				return false;
 			}
 
@@ -384,12 +393,21 @@ public class DoorController : NetworkBehaviour
 			var vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
 			var horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
 
-			if (vertPressureDiff >= pressureThreshold || horzPressureDiff >= pressureThreshold)
+			if (vertPressureDiff >= pressureThresholdWarning || horzPressureDiff >= pressureThresholdWarning)
 			{
+				pressureLevel = PressureLevel.Warning;
 				return true;
 			}
-
-			return false;
+			else if (vertPressureDiff >= pressureThresholdCaution || horzPressureDiff >= pressureThresholdCaution)
+			{
+				pressureLevel = PressureLevel.Caution;
+				return true;
+			}
+			else
+			{
+				pressureLevel = PressureLevel.Safe;
+				return false;
+			}
 		}
 
 		#region UI Mouse Actions
@@ -418,4 +436,3 @@ public class DoorController : NetworkBehaviour
 			}
 		}
 	}
-

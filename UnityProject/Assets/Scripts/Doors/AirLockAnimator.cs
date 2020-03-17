@@ -243,7 +243,8 @@ using UnityEditor;
 		}
 
 		/// <summary>
-        /// Flashes the door's emergency access (yellow) lights several times.
+        /// Flashes the door's emergency access (yellow) lights several times,
+        /// or the door bolts, depending on the pressure difference over the door.
         /// Sprite offset varies depending on door type - set in each door prefab.
         /// </summary>
         /// <returns></returns>
@@ -251,9 +252,17 @@ using UnityEditor;
 		{
 			int flashCount = 3;
 
+			// Choose emergency lights sprite, overwrite with door bolt lights if
+			// pressureLevel is Warning and not Caution.
+			int spriteOffset = doorController.DoorPressureSpriteOffset;
+			if (doorController.pressureLevel == DoorController.PressureLevel.Warning)
+			{
+				spriteOffset = doorController.DoorDeniedSpriteOffset;
+			}
+
 			for (int i = 0; i < flashCount; i++)
 			{
-				overlay_Lights.sprite = overlayLights[doorController.DoorPressureSpriteOffset];
+				overlay_Lights.sprite = overlayLights[spriteOffset];
 				yield return WaitFor.Seconds(0.1f);
 				overlay_Lights.sprite = null;
 				yield return WaitFor.Seconds(0.1f);
