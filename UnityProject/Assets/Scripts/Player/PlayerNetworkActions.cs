@@ -102,21 +102,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
+		// Handle the movement restricted actions first.
 		if (playerScript.playerMove.IsBuckled)
 		{
-			// Are we cuffed AND buckled to a chair? If so we start an overlay timer. Otherwise just unbuckle normally.
-			if (playerScript.playerMove.IsCuffed)
-			{
-
-			}
-			else
+			// Make sure we don't unbuckle if we are currently cuffed.
+			if (!playerScript.playerMove.IsCuffed)
 			{
 				playerScript.playerMove.Unbuckle();
 			}
-		}
-		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
-		{
-
 		}
 		else if(playerScript.playerHealth.FireStacks > 0) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
 		{
@@ -158,6 +151,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (playerScript.playerHealth.FireStacks <= 0)
 			{
 				playerScript.playerHealth.Extinguish();
+			}
+		}
+		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
+		{
+			if (playerScript.playerSprites != null &&
+				playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+			{
+				if (cuffsClothingItem != null &&
+					cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				{
+					restraintOverlay.ServerBeginUnCuffAttempt();
+				}
 			}
 		}
 	}

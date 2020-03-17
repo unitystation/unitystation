@@ -31,7 +31,6 @@ public class ControlAction : MonoBehaviour
 		
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
 		
-		// TODO implement resist functionality once handcuffs and things are in
 		SoundManager.Play("Click01");
 		Logger.Log("Resist Button", Category.UI);
 	}
