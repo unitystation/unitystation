@@ -1,12 +1,16 @@
 ﻿using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
+[RequireComponent(typeof(HasNetworkTab))]
 public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn, IAPCPowered
 {
 	private Queue<GrownFood> foodToBeProcessed;
 	private int processingProgress;
 	private PowerStates currentState = PowerStates.Off;
+	private SeedExtractorUpdateEvent updateEvent = new SeedExtractorUpdateEvent();
+	
 
 	[Tooltip("Time it takes to process a single piece of produce")]
 	[SerializeField]
@@ -18,8 +22,17 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 	[Tooltip("Inventory to store food waiting to be processed")]
 	[SerializeField]
 	private ItemStorage storage = null;
+	private HasNetworkTab networkTab;
 
 	public bool IsProcessing => foodToBeProcessed.Count != 0;
+	public List<GameObject> seedPackets;
+	public SeedExtractorUpdateEvent UpdateEvent => updateEvent;
+	private void Awake()
+	{
+		networkTab = GetComponent<HasNetworkTab>();
+		foodToBeProcessed = new Queue<GrownFood>();
+		seedPackets = new List<GameObject>();
+	}
 
 	/// <summary>
 	/// Handles processing produce into seed packets at rate defined by processingTime
@@ -41,8 +54,9 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		var grownFood = foodToBeProcessed.Dequeue();
 		GameObject seedPacket = grownFood.SeedPacket;
 
-		//Create seed packet in world
-		Spawn.ServerPrefab(seedPacket, registerObject.WorldPositionServer);
+		//Add seed packet to dispenser
+		seedPackets.Add(seedPacket);
+		updateEvent.Invoke();
 
 		//De-spawn processed food
 		Inventory.ServerDespawn(grownFood.gameObject);
@@ -59,6 +73,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		foodToBeProcessed = new Queue<GrownFood>();
+		seedPackets = new List<GameObject>();
 	}
 
 	/// <summary>
@@ -88,7 +103,10 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 				Chat.AddLocalMsgToChat("The seed extractor begins processing", (Vector2Int)registerObject.WorldPosition, this.gameObject);
 			}
 			foodToBeProcessed.Enqueue(grownFood);
+			return;
 		}
+		//If no interaction happens
+		networkTab.ServerPerformInteraction(interaction);
 	}
 
 	/// <summary>
@@ -125,3 +143,4 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		currentState = newState;
 	}
 }
+public class SeedExtractorUpdateEvent : UnityEvent { }
