@@ -42,8 +42,6 @@ public class VIRCurrent
 	public void addCurrent(WrapCurrent NewWrapCurrent) { 
 		foreach (var wrapCurrent in CurrentSources)
 		{
-			CurrentSources.Add(NewWrapCurrent);
-			return;
 			if (wrapCurrent.Current == NewWrapCurrent.Current)
 			{
 				wrapCurrent.CombineCurrent(NewWrapCurrent);

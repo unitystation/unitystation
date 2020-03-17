@@ -145,7 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114500746951952046
@@ -225,10 +224,12 @@ MonoBehaviour:
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
+    Present: {fileID: 0}
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  registerTile3: {fileID: 114038174743996046}
+  DestroyQueueing: 0
+  DestroyAuthorised: 0
 --- !u!114 &3451459747492305769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +253,7 @@ MonoBehaviour:
     DirectionReaction: 0
     ResistanceReaction: 1
     DirectionReactionA:
-      YouShallNotPass: 0
+      YouShallNotPass: 1
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
@@ -352,6 +353,11 @@ MonoBehaviour:
   HighsideConnections: 01000000
   LowsideConnections: 09000000
   TreatComingFromNullAs: 9
+  newResistance:
+    resistance:
+      Ohms: 0
+      ResistanceAvailable: 1
+    Strength: 1
 --- !u!114 &114325058325635246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114006907476957006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,10 +384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2728112746
 --- !u!114 &-476175051414813368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0

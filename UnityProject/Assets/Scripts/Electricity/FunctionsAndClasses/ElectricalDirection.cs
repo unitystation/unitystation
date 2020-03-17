@@ -13,7 +13,7 @@ public class ElectricalDirections
 		RelatedNode = NodeControl;
 		StartingStep = ElectricalSynchronisation.GetStep();
 		LiveSteps.Add(StartingStep);
-		StartingStep.InData  = NodeControl.Node.InData;
+		StartingStep.InData = NodeControl.Node.InData;
 		StartingStep.Jump(this, null, new HashSet<IntrinsicElectronicData>());
 	}
 
@@ -27,16 +27,24 @@ public class ElectricalDirections
 
 public class ElectricalDirectionStep
 {
+
+	public static HashSet<PowerTypeCategory> CompatibleCables = new HashSet<PowerTypeCategory> {
+		PowerTypeCategory.StandardCable,
+		PowerTypeCategory.LowVoltageCable,
+		PowerTypeCategory.HighVoltageCable
+	};
 	public HashSet<ElectricalDirectionStep> Downstream = new HashSet<ElectricalDirectionStep>();
 	public ElectricalDirectionStep Upstream;
 	public IntrinsicElectronicData InData;
 	public HashSet<Resistance> Sources = new HashSet<Resistance>();
-	public VIRResistances resistance= new VIRResistances();
+	public VIRResistances resistance = new VIRResistances();
 
-	public void Clean() {
+	public void Clean()
+	{
 		Downstream.Clear();
 		resistance.ResistanceSources.Clear();
 		Sources.Clear();
+		InData = null;
 	}
 
 
@@ -46,42 +54,44 @@ public class ElectricalDirectionStep
 	{
 		Upstream = PreviousStep;
 		VisitedSteps.Add(InData);
-		if (InData.Present.Data.connections.Count == 0)
-		{
-			InData.Present.FindPossibleConnections();
-		}
 
-		if (!(InData.Present.Data.connections.Count > 2))
+		//if (InData.Present.Data.connections.Count == 0)
+		//{
+			InData.Present.FindPossibleConnections();
+		//}
+
+		foreach (ElectricalOIinheritance ToNode in InData.Present.Data.connections)
 		{
-			foreach (ElectricalOIinheritance ToNode in InData.Present.Data.connections)
+			//Logger.Log(" InData.Present.Data.connections > " + ToNode.InData.Categorytype);
+			if (!VisitedSteps.Contains(ToNode.InData))
 			{
-				if (!VisitedSteps.Contains(ToNode.InData))
+				CableLine Line = null;
+				var Newnode = ElectricalSynchronisation.GetStep();
+				MasterClass.LiveSteps.Add(Newnode);
+
+				if (CompatibleCables.Contains(ToNode.InData.Categorytype))
 				{
-					var Newnode = ElectricalSynchronisation.GetStep();
-					MasterClass.LiveSteps.Add(Newnode);
-					Newnode.InData = ToNode.InData;
-					Newnode.Upstream = this;
-					if (RegisterJump(MasterClass, this, ToNode, Newnode))
+					Line = new CableLine();
+					Line.TheStart = ToNode.InData;
+					var Wire = ToNode as WireConnect;
+
+					Wire.LineExplore(Line, VisitedSteps);
+
+					if (Line.TheEnd != null)
 					{
-						Newnode.Jump(MasterClass, this, new HashSet<IntrinsicElectronicData>(VisitedSteps));
+						Newnode.InData = Line.TheEnd;
 					}
+
 				}
-			}
-		}
-		else {
-			//Logger.Log("yo  more 2!!! " + Node.name);
-			foreach (ElectricalOIinheritance ToNode in InData.Present.Data.connections)
-			{
-				if (!VisitedSteps.Contains(ToNode.InData))
+				if (Newnode.InData == null)
 				{
-					var Newnode = ElectricalSynchronisation.GetStep();
-					MasterClass.LiveSteps.Add(Newnode);
 					Newnode.InData = ToNode.InData;
-					Newnode.Upstream = this;
-					if (RegisterJump(MasterClass, this, ToNode, Newnode))
-					{
-						Newnode.Jump(MasterClass, this, new HashSet<IntrinsicElectronicData>(VisitedSteps));
-					}
+				}
+
+				Newnode.Upstream = this;
+				if (RegisterJump(MasterClass, this, ToNode, Newnode))
+				{
+					Newnode.Jump(MasterClass, this, QuickAdd(VisitedSteps, Line));
 				}
 			}
 		}
@@ -99,12 +109,13 @@ public class ElectricalDirectionStep
 		if (PreviousStep != null)
 		{
 			//Logger.Log("B" + PreviousStep.Node.InData.Categorytype);
-			foreach (var ff in ToNode.InData.ConnectionReaction) {
+			foreach (var ff in ToNode.InData.ConnectionReaction)
+			{
 				//Logger.Log("FF" + ff);
 			}
 			if (ToNode.InData.ConnectionReaction.ContainsKey(PreviousStep.InData.Categorytype))
 			{
-					//Logger.Log("c");
+				//Logger.Log("c");
 				if (ToNode.InData.ConnectionReaction[PreviousStep.InData.Categorytype].DirectionReaction
 					|| ToNode.InData.ConnectionReaction[PreviousStep.InData.Categorytype].ResistanceReaction)
 				{
@@ -132,5 +143,17 @@ public class ElectricalDirectionStep
 		}
 		return (true);
 	}
+
+	public HashSet<IntrinsicElectronicData> QuickAdd(HashSet<IntrinsicElectronicData> VisitedSteps, CableLine line)
+	{
+		var hashset = new HashSet<IntrinsicElectronicData>(VisitedSteps);
+
+		if (line != null)
+		{
+			hashset.UnionWith(line.Covering);
+		}
+		return (hashset);
+	}
+
 
 }

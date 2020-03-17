@@ -37,18 +37,6 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		Node.AddModule(this);
 	}
 
-	public override void PotentialDestroyed()
-	{
-		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);//this is needed
-		ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
-		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
-		if (ControllingNode.SelfDestruct)
-		{
-			ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
-			Despawn.ServerSingle(gameObject);
-		}
-
-	}
 	public override void PowerUpdateStructureChange()
 	{
 		ControllingNode.Node.FlushConnectionAndUp();
@@ -62,7 +50,6 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		NetworkMap.Pool();
 		NetworkMap = new ElectricalDirections();
 		NetworkMap.StartSearch(ControllingNode);
-		//ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 	}

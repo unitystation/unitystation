@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 
-public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractable<PositionalHandApply>, IDeviceControl
+public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractable<PositionalHandApply>
 {
 	private bool SelfDestruct = false;
 
@@ -29,14 +29,6 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractab
 		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.WireEndA = Connection.MachineConnect;
 		RelatedWire.WireEndB = Connection.Overlap;
-	}
-
-	//Fixme:
-	public void OnDestroy(){
-		SelfDestruct = true;
-
-	}
-	public void TurnOffCleanup (){
 	}
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
