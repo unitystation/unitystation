@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Light2D;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public enum LightState
 
 	TypeCount,
 }
+
 /// <summary>
 /// Light source, such as a light bar. Note that for wall protrusion lights such as light tubes / light bars,
 /// LightSwitch automatically sets their RelatedAPC if it's looking in their general direction
@@ -31,10 +33,12 @@ public class LightSource : ObjectTrigger
 {
 	private const LightState InitialState = LightState.Off;
 
-	private readonly Dictionary<LightState, Sprite> mSpriteDictionary = new Dictionary<LightState, Sprite>((int)LightState.TypeCount);
+	private readonly Dictionary<LightState, Sprite> mSpriteDictionary =
+		new Dictionary<LightState, Sprite>((int) LightState.TypeCount);
 
 	[Header("Generates itself if this is null:")]
 	public GameObject mLightRendererObject;
+
 	private LightState mState;
 	private SpriteRenderer Renderer;
 	private float fullIntensityVoltage = 240;
@@ -42,15 +46,13 @@ public class LightSource : ObjectTrigger
 	private bool tempStateCache;
 	private float _intensity;
 	private LightMountStates wallMount;
+
 	/// <summary>
 	/// Current intensity of the lights, automatically clamps and updates sprites when set
 	/// </summary>
 	private float Intensity
 	{
-		get
-		{
-			return _intensity;
-		}
+		get { return _intensity; }
 		set
 		{
 			value = Mathf.Clamp(value, 0, 1);
@@ -65,6 +67,7 @@ public class LightSource : ObjectTrigger
 	///Note that for wall protrusion lights such as light tubes / light bars,
 	// LightSwitch automatically sets this if it's looking in their general direction
 	public APC RelatedAPC;
+
 	public LightSwitch relatedLightSwitch;
 	public Color customColor; //Leave null if you want default light color.
 
@@ -73,10 +76,7 @@ public class LightSource : ObjectTrigger
 
 	private LightState State
 	{
-		get
-		{
-			return mState;
-		}
+		get { return mState; }
 
 		set
 		{
@@ -88,6 +88,7 @@ public class LightSource : ObjectTrigger
 			OnStateChange(value);
 		}
 	}
+
 	public override void Trigger(bool iState)
 	{
 		// Leo Note: Some sync magic happening here. Decided not to touch it.
@@ -105,14 +106,13 @@ public class LightSource : ObjectTrigger
 			{
 				StartCoroutine(WaitToTryAgain());
 			}
+
 			return;
 		}
 		else
 		{
-
 			State = iState ? LightState.On : LightState.Off;
 		}
-
 	}
 
 	//this is the method broadcast invoked by LightSwitch to tell this light source what switch is driving it.
@@ -121,7 +121,7 @@ public class LightSource : ObjectTrigger
 	public void Received(LightSwitchData Received)
 	{
 		if (wallMount.State != LightMountStates.LightMountState.Broken &&
-			wallMount.State != LightMountStates.LightMountState.MissingBulb)
+		    wallMount.State != LightMountStates.LightMountState.MissingBulb)
 		{
 			//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
 			tempStateCache = Received.state;
@@ -130,23 +130,33 @@ public class LightSource : ObjectTrigger
 			{
 				return;
 			}
+
 			if (Received.LightSwitch == relatedLightSwitch || relatedLightSwitch == null)
 			{
 				if (relatedLightSwitch == null)
 				{
 					relatedLightSwitch = Received.LightSwitch;
 				}
+
 				if (Received.RelatedAPC != null)
 				{
 					RelatedAPC = Received.RelatedAPC;
-					{
-						if (State == LightState.On)
-						{
-							if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
-							{
-								RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
-							}
 
+					if (RelatedAPC == null)
+					{
+						Logger.Log($"Related APC was missing in the received method: {gameObject.name}",
+							Category.Lighting);
+					}
+					else if (relatedLightSwitch == null)
+					{
+						Logger.Log($"Related Lightswitch was missing in the received method: {gameObject.name}",
+							Category.Lighting);
+					}
+					else if (State == LightState.On)
+					{
+						if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
+						{
+							RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
 						}
 					}
 				}
@@ -158,7 +168,6 @@ public class LightSource : ObjectTrigger
 						{
 							relatedLightSwitch.SelfPowerLights.Add(this);
 						}
-
 					}
 				}
 
@@ -174,7 +183,6 @@ public class LightSource : ObjectTrigger
 					wallMount.SwitchChangeState(State);
 				}
 			}
-
 		}
 	}
 
@@ -189,11 +197,10 @@ public class LightSource : ObjectTrigger
 			if (emergLightAnim != null)
 			{
 				Received.RelatedAPC.ConnectEmergencyLight(emergLightAnim);
-
 			}
 		}
-
 	}
+
 	private void OnIntensityChange()
 	{
 		//we were getting an NRE here internally in GetComponent so this checks if the object lifetime
@@ -205,6 +212,7 @@ public class LightSource : ObjectTrigger
 			lightSprites.Color.a = Intensity;
 		}
 	}
+
 	private void OnStateChange(LightState iValue)
 	{
 		// Assign state appropriate sprite to the LightSourceObject.
@@ -242,6 +250,7 @@ public class LightSource : ObjectTrigger
 		{
 			return;
 		}
+
 		Renderer = GetComponentInChildren<SpriteRenderer>();
 
 		if (mLightRendererObject == null)
@@ -273,11 +282,13 @@ public class LightSource : ObjectTrigger
 			{
 				if (RelatedAPC == null)
 				{
-
-					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position, Category.Electrical);
-					RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference
+					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position,
+						Category.Electrical);
+					RelatedAPC.Current =
+						1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference
 				}
 			}
+
 			return;
 		}
 	}
@@ -289,6 +300,7 @@ public class LightSource : ObjectTrigger
 		{
 			return;
 		}
+
 		Color _color;
 
 		if (customColor == new Color(0, 0, 0, 0))
@@ -316,7 +328,9 @@ public class LightSource : ObjectTrigger
 
 		if (_assignedSprite == null)
 		{
-			Logger.LogError("LightSource: Unable to extract light source state sprites from SpriteSheet. Operation requires Renderer.sprite to be assigned in inspector.", Category.Lighting);
+			Logger.LogError(
+				"LightSource: Unable to extract light source state sprites from SpriteSheet. Operation requires Renderer.sprite to be assigned in inspector.",
+				Category.Lighting);
 			return;
 		}
 
@@ -376,6 +390,7 @@ public class LightSource : ObjectTrigger
 				mLightRendererObject.SetActive(tempStateCache);
 			}
 		}
+
 		waitToCheckState = false;
 	}
 }
