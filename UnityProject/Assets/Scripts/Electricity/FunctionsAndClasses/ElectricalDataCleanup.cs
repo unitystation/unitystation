@@ -27,34 +27,23 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 			Object.Data.ResistanceToConnectedDevices.Clear();
 			Object.connectedDevices.Clear();
 			if (Object.Data.connections.Count > 0) {
-				List<ElectricalOIinheritance> Backupconnections = new List<ElectricalOIinheritance>(Object.Data.connections);
+				List<ElectricalOIinheritance> Backupconnections = new List<ElectricalOIinheritance>(Object.Data.connections); //GC
 				Object.Data.connections.Clear();
 
 				foreach (ElectricalOIinheritance JumpTo in Backupconnections) {
 					JumpTo.FlushConnectionAndUp ();
 	
 				}
-				foreach (KeyValuePair<ElectricalOIinheritance, ElectronicSupplyData> Supply in Object.Data.SupplyDependent)
-				{
-					foreach (ElectricalOIinheritance Device in Supply.Value.Downstream)
-					{
-						Device.FlushConnectionAndUp();
-					}
-					foreach (ElectricalOIinheritance Device in Supply.Value.Upstream)
-					{
-						Device.FlushConnectionAndUp();
-					}
-				}
-				foreach (KeyValuePair<ElectricalOIinheritance, ElectronicSupplyData> Supply in Object.Data.SupplyDependent)
-				{
-					Supply.Value.CurrentComingFrom.Clear();
-					Supply.Value.CurrentGoingTo.Clear();
-					Supply.Value.ResistanceGoingTo.Clear();
-					Supply.Value.ResistanceComingFrom.Clear();
-					Supply.Value.Upstream.Clear();
-					Supply.Value.Downstream.Clear();
-					Supply.Value.SourceVoltages.Clear();
-				}
+			}
+			foreach (KeyValuePair<ElectricalOIinheritance, ElectronicSupplyData> Supply in Object.Data.SupplyDependent)
+			{
+				Supply.Value.CurrentComingFrom.Clear();
+				Supply.Value.CurrentGoingTo.Clear();
+				Supply.Value.ResistanceGoingTo.Clear();
+				Supply.Value.ResistanceComingFrom.Clear();
+				Supply.Value.Upstream.Clear();
+				Supply.Value.Downstream.Clear();
+				Supply.Value.SourceVoltages.Clear();
 			}
 		}
 

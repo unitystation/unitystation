@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042895037894172}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: -34, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4270488180542818}
@@ -190,9 +190,12 @@ MonoBehaviour:
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
+    Present: {fileID: 0}
   registerTile: {fileID: 114813624096347676}
   connected: 0
   Logall: 0
+  DestroyQueueing: 0
+  DestroyAuthorised: 0
   ControllingCable: {fileID: 0}
   SpriteHandler: {fileID: 0}
 --- !u!114 &114605427988546660

@@ -5,7 +5,7 @@ using System;
 using Mirror;
 using UnityEngine.Serialization;
 
-public class CableInheritance : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IDeviceControl
+public class CableInheritance : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public bool SelfDestruct = false;
 	public WiringColor CableType;
@@ -31,6 +31,8 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	public float DestructionPriority;
 	public bool CanOverCurrent = true;
 
+	private bool CheckOverlap = false;
+
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -50,22 +52,15 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		{
 			if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
 			{
+
 				return;
 			}
 		}
 		else {
+
 			return;
 		}
-
-		toDestroy();
-	}
-
-	public void PotentialDestroyed()
-	{
-		if (SelfDestruct)
-		{
-			//Then you can destroy
-		}
+		wireConnect.DestroyThisPlease();
 	}
 
 	public void toDestroy()
@@ -78,7 +73,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 				{
 					return;
 				}
-				CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+				CB.Present.GetComponent<CableInheritance>()?.Smoke.Stop();
 			}
 		}
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
@@ -100,9 +95,12 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		base.OnStartServer();
 		_OnStartServer();
 	}
+
 	public virtual void _OnStartServer()
 	{
 	}
+
+
 	public virtual void PowerUpdateStructureChange()
 	{
 		wireConnect.FlushConnectionAndUp();
@@ -122,6 +120,10 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public virtual void PowerNetworkUpdate()
 	{
+		if (CheckOverlap) { 
+			FindOverlapsAndCombine();
+		}
+
 		ElectricityFunctions.WorkOutActualNumbers(wireConnect);
 		if (MaximumInstantBreakCurrent != 0 && CanOverCurrent)
 		{
@@ -157,8 +159,10 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
 		if (ElectricalSynchronisation.CableToDestroy != null)
 		{
-			if (DestructionPriority > ElectricalSynchronisation.CableToDestroy.DestructionPriority)
+			if (DestructionPriority >= ElectricalSynchronisation.CableToDestroy.DestructionPriority)
 			{
+				ElectricalSynchronisation.CableToDestroy.Smoke.Stop();
+				ElectricalSynchronisation.CableToDestroy.Sparks.Stop();
 				ElectricalSynchronisation.CableUpdates.Add(ElectricalSynchronisation.CableToDestroy);
 				ElectricalSynchronisation.CableToDestroy = this;
 			}
@@ -179,16 +183,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		ElectricalSynchronisation.CableUpdates.Add(this);
 	}
 
-	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
-	//FIXME: that also renderers IDevice useless. Please reassess
-	public void OnDestroy()
-	{
-		SelfDestruct = true;
-		//Making Invisible
-	}
-	public void TurnOffCleanup()
-	{
-	}
+
 	/// <summary>
 	///     If you have some tray goggles on then set this bool to true to get the right sprite.
 	///     I guess you still need to faff about with display layers but that isn't my issue.
@@ -242,7 +237,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
 								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								Econns[i].gameObject.GetComponent<CableInheritance>().toDestroy();
+								Econns[i].DestroyThisPlease();
 							}
 							else if (Econns[i].WireEndB == Connection.Overlap)
 							{
@@ -255,7 +250,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
 								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								Econns[i].gameObject.GetComponent<CableInheritance>().toDestroy();
+								Econns[i].DestroyThisPlease();
 							}
 						}
 					}
@@ -280,7 +275,8 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		//Logger.Log(WireEndB.ToString() + " <WireEndB and WireEndA> " + WireEndA.ToString(), Category.Electrical);
 		SetSprite();
 		if (isServer) {
-			FindOverlapsAndCombine();
+			CheckOverlap = true;
+			ElectricalSynchronisation.CableUpdates.Add(this);
 		}
 	}
 

@@ -55,14 +55,17 @@ public class ElectricalManager : MonoBehaviour
 			//	throw;
 			//}
 		}
-
-		lock (ElectricalSynchronisation.Electriclock)
+		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
 		{
-			if (ElectricalSynchronisation.MainThreadProcess) {
-				ElectricalSynchronisation.PowerNetworkUpdate();
+			lock (ElectricalSynchronisation.Electriclock)
+			{
+				if (ElectricalSynchronisation.MainThreadProcess)
+				{
+					ElectricalSynchronisation.PowerNetworkUpdate();
+				}
+				ElectricalSynchronisation.MainThreadProcess = false;
+				Monitor.Pulse(ElectricalSynchronisation.Electriclock);
 			}
-			ElectricalSynchronisation.MainThreadProcess = false;
-			Monitor.Pulse(ElectricalSynchronisation.Electriclock);
 		}
 
 	}
@@ -72,8 +75,15 @@ public class ElectricalManager : MonoBehaviour
 	{
 		if (Mode != ElectricalMode.Manual)
 		{
-			StartSimulation();
+			StartCoroutine(WaitForElectricalInitialisation());
+			//StartSimulation();
 		}
+	}
+
+	IEnumerator WaitForElectricalInitialisation()
+	{
+		yield return WaitFor.Seconds(4f);
+		StartSimulation();
 	}
 
 	private void OnApplicationQuit()

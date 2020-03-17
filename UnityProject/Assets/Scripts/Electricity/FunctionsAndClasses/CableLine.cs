@@ -2,26 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CableLine { //Meant to be an intermediary for long stretches of cable so as to Reduce processing time on Long cables 
-	public GameObject InitialGenerator;
-	public ElectricalOIinheritance TheStart;
-	public ElectricalOIinheritance TheEnd;
-	public List<ElectricalOIinheritance> Covering = new List<ElectricalOIinheritance>();
+public class CableLine
+{ //Meant to be an intermediary for long stretches of cable so as to Reduce processing time on Long cables 
+	public IntrinsicElectronicData InitialGenerator;
+	public IntrinsicElectronicData TheStart;
+	public IntrinsicElectronicData TheEnd;
+	public HashSet<IntrinsicElectronicData> Covering = new HashSet<IntrinsicElectronicData>();
 
 
-	public void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null){
-		JumpToOtherEnd (SourceInstance, ComingFrom);
-	}
+	//public void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null){
+	//	JumpToOtherEnd (SourceInstance, ComingFrom);
+	//}
 
-	public void JumpToOtherEnd(GameObject SourceInstance,ElectricalOIinheritance ComingFrom){
-		if (ComingFrom == TheStart) {
+	//public void JumpToOtherEnd(GameObject SourceInstance,ElectricalOIinheritance ComingFrom){
+	//	if (ComingFrom == TheStart) {
 
-			TheEnd.DirectionInput(SourceInstance, ComingFrom);
-		} else if (ComingFrom == TheEnd) {
-			TheStart.DirectionInput(SourceInstance, ComingFrom);
-		}
-	}
-	//public void PassOnFlushSupplyAndUp(ElectricalOIinheritance ComingFrom,GameObject SourceInstance = null)
+	//		TheEnd.DirectionInput(SourceInstance, ComingFrom);
+	//	} else if (ComingFrom == TheEnd) {
+	//		TheStart.DirectionInput(SourceInstance, ComingFrom);
+	//	}
+	//}
+	//public void PassOnFlushSupplyAndUp(IntrinsicElectronicData ComingFrom)
 	//{
 	//	if (ComingFrom == TheStart) {
 
@@ -47,14 +48,38 @@ public class CableLine { //Meant to be an intermediary for long stretches of cab
 	//	}
 	//}
 
+
+	public void Kill()
+	{
+		foreach (var Cable in Covering)
+		{
+			var Wire = Cable.Present as WireConnect;
+			Wire.RelatedLine = null;           
+		}
+	}
+
+	public void FlushConnectionAndUp(IntrinsicElectronicData ComingFrom)
+	{
+		if (ComingFrom == TheStart)
+		{
+			TheEnd.Present.FlushConnectionAndUp();
+		}
+		else if (ComingFrom == TheEnd)
+		{
+			TheStart.Present.FlushConnectionAndUp();
+		}
+
+	}
+
 	public void UpdateCoveringCable()
 	{
-		for (int i = 0; i< Covering.Count; i++)
+		foreach (var Cable in Covering)
 		{
-			Covering[i].Data.ActualVoltage = TheStart.Data.ActualVoltage;
-			Covering[i].Data.CurrentInWire = TheStart.Data.CurrentInWire;
-			Covering[i].Data.EstimatedResistance = TheStart.Data.EstimatedResistance;
+			Cable.Present.Data.ActualVoltage = TheStart.Present.Data.ActualVoltage;
+			Cable.Present.Data.CurrentInWire = TheStart.Present.Data.CurrentInWire;
+			Cable.Present.Data.EstimatedResistance = TheStart.Present.Data.EstimatedResistance;
 		}
+
 	}
 
 }
