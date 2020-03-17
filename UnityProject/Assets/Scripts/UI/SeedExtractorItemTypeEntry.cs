@@ -31,16 +31,10 @@ public class SeedExtractorItemTypeEntry : DynamicEntry
 		itemIcon.SetValue = seedPackets.First().name;
 		itemCount.SetValue = $"({seedPackets.Count.ToString()})";
 		itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
-		SetupSroll(seedPackets, correspondingWindow);
 	}
-	private void SetupSroll(List<GameObject> seeds, GUI_SeedExtractor correspondingWindow)
+
+	public void Show()
 	{
-		itemList.Clear();
-		itemList.AddItems(seeds.Count);
-		for (int i = 0; i < seeds.Count; i++)
-		{
-			SeedExtractorItemEntry item = itemList.Entries[i] as SeedExtractorItemEntry;
-			item.SetItem(seeds[i], correspondingWindow);
-		}
+		seedExtractorWindow.SelectSeedType(seedPackets.First().name);
 	}
 }

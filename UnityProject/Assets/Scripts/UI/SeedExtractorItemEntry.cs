@@ -26,18 +26,10 @@ public class SeedExtractorItemEntry : DynamicEntry
 		seedExtractorWindow = correspondingWindow;
 		itemName.SetValue = seedPacket.name;
 		itemIcon.SetValue = seedPacket.name;
-		//itemCount.SetValue = $"({seedPackets.Count.ToString()})";
-		/*if (vendorItem.Stock <= 0)
-		{
-			itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(emptyStockColor);
-		}
-		else
-		{*/
 		itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
-		//}
 	}
 
-	public void VendorItem()
+	public void Dispense()
 	{
 		if (seedPacket == null || seedExtractorWindow == null)
 		{

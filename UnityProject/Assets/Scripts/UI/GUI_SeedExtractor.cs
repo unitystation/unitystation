@@ -13,12 +13,19 @@ public class GUI_SeedExtractor : NetTab
 	private SeedExtractor seedExtractor;
 	private Dictionary<string, List<GameObject>> seedExtractorContent = new Dictionary<string, List<GameObject>>();
 	[SerializeField]
-	private EmptyItemList itemList = null;
+	private EmptyItemList seedTypeList = null;
+	[SerializeField]
+	private EmptyItemList seedList = null;
 	[SerializeField]
 	private NetColorChanger hullColor = null;
 	[SerializeField]
+	private RectTransform backButton = null;
+	[SerializeField]
+	private RectTransform title = null;
+	[SerializeField]
 	private string deniedMessage = "Bzzt.";
 	private bool inited = false;
+	private string selectedSeedType;
 
 	private void Start()
 	{
@@ -91,16 +98,55 @@ public class GUI_SeedExtractor : NetTab
 
 	/// <summary>
 	/// Updates GUI list from content list
+	/// Shows selected seeds or if none are selected then list of types
 	/// </summary>
 	private void UpdateList()
 	{
-		itemList.Clear();
-		itemList.AddItems(seedExtractorContent.Count);
-		for (int i = 0; i < seedExtractorContent.Count; i++)
+		seedTypeList.Clear();
+		seedList.Clear();
+
+		if (selectedSeedType == null)
 		{
-			SeedExtractorItemTypeEntry item = itemList.Entries[i] as SeedExtractorItemTypeEntry;
-			item.SetItem(seedExtractorContent.Values.ToList()[i], this);
+			seedTypeList.AddItems(seedExtractorContent.Count);
+			for (int i = 0; i < seedExtractorContent.Count; i++)
+			{
+				SeedExtractorItemTypeEntry item = seedTypeList.Entries[i] as SeedExtractorItemTypeEntry;
+				var seedList = seedExtractorContent.Values.ToList();
+				item.SetItem(seedList[i], this);
+			}
 		}
+		else
+		{
+			//If the entry doesn't exist go back to the main menu
+			if (!seedExtractorContent.ContainsKey(selectedSeedType))
+			{
+				Back();
+				return;
+			}
+			var selectedSeeds = seedExtractorContent[selectedSeedType];
+			seedList.AddItems(selectedSeeds.Count);
+			for (int i = 0; i < selectedSeeds.Count; i++)
+			{
+				SeedExtractorItemEntry item = seedList.Entries[i] as SeedExtractorItemEntry;
+				item.SetItem(selectedSeeds[i], this);
+			}
+		}
+	}
+
+	public void SelectSeedType(string seedType)
+	{
+		//backButton.localScale = new Vector3(1, 1, 1);
+		//title.localScale = new Vector3(0, 0, 0);
+		selectedSeedType = seedType;
+		UpdateList();
+	}
+
+	public void Back()
+	{
+		//backButton.localScale = new Vector3(0, 0, 0);
+		//title.localScale = new Vector3(1, 1, 1);
+		selectedSeedType = null;
+		UpdateList();
 	}
 
 	public void DispenseSeedPacket(GameObject item)
