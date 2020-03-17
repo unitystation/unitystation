@@ -101,7 +101,7 @@ namespace Telepathy
                 }
 
                 // write the whole thing
-                stream.Write(payload, 0, packetSize);
+                stream?.Write(payload, 0, packetSize);
 
                 return true;
             }
@@ -159,7 +159,7 @@ namespace Telepathy
             NetworkStream stream = client.GetStream();
 	       // keep track of last message queue warning
             DateTime messageQueueLastWarning = DateTime.Now;
-            
+
             // absolutely must wrap with try/catch, otherwise thread exceptions
             // are silent
             try
