@@ -64,6 +64,16 @@ public class DoorController : NetworkBehaviour
 		private int openLayer;
 		private int openSortingLayer;
 
+		[Tooltip("Toggle whether door checks for pressure differences to warn about space wind")]
+		public bool enablePressureWarning = false;
+		[Tooltip("First frame of the door pressure light animation")]
+		public int DoorPressureSpriteOffset = 25;
+		// Upper yellow emergency access lights - 22 for glass door and space ship, 12 for exterior airlocks.
+		// After pressure alert issued, time until it will display the alert again instead of opening.
+		private int pressureWarningCooldown = 5;
+		private int pressureThreshold = 30; // kPa
+		private bool pressureWarnActive = false;
+
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
@@ -190,7 +200,7 @@ public class DoorController : NetworkBehaviour
 			if (openSFX != null)
 			{
 				// Need to play this sound as global - this will ignore muffle effect
-				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, isGlobal: true);
+				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -198,7 +208,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (closeSFX != null)
 			{
-				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition);
+				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -235,13 +245,24 @@ public class DoorController : NetworkBehaviour
 			}
 			if (AccessRestrictions != null)
 			{
-				if (AccessRestrictions.CheckAccess(Originator)) {
-					if (IsClosed && !isPerformingAction) {
-						ServerOpen();
+				if (AccessRestrictions.CheckAccess(Originator))
+				{
+					if (IsClosed && !isPerformingAction)
+					{
+						if (DoorUnderPressure() && !pressureWarnActive)
+						{
+							ServerPressureWarn();
+						}
+						else
+						{
+							ServerOpen();
+						}
 					}
 				}
-				else {
-					if (IsClosed && !isPerformingAction) {
+				else
+				{
+					if (IsClosed && !isPerformingAction)
+					{
 						ServerAccessDenied();
 					}
 				}
@@ -324,6 +345,51 @@ public class DoorController : NetworkBehaviour
 
 			coWaitOpened = WaitUntilClose();
 			StartCoroutine(coWaitOpened);
+		}
+
+		IEnumerator PressureWarnDelay()
+		{
+			yield return WaitFor.Seconds(pressureWarningCooldown);
+			pressureWarnActive = false;
+		}
+
+		private void ServerPressureWarn()
+		{
+			pressureWarnActive = true;
+			StartCoroutine(PressureWarnDelay());
+			DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.PressureWarn);
+		}
+
+		/// <summary>
+		///  Checks each side of the door and returns true if there is a pressure difference between opposing sides.
+		///  Used to allow the player to be made aware of the pressure difference for safety.
+		///  TODO: Evaluate if necessary to check that a side has gas (e.g. not a wall).
+		///  TODO: Investigate if a wall constructed in space has different pressure reading than a pre-existing wall.
+		/// </summary>
+		/// <returns></returns>
+		private bool DoorUnderPressure()
+		{
+			if (!enablePressureWarning)
+			{
+				// Pressure warning system is disabled, so pretend there is no pressure difference.
+				return false;
+			}
+
+			var upMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.up);
+			var downMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.down);
+			var leftMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.left);
+			var rightMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.right);
+
+			// Two comparisons: top and bottom, left and right. May not work if passage through the airlock is at right angles.
+			var vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
+			var horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
+
+			if (vertPressureDiff >= pressureThreshold || horzPressureDiff >= pressureThreshold)
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		#region UI Mouse Actions

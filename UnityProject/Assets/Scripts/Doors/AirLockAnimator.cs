@@ -51,6 +51,18 @@ using UnityEditor;
 			}
 		}
 
+		// TODO: Add SFX for quicker player association with the pressure warning
+		public override void PressureWarn(bool skipAnimation)
+		{
+			if (skipAnimation)
+			{
+				//do nothing
+				return;
+			}
+			doorController.isPerformingAction = true;
+			StartCoroutine(PlayPressureWarnAnim());
+		}
+
 		public override void OpenDoor(bool skipAnimation)
 		{
 			doorController.isPerformingAction = true;
@@ -226,6 +238,26 @@ using UnityEditor;
 				yield return WaitFor.Seconds(0.05f);
 			}
 			overlay_Lights.sprite = null;
+			doorController.isPerformingAction = false;
+		}
+
+		/// <summary>
+        /// Flashes the door's emergency access (yellow) lights several times.
+        /// Sprite offset varies depending on door type - set in each door prefab.
+        /// </summary>
+        /// <returns></returns>
+		private IEnumerator PlayPressureWarnAnim()
+		{
+			int flashCount = 3;
+
+			for (int i = 0; i < flashCount; i++)
+			{
+				overlay_Lights.sprite = overlayLights[doorController.DoorPressureSpriteOffset];
+				yield return WaitFor.Seconds(0.1f);
+				overlay_Lights.sprite = null;
+				yield return WaitFor.Seconds(0.1f);
+			}
+
 			doorController.isPerformingAction = false;
 		}
 

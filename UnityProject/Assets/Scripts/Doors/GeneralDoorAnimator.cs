@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -96,6 +96,17 @@ public class GeneralDoorAnimator : DoorAnimator
 		doorController.isPerformingAction = true;
 		SoundManager.PlayAtPosition("AccessDenied", transform.position);
 		StartCoroutine(PlayDeniedAnim());
+	}
+
+	/// <summary>
+    /// Not implemented
+    /// For doors that aren't airlocks: WinDoors, shutters, etc.
+    /// Not needed for what's currently available but this may change in the future.
+    /// </summary>
+    /// <param name="skipAnimation"></param>
+	public override void PressureWarn(bool skipAnimation)
+	{
+		return;
 	}
 
 	private IEnumerator Delay()

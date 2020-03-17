@@ -56,5 +56,6 @@ public class DoorUpdateMessage : ServerMessage {
 public enum DoorUpdateType {
 	Open = 0,
 	Close = 1,
-	AccessDenied = 2
+	AccessDenied = 2,
+	PressureWarn = 3
 }
