@@ -13,43 +13,37 @@ MonoBehaviour:
   m_Name: carrot_parsnip
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: carrot_parsnip
     Plantname: Parsnip
     Description: These seeds grow into parsnips.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 9fcf3c8b7f58f9e4894a0a35c0356a8a, type: 3}
+      Texture: {fileID: 2800000, guid: 90f1542ceb923e949ad8c56facf120c2, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 9fcf3c8b7f58f9e4894a0a35c0356a8a, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 464f6adee85eeff4eb2ea97bec4a00bf, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 464f6adee85eeff4eb2ea97bec4a00bf, type: 3}
+      - {fileID: 21300000, guid: 90f1542ceb923e949ad8c56facf120c2, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 4bd778c81afbb9645b762b17cb577a24, type: 3}
+    - Texture: {fileID: 2800000, guid: b80c983a1348c014988439a90c4ce335, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 4bd778c81afbb9645b762b17cb577a24, type: 3}
+      - {fileID: 21300000, guid: b80c983a1348c014988439a90c4ce335, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 14ab62f174d4d2849b8864b927998796, type: 3}
+    - Texture: {fileID: 2800000, guid: 7da007bcf15ae49429866b4b27f124ff, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 14ab62f174d4d2849b8864b927998796, type: 3}
+      - {fileID: 21300000, guid: 7da007bcf15ae49429866b4b27f124ff, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: cd0778740f5e4cf46a07a1d0c2f387c5, type: 3}
+    - Texture: {fileID: 2800000, guid: c277664459aa5d647b06ed07c384e21a, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: cd0778740f5e4cf46a07a1d0c2f387c5, type: 3}
+      - {fileID: 21300000, guid: c277664459aa5d647b06ed07c384e21a, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: b5fceeb752e6dd64583504fcc5dd6919, type: 3}
+      Texture: {fileID: 2800000, guid: 77ee663f619ad8242b49e646695dd5d5, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b5fceeb752e6dd64583504fcc5dd6919, type: 3}
+      - {fileID: 21300000, guid: 77ee663f619ad8242b49e646695dd5d5, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 0fa3dfa4ecad4014c9b1b162949e79c9, type: 3}
+      Texture: {fileID: 2800000, guid: 8cac845cf06de884d98036502092ddbd, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 0fa3dfa4ecad4014c9b1b162949e79c9, type: 3}
+      - {fileID: 21300000, guid: 8cac845cf06de884d98036502092ddbd, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,11 +53,7 @@ MonoBehaviour:
     Yield: 50
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 5
-    - Name: nutriment
-      Ammount: 5
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -73,16 +63,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: vitamin
-    Ammount: 5
-  - Name: nutriment
-    Ammount: 5
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: oculine
-    Ammount: 25
-  - Name: vitamin
-    Ammount: 3
-  - Name: nutriment
-    Ammount: 5
+  RemoveReagentProduction: []

@@ -38,7 +38,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
 	[SerializeField]
-	private int exportCost;
+	private int exportCost = 0;
 	public int ExportCost
 	{
 		get
@@ -57,12 +57,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
 	[SerializeField]
-	private string exportName;
+	private string exportName = null;
 	public string ExportName => exportName;
 
 	[Tooltip("Additional message to display in the cargo console report.")]
 	[SerializeField]
-	private string exportMessage;
+	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
 
 	[SyncVar(hook = nameof(SyncArticleDescription))]
@@ -75,8 +75,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	public override void OnStartClient()
 	{
-		SyncArticleName(articleName, this.name);
-		SyncArticleDescription(articleDescription, this.articleDescription);
+		SyncArticleName(articleName, articleName);
+		SyncArticleDescription(articleDescription, articleDescription);
 		base.OnStartClient();
 	}
 

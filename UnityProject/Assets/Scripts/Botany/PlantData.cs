@@ -11,7 +11,7 @@ public class PlantData
 	public string Plantname;
 	public string Description;
 	public SpriteSheetAndData PacketsSprite;
-	public SpriteSheetAndData ProduceSprite;
+	//public SpriteSheetAndData ProduceSprite;
 	public List<SpriteSheetAndData> GrowthSprites = new List<SpriteSheetAndData>();
 	public SpriteSheetAndData FullyGrownSprite;
 	public SpriteSheetAndData DeadSprite;
@@ -27,6 +27,41 @@ public class PlantData
 	public List<Reagent> ReagentProduction = new List<Reagent>();
 	public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
 
+	public int Age { get; set; }
+	public int NextGrowthStageProgress { get; set; }
+	public float Health { get; set; }
+
+	//Use static methods to create new instances of PlantData
+	private PlantData() { }
+
+	/// <summary>
+	/// Gets a new instance of PlantData based on param
+	/// </summary>
+	/// <param name="defaultPlantData">DefaultPlantData to copy</param>
+	/// <returns></returns>
+	public static PlantData CreateNewPlant(DefaultPlantData defaultPlantData)
+	{
+		PlantData newPlant = new PlantData();
+		newPlant.SetValues(defaultPlantData);
+		newPlant.Health = 100;
+		newPlant.Age = 0;
+		return newPlant;
+	}
+
+	/// <summary>
+	/// Gets a new instance of PlantData based on param
+	/// </summary>
+	/// <param name="plantData">PlantData to copy</param>
+	/// <returns></returns>
+	public static PlantData CreateNewPlant(PlantData plantData)
+	{
+		PlantData newPlant = new PlantData();
+		newPlant.SetValues(plantData);
+		newPlant.Health = 100;
+		newPlant.Age = 0;
+		return newPlant;
+	}
+
 	/// <summary>
 	/// Mutates the plant instance this is run against
 	/// </summary>
@@ -39,7 +74,7 @@ public class PlantData
 		Name = _DefaultPlantData.plantData.Name;
 		ProduceObject = _DefaultPlantData.plantData.ProduceObject;
 		PacketsSprite = _DefaultPlantData.plantData.PacketsSprite;
-		ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
+		//ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
 		GrowthSprites = _DefaultPlantData.plantData.GrowthSprites;
 		FullyGrownSprite = _DefaultPlantData.plantData.FullyGrownSprite;
 		DeadSprite = _DefaultPlantData.plantData.DeadSprite;
@@ -63,14 +98,14 @@ public class PlantData
 	/// Initializes plant with data another plant object
 	/// </summary>
 	/// <param name="_PlantData">data to copy</param>
-	public void SetValues(PlantData _PlantData)
+	private void SetValues(PlantData _PlantData)
 	{
 		Plantname = _PlantData.Plantname;
 		Description = _PlantData.Description;
 		Name = _PlantData.Name;
 		ProduceObject = _PlantData.ProduceObject;
 		PacketsSprite = _PlantData.PacketsSprite;
-		ProduceSprite = _PlantData.ProduceSprite;
+		//ProduceSprite = _PlantData.ProduceSprite;
 		GrowthSprites = _PlantData.GrowthSprites;
 		FullyGrownSprite = _PlantData.FullyGrownSprite;
 		DeadSprite = _PlantData.DeadSprite;
@@ -90,7 +125,7 @@ public class PlantData
 	/// Initializes plant with data from default plant
 	/// </summary>
 	/// <param name="DefaultPlantData">DefaultPlantData.plantdata's values are copied</param>
-	public void SetValues(DefaultPlantData DefaultPlantData)
+	private void SetValues(DefaultPlantData DefaultPlantData)
 	{
 		var _PlantData = DefaultPlantData.plantData;
 		Name = _PlantData.Name;
@@ -104,10 +139,10 @@ public class PlantData
 		{
 			PacketsSprite = _PlantData.PacketsSprite;
 		}
-		if (ProduceSprite?.Texture == null)
-		{
-			ProduceSprite = _PlantData.ProduceSprite;
-		}
+		//if (ProduceSprite?.Texture == null)
+		//{
+		//	ProduceSprite = _PlantData.ProduceSprite;
+		//}
 
 		if (GrowthSprites.Count == 0)
 		{
@@ -141,7 +176,7 @@ public class PlantData
 	/// Combine plants reagents removing any duplicates, Keeps highest yield
 	/// </summary>
 	/// <param name="Reagents">New reagents to combine</param>
-	public void CombineReagentProduction(List<Reagent> Reagents)
+	private void CombineReagentProduction(List<Reagent> Reagents)
 	{
 		var ToRemove = new List<Reagent>();
 		Reagents.AddRange(ReagentProduction);

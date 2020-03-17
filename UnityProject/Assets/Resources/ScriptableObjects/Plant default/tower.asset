@@ -13,42 +13,38 @@ MonoBehaviour:
   m_Name: tower
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
       type: 3}
     Name: tower
     Plantname: Tower Caps
     Description: This mycelium grows into tower-cap mushrooms.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 397a3d20fd4db8d448742c20980a992e, type: 3}
+      Texture: {fileID: 2800000, guid: 3686435fd5ccde34f89765c27cb9b71b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 397a3d20fd4db8d448742c20980a992e, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
+      - {fileID: 21300000, guid: 3686435fd5ccde34f89765c27cb9b71b, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: eb96ff9f7c02baa4dbbde481253ee625, type: 3}
+    - Texture: {fileID: 2800000, guid: dfc18f5db27d6ab4689e11b66c0cc5be, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: eb96ff9f7c02baa4dbbde481253ee625, type: 3}
+      - {fileID: 21300000, guid: dfc18f5db27d6ab4689e11b66c0cc5be, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 87b96d2b16764eb43b78646a0254a985, type: 3}
+    - Texture: {fileID: 2800000, guid: 1b9f4e35cb565714b8532988bbfb56d7, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 87b96d2b16764eb43b78646a0254a985, type: 3}
+      - {fileID: 21300000, guid: 1b9f4e35cb565714b8532988bbfb56d7, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 897f5d54973165940acd0c275ec9c168, type: 3}
+    - Texture: {fileID: 2800000, guid: eb1b1050ba602e74f977f88fcd2af37e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 897f5d54973165940acd0c275ec9c168, type: 3}
+      - {fileID: 21300000, guid: eb1b1050ba602e74f977f88fcd2af37e, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: eb96ff9f7c02baa4dbbde481253ee625, type: 3}
+      Texture: {fileID: 2800000, guid: dfc18f5db27d6ab4689e11b66c0cc5be, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: eb96ff9f7c02baa4dbbde481253ee625, type: 3}
+      - {fileID: 21300000, guid: dfc18f5db27d6ab4689e11b66c0cc5be, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 4c2cce256a5e5b24494cf89a23c1f65e, type: 3}
+      Texture: {fileID: 2800000, guid: de5805f6e6311fc4ab47a865623ca744, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 4c2cce256a5e5b24494cf89a23c1f65e, type: 3}
+      - {fileID: 21300000, guid: de5805f6e6311fc4ab47a865623ca744, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10

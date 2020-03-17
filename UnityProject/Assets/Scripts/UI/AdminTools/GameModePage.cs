@@ -9,11 +9,11 @@ namespace AdminTools
 	public class GameModePage : AdminPage
 	{
 		[SerializeField]
-		private Text currentText;
+		private Text currentText = null;
 		[SerializeField]
-		private Dropdown nextDropDown;
+		private Dropdown nextDropDown = null;
 		[SerializeField]
-		private Toggle isSecretToggle;
+		private Toggle isSecretToggle = null;
 
 		//Next GM change via drop down box
 		public void OnNextChange()

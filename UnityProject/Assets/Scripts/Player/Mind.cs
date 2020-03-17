@@ -100,15 +100,18 @@ public class Mind
 		IsGhosting = false;
 	}
 
-	public bool ConfirmClone(int recordMobID)
+	/// <summary>
+	/// Get the cloneable status of the player's mind, relative to the passed mob ID.
+	/// </summary>
+	public CloneableStatus GetCloneableStatus(int recordMobID)
 	{
 		if (bodyMobID != recordMobID)
 		{  //an old record might still exist even after several body swaps
-			return false;
+			return CloneableStatus.OldRecord;
 		}
 		if (DenyCloning)
 		{
-			return false;
+			return CloneableStatus.DenyingCloning;
 		}
 		var currentMob = GetCurrentMob();
 		if (!IsGhosting)
@@ -116,25 +119,21 @@ public class Mind
 			var livingHealthBehaviour = currentMob.GetComponent<LivingHealthBehaviour>();
 			if (!livingHealthBehaviour.IsDead)
 			{
-				return false;
+				return CloneableStatus.StillAlive;
 			}
 		}
 		if (!IsOnline(currentMob))
 		{
-			return false;
+			return CloneableStatus.Offline;
 		}
 
-		return true;
+		return CloneableStatus.Cloneable;
 	}
 
 	public bool IsOnline(GameObject currentMob)
 	{
 		NetworkConnection connection = currentMob.GetComponent<NetworkIdentity>().connectionToClient;
-		if (PlayerList.Instance.ContainsConnection(connection) == false)
-		{
-			return false;
-		}
-		return true;
+		return PlayerList.Instance.ContainsConnection(connection);
 	}
 
 	/// <summary>

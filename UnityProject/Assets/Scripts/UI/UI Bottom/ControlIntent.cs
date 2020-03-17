@@ -54,7 +54,7 @@ using UnityEngine.EventSystems;
 			}
 
 			UIManager.CurrentIntent = (Intent) intent;
-			thisImg.sprite = sprites[intent];
+			if(thisImg != null) thisImg.sprite = sprites[intent];
 		}
 
 		//Hotkey method

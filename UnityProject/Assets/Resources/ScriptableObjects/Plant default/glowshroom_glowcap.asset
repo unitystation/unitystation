@@ -13,54 +13,48 @@ MonoBehaviour:
   m_Name: glowshroom_glowcap
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: glowshroom_glowcap
     Plantname: Glowcaps
     Description: This mycelium -powers- into mushrooms!
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: 5699d70a485e1ba4ab3ce5e453d090fa, type: 3}
+      Texture: {fileID: 2800000, guid: ec0563da05b12994da2c93ba26d769fb, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 5699d70a485e1ba4ab3ce5e453d090fa, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: a0a5a380b4da6274d93a1619572dee3b, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a0a5a380b4da6274d93a1619572dee3b, type: 3}
+      - {fileID: 21300000, guid: ec0563da05b12994da2c93ba26d769fb, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 582f7c8786e37884e9d78cc1309016c6, type: 3}
+    - Texture: {fileID: 2800000, guid: d333a0f0b8ce83a4695a33cc624fd856, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 582f7c8786e37884e9d78cc1309016c6, type: 3}
+      - {fileID: 21300000, guid: d333a0f0b8ce83a4695a33cc624fd856, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: b9087efd0ba9e9d4caf29bfa887640b5, type: 3}
+    - Texture: {fileID: 2800000, guid: 9d03bda734871f14faeec4a521fe287f, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b9087efd0ba9e9d4caf29bfa887640b5, type: 3}
+      - {fileID: 21300000, guid: 9d03bda734871f14faeec4a521fe287f, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: b6a1bc319b492ee4990df86f4e14f635, type: 3}
+    - Texture: {fileID: 2800000, guid: 6673609a5500a244db294968d9048d7f, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: b6a1bc319b492ee4990df86f4e14f635, type: 3}
+      - {fileID: 21300000, guid: 6673609a5500a244db294968d9048d7f, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 86f73d9777e627449851b3990e732402, type: 3}
+    - Texture: {fileID: 2800000, guid: d16f39f33c402ff49b30709a19f10903, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 86f73d9777e627449851b3990e732402, type: 3}
+      - {fileID: 21300000, guid: d16f39f33c402ff49b30709a19f10903, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
+      Texture: {fileID: 2800000, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      - {fileID: 21300002, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      - {fileID: 21300004, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      - {fileID: 21300006, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      - {fileID: 21300008, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      - {fileID: 21300010, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      - {fileID: 21300012, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      - {fileID: 21300014, guid: 3363e19c812780648881b4ce82350bdd, type: 3}
-      EquippedData: {fileID: 4900000, guid: b4a30c31db5f3ae47aebd159c700e083, type: 3}
+      - {fileID: -4076659103613678445, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      - {fileID: 356020713836392871, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      - {fileID: 3801489327397335936, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      - {fileID: 8883766783015799422, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      - {fileID: 1653539008777539458, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      - {fileID: -5763064686002029047, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      - {fileID: -2578652926993921514, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      - {fileID: 5178706280533885441, guid: 59c891eaed727d94587888dd88106bfa, type: 3}
+      EquippedData: {fileID: 4900000, guid: ea001dada6584ba4190bda8823f7f433, type: 3}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 7a86038a610aab149a7bea6a49890b4f, type: 3}
+      Texture: {fileID: 2800000, guid: 0db51834bd288104c90c4d0111619bfe, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 7a86038a610aab149a7bea6a49890b4f, type: 3}
+      - {fileID: 21300000, guid: 0db51834bd288104c90c4d0111619bfe, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -70,11 +64,7 @@ MonoBehaviour:
     Yield: 30
     Lifespan: 100
     PlantTrays: 0a0000000b00000002000000
-    ReagentProduction:
-    - Name: teslium
-      Ammount: 10
-    - Name: nutriment
-      Ammount: 3
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -84,16 +74,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 0a0000000b000000
-  ReagentProduction:
-  - Name: teslium
-    Ammount: 10
-  - Name: nutriment
-    Ammount: 3
+  ReagentProduction: []
   RemovePlantTrays: 0d000000
-  RemoveReagentProduction:
-  - Name: radium
-    Ammount: 10
-  - Name: phosphorus
-    Ammount: 10
-  - Name: nutriment
-    Ammount: 3
+  RemoveReagentProduction: []

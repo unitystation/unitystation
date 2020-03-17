@@ -20,27 +20,27 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			int allCargomen = 0;
-			int allAliveCargomen = 0;
+			int allRebels = 0;
+			int allAliveRebels = 0;
 			foreach (var p in PlayerList.Instance.AllPlayers)
 			{
 				if (p.Script == null) continue;
-				if (p.Job == JobType.CARGOTECH || p.Job == JobType.QUARTERMASTER
-				                               || p.Job == JobType.MINER)
+				
+				foreach (JobType rebeljob in GameManager.Instance.Rebels)
 				{
-					allCargomen++;
+					if (p.Job == rebeljob) allRebels++;
 				}
 
 				if (p.Script.playerHealth != null)
 				{
 					if (!p.Script.playerHealth.IsDead)
 					{
-						allAliveCargomen++;
+						allAliveRebels++;
 					}
 				}
 			}
 
-			if (allAliveCargomen >= (double)allCargomen / 2)
+			if (allAliveRebels >= (double)allRebels / 2)
 			{
 				return true;
 			}

@@ -15,7 +15,7 @@ public class DoorController : NetworkBehaviour
 
 		private int closedLayer;
 		private int closedSortingLayer;
-		public AudioSource closeSFX;
+		public string openSFX = "AirlockOpen", closeSFX = "AirlockClose";
 
 		private IEnumerator coWaitOpened;
 		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
@@ -25,8 +25,8 @@ public class DoorController : NetworkBehaviour
 		private int doorDirection;
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
 		[Tooltip("first frame of the door animation")] public int DoorSpriteOffset;
-		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay;
-		[SerializeField] private Sprite weldSprite;
+		[SerializeField] [Tooltip("SpriteRenderer which is toggled when welded. Existence is equivalent to weldability of door.")] private SpriteRenderer weldOverlay = null;
+		[SerializeField] private Sprite weldSprite = null;
 		/// <summary>
 		/// Is door weldedable?
 		/// </summary>
@@ -36,6 +36,9 @@ public class DoorController : NetworkBehaviour
 
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		public bool damageOnClose = false;
+
+		[Tooltip("Amount of damage when closed on someone.")]
+		public float damageClosed = 90;
 
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		public bool ignorePassableChecks;
@@ -59,7 +62,6 @@ public class DoorController : NetworkBehaviour
 		[Tooltip("Does the denied light animation only toggle 1 frame on and?")] public bool useSimpleDeniedAnimation = false;
 		public float maxTimeOpen = 5;
 		private int openLayer;
-		public AudioSource openSFX;
 		private int openSortingLayer;
 
 		public OpeningDirection openingDirection;
@@ -187,7 +189,8 @@ public class DoorController : NetworkBehaviour
 		{
 			if (openSFX != null)
 			{
-				openSFX.Play();
+				// Need to play this sound as global - this will ignore muffle effect
+				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -195,16 +198,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (closeSFX != null)
 			{
-				closeSFX.Play();
-			}
-		}
-
-		public void PlayCloseSFXshort()
-		{
-			if (closeSFX != null)
-			{
-				closeSFX.time = 0.6f;
-				closeSFX.Play();
+				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -314,7 +308,7 @@ public class DoorController : NetworkBehaviour
 			{
 				foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.LocalPositionServer, true) )
 				{
-					healthBehaviour.ApplyDamage(gameObject, 500, AttackType.Melee, DamageType.Brute);
+					healthBehaviour.ApplyDamage(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
 				}
 			}
 
@@ -358,5 +352,4 @@ public class DoorController : NetworkBehaviour
 			}
 		}
 	}
-
 

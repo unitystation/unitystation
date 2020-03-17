@@ -25,10 +25,10 @@ public class ControlDisplays : MonoBehaviour
 	public RectTransform panelRight;
 
 	[SerializeField]
-	private GameObject rightClickManager;
+	private GameObject rightClickManager = null;
 
-	[SerializeField] private Animator uiAnimator;
-	[SerializeField] private VideoPlayerController videoController;
+	[SerializeField] private Animator uiAnimator = null;
+	[SerializeField] private VideoPlayerController videoController = null;
 	public VideoPlayerController VideoPlayer => videoController;
 
 	void OnEnable()
@@ -176,6 +176,7 @@ public class ControlDisplays : MonoBehaviour
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(false);
 		disclaimer.SetActive(true);
+		UIManager.Instance.adminChatButtons.gameObject.SetActive(false);
 	}
 
 	public void SetScreenForGame()

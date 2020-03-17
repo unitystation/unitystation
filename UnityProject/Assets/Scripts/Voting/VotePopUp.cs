@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class VotePopUp : MonoBehaviour
 {
-	[SerializeField] private Text voteTitle;
-	[SerializeField] private Text voteInstigator;
-	[SerializeField] private Text voteCount;
-	[SerializeField] private Text voteTimer;
-	[SerializeField] private Button yesBtn;
-	[SerializeField] private Button noBtn;
+	[SerializeField] private Text voteTitle = null;
+	[SerializeField] private Text voteInstigator = null;
+	[SerializeField] private Text voteCount = null;
+	[SerializeField] private Text voteTimer = null;
+	[SerializeField] private Button yesBtn = null;
+	[SerializeField] private Button noBtn = null;
 
 	public void ShowVotePopUp(string title, string instigator, string currentCount, string timer)
 	{

@@ -26,11 +26,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[Tooltip("whether this is for the local player's top level inventory or will be instead used" +
 	         " for another player's inventory.")]
 	[SerializeField]
-	private bool forLocalPlayer;
+	private bool forLocalPlayer = false;
 
 	[Tooltip("Name to display when hovering over this slot in the UI")]
 	[SerializeField]
-	private string hoverName;
+	private string hoverName = null;
 
 	[Tooltip("Whether this slot is initially visible in the UI.")]
 	[SerializeField]
@@ -295,11 +295,9 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			return;
 		}
-
 		sprite = null;
 		image.enabled = false;
 		secondaryImage.enabled = false;
-		ControlTabs.CheckTabClose();
 		image.sprite = null;
 		secondarySprite = null;
 		secondaryImage.sprite = null;
@@ -307,6 +305,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			amountText.enabled = false;
 		}
+
 
 	}
 

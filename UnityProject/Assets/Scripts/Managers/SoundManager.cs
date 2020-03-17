@@ -158,7 +158,7 @@ public class SoundManager : MonoBehaviour
 	public List<AudioSource> musicTracks = new List<AudioSource>();
 
 	[SerializeField]
-	private SongTracker songTracker;
+	private SongTracker songTracker = null;
 	/// <summary>
 	/// For controlling the song play list. Includes random shuffle and auto play
 	/// </summary>
@@ -485,7 +485,7 @@ public class SoundManager : MonoBehaviour
 	/// Play sound locally at given world position.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayAtPosition(string name, Vector3 worldPos, float pitch = -1, bool polyphonic = false)
+	public static void PlayAtPosition(string name, Vector3 worldPos, float pitch = -1, bool polyphonic = false, bool isGlobal = false)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		if (Instance.sounds.ContainsKey(name))
@@ -496,7 +496,7 @@ public class SoundManager : MonoBehaviour
 				sound.pitch = pitch;
 			}
 			sound.transform.position = worldPos;
-			Play(name, polyphonic, false);
+			Play(name, polyphonic, isGlobal);
 		}
 	}
 

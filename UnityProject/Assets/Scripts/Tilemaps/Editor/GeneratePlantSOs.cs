@@ -6,14 +6,20 @@ using Newtonsoft.Json;
 
 public class GeneratePlantSOs : EditorWindow
 {
+	private static Dictionary<string, string> dictonaryErrors;
+
 	[MenuItem("Tools/GeneratePlantSOs")]
 	public static void Generate()
 	{
+		float progressbarStep;
+		float progressbarState;
 		DirectoryInfo d = new DirectoryInfo(Application.dataPath + @"\Textures\objects\hydroponics\growing");
 		FileInfo[] Files = d.GetFiles("*.png");// \\Getting Text files
 		var ListFiles = new List<string>();
+		dictonaryErrors = new Dictionary<string, string>();
 		var PlantDictionary = new Dictionary<string, DefaultPlantData>();
 		var PlantDictionaryObject = new Dictionary<string, System.Object>();
+		
 		foreach (FileInfo file in Files)
 		{
 			ListFiles.Add(file.Name);
@@ -22,132 +28,123 @@ public class GeneratePlantSOs : EditorWindow
 		var food = (Resources.Load(@"Prefabs\Items\Botany\food") as GameObject);
 		var json = (Resources.Load(@"Metadata\plants") as TextAsset).ToString();
 		var plats = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+
+		progressbarStep = 1f / (plats.Count * ListFiles.Count);
+		progressbarState = 0;
 		foreach (var plat in plats)
 		{
+			EditorUtility.DisplayProgressBar("Step 1/3 Setting Sprites", "Loading plant: " + plat["name"], progressbarState);
 			//\\foreach (var Datapiece in plat)
 			//\\{
 			//\\	Logger.Log(Datapiece.Key);
 			//\\}
 
-			var plantdata = new PlantData
-			{
-				ProduceObject = food,
-				Name = plat["name"] as string
-			};
+			var plantdata = PlantData.CreateNewPlant((PlantData)null);
+			plantdata.ProduceObject = food;
+			plantdata.Name = plat["name"] as string;
+
 			if (plat.ContainsKey("plantname"))
 			{
 				plantdata.Plantname = plat["plantname"] as string;
 			}
 			plantdata.Description = plat["Description"] as string;
-			var seed_packet = "";
+			var species = "";
 			if (plat.ContainsKey("species"))
 			{
-				seed_packet = (plat["species"] as string);
+				species = (plat["species"] as string);
 			}
 			else
 			{
-				seed_packet = (plat["seed_packet"] as string);
-				if (seed_packet.Contains("seed-"))
+				Debug.Log($"Unable to find 'species' tag for plant {plantdata.Name}, using 'seed_packet' instead");
+				species = (plat["seed_packet"] as string);
+				if (species.Contains("seed-"))
 				{
-					seed_packet = seed_packet.Replace("seed-", "");
+					species = species.Replace("seed-", "");
 				}
-				else if (seed_packet.Contains("mycelium-"))
+				else if (species.Contains("mycelium-"))
 				{
-					seed_packet = seed_packet.Replace("mycelium-", "");
+					species = species.Replace("mycelium-", "");
 				}
-			}
-
-			//
-			Logger.Log(seed_packet);
-			//Logger.Log(plat["seed_packet"] as string);
-			//Logger.Log("harvest_" + seed_packet);
+			};
 
 			plantdata.PacketsSprite = new SpriteSheetAndData();
-			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\seeds_" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
+			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
 			plantdata.PacketsSprite.setSprites();
 
-			plantdata.ProduceSprite = new SpriteSheetAndData();
-			plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + ".png", typeof(Texture2D)) as Texture2D);
+			SpriteSheetAndData produceSprite = new SpriteSheetAndData();
+			produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + ".png", typeof(Texture2D)) as Texture2D);
+			if (produceSprite.Texture == null)
+			{
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pile.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (produceSprite.Texture == null)
+			{
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "_leaves.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (produceSprite.Texture == null)
+			{
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pod.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (produceSprite.Texture == null)
+			{
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "s.png", typeof(Texture2D)) as Texture2D);
+			}
+			if (produceSprite.Texture == null)
+			{
+				produceSprite = new SpriteSheetAndData();
+				produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + "pepper.png", typeof(Texture2D)) as Texture2D);
+			}
+			produceSprite.setSprites();
 
-			//Application.dataPath
-			if (plantdata.ProduceSprite.Texture == null)
-			{
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "pile" + ".png", typeof(Texture2D)) as Texture2D);
-			}
-			if (plantdata.ProduceSprite.Texture == null)
-			{
-				var EEEseed_packet = (plat["seed_packet"] as string);
-				if (EEEseed_packet.Contains("seed-"))
-				{
-					EEEseed_packet = EEEseed_packet.Replace("seed-", "");
-				}
-				else if (EEEseed_packet.Contains("mycelium-"))
-				{
-					EEEseed_packet = EEEseed_packet.Replace("mycelium-", "");
-				}
-				plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet + ".png", typeof(Texture2D)) as Texture2D);
-				if (plantdata.ProduceSprite.Texture == null)
-				{
-					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + EEEseed_packet + "s" + ".png", typeof(Texture2D)) as Texture2D);
-				}
-				if (plantdata.ProduceSprite.Texture == null)
-				{
-					plantdata.ProduceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\harvest_" + seed_packet + "s" + ".png", typeof(Texture2D)) as Texture2D);
-				}
-			}
-			plantdata.ProduceSprite.setSprites();
+
+
+			var dead_sprite = (plat.ContainsKey("dead_Sprite")) ? (plat["dead_Sprite"] as string) : species + "-dead";
+
+			plantdata.DeadSprite = new SpriteSheetAndData();
+			plantdata.DeadSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + dead_sprite + ".png", typeof(Texture2D)) as Texture2D);
+			plantdata.DeadSprite.setSprites();
 
 			plantdata.GrowthSprites = new List<SpriteSheetAndData>();
-			//var Growingsprites = new List<string>();
 			foreach (var ListFile in ListFiles)
 			{
-
-				if (ListFile.Contains(seed_packet))
+				
+				if (ListFile.Contains(species))
 				{
 					var Namecheck = ListFile;
-					Namecheck = Namecheck.Replace("growing_flowers_", "");
+					/*Namecheck = Namecheck.Replace("growing_flowers_", "");
 					Namecheck = Namecheck.Replace("growing_fruits_", "");
 					Namecheck = Namecheck.Replace("growing_mushrooms_", "");
 					Namecheck = Namecheck.Replace("growing_vegetables_", "");
-					Namecheck = Namecheck.Replace("growing_", "");
+					Namecheck = Namecheck.Replace("growing_", "");*/
 					Namecheck = Namecheck.Split('-')[0];
 
-					if (Namecheck == seed_packet)
+					if (Namecheck == species)
 					{
+						EditorUtility.DisplayProgressBar("Step 1/3 Setting Sprites", $"Loading sprite '{ListFile}' for plant {plantdata.Name}", progressbarState);
 						if (!ListFile.Contains("-dead"))
 						{
 							if (!ListFile.Contains("-harvest"))
 							{
-								//var _ListFile = ListFile.Replace(".png", "");
-								//\\Growingsprites.Add(ListFile);
 								//\Assets\Resources\textures\objects\hydroponics\growing\growing_ambrosia_gaia-grow6.png
 								var _SpriteSheetAndData = new SpriteSheetAndData();
 								_SpriteSheetAndData.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + ListFile, typeof(Texture2D)) as Texture2D);
 								_SpriteSheetAndData.setSprites();
 								plantdata.GrowthSprites.Add(_SpriteSheetAndData);
 
-								//\\If not found do at end
+								//If not found do at end
 							}
 							else
 							{
-								//Logger.Log("got harvest");
-
 								var _SpriteSheetAndData = new SpriteSheetAndData();
 								_SpriteSheetAndData.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + ListFile, typeof(Texture2D)) as Texture2D);
 								_SpriteSheetAndData.setSprites();
 								plantdata.FullyGrownSprite = _SpriteSheetAndData;
 							}
 
-						}
-						else
-						{
-							//Logger.Log("got DeadSprite");
-
-							//var _ListFile = ListFile.Replace(".png", "");
-							var _SpriteSheetAndData = new SpriteSheetAndData();
-							_SpriteSheetAndData.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\growing\" + ListFile, typeof(Texture2D)) as Texture2D);
-							_SpriteSheetAndData.setSprites();
-							plantdata.DeadSprite = _SpriteSheetAndData;
 						}
 
 					}
@@ -157,10 +154,22 @@ public class GeneratePlantSOs : EditorWindow
 				{
 					if (plantdata.GrowthSprites.Count > 0)
 					{
+						//This seems to be normal
 						plantdata.FullyGrownSprite = plantdata.GrowthSprites[plantdata.GrowthSprites.Count - 1];
 					}
 				}
+				
+				progressbarState += progressbarStep;
 			}
+			//check if sprites are missing
+			if (plantdata.PacketsSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find seed packet sprite for plant {plantdata.Name}"); }
+			//if (plantdata.ProduceSprite.Texture == null) {  }
+			if (plantdata.DeadSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find dead sprite"); }
+			if (plantdata.GrowthSprites.Count == 0) { AppendError(plantdata.Name, $"Unable to find growth sprites for plant {plantdata.Name}"); }
+			if (plantdata.FullyGrownSprite == null) { AppendError(plantdata.Name, $"Unable to find fully grown sprite"); }
+			
+
+
 			plantdata.WeedResistance = int.Parse(plat["weed_resistance"].ToString());
 			plantdata.WeedGrowthRate = int.Parse(plat["weed_growth_rate"].ToString());
 			plantdata.Potency = int.Parse(plat["potency"].ToString());
@@ -237,23 +246,74 @@ public class GeneratePlantSOs : EditorWindow
 					}
 				}
 			}
-			if (plat.ContainsKey("reagents_add"))
-			{
-				var Chemicals = JsonConvert.DeserializeObject<Dictionary<string, float>>(plat["reagents_add"].ToString());
+			
+				
+			
 
-				foreach (var Chemical in Chemicals)
+
+			//Creating/updating food prefabs
+			if (plat.ContainsKey("produce_name"))
+			{
+				//load existing prefab variant if possible
+				GameObject prefabVariant = (GameObject)AssetDatabase.LoadAssetAtPath(@"Assets/Resources/Prefabs/Items/Botany/" + plantdata.Name + ".prefab", typeof(GameObject));
+
+				if (prefabVariant == null)
 				{
-					var SInt = new Reagent();
-					SInt.Ammount = (int)(Chemical.Value * 100);
-					SInt.Name = Chemical.Key;
-					plantdata.ReagentProduction.Add(SInt);
+					GameObject originalPrefab = (GameObject)AssetDatabase.LoadAssetAtPath(@"Assets/Resources/Prefabs/Items/Botany/food.prefab", typeof(GameObject));
+					prefabVariant = PrefabUtility.InstantiatePrefab(originalPrefab) as GameObject;
 				}
+				else
+				{
+					prefabVariant = PrefabUtility.InstantiatePrefab(prefabVariant) as GameObject;
+				}
+
+				
+
+				var itemAttr = prefabVariant.GetComponent<ItemAttributesV2>();
+
+				//Commented since this are normally private
+				//itemAttr.initialName = plat["produce_name"] as string;
+				//itemAttr.initialDescription = plat["description"] as string;
+				//itemAttr.itemSprites = (new ItemsSprites() { InventoryIcon = produceSprite });
+
+				//add sprite to food
+				var spriteRenderer = prefabVariant.GetComponentInChildren<SpriteRenderer>();
+				spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
+
+				var newFood = prefabVariant.GetComponent<GrownFood>();
+
+				//Set plant data for food
+				newFood.plantData = plantdata;
+
+				var newReagents = prefabVariant.GetComponent<ReagentContainer>();
+
+				//add reagents to food
+				if (plat.ContainsKey("reagents_add"))
+				{
+					var Chemicals = JsonConvert.DeserializeObject<Dictionary<string, float>>(plat["reagents_add"].ToString());
+
+					var reagents = new List<string>();
+					var amounts = new List<float>();
+					foreach (var Chemical in Chemicals)
+					{
+						//ChemicalDictionary[Chemical.Key] = (((int)(Chemical.Value * 100)) * (plantdata.Potency / 100f));
+						reagents.Add(Chemical.Key);
+						amounts.Add(((int)(Chemical.Value * 100)) * (plantdata.Potency / 100f));
+					}
+
+					newReagents.Reagents = reagents;
+					newReagents.Amounts = amounts;
+				}
+
+				plantdata.ProduceObject = PrefabUtility.SaveAsPrefabAsset(prefabVariant, @"Assets/Resources/Prefabs/Items/Botany/" + plantdata.Name + ".prefab");
+			}
+			else
+			{
+				plantdata.ProduceObject = null;
 			}
 
-			var DefaultPlantData = new DefaultPlantData
-			{
-				plantData = plantdata
-			};
+			var DefaultPlantData = ScriptableObject.CreateInstance<DefaultPlantData>();
+			DefaultPlantData.plantData = plantdata;
 			//\\ Creates the folder path
 
 
@@ -268,51 +328,98 @@ public class GeneratePlantSOs : EditorWindow
 
 
 			//\\Logger.Log(plantdata.GrowthSprites.Count.ToString());
+			
 		}
 
 
+		
+
+		progressbarStep = 1f / PlantDictionary.Count;
+		progressbarState = 0;
+		var mutationNameList = new List<string>();
 		foreach (var pant in PlantDictionary)
 		{
+			EditorUtility.DisplayProgressBar("Step 2/3 Setting Mutations", "Loading mutations for: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
 			if (PlantDictionaryObject.ContainsKey(pant.Value.plantData.Name))
 			{
 				var Mutations = JsonConvert.DeserializeObject<List<string>>(PlantDictionaryObject[pant.Value.plantData.Name].ToString());
 				foreach (var Mutation in Mutations)
 				{
+					if(!mutationNameList.Contains(Mutation)){ mutationNameList.Add(Mutation); }
 					if (Mutation.Length != 0)
 					{
-						if (PlantDictionary[Mutation] != null)
+						if (PlantDictionary.ContainsKey(Mutation))
 						{
 							MutationComparison(pant.Value, PlantDictionary[Mutation]);
 							pant.Value.plantData.MutatesInTo.Add((DefaultPlantData)AssetDatabase.LoadAssetAtPath(@"Assets\Resources\ScriptableObjects\Plant default\" + PlantDictionary[Mutation].plantData.Name + ".asset", typeof(DefaultPlantData)));
-							
-						}
 
 
 
-						if (PlantDictionary[Mutation].plantData.DeadSprite?.Texture == null)
-						{
 
-							if (pant.Value.plantData.DeadSprite?.Texture != null)
+
+							if (PlantDictionary[Mutation].plantData.DeadSprite?.Texture == null)
 							{
-								PlantDictionary[Mutation].plantData.DeadSprite = new SpriteSheetAndData();
-								PlantDictionary[Mutation].plantData.DeadSprite.Texture = pant.Value.plantData.DeadSprite.Texture;
-								PlantDictionary[Mutation].plantData.DeadSprite.setSprites();
+
+								if (pant.Value.plantData.DeadSprite?.Texture != null)
+								{
+									PlantDictionary[Mutation].plantData.DeadSprite = new SpriteSheetAndData();
+									PlantDictionary[Mutation].plantData.DeadSprite.Texture = pant.Value.plantData.DeadSprite.Texture;
+									PlantDictionary[Mutation].plantData.DeadSprite.setSprites();
+								}
+
 							}
 
-						}
-
-						if (PlantDictionary[Mutation].plantData.GrowthSprites.Count == 0)
-						{
-							PlantDictionary[Mutation].plantData.GrowthSprites = pant.Value.plantData.GrowthSprites;
+							if (PlantDictionary[Mutation].plantData.GrowthSprites.Count == 0)
+							{
+								PlantDictionary[Mutation].plantData.GrowthSprites = pant.Value.plantData.GrowthSprites;
+							}
 						}
 					}
 				}
 			}
 		}
+		progressbarStep = 1f / PlantDictionary.Count;
+		progressbarState = 0;
 		foreach (var pant in PlantDictionary)
 		{
-			AssetDatabase.CreateAsset(pant.Value, @"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset");
+			
+
+
+			DefaultPlantData defaultPlant = AssetDatabase.LoadMainAssetAtPath(@"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset") as DefaultPlantData;
+			if (defaultPlant != null)
+			{
+				EditorUtility.DisplayProgressBar("Step 3/3 Saving ScriptObjects", "Updating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
+				EditorUtility.CopySerialized(pant.Value, defaultPlant);
+				AssetDatabase.SaveAssets();
+			}
+			else
+			{
+				EditorUtility.DisplayProgressBar("Step 3/3 Saving ScriptObjects", "Creating asset: " + pant.Value.plantData.Name, progressbarState += progressbarStep);
+				defaultPlant = ScriptableObject.CreateInstance<DefaultPlantData>();
+				EditorUtility.CopySerialized(pant.Value, defaultPlant);
+				AssetDatabase.CreateAsset(pant.Value, @"Assets\Resources\ScriptableObjects\Plant default\" + pant.Value.plantData.Name + ".asset");
+			}
+
+			if (dictonaryErrors.ContainsKey(pant.Value.plantData.Name))
+			{
+				
+				if(mutationNameList.Contains(pant.Value.plantData.Name))
+				{
+					dictonaryErrors[pant.Value.plantData.Name] = $"Mutation {pant.Value.plantData.Name} has some missing sprites\n{dictonaryErrors[pant.Value.plantData.Name]}";
+					Debug.LogWarning(dictonaryErrors[pant.Value.plantData.Name]);
+				}
+				else
+				{
+					dictonaryErrors[pant.Value.plantData.Name] = $"Plant {pant.Value.plantData.Name} has some missing sprites\n{dictonaryErrors[pant.Value.plantData.Name]}";
+					Debug.LogError(dictonaryErrors[pant.Value.plantData.Name]);
+				}
+			}
 		}
+		
+
+		EditorUtility.ClearProgressBar();
+		EditorUtility.DisplayDialog("Complete", "Generating default plant ScriptObjects complete", "Close");
+
 	}
 
 	public static void MutationComparison(DefaultPlantData f_rom, DefaultPlantData to)
@@ -387,5 +494,15 @@ public class GeneratePlantSOs : EditorWindow
 				}
 			}
 		}
+	}
+
+	public static void AppendError(string key,string error)
+	{
+		if (dictonaryErrors.ContainsKey(key))
+		{
+			dictonaryErrors[key] = $"{dictonaryErrors[key]}\n{error}";
+		}
+		else
+			dictonaryErrors.Add(key, error);
 	}
 }

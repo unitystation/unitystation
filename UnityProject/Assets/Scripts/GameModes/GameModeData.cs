@@ -16,7 +16,7 @@ public class GameModeData : ScriptableObject
 	/// The default gamemode to pick
 	/// </summary>
 	[SerializeField]
-	private GameMode DefaultGameMode;
+	private GameMode DefaultGameMode = null;
 
 	/// <summary>
 	/// Returns a list of game mode names available in the

@@ -13,43 +13,37 @@ MonoBehaviour:
   m_Name: sunflower_novaflower
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-      type: 3}
+    ProduceObject: {fileID: 0}
     Name: sunflower_novaflower
     Plantname: Novaflowers
     Description: These seeds grow into novaflowers.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: badb5afd6e1386648ac0c3656f98e266, type: 3}
+      Texture: {fileID: 2800000, guid: 6b9cd6000dbea9842bac6e0a3ec782ab, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: badb5afd6e1386648ac0c3656f98e266, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: 48766eb5d5f455546bd7c9725dc3d0ce, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 48766eb5d5f455546bd7c9725dc3d0ce, type: 3}
+      - {fileID: 21300000, guid: 6b9cd6000dbea9842bac6e0a3ec782ab, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: fa770df6673cd7544993dcd2b67b4b0a, type: 3}
+    - Texture: {fileID: 2800000, guid: 6a4dbce9daa91f44ab138dd9a9bf078b, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: fa770df6673cd7544993dcd2b67b4b0a, type: 3}
+      - {fileID: 21300000, guid: 6a4dbce9daa91f44ab138dd9a9bf078b, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 7ae0d10668c223d4792d7f89854caf9e, type: 3}
+    - Texture: {fileID: 2800000, guid: 15e691b12565d2346890c7a469168dc4, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 7ae0d10668c223d4792d7f89854caf9e, type: 3}
+      - {fileID: 21300000, guid: 15e691b12565d2346890c7a469168dc4, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 68fa3cfa18d491d4aa276d3b99e67d7e, type: 3}
+    - Texture: {fileID: 2800000, guid: fde88ac509957ba4d803fd80e35024dc, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 68fa3cfa18d491d4aa276d3b99e67d7e, type: 3}
+      - {fileID: 21300000, guid: fde88ac509957ba4d803fd80e35024dc, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: dbfdae7807173204ba025a77d350ff06, type: 3}
+      Texture: {fileID: 2800000, guid: eaf433cf54d9dd4439e483893f50154d, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: dbfdae7807173204ba025a77d350ff06, type: 3}
+      - {fileID: 21300000, guid: eaf433cf54d9dd4439e483893f50154d, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: 9b768b149d32ba54fa7c67d4805fb96b, type: 3}
+      Texture: {fileID: 2800000, guid: 38c48ef105fb6e0429b3d94ee4fab101, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 9b768b149d32ba54fa7c67d4805fb96b, type: 3}
+      - {fileID: 21300000, guid: 38c48ef105fb6e0429b3d94ee4fab101, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
@@ -59,13 +53,7 @@ MonoBehaviour:
     Yield: 20
     Lifespan: 25
     PlantTrays: 
-    ReagentProduction:
-    - Name: condensedcapsaicin
-      Ammount: 25
-    - Name: capsaicin
-      Ammount: 30
-    - Name: nutriment
-      Ammount: 0
+    ReagentProduction: []
     MutatesInTo: []
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
@@ -75,16 +63,6 @@ MonoBehaviour:
   YieldChange: 0
   LifespanChange: 0
   PlantTrays: 
-  ReagentProduction:
-  - Name: condensedcapsaicin
-    Ammount: 25
-  - Name: capsaicin
-    Ammount: 30
-  - Name: nutriment
-    Ammount: 0
+  ReagentProduction: []
   RemovePlantTrays: 
-  RemoveReagentProduction:
-  - Name: cornoil
-    Ammount: 7
-  - Name: nutriment
-    Ammount: 3
+  RemoveReagentProduction: []

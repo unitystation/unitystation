@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 
-public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
+public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<PositionalHandApply>, IDeviceControl
 {
 	private bool SelfDestruct = false;
 
@@ -18,7 +18,7 @@ public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
 
 	public void PotentialDestroyed(){
 		if (SelfDestruct) {
-			//Then you can destroy
+			
 		}
 	}
 
@@ -36,6 +36,35 @@ public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
 		SelfDestruct = true;
 	}
 	public void TurnOffCleanup (){
+	}
+
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		return true;
+	}
+
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		//wirecutters can be used to cut this cable
+		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+		MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
+		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+		if (matrix.Matrix != null)
+		{
+			if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
+			{
+				return;
+			}
+		}
+		else
+		{
+			return;
+		}
+		Spawn.ServerPrefab("Medium machine connector", gameObject.AssumedWorldPosServer());
+		Despawn.ServerSingle(gameObject);
 	}
 }
 

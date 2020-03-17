@@ -16,11 +16,11 @@ public class ReinforcedGirder : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	[Tooltip("Normal girder prefab.")]
 	[SerializeField]
-	private GameObject girder;
+	private GameObject girder = null;
 
 	[Tooltip("Tile to spawn when wall is constructed.")]
 	[SerializeField]
-	private BasicTile reinforcedWallTile;
+	private BasicTile reinforcedWallTile = null;
 
 	private void Start(){
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
