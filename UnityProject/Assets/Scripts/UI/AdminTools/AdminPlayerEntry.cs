@@ -12,7 +12,7 @@ namespace AdminTools
 		[SerializeField] private Text displayName = null;
 		[SerializeField] private Image bg = null;
 		//The notification counter on the button
-		[SerializeField] private GUI_Notification pendingMsgNotification = null;
+		public GUI_Notification pendingMsgNotification = null;
 		/// The reference to the notification counter on the admin chat button (the master one)
 		private GUI_Notification parentNotification = null;
 		[SerializeField] private GameObject offlineNot = null;

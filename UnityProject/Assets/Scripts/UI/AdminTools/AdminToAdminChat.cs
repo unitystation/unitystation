@@ -30,6 +30,7 @@ namespace AdminTools
 		{
 			chatScroll.OnInputFieldSubmit += OnInputSend;
 			UIManager.Instance.adminChatButtons.adminNotification.ClearAll();
+			chatScroll.LoadChatEntries(clientAdminChatLogs.Cast<ChatEntryData>().ToList());
 			ClientGetUnreadAdminPlayerMessages(ServerData.UserID);
 		}
 
