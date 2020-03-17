@@ -9,10 +9,10 @@ public class SeedExtractorItemEntry : DynamicEntry
 	private Color regularColor = Color.gray;
 	//[SerializeField]
 	//private Color emptyStockColor = Color.red;
-	private GameObject seedPacket;
+	private GameObject seedItem;
 	private GUI_SeedExtractor seedExtractorWindow;
 	[SerializeField]
-	private NetLabel itemName = null;
+	private NetLabel seedStats = null;
 	//[SerializeField]
 	//private NetLabel itemCount = null;
 	[SerializeField]
@@ -22,19 +22,26 @@ public class SeedExtractorItemEntry : DynamicEntry
 
 	public void SetItem(GameObject item, GUI_SeedExtractor correspondingWindow)
 	{
-		seedPacket = item;
+		seedItem = item;
+		var seedPacket = seedItem.GetComponent<SeedPacket>();
 		seedExtractorWindow = correspondingWindow;
-		itemName.SetValue = seedPacket.name;
-		itemIcon.SetValue = seedPacket.name;
+		seedStats.SetValue = $"{seedPacket.plantData.Potency.ToString().PadLeft(3)} " +
+			$"{seedPacket.plantData.Yield.ToString().PadLeft(3)} " +
+			$"{seedPacket.plantData.GrowthSpeed.ToString().PadLeft(3)} " +
+			$"{seedPacket.plantData.Endurance.ToString().PadLeft(3)} " +
+			$"{seedPacket.plantData.Lifespan.ToString().PadLeft(3)} " +
+			$"{seedPacket.plantData.WeedResistance.ToString().PadLeft(3)} " +
+			$"{seedPacket.plantData.WeedGrowthRate.ToString().PadLeft(3)}";
+		itemIcon.SetValue = seedItem.name;
 		itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
 	}
 
 	public void Dispense()
 	{
-		if (seedPacket == null || seedExtractorWindow == null)
+		if (seedItem == null || seedExtractorWindow == null)
 		{
 			return;
 		}
-		seedExtractorWindow.DispenseSeedPacket(seedPacket);
+		seedExtractorWindow.DispenseSeedPacket(seedItem);
 	}
 }

@@ -52,6 +52,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		//Handle completed processing
 		processingProgress = 0;
 		var grownFood = foodToBeProcessed.Dequeue();
+		grownFood.SeedPacket.GetComponent<SeedPacket>().plantData = PlantData.CreateNewPlant(grownFood.plantData);
 		GameObject seedPacket = grownFood.SeedPacket;
 
 		//Add seed packet to dispenser
