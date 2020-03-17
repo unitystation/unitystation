@@ -73,9 +73,9 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			{
 				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery)
 				{
-					if (!(ConnectedDepartmentBatteries.Contains(Device.Key.GameObject().GetComponent<DepartmentBattery>())))
+					if (!(ConnectedDepartmentBatteries.Contains(Device.Key.GetComponent<DepartmentBattery>())))
 					{
-						ConnectedDepartmentBatteries.Add(Device.Key.GameObject().GetComponent<DepartmentBattery>());
+						ConnectedDepartmentBatteries.Add(Device.Key.GetComponent<DepartmentBattery>());
 					}
 				}
 			}

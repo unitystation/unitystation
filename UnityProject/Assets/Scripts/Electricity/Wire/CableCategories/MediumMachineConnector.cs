@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 
-public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<PositionalHandApply>, IDeviceControl
+public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<PositionalHandApply>
 {
 	private bool SelfDestruct = false;
 
@@ -16,11 +16,7 @@ public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<Po
 		//PowerTypeCategory.SolarPanelController,
 	};
 
-	public void PotentialDestroyed(){
-		if (SelfDestruct) {
-			
-		}
-	}
+
 
 	public override void OnStartServer()
 	{
@@ -29,13 +25,6 @@ public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<Po
 		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.WireEndA = Connection.MachineConnect;
 		RelatedWire.WireEndB = Connection.Overlap;
-	}
-
-	//FIXME:
-	public void OnDestroy(){
-		SelfDestruct = true;
-	}
-	public void TurnOffCleanup (){
 	}
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)

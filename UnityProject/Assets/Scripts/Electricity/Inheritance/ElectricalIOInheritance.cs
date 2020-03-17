@@ -19,11 +19,12 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	public HashSet<ElectricalOIinheritance> connectedDevices = new HashSet<ElectricalOIinheritance>();
 
 	public RegisterTile registerTile;
-	public Matrix Matrix => registerTile.Matrix; //This is a bit janky with inheritance
+	public Matrix Matrix => registerTile.Matrix; 
 	public bool connected = false;
 
 	public bool Logall = false;
 	public bool DestroyQueueing = false;
+	public bool DestroyAuthorised = false;
 
 	private void Awake()
 	{
@@ -42,8 +43,10 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 		}
 		else {
 			registerTile.SetElectricalData(this);
+			Vector2 searchVec = this.registerTile.LocalPosition.To2Int();
 		}
-
+		ElectricalSynchronisation.StructureChange = true;
+		InData.Present = this;
 	}
 
 	public override void OnStartClient()
@@ -55,18 +58,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	{
 		EnsureInit();
 		base.OnStartServer();
-		StartCoroutine(WaitForLoad());
-	}
-	public virtual void _Start()
-	{
-	}
 
-	IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(1f);
-		ElectricalSynchronisation.StructureChange = true;
-		FindPossibleConnections();
-		InData.Present = this;
 	}
 
 	public virtual void FindPossibleConnections()
@@ -80,11 +72,6 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 				GetConnPoints(),
 				this
 			);
-		}
-
-		if (Data.connections.Count > 0)
-		{
-			connected = true;
 		}
 	}
 
@@ -106,25 +93,6 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 		return WireEndA;
 	}
 
-
-	public void DestroyThisPlease()
-	{
-		DestroyQueueing = true;
-		ElectricalSynchronisation.NUElectricalObjectsToDestroy.Add(this);
-	}
-
-	public virtual GameObject GameObject()
-	{
-		//FIXME find out why this object has been destroyed?
-		//putting in this condition check as returning the null gameobject directly
-		//throws many NRE's on the server leading to unwanted behaviour
-		if (this == null || this.gameObject == null)
-		{
-			Logger.Log("The gameobject for this electrical object has been destroyed!!!!!", Category.Electrical);
-			return null;
-		}
-		return gameObject;
-	}
 
 	/// <summary>
 	///  Sets the upstream
@@ -224,10 +192,6 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	public virtual void FlushConnectionAndUp()
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
-		if (InData?.ControllingDevice != null)
-		{
-			InData.ControllingDevice.PotentialDestroyed();
-		}
 	}
 
 	/// <summary>
@@ -288,10 +252,18 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	}
 
 
+	public void DestroyThisPlease()
+	{
+		DestroyQueueing = true;
+		ElectricalSynchronisation.NUElectricalObjectsToDestroy.Add(this);
+	}
+
 	public void DestroyingThisNow()
 	{
+		Logger.Log("plx " + name);
 		if (DestroyQueueing)
 		{
+			Logger.Log("A");
 			FlushConnectionAndUp();
 			FindPossibleConnections();
 			FlushConnectionAndUp();
@@ -300,6 +272,8 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 			registerTile.UnregisterServer();
 			if (this != null)
 			{
+				Logger.Log("B");
+				DestroyAuthorised = true;
 				Despawn.ServerSingle(gameObject);
 			}
 		}
@@ -312,7 +286,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public void OnDespawnServer(DespawnInfo info)
 	{
-		if (!DestroyQueueing)
+		if (!DestroyQueueing || !DestroyAuthorised)
 		{
 			Logger.Log("REEEEEEEEEEEEEE Wait your turn to destroy, Electrical thread is busy!!");
 			DestroyThisPlease();

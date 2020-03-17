@@ -48,7 +48,7 @@ public class ElectricalManagerEditor : Editor
 
 		if (GUILayout.Button("Step"))
 		{
-			ElectricalSynchronisation.RunStep();
+			ElectricalSynchronisation.RunStep(false);
 		}
 
 		GUI.enabled = true;

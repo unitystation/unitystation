@@ -17,7 +17,7 @@ public class StandardCable : CableInheritance
 		PowerTypeCategory.PowerSink
 	};
 
-	public override void _OnStartServer()
+	void Awake()
 	{
 		ApplianceType = PowerTypeCategory.StandardCable;
 		CableType = WiringColor.red;

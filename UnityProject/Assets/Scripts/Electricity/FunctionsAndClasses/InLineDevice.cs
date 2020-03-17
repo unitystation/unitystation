@@ -8,24 +8,6 @@ public class InLineDevice : ElectricalOIinheritance
 {
 	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
 
-	private Vector3 posCache;
-	private bool isSupplying = false;
-
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-		InData.ElectricityOverride = true;
-		InData.ResistanceOverride = true;
-		//Not working for some reason:
-		StartCoroutine(WaitForLoad());
-		posCache = transform.localPosition;
-	}
-
-	IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(2f);
-		FindPossibleConnections();
-	}
 
 	public override void ResistanceInput(ResistanceWrap Resistance, 
 	                                     ElectricalOIinheritance SourceInstance, 

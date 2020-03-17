@@ -62,9 +62,9 @@ public static class ElectricalSynchronisation
 		MillieSecondDelay = inMillieSecondDelay;
 	}
 
-	public static void RunStep()
+	public static void RunStep(bool Thread = true)
 	{
-		DoUpdate();
+		DoUpdate(Thread);
 	}
 
 	private static void Run()
@@ -112,10 +112,6 @@ public static class ElectricalSynchronisation
 	public static HashSet<CableInheritance> CableUpdates = new HashSet<CableInheritance>();
 	public static CableInheritance CableToDestroy;
 	private static bool Initialise = false;
-
-
-	public static DeadEndConnection
-		DeadEnd = new DeadEndConnection(); //so resistance sources coming from itself  like an apc Don't cause loops this is used as coming from and so therefore it is ignored
 
 	//public static List<ElectricalOIinheritance> DirectionWorkOnNextList = new List<ElectricalOIinheritance>();
 	//public static List<ElectricalOIinheritance> DirectionWorkOnNextListWait = new List<ElectricalOIinheritance>();
@@ -268,7 +264,6 @@ public static class ElectricalSynchronisation
 					AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
 				}
 			}
-			
 			Initialise = true;
 		}
 		currentTick = ++currentTick % Steps;
@@ -524,10 +519,11 @@ public static class ElectricalSynchronisation
 	{
 		lock (Electriclock)
 		{
+			//Logger.Log("MainThreadProcess Allowed");
 			MainThreadProcess = true;
 			Monitor.Wait(Electriclock);
 		}
-
+		//Logger.Log("Thread process to continue");
 	}
 
 
@@ -560,7 +556,7 @@ public static class ElectricalSynchronisation
 
 		if (CableToDestroy != null)
 		{
-			CableToDestroy.toDestroy();
+			CableToDestroy.wireConnect.DestroyThisPlease();
 			CableToDestroy = null;
 		}
 		//Structure change and stuff
@@ -568,7 +564,7 @@ public static class ElectricalSynchronisation
 		{
 			Thing.DestroyingThisNow(); //so Destruction of cables won't trigger the entire thing to refresh saving a bit of performance since they have a bit of code for jumping onto different supplies and  , adding them to NUStructureChangeReact
 		}
-
+		NUElectricalObjectsToDestroy.Clear();
 		//		Profiler.EndSample();
 	}
 

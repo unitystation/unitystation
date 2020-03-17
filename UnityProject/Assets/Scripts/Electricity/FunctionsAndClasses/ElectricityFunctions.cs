@@ -5,6 +5,13 @@ using System;
 
 public static class ElectricityFunctions
 {
+	public static HashSet<Vector2> MachineConnectorDirections = new HashSet<Vector2>() {
+		Vector2.up,
+		Vector2.down,
+		Vector2.right,
+		Vector2.left
+	};
+
 
 	public static HashSet<ElectricalOIinheritance> FindPossibleConnections( Matrix matrix,
 	                                                                       HashSet<PowerTypeCategory> CanConnectTo,
@@ -135,27 +142,26 @@ public static class ElectricityFunctions
 			}
 		}
 		else {
-			for (int x = 0; x < 3; x++)
-			{
-				for (int y = 0; y < 3; y++)
+			foreach (var Direction_ in MachineConnectorDirections) { 
+				Vector3Int pos = new Vector3Int((int)searchVec.x + (int)Direction_.x, (int)searchVec.y + (int)Direction_.y, 0);
+				var conns = matrix.GetElectricalConnections(pos);
+				foreach (var con in conns)
 				{
-					Vector3Int pos = new Vector3Int((int)searchVec.x + (x - 1), (int)searchVec.y + (y - 1), 0);
-					var conns = matrix.GetElectricalConnections(pos);
-					foreach (var con in conns)
+					if (OIinheritance != con)
 					{
-						if (OIinheritance != con)
+						if (CanConnectTo.Contains(con.InData.Categorytype))
 						{
-							if (CanConnectTo.Contains(con.InData.Categorytype))
+							if (ConnectionMap.IsConnectedToTile(Direction, con.GetConnPoints()))
 							{
-								if (ConnectionMap.IsConnectedToTile(Direction, con.GetConnPoints()))
-								{
-									connections.Add(con);
-								}
+								connections.Add(con);
 							}
 						}
 					}
 				}
 			}
+					
+					
+
 		}
 		return (connections);
 	}
