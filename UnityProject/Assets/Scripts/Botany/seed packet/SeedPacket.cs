@@ -49,7 +49,7 @@ public class SeedPacket : NetworkBehaviour
 
 	private void EnsureInit()
 	{
-		if (defaultPlantData != null)
+		if (string.IsNullOrEmpty(plantData?.Name) && defaultPlantData != null)
 		{
 			plantData = PlantData.CreateNewPlant(defaultPlantData);
 			PlantSyncString = plantData.Name;
