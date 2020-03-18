@@ -232,6 +232,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		SyncFireStacks(fireStacks, 0);
 	}
 
+	public void ChangeFireStacks(float deltaValue)
+	{
+		SyncFireStacks(fireStacks, fireStacks + deltaValue);
+	}
+
 	private void SyncFireStacks(float oldValue, float newValue)
 	{
 		EnsureInit();

@@ -16,7 +16,7 @@ namespace AdminTools
 
 		[SerializeField] private bool showAdminsOnly = false;
 		[SerializeField] private bool disableButtonInteract = false;
-		private float refreshTime = 5f;
+		private float refreshTime = 3f;
 		private float currentCount = 0f;
 
 		//Loaded playerEntries
@@ -24,7 +24,7 @@ namespace AdminTools
 
 		public OnSelectPlayerEvent OnSelectPlayer;
 
-		public string SelectedPlayer { get; private set; }
+		public AdminPlayerEntry SelectedPlayer { get; private set; }
 
 		private void OnEnable()
 		{
@@ -85,9 +85,20 @@ namespace AdminTools
 				}
 			}
 
-			if (string.IsNullOrEmpty(SelectedPlayer))
+			if (SelectedPlayer == null)
 			{
 				SelectPlayerInList(playerEntries[0]);
+			}
+			else
+			{
+				if (gameObject.activeInHierarchy)
+				{
+					SelectedPlayer.pendingMsgNotification.ClearAll();
+					if (masterNotification != null)
+					{
+						masterNotification.RemoveNotification(SelectedPlayer.PlayerData.uid);
+					}
+				}
 			}
 		}
 
@@ -102,11 +113,11 @@ namespace AdminTools
 				else
 				{
 					p.SelectPlayer();
-					SelectedPlayer = selectedEntry.PlayerData.uid;
+					SelectedPlayer = selectedEntry;
 				}
 			}
 
-			SelectedPlayer = selectedEntry.PlayerData.uid;
+			SelectedPlayer = selectedEntry;
 			if(OnSelectPlayer != null) OnSelectPlayer.Invoke(selectedEntry.PlayerData);
 		}
 	}

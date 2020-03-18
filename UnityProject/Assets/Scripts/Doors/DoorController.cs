@@ -190,7 +190,7 @@ public class DoorController : NetworkBehaviour
 			if (openSFX != null)
 			{
 				// Need to play this sound as global - this will ignore muffle effect
-				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, isGlobal: true);
+				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -198,7 +198,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (closeSFX != null)
 			{
-				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition);
+				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
