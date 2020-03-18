@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -258,7 +258,7 @@ public class DoorController : NetworkBehaviour
 				{
 					if (IsClosed && !isPerformingAction)
 					{
-						if (DoorUnderPressure() && !pressureWarnActive)
+						if (!pressureWarnActive && DoorUnderPressure())
 						{
 							ServerPressureWarn();
 						}

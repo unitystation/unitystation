@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -259,10 +259,11 @@ using UnityEditor;
 			{
 				spriteOffset = doorController.DoorDeniedSpriteOffset;
 			}
+			var sprite = overlayLights[spriteOffset];
 
 			for (int i = 0; i < flashCount; i++)
 			{
-				overlay_Lights.sprite = overlayLights[spriteOffset];
+				overlay_Lights.sprite = sprite;
 				yield return WaitFor.Seconds(0.1f);
 				overlay_Lights.sprite = null;
 				yield return WaitFor.Seconds(0.1f);
