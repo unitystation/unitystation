@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 
@@ -137,7 +138,7 @@ public class GUI_SeedExtractor : NetTab
 
 	public void SelectSeedType(string seedType)
 	{
-		title.SetValue = seedType;
+		title.SetValue = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(seedType.ToLower());
 		icon.SetValue = seedType;
 		backButton.enabled = true;
 		selectedSeedType = seedType;
