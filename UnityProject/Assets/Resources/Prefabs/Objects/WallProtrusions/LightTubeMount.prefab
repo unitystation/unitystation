@@ -135,7 +135,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: -0.0029535145, y: 0.4399779}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,7 +281,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
-  ChangeDirectionWithMatrix: 1
+  ChangeDirectionWithMatrix: 0
+  DisableSyncing: 1
 --- !u!114 &2168658977310716751
 MonoBehaviour:
   m_ObjectHideFlags: 0
