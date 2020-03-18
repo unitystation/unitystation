@@ -33,6 +33,7 @@ namespace AdminTools
 		void OnSceneChange(Scene oldScene, Scene newScene)
 		{
 			ClearAllNotifications();
+			adminChatWindows.ResetAll();
 		}
 
 		void OnAdminChatWindowChange(AdminChatWindow selectedWindow)

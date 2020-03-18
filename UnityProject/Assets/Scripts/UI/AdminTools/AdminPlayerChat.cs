@@ -29,6 +29,12 @@ namespace AdminTools
 		private Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
 			= new Dictionary<string, List<AdminChatMessage>>();
 
+		public void ClearLogs()
+		{
+			serverAdminPlayerChatLogs.Clear();
+			clientAdminPlayerChatLogs.Clear();
+		}
+
 		public void ServerAddChatRecord(string message, string playerId, string adminId = "")
 		{
 			if (!serverAdminPlayerChatLogs.ContainsKey(playerId))

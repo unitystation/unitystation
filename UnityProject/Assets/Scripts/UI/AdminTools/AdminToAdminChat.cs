@@ -25,6 +25,11 @@ namespace AdminTools
 		private List<AdminChatMessage> clientAdminChatLogs
 			= new List<AdminChatMessage>();
 
+		public void ClearLogs()
+		{
+			serverAdminChatLogs.Clear();
+			clientAdminChatLogs.Clear();
+		}
 
 		private void OnEnable()
 		{

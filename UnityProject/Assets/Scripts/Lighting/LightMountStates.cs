@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Random = UnityEngine.Random;
 
-public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	//Burned out state is missing
 	public enum LightMountState
@@ -68,24 +70,16 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	public Sprite[] spriteListMissingBulb;
 
 	private float integrityStateMissingBulb;
-	private void Start()
+
+	private void OnEnable()
 	{
-		lightSwitch = lightSource.relatedLightSwitch;
-	}
-	private void Awake()
-	{
-		lightSource = GetComponent<LightSource>();
-
-
-		integrity = GetComponent<Integrity>();
-
-		integrityStateBroken = integrity.initialIntegrity * multiplierBroken;
-
-		integrityStateMissingBulb = integrity.initialIntegrity * multiplierMissingBulb;
-
-		orientation = GetComponent<Directional>().CurrentDirection;
-
+		EnsureInit();
 		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+	}
+
+	private void OnDisable()
+	{
+		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -148,19 +142,37 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 					ServerChangeLightState(LightMountState.Off);
 				}
 			}
-
 		}
+	}
+
+	bool EnsureInit()
+	{
+		if (lightSource == null) lightSource = GetComponent<LightSource>();
+		if (integrity == null) integrity = GetComponent<Integrity>();
+
+		if (lightSource == null || integrity == null)
+		{
+			Logger.Log($"This light mount is missing a light source or integrity component! {gameObject.name}", Category.Lighting);
+			return false;
+		}
+
+		lightSwitch = lightSource.relatedLightSwitch;
+		integrityStateBroken = integrity.initialIntegrity * multiplierBroken;
+		integrityStateMissingBulb = integrity.initialIntegrity * multiplierMissingBulb;
+		orientation = GetComponent<Directional>().CurrentDirection;
+		return true;
 	}
 
 	private void ChangeLightState(LightMountState newState)
 	{
+		if (!EnsureInit()) return;
+
 		if (newState == LightMountState.MissingBulb)
 		{
 			lightSource.Trigger(false);
 			spriteRenderer.sprite = GetSprite(spriteListMissingBulb);
 			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "";
-			this.state = newState;
 		}
 		else if (newState == LightMountState.Broken)
 		{
@@ -168,7 +180,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			spriteRenderer.sprite = GetSprite(spriteListBroken);
 			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "GlassStep";
-			this.state = newState;
 		}
 		else if (newState == LightMountState.Off)
 		{
@@ -176,7 +187,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			spriteRenderer.sprite = GetSprite(spriteListFull);
 			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "GlassHit";
-			this.state = newState;
 		}
 		else if (newState == LightMountState.On)
 		{
@@ -184,7 +194,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			spriteRenderer.sprite = GetSprite(spriteListFull);
 			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
 			integrity.soundOnHit = "GlassHit";
-			this.state = newState;
 		}
 	}
 
@@ -192,7 +201,8 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	//when lights switch state is changed
 	public void SwitchChangeState(LightState state)
 	{
-
+		if (!isServer) return;
+		
 		if (state == LightState.On)
 		{
 			ServerChangeLightState(LightMountState.On);
@@ -259,18 +269,13 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	public override void OnStartClient()
 	{
-		SyncLightState(state, this.state);
+		SyncLightState(state, state);
 		base.OnStartClient();
-	}
-
-	public void OnSpawnServer(SpawnInfo spawnInfo)
-	{
-		SyncLightState(state, this.state);
 	}
 
 	[Server]
 	private void ServerChangeLightState(LightMountState newState)
 	{
-		SyncLightState(this.state, newState);
+		state = newState;
 	}
 }
