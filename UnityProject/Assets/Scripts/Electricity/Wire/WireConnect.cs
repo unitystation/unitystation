@@ -29,46 +29,56 @@ public class WireConnect : ElectricalOIinheritance
 
 	//}
 
-	public void LineExplore(CableLine PassOn, HashSet<IntrinsicElectronicData> VisitedSteps){
-		//if (Data.connections.Count == 0) {
+	public void LineExplore(CableLine PassOn, HashSet<IntrinsicElectronicData> VisitedSteps)
+	{
+		if (Data.connections.Count == 0)
+		{
 			FindPossibleConnections();
-		//}
+		}
 		//Logger.Log("LineExplore > " + InData.Categorytype);
-		if (Data.connections.Count < 3) {
-			if (PassOn.TheEnd != null)
+		if (Data.connections.Count < 3)
+		{
+			if (this.InData != PassOn.TheStart)
 			{
-				if (PassOn.TheEnd != this.InData) { 
-					PassOn.Covering.Add(PassOn.TheEnd);
+				if (PassOn.TheEnd != null)
+				{
+					if (PassOn.TheEnd != this.InData)
+					{
+						VisitedSteps.Add(PassOn.TheEnd);
+						PassOn.Covering.Add(PassOn.TheEnd);
+						RelatedLine = PassOn;
+						PassOn.TheEnd = this.InData;
+					}
+				}
+				else {
+					RelatedLine = PassOn;
 					PassOn.TheEnd = this.InData;
 				}
 			}
-			else {
-				PassOn.TheEnd = this.InData;
-			}
-
-			foreach (var OutConnection in Data.connections) {
+			foreach (var OutConnection in Data.connections)
+			{
 				//Logger.Log("Data.connections >" + OutConnection.InData.Categorytype);
-				if (!VisitedSteps.Contains(OutConnection.InData) 
-				    && !PassOn.Covering.Contains(OutConnection.InData) 
-				    && this.InData != PassOn.TheStart) {
+				if (!VisitedSteps.Contains(OutConnection.InData)
+					&& !PassOn.Covering.Contains(OutConnection.InData)
+					&& OutConnection.InData != PassOn.TheStart)
+				{
 					var wire = OutConnection as WireConnect;
 					if (wire != null)
 					{
 						wire.LineExplore(PassOn, VisitedSteps);
 					}
 				}
-			
+
 			}
-		
+
 		}
 	}
-
-
 
 	public override void FlushConnectionAndUp()
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
-		if (RelatedLine != null) {
+		if (RelatedLine != null)
+		{
 			var _RelatedLine = RelatedLine;
 			RelatedLine = null;
 			_RelatedLine.FlushConnectionAndUp(this.InData);
