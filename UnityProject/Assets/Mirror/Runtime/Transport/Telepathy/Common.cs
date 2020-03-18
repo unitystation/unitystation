@@ -101,7 +101,7 @@ namespace Telepathy
                 }
 
                 // write the whole thing
-                stream?.Write(payload, 0, packetSize);
+                stream.Write(payload, 0, packetSize);
 
                 return true;
             }
