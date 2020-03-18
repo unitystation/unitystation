@@ -204,7 +204,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 						{
 							if (!ReadyToHarvest)
 							{
-								NaturalMutation();
+								//plantData.NaturalMutation(modification);
 								UpdatePlantStage(plantCurrentStage, PlantSpriteStage.FullyGrown);
 								ProduceCrop();
 								
@@ -441,90 +441,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 
 	}
 
-	private void NaturalMutation()
-	{
-		//Chance to actually mutate
-		if (random.Next(1, 2) != 1) return;
-
-		//Stat mutations
-		plantData.WeedResistance = StatMutation(plantData.WeedResistance, 100);
-		plantData.WeedGrowthRate = BadStatMutation(plantData.WeedGrowthRate, 100);
-		plantData.GrowthSpeed = StatMutation(plantData.GrowthSpeed, 100);
-		plantData.Potency = StatMutation(plantData.Potency, 100);
-		plantData.Endurance = StatMutation(plantData.Endurance, 100);
-		plantData.Yield = StatMutation(plantData.Yield, 100);
-		plantData.Lifespan = StatMutation(plantData.Lifespan, 100);
-		switch (modification)
-		{
-			case PlantTrayModification.None:
-				break;
-			case PlantTrayModification.WeedResistance:
-				plantData.WeedResistance = SpecialStatMutation(plantData.WeedResistance, 100);
-				break;
-			case PlantTrayModification.WeedGrowthRate:
-				plantData.WeedGrowthRate = SpecialStatMutation(plantData.WeedGrowthRate, 100);
-				break;
-			case PlantTrayModification.GrowthSpeed:
-				plantData.GrowthSpeed = SpecialStatMutation(plantData.GrowthSpeed, 100);
-				break;
-			case PlantTrayModification.Potency:
-				plantData.Potency = SpecialStatMutation(plantData.Potency, 100);
-				break;
-			case PlantTrayModification.Endurance:
-				plantData.Endurance = SpecialStatMutation(plantData.Endurance, 100);
-				break;
-			case PlantTrayModification.Yield:
-				plantData.Yield = SpecialStatMutation(plantData.Yield, 100);
-				break;
-			case PlantTrayModification.Lifespan:
-				plantData.Lifespan = SpecialStatMutation(plantData.Lifespan, 100);
-				break;
-		}
-
-		CheckMutation(plantData.WeedResistance, 0, 100);
-		CheckMutation(plantData.WeedGrowthRate, 0, 100);
-		CheckMutation(plantData.GrowthSpeed, 0, 100);
-		CheckMutation(plantData.Potency, 0, 100);
-		CheckMutation(plantData.Endurance, 0, 100);
-		CheckMutation(plantData.Yield, 0, 100);
-		CheckMutation(plantData.Lifespan, 0, 100);
-		if (random.Next(100) > 95)
-		{
-			Mutation();
-		}
-	}
-
-	private int CheckMutation(int num, int min, int max)
-	{
-		if (num < min)
-		{
-			return (min);
-		}
-
-		else if (num > max)
-		{
-			return (max);
-		}
-
-		return (num);
-	}
-
-	private static int BadStatMutation(float stat, float maxStat)
-	{
-		return ((int)stat + random.Next(-(int)Math.Ceiling((maxStat / 100f) * 5),
-					(int)Math.Ceiling((maxStat / 100f) * 2)));
-	}
-
-	private static int SpecialStatMutation(float stat, float maxStat)
-	{
-		return ((int)stat + random.Next(0, (int)Math.Ceiling((maxStat / 100f) * 7)));
-	}
 	
-	private static int StatMutation(float stat, float maxStat)
-	{
-		return ((int)stat + random.Next(-(int)Math.Ceiling((maxStat / 100f) * 2),
-					(int)Math.Ceiling((maxStat / 100f) * 5)));
-	}
 
 	private void CropDeath()
 	{
@@ -574,7 +491,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			var food = produceObject.GetComponent<GrownFood>();
 			if (food != null)
 			{
-				food.SetUpFood(plantData);
+				food.SetUpFood(plantData, modification);
 			}
 
 			netTransform.DisappearFromWorldServer();
@@ -582,22 +499,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		}
 	}
 
-	/// <summary>
-	/// Triggers plant in tray to mutate if possible
-	/// Loads a random mutation out of the plants MutatesInTo list
-	/// </summary>
-	private void Mutation()
-	{
-		if (plantData.MutatesInTo.Count == 0) return;
-
-		//var tint = random.Next(plantData.MutatesInTo.Count);\
-		//only use mutations with valid produce
-		var data = plantData.MutatesInTo.Where(mutation => mutation.plantData.ProduceObject != null).PickRandom();
-		if (data == null) { return; }
-		var oldPlantData = plantData;
-		plantData.MutateTo(data);
-		UpdatePlant(oldPlantData.Name, plantData.Name);
-	}
+	
 
 	/// <summary>
 	/// Server handles hand interaction with tray
@@ -623,7 +525,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 						if (reagentContainer.Contains("mutagen", 5))
 						{
 							reagentContainer.Contents["mutagen"] = reagentContainer.Contents["mutagen"] - 5;
-							Mutation();
+							plantData.Mutation();
 							return;
 						}
 					}
