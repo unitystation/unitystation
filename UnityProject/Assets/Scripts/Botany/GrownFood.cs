@@ -54,9 +54,9 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	/// <summary>
 	/// Called when plant creates food
 	/// </summary>
-	public void SetUpFood(PlantData newPlantData)
+	public void SetUpFood(PlantData newPlantData, PlantTrayModification modification)
 	{
-		plantData = PlantData.CreateNewPlant(newPlantData);
+		plantData = PlantData.MutateNewPlant(newPlantData, modification);
 		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
 		SetupChemicalContents();
 		SetupEdible();

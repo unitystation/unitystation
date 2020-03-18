@@ -11,7 +11,7 @@ public class GUI_SeedExtractor : NetTab
 	private float cooldownTimer = 2f;
 
 	private SeedExtractor seedExtractor;
-	private Dictionary<string, List<GameObject>> seedExtractorContent = new Dictionary<string, List<GameObject>>();
+	private Dictionary<string, List<SeedPacket>> seedExtractorContent = new Dictionary<string, List<SeedPacket>>();
 	[SerializeField]
 	private EmptyItemList seedTypeList = null;
 	[SerializeField]
@@ -19,9 +19,11 @@ public class GUI_SeedExtractor : NetTab
 	[SerializeField]
 	private NetColorChanger hullColor = null;
 	[SerializeField]
-	private RectTransform backButton = null;
+	private NetButton backButton = null;
 	[SerializeField]
-	private RectTransform title = null;
+	private NetLabel title = null;
+	[SerializeField]
+	private NetPrefabImage icon = null;
 	[SerializeField]
 	private string deniedMessage = "Bzzt.";
 	private bool inited = false;
@@ -61,7 +63,7 @@ public class GUI_SeedExtractor : NetTab
 			return;
 		}
 
-		seedExtractorContent = new Dictionary<string, List<GameObject>>();
+		seedExtractorContent = new Dictionary<string, List<SeedPacket>>();
 		foreach (var seedPacket in seedExtractor.seedPackets)
 		{
 			if (seedExtractorContent.ContainsKey(seedPacket.name))
@@ -70,7 +72,7 @@ public class GUI_SeedExtractor : NetTab
 			}
 			else
 			{
-				seedExtractorContent.Add(seedPacket.name, new List<GameObject> { seedPacket });
+				seedExtractorContent.Add(seedPacket.name, new List<SeedPacket> { seedPacket });
 			}
 		}
 	}
@@ -135,24 +137,26 @@ public class GUI_SeedExtractor : NetTab
 
 	public void SelectSeedType(string seedType)
 	{
-		//backButton.localScale = new Vector3(1, 1, 1);
-		//title.localScale = new Vector3(0, 0, 0);
+		title.SetValue = seedType;
+		icon.SetValue = seedType;
+		backButton.enabled = true;
 		selectedSeedType = seedType;
 		UpdateList();
 	}
 
 	public void Back()
 	{
-		//backButton.localScale = new Vector3(0, 0, 0);
-		//title.localScale = new Vector3(1, 1, 1);
+		title.SetValue = "Select Seed Packet";
+		icon.SetValue = null;
+		backButton.enabled = false;
 		selectedSeedType = null;
 		UpdateList();
 	}
 
-	public void DispenseSeedPacket(GameObject item)
+	public void DispenseSeedPacket(SeedPacket item)
 	{
 		if (item == null || seedExtractor == null) return;
-		GameObject itemToSpawn = null;
+		SeedPacket itemToSpawn = null;
 		foreach (var vendorItem in seedExtractorContent[item.name])
 		{
 			if (vendorItem == item)
@@ -168,9 +172,12 @@ public class GUI_SeedExtractor : NetTab
 		}
 
 		Vector3 spawnPos = seedExtractor.gameObject.RegisterTile().WorldPositionServer;
-		var spawnedItem = Spawn.ServerPrefab(itemToSpawn, spawnPos, seedExtractor.transform.parent).GameObject;
+		CustomNetTransform netTransform = itemToSpawn.GetComponent<CustomNetTransform>();
+		netTransform.AppearAtPosition(spawnPos);
+		netTransform.AppearAtPositionServer(spawnPos);
+		//var spawnedItem = Spawn.ServerPrefab(itemToSpawn.gameObject, spawnPos, seedExtractor.transform.parent).GameObject;
 		//something went wrong trying to spawn the item
-		if (spawnedItem == null) return;
+		//if (spawnedItem == null) return;
 
 		seedExtractorContent[itemToSpawn.name].Remove(itemToSpawn);
 		if(seedExtractorContent[itemToSpawn.name].Count == 0)
@@ -178,7 +185,7 @@ public class GUI_SeedExtractor : NetTab
 			seedExtractorContent.Remove(itemToSpawn.name);
 		}
 
-		SendToChat($"{spawnedItem.ExpensiveName()} was dispensed from the seed extractor");
+		SendToChat($"{itemToSpawn.gameObject.ExpensiveName()} was dispensed from the seed extractor");
 
 
 		UpdateList();
@@ -186,7 +193,7 @@ public class GUI_SeedExtractor : NetTab
 		StartCoroutine(VendorInputCoolDown());
 	}
 
-	private bool CanSell(GameObject itemToSpawn)
+	private bool CanSell(SeedPacket itemToSpawn)
 	{
 		if (allowSell)
 		{

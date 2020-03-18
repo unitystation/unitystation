@@ -9,7 +9,7 @@ public class SeedExtractorItemTypeEntry : DynamicEntry
 	private Color regularColor = Color.gray;
 	//[SerializeField]
 	//private Color emptyStockColor = Color.red;
-	private List<GameObject> seedPackets;
+	private List<SeedPacket> seedPackets;
 	[SerializeField]
 	private EmptyItemList itemList = null;
 	[SerializeField]
@@ -23,7 +23,7 @@ public class SeedExtractorItemTypeEntry : DynamicEntry
 	[SerializeField]
 	private NetColorChanger itemBackground = null;
 
-	public void SetItem(List<GameObject> item, GUI_SeedExtractor correspondingWindow)
+	public void SetItem(List<SeedPacket> item, GUI_SeedExtractor correspondingWindow)
 	{
 		seedPackets = item;
 		seedExtractorWindow = correspondingWindow;

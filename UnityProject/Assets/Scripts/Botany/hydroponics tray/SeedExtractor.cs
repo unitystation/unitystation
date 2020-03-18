@@ -25,13 +25,13 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 	private HasNetworkTab networkTab;
 
 	public bool IsProcessing => foodToBeProcessed.Count != 0;
-	public List<GameObject> seedPackets;
+	public List<SeedPacket> seedPackets;
 	public SeedExtractorUpdateEvent UpdateEvent => updateEvent;
 	private void Awake()
 	{
 		networkTab = GetComponent<HasNetworkTab>();
 		foodToBeProcessed = new Queue<GrownFood>();
-		seedPackets = new List<GameObject>();
+		seedPackets = new List<SeedPacket>();
 	}
 
 	/// <summary>
@@ -52,8 +52,9 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		//Handle completed processing
 		processingProgress = 0;
 		var grownFood = foodToBeProcessed.Dequeue();
-		grownFood.SeedPacket.GetComponent<SeedPacket>().plantData = PlantData.CreateNewPlant(grownFood.plantData);
-		GameObject seedPacket = grownFood.SeedPacket;
+		//grownFood.SeedPacket.GetComponent<SeedPacket>().plantData = PlantData.CreateNewPlant(grownFood.plantData);
+		var seedPacket = Spawn.ServerPrefab(grownFood.SeedPacket).GameObject.GetComponent<SeedPacket>();
+		seedPacket.plantData = PlantData.CreateNewPlant(grownFood.plantData);
 
 		//Add seed packet to dispenser
 		seedPackets.Add(seedPacket);
@@ -74,7 +75,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		foodToBeProcessed = new Queue<GrownFood>();
-		seedPackets = new List<GameObject>();
+		seedPackets = new List<SeedPacket>();
 	}
 
 	/// <summary>
