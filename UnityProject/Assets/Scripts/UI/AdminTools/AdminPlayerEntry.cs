@@ -11,8 +11,10 @@ namespace AdminTools
 		private Action<AdminPlayerEntry> OnClickEvent;
 		[SerializeField] private Text displayName = null;
 		[SerializeField] private Image bg = null;
-		[SerializeField] private GameObject msgPendingNot = null;
-		[SerializeField] private Text msgPendingCount = null;
+		//The notification counter on the button
+		public GUI_Notification pendingMsgNotification = null;
+		/// The reference to the notification counter on the admin chat button (the master one)
+		private GUI_Notification parentNotification = null;
 		[SerializeField] private GameObject offlineNot = null;
 		public Button button;
 
@@ -22,8 +24,10 @@ namespace AdminTools
 
 		public AdminPlayerEntryData PlayerData { get; set; }
 
-		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent)
+		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent, GUI_Notification masterNotification = null,
+			bool disableInteract = false)
 		{
+			parentNotification = masterNotification;
 			OnClickEvent = onClickEvent;
 			PlayerData = playerEntryData;
 			displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress}";
@@ -54,6 +58,34 @@ namespace AdminTools
 			{
 				offlineNot.SetActive(true);
 			}
+
+			if (disableInteract)
+			{
+				button.interactable = false;
+				bg.color = selectedColor;
+			}
+			else
+			{
+				button.interactable = true;
+			}
+
+			RefreshNotification();
+		}
+
+		public void RefreshNotification()
+		{
+			if (parentNotification == null) return;
+
+			if (parentNotification.notifications.ContainsKey(PlayerData.uid))
+			{
+				pendingMsgNotification.ClearAll();
+				pendingMsgNotification.AddNotification(PlayerData.uid,
+					parentNotification.notifications[PlayerData.uid]);
+			}
+			else
+			{
+				pendingMsgNotification.ClearAll();
+			}
 		}
 
 		public void OnClick()
@@ -66,13 +98,14 @@ namespace AdminTools
 
 		public void ClearMessageNot()
 		{
-			msgPendingCount.text = "0";
-			msgPendingNot.SetActive(false);
+			if(parentNotification != null) parentNotification.RemoveNotification(PlayerData.uid);
+			pendingMsgNotification.ClearAll();
 		}
 
 		public void SelectPlayer()
 		{
 			bg.color = selectedColor;
+			ClearMessageNot();
 		}
 
 		public void DeselectPlayer()

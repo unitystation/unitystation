@@ -6,5 +6,9 @@ namespace AdminTools
 {
 	public class PlayerPrayerWindow : MonoBehaviour
 	{
+		public void ClearLogs()
+		{
+			
+		}
 	}
 }

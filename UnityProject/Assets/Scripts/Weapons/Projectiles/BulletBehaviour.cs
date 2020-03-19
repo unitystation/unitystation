@@ -16,19 +16,21 @@ public class BulletBehaviour : MonoBehaviour
 	[Range(0, 100)]
 	public float damage = 25;
 	private GameObject shooter;
-	private Gun weapon;
+	protected Gun weapon;
 	public DamageType damageType;
 	public AttackType attackType = AttackType.Bullet;
 	private bool isSuicide = false;
+
+	public bool isMiningBullet = false;
 	/// <summary>
 	/// Cached trailRenderer. Note that not all bullets have a trail, thus this can be null.
 	/// </summary>
-	private LocalTrailRenderer trailRenderer;
+	protected LocalTrailRenderer trailRenderer;
 
 	/// <summary>
 	/// Rigidbody on the child transform (the one that actually moves when a shot happens)
 	/// </summary>
-	private Rigidbody2D rigidBody;
+	protected Rigidbody2D rigidBody;
 	//	public BodyPartType BodyPartAim { get; private set; };
 
 	private void Awake()
@@ -65,13 +67,13 @@ public class BulletBehaviour : MonoBehaviour
 	/// <param name="controlledByPlayer"></param>
 	/// <param name="targetZone"></param>
 	/// <param name="fromWeapon">Weapon the shot is being fired from</param>
-	public void Shoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
+	public virtual void Shoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 	{
 		isSuicide = false;
 		StartShoot(dir, controlledByPlayer, fromWeapon, targetZone);
 	}
 
-	private void StartShoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone)
+	protected void StartShoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone)
 	{
 		weapon = fromWeapon;
 		Direction = dir;
@@ -103,7 +105,7 @@ public class BulletBehaviour : MonoBehaviour
 	/// <summary>
 	/// Invoked when BulletColliderBehavior passes the event up to us.
 	/// </summary>
-	public void HandleCollisionEnter2D(Collision2D coll)
+	public virtual void HandleCollisionEnter2D(Collision2D coll)
 	{
 		if (coll.gameObject == shooter && !isSuicide)
 		{
@@ -159,7 +161,7 @@ public class BulletBehaviour : MonoBehaviour
 		ReturnToPool();
 	}
 
-	private void ReturnToPool()
+	protected virtual void ReturnToPool()
 	{
 		if (trailRenderer != null)
 		{

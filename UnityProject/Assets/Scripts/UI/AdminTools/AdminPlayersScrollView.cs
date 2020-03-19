@@ -9,9 +9,14 @@ namespace AdminTools
 {
 	public class AdminPlayersScrollView : MonoBehaviour
 	{
-		[SerializeField] private Transform playerListContent;
-		[SerializeField] private GameObject playerEntryPrefab;
-		private float refreshTime = 5f;
+		[SerializeField] private Transform playerListContent = null;
+		[SerializeField] private GameObject playerEntryPrefab = null;
+		[Tooltip("Used to send the master notification reference to the admin player buttons")]
+		[SerializeField] private GUI_Notification masterNotification = null;
+
+		[SerializeField] private bool showAdminsOnly = false;
+		[SerializeField] private bool disableButtonInteract = false;
+		private float refreshTime = 3f;
 		private float currentCount = 0f;
 
 		//Loaded playerEntries
@@ -19,7 +24,7 @@ namespace AdminTools
 
 		public OnSelectPlayerEvent OnSelectPlayer;
 
-		public string SelectedPlayer { get; private set; }
+		public AdminPlayerEntry SelectedPlayer { get; private set; }
 
 		private void OnEnable()
 		{
@@ -37,6 +42,7 @@ namespace AdminTools
 			currentCount += Time.deltaTime;
 			if (currentCount > refreshTime)
 			{
+				currentCount = 0;
 				RefreshPlayerList();
 			}
 		}
@@ -58,13 +64,17 @@ namespace AdminTools
 				var index = playerEntries.FindIndex(x => x.PlayerData.uid == p.uid);
 				if (index != -1)
 				{
-					playerEntries[index].UpdateButton(p, SelectPlayerInList);
+					playerEntries[index].UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract);
 				}
 				else
 				{
+					if (showAdminsOnly)
+					{
+						if(!p.isAdmin) continue;
+					}
 					var e = Instantiate(playerEntryPrefab, playerListContent);
 					var entry = e.GetComponent<AdminPlayerEntry>();
-					entry.UpdateButton(p, SelectPlayerInList);
+					entry.UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract);
 					playerEntries.Add(entry);
 					index = playerEntries.Count - 1;
 				}
@@ -75,9 +85,20 @@ namespace AdminTools
 				}
 			}
 
-			if (string.IsNullOrEmpty(SelectedPlayer))
+			if (SelectedPlayer == null)
 			{
 				SelectPlayerInList(playerEntries[0]);
+			}
+			else
+			{
+				if (gameObject.activeInHierarchy)
+				{
+					SelectedPlayer.pendingMsgNotification.ClearAll();
+					if (masterNotification != null)
+					{
+						masterNotification.RemoveNotification(SelectedPlayer.PlayerData.uid);
+					}
+				}
 			}
 		}
 
@@ -92,11 +113,11 @@ namespace AdminTools
 				else
 				{
 					p.SelectPlayer();
-					SelectedPlayer = selectedEntry.PlayerData.uid;
+					SelectedPlayer = selectedEntry;
 				}
 			}
 
-			SelectedPlayer = selectedEntry.PlayerData.uid;
+			SelectedPlayer = selectedEntry;
 			if(OnSelectPlayer != null) OnSelectPlayer.Invoke(selectedEntry.PlayerData);
 		}
 	}

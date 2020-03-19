@@ -18,7 +18,10 @@ public class AdminPlayerListRefreshMessage : ServerMessage
 
 		foreach (var v in UIManager.Instance.adminChatWindows.playerListViews)
 		{
-			v.ReceiveUpdatedPlayerList(listData);
+			if (v.gameObject.activeInHierarchy)
+			{
+				v.ReceiveUpdatedPlayerList(listData);
+			}
 		}
 	}
 

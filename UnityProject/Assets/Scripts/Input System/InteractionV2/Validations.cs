@@ -13,7 +13,11 @@ using UnityEngine;
 /// </summary>
 public static class Validations
 {
-
+	//Monitors the time between interactions and limits it by the min cool down time
+	private static Dictionary<GameObject, DateTime> playerCoolDown = new Dictionary<GameObject, DateTime>();
+	private static Dictionary<GameObject, int> playersMaxClick = new Dictionary<GameObject, int>();
+	private static double minCoolDown = 0.1f;
+	private static int maxClicks = 3;
 
 	/// <summary>
 	/// Check if this game object is not null has the specified component
@@ -119,6 +123,7 @@ public static class Validations
 	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
 	{
 		if (player == null) return false;
+
 		return CanInteract(player.GetComponent<PlayerScript>(), side, allowSoftCrit, allowCuffed);
 	}
 
@@ -134,6 +139,8 @@ public static class Validations
 	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
 	{
 		if (playerScript == null) return false;
+		if (!CanInteractByCoolDownState(playerScript.gameObject)) return false;
+
 		if ((!allowCuffed && playerScript.playerMove.IsCuffed) ||
 		    playerScript.IsGhost ||
 		    !playerScript.playerMove.allowInput ||
@@ -142,6 +149,37 @@ public static class Validations
 			return false;
 		}
 
+		return true;
+	}
+
+	//Monitors the interaction rate of a player. If its too fast we return false
+	private static bool CanInteractByCoolDownState(GameObject playerObject)
+	{
+		if (!playersMaxClick.ContainsKey(playerObject))
+		{
+			playersMaxClick.Add(playerObject, 0);
+		}
+
+		if (!playerCoolDown.ContainsKey(playerObject))
+		{
+			playerCoolDown.Add(playerObject, DateTime.Now);
+			return true;
+		}
+
+		var totalSeconds = (DateTime.Now - playerCoolDown[playerObject]).TotalSeconds;
+		if(totalSeconds < minCoolDown)
+		{
+			playersMaxClick[playerObject]++;
+			if (playersMaxClick[playerObject] <= maxClicks)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		playerCoolDown[playerObject] = DateTime.Now;
+		playersMaxClick[playerObject] = 0;
 		return true;
 	}
 

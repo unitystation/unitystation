@@ -56,6 +56,13 @@ namespace AdminTools
 				WindowChangeEvent.Invoke(SelectedWindow);
 			}
 		}
+
+		public void ResetAll()
+		{
+			adminPlayerChat.ClearLogs();
+			adminToAdminChat.ClearLogs();
+			playerPrayerWindow.ClearLogs();
+		}
 	}
 
 	public enum AdminChatWindow

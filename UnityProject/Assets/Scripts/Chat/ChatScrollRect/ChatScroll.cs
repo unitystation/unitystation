@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
@@ -86,8 +84,10 @@ public class ChatScroll : MonoBehaviour
 
 		chatLog.Clear();
 		chatLog = new List<ChatEntryData>(chatLogsToLoad);
-
-		StartCoroutine(LoadAllChatEntries());
+		if (gameObject.activeInHierarchy)
+		{
+			StartCoroutine(LoadAllChatEntries());
+		}
 	}
 
 	/// <summary>
@@ -117,14 +117,19 @@ public class ChatScroll : MonoBehaviour
 
 	IEnumerator LoadAllChatEntries()
 	{
+
 		while (!isInit)
 		{
 			yield return WaitFor.EndOfFrame;
 		}
 
-		for (int i = chatLog.Count - 1; i >= 0 && i < MaxViews; i--)
+		var count = 0;
+		for (int i = chatLog.Count - 1; i >= 0; i--)
 		{
 			TryShowView(chatLog[i], false, i);
+
+			count++;
+			if (count == MaxViews) break;
 		}
 	}
 
