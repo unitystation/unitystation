@@ -63,7 +63,7 @@
 
 		public override bool IsPassableTo( Vector3Int to, bool isServer )
 		{
-			if (isClosed && OneDirectionRestricted )
+			if (isClosed && OneDirectionRestricted)
 			{
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
@@ -90,7 +90,7 @@
 
 		public override bool IsAtmosPassable(Vector3Int from, bool isServer)
 		{
-			if (isClosed && OneDirectionRestricted )
+			if (isClosed && OneDirectionRestricted)
 			{
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
