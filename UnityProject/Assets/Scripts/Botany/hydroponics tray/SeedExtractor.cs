@@ -7,10 +7,10 @@ using UnityEngine.Events;
 public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn, IAPCPowered
 {
 	private Queue<GrownFood> foodToBeProcessed;
-	private int processingProgress;
+	private float processingProgress;
 	private PowerStates currentState = PowerStates.Off;
 	private SeedExtractorUpdateEvent updateEvent = new SeedExtractorUpdateEvent();
-	
+
 
 	[Tooltip("Time it takes to process a single piece of produce")]
 	[SerializeField]
@@ -37,15 +37,14 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 	/// <summary>
 	/// Handles processing produce into seed packets at rate defined by processingTime
 	/// </summary>
-	[Server]
-	public override void FixedUpdateMe()
+	public override void UpdateMe()
 	{
 		//Only run on server and if there is something to process and the device has power
 		if (!isServer || !IsProcessing || currentState == PowerStates.Off) { return; }
 		//If processing isn't done keep waiting
 		if (processingProgress < processingTime)
 		{
-			processingProgress++;
+			processingProgress += Time.deltaTime;
 			return;
 		}
 
