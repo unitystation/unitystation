@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GUI_Nuke : NetTab
 {
+	private bool isAnchored = true;
+	private bool isSafetyOn = true;
 	private Nuke nuke;
 	private Nuke Nuke {
 		get {
@@ -45,17 +47,41 @@ public class GUI_Nuke : NetTab
 
 	public void DiskButton()
 	{
-
+		Chat.AddGameWideSystemMsgToChat("DiskButton");
 	}
 
 	public void SafetyToggle()
 	{
-
+		if (isSafetyOn)
+		{
+			GetComponent<NetColorChanger>().Value = "FF0600";
+		}
+		else
+		{
+			GetComponent<NetColorChanger>().Value = "00FF11";
+		}
+		Chat.AddGameWideSystemMsgToChat("SafetyToggle");
 	}
 
 	public void AnchorNuke()
 	{
+		//toggle bool
+		isAnchored = !isAnchored;
+		if(isAnchored)
+		{
+			GetComponent<NetColorChanger>().Value = "FF0600";
+		}
+		else
+		{
+			GetComponent<NetColorChanger>().Value = "00FF11";
+		}
+		Nuke.AnchorNuke(isAnchored);
+		Chat.AddGameWideSystemMsgToChat("AnchorNuke");
+	}
 
+	public void ChangeColor()
+	{
+		
 	}
 
 	public void EnterDigit(char digit) {

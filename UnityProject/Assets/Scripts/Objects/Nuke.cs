@@ -5,11 +5,11 @@ using Mirror;
 /// <summary>
 /// Main component for nuke.
 /// </summary>
-public class Nuke : NetworkBehaviour
+public class Nuke : NetworkBehaviour, IInteractable<HandApply>
 {
 	private bool isDiskIn = false;
 	private bool isSafetyOn = true;
-	private bool isAnchored = true;
+	
 
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
@@ -105,5 +105,26 @@ public class Nuke : NetworkBehaviour
 
 	public void Clear() {
 		currentCode = "";
+	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.NukeDisk)) return true;
+			return false;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if (interaction.TargetObject != gameObject) return;
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.NukeDisk))
+		{
+			isDiskIn = true;
+		}
+	}
+
+	public void AnchorNuke(bool value)
+	{
+		GetComponent<ObjectBehaviour>().ServerSetPushable(value);
 	}
 }
