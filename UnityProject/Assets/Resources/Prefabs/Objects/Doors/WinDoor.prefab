@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 114793191091603260}
   - component: {fileID: 114424348708298150}
   - component: {fileID: 114029210237443714}
-  - component: {fileID: 114719229024385200}
+  - component: {fileID: 5741721080410768198}
   - component: {fileID: 114476203546729768}
   - component: {fileID: 114531569165117964}
   - component: {fileID: 114132872333290976}
@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 114320171668943648}
   - component: {fileID: 114317237157285656}
   - component: {fileID: 7724401135494436923}
+  - component: {fileID: 261989671655673698}
+  - component: {fileID: 8682245658674900977}
   m_Layer: 18
   m_Name: WinDoor
   m_TagString: Untagged
@@ -115,7 +117,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1797280918088156}
-  m_LocalRotation: {x: -0.00000020116548, y: 0.00000086426724, z: 1, w: 0.00000012644065}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -195,7 +197,7 @@ MonoBehaviour:
   openSFX: WinDoor
   closeSFX: WinDoor
   doorAnimationSize: 6
-  doorAnimator: {fileID: 114719229024385200}
+  doorAnimator: {fileID: 0}
   DoorDeniedSpriteOffset: 12
   DoorCoverSpriteOffset: 17
   DoorLightSpriteOffset: 0
@@ -212,9 +214,12 @@ MonoBehaviour:
   useSimpleLightAnimation: 0
   useSimpleDeniedAnimation: 0
   maxTimeOpen: 2
+  enablePressureWarning: 0
+  DoorPressureSpriteOffset: 25
+  pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
---- !u!114 &114719229024385200
+--- !u!114 &5741721080410768198
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,17 +228,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1797280918088156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2cf30704fd754096ad1a718fc9b2782, type: 3}
+  m_Script: {fileID: 11500000, guid: bffd1d638a553dc40a812390aa54a4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   doorController: {fileID: 114029210237443714}
-  spritePath: icons/obj/doors/windoor
-  animFrames: 3000000024000000200000001c0000001400000010000000
-  animLength: 0
-  closeFrame: 76
-  deniedFrame: 80
-  openFrame: 0
-  direction: 0
+  WspritePath: icons/obj/doors/windoor
+  WanimFrames: 3000000024000000200000001c0000001400000010000000
+  WanimLength: 0
+  WcloseFrame: 76
+  WdeniedFrame: 80
+  WopenFrame: 16
   IncludeAccessDeniedAnim: 1
   Smoothed: 0
 --- !u!114 &114476203546729768
@@ -368,3 +372,33 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &261989671655673698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InitialDirection: 3
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
+--- !u!114 &8682245658674900977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797280918088156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabChildrenOrientation: 3
