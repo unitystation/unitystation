@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +11,13 @@ public class DoorController : NetworkBehaviour
 		{
 			Horizontal,
 			Vertical
+		}
+
+		public enum PressureLevel
+		{
+			Safe,
+			Caution,
+			Warning
 		}
 
 		private int closedLayer;
@@ -63,6 +70,18 @@ public class DoorController : NetworkBehaviour
 		public float maxTimeOpen = 5;
 		private int openLayer;
 		private int openSortingLayer;
+
+		[Tooltip("Toggle whether door checks for pressure differences to warn about space wind")]
+		public bool enablePressureWarning = false;
+		// Upper yellow emergency access lights - 22 for glass door and space ship, 12 for exterior airlocks. 25 for standard airlocks.
+		[Tooltip("First frame of the door pressure light animation")]
+		public int DoorPressureSpriteOffset = 25;
+		// After pressure alert issued, time until it will display the alert again instead of opening.
+		private int pressureWarningCooldown = 5;
+		private int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
+		private int pressureThresholdWarning = 120;
+		private bool pressureWarnActive = false;
+		public PressureLevel pressureLevel = PressureLevel.Safe;
 
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
@@ -235,13 +254,24 @@ public class DoorController : NetworkBehaviour
 			}
 			if (AccessRestrictions != null)
 			{
-				if (AccessRestrictions.CheckAccess(Originator)) {
-					if (IsClosed && !isPerformingAction) {
-						ServerOpen();
+				if (AccessRestrictions.CheckAccess(Originator))
+				{
+					if (IsClosed && !isPerformingAction)
+					{
+						if (!pressureWarnActive && DoorUnderPressure())
+						{
+							ServerPressureWarn();
+						}
+						else
+						{
+							ServerOpen();
+						}
 					}
 				}
-				else {
-					if (IsClosed && !isPerformingAction) {
+				else
+				{
+					if (IsClosed && !isPerformingAction)
+					{
 						ServerAccessDenied();
 					}
 				}
@@ -326,6 +356,69 @@ public class DoorController : NetworkBehaviour
 			StartCoroutine(coWaitOpened);
 		}
 
+		IEnumerator PressureWarnDelay()
+		{
+			yield return WaitFor.Seconds(pressureWarningCooldown);
+			pressureWarnActive = false;
+		}
+
+		private void ServerPressureWarn()
+		{
+			pressureWarnActive = true;
+			StartCoroutine(PressureWarnDelay());
+			DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.PressureWarn);
+		}
+
+		/// <summary>
+		///  Checks each side of the door, returns true if not considered safe and updates pressureLevel.
+		///  Used to allow the player to be made aware of the pressure difference for safety.
+		/// </summary>
+		/// <returns></returns>
+		private bool DoorUnderPressure()
+		{
+			if (!enablePressureWarning)
+			{
+				// Pressure warning system is disabled, so pretend everything is fine.
+				return false;
+			}
+
+			// Obtain the adjacent tiles to the door.
+			var upMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.up);
+			var downMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.down);
+			var leftMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.left);
+			var rightMetaNode = MatrixManager.GetMetaDataAt(registerTile.WorldPositionServer + Vector3Int.right);
+
+			// Only find the pressure comparison if both opposing sides are atmos. passable.
+			// If both sides are not atmos. passable, then we don't care about the pressure difference.
+			var vertPressureDiff = 0.0;
+			var horzPressureDiff = 0.0;
+			if (!upMetaNode.IsOccupied || !downMetaNode.IsOccupied)
+			{
+				vertPressureDiff = Math.Abs(upMetaNode.GasMix.Pressure - downMetaNode.GasMix.Pressure);
+			}
+			if (!leftMetaNode.IsOccupied || !rightMetaNode.IsOccupied)
+			{
+				horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
+			}
+			
+			// Set pressureLevel according to the pressure difference found.
+			if (vertPressureDiff >= pressureThresholdWarning || horzPressureDiff >= pressureThresholdWarning)
+			{
+				pressureLevel = PressureLevel.Warning;
+				return true;
+			}
+			else if (vertPressureDiff >= pressureThresholdCaution || horzPressureDiff >= pressureThresholdCaution)
+			{
+				pressureLevel = PressureLevel.Caution;
+				return true;
+			}
+			else
+			{
+				pressureLevel = PressureLevel.Safe;
+				return false;
+			}
+		}
+
 		#region UI Mouse Actions
 
 		public void OnHoverStart()
@@ -352,4 +445,3 @@ public class DoorController : NetworkBehaviour
 			}
 		}
 	}
-
