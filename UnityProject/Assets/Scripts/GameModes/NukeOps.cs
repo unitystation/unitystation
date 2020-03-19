@@ -31,7 +31,7 @@ public class NukeOps : GameMode
 
 	public override bool IsPossible()
 	{
-		return FindObjectOfType<Nuke>() != null ? true : false;
+		return base.IsPossible() && (FindObjectOfType<Nuke>() != null);
 	}
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
