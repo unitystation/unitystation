@@ -19,5 +19,6 @@ public enum StorageItemName
 	Dufflebag = 1 << 4,
 	Belt = 1 << 5,
 	Briefcase = 1 << 6,
-	FirefirstAidKit = 1 << 7
+	FirefirstAidKit = 1 << 7,
+	Satchel = 1 << 8
 }
