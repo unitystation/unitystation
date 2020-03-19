@@ -35,8 +35,10 @@ public class NukeOps : GameMode
 		//the ratio is too low
 		var existingNukeOps = PlayerList.Instance.AntagPlayers.Count;
 		var inGamePlayers = PlayerList.Instance.InGamePlayers.Count;
-		if ((inGamePlayers > 0 && existingNukeOps == 0) ||
-		    existingNukeOps < Math.Floor(inGamePlayers * nukeOpsRatio)) return true;
+		//Check if nuke device is on the map
+		Nuke isNukeOnMap = FindObjectOfType<Nuke>();
+		if ((inGamePlayers > 0 && existingNukeOps == 0 && isNukeOnMap != null) ||
+			existingNukeOps < Math.Floor(inGamePlayers * nukeOpsRatio)) return true;
 
 		return false;
 	}
