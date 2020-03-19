@@ -827,6 +827,13 @@ public class ChatUI : MonoBehaviour
 	public void OnAdminHelpButton()
 	{
 		CloseChatWindow();
-		adminHelpChat.gameObject.SetActive(true);
+		if (adminHelpChat.gameObject.activeInHierarchy)
+		{
+			adminHelpChat.gameObject.SetActive(false);
+		}
+		else
+		{
+			adminHelpChat.gameObject.SetActive(true);
+		} 
 	}
 }

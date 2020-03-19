@@ -8,6 +8,7 @@
 		public abstract void OpenDoor(bool skipAnimation);
 		public abstract void CloseDoor(bool skipAnimation);
 		public abstract void AccessDenied(bool skipAnimation);
+		public abstract void PressureWarn(bool skipAnimation);
 
 		/// <summary>
 		/// Play the specified animation
@@ -25,6 +26,9 @@
 					break;
 				case DoorUpdateType.AccessDenied:
 					AccessDenied(skipAnimation);
+					break;
+				case DoorUpdateType.PressureWarn:
+					PressureWarn(skipAnimation);
 					break;
 			}
 		}

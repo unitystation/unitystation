@@ -1,14 +1,15 @@
 ﻿using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace AdminTools
 {
 	public class AdminChatButtons : MonoBehaviour
 	{
-		[SerializeField] private GUI_Notification adminNotification = null;
-		[SerializeField] private GUI_Notification playerNotification = null;
-		[SerializeField] private GUI_Notification prayerNotification = null;
+		public GUI_Notification adminNotification = null;
+		public GUI_Notification playerNotification = null;
+		public GUI_Notification prayerNotification = null;
 		[SerializeField] private AdminChatWindows adminChatWindows = null;
 		[SerializeField] private Button adminChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
@@ -19,12 +20,20 @@ namespace AdminTools
 		private void OnEnable()
 		{
 			adminChatWindows.WindowChangeEvent += OnAdminChatWindowChange;
+			SceneManager.activeSceneChanged += OnSceneChange;
 			ToggleButtons(AdminChatWindow.None);
 		}
 
 		private void OnDisable()
 		{
 			adminChatWindows.WindowChangeEvent -= OnAdminChatWindowChange;
+			SceneManager.activeSceneChanged -= OnSceneChange;
+		}
+
+		void OnSceneChange(Scene oldScene, Scene newScene)
+		{
+			ClearAllNotifications();
+			adminChatWindows.ResetAll();
 		}
 
 		void OnAdminChatWindowChange(AdminChatWindow selectedWindow)
@@ -109,8 +118,8 @@ namespace AdminTools
 					if (clearAll)
 					{
 						playerNotification.RemoveNotification(notificationKey);
+						if (amt == 0) return;
 					}
-
 					//No need to update notification if the player is already selected in admin chat
 					if (adminChatWindows.SelectedWindow == AdminChatWindow.AdminPlayerChat)
 					{
@@ -126,7 +135,11 @@ namespace AdminTools
 					if (clearAll)
 					{
 						adminNotification.RemoveNotification(notificationKey);
+						if (amt == 0) return;
 					}
+
+					if (adminChatWindows.adminToAdminChat.gameObject.activeInHierarchy) return;
+
 					adminNotification.AddNotification(notificationKey, amt);
 					break;
 				case AdminChatWindow.PrayerWindow:

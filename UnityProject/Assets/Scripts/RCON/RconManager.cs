@@ -345,6 +345,7 @@ public class Players
 
 	public Players()
 	{
+		if (PlayerList.Instance == null) return;
 		for (int i = 0; i < PlayerList.Instance.InGamePlayers.Count; i++)
 		{
 			var player = PlayerList.Instance.InGamePlayers[i];
