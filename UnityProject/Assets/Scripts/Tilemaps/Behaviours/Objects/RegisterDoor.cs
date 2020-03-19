@@ -63,13 +63,15 @@
 
 		public override bool IsPassableTo( Vector3Int to, bool isServer )
 		{
-			if (isClosed && OneDirectionRestricted)
+			if (isClosed && OneDirectionRestricted )
 			{
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(to - (isServer ? LocalPositionServer : LocalPositionClient)).y.Equals(v.y);
+				var position = isServer? LocalPositionServer : LocalPositionClient;
+				var direction = to - position;
+				return !direction.y.Equals(v.y) || !direction.x.Equals(v.x);
 			}
 
 			return !isClosed;
@@ -88,13 +90,15 @@
 
 		public override bool IsAtmosPassable(Vector3Int from, bool isServer)
 		{
-			if (isClosed && OneDirectionRestricted)
+			if (isClosed && OneDirectionRestricted )
 			{
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(from - (isServer ? LocalPositionServer : LocalPositionClient)).y.Equals(v.y);
+				var position = isServer? LocalPositionServer : LocalPositionClient;
+				var direction = from - position;
+				return !direction.y.Equals(v.y) || !direction.x.Equals(v.x);
 			}
 
 			return !isClosed;
