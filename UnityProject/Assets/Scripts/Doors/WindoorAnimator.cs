@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 using UnityEditor;
 
 /// <summary>
-/// Used for shutters, win doors or anything that just needs a
-/// general door animator.
+/// Used for Windoors
+/// Windoor animator.
 /// Remember to name at least one of the child sprite renderers as 'DoorBase'
 /// </summary>
 public class WindoorAnimator : DoorAnimator
