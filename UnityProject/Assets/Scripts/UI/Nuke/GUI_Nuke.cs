@@ -35,10 +35,27 @@ public class GUI_Nuke : NetTab
 	private void Start() {
 		//Not doing this for clients
 		if ( IsServer ) {
-//			Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
-			InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
+			//			Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
+			//InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
+			//InfoDisplay.SetValue = InitialInfoText;
+			InitialInfoText = "Insert the disk!";
 			InfoDisplay.SetValue = InitialInfoText;
 		}
+	}
+
+	public void DiskButton()
+	{
+
+	}
+
+	public void SafetyToggle()
+	{
+
+	}
+
+	public void AnchorNuke()
+	{
+
 	}
 
 	public void EnterDigit(char digit) {

@@ -7,6 +7,10 @@ using Mirror;
 /// </summary>
 public class Nuke : NetworkBehaviour
 {
+	private bool isDiskIn = false;
+	private bool isSafetyOn = true;
+	private bool isAnchored = true;
+
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
 	public string deniedMessage;
