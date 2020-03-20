@@ -22,6 +22,9 @@ public class CustomNetworkManager : NetworkManager
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
 
+	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
+	private const double minCoolDown = 1f;
+
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
 	/// </summary>
@@ -190,6 +193,27 @@ public class CustomNetworkManager : NetworkManager
 			doors[i].NotifyPlayer(playerGameObject);
 		}
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
+	}
+
+	public override void OnServerConnect(NetworkConnection conn)
+	{
+		if (!connectCoolDown.ContainsKey(conn.address))
+		{
+			connectCoolDown.Add(conn.address, DateTime.Now);
+		}
+		else
+		{
+			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
+			if (totalSeconds < minCoolDown)
+			{
+				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections");
+				conn.Disconnect();
+				return;
+			}
+
+			connectCoolDown[conn.address] = DateTime.Now;
+		}
+		base.OnServerConnect(conn);
 	}
 
 	/// server actions when client disconnects

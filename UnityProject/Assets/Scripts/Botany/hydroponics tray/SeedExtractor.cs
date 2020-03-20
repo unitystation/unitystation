@@ -12,9 +12,8 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 	private SeedExtractorUpdateEvent updateEvent = new SeedExtractorUpdateEvent();
 
 
-	[Tooltip("Time it takes to process a single piece of produce")]
-	[SerializeField]
-	private int processingTime = 0;
+	//Time it takes to process a single piece of produce
+	private float processingTime = 0.2f;
 
 	[SerializeField]
 	private RegisterObject registerObject = null;
@@ -47,7 +46,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 			processingProgress += Time.deltaTime;
 			return;
 		}
-
+		
 		//Handle completed processing
 		processingProgress = 0;
 		var grownFood = foodToBeProcessed.Dequeue();

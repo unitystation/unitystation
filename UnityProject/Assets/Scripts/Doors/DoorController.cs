@@ -254,33 +254,26 @@ public class DoorController : NetworkBehaviour
 			}
 			if (AccessRestrictions != null)
 			{
-				if (AccessRestrictions.CheckAccess(Originator))
-				{
-					if (IsClosed && !isPerformingAction)
-					{
-						if (!pressureWarnActive && DoorUnderPressure())
-						{
-							ServerPressureWarn();
-						}
-						else
-						{
-							ServerOpen();
-						}
-					}
-				}
-				else
+				if (!AccessRestrictions.CheckAccess(Originator))
 				{
 					if (IsClosed && !isPerformingAction)
 					{
 						ServerAccessDenied();
+						return;
 					}
 				}
 			}
-			else
+
+			if (IsClosed && !isPerformingAction)
 			{
-				Logger.LogErrorFormat("Door {0} @{1} lacks access restriction component!", Category.Doors,
-					name,
-					registerTile ? registerTile.WorldPositionServer : transform.position);
+				if (!pressureWarnActive && DoorUnderPressure())
+				{
+					ServerPressureWarn();
+				}
+				else
+				{
+					ServerOpen();
+				}
 			}
 		}
 
@@ -400,7 +393,7 @@ public class DoorController : NetworkBehaviour
 			{
 				horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
 			}
-			
+
 			// Set pressureLevel according to the pressure difference found.
 			if (vertPressureDiff >= pressureThresholdWarning || horzPressureDiff >= pressureThresholdWarning)
 			{

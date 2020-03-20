@@ -148,29 +148,54 @@ public class CargoShuttle : MonoBehaviour
 			return (false);
 
 		var crate = Spawn.ServerPrefab(order.Crate, pos).GameObject;
+		Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
 		//error occurred trying to spawn, just ignore this order.
 		if (crate == null) return true;
 		if (crate.TryGetComponent<ClosetControl>(out var closetControl))
 		{
 			for (int i = 0; i < order.Items.Count; i++)
 			{
-				var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;
-				if (orderedItem == null)
+				var entryPrefab = order.Items[i];
+				if (!stackableItems.ContainsKey(entryPrefab))
 				{
-					//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-					Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
-					continue;
+					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;
+					if (orderedItem == null)
+					{
+						//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
+						Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+						continue;
+					}
 
-				}
-				else if (orderedItem.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
-				{
-					//ensure it is added to crate
-					closetControl.ServerAddInternalItem(objectBehaviour);
+					var stackableItem = orderedItem.GetComponent<Stackable>();
+					if (stackableItem != null)
+					{
+						stackableItems.Add(entryPrefab, stackableItem);
+					}
+
+					AddItemToCrate(closetControl, orderedItem);
 				}
 				else
 				{
-					Logger.LogWarning($"Can't add ordered item {orderedItem.ExpensiveName()} to create because" +
-					                  $" it doesn't have an ObjectBehavior component.");
+					if (stackableItems[entryPrefab].Amount < stackableItems[entryPrefab].MaxAmount)
+					{
+						stackableItems[entryPrefab].ServerIncrease(1);
+					}
+					else
+					{
+						//Start a new one to start stacking
+						var orderedItem = Spawn.ServerPrefab(entryPrefab, pos).GameObject;
+						if (orderedItem == null)
+						{
+							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
+							Logger.Log($"Can't add ordered item to create because it doesn't have a GameObject", Category.ItemSpawn);
+							continue;
+						}
+
+						var stackableItem = orderedItem.GetComponent<Stackable>();
+						stackableItems[entryPrefab] = stackableItem;
+
+						AddItemToCrate(closetControl, orderedItem);
+					}
 				}
 			}
 		}
@@ -184,6 +209,20 @@ public class CargoShuttle : MonoBehaviour
 
 		CargoManager.Instance.CentcomMessage += "Loaded " + order.OrderName + " onto shuttle.\n";
 		return (true);
+	}
+
+	void AddItemToCrate(ClosetControl crate, GameObject obj)
+	{
+		if (obj.TryGetComponent<ObjectBehaviour>(out var objectBehaviour))
+		{
+			//ensure it is added to crate
+			crate.ServerAddInternalItem(objectBehaviour);
+		}
+		else
+		{
+			Logger.LogWarning($"Can't add ordered item {obj.ExpensiveName()} to create because" +
+			                  $" it doesn't have an ObjectBehavior component.");
+		}
 	}
 
 	/// <summary>
