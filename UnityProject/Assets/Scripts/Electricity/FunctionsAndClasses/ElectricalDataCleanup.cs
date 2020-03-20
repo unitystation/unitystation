@@ -43,7 +43,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 				Supply.Value.ResistanceComingFrom.Clear();
 				Supply.Value.Upstream.Clear();
 				Supply.Value.Downstream.Clear();
-				Supply.Value.SourceVoltages.Clear();
+				Supply.Value.SourceVoltages = 0;
 			}
 		}
 
@@ -66,7 +66,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 						Supply.Value.ResistanceGoingTo.Clear();
 						Supply.Value.CurrentGoingTo.Clear();
 						Supply.Value.CurrentComingFrom.Clear();
-						Supply.Value.SourceVoltages.Clear();
+						Supply.Value.SourceVoltages = 0;
 
 					}
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections)
@@ -86,7 +86,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					}
 					Object.Data.SupplyDependent[SourceInstance].CurrentGoingTo.Clear();
 					Object.Data.SupplyDependent[SourceInstance].CurrentComingFrom.Clear();
-					Object.Data.SupplyDependent[SourceInstance].SourceVoltages.Clear();
+					Object.Data.SupplyDependent[SourceInstance].SourceVoltages = 0;
 					Object.Data.CurrentInWire = new float ();
 					Object.Data.ActualVoltage = new float ();
 				}
@@ -109,7 +109,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					{
 						Supply.Value.CurrentComingFrom.Clear();
 						Supply.Value.CurrentGoingTo.Clear();
-						Supply.Value.SourceVoltages.Clear();
+						Supply.Value.SourceVoltages = 0;
 					}
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections)
 					{
@@ -130,7 +130,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 							JumpTo.FlushSupplyAndUp(SourceInstance);
 						}
 					}
-					Object.Data.SupplyDependent[SourceInstance].SourceVoltages.Clear();
+					Object.Data.SupplyDependent[SourceInstance].SourceVoltages = 0;
 				}
 
 				ElectricityFunctions.WorkOutActualNumbers (Object);
@@ -160,20 +160,20 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 				//	Object.connectedDevices.Clear();
 				//}
 			} else {
-				if (Path.Downstream.Count > 0) {
-					foreach (var JumpTo in Path.Downstream) {
-						if (JumpTo.InData?.Present != null)
-						{
-							JumpTo.InData.Present.RemoveSupply(JumpTo, SourceInstance);
-						}
-					}
-					if (SourceInstance == Object) {
-						CleanConnectedDevicesFromPower (Object);
-						Object.Data.ResistanceToConnectedDevices.Clear();
-					}
-					Object.Data.SupplyDependent.Remove(SourceInstance);
-					ElectricityFunctions.WorkOutActualNumbers(Object);
-				}
+				//if (Path.Downstream.Count > 0) {
+				//	foreach (var JumpTo in Path.Downstream) {
+				//		if (JumpTo.InData?.Present != null)
+				//		{
+				//			JumpTo.InData.Present.RemoveSupply(JumpTo, SourceInstance);
+				//		}
+				//	}
+				//	if (SourceInstance == Object) {
+				//		CleanConnectedDevicesFromPower (Object);
+				//		Object.Data.ResistanceToConnectedDevices.Clear();
+				//	}
+				//	Object.Data.SupplyDependent.Remove(SourceInstance);
+				//	ElectricityFunctions.WorkOutActualNumbers(Object);
+				//}
 			}
 		}
 	}

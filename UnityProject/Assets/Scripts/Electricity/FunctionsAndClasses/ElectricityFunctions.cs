@@ -185,6 +185,26 @@ public static class ElectricityFunctions
 		return ((1 / ResistanceXAll));
 	}
 
+
+	public static VIRResistances WorkOutVIRResistance(Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceSources)
+	{
+		var ResistanceXAll = new VIRResistances();
+		//Worked out per source
+		//var ToLog = "\n"; 
+		//ToLog += "ResistanceGoingTo > ";
+		//ToLog += string.Join(",", ResistanceSources.ResistanceGoingTo) + "\n";
+		//ToLog += "ResistanceComingFrom > ";
+		//ToLog += string.Join(",", ResistanceSources.ResistanceComingFrom) + "\n";
+		//Logger.Log("WorkOutResistance!" + ToLog); 
+		foreach (KeyValuePair<IntrinsicElectronicData, VIRResistances> Source in ResistanceSources)
+		{
+			ResistanceXAll.AddResistance(Source.Value);
+		}
+		//Logger.Log((1 / ResistanceXAll)+ "< Return");
+		return (ResistanceXAll);
+	}
+
+
 	public static float WorkOutAtResistance(ElectronicSupplyData ResistanceSources, IntrinsicElectronicData Indata)
 	{
 		float Resistanc = 0;
@@ -487,10 +507,7 @@ public static class ElectricityFunctions
 		AnInterestingDictionary.Clear();
 		foreach (var Supply in ElectricItem.Data.SupplyDependent) //Voltages easy to work out just add up all the voltages from different sources
 		{
-			foreach (var Volt in Supply.Value.SourceVoltages) { 
-				Voltage += (float)Volt;
-			}
-
+			Voltage += Supply.Value.SourceVoltages;
 		}
 
 		foreach (var CurrentIDItem in ElectricItem.Data.SupplyDependent)
@@ -532,20 +549,6 @@ public static class ElectricityFunctions
 		return (Current, Voltage, (Voltage / Current));
 	}
 
-	public static float WorkOutVoltage(ElectricalOIinheritance ElectricItem)
-	{
-		float Voltage = 0;
-		foreach (var Supply in ElectricItem.Data.SupplyDependent) //Voltages easy to work out just add up all the voltages from different sources
-		{
-			foreach (var Volt in Supply.Value.SourceVoltages)
-			{
-				Voltage += (float)Volt;
-			}
-
-		}
-		return (Voltage);
-	}
-
 
 	public static float WorkOutVoltageFromConnector(ElectricalOIinheritance ElectricItem, PowerTypeCategory SpecifiedDevice)
 	{
@@ -573,10 +576,7 @@ public static class ElectricityFunctions
 			}
 			if (pass)
 			{
-				foreach (var Volt in Supply.Value.SourceVoltages)
-				{
-					Voltage += (float)Volt;
-				}
+				Voltage += Supply.Value.SourceVoltages;
 			}
 		}
 		return (Voltage);
@@ -599,10 +599,7 @@ public static class ElectricityFunctions
 			}
 			if (pass)
 			{
-				foreach (var Volt in Supply.Value.SourceVoltages)
-				{
-					Voltage += (float)Volt;
-				}
+				Voltage += Supply.Value.SourceVoltages;
 			}
 		}
 		return (Voltage);
@@ -635,10 +632,7 @@ public static class ElectricityFunctions
 			}
 			if (pass)
 			{
-				foreach (var Volt in Supply.Value.SourceVoltages)
-				{
-					Voltage += (float)Volt;
-				}
+				Voltage += Supply.Value.SourceVoltages;
 			}
 		}
 		return (Voltage);
