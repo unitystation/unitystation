@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -94,6 +95,9 @@ public static class PlayerSpawn
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, true);
 	}
 
+	//Jobs that should always use their own spawn points regardless of current round time
+	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>{JobType.AI, JobType.SYNDICATE});
+
 	/// <summary>
 	/// Spawns a new player character and transfers the connection's control into the new body.
 	/// If existingMind is null, creates the new mind and assigns it to the new body.
@@ -117,7 +121,17 @@ public static class PlayerSpawn
 		//determine where to spawn them
 		if (spawnPos == null)
 		{
-			Transform spawnTransform = GetSpawnForJob(occupation.JobType);
+			Transform spawnTransform;
+			//Spawn normal location for special jobs or if 2 minutes havn't passed
+			if (System.DateTime.Today.AddHours(12).AddMinutes(2) > GameManager.Instance.stationTime || NEVER_SPAWN_ARRIVALS_JOBS.Contains(occupation.JobType))
+			{
+				 spawnTransform = GetSpawnForJob(occupation.JobType);
+			}
+			else
+			{
+				spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
+			}
+			
 			if (spawnTransform == null)
 			{
 				Logger.LogErrorFormat(
