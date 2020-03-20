@@ -9,15 +9,22 @@ namespace Chemistry
 	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Reaction")]
 	public class Reaction : ScriptableObject
 	{
-		public ReagentMix ingredients;
-		public ReagentMix catalysts;
+		public DictionaryReagentInt ingredients;
+		public DictionaryReagentInt catalysts;
 		public float? tempMin;
 		public float? tempMax;
-		public ReagentMix results;
+		public DictionaryReagentInt results;
 		public Effect[] effects;
 
-		public bool Apply(MonoBehaviour sender, Dictionary<Reagent, float> reagents)
+		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
+			if ((tempMin != null || reagentMix.Temperature >= tempMin) &&
+			    (tempMax != null || reagentMix.Temperature <= tempMax))
+			{
+				return false;
+			}
+
+			var reagents = reagentMix.reagents;
 			if (!ingredients.All(reagent => reagents.TryGetValue(reagent.Key, out var amount) ? amount > 0 : false))
 			{
 				return false;
@@ -48,10 +55,5 @@ namespace Chemistry
 
 			return true;
 		}
-	}
-
-	[Serializable]
-	public class ReagentMix : SerializableDictionary<Reagent, int>
-	{
 	}
 }

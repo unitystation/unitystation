@@ -12,7 +12,7 @@ namespace Chemistry
 		public ReactionSet[] parents;
 		public Reaction[] reactions;
 
-		public bool Apply(MonoBehaviour sender, Dictionary<Reagent, float> reagents)
+		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
 			bool changing;
 			var changed = false;
@@ -21,7 +21,7 @@ namespace Chemistry
 				changing = false;
 				foreach (var parent in parents)
 				{
-					if (parent.Apply(sender, reagents))
+					if (parent.Apply(sender, reagentMix))
 					{
 						changing = true;
 						changed = true;
@@ -30,7 +30,7 @@ namespace Chemistry
 
 				foreach (var reaction in reactions)
 				{
-					if (reaction.Apply(sender, reagents))
+					if (reaction.Apply(sender, reagentMix))
 					{
 						changing = true;
 						changed = true;

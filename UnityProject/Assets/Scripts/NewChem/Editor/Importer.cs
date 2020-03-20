@@ -127,7 +127,7 @@ namespace Chemistry.Editor
 
 			foreach (var reagentsGroup in reagentGroups)
 			{
-				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key), new char[] {'_'})
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key))
 					.Replace("Reagents", "");
 				Logger.Log(prefix);
 				var prefixPath = Path.Combine(reagentExportPath, prefix);
@@ -138,7 +138,7 @@ namespace Chemistry.Editor
 
 				foreach (var reagent in reagentsGroup)
 				{
-					var path = Path.Combine(prefixPath, reagent.Value.Name + ".asset");
+					var path = Path.Combine(prefixPath, ToPascalCase(reagent.Value.Name) + ".asset");
 					AssetDatabase.CreateAsset(reagent.Value, path);
 
 					progress++;
@@ -155,14 +155,14 @@ namespace Chemistry.Editor
 
 			foreach (var reactionsGroup in reactionGroups)
 			{
-				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key), new char[] {'_'});
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key));
 				var prefixPath = Path.Combine(reactionExportPath, prefix);
 				Logger.Log(prefix);
 				foreach (var reaction in reactionsGroup)
 				{
 					var path = Path.Combine(
 						prefixPath,
-						ToPascalCase(reaction.Key.Replace("datum/chemical_reaction/", ""), new char[] {'_', ' '}) +
+						ToPascalCase(reaction.Key.Replace("datum/chemical_reaction/", "")) +
 						".asset");
 
 					if (!Directory.Exists(Path.GetDirectoryName(path)))
@@ -192,8 +192,7 @@ namespace Chemistry.Editor
 
 				var prefix = ToPascalCase(
 					Path.GetDirectoryName(reactionSetData.Key
-						.Replace("obj/item/", "")),
-					new char[] {'_'});
+						.Replace("obj/item/", "")));
 
 				var prefixPath = Path.Combine(reactionSetExportPath, prefix);
 
@@ -204,7 +203,7 @@ namespace Chemistry.Editor
 
 				var path = Path.Combine(
 					prefixPath,
-					ToPascalCase(Path.GetFileName(reactionSetData.Key), new char[] {'_'}) +
+					ToPascalCase(Path.GetFileName(reactionSetData.Key)) +
 					".asset");
 
 				AssetDatabase.CreateAsset(reactionSet, path);
@@ -232,7 +231,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("results", out var resultsData))
 			{
-				reaction.results = new ReagentMix();
+				reaction.results = new DictionaryReagentInt();
 				var results = ((Dictionary<object, object>) resultsData).ToDictionary(
 					r => reagents[(string) r.Key],
 					r => int.Parse((string) r.Value));
@@ -245,7 +244,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("required_reagents", out var ingredientsData))
 			{
-				reaction.ingredients = new ReagentMix();
+				reaction.ingredients = new DictionaryReagentInt();
 				var ingredients = ((Dictionary<object, object>) ingredientsData).ToDictionary(
 					r => reagents[(string) r.Key],
 					r => int.Parse((string) r.Value));
@@ -258,7 +257,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("required_catalysts", out var catalystsData))
 			{
-				reaction.catalysts = new ReagentMix();
+				reaction.catalysts = new DictionaryReagentInt();
 				var catalysts = ((Dictionary<object, object>) catalystsData).ToDictionary(
 					r => reagents[(string) r.Key],
 					r => int.Parse((string) r.Value));
@@ -338,16 +337,27 @@ namespace Chemistry.Editor
 			return reagent;
 		}
 
-		public string ToPascalCase(string original, char[] seperator)
+		public string ToPascalCase(string original)
 		{
-			var startsWithLowerCaseChar = new Regex("^[a-z]");
+			Regex invalidCharsRgx = new Regex("[^_a-zA-Z0-9]");
+			Regex whiteSpace = new Regex(@"(?<=\s)");
+			Regex startsWithLowerCaseChar = new Regex("^[a-z]");
+			Regex firstCharFollowedByUpperCasesOnly = new Regex("(?<=[A-Z])[A-Z0-9]+$");
+			Regex lowerCaseNextToNumber = new Regex("(?<=[0-9])[a-z]");
+			Regex upperCaseInside = new Regex("(?<=[A-Z])[A-Z]+?((?=[A-Z][a-z])|(?=[0-9]))");
 
 			// replace white spaces with undescore, then replace all invalid chars with empty string
-			var pascalCase = original
+			var pascalCase = invalidCharsRgx.Replace(whiteSpace.Replace(original, "_"), string.Empty)
 				// split by underscores
-				.Split(seperator, StringSplitOptions.RemoveEmptyEntries)
+				.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries)
 				// set first letter to uppercase
-				.Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()));
+				.Select(w => startsWithLowerCaseChar.Replace(w, m => m.Value.ToUpper()))
+				// replace second and all following upper case letters to lower if there is no next lower (ABC -> Abc)
+				.Select(w => firstCharFollowedByUpperCasesOnly.Replace(w, m => m.Value.ToLower()))
+				// set upper case the first lower case following a number (Ab9cd -> Ab9Cd)
+				.Select(w => lowerCaseNextToNumber.Replace(w, m => m.Value.ToUpper()))
+				// lower second and next upper case letters except the last if it follows by any lower (ABcDEf -> AbcDef)
+				.Select(w => upperCaseInside.Replace(w, m => m.Value.ToLower()));
 
 			return string.Concat(pascalCase);
 		}
