@@ -4,7 +4,22 @@ using UnityEngine;
 
 public class ElectricalManager : MonoBehaviour
 {
+	public static ElectricalManager Instance;
+	public DeadEndConnection defaultDeadEnd;
 	private bool roundStartedServer = false;
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+			defaultDeadEnd.InData.Categorytype = PowerTypeCategory.DeadEndConnection;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 
 	void Update()
 	{

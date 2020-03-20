@@ -93,7 +93,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 					foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
 					{
 						Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
-						ComingFrom = ElectricalSynchronisation.DeadEnd;
+						ComingFrom = ElectricalManager.Instance.defaultDeadEnd;
 					}
 				}
 			}
@@ -101,7 +101,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 				return;
 			}
 		}
-		if (ComingFrom != null | ElectricalSynchronisation.DeadEnd == ComingFrom)
+		if (ComingFrom != null | ElectricalManager.Instance.defaultDeadEnd == ComingFrom)
 		{
 			int SourceInstanceID = SourceInstance.GetInstanceID();
 			ElectricalSynchronisation.InputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstanceID];
