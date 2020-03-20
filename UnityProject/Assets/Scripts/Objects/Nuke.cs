@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// Main component for nuke.
 /// </summary>
-public class Nuke : NetworkBehaviour
+public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private ItemStorage itemNuke;
 	public ItemSlot NukeSlot;
@@ -34,6 +34,23 @@ public class Nuke : NetworkBehaviour
 		NukeSlot = itemNuke.GetIndexedItemSlot(0);
 	}
 
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side))
+			return false;
+
+		//interaction only works if using an ID card on console
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.NukeDisk))
+		{ return false; }
+
+		return true;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{ 
+		Inventory.ServerTransfer(interaction.HandSlot, NukeSlot);	
+	}
+
 	public void EjectDisk()
 	{
 		if (!NukeSlot.IsEmpty)
@@ -48,6 +65,7 @@ public class Nuke : NetworkBehaviour
 		CodeGenerator();
 		base.OnStartServer();
 	}
+
 	/// <summary>
 	/// Tries to add new digit to code input
 	/// </summary>
