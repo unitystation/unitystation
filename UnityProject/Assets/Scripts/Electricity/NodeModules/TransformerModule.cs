@@ -31,20 +31,22 @@ public class TransformerModule : ElectricalModuleInheritance
 		}
 		Node.AddModule(this);
 	}
-	public override double ModifyElectricityInput(double Current, ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom)
+	public override VIRCurrent ModifyElectricityInput(VIRCurrent Current,
+										 ElectricalOIinheritance SourceInstance,
+										 ElectricalOIinheritance ComingFromm)
 	{
-		float Resistance = ElectricityFunctions.WorkOutInternalResistance(ControllingNode.Node.Data.SupplyDependent[SourceInstance], ComingFrom.InData);
-		double Voltage = (Current * Resistance);
+		float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[SourceInstance].ResistanceComingFrom);
+
 
 		//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance"  + Current.ToString() + " < Current");
-		Tuple<double, double> Currentandoffcut = TransformerCalculations.ElectricalStageTransformerCalculate(this,  Voltage: (float)Voltage, ResistanceModified: Resistance, FromHighSide : HighsideConnections.Contains(ComingFrom.InData.Categorytype)  );
-		//if (Currentandoffcut.Item2 > 0)
-		//{
-		//	ControllingNode.Node.Data.SupplyDependent[InstanceID].CurrentGoingTo[ControllingNode.Node.InData] = Currentandoffcut.Item2;
-		//}
-		return (Currentandoffcut.Item1);
+		VIRCurrent Currentout= 
+		TransformerCalculations.ElectricalStageTransformerCalculate(this,  
+			                                                           	Current,
+			                                                            ResistanceModified: Resistance,
+			                                                            FromHighSide : HighsideConnections.Contains(ComingFromm.InData.Categorytype));
+		return (Currentout);
 	}
-	public override ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
+	public override VIRResistances ModifyResistancyOutput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance)
 	{
 		//return (Resistance);
 		bool FromHighSide = false;
@@ -54,7 +56,7 @@ public class TransformerModule : ElectricalModuleInheritance
 			}
 		}
 
-		ResistanceWrap ResistanceM = TransformerCalculations.ResistanceStageTransformerCalculate(this, ResistanceToModify: Resistance, FromHighSide : FromHighSide);
+		VIRResistances ResistanceM = TransformerCalculations.ResistanceStageTransformerCalculate(this, ResistanceToModify: Resistance, FromHighSide : FromHighSide);
 		return (ResistanceM);
 	}
 

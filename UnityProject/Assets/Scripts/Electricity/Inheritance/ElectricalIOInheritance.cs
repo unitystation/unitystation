@@ -97,86 +97,95 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	/// <summary>
 	///  Sets the upstream
 	/// </summary>
-	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn = null)
+	public virtual void DirectionInput(ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn = null)
 	{
-		//if (Logall)
-		//{
-		//	Logger.Log("this > " + this + "DirectionInput SourceInstance > " + SourceInstance + " ComingFrom > " + ComingFrom + "  PassOn > " + PassOn, Category.Electrical);
-		//}
-		//InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
+		if (Logall)
+		{
+			Logger.Log("this > " + this + "DirectionInput SourceInstance > " + SourceInstance + " ComingFrom > " + ComingFrom + "  PassOn > " + PassOn, Category.Electrical);
+		}
+		InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
 	}
 
 	/// <summary>
 	/// Sets the downstream and pokes the next one along
 	/// </summary>
-	public virtual void DirectionOutput(GameObject SourceInstance)
+	public virtual void DirectionOutput(ElectricalOIinheritance SourceInstance)
 	{
 
-		//InputOutputFunctions.DirectionOutput(SourceInstance, this);
-		//if (Logall)
-		//{
-		//	Logger.Log("this > " + this + "DirectionOutput " + this.gameObject + " <ID | Downstream = " + Data.SupplyDependent[SourceInstance].Downstream.Count + " Upstream = " + Data.SupplyDependent[SourceInstanceID].Upstream.Count + "connections " + (string.Join(",", Data.connections)), Category.Electrical);
-		//}
+		InputOutputFunctions.DirectionOutput(SourceInstance, this);
+		if (Logall)
+		{
+			Logger.Log("this > " + this 
+			           + "DirectionOutput " + this.gameObject 
+			           + " <ID | Downstream = " + Data.SupplyDependent[SourceInstance].Downstream.Count
+			           + " Upstream = " + Data.SupplyDependent[SourceInstance].Upstream.Count 
+			           + "connections " + (string.Join(",", Data.connections)), Category.Electrical);
+		}
 
 	}
 
 	/// <summary>
 	/// Pass resistance with GameObject of the Machine it is heading toward
 	/// </summary>
-	public virtual void ResistanceInput(ResistanceWrap Resistance,
+	public virtual void ResistanceInput(VIRResistances Resistance,
 										ElectricalOIinheritance SourceInstance,
-										IntrinsicElectronicData ComingFrom,
-										List<ElectricalDirectionStep> NetworkPath)
+										IntrinsicElectronicData ComingFrom)
 	{
 		if (Logall)
 		{
-			Logger.Log("this > " + this + "ResistanceInput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom, Category.Electrical);
+			Logger.Log("this > " + this
+			           + "ResistanceInput, Resistance > " + Resistance 
+			           + " SourceInstance  > " + SourceInstance 
+			           + " ComingFrom > " + ComingFrom, Category.Electrical);
 		}
-		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, NetworkPath, this);
+		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
 	}
 
 	/// <summary>
 	/// Passes it on to the next cable
 	/// </summary>
-	public virtual void ResistancyOutput(ResistanceWrap Resistance,
-										 ElectricalOIinheritance SourceInstance,
-										 List<ElectricalDirectionStep> Directions)
+	public virtual void ResistancyOutput(ElectricalOIinheritance SourceInstance)
 	{
+		VIRResistances Resistance = ElectricityFunctions.WorkOutVIRResistance(Data.SupplyDependent[SourceInstance].ResistanceComingFrom);
 		if (Logall)
 		{
-			Logger.Log("this > " + this + "ResistancyOutput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance, Category.Electrical);
+			Logger.Log("this > " + this
+			           + "ResistancyOutput, Resistance > " + Resistance 
+			           + " SourceInstance  > " + SourceInstance, Category.Electrical);
 		}
-		InputOutputFunctions.ResistancyOutput(Resistance, Resistance, SourceInstance, Directions, this);
+		InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
 	}
 
 	/// <summary>
 	/// Inputs a current from a device, with the supply
 	/// </summary>
-	public virtual void ElectricityInput(WrapCurrent Current,
+	public virtual void ElectricityInput(VIRCurrent Current,
 										 ElectricalOIinheritance SourceInstance,
-										 ElectricalOIinheritance ComingFrom,
-										 ElectricalDirectionStep Path)
+										 ElectricalOIinheritance ComingFrom)
 	{
 		if (Logall)
 		{
-			Logger.Log("this > " + this + "ElectricityInput, Current > " + Current + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom, Category.Electrical);
+			Logger.Log("this > " + this 
+			           + "ElectricityInput, Current > " + Current 
+			           + " SourceInstance  > " + SourceInstance 
+			           + " ComingFrom > " + ComingFrom, Category.Electrical);
 		}
-		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, Path, this);
+		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
 	}
 
 	/// <summary>
 	///The function for out putting current into other nodes (Basically doing ElectricityInput On another one)
 	/// </summary>
-	public virtual void ElectricityOutput(WrapCurrent Current,
-										  ElectricalOIinheritance SourceInstance,
-										  ElectricalOIinheritance ComingFrom,
-										  ElectricalDirectionStep Path)
+	public virtual void ElectricityOutput(VIRCurrent Current,
+										  ElectricalOIinheritance SourceInstance)
 	{
 		if (Logall)
 		{
-			Logger.Log("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
+			Logger.Log("this > " + this 
+			           + "ElectricityOutput, Current > " + Current 
+			           + " SourceInstance  > " + SourceInstance, Category.Electrical);
 		}
-		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, ComingFrom, this, Path);
+		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 
 	}
 

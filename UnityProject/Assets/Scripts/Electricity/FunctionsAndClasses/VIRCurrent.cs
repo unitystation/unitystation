@@ -10,27 +10,33 @@ public class Current
 public class WrapCurrent
 {
 	public Current Current;
-	public double SendingCurrent;
+	public double Strength;
 
 	public void CombineCurrent(WrapCurrent addSendingCurrent ) {
 		if (Current == addSendingCurrent.Current)
 		{
-			SendingCurrent = SendingCurrent + addSendingCurrent.SendingCurrent;
+			Strength = Strength + addSendingCurrent.Strength;
 		}
 		else {
 			Logger.Log("HELp Trying to combine current with a different current ");
 		}
-	
 	}
 
+	public void Multiply(float Multiply) { 
+		Strength = Strength*Multiply;
+	}
+	 
 	public void SetUp(WrapCurrent _Current) {
 		Current = _Current.Current;
-		SendingCurrent = _Current.SendingCurrent;
+		Strength = _Current.Strength;
 	}
-
+	public double GetCurrent()
+	{
+		return (Current.current * Strength);
+	}
 	public override string ToString()
 	{
-		return string.Format("(" + SendingCurrent + ")");
+		return string.Format("(" + Strength + ")");
 	} 
 }
 
@@ -49,13 +55,44 @@ public class VIRCurrent
 			}
 		}
 		CurrentSources.Add(NewWrapCurrent);
+	}
 
+	public void addCurrent(VIRCurrent NewWrapCurrent)
+	{		foreach (var inCurrent in NewWrapCurrent.CurrentSources)
+		{
+			foreach (var wrapCurrent in CurrentSources)
+			{
+				if (wrapCurrent.Current == inCurrent.Current)
+				{
+					wrapCurrent.CombineCurrent(inCurrent);
+					return;
+				}
+			}
+			CurrentSources.Add(inCurrent);
+		}
+
+	}
+
+	public VIRCurrent SplitCurrent(float Multiplier)
+	{
+		var newVIRCurrent = new VIRCurrent(); //pool
+		foreach (var CurrentS in CurrentSources) {
+			var newWCurrent = new WrapCurrent();
+			newWCurrent.SetUp(CurrentS);
+			newVIRCurrent.addCurrent(newWCurrent);
+		}
+
+		foreach (var CurrentS in newVIRCurrent.CurrentSources)
+		{
+			CurrentS.Multiply(Multiplier);
+		}
+		return (newVIRCurrent);
 	}
 
 	public double Current() {		double Current = 0;
 		foreach (var wrapCurrent in CurrentSources)
 		{
-			Current = Current + wrapCurrent.SendingCurrent;
+			Current = Current + wrapCurrent.GetCurrent();
 		}
 		return (Current);
 	}
