@@ -119,8 +119,7 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 		}
 		//Logger.Log(CurrentCapacity + " < CurrentCapacity" + ControllingNode.Node.InData.Categorytype, Category.Electrical);
 	}
-
-	public override double ModifyElectricityOutput(double Current, ElectricalOIinheritance SourceInstance)
+	public override VIRCurrent ModifyElectricityOutput(VIRCurrent Current, ElectricalOIinheritance SourceInstance)
 	{
 		if (SourceInstance != ControllingNode.Node)
 		{

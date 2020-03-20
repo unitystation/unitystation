@@ -8,9 +8,10 @@ public class ElectronicData  { //to Store data about the electrical device
 	
 	/// <summary>
 	/// Stores for each supply how is the supply connected to that Device.
+	/// Supply > Resistance > connections
 	/// </summary>
-	public Dictionary<ElectricalOIinheritance,Dictionary<ElectricalOIinheritance, ElectronicStepAndProcessed>> 
-	ResistanceToConnectedDevices = new Dictionary<ElectricalOIinheritance, Dictionary<ElectricalOIinheritance, ElectronicStepAndProcessed>>();
+	public Dictionary<ElectricalOIinheritance,Dictionary<Resistance, HashSet<IntrinsicElectronicData>>> 
+	ResistanceToConnectedDevices = new Dictionary<ElectricalOIinheritance, Dictionary<Resistance, HashSet<IntrinsicElectronicData>>>();
 
 	public Dictionary<ElectricalOIinheritance, ElectronicSupplyData> SupplyDependent = new Dictionary<ElectricalOIinheritance, ElectronicSupplyData>();
 	/// <summary>

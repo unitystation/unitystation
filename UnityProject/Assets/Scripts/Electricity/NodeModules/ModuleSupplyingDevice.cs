@@ -47,9 +47,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 	public override void PowerUpdateStructureChangeReact()
 	{
-		NetworkMap.Pool();
-		NetworkMap = new ElectricalDirections();
-		NetworkMap.StartSearch(ControllingNode);
+		PowerSupplyFunction.PowerUpdateStructureChangeReact(this);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 	}

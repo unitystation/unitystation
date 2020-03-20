@@ -17,39 +17,50 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.ControllingNode);
 	}
 
+	public static void PowerUpdateStructureChangeReact(ModuleSupplyingDevice Supply)
+	{
+		ElectricalSynchronisation.CircuitSearchLoop(Supply.ControllingNode.Node);
+	}
+
 	public static void PowerUpdateCurrentChange(ModuleSupplyingDevice Supply)
 	{
 		//Logger.Log("PowerUpdateCurrentChange for Supply  > " + Supply.name);
-		Supply.ControllingNode.Node.FlushSupplyAndUp(Supply.ControllingNode.Node); //Needs change
 		Supply.ControllingNode.Node.FlushSupplyAndUp(Supply.ControllingNode.Node); //Needs change
 
 		if (!Supply.ControllingNode.Node.Data.ChangeToOff)
 		{
 			if (Supply.ControllingNode.Node.Data.SupplyingCurrent != 0)
 			{
+
 				var CurrentSource = new Current();
 				CurrentSource.current = Supply.ControllingNode.Node.Data.SupplyingCurrent;
 				Supply.WrapCurrentSource.Current = CurrentSource;
-				Supply.WrapCurrentSource.SendingCurrent = CurrentSource.current;
-				Supply.ControllingNode.Node.ElectricityOutput(Supply.WrapCurrentSource,
-				                                              Supply.ControllingNode.Node, 
-				                                              null,
-				                                              Supply.NetworkMap.StartingStep );
+				Supply.WrapCurrentSource.Strength = 1;
+
+				var VIR = new VIRCurrent();
+				VIR.addCurrent(Supply.WrapCurrentSource);
+
+
+
+				Supply.ControllingNode.Node.ElectricityOutput(VIR,
+															  Supply.ControllingNode.Node);
 			}
 			else if (Supply.ControllingNode.Node.Data.SupplyingVoltage != 0)
 			{
 				float Current = (Supply.SupplyingVoltage) / (Supply.InternalResistance 
-				                                             + ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom));
+				+ ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom));
 
 				var CurrentSource = new Current();
 				CurrentSource.current = Current;
 				Supply.WrapCurrentSource.Current = CurrentSource;
-				Supply.WrapCurrentSource.SendingCurrent = CurrentSource.current;
+				Supply.WrapCurrentSource.Strength = 1;
 
-				Supply.ControllingNode.Node.ElectricityOutput(Supply.WrapCurrentSource,
-				                                              Supply.ControllingNode.Node, 
-				                                              null,
-				                                              Supply.NetworkMap.StartingStep);
+				var VIR = new VIRCurrent();
+				VIR.addCurrent(Supply.WrapCurrentSource);
+
+				Supply.ControllingNode.Node.ElectricityOutput(VIR,
+				                                              Supply.ControllingNode.Node
+				                                              );
 
 			}
 		}

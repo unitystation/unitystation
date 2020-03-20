@@ -132,20 +132,22 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public double ModifyElectricityInput(double  Current, ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom)
+	public VIRCurrent ModifyElectricityInput(VIRCurrent Current,
+										 ElectricalOIinheritance SourceInstance,
+										 ElectricalOIinheritance ComingFromm)
 	{
-		return (UpModifyElectricityInput(Current, SourceInstance, ComingFrom));
+		return (UpModifyElectricityInput(Current, SourceInstance, ComingFromm));
 	}
-	public double ModifyElectricityOutput(double  Current, ElectricalOIinheritance SourceInstance)
+	public VIRCurrent ModifyElectricityOutput(VIRCurrent  Current, ElectricalOIinheritance SourceInstance)
 	{
 		return (UpModifyElectricityOutput(Current, SourceInstance));
 	}
 
-	public ResistanceWrap ModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
+	public VIRResistances ModifyResistanceInput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
 	{
 		return (UpModifyResistanceInput(Resistance, SourceInstance, ComingFrom));
 	}
-	public ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
+	public VIRResistances ModifyResistancyOutput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance)
 	{
 		return (UpModifyResistancyOutput(Resistance, SourceInstance));
 	}
@@ -306,7 +308,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public ResistanceWrap UpModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
+	public VIRResistances UpModifyResistancyOutput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistancyOutput))
 		{
@@ -318,7 +320,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		return (Resistance);
 	}
 
-	public ResistanceWrap UpModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
+	public VIRResistances UpModifyResistanceInput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistanceInput))
 		{
@@ -331,19 +333,21 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public double  UpModifyElectricityInput(double  Current, ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom)
+	public VIRCurrent  UpModifyElectricityInput(VIRCurrent Current,
+										 ElectricalOIinheritance SourceInstance,
+										 ElectricalOIinheritance ComingFromm)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityInput))
 		{
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ModifyElectricityInput])
 			{
-				Current = UpdateDelegateDictionary[Module].ModifyElectricityInput(Current, SourceInstance, ComingFrom);
+				Current = UpdateDelegateDictionary[Module].ModifyElectricityInput(Current, SourceInstance, ComingFromm);
 			}
 		}
 		return (Current);
 	}
 
-	public double  UpModifyElectricityOutput(double  Current, ElectricalOIinheritance SourceInstance)
+	public VIRCurrent  UpModifyElectricityOutput(VIRCurrent  Current, ElectricalOIinheritance SourceInstance)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityOutput))
 		{
