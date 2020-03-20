@@ -5,8 +5,11 @@ using Mirror;
 /// <summary>
 /// Main component for nuke.
 /// </summary>
-public class Nuke : NetworkBehaviour, IInteractable<HandApply>
+public class Nuke : NetworkBehaviour
 {
+	private ItemStorage itemNuke;
+	public ItemSlot NukeSlot;
+
 	private bool isDiskIn = false;
 	private bool isSafetyOn = true;
 	
@@ -23,7 +26,21 @@ public class Nuke : NetworkBehaviour, IInteractable<HandApply>
 	private string currentCode = "";
 	public string CurrentCode => currentCode;
 
-//	private GameObject Player;
+	//	private GameObject Player;
+
+	private void Awake()
+	{
+		itemNuke = GetComponent<ItemStorage>();
+		NukeSlot = itemNuke.GetIndexedItemSlot(0);
+	}
+
+	public void EjectDisk()
+	{
+		if (!NukeSlot.IsEmpty)
+		{
+			Inventory.ServerDrop(NukeSlot);
+		}
+	}
 
 	public override void OnStartServer()
 	{
@@ -105,22 +122,6 @@ public class Nuke : NetworkBehaviour, IInteractable<HandApply>
 
 	public void Clear() {
 		currentCode = "";
-	}
-
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.NukeDisk)) return true;
-			return false;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		if (interaction.TargetObject != gameObject) return;
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.NukeDisk))
-		{
-			isDiskIn = true;
-		}
 	}
 
 	public void AnchorNuke(bool value)

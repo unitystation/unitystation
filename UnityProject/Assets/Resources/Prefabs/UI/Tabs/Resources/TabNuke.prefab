@@ -123,6 +123,7 @@ RectTransform:
   - {fileID: 4187610304431256825}
   - {fileID: 1470195917401500149}
   - {fileID: 9180704030329820562}
+  - {fileID: 1561797923547617013}
   m_Father: {fileID: 224979633078539924}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3282,8 +3283,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9948294, y: 0.9948294, z: 0.994825}
-  m_Children:
-  - {fileID: 1561797923547617013}
+  m_Children: []
   m_Father: {fileID: 224969907841956502}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3419,8 +3419,9 @@ GameObject:
   - component: {fileID: 1561797923547617013}
   - component: {fileID: 4161227600352502666}
   - component: {fileID: 7288315213543782013}
+  - component: {fileID: 7780126769567647267}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: SafetyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3433,16 +3434,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4551366147070848790}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.42694902, y: 0.426949, z: 1.14}
+  m_LocalScale: {x: 0.42474145, y: 0.42474142, z: 1.1341004}
   m_Children: []
-  m_Father: {fileID: 1470195917401500149}
-  m_RootOrder: 0
+  m_Father: {fileID: 224969907841956502}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: 3}
+  m_AnchoredPosition: {x: 146.00513, y: -21.015503}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4161227600352502666
@@ -3481,6 +3482,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7780126769567647267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4551366147070848790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4806738475899814426
 GameObject:
   m_ObjectHideFlags: 0
@@ -3494,8 +3507,9 @@ GameObject:
   - component: {fileID: 4796646006774211364}
   - component: {fileID: 7196389377983074091}
   - component: {fileID: 1596860989999196926}
+  - component: {fileID: 2623815231933876828}
   m_Layer: 5
-  m_Name: Disk
+  m_Name: NukeDisk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3637,6 +3651,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2623815231933876828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4806738475899814426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da8a7a77a414754fa4241f00cbc0c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &6062961719528552055
 GameObject:
   m_ObjectHideFlags: 0
@@ -3800,9 +3828,8 @@ GameObject:
   - component: {fileID: 2627135185524857283}
   - component: {fileID: 7184790336328379153}
   - component: {fileID: 957055653997539635}
-  - component: {fileID: 8657614666049420154}
   m_Layer: 5
-  m_Name: Anchor
+  m_Name: NukeAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3849,7 +3876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.025235608, b: 0, a: 1}
+  m_Color: {r: 0.19993043, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3944,26 +3971,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 114229694218237544}
-        m_MethodName: ChangeColor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &8657614666049420154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8057649868686494647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea513a57707b421f8f2880e64ddbfd96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

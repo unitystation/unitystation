@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUI_Nuke : NetTab
 {
 	private bool isAnchored = true;
 	private bool isSafetyOn = true;
+
 	private Nuke nuke;
 	private Nuke Nuke {
 		get {
@@ -33,7 +35,11 @@ public class GUI_Nuke : NetTab
 	private NetUIElement CodeDisplay => this["CodeDisplay"];
 
 	private string InitialInfoText;
-
+	private void Awake()
+	{
+		//cache the entries for quick lookup
+		nuke = GetComponent<Nuke>();
+	}
 	private void Start() {
 		//Not doing this for clients
 		if ( IsServer ) {
@@ -47,41 +53,22 @@ public class GUI_Nuke : NetTab
 
 	public void DiskButton()
 	{
+		Nuke.EjectDisk();
 		Chat.AddGameWideSystemMsgToChat("DiskButton");
 	}
 
 	public void SafetyToggle()
 	{
-		if (isSafetyOn)
-		{
-			GetComponent<NetColorChanger>().Value = "FF0600";
-		}
-		else
-		{
-			GetComponent<NetColorChanger>().Value = "00FF11";
-		}
+		isSafetyOn = !isSafetyOn;
+
 		Chat.AddGameWideSystemMsgToChat("SafetyToggle");
 	}
 
 	public void AnchorNuke()
 	{
 		//toggle bool
-		isAnchored = !isAnchored;
-		if(isAnchored)
-		{
-			GetComponent<NetColorChanger>().Value = "FF0600";
-		}
-		else
-		{
-			GetComponent<NetColorChanger>().Value = "00FF11";
-		}
+		isAnchored = !isAnchored;	
 		Nuke.AnchorNuke(isAnchored);
-		Chat.AddGameWideSystemMsgToChat("AnchorNuke");
-	}
-
-	public void ChangeColor()
-	{
-		
 	}
 
 	public void EnterDigit(char digit) {
