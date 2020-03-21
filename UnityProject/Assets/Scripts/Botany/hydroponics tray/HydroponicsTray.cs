@@ -52,6 +52,9 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	private PlantData plantData;
 	[SerializeField]
 	private float tickRate;
+	[Tooltip("If this is set the plant will not grow/die over time, use it to keep wild findable plants alive")]
+	[SerializeField]
+	private bool isWild;
 
 
 	private static readonly System.Random random = new System.Random();
@@ -120,8 +123,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	/// </summary>
 	public override void UpdateMe()
 	{
-		//Only server checks plant status
-		if (!isServer) return;
+		//Only server checks plant status, wild plants do not grow
+		if (!isServer || isWild) return;
 
 		//Only update at set rate
 		tickCount += Time.deltaTime;
