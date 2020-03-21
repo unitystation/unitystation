@@ -197,10 +197,16 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(ProcessorObject);
 			var processorObj = NetworkObject;
 			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
-				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent);
+				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent, TileApply.ApplyType.HandApply);
 		}
-
-
+		else if(InteractionType == typeof(TileMouseDrop))
+		{
+			yield return WaitFor(UsedObject, ProcessorObject);
+			var usedObj = NetworkObjects[0];
+			var processorObj = NetworkObjects[1];
+			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
+				SentByPlayer.GameObject, TargetVector, processorObj, null, usedObj, Intent, TileApply.ApplyType.MouseDrop);
+		}
 	}
 
 	private void ProcessInteraction<T>(T interaction, GameObject processorObj)
@@ -361,6 +367,29 @@ public class RequestInteractMessage : ClientMessage
 		msg.Send();
 	}
 
+	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles, int tileInteractionIndex)
+	{
+		if (!mouseDrop.Performer.Equals(PlayerManager.LocalPlayer))
+		{
+			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
+							" This is not allowed. Client can only perform an interaction as themselves. Message" +
+							" will not be sent.", Category.NetMessage);
+			return;
+		}
+
+		var msg = new RequestInteractMessage()
+		{
+			ComponentType = typeof(InteractableTiles),
+			InteractionType = typeof(TileMouseDrop),
+			ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+			Intent = mouseDrop.Intent,
+			UsedObject = mouseDrop.UsedObject.NetId(),
+			TargetVector = mouseDrop.TargetVector,
+			TileInteractionIndex = tileInteractionIndex
+		};
+		msg.Send();
+	}
+
 	public override void Deserialize(NetworkReader reader)
 	{
 
@@ -402,6 +431,12 @@ public class RequestInteractMessage : ClientMessage
 		}
 		else if (InteractionType == typeof(TileApply))
 		{
+			TargetVector = reader.ReadVector2();
+			TileInteractionIndex = reader.ReadByte();
+		}
+		else if(InteractionType == typeof(TileMouseDrop))
+		{
+			UsedObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
 			TileInteractionIndex = reader.ReadByte();
 		}
@@ -449,6 +484,12 @@ public class RequestInteractMessage : ClientMessage
 		{
 			writer.WriteVector2(TargetVector);
 			writer.WriteByte((byte) TileInteractionIndex);
+		}
+		else if(InteractionType == typeof(TileMouseDrop))
+		{
+			writer.WriteUInt32(UsedObject);
+			writer.WriteVector2(TargetVector);
+			writer.WriteByte((byte)TileInteractionIndex);
 		}
 	}
 
