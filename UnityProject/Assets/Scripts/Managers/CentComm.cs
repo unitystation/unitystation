@@ -34,7 +34,7 @@ public class CentComm : MonoBehaviour
 	  + "<color=#FF151F>{0}</color>\n\n";
 
 	public static string ShuttleCallSubTemplate =
-		"\n\nThe emergency shuttle has been called. It will arrive in {0} minutes." +
+		"\n\nThe emergency shuttle has been called. It will arrive in {0} " +
 		"\nNature of emergency:" +
 		"\n\n{1}";
 	// Not traced yet, but eventually will:
@@ -243,7 +243,7 @@ public class CentComm : MonoBehaviour
 	/// <summary>
 	/// Text should be no less than 10 chars
 	/// </summary>
-	public static void MakeShuttleCallAnnouncement( int minutes, string text )
+	public static void MakeShuttleCallAnnouncement( string minutes, string text )
 	{
 		if ( text.Trim() == string.Empty || text.Trim().Length < 10)
 		{
