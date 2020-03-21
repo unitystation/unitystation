@@ -96,7 +96,11 @@ public static class PlayerSpawn
 	}
 
 	//Jobs that should always use their own spawn points regardless of current round time
-	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>{JobType.AI, JobType.SYNDICATE});
+	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>
+		{
+			JobType.AI, 
+			JobType.SYNDICATE
+		});
 
 	/// <summary>
 	/// Spawns a new player character and transfers the connection's control into the new body.
