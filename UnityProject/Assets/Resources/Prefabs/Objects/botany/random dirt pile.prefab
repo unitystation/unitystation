@@ -60,16 +60,6 @@ PrefabInstance:
       propertyPath: Passable
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
-        type: 3}
-      propertyPath: IsSoilPile
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
-        type: 3}
-      propertyPath: isSoilPile
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114519504495500056, guid: 1efec61511b50c844868cb49d1a711a1,
         type: 3}
       propertyPath: m_AssetId
@@ -81,5 +71,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 812965cd091d72b4f8ec592d44b4b54d,
         type: 3}
+    - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: IsSoilPile
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: isSoilPile
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1612245312422546373, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: isWild
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
