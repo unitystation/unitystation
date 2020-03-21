@@ -136,7 +136,7 @@ public class GUI_Comms : NetTab
 				ok = shuttle.CallShuttle(out callResult);
 				if ( ok )
 				{
-					var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString("mm");
+					var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
 					CentComm.MakeShuttleCallAnnouncement( minutes, text );
 					RefreshCallButtonText();
 				}
