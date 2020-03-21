@@ -101,7 +101,9 @@ public static class PlayerSpawn
 			JobType.AI, 
 			JobType.SYNDICATE
 		});
-
+	//Time to start spawning players at arrivals
+	private static readonly System.DateTime ARRIVALS_SPAWN_TIME = System.DateTime.Today.AddHours(12).AddMinutes(2)
+	
 	/// <summary>
 	/// Spawns a new player character and transfers the connection's control into the new body.
 	/// If existingMind is null, creates the new mind and assigns it to the new body.
@@ -126,8 +128,8 @@ public static class PlayerSpawn
 		if (spawnPos == null)
 		{
 			Transform spawnTransform;
-			//Spawn normal location for special jobs or if 2 minutes havn't passed
-			if (System.DateTime.Today.AddHours(12).AddMinutes(2) > GameManager.Instance.stationTime || NEVER_SPAWN_ARRIVALS_JOBS.Contains(occupation.JobType))
+			//Spawn normal location for special jobs or if less than 2 minutes passed
+			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || NEVER_SPAWN_ARRIVALS_JOBS.Contains(occupation.JobType))
 			{
 				 spawnTransform = GetSpawnForJob(occupation.JobType);
 			}
