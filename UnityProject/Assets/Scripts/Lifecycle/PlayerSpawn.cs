@@ -135,7 +135,13 @@ public static class PlayerSpawn
 			}
 			else
 			{
-				spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
+				spawnTransform = GetSpawnForLateJoin(occupation.JobType);
+				//Fallback to assistant spawn location if none found for late join
+				if(spawnTransform == null && occupation.JobType != JobType.NULL)
+				{
+					spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
+				}
+				
 			}
 			
 			if (spawnTransform == null)
@@ -453,6 +459,17 @@ public static class PlayerSpawn
 		}
 	}
 
+	private static Transform GetSpawnForLateJoin(JobType jobType)
+	{
+		if (jobType == JobType.NULL)
+		{
+			return null;
+		}
+		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
+			.Where(x => x.Department == JobDepartment.LateJoin).ToList();
+
+		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
+	}
 	private static Transform GetSpawnForJob(JobType jobType)
 	{
 		if (jobType == JobType.NULL)
