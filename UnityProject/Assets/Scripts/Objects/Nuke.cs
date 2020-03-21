@@ -8,11 +8,19 @@ using Mirror;
 public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private ItemStorage itemNuke;
-	public ItemSlot NukeSlot;
+	private ItemSlot nukeSlot;
+
+	public ItemSlot NukeSlot
+	{
+		get { return nukeSlot; }
+	}
 
 	private bool isDiskIn = false;
+	public bool IsDiskIn => isDiskIn;
+
 	private bool isSafetyOn = true;
-	
+
+	public bool IsSafetyOn => isSafetyOn;
 
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
@@ -31,7 +39,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void Awake()
 	{
 		itemNuke = GetComponent<ItemStorage>();
-		NukeSlot = itemNuke.GetIndexedItemSlot(0);
+		nukeSlot = itemNuke.GetIndexedItemSlot(0);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -47,15 +55,17 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
-	{ 
-		Inventory.ServerTransfer(interaction.HandSlot, NukeSlot);	
+	{
+		Inventory.ServerTransfer(interaction.HandSlot, nukeSlot);
+		isDiskIn = true;
 	}
 
 	public void EjectDisk()
 	{
 		if (!NukeSlot.IsEmpty)
 		{
-			Inventory.ServerDrop(NukeSlot);
+			isDiskIn = false;
+			Inventory.ServerDrop(nukeSlot);
 		}
 	}
 
@@ -71,9 +81,9 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	/// </summary>
 	/// <param name="c"></param>
 	/// <returns>true if digit is appended ok</returns>
-	public bool AppendKey( char c ) {
+	public bool AppendKey(char c) {
 		int digit;
-		if ( int.TryParse( c.ToString(), out digit ) && currentCode.Length < nukeCode.ToString().Length ) {
+		if (int.TryParse(c.ToString(), out digit) && currentCode.Length < nukeCode.ToString().Length) {
 			currentCode = CurrentCode + digit;
 			return true;
 		}
@@ -95,13 +105,6 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (CurrentCode == NukeCode.ToString())
 		{
-			detonated = true;
-			//if yes, blow up the nuke
-			RpcDetonate();
-			//Kill Everyone in the universe
-			//FIXME kill only people on the station matrix that the nuke was detonated on
-			StartCoroutine(WaitForDeath());
-			GameManager.Instance.RespawnCurrentlyAllowed = false;
 			return true;
 		}
 		else
@@ -111,6 +114,17 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
+	[Server]
+	public void ToggleTimer()
+	{
+		detonated = true;
+		//if yes, blow up the nuke
+		RpcDetonate();
+		//Kill Everyone in the universe
+		//FIXME kill only people on the station matrix that the nuke was detonated on
+		StartCoroutine(WaitForDeath());
+		GameManager.Instance.RespawnCurrentlyAllowed = false;
+	}
 	//Server telling the nukes to explode
 	[ClientRpc]
 	void RpcDetonate()
@@ -135,7 +149,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public void CodeGenerator()
 	{
 		nukeCode = Random.Range(1000, 9999);
-		//Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
+		Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
 	}
 
 	public void Clear() {

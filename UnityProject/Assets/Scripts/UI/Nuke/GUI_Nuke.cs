@@ -4,8 +4,39 @@ using UnityEngine.UI;
 
 public class GUI_Nuke : NetTab
 {
+	private const string colorGreen = "FF0000",
+						colorGrey = "A9A9A9",
+						 colorRed = "008000";
+
 	private bool isAnchored = true;
-	private bool isSafetyOn = true;
+	private bool isSafetyOff = false;
+
+	private NetUIElement infoAnchorColor;
+	private NetUIElement InfoAnchorColor
+	{
+		get
+		{
+			if (!infoAnchorColor)
+			{
+				infoAnchorColor = this["AnchorNukeToggleColor"] as NetColorChanger;
+			}
+			return infoAnchorColor;
+		}
+	}
+
+
+	private NetUIElement infoSafetyColor;
+	private NetUIElement InfoSafetyColor
+	{
+		get
+		{
+			if (!infoSafetyColor)
+			{
+				infoSafetyColor = this["SafetyNukeToggleColor"] as NetColorChanger;
+			}
+			return infoSafetyColor;
+		}
+	}
 
 	private Nuke nuke;
 	private Nuke Nuke {
@@ -57,17 +88,20 @@ public class GUI_Nuke : NetTab
 		Chat.AddGameWideSystemMsgToChat("DiskButton");
 	}
 
-	public void SafetyToggle()
+	public void SafetyToggle(CanvasGroup canvasGroup)
 	{
-		isSafetyOn = !isSafetyOn;
-
+		isSafetyOff = !isSafetyOff;
+		canvasGroup.interactable = isSafetyOff;
+		InfoSafetyColor.SetValue = isSafetyOff ? colorRed : colorGreen;
 		Chat.AddGameWideSystemMsgToChat("SafetyToggle");
 	}
 
 	public void AnchorNuke()
 	{
 		//toggle bool
-		isAnchored = !isAnchored;	
+		isAnchored = !isAnchored;
+		
+		InfoAnchorColor.SetValue = isAnchored ? colorGreen : colorRed;
 		Nuke.AnchorNuke(isAnchored);
 	}
 
@@ -107,6 +141,16 @@ public class GUI_Nuke : NetTab
 			StartCoroutine( ErrorCooldown() );
 		}
 
+	}
+
+	private void EnableDigits(bool isActive)
+	{
+		var canvas = gameObject.transform.Find("Window/CanvasDigits");
+		if(canvas != null)
+		{
+			Debug.Log("canvas is not null");
+			canvas.GetComponent<CanvasGroup>().interactable = isActive;
+		}
 	}
 
 	public IEnumerator ErrorCooldown() {

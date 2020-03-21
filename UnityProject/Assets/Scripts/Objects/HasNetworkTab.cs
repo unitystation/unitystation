@@ -16,7 +16,7 @@ public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, ISe
 		if (!DefaultWillInteract.Default(interaction, side))
 			return false;
 
-		//interaction only works if using an ID card on console
+		//interaction only works if hand is empty
 		if (interaction.HandObject != null)
 		{ return false; }
 
