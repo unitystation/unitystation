@@ -12132,7 +12132,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: db64cb0bdb39548dc94e89e0909228e2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.48
+  m_Volume: 0.28
   m_Pitch: 1.2
   Loop: 0
   Mute: 0
@@ -17380,7 +17380,8 @@ MonoBehaviour:
   ambientTrack: {fileID: 0}
   musicTracks: []
   songTracker: {fileID: 0}
-  soundSpawnPrefab: {fileID: 0}
+  soundSpawnPrefab: {fileID: 7013270530123256728, guid: e9f60ed79c0ab4b479d37f3f8ebb5164,
+    type: 3}
   MusicVolume: 0.13
   RoundEndSounds:
   - ApcDestroyed

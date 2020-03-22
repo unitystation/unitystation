@@ -616,7 +616,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			b.Shoot(finalDirection, shooter, this, damageZone);
 		}
-		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, gameObject);
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
 		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 
