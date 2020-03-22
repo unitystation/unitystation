@@ -63,6 +63,7 @@ public partial class GameManager : MonoBehaviour
 	public float minDistanceBetweenSpaceBodies;
 
 	private List<Vector3> EscapeShuttlePath = new List<Vector3>();
+	private bool EscapeShuttlePathGenerated = false;
 
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
@@ -139,29 +140,28 @@ public partial class GameManager : MonoBehaviour
 		}
 
 		//Fills list of Vectors one x or y apart, all along shuttle path
-		//Only works if the shuttle path is straight
 		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
 		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
+		
 
 		var distance = (int)Vector2.Distance(beginning, target);
-		Logger.Log("EscapeShuttle Distance:" + distance);
 
-		if (Vector2.Angle(beginning, target) == 180)
+		if (!EscapeShuttlePathGenerated)
 		{
-			Logger.Log("EscapeShuttle angle:" + Vector2.Angle(beginning, target));
-			for (int i = 0; i < distance; i++)
+			for (int i = 0; i < (distance/2); i++)
 			{
-				beginning = Vector2.MoveTowards(beginning, target, 1);
+				beginning = Vector2.MoveTowards(beginning, target, 2);
 				EscapeShuttlePath.Add(beginning);
 			}
-			Logger.Log("EscapeShuttle vector list:" + EscapeShuttlePath);
+			EscapeShuttlePathGenerated = true;
 		}
+
 
 		bool validPos = false;
 		while (!validPos)
 		{
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
-			bool failedShuttleChecks = false;
+
 			bool failedChecks =
 				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
 				minDistanceBetweenSpaceBodies;
@@ -172,10 +172,9 @@ public partial class GameManager : MonoBehaviour
 			//Checks whether position is near any of the shuttle path vectors.
 			foreach (var vectors in EscapeShuttlePath)
 			{
-				if (Vector3.Distance(proposedPosition, vectors) < minDistanceBetweenSpaceBodies)
+				if (Vector3.Distance(proposedPosition, vectors) < 100)
 				{
-					Logger.Log("EscapeShuttle Failed, position:" + vectors);
-					failedShuttleChecks = true;
+					failedChecks = true;
 				}
 			}
 
@@ -186,7 +185,8 @@ public partial class GameManager : MonoBehaviour
 					failedChecks = true;
 				}
 			}
-			if (!failedChecks & !failedShuttleChecks)
+
+			if (!failedChecks)
 			{
 				validPos = true;
 				mm.SetPosition(proposedPosition);
