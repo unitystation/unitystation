@@ -139,7 +139,7 @@ public partial class GameManager : MonoBehaviour
 			minDistanceBetweenSpaceBodies = 200f;
 		}
 
-		//Fills list of Vectors one x or y apart, all along shuttle path
+		//Fills list of Vectors all along shuttle path
 		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
 		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
 		
