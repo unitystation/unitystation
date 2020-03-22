@@ -146,11 +146,12 @@ public partial class GameManager : MonoBehaviour
 
 		var distance = (int)Vector2.Distance(beginning, target);
 
-		if (!EscapeShuttlePathGenerated)
+		if (!EscapeShuttlePathGenerated)//Only generated once
 		{
-			for (int i = 0; i < (distance/2); i++)
+			EscapeShuttlePath.Add(beginning);//Adds original vector
+			for (int i = 0; i < (distance/50); i++)
 			{
-				beginning = Vector2.MoveTowards(beginning, target, 2);
+				beginning = Vector2.MoveTowards(beginning, target, 50);//Vector 50 distance apart from prev vector
 				EscapeShuttlePath.Add(beginning);
 			}
 			EscapeShuttlePathGenerated = true;
@@ -169,7 +170,7 @@ public partial class GameManager : MonoBehaviour
 			//Make sure it is away from the middle of space matrix
 
 
-			//Checks whether position is near any of the shuttle path vectors.
+			//Checks whether position is near (100 distance) any of the shuttle path vectors
 			foreach (var vectors in EscapeShuttlePath)
 			{
 				if (Vector3.Distance(proposedPosition, vectors) < 100)
@@ -178,6 +179,7 @@ public partial class GameManager : MonoBehaviour
 				}
 			}
 
+			//Checks whether the other spacebodies are near
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
 				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) < minDistanceBetweenSpaceBodies)
