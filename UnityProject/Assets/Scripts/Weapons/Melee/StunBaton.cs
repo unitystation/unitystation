@@ -77,7 +77,7 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.transform.position);
+		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.transform.position, sourceObj: interaction.Performer);
 		ToggleState();
 	}
 }

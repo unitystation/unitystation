@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -16,6 +17,8 @@ public class PlaySoundMessage : ServerMessage
 	///Allow this one to sound polyphonically
 	public bool Polyphonic;
 
+	public uint TargetNetId;
+
 	public override IEnumerator Process() {
 		yield return null;
 
@@ -29,7 +32,7 @@ public class PlaySoundMessage : ServerMessage
 
 		if ( isPositionProvided )
 		{
-			SoundManager.PlayAtPosition( SoundName, Position, Pitch, Polyphonic );
+			SoundManager.PlayAtPosition( SoundName, Position, Pitch, Polyphonic, netId: TargetNetId );
 		} else
 		{
 			SoundManager.Play( SoundName, 1, Pitch, 0f, Polyphonic );
@@ -51,8 +54,18 @@ public class PlaySoundMessage : ServerMessage
 
 	public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos, float pitch,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
+		var netId = NetId.Empty;
+		if (sourceObj != null)
+		{
+			var netB = sourceObj.GetComponent<NetworkBehaviour>();
+			if (netB != null)
+			{
+				netId = netB.netId;
+			}
+		}
+
 		PlaySoundMessage msg = new PlaySoundMessage
 		{
 			SoundName = sndName,
@@ -61,7 +74,8 @@ public class PlaySoundMessage : ServerMessage
 			ShakeGround = shakeGround,
 			ShakeIntensity = shakeIntensity,
 			ShakeRange = shakeRange,
-			Polyphonic = polyphonic
+			Polyphonic = polyphonic,
+			TargetNetId = netId
 		};
 
 		msg.SendToNearbyPlayers(pos);
@@ -70,7 +84,18 @@ public class PlaySoundMessage : ServerMessage
 
 	public static PlaySoundMessage SendToAll( string sndName, Vector3 pos, float pitch,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null ) {
+
+		var netId = NetId.Empty;
+		if (sourceObj != null)
+		{
+			var netB = sourceObj.GetComponent<NetworkBehaviour>();
+			if (netB != null)
+			{
+				netId = netB.netId;
+			}
+		}
+		
 		PlaySoundMessage msg = new PlaySoundMessage
 		{
 			SoundName = sndName,
@@ -79,7 +104,8 @@ public class PlaySoundMessage : ServerMessage
 			ShakeGround = shakeGround,
 			ShakeIntensity = shakeIntensity,
 			ShakeRange = shakeRange,
-			Polyphonic = polyphonic
+			Polyphonic = polyphonic,
+			TargetNetId = netId
 		};
 
 		msg.SendToAll();
@@ -88,7 +114,18 @@ public class PlaySoundMessage : ServerMessage
 	}
 	public static PlaySoundMessage Send( GameObject recipient, string sndName, Vector3 pos, float pitch,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null ) {
+
+		var netId = NetId.Empty;
+		if (sourceObj != null)
+		{
+			var netB = sourceObj.GetComponent<NetworkBehaviour>();
+			if (netB != null)
+			{
+				netId = netB.netId;
+			}
+		}
+
 		PlaySoundMessage msg = new PlaySoundMessage
 		{
 			SoundName = sndName,
@@ -97,7 +134,8 @@ public class PlaySoundMessage : ServerMessage
 			ShakeGround = shakeGround,
 			ShakeIntensity = shakeIntensity,
 			ShakeRange = shakeRange,
-			Polyphonic = polyphonic
+			Polyphonic = polyphonic,
+			TargetNetId = netId
 		};
 
 		msg.SendTo(recipient);

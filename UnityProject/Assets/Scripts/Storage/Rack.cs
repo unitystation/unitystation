@@ -46,7 +46,7 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)
 		    && interaction.Intent != Intent.Help)
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f);
+			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f, sourceObj: interaction.Performer);
 			Spawn.ServerPrefab(rackParts, interaction.WorldPositionTarget.RoundToInt(),
 				interaction.TargetObject.transform.parent);
 			Despawn.ServerSingle(gameObject);
