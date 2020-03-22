@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1626937235009047726
+--- !u!114 &-3733500092611804698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100328150011014054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 487411efbb28de943985321022182f2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 828911fe51c02c34abbd832ec360a005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -23,7 +23,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: NukeDisk
+      value: NukePinpointer
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -74,11 +74,6 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: Resistances.Indestructable
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Color.r
@@ -98,12 +93,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9dfb6f9495b447a4f864094b7ce55dda,
+      objectReference: {fileID: 21300000, guid: ec81f58914fc9814c80cd7e3b81a5f9c,
         type: 3}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -118,12 +118,12 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Nuclear disk
+      value: Nuclear disk pinpointer.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: Get access to the nuke.
+      value: Shows disk coordinates
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -134,19 +134,19 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 1cc3126c77464c149be884a3df3a17c6,
+      objectReference: {fileID: 21300000, guid: 111c29fd486c7fb48aa3ac95d7120075,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300002, guid: 1cc3126c77464c149be884a3df3a17c6,
+      objectReference: {fileID: 21300002, guid: 111c29fd486c7fb48aa3ac95d7120075,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300004, guid: 1cc3126c77464c149be884a3df3a17c6,
+      objectReference: {fileID: 21300004, guid: 111c29fd486c7fb48aa3ac95d7120075,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -197,8 +197,12 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: bb50eda6fc15bef468df0a46c50b2fed,
-        type: 2}
+      objectReference: {fileID: 0}
+    - target: {fileID: 1397050043076861577, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &100328150011014054 stripped
