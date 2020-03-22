@@ -251,8 +251,6 @@ public partial class PlayerList
 
 		var lines = File.ReadAllLines(whiteListPath);
 
-		Logger.Log($"{lines.Length > 0} and {CustomNetworkManager.Instance._isServer == false} and {!adminUsers.Contains(userid)} and {!whiteListUsers.Contains(userid)}");
-
 		//Adds server to admin list if not already in it.
 
 		if (userid == ServerData.UserID && !adminUsers.Contains(userid))
