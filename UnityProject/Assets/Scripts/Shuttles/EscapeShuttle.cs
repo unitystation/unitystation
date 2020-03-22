@@ -49,7 +49,7 @@ public class EscapeShuttle : NetworkBehaviour
 			StationDest = new Destination { Orientation = Orientation.Right, Position = new Vector2(49, 6), ApproachReversed = true };
 		}
 
-		centComm = gameManager.GetComponent<CentComm>();
+		centComm = GameManager.Instance.GetComponent<CentComm>();
 
 		AlertLevelInitialTimerSeconds = InitialTimerSeconds;
 		AlertLevelTooLateToRecallSeconds = TooLateToRecallSeconds;
@@ -152,8 +152,6 @@ public class EscapeShuttle : NetworkBehaviour
 	/// Thrusters are removed from this when destroyed
 	/// </summary>
 	private List<ShipThruster> thrusters = new List<ShipThruster>();
-
-	public GameManager gameManager;
 
 	private CentComm centComm;
 

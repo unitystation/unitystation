@@ -107,7 +107,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		var item = pna.GetActiveHandItem();
 		if (Validations.HasItemTrait(item, CommonTraits.Instance.Wirecutter))
 		{
-			SoundManager.PlayNetworkedAtPos("WireCutter", pos, 1f);
+			SoundManager.PlayNetworkedAtPos("WireCutter", pos, 1f, sourceObj: gameObject);
 
 			if (posterVariant == Posters.Ripped)
 			{
@@ -134,7 +134,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		Chat.AddLocalMsgToChat(interaction.Performer.ExpensiveName() +
 		                       " rips the poster in a single, decisive motion!", pos, gameObject);
-		SoundManager.PlayNetworkedAtPos("PosterRipped", pos);
+		SoundManager.PlayNetworkedAtPos("PosterRipped", pos, sourceObj: gameObject);
 
 		SyncPosterType(posterVariant, Posters.Ripped);
 	}

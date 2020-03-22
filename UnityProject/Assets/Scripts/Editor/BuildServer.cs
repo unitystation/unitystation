@@ -199,6 +199,7 @@ static class BuildScript
 			scenes = scenes,
 			locationPathName = locationPathName,
 			target = target,
+			options = BuildOptions.CompressWithLz4HC
 		};
 
 		if (target == BuildTarget.StandaloneLinux64)
