@@ -247,12 +247,38 @@ public partial class PlayerList
 		}
 
 		//whitelist checking:
-		//Checks whether the userid is in either the Admins or whitelist or is server AND that the whitelist file has something in it.
-		//Whitelist only activates if whitelist is populated.
+
 
 		var lines = File.ReadAllLines(whiteListPath);
 
-		if ((!whiteListUsers.Contains(userid) | !adminUsers.Contains(userid)) && CustomNetworkManager.Instance._isServer == false && lines.Length > 0)
+		Logger.Log($"{lines.Length > 0} and {CustomNetworkManager.Instance._isServer == false} and {!adminUsers.Contains(userid)} and {!whiteListUsers.Contains(userid)}");
+
+		//Adds server to admin list if not already in it.
+
+		//if (CustomNetworkManager.Instance._isServer == true && !adminUsers.Contains(userid))
+		//{
+		//	File.AppendAllLines(adminsPath, new string[]
+		//	{
+		//	"\r\n" + userid
+		//	});
+
+		//	adminUsers.Add(userid);
+		//	var user = GetByUserID(userid);
+
+		//	if (user == null) return false;
+
+		//	var newToken = System.Guid.NewGuid().ToString();
+		//	if (!loggedInAdmins.ContainsKey(userid))
+		//	{
+		//		loggedInAdmins.Add(userid, newToken);
+		//		AdminEnableMessage.Send(user.Connection, newToken);
+		//	}
+		//}
+
+		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
+		//Whitelist only activates if whitelist is populated.
+
+		if (lines.Length > 0 && !adminUsers.Contains(userid) && !whiteListUsers.Contains(userid) )
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Server Error: This account is not whitelisted."));
 
