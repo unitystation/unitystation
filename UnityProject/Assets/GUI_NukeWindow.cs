@@ -139,7 +139,7 @@ public class GUI_NukeWindow : NetTab
 		bool? isAnchored = Nuke.AnchorNuke();
 		if(isAnchored != null)
 		{
-			InfoAnchorColor.SetValue = isAnchored.Value ? colorGreen : colorRed;
+			InfoAnchorColor.SetValue = isAnchored.Value ? colorRed : colorGreen ;
 		}
 	}
 

@@ -67,6 +67,8 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (!nukeSlot.IsEmpty)
 		{
 			Inventory.ServerDrop(nukeSlot);
+			isCodeRight = false;
+			Clear();
 		}
 	}
 
@@ -164,7 +166,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public bool? AnchorNuke()
 	{
-		if (!isSafetyOn)
+		if (IsCodeRight && !isSafetyOn)
 		{
 			bool isPushable = !objectBehaviour.IsPushable;
 			GetComponent<ObjectBehaviour>().ServerSetPushable(isPushable);
