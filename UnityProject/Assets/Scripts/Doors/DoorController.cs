@@ -357,9 +357,9 @@ public class DoorController : NetworkBehaviour
 
 		private void ServerPressureWarn()
 		{
+			DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.PressureWarn);
 			pressureWarnActive = true;
 			StartCoroutine(PressureWarnDelay());
-			DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.PressureWarn);
 		}
 
 		/// <summary>
