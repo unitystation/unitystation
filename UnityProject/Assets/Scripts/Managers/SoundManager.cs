@@ -164,6 +164,9 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static SongTracker SongTracker => soundManager.songTracker;
 
+	[SerializeField] private GameObject soundSpawnPrefab;
+	private List<AudioSource> pooledSources = new List<AudioSource>();
+
 	public static SoundManager Instance
 	{
 		get
@@ -209,6 +212,13 @@ public class SoundManager : MonoBehaviour
 
 	private void Init()
 	{
+		// Cache some pooled sources:
+		for (int i = 0; i < 20; i++)
+		{
+			var soundObj = Instantiate(soundSpawnPrefab, transform);
+			pooledSources.Add(soundObj.GetComponent<AudioSource>());
+		}
+
 		//Mute Music Preference
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
 		{
@@ -225,11 +235,11 @@ public class SoundManager : MonoBehaviour
 			AmbientVolume(1f);
 		}
 
-		//Master Volume 
+		//Master Volume
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
 		{
 			MasterVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey));
-			
+
 		}
 		else
 		{
@@ -264,6 +274,22 @@ public class SoundManager : MonoBehaviour
 				sounds.Add(audioSource.name, audioSource);
 			}
 		}
+	}
+
+	private AudioSource GetSourceFromPool()
+	{
+		foreach (var a in pooledSources)
+		{
+			if (!a.isPlaying)
+			{
+				return a;
+			}
+		}
+
+		var soundObj = Instantiate(soundSpawnPrefab, transform);
+		var source = soundObj.GetComponent<AudioSource>();
+		pooledSources.Add(source);
+		return source;
 	}
 
 	/// <summary>
@@ -450,7 +476,7 @@ public class SoundManager : MonoBehaviour
 		{
 			if (Step)
 			{
-				if (feetSlot == null) 
+				if (feetSlot == null)
 				{
 					//TODO when we have creatures with claws, check here to make proper claw sound
 					BarefootAtPosition(worldPos, tile);
@@ -754,7 +780,7 @@ public enum ClawFootstep
 	clownstep = Footstep.clownstep
 }
 
-public enum ClownFoostep 
+public enum ClownFoostep
 {
 	floor = Footstep.floor,
 	asteroid = Footstep.asteroid,
