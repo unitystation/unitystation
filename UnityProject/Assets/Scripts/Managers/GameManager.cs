@@ -213,7 +213,7 @@ public partial class GameManager : MonoBehaviour
 
 	public void ResetRoundTime()
 	{
-		stationTime = DateTime.Today.AddHours(12);
+		stationTime = new DateTime().AddHours(12);
 		counting = true;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
@@ -317,7 +317,7 @@ public partial class GameManager : MonoBehaviour
 			// TODO make job selection stuff
 
 			// Standard round start setup
-			stationTime = DateTime.Today.AddHours(12);
+			stationTime = new DateTime().AddHours(12);
 			counting = true;
 			RespawnCurrentlyAllowed = GameMode.CanRespawn;
 			StartCoroutine(WaitToInitEscape());

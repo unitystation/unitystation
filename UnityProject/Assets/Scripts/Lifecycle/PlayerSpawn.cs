@@ -102,7 +102,7 @@ public static class PlayerSpawn
 			JobType.SYNDICATE
 		});
 	//Time to start spawning players at arrivals
-	private static readonly System.DateTime ARRIVALS_SPAWN_TIME = System.DateTime.Today.AddHours(12).AddMinutes(2);
+	private static readonly System.DateTime ARRIVALS_SPAWN_TIME = new System.DateTime().AddHours(12).AddMinutes(2);
 
 	/// <summary>
 	/// Spawns a new player character and transfers the connection's control into the new body.
