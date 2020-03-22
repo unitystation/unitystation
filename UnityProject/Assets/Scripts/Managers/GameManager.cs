@@ -137,6 +137,26 @@ public partial class GameManager : MonoBehaviour
 		{
 			minDistanceBetweenSpaceBodies = 200f;
 		}
+
+		//Fills list of Vectors one x or y apart, all along shuttle path
+		//Only works if the shuttle path is straight
+		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
+		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
+
+		var distance = (int)Vector2.Distance(beginning, target);
+		Logger.Log("EscapeShuttle Distance:" + distance);
+
+		if (Vector2.Angle(beginning, target) == 180)
+		{
+			Logger.Log("EscapeShuttle angle:" + Vector2.Angle(beginning, target));
+			for (int i = 0; i < distance; i++)
+			{
+				beginning = Vector2.MoveTowards(beginning, target, 1);
+				EscapeShuttlePath.Add(beginning);
+			}
+			Logger.Log("EscapeShuttle vector list:" + EscapeShuttlePath);
+		}
+
 		bool validPos = false;
 		while (!validPos)
 		{
@@ -148,14 +168,16 @@ public partial class GameManager : MonoBehaviour
 
 			//Make sure it is away from the middle of space matrix
 
+
+			//Checks whether position is near any of the shuttle path vectors.
 			foreach (var vectors in EscapeShuttlePath)
 			{
 				if (Vector3.Distance(proposedPosition, vectors) < minDistanceBetweenSpaceBodies)
 				{
+					Logger.Log("EscapeShuttle Failed, position:" + vectors);
 					failedShuttleChecks = true;
 				}
 			}
-
 
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
@@ -241,25 +263,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
 		{
-			//Fills list of Vectors one x or y apart, all along shuttle path
-			//Only works if the shuttle path is straight
-			var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
-			var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
-
-			var distance = (int)Vector2.Distance(beginning, target);
-			Logger.Log("EscapeShuttle Distance:" + distance);
-
-			if (Vector2.Angle(beginning, target) == 180)
-			{
-				Logger.Log("EscapeShuttle angle:" + Vector2.Angle(beginning, target));
-				for (int i = 0; i < distance; i++)
-				{
-					beginning = Vector2.MoveTowards(beginning, target, 1);
-					EscapeShuttlePath.Add(beginning);
-				}
-			}
-
-
+			InitEscapeShuttle();
 			isProcessingSpaceBody = true;
 			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
 		}
