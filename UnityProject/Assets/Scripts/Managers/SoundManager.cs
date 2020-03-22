@@ -321,13 +321,6 @@ public class SoundManager : MonoBehaviour
 
 	private void Init()
 	{
-		// Cache some pooled sources:
-		for (int i = 0; i < 20; i++)
-		{
-			var soundObj = Instantiate(soundSpawnPrefab, transform);
-			pooledSources.Add(soundObj.GetComponent<AudioSource>());
-		}
-
 		//Mute Music Preference
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
 		{
@@ -387,6 +380,41 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		ReinitSoundPool();
+	}
+
+	void ReinitSoundPool()
+	{
+		for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
+		{
+			if (Instance.pooledSources[i] != null)
+			{
+				Destroy(Instance.pooledSources[i].gameObject);
+			}
+		}
+
+		Instance.pooledSources.Clear();
+
+		// Cache some pooled sources:
+		for (int i = 0; i < 20; i++)
+		{
+			var soundObj = Instantiate(soundSpawnPrefab, transform);
+			pooledSources.Add(soundObj.GetComponent<AudioSource>());
+		}
+	}
+
 	/// <summary>
 	/// Uses a pooled AudioSource instead of the origianl one.
 	/// This copies the sourceToCopy settings to a source taken from the pool
@@ -394,11 +422,11 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	private AudioSource GetSourceFromPool(AudioSource sourceToCopy)
 	{
-		foreach (var a in pooledSources)
+		for (int i = pooledSources.Count - 1; i > 0; i--)
 		{
-			if (!a.isPlaying)
+			if (pooledSources[i] != null && !pooledSources[i].isPlaying)
 			{
-				return CopySource(a, sourceToCopy);
+				return CopySource(pooledSources[i], sourceToCopy);
 			}
 		}
 
@@ -744,13 +772,34 @@ public class SoundManager : MonoBehaviour
 	{
 		if (Instance.sounds.ContainsKey(name))
 		{
-			Instance.sounds[name].Stop();
+			var sound = Instance.sounds[name];
+
+			for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
+			{
+				if (Instance.pooledSources[i] == null) continue;
+
+				if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].clip == sound.clip)
+				{
+					Instance.pooledSources[i].Stop();
+				}
+			}
+
+			sound.Stop();
 		}
 		else
 		{
 			foreach (var sound in Instance.GetMatchingSounds(name))
 			{
-				Instance.sounds[sound].Stop();
+				var s = Instance.sounds[sound];
+				for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
+				{
+					if (Instance.pooledSources[i] == null) continue;
+					if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].clip == s.clip)
+					{
+						Instance.pooledSources[i].Stop();
+					}
+				}
+				s.Stop();
 			}
 		}
 	}
