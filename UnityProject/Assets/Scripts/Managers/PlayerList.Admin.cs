@@ -255,25 +255,25 @@ public partial class PlayerList
 
 		//Adds server to admin list if not already in it.
 
-		//if (CustomNetworkManager.Instance._isServer == true && !adminUsers.Contains(userid))
-		//{
-		//	File.AppendAllLines(adminsPath, new string[]
-		//	{
-		//	"\r\n" + userid
-		//	});
+		if (userid == ServerData.UserID && !adminUsers.Contains(userid))
+		{
+			File.AppendAllLines(adminsPath, new string[]
+			{
+			"\r\n" + userid
+			});
 
-		//	adminUsers.Add(userid);
-		//	var user = GetByUserID(userid);
+			adminUsers.Add(userid);
+			var user = GetByUserID(userid);
 
-		//	if (user == null) return false;
+			if (user == null) return false;
 
-		//	var newToken = System.Guid.NewGuid().ToString();
-		//	if (!loggedInAdmins.ContainsKey(userid))
-		//	{
-		//		loggedInAdmins.Add(userid, newToken);
-		//		AdminEnableMessage.Send(user.Connection, newToken);
-		//	}
-		//}
+			var newToken = System.Guid.NewGuid().ToString();
+			if (!loggedInAdmins.ContainsKey(userid))
+			{
+				loggedInAdmins.Add(userid, newToken);
+				AdminEnableMessage.Send(user.Connection, newToken);
+			}
+		}
 
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.
