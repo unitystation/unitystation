@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: StealCapHat
+  m_Name: Steal Captains Hat
   m_EditorClassIdentifier: Assets:Antagonists:SpaceCapsHat
-  objectiveName: 
+  objectiveName: Steal Captain's hat
   IsUnique: 0
-  description: 
-  allowedHats: []
+  description: Captain's hat is a symbol of authority. Capture all Captain's hats!
+  allowedHats:
+  - {fileID: 7636118406116123594, guid: 70cd9b19a2264064e9d7c7d14c01f3fe, type: 3}
+  - {fileID: 7636118406116123594, guid: 97b4b6e6d0aac46f6ad3fb58fb826008, type: 3}
