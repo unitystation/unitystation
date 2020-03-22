@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Steal Captains Hat
-  m_EditorClassIdentifier: Assets:Antagonists:SpaceCapsHat
-  objectiveName: Steal Captain's hat
-  IsUnique: 0
-  description: Captain's hat is a symbol of authority. Capture all Captain's hats!
+  m_Script: {fileID: 11500000, guid: 56a2fc4f41d401644abd460e2c2127bd, type: 3}
+  m_Name: Capture Caps Hat
+  m_EditorClassIdentifier: 
+  objectiveName: Capture Captain's hat
+  IsUnique: 1
+  description: Captain's hat is a symbol of authority. Capture all captain's hats!
   allowedHats:
-  - {fileID: 7636118406116123594, guid: 70cd9b19a2264064e9d7c7d14c01f3fe, type: 3}
   - {fileID: 7636118406116123594, guid: 97b4b6e6d0aac46f6ad3fb58fb826008, type: 3}
+  - {fileID: 7636118406116123594, guid: 70cd9b19a2264064e9d7c7d14c01f3fe, type: 3}

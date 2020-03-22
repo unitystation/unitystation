@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Antagonists
 {
-    [CreateAssetMenu(menuName="ScriptableObjects/Objectives/StealCapHat")]
-    public class SpaceCapsHat : Objective
+    [CreateAssetMenu(menuName="ScriptableObjects/Objectives/CaptureCapsHat")]
+    public class CaptureCapsHat : Objective
     {
         [SerializeField]
         private List<GameObject> allowedHats;
