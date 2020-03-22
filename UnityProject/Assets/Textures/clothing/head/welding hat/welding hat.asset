@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Name: welding hat
+  m_EditorClassIdentifier: 
+  Base:
+    Equipped:
+      Texture: {fileID: 2800000, guid: f292396211b5ff547b478f9c7109cff5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: f292396211b5ff547b478f9c7109cff5, type: 3}
+      - {fileID: 21300002, guid: f292396211b5ff547b478f9c7109cff5, type: 3}
+      - {fileID: 21300004, guid: f292396211b5ff547b478f9c7109cff5, type: 3}
+      - {fileID: 21300006, guid: f292396211b5ff547b478f9c7109cff5, type: 3}
+      EquippedData: {fileID: 4900000, guid: 35202e18b5ca34d47a0b43b7b1a9432b, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 247f8731eea49184a89c58418ffcd571, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 247f8731eea49184a89c58418ffcd571, type: 3}
+      - {fileID: 21300002, guid: 247f8731eea49184a89c58418ffcd571, type: 3}
+      - {fileID: 21300004, guid: 247f8731eea49184a89c58418ffcd571, type: 3}
+      - {fileID: 21300006, guid: 247f8731eea49184a89c58418ffcd571, type: 3}
+      EquippedData: {fileID: 4900000, guid: 44f6e7f7315cd05459cfdda104f695be, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: fd3313efa3f27df40bd4f7c81a6ddde5, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: fd3313efa3f27df40bd4f7c81a6ddde5, type: 3}
+      - {fileID: 21300002, guid: fd3313efa3f27df40bd4f7c81a6ddde5, type: 3}
+      - {fileID: 21300004, guid: fd3313efa3f27df40bd4f7c81a6ddde5, type: 3}
+      - {fileID: 21300006, guid: fd3313efa3f27df40bd4f7c81a6ddde5, type: 3}
+      EquippedData: {fileID: 4900000, guid: 314678e062efab448ba385ce0e09c803, type: 3}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: 24878075b1749f3409ffbba907711189, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 24878075b1749f3409ffbba907711189, type: 3}
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  Base_Adjusted:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 987d2016d11f6f54791de4d2fbc8a55c, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 987d2016d11f6f54791de4d2fbc8a55c, type: 3}
+      - {fileID: 21300002, guid: 987d2016d11f6f54791de4d2fbc8a55c, type: 3}
+      - {fileID: 21300004, guid: 987d2016d11f6f54791de4d2fbc8a55c, type: 3}
+      - {fileID: 21300006, guid: 987d2016d11f6f54791de4d2fbc8a55c, type: 3}
+      EquippedData: {fileID: 4900000, guid: cee638f9e9015fc46b19d308e79c0603, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: c020557f934e03c49a4b1a1877827ad6, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: c020557f934e03c49a4b1a1877827ad6, type: 3}
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  DressVariant:
+    Equipped:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  Variants: []
