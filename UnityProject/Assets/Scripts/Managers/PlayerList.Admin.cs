@@ -252,7 +252,7 @@ public partial class PlayerList
 
 		var lines = File.ReadAllLines(whiteListPath);
 
-		if ((!whiteListUsers.Contains(userid) | !adminUsers.Contains(userid) | CustomNetworkManager.Instance._isServer == false) && lines.Length < 0)
+		if ((!whiteListUsers.Contains(userid) | !adminUsers.Contains(userid)) && CustomNetworkManager.Instance._isServer == false && lines.Length > 0)
 		{
 			StartCoroutine(KickPlayer(playerConn, $"Server Error: This account is not whitelisted."));
 
