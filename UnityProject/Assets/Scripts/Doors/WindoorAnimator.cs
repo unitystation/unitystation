@@ -16,7 +16,7 @@ public class WindoorAnimator : DoorAnimator
 	public string WspritePath;
 
 	[Tooltip("A list of frame numbers for the open/close animation, not including the openFrame and closeFrame")]
-	public int[] WanimFrames; 
+	public int[] WanimFrames;
 
 	public int WanimLength;
 	public int WcloseFrame;
@@ -93,7 +93,7 @@ public class WindoorAnimator : DoorAnimator
 		}
 
 		doorController.isPerformingAction = true;
-		SoundManager.PlayAtPosition("AccessDenied", transform.position);
+		SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
 		StartCoroutine(PlayDeniedAnim());
 	}
 

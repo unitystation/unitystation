@@ -17,6 +17,10 @@ MonoBehaviour:
   TileType: 4
   RequiredTiles: []
   WalkingSoundCategory: 0
+  BarefootWalkingSoundCategory: 0
+  ClawFootstepSoundCategory: 0
+  HeavyFootstepSoundCategory: 0
+  ClownFootstepSoundCategory: 0
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
@@ -52,6 +56,7 @@ MonoBehaviour:
   tileInteractions:
   - {fileID: 11400000, guid: 60c558a8dfbf4ee4e8225a3484933424, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
+  - {fileID: 11400000, guid: d27fd166098cf084abd6ebb4f8b2dd25, type: 2}
   spawnOnDeconstruct: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
     type: 3}
   spawnAmountOnDeconstruct: 2

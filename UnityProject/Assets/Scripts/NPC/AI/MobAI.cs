@@ -134,7 +134,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		{
 			if (dirSprites.spriteRend.transform.localEulerAngles.z == 0f)
 			{
-				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				dirSprites.SetRotationServer(knockedDownRotation);
 			}
 		}

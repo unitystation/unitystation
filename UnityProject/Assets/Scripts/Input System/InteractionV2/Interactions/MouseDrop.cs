@@ -22,6 +22,12 @@ public class MouseDrop : TargetedInteraction
 	/// Object being dropped (same as UsedObject)
 	/// </summary>
 	public GameObject DroppedObject => UsedObject;
+
+	/// <summary>
+	/// The final location of the shadow object when the interaction was fired.
+	/// </summary>
+	public Vector2 ShadowWorldLocation;
+
 	/// <summary>
 	///
 	/// </summary>
