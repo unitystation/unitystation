@@ -12,7 +12,6 @@ public class GUI_NukeWindow : NetTab
 {
 
 	private const string colorGreen = "008000",
-						colorGrey = "A9A9A9",
 						 colorRed = "FF0000";
 
 	private NetUIElement infoAnchorColor;
@@ -121,8 +120,6 @@ public class GUI_NukeWindow : NetTab
 	{
 		pageSwitcher.SetActivePage(loginPage);
 		Nuke.EjectDisk();
-		InfoSafetyColor.SetValue = colorGrey;
-		InfoAnchorColor.SetValue = colorGrey;
 	}
 
 	public void SafetyToggle()
