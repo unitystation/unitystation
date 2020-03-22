@@ -170,7 +170,7 @@ public class XenoAI : MobAI
 			if (IsDead && !alienScreechPlayed)
 			{
 				alienScreechPlayed = true;
-				SoundManager.PlayNetworkedAtPos("xenodie", transform.position, Random.Range(0.9f, 1.1f));
+				SoundManager.PlayNetworkedAtPos("xenodie", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 
 			return;

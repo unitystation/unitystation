@@ -159,7 +159,7 @@ public class MobMeleeAttack : MobFollow
 	{
 		healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget.Randomize());
 		Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
-		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
+		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position, sourceObj: gameObject);
 		ServerDoLerpAnimation(dir);
 	}
 

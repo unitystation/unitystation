@@ -192,7 +192,7 @@ public static class ToolUtils
 
 		if (soundName != null)
 		{
-			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: tool);
 		}
 	}
 

@@ -491,18 +491,17 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool Global = true,
-		uint targetNetId = NetId.Empty)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool Global = true, GameObject sourceObj = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
 		if (Global)
 		{
-			PlaySoundMessage.SendToAll(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, targetNetId: targetNetId);
+			PlaySoundMessage.SendToAll(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, sourceObj);
 		}
 		else
 		{
 			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity,
-				shakeRange, targetNetId: targetNetId);
+				shakeRange, sourceObj);
 		}
 	}
 
@@ -513,11 +512,11 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void PlayNetworkedForPlayer(GameObject recipient, string sndName, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, uint targetNetId = NetId.Empty)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround,
-			shakeIntensity, shakeRange, targetNetId: targetNetId);
+			shakeIntensity, shakeRange, sourceObj);
 	}
 
 	/// <summary>
@@ -528,10 +527,10 @@ public class SoundManager : MonoBehaviour
 	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, string sndName,
 		float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, uint targetNetId = NetId.Empty)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, targetNetId: targetNetId);
+		PlaySoundMessage.Send(recipient, sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, sourceObj);
 	}
 
 	/// <summary>
@@ -607,31 +606,31 @@ public class SoundManager : MonoBehaviour
 	//TODO creature has claws
 
 	// Creature is barefoot (with humanlike foot)
-	private static void BarefootAtPosition(Vector3 worldPos, BasicTile tile)
+	private static void BarefootAtPosition(Vector3 worldPos, BasicTile tile, GameObject performer)
 	{
 		var WalkingSoundCategory = tile.BarefootWalkingSoundCategory;
 		PlayNetworkedAtPos(
 			Instance.BareFootsteps[WalkingSoundCategory][
 				RANDOM.Next(Instance.BareFootsteps[WalkingSoundCategory].Count)],
 			worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-			Global: false, polyphonic: true);
+			Global: false, polyphonic: true, sourceObj: performer);
 	}
 
 	// TODO Creature is wearing hardsuit
 
 	// Creature is wearing clown shoes
-	private static void ClownStepAtPos(Vector3 worldPos, BasicTile tile)
+	private static void ClownStepAtPos(Vector3 worldPos, BasicTile tile, GameObject performer)
 	{
 		var WalkingSoundCategory = tile.ClownFootstepSoundCategory;
 		PlayNetworkedAtPos(
 			Instance.ClownFootsteps[WalkingSoundCategory][
 				RANDOM.Next(Instance.ClownFootsteps[WalkingSoundCategory].Count)],
 			worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-			Global: false, polyphonic: true);
+			Global: false, polyphonic: true, sourceObj: performer);
 	}
 
 	// Normal footsteps
-	public static void FootstepAtPosition(Vector3 worldPos, Pickupable feetSlot)
+	public static void FootstepAtPosition(Vector3 worldPos, Pickupable feetSlot, GameObject performer)
 	{
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
 
@@ -645,11 +644,11 @@ public class SoundManager : MonoBehaviour
 				if (feetSlot == null)
 				{
 					//TODO when we have creatures with claws, check here to make proper claw sound
-					BarefootAtPosition(worldPos, tile);
+					BarefootAtPosition(worldPos, tile, performer);
 				}
 				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky))
 				{
-					ClownStepAtPos(worldPos, tile);
+					ClownStepAtPos(worldPos, tile, performer);
 				}
 				else
 				{
@@ -657,7 +656,7 @@ public class SoundManager : MonoBehaviour
 						Instance.FootSteps[tile.WalkingSoundCategory][
 							RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
 						worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-						Global: false, polyphonic: true);
+						Global: false, polyphonic: true, sourceObj: performer);
 				}
 			}
 
@@ -669,10 +668,10 @@ public class SoundManager : MonoBehaviour
 	/// <summary>
 	/// Play Glassknock at given world position.
 	/// </summary>
-	public static void GlassknockAtPosition(Vector3 worldPos)
+	public static void GlassknockAtPosition(Vector3 worldPos, GameObject performer = null)
 	{
 		PlayNetworkedAtPos("GlassKnock", worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-			Global: false, polyphonic: true);
+			Global: false, polyphonic: true, sourceObj: performer);
 	}
 
 	/// <summary>
@@ -687,10 +686,13 @@ public class SoundManager : MonoBehaviour
 		bool isGlobal = false)
 	{
 		var netId = NetId.Empty;
-		var netB = sourceObj.GetComponent<NetworkBehaviour>();
-		if (netB != null)
+		if (sourceObj != null)
 		{
-			netId = netB.netId;
+			var netB = sourceObj.GetComponent<NetworkBehaviour>();
+			if (netB != null)
+			{
+				netId = netB.netId;
+			}
 		}
 
 		PlayAtPosition(name, worldPos, pitch, polyphonic, isGlobal, netId);
