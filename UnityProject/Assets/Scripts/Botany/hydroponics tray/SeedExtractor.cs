@@ -127,7 +127,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		if(newState == currentState) { return; }
 
 		//Show processing state change
-		if(foodToBeProcessed.Count > 0)
+		if(foodToBeProcessed?.Count > 0)
 		{
 			//Any state other than off
 			if(currentState == PowerStates.Off)
