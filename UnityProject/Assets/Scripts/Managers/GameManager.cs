@@ -62,6 +62,8 @@ public partial class GameManager : MonoBehaviour
 	private bool isProcessingSpaceBody = false;
 	public float minDistanceBetweenSpaceBodies;
 
+	private List<Vector3> EscapeShuttlePath = new List<Vector3>();
+
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
 	//---------------------------------
@@ -139,10 +141,21 @@ public partial class GameManager : MonoBehaviour
 		while (!validPos)
 		{
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
+			bool failedShuttleChecks = false;
 			bool failedChecks =
 				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
 				minDistanceBetweenSpaceBodies;
+
 			//Make sure it is away from the middle of space matrix
+
+			foreach (var vectors in EscapeShuttlePath)
+			{
+				if (Vector3.Distance(proposedPosition, vectors) < minDistanceBetweenSpaceBodies)
+				{
+					failedShuttleChecks = true;
+				}
+			}
+
 
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
@@ -151,7 +164,7 @@ public partial class GameManager : MonoBehaviour
 					failedChecks = true;
 				}
 			}
-			if (!failedChecks)
+			if (!failedChecks & !failedShuttleChecks)
 			{
 				validPos = true;
 				mm.SetPosition(proposedPosition);
@@ -228,6 +241,25 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
 		{
+			//Fills list of Vectors one x or y apart, all along shuttle path
+			//Only works if the shuttle path is straight
+			var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
+			var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
+
+			var distance = (int)Vector2.Distance(beginning, target);
+			Logger.Log("EscapeShuttle Distance:" + distance);
+
+			if (Vector2.Angle(beginning, target) == 180)
+			{
+				Logger.Log("EscapeShuttle angle:" + Vector2.Angle(beginning, target));
+				for (int i = 0; i < distance; i++)
+				{
+					beginning = Vector2.MoveTowards(beginning, target, 1);
+					EscapeShuttlePath.Add(beginning);
+				}
+			}
+
+
 			isProcessingSpaceBody = true;
 			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
 		}
