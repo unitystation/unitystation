@@ -102,7 +102,7 @@ public class GUI_Nuke : NetTab
 		isAnchored = !isAnchored;
 		
 		InfoAnchorColor.SetValue = isAnchored ? colorGreen : colorRed;
-		Nuke.AnchorNuke(isAnchored);
+		//Nuke.AnchorNuke();
 	}
 
 	public void EnterDigit(char digit) {

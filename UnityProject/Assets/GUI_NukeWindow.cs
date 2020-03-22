@@ -15,11 +15,6 @@ public class GUI_NukeWindow : NetTab
 						colorGrey = "A9A9A9",
 						 colorRed = "FF0000";
 
-	private bool isAnchored = true;
-	private bool isSafetyOn = true;
-
-	private bool isSafetyAccesible = false;
-
 	private NetUIElement infoAnchorColor;
 	private NetUIElement InfoAnchorColor
 	{
@@ -100,7 +95,7 @@ public class GUI_NukeWindow : NetTab
 
 	public void ServerLogin()
 	{
-		if (Nuke.IsDiskIn)
+		if (!Nuke.NukeSlot.IsEmpty)
 		{
 			pageSwitcher.SetActivePage(mainPage);
 		}
@@ -126,28 +121,25 @@ public class GUI_NukeWindow : NetTab
 	{
 		pageSwitcher.SetActivePage(loginPage);
 		Nuke.EjectDisk();
-		isSafetyAccesible = false;
 		InfoSafetyColor.SetValue = colorGrey;
 		InfoAnchorColor.SetValue = colorGrey;
 	}
 
 	public void SafetyToggle()
 	{
-		if (isSafetyAccesible)
+		bool? isSafety = Nuke.SafetyNuke();
+		if (isSafety != null)
 		{
-			isSafetyOn = !isSafetyOn;
-			InfoSafetyColor.SetValue = isSafetyOn ? colorGreen : colorRed;
-			InfoAnchorColor.SetValue = isSafetyOn ? colorGrey : (isAnchored ? colorGreen : colorRed);
+			InfoSafetyColor.SetValue = isSafety.Value ? colorGreen : colorRed;
 		}
 	}
 
-	public void AnchorNuke()
+	public void AnchorNukeButton()
 	{
-		if (!isSafetyOn)
+		bool? isAnchored = Nuke.AnchorNuke();
+		if(isAnchored != null)
 		{
-			isAnchored = !isAnchored;
-			InfoAnchorColor.SetValue = isAnchored ? colorGreen: colorRed;
-			Nuke.AnchorNuke(isAnchored);
+			InfoAnchorColor.SetValue = isAnchored.Value ? colorGreen : colorRed;
 		}
 	}
 
@@ -157,6 +149,11 @@ public class GUI_NukeWindow : NetTab
 		{
 			return;
 		}
+		DigitCode(digit);
+	}
+
+	private void DigitCode(char digit)
+	{
 		if (Nuke.AppendKey(digit))
 		{
 			int length = Nuke.CurrentCode.Length;
@@ -188,10 +185,13 @@ public class GUI_NukeWindow : NetTab
 		{
 			return;
 		}
+		CodeAccess();
 
+	}
+	private void CodeAccess()
+	{
 		if (Nuke.Validate())
 		{
-			isSafetyAccesible = true;
 			InfoSafetyColor.SetValue = colorGreen;
 			Clear();
 		}
@@ -199,9 +199,7 @@ public class GUI_NukeWindow : NetTab
 		{
 			StartCoroutine(ErrorCooldown());
 		}
-
 	}
-
 	public IEnumerator ErrorCooldown()
 	{
 		cooldown = true;

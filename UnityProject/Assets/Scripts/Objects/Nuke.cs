@@ -7,6 +7,7 @@ using Mirror;
 /// </summary>
 public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
+	private ObjectBehaviour objectBehaviour;
 	private ItemStorage itemNuke;
 	private ItemSlot nukeSlot;
 
@@ -15,12 +16,13 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		get { return nukeSlot; }
 	}
 
-	private bool isDiskIn = false;
-	public bool IsDiskIn => isDiskIn;
-
 	private bool isSafetyOn = true;
 
 	public bool IsSafetyOn => isSafetyOn;
+
+	private bool isCodeRight = false;
+
+	public bool IsCodeRight => isCodeRight;
 
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
@@ -38,6 +40,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void Awake()
 	{
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 		itemNuke = GetComponent<ItemStorage>();
 		nukeSlot = itemNuke.GetIndexedItemSlot(0);
 	}
@@ -57,14 +60,12 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		Inventory.ServerTransfer(interaction.HandSlot, nukeSlot);
-		isDiskIn = true;
 	}
 
 	public void EjectDisk()
 	{
-		if (!NukeSlot.IsEmpty)
+		if (!nukeSlot.IsEmpty)
 		{
-			isDiskIn = false;
 			Inventory.ServerDrop(nukeSlot);
 		}
 	}
@@ -103,15 +104,8 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public bool Validate()
 	{
-		if (CurrentCode == NukeCode.ToString())
-		{
-			return true;
-		}
-		else
-		{
-			//if no, tell the GUI that it was an incorrect code
-			return false;
-		}
+		isCodeRight = CurrentCode == NukeCode.ToString() ? true : false;
+		return isCodeRight;
 	}
 
 	[Server]
@@ -156,8 +150,26 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		currentCode = "";
 	}
 
-	public void AnchorNuke(bool value)
+	[Server]
+	public bool? SafetyNuke()
 	{
-		GetComponent<ObjectBehaviour>().ServerSetPushable(value);
+		if(isCodeRight)
+		{
+			isSafetyOn = !isSafetyOn;
+			return isSafetyOn;
+		}
+		return null;
+	}
+
+	[Server]
+	public bool? AnchorNuke()
+	{
+		if (!isSafetyOn)
+		{
+			bool isPushable = !objectBehaviour.IsPushable;
+			GetComponent<ObjectBehaviour>().ServerSetPushable(isPushable);
+			return isPushable;
+		}
+		return null;
 	}
 }
