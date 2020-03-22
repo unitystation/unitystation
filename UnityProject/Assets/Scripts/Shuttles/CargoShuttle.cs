@@ -156,6 +156,12 @@ public class CargoShuttle : MonoBehaviour
 			for (int i = 0; i < order.Items.Count; i++)
 			{
 				var entryPrefab = order.Items[i];
+				if (entryPrefab == null)
+				{
+					Logger.Log($"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..");
+					continue;
+				}
+
 				if (!stackableItems.ContainsKey(entryPrefab))
 				{
 					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;

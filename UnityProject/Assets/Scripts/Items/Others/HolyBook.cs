@@ -62,7 +62,7 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 
 		//If using harm intent, book has 60% chance of causing brain trauma, and 40% of healing a bodypart.
 		//If using any other intent, book has 60% chance of healing a bodypart, and 40% of causing brain trauma.
-		
+
 		int rand = rnd.Next(0, 10);
 		bool willHarm = false;
 		switch (interaction.Intent)
@@ -72,8 +72,8 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 			if (rand <= 5)
 			{
 				willHarm = true;
-			} 
-			else 
+			}
+			else
 			{
 				willHarm = false;
 			}
@@ -99,12 +99,12 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 		if (willHarm)
 		{
 			LHB.bloodSystem.OxygenDamage += healthModifier;
-			
-			Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head, and not much else.", 
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"Your book slams into {victimName}'s head, and not much else.",
 			$"{performerName}'s book slams into {victimName}'s head, and not much else.");
 
-			SoundManager.PlayNetworkedAtPos("GenericHit", interaction.WorldPositionTarget);
-		} 
+			SoundManager.PlayNetworkedAtPos("GenericHit", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+		}
 		else  //Heal a bodypart if possible.
 		{
 			//If there is no damage, do nothing.
@@ -113,7 +113,7 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 				//Break foreach loop once a single heal is applied.
 				foreach (BodyPartBehaviour bodyPart in LHB.BodyParts)
 				{
-					//Heal brute first, then burns. 
+					//Heal brute first, then burns.
 					if (bodyPart.BruteDamage != 0)
 					{
 						bodyPart.HealDamage(healthModifier, DamageType.Brute);
@@ -127,11 +127,11 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 					}
 				}
 
-				Chat.AddActionMsgToChat(interaction.Performer, 
-				$"A flash of light from your book thwacking {victimName} heals some of {victimName}'s  wounds.", 
+				Chat.AddActionMsgToChat(interaction.Performer,
+				$"A flash of light from your book thwacking {victimName} heals some of {victimName}'s  wounds.",
 				$"A flash of light from {performerName}'s book thwacking {victimName} heals some of {victimName}'s wounds.");
 
-				SoundManager.PlayNetworkedAtPos("PunchMiss", interaction.WorldPositionTarget);
+				SoundManager.PlayNetworkedAtPos("PunchMiss", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
 			}
 
 
@@ -142,10 +142,10 @@ public class HolyBook: MonoBehaviour, IPredictedCheckedInteractable<PositionalHa
 
 		//Start server cooldown.
 		Cooldowns.TryStartServer(interaction.Performer.GetComponent<PlayerScript>(), CommonCooldowns.Instance.Melee);
-		
+
 	}
 
-	
+
 
 
 

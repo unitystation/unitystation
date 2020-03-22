@@ -129,7 +129,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		}
 
 
-		SoundManager.PlayAtPosition("Wrench", transform.position);
+		SoundManager.PlayAtPosition("Wrench", transform.position, gameObject);
 
 		if (!isSecured)
 		{
@@ -176,7 +176,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject != null && 
+		if (interaction.HandObject != null &&
 		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
 		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
 		return true;

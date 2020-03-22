@@ -150,7 +150,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		SoundManager.PlayNetworkedAtPos("armbomb", position);
+		SoundManager.PlayNetworkedAtPos("armbomb", position, sourceObj: gameObject);
 	}
 
 	private void UpdateTimer(bool wasTimerRunning, bool timerRunning)
