@@ -14,7 +14,7 @@ public class TableInteractionClimb : TileInteraction
 
 		PlayerSync playerSync;
 		CustomNetTransform netTransform;
-		if(interaction.UsedObject.TryGetComponent<PlayerSync>(out playerSync))
+		if(interaction.UsedObject.TryGetComponent(out playerSync))
 		{
 			if (playerSync.IsMoving)
 			{
@@ -23,20 +23,21 @@ public class TableInteractionClimb : TileInteraction
 
 			// Do a sanity check to make sure someone isn't dropping the shadow from like 9000 tiles away.
 			var mag = (playerSync.ServerPosition - interaction.PerformerPlayerScript.PlayerSync.ServerPosition).magnitude;
-			if (mag >= 2.0f)
+			if (mag > PlayerScript.interactionDistance)
 			{
+				//interaction.PerformerPlayerScript
 				return false;
 			}	
 		}
-		else if(interaction.UsedObject.TryGetComponent<CustomNetTransform>(out netTransform))
+		else if(interaction.UsedObject.TryGetComponent(out netTransform)) // Do the same check but for mouse draggable objects this time.
 		{
 			var mag = (netTransform.ServerPosition - interaction.PerformerPlayerScript.PlayerSync.ServerPosition).magnitude;
-			if (mag >= 2.0f)
+			if (mag > PlayerScript.interactionDistance)
 			{
 				return false;
 			}
 		}
-		else
+		else // Not sure what this object is so assume that we can't interact with it at all.
 		{
 			return false;
 		}
