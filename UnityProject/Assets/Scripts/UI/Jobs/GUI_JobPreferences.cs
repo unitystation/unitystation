@@ -1,17 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 /// <summary>
-/// Job priority enum used for setting job preferences
+/// A dictionary using JobType and Priority. Used to store a player's job preferences.
 /// </summary>
-public enum Priority
+public class JobPrefsDict : Dictionary<JobType, Priority>
 {
-	None = 0,
-	Low = 1,
-	Medium = 2,
-	High = 3
 }
 
 /// <summary>
