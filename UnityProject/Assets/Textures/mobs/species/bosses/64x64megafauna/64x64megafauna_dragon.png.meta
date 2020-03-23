@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: 21300006
     second: dragon_3
+  - first:
+      213: 3328515370160551024
+    second: 64x64megafauna_dragon_0
+  - first:
+      213: -2078709670276043320
+    second: 64x64megafauna_dragon_1
+  - first:
+      213: 5638368260636878300
+    second: 64x64megafauna_dragon_2
+  - first:
+      213: -4663216103756795808
+    second: 64x64megafauna_dragon_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -81,7 +93,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -93,90 +105,90 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dragon_0
+      name: 64x64megafauna_dragon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: 464b83a8c2c7013468959409f07de339
+      internalID: 3328515370160551024
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragon_1
+      name: 64x64megafauna_dragon_1
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 7241c5babb418b64681809164dbb5d71
+      internalID: -2078709670276043320
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragon_2
+      name: 64x64megafauna_dragon_2
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: ef6b908b1fabb014dbbb319f98c288e2
+      internalID: 5638368260636878300
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dragon_3
+      name: 64x64megafauna_dragon_3
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: 683b9ce1e0aa2514d851cb2f78c80aca
+      internalID: -4663216103756795808
       vertices: []
       indices: 
       edges: []
