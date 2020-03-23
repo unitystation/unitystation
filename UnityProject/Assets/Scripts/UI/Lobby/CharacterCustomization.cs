@@ -98,9 +98,9 @@ namespace Lobby
 		//First time setting up this character etc?
 		private void DoInitChecks()
 		{
-			if (string.IsNullOrEmpty(currentCharacter.username))
+			if (string.IsNullOrEmpty(currentCharacter.Username))
 			{
-				currentCharacter.username = ServerData.Auth.CurrentUser.DisplayName;
+				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
 				RollRandomCharacter();
 				SaveData();
 			}
@@ -148,7 +148,7 @@ namespace Lobby
 			if (currentCharacter.Gender == Gender.Male)
 			{
 				currentCharacter.Name = StringManager.GetRandomMaleName();
-				currentCharacter.facialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+				currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
 			}
 			else
 			{
@@ -156,9 +156,9 @@ namespace Lobby
 			}
 
 			// Randomise rest of data
-			currentCharacter.eyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			currentCharacter.hairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			currentCharacter.skinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
+			currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+			currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+			currentCharacter.SkinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
 			RefreshAll();
@@ -215,10 +215,10 @@ namespace Lobby
 
 		private void SetAllDropdowns()
 		{
-			SetDropdownValue(hairDropdown, currentCharacter.hairStyleName);
-			SetDropdownValue(facialHairDropdown, currentCharacter.facialHairName);
-			SetDropdownValue(underwearDropdown, currentCharacter.underwearName);
-			SetDropdownValue(socksDropdown, currentCharacter.socksName);
+			SetDropdownValue(hairDropdown, currentCharacter.HairStyleName);
+			SetDropdownValue(facialHairDropdown, currentCharacter.FacialHairName);
+			SetDropdownValue(underwearDropdown, currentCharacter.UnderwearName);
+			SetDropdownValue(socksDropdown, currentCharacter.SocksName);
 		}
 
 		private void SetDropdownValue(Dropdown itemDropdown, string currentSetting)
@@ -272,7 +272,7 @@ namespace Lobby
 		//------------------
 		private void SaveData()
 		{
-			ServerData.UpdateCharacterProfile(JsonUtility.ToJson(currentCharacter)); // TODO Consider adding await. Otherwise this causes a compile warning.
+			ServerData.UpdateCharacterProfile(currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
 		}
 
 		//------------------
@@ -455,14 +455,14 @@ namespace Lobby
 
 		private void EyeColorChange(Color newColor)
 		{
-			currentCharacter.eyeColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
 			RefreshEyes();
 		}
 
 		private void RefreshEyes()
 		{
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.eyeColor, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.EyeColor, out setColor);
 			eyesSpriteController.image.color = setColor;
 			eyeColor.color = setColor;
 		}
@@ -473,7 +473,7 @@ namespace Lobby
 
 		public void HairDropdownChange(int index)
 		{
-			currentCharacter.LoadHairSetting(hairDropdown.options[index].text);
+			currentCharacter.HairStyleName = hairDropdown.options[index].text;
 			RefreshHair();
 		}
 
@@ -488,16 +488,16 @@ namespace Lobby
 		private void HairColorChange(Color newColor)
 		{
 			hairColor.color = newColor;
-			currentCharacter.hairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
 			RefreshHair();
 		}
 
 		private void RefreshHair()
 		{
-			if (playerCustomisationData[PlayerCustomisation.HairStyle].ContainsKey(currentCharacter.hairStyleName))
+			if (playerCustomisationData[PlayerCustomisation.HairStyle].ContainsKey(currentCharacter.HairStyleName))
 			{
 				hairSpriteController.sprites =
-										SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.hairStyleName].Equipped);
+										SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.HairStyleName].Equipped);
 			}
 			else
 			{
@@ -505,7 +505,7 @@ namespace Lobby
 			}
 			hairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.hairColor, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.HairColor, out setColor);
 			hairSpriteController.image.color = setColor;
 			hairColor.color = setColor;
 		}
@@ -516,21 +516,21 @@ namespace Lobby
 
 		public void FacialHairDropdownChange(int index)
 		{
-			currentCharacter.LoadFacialHairSetting(facialHairDropdown.options[index].text);
+			currentCharacter.FacialHairName = facialHairDropdown.options[index].text;
 			RefreshFacialHair();
 		}
 
 		private void RefreshFacialHair()
 		{
-			if (playerCustomisationData[PlayerCustomisation.FacialHair].ContainsKey(currentCharacter.facialHairName))
+			if (playerCustomisationData[PlayerCustomisation.FacialHair].ContainsKey(currentCharacter.FacialHairName))
 			{
 				facialHairSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.FacialHair][currentCharacter.facialHairName].Equipped);
+				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.FacialHair][currentCharacter.FacialHairName].Equipped);
 			}
 			else { facialHairSpriteController.sprites = null; }
 			facialHairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.facialHairColor, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.FacialHairColor, out setColor);
 			facialHairSpriteController.image.color = setColor;
 			facialColor.color = setColor;
 		}
@@ -545,7 +545,7 @@ namespace Lobby
 
 		private void FacialHairColorChange(Color newColor)
 		{
-			currentCharacter.facialHairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
 			RefreshFacialHair();
 		}
 
@@ -555,7 +555,7 @@ namespace Lobby
 		private void RefreshSkinColor()
 		{
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.skinTone, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out setColor);
 			skinColor.color = setColor;
 			for (int i = 0; i < skinControllers.Length; i++)
 			{
@@ -565,25 +565,25 @@ namespace Lobby
 
 		public void SkinToneScrollRight()
 		{
-			int index = availableSkinColors.IndexOf(currentCharacter.skinTone);
+			int index = availableSkinColors.IndexOf(currentCharacter.SkinTone);
 			index++;
 			if (index == availableSkinColors.Count)
 			{
 				index = 0;
 			}
-			currentCharacter.skinTone = availableSkinColors[index];
+			currentCharacter.SkinTone = availableSkinColors[index];
 			RefreshSkinColor();
 		}
 
 		public void SkinToneScrollLeft()
 		{
-			int index = availableSkinColors.IndexOf(currentCharacter.skinTone);
+			int index = availableSkinColors.IndexOf(currentCharacter.SkinTone);
 			index--;
 			if (index < 0)
 			{
 				index = availableSkinColors.Count - 1;
 			}
-			currentCharacter.skinTone = availableSkinColors[index];
+			currentCharacter.SkinTone = availableSkinColors[index];
 			RefreshSkinColor();
 		}
 
@@ -593,14 +593,14 @@ namespace Lobby
 
 		public void UnderwearDropdownChange(int index)
 		{
-			currentCharacter.LoadUnderwearSetting(underwearDropdown.options[index].text);
+			currentCharacter.UnderwearName = underwearDropdown.options[index].text;
 			RefreshUnderwear();
 		}
 		private void RefreshUnderwear()
 		{
-			if (playerCustomisationData[PlayerCustomisation.Underwear].ContainsKey(currentCharacter.underwearName)){
+			if (playerCustomisationData[PlayerCustomisation.Underwear].ContainsKey(currentCharacter.UnderwearName)){
 				underwearSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.underwearName].Equipped);}
+				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.UnderwearName].Equipped);}
 			else
 			{underwearSpriteController.sprites = null;}
 
@@ -613,15 +613,15 @@ namespace Lobby
 
 		public void SocksDropdownChange(int index)
 		{
-			currentCharacter.LoadSocksSetting(socksDropdown.options[index].text);
+			currentCharacter.SocksName = socksDropdown.options[index].text;
 			RefreshSocks();
 		}
 		private void RefreshSocks()
 		{
 
-			if (playerCustomisationData[PlayerCustomisation.Socks].ContainsKey(currentCharacter.socksName)){
+			if (playerCustomisationData[PlayerCustomisation.Socks].ContainsKey(currentCharacter.SocksName)){
 				socksSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);}
+				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.SocksName].Equipped);}
 
 			else { socksSpriteController.sprites = null; }
 			socksSpriteController.UpdateSprite();

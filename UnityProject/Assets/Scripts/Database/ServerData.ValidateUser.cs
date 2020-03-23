@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Lobby;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -52,9 +53,8 @@ namespace DatabaseAPI
 			{
 				var newCharacter = new CharacterSettings();
 				newCharacter.Name = StringManager.GetRandomMaleName();
-				newCharacter.username = user.DisplayName;
-				newChar = JsonUtility.ToJson(newCharacter);
-				var updateSuccess = await ServerData.UpdateCharacterProfile(newChar);
+				newCharacter.Username = user.DisplayName;
+				var updateSuccess = await ServerData.UpdateCharacterProfile(newCharacter);
 
 				if (!updateSuccess)
 				{
@@ -67,13 +67,13 @@ namespace DatabaseAPI
 			if (string.IsNullOrEmpty(newChar))
 			{
 				var characterSettings =
-					JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(fr.fields.character.stringValue));
+					JsonConvert.DeserializeObject<CharacterSettings>(Regex.Unescape(fr.fields.character.stringValue));
 				PlayerPrefs.SetString("currentcharacter", fr.fields.character.stringValue);
 				PlayerManager.CurrentCharacterSettings = characterSettings;
 			}
 			else
 			{
-				PlayerManager.CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(newChar);
+				PlayerManager.CurrentCharacterSettings = JsonConvert.DeserializeObject<CharacterSettings>(newChar);
 			}
 
 			successAction?.Invoke("Login success");

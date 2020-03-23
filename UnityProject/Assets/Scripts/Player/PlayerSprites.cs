@@ -103,43 +103,43 @@ public class PlayerSprites : MonoBehaviour
 
 	public void SetupCustomisations()
 	{
-		if (ThisCharacter.underwearName != "None")
+		if (ThisCharacter.UnderwearName != "None")
 		{
 			clothes["underwear"].spriteHandler.spriteData = new SpriteData();
 			clothes["underwear"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.Underwear][ThisCharacter.underwearName].Equipped));
+					PlayerCustomisation.Underwear][ThisCharacter.UnderwearName].Equipped));
 			clothes["underwear"].spriteHandler.PushTexture();
 		}
 
-		if (ThisCharacter.socksName != "None")
+		if (ThisCharacter.SocksName != "None")
 		{
 			clothes["socks"].spriteHandler.spriteData = new SpriteData();
 			clothes["socks"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.Socks][ThisCharacter.socksName].Equipped));
+					PlayerCustomisation.Socks][ThisCharacter.SocksName].Equipped));
 			clothes["socks"].spriteHandler.PushTexture();
 		}
 
 
-		if (ThisCharacter.facialHairName != "None")
+		if (ThisCharacter.FacialHairName != "None")
 		{
-			ColorUtility.TryParseHtmlString(ThisCharacter.facialHairColor, out var newColor);
+			ColorUtility.TryParseHtmlString(ThisCharacter.FacialHairColor, out var newColor);
 			clothes["beard"].spriteHandler.spriteData = new SpriteData();
 			clothes["beard"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.FacialHair][ThisCharacter.facialHairName].Equipped));
+					PlayerCustomisation.FacialHair][ThisCharacter.FacialHairName].Equipped));
 			clothes["beard"].spriteHandler.SetColor(newColor);
 			clothes["beard"].spriteHandler.PushTexture();
 		}
 
-		if (ThisCharacter.hairStyleName != "None")
+		if (ThisCharacter.HairStyleName != "None")
 		{
-			ColorUtility.TryParseHtmlString(ThisCharacter.hairColor, out var newColor);
+			ColorUtility.TryParseHtmlString(ThisCharacter.HairColor, out var newColor);
 			clothes["Hair"].spriteHandler.spriteData = new SpriteData();
 			clothes["Hair"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.HairStyle][ThisCharacter.hairStyleName].Equipped));
+					PlayerCustomisation.HairStyle][ThisCharacter.HairStyleName].Equipped));
 			clothes["Hair"].spriteHandler.SetColor(newColor);
 			clothes["Hair"].spriteHandler.PushTexture();
 		}
@@ -163,7 +163,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public void SexSetupBodySprites(RaceVariantTextureData Variant)
 	{
-		ColorUtility.TryParseHtmlString(ThisCharacter.skinTone, out var newColor);
+		ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out var newColor);
 
 		if (Variant.Torso.Texture != null)
 		{
@@ -241,7 +241,7 @@ public class PlayerSprites : MonoBehaviour
 			clothes["body_left_hand"].spriteHandler.PushTexture();
 		}
 
-		ColorUtility.TryParseHtmlString(ThisCharacter.eyeColor, out newColor);
+		ColorUtility.TryParseHtmlString(ThisCharacter.EyeColor, out newColor);
 		if (Variant.Eyes.Texture != null)
 		{
 			clothes["eyes"].spriteHandler.spriteData = new SpriteData();
@@ -318,36 +318,7 @@ public class PlayerSprites : MonoBehaviour
 		}
 
 		SetupCharacterData(characterSettings);
-		//Torso
 		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
-		//right leg
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_rightleg", characterSettings.rightLegSpriteIndex, newColor, characterSettings);
-		////left leg
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_leftleg", characterSettings.leftLegSpriteIndex, newColor, characterSettings);
-		////right arm
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_rightarm", characterSettings.rightArmSpriteIndex, newColor, characterSettings);
-		////left arm
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_leftarm", characterSettings.leftArmSpriteIndex, newColor, characterSettings);
-		////Head
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_head", characterSettings.headSpriteIndex, newColor, characterSettings);
-
-
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_right_hand", characterSettings.headSpriteIndex, newColor, characterSettings);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_left_hand", characterSettings.headSpriteIndex, newColor, characterSettings);
-
-		//Eyes
-		//ColorUtility.TryParseHtmlString(characterSettings.eyeColor, out newColor);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "eyes", 1, newColor);
-		////Underwear
-		//PlayerCustomisationMessage.SendToAll(gameObject, "underwear", characterSettings.underwearOffset, Color.white);
-		////Socks
-		//PlayerCustomisationMessage.SendToAll(gameObject, "socks", characterSettings.socksOffset, Color.white);
-		////Beard
-		//ColorUtility.TryParseHtmlString(characterSettings.facialHairColor, out newColor);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "beard", characterSettings.facialHairOffset, newColor);
-		////Hair
-		//ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "Hair", characterSettings.hairStyleOffset, newColor);
 	}
 
 

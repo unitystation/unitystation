@@ -1,32 +1,28 @@
 ﻿using System;
-using System.Collections;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Newtonsoft.Json;
 using UnityEngine;
-using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
 namespace DatabaseAPI
 {
 	public partial class ServerData
 	{
-		public static async Task<bool> UpdateCharacterProfile(string updateSettings)
+		public static async Task<bool> UpdateCharacterProfile(CharacterSettings updateSettings)
 		{
 			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
 			{
 				Logger.LogWarning("User is not logged in! Skipping character upload.", Category.DatabaseAPI);
 				return false;
 			}
-
-			var payload = Newtonsoft.Json.JsonConvert.SerializeObject(new
+			var jsonSettings = JsonConvert.SerializeObject(updateSettings);
+			var payload = JsonConvert.SerializeObject(new
 			{
 				fields = new
 				{
-					character = new { stringValue = updateSettings }
+					character = new { stringValue = jsonSettings }
 				}
 			});
 
@@ -47,7 +43,7 @@ namespace DatabaseAPI
 				return false;
 			}
 
-			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(updateSettings));
+			PlayerPrefs.SetString("currentcharacter", jsonSettings);
 			PlayerPrefs.Save();
 
 			return true;
