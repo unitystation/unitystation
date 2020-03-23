@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0627a4860741578ec35e4340e83cc6, type: 3}
-  m_Name: GrilleObjectScrewDriving
+  m_Script: {fileID: 11500000, guid: 01556f6a470a7db47992bf8f03c1b541, type: 3}
+  m_Name: GrilleUnsecure
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-  performerStartActionMessage: 
-  othersStartActionMessage: 
+  performerStartActionMessage: You start to remove the screws securing the grille...
+  othersStartActionMessage: '{performer} starts to remove the grille''s securing screws...'
   seconds: 1
   objectsToSpawn: {fileID: 11400000, guid: 2822f9ec4dbcc184daa0a4db574af269, type: 2}
-  performerFinishActionMessage: 
-  othersFinishActionMessage: 
+  performerFinishActionMessage: You finish unsecuring the grille.
+  othersFinishActionMessage: '{performer} finishes unsecuring the grille.'
