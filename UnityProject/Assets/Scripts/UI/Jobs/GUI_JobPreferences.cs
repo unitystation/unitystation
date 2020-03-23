@@ -49,8 +49,6 @@ public class GUI_JobPreferences : MonoBehaviour
 	/// Stores the job with the 'High' priority.
 	/// Used to ensure only one job has 'High' priority.
 	/// </summary>
-	// private JobType highPreference;
-
 	private JobListEntry highEntry;
 
 	/// <summary>
@@ -133,6 +131,7 @@ public class GUI_JobPreferences : MonoBehaviour
 	public void ResetAllPriorities()
 	{
 		SetAllPriorities(Priority.None);
+		highEntry = null;
 	}
 
 	/// <summary>
