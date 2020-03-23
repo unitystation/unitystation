@@ -1,7 +1,9 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DatabaseAPI;
 
 /// <summary>
 /// A dictionary using JobType and Priority. Used to store a player's job preferences.
@@ -38,7 +40,7 @@ public class GUI_JobPreferences : MonoBehaviour
 	private Dictionary<Department, GameObject> departmentEntries = new Dictionary<Department, GameObject>();
 
 	/// <summary>
-	/// References to each JobListEntry by JobType which areused to
+	/// References to each JobListEntry by JobType which are used to
 	/// change the dropdown values.
 	/// </summary>
 	private Dictionary<JobType, JobListEntry> jobEntries = new Dictionary<JobType, JobListEntry>();
@@ -54,11 +56,17 @@ public class GUI_JobPreferences : MonoBehaviour
 	/// <summary>
 	/// Stores all of the player's job preferences, with job type and priority.
 	/// </summary>
-	private Dictionary<JobType, Priority> jobPreferences = new Dictionary<JobType, Priority>();
+	private JobPrefsDict jobPreferences = new JobPrefsDict();
 
 	private void OnEnable()
 	{
 		PopulateJobs();
+		LoadJobPreferences();
+	}
+
+	private void OnDisable()
+	{
+		SaveJobPreferences();
 	}
 
 	/// <summary>
@@ -158,8 +166,11 @@ public class GUI_JobPreferences : MonoBehaviour
 		{
 			if (priority == Priority.High)
 			{
-				// Downgrade the previous High priority job to Medium
-				highEntry?.SetPriority(Priority.Medium);
+				if (highEntry != null)
+				{
+					// Downgrade the previous High priority job to Medium
+					highEntry.SetPriority(Priority.Medium);
+				}
 				highEntry = entry;
 			}
 
@@ -176,5 +187,27 @@ public class GUI_JobPreferences : MonoBehaviour
 
 		Logger.Log("Current Job Preferences:\n" +
 			string.Join("\n", jobPreferences.Select(a => $"{a.Key}: {a.Value}")), Category.UI);
+	}
+
+	/// <summary>
+	/// Saves the current job preferences to CurrentCharacterSettings and updates the character profile
+	/// </summary>
+	private void SaveJobPreferences()
+	{
+		PlayerManager.CurrentCharacterSettings.JobPreferences = jobPreferences;
+		ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings);
+	}
+
+	/// <summary>
+	/// Loads the job preferences from the CurrentCharacterSettings and updates jobPreferences via OnPriorityChange.
+	/// </summary>
+	private void LoadJobPreferences()
+	{
+		// Loop through all jobs and set the dropdown to the specified priority.
+		// This will update the local jobPreferences variable using OnPriorityChange.
+		foreach (var jobPref in PlayerManager.CurrentCharacterSettings.JobPreferences)
+		{
+			jobEntries[jobPref.Key].SetPriority(jobPref.Value);
+		}
 	}
 }
