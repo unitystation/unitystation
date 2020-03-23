@@ -358,6 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114379009499332576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 660822424
+  sceneId: 0
   serverOnly: 0
   m_AssetId: 
 --- !u!114 &1750259749
@@ -418,9 +419,9 @@ MonoBehaviour:
   syncInterval: 0.1
   spriteRend: {fileID: 4890346600101626888}
   upSprite: {fileID: 21300002, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
-  rightSprite: {fileID: 21300014, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
+  rightSprite: {fileID: 21300020, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
   downSprite: {fileID: 21300008, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
-  leftSprite: {fileID: 21300020, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
+  leftSprite: {fileID: 21300014, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
 --- !u!114 &8602547056562296912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +540,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 19
+  m_SortingLayer: 15
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300008, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
