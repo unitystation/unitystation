@@ -187,11 +187,11 @@ public class ClownAI : MobAI
 				{
 					SoundManager.PlayNetworkedAtPos("ScaryClown1", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 				}
-				if (num2 == 1)
+				if (num2 == 2)
 				{
 					SoundManager.PlayNetworkedAtPos("ScaryClown2", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 				}
-				if (num2 == 1)
+				if (num2 == 3)
 				{
 					SoundManager.PlayNetworkedAtPos("ScaryClown3", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 				}

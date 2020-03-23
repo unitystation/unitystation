@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  maxHealth: 250
+  maxHealth: 100
   canBreathAnywhere: 1
   cloningDamage: 0
   bloodSystem: {fileID: 0}
@@ -573,4 +573,6 @@ MonoBehaviour:
   mobName: Husk
   knockedDownRotation: 90
   searchTickRate: 0.5
+  DeathSound: 
+  GenericSound: 
   status: 0

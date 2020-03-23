@@ -176,6 +176,37 @@ public class XenoAI : MobAI
 			return;
 		}
 
+		if (!IsDead && !IsUnconscious)
+		{
+			var num = Random.Range(1, 400);
+
+			if (num == 1)
+			{
+				var num2 = Random.Range(1, 4);
+				if (num2 == 1)
+				{
+					SoundManager.PlayNetworkedAtPos("Hiss1", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+				if (num2 == 2)
+				{
+					SoundManager.PlayNetworkedAtPos("Hiss2", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+				if (num2 == 3)
+				{
+					SoundManager.PlayNetworkedAtPos("Hiss3", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+				if (num2 == 4)
+				{
+					SoundManager.PlayNetworkedAtPos("Hiss4", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+				else
+				{
+					SoundManager.PlayNetworkedAtPos("Hiss5", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+			}
+
+		}
+
 		if (status == XenoStatus.Searching)
 		{
 			moveWaitTime += Time.deltaTime;
