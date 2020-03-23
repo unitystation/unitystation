@@ -179,7 +179,7 @@ public class StatueAI : MobAI
 			if (IsDead && !DeathSoundPlayed && DeathSounds.Count > 0)
 			{
 				DeathSoundPlayed = true;
-				SoundManager.PlayNetworkedAtPos(DeathSounds[Random.Range(1, DeathSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(DeathSounds[Random.Range(0, DeathSounds.Count - 1)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 
 			return;
@@ -218,12 +218,12 @@ public class StatueAI : MobAI
 
 	void PlaySound()
 	{
-		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0 && !isServer)
+		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0)
 		{
 			var num = Random.Range(1, 5);
 			if (num == 1)
 			{
-				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(1, GenericSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(0, GenericSounds.Count - 1)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 			Invoke("PlaySound", PlaySoundTime);
 		}
