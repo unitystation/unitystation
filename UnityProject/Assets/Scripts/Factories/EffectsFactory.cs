@@ -79,6 +79,9 @@ public static class EffectsFactory
 						return;
 				}
 				break;
+			case BloodSplatType.none:
+						return;
+				
 		}
 
 		if (chosenTile != null)
