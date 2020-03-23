@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  maxHealth: 250
+  maxHealth: 900
   canBreathAnywhere: 1
   cloningDamage: 0
   bloodSystem: {fileID: 0}
@@ -554,7 +554,7 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   spriteHolder: {fileID: 3392343644113499114}
   targetOtherPlayersWhoGetInWay: 1
-  hitDamage: 15
+  hitDamage: 20
   attackVerb: slashed
   defaultTarget: 0
   meleeCoolDown: 0.4
