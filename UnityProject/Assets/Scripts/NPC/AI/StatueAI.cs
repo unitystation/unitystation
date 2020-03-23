@@ -17,7 +17,10 @@ public class StatueAI : MobAI
 	private float moveWaitTime = 0f;
 	private float searchWaitTime = 0f;
 	private LayerMask hitMask;
+	public string DeathSound = null;
+	public string GenericSound = null;
 	private int playersLayer;
+	private bool DeathSoundPlayed = false;
 
 	public enum StatueStatus
 	{
@@ -165,7 +168,24 @@ public class StatueAI : MobAI
 
 		if (IsDead || IsUnconscious)
 		{
+			if (IsDead && !DeathSoundPlayed && DeathSound != null)
+			{
+				DeathSoundPlayed = true;
+				SoundManager.PlayNetworkedAtPos(DeathSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+			}
+
 			return;
+		}
+
+		if (!IsDead && !IsUnconscious && GenericSound != null)
+		{
+			var num = Random.Range(1, 400);
+
+			if (num == 1)
+			{
+				SoundManager.PlayNetworkedAtPos(GenericSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+			}
+
 		}
 
 		if (status == StatueStatus.Searching)
@@ -225,6 +245,7 @@ public class StatueAI : MobAI
 	{
 		base.OnDespawnServer(info);
 		dirSprites.SetToBodyLayer();
+		DeathSoundPlayed = false;
 		registerObject.Passable = true;
 	}
 }
