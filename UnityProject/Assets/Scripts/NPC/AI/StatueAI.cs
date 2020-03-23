@@ -17,10 +17,17 @@ public class StatueAI : MobAI
 	private float moveWaitTime = 0f;
 	private float searchWaitTime = 0f;
 	private LayerMask hitMask;
-	public string DeathSound = null;
-	public string GenericSound = null;
 	private int playersLayer;
 	private bool DeathSoundPlayed = false;
+
+	public List<string> DeathSounds = new List<string>();
+	public List<string> GenericSounds = new List<string>();
+
+	/// <summary>
+	/// Changes Time that a sound has the chance to play
+	/// WARNING, decreasing this time will decrease performance.
+	/// </summary>
+	public int PlaySoundTime = 3;
 
 	public enum StatueStatus
 	{
@@ -169,10 +176,10 @@ public class StatueAI : MobAI
 
 		if (IsDead || IsUnconscious)
 		{
-			if (IsDead && !DeathSoundPlayed && DeathSound != null)
+			if (IsDead && !DeathSoundPlayed && DeathSounds.Count > 0)
 			{
 				DeathSoundPlayed = true;
-				SoundManager.PlayNetworkedAtPos(DeathSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(DeathSounds[Random.Range(1, DeathSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 
 			return;
@@ -211,15 +218,15 @@ public class StatueAI : MobAI
 
 	void PlaySound()
 	{
-		if (!IsDead && !IsUnconscious && GenericSound != null)
+		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0 && !isServer)
 		{
 			var num = Random.Range(1, 5);
 			if (num == 1)
 			{
-				SoundManager.PlayNetworkedAtPos(GenericSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(1, GenericSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
-			Invoke("PlaySound", 2f);
-		}		
+			Invoke("PlaySound", PlaySoundTime);
+		}
 	}
 
 	//Determine if mob has become idle:

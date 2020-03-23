@@ -573,6 +573,11 @@ MonoBehaviour:
   mobName: Bloodcult_Cultist
   knockedDownRotation: 90
   searchTickRate: 0.5
-  DeathSound: growl1
-  GenericSound: iseeyou1
+  DeathSounds:
+  - growl1
+  GenericSounds:
+  - iseeyou1
+  DeathSound: 
+  GenericSound: 
+  PlaySoundTime: 3
   status: 0

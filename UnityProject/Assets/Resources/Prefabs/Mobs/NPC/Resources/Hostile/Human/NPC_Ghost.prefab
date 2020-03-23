@@ -573,6 +573,11 @@ MonoBehaviour:
   mobName: Ghost
   knockedDownRotation: 90
   searchTickRate: 0.5
-  DeathSound: ghost
-  GenericSound: ghost
+  DeathSounds:
+  - ghost
+  GenericSounds:
+  - ghost
+  DeathSound: 
+  GenericSound: 
+  PlaySoundTime: 3
   status: 0

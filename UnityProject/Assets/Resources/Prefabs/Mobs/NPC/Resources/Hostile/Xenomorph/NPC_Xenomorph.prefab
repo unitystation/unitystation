@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3392343644113499114}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -67,7 +67,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 19
+  m_SortingLayer: 15
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300006, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -328,6 +328,7 @@ MonoBehaviour:
   deadSprite: {fileID: 21300000, guid: 0311b0c4dc326f74b935199093802681, type: 3}
   deadState: 0
   spriteRend: {fileID: 83192708151968013}
+  registerObject: {fileID: 0}
 --- !u!114 &4859231028589996057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291
@@ -439,6 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
+  ignoreExtraRotation: []
 --- !u!114 &4859335736327027429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,10 +452,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3657504649
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,9 +524,11 @@ MonoBehaviour:
     onDemandDecision: 1
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
+  performingAction: 0
   activated: 0
   tickRate: 1
   target: 0
+  actionPerformTime: 0
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,6 +550,7 @@ MonoBehaviour:
     onDemandDecision: 1
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
+  performingAction: 0
   activated: 0
   tickRate: 0
   followTarget: {fileID: 0}
@@ -572,4 +575,13 @@ MonoBehaviour:
   mobName: Xenomorph
   knockedDownRotation: -90
   searchTickRate: 0.5
+  DeathSounds:
+  - xenodie
+  GenericSounds:
+  - Hiss1
+  - Hiss2
+  - Hiss3
+  - Hiss4
+  - Hiss5
+  PlaySoundTime: 3
   status: 0

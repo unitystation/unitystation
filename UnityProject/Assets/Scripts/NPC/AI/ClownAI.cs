@@ -19,6 +19,15 @@ public class ClownAI : MobAI
 	private LayerMask hitMask;
 	private int playersLayer;
 
+	public List<string> DeathSounds = new List<string>();
+	public List<string> GenericSounds = new List<string>();
+
+	/// <summary>
+	/// Changes Time that a sound has the chance to play
+	/// WARNING, decreasing this time will decrease performance.
+	/// </summary>
+	public int PlaySoundTime = 3;
+
 	private bool ClownScreechPlayed = false;
 
 	public enum ClownStatus
@@ -168,10 +177,10 @@ public class ClownAI : MobAI
 
 		if (IsDead || IsUnconscious)
 		{
-			if (IsDead && !ClownScreechPlayed)
+			if (IsDead && !ClownScreechPlayed && DeathSounds.Count > 0)
 			{
 				ClownScreechPlayed = true;
-				SoundManager.PlayNetworkedAtPos("ClownHonk", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(DeathSounds[Random.Range(1, DeathSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 
 			return;
@@ -209,31 +218,14 @@ public class ClownAI : MobAI
 	}
 	void PlaySound()
 	{
-		if (!IsDead && !IsUnconscious)
+		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0 && !isServer)
 		{
 			var num = Random.Range(1, 5);
-
 			if (num == 1)
 			{
-				var num2 = Random.Range(1, 4);
-				if (num2 == 1)
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown1", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				if (num2 == 2)
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown2", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				if (num2 == 3)
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown3", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				else
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown4", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
+				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(1, GenericSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
-			Invoke("PlaySound", 2f);
+			Invoke("PlaySound", PlaySoundTime);
 		}
 	}
 

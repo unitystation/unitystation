@@ -575,6 +575,10 @@ MonoBehaviour:
   mobName: Statue
   knockedDownRotation: 90
   searchTickRate: 0.5
-  DeathSound: statuedeath
+  DeathSound: 
   GenericSound: 
+  DeathSounds:
+  - statuedeath
+  GenericSounds: []
+  PlaySoundTime: 3
   status: 0

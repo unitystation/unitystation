@@ -19,6 +19,15 @@ public class XenoAI : MobAI
 	private LayerMask hitMask;
 	private int playersLayer;
 
+	public List<string> DeathSounds = new List<string>();
+	public List<string> GenericSounds = new List<string>();
+
+	/// <summary>
+	/// Changes Time that a sound has the chance to play
+	/// WARNING, decreasing this time will decrease performance.
+	/// </summary>
+	public int PlaySoundTime = 3;
+
 	private bool alienScreechPlayed = false;
 
 	public enum XenoStatus
@@ -168,10 +177,10 @@ public class XenoAI : MobAI
 
 		if (IsDead || IsUnconscious)
 		{
-			if (IsDead && !alienScreechPlayed)
+			if (IsDead && !alienScreechPlayed && DeathSounds.Count > 0)
 			{
 				alienScreechPlayed = true;
-				SoundManager.PlayNetworkedAtPos("xenodie", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(DeathSounds[Random.Range(1, DeathSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 
 			return;
@@ -210,34 +219,14 @@ public class XenoAI : MobAI
 
 	void PlaySound()
 	{
-		if (!IsDead && !IsUnconscious)
+		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0 && !isServer)
 		{
 			var num = Random.Range(1, 5);
 			if (num == 1)
 			{
-				var num2 = Random.Range(1, 4);
-				if (num2 == 1)
-				{
-					SoundManager.PlayNetworkedAtPos("Hiss1", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				if (num2 == 2)
-				{
-					SoundManager.PlayNetworkedAtPos("Hiss2", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				if (num2 == 3)
-				{
-					SoundManager.PlayNetworkedAtPos("Hiss3", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				if (num2 == 4)
-				{
-					SoundManager.PlayNetworkedAtPos("Hiss4", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				else
-				{
-					SoundManager.PlayNetworkedAtPos("Hiss5", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
+				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(1, GenericSounds.Count)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
-			Invoke("PlaySound", 2f);
+			Invoke("PlaySound", PlaySoundTime);
 		}
 	}
 

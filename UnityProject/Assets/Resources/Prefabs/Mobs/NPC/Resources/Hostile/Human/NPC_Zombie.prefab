@@ -573,6 +573,11 @@ MonoBehaviour:
   mobName: Zombie
   knockedDownRotation: 90
   searchTickRate: 0.5
-  DeathSound: xenodie
-  GenericSound: xenodie
+  DeathSounds:
+  - xenodie
+  GenericSounds:
+  - xenodie
+  DeathSound: 
+  GenericSound: 
+  PlaySoundTime: 3
   status: 0
