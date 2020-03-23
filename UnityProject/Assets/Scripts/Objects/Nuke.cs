@@ -24,6 +24,12 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool IsCodeRight => isCodeRight;
 
+	[SerializeField]
+	private int minTimer = 270;
+	private bool isTimer = false;
+
+
+
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
 	public string deniedMessage;
@@ -101,17 +107,35 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		// Trigger end of round
 		GameManager.Instance.EndRound();
 	}
-
+	public bool? ToggleTimer()
+	{
+		if(!isSafetyOn)
+		{
+			isTimer = !isTimer;
+			return isTimer;
+		}
+		return null;
+	}
 	//Server validating the code sent back by the GUI
 	[Server]
 	public bool Validate()
 	{
+		if(isTimer)
+		{
+			int digit = int.Parse(currentCode);
+			if(digit < minTimer)
+			{
+				return false;
+			}
+			StartCountDown();
+			return true;
+		}
 		isCodeRight = CurrentCode == NukeCode.ToString() ? true : false;
 		return isCodeRight;
 	}
 
 	[Server]
-	public void ToggleTimer()
+	public void StartCountDown()
 	{
 		detonated = true;
 		//if yes, blow up the nuke

@@ -50,7 +50,7 @@ public class GUI_NukeWindow : NetTab
 		{
 			if (!infoNukeDisplay)
 			{
-				infoNukeDisplay = this["NukeInfoDisplay"] as NetLabel;
+				infoNukeDisplay = this["NukeInfoDisplay"];
 			}
 			return infoNukeDisplay;
 		}
@@ -140,6 +140,16 @@ public class GUI_NukeWindow : NetTab
 		}
 	}
 
+	public void TimerSetButton()
+	{
+		bool? isTimer = Nuke.ToggleTimer();
+		if(isTimer != null)
+		{
+			infoNukeDisplay.SetValue = isTimer.Value ? "Set timer:" : InitialInfoText;
+		}
+		
+	}
+
 	public void EnterDigit(char digit)
 	{
 		if (cooldown)
@@ -176,6 +186,7 @@ public class GUI_NukeWindow : NetTab
 		Nuke.Clear();
 		CodeDisplay.SetValue = "";
 	}
+
 	public void TryArm()
 	{
 		if (cooldown)
@@ -185,11 +196,11 @@ public class GUI_NukeWindow : NetTab
 		CodeAccess();
 
 	}
+
 	private void CodeAccess()
 	{
 		if (Nuke.Validate())
 		{
-			InfoSafetyColor.SetValue = colorGreen;
 			Clear();
 		}
 		else
@@ -197,6 +208,7 @@ public class GUI_NukeWindow : NetTab
 			StartCoroutine(ErrorCooldown());
 		}
 	}
+
 	public IEnumerator ErrorCooldown()
 	{
 		cooldown = true;
