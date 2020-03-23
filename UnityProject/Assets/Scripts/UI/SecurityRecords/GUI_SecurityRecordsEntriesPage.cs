@@ -10,7 +10,7 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 	private GUI_SecurityRecords securityRecordsTab;
 	private List<SecurityRecord> currentRecords = new List<SecurityRecord>();
 	[SerializeField]
-	private NetLabel idNameText;
+	private NetLabel idNameText = null;
 
 	public void OnOpen(GUI_SecurityRecords recordsTab)
 	{

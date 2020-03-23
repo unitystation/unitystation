@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class HandApply : BodyPartTargetedInteraction
 {
-	private static readonly HandApply Invalid = new HandApply(null, null, null, BodyPartType.None, null, Intent.Help);
+	private static readonly HandApply Invalid = new HandApply(null, null, null, BodyPartType.None, null, Intent.Help, false);
 
 	private readonly ItemSlot handSlot;
 
@@ -21,6 +21,11 @@ public class HandApply : BodyPartTargetedInteraction
 	public GameObject HandObject => UsedObject;
 
 	/// <summary>
+	/// True if the alt button is pressed by the user. Performed clientside
+	/// </summary>
+	public bool IsAltClick;
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
@@ -29,10 +34,11 @@ public class HandApply : BodyPartTargetedInteraction
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	/// <param name="targetBodyPart">targeted body part</param>
 	protected HandApply(GameObject performer, GameObject handObject, GameObject targetObject, BodyPartType targetBodyPart,
-		ItemSlot handSlot, Intent intent) :
+		ItemSlot handSlot, Intent intent, bool IsAltClick) :
 		base(performer, handObject, targetObject, targetBodyPart, intent)
 	{
 		this.handSlot = handSlot;
+		this.IsAltClick = IsAltClick;
 	}
 
 	/// <summary>
@@ -52,7 +58,8 @@ public class HandApply : BodyPartTargetedInteraction
 			targetObject,
 			UIManager.DamageZone,
 			UIManager.Instance.hands.CurrentSlot.ItemSlot,
-			UIManager.CurrentIntent);
+			UIManager.CurrentIntent,
+			KeyboardInputManager.IsAltPressed());
 	}
 
 	/// <summary>
@@ -69,8 +76,8 @@ public class HandApply : BodyPartTargetedInteraction
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static HandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject, BodyPartType targetBodyPart,
-		ItemSlot handSlot, Intent intent)
+		ItemSlot handSlot, Intent intent, bool isAltClick)
 	{
-		return new HandApply(clientPlayer, handObject, targetObject, targetBodyPart, handSlot, intent);
+		return new HandApply(clientPlayer, handObject, targetObject, targetBodyPart, handSlot, intent, isAltClick);
 	}
 }

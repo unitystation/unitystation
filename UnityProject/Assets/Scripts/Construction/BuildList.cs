@@ -16,7 +16,7 @@ namespace Construction
 		         " in game.")]
 		[SerializeField]
 		[ArrayElementTitle("name", "unnamed")]
-		private List<Entry> entries;
+		private List<Entry> entries = null;
 
 		/// <summary>
 		/// Entries in this list, sorted alphabetically by name.
@@ -28,7 +28,7 @@ namespace Construction
 		{
 			[Tooltip("Name to show to the player for this entry.")]
 			[SerializeField]
-			private string name;
+			private string name = null;
 
 			/// <summary>
 			/// Name to show to the player for this entry.
@@ -37,7 +37,7 @@ namespace Construction
 
 			[Tooltip("Prefab of object which will be spawned.")]
 			[SerializeField]
-			private GameObject prefab;
+			private GameObject prefab = null;
 			/// <summary>
 			/// Prefab of object which will be spawned.
 			/// </summary>

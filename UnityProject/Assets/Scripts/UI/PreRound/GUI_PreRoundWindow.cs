@@ -7,18 +7,18 @@ using UnityEngine.UI;
 public class GUI_PreRoundWindow : MonoBehaviour
 {
 	[SerializeField]
-	private Text currentGameMode;
+	private Text currentGameMode = null;
 	[SerializeField]
-	private Text timer;
+	private Text timer = null;
 	[SerializeField]
-	private Text playerCount;
+	private Text playerCount = null;
 
 	[SerializeField]
-	private GameObject adminPanel;
+	private GameObject adminPanel = null;
 	[SerializeField]
-	private GameObject playerWaitPanel;
+	private GameObject playerWaitPanel = null;
 	[SerializeField]
-	private GameObject countdownPanel;
+	private GameObject countdownPanel = null;
 
 	private bool doCountdown;
 	private float countdownTime;

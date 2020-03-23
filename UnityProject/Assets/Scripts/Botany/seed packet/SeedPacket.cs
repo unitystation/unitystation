@@ -12,17 +12,31 @@ public class SeedPacket : NetworkBehaviour
 	[SyncVar(hook = nameof(SyncPlant))]
 	public string PlantSyncString;
 
+	private SeedPacket() { }
+
+	/*public static SeedPacket CreateSeedPacketInstance(SeedPacket seedPacket)
+	{
+		return new SeedPacket
+		{
+			name = seedPacket.name,
+			Sprite = seedPacket.Sprite,
+			plantData = PlantData.CreateNewPlant(seedPacket.plantData),
+			defaultPlantData = seedPacket.defaultPlantData,
+			PlantSyncString = seedPacket.plantData.Name
+		};
+	}*/
+
 	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
 	{
-		EnsureInit();
+		//EnsureInit();
 		PlantSyncString = _PlantSyncString;
-		if (!isServer)
+		/*if (!isServer)
 		{
 			if (DefaultPlantData.PlantDictionary.ContainsKey(PlantSyncString))
 			{
 				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
 			}
-		}
+		}*/
 		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.PacketsSprite);
 		Sprite.PushTexture();
 	}
@@ -35,10 +49,10 @@ public class SeedPacket : NetworkBehaviour
 
 	private void EnsureInit()
 	{
-		if (defaultPlantData != null)
+		if (string.IsNullOrEmpty(plantData?.Name) && defaultPlantData != null)
 		{
-			plantData = new PlantData();
-			plantData.SetValues(defaultPlantData);
+			plantData = PlantData.CreateNewPlant(defaultPlantData);
+			PlantSyncString = plantData.Name;
 		}
 	}
 

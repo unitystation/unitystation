@@ -28,7 +28,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Spawn.ServerPrefab("GlassShard", gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(1, 4),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
-		SoundManager.PlayNetworkedAtPos("GlassBreak0#", gameObject.TileWorldPosition().To3Int(), 1f);
+		SoundManager.PlayNetworkedAtPos("GlassBreak0#", gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -48,7 +48,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (interaction.TargetObject != gameObject) return;
 
-		
+
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
 			if (objectBehaviour.IsPushable)
@@ -102,7 +102,7 @@ public class WindowObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 				Chat.AddExamineMsg(interaction.Performer, "You must unsecure it first.");
 			}
 		}
-		
+
 	}
 
 	[Server]

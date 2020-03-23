@@ -5,7 +5,7 @@ using Mirror;
 
 public class LowVoltageCable : CableInheritance
 {
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
+	public new HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.LowMachineConnector,
 		PowerTypeCategory.LowVoltageCable,
 		PowerTypeCategory.SolarPanelController,

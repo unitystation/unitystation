@@ -13,19 +13,19 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 	/// Sound played when turning this baton on/off
 	/// </summary>
 	[SerializeField]
-	private string soundToggle;
+	private string soundToggle = null;
 
 	/// <summary>
 	/// Sprite to be shown when the baton is on
 	/// </summary>
 	[SerializeField]
-	private Sprite spriteActive;
+	private Sprite spriteActive = null;
 
 	/// <summary>
 	/// Sprite to be shown when the baton is off
 	/// </summary>
 	[SerializeField]
-	private Sprite spriteInactive;
+	private Sprite spriteInactive = null;
 
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool active;
@@ -77,7 +77,7 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.transform.position);
+		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.transform.position, sourceObj: interaction.Performer);
 		ToggleState();
 	}
 }

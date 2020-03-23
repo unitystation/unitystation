@@ -1,4 +1,5 @@
-﻿using Light2D;
+﻿using System;
+using Light2D;
 using UnityEngine;
 
 /// <summary>
@@ -62,7 +63,17 @@ public class LightGlitch : MonoBehaviour
 		GlitchDuration = UnityEngine.Random.Range(0.2f, 1f);
 	}
 
-	private void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		if (mLightSprite == null)
 			return;

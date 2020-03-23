@@ -17,7 +17,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public NamedSlot activeHand = NamedSlot.rightHand;
 
-	private Equipment equipment;
+	private Equipment equipment = null;
 
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
@@ -92,6 +92,79 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		NamedSlot enumA = (NamedSlot) Enum.Parse(typeof(NamedSlot), slotName);
 		equipment.SetReference((int) enumA, Item);
+	}
+
+	/// <summary>
+	/// Server handling of the request to perform a resist action.
+	/// </summary>
+	[Command]
+	public void CmdResist()
+	{
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+
+		// Handle the movement restricted actions first.
+		if (playerScript.playerMove.IsBuckled)
+		{
+			// Make sure we don't unbuckle if we are currently cuffed.
+			if (!playerScript.playerMove.IsCuffed)
+			{
+				playerScript.playerMove.Unbuckle();
+			}
+		}
+		else if(playerScript.playerHealth.FireStacks > 0) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		{
+			if (!playerScript.registerTile.IsLayingDown)
+			{
+				// Throw the player down to the floor for 15 seconds.
+				playerScript.registerTile.ServerStun(15);
+				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+			}
+			else
+			{
+				// Remove 5 stacks(?) per roll action.
+				playerScript.playerHealth.ChangeFireStacks(-5.0f);
+				// Find the next in the roll sequence. Also unlock the facing direction temporarily since ServerStun locks it.
+				playerScript.playerDirectional.LockDirection = false;
+				Orientation faceDir = playerScript.playerDirectional.CurrentDirection;
+				OrientationEnum currentDir = faceDir.AsEnum();
+
+				switch (currentDir)
+				{
+					case OrientationEnum.Up:
+						faceDir = Orientation.Right;
+						break;
+					case OrientationEnum.Right:
+						faceDir = Orientation.Down;
+						break;
+					case OrientationEnum.Down:
+						faceDir = Orientation.Left;
+						break;
+					case OrientationEnum.Left:
+						faceDir = Orientation.Up;
+						break;
+				}
+
+				playerScript.playerDirectional.FaceDirection(faceDir);
+				playerScript.playerDirectional.LockDirection = true;
+			}
+
+			if (playerScript.playerHealth.FireStacks <= 0)
+			{
+				playerScript.playerHealth.Extinguish();
+			}
+		}
+		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
+		{
+			if (playerScript.playerSprites != null &&
+				playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+			{
+				if (cuffsClothingItem != null &&
+					cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				{
+					restraintOverlay.ServerBeginUnCuffAttempt();
+				}
+			}
+		}
 	}
 
 	/// <summary>
@@ -291,12 +364,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void UpdateInventorySlots()
 	{
-		var body = playerScript.mind.body.gameObject;
-
-		if (this == null || itemStorage == null)
+		if (this == null || itemStorage == null || playerScript == null
+		    || playerScript.mind == null || playerScript.mind.body == null)
 		{
 			return;
 		}
+
+		var body = playerScript.mind.body.gameObject;
 
 		//player gets inventory slot updates again
 		foreach (var slot in itemStorage.GetItemSlotTree())
@@ -329,7 +403,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -341,7 +415,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -610,7 +684,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (5 >= rng.Next(1, 100))
 		{
 			disarmedPlayerRegister.ServerStun(6f, false);
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",
 				$"{disarmerName} has knocked {playerToDisarmName} down!");
@@ -629,14 +703,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				Inventory.ServerDrop(rightHandSlot);
 			}
 
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have disarmed {playerToDisarmName}!",
 				$"{disarmerName} has disarmed {playerToDisarmName}!");
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You attempted to disarm {playerToDisarmName}!",
 				$"{disarmerName} has attempted to disarm {playerToDisarmName}!");
@@ -691,6 +765,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 
 		Spawn.ServerPoolTestRespawn(toRespawn);
+	}
+
+	[Command]
+	public void CmdSendCentCommAnnouncement (string adminId, string adminToken, string text)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.announce);
+	}
+
+	[Command]
+	public void CmdSendCentCommReport (string adminId, string adminToken, string text)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+		GameManager.Instance.CentComm.MakeCommandReport(text,
+														CentComm.UpdateSound.notice);
 	}
 
 	#endregion

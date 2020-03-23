@@ -44,9 +44,6 @@ public static class ElectricalSynchronisation
 	public static CableInheritance CableToDestroy;
 	private static bool Initialise = false;
 
-	public static DeadEndConnection
-		DeadEnd = new DeadEndConnection(); //so resistance sources coming from itself  like an apc Don't cause loops this is used as coming from and so therefore it is ignored
-
 	public static List<ElectricalOIinheritance> DirectionWorkOnNextList = new List<ElectricalOIinheritance>();
 	public static List<ElectricalOIinheritance> DirectionWorkOnNextListWait = new List<ElectricalOIinheritance>();
 
@@ -194,8 +191,7 @@ public static class ElectricalSynchronisation
 					AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
 				}
 			}
-
-			DeadEnd.InData.Categorytype = PowerTypeCategory.DeadEndConnection; //yeah Class stuff
+			
 			Initialise = true;
 		}
 

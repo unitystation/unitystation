@@ -4,9 +4,9 @@ using UnityEngine;
 public class MonitorCamera : MonoBehaviour
 {
 	private int baseSprite = 2;
-	private SpriteRenderer spriteRenderer;
+	private SpriteRenderer spriteRenderer = null;
 
-	private Sprite[] sprites;
+	private Sprite[] sprites = null;
 	public float time = 0.3f;
 
 	//private void Start()

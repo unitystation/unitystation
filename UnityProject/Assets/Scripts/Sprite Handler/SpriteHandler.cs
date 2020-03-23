@@ -101,9 +101,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private IEnumerator WaitForInitialisation()
 	{
-		// Don't show while configuring
-		spriteRenderer.enabled = false;
-
+		ImageComponentStatus(false);
 		yield return WaitFor.EndOfFrame;
 		Initialised = true;
 		GetImageComponent();
@@ -114,14 +112,31 @@ public class SpriteHandler : MonoBehaviour
 		{
 			PushTexture();
 		}
+		ImageComponentStatus(true);
+	}
 
-		// Show once done configuring
-		spriteRenderer.enabled = true;
+	void Start()
+	{
+		AddSprites();
+		GetImageComponent();
+		StartCoroutine(WaitForInitialisation());
+	}
+
+	private void ImageComponentStatus(bool Status)
+	{
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.enabled = Status;
+		}
+		else if (image != null){
+			image.enabled = Status;
+		}
+	
 	}
 
 	private void OnEnable()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
+		GetImageComponent();
 	}
 
 	private void OnDisable()
@@ -182,7 +197,7 @@ public class SpriteHandler : MonoBehaviour
 					animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
 				{
 					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
-					
+
 					SetSprite(curSpriteInfo);
 
 					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
@@ -363,12 +378,6 @@ public class SpriteHandler : MonoBehaviour
 		else {
 			SetSpriteOnStartUp = true;
 		}
-	}
-
-	void Start()
-	{
-		AddSprites();
-		StartCoroutine(WaitForInitialisation());
 	}
 
 	private void AddSprites()

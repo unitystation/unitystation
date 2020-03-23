@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -14,10 +15,12 @@ public class AdminEnableMessage : ServerMessage
 	{
 		yield return null;
 		PlayerList.Instance.SetClientAsAdmin(AdminToken);
+		UIManager.Instance.adminChatButtons.gameObject.SetActive(true);
 	}
 
-	public static AdminEnableMessage Send(GameObject player, string adminToken)
+	public static AdminEnableMessage Send(NetworkConnection player, string adminToken)
 	{
+		UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player);
 		AdminEnableMessage msg = new AdminEnableMessage {AdminToken = adminToken};
 
 		msg.SendTo(player);

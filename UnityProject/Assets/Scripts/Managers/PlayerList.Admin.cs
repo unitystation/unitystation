@@ -16,11 +16,14 @@ using UnityEngine.Diagnostics;
 public partial class PlayerList
 {
 	private FileSystemWatcher adminListWatcher;
+	private FileSystemWatcher WhiteListWatcher;
 	private List<string> adminUsers = new List<string>();
 	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
 	private BanList banList;
 	private string adminsPath;
 	private string banPath;
+	private List<string> whiteListUsers = new List<string>();
+	private string whiteListPath;
 	private bool thisClientIsAdmin;
 	public string AdminToken { get; private set; }
 
@@ -29,6 +32,7 @@ public partial class PlayerList
 	{
 		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
 		banPath = Path.Combine(Application.streamingAssetsPath, "admin", "banlist.json");
+		whiteListPath = Path.Combine(Application.streamingAssetsPath, "admin", "whitelist.txt");
 
 		if (!File.Exists(adminsPath))
 		{
@@ -40,19 +44,42 @@ public partial class PlayerList
 			File.WriteAllText(banPath, JsonUtility.ToJson(new BanList()));
 		}
 
+		if (!File.Exists(whiteListPath))
+		{
+			File.CreateText(whiteListPath).Close();
+		}
+
 		adminListWatcher = new FileSystemWatcher();
 		adminListWatcher.Path = Path.GetDirectoryName(adminsPath);
 		adminListWatcher.Filter = Path.GetFileName(adminsPath);
 		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
 		adminListWatcher.Changed += LoadCurrentAdmins;
 		adminListWatcher.EnableRaisingEvents = true;
+
+		WhiteListWatcher = new FileSystemWatcher();
+		WhiteListWatcher.Path = Path.GetDirectoryName(whiteListPath);
+		WhiteListWatcher.Filter = Path.GetFileName(whiteListPath);
+		WhiteListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		WhiteListWatcher.Changed += LoadWhiteList;
+		WhiteListWatcher.EnableRaisingEvents = true;
+
 		LoadBanList();
 		LoadCurrentAdmins();
+		LoadWhiteList();
 	}
 
 	void LoadBanList()
 	{
 		StartCoroutine(LoadBans());
+	}
+	void LoadWhiteList(object source, FileSystemEventArgs e)
+	{
+		LoadWhiteList();
+	}
+
+	void LoadWhiteList()
+	{
+		StartCoroutine(LoadWhiteListed());
 	}
 
 	void LoadCurrentAdmins(object source, FileSystemEventArgs e)
@@ -70,6 +97,14 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		banList = JsonUtility.FromJson<BanList>(File.ReadAllText(banPath));
+	}
+
+	IEnumerator LoadWhiteListed()
+	{
+		//ensure any writing has finished
+		yield return WaitFor.EndOfFrame;
+		whiteListUsers.Clear();
+		whiteListUsers = new List<string>(File.ReadAllLines(whiteListPath));
 	}
 
 	IEnumerator LoadAdmins()
@@ -105,6 +140,22 @@ public partial class PlayerList
 		if (loggedInAdmins[userID] != token) return null;
 
 		return GetByUserID(userID).GameObject;
+	}
+
+	[Server]
+	public List<ConnectedPlayer> GetAllAdmins()
+	{
+		var admins = new List<ConnectedPlayer>();
+		foreach (var a in loggedInAdmins)
+		{
+			var getConn = GetByUserID(a.Key);
+			if (getConn != null)
+			{
+				admins.Add(getConn);
+			}
+		}
+
+		return admins;
 	}
 
 	[Server]
@@ -195,8 +246,48 @@ public partial class PlayerList
 			return false;
 		}
 
+		//whitelist checking:
 
-		var banEntry = banList.CheckForEntry(userid, playerConn.Connection.address);
+
+		var lines = File.ReadAllLines(whiteListPath);
+
+		//Adds server to admin list if not already in it.
+
+		if (userid == ServerData.UserID && !adminUsers.Contains(userid))
+		{
+			File.AppendAllLines(adminsPath, new string[]
+			{
+			"\r\n" + userid
+			});
+
+			adminUsers.Add(userid);
+			var user = GetByUserID(userid);
+
+			if (user == null) return false;
+
+			var newToken = System.Guid.NewGuid().ToString();
+			if (!loggedInAdmins.ContainsKey(userid))
+			{
+				loggedInAdmins.Add(userid, newToken);
+				AdminEnableMessage.Send(user.Connection, newToken);
+			}
+		}
+
+		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
+		//Whitelist only activates if whitelist is populated.
+
+		if (lines.Length > 0 && !adminUsers.Contains(userid) && !whiteListUsers.Contains(userid) )
+		{
+			StartCoroutine(KickPlayer(playerConn, $"Server Error: This account is not whitelisted."));
+
+			Logger.Log($"{playerConn.Username} tried to log in but the account is not whitelisted. " +
+						   $"IP: {playerConn.Connection.address}", Category.Admin);
+			return false;
+		}
+
+
+		//banlist checking:
+		var banEntry = banList?.CheckForEntry(userid, playerConn.Connection.address);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
@@ -237,7 +328,7 @@ public partial class PlayerList
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
 				loggedInAdmins.Add(userid, newToken);
-				AdminEnableMessage.Send(playerConn.GameObject, newToken);
+				AdminEnableMessage.Send(playerConn.Connection, newToken);
 			}
 		}
 	}
@@ -286,7 +377,7 @@ public partial class PlayerList
 		if (!loggedInAdmins.ContainsKey(userToPromote))
 		{
 			loggedInAdmins.Add(userToPromote, newToken);
-			AdminEnableMessage.Send(user.GameObject, newToken);
+			AdminEnableMessage.Send(user.Connection, newToken);
 		}
 	}
 
@@ -390,7 +481,6 @@ public class BanList
 		return banEntries[index];
 	}
 }
-
 [Serializable]
 public class BanEntry
 {

@@ -1,5 +1,6 @@
 using UnityEngine;
 using Antagonists;
+using System.Collections.Generic;
 
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
 public class Traitor : GameMode
@@ -35,8 +36,20 @@ public class Traitor : GameMode
 
 	// }
 
+	private List<JobType> LoyalImplanted = new List<JobType> 
+	{
+		JobType.CAPTAIN,
+		JobType.HOP,
+		JobType.HOS,
+		JobType.WARDEN,
+		JobType.SECURITY_OFFICER,
+		JobType.DETECTIVE,
+	};
+
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		return AntagManager.Instance.AntagCount == 0 && PlayerList.Instance.InGamePlayers.Count > 0;
+		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
+				&& AntagManager.Instance.AntagCount == 0 
+				&& PlayerList.Instance.InGamePlayers.Count > 0;
 	}
 }

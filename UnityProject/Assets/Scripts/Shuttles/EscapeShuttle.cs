@@ -48,6 +48,12 @@ public class EscapeShuttle : NetworkBehaviour
 			CentcomDest = new Destination { Orientation = Orientation.Right, Position = new Vector2(150, 6), ApproachReversed = false };
 			StationDest = new Destination { Orientation = Orientation.Right, Position = new Vector2(49, 6), ApproachReversed = true };
 		}
+
+		centComm = GameManager.Instance.GetComponent<CentComm>();
+
+		AlertLevelInitialTimerSeconds = InitialTimerSeconds;
+		AlertLevelTooLateToRecallSeconds = TooLateToRecallSeconds;
+
 	}
 
 	public bool OrientationLeft;
@@ -146,6 +152,11 @@ public class EscapeShuttle : NetworkBehaviour
 	/// Thrusters are removed from this when destroyed
 	/// </summary>
 	private List<ShipThruster> thrusters = new List<ShipThruster>();
+
+	private CentComm centComm;
+
+	private int AlertLevelInitialTimerSeconds;
+	private int AlertLevelTooLateToRecallSeconds;
 
 	private void Awake()
 	{
@@ -314,6 +325,32 @@ public class EscapeShuttle : NetworkBehaviour
 			callResult = "Can't call shuttle: not docked at Centcom!";
 			return false;
 		}
+
+		var Alert = centComm.CurrentAlertLevel;
+
+		//Changes EscapeShuttle time depending on Alert Level
+
+		if (Alert == CentComm.AlertLevel.Green)
+		{
+			InitialTimerSeconds = AlertLevelInitialTimerSeconds * 2;
+			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds * 2;
+		}
+		else if (Alert == CentComm.AlertLevel.Blue)
+        {
+			InitialTimerSeconds = AlertLevelInitialTimerSeconds;
+			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds;
+		}
+		else if (Alert == CentComm.AlertLevel.Red || Alert == CentComm.AlertLevel.Delta)
+		{
+			InitialTimerSeconds = AlertLevelInitialTimerSeconds / 2;
+			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds / 2;
+		}
+        else
+        {
+			InitialTimerSeconds = AlertLevelInitialTimerSeconds;
+			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds;
+		}
+
 
 		//don't change InitialTimerSeconds if they weren't passed over
 		if ( seconds > 0 )

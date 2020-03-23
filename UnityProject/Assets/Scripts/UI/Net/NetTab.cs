@@ -21,6 +21,7 @@ public enum NetTabType {
 	IdConsole = 12,
 	Rename = 13,
 	NullRod = 14,
+	SeedExtractor = 15
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab

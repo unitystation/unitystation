@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,7 +29,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[FormerlySerializedAs("AmmoType")] public AmmoType ammoType;
 
 	//server-side object indicating the player holding the weapon (null if none)
-	private GameObject serverHolder;
+	protected GameObject serverHolder;
 
 
 	/// <summary>
@@ -154,6 +155,16 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 
 		queuedShots = new Queue<QueuedShot>();
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -289,7 +300,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	//nothing to rollback
 	public void ServerRollbackClient(AimApply interaction) { }
 
-	public void ServerPerformInteraction(AimApply interaction)
+	public virtual void ServerPerformInteraction(AimApply interaction)
 	{
 		//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 		//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
@@ -350,7 +361,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	#region Weapon Firing Mechanism
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//don't process if we are server and the gun is not held by anyone
 		if (isServer && serverHolder == null) return;
@@ -605,7 +616,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			b.Shoot(finalDirection, shooter, this, damageZone);
 		}
-		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
 		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 
@@ -693,12 +704,12 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void OutOfAmmoSFX()
 	{
-		SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position);
+		SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
 	}
 
 	private void PlayEmptySFX()
 	{
-		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position);
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
 	}
 
 	#endregion
@@ -782,9 +793,9 @@ public enum WeaponType
 			DrawDefaultInspector(); // for other non-HideInInspector fields
 
 			Gun script = (Gun)target;
-		
+
 			script.MagInternal = EditorGUILayout.Toggle("Magazine Internal", script.MagInternal);
-		
+
 			if (script.MagInternal) // show exclusive fields depending on whether magazine is internal
 			{
 				script.MagSize = EditorGUILayout.IntField("Internal Magazine Size", script.MagSize);

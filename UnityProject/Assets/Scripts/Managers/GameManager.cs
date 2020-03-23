@@ -62,6 +62,9 @@ public partial class GameManager : MonoBehaviour
 	private bool isProcessingSpaceBody = false;
 	public float minDistanceBetweenSpaceBodies;
 
+	private List<Vector3> EscapeShuttlePath = new List<Vector3>();
+	private bool EscapeShuttlePathGenerated = false;
+
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
 	//---------------------------------
@@ -135,15 +138,48 @@ public partial class GameManager : MonoBehaviour
 		{
 			minDistanceBetweenSpaceBodies = 200f;
 		}
+
+		//Fills list of Vectors all along shuttle path
+		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
+		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
+		
+
+		var distance = (int)Vector2.Distance(beginning, target);
+
+		if (!EscapeShuttlePathGenerated)//Only generated once
+		{
+			EscapeShuttlePath.Add(beginning);//Adds original vector
+			for (int i = 0; i < (distance/50); i++)
+			{
+				beginning = Vector2.MoveTowards(beginning, target, 50);//Vector 50 distance apart from prev vector
+				EscapeShuttlePath.Add(beginning);
+			}
+			EscapeShuttlePathGenerated = true;
+		}
+
+
 		bool validPos = false;
 		while (!validPos)
 		{
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
+
 			bool failedChecks =
 				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
 				minDistanceBetweenSpaceBodies;
+
 			//Make sure it is away from the middle of space matrix
 
+
+			//Checks whether position is near (100 distance) any of the shuttle path vectors
+			foreach (var vectors in EscapeShuttlePath)
+			{
+				if (Vector3.Distance(proposedPosition, vectors) < 100)
+				{
+					failedChecks = true;
+				}
+			}
+
+			//Checks whether the other spacebodies are near
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
 				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) < minDistanceBetweenSpaceBodies)
@@ -151,6 +187,7 @@ public partial class GameManager : MonoBehaviour
 					failedChecks = true;
 				}
 			}
+
 			if (!failedChecks)
 			{
 				validPos = true;
@@ -213,7 +250,7 @@ public partial class GameManager : MonoBehaviour
 
 	public void ResetRoundTime()
 	{
-		stationTime = DateTime.Today.AddHours(12);
+		stationTime = new DateTime().AddHours(12);
 		counting = true;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
@@ -228,6 +265,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
 		{
+			InitEscapeShuttle();
 			isProcessingSpaceBody = true;
 			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
 		}
@@ -317,7 +355,7 @@ public partial class GameManager : MonoBehaviour
 			// TODO make job selection stuff
 
 			// Standard round start setup
-			stationTime = DateTime.Today.AddHours(12);
+			stationTime = new DateTime().AddHours(12);
 			counting = true;
 			RespawnCurrentlyAllowed = GameMode.CanRespawn;
 			StartCoroutine(WaitToInitEscape());

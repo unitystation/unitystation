@@ -33,6 +33,11 @@ public partial class GameManager
 	public bool SecretGameMode = true;
 
 	/// <summary>
+	/// Array of jobs from a randomized department. Used for Rebels gamemode (ex Cargonia)
+	/// </summary>
+	public List<JobType> Rebels;
+
+	/// <summary>
 	/// The state of the current round
 	/// </summary>
 	public RoundState CurrentRoundState

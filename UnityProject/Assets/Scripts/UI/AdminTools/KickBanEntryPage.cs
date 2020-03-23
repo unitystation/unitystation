@@ -6,15 +6,15 @@ namespace AdminTools
 {
 	public class KickBanEntryPage : MonoBehaviour
 	{
-		[SerializeField] private GameObject kickPage;
-		[SerializeField] private GameObject banPage;
+		[SerializeField] private GameObject kickPage = null;
+		[SerializeField] private GameObject banPage = null;
 
-		[SerializeField] private Text kickTitle;
-		[SerializeField] private InputField kickReasonField;
+		[SerializeField] private Text kickTitle = null;
+		[SerializeField] private InputField kickReasonField = null;
 
-		[SerializeField] private Text banTitle;
-		[SerializeField] private InputField banReasonField;
-		[SerializeField] private InputField minutesField;
+		[SerializeField] private Text banTitle = null;
+		[SerializeField] private InputField banReasonField = null;
+		[SerializeField] private InputField minutesField = null;
 
 		private AdminPlayerEntryData playerToKickCache;
 

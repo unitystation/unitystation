@@ -87,6 +87,9 @@ public class MouseDraggable : MonoBehaviour
 
 	private void OnDragEnd()
 	{
+		// Get the world position of the shadow object before destroying it.
+		var shadowLoc = shadowObject.transform.position;
+
 		UIManager.IsMouseInteractionDisabled = false;
 		Destroy(shadowObject);
 		shadowObject = null;
@@ -104,6 +107,8 @@ public class MouseDraggable : MonoBehaviour
 		foreach (GameObject dropTarget in dropTargets)
 		{
 			MouseDrop info = MouseDrop.ByLocalPlayer( gameObject, dropTarget.gameObject);
+			info.ShadowWorldLocation = shadowLoc;
+			//info.
 			//call this object's mousedrop interaction methods if it has any, for each object we are dropping on
 			if (InteractionUtils.ClientCheckAndTrigger(mouseDrops, info) != null) return;
 			var targetComps = dropTarget.GetComponents<IBaseInteractable<MouseDrop>>()

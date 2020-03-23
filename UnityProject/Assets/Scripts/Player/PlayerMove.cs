@@ -72,7 +72,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 
 	[SerializeField]
-	private ActionData actionData;
+	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	/// <summary>

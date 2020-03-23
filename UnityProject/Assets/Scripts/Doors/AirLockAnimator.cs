@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,7 +30,7 @@ using UnityEditor;
 				return;
 			}
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition("AccessDenied", transform.position);
+			SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)
@@ -49,6 +49,19 @@ using UnityEditor;
 					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorDeniedSpriteOffset, animSize, true, false, true));
 				}
 			}
+		}
+
+		public override void PressureWarn(bool skipAnimation)
+		{
+			if (skipAnimation)
+			{
+				//do nothing
+				return;
+			}
+
+			doorController.isPerformingAction = true;
+			SoundManager.PlayAtPosition("TripleBeep", transform.position, gameObject, polyphonic: true, isGlobal: true);
+			StartCoroutine(PlayPressureWarnAnim());
 		}
 
 		public override void OpenDoor(bool skipAnimation)
@@ -226,6 +239,36 @@ using UnityEditor;
 				yield return WaitFor.Seconds(0.05f);
 			}
 			overlay_Lights.sprite = null;
+			doorController.isPerformingAction = false;
+		}
+
+		/// <summary>
+        /// Flashes the door's emergency access (yellow) lights several times,
+        /// or the door bolts, depending on the pressure difference over the door.
+        /// Sprite offset varies depending on door type - set in each door prefab.
+        /// </summary>
+        /// <returns></returns>
+		private IEnumerator PlayPressureWarnAnim()
+		{
+			int flashCount = 3;
+
+			// Choose emergency lights sprite, overwrite with door bolt lights if
+			// pressureLevel is Warning and not Caution.
+			int spriteOffset = doorController.DoorPressureSpriteOffset;
+			if (doorController.pressureLevel == DoorController.PressureLevel.Warning)
+			{
+				spriteOffset = doorController.DoorDeniedSpriteOffset;
+			}
+			var sprite = overlayLights[spriteOffset];
+
+			for (int i = 0; i < flashCount; i++)
+			{
+				overlay_Lights.sprite = sprite;
+				yield return WaitFor.Seconds(0.1f);
+				overlay_Lights.sprite = null;
+				yield return WaitFor.Seconds(0.1f);
+			}
+
 			doorController.isPerformingAction = false;
 		}
 

@@ -8,12 +8,14 @@ namespace AdminTools
 {
 	public class AdminPlayerEntry : MonoBehaviour
 	{
-		private GUI_AdminTools adminTools;
-
-		[SerializeField] private Text displayName;
-		[SerializeField] private Image bg;
-		[SerializeField] private GameObject msgPendingNot;
-		[SerializeField] private Text msgPendingCount;
+		private Action<AdminPlayerEntry> OnClickEvent;
+		[SerializeField] private Text displayName = null;
+		[SerializeField] private Image bg = null;
+		//The notification counter on the button
+		public GUI_Notification pendingMsgNotification = null;
+		/// The reference to the notification counter on the admin chat button (the master one)
+		private GUI_Notification parentNotification = null;
+		[SerializeField] private GameObject offlineNot = null;
 		public Button button;
 
 		public Color selectedColor;
@@ -21,24 +23,14 @@ namespace AdminTools
 		public Color antagTextColor;
 
 		public AdminPlayerEntryData PlayerData { get; set; }
-		private List<AdminChatMessage> pendingMessages = new List<AdminChatMessage>();
 
-		public void UpdateButton(AdminPlayerEntryData playerEntryData, GUI_AdminTools adminTools)
+		public void UpdateButton(AdminPlayerEntryData playerEntryData, Action<AdminPlayerEntry> onClickEvent, GUI_Notification masterNotification = null,
+			bool disableInteract = false)
 		{
-			pendingMessages.AddRange(playerEntryData.newMessages);
-			this.adminTools = adminTools;
+			parentNotification = masterNotification;
+			OnClickEvent = onClickEvent;
 			PlayerData = playerEntryData;
 			displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress}";
-
-			if (PlayerData.newMessages.Count > 0)
-			{
-				msgPendingNot.SetActive(true);
-				msgPendingCount.text = PlayerData.newMessages.Count.ToString();
-			}
-			else
-			{
-				msgPendingNot.SetActive(false);
-			}
 
 			if (PlayerData.isAntag)
 			{
@@ -58,34 +50,62 @@ namespace AdminTools
 				displayName.fontStyle = FontStyle.Normal;
 			}
 
-			if (adminTools.SelectedPlayer == playerEntryData.uid)
+			if (PlayerData.isOnline)
 			{
-				adminTools.AddPendingMessagesToLogs(playerEntryData.uid, GetPendingMessage());
+				offlineNot.SetActive(false);
 			}
+			else
+			{
+				offlineNot.SetActive(true);
+			}
+
+			if (disableInteract)
+			{
+				button.interactable = false;
+				bg.color = selectedColor;
+			}
+			else
+			{
+				button.interactable = true;
+			}
+
+			RefreshNotification();
 		}
 
-		public List<AdminChatMessage> GetPendingMessage()
+		public void RefreshNotification()
 		{
-			var list = new List<AdminChatMessage>(pendingMessages);
-			pendingMessages.Clear();
-			ClearMessageNot();
-			return list;
+			if (parentNotification == null) return;
+
+			if (parentNotification.notifications.ContainsKey(PlayerData.uid))
+			{
+				pendingMsgNotification.ClearAll();
+				pendingMsgNotification.AddNotification(PlayerData.uid,
+					parentNotification.notifications[PlayerData.uid]);
+			}
+			else
+			{
+				pendingMsgNotification.ClearAll();
+			}
 		}
 
 		public void OnClick()
 		{
-			adminTools.SelectPlayerInList(this);
+			if (OnClickEvent != null)
+			{
+				OnClickEvent.Invoke(this);
+			}
 		}
 
 		public void ClearMessageNot()
 		{
-			msgPendingCount.text = "0";
-			msgPendingNot.SetActive(false);
+			if(parentNotification != null) parentNotification.RemoveNotification(PlayerData.uid);
+			pendingMsgNotification.ClearAll();
 		}
 
 		public void SelectPlayer()
 		{
 			bg.color = selectedColor;
+			ClearMessageNot();
 		}
 
 		public void DeselectPlayer()

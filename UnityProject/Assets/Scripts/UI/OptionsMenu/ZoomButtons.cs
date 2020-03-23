@@ -8,7 +8,7 @@ namespace Unitystation.Options
     public class ZoomButtons : MonoBehaviour
     {
         [SerializeField]
-        private GameObject panel;
+        private GameObject panel = null;
         private CameraZoomHandler camZoomHandler;
         private CameraZoomHandler CamZoomHandler
         {

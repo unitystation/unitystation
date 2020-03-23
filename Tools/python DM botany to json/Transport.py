@@ -7,7 +7,7 @@ import shutil #Requires shutil
 import simplejson
 from decimal import Decimal
 
-Text_buffer_global = ['List_of_plants = []\n']
+Text_buffer_global = ['List_of_plants = []\nList_of_produce = []\n']
 Inherent = {}
 
 Inheritance_Dictionary = {}
@@ -39,7 +39,7 @@ def woek_lichgons(f):
         elif not p:
             
             if burer:
-                #print("BDBDDB    ", burer)
+                print("\n\n", burer)
                 burer_piopes(burer)
                 
                 burer = []
@@ -192,12 +192,20 @@ def burer_piopes(burer):
             Chemical_content = Chemical_content.replace('list','')
             Chemical_content = Chemical_content.replace(')','}')
             Chemical_content = Chemical_content.replace('(','{')
-            Chemical_content = Chemical_content.replace('=',':')
+            Chemical_content = Chemical_content.replace('=','\':')
+
+            Chemical_content = Chemical_content.replace('/datum/reagent/medicine/','\'')
+            Chemical_content = Chemical_content.replace('/datum/reagent/drug/','\'')
+            Chemical_content = Chemical_content.replace('/datum/reagent/consumable/nutriment/','\'')
+            Chemical_content = Chemical_content.replace('/datum/reagent/consumable/','\'')
+            Chemical_content = Chemical_content.replace('/datum/reagent/','\'')
+
             
             Chemical_content = Chemical_content.replace(':@','=')
             Chemical_content = Chemical_content.replace('@','=')
             Chemical_content = Chemical_content.replace('={','= {')
-            Chemical_content = Chemical_content.replace(' : ',':')
+            Chemical_content = Chemical_content.replace(' : ','\':')
+            Chemical_content = Chemical_content.replace(' \'','\'')
             
         elif 'species' in line:
             species = line
@@ -449,25 +457,120 @@ def burer_piopes(burer):
     Text_buffer_global.append(full)
     print(full)
 
+def read_produce(f):
+    burer = []
+    for i, l in enumerate(f):
+
+        p = l.replace('\n','')
+        p = p.replace('\t','')
+        #print(p)
+        if '/obj/item/reagent_containers' in p and not 'list(' in p and not '=' in p and not ',' in p and not ')' in p: 
+            burer = [p]
+        
+        elif not p:
+            
+            if burer:
+                print("\n\n", burer)
+                create_produce(burer)
+                
+                burer = []
+        elif burer:
+            burer.append(p)
+
+def create_produce(burer):
+    global Text_buffer_global
+    global hierarchy
+    global Inherent
+    
+    Inheritance = False
+    Inheritance_default = {}
+    topline = ''
+    TL_naem = ''
+    
+    name = ''
+    pretty_name = ''
+    description = ''
+    
+    #print(burer)
+    for line in burer:
+        #print(line)
+        line = line.split('//')[0]
+        if not 'desc' in line:
+            line = line.replace('"',"'")
+
+        #print(line)
+        if '/obj/item/reagent_containers/' in line and not 'list(' in line and not '=' in line and not ',' in line and not ')' in line:
+            name = line
+            name = name.replace("/obj/item/reagent_containers/food/snacks/grown/",'')
+            topline = name
+            name = name.replace("/",'_')
+            name = name.replace("seed = ",'')
+            
+            name = 'name = ' + "'" + name + "'"
+        elif 'name'  in line:
+            pretty_name = line
+        elif 'desc'  in line:
+            description = line
+            
+        
+            
+        
+      
+    if name:
+        class_name = name.replace("'",' ')
+        class_name = class_name.replace("name = ",'')
+        class_name = class_name.replace(":",'')
+        class_name = class_name.replace("\ ",'')
+        class_name = class_name.replace('(','')
+        class_name = class_name.replace(')','')
+        class_name = class_name.replace('-','_')
+        class_name = class_name.replace('_ ','')
+        class_name = class_name.replace(' ','')
+
+        class_name = 'class ' + class_name +'():\n'
+        full = class_name
+
+    if name:
+        name = '\t'+name+'\n'
+        full = full + name
+    if pretty_name:
+        pretty_name = pretty_name.replace('name','pretty_name')
+        pretty_name = '\t'+pretty_name+'\n'
+        full = full + pretty_name
+    if description:
+        description = '\t'+description+'\n'
+        full = full + description
+        
+
+##    name = ''
+
+    full = full + '\n' + 'List_of_produce.append(' + class_name.replace('():\n','').replace('class ','') + ')' + '\n'
+    Text_buffer_global.append(full)
+    print(full)
+
 
 
 print("List_of_plants = []")
 for root, dirs, files in os.walk("plants"):
     
+    #for name in files:
+    #    if ".dm" in name:
+    #        
+    #        f = open("plants/"+  name,"r+")
+    #        #create plants for file
+    #        woek_lichgons(f)
+    #        
+    #
+    #        f.close()
     for name in files:
         if ".dm" in name:
-            
             f = open("plants/"+  name,"r+")
-            #print(Filenametxt)
-            woek_lichgons(f)
-            
+            read_produce(f)
             f.close()
-            #Filenamepy = Quic[b] + '.py'
-            #PY_File = open(Filenamepy,'w+')
-            #PY_File.writelines(Text_buffer_global)
-            #PY_File.close()
-            #Text_buffer_global = ['List_of_designs = []\n']
 
-
+Filenamepy = 'produce.py'
+PY_File = open(Filenamepy,'w+')
+PY_File.writelines(Text_buffer_global)
+PY_File.close()
 
 

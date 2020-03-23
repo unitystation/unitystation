@@ -35,7 +35,8 @@ public class RequestInteractMessage : ClientMessage
 	public Vector2 TargetVector;
 	//state of the mouse - whether this is initial press or being held down.
 	public MouseButtonState MouseButtonState;
-
+	//whether or not the player had the alt key pressed when performing the interaction.
+	public bool IsAltUsed;
 	//these are all used when it's an InventoryApply to denote the target slot
 	//netid of targeted storage
 	public uint Storage;
@@ -124,7 +125,7 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(TargetObject, ProcessorObject);
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent);
+			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent, IsAltUsed);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(AimApply))
@@ -185,7 +186,7 @@ public class RequestInteractMessage : ClientMessage
 			{
 				fromSlot = usedObj.GetComponent<Pickupable>().ItemSlot;
 			}
-			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent);
+			var interaction = InventoryApply.ByClient(performer, targetSlot, fromSlot, Intent, IsAltUsed);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(TileApply))
@@ -196,10 +197,16 @@ public class RequestInteractMessage : ClientMessage
 			yield return WaitFor(ProcessorObject);
 			var processorObj = NetworkObject;
 			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
-				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent);
+				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent, TileApply.ApplyType.HandApply);
 		}
-
-
+		else if(InteractionType == typeof(TileMouseDrop))
+		{
+			yield return WaitFor(UsedObject, ProcessorObject);
+			var usedObj = NetworkObjects[0];
+			var processorObj = NetworkObjects[1];
+			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
+				SentByPlayer.GameObject, TargetVector, processorObj, null, usedObj, Intent, TileApply.ApplyType.MouseDrop);
+		}
 	}
 
 	private void ProcessInteraction<T>(T interaction, GameObject processorObj)
@@ -304,6 +311,7 @@ public class RequestInteractMessage : ClientMessage
 			var casted = interaction as HandApply;
 			msg.TargetObject = casted.TargetObject.NetId();
 			msg.TargetBodyPart = casted.TargetBodyPart;
+			msg.IsAltUsed = casted.IsAltClick;
 		}
 		else if (typeof(T) == typeof(AimApply))
 		{
@@ -324,6 +332,7 @@ public class RequestInteractMessage : ClientMessage
 			msg.SlotIndex = casted.TargetSlot.SlotIdentifier.SlotIndex;
 			msg.NamedSlot = casted.TargetSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.none);
 			msg.UsedObject = casted.UsedObject.NetId();
+			msg.IsAltUsed = casted.IsAltClick;
 		}
 		msg.Send();
 	}
@@ -358,6 +367,29 @@ public class RequestInteractMessage : ClientMessage
 		msg.Send();
 	}
 
+	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles, int tileInteractionIndex)
+	{
+		if (!mouseDrop.Performer.Equals(PlayerManager.LocalPlayer))
+		{
+			Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
+							" This is not allowed. Client can only perform an interaction as themselves. Message" +
+							" will not be sent.", Category.NetMessage);
+			return;
+		}
+
+		var msg = new RequestInteractMessage()
+		{
+			ComponentType = typeof(InteractableTiles),
+			InteractionType = typeof(TileMouseDrop),
+			ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
+			Intent = mouseDrop.Intent,
+			UsedObject = mouseDrop.UsedObject.NetId(),
+			TargetVector = mouseDrop.TargetVector,
+			TileInteractionIndex = tileInteractionIndex
+		};
+		msg.Send();
+	}
+
 	public override void Deserialize(NetworkReader reader)
 	{
 
@@ -377,6 +409,7 @@ public class RequestInteractMessage : ClientMessage
 		{
 			TargetObject = reader.ReadUInt32();
 			TargetBodyPart = (BodyPartType) reader.ReadUInt32();
+			IsAltUsed = reader.ReadBoolean();
 		}
 		else if (InteractionType == typeof(AimApply))
 		{
@@ -394,9 +427,16 @@ public class RequestInteractMessage : ClientMessage
 			Storage = reader.ReadUInt32();
 			SlotIndex = reader.ReadInt32();
 			NamedSlot = (NamedSlot) reader.ReadInt32();
+			IsAltUsed = reader.ReadBoolean();
 		}
 		else if (InteractionType == typeof(TileApply))
 		{
+			TargetVector = reader.ReadVector2();
+			TileInteractionIndex = reader.ReadByte();
+		}
+		else if(InteractionType == typeof(TileMouseDrop))
+		{
+			UsedObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
 			TileInteractionIndex = reader.ReadByte();
 		}
@@ -420,6 +460,7 @@ public class RequestInteractMessage : ClientMessage
 		{
 			writer.WriteUInt32(TargetObject);
 			writer.WriteInt32((int) TargetBodyPart);
+			writer.WriteBoolean(IsAltUsed);
 		}
 		else if (InteractionType == typeof(AimApply))
 		{
@@ -437,11 +478,18 @@ public class RequestInteractMessage : ClientMessage
 			writer.WriteUInt32(Storage);
 			writer.WriteInt32(SlotIndex);
 			writer.WriteInt32((int) NamedSlot);
+			writer.WriteBoolean(IsAltUsed);
 		}
 		else if (InteractionType == typeof(TileApply))
 		{
 			writer.WriteVector2(TargetVector);
 			writer.WriteByte((byte) TileInteractionIndex);
+		}
+		else if(InteractionType == typeof(TileMouseDrop))
+		{
+			writer.WriteUInt32(UsedObject);
+			writer.WriteVector2(TargetVector);
+			writer.WriteByte((byte)TileInteractionIndex);
 		}
 	}
 

@@ -12,13 +12,13 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	[SerializeField]
 	private List<Sprite> handCuffOverlays = new List<Sprite>();
 
-	[SerializeField] private SpriteRenderer spriteRend;
+	[SerializeField] private SpriteRenderer spriteRend = null;
 	private CancellationTokenSource cancelSource;
 	private float healthCache;
 	private Vector3Int positionCache;
 
 	[SerializeField]
-	private ActionData actionData;
+	private ActionData actionData = null;
 
 	public ActionData ActionData => actionData;
 
@@ -96,7 +96,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 				Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 					thisPlayerScript.playerName + " has removed their cuffs");
 
-				SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition);
+				SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
 			}
 			yield return WaitFor.EndOfFrame;
 		}
@@ -105,7 +105,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	bool CanUncuff()
 	{
 		PlayerHealth playerHealth = thisPlayerScript.playerHealth;
-		
+
 		if (playerHealth == null ||
 			playerHealth.ConsciousState == ConsciousState.DEAD ||
 			playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||

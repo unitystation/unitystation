@@ -47,15 +47,22 @@ PrefabInstance:
       propertyPath: MagSize
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 1932369758612010, guid: 1508ddac0ee0e46d5b6ec0f94ffb4179,
+        type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialName
-      value: Sawnoff shotgun
+      value: sawn-off shotgun
       objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialDescription
-      value: 
+      value: A sawn-off shotgun that holds five shells in its internal magazine. Fires
+        less-lethal beanbag rounds that knock people over.
       objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -125,6 +132,11 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 530173ab2806149429b276e6407a1775, type: 3}
+    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: willHighlight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Sprite

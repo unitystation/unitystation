@@ -15,20 +15,21 @@ namespace Antagonists
 		{
 		}
 
-		/// <summary>
-		/// Check if the nuke target was detonated
-		/// </summary>
 		protected override bool CheckCompletion()
 		{
+			int playersFound = 0;
 			foreach (Transform t in GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo.Objects.transform)
 			{
 				var player = t.GetComponent<PlayerScript>();
 				if (player != null)
 				{
+					playersFound++;
 					var playerDetails = PlayerList.Instance.Get(player.gameObject);
-					if (playerDetails.Job != JobType.CARGOTECH)
+					if (playerDetails.Job != JobType.CARGOTECH && playerDetails.Job != JobType.MINER
+					                                           && playerDetails.Job != JobType.QUARTERMASTER)
 					{
-						if (playerDetails.Script.playerHealth != null && !playerDetails.Script.playerHealth.IsDead)
+						if(playerDetails.Script == null || playerDetails.Script.playerHealth == null) continue;
+						if (!playerDetails.Script.playerHealth.IsDead)
 						{
 							return false;
 						}
@@ -36,7 +37,12 @@ namespace Antagonists
 				}
 			}
 
-			return true;
+			if (playersFound != 0)
+			{
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

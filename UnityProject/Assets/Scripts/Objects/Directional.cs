@@ -42,6 +42,9 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	         "matrix rotation to match the matrix rotation that occurred. If false," +
 	         " direction will not be changed regardless of matrix rotation.")]
 	public bool ChangeDirectionWithMatrix = true;
+	[Tooltip("If true this component will ignore all SyncVar updates. Useful if you just want to use" +
+	         "this component for easy direction changing at edit time")]
+	public bool DisableSyncing = false;
 
 	/// <summary>
 	/// Whether this component is on the local player object, which has special handling because the local
@@ -97,7 +100,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	public Orientation CurrentDirection =>
 		(isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection);
 
-	void OnDrawGizmos ()
+	void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
 
@@ -119,6 +122,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 
     public override void OnStartClient()
     {
+	    if (DisableSyncing) return;
 	    SyncServerDirection(serverDirection, serverDirection);
 	    ForceClientDirectionFromServer();
     }
@@ -214,6 +218,8 @@ public class Directional : NetworkBehaviour, IMatrixRotation
     //syncvar hook invoked when server sends a client the new direction for this object
     private void SyncServerDirection(Orientation oldDir, Orientation dir)
     {
+	    if (DisableSyncing) return;
+	    
 	    serverDirection = dir;
 	    //we only change our direction if we're not local player (local player is always predictive)
 	    //and not explicitly ignoring server updates.

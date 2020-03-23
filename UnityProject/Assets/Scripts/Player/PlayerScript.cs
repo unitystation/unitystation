@@ -52,6 +52,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 
 	public HitIcon hitIcon { get; set; }
 
+	public ChatIcon chatIcon { get; private set;}
+
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
 	/// <summary>
@@ -140,6 +142,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
 		hitIcon = GetComponentInChildren<HitIcon>(true);
+		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
 		playerDirectional = GetComponent<Directional>();
 		ItemStorage = GetComponent<ItemStorage>();

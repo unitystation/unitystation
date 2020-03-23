@@ -134,8 +134,8 @@ public class MouseInputController : MonoBehaviour
 				return;
 			}
 
-            //check alt click and throw, which doesn't have any special logic
-            if (CheckAltClick()) return;
+            //check alt click and throw, which doesn't have any special logic. For alt clicks, continue normally.
+            CheckAltClick();
 			if (CheckThrow()) return;
 
 			if (loadedGun != null)

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text visibleText;
-	[SerializeField] private GameObject adminOverlay;
-	[SerializeField] private Shadow shadow;
-	[SerializeField] private RectTransform rectTransform;
-	[SerializeField] private ContentSizeFitter contentFitter;
-	[SerializeField] private LayoutElement layoutElement;
+	[SerializeField] private Text visibleText = null;
+	[SerializeField] private GameObject adminOverlay = null;
+	[SerializeField] private Shadow shadow = null;
+	[SerializeField] private RectTransform rectTransform = null;
+	[SerializeField] private ContentSizeFitter contentFitter = null;
+	[SerializeField] private LayoutElement layoutElement = null;
 	[SerializeField] private List<Text> allText = new List<Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
 	[SerializeField] private List<Button> allButtons = new List<Button>();
@@ -105,17 +105,6 @@ public class ChatEntry : MonoBehaviour
 		StartCoroutine(UpdateMinHeight());
 	}
 
-	public void SetAdminPrivateMsg(string msg, string adminID)
-	{
-		adminId = adminID;
-		isAdminMsg = true;
-		SetText(msg);
-		visibleText.text += "\r\n    \r\n   ";
-		adminOverlay.SetActive(true);
-		shadow.enabled = false;
-		StartCoroutine(UpdateMinHeight());
-	}
-
 	IEnumerator UpdateMinHeight()
 	{
 		contentFitter.enabled = true;
@@ -123,11 +112,6 @@ public class ChatEntry : MonoBehaviour
 		layoutElement.minHeight = rectTransform.rect.height / 2;
 		yield return WaitFor.EndOfFrame;
 		contentFitter.enabled = false;
-	}
-
-	public void ReplyToAdminMessage()
-	{
-		ChatUI.Instance.OpenAdminReply(visibleText.text, adminId);
 	}
 
 	public void OnChatFocused()
@@ -170,7 +154,6 @@ public class ChatEntry : MonoBehaviour
 		}
 
 		waitToCheck = null;
-
 	}
 
 	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)
