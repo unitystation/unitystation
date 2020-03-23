@@ -38,6 +38,7 @@ public class StatueAI : MobAI
 		playersLayer = LayerMask.NameToLayer("Players");
 		mobAttack = GetComponent<MobMeleeAttack>();
 		coneOfSight = GetComponent<ConeOfSight>();
+		PlaySound();
 	}
 
 	//AI is now active on the server
@@ -177,17 +178,6 @@ public class StatueAI : MobAI
 			return;
 		}
 
-		if (!IsDead && !IsUnconscious && GenericSound != null)
-		{
-			var num = Random.Range(1, 400);
-
-			if (num == 1)
-			{
-				SoundManager.PlayNetworkedAtPos(GenericSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-			}
-
-		}
-
 		if (status == StatueStatus.Searching)
 		{
 			moveWaitTime += Time.deltaTime;
@@ -217,6 +207,19 @@ public class StatueAI : MobAI
 		{
 			MonitorIdleness();
 		}
+	}
+
+	void PlaySound()
+	{
+		if (!IsDead && !IsUnconscious && GenericSound != null)
+		{
+			var num = Random.Range(1, 5);
+			if (num == 1)
+			{
+				SoundManager.PlayNetworkedAtPos(GenericSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+			}
+			Invoke("PlaySound", 2f);
+		}		
 	}
 
 	//Determine if mob has become idle:

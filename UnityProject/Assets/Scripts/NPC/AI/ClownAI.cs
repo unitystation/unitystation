@@ -37,6 +37,7 @@ public class ClownAI : MobAI
 		playersLayer = LayerMask.NameToLayer("Players");
 		mobAttack = GetComponent<MobMeleeAttack>();
 		coneOfSight = GetComponent<ConeOfSight>();
+		PlaySound();
 	}
 
 	//AI is now active on the server
@@ -176,33 +177,6 @@ public class ClownAI : MobAI
 			return;
 		}
 
-		if (!IsDead && !IsUnconscious)
-		{
-			var num = Random.Range(1, 400);
-
-			if (num == 1)
-			{
-				var num2 = Random.Range(1, 4);
-				if (num2 == 1)
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown1", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				if (num2 == 2)
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown2", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				if (num2 == 3)
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown3", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-				else
-				{
-					SoundManager.PlayNetworkedAtPos("ScaryClown4", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-				}
-			}
-
-		}
-
 		if (status == ClownStatus.Searching)
 		{
 			moveWaitTime += Time.deltaTime;
@@ -231,6 +205,35 @@ public class ClownAI : MobAI
 		if (status == ClownStatus.Attacking || status == ClownStatus.None)
 		{
 			MonitorIdleness();
+		}
+	}
+	void PlaySound()
+	{
+		if (!IsDead && !IsUnconscious)
+		{
+			var num = Random.Range(1, 5);
+
+			if (num == 1)
+			{
+				var num2 = Random.Range(1, 4);
+				if (num2 == 1)
+				{
+					SoundManager.PlayNetworkedAtPos("ScaryClown1", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+				if (num2 == 2)
+				{
+					SoundManager.PlayNetworkedAtPos("ScaryClown2", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+				if (num2 == 3)
+				{
+					SoundManager.PlayNetworkedAtPos("ScaryClown3", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+				else
+				{
+					SoundManager.PlayNetworkedAtPos("ScaryClown4", transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				}
+			}
+			Invoke("PlaySound", 2f);
 		}
 	}
 

@@ -38,6 +38,7 @@ public class GenericAI : MobAI
 		playersLayer = LayerMask.NameToLayer("Players");
 		mobAttack = GetComponent<MobMeleeAttack>();
 		coneOfSight = GetComponent<ConeOfSight>();
+		PlaySound();
 	}
 
 	//AI is now active on the server
@@ -177,17 +178,6 @@ public class GenericAI : MobAI
 			return;
 		}
 
-		if (!IsDead && !IsUnconscious && GenericSound !=null)
-		{
-			var num = Random.Range(1, 400);
-
-			if (num == 1)
-			{
-				SoundManager.PlayNetworkedAtPos(GenericSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-			}
-			
-		}
-
 		if (status == GenericStatus.Searching)
 		{
 			moveWaitTime += Time.deltaTime;
@@ -216,6 +206,18 @@ public class GenericAI : MobAI
 		if (status == GenericStatus.Attacking || status == GenericStatus.None)
 		{
 			MonitorIdleness();
+		}
+	}
+	void PlaySound()
+	{
+		if (!IsDead && !IsUnconscious && GenericSound != null)
+		{
+			var num = Random.Range(1, 5);
+			if (num == 1)
+			{
+				SoundManager.PlayNetworkedAtPos(GenericSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+			}
+			Invoke("PlaySound", 2f);
 		}
 	}
 
