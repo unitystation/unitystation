@@ -18,6 +18,9 @@ public class GenericAI : MobAI
 	private float searchWaitTime = 0f;
 	private LayerMask hitMask;
 	private int playersLayer;
+	public string DeathSound = null;
+	public string GenericSound = null;
+	private bool DeathSoundPlayed = false;
 
 	public enum GenericStatus
 	{
@@ -165,7 +168,24 @@ public class GenericAI : MobAI
 
 		if (IsDead || IsUnconscious)
 		{
+			if (IsDead && !DeathSoundPlayed && DeathSound != null)
+			{
+				DeathSoundPlayed = true;
+				SoundManager.PlayNetworkedAtPos(DeathSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+			}
+
 			return;
+		}
+
+		if (!IsDead && !IsUnconscious && GenericSound !=null)
+		{
+			var num = Random.Range(1, 400);
+
+			if (num == 1)
+			{
+				SoundManager.PlayNetworkedAtPos(GenericSound, transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+			}
+			
 		}
 
 		if (status == GenericStatus.Searching)
@@ -225,6 +245,7 @@ public class GenericAI : MobAI
 	{
 		base.OnDespawnServer(info);
 		dirSprites.SetToBodyLayer();
+		DeathSoundPlayed = false;
 		registerObject.Passable = true;
 	}
 }
