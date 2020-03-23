@@ -81,7 +81,7 @@ public class ObjectLayer : Layer
 	}
 
 	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-									  CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+									  CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null)
 	{
 		//Targeting windoors here
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
@@ -101,7 +101,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		return base.IsPassableAt(origin, to, isServer, collisionType: collisionType, inclPlayers: inclPlayers, context: context);
+		return base.IsPassableAt(origin, to, isServer, collisionType: collisionType, inclPlayers: inclPlayers, context: context, excludeTiles: excludeTiles);
 	}
 
 	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)

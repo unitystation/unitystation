@@ -89,9 +89,9 @@ public class Matrix : MonoBehaviour
 		}
 	}
 
-	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true)
+	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
-		return IsPassableAt(position, position, isServer, includingPlayers: includingPlayers);
+		return IsPassableAt(position, position, isServer, includingPlayers: includingPlayers, excludeLayers: excludeLayers, excludeTiles: excludeTiles);
 	}
 
 	/// <summary>
@@ -109,9 +109,9 @@ public class Matrix : MonoBehaviour
 	/// <param name="includingPlayers">Set this to false to ignore players from check</param>
 	/// <param name="context">Is excluded from passable check</param>
 	/// <returns></returns>
-	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null)
+	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
-		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
+		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType, inclPlayers: includingPlayers, context: context, excludeLayers: excludeLayers, excludeTiles: excludeTiles);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
