@@ -146,6 +146,7 @@ public class GUI_NukeWindow : NetTab
 		if(isTimer != null)
 		{
 			infoNukeDisplay.SetValue = isTimer.Value ? "Set timer:" : InitialInfoText;
+			infoNukeDisplay.SetValue = isTimer.Value ? colorRed : colorGreen;
 		}
 		
 	}

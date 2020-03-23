@@ -107,6 +107,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		// Trigger end of round
 		GameManager.Instance.EndRound();
 	}
+
 	public bool? ToggleTimer()
 	{
 		if(!isSafetyOn)
