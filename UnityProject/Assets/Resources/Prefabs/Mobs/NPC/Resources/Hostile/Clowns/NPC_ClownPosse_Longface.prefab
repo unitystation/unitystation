@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3392343644113499114}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -67,14 +67,15 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 19
+  m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300006, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
+  m_Sprite: {fileID: 6454868380209196520, guid: c04b9402029010a4d8feba9f5f9b5ed8,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -91,7 +92,7 @@ GameObject:
   - component: {fileID: 4825588628206411181}
   - component: {fileID: 4858910464699741597}
   m_Layer: 12
-  m_Name: XenoChest
+  m_Name: ClownPosse_LongfaceChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +147,7 @@ GameObject:
   - component: {fileID: 4821506416438402663}
   - component: {fileID: 4858358136733543843}
   m_Layer: 12
-  m_Name: XenoHead
+  m_Name: ClownPosse_LongfaceHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,9 +247,9 @@ GameObject:
   - component: {fileID: 3493423571535560689}
   - component: {fileID: 3651291330810827203}
   - component: {fileID: 3708589072684735304}
-  - component: {fileID: 8310532552690989649}
+  - component: {fileID: 3481414535748012905}
   m_Layer: 12
-  m_Name: NPC_Xenomorph
+  m_Name: NPC_ClownPosse_Longface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,24 +311,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  maxHealth: 100
+  maxHealth: 150
   canBreathAnywhere: 1
   cloningDamage: 0
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
-  bloodColor: 1
+  bloodColor: 2
   BodyParts:
   - {fileID: 4858358136733543843}
   - {fileID: 4858910464699741597}
-  allowKnifeHarvest: 1
-  butcherResults:
-  - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
-  - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
-  aliveSprite: {fileID: 21300006, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
-  deadSprite: {fileID: 21300000, guid: 0311b0c4dc326f74b935199093802681, type: 3}
+  allowKnifeHarvest: 0
+  butcherResults: []
+  aliveSprite: {fileID: 6454868380209196520, guid: c04b9402029010a4d8feba9f5f9b5ed8,
+    type: 3}
+  deadSprite: {fileID: 21300000, guid: 6393059d409e068409218a18dca1970d, type: 3}
   deadState: 0
   spriteRend: {fileID: 83192708151968013}
+  registerObject: {fileID: 0}
 --- !u!114 &4859231028589996057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af, type: 2}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291
@@ -439,6 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
+  ignoreExtraRotation: []
 --- !u!114 &4859335736327027429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,10 +452,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3657504649
 --- !u!114 &4826045711076760864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,10 +499,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteRend: {fileID: 83192708151968013}
-  upSprite: {fileID: 21300002, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
-  rightSprite: {fileID: 21300004, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
-  downSprite: {fileID: 21300000, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
-  leftSprite: {fileID: 21300006, guid: 54db8bace847ffe47854bcb7ad8275b6, type: 3}
+  upSprite: {fileID: -2611598954825611370, guid: c04b9402029010a4d8feba9f5f9b5ed8,
+    type: 3}
+  rightSprite: {fileID: 2116220040526961512, guid: c04b9402029010a4d8feba9f5f9b5ed8,
+    type: 3}
+  downSprite: {fileID: -3889666208316580833, guid: c04b9402029010a4d8feba9f5f9b5ed8,
+    type: 3}
+  leftSprite: {fileID: 6454868380209196520, guid: c04b9402029010a4d8feba9f5f9b5ed8,
+    type: 3}
 --- !u!114 &3651291330810827203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,9 +528,11 @@ MonoBehaviour:
     onDemandDecision: 1
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
+  performingAction: 0
   activated: 0
   tickRate: 1
   target: 0
+  actionPerformTime: 0
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,6 +554,7 @@ MonoBehaviour:
     onDemandDecision: 1
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
+  performingAction: 0
   activated: 0
   tickRate: 0
   followTarget: {fileID: 0}
@@ -557,7 +564,7 @@ MonoBehaviour:
   attackVerb: slashed
   defaultTarget: 0
   meleeCoolDown: 0.4
---- !u!114 &8310532552690989649
+--- !u!114 &3481414535748012905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -566,10 +573,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4827737755655954553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba86e59112fcacd448eb7b1203dd37f1, type: 3}
+  m_Script: {fileID: 11500000, guid: f423e516d0a62384493c3095abe85efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobName: Xenomorph
-  knockedDownRotation: -90
+  mobName: ClownPosse_Longface
+  knockedDownRotation: 90
   searchTickRate: 0.5
+  DeathSounds:
+  - ClownHonk
+  GenericSounds:
+  - ScaryClown1
+  - ScaryClown2
+  - ScaryClown3
+  - ScaryClown4
+  PlaySoundTime: 3
   status: 0
