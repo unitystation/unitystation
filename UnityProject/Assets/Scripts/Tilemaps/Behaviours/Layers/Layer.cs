@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -125,13 +126,24 @@ using UnityEngine.Tilemaps;
 			}
 		}
 
-		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool isServer,
-			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null )
-		{
-			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable(collisionType);
-		}
+	public virtual bool IsPassableAt(Vector3Int from, Vector3Int to, bool isServer,
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null)
+	{
+		// There's not tile here so its passable.
+		if (!tilemap.HasTile(to))
+			return true;
 
-		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to, bool isServer)
+		var tile = tilemap.GetTile<BasicTile>(to);
+
+		// Return passable if the tile type is being excluded from checks.
+		if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
+			return true;
+
+		return tile.IsPassable(collisionType);
+		//return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable(collisionType);
+	}
+
+	public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to, bool isServer)
 		{
 			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsAtmosPassable();
 		}
