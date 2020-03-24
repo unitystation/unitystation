@@ -728,7 +728,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerGhostPerformTeleport(int index, Vector3 s3, GameObject localPlayer)
 	{
 		Logger.Log("tried to teleport to " + s3);
-		localPlayer.transform.position = s3;
+		playerScript.PlayerSync.SetPosition(s3);
+		//localPlayer.transform.position = s3;
 	}
 
 	//admin only commands
