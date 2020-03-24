@@ -268,6 +268,13 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
+	public bool IsAntag(GameObject playerObj)
+	{
+		var conn = Get(playerObj);
+		return AntagPlayers.Contains(conn);
+	}
+
+	[Server]
 	public ConnectedPlayer GetByUserID(string byUserID)
 	{
 		return getInternal(player => player.UserId == byUserID);

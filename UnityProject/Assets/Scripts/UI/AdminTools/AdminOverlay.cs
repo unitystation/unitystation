@@ -11,6 +11,21 @@ namespace AdminTools
 	/// </summary>
 	public class AdminOverlay : MonoBehaviour
 	{
+		private static AdminOverlay _adminOverlay;
+
+		public static AdminOverlay Instance
+		{
+			get
+			{
+				if (_adminOverlay == null)
+				{
+					_adminOverlay = FindObjectOfType<AdminOverlay>();
+				}
+
+				return _adminOverlay;
+			}
+		}
+
 		[SerializeField] private GameObject infoPanelPrefab;
 		private List<AdminOverlayPanel> infoPanelPool = new List<AdminOverlayPanel>();
 		private List<AdminOverlayPanel> panelsInUse = new List<AdminOverlayPanel>();
@@ -94,6 +109,16 @@ namespace AdminTools
 
 				panelToReturn.gameObject.SetActive(false);
 			}
+		}
+
+		public static void ClientAddInfoPanel()
+		{
+
+		}
+
+		public static void ServerAddInfoPanel()
+		{
+
 		}
 	}
 }
