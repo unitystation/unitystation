@@ -54,8 +54,28 @@ namespace AdminTools
 			for (int i = 0; i < 20; i++)
 			{
 				var obj = Instantiate(infoPanelPrefab, transform);
+				obj.SetActive(false);
 				infoPanelPool.Add(obj.GetComponent<AdminOverlayPanel>());
 			}
+		}
+
+		AdminOverlayPanel GetPanelFromPool()
+		{
+			if (infoPanelPool.Count == 0)
+			{
+				//non left, add some more:
+				for (int i = 0; i < 10; i++)
+				{
+					var obj = Instantiate(infoPanelPrefab, transform);
+					obj.SetActive(false);
+					infoPanelPool.Add(obj.GetComponent<AdminOverlayPanel>());
+				}
+			}
+
+			var panel = infoPanelPool[0];
+			infoPanelPool.Remove(panel);
+			panelsInUse.Add(panel);
+			return panel;
 		}
 
 		public void ReturnToPool(AdminOverlayPanel panelToReturn)

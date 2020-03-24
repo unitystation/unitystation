@@ -23,7 +23,7 @@ namespace AdminTools
 		/// Set the Panel up so it can display the text and follow the target
 		/// </summary>
 		/// <param name="text"> Text to display in the info box.
-		/// Character limit for each line is 20. Anything past
+		/// Character limit for each line is 20 with a max of 3 lines. Anything past
 		/// this point is cut off</param>
 		/// <param name="objectToFollow">The object behaviour of the object being followed.
 		/// The object behaviour allows the checking of parent containers.</param>
@@ -36,11 +36,32 @@ namespace AdminTools
 
 			target = objectToFollow.transform;
 			cam = Camera.main;
-			displayText.text = text;
+			SetText(text);
 			this.adminOverlay = adminOverlay;
 			this.objectToFollow = objectToFollow;
 			this.followOffset = followOffset;
 			gameObject.SetActive(true);
+		}
+
+		void SetText(string text)
+		{
+			string[] lines = text.Split(
+				new[] { "\r\n", "\r", "\n" },
+				StringSplitOptions.None
+			);
+
+			var newString = "";
+			for (int i = 0; i < lines.Length && i < 3; i++)
+			{
+				if (lines[i].Length > 20)
+				{
+					lines[i] = lines[i].Substring(0, 20) + "..";
+				}
+
+				newString += lines[i] + Environment.NewLine;
+			}
+
+			displayText.text = newString;
 		}
 
 		private void OnEnable()
@@ -85,7 +106,7 @@ namespace AdminTools
 
 		public void ReturnToPool()
 		{
-			adminOverlay.ReturnToPool();
+			adminOverlay.ReturnToPool(this);
 		}
 	}
 }

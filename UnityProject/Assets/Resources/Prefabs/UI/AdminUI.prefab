@@ -4308,6 +4308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff7999bb6e4bf64d8d54bdae9680184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoPanelPrefab: {fileID: 6278837003780714918, guid: 38eba6c3a638f9246aec4bdb32fd01b9,
+    type: 3}
 --- !u!1 &6090495273990619403
 GameObject:
   m_ObjectHideFlags: 0
@@ -7757,6 +7759,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AdminOverlayPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6278837003780714918, guid: 38eba6c3a638f9246aec4bdb32fd01b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38eba6c3a638f9246aec4bdb32fd01b9, type: 3}
