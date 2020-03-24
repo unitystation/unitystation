@@ -719,16 +719,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdGhostPerformTeleport(int index, Vector3 s3)
+	public void CmdGhostPerformTeleport(int index, Vector3 s3, GameObject localPlayer)
 	{
-		ServerGhostPerformTeleport(index, s3);
+		ServerGhostPerformTeleport(index, s3, localPlayer);
 	}
 
 	[Server]
-	public void ServerGhostPerformTeleport(int index, Vector3 s3)
+	public void ServerGhostPerformTeleport(int index, Vector3 s3, GameObject localPlayer)
 	{
 		Logger.Log("tried to teleport to " + s3);
-		GameObject localPlayer = PlayerManager.LocalPlayer;
 		localPlayer.transform.position = s3;
 	}
 

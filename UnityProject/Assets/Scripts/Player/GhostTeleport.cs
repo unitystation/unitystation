@@ -19,11 +19,6 @@ public class GhostTeleport : MonoBehaviour
 	private PlayerManager playerManager;
 	private PlayerSync playerSync;
 
-
-
-
-	
-
 	private void Start()
 	{
 		playerManager = PlayerManager.Instance;
@@ -92,7 +87,7 @@ public class GhostTeleport : MonoBehaviour
 	public void DataForTeleport(int index)
 	{
 		var s3 = MobList[index].Data.s3;
-
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(index, s3);
+		GameObject localPlayer = PlayerManager.LocalPlayer;
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(index, s3, localPlayer);
 	}
 }
