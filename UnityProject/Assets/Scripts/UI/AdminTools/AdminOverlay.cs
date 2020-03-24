@@ -128,14 +128,8 @@ namespace AdminTools
 			if (!Instance.IsOn) return;
 
 			var obj = NetworkIdentity.spawned[entry.netId];
-			var objBehaviour = obj.GetComponent<ObjectBehaviour>();
-			if (objBehaviour == null)
-			{
-				Logger.Log($"ERROR! Admin Info Overlays can only work with objects that have an ObjectBehaviour attached: {obj.name}");
-				return;
-			}
 			var panel = Instance.GetPanelFromPool();
-			panel.SetAdminOverlayPanel(entry.infos, Instance, objBehaviour, entry.offset);
+			panel.SetAdminOverlayPanel(entry.infos, Instance, obj.transform, entry.offset);
 		}
 
 		public static void ClientFullUpdate(AdminInfoUpdate update)

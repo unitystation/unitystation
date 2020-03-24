@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +11,7 @@ namespace AdminTools
 	public class AdminOverlayPanel : MonoBehaviour
 	{
 		[SerializeField] private Text displayText;
-		private ObjectBehaviour objectToFollow;
+		private ObjectBehaviour targetObjBehaviour;
 		private AdminOverlay adminOverlay;
 		private Transform target;
 		private Vector3 followOffset;
@@ -30,15 +28,16 @@ namespace AdminTools
 		/// <param name="followOffset">The offset in world meters from the centre of the
 		/// following target</param>
 		public void SetAdminOverlayPanel(string text, AdminOverlay adminOverlay,
-			ObjectBehaviour objectToFollow, Vector2 followOffset)
+			Transform objectToFollow, Vector2 followOffset)
 		{
 			if (objectToFollow == null) return;
 
+			targetObjBehaviour = objectToFollow.GetComponent<ObjectBehaviour>();
 			target = objectToFollow.transform;
+
 			cam = Camera.main;
 			SetText(text);
 			this.adminOverlay = adminOverlay;
-			this.objectToFollow = objectToFollow;
 			this.followOffset = followOffset;
 			gameObject.SetActive(true);
 		}
@@ -58,7 +57,14 @@ namespace AdminTools
 					lines[i] = lines[i].Substring(0, 20) + "..";
 				}
 
-				newString += lines[i] + Environment.NewLine;
+				if (i == lines.Length - 1)
+				{
+					newString += lines[i];
+				}
+				else
+				{
+					newString += lines[i] + Environment.NewLine;
+				}
 			}
 
 			displayText.text = newString;
@@ -76,7 +82,7 @@ namespace AdminTools
 
 		void FixedUpdateMe()
 		{
-			if (target != null && objectToFollow != null)
+			if (target != null)
 			{
 				FollowTarget();
 			}
@@ -85,18 +91,21 @@ namespace AdminTools
 		void FollowTarget()
 		{
 			// check container:
-			if (objectToFollow.parentContainer != null)
+			if(targetObjBehaviour != null)
 			{
-				if (objectToFollow.parentContainer.transform != target)
+				if (targetObjBehaviour.parentContainer != null)
 				{
-					target = objectToFollow.parentContainer.transform;
+					if (targetObjBehaviour.parentContainer.transform != target)
+					{
+						target = targetObjBehaviour.parentContainer.transform;
+					}
 				}
-			}
-			else
-			{
-				if (target != objectToFollow.transform)
+				else
 				{
-					target = objectToFollow.transform;
+					if (target != targetObjBehaviour.transform)
+					{
+						target = targetObjBehaviour.transform;
+					}
 				}
 			}
 
