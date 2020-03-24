@@ -66,12 +66,12 @@ namespace AdminTools
 
 		private void OnEnable()
 		{
-			UpdateManager.Add(CallbackType.LATE_UPDATE, FixedUpdateMe);
+			UpdateManager.Add(CallbackType.FIXED_UPDATE, FixedUpdateMe);
 		}
 
 		private void OnDisable()
 		{
-			UpdateManager.Remove(CallbackType.LATE_UPDATE, FixedUpdateMe);
+			UpdateManager.Remove(CallbackType.FIXED_UPDATE, FixedUpdateMe);
 		}
 
 		void FixedUpdateMe()

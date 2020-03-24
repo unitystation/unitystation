@@ -125,6 +125,8 @@ namespace AdminTools
 
 		public static void ClientAddEntry(AdminInfosEntry entry)
 		{
+			if (!Instance.IsOn) return;
+
 			var obj = NetworkIdentity.spawned[entry.netId];
 			var objBehaviour = obj.GetComponent<ObjectBehaviour>();
 			if (objBehaviour == null)
@@ -138,10 +140,7 @@ namespace AdminTools
 
 		public static void ClientFullUpdate(AdminInfoUpdate update)
 		{
-			foreach (var e in Instance.panelsInUse)
-			{
-				e.ReturnToPool();
-			}
+			Instance.ReturnAllPanelsToPool();
 
 			foreach (var e in update.entries)
 			{
@@ -199,10 +198,15 @@ namespace AdminTools
 			else
 			{
 				overlayToggleButton.image.color = unSelectedColor;
-				foreach (var e in Instance.panelsInUse)
-				{
-					e.ReturnToPool();
-				}
+				ReturnAllPanelsToPool();
+			}
+		}
+
+		void ReturnAllPanelsToPool()
+		{
+			for (int i = Instance.panelsInUse.Count - 1; i >= 0; i--)
+			{
+				Instance.panelsInUse[i].ReturnToPool();
 			}
 		}
 	}

@@ -271,7 +271,9 @@ public partial class PlayerList : NetworkBehaviour
 	public bool IsAntag(GameObject playerObj)
 	{
 		var conn = Get(playerObj);
-		return AntagPlayers.Contains(conn);
+		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
+		if (conn.Script.mind.IsAntag) return true;
+		return false;
 	}
 
 	[Server]
