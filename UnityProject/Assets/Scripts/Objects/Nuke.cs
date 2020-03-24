@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Main component for nuke.
@@ -24,12 +26,24 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool IsCodeRight => isCodeRight;
 
+	public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
+
 	[SerializeField]
 	private int minTimer = 270;
 	private bool isTimer = false;
 
 	public bool IsTimer => isTimer;
-	private int currentTimerSeconds = 0;
+
+	private int currentTimerSeconds = 270;
+	public int CurrentTimerSeconds
+	{
+		get => currentTimerSeconds;
+		private set
+		{
+			currentTimerSeconds = value;
+			OnTimerUpdate.Invoke(currentTimerSeconds);
+		}
+	}
 
 	private Coroutine timerHandle;
 
@@ -116,6 +130,10 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if(IsCodeRight && !isSafetyOn)
 		{
+			if(isTimer)
+			{
+				this.TryStopCoroutine(ref timerHandle);
+			}
 			isTimer = !isTimer;
 			return isTimer;
 		}
@@ -125,13 +143,14 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public bool? Validate()
 	{
-		if(isTimer)
+		if(isCodeRight && isTimer)
 		{
 			int digit = int.Parse(currentCode);
 			if(digit < minTimer)
 			{
 				return false;
 			}
+			CurrentTimerSeconds = digit;
 			StartCountDown();
 			return true;
 		}
@@ -146,6 +165,11 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public void StartCountDown()
 	{
+		this.StartCoroutine(TickTimer(), ref timerHandle);	
+	}
+	[Server]
+	private void Detonate()
+	{
 		detonated = true;
 		//if yes, blow up the nuke
 		RpcDetonate();
@@ -154,11 +178,14 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		StartCoroutine(WaitForDeath());
 		GameManager.Instance.RespawnCurrentlyAllowed = false;
 	}
-
 	private IEnumerator TickTimer()
-	{			
-			currentTimerSeconds -= 1;
+	{
+		while(CurrentTimerSeconds > 0)
+		{
+			CurrentTimerSeconds -= 1;
 			yield return WaitFor.Seconds(1);
+		}
+		Detonate();
 	}
 
 	//Server telling the nukes to explode
@@ -197,6 +224,11 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if(isCodeRight)
 		{
+			if (isTimer && !isSafetyOn)
+			{
+				isTimer = false;
+				this.TryStopCoroutine(ref timerHandle);
+			}
 			isSafetyOn = !isSafetyOn;
 			return isSafetyOn;
 		}
@@ -215,3 +247,4 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		return null;
 	}
 }
+public class NukeTimerEvent : UnityEvent<int> { }

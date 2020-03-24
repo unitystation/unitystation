@@ -19,6 +19,19 @@ public class GUI_NukeWindow : NetTab
 	private const string colorGreen = "008000",
 						 colorRed = "FF0000";
 
+	private NetUIElement infoTimerDisplay;
+	private NetUIElement InfoTimerDisplay
+	{
+		get
+		{
+			if (!infoTimerDisplay)
+			{
+				infoTimerDisplay = this["NukeTimerLabel"];
+			}
+			return infoTimerDisplay;
+		}
+	}
+
 	private NetUIElement infoTimerColor;
 
 	private NetUIElement InfoTimerColor
@@ -119,6 +132,25 @@ public class GUI_NukeWindow : NetTab
 	{
 		ControlTabs.CloseTab(Type, Provider);
 	}
+	protected override void InitServer()
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			StartCoroutine(WaitForProvider());
+		}
+	}
+	IEnumerator WaitForProvider()
+	{
+		while (Provider == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		InfoTimerDisplay.SetValue = FormatTime(nuke.CurrentTimerSeconds);
+		nuke.OnTimerUpdate.AddListener(timerSeconds => { InfoTimerDisplay.SetValue = FormatTime(timerSeconds); });
+
+		Logger.Log(nameof(WaitForProvider), Category.NetUI);
+	}
 
 	private void Start()
 	{
@@ -128,6 +160,7 @@ public class GUI_NukeWindow : NetTab
 			//	Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
 			InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
 			InfoNukeDisplay.SetValue = InitialInfoText;
+			
 		}
 	}
 
@@ -145,6 +178,7 @@ public class GUI_NukeWindow : NetTab
 		if (isSafety != null)
 		{
 			InfoSafetyColor.SetValue = isSafety.Value ? colorGreen : colorRed;
+			if (isSafety.Value) { InfoTimerColor.SetValue = colorRed; }
 			this.TryStopCoroutine(ref corHandler);
 			this.StartCoroutine(UpdateDisplay("Safety is: " + (isSafety.Value ? "On" : "Off")), ref corHandler);
 		}
@@ -176,6 +210,8 @@ public class GUI_NukeWindow : NetTab
 		bool? isTimer = Nuke.ToggleTimer();
 		if(isTimer != null)
 		{
+			this.TryStopCoroutine(ref corHandler);
+			Clear();
 			InfoNukeDisplay.SetValue = isTimer.Value ? "Set timer:" : InitialInfoText;
 			InfoTimerColor.SetValue = isTimer.Value ? colorGreen : colorRed;
 			//StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off")));
@@ -189,7 +225,6 @@ public class GUI_NukeWindow : NetTab
 
 	private IEnumerator UpdateDisplay(string message)
 	{
-		cooldown = true;
 		InfoNukeDisplay.SetValue = message;
 		yield return WaitFor.Seconds(0.5f);
 		InfoNukeDisplay.SetValue = "";
@@ -200,7 +235,7 @@ public class GUI_NukeWindow : NetTab
 		yield return WaitFor.Seconds(0.5f);
 		InfoNukeDisplay.SetValue = message;
 		yield return WaitFor.Seconds(0.5f);
-		cooldown = false;
+
 		InfoNukeDisplay.SetValue = InitialInfoText;
 	}
 
@@ -280,11 +315,13 @@ public class GUI_NukeWindow : NetTab
 		{
 			if (!Nuke.IsTimer)
 			{
+				Clear();
 				this.TryStopCoroutine(ref corHandler);
 				this.StartCoroutine(ErrorCooldown() , ref corHandler);
 			}
 			else
 			{
+				Clear();
 				this.TryStopCoroutine(ref corHandler);
 				this.StartCoroutine(ErrorTimer() , ref corHandler);
 			}
@@ -294,7 +331,6 @@ public class GUI_NukeWindow : NetTab
 
 	public IEnumerator ErrorTimer()
 	{
-		cooldown = true;
 		InfoNukeDisplay.SetValue = "Min 270 seconds!";
 		yield return WaitFor.Seconds(0.5F);
 		InfoNukeDisplay.SetValue = "";
@@ -305,8 +341,6 @@ public class GUI_NukeWindow : NetTab
 		yield return WaitFor.Seconds(0.5F);
 		InfoNukeDisplay.SetValue = "Min 270 seconds!";
 		yield return WaitFor.Seconds(0.5F);
-		cooldown = false;
-		Clear();
 		InfoNukeDisplay.SetValue = "Set timer:";
 	}
 
@@ -326,10 +360,17 @@ public class GUI_NukeWindow : NetTab
 		InfoNukeDisplay.SetValue = "";
 		yield return WaitFor.Seconds(0.5F);
 		cooldown = false;
-		Clear();
 		InfoNukeDisplay.SetValue = InitialInfoText;
 	}
 
+	private string FormatTime(int timerSeconds)
+	{
+		if (!Nuke.IsTimer)
+		{
+			return string.Empty;
+		}
 
+		return TimeSpan.FromSeconds(timerSeconds).ToString("mm\\:ss");
+	}
 }
 
