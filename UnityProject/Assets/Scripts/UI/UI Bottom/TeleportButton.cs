@@ -21,6 +21,6 @@ public class TeleportButton : MonoBehaviour
 	{
 		ghostTeleport = GetComponentInParent<GhostTeleport>();
 		Logger.Log("clicked");
-		ghostTeleport.DataForTeleport(index);
+		ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
 	}
 }

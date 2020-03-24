@@ -65,6 +65,7 @@ public class UI_GhostOptions : MonoBehaviour
 		}
 	}
 
+	//Checking to see if window is open and whether to close it.
 	void TeleportScreenStatus()
 	{
 		if (!TeleportScreenOpen)

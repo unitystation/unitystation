@@ -34,15 +34,14 @@ public class GhostTeleport : MonoBehaviour
 		Count += 1;
 	}
 
+	//Looks through all objects with PlayerScript and then finds their different values(name, status, position). Then calls AddToDict.
 	public void FindData()
 	{
-		MobList.Clear();
+		MobList.Clear();//Clears Dictionary so everytime button is pressed list is updated.
 		Count = 0;
 		var PlayerBodies = FindObjectsOfType(typeof(PlayerScript));
 
-		Logger.Log("Players:" + PlayerBodies);
-
-		if (PlayerBodies == null | PlayerBodies.Count() == 0)
+		if (PlayerBodies == null | PlayerBodies.Count() == 0)//If list of PlayerScripts is empty donr run rest of code.
 		{
 			Logger.Log("PlayerBodies was null or 0");
 		}
@@ -74,20 +73,16 @@ public class GhostTeleport : MonoBehaviour
 				//Gets Position of Player
 				var tile = player.gameObject.GetComponent<RegisterTile>();
 				Position = tile.WorldPositionServer;
-
-
-				Logger.Log("name:" + NameOfObject);
-				Logger.Log("Status" + Status);
-				Logger.Log("Position" + Position);
-				AddToDict();
+				AddToDict();// Adds to dictionary
 			}
 		}		
 	}
 
+	//Grabs data needed for teleport.
 	public void DataForTeleport(int index)
 	{
-		var s3 = MobList[index].Data.s3;
+		var s3 = MobList[index].Data.s3;//Grabs Position from dictionary
 		GameObject localPlayer = PlayerManager.LocalPlayer;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(index, s3, localPlayer);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3, localPlayer);
 	}
 }
