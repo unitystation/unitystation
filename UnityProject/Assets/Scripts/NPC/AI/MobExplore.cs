@@ -114,7 +114,8 @@ protected Vector3Int actionPosition;
 					target = Target.food;
 					return true;
 				}
-				else if (registerObj.Matrix.GetFirst<MouseAI>(checkPos, true) != null)
+				else if (registerObj.Matrix.GetFirst<MouseAI>(checkPos, true) != null
+						&& !registerObj.Matrix.GetFirst<MouseAI>(checkPos, true).IsDead)
 				{
 					return true;
 				}
@@ -150,12 +151,13 @@ protected Vector3Int actionPosition;
 				break;
 			case Target.mice:
 				var mouse = registerObj.Matrix.GetFirst<MouseAI>(checkPos, true);
-				if (!mouse.GetComponent<SimpleAnimal>().IsDead 
-					&& mouse != null) mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(
-																				gameObject,
-																				100f,
-																				AttackType.Melee,
-																				DamageType.Brute);
+				if (mouse != null)
+				{
+					mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(gameObject, 70f, 
+																			AttackType.Melee, DamageType.Brute);
+					gameObject.GetComponent<CatAI>().HuntMouse(mouse);
+				} 
+				
 				break;
 		}
 	}
