@@ -28,6 +28,10 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private int minTimer = 270;
 	private bool isTimer = false;
 
+	public bool IsTimer => isTimer;
+	private int currentTimerSeconds = 0;
+
+	private Coroutine timerHandle;
 
 
 	public float cooldownTimer = 2f;
@@ -110,7 +114,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool? ToggleTimer()
 	{
-		if(!isSafetyOn)
+		if(IsCodeRight && !isSafetyOn)
 		{
 			isTimer = !isTimer;
 			return isTimer;
@@ -119,7 +123,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	}
 	//Server validating the code sent back by the GUI
 	[Server]
-	public bool Validate()
+	public bool? Validate()
 	{
 		if(isTimer)
 		{
@@ -131,8 +135,12 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 			StartCountDown();
 			return true;
 		}
-		isCodeRight = CurrentCode == NukeCode.ToString() ? true : false;
-		return isCodeRight;
+		if (!isCodeRight)
+		{
+			isCodeRight = CurrentCode == NukeCode.ToString() ? true : false;
+			return isCodeRight;
+		}
+		return null;
 	}
 
 	[Server]
@@ -146,6 +154,13 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		StartCoroutine(WaitForDeath());
 		GameManager.Instance.RespawnCurrentlyAllowed = false;
 	}
+
+	private IEnumerator TickTimer()
+	{			
+			currentTimerSeconds -= 1;
+			yield return WaitFor.Seconds(1);
+	}
+
 	//Server telling the nukes to explode
 	[ClientRpc]
 	void RpcDetonate()

@@ -135,7 +135,7 @@ public class GUI_Nuke : NetTab
 			return;
 		}
 
-		if (Nuke.Validate()) {
+		if (Nuke.Validate() != null && Nuke.Validate().Value) {
 			InfoDisplay.SetValue = "PREPARE TO DIE";
 		} else {
 			StartCoroutine( ErrorCooldown() );

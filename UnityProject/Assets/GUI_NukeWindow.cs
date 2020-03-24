@@ -10,9 +10,28 @@ using UnityEngine;
 /// </summary>
 public class GUI_NukeWindow : NetTab
 {
+	private Coroutine corHandler;
+
+	private bool cooldown;
+
+	private string InitialInfoText;
 
 	private const string colorGreen = "008000",
 						 colorRed = "FF0000";
+
+	private NetUIElement infoTimerColor;
+
+	private NetUIElement InfoTimerColor
+	{
+		get
+		{
+			if (!infoTimerColor)
+			{
+				infoTimerColor = this["TimerNukeToggleColor"] as NetColorChanger;
+			}
+			return infoTimerColor;
+		}
+	}
 
 	private NetUIElement infoAnchorColor;
 	private NetUIElement InfoAnchorColor
@@ -41,8 +60,6 @@ public class GUI_NukeWindow : NetTab
 		}
 	}
 
-	private bool cooldown;
-
 	private NetUIElement infoNukeDisplay;
 	private NetUIElement InfoNukeDisplay
 	{
@@ -57,8 +74,6 @@ public class GUI_NukeWindow : NetTab
 	}
 
 	private NetUIElement CodeDisplay => this["NukeCodeDisplay"];
-
-	private string InitialInfoText;
 
 	private Nuke nuke;
 	private Nuke Nuke
@@ -120,6 +135,8 @@ public class GUI_NukeWindow : NetTab
 	{
 		pageSwitcher.SetActivePage(loginPage);
 		Nuke.EjectDisk();
+		InfoNukeDisplay.SetValue = InitialInfoText;
+		Clear();
 	}
 
 	public void SafetyToggle()
@@ -128,6 +145,13 @@ public class GUI_NukeWindow : NetTab
 		if (isSafety != null)
 		{
 			InfoSafetyColor.SetValue = isSafety.Value ? colorGreen : colorRed;
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Safety is: " + (isSafety.Value ? "On" : "Off")), ref corHandler);
+		}
+		else
+		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("No Access!"), ref corHandler);
 		}
 	}
 
@@ -137,6 +161,13 @@ public class GUI_NukeWindow : NetTab
 		if(isAnchored != null)
 		{
 			InfoAnchorColor.SetValue = isAnchored.Value ? colorRed : colorGreen ;
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On")), ref corHandler);
+		}
+		else
+		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("No Access!"), ref corHandler);
 		}
 	}
 
@@ -145,10 +176,32 @@ public class GUI_NukeWindow : NetTab
 		bool? isTimer = Nuke.ToggleTimer();
 		if(isTimer != null)
 		{
-			infoNukeDisplay.SetValue = isTimer.Value ? "Set timer:" : InitialInfoText;
-			infoNukeDisplay.SetValue = isTimer.Value ? colorRed : colorGreen;
+			InfoNukeDisplay.SetValue = isTimer.Value ? "Set timer:" : InitialInfoText;
+			InfoTimerColor.SetValue = isTimer.Value ? colorGreen : colorRed;
+			//StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off")));
 		}
-		
+		else
+		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("No Access!"), ref corHandler);
+		}
+	}
+
+	private IEnumerator UpdateDisplay(string message)
+	{
+		cooldown = true;
+		InfoNukeDisplay.SetValue = message;
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = "";
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = message;
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = "";
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = message;
+		yield return WaitFor.Seconds(0.5f);
+		cooldown = false;
+		InfoNukeDisplay.SetValue = InitialInfoText;
 	}
 
 	public void EnterDigit(char digit)
@@ -164,11 +217,13 @@ public class GUI_NukeWindow : NetTab
 	{
 		if (Nuke.AppendKey(digit))
 		{
-			int length = Nuke.CurrentCode.Length;
-			//replace older digits with asterisks
-			string newDigit = Nuke.CurrentCode.Substring(length <= 0 ? 0 : length - 1);
-			CodeDisplay.SetValue = newDigit.PadLeft(length, '*');
-			StartCoroutine(HideCode());
+			
+				int length = Nuke.CurrentCode.Length;
+				//replace older digits with asterisks
+				string newDigit = Nuke.CurrentCode.Substring(length <= 0 ? 0 : length - 1);
+				CodeDisplay.SetValue = newDigit.PadLeft(length, '*');
+				StartCoroutine(HideCode());
+			
 		}
 	}
 
@@ -200,14 +255,59 @@ public class GUI_NukeWindow : NetTab
 
 	private void CodeAccess()
 	{
-		if (Nuke.Validate())
+		bool? isValid = Nuke.Validate();
+		if(isValid == null)
+		{
+			return;
+		}
+		if (isValid.Value)
 		{
 			Clear();
+			
+			if (Nuke.IsTimer)
+			{
+				InfoNukeDisplay.SetValue = "Timer is set!";
+			}
+			else
+			{
+				this.TryStopCoroutine(ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Correct code!"), ref corHandler);
+			}
+
+			
 		}
 		else
 		{
-			StartCoroutine(ErrorCooldown());
+			if (!Nuke.IsTimer)
+			{
+				this.TryStopCoroutine(ref corHandler);
+				this.StartCoroutine(ErrorCooldown() , ref corHandler);
+			}
+			else
+			{
+				this.TryStopCoroutine(ref corHandler);
+				this.StartCoroutine(ErrorTimer() , ref corHandler);
+			}
+
 		}
+	}
+
+	public IEnumerator ErrorTimer()
+	{
+		cooldown = true;
+		InfoNukeDisplay.SetValue = "Min 270 seconds!";
+		yield return WaitFor.Seconds(0.5F);
+		InfoNukeDisplay.SetValue = "";
+		yield return WaitFor.Seconds(0.5F);
+		InfoNukeDisplay.SetValue = "Min 270 seconds!";
+		yield return WaitFor.Seconds(0.5F);
+		InfoNukeDisplay.SetValue = "";
+		yield return WaitFor.Seconds(0.5F);
+		InfoNukeDisplay.SetValue = "Min 270 seconds!";
+		yield return WaitFor.Seconds(0.5F);
+		cooldown = false;
+		Clear();
+		InfoNukeDisplay.SetValue = "Set timer:";
 	}
 
 	public IEnumerator ErrorCooldown()
