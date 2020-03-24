@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 8438504971065900971}
   - component: {fileID: 42171897942477365}
   - component: {fileID: -3721379882699803303}
-  - component: {fileID: 7421623293247596268}
   m_Layer: 12
   m_Name: NPC_Runtime
   m_TagString: Untagged
@@ -242,7 +241,7 @@ MonoBehaviour:
     agentRenderTextures: []
     maxStep: 0
     resetOnDone: 1
-    onDemandDecision: 1
+    onDemandDecision: 0
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
   performingAction: 0
@@ -330,21 +329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7421623293247596268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 715d7edbfa5ae6742b05a85634ad752c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: runtime
-  knockedDownRotation: 180
-  allowedToGiveCommands: 0d000000
 --- !u!1 &5258005088007752283
 GameObject:
   m_ObjectHideFlags: 0
