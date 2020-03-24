@@ -91,8 +91,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
-		NamedSlot enumA = (NamedSlot) Enum.Parse(typeof(NamedSlot), slotName);
-		equipment.SetReference((int) enumA, Item);
+		NamedSlot enumA = (NamedSlot)Enum.Parse(typeof(NamedSlot), slotName);
+		equipment.SetReference((int)enumA, Item);
 	}
 
 	/// <summary>
@@ -112,7 +112,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.playerMove.Unbuckle();
 			}
 		}
-		else if(playerScript.playerHealth.FireStacks > 0) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		else if (playerScript.playerHealth.FireStacks > 0) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
 		{
 			if (!playerScript.registerTile.IsLayingDown)
 			{
@@ -258,7 +258,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
-			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType)aim);
 	}
 
 	[Command]
@@ -281,7 +281,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
-			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
+									" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -291,10 +291,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		if (playerScript.playerSprites != null &&
-		    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+			playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
 		{
 			if (cuffsClothingItem != null &&
-			    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 			{
 				restraintOverlay.ServerBeginUnCuffAttempt();
 			}
@@ -366,7 +366,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		if (this == null || itemStorage == null || playerScript == null
-		    || playerScript.mind == null || playerScript.mind.body == null)
+			|| playerScript.mind == null || playerScript.mind.body == null)
 		{
 			return;
 		}
@@ -429,8 +429,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-		                                        || playerScript.playerHealth.IsCardiacArrest)
+												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
+												|| playerScript.playerHealth.IsCardiacArrest)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -503,16 +503,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdGhostEnterBody()
 	{
 		PlayerScript body = playerScript.mind.body;
-		if ( !playerScript.IsGhost || !body.playerHealth.IsDead )
+		if (!playerScript.IsGhost || !body.playerHealth.IsDead)
 		{
-			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
+			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
 			return;
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
-		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos )
+		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
-			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
+			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
 			return;
 		}
 		playerScript.mind.StopGhosting();
@@ -718,8 +718,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	//admin only commands
+	[Command]
+	public void CmdGhostPerformTeleport(int index, Vector3 s3)
+	{
+		ServerGhostPerformTeleport(index, s3);
+	}
 
+	[Server]
+	public void ServerGhostPerformTeleport(int index, Vector3 s3)
+	{
+		Logger.Log("tried to teleport to " + s3);
+		GameObject localPlayer = PlayerManager.LocalPlayer;
+		localPlayer.transform.position = s3;
+	}
+
+	//admin only commands
 	#region Admin
 
 	[Command]
@@ -729,7 +742,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 		if (onObject == null) return;
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-    if (reactionManager == null) return;
+		if (reactionManager == null) return;
 
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .5f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
@@ -744,13 +757,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		if ( toSmash == null )
+		if (toSmash == null)
 		{
 			return;
 		}
 
 		var integrity = toSmash.GetComponent<Integrity>();
-		if ( integrity == null )
+		if (integrity == null)
 		{
 			return;
 		}
@@ -769,7 +782,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSendCentCommAnnouncement (string adminId, string adminToken, string text)
+	public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
@@ -778,7 +791,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSendCentCommReport (string adminId, string adminToken, string text)
+	public void CmdSendCentCommReport(string adminId, string adminToken, string text)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
@@ -791,6 +804,5 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
-
 	#endregion
 }
