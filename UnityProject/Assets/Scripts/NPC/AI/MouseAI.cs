@@ -8,8 +8,18 @@ using System.Collections;
 /// </summary>
 public class MouseAI : MobAI
 {
+    private string mouseName;
+    private string capMouseName;
     private float timeForNextRandomAction;
     private float timeWaiting;   
+
+    protected override void Awake()
+	{
+		base.Awake();
+		mouseName = mobName.ToLower();
+		capMouseName = char.ToUpper(mouseName[0]) + mouseName.Substring(1);
+        BeginExploring(MobExplore.Target.food);
+	}
 
     protected override void UpdateMe()
 	{
@@ -38,13 +48,13 @@ public class MouseAI : MobAI
     public override void OnPetted(GameObject performer)
     {
         Squeak();
-        StartFleeing(performer.transform);
+        StartFleeing(performer.transform, 3f);
     }
 
     protected override void OnAttackReceived(GameObject damagedBy)
     {
         Squeak();
-        StartFleeing(damagedBy.transform, 10f);
+        StartFleeing(damagedBy.transform, 5f);
     }
 
     private void Squeak()
@@ -52,6 +62,7 @@ public class MouseAI : MobAI
         SoundManager.PlayNetworkedAtPos("MouseSqueek", 
                                         gameObject.transform.position,
                                         Random.Range(.6f,1.2f));
+        Chat.AddActionMsgToChat(gameObject, $"{capMouseName} squeaks!", $"{capMouseName} squeaks!");
     }
 
     private void DoRandomAction(int randAction)
