@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AdminTools;
 using UnityEngine;
 using Mirror;
 
@@ -783,6 +784,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 		GameManager.Instance.CentComm.MakeCommandReport(text,
 														CentComm.UpdateSound.notice);
+	}
+
+	[Command]
+	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
+	{
+		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
 
 	#endregion

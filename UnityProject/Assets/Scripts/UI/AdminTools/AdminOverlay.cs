@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace AdminTools
 {
@@ -32,6 +34,12 @@ namespace AdminTools
 		private List<AdminOverlayPanel> panelsInUse = new List<AdminOverlayPanel>();
 
 		private Dictionary<uint, AdminInfo> serverInfos = new Dictionary<uint, AdminInfo>();
+
+		[SerializeField] private Button overlayToggleButton = null;
+		[SerializeField] private Color selectedColor;
+		[SerializeField] private Color unSelectedColor;
+
+		public bool IsOn { get; private set; }
 
 		private void OnEnable()
 		{
@@ -167,6 +175,34 @@ namespace AdminTools
 			{
 				Logger.Log($"Someone tried to request all admin info overlay entries and failed. " +
 				           $"Using adminId: {adminId} and token: {adminToken}");
+			}
+		}
+
+		public void ToggleOverlayBtn()
+		{
+			IsOn = !IsOn;
+
+			if (IsOn)
+			{
+				if (PlayerManager.LocalPlayerScript == null)
+				{
+					Logger.LogError("Cannot activate Admin Overlay with PlayerManager.LocalPlayerScript being null");
+					IsOn = false;
+					overlayToggleButton.image.color = unSelectedColor;
+				}
+				else
+				{
+					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGetAdminOverlayFullUpdate(ServerData.UserID, PlayerList.Instance.AdminToken);
+					overlayToggleButton.image.color = selectedColor;
+				}
+			}
+			else
+			{
+				overlayToggleButton.image.color = unSelectedColor;
+				foreach (var e in Instance.panelsInUse)
+				{
+					e.ReturnToPool();
+				}
 			}
 		}
 	}
