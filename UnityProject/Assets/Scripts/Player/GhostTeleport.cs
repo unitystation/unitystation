@@ -72,7 +72,7 @@ public class GhostTeleport : MonoBehaviour
 
 				//Gets Position of Player
 				var tile = player.gameObject.GetComponent<RegisterTile>();
-				Position = tile.WorldPositionServer;
+				Position = tile.WorldPositionClient;
 				AddToDict();// Adds to dictionary
 			}
 		}		
