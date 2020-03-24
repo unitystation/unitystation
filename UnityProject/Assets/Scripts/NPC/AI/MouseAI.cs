@@ -33,15 +33,13 @@ public class MouseAI : MobAI
 	{
 		//TODO eat cables if haven't eaten in a while
 
-		if (IsPerformingTask) return;
-
 		timeWaiting += Time.deltaTime;
 		if (timeWaiting > timeForNextRandomAction)
 		{
 			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(1f,30f);
+			timeForNextRandomAction = Random.Range(3f,30f);
 
-			DoRandomAction(Random.Range(1,2));
+			DoRandomSqueek();
 		}
 	}
 
@@ -65,16 +63,8 @@ public class MouseAI : MobAI
         Chat.AddActionMsgToChat(gameObject, $"{capMouseName} squeaks!", $"{capMouseName} squeaks!");
     }
 
-    private void DoRandomAction(int randAction)
+    private void DoRandomSqueek()
     {
-        switch (randAction)
-        {
-            case 1:
-                Squeak();
-                break;
-            case 3:
-                BeginExploring(exploreDuration: 10f);
-                break;
-        }
+       Squeak();
     }
 }
