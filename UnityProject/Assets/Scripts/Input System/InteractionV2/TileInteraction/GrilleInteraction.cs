@@ -9,62 +9,85 @@ using Random = UnityEngine.Random;
 public class GrilleInteraction : DeconstructWhenItemUsed
 {
 	private TileApply interaction;
+	private float voltage;
 
-	public override void ServerPerformInteraction(TileApply interaction)
+	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		this.interaction = interaction;
 
-		// If true, cancel the interact and apply electric shock.
-		if (ShouldApplyShock())
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		// If true, electrocute the performer and cancel the interaction.
+		if (ElectrocutionCriteriaMet())
 		{
-			ApplyShock();
+			Electrocute();
+			return false;
 		}
 		else
         {
-			base.ServerPerformInteraction(interaction);
+			return base.WillInteract(interaction, side);
         }
 	}
 
-	private bool ShouldApplyShock()
+	private bool ElectrocutionCriteriaMet()
     {
-		// TODO: Check if exposed cable node underneath
-		bool cableNodeUnderneath = false;
-
-
-		// TileApply properties
 		Vector3Int targetCellPos = interaction.TargetCellPos;
-		//InteractibleTiles targetInteractibleTiles = interaction.TargetInteractibleTiles;
-		TileChangeManager tileChangeManager = interaction.TileChangeManager;
-		BasicTile basicTile = interaction.BasicTile;
-		ItemSlot handSlot = interaction.HandSlot;
-		GameObject handObject = interaction.HandObject; // Or UsedObject? Change above too
-		Vector2 worldPositionTarget = interaction.WorldPositionTarget;
-		//ApplyType applyType = interaction.TileApplyType;
-		// TileApply methods
-		// No methods other than ToString();
+		Matrix matrix = interaction.Performer.GetComponentInParent<Matrix>();
+		MetaTileMap metaDataLayer = matrix.GetComponentInParent<MetaTileMap>();
 
-		//Chat.AddExamineMsgFromServer(interaction, targetInteractibleTiles);
+		// Check if the floor plating is exposed.
+		if (metaDataLayer.HasTile(targetCellPos, LayerType.Floors, true)) return false;
 
+		// Check for cables underneath the grille.
+		var eConns = matrix.GetElectricalConnections(targetCellPos);
+		if (eConns == null) return false;
 
+		// Get the highest voltage and whether there is a machine connector.
+		// Unfortuantely, the current powernet implementation means the cable will only report
+		// a voltage if both ends of the cable are connected to a consumer/producer, it seems.
+		// That's why we cannot simply read the connector voltage, and both ends of the cable
+		// need to be connected to the powernet.
+		bool connectorExists = false;
+		this.voltage = 0.0f;
+		foreach (var conn in eConns)
+        {
+			if (conn.InData.Categorytype == PowerTypeCategory.LowMachineConnector
+				|| conn.InData.Categorytype == PowerTypeCategory.MediumMachineConnector
+				|| conn.InData.Categorytype == PowerTypeCategory.HighMachineConnector)
+			{
+				connectorExists = true;
+				continue; // Connector won't report a voltage
+			}
+			if (conn.Data.ActualVoltage > this.voltage) this.voltage = conn.Data.ActualVoltage;
+		}
 
-		// TODO: Check if cable underneath is powered
-		bool cableNodePowered = false;
-		var insulated = interaction.PerformerPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.hands)
-				.ItemAttributes.HasTrait(CommonTraits.Instance.Insulated);
+		// Check that there is a machine connector.
+		if (!connectorExists) return false;
+
+		// Check if the voltage is sufficient enough.
+		if (voltage < 120) return false;
+
+		// Check if performer is insulated from electric shocks.
+		var gloves = interaction.PerformerPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.hands).ItemAttributes;
+		if (gloves != null && gloves.HasTrait(CommonTraits.Instance.Insulated)) return false;
+
+		// RNG the chance of electrocution. (Somewhat arbitrary value chosen)
 		float shockChance = Random.value;
+		if (shockChance > 0.6f) return false;
 
-		if (!cableNodeUnderneath) return false;
-		if (!cableNodePowered) return false;
-		if (insulated) return false;
-		if (shockChance > 0.6f) return false; // Chance grille manages to shock.
-
+		// All checks passed, electrocute the performer!
 		return true;
 	}
 
-	private void ApplyShock()
+	private void Electrocute()
     {
-		// TODO: Implement shock
-		// Remove the message when the shock animation has been implemented.
-		Chat.AddExamineMsgFromServer(interaction.Performer, "You were shocked!");
+		// TODO: Implement electrocution animation
+		SoundManager.PlayAtPosition("Sparks#", interaction.WorldPositionTarget, interaction.Performer);
+		interaction.Performer.GetComponent<RegisterPlayer>().ServerStun();
+		SoundManager.PlayAtPosition("Bodyfall", interaction.WorldPositionTarget, interaction.Performer);
+		// Remove the message when the shock animation has been implemented as it should be obvious enough.
+		Chat.AddExamineMsgFromServer(interaction.Performer, "You were electrocuted!");
+
+		// TODO: Add burn damage performer
 	}
 }
