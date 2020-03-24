@@ -375,6 +375,11 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 	}
 
+	public virtual void HuntMouse(MouseAI mouse)
+	{
+
+	}
+
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
 		ResetBehaviours();

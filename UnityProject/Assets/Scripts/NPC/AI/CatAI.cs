@@ -91,7 +91,7 @@ public class CatAI : MobAI
         BeginExploring(MobExplore.Target.mice, 10f);
 	}
 
-    public void HuntMouse(MouseAI mouse)
+    public override void HuntMouse(MouseAI mouse)
     {
         Hiss(mouse.gameObject);
         FollowTarget(mouse.gameObject.transform, 5f);
