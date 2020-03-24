@@ -14,7 +14,8 @@ public class MobExplore : MobAgent
 		food,
 		dirtyFloor,
 		missingFloor,
-		injuredPeople
+		injuredPeople,
+		mice
 	}
 
 	public Target target;
@@ -106,6 +107,18 @@ protected Vector3Int actionPosition;
 				return interactableTiles.MetaTileMap.GetTile(checkPos).LayerType == LayerType.Base;
 			case Target.injuredPeople:
 				return false;
+			// check for mice and food
+			case Target.mice:
+				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null)
+				{
+					target = Target.food;
+					return true;
+				}
+				else if (registerObj.Matrix.GetFirst<MouseAI>(checkPos, true) != null)
+				{
+					return true;
+				}
+				return false;
 		}
 		return false;
 	}
@@ -134,6 +147,15 @@ protected Vector3Int actionPosition;
 				interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
 				break;
 			case Target.injuredPeople:
+				break;
+			case Target.mice:
+				var mouse = registerObj.Matrix.GetFirst<MouseAI>(checkPos, true);
+				if (!mouse.GetComponent<SimpleAnimal>().IsDead 
+					&& mouse != null) mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(
+																				gameObject,
+																				100f,
+																				AttackType.Melee,
+																				DamageType.Brute);
 				break;
 		}
 	}
