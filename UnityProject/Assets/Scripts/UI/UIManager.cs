@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using AdminTools;
 using Mirror;
 using UI.UI_Bottom;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Unitystation.Options;
@@ -215,6 +217,22 @@ public class UIManager : MonoBehaviour
 
 		adminChatButtons.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		adminChatButtons.ClearAllNotifications();
+		adminChatWindows.ResetAll();
 	}
 
 	void DetermineInitialTargetFrameRate()

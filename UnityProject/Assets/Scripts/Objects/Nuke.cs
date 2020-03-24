@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// Main component for nuke.
 /// </summary>
-public class Nuke : NetworkBehaviour
+public class Nuke : NetworkBehaviour, IAdminInfo
 {
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
@@ -101,5 +101,10 @@ public class Nuke : NetworkBehaviour
 
 	public void Clear() {
 		currentCode = "";
+	}
+
+	public string AdminInfoString()
+	{
+		return $"Nuke Code: {nukeCode}";
 	}
 }
