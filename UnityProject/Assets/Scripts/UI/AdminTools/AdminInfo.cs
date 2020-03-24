@@ -14,13 +14,32 @@ namespace AdminTools
 	/// </summary>
 	public class AdminInfo : NetworkBehaviour
 	{
-		private List<IAdminInfo> adminInfos = new List<IAdminInfo>();
+		private IAdminInfo adminInfos;
+		[Tooltip("The position offset from the center of the tracked object")]
+		[SerializeField] private Vector2 offsetPosition;
+
+		public Vector2 OffsetPosition => offsetPosition;
+
+		public string StringInfo
+		{
+			get
+			{
+				if (adminInfos == null)
+				{
+					return "";
+				}
+				else
+				{
+					return adminInfos.AdminInfoString();
+				}
+			}
+		}
 
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
-			adminInfos.Clear();
-			adminInfos = GetComponents<IAdminInfo>().ToList();
+			adminInfos = GetComponent<IAdminInfo>();
+			AdminOverlay.ServerAddInfoPanel(netId, this);
 		}
 	}
 }
