@@ -30,12 +30,21 @@ public class CorgiAI : MobAI
 		capDogName = char.ToUpper(dogName[0]) + dogName.Substring(1);
 	}
 
-	private void SingleBark()
+	private void SingleBark(GameObject barked = null)
 	{
 		SoundManager.PlayNetworkedAtPos("Bark", 
 										gameObject.transform.position, 
 										Random.Range(.8F, 1.3F));
-		Chat.AddLocalMsgToChat($"{capDogName} barks!", gameObject.transform.position, gameObject);
+
+		if (barked != null)
+		{
+			Chat.AddActionMsgToChat(barked, $"{capDogName} barks at you!", 
+									$"{capDogName} barks at {barked.ExpensiveName()}");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"{capDogName} barks!", $"{capDogName} barks!");
+		}		
 	}
 
 	IEnumerator RandomBarks()
@@ -131,7 +140,8 @@ public class CorgiAI : MobAI
 	IEnumerator ChaseTail(int times)
 	{
 		var timesSpun = 0;
-		Chat.AddLocalMsgToChat($"{capDogName} start chasing its own tail!", gameObject.transform.position, gameObject);
+		Chat.AddActionMsgToChat(gameObject, $"{capDogName} start chasing its own tail!", $"{capDogName} start chasing its own tail!");
+;
 
 		while (timesSpun <= times)
 		{
@@ -178,7 +188,7 @@ public class CorgiAI : MobAI
 				RandomBarks();
 				break;
 			case 3:
-				Chat.AddLocalMsgToChat($"{capDogName} wags its tail!", gameObject.transform.position, gameObject);
+				Chat.AddActionMsgToChat(gameObject, $"{capDogName} wags its tail!", $"{capDogName} wags its tail!");
 				break;
 			case 4:
 				Chat.AddActionMsgToChat(performer, $"{capDogName} licks your hand!", 
