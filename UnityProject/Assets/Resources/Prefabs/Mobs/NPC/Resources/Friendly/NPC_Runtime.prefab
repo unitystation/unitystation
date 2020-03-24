@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 114582363912736342}
   - component: {fileID: 114774533267492450}
   - component: {fileID: 114791056930384320}
-  - component: {fileID: 1835663294993441926}
   - component: {fileID: 144592572944150269}
   - component: {fileID: 5061804172772503656}
   - component: {fileID: -6765002746793913123}
@@ -24,7 +23,7 @@ GameObject:
   - component: {fileID: 8438504971065900971}
   - component: {fileID: 42171897942477365}
   - component: {fileID: -3721379882699803303}
-  - component: {fileID: 7421623293247596268}
+  - component: {fileID: 1835663294993441926}
   m_Layer: 12
   m_Name: NPC_Runtime
   m_TagString: Untagged
@@ -193,18 +192,6 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &1835663294993441926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &144592572944150269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +235,7 @@ MonoBehaviour:
   performingAction: 0
   activated: 1
   tickRate: 1
-  target: 0
+  target: 4
   actionPerformTime: 0
 --- !u!114 &-6765002746793913123
 MonoBehaviour:
@@ -330,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7421623293247596268
+--- !u!114 &1835663294993441926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -339,12 +326,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1722833055556988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 715d7edbfa5ae6742b05a85634ad752c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobName: runtime
-  knockedDownRotation: 180
-  allowedToGiveCommands: 0d000000
 --- !u!1 &5258005088007752283
 GameObject:
   m_ObjectHideFlags: 0
