@@ -19,6 +19,15 @@ public class XenoAI : MobAI
 	private LayerMask hitMask;
 	private int playersLayer;
 
+	public List<string> DeathSounds = new List<string>();
+	public List<string> GenericSounds = new List<string>();
+
+	/// <summary>
+	/// Changes Time that a sound has the chance to play
+	/// WARNING, decreasing this time will decrease performance.
+	/// </summary>
+	public int PlaySoundTime = 3;
+
 	private bool alienScreechPlayed = false;
 
 	public enum XenoStatus
@@ -37,6 +46,7 @@ public class XenoAI : MobAI
 		playersLayer = LayerMask.NameToLayer("Players");
 		mobAttack = GetComponent<MobMeleeAttack>();
 		coneOfSight = GetComponent<ConeOfSight>();
+		PlaySound();
 	}
 
 	//AI is now active on the server
@@ -167,10 +177,10 @@ public class XenoAI : MobAI
 
 		if (IsDead || IsUnconscious)
 		{
-			if (IsDead && !alienScreechPlayed)
+			if (IsDead && !alienScreechPlayed && DeathSounds.Count > 0)
 			{
 				alienScreechPlayed = true;
-				SoundManager.PlayNetworkedAtPos("xenodie", transform.position, Random.Range(0.9f, 1.1f));
+				SoundManager.PlayNetworkedAtPos(DeathSounds[Random.Range(0, DeathSounds.Count - 1)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 
 			return;
@@ -204,6 +214,19 @@ public class XenoAI : MobAI
 		if (status == XenoStatus.Attacking || status == XenoStatus.None)
 		{
 			MonitorIdleness();
+		}
+	}
+
+	void PlaySound()
+	{
+		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0)
+		{
+			var num = Random.Range(1, 5);
+			if (num == 1)
+			{
+				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(0, GenericSounds.Count - 1)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+			}
+			Invoke("PlaySound", PlaySoundTime);
 		}
 	}
 

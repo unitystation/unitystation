@@ -11,6 +11,7 @@ using System.Collections;
 public class CorgiAI : MobAI
 {
 	private string dogName;
+	private string capDogName;
 
 	//Set this inspector. The corgi will only respond to
 	//voice commands from these job types:
@@ -26,6 +27,29 @@ public class CorgiAI : MobAI
 	{
 		base.Awake();
 		dogName = mobName.ToLower();
+		capDogName = char.ToUpper(dogName[0]) + dogName.Substring(1);
+	}
+
+	private void SingleBark()
+	{
+		SoundManager.PlayNetworkedAtPos("Bark", 
+										gameObject.transform.position, 
+										Random.Range(.8F, 1.3F));
+		Chat.AddLocalMsgToChat($"{capDogName} barks!",
+								gameObject.transform.position, gameObject);
+	}
+
+	IEnumerator RandomBarks()
+	{
+		int barkAmt = Random.Range(1, 4);
+		while (barkAmt > 0) 
+		{
+			SingleBark();
+			yield return WaitFor.Seconds(Random.Range(0.4f, 1f));
+			barkAmt--;
+		}
+
+		yield break;
 	}
 
 	protected override void AIStartServer()
@@ -80,6 +104,10 @@ public class CorgiAI : MobAI
 			{
 				yield return StartCoroutine(ChaseTail(1));
 			}
+			else
+			{
+				SingleBark();
+			}
 
 			FollowTarget(speaker.GameObject.transform);
 			yield break;
@@ -91,6 +119,10 @@ public class CorgiAI : MobAI
 			{
 				yield return StartCoroutine(ChaseTail(2));
 			}
+			else
+			{
+				SingleBark();
+			}
 
 			BeginExploring();
 			yield break;
@@ -100,6 +132,9 @@ public class CorgiAI : MobAI
 	IEnumerator ChaseTail(int times)
 	{
 		var timesSpun = 0;
+		Chat.AddLocalMsgToChat($"{capDogName} start chasing its own tail!", 
+								gameObject.transform.position,
+								gameObject);
 
 		while (timesSpun <= times)
 		{
@@ -112,20 +147,25 @@ public class CorgiAI : MobAI
 			timesSpun++;
 		}
 
+		StartCoroutine(RandomBarks());
+
 		yield return WaitFor.EndOfFrame;
 	}
 
 	//TODO: Do extra stuff on these events, like barking when being told to sit:
 	void OnFleeStopped()
 	{
+		StartCoroutine(RandomBarks());
 	}
 
 	void OnExploreStopped()
 	{
+		StartCoroutine(RandomBarks());
 	}
 
 	void OnFollowingStopped()
 	{
+		StartCoroutine(RandomBarks());
 	}
 
 	//Updates only on the server

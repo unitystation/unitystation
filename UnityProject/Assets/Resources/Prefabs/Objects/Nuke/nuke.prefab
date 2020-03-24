@@ -96,11 +96,11 @@ GameObject:
   - component: {fileID: 114958218028397826}
   - component: {fileID: 114970301685184636}
   - component: {fileID: 114285602872890758}
-  - component: {fileID: 3598894608692613034}
   - component: {fileID: 8332996165049030563}
   - component: {fileID: 114093552067593536}
   - component: {fileID: 114554877333081812}
   - component: {fileID: 114138874156132524}
+  - component: {fileID: -8641979082638113372}
   m_Layer: 11
   m_Name: nuke
   m_TagString: Untagged
@@ -205,7 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114958218028397826
@@ -252,30 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3598894608692613034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1754288526301548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 0
-  pushPullSound: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8332996165049030563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114554877333081812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -328,13 +305,13 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   Resistances:
-    LavaProof: 0
-    FireProof: 0
+    LavaProof: 1
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 1
-    FreezeProof: 0
+    FreezeProof: 1
   HeatResistance: 100
   initialIntegrity: 100
 --- !u!114 &114138874156132524
@@ -349,7 +326,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3252079613
+--- !u!114 &-8641979082638113372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc34b2077deffe4ca88851eaaff1394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  offsetPosition: {x: 0, y: -0.6}

@@ -77,7 +77,8 @@ public class CargoManager : MonoBehaviour
 			return;
 		}
 
-		if (CurrentFlyTime > 0f)
+		if (CurrentFlyTime > 0f || ShuttleStatus == ShuttleStatus.OnRouteCentcom
+		                        || ShuttleStatus == ShuttleStatus.OnRouteStation)
 		{
 			return;
 		}
@@ -125,6 +126,7 @@ public class CargoManager : MonoBehaviour
 			yield return WaitFor.Seconds(1);
 		}
 
+		CurrentFlyTime = 0f;
 		if (launchToStation)
 		{
 			CargoShuttle.Instance.MoveToStation();

@@ -111,7 +111,7 @@ public class GUI_Comms : NetTab
 
 		bool isRecall = shuttle.Status == ShuttleStatus.OnRouteStation;
 
-		var minutes = 2;
+		
 
 		string callResult;
 		bool ok;
@@ -136,6 +136,7 @@ public class GUI_Comms : NetTab
 				ok = shuttle.CallShuttle(out callResult);
 				if ( ok )
 				{
+					var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
 					CentComm.MakeShuttleCallAnnouncement( minutes, text );
 					RefreshCallButtonText();
 				}

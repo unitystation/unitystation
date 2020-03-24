@@ -96,7 +96,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 				Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 					thisPlayerScript.playerName + " has removed their cuffs");
 
-				SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition);
+				SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
 			}
 			yield return WaitFor.EndOfFrame;
 		}
@@ -105,7 +105,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	bool CanUncuff()
 	{
 		PlayerHealth playerHealth = thisPlayerScript.playerHealth;
-		
+
 		if (playerHealth == null ||
 			playerHealth.ConsciousState == ConsciousState.DEAD ||
 			playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||

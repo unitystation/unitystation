@@ -13,9 +13,28 @@ public partial class GameManager
 	[SerializeField]
 	private EscapeShuttle primaryEscapeShuttle;
 
+	private void InitEscapeShuttle ()
+	{
+		//Primary escape shuttle lookup
+		if (!PrimaryEscapeShuttle)
+		{
+			var shuttles = FindObjectsOfType<EscapeShuttle>();
+			if (shuttles.Length != 1)
+			{
+				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
+				return;
+			}
+			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene");
+			primaryEscapeShuttle = shuttles[0];
+		}
+	}
+
+
+
 	/// <summary>
 	/// Called after MatrixManager is initialized
 	/// </summary>
+	///
 	private void InitEscapeStuff()
 	{
 		//Primary escape shuttle lookup

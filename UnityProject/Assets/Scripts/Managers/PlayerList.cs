@@ -268,6 +268,15 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
+	public bool IsAntag(GameObject playerObj)
+	{
+		var conn = Get(playerObj);
+		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
+		if (conn.Script.mind.IsAntag) return true;
+		return false;
+	}
+
+	[Server]
 	public ConnectedPlayer GetByUserID(string byUserID)
 	{
 		return getInternal(player => player.UserId == byUserID);

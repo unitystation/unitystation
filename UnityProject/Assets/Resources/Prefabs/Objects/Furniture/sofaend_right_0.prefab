@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: -7408363982461268671}
   - component: {fileID: 2218311234854299122}
   - component: {fileID: -996643879048408594}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: sofaend_right_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
-  objectType: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &7862356214891882554
@@ -227,6 +227,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &2213441966020063452
 MonoBehaviour:
   m_ObjectHideFlags: 0

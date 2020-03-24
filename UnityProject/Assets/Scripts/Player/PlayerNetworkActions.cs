@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AdminTools;
 using UnityEngine;
 using Mirror;
 
@@ -117,7 +118,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				// Throw the player down to the floor for 15 seconds.
 				playerScript.registerTile.ServerStun(15);
-				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 			}
 			else
 			{
@@ -403,7 +404,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -415,7 +416,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -684,7 +685,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (5 >= rng.Next(1, 100))
 		{
 			disarmedPlayerRegister.ServerStun(6f, false);
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",
 				$"{disarmerName} has knocked {playerToDisarmName} down!");
@@ -703,14 +704,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				Inventory.ServerDrop(rightHandSlot);
 			}
 
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have disarmed {playerToDisarmName}!",
 				$"{disarmerName} has disarmed {playerToDisarmName}!");
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You attempted to disarm {playerToDisarmName}!",
 				$"{disarmerName} has attempted to disarm {playerToDisarmName}!");
@@ -783,6 +784,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 		GameManager.Instance.CentComm.MakeCommandReport(text,
 														CentComm.UpdateSound.notice);
+	}
+
+	[Command]
+	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
+	{
+		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
 
 	#endregion
