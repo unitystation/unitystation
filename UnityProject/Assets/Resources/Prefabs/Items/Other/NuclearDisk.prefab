@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteList:
+  - {fileID: 21300000, guid: 9dfb6f9495b447a4f864094b7ce55dda, type: 3}
+  - {fileID: 21300002, guid: 9dfb6f9495b447a4f864094b7ce55dda, type: 3}
+  spriteRenderer: {fileID: 258282391410694394}
 --- !u!1001 &101322261917603612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -204,6 +208,12 @@ PrefabInstance:
 --- !u!1 &100328150011014054 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 101322261917603612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &258282391410694394 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 101322261917603612}
   m_PrefabAsset: {fileID: 0}
