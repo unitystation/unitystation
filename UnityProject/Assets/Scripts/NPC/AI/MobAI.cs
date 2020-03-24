@@ -370,6 +370,11 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		followingTime = 0f;
 	}
 
+	public virtual void OnPetted(GameObject performer)
+	{
+
+	}
+
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
 		ResetBehaviours();
