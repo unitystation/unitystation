@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
+  m_Name: CarpetOrange
+  m_EditorClassIdentifier: 
+  displayName: 
+  LayerType: 3
+  TileType: 3
+  RequiredTiles:
+  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  WalkingSoundCategory: 2
+  BarefootWalkingSoundCategory: 2
+  ClawFootstepSoundCategory: 2
+  HeavyFootstepSoundCategory: 2
+  ClownFootstepSoundCategory: 2
+  atmosPassable: 1
+  isSealed: 1
+  SpawnWithNoAir: 0
+  oreCategory: 0
+  MaxHealth: 0
+  HealthStates: []
+  passable: 1
+  mineable: 0
+  passableException:
+    m_keys: 01000000
+    m_values: 00
+  maxHealth: 0
+  healthStates: []
+  resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  tileInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
+  connectCategory: 3
+  connectType: 2
+  spriteSheet:
+    Texture: {fileID: 2800000, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    Sprites:
+    - {fileID: -3614913575238714831, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 4343523090032800010, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -8638850252919662649, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -1301761643752997177, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 2711769959590954079, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -1857390085566611051, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 6563105534239281362, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -5471461889858829128, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 4697201905773998829, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -6725950770694797169, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -8899088202528735385, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 8448745252166093866, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 1442226630749265835, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -7794469191949715633, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 8961373471170619339, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -832710855244076387, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 6202504838531510652, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -6164120332265483971, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -6921466330029767387, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 4973541826584594609, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -3986779945586941466, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 5975355803167872783, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 7664392805675233110, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 8610854971589576021, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 4047145653411779750, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 6706641010578056640, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 5263833583450539428, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 4119182889553624836, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -6384740500229260915, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -2252408426340309968, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -6388690694549885652, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -4560010664062804050, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -8635866374289787851, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 2887187874020047848, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 6894440507941050796, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 6618797263747970108, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 8108390789895425575, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -1302169952975757671, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -1610914546660582522, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -8230391897700116372, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 5167165270220911202, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 5260906376916704354, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -8088945408163077814, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -3669243141371181745, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 972260878216676191, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 5623818014297688542, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: -5372542320265756682, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    - {fileID: 6271202458095387006, guid: 87373ae482782354c8ec5cc0e62ece2f, type: 3}
+    EquippedData: {fileID: 0}
+  texturePath: textures\floors\connected textures\carpet_orange

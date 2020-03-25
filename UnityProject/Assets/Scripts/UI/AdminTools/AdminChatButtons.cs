@@ -1,7 +1,6 @@
 ﻿using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 namespace AdminTools
 {
@@ -20,20 +19,12 @@ namespace AdminTools
 		private void OnEnable()
 		{
 			adminChatWindows.WindowChangeEvent += OnAdminChatWindowChange;
-			SceneManager.activeSceneChanged += OnSceneChange;
 			ToggleButtons(AdminChatWindow.None);
 		}
 
 		private void OnDisable()
 		{
 			adminChatWindows.WindowChangeEvent -= OnAdminChatWindowChange;
-			SceneManager.activeSceneChanged -= OnSceneChange;
-		}
-
-		void OnSceneChange(Scene oldScene, Scene newScene)
-		{
-			ClearAllNotifications();
-			adminChatWindows.ResetAll();
 		}
 
 		void OnAdminChatWindowChange(AdminChatWindow selectedWindow)
@@ -88,6 +79,9 @@ namespace AdminTools
 
 			foreach (var n in playerNotification.notifications)
 			{
+				if (PlayerList.Instance.GetByUserID(n.Key) == null
+				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
+
 				update.notificationEntries.Add(new AdminChatNotificationEntry
 				{
 					Amount = n.Value,
@@ -98,6 +92,9 @@ namespace AdminTools
 
 			foreach (var n in prayerNotification.notifications)
 			{
+				if (PlayerList.Instance.GetByUserID(n.Key) == null
+				    || PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
+
 				update.notificationEntries.Add(new AdminChatNotificationEntry
 				{
 					Amount = n.Value,

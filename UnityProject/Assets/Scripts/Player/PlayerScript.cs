@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using Mirror;
 using System;
 
-public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
+public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 {
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
@@ -325,15 +325,15 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 		{
 			SyncVisibleName("Unknown", "Unknown");
 		}
-		
+
 		// ...but if ID card is in belt slot, override with ID card data.
 		string idname = Equipment.GetIdentityFromID();
 		if (!String.Equals(idname, ""))
 		{
 			SyncVisibleName(idname, idname);
 		}
-		
-		
+
+
 	}
 
 	//Tooltips inspector bar
@@ -361,5 +361,20 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation
 				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
 			}
 		}
+	}
+
+	public string AdminInfoString()
+	{
+		var text = "";
+		if (PlayerList.Instance.IsAntag(gameObject))
+		{
+			return $"<color=yellow>Name: {characterSettings.Name}\r\n" +
+			       $"Acc: {characterSettings.username}\r\n" +
+			       $"Antag: True</color>";
+		}
+
+		return $"Name: {characterSettings.Name}\r\n" +
+		       $"Acc: {characterSettings.username}\r\n" +
+		       $"Antag: False";
 	}
 }
