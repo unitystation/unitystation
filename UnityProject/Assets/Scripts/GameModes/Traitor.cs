@@ -75,5 +75,7 @@ public class Traitor : GameMode
 		}
 
 		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType);
+					&& AntagManager.Instance.AntagCount == 0
+					&& PlayerList.Instance.InGamePlayers.Count > 0;
 	}
 }
