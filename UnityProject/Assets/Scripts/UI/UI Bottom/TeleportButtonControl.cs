@@ -20,7 +20,11 @@ public class TeleportButtonControl : MonoBehaviour
 
 	public void GenButtons()
 	{
-		SearchBar.Resettext();
+		if (SearchBar != null)
+		{
+			SearchBar.Resettext();
+		}
+		
 
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
 		{
@@ -46,7 +50,10 @@ public class TeleportButtonControl : MonoBehaviour
 	//Buttons for Teleport Tab
 	public void PlacesGenButtons()
 	{
-		SearchBar.Resettext();
+		if (SearchBar != null)
+		{
+			SearchBar.Resettext();
+		}
 
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
 		{

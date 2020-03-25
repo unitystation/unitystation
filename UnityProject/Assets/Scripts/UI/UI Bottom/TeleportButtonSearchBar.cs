@@ -39,7 +39,7 @@ public class TeleportButtonSearchBar : MonoBehaviour
 
 	public void Search()
 	{
-		foreach (GameObject x in HiddenButtons)
+		foreach (GameObject x in HiddenButtons)//Hidden Buttons stores list of the hidden items which dont contain the search phrase
 		{
 			if (x != null)
 			{
@@ -48,7 +48,7 @@ public class TeleportButtonSearchBar : MonoBehaviour
 		}
 		HiddenButtons.Clear();
 		
-		var buttons = gameObject.transform.parent.GetComponent<TeleportButtonControl>().teleportButtons;
+		var buttons = gameObject.transform.parent.GetComponent<TeleportButtonControl>().teleportButtons;//Grabs fresh list of all the possible buttons
 
 		for (int i = 0; i < buttons.Count; i++)
 		{
@@ -59,14 +59,14 @@ public class TeleportButtonSearchBar : MonoBehaviour
 				}
 				else
 				{
-					HiddenButtons.Add(buttons[i]);
+					HiddenButtons.Add(buttons[i]);//non-results get hidden
 					buttons[i].SetActive(false);
 				}
 			}
 		}
 	}
 
-	public void Resettext()
+	public void Resettext()//resets search field text everytime window is closed
 	{
 		Searchtext.text = "";
 	}
