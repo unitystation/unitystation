@@ -92,15 +92,15 @@ public class GhostTeleport : MonoBehaviour
 	//Grabs data needed for teleport.
 	public void DataForTeleport(int index)
 	{
-		var s4 = MobList[index].Item4;//Grabs gameobject from dictionary
+		var mobList = MobList[index].Item4;//Grabs gameobject from dictionary
 
-		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player you want to teleport to coords
+		var mobListPosition = mobList.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player you want to teleport to coords
 
 		var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
 
-		if (s3 != playerPosition)//Spam Prevention
+		if (mobListPosition != playerPosition)//Spam Prevention
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(mobListPosition);
 		}
 	}
 
