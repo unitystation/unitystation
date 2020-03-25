@@ -70,7 +70,7 @@ public class Traitor : GameMode
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
 
-		for (int i = 0; i < TraitorAmount; i++) {
+		for (int i = 0; i < TraitorAmount - 1; i++) {
 			return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
 					&& AntagManager.Instance.AntagCount == 0
 					&& PlayerList.Instance.InGamePlayers.Count > 0;
