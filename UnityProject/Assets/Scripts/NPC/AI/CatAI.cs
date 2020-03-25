@@ -44,7 +44,7 @@ public class CatAI : MobAI
 			timeWaiting = 0f;
 			timeForNextRandomAction = Random.Range(8f,30f);
 
-			DoRandomAction(Random.Range(1,5));
+			DoRandomAction(Random.Range(1,6));
 		}
 	}
     
@@ -56,7 +56,7 @@ public class CatAI : MobAI
 
     public override void OnPetted(GameObject performer)
     {
-        int randAction = Random.Range(1,5);
+        int randAction = Random.Range(1,6);
         switch (randAction)
         {
             case 1:
