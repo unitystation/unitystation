@@ -104,7 +104,10 @@ public class GhostTeleport : MonoBehaviour
 
 		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player coords
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
+		if (s3 != MobList[index].Item3)//Spam Prevention
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
+		}
 	}
 
 	//Logic for Teleport to places:
@@ -150,6 +153,10 @@ public class GhostTeleport : MonoBehaviour
 	{
 		var gameobject = PlacesDict[index].Item3;
 		var vector = gameobject.transform.position;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
+
+		if (vector != PlacesDict[index].Item2)//Spam Prevention
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
+		}
 	}
 }
