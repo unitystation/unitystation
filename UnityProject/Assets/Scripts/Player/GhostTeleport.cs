@@ -43,7 +43,6 @@ public class GhostTeleport : MonoBehaviour
 
 		if (PlayerBodies == null | PlayerBodies.Count() == 0)//If list of PlayerScripts is empty donr run rest of code.
 		{
-			Logger.Log("PlayerBodies was null or 0");
 		}
 		else
 		{
@@ -82,7 +81,6 @@ public class GhostTeleport : MonoBehaviour
 	public void DataForTeleport(int index)
 	{
 		var s3 = MobList[index].Data.s3;//Grabs Position from dictionary
-		GameObject localPlayer = PlayerManager.LocalPlayer;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3, localPlayer);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
 	}
 }

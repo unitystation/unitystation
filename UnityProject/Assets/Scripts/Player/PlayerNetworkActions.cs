@@ -719,16 +719,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdGhostPerformTeleport(Vector3 s3, GameObject localPlayer)
+	public void CmdGhostPerformTeleport(Vector3 s3)
 	{
-		ServerGhostPerformTeleport(s3, localPlayer);
+		ServerGhostPerformTeleport(s3);
 	}
 
 	[Server]
-	public void ServerGhostPerformTeleport(Vector3 s3, GameObject localPlayer)
+	public void ServerGhostPerformTeleport(Vector3 s3)
 	{
-		Logger.Log("tried to teleport to " + s3);
-		playerScript.PlayerSync.SetPosition(s3); //server forces position on player
+		if (playerScript.IsGhost)
+		{
+			playerScript.PlayerSync.SetPosition(s3); //server forces position on player
+		}
 	}
 
 	//admin only commands
