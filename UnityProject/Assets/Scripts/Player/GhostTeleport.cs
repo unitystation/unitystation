@@ -19,8 +19,6 @@ public class GhostTeleport : MonoBehaviour
 	private string Status;
 	private Vector3 Position;
 	private GameObject mobGameObject;
-	private PlayerManager playerManager;
-	private PlayerSync playerSync;
 
 	//Places
 	public IDictionary<int, Tuple<string, Vector3, GameObject>> PlacesDict = new Dictionary<int, Tuple<string, Vector3, GameObject>>();
@@ -29,12 +27,6 @@ public class GhostTeleport : MonoBehaviour
 	private string NameOfPlace;
 	private Vector3 PlacePosition;
 	private GameObject placeGameObject;
-
-	private void Start()
-	{
-		playerManager = PlayerManager.Instance;
-		playerSync = GetComponent<PlayerSync>();
-	}
 
 	//Logic for teleporting to players
 	//Dictionary of Key(int), object/mob name, status (alive/dead/ghost/none), postion(vector3), GameObject
@@ -104,7 +96,7 @@ public class GhostTeleport : MonoBehaviour
 
 		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player you want to teleport to coords
 
-		var playerPosition = playerSync.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+		var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
 
 		if (s3 != playerPosition)//Spam Prevention
 		{
@@ -156,7 +148,7 @@ public class GhostTeleport : MonoBehaviour
 		var gameobject = PlacesDict[index].Item3;
 		var vector = gameobject.transform.position;//Gets current coords of object
 
-		var playerPosition = playerSync.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+		var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
 
 		if (vector != playerPosition)//Spam Prevention
 		{
