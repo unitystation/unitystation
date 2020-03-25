@@ -17,16 +17,18 @@ public class UI_GhostOptions : MonoBehaviour
 
 	public void JumpToMob()
 	{
-		if (TeleportScreenOpen == true)
+		if (TeleportScreenOpen == true)// close screen if true
 		{
 			transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
+			TeleportScreenOpen = false;
 		}
-		else if (TeleportScreenOpen == false & PlacesTeleportScreenOpen == true)
+		else if (TeleportScreenOpen == false & PlacesTeleportScreenOpen == true)//switches to mob screen from places if true
 		{
 			TeleportScreenOpen = true;
-			GetComponentInChildren<TeleportButtonControl>().PlacesGenButtons();
+			PlacesTeleportScreenOpen = false;
+			GetComponentInChildren<TeleportButtonControl>().GenButtons();
 		}
-		else
+		else//opens screen
 		{
 			transform.Find("TeleportButtonScrollList").gameObject.SetActive(true);
 			TeleportScreenOpen = true;
@@ -45,16 +47,18 @@ public class UI_GhostOptions : MonoBehaviour
 
 	public void Teleport()
 	{
-		if (PlacesTeleportScreenOpen == true)
+		if (PlacesTeleportScreenOpen == true)//Close screen if true
 		{
 			transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
+			PlacesTeleportScreenOpen = false;
 		}
-		else if (PlacesTeleportScreenOpen == false & TeleportScreenOpen == true)
+		else if (PlacesTeleportScreenOpen == false & TeleportScreenOpen == true)// switches to Place Teleport if mob teleport is open
 		{
 			PlacesTeleportScreenOpen = true;
+			TeleportScreenOpen = false;
 			GetComponentInChildren<TeleportButtonControl>().PlacesGenButtons();
 		}
-		else
+		else//opens screen
 		{
 			transform.Find("TeleportButtonScrollList").gameObject.SetActive(true);
 			PlacesTeleportScreenOpen = true;
@@ -95,7 +99,7 @@ public class UI_GhostOptions : MonoBehaviour
 	}
 
 	//closes window.
-	public void TeleportScreenClose()
+	public void TeleportScreenClose()//closes screen by close button
 	{
 		transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
 		TeleportScreenOpen = false;

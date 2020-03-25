@@ -23,11 +23,12 @@ public class GhostTeleport : MonoBehaviour
 	private PlayerSync playerSync;
 
 	//Places
-	public IDictionary<int, Tuple<string, Vector3>> PlacesDict = new Dictionary<int, Tuple<string, Vector3>>();
+	public IDictionary<int, Tuple<string, Vector3, GameObject>> PlacesDict = new Dictionary<int, Tuple<string, Vector3, GameObject>>();
 
 	public int PlacesCount = 0;
 	private string NameOfPlace;
 	private Vector3 PlacePosition;
+	private GameObject placeGameObject;
 
 	private void Start()
 	{
@@ -109,7 +110,7 @@ public class GhostTeleport : MonoBehaviour
 	//Logic for Teleport to places:
 	public void PlacesAddToDict()
 	{
-		var entry = new Tuple<string, Vector3>(NameOfPlace, PlacePosition);
+		var entry = new Tuple<string, Vector3, GameObject>(NameOfPlace, PlacePosition, placeGameObject);
 		PlacesDict.Add(PlacesCount, entry);
 		PlacesCount += 1;
 	}
@@ -137,15 +138,18 @@ public class GhostTeleport : MonoBehaviour
 
 				PlacePosition = place.transform.position;// Only way to get position of this object.
 
+				placeGameObject = place.gameObject;
+
 				PlacesAddToDict();
 			}
 		}
 	}
 
-	//Gets Places Data for teleport, NOTE: unlike to mobs teleport the coords are not updated.
+	//Gets Places Data for teleport, is updated to latest coord.
 	public void PlacesDataForTeleport(int index)
 	{
-		var vector = PlacesDict[index].Item2;
+		var gameobject = PlacesDict[index].Item3;
+		var vector = gameobject.transform.position;
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
 	}
 }

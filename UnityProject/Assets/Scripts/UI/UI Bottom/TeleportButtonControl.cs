@@ -7,12 +7,21 @@ public class TeleportButtonControl : MonoBehaviour
 	[SerializeField]
 	private GameObject buttonTemplate;//Sets what button to use in editor
 	private GhostTeleport ghostTeleport;
-	private List<GameObject> teleportButtons = new List<GameObject>();
+	private TeleportButtonSearchBar SearchBar;
+	public List<GameObject> teleportButtons = new List<GameObject>();
 
 	//Generates the amount of buttons as the number of entries in the MobList dictionary
 	//Buttons for Teleporting To Mobs Tab
+
+	private void Start()
+	{
+		SearchBar = GetComponentInChildren<TeleportButtonSearchBar>();
+	}
+
 	public void GenButtons()
 	{
+		SearchBar.Resettext();
+
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
 		{
 			Destroy(x);
@@ -37,6 +46,8 @@ public class TeleportButtonControl : MonoBehaviour
 	//Buttons for Teleport Tab
 	public void PlacesGenButtons()
 	{
+		SearchBar.Resettext();
+
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
 		{
 			Destroy(x);

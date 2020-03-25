@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TeleportButton : MonoBehaviour
 {
 	[SerializeField]
-	private Text myText;
+	public Text myText;
 
 	public int index;
 
