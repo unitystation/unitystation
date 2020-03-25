@@ -15,9 +15,7 @@ public class Traitor : GameMode
 	{
 		Logger.Log("Setting up traitor round!", Category.GameMode);
 
-		///<summary>
-		/// Populates traitors based on server population
-		/// </summary>
+		//Populates traitors based on server population
 		if(PlayerList.Instance.InGamePlayers.Count <= 150 && PlayerList.Instance.InGamePlayers.Count >= 50)
 		{
 			TraitorAmount = 6;
