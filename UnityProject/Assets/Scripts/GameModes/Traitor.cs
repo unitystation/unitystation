@@ -8,9 +8,30 @@ public class Traitor : GameMode
 	/// <summary>
 	/// Set up the station for the game mode
 	/// </summary>
+	///
+	private float TraitorAmount = 0;
+
 	public override void SetupRound()
 	{
 		Logger.Log("Setting up traitor round!", Category.GameMode);
+
+		///<summary>
+		/// Populates traitors based on server population
+		/// </summary>
+		if(PlayerList.Instance.InGamePlayers.Count <= 150 && PlayerList.Instance.InGamePlayers.Count >= 50)
+		{
+			TraitorAmount = 6;
+		}
+			else if(PlayerList.Instance.InGamePlayers.Count < 50 && PlayerList.Instance.InGamePlayers.Count >= 10)
+		{
+				TraitorAmount = 4;
+		}
+			else
+		{
+				TraitorAmount = 1;
+		}
+		
+
 	}
 	/// <summary>
 	/// Begin the round
@@ -48,8 +69,13 @@ public class Traitor : GameMode
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
-				&& AntagManager.Instance.AntagCount == 0 
-				&& PlayerList.Instance.InGamePlayers.Count > 0;
+
+		for (int i = 0; i < TraitorAmount; i++) {
+			return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
+					&& AntagManager.Instance.AntagCount == 0
+					&& PlayerList.Instance.InGamePlayers.Count > 0;
+		}
+
+		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType);
 	}
 }
