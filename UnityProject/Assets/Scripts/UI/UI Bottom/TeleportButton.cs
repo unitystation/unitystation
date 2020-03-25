@@ -10,6 +10,8 @@ public class TeleportButton : MonoBehaviour
 
 	public int index;
 
+	public bool MobTeleport = false;
+
 	private GhostTeleport ghostTeleport;
 
 	public void SetTeleportButtonText(string textString)
@@ -20,6 +22,14 @@ public class TeleportButton : MonoBehaviour
 	public void Onclick()
 	{
 		ghostTeleport = GetComponentInParent<GhostTeleport>();
-		ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
+
+		if (MobTeleport == true)
+		{
+			ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
+		}
+		else
+		{
+			ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
+		}
 	}
 }

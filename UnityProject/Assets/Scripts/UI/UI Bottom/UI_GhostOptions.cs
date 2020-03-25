@@ -8,6 +8,7 @@ public class UI_GhostOptions : MonoBehaviour
 	[SerializeField] private Text ghostHearText = null;
 
 	private bool TeleportScreenOpen = false;
+	private bool PlacesTeleportScreenOpen = false;
 
 	void OnEnable()
 	{
@@ -16,7 +17,21 @@ public class UI_GhostOptions : MonoBehaviour
 
 	public void JumpToMob()
 	{
-		TeleportScreenStatus();
+		if (TeleportScreenOpen == true)
+		{
+			transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
+		}
+		else if (TeleportScreenOpen == false & PlacesTeleportScreenOpen == true)
+		{
+			TeleportScreenOpen = true;
+			GetComponentInChildren<TeleportButtonControl>().PlacesGenButtons();
+		}
+		else
+		{
+			transform.Find("TeleportButtonScrollList").gameObject.SetActive(true);
+			TeleportScreenOpen = true;
+			GetComponentInChildren<TeleportButtonControl>().GenButtons();
+		}
 	}
 
 	public void Orbit()
@@ -30,7 +45,21 @@ public class UI_GhostOptions : MonoBehaviour
 
 	public void Teleport()
 	{
-		TeleportScreenStatus();
+		if (PlacesTeleportScreenOpen == true)
+		{
+			transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
+		}
+		else if (PlacesTeleportScreenOpen == false & TeleportScreenOpen == true)
+		{
+			PlacesTeleportScreenOpen = true;
+			GetComponentInChildren<TeleportButtonControl>().PlacesGenButtons();
+		}
+		else
+		{
+			transform.Find("TeleportButtonScrollList").gameObject.SetActive(true);
+			PlacesTeleportScreenOpen = true;
+			GetComponentInChildren<TeleportButtonControl>().PlacesGenButtons();
+		}
 	}
 
 	public void pAIcandidate()
@@ -66,18 +95,10 @@ public class UI_GhostOptions : MonoBehaviour
 	}
 
 	//Checking to see if window is open and whether to close it.
-	public void TeleportScreenStatus()
+	public void TeleportScreenClose()
 	{
-		if (!TeleportScreenOpen)
-		{
-			transform.Find("TeleportButtonScrollList").gameObject.SetActive(true);
-			TeleportScreenOpen = true;
-			GetComponentInChildren<TeleportButtonControl>().GenButtons();
-		}
-		else
-		{
-			transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
-			TeleportScreenOpen = false;
-		}
+		transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
+		TeleportScreenOpen = false;
+		PlacesTeleportScreenOpen = false;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,13 @@ public class GhostTeleport : MonoBehaviour
 	private GameObject mobGameObject;
 	private PlayerManager playerManager;
 	private PlayerSync playerSync;
+
+	//Places
+	public IDictionary<int, Tuple<string, Vector3>> PlacesDict = new Dictionary<int, Tuple<string, Vector3>>();
+
+	public int PlacesCount = 0;
+	private string NameOfPlace;
+	private Vector3 PlacePosition;
 
 	private void Start()
 	{
@@ -42,7 +50,7 @@ public class GhostTeleport : MonoBehaviour
 		Count = 0;
 		var PlayerBodies = FindObjectsOfType(typeof(PlayerScript));
 
-		if (PlayerBodies == null | PlayerBodies.Count() == 0)//If list of PlayerScripts is empty donr run rest of code.
+		if (PlayerBodies == null | PlayerBodies.Count() == 0)//If list of PlayerScripts is empty dont run rest of code.
 		{
 		}
 		else
@@ -95,5 +103,45 @@ public class GhostTeleport : MonoBehaviour
 		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player coords
 
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
+	}
+
+	public void PlacesAddToDict()
+	{
+		var entry = new Tuple<string, Vector3>(NameOfPlace, PlacePosition);
+		PlacesDict.Add(PlacesCount, entry);
+		PlacesCount += 1;
+	}
+
+	public void PlacesFindData()
+	{
+		PlacesDict.Clear();
+		PlacesCount = 0;
+
+		var placeGameObjects = FindObjectsOfType(typeof(SpawnPoint));
+
+		if (placeGameObjects == null | placeGameObjects.Count() == 0)//If list of SpawnPoints is empty dont run rest of code.
+		{
+		}
+		else
+		{
+			foreach (SpawnPoint place in placeGameObjects)
+			{
+				NameOfPlace = place.name;
+
+				if (NameOfPlace.Length == 0)
+				{
+					NameOfPlace = "Has No Name";
+				}
+
+				PlacePosition = place.transform.position;
+
+				PlacesAddToDict();
+			}
+		}
+	}
+	public void PlacesDataForTeleport(int index)
+	{
+		var vector = PlacesDict[index].Item2;
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
 	}
 }
