@@ -22,7 +22,7 @@ public class ParrotAI : MobAI
 		base.Awake();
 		parrotName = mobName.ToLower();
 		capParrotName = char.ToUpper(parrotName[0]) + parrotName.Substring(1);
-		BeginExploring(MobExplore.Target.people);
+		BeginExploring(MobExplore.Target.players);
 	}
 
 	protected override void UpdateMe()
@@ -36,8 +36,11 @@ public class ParrotAI : MobAI
 	public override void LocalChatReceived(ChatEvent chatEvent)
 	{
 		var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-		if (speaker.Script == null
-			|| speaker.Script.playerNetworkActions == null) return;
+		if (speaker.Script == null || speaker.Script.playerNetworkActions == null)
+		{
+			return;
+		}
+
 		lastHeardMsg = chatEvent.message;
 	}
 
@@ -49,9 +52,9 @@ public class ParrotAI : MobAI
 		if (timeWaiting > timeForNextRandomAction)
 		{
 			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(1f,30f);
+			timeForNextRandomAction = Random.Range(1f, 30f);
 
-			DoRandomAction(Random.Range(1,3));
+			DoRandomAction();
 		}
 	}
 
@@ -68,6 +71,7 @@ public class ParrotAI : MobAI
 	// Steals shit from your active hand
 	public override void ExplorePeople(PlayerScript player)
 	{
+		if (player.IsGhost) return;
 		var inventory = player.GetComponent<ItemStorage>();
 		var thingInHand = inventory.GetActiveHandSlot();
 
@@ -91,9 +95,10 @@ public class ParrotAI : MobAI
 	private void Speak(string text)
 	{
 		//TODO use the actual chat api when it allows it!
-		Chat.AddLocalMsgToChat($"<b>{capParrotName} says</b>, \"{text}\"",
-								gameObject.transform.position,
-								gameObject);
+		Chat.AddLocalMsgToChat(
+			$"<b>{capParrotName} says</b>, \"{text}\"",
+			gameObject.transform.position,
+			gameObject);
 		ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);
 	}
 	private void SayRandomThing()
@@ -111,10 +116,7 @@ public class ParrotAI : MobAI
 		}
 		else
 		{	
-			Speak
-			(
-				pollyPhrases[Random.Range(0, pollyPhrases.Length)]
-			);
+			Speak(pollyPhrases[Random.Range(0, pollyPhrases.Length)]);
 		}
 	}
 
@@ -122,17 +124,19 @@ public class ParrotAI : MobAI
 	{
 		//TODO add parrot sounds!
 		string[]  _sounds = {"squawks", "screeches"};
-		Chat.AddActionMsgToChat(gameObject,
-								$"{capParrotName} {_sounds[Random.Range(0,2)]}!",
-								$"{capParrotName} {_sounds[Random.Range(0,2)]}!");
+		Chat.AddActionMsgToChat(
+			gameObject,
+			$"{capParrotName} {_sounds[Random.Range(0,2)]}!",
+			$"{capParrotName} {_sounds[Random.Range(0,2)]}!");
 	}
 
-	private void DoRandomAction(int randAction)
+	private void DoRandomAction()
 	{
+		int randAction = Random.Range(1, 3);
 		switch (randAction)
 		{
 			case 1:
-				BeginExploring(MobExplore.Target.people, 3f);
+				BeginExploring(MobExplore.Target.players, 3f);
 				break;
 			case 2:
 				SayRandomThing();
