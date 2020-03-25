@@ -15,7 +15,8 @@ public class MobExplore : MobAgent
 		dirtyFloor,
 		missingFloor,
 		injuredPeople,
-		mice
+		mice,
+		people
 	}
 
 	public Target target;
@@ -120,6 +121,12 @@ protected Vector3Int actionPosition;
 					return true;
 				}
 				return false;
+			case Target.people:
+				if (registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null) 
+				{
+					return true;
+				}
+				return false;
 		}
 		return false;
 	}
@@ -155,9 +162,12 @@ protected Vector3Int actionPosition;
 				{
 					mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(gameObject, 70f, 
 																			AttackType.Melee, DamageType.Brute);
-					gameObject.GetComponent<CatAI>().HuntMouse(mouse);
+					gameObject.GetComponent<MobAI>().HuntMouse(mouse);
 				} 
-				
+				break;
+			case Target.people:
+				var people = registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true);
+				if(people != null) gameObject.GetComponent<MobAI>().ExplorePeople(people);
 				break;
 		}
 	}
