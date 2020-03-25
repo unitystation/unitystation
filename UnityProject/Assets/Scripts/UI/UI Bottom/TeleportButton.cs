@@ -20,7 +20,6 @@ public class TeleportButton : MonoBehaviour
 	public void Onclick()
 	{
 		ghostTeleport = GetComponentInParent<GhostTeleport>();
-		Logger.Log("clicked");
 		ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
 	}
 }

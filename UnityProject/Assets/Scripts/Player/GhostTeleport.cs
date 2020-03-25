@@ -16,6 +16,7 @@ public class GhostTeleport : MonoBehaviour
 	private string NameOfObject;
 	private string Status;
 	private Vector3 Position;
+	private GameObject mobGameObject;
 	private PlayerManager playerManager;
 	private PlayerSync playerSync;
 
@@ -30,7 +31,7 @@ public class GhostTeleport : MonoBehaviour
 	{
 		dynamic d1 = new System.Dynamic.ExpandoObject();
 		MobList[Count] = d1;
-		MobList[Count].Data = new { s1 = NameOfObject, s2 = Status, s3 = Position};
+		MobList[Count].Data = new { s1 = NameOfObject, s2 = Status, s3 = Position, s4 = mobGameObject};
 		Count += 1;
 	}
 
@@ -50,6 +51,11 @@ public class GhostTeleport : MonoBehaviour
 			{
 				//Gets Name of Player
 				NameOfObject = player.name;
+
+				if(NameOfObject.Length == 0)
+				{
+					NameOfObject = "Spectator";
+				}
 
 				//Gets Status of Player
 				if (player.IsGhost)
@@ -72,6 +78,10 @@ public class GhostTeleport : MonoBehaviour
 				//Gets Position of Player
 				var tile = player.gameObject.GetComponent<RegisterTile>();
 				Position = tile.WorldPositionClient;
+
+				//Gets gameobject
+				mobGameObject = player.gameObject;
+
 				AddToDict();// Adds to dictionary
 			}
 		}		
@@ -80,7 +90,10 @@ public class GhostTeleport : MonoBehaviour
 	//Grabs data needed for teleport.
 	public void DataForTeleport(int index)
 	{
-		var s3 = MobList[index].Data.s3;//Grabs Position from dictionary
+		var s4 = MobList[index].Data.s4;//Grabs gameobject from dictionary
+
+		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player coords
+
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
 	}
 }
