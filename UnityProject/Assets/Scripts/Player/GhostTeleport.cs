@@ -102,9 +102,11 @@ public class GhostTeleport : MonoBehaviour
 	{
 		var s4 = MobList[index].Item4;//Grabs gameobject from dictionary
 
-		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player coords
+		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player you want to teleport to coords
 
-		if (s3 != MobList[index].Item3)//Spam Prevention
+		var playerPosition = playerSync.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+
+		if (s3 != playerPosition)//Spam Prevention
 		{
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
 		}
@@ -152,9 +154,11 @@ public class GhostTeleport : MonoBehaviour
 	public void PlacesDataForTeleport(int index)
 	{
 		var gameobject = PlacesDict[index].Item3;
-		var vector = gameobject.transform.position;
+		var vector = gameobject.transform.position;//Gets current coords of object
 
-		if (vector != PlacesDict[index].Item2)//Spam Prevention
+		var playerPosition = playerSync.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+
+		if (vector != playerPosition)//Spam Prevention
 		{
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
 		}
