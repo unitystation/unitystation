@@ -191,15 +191,14 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		//would the interaction validate locally?
-		var valid = WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client);
-		if (valid)
-		{
-			return RightClickableResult.Create()
-				.AddElement("PickUp", RightClickInteract);
-		}
+		if (!canPickup) return null;
+		var interaction = HandApply.ByLocalPlayer(gameObject);
+		if (interaction.TargetObject != gameObject) return null;
+		if (interaction.HandObject != null) return null;
+		if (!Validations.CanApply(interaction, NetworkSide.Client, true, ReachRange.Standard, isPlayerClick: false)) return null;
 
-		return null;
+		return RightClickableResult.Create()
+				.AddElement("PickUp", RightClickInteract);
 	}
 
 	private void RightClickInteract()

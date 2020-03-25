@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 6567235425410853508}
   - component: {fileID: 5579796598989453093}
   - component: {fileID: 7740507522402319616}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: comfy_chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,6 +234,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &7740507522402319616
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -280,7 +280,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Server]
 	public void ServerToggleClosed(bool? nowClosed = null)
 	{
-		SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f);
+		SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 		ServerSetIsClosed(nowClosed.GetValueOrDefault(!IsClosed));
 	}
 

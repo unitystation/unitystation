@@ -3,25 +3,25 @@
 /// <summary>
 /// Allows an object to be pet by a player. Shameless copy of Huggable.cs
 /// </summary>
-public class Pettable : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class Pettable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public bool WillInteract( PositionalHandApply interaction, NetworkSide side )
+	public bool WillInteract( HandApply interaction, NetworkSide side )
 	{
-		var targetNPCHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
-		var performerPlayerHealth = interaction.Performer.GetComponent<PlayerHealth>();
-		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
-
-		if (Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Standard, interaction.TargetVector))
-		{
-			return true;
-		}
-		return false;
+		var NPCHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		if (!DefaultWillInteract.Default(interaction, side) || NPCHealth.IsDead || interaction.Intent != Intent.Help) return false;
+ 
+		return true;
 	}
 
-	
-	public void ServerPerformInteraction(PositionalHandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
+		string NPCName;
+		var NPC = interaction.TargetObject.GetComponent<MobAI>();
+		
+		if (NPC == null) NPCName = interaction.TargetObject.name; else NPCName = NPC.mobName;
+
 		Chat.AddActionMsgToChat(interaction.Performer,
-		$"You pet {interaction.TargetObject.name}.", $"{interaction.Performer.ExpensiveName()} pets {interaction.TargetObject.name}.");
+		$"You pet {NPCName}.", $"{interaction.Performer.ExpensiveName()} pets {NPCName}.");
+		if(NPC != null) gameObject.GetComponent<MobAI>().OnPetted(interaction.Performer.gameObject);
 	}
 }

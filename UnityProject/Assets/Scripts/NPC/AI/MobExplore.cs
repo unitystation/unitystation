@@ -14,7 +14,9 @@ public class MobExplore : MobAgent
 		food,
 		dirtyFloor,
 		missingFloor,
-		injuredPeople
+		injuredPeople,
+		mice,
+		people
 	}
 
 	public Target target;
@@ -106,6 +108,25 @@ protected Vector3Int actionPosition;
 				return interactableTiles.MetaTileMap.GetTile(checkPos).LayerType == LayerType.Base;
 			case Target.injuredPeople:
 				return false;
+			// check for mice and food
+			case Target.mice:
+				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null)
+				{
+					target = Target.food;
+					return true;
+				}
+				else if (registerObj.Matrix.GetFirst<MouseAI>(checkPos, true) != null
+						&& !registerObj.Matrix.GetFirst<MouseAI>(checkPos, true).IsDead)
+				{
+					return true;
+				}
+				return false;
+			case Target.people:
+				if (registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null) 
+				{
+					return true;
+				}
+				return false;
 		}
 		return false;
 	}
@@ -134,6 +155,19 @@ protected Vector3Int actionPosition;
 				interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
 				break;
 			case Target.injuredPeople:
+				break;
+			case Target.mice:
+				var mouse = registerObj.Matrix.GetFirst<MouseAI>(checkPos, true);
+				if (mouse != null)
+				{
+					mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(gameObject, 70f, 
+																			AttackType.Melee, DamageType.Brute);
+					gameObject.GetComponent<MobAI>().HuntMouse(mouse);
+				} 
+				break;
+			case Target.people:
+				var people = registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true);
+				if(people != null) gameObject.GetComponent<MobAI>().ExplorePeople(people);
 				break;
 		}
 	}

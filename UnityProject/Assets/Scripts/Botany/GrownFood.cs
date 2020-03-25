@@ -59,7 +59,10 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		plantData = PlantData.MutateNewPlant(newPlantData, modification);
 		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
 		SetupChemicalContents();
-		SetupEdible();
+		if(edible != null)
+		{
+			SetupEdible();
+		}
 	}
 
 	/// <summary>

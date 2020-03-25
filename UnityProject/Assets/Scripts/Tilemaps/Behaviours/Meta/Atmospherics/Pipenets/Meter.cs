@@ -59,7 +59,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if(anchored)
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
+			SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 			Detach();
 		}
 		else
@@ -70,7 +70,7 @@ public class Meter : NetworkBehaviour, ICheckedInteractable<HandApply>
 				Pipe foundPipe = foundPipes[i];
 				if(foundPipe.anchored)
 				{
-					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
+					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 					pipe = foundPipe;
 					ToggleAnchored(true);
 					UpdateManager.Add(CallbackType.UPDATE, UpdateMe);

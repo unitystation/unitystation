@@ -154,12 +154,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				if(isWeapon && weaponStats != null &&
 					weaponStats.hitSoundSettings == SoundItemSettings.Both)
 				{
-					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
+					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 				}
 				else if (isWeapon && weaponStats != null &&
 				         weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit != "")
 				{
-					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f));
+					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 					attackSoundName = "";
 				}
 				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
@@ -182,7 +182,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					// The punch missed.
 					string victimName = victim.Player()?.Name;
-					SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
+					SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position, sourceObj: gameObject);
 					Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
 						$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
 				}
@@ -194,7 +194,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		{
 			if (!string.IsNullOrEmpty(attackSoundName))
 			{
-				SoundManager.PlayNetworkedAtPos(attackSoundName, transform.position);
+				SoundManager.PlayNetworkedAtPos(attackSoundName, transform.position, sourceObj: gameObject);
 			}
 
 			if (damage > 0)
