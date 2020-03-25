@@ -380,6 +380,11 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 	}
 
+	public virtual void ExplorePeople (PlayerScript player)
+	{
+
+	}
+
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
 		ResetBehaviours();
