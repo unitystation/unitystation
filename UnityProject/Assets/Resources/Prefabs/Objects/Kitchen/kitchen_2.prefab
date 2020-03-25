@@ -185,7 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114762731618527884
@@ -202,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VendorContent:
   - Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
-    Stock: 3
+    Stock: 5
   HullColor: {r: 0.81960785, g: 0.02745098, b: 0.02745098, a: 1}
   EjectObjects: 1
   EjectDirection: 3
@@ -265,6 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114237837769881030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -312,7 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
