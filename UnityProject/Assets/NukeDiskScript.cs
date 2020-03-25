@@ -13,7 +13,7 @@ public class NukeDiskScript : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		StartCoroutine(Animation());
+		//StartCoroutine(Animation());
     }
 
     // Update is called once per frame
