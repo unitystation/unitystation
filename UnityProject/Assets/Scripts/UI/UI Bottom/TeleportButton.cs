@@ -29,7 +29,7 @@ public class TeleportButton : MonoBehaviour
 		}
 		else
 		{
-			ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
+			ghostTeleport.PlacesDataForTeleport(index);// Gives index to GhostTeleport.cs
 		}
 	}
 }
