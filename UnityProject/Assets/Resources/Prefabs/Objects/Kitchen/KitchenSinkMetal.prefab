@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114713474932729420}
   - component: {fileID: 114424016656816112}
   - component: {fileID: -4200185537629918332}
+  - component: {fileID: -2336828305495435502}
   m_Layer: 11
   m_Name: KitchenSinkMetal
   m_TagString: Untagged
@@ -301,3 +302,20 @@ MonoBehaviour:
   resourcesMadeOf: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
     type: 3}
   howMany: 1
+--- !u!114 &-2336828305495435502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012867342320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InitialDirection: 3
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
