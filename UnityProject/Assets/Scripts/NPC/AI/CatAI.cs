@@ -8,33 +8,34 @@ using System.Collections;
 /// </summary>
 public class CatAI : MobAI
 {
-    private string catName;
-    private string capCatName;
-    private float timeForNextRandomAction;
-    private float timeWaiting;
-    private bool isLayingDown = false;
+	public float mouseDmg = 70f;
+	private string catName;
+	private string capCatName;
+	private float timeForNextRandomAction;
+	private float timeWaiting;
+	private bool isLayingDown = false;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        catName = mobName.ToLower();
+	protected override void Awake()
+	{
+		base.Awake();
+		catName = mobName.ToLower();
 		capCatName = char.ToUpper(catName[0]) + catName.Substring(1);
-    }
+	}
 
-    protected override void AIStartServer()
+	protected override void AIStartServer()
 	{
 		followingStopped.AddListener(OnFollowingStopped);
 	}
 
-    protected override void UpdateMe()
+	protected override void UpdateMe()
 	{
 		if (health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
 
 		base.UpdateMe();
 		MonitorExtras();
 	}
-    
-    void MonitorExtras()
+	
+	void MonitorExtras()
 	{
 		if (IsPerformingTask || isLayingDown) return;
 
@@ -44,58 +45,61 @@ public class CatAI : MobAI
 			timeWaiting = 0f;
 			timeForNextRandomAction = Random.Range(8f,30f);
 
-			DoRandomAction(Random.Range(1,6));
+			DoRandomAction();
 		}
 	}
-    
-    protected override void ResetBehaviours()
+	
+	protected override void ResetBehaviours()
 	{
-        base.ResetBehaviours();
-        if (isLayingDown) StopLayingDown();
+		base.ResetBehaviours();
+		if (isLayingDown) StopLayingDown();
 	}
 
-    public override void OnPetted(GameObject performer)
-    {
-        int randAction = Random.Range(1,6);
-        switch (randAction)
-        {
-            case 1:
-                Purr(performer);
-                break;
-            case 2:
-                Meow(performer);
-                break;
-            case 3:
-                StartCoroutine(ChaseTail(Random.Range(1,5)));
-                break;
-            case 4:
-                StartCoroutine(LayDown(Random.Range(10,15)));
-                break;
-            case 5:
-                StartFleeing(performer.transform, 5f);
-                break;
-        }
-    }
-
-    protected override void OnAttackReceived(GameObject damagedBy)
-    {
-        ResetBehaviours();
-        StopAllCoroutines();
-        StopLayingDown();
-        Hiss(damagedBy);
-        StartFleeing(damagedBy.transform);
-    }
-
-    void OnFollowingStopped()
+	public override void OnPetted(GameObject performer)
 	{
-        BeginExploring(MobExplore.Target.mice, 10f);
+		int randAction = Random.Range(1,6);
+		switch (randAction)
+		{
+			case 1:
+				Purr(performer);
+				break;
+			case 2:
+				Meow(performer);
+				break;
+			case 3:
+				StartCoroutine(ChaseTail(Random.Range(1,5)));
+				break;
+			case 4:
+				StartCoroutine(LayDown(Random.Range(10,15)));
+				break;
+			case 5:
+				StartFleeing(performer.transform, 5f);
+				break;
+		}
 	}
 
-    public override void HuntMouse(MouseAI mouse)
-    {
-        Hiss(mouse.gameObject);
-        FollowTarget(mouse.gameObject.transform, 5f);
-    }
+	protected override void OnAttackReceived(GameObject damagedBy)
+	{
+		Hiss(damagedBy);
+		FleeFromAttacker(damagedBy, 10F);
+	}
+
+	void OnFollowingStopped()
+	{
+		BeginExploring(MobExplore.Target.mice, 10f);
+	}
+
+	public override void HuntMouse(MouseAI mouse)
+	{
+		mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(
+			gameObject,
+			mouseDmg, 
+			AttackType.Melee,
+			DamageType.Brute);
+
+		Hiss(mouse.gameObject);
+		FollowTarget(mouse.gameObject.transform, 5f);
+	}
 
 	IEnumerator ChaseTail(int times)
 	{
@@ -116,93 +120,102 @@ public class CatAI : MobAI
 		yield return WaitFor.EndOfFrame;
 	}
 
-    private void Purr(GameObject purred = null)
-    {
-        //TODO play purr sound
-        
-        if (purred != null)
-        {
-            Chat.AddActionMsgToChat(purred, $"{capCatName} purrs at you!", 
-                                    $"{capCatName} purrs at {purred.ExpensiveName()}");
-        }
-        else
-        {
-            Chat.AddActionMsgToChat(gameObject, $"{capCatName} purrs!", $"{capCatName} purrs!");
-        }
-    }
+	private void Purr(GameObject purred = null)
+	{
+		//TODO play purr sound
+		
+		if (purred != null)
+		{
+			Chat.AddActionMsgToChat(
+                purred,
+                $"{capCatName} purrs at you!", 
+				$"{capCatName} purrs at {purred.ExpensiveName()}");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"{capCatName} purrs!", $"{capCatName} purrs!");
+		}
+	}
 
-    private void Meow(GameObject meowed = null)
-    {
-        //TODO play meow sound
-        
-        if (meowed != null)
-        {
-            Chat.AddActionMsgToChat(meowed, $"{capCatName} meows at you!",
-                                    $"{capCatName} meows at {meowed.ExpensiveName()}");
-        }
-        else
-        {
-            Chat.AddActionMsgToChat(gameObject, $"{capCatName} meows!", $"{capCatName} meows!");
-        }
-    }
+	private void Meow(GameObject meowed = null)
+	{
+		//TODO play meow sound
+		
+		if (meowed != null)
+		{
+			Chat.AddActionMsgToChat(
+                meowed,
+                $"{capCatName} meows at you!",
+                $"{capCatName} meows at {meowed.ExpensiveName()}");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"{capCatName} meows!", $"{capCatName} meows!");
+		}
+	}
 
-    private void Hiss(GameObject hissed = null)
-    {
-        //TODO play hiss sound
-        
-        if (hissed != null)
-        {
-            Chat.AddActionMsgToChat(hissed, $"{capCatName} hisses at you!", 
-                                    $"{capCatName} hisses at {hissed.ExpensiveName()}");
-        }
-        else
-        {
-            Chat.AddActionMsgToChat(gameObject, $"{capCatName} hisses!", $"{capCatName} hisses!");
-        }
-    }
+	private void Hiss(GameObject hissed = null)
+	{
+		//TODO play hiss sound
+		
+		if (hissed != null)
+		{
+			Chat.AddActionMsgToChat(
+                hissed,
+                $"{capCatName} hisses at you!", 
+				$"{capCatName} hisses at {hissed.ExpensiveName()}");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"{capCatName} hisses!", $"{capCatName} hisses!");
+		}
+	}
 
-    private void LickPaws()
-    {
-        Chat.AddActionMsgToChat(gameObject, $"{capCatName} start licking its paws!", 
-                                $"{capCatName} start licking its paws!");
-    }
+	private void LickPaws()
+	{
+		Chat.AddActionMsgToChat(
+            gameObject,
+            $"{capCatName} start licking its paws!",
+            $"{capCatName} start licking its paws!");
+	}
 
-    IEnumerator LayDown(int cycles)
-    {
-        isLayingDown = true;
-        //TODO animate layingdown and wagging tail
+	IEnumerator LayDown(int cycles)
+	{
+		isLayingDown = true;
+		//TODO animate layingdown and wagging tail
 
-        StopLayingDown();
-        yield break;
-    }
+		StopLayingDown();
+		yield break;
+	}
 
-    private void StopLayingDown()
-    {
-        isLayingDown = false;
-    }
+	private void StopLayingDown()
+	{
+		isLayingDown = false;
+	}
 
-    private void DoRandomAction(int randAction)
-    {
-        switch (randAction)
-        {
-            case 1:
-                Purr();
-                break;
-            case 2:
-                Meow();
-                break;
-            case 3:
-                BeginExploring(MobExplore.Target.mice, 10f);
-                break;
-            case 4:
-                LickPaws();
-                break;
-            case 5:
-                StartCoroutine(ChaseTail(Random.Range(1,4)));
-                break;
-            // case 6:
-            //     StartCoroutine(LayDown(1));
-            //     break;
-        }
-    }
+	private void DoRandomAction()
+	{
+		int randAction = Random.Range(1,6);
+		switch (randAction)
+		{
+			case 1:
+				Purr();
+				break;
+			case 2:
+				Meow();
+				break;
+			case 3:
+				BeginExploring(MobExplore.Target.mice, 10f);
+				break;
+			case 4:
+				LickPaws();
+				break;
+			case 5:
+				StartCoroutine(ChaseTail(Random.Range(1,4)));
+				break;
+			// case 6:
+			//	 StartCoroutine(LayDown(1));
+			//	 break;
+		}
+	}
 }
