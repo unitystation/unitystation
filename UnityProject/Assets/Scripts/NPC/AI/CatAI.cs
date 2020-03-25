@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 /// <summary>
 /// AI brain for mice
@@ -15,11 +15,33 @@ public class CatAI : MobAI
 	private float timeWaiting;
 	private bool isLayingDown = false;
 
+	private ConeOfSight coneOfSight;
+	private LayerMask mouseMask;
+
 	protected override void Awake()
 	{
 		base.Awake();
 		catName = mobName.ToLower();
 		capCatName = char.ToUpper(catName[0]) + catName.Substring(1);
+	}
+
+	public override void OnEnable()
+	{
+		base.OnEnable();
+		mouseMask = LayerMask.GetMask("NPC");
+		coneOfSight = GetComponent<ConeOfSight>();
+	}
+
+	public void Update()//FIXME 
+	{
+		var mice = AnyMiceNearby();
+		if (mice != null)
+		{
+			ChatBubbleManager.ShowAChatBubble(
+				gameObject.transform,
+				$"FOUND: {mice}"
+			);
+		}
 	}
 
 	protected override void AIStartServer()
@@ -37,6 +59,7 @@ public class CatAI : MobAI
 	
 	void MonitorExtras()
 	{
+		return; //FIXME
 		if (IsPerformingTask || isLayingDown) return;
 
 		timeWaiting += Time.deltaTime;
@@ -89,6 +112,12 @@ public class CatAI : MobAI
 		BeginExploring(MobExplore.Target.mice, 10f);
 	}
 
+	MouseAI AnyMiceNearby()
+	{
+		var hits = coneOfSight.GetObjectsInSight(mouseMask, dirSprites.CurrentFacingDirection, 10f, 20);
+		return hits.FirstOrDefault(m => m.gameObject.GetComponent<MouseAI>() != null)?.gameObject.GetComponent<MouseAI>();
+	}
+
 	public override void HuntMouse(MouseAI mouse)
 	{
 		mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(
@@ -127,8 +156,8 @@ public class CatAI : MobAI
 		if (purred != null)
 		{
 			Chat.AddActionMsgToChat(
-                purred,
-                $"{capCatName} purrs at you!", 
+				purred,
+				$"{capCatName} purrs at you!", 
 				$"{capCatName} purrs at {purred.ExpensiveName()}");
 		}
 		else
@@ -144,9 +173,9 @@ public class CatAI : MobAI
 		if (meowed != null)
 		{
 			Chat.AddActionMsgToChat(
-                meowed,
-                $"{capCatName} meows at you!",
-                $"{capCatName} meows at {meowed.ExpensiveName()}");
+				meowed,
+				$"{capCatName} meows at you!",
+				$"{capCatName} meows at {meowed.ExpensiveName()}");
 		}
 		else
 		{
@@ -161,8 +190,8 @@ public class CatAI : MobAI
 		if (hissed != null)
 		{
 			Chat.AddActionMsgToChat(
-                hissed,
-                $"{capCatName} hisses at you!", 
+				hissed,
+				$"{capCatName} hisses at you!", 
 				$"{capCatName} hisses at {hissed.ExpensiveName()}");
 		}
 		else
@@ -174,9 +203,9 @@ public class CatAI : MobAI
 	private void LickPaws()
 	{
 		Chat.AddActionMsgToChat(
-            gameObject,
-            $"{capCatName} start licking its paws!",
-            $"{capCatName} start licking its paws!");
+			gameObject,
+			$"{capCatName} start licking its paws!",
+			$"{capCatName} start licking its paws!");
 	}
 
 	IEnumerator LayDown(int cycles)
@@ -195,7 +224,17 @@ public class CatAI : MobAI
 
 	private void DoRandomAction()
 	{
+		// More likely to hunt mouses if nearby!
+		var posibbleMouse = AnyMiceNearby();
+		if (posibbleMouse != null)
+		{
+
+			BeginExploring(MobExplore.Target.mice, 3f);
+			return;
+		}
+
 		int randAction = Random.Range(1,6);
+
 		switch (randAction)
 		{
 			case 1:
@@ -205,7 +244,7 @@ public class CatAI : MobAI
 				Meow();
 				break;
 			case 3:
-				BeginExploring(MobExplore.Target.mice, 10f);
+				BeginExploring(MobExplore.Target.mice, 3f);
 				break;
 			case 4:
 				LickPaws();
