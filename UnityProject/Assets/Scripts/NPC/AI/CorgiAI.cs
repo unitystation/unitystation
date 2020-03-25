@@ -30,13 +30,21 @@ public class CorgiAI : MobAI
 		capDogName = char.ToUpper(dogName[0]) + dogName.Substring(1);
 	}
 
-	private void SingleBark()
+	private void SingleBark(GameObject barked = null)
 	{
 		SoundManager.PlayNetworkedAtPos("Bark", 
 										gameObject.transform.position, 
 										Random.Range(.8F, 1.3F));
-		Chat.AddLocalMsgToChat($"{capDogName} barks!",
-								gameObject.transform.position, gameObject);
+
+		if (barked != null)
+		{
+			Chat.AddActionMsgToChat(barked, $"{capDogName} barks at you!", 
+									$"{capDogName} barks at {barked.ExpensiveName()}");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"{capDogName} barks!", $"{capDogName} barks!");
+		}		
 	}
 
 	IEnumerator RandomBarks()
@@ -132,9 +140,8 @@ public class CorgiAI : MobAI
 	IEnumerator ChaseTail(int times)
 	{
 		var timesSpun = 0;
-		Chat.AddLocalMsgToChat($"{capDogName} start chasing its own tail!", 
-								gameObject.transform.position,
-								gameObject);
+		Chat.AddActionMsgToChat(gameObject, $"{capDogName} start chasing its own tail!", $"{capDogName} start chasing its own tail!");
+;
 
 		while (timesSpun <= times)
 		{
@@ -168,6 +175,38 @@ public class CorgiAI : MobAI
 		StartCoroutine(RandomBarks());
 	}
 
+	public override void OnPetted(GameObject performer)
+	{
+		int randAction = Random.Range(1,6);
+
+		switch (randAction)
+		{
+			case 1:
+				StartCoroutine(ChaseTail(Random.Range(1,3)));
+				break;
+			case 2:
+				RandomBarks();
+				break;
+			case 3:
+				Chat.AddActionMsgToChat(gameObject, $"{capDogName} wags its tail!", $"{capDogName} wags its tail!");
+				break;
+			case 4:
+				Chat.AddActionMsgToChat(performer, $"{capDogName} licks your hand!", 
+										$"{capDogName} licks {performer.ExpensiveName()}'s hand!");
+				break;
+			case 5:
+				Chat.AddActionMsgToChat(performer, $"{capDogName} gives you its paw!",
+										$"{capDogName} gives his paw to {performer.ExpensiveName()}");
+				break;
+		}
+	}
+
+	protected override void OnAttackReceived(GameObject damagedBy)
+	{
+		SingleBark();
+		StartFleeing(damagedBy.transform);
+	}
+
 	//Updates only on the server
 	protected override void UpdateMe()
 	{
@@ -187,7 +226,7 @@ public class CorgiAI : MobAI
 		if (timeWaiting > timeForNextRandomAction)
 		{
 			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(8f, 30f);
+			timeForNextRandomAction = Random.Range(15f, 30f);
 
 			DoRandomAction(Random.Range(1, 3));
 		}

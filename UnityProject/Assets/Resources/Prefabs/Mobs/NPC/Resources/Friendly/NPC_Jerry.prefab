@@ -166,6 +166,8 @@ GameObject:
   - component: {fileID: 8251347940129356532}
   - component: {fileID: 8602547056562296912}
   - component: {fileID: 8093655862165673158}
+  - component: {fileID: 8953132134925514141}
+  - component: {fileID: -1536778056985268859}
   m_Layer: 12
   m_Name: NPC_Jerry
   m_TagString: Untagged
@@ -181,7 +183,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 77, y: 55, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4152194380817414287}
@@ -241,7 +243,6 @@ MonoBehaviour:
   - {fileID: 114804766488326296}
   allowKnifeHarvest: 1
   butcherResults:
-  - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
   aliveSprite: {fileID: 21300016, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
   deadSprite: {fileID: 21300000, guid: 3aaa8665ad1552241bd8668da8a6e33f, type: 3}
@@ -358,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114379009499332576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 538767840
+  sceneId: 0
   serverOnly: 0
   m_AssetId: 
 --- !u!114 &1750259749
@@ -464,14 +466,40 @@ MonoBehaviour:
     agentRenderTextures: []
     maxStep: 0
     resetOnDone: 1
-    onDemandDecision: 0
+    onDemandDecision: 1
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
   performingAction: 0
-  activated: 1
+  activated: 0
   tickRate: 1
   target: 0
   actionPerformTime: 0
+--- !u!114 &8953132134925514141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6c589ccf330c5478854f4822f1d639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: Mouse
+  knockedDownRotation: 180
+--- !u!114 &-1536778056985268859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +567,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 19
+  m_SortingLayer: 15
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

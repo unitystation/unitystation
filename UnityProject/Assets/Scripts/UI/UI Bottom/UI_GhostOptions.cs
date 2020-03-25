@@ -7,6 +7,8 @@ public class UI_GhostOptions : MonoBehaviour
 {
 	[SerializeField] private Text ghostHearText = null;
 
+	private bool TeleportScreenOpen = false;
+
 	void OnEnable()
 	{
 		DetermineGhostHearText();
@@ -14,6 +16,7 @@ public class UI_GhostOptions : MonoBehaviour
 
 	public void JumpToMob()
 	{
+		TeleportScreenStatus();
 	}
 
 	public void Orbit()
@@ -27,6 +30,7 @@ public class UI_GhostOptions : MonoBehaviour
 
 	public void Teleport()
 	{
+		TeleportScreenStatus();
 	}
 
 	public void pAIcandidate()
@@ -58,6 +62,22 @@ public class UI_GhostOptions : MonoBehaviour
 		else
 		{
 			ghostHearText.text = "HEAR\r\n \r\nALL";
+		}
+	}
+
+	//Checking to see if window is open and whether to close it.
+	public void TeleportScreenStatus()
+	{
+		if (!TeleportScreenOpen)
+		{
+			transform.Find("TeleportButtonScrollList").gameObject.SetActive(true);
+			TeleportScreenOpen = true;
+			GetComponentInChildren<TeleportButtonControl>().GenButtons();
+		}
+		else
+		{
+			transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);
+			TeleportScreenOpen = false;
 		}
 	}
 }
