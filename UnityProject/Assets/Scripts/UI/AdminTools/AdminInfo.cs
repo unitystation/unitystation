@@ -17,6 +17,8 @@ namespace AdminTools
 		private IAdminInfo adminInfos;
 		[Tooltip("The position offset from the center of the tracked object")]
 		[SerializeField] private Vector2 offsetPosition;
+		[Tooltip("Give the server obj time to init before sending overlay data")]
+		[SerializeField] private float waitToInit = 2f;
 
 		public Vector2 OffsetPosition => offsetPosition;
 
@@ -39,6 +41,12 @@ namespace AdminTools
 		{
 			base.OnStartServer();
 			adminInfos = GetComponent<IAdminInfo>();
+			StartCoroutine(WaitToSet());
+		}
+
+		IEnumerator WaitToSet()
+		{
+			yield return WaitFor.Seconds(waitToInit);
 			AdminOverlay.ServerAddInfoPanel(netId, this);
 		}
 	}

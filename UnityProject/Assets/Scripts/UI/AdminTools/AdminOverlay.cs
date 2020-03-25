@@ -41,6 +41,11 @@ namespace AdminTools
 
 		public bool IsOn { get; private set; }
 
+		void Awake()
+		{
+			Init();
+		}
+
 		private void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnSceneChange;
@@ -53,8 +58,14 @@ namespace AdminTools
 
 		void OnSceneChange(Scene oldScene, Scene newScene)
 		{
-			Init();
-			serverInfos.Clear();
+			foreach (Transform t in transform)
+			{
+				var panel = t.GetComponent<AdminOverlayPanel>();
+				if (panel != null && t.gameObject.activeInHierarchy)
+				{
+					panel.ReturnToPool();
+				}
+			}
 		}
 
 		void Init()
