@@ -5,12 +5,12 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
 public class Traitor : GameMode
 {
+	
+	private float TraitorAmount = 0;
+
 	/// <summary>
 	/// Set up the station for the game mode
 	/// </summary>
-	///
-	private float TraitorAmount = 0;
-
 	public override void SetupRound()
 	{
 		Logger.Log("Setting up traitor round!", Category.GameMode);
