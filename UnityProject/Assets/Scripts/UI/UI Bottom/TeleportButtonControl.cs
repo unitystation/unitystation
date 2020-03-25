@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TeleportButtonControl : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class TeleportButtonControl : MonoBehaviour
 		{
 			SearchBar.Resettext();
 		}
+
+		gameObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = "<b>Teleport To Mob</b>";
 		
 
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
@@ -54,6 +57,8 @@ public class TeleportButtonControl : MonoBehaviour
 		{
 			SearchBar.Resettext();
 		}
+
+		gameObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = "<b>Teleport To Location</b>";
 
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
 		{
