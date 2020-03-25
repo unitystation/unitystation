@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114666867725769994}
   - component: {fileID: 114987683645712798}
   - component: {fileID: -2730215589733734698}
+  - component: {fileID: 2568218481979452215}
   m_Layer: 11
   m_Name: Closet_Locker_Science
   m_TagString: Untagged
@@ -220,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 0}
+  initialContents: {fileID: 11400000, guid: ecd1f5f0238f257d2bcd138b7252c954, type: 2}
   lockLight: {fileID: 2217615429648888296}
   IsLockable: 1
   playerLimit: 3
@@ -284,6 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114666867725769994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -354,6 +357,19 @@ MonoBehaviour:
   exportCost: 200
   exportName: locker
   exportMessage: 
+--- !u!114 &2568218481979452215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 66
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0
