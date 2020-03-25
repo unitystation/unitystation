@@ -10,8 +10,9 @@ using UnityEngine;
 /// </summary>
 public class GhostTeleport : MonoBehaviour
 {
+	//Players
 	//Dictionary of UniqueKey(int), data 
-	public IDictionary<int, dynamic> MobList = new Dictionary<int, dynamic>();
+	public IDictionary<int, Tuple<string, string, Vector3, GameObject>> MobList = new Dictionary<int, Tuple<string, string, Vector3, GameObject>>();
 
 	public int Count = 0;
 	private string NameOfObject;
@@ -34,12 +35,12 @@ public class GhostTeleport : MonoBehaviour
 		playerSync = GetComponent<PlayerSync>();
 	}
 
-	//Dictionary of Key(int), object/mob name, status (alive/dead/ghost/none), postion(vector3)
+	//Logic for teleporting to players
+	//Dictionary of Key(int), object/mob name, status (alive/dead/ghost/none), postion(vector3), GameObject
 	private void AddToDict()
 	{
-		dynamic d1 = new System.Dynamic.ExpandoObject();
-		MobList[Count] = d1;
-		MobList[Count].Data = new { s1 = NameOfObject, s2 = Status, s3 = Position, s4 = mobGameObject};
+		var entry = new Tuple<string, string, Vector3, GameObject>(NameOfObject, Status, Position, mobGameObject);
+		MobList.Add(Count, entry);
 		Count += 1;
 	}
 
@@ -98,13 +99,14 @@ public class GhostTeleport : MonoBehaviour
 	//Grabs data needed for teleport.
 	public void DataForTeleport(int index)
 	{
-		var s4 = MobList[index].Data.s4;//Grabs gameobject from dictionary
+		var s4 = MobList[index].Item4;//Grabs gameobject from dictionary
 
 		var s3 = s4.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player coords
 
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
 	}
 
+	//Logic for Teleport to places:
 	public void PlacesAddToDict()
 	{
 		var entry = new Tuple<string, Vector3>(NameOfPlace, PlacePosition);
@@ -133,12 +135,14 @@ public class GhostTeleport : MonoBehaviour
 					NameOfPlace = "Has No Name";
 				}
 
-				PlacePosition = place.transform.position;
+				PlacePosition = place.transform.position;// Only way to get position of this object.
 
 				PlacesAddToDict();
 			}
 		}
 	}
+
+	//Gets Places Data for teleport, NOTE: unlike to mobs teleport the coords are not updated.
 	public void PlacesDataForTeleport(int index)
 	{
 		var vector = PlacesDict[index].Item2;

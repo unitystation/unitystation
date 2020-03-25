@@ -94,7 +94,7 @@ public class UI_GhostOptions : MonoBehaviour
 		}
 	}
 
-	//Checking to see if window is open and whether to close it.
+	//closes window.
 	public void TeleportScreenClose()
 	{
 		transform.Find("TeleportButtonScrollList").gameObject.SetActive(false);

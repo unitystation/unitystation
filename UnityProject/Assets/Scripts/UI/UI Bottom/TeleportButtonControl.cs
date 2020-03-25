@@ -10,6 +10,7 @@ public class TeleportButtonControl : MonoBehaviour
 	private List<GameObject> teleportButtons = new List<GameObject>();
 
 	//Generates the amount of buttons as the number of entries in the MobList dictionary
+	//Buttons for Teleporting To Mobs Tab
 	public void GenButtons()
 	{
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
@@ -24,7 +25,7 @@ public class TeleportButtonControl : MonoBehaviour
 			GameObject button = Instantiate(buttonTemplate) as GameObject;//creates new button
 			button.SetActive(true);
 			var c = button.GetComponent<TeleportButton>();
-			c.SetTeleportButtonText(ghostTeleport.MobList[i].Data.s1 + "\n" + ghostTeleport.MobList[i].Data.s2 + "\n" + ghostTeleport.MobList[i].Data.s3);
+			c.SetTeleportButtonText(ghostTeleport.MobList[i].Item1 + "\n" + ghostTeleport.MobList[i].Item2 + "\n" + ghostTeleport.MobList[i].Item3);
 			c.index = i;//Gives button a number, used to tell which data index is used for teleport
 			c.MobTeleport = true;
 			teleportButtons.Add(button);
@@ -33,6 +34,7 @@ public class TeleportButtonControl : MonoBehaviour
 		}
 	}
 
+	//Buttons for Teleport Tab
 	public void PlacesGenButtons()
 	{
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
