@@ -47,6 +47,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private Coroutine timerHandle;
 
+	private CentComm.AlertLevel CurrentAlertLevel;
 
 	public float cooldownTimer = 2f;
 	public string interactionMessage;
@@ -132,6 +133,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		{
 			if(isTimer)
 			{
+				GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 				this.TryStopCoroutine(ref timerHandle);
 			}
 			isTimer = !isTimer;
@@ -151,6 +153,8 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 				return false;
 			}
 			CurrentTimerSeconds = digit;
+			CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
+			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
 			StartCountDown();
 			return true;
 		}
@@ -165,11 +169,14 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public void StartCountDown()
 	{
+		
 		this.StartCoroutine(TickTimer(), ref timerHandle);	
 	}
 	[Server]
 	private void Detonate()
 	{
+		SoundManager.PlayNetworked("NukeDetonate");
+
 		detonated = true;
 		//if yes, blow up the nuke
 		RpcDetonate();
@@ -183,6 +190,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		while(CurrentTimerSeconds > 0)
 		{
 			CurrentTimerSeconds -= 1;
+			SoundManager.PlayAtPosition("TimerTick", gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(1);
 		}
 		Detonate();
@@ -222,13 +230,19 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public bool? SafetyNuke()
 	{
-		if(isCodeRight)
+		if(!isSafetyOn)
 		{
-			if (isTimer && !isSafetyOn)
+			if (isTimer)
 			{
+				GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 				isTimer = false;
 				this.TryStopCoroutine(ref timerHandle);
 			}
+			isSafetyOn = !isSafetyOn;
+			return isSafetyOn;
+		}
+		else if(isCodeRight)
+		{
 			isSafetyOn = !isSafetyOn;
 			return isSafetyOn;
 		}
@@ -246,5 +260,6 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 		return null;
 	}
+
 }
 public class NukeTimerEvent : UnityEvent<int> { }

@@ -15,25 +15,35 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private ItemsSprites newSprites = new ItemsSprites();
 	private Pickupable pick;
+	public float timeElapsedSprite = 0;
+	public float timeElapsedIcon = 0;
+	public float timeWait = 1;
+
+	private bool isOn = false;
 
 	public float maxMagnitude = 50;
 	public float mediumMagnitude = 20;
 	public float closeMagnitude = 10;
+
 
 	[SyncVar(hook = nameof(SyncDiskPos))]
 	private Vector3 distance;
 
 	private void OnEnable()
 	{
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			EnsureInit();
-		}
+			EnsureInit();	
 	}
 	private void Update()
 	{
-		pick.RefreshUISlotImage();
+		timeElapsedIcon += Time.deltaTime;
+		if (timeElapsedIcon > 0.2f)
+		{
+			if (isOn)
+			{
+				pick.RefreshUISlotImage();
+				timeElapsedIcon = 0;
+			}
+		}
 	}
 	private void ChangeAngleofSprite(Vector3 moveDirection)
 	{
@@ -128,18 +138,19 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		if(isOn)
+		{
+			ChangeSprite(0);
+			spriteHandler.ChangeSprite(8);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			isOn = !isOn;
+		}
+		else
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			isOn = !isOn;
+		}
 		
-
-		Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
-		float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-		rendererSprite.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-		Chat.AddExamineMsgFromServer(interaction.Performer,"Nuke disk:" + objectToTrack.AssumedWorldPosServer().ToString());
-		Chat.AddExamineMsgFromServer(interaction.Performer,"You:" + gameObject.AssumedWorldPosServer().ToString());
-
-		Chat.AddExamineMsgFromServer(interaction.Performer,"Direction" +  moveDirection.ToString());
-		Chat.AddExamineMsgFromServer(interaction.Performer,"Angle" + angle.ToString());
-		Chat.AddExamineMsgFromServer(interaction.Performer, "Rotation" + Quaternion.AngleAxis(angle, Vector3.forward).ToString());
 	}
 
 	private void SyncDiskPos(Vector3 oldPositon, Vector3 newPosition)
@@ -155,8 +166,12 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	}
 	protected virtual void UpdateMe()
 	{
-		
-		Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
-		ServerChangeLightState(moveDirection);
+		timeElapsedSprite += Time.deltaTime;
+		if (timeElapsedSprite > timeWait)
+		{
+			Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
+			ServerChangeLightState(moveDirection);
+			timeElapsedSprite = 0;
+		}
 	}
 }
