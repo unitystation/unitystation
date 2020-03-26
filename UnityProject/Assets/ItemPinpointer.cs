@@ -154,5 +154,14 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 			}
 			timeElapsedSprite = 0;
 		}
+		timeElapsedIcon += Time.deltaTime;
+		if (timeElapsedIcon > 0.2f)
+		{
+			if (isOn)
+			{
+				pick.RefreshUISlotImage();
+				timeElapsedIcon = 0;
+			}
+		}
 	}
 }
