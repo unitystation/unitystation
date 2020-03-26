@@ -54,7 +54,7 @@ public class GhostTeleport : MonoBehaviour
 				//Gets Name of Player
 				NameOfObject = player.name;
 
-				if(player.gameObject.name.Length == 0 | player.gameObject.name == null)
+				if(player.gameObject.name.Length == 0 || player.gameObject.name == null)
 				{
 					NameOfObject = "Spectator";
 				}
