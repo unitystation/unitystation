@@ -499,18 +499,31 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// <summary>
 	/// Asks the server to let the client rejoin into a logged off character.
 	/// </summary>
+	///
+
+	public bool GhostCheck()//specific check for if you want value returned
+	{
+		PlayerScript body = playerScript.mind.body;
+		if (playerScript.mind.IsSpectator) return true;
+		if (!playerScript.IsGhost || !body.playerHealth.IsDead)
+		{
+			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
+			return false;
+		}
+		CmdGhostEnterBody();
+		return true;
+	}
+
 	[Command]
 	public void CmdGhostEnterBody()
 	{
 		PlayerScript body = playerScript.mind.body;
+
+		if (playerScript.mind.IsSpectator) return;
+
 		if (!playerScript.IsGhost || !body.playerHealth.IsDead)
 		{
 			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
-
-			if (playerScript.IsGhost & !body.playerHealth.IsDead)//Admin Ghosting
-			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
-			}
 			return;
 		}
 
@@ -522,6 +535,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		playerScript.mind.StopGhosting();
 		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
+		return;
 	}
 
 	/// <summary>
