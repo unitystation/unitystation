@@ -54,8 +54,10 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
-  tileInteractions: []
-  spawnOnDeconstruct: {fileID: 0}
+  tileInteractions:
+  - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
+  spawnOnDeconstruct: {fileID: 7602444472548548205, guid: 2e430d66e310a994fb332ecfd2689647,
+    type: 3}
   spawnAmountOnDeconstruct: 1
   connectCategory: 3
   connectType: 2
