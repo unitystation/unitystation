@@ -167,7 +167,6 @@ GameObject:
   - component: {fileID: 8602547056562296912}
   - component: {fileID: 8093655862165673158}
   - component: {fileID: -2936979802063229476}
-  - component: {fileID: 4078119051076568591}
   m_Layer: 12
   m_Name: NPC_Paperwork
   m_TagString: Untagged
@@ -487,21 +486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4078119051076568591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e4b4c6fc6efb9f42af4b869972cd4be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: Paperwork
-  knockedDownRotation: 90
-  mouseDmg: 70
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
