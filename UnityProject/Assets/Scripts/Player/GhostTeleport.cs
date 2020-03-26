@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,28 +10,30 @@ using UnityEngine;
 /// </summary>
 public class GhostTeleport : MonoBehaviour
 {
+	//Players
 	//Dictionary of UniqueKey(int), data 
-	public IDictionary<int, dynamic> MobList = new Dictionary<int, dynamic>();
+	public IDictionary<int, Tuple<string, string, Vector3, GameObject>> MobList = new Dictionary<int, Tuple<string, string, Vector3, GameObject>>();
 
 	public int Count = 0;
 	private string NameOfObject;
 	private string Status;
 	private Vector3 Position;
-	private PlayerManager playerManager;
-	private PlayerSync playerSync;
+	private GameObject mobGameObject;
 
-	private void Start()
-	{
-		playerManager = PlayerManager.Instance;
-		playerSync = GetComponent<PlayerSync>();
-	}
+	//Places
+	public IDictionary<int, Tuple<string, Vector3, GameObject>> PlacesDict = new Dictionary<int, Tuple<string, Vector3, GameObject>>();
 
-	//Dictionary of Key(int), object/mob name, status (alive/dead/ghost/none), postion(vector3)
+	public int PlacesCount = 0;
+	private string NameOfPlace;
+	private Vector3 PlacePosition;
+	private GameObject placeGameObject;
+
+	//Logic for teleporting to players
+	//Dictionary of Key(int), object/mob name, status (alive/dead/ghost/none), postion(vector3), GameObject
 	private void AddToDict()
 	{
-		dynamic d1 = new System.Dynamic.ExpandoObject();
-		MobList[Count] = d1;
-		MobList[Count].Data = new { s1 = NameOfObject, s2 = Status, s3 = Position};
+		var entry = new Tuple<string, string, Vector3, GameObject>(NameOfObject, Status, Position, mobGameObject);
+		MobList.Add(Count, entry);
 		Count += 1;
 	}
 
@@ -41,7 +44,7 @@ public class GhostTeleport : MonoBehaviour
 		Count = 0;
 		var PlayerBodies = FindObjectsOfType(typeof(PlayerScript));
 
-		if (PlayerBodies == null | PlayerBodies.Count() == 0)//If list of PlayerScripts is empty donr run rest of code.
+		if (PlayerBodies == null | PlayerBodies.Count() == 0)//If list of PlayerScripts is empty dont run rest of code.
 		{
 		}
 		else
@@ -50,6 +53,11 @@ public class GhostTeleport : MonoBehaviour
 			{
 				//Gets Name of Player
 				NameOfObject = player.name;
+
+				if(NameOfObject.Length == 0)
+				{
+					NameOfObject = "Spectator";
+				}
 
 				//Gets Status of Player
 				if (player.IsGhost)
@@ -72,6 +80,10 @@ public class GhostTeleport : MonoBehaviour
 				//Gets Position of Player
 				var tile = player.gameObject.GetComponent<RegisterTile>();
 				Position = tile.WorldPositionClient;
+
+				//Gets gameobject
+				mobGameObject = player.gameObject;
+
 				AddToDict();// Adds to dictionary
 			}
 		}		
@@ -80,7 +92,67 @@ public class GhostTeleport : MonoBehaviour
 	//Grabs data needed for teleport.
 	public void DataForTeleport(int index)
 	{
-		var s3 = MobList[index].Data.s3;//Grabs Position from dictionary
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(s3);
+		var mobList = MobList[index].Item4;//Grabs gameobject from dictionary
+
+		var mobListPosition = mobList.GetComponent<RegisterTile>().WorldPositionClient;// Finds current player you want to teleport to coords
+
+		var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+
+		if (mobListPosition != playerPosition)//Spam Prevention
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(mobListPosition);
+		}
+	}
+
+	//Logic for Teleport to places:
+	public void PlacesAddToDict()
+	{
+		var entry = new Tuple<string, Vector3, GameObject>(NameOfPlace, PlacePosition, placeGameObject);
+		PlacesDict.Add(PlacesCount, entry);
+		PlacesCount += 1;
+	}
+
+	public void PlacesFindData()
+	{
+		PlacesDict.Clear();
+		PlacesCount = 0;
+
+		var placeGameObjects = FindObjectsOfType(typeof(SpawnPoint));
+
+		if (placeGameObjects == null | placeGameObjects.Count() == 0)//If list of SpawnPoints is empty dont run rest of code.
+		{
+		}
+		else
+		{
+			foreach (SpawnPoint place in placeGameObjects)
+			{
+				NameOfPlace = place.name;
+
+				if (NameOfPlace.Length == 0)
+				{
+					NameOfPlace = "Has No Name";
+				}
+
+				PlacePosition = place.transform.position;// Only way to get position of this object.
+
+				placeGameObject = place.gameObject;
+
+				PlacesAddToDict();
+			}
+		}
+	}
+
+	//Gets Places Data for teleport, is updated to latest coord.
+	public void PlacesDataForTeleport(int index)
+	{
+		var gameobject = PlacesDict[index].Item3;
+		var vector = gameobject.transform.position;//Gets current coords of object
+
+		var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+
+		if (vector != playerPosition)//Spam Prevention
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
+		}
 	}
 }
