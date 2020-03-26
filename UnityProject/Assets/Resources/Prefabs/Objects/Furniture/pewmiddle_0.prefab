@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7399691763730783495}
   - component: {fileID: -5585593495830839521}
   - component: {fileID: -2193209886874244082}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: pewmiddle_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
-  objectType: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &-3285347575489872077
@@ -227,6 +227,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &-2452584953163270110
 MonoBehaviour:
   m_ObjectHideFlags: 0

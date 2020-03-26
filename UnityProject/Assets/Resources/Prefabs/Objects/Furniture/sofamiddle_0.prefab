@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: -8282289100227108650}
   - component: {fileID: -9217439162693278525}
   - component: {fileID: -6326857998155813122}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: sofamiddle_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
-  objectType: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &-6056491110923657985
@@ -307,6 +307,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &-3632541438310209097
 MonoBehaviour:
   m_ObjectHideFlags: 0

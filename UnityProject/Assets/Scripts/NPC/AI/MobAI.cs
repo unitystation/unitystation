@@ -370,6 +370,21 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		followingTime = 0f;
 	}
 
+	public virtual void OnPetted(GameObject performer)
+	{
+
+	}
+
+	public virtual void HuntMouse(MouseAI mouse)
+	{
+
+	}
+
+	public virtual void ExplorePeople (PlayerScript player)
+	{
+
+	}
+
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
 		ResetBehaviours();

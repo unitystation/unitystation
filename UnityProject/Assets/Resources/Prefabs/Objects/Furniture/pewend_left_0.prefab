@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: -4166200168561424486}
   - component: {fileID: 4147946706600726899}
   - component: {fileID: 6550601417579492656}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: pewend_left_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
-  objectType: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &3627631272076510735
@@ -147,6 +147,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &2941685768857086103
 MonoBehaviour:
   m_ObjectHideFlags: 0

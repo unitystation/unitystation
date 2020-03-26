@@ -13,7 +13,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 
 
 	//Time it takes to process a single piece of produce
-	private float processingTime = 0.2f;
+	private float processingTime = 3f;
 
 	[SerializeField]
 	private RegisterObject registerObject = null;
@@ -64,6 +64,26 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		{
 			Chat.AddLocalMsgToChat("The seed extractor finishes processing", (Vector2Int)registerObject.WorldPosition, this.gameObject);
 		}
+	}
+
+	/// <summary>
+	/// Spawns seed packet in world and removes it from internal list
+	/// </summary>
+	/// <param name="seedPacket">Seed packet to spawn</param>
+	public void DispenseSeedPacket(SeedPacket seedPacket)
+	{
+		//Spawn packet
+		Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
+		CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
+		netTransform.AppearAtPosition(spawnPos);
+		netTransform.AppearAtPositionServer(spawnPos);
+		
+		//Notify chat
+		Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject.RegisterTile().WorldPosition.To2Int(), gameObject);
+
+		//Remove spawned entry from list
+		seedPackets.Remove(seedPacket);
+		updateEvent.Invoke();
 	}
 
 	/// <summary>

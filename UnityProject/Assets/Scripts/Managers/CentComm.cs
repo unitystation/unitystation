@@ -388,6 +388,7 @@ public class CentComm : MonoBehaviour
 			+ "CentComm orders to find suspects and neutralize the threat immediately.\n\n"
 			+ "<color=blue><size=32>New Station Objectives:</size></color>\n\n"
 			+ "<size=24>- Find the revolted crewmembers and neutralize the threat\n\n"
-			+ "- Be cautious and restore order in the station</size>";
+			+ "- Make sure captain is wearing his Captain's hat AT ALL COST.\n\n"
+			+ "- Restore order in the station.</size>";
 
 }

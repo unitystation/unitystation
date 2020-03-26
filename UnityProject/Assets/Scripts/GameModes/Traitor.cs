@@ -5,12 +5,31 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
 public class Traitor : GameMode
 {
+	
+	private float TraitorAmount = 0;
+
 	/// <summary>
 	/// Set up the station for the game mode
 	/// </summary>
 	public override void SetupRound()
 	{
 		Logger.Log("Setting up traitor round!", Category.GameMode);
+
+		//Populates traitors based on server population
+		if(PlayerList.Instance.InGamePlayers.Count <= 150 && PlayerList.Instance.InGamePlayers.Count >= 50)
+		{
+			TraitorAmount = 6;
+		}
+			else if(PlayerList.Instance.InGamePlayers.Count < 50 && PlayerList.Instance.InGamePlayers.Count >= 10)
+		{
+				TraitorAmount = 4;
+		}
+			else
+		{
+				TraitorAmount = 1;
+		}
+		
+
 	}
 	/// <summary>
 	/// Begin the round
@@ -48,8 +67,14 @@ public class Traitor : GameMode
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
+
+		for (int i = 0; i < TraitorAmount - 1; i++) {
+			return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
+					&& AntagManager.Instance.AntagCount == 0
+					&& PlayerList.Instance.InGamePlayers.Count > 0;
+		}
 		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
-				&& AntagManager.Instance.AntagCount == 0 
-				&& PlayerList.Instance.InGamePlayers.Count > 0;
+					&& AntagManager.Instance.AntagCount == 0
+					&& PlayerList.Instance.InGamePlayers.Count > 0;
 	}
 }

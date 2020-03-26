@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114522011428669004}
   - component: {fileID: 114887182886586962}
   - component: {fileID: 391860069733632804}
+  - component: {fileID: 25661488383936330}
   m_Layer: 11
   m_Name: Refrigerator
   m_TagString: Untagged
@@ -135,7 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114759099205373710
@@ -154,6 +154,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialContents: {fileID: 0}
   lockLight: {fileID: 114522763113633208}
+  IsLockable: 1
   playerLimit: 3
   metalDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
@@ -217,6 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114687831839695146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -306,6 +309,19 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &25661488383936330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013052373872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 45
 --- !u!1 &1457080292070702
 GameObject:
   m_ObjectHideFlags: 0
