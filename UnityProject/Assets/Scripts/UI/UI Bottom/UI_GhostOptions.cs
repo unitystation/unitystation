@@ -42,7 +42,7 @@ public class UI_GhostOptions : MonoBehaviour
 
 	public void ReenterCorpse()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostEnterBody();
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostCheck();	
 	}
 
 	public void Teleport()
