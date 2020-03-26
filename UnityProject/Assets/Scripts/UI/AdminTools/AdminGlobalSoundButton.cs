@@ -20,7 +20,7 @@ public class AdminGlobalSoundButton : MonoBehaviour
 	{
 		adminGlobalSound = GetComponentInParent<AdminGlobalSound>();
 
-		adminGlobalSound.PlaySound(index);// Gives index to GhostTeleport.cs
+		adminGlobalSound.PlaySound(myText.text);// Gives text to function to play sound.
 
 	}
 }
