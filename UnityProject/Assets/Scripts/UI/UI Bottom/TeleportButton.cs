@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class TeleportButton : MonoBehaviour
 {
 	[SerializeField]
-	private Text myText;
+	public Text myText;
 
 	public int index;
+
+	public bool MobTeleport = false;
 
 	private GhostTeleport ghostTeleport;
 
@@ -20,7 +22,14 @@ public class TeleportButton : MonoBehaviour
 	public void Onclick()
 	{
 		ghostTeleport = GetComponentInParent<GhostTeleport>();
-		Logger.Log("clicked");
-		ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
+
+		if (MobTeleport == true)
+		{
+			ghostTeleport.DataForTeleport(index);// Gives index to GhostTeleport.cs
+		}
+		else
+		{
+			ghostTeleport.PlacesDataForTeleport(index);// Gives index to GhostTeleport.cs
+		}
 	}
 }
