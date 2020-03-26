@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using System.Diagnostics;
 
 /// <summary>
-///  Extended interaction logic for grilles. Checks if the performer should be electrocuted.
+///  Extended interaction logic for grilles. Checks if the performer should be electrocuted. Needs to come before other interactions.
 /// </summary>
-[CreateAssetMenu(fileName = "GrilleInteraction", menuName = "Interaction/TileInteraction/GrilleInteraction")]
-public class GrilleInteraction : DeconstructWhenItemUsed
+[CreateAssetMenu(fileName = "ElectrifiedGrilleInteraction", menuName = "Interaction/TileInteraction/ElectrifiedGrilleInteraction")]
+public class ElectrifiedGrilleInteraction : TileInteraction
 {
 	private float voltage;
 
@@ -14,23 +14,32 @@ public class GrilleInteraction : DeconstructWhenItemUsed
 	{
 		// Make sure performer is near the grille.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (!ElectrocutionCriteriaMet(interaction)) return false;
 
-		if (ElectrocutionCriteriaMet(interaction))
-		{
-			// What's a better practice for the below line?
-			var severity = (new Electrocution()).ElectrocutePlayer(
-				interaction.Performer, interaction.TargetCellPos, interaction.BasicTile.DisplayName, voltage);
-			if (severity >= Electrocution.Severity.Painful)
-			{
-				return false;
-			}
-		}
+		var severity = (new Electrocution()).GetPlayerSeverity(interaction.Performer, voltage);
 
-		return base.WillInteract(interaction, side);
+		// If the potential electrocution is painful, return true to stop
+		// other interactions.
+		if (severity > Electrocution.Severity.Mild) return true;
+
+		return false;
 	}
 
+	public override void ServerPerformInteraction(TileApply interaction)
+	{
+		(new Electrocution()).ElectrocutePlayer(
+			interaction.Performer, interaction.TargetCellPos, interaction.BasicTile.DisplayName, voltage);
+	}
+
+	/// <summary>
+    /// Checks if the grille's location has exposed floor plating,
+    /// that cables and a machine connector exists there, and writes the
+    /// highest voltage detected to the class property voltage.
+    /// </summary>
+    /// <param name="interaction">TileApply interaction</param>
+    /// <returns>Boolean</returns>
 	private bool ElectrocutionCriteriaMet(TileApply interaction)
-    {
+	{
 		Vector3Int targetCellPos = interaction.TargetCellPos;
 		Matrix matrix = interaction.Performer.GetComponentInParent<Matrix>();
 		MetaTileMap metaDataLayer = matrix.GetComponentInParent<MetaTileMap>();
@@ -50,7 +59,7 @@ public class GrilleInteraction : DeconstructWhenItemUsed
 		bool connectorExists = false;
 		this.voltage = 0.0f;
 		foreach (var conn in eConns)
-        {
+		{
 			if (conn.InData.Categorytype == PowerTypeCategory.LowMachineConnector
 				|| conn.InData.Categorytype == PowerTypeCategory.MediumMachineConnector
 				|| conn.InData.Categorytype == PowerTypeCategory.HighMachineConnector)
@@ -63,10 +72,6 @@ public class GrilleInteraction : DeconstructWhenItemUsed
 
 		// Check that there is a machine connector.
 		if (!connectorExists) return false;
-
-		// RNG the chance of electrocution. (Somewhat arbitrary value chosen) should be none here
-		// float shockChance = Random.value;
-		// if (shockChance > 0.6f) return false;
 
 		// All checks passed, electrocute the performer!
 		return true;
