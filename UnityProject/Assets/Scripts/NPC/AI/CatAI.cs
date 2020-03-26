@@ -154,8 +154,8 @@ public class CatAI : MobAI
 
 	private void Purr(GameObject purred = null)
 	{
-		//TODO play purr sound
-		
+		SoundManager.PlayNetworkedAtPos("Purr", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+
 		if (purred != null)
 		{
 			Chat.AddActionMsgToChat(
@@ -171,7 +171,7 @@ public class CatAI : MobAI
 
 	private void Meow(GameObject meowed = null)
 	{
-		//TODO play meow sound
+		SoundManager.PlayNetworkedAtPos("Meow#", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
 		
 		if (meowed != null)
 		{
@@ -188,7 +188,7 @@ public class CatAI : MobAI
 
 	private void Hiss(GameObject hissed = null)
 	{
-		//TODO play hiss sound
+		SoundManager.PlayNetworkedAtPos("CatHiss", gameObject.WorldPosServer(), Random.Range(.9f, 1f));
 		
 		if (hissed != null)
 		{
