@@ -211,6 +211,13 @@ public class CatAI : MobAI
 			$"{capCatName} start licking its paws!");
 	}
 
+	// Public method so it can be called from CorgiAI
+	public void RunFromDog(Transform dog)
+	{
+		Hiss(dog.gameObject);
+		StartFleeing(dog, 10f);
+	}
+
 	IEnumerator LayDown(int cycles)
 	{
 		isLayingDown = true;
