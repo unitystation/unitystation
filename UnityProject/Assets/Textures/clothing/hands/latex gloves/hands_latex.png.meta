@@ -1,13 +1,21 @@
 fileFormatVersion: 2
-guid: 967e6830ea890424ea71796a0dd420ae
+guid: 081c16e2f78af1b4fb588e6631cada93
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: lgloves_0
-    21300002: lgloves_1
-    21300004: lgloves_2
-    21300006: lgloves_3
+  internalIDToNameTable:
+  - first:
+      213: 8570708448157940854
+    second: latex_0
+  - first:
+      213: 6769881558768995044
+    second: latex_1
+  - first:
+      213: 8457211366498706062
+    second: latex_2
+  - first:
+      213: 4449752729803029898
+    second: latex_3
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,7 +70,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -73,7 +81,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -84,11 +93,12 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lgloves_0
+      name: latex_0
       rect:
         serializedVersion: 2
         x: 0
@@ -103,12 +113,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 8570708448157940854
       vertices: []
-      indices:
+      indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lgloves_1
+      name: latex_1
       rect:
         serializedVersion: 2
         x: 32
@@ -123,12 +134,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 6769881558768995044
       vertices: []
-      indices:
+      indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lgloves_2
+      name: latex_2
       rect:
         serializedVersion: 2
         x: 64
@@ -143,12 +155,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 8457211366498706062
       vertices: []
-      indices:
+      indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lgloves_3
+      name: latex_3
       rect:
         serializedVersion: 2
         x: 96
@@ -163,21 +176,24 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 4449752729803029898
       vertices: []
-      indices:
+      indices: 
       edges: []
       weights: []
     outline: []
     physicsShape: []
     bones: []
     spriteID: 280b93732caf29f42b334a277f625760
+    internalID: 0
     vertices: []
-    indices:
+    indices: 
     edges: []
     weights: []
-  spritePackingTag:
+    secondaryTextures: []
+  spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
-  userData:
-  assetBundleName:
-  assetBundleVariant:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
