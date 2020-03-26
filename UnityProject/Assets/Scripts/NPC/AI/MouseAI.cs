@@ -29,6 +29,12 @@ public class MouseAI : MobAI
 		MonitorExtras();
 	}
 
+	protected override void AIStartServer()
+	{
+		exploringStopped.AddListener(OnExploringStooped);
+		fleeingStopped.AddListener(OnFleeingStopped);
+	}
+
 	void MonitorExtras()
 	{
 		//TODO eat cables if haven't eaten in a while
@@ -53,6 +59,16 @@ public class MouseAI : MobAI
 	{
 		Squeak();
 		FleeFromAttacker(damagedBy, 5f);
+	}
+
+	void OnExploringStooped()
+	{
+
+	}
+
+	void OnFleeingStopped()
+	{
+		BeginExploring(MobExplore.Target.food);
 	}
 
 	private void Squeak()
