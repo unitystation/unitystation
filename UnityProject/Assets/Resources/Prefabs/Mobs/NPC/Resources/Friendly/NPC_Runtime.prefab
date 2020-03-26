@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: -6765002746793913123}
   - component: {fileID: 1500758503039527989}
   - component: {fileID: 8438504971065900971}
+  - component: {fileID: 1032026185081466959}
   - component: {fileID: 42171897942477365}
   - component: {fileID: -3721379882699803303}
   - component: {fileID: 7978874405384304538}
@@ -236,7 +237,7 @@ MonoBehaviour:
   performingAction: 0
   activated: 1
   tickRate: 1
-  target: 4
+  target: 0
   actionPerformTime: 0
 --- !u!114 &-6765002746793913123
 MonoBehaviour:
@@ -292,6 +293,38 @@ MonoBehaviour:
   tickRate: 0
   status: 0
   fleeTarget: {fileID: 0}
+--- !u!114 &1032026185081466959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
+  agentParameters:
+    agentCameras: []
+    agentRenderTextures: []
+    maxStep: 0
+    resetOnDone: 1
+    onDemandDecision: 1
+    numberOfActionsBetweenDecisions: 1
+  performingDecision: 0
+  performingAction: 0
+  activated: 0
+  tickRate: 1
+  followTarget: {fileID: 0}
+  spriteHolder: {fileID: 5751403467835134051}
+  targetOtherPlayersWhoGetInWay: 0
+  onlyHitTarget: 1
+  hitDamage: 70
+  attackVerb: swiped
+  defaultTarget: 1
+  meleeCoolDown: 0.4
 --- !u!114 &42171897942477365
 MonoBehaviour:
   m_ObjectHideFlags: 0

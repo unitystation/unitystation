@@ -15,7 +15,6 @@ public class MobExplore : MobAgent
 		dirtyFloor,
 		missingFloor,
 		injuredPeople,
-		mice,
 		players
 	}
 
@@ -94,21 +93,6 @@ protected Vector3Int actionPosition;
 		}
 	}
 
-	bool FindMouseOrFood(Vector3Int checkPos)
-	{
-		if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null)
-		{
-			target = Target.food;
-			return true;
-		}
-		else if (registerObj.Matrix.GetFirst<MouseAI>(checkPos, true) != null
-				&& !registerObj.Matrix.GetFirst<MouseAI>(checkPos, true).IsDead)
-		{
-			return true;
-		}
-		return false;
-	}
-
 	bool IsTargetFound(Vector3Int checkPos)
 	{
 		switch (target)
@@ -123,9 +107,6 @@ protected Vector3Int actionPosition;
 				return interactableTiles.MetaTileMap.GetTile(checkPos).LayerType == LayerType.Base;
 			case Target.injuredPeople:
 				return false;
-			// check for mice and food
-			case Target.mice:
-				return FindMouseOrFood(checkPos);
 			// this includes ghosts!
 			case Target.players:
 				if (registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null) return true;
@@ -158,10 +139,6 @@ protected Vector3Int actionPosition;
 				interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
 				break;
 			case Target.injuredPeople:
-				break;
-			case Target.mice:
-				var mouse = registerObj.Matrix.GetFirst<MouseAI>(checkPos, true);
-				if (mouse != null) gameObject.GetComponent<MobAI>().HuntMouse(mouse);
 				break;
 			case Target.players:
 				var people = registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true);

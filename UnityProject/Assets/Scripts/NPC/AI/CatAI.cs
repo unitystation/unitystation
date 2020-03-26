@@ -14,9 +14,9 @@ public class CatAI : MobAI
 	private float timeForNextRandomAction;
 	private float timeWaiting;
 	private bool isLayingDown = false;
-
 	private ConeOfSight coneOfSight;
-	private LayerMask mouseMask;
+	private LayerMask mobMask;
+	private MobMeleeAttack mobAttack;
 
 	protected override void Awake()
 	{
@@ -28,20 +28,9 @@ public class CatAI : MobAI
 	public override void OnEnable()
 	{
 		base.OnEnable();
-		mouseMask = LayerMask.GetMask("NPC");
+		mobMask = LayerMask.GetMask("Walls", "NPC");
 		coneOfSight = GetComponent<ConeOfSight>();
-	}
-
-	public void Update()//FIXME 
-	{
-		var mice = AnyMiceNearby();
-		if (mice != null)
-		{
-			ChatBubbleManager.ShowAChatBubble(
-				gameObject.transform,
-				$"FOUND: {mice}"
-			);
-		}
+		mobAttack = GetComponent<MobMeleeAttack>();
 	}
 
 	protected override void AIStartServer()
@@ -59,7 +48,6 @@ public class CatAI : MobAI
 	
 	void MonitorExtras()
 	{
-		return; //FIXME
 		if (IsPerformingTask || isLayingDown) return;
 
 		timeWaiting += Time.deltaTime;
@@ -80,7 +68,7 @@ public class CatAI : MobAI
 
 	public override void OnPetted(GameObject performer)
 	{
-		int randAction = Random.Range(1,6);
+		int randAction = Random.Range(1,5);
 		switch (randAction)
 		{
 			case 1:
@@ -93,11 +81,11 @@ public class CatAI : MobAI
 				StartCoroutine(ChaseTail(Random.Range(1,5)));
 				break;
 			case 4:
-				StartCoroutine(LayDown(Random.Range(10,15)));
-				break;
-			case 5:
 				StartFleeing(performer.transform, 5f);
 				break;
+			// case 5:
+			// 	StartCoroutine(LayDown(Random.Range(10,15)));//TODO
+			// 	break;
 		}
 	}
 
@@ -109,31 +97,46 @@ public class CatAI : MobAI
 
 	void OnFollowingStopped()
 	{
-		BeginExploring(MobExplore.Target.mice, 10f);
+		DoRandomAction();
 	}
 
 	MouseAI AnyMiceNearby()
 	{
-		var hits = coneOfSight.GetObjectsInSight(mouseMask, dirSprites.CurrentFacingDirection, 10f, 20);
-		return hits.FirstOrDefault(m => m.gameObject.GetComponent<MouseAI>() != null)?.gameObject.GetComponent<MouseAI>();
+		var hits = coneOfSight.GetObjectsInSight(mobMask, dirSprites.CurrentFacingDirection, 10f, 20);
+		foreach (Collider2D coll in hits)
+		{
+			if (coll.gameObject != gameObject && coll.gameObject.GetComponent<MouseAI>() != null
+				&& !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+			{
+				return coll.gameObject.GetComponent<MouseAI>();
+			}
+		}
+		return null;
 	}
 
-	public override void HuntMouse(MouseAI mouse)
+	private void HuntMouse(MouseAI mouse)
 	{
-		mouse.gameObject.GetComponent<SimpleAnimal>().ApplyDamage(
-			gameObject,
-			mouseDmg, 
-			AttackType.Melee,
-			DamageType.Brute);
+		//Random chance of going nuts and destroying whatever is in the way
+		if (Random.value == 0.0f)
+		{
+			mobAttack.onlyHitTarget = false;
+		}
+		else
+		{
+			mobAttack.onlyHitTarget = true;
+		}
 
 		Hiss(mouse.gameObject);
-		FollowTarget(mouse.gameObject.transform, 5f);
+		mobAttack.StartFollowing(mouse.transform);
 	}
 
 	IEnumerator ChaseTail(int times)
 	{
 		var timesSpun = 0;
-		Chat.AddLocalMsgToChat($"{capCatName} start chasing its own tail!", gameObject.transform.position, gameObject);
+		Chat.AddActionMsgToChat(
+			gameObject,
+			$"{capCatName} start chasing its own tail!",
+			$"{capCatName} start chasing its own tail!");
 
 		while (timesSpun <= times)
 		{
@@ -224,12 +227,12 @@ public class CatAI : MobAI
 
 	private void DoRandomAction()
 	{
-		// More likely to hunt mouses if nearby!
+		// Before doing anything, try to hunt mouse!
 		var posibbleMouse = AnyMiceNearby();
 		if (posibbleMouse != null)
 		{
 
-			BeginExploring(MobExplore.Target.mice, 3f);
+			HuntMouse(posibbleMouse);
 			return;
 		}
 
@@ -244,7 +247,7 @@ public class CatAI : MobAI
 				Meow();
 				break;
 			case 3:
-				BeginExploring(MobExplore.Target.mice, 3f);
+				BeginExploring(MobExplore.Target.food, 3f);
 				break;
 			case 4:
 				LickPaws();
@@ -253,7 +256,7 @@ public class CatAI : MobAI
 				StartCoroutine(ChaseTail(Random.Range(1,4)));
 				break;
 			// case 6:
-			//	 StartCoroutine(LayDown(1));
+			//	 StartCoroutine(LayDown(1));//TODO
 			//	 break;
 		}
 	}

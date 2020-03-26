@@ -406,16 +406,13 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		followTimeMax = -1f;
 		followingTime = 0f;
 	}
+	
 	///<summary>
 	/// Triggers on creatures with Pettable component when petted.
 	///</summary>
 	///<param name="performer">The player petting</param>
 	public virtual void OnPetted(GameObject performer){}
-	///<summary>
-	/// Triggers when the explorer targets mice and found one
-	///</summary>
-	///<param name="mouse">MouseAI script from the found mouse</param> 
-	public virtual void HuntMouse(MouseAI mouse){}
+
 	///<summary>
 	/// Triggers when the explorer targets people and found one
 	///</summary>
