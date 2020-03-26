@@ -500,28 +500,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Asks the server to let the client rejoin into a logged off character.
 	/// </summary>
 	///
-
-	public bool GhostCheck()//specific check for if you want value returned
+	[Command]
+	public void CmdGhostCheck()//specific check for if you want value returned
 	{
-		PlayerScript body = playerScript.mind.body;
-		if (playerScript.mind.IsSpectator) return true;
-		if (!playerScript.IsGhost || !body.playerHealth.IsDead)
-		{
-			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
-			return false;
-		}
-		CmdGhostEnterBody();
-		return true;
+		GhostEnterBody();
 	}
 
-	[Command]
-	public void CmdGhostEnterBody()
+	[Server]
+	public void GhostEnterBody()
 	{
 		PlayerScript body = playerScript.mind.body;
 
 		if (playerScript.mind.IsSpectator) return;
 
-		if (!playerScript.IsGhost || !body.playerHealth.IsDead)
+		if (!playerScript.IsGhost )
 		{
 			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
 			return;
@@ -778,21 +770,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (playerScript.mind.IsSpectator) return;
 
-			PlayerScript body = playerScript.mind.body;
-			if (!playerScript.IsGhost)
-			{
-				Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
-				return;
-			}
-
-			//body might be in a container, reentering should still be allowed in that case
-			if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
-			{
-				Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
-				return;
-			}
-			playerScript.mind.StopGhosting();
-			PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
+			GhostEnterBody();
 		}
 	}
 
