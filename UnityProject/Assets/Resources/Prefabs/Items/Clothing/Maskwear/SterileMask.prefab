@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5d9a1c1616e97be67a10b9eb423201bd,
         type: 2}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 7557917173024864117, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: Resistances.Flammable
@@ -108,6 +113,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A sterile mask designed to help prevent the spread of diseases.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: canConnectToTank
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
