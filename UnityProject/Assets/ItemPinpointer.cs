@@ -31,7 +31,10 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 			EnsureInit();
 		}
 	}
-
+	private void Update()
+	{
+		pick.RefreshUISlotImage();
+	}
 	private void ChangeAngleofSprite(Vector3 moveDirection)
 	{
 		
@@ -42,8 +45,9 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	{
 		if(moveDirection.magnitude > maxMagnitude)
 		{
-			spriteHandler.ChangeSprite(4);
 			ChangeSprite(0);
+			spriteHandler.ChangeSprite(4);
+			
 		}
 		else if (moveDirection.magnitude > mediumMagnitude)
 		{
@@ -57,8 +61,9 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		}
 		else if (moveDirection == Vector3.zero)
 		{
-			spriteHandler.ChangeSprite(3);
 			ChangeSprite(0);
+			spriteHandler.ChangeSprite(3);
+			
 		}
 		else if (moveDirection.magnitude < closeMagnitude)
 		{
@@ -150,6 +155,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	}
 	protected virtual void UpdateMe()
 	{
+		
 		Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
 		ServerChangeLightState(moveDirection);
 	}

@@ -214,7 +214,6 @@ MonoBehaviour:
   pageSwitcher: {fileID: 7735421939598056928}
   loginPage: {fileID: 3663659203585056992}
   mainPage: {fileID: 5346847746792086687}
-  contentSizeFitter: {fileID: 0}
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +239,7 @@ RectTransform:
   m_GameObject: {fileID: 1571967781877764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.29, y: 0.68, z: 0.73116}
+  m_LocalScale: {x: 0.48, y: 0.53, z: 0.73116}
   m_Children:
   - {fileID: 224950370593069080}
   - {fileID: 224663602153563088}
@@ -263,7 +262,6 @@ GameObject:
   - component: {fileID: 224950370593069080}
   - component: {fileID: 222877028515050584}
   - component: {fileID: 114673774271609302}
-  - component: {fileID: 114038496128578582}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -311,13 +309,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
+  m_Color: {r: 0.8018868, g: 0.6773221, b: 0.35933605, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ad86ec1f3aaca726f8112b4c876f597e, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: ae018421643e67e44b2eddf81f2b42b7, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -326,21 +324,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114038496128578582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718948510130994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0.6981132, g: 0.62293524, b: 0.11525452, a: 0.5}
-  m_EffectDistance: {x: 20, y: -20}
-  m_UseGraphicAlpha: 1
 --- !u!1 &107159767598334260
 GameObject:
   m_ObjectHideFlags: 0
@@ -4195,7 +4178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -488, y: -163}
+  m_AnchoredPosition: {x: -378, y: -207}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3122147586440579286
