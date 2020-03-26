@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// use to focus InputBoxes
 /// </summary>
 public class WindowFocus : MonoBehaviour
 {
-	private InputField Searchtext;
+	public TMP_InputField Searchtext;
 	private void Start()
 	{
-		Searchtext = GetComponent<InputField>();
+		Searchtext = GetComponent<TMP_InputField>();
 	}
 	void Update()
 	{
