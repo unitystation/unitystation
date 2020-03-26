@@ -10,16 +10,18 @@ public class NukeDiskScript : NetworkBehaviour
 {
 	public Sprite[] spriteList;
 	public SpriteRenderer spriteRenderer;
+	private Pickupable pick;
     // Start is called before the first frame update
     void Start()
     {
+		pick = GetComponent<Pickupable>();
 		//StartCoroutine(Animation());
     }
 
     // Update is called once per frame
     void Update()
     {
-		
+		pick.RefreshUISlotImage();
     }
 	private IEnumerator Animation()
 	{

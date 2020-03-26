@@ -13,8 +13,12 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	private GameObject objectToTrack;
 	private SpriteHandler spriteHandler;
 	private SpriteHandlerController spriteHandlerController;
-	private ItemsSprites newSprites;
+	private ItemsSprites newSprites = new ItemsSprites();
 	private Pickupable pick;
+
+	public float maxMagnitude = 50;
+	public float mediumMagnitude = 20;
+	public float closeMagnitude = 10;
 	void Awake()
 	{
 		EnsureInit();
@@ -28,7 +32,36 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	{
 		Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
 		float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-		AngleUpdate(angle);
+		CheckDistance(moveDirection,angle);
+	}
+	private void CheckDistance(Vector3 moveDirection, float angle)
+	{
+		if(moveDirection.magnitude > maxMagnitude)
+		{
+			spriteHandler.ChangeSprite(4);
+			ChangeSprite(0);
+		}
+		else if (moveDirection.magnitude > mediumMagnitude)
+		{
+			spriteHandler.ChangeSprite(0);
+			AngleUpdate(angle);
+		}
+		else if (moveDirection.magnitude > closeMagnitude)
+		{
+			spriteHandler.ChangeSprite(1);
+			AngleUpdate(angle);
+		}
+		else if (moveDirection == Vector3.zero)
+		{
+			spriteHandler.ChangeSprite(3);
+			ChangeSprite(0);
+		}
+		else if (moveDirection.magnitude < closeMagnitude)
+		{
+			spriteHandler.ChangeSprite(2);
+			AngleUpdate(angle);
+		}
+		
 	}
 	private void AngleUpdate(float angle)
 	{
@@ -82,11 +115,12 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	private void ChangeSprite(int variant)
 	{
 		spriteHandler.ChangeSpriteVariant(variant);
-		newSprites.InventoryIcon = spriteHandler.Sprites[0];
-		spriteHandlerController.SetSprites(newSprites);
+		pick.RefreshUISlotImage();
+
 	}
 	private void EnsureInit()
 	{
+		pick = GetComponent<Pickupable>();
 		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		spriteHandler = rendererSprite.GetComponent<SpriteHandler>();
 		objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
