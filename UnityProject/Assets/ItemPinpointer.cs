@@ -25,26 +25,27 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	public float mediumMagnitude = 20;
 	public float closeMagnitude = 10;
 
-
-	[SyncVar(hook = nameof(SyncDiskPos))]
-	private Vector3 distance;
+	[SyncVar(hook = nameof(SyncVariant))]
+	private int spriteVariant;
 
 	private void OnEnable()
 	{
-			EnsureInit();	
+		EnsureInit();
 	}
-	private void Update()
+
+	public override void OnStartServer()
 	{
-		timeElapsedIcon += Time.deltaTime;
-		if (timeElapsedIcon > 0.2f)
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	void OnDisable()
+	{
+		if (isServer)
 		{
-			if (isOn)
-			{
-				pick.RefreshUISlotImage();
-				timeElapsedIcon = 0;
-			}
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 	}
+
 	private void ChangeAngleofSprite(Vector3 moveDirection)
 	{
 		
@@ -53,13 +54,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	}
 	private void CheckDistance(Vector3 moveDirection, float angle)
 	{
-		if(moveDirection.magnitude > maxMagnitude)
-		{
-			ChangeSprite(0);
-			spriteHandler.ChangeSprite(4);
-			
-		}
-		else if (moveDirection.magnitude > mediumMagnitude)
+		if (moveDirection.magnitude > mediumMagnitude)
 		{
 			spriteHandler.ChangeSprite(0);
 			AngleUpdate(angle);
@@ -71,7 +66,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		}
 		else if (moveDirection == Vector3.zero)
 		{
-			ChangeSprite(0);
+			ServerChangeSpriteVariant(0);
 			spriteHandler.ChangeSprite(3);
 			
 		}
@@ -87,45 +82,46 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		switch (angle)
 		{
 			case 0f:
-				ChangeSprite(2);
+				ServerChangeSpriteVariant(2);
 				return;
 			case 180.0f:
-				ChangeSprite(3);
+				ServerChangeSpriteVariant(3);
 				return;
 			case -90.0f:
-				ChangeSprite(0);
+				ServerChangeSpriteVariant(0);
 				return;
 			case 90.0f:
-				ChangeSprite(1);
+				ServerChangeSpriteVariant(1);
 				return;
 			default:
 				break;
 		}
 		if(angle < 0.0f && angle > -90.0f)
 		{
-			ChangeSprite(4);
+			ServerChangeSpriteVariant(4);
 			return;
 		}
 		if (angle > 0.0f && angle < 90.0f)
 		{
-			ChangeSprite(6);
+			ServerChangeSpriteVariant(6);
 			return;
 		}
 		if (angle > 90.0f && angle < 180.0f)
 		{
-			ChangeSprite(7);
+			ServerChangeSpriteVariant(7);
 			return;
 		}
 		if (angle < -90.0f)
 		{
-			ChangeSprite(5);
+			ServerChangeSpriteVariant(5);
 			return;
 		}
 
 	}
-	private void ChangeSprite(int variant)
+	private void SyncVariant(int oldVar, int newVar)
 	{
-		spriteHandler.ChangeSpriteVariant(variant);
+		spriteVariant = newVar;
+		spriteHandler.ChangeSpriteVariant(newVar);
 		pick.RefreshUISlotImage();
 
 	}
@@ -138,39 +134,24 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		if(isOn)
-		{
-			ChangeSprite(0);
-			spriteHandler.ChangeSprite(8);
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			isOn = !isOn;
-		}
-		else
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			isOn = !isOn;
-		}
-		
-	}
-
-	private void SyncDiskPos(Vector3 oldPositon, Vector3 newPosition)
-	{
-		distance = newPosition;
-		ChangeAngleofSprite(distance);
+		isOn = !isOn;	
 	}
 
 	[Server]
-	private void ServerChangeLightState(Vector3 newPosition)
+	private void ServerChangeSpriteVariant(int newVar)
 	{
-		distance = newPosition;
+		spriteVariant = newVar;
 	}
 	protected virtual void UpdateMe()
 	{
 		timeElapsedSprite += Time.deltaTime;
 		if (timeElapsedSprite > timeWait)
 		{
-			Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
-			ServerChangeLightState(moveDirection);
+			if (isOn)
+			{
+				Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
+				ChangeAngleofSprite(moveDirection);
+			}
 			timeElapsedSprite = 0;
 		}
 	}
