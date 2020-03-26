@@ -7,6 +7,7 @@ public enum ClientTabType {
 	More,
 	ItemList,
 	ControlInformation,
-	Admin
+	Admin,
+	Notes
 	//add your tabs here
 }
