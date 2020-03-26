@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
+using Chemistry;
 using UnityEngine;
 
 /// <summary>
@@ -92,7 +93,7 @@ public class MetaDataLayer : MonoBehaviour
 	/// <summary>
 	/// Release reagents at provided coordinates, making them react with world
 	/// </summary>
-	public void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
+	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true))
 		{
@@ -101,13 +102,13 @@ public class MetaDataLayer : MonoBehaviour
 
 		bool didSplat = false;
 
-		foreach (KeyValuePair<string, float> reagent in reagents)
+		foreach (var reagent in reagents.reagents)
 		{
 			if(reagent.Value < 1)
 			{
 				continue;
 			}
-			if (reagent.Key == "water")
+			if (reagent.Key.name == "water")
 			{
 				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
@@ -118,16 +119,16 @@ public class MetaDataLayer : MonoBehaviour
 
 				Clean(worldPosInt, localPosInt, true);
 			}
-			else if (reagent.Key == "cleaner")
+			else if (reagent.Key.name == "cleaner")
 			{
 				Clean(worldPosInt, localPosInt, false);
 			}
-			else if (reagent.Key == "welding_fuel")
+			else if (reagent.Key.name == "welding_fuel")
 			{
 				//temporary: converting spilled fuel to plasma
 				Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
 			}
-			else if (reagent.Key == "lube")
+			else if (reagent.Key.name == "lube")
 			{ //( ͡° ͜ʖ ͡°)
 				if (!Get(localPosInt).IsSlippery)
 				{

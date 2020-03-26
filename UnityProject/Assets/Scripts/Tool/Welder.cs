@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
+using Chemistry;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
@@ -20,6 +21,8 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	public SpriteRenderer welderRenderer;
 
 	public SpriteRenderer flameRenderer;
+
+	public Reagent fuel;
 
 	/// <summary>
 	/// Invoked server side when welder turns off for any reason.
@@ -57,7 +60,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	private ReagentContainer reagentContainer;
 
-	private float FuelAmount => reagentContainer.AmountOfReagent("welding_fuel");
+	private float FuelAmount => reagentContainer[fuel] ?? 0;
 
 	void Awake()
 	{

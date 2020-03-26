@@ -8,4 +8,4 @@ namespace Chemistry
 	{
 		public abstract void Apply(MonoBehaviour sender, float amount);
 	}
-}
+}it reset

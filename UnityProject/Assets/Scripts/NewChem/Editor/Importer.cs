@@ -129,7 +129,7 @@ namespace Chemistry.Editor
 			{
 				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key))
 					.Replace("Reagents", "");
-				Logger.Log(prefix);
+				Debug.Log(prefix);
 				var prefixPath = Path.Combine(reagentExportPath, prefix);
 				if (!Directory.Exists(prefixPath))
 				{
@@ -157,7 +157,7 @@ namespace Chemistry.Editor
 			{
 				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reactionsGroup.Key));
 				var prefixPath = Path.Combine(reactionExportPath, prefix);
-				Logger.Log(prefix);
+				Debug.Log(prefix);
 				foreach (var reaction in reactionsGroup)
 				{
 					var path = Path.Combine(
