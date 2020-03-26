@@ -12,25 +12,29 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	public GameObject rendererSprite;
 	private GameObject objectToTrack;
 	private SpriteHandler spriteHandler;
-	private SpriteHandlerController spriteHandlerController;
+
 	private ItemsSprites newSprites = new ItemsSprites();
 	private Pickupable pick;
 
 	public float maxMagnitude = 50;
 	public float mediumMagnitude = 20;
 	public float closeMagnitude = 10;
-	void Awake()
-	{
-		EnsureInit();
-	}
-	private void Update()
-	{
 
-		ChangeAngleofSprite();
-	}
-	private void ChangeAngleofSprite()
+	[SyncVar(hook = nameof(SyncDiskPos))]
+	private Vector3 distance;
+
+	private void OnEnable()
 	{
-		Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			EnsureInit();
+		}
+	}
+
+	private void ChangeAngleofSprite(Vector3 moveDirection)
+	{
+		
 		float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
 		CheckDistance(moveDirection,angle);
 	}
@@ -68,19 +72,15 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		switch (angle)
 		{
 			case 0f:
-				//spriteHandler.SetSprite(spriteHandler.Sprites[0], 2);
 				ChangeSprite(2);
 				return;
 			case 180.0f:
-				//spriteHandler.SetSprite(spriteHandler.Sprites[0], 3);
 				ChangeSprite(3);
 				return;
 			case -90.0f:
-				//spriteHandler.SetSprite(spriteHandler.Sprites[0],0);
 				ChangeSprite(0);
 				return;
 			case 90.0f:
-				//spriteHandler.SetSprite(spriteHandler.Sprites[0], 1);
 				ChangeSprite(1);
 				return;
 			default:
@@ -88,25 +88,21 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		}
 		if(angle < 0.0f && angle > -90.0f)
 		{
-			//spriteHandler.SetSprite(spriteHandler.Sprites[0], 4);
 			ChangeSprite(4);
 			return;
 		}
 		if (angle > 0.0f && angle < 90.0f)
 		{
-			//spriteHandler.SetSprite(spriteHandler.Sprites[0], 6);
 			ChangeSprite(6);
 			return;
 		}
 		if (angle > 90.0f && angle < 180.0f)
 		{
-			//spriteHandler.SetSprite(spriteHandler.Sprites[0], 7);
 			ChangeSprite(7);
 			return;
 		}
 		if (angle < -90.0f)
 		{
-			//spriteHandler.SetSprite(spriteHandler.Sprites[0], 5);
 			ChangeSprite(5);
 			return;
 		}
@@ -121,10 +117,8 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	private void EnsureInit()
 	{
 		pick = GetComponent<Pickupable>();
-		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		spriteHandler = rendererSprite.GetComponent<SpriteHandler>();
 		objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
-		StartCoroutine(Animation());
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -143,15 +137,20 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		Chat.AddExamineMsgFromServer(interaction.Performer, "Rotation" + Quaternion.AngleAxis(angle, Vector3.forward).ToString());
 	}
 
-	private IEnumerator Animation()
+	private void SyncDiskPos(Vector3 oldPositon, Vector3 newPosition)
 	{
-
-		while (true)
-		{
-			ChangeAngleofSprite();
-			yield return WaitFor.Seconds(1.0f);
-		}
+		distance = newPosition;
+		ChangeAngleofSprite(distance);
 	}
 
-
+	[Server]
+	private void ServerChangeLightState(Vector3 newPosition)
+	{
+		distance = newPosition;
+	}
+	protected virtual void UpdateMe()
+	{
+		Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
+		ServerChangeLightState(moveDirection);
+	}
 }
