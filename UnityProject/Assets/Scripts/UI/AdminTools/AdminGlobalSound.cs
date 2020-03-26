@@ -20,7 +20,7 @@ public class AdminGlobalSound : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Generates buttons
+	/// Generates buttons for the list
 	/// </summary>
 	public void SoundList()
 	{
@@ -43,7 +43,7 @@ public class AdminGlobalSound : MonoBehaviour
 		}
 	}
 
-	public void PlaySound(string index)
+	public void PlaySound(string index)//send sound to sound manager
 	{
 		if (SoundManager.Instance.sounds.ContainsKey(index))
 		{

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// SearchBar on the window
+/// </summary>
 public class AdminGlobalSoundSearchBar : MonoBehaviour
 {
 	private InputField Searchtext;

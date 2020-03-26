@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// On the buttons in the list
+/// </summary>
 public class AdminGlobalSoundButton : MonoBehaviour
 {
 	public Text myText;
