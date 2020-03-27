@@ -26,11 +26,14 @@ namespace AdminTools
 			}
 		}
 
-		//Monitors the time between interactions and limits it by the min cool down time
-		private static Dictionary<GameObject, DateTime> chatCoolDown = new Dictionary<GameObject, DateTime>();
-		private static Dictionary<GameObject, int> playersMaxMessaging = new Dictionary<GameObject, int>();
+		private static Dictionary<ConnectedPlayer, MessageRecord> chatCoolDown = new Dictionary<ConnectedPlayer, MessageRecord>();
 		private static double minCoolDown = 1f;
 		private static int maxMessages = 5;
+
+		class MessageRecord
+		{
+
+		}
 
 		private AutoModConfig loadedConfig;
 
