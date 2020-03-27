@@ -8,20 +8,20 @@ using System.Collections;
 /// </summary>
 public class MouseAI : MobAI
 {
-    private string mouseName;
-    private string capMouseName;
-    private float timeForNextRandomAction;
-    private float timeWaiting;   
+	private string mouseName;
+	private string capMouseName;
+	private float timeForNextRandomAction;
+	private float timeWaiting;   
 
-    protected override void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		mouseName = mobName.ToLower();
 		capMouseName = char.ToUpper(mouseName[0]) + mouseName.Substring(1);
-        BeginExploring(MobExplore.Target.food);
+		BeginExploring(MobExplore.Target.food);
 	}
 
-    protected override void UpdateMe()
+	protected override void UpdateMe()
 	{
 		if (health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
 
@@ -29,7 +29,13 @@ public class MouseAI : MobAI
 		MonitorExtras();
 	}
 
-    void MonitorExtras()
+	protected override void AIStartServer()
+	{
+		exploringStopped.AddListener(OnExploringStooped);
+		fleeingStopped.AddListener(OnFleeingStopped);
+	}
+
+	void MonitorExtras()
 	{
 		//TODO eat cables if haven't eaten in a while
 
@@ -37,34 +43,49 @@ public class MouseAI : MobAI
 		if (timeWaiting > timeForNextRandomAction)
 		{
 			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(3f,30f);
+			timeForNextRandomAction = Random.Range(3f, 30f);
 
 			DoRandomSqueek();
 		}
 	}
 
-    public override void OnPetted(GameObject performer)
-    {
-        Squeak();
-        StartFleeing(performer.transform, 3f);
-    }
+	public override void OnPetted(GameObject performer)
+	{
+		Squeak();
+		StartFleeing(performer.transform, 3f);
+	}
 
-    protected override void OnAttackReceived(GameObject damagedBy)
-    {
-        Squeak();
-        StartFleeing(damagedBy.transform, 5f);
-    }
+	protected override void OnAttackReceived(GameObject damagedBy)
+	{
+		Squeak();
+		FleeFromAttacker(damagedBy, 5f);
+	}
 
-    private void Squeak()
-    {
-        SoundManager.PlayNetworkedAtPos("MouseSqueek", 
-                                        gameObject.transform.position,
-                                        Random.Range(.6f,1.2f));
-        Chat.AddActionMsgToChat(gameObject, $"{capMouseName} squeaks!", $"{capMouseName} squeaks!");
-    }
+	void OnExploringStooped()
+	{
 
-    private void DoRandomSqueek()
-    {
-       Squeak();
-    }
+	}
+
+	void OnFleeingStopped()
+	{
+		BeginExploring(MobExplore.Target.food);
+	}
+
+	private void Squeak()
+	{
+		SoundManager.PlayNetworkedAtPos(
+			"MouseSqueek",
+			gameObject.transform.position,
+			Random.Range(.6f, 1.2f));
+
+		Chat.AddActionMsgToChat(
+			gameObject,
+			$"{capMouseName} squeaks!",
+			$"{capMouseName} squeaks!");
+	}
+
+	private void DoRandomSqueek()
+	{
+	   Squeak();
+	}
 }
