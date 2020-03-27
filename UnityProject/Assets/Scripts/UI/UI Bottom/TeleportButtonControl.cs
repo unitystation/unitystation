@@ -6,10 +6,11 @@ using TMPro;
 public class TeleportButtonControl : MonoBehaviour
 {
 	[SerializeField]
-	private GameObject buttonTemplate;//Sets what button to use in editor
+	private GameObject buttonTemplate = null;//Sets what button to use in editor
 	private GhostTeleport ghostTeleport;
 	private TeleportButtonSearchBar SearchBar;
 	public List<GameObject> teleportButtons = new List<GameObject>();
+	[SerializeField] private TextMeshProUGUI titleText = null;
 
 	//Generates the amount of buttons as the number of entries in the MobList dictionary
 	//Buttons for Teleporting To Mobs Tab
@@ -26,8 +27,8 @@ public class TeleportButtonControl : MonoBehaviour
 			SearchBar.Resettext();
 		}
 
-		gameObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = "<b>Teleport To Mob</b>";
-		
+		titleText.text = "<b>Teleport To Mob</b>";
+
 
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
 		{
@@ -58,7 +59,7 @@ public class TeleportButtonControl : MonoBehaviour
 			SearchBar.Resettext();
 		}
 
-		gameObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>().text = "<b>Teleport To Location</b>";
+		titleText.text = "<b>Teleport To Location</b>";
 
 		foreach (GameObject x in teleportButtons)//resets buttons everytime it opens
 		{
