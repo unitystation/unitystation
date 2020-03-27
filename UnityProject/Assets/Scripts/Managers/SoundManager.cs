@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour
 
 	private static SoundManager soundManager;
 
-	private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+	public readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
 
 	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
 
