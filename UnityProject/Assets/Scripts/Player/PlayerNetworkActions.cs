@@ -748,17 +748,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	#region Admin
 
 	[Command]
-	public void CmdAGhost()
+	public void CmdAGhost(string adminId, string adminToken)
 	{
-		ServerAGhost();
+		ServerAGhost(adminId, adminToken);
 	}
 
 	[Server]
-	public void ServerAGhost()
+	public void ServerAGhost(string adminId, string adminToken)
 	{
-		var adminId = DatabaseAPI.ServerData.UserID;
-		var adminToken = PlayerList.Instance.AdminToken;
-
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
