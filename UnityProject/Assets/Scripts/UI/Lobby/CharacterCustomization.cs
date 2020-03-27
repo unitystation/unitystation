@@ -14,6 +14,7 @@ namespace Lobby
 		public InputField ageField;
 		public Text errorLabel;
 		public Text genderText;
+		public Text clothingText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
@@ -113,6 +114,7 @@ namespace Lobby
 		{
 			RefreshName();
 			RefreshGender();
+			RefreshClothing();
 			RefreshHair();
 			RefreshFacialHair();
 			RefreshUnderwear();
@@ -648,6 +650,27 @@ namespace Lobby
 		{
 			colorChangedEvent.Invoke(newColor);
 		}
+
+		//------------------
+		//CLOTHING PREFERENCE:
+		//------------------
+
+		public void OnClothingChange()
+		{
+			int clothing = (int)currentCharacter.Clothing;
+			clothing++;
+			if (clothing == (int)Clothing.JumpSuit)
+			{
+				clothing = 0;
+			}
+			currentCharacter.Clothing = (Clothing)clothing;
+			RefreshClothing();
+		}
+
+		private void RefreshClothing()
+		{
+			clothingText.text = currentCharacter.Clothing.ToString();
+		}
 	}
 }
 
@@ -658,6 +681,7 @@ public class CharacterSettings
 	public string username;
 	public string Name = "Cuban Pete";
 	public Gender Gender = Gender.Male;
+	public Clothing Clothing = Clothing.JumpSuit;
 	public int Age = 22;
 	public int hairStyleOffset = -1;  //#
 	public string hairStyleName = "None";
@@ -790,4 +814,10 @@ public enum Gender
 	Male,
 	Female,
 	Neuter //adding anymore genders will break things do not edit
+}
+
+public enum Clothing
+{
+	JumpSuit,
+	JumpSkirt
 }
