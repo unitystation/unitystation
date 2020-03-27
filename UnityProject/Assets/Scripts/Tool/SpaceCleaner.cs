@@ -13,7 +13,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	[SerializeField]
 	[Range(1,50)]
-	private int reagentsPerUse = 5;
+	private int reagentsPerUse = 1;
 
 	private ReagentContainer reagentContainer;
 
@@ -48,7 +48,6 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
-		reagentContainer.TakeReagents(reagentsPerUse);
 		SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
@@ -65,9 +64,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 
 	void SprayTile(Vector3Int worldPos)
 	{
-		//it actually uses remaining contents of the bottle to react with world
-		//instead of the sprayed ones. not sure if this is right
-		MatrixManager.ReagentReact(reagentContainer.Contents, worldPos);
+		reagentContainer.Spill(worldPos, reagentsPerUse);
 	}
 	private List<Vector3Int> CheckPassableTiles(Vector2 startPos, Vector2 targetPos)
 	{

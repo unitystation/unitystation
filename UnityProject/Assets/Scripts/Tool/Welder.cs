@@ -22,7 +22,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	public SpriteRenderer flameRenderer;
 
-	public Reagent fuel;
+	public Chemistry.Reagent fuel;
 
 	/// <summary>
 	/// Invoked server side when welder turns off for any reason.

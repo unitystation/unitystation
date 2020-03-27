@@ -17,7 +17,7 @@ public class GUI_ChemistryDispenser : NetTab
 	public bool HeaterOn = false;
 
 	public ChemistryDispenser ChemistryDispenser;
-	private HashSet<Reagent> DispensableReagents = new HashSet<Reagent>() { };
+	private HashSet<Chemistry.Reagent> DispensableReagents = new HashSet<Chemistry.Reagent>() { };
 
 	// private HashSet<string> DispensableChemicals = new HashSet<string>()
 	// {
@@ -141,7 +141,7 @@ public class GUI_ChemistryDispenser : NetTab
 		UpdateAll();
 	}
 
-	public void DispenseChemical(Reagent reagent)
+	public void DispenseChemical(Chemistry.Reagent reagent)
 	{
 		if (ChemistryDispenser.Container != null)
 		{
