@@ -12,6 +12,7 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 	[ArrayElementTitle("NamedSlot")]
 	private NamedSlotPopulatorEntry[] Entries = null;
 
+	public GameObject skirtVariant;
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{
 		Logger.LogTraceFormat("Populating item storage {0}", Category.Inventory, toPopulate.name);
@@ -34,6 +35,17 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 
 			if (entry.Prefab != null)
 			{
+				// making exception for jumpsuit/jumpskirt
+
+				if (context.SpawnInfo.CharacterSettings.Clothing == Clothing.JumpSkirt
+					&& entry.NamedSlot == NamedSlot.uniform
+					&& skirtVariant != null)
+				{
+					var spawnskirt = Spawn.ServerPrefab(skirtVariant);
+					Inventory.ServerAdd(spawnskirt.GameObject, slot);
+					continue;
+				}
+
 				var spawn = Spawn.ServerPrefab(entry.Prefab);
 				Inventory.ServerAdd(spawn.GameObject, slot);
 			}

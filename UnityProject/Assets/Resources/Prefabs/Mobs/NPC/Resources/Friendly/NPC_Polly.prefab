@@ -166,6 +166,8 @@ GameObject:
   - component: {fileID: 8251347940129356532}
   - component: {fileID: 8602547056562296912}
   - component: {fileID: 8093655862165673158}
+  - component: {fileID: -5361740116308023613}
+  - component: {fileID: 9079631981209806483}
   m_Layer: 12
   m_Name: NPC_Polly
   m_TagString: Untagged
@@ -358,6 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114379009499332576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 1592718631
+  sceneId: 0
   serverOnly: 0
   m_AssetId: 
 --- !u!114 &1750259749
@@ -464,14 +467,40 @@ MonoBehaviour:
     agentRenderTextures: []
     maxStep: 0
     resetOnDone: 1
-    onDemandDecision: 0
+    onDemandDecision: 1
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
   performingAction: 0
   activated: 1
   tickRate: 1
-  target: 0
+  target: 5
   actionPerformTime: 0
+--- !u!114 &-5361740116308023613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f2243d1747196409dacdb950638d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: Polly
+  knockedDownRotation: 90
+--- !u!114 &9079631981209806483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,9 +568,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 19
+  m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300002, guid: cbbf3d2ae0137584b88c69c92549be3e, type: 3}
+  m_Sprite: {fileID: 21300004, guid: cbbf3d2ae0137584b88c69c92549be3e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

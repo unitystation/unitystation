@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using AdminTools;
 using Tilemaps.Behaviours.Meta;
 
 /// <summary>
@@ -50,6 +51,9 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	public static void AddChatMsgToChat(ConnectedPlayer sentByPlayer, string message, ChatChannel channels)
 	{
+		message = AutoMod.ProcessChatServer(sentByPlayer, message);
+		if (string.IsNullOrWhiteSpace(message)) return;
+
 		var player = sentByPlayer.Script;
 
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
