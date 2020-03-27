@@ -101,16 +101,16 @@ public class MobAnimator : MonoBehaviour
 	/// Simple Animation doesnt care about direction but will reset if direction is changed.
 	/// </summary>
 	/// <param name="spritesToUse">Tuple containing data</param>
-	/// <param name="Length">Animation length</param>
+	/// <param name="animationLength">Animation length</param>
 	/// <returns></returns>
-	private IEnumerator SimplePlayAnimation(Tuple<Sprite[], bool, bool, bool, float> spritesToUse, int Length)
+	private IEnumerator SimplePlayAnimation(Tuple<Sprite[], bool, bool, bool, float> spritesToUse, int animationLength)
 	{
-		if (Length > 0)
+		if (animationLength > 0)
 		{
 			var startingSprite = spriteRender.sprite;
 			var startingDirection = npcDirectionalSprite.CurrentFacingDirection;
 
-			for (int i = 0; i < Length; i++)
+			for (int i = 0; i < animationLength; i++)
 			{
 				if (livingHealthBehaviour.IsDead) yield break;//makes sure sprite hasnt changed due to death
 
@@ -141,15 +141,15 @@ public class MobAnimator : MonoBehaviour
 	/// Complex animation will attempt animation change if direction is changed, will need at least four animations for each direction specified!
 	/// </summary>
 	/// <param name="spritesToUse">Tuple containing data</param>
-	/// <param name="Length">Animation length</param>
+	/// <param name="animationLength">Animation length</param>
 	/// <returns></returns>
-	private IEnumerator PlayAnimation(Tuple<Sprite[], bool, bool, bool, float> spritesToUse, int Length, int start = 0)
+	private IEnumerator PlayAnimation(Tuple<Sprite[], bool, bool, bool, float> spritesToUse, int animationLength, int start = 0)
 	{
-		if (Length > 0)
+		if (animationLength > 0)
 		{
 			var startingSprite = spriteRender.sprite;
 			var startingDirection = npcDirectionalSprite.CurrentFacingDirection;
-			for (int i = start; i < Length; i++)
+			for (int i = start; i < animationLength; i++)
 			{
 				if (livingHealthBehaviour.IsDead) yield break;//makes sure sprite hasnt changed due to death
 				if (i > 0 && spriteRender.sprite != spritesToUse.Item1[i - 1] && npcDirectionalSprite.CurrentFacingDirection == startingDirection) yield break; 
@@ -188,7 +188,9 @@ public class MobAnimator : MonoBehaviour
 
 	public void LoopAnimation(Tuple<Sprite[], bool, bool, bool, float> spritesToUse,int animationLength, bool StopLoop)
 	{
-		if (StopLoop == true) return;
+		var stopLoop = StopLoop;
+
+		if (StopLoop == true || stopLoop == true) return;
 
 		if (spritesToUse.Item3 == true)
 		{
@@ -198,5 +200,7 @@ public class MobAnimator : MonoBehaviour
 		{
 			StartCoroutine(PlayAnimation(spritesToUse, animationLength));
 		}
+
+		Invoke("LoopAnimation", 2f);
 	}
 }
