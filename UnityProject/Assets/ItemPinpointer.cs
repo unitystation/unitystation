@@ -56,7 +56,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	{
 		if (moveDirection.magnitude > mediumMagnitude)
 		{
-			spriteHandler.ChangeSprite(0);
+			spriteHandler.ChangeSprite(4);
 			AngleUpdate(angle);
 		}
 		else if (moveDirection.magnitude > closeMagnitude)
@@ -66,8 +66,8 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		}
 		else if (moveDirection == Vector3.zero)
 		{
-			ServerChangeSpriteVariant(0);
 			spriteHandler.ChangeSprite(3);
+			ServerChangeSpriteVariant(0);
 			
 		}
 		else if (moveDirection.magnitude < closeMagnitude)
@@ -134,7 +134,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-			spriteHandler.ChangeSprite(4);
+			spriteHandler.ChangeSprite(0);
 			ServerChangeSpriteVariant(1);
 			pick.RefreshUISlotImage();
 			isOn = !isOn;		
@@ -160,11 +160,8 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		timeElapsedIcon += Time.deltaTime;
 		if (timeElapsedIcon > 0.2f)
 		{
-			if (isOn)
-			{
 				pick.RefreshUISlotImage();
 				timeElapsedIcon = 0;
-			}
 		}
 	}
 }
