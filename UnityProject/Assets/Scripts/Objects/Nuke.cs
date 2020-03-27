@@ -36,6 +36,10 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool IsTimer => isTimer;
 
+	private bool isTimerTicking = false;
+
+	public bool IsTimerTicking => isTimerTicking;
+
 	private int currentTimerSeconds;
 	public int CurrentTimerSeconds
 	{
@@ -157,9 +161,12 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		{
 			if (isTimer)
 			{
-				GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
-				isTimer = false;
-				this.TryStopCoroutine(ref timerHandle);
+				if(isTimerTicking)
+				{
+					GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
+					this.TryStopCoroutine(ref timerHandle);
+				}
+				isTimer = false;	
 			}
 			isSafetyOn = !isSafetyOn;
 			return isSafetyOn;
@@ -188,8 +195,9 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (IsCodeRight && !isSafetyOn)
 		{
-			if (isTimer)
+			if (isTimer && isTimerTicking)
 			{
+				isTimerTicking = false;
 				GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 				this.TryStopCoroutine(ref timerHandle);
 			}
@@ -205,11 +213,16 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (isCodeRight && isTimer)
 		{
+			if(currentCode == "")
+			{
+				return false;
+			}
 			int digit = int.Parse(currentCode);
 			if (digit < minTimer)
 			{
 				return false;
 			}
+			isTimerTicking = true;
 			CurrentTimerSeconds = digit;
 			CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
 			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
