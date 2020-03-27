@@ -46,13 +46,9 @@ public class AdminGlobalSound : MonoBehaviour
 
 	public void PlaySound(string index)//send sound to sound manager
 	{
-		var players = FindObjectsOfType(typeof(PlayerScript));
+		var adminId = DatabaseAPI.ServerData.UserID;
+		var adminToken = PlayerList.Instance.AdminToken;
 
-		if (players == null) return;//If list of Players is empty dont run rest of code.
-		
-		foreach (PlayerScript player in players)
-		{
-			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
-		}
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaySound(index, adminId, adminToken);
 	}
 }

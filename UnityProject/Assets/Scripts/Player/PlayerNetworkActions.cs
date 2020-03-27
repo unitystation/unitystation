@@ -772,6 +772,28 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void CmdPlaySound(string index, string adminId, string adminToken)
+	{
+		PlaySound(index, adminId, adminToken);
+	}
+
+	[Server]
+	public void PlaySound(string index, string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		var players = FindObjectsOfType(typeof(PlayerScript));
+
+		if (players == null) return;//If list of Players is empty dont run rest of code.
+
+		foreach (PlayerScript player in players)
+		{
+			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
+		}
+	}
+
+	[Command]
 	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
