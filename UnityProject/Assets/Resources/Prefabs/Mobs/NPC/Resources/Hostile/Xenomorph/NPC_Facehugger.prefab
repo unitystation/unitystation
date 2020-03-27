@@ -575,7 +575,9 @@ MonoBehaviour:
   mobName: Facehugger
   knockedDownRotation: -90
   searchTickRate: 0.5
-  DeathSounds: []
-  GenericSounds: []
+  DeathSounds:
+  - facehugger
+  GenericSounds:
+  - facehugger
   PlaySoundTime: 3
   status: 0
