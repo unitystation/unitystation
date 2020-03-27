@@ -10,8 +10,6 @@ public class AdminGlobalSoundButton : MonoBehaviour
 {
 	public Text myText;
 
-	public int index;
-
 	private AdminGlobalSound adminGlobalSound;
 
 	public void SetAdminGlobalSoundButtonText(string textString)
@@ -24,6 +22,5 @@ public class AdminGlobalSoundButton : MonoBehaviour
 		adminGlobalSound = GetComponentInParent<AdminGlobalSound>();
 
 		adminGlobalSound.PlaySound(myText.text);// Gives text to function to play sound.
-
 	}
 }
