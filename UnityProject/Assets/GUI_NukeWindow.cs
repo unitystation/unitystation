@@ -12,7 +12,6 @@ public class GUI_NukeWindow : NetTab
 {
 	private Coroutine corHandler;
 
-	private bool cooldown;
 
 	private string InitialInfoText;
 
@@ -112,15 +111,7 @@ public class GUI_NukeWindow : NetTab
 
 			return nuke;
 		}
-	}
-
-	[SerializeField]
-	private NetPageSwitcher pageSwitcher = null;
-	[SerializeField]
-	private NetPage loginPage = null;
-	[SerializeField]
-	private NetPage mainPage = null;
-	
+	}	
 
 	public override void OnEnable()
 	{
@@ -130,19 +121,6 @@ public class GUI_NukeWindow : NetTab
 			infoNukeDisplay = this["NukeInfoDisplay"];
 			codeDisplay = this["NukeCodeDisplay"];
 		}
-	}
-
-	public void ServerLogin()
-	{
-		if (!Nuke.NukeSlot.IsEmpty)
-		{
-			pageSwitcher.SetActivePage(mainPage);
-		}
-	}
-
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
 	}
 
 	protected override void InitServer()
@@ -173,21 +151,34 @@ public class GUI_NukeWindow : NetTab
 		{
 			//	Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
 			InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
-			InfoNukeDisplay.SetValue = InitialInfoText;
+			InfoNukeDisplay.SetValue = "Insert the disk!";
 			
 		}
 	}
 
+	#region Buttons
+
 	public void DiskButton()
 	{
-		pageSwitcher.SetActivePage(loginPage);
+		if (nuke.NukeSlot.IsEmpty)
+		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Empty!", "Insert the disk!"), ref corHandler);
+			return;
+		}
 		Nuke.EjectDisk();
-		InfoNukeDisplay.SetValue = InitialInfoText;
+		InfoNukeDisplay.SetValue = "Insert the disk!";
 		Clear();
 	}
 
 	public void SafetyToggle()
 	{
+		if (nuke.NukeSlot.IsEmpty)
+		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Insert the disk!", "Insert the disk!"), ref corHandler);
+			return;
+		}
 		bool? isSafety = Nuke.SafetyNuke();
 		if (isSafety != null)
 		{
@@ -199,12 +190,18 @@ public class GUI_NukeWindow : NetTab
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("No Access!"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("No Access!", "Enter code:"), ref corHandler);
 		}
 	}
 
 	public void AnchorNukeButton()
 	{
+		if (nuke.NukeSlot.IsEmpty)
+		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Insert the disk!", "Insert the disk!"), ref corHandler);
+			return;
+		}
 		bool? isAnchored = Nuke.AnchorNuke();
 		if(isAnchored != null)
 		{
@@ -215,87 +212,66 @@ public class GUI_NukeWindow : NetTab
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("No Access!"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("No Access!", "Enter code:"), ref corHandler);
 		}
 	}
 
 	public void TimerSetButton()
 	{
+		if (nuke.NukeSlot.IsEmpty)
+		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Insert the disk!", "Insert the disk!"), ref corHandler);
+			return;
+		}
 		bool? isTimer = Nuke.ToggleTimer();
 		if(isTimer != null)
 		{
 			this.TryStopCoroutine(ref corHandler);
 			Clear();
-			InfoNukeDisplay.SetValue = isTimer.Value ? "Set timer:" : InitialInfoText;
 			InfoTimerColor.SetValue = isTimer.Value ? colorGreen : colorRed;
-			//StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off")));
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off"), "Set the nuke."), ref corHandler);
 		}
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("No Access!"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("No Access!", "Enter code:"), ref corHandler);
 		}
-	}
-
-	private IEnumerator UpdateDisplay(string message)
-	{
-		InfoNukeDisplay.SetValue = message;
-		yield return WaitFor.Seconds(0.5f);
-		InfoNukeDisplay.SetValue = "";
-		yield return WaitFor.Seconds(0.5f);
-		InfoNukeDisplay.SetValue = message;
-		yield return WaitFor.Seconds(0.5f);
-		InfoNukeDisplay.SetValue = "";
-		yield return WaitFor.Seconds(0.5f);
-		InfoNukeDisplay.SetValue = message;
-		yield return WaitFor.Seconds(0.5f);
-
-		InfoNukeDisplay.SetValue = InitialInfoText;
 	}
 
 	public void EnterDigit(char digit)
 	{
-		if (cooldown)
+		if (nuke.NukeSlot.IsEmpty)
 		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Insert the disk!", "Insert the disk!"), ref corHandler);
 			return;
 		}
-		DigitCode(digit);
-	}
-
-	private void DigitCode(char digit)
-	{
 		if (Nuke.AppendKey(digit))
 		{
-			
-				int length = Nuke.CurrentCode.Length;
-				//replace older digits with asterisks
-				string newDigit = Nuke.CurrentCode.Substring(length <= 0 ? 0 : length - 1);
-				CodeDisplay.SetValue = newDigit.PadLeft(length, '*');
-				StartCoroutine(HideCode());
-			
-		}
-	}
 
-	private IEnumerator HideCode()
-	{
-		yield return WaitFor.Seconds(1);
-		CodeDisplay.SetValue = "".PadLeft(CodeDisplay.Value.Length, '*');
+			int length = Nuke.CurrentCode.Length;
+			//replace older digits with asterisks
+			string newDigit = Nuke.CurrentCode.Substring(length <= 0 ? 0 : length - 1);
+			CodeDisplay.SetValue = newDigit.PadLeft(length, '*');
+			StartCoroutine(HideCode());
+
+		}
 	}
 
 	public void Clear()
 	{
-		if (cooldown)
-		{
-			return;
-		}
 		Nuke.Clear();
 		CodeDisplay.SetValue = "";
 	}
 
 	public void TryArm()
 	{
-		if (cooldown)
+		if (nuke.NukeSlot.IsEmpty)
 		{
+			this.TryStopCoroutine(ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Insert the disk!", "Insert the disk!"), ref corHandler);
 			return;
 		}
 		CodeAccess();
@@ -313,69 +289,44 @@ public class GUI_NukeWindow : NetTab
 		{
 			Clear();
 			
-			if (Nuke.IsTimer)
+			if (Nuke.IsTimer && Nuke.IsCodeRight)
 			{
-				InfoNukeDisplay.SetValue = "Timer is set!";
+				this.TryStopCoroutine(ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Timer is set!"), ref corHandler);
+
 			}
 			else
 			{
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Correct code!"), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Correct code!","Set the nuke."), ref corHandler);
 			}
 
 			
 		}
 		else
 		{
-			if (!Nuke.IsTimer)
+			if (Nuke.IsTimer && Nuke.IsCodeRight)
 			{
 				Clear();
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(ErrorCooldown() , ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Min 270 seconds!","Min 270 seconds!"), ref corHandler);
 			}
 			else
 			{
 				Clear();
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(ErrorTimer() , ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Incorrect code!", "Enter code:"), ref corHandler);
 			}
 
 		}
 	}
 
-	public IEnumerator ErrorTimer()
+	public void CloseTab()
 	{
-		InfoNukeDisplay.SetValue = "Min 270 seconds!";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "Min 270 seconds!";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "Min 270 seconds!";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "Set timer:";
+		ControlTabs.CloseTab(Type, Provider);
 	}
 
-	public IEnumerator ErrorCooldown()
-	{
-		cooldown = true;
-		InfoNukeDisplay.SetValue = "Incorrect code!";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "Incorrect code!";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "Incorrect code!";
-		yield return WaitFor.Seconds(0.5F);
-		InfoNukeDisplay.SetValue = "";
-		yield return WaitFor.Seconds(0.5F);
-		cooldown = false;
-		InfoNukeDisplay.SetValue = InitialInfoText;
-	}
+	#endregion
 
 	private string FormatTime(int timerSeconds)
 	{
@@ -386,5 +337,28 @@ public class GUI_NukeWindow : NetTab
 
 		return TimeSpan.FromSeconds(timerSeconds).ToString("mm\\:ss");
 	}
+
+	private IEnumerator HideCode()
+	{
+		yield return WaitFor.Seconds(1);
+		CodeDisplay.SetValue = "".PadLeft(CodeDisplay.Value.Length, '*');
+	}
+
+	private IEnumerator UpdateDisplay(string strBlink, string strSet = "")
+	{
+		InfoNukeDisplay.SetValue = strBlink;
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = "";
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = strBlink;
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = "";
+		yield return WaitFor.Seconds(0.5f);
+		InfoNukeDisplay.SetValue = strBlink;
+		yield return WaitFor.Seconds(0.5f);
+
+		InfoNukeDisplay.SetValue = strSet;
+	}
+
 }
 
