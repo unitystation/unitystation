@@ -111,6 +111,11 @@ namespace AdminTools
 				return "";
 			}
 
+			if (Instance.loadedConfig.enableBadWordFilter)
+			{
+				message = WordFilterSO.Instance.ProcessMessage(message);
+			}
+
 			return message;
 		}
 
