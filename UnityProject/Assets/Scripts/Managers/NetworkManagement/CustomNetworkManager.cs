@@ -45,8 +45,6 @@ public class CustomNetworkManager : NetworkManager
 
 	public override void Start()
 	{
-		SetSpawnableList();
-
 		//Automatically host if starting up game *not* from lobby
 		if (SceneManager.GetActiveScene().name != offlineScene)
 		{
@@ -54,7 +52,7 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	private void SetSpawnableList()
+	public void SetSpawnableList()
 	{
 		spawnPrefabs.Clear();
 
