@@ -15,6 +15,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   rendererSprite: {fileID: 3731637510708635801}
+  timeElapsedSprite: 0
+  timeElapsedIcon: 0
+  timeWait: 1
+  maxMagnitude: 50
+  mediumMagnitude: 20
+  closeMagnitude: 10
 --- !u!114 &4877028328799584782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +106,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 39
-  m_Sprite: {fileID: 21300004, guid: 8860ddbdfe82e824bb435af9c93c1407, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,7 +114,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6327570960467637109

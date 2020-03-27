@@ -9,8 +9,12 @@ using UnityEngine.Serialization;
 /// </summary>
 public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
+	public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
+
 	private ObjectBehaviour objectBehaviour;
 	private ItemStorage itemNuke;
+	private Coroutine timerHandle;
+	private CentComm.AlertLevel CurrentAlertLevel;
 	private ItemSlot nukeSlot;
 
 	public ItemSlot NukeSlot
@@ -26,15 +30,13 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool IsCodeRight => isCodeRight;
 
-	public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
-
 	[SerializeField]
 	private int minTimer = 270;
 	private bool isTimer = false;
 
 	public bool IsTimer => isTimer;
 
-	private int currentTimerSeconds = 270;
+	private int currentTimerSeconds;
 	public int CurrentTimerSeconds
 	{
 		get => currentTimerSeconds;
@@ -45,29 +47,35 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	private Coroutine timerHandle;
-
-	private CentComm.AlertLevel CurrentAlertLevel;
-
-	public float cooldownTimer = 2f;
-	public string interactionMessage;
-	public string deniedMessage;
 	private bool detonated = false;
 	public bool IsDetonated => detonated;
-	//Nuke code is only populated on the server
-	private int nukeCode;
-	public int NukeCode => nukeCode;
 
 	private string currentCode = "";
 	public string CurrentCode => currentCode;
 
-	//	private GameObject Player;
+	//Nuke code is only populated on the server
+	private int nukeCode;
+	public int NukeCode => nukeCode;
 
 	private void Awake()
 	{
+		currentTimerSeconds = minTimer;
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		itemNuke = GetComponent<ItemStorage>();
 		nukeSlot = itemNuke.GetIndexedItemSlot(0);
+	}
+	public override void OnStartServer()
+	{
+		//calling the code generator and setting up a 10 second timer to post the code in syndicate chat
+		CodeGenerator();
+		base.OnStartServer();
+	}
+
+	[Server]
+	public void CodeGenerator()
+	{
+		nukeCode = Random.Range(1000, 9999);
+		Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -87,95 +95,10 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Inventory.ServerTransfer(interaction.HandSlot, nukeSlot);
 	}
 
-	public void EjectDisk()
-	{
-		if (!nukeSlot.IsEmpty)
-		{
-			Inventory.ServerDrop(nukeSlot);
-			isCodeRight = false;
-			Clear();
-		}
-	}
-
-	public override void OnStartServer()
-	{
-		//calling the code generator and setting up a 10 second timer to post the code in syndicate chat
-		CodeGenerator();
-		base.OnStartServer();
-	}
-
-	/// <summary>
-	/// Tries to add new digit to code input
-	/// </summary>
-	/// <param name="c"></param>
-	/// <returns>true if digit is appended ok</returns>
-	public bool AppendKey(char c) {
-		int digit;
-		if (int.TryParse(c.ToString(), out digit) && currentCode.Length < nukeCode.ToString().Length) {
-			currentCode = CurrentCode + digit;
-			return true;
-		}
-		return false;
-	}
-
-	IEnumerator WaitForDeath()
-	{
-		yield return WaitFor.Seconds(5f);
-		GibMessage.Send();
-		yield return WaitFor.Seconds(15f);
-		// Trigger end of round
-		GameManager.Instance.EndRound();
-	}
-
-	public bool? ToggleTimer()
-	{
-		if(IsCodeRight && !isSafetyOn)
-		{
-			if(isTimer)
-			{
-				GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
-				this.TryStopCoroutine(ref timerHandle);
-			}
-			isTimer = !isTimer;
-			return isTimer;
-		}
-		return null;
-	}
-	//Server validating the code sent back by the GUI
-	[Server]
-	public bool? Validate()
-	{
-		if(isCodeRight && isTimer)
-		{
-			int digit = int.Parse(currentCode);
-			if(digit < minTimer)
-			{
-				return false;
-			}
-			CurrentTimerSeconds = digit;
-			CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
-			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
-			StartCountDown();
-			return true;
-		}
-		if (!isCodeRight)
-		{
-			isCodeRight = CurrentCode == NukeCode.ToString() ? true : false;
-			return isCodeRight;
-		}
-		return null;
-	}
-
-	[Server]
-	public void StartCountDown()
-	{
-		
-		this.StartCoroutine(TickTimer(), ref timerHandle);	
-	}
+	#region Detonation
 	[Server]
 	private void Detonate()
 	{
-		SoundManager.PlayNetworked("NukeDetonate");
 
 		detonated = true;
 		//if yes, blow up the nuke
@@ -184,16 +107,6 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		//FIXME kill only people on the station matrix that the nuke was detonated on
 		StartCoroutine(WaitForDeath());
 		GameManager.Instance.RespawnCurrentlyAllowed = false;
-	}
-	private IEnumerator TickTimer()
-	{
-		while(CurrentTimerSeconds > 0)
-		{
-			CurrentTimerSeconds -= 1;
-			SoundManager.PlayAtPosition("TimerTick", gameObject.AssumedWorldPosServer());
-			yield return WaitFor.Seconds(1);
-		}
-		Detonate();
 	}
 
 	//Server telling the nukes to explode
@@ -216,15 +129,25 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		UIManager.Display.VideoPlayer.PlayNukeDetVideo();
 	}
 
-	[Server]
-	public void CodeGenerator()
-	{
-		nukeCode = Random.Range(1000, 9999);
-		Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
-	}
+	#endregion
 
-	public void Clear() {
-		currentCode = "";
+
+	#region Buttons related
+
+	/// <summary>
+	/// Tries to add new digit to code input
+	/// </summary>
+	/// <param name="c"></param>
+	/// <returns>true if digit is appended ok</returns>
+	public bool AppendKey(char c)
+	{
+		int digit;
+		if (int.TryParse(c.ToString(), out digit) && currentCode.Length < nukeCode.ToString().Length)
+		{
+			currentCode = CurrentCode + digit;
+			return true;
+		}
+		return false;
 	}
 
 	[Server]
@@ -261,5 +184,83 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		return null;
 	}
 
+	public bool? ToggleTimer()
+	{
+		if (IsCodeRight && !isSafetyOn)
+		{
+			if (isTimer)
+			{
+				GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
+				this.TryStopCoroutine(ref timerHandle);
+			}
+			isTimer = !isTimer;
+			return isTimer;
+		}
+		return null;
+	}
+
+	//Server validating the code sent back by the GUI
+	[Server]
+	public bool? Validate()
+	{
+		if (isCodeRight && isTimer)
+		{
+			int digit = int.Parse(currentCode);
+			if (digit < minTimer)
+			{
+				return false;
+			}
+			CurrentTimerSeconds = digit;
+			CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
+			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
+			this.StartCoroutine(TickTimer(), ref timerHandle);
+			return true;
+		}
+		if (!isCodeRight)
+		{
+			isCodeRight = CurrentCode == NukeCode.ToString() ? true : false;
+			return isCodeRight;
+		}
+		return null;
+	}
+
+	public void EjectDisk()
+	{
+		if (!nukeSlot.IsEmpty)
+		{
+			Inventory.ServerDrop(nukeSlot);
+			isCodeRight = false;
+			Clear();
+		}
+	}
+
+	public void Clear()
+	{
+		currentCode = "";
+	}
+
+	#endregion
+
+	IEnumerator WaitForDeath()
+	{
+		yield return WaitFor.Seconds(5f);
+		GibMessage.Send();
+		yield return WaitFor.Seconds(15f);
+		// Trigger end of round
+		GameManager.Instance.EndRound();
+	}
+
+	IEnumerator TickTimer()
+	{
+		while (CurrentTimerSeconds > 0)
+		{
+			CurrentTimerSeconds -= 1;
+			SoundManager.PlayAtPosition("TimerTick", gameObject.AssumedWorldPosServer());
+			yield return WaitFor.Seconds(1);
+		}
+		SoundManager.PlayNetworked("NukeDetonate");
+		yield return WaitFor.Seconds(13);
+		Detonate();
+	}
 }
 public class NukeTimerEvent : UnityEvent<int> { }

@@ -85,8 +85,20 @@ public class GUI_NukeWindow : NetTab
 			return infoNukeDisplay;
 		}
 	}
+	private NetUIElement codeDisplay;
 
-	private NetUIElement CodeDisplay => this["NukeCodeDisplay"];
+	private NetUIElement CodeDisplay
+	{
+		get
+		{
+			if (!codeDisplay)
+			{
+				codeDisplay = this["NukeCodeDisplay"];
+			}
+			return codeDisplay;
+		}
+
+	}
 
 	private Nuke nuke;
 	private Nuke Nuke
@@ -115,10 +127,10 @@ public class GUI_NukeWindow : NetTab
 		base.OnEnable();
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			
+			infoNukeDisplay = this["NukeInfoDisplay"];
+			codeDisplay = this["NukeCodeDisplay"];
 		}
 	}
-
 
 	public void ServerLogin()
 	{
@@ -132,6 +144,7 @@ public class GUI_NukeWindow : NetTab
 	{
 		ControlTabs.CloseTab(Type, Provider);
 	}
+
 	protected override void InitServer()
 	{
 		if (CustomNetworkManager.Instance._isServer)
@@ -139,6 +152,7 @@ public class GUI_NukeWindow : NetTab
 			StartCoroutine(WaitForProvider());
 		}
 	}
+
 	IEnumerator WaitForProvider()
 	{
 		while (Provider == null)
