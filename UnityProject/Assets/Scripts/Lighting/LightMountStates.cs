@@ -129,6 +129,9 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 				{
 					lightSwitch = lightSource.relatedLightSwitch;
 				}
+
+				if (lightSwitch == null) return;
+				
 				if (lightSwitch.isOn == LightSwitch.States.On)
 				{
 					Despawn.ServerSingle(interaction.HandObject);

@@ -15,13 +15,26 @@ public class Pettable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		string NPCName;
-		var NPC = interaction.TargetObject.GetComponent<MobAI>();
+		string npcName;
+		var npc = interaction.TargetObject.GetComponent<MobAI>();
 		
-		if (NPC == null) NPCName = interaction.TargetObject.name; else NPCName = NPC.mobName;
+		if (npc == null)
+		{
+			npcName = interaction.TargetObject.name;
+		}
+		else
+		{
+			npcName = npc.mobName;
+		} 
 
-		Chat.AddActionMsgToChat(interaction.Performer,
-		$"You pet {NPCName}.", $"{interaction.Performer.ExpensiveName()} pets {NPCName}.");
-		if(NPC != null) gameObject.GetComponent<MobAI>().OnPetted(interaction.Performer.gameObject);
+		Chat.AddActionMsgToChat(
+			interaction.Performer,
+			$"You pet {npcName}.",
+			$"{interaction.Performer.ExpensiveName()} pets {npcName}.");
+		
+		if(npc != null) 
+		{
+			gameObject.GetComponent<MobAI>().OnPetted(interaction.Performer.gameObject);
+		}
 	}
 }

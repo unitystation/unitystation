@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300006, guid: 17745d896777d864ab766b5439e8c55e, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 17745d896777d864ab766b5439e8c55e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -573,4 +573,7 @@ MonoBehaviour:
   mobName: Bloodcult_Chosen
   knockedDownRotation: 90
   searchTickRate: 0.5
+  DeathSounds: []
+  GenericSounds: []
+  PlaySoundTime: 3
   status: 0
