@@ -30,7 +30,7 @@ public class MobAnimator : MonoBehaviour
 		/// <summary>
 		/// Spritepath of the sprites
 		/// </summary>
-		public string Spritepath;
+		public Sprite[] Sprites;
 		/// <summary>
 		/// The number animation frames and which image and order in sprite list
 		/// </summary>
@@ -57,7 +57,8 @@ public class MobAnimator : MonoBehaviour
 
 		foreach (var AnimationEntry in Animations)
 		{
-			LoadedSprites.Add(Count, new Tuple<Sprite[], bool, bool>(Resources.LoadAll<Sprite>(AnimationEntry.Spritepath), AnimationEntry.Loop, AnimationEntry.Simple));
+			if (AnimationEntry.Sprites == null) return;
+			LoadedSprites.Add(Count, new Tuple<Sprite[], bool, bool>(AnimationEntry.Sprites, AnimationEntry.Loop, AnimationEntry.Simple));
 			Count += 1;
 		}
 	}
