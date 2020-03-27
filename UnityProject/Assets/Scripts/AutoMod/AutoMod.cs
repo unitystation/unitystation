@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using Telepathy;
+using Debug = UnityEngine.Debug;
 
 namespace AdminTools
 {
@@ -23,6 +24,7 @@ namespace AdminTools
 				{
 					autoMod = FindObjectOfType<AutoMod>();
 				}
+
 				return autoMod;
 			}
 		}
@@ -30,19 +32,71 @@ namespace AdminTools
 		//Cooldown is based on a score system. A score is created every time a user posts a chat message. It will check how many
 		//times the user has posted something, how fast and compare the content. If the resulting score is higher then the max score
 		//them AutoMod will take action to stop the spamming
-		private static Dictionary<ConnectedPlayer, MessageRecord> chatLogs = new Dictionary<ConnectedPlayer, MessageRecord>();
+		private static Dictionary<ConnectedPlayer, MessageRecord> chatLogs =
+			new Dictionary<ConnectedPlayer, MessageRecord>();
+
 		private static float maxScore = 0.7f; //0 - 1f;
+
+		class MuteRecord
+		{
+			public DateTime timeOfMute;
+			public int lengthOfMute;
+
+			public int RemainingSeconds()
+			{
+				var remainingSeconds = lengthOfMute - ((int) (DateTime.Now - timeOfMute).TotalSeconds);
+				Debug.Log("Remaining seconds: " + remainingSeconds);
+				return remainingSeconds;
+			}
+		}
 
 		class MessageRecord
 		{
 			private Dictionary<DateTime, string> messageLog = new Dictionary<DateTime, string>();
+			private List<MuteRecord> muteRecords = new List<MuteRecord>();
+			public ConnectedPlayer player;
 
 			public bool IsSpamming(string message)
 			{
+				if (muteRecords.Count != 0)
+				{
+					var remainingSeconds = muteRecords[muteRecords.Count - 1].RemainingSeconds();
+					if (remainingSeconds > 0)
+					{
+						SendMuteMessageToPlayer(remainingSeconds);
+						return true;
+					}
+				}
+
 				messageLog.Add(DateTime.Now, message);
-				if (CalculateSpamScore() > maxScore) return true;
+				if (CalculateSpamScore() > maxScore)
+				{
+					AddMuteRecord();
+					return true;
+				}
 
 				return false;
+			}
+
+			private void AddMuteRecord()
+			{
+				var record = new MuteRecord
+				{
+					timeOfMute = DateTime.Now,
+					lengthOfMute = 10 * (muteRecords.Count + 1)
+				};
+				muteRecords.Add(record);
+
+				SendMuteMessageToPlayer(record.lengthOfMute);
+			}
+
+			private void SendMuteMessageToPlayer(int remainingSeconds)
+			{
+				if (player.GameObject != null)
+				{
+					Chat.AddExamineMsgFromServer(player.GameObject,
+						$"You are doing that too often. Please wait {remainingSeconds} seconds");
+				}
 			}
 
 			private float CalculateSpamScore()
@@ -50,7 +104,8 @@ namespace AdminTools
 				float currentScore = 0f;
 				int repeatMessages = 0;
 				for (int i = messageLog.Count - 1;
-					i >= 0 && i >= messageLog.Count - 6; i--)
+					i >= 0 && i >= messageLog.Count - 6;
+					i--)
 				{
 					int prevIndex = i - 1;
 					if (prevIndex < 0) break;
@@ -78,7 +133,6 @@ namespace AdminTools
 
 				return Mathf.Clamp(currentScore, 0f, 1f);
 			}
-
 		}
 
 		private AutoModConfig loadedConfig;
@@ -143,12 +197,14 @@ namespace AdminTools
 
 			if (!chatLogs.ContainsKey(player))
 			{
-				chatLogs.Add(player, new MessageRecord());
+				chatLogs.Add(player, new MessageRecord
+				{
+					player = player
+				});
 			}
 
 			if (chatLogs[player].IsSpamming(message))
 			{
-				
 				return "";
 			}
 
