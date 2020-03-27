@@ -659,11 +659,11 @@ namespace Lobby
 		{
 			int clothing = (int)currentCharacter.Clothing;
 			clothing++;
-			if (clothing == 2)
+			if (clothing == (int)Clothing.JumpNone)
 			{
 				clothing = 0;
 			}
-			currentCharacter.Clothing = (int)clothing;
+			currentCharacter.Clothing = (Clothing)clothing;
 			RefreshClothing();
 		}
 
@@ -681,7 +681,7 @@ public class CharacterSettings
 	public string username;
 	public string Name = "Cuban Pete";
 	public Gender Gender = Gender.Male;
-	public int Clothing = 1;
+	public Clothing Clothing = Clothing.JumpSuit;
 	public int Age = 22;
 	public int hairStyleOffset = -1;  //#
 	public string hairStyleName = "None";
@@ -819,5 +819,6 @@ public enum Gender
 public enum Clothing
 {
 	JumpSuit,
-	JumpSkirt
+	JumpSkirt,
+	JumpNone
 }

@@ -37,7 +37,7 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 			{
 				// making exception for jumpsuit/jumpskirt
 
-				if (context.SpawnInfo.CharacterSettings.Clothing == 1
+				if (context.SpawnInfo.CharacterSettings.Clothing == Clothing.JumpSkirt
 					&& entry.NamedSlot == NamedSlot.uniform
 					&& skirtVariant != null)
 				{
