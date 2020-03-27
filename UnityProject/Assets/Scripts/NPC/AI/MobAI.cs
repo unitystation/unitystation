@@ -193,7 +193,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// Called on the server whenever the NPC is physically attacked
 	/// </summary>
 	/// <param name="damagedBy"></param>
-	protected virtual void OnAttackReceived(GameObject damagedBy) { }
+	protected virtual void OnAttackReceived(GameObject damagedBy = null) { }
 
 	/// <summary>
 	/// Call this to begin following a target.
@@ -340,6 +340,43 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	}
 
 	/// <summary>
+	/// Common behavior for npc's to run from their attackers.
+	/// Call this within OnAttackReceive method
+	/// </summary>
+	/// <param name="attackedBy">GameObject from the attacker. This can be null on fire!</param>
+	/// <param name="fleeDuration">Time in seconds the flee behavior will last. Defaults to forever</param>
+	protected void FleeFromAttacker(GameObject attackedBy = null, float fleeDuration = -1f)
+	{
+		if (attackedBy == null) //run from itself?
+		{
+			StartFleeing(gameObject.transform, fleeDuration);
+			return;
+		}
+
+		StartFleeing(attackedBy.transform, fleeDuration);
+	}
+
+	/// <summary>
+	/// Common behavior to flee from attacker if health is less than X
+	/// Call this within OnAttackedReceive method
+	/// </summary>
+	/// <param name="healthThreshold">If health is less than this, RUN!</param>
+	/// <param name="attackedBy">Gameobject from the attacker. This can be null on fire!</param>
+	/// <param name="fleeDuration">Time in seconds the flee behavior will last. Defaults to forever</param>
+	protected void FleeIfHealthLessThan(float healthThreshold, GameObject attackedBy = null, float fleeDuration = -1f)
+	{
+		if (attackedBy == null)
+		{
+			attackedBy = gameObject;
+		}
+
+		if (health.OverallHealth < healthThreshold)
+		{
+			StartFleeing(attackedBy.transform, fleeDuration);
+		}
+	}
+
+	/// <summary>
 	/// Resets all the behaviours when choosing another action.
 	/// Do not use this for a hard reset (for when reusing from a pool etc)
 	/// use GoingOffStageServer instead
@@ -369,21 +406,18 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		followTimeMax = -1f;
 		followingTime = 0f;
 	}
+	
+	///<summary>
+	/// Triggers on creatures with Pettable component when petted.
+	///</summary>
+	///<param name="performer">The player petting</param>
+	public virtual void OnPetted(GameObject performer){}
 
-	public virtual void OnPetted(GameObject performer)
-	{
-
-	}
-
-	public virtual void HuntMouse(MouseAI mouse)
-	{
-
-	}
-
-	public virtual void ExplorePeople (PlayerScript player)
-	{
-
-	}
+	///<summary>
+	/// Triggers when the explorer targets people and found one
+	///</summary>
+	///<param name="player">PlayerScript from the found player</param>
+	public virtual void ExplorePeople (PlayerScript player){}
 
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{

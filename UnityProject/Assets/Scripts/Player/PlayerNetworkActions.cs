@@ -499,11 +499,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// <summary>
 	/// Asks the server to let the client rejoin into a logged off character.
 	/// </summary>
+	///
 	[Command]
-	public void CmdGhostEnterBody()
+	public void CmdGhostCheck()//specific check for if you want value returned
+	{
+		GhostEnterBody();
+	}
+
+	[Server]
+	public void GhostEnterBody()
 	{
 		PlayerScript body = playerScript.mind.body;
-		if (!playerScript.IsGhost || !body.playerHealth.IsDead)
+
+		if (playerScript.mind.IsSpectator) return;
+
+		if (!playerScript.IsGhost )
 		{
 			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
 			return;
@@ -517,6 +527,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		playerScript.mind.StopGhosting();
 		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
+		return;
 	}
 
 	/// <summary>
@@ -735,6 +746,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//admin only commands
 	#region Admin
+
+	[Command]
+	public void CmdAGhost()
+	{
+		ServerAGhost();
+	}
+
+	[Server]
+	public void ServerAGhost()
+	{
+		var adminId = DatabaseAPI.ServerData.UserID;
+		var adminToken = PlayerList.Instance.AdminToken;
+
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (!playerScript.IsGhost)//admin turns into ghost
+		{
+			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+		}
+		else if (playerScript.IsGhost)//back to player
+		{
+			if (playerScript.mind.IsSpectator) return;
+
+			GhostEnterBody();
+		}
+	}
 
 	[Command]
 	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
