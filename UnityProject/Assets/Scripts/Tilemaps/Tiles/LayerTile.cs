@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-
+[Serializable]
 public class LayerTile : GenericTile
 {
 	[Tooltip("Name to dispay to the player for this tile.")]

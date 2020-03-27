@@ -24,37 +24,85 @@ public static class TilePaths
 	}
 }
 
-public class TileDictionary : Dictionary<Tuple<TileType, string>, LayerTile>
+[Serializable]
+public class TilePathEntry
 {
-	public LayerTile this[TileType type, string name]
-	{
-		get { return this[new Tuple<TileType, string>(type, name)]; }
-		set { this[new Tuple<TileType, string>(type, name)] = value; }
-	}
+	public string path;
+	public TileType tileType;
+	public List<LayerTile> layerTiles = new List<LayerTile>();
 }
 
 public class TileManager : MonoBehaviour
 {
-	private static TileDictionary tiles = new TileDictionary();
-	private static bool initialized;
+	private static TileManager tileManager;
+
+	public static TileManager Instance
+	{
+		get
+		{
+			if (tileManager == null)
+			{
+				tileManager = FindObjectOfType<TileManager>();
+			}
+
+			return tileManager;
+		}
+	}
+
+	private Dictionary<TileType, Dictionary<string, LayerTile>> tiles = new Dictionary<TileType, Dictionary<string, LayerTile>>();
+	private bool initialized;
+
+	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();
 
 	private void Start()
 	{
+#if UNITY_EDITOR
+		CacheAllAssets();
+#endif
 		LoadAllTiles();
 	}
 
-	private static void LoadAllTiles()
+	[ContextMenu("Cache All Assets")]
+	public bool CacheAllAssets()
 	{
+		layerTileCollections.Clear();
 		foreach (TileType tileType in Enum.GetValues(typeof(TileType)))
 		{
 			string path = TilePaths.Get(tileType);
 
 			if (path != null)
 			{
-				LayerTile[] loadedTiles = Resources.LoadAll<LayerTile>(path);
-				loadedTiles.ToList().ForEach(x => tiles[tileType, x.name] = x);
+				layerTileCollections.Add(new TilePathEntry
+				{
+					path = path,
+					tileType = tileType,
+					layerTiles = Resources.LoadAll<LayerTile>(path).ToList()
+				});
+			}
+		}
+
+		return true;
+	}
+
+	private void LoadAllTiles()
+	{
+		foreach (var type in layerTileCollections)
+		{
+			if (!tiles.ContainsKey(type.tileType))
+			{
+				tiles.Add(type.tileType, new Dictionary<string, LayerTile>());
 			}
 
+			foreach (var t in type.layerTiles)
+			{
+				if (t.TileType == type.tileType)
+				{
+					if (!tiles[type.tileType].ContainsKey(t.name))
+					{
+						tiles[type.tileType].Add(t.name, t);
+					}
+				}
+			}
 		}
 
 		initialized = true;
@@ -62,7 +110,7 @@ public class TileManager : MonoBehaviour
 
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
-		if (!initialized) LoadAllTiles();
-		return tiles[tileType, key];
+		if (!Instance.initialized) Instance.LoadAllTiles();
+		return Instance.tiles[tileType][key];
 	}
 }
