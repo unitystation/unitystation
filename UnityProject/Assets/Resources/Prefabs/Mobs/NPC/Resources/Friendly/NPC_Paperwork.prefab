@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 8251347940129356532}
   - component: {fileID: 8602547056562296912}
   - component: {fileID: 8093655862165673158}
+  - component: {fileID: -2936979802063229476}
   m_Layer: 12
   m_Name: NPC_Paperwork
   m_TagString: Untagged
@@ -358,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114379009499332576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 568666594
+  sceneId: 0
   serverOnly: 0
   m_AssetId: 
 --- !u!114 &1750259749
@@ -472,6 +474,18 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+--- !u!114 &-2936979802063229476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,9 +553,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 19
+  m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

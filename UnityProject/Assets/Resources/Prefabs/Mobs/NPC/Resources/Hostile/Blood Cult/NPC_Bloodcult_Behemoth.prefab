@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300006, guid: d52a24478d4ca9143b3f0102b2624730, type: 3}
+  m_Sprite: {fileID: 21300012, guid: d52a24478d4ca9143b3f0102b2624730, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -573,4 +573,7 @@ MonoBehaviour:
   mobName: Bloodcult_Behemoth
   knockedDownRotation: 90
   searchTickRate: 0.5
+  DeathSounds: []
+  GenericSounds: []
+  PlaySoundTime: 3
   status: 0
