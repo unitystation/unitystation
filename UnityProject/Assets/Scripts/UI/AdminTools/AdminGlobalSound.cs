@@ -28,16 +28,19 @@ public class AdminGlobalSound : MonoBehaviour
 			SearchBar.Resettext();
 		}
 
-		foreach (var pair in SoundManager.Instance.sounds)//sounds is a readonly so will never change hopefully
+		var sounds = SoundManager.Instance.GetComponentsInChildren<AudioSource>();
+
+		foreach (AudioSource pair in sounds)//sounds is a readonly so will never change hopefully
 		{
-			if (pair.Value.loop) return;
+			if (!pair.loop)
+			{
+				GameObject button = Instantiate(buttonTemplate) as GameObject;//creates new button
+				button.SetActive(true);
+				button.GetComponent<AdminGlobalSoundButton>().SetAdminGlobalSoundButtonText(pair.gameObject.name);
+				soundButtons.Add(button);
 
-			GameObject button = Instantiate(buttonTemplate) as GameObject;//creates new button
-			button.SetActive(true);
-			button.GetComponent<AdminGlobalSoundButton>().SetAdminGlobalSoundButtonText(pair.Key);
-			soundButtons.Add(button);
-
-			button.transform.SetParent(buttonTemplate.transform.parent, false);
+				button.transform.SetParent(buttonTemplate.transform.parent, false);
+			}
 		}
 	}
 
