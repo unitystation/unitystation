@@ -51,7 +51,6 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 			}
 		}
 	}
-
 }
 
 [System.Serializable]
