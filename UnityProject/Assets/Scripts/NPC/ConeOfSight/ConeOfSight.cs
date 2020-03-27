@@ -34,8 +34,8 @@ public class ConeOfSight : MonoBehaviour
 			var offset = Mathf.Lerp(-offsetDegrees, offsetDegrees, step);
 			var castDir = (Quaternion.AngleAxis(-angleOfDir, Vector3.forward) * Quaternion.Euler(0,0, -offset)) * Vector3.up;
 
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, castDir, lengthOfSight, hitMask);
-		//	Debug.DrawRay(transform.position, castDir, Color.blue, 10f);
+			RaycastHit2D hit = Physics2D.Raycast(transform.position + castDir, castDir, lengthOfSight, hitMask);
+			// Debug.DrawRay(transform.position, castDir, Color.blue, 10f);
 			if (hit.collider != null)
 			{
 				hitColls.Add(hit.collider);
