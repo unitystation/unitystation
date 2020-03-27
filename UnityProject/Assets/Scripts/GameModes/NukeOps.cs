@@ -29,14 +29,20 @@ public class NukeOps : GameMode
 		base.StartRound();
 	}
 
+	public override bool IsPossible()
+	{
+		return base.IsPossible() && (FindObjectOfType<Nuke>() != null);
+	}
+
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
 		//spawn only if there is not yet any syndicate ops (and at least one other player) or
 		//the ratio is too low
 		var existingNukeOps = PlayerList.Instance.AntagPlayers.Count;
 		var inGamePlayers = PlayerList.Instance.InGamePlayers.Count;
+
 		if ((inGamePlayers > 0 && existingNukeOps == 0) ||
-		    existingNukeOps < Math.Floor(inGamePlayers * nukeOpsRatio)) return true;
+			existingNukeOps < Math.Floor(inGamePlayers * nukeOpsRatio)) return true;
 
 		return false;
 	}

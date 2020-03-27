@@ -53,7 +53,7 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 
 	public void ServerPerformInteraction(MouseDrop drop)
 	{
-		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
+		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer(), sourceObj: gameObject);
 
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
 		playerMove.ServerBuckle(gameObject, OnUnbuckle);
@@ -76,7 +76,7 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer());
+		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
 
 		var playerMoveAtPosition = MatrixManager
 			.GetAt<PlayerMove>(transform.position.CutToInt(), true)?

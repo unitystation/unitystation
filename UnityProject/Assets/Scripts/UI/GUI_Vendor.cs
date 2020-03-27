@@ -144,7 +144,7 @@ public class GUI_Vendor : NetTab
 			}
 			cnt.Throw(new ThrowInfo
 			{
-				ThrownBy = gameObject,
+				ThrownBy = spawnedItem,
 				Aim = BodyPartType.Chest,
 				OriginWorldPos = spawnPos,
 				WorldTrajectory = offset,

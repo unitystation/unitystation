@@ -134,7 +134,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 		{
 			if (isConnected)
 			{
-				SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
+				SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				Disconnect();
 				return;
 			}
@@ -145,7 +145,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				{
 					if (conn.ObjectBehavior.IsNotPushable)
 					{
-						SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
+						SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 						connector = conn;
 						isConnected = true;
 						connector.ConnectCanister(this);
@@ -159,7 +159,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				var foundFuelConnectors = registerTile.Matrix.Get<ShuttleFuelConnector>(registerTile.LocalPositionServer, true);
 				foreach (var conn in foundFuelConnectors)
 				{
-					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
+					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 					isConnected = true;
 					connectorFuel = conn;
 					conn.ConnectCanister(this);

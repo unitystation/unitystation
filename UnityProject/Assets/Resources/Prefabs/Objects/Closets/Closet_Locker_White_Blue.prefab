@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 11400000, guid: 912b2b5a6fefc4c97b6cd53506caf1ac, type: 2}
+  initialContents: {fileID: 11400000, guid: 087a799fa1b352ed4933fea41e4bd34a, type: 2}
   lockLight: {fileID: 5256432704198374381}
   IsLockable: 1
   playerLimit: 3
@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114467813415429724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -350,7 +352,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Medical locker
-  initialDescription: A container made of metal.
+  initialDescription: A container for doctors
   willHighlight: 1
   exportCost: 200
   exportName: locker

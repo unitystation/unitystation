@@ -612,12 +612,12 @@ public partial class CustomNetTransform
 				Chat.AddThrowHitMsgToChat(gameObject,objects[i].gameObject, hitZone);
 			}
 			//hit sound
-			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 1f);
+			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 1f, sourceObj: gameObject);
 		}
 		else
 		{
 			//todo different sound for no-damage hit?
-			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 0.8f);
+			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 0.8f, sourceObj: gameObject);
 		}
 	}
 

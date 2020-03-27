@@ -37,7 +37,7 @@ public class ReinforcedWindowObject : NetworkBehaviour, ICheckedInteractable<Han
 	[Tooltip("Sound when destroyed.")]
 	public string soundOnDestroy;
 
-	
+
 
 	private void Start()
 	{
@@ -52,7 +52,7 @@ public class ReinforcedWindowObject : NetworkBehaviour, ICheckedInteractable<Han
 		Spawn.ServerPrefab(matsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfMatsOnDestroy, maxCountOfMatsOnDestroy + 1),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
-		SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f);
+		SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -64,7 +64,7 @@ public class ReinforcedWindowObject : NetworkBehaviour, ICheckedInteractable<Han
 		if (interaction.TargetObject != gameObject) return false;
 
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
-			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))  return false; 
+			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))  return false;
 
 		return true;
 	}
@@ -72,7 +72,7 @@ public class ReinforcedWindowObject : NetworkBehaviour, ICheckedInteractable<Han
 	{
 		if (interaction.TargetObject != gameObject) return;
 
-		
+
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
 			if (objectBehaviour.IsPushable)
@@ -126,7 +126,7 @@ public class ReinforcedWindowObject : NetworkBehaviour, ICheckedInteractable<Han
 				Chat.AddExamineMsg(interaction.Performer, "You must unsecure it first.");
 			}
 		}
-		
+
 	}
 
 	[Server]
@@ -142,7 +142,7 @@ public class ReinforcedWindowObject : NetworkBehaviour, ICheckedInteractable<Han
 	private void Disassemble(HandApply interaction)
 	{
 		Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
-		SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), 1f);
+		SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
 		Despawn.ServerSingle(gameObject);
 	}
 

@@ -108,8 +108,10 @@ public class ControlAction : MonoBehaviour
 		if (pullImage && pullImage.enabled)
 		{
 			PlayerScript ps = PlayerManager.LocalPlayerScript;
-
-			ps.pushPull.CmdStopPulling();
+			if (ps.pushPull != null)
+			{
+				ps.pushPull.CmdStopPulling();
+			}
 		}
 	}
 

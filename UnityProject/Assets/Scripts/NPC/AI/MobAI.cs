@@ -134,7 +134,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		{
 			if (dirSprites.spriteRend.transform.localEulerAngles.z == 0f)
 			{
-				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				dirSprites.SetRotationServer(knockedDownRotation);
 			}
 		}
@@ -368,6 +368,21 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		exploringTime = 0f;
 		followTimeMax = -1f;
 		followingTime = 0f;
+	}
+
+	public virtual void OnPetted(GameObject performer)
+	{
+
+	}
+
+	public virtual void HuntMouse(MouseAI mouse)
+	{
+
+	}
+
+	public virtual void ExplorePeople (PlayerScript player)
+	{
+
 	}
 
 	public virtual void OnDespawnServer(DespawnInfo info)

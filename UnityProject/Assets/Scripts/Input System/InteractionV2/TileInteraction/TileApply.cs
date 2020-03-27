@@ -30,8 +30,6 @@ public class TileApply : Interaction
 	/// </summary>
 	public BasicTile BasicTile => basicTile;
 
-
-
 	private readonly ItemSlot handSlot;
 	public ItemSlot HandSlot => handSlot;
 
@@ -52,6 +50,15 @@ public class TileApply : Interaction
 	/// </summary>
 	public Vector2 TargetVector => targetVector;
 
+	public enum ApplyType
+	{
+		HandApply,
+		MouseDrop
+	};
+
+	private readonly ApplyType applyType;
+	public ApplyType TileApplyType => applyType;
+
 	/// <summary>
 	///
 	/// </summary>
@@ -64,13 +71,14 @@ public class TileApply : Interaction
 	/// <param name="handSlot">slot being used</param>
 	/// <param name="targetVector">vector pointing from perform to the targeted position</param>
 	public TileApply(GameObject performer, GameObject usedObject, Intent intent, Vector2Int targetCellPos,
-		InteractableTiles targetInteractableTiles, BasicTile basicTile, ItemSlot handSlot, Vector2 targetVector) : base(performer, usedObject, intent)
+		InteractableTiles targetInteractableTiles, BasicTile basicTile, ItemSlot handSlot, Vector2 targetVector, ApplyType type = ApplyType.HandApply) : base(performer, usedObject, intent)
 	{
 		this.targetCellPos = targetCellPos;
 		this.targetInteractableTiles = targetInteractableTiles;
 		this.basicTile = basicTile;
 		this.handSlot = handSlot;
 		this.targetVector = targetVector;
+		this.applyType = type;
 	}
 
 	public override string ToString()

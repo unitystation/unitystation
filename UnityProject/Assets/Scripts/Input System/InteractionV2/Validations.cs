@@ -13,7 +13,11 @@ using UnityEngine;
 /// </summary>
 public static class Validations
 {
-
+	//Monitors the time between interactions and limits it by the min cool down time
+	private static Dictionary<GameObject, DateTime> playerCoolDown = new Dictionary<GameObject, DateTime>();
+	private static Dictionary<GameObject, int> playersMaxClick = new Dictionary<GameObject, int>();
+	private static double minCoolDown = 0.1f;
+	private static int maxClicks = 5;
 
 	/// <summary>
 	/// Check if this game object is not null has the specified component
@@ -116,10 +120,11 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
 	/// <returns></returns>
-	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
+	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false, bool isPlayerClick = true)
 	{
 		if (player == null) return false;
-		return CanInteract(player.GetComponent<PlayerScript>(), side, allowSoftCrit, allowCuffed);
+
+		return CanInteract(player.GetComponent<PlayerScript>(), side, allowSoftCrit, allowCuffed, isPlayerClick);
 	}
 
 	/// <summary>
@@ -131,9 +136,11 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
 	/// <returns></returns>
-	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
+	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false, bool isPlayerClick = true)
 	{
 		if (playerScript == null) return false;
+		if (isPlayerClick && !CanInteractByCoolDownState(playerScript.gameObject)) return false;
+
 		if ((!allowCuffed && playerScript.playerMove.IsCuffed) ||
 		    playerScript.IsGhost ||
 		    !playerScript.playerMove.allowInput ||
@@ -142,6 +149,37 @@ public static class Validations
 			return false;
 		}
 
+		return true;
+	}
+
+	//Monitors the interaction rate of a player. If its too fast we return false
+	private static bool CanInteractByCoolDownState(GameObject playerObject)
+	{
+		if (!playersMaxClick.ContainsKey(playerObject))
+		{
+			playersMaxClick.Add(playerObject, 0);
+		}
+
+		if (!playerCoolDown.ContainsKey(playerObject))
+		{
+			playerCoolDown.Add(playerObject, DateTime.Now);
+			return true;
+		}
+
+		var totalSeconds = (DateTime.Now - playerCoolDown[playerObject]).TotalSeconds;
+		if(totalSeconds < minCoolDown)
+		{
+			playersMaxClick[playerObject]++;
+			if (playersMaxClick[playerObject] <= maxClicks)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		playerCoolDown[playerObject] = DateTime.Now;
+		playersMaxClick[playerObject] = 0;
 		return true;
 	}
 
@@ -176,13 +214,13 @@ public static class Validations
 	/// creating garbage.</param>
 	/// <returns></returns>
 	public static bool CanApply(PlayerScript playerScript, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
+		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null, bool isPlayerClick = false)
 	{
 		if (playerScript == null) return false;
 
 		var playerObjBehavior = playerScript.pushPull;
 
-		if (!CanInteract(playerScript, side, allowSoftCrit))
+		if (!CanInteract(playerScript, side, allowSoftCrit, isPlayerClick: isPlayerClick))
 		{
 			return false;
 		}
@@ -367,10 +405,10 @@ public static class Validations
 	/// creating garbage.</param>
 	/// <returns></returns>
 	public static bool CanApply(GameObject player, GameObject target, NetworkSide side, bool allowSoftCrit = false,
-		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null)
+		ReachRange reachRange = ReachRange.Standard, Vector2? targetVector = null, RegisterTile targetRegisterTile = null, bool isPlayerClick = false)
 	{
 		if (player == null) return false;
-		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector, targetRegisterTile);
+		return CanApply(player.GetComponent<PlayerScript>(), target, side, allowSoftCrit, reachRange, targetVector, targetRegisterTile, isPlayerClick);
 	}
 
 	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state)
@@ -386,8 +424,8 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
 	/// <returns></returns>
-	public static bool CanApply(HandApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange);
+	public static bool CanApply(HandApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
+		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
 
 	/// <summary>
 	/// Validates if the performer is in range and not in crit for a PositionalHandApply interaction.
@@ -398,8 +436,8 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
 	/// <returns></returns>
-	public static bool CanApply(PositionalHandApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, toValidate.TargetVector);
+	public static bool CanApply(PositionalHandApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
+		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, toValidate.TargetVector, isPlayerClick: isPlayerClick);
 
 	/// <summary>
 	/// Validates if the performer is in range and not in crit for a TileApply interaction.
@@ -410,8 +448,8 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
 	/// <returns></returns>
-	public static bool CanApply(TileApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard) =>
-		CanApply(toValidate.Performer, toValidate.TargetInteractableTiles.gameObject, side, allowSoftCrit, reachRange, toValidate.TargetVector);
+	public static bool CanApply(TileApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
+		CanApply(toValidate.Performer, toValidate.TargetInteractableTiles.gameObject, side, allowSoftCrit, reachRange, toValidate.TargetVector, isPlayerClick: isPlayerClick);
 
 	/// <summary>
 	/// Validates if the performer is in range and not in crit for a MouseDrop interaction.
@@ -421,8 +459,8 @@ public static class Validations
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
 	/// <returns></returns>
-	public static bool CanApply(MouseDrop toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard) =>
-		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange);
+	public static bool CanApply(MouseDrop toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
+		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
 
 	#endregion
 
