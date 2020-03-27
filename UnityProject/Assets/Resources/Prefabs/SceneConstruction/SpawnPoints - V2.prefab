@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7148554253580686051}
   - component: {fileID: 2721215487344998793}
   m_Layer: 0
-  m_Name: SpawnPoint13 - Entertain
+  m_Name: SpawnPoint14 - Entertain
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2721215487344998793
 MonoBehaviour:
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 982388348468117085}
   - component: {fileID: 7951921443280390611}
   m_Layer: 0
-  m_Name: SpawnPoint29 - ArrivalsLateJoin
+  m_Name: SpawnPoint32 - ArrivalsLateJoin
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 26
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7951921443280390611
 MonoBehaviour:
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 2603436142584805292}
   - component: {fileID: 3846281501984437472}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Botany
+  m_Name: SpawnPoint17 - Botany
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -117,7 +117,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3846281501984437472
 MonoBehaviour:
@@ -132,6 +132,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Department: 27
+--- !u!1 &5140782514527202716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2709722997311930051}
+  - component: {fileID: 7783762133749987450}
+  m_Layer: 0
+  m_Name: SpawnPoint13 - Mime
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2709722997311930051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140782514527202716}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 57.5, y: 28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7072146797094779102}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7783762133749987450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140782514527202716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Department: 30
 --- !u!1 &5517959335233022858
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +187,7 @@ GameObject:
   - component: {fileID: 8414808295233733508}
   - component: {fileID: 3378990843912808077}
   m_Layer: 0
-  m_Name: SpawnPoint14 - Janitor room
+  m_Name: SpawnPoint20 - Janitor room
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -161,7 +205,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 12
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3378990843912808077
 MonoBehaviour:
@@ -176,6 +220,94 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Department: 22
+--- !u!1 &5976067656503222125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3669095096288273439}
+  - component: {fileID: 5560442353529126435}
+  m_Layer: 0
+  m_Name: SpawnPoint18 - Lawyer
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3669095096288273439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5976067656503222125}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 57.5, y: 28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7072146797094779102}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5560442353529126435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5976067656503222125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Department: 10
+--- !u!1 &6147964830349624575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6558475963934694934}
+  - component: {fileID: 5252133242770920644}
+  m_Layer: 0
+  m_Name: SpawnPoint06 - AI
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6558475963934694934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147964830349624575}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 57.5, y: 28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7072146797094779102}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5252133242770920644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147964830349624575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Department: 7
 --- !u!1 &7073229169776687962
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +319,7 @@ GameObject:
   - component: {fileID: 7078149827793756174}
   - component: {fileID: 7187471890879030710}
   m_Layer: 0
-  m_Name: SpawnPoint09 - HOP
+  m_Name: SpawnPoint11 - HOP
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -205,7 +337,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7187471890879030710
 MonoBehaviour:
@@ -231,7 +363,7 @@ GameObject:
   - component: {fileID: 7078255818471802674}
   - component: {fileID: 7186768142049076858}
   m_Layer: 0
-  m_Name: SpawnPoint09 - Cargo
+  m_Name: SpawnPoint24 - Cargo
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -249,7 +381,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 8
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7186768142049076858
 MonoBehaviour:
@@ -275,7 +407,7 @@ GameObject:
   - component: {fileID: 7073674913114006574}
   - component: {fileID: 7073674913114006577}
   m_Layer: 0
-  m_Name: SpawnPoint16 - QM
+  m_Name: SpawnPoint22 - QM
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -293,7 +425,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 17
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674913114006577
 MonoBehaviour:
@@ -319,7 +451,7 @@ GameObject:
   - component: {fileID: 7073674913234364622}
   - component: {fileID: 7073674913234364625}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Warden
+  m_Name: SpawnPoint26 - Warden
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -337,7 +469,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 16
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674913234364625
 MonoBehaviour:
@@ -363,7 +495,7 @@ GameObject:
   - component: {fileID: 7073674913985819814}
   - component: {fileID: 7073674913985819817}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Personnel
+  m_Name: SpawnPoint21 - Personnel
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -381,7 +513,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 24
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674913985819817
 MonoBehaviour:
@@ -407,7 +539,7 @@ GameObject:
   - component: {fileID: 7073674914007829098}
   - component: {fileID: 7073674914007829101}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Bar
+  m_Name: SpawnPoint15 - Bar
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -425,7 +557,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 23
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674914007829101
 MonoBehaviour:
@@ -451,7 +583,7 @@ GameObject:
   - component: {fileID: 7073674914277246130}
   - component: {fileID: 7073674914277246133}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Church
+  m_Name: SpawnPoint19 - Church
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -469,7 +601,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 25
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674914277246133
 MonoBehaviour:
@@ -495,7 +627,7 @@ GameObject:
   - component: {fileID: 7073674914330014489}
   - component: {fileID: 7073674914330014488}
   m_Layer: 0
-  m_Name: SpawnPoint16 - CE
+  m_Name: SpawnPoint29 - CE
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -513,7 +645,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 18
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674914330014488
 MonoBehaviour:
@@ -539,7 +671,7 @@ GameObject:
   - component: {fileID: 7073674914369878839}
   - component: {fileID: 7073674914369878838}
   m_Layer: 0
-  m_Name: SpawnPoint16 - HOS
+  m_Name: SpawnPoint25 - HOS
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -557,7 +689,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 15
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674914369878838
 MonoBehaviour:
@@ -583,7 +715,7 @@ GameObject:
   - component: {fileID: 7073674914468125872}
   - component: {fileID: 7073674914468125875}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Atmos
+  m_Name: SpawnPoint31 - Atmos
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -601,7 +733,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 21
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674914468125875
 MonoBehaviour:
@@ -627,7 +759,7 @@ GameObject:
   - component: {fileID: 7073674914618651517}
   - component: {fileID: 7073674914618651516}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Detective
+  m_Name: SpawnPoint28 - Detective
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -645,7 +777,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 22
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674914618651516
 MonoBehaviour:
@@ -689,7 +821,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 20
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674914922252568
 MonoBehaviour:
@@ -715,7 +847,7 @@ GameObject:
   - component: {fileID: 7073674915153713544}
   - component: {fileID: 7073674915153713547}
   m_Layer: 0
-  m_Name: SpawnPoint16 - Robotics
+  m_Name: SpawnPoint04 - Robotics
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -733,7 +865,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 19
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7073674915153713547
 MonoBehaviour:
@@ -759,7 +891,7 @@ GameObject:
   - component: {fileID: 7071790325348356692}
   - component: {fileID: 7183960346565468096}
   m_Layer: 0
-  m_Name: SpawnPoint08 - Captain
+  m_Name: SpawnPoint02 - Captain
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -777,7 +909,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7183960346565468096
 MonoBehaviour:
@@ -820,31 +952,35 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7078472113683754762}
-  - {fileID: 7078243020129710470}
-  - {fileID: 7078438229025203160}
-  - {fileID: 7072334477178767176}
-  - {fileID: 7072210544869424784}
-  - {fileID: 7071842540196676190}
   - {fileID: 7071790325348356692}
-  - {fileID: 7078149827793756174}
-  - {fileID: 7078255818471802674}
+  - {fileID: 7078243020129710470}
+  - {fileID: 7073674915153713544}
+  - {fileID: 7072334477178767176}
+  - {fileID: 6558475963934694934}
   - {fileID: 9186336615270220658}
+  - {fileID: 7078438229025203160}
   - {fileID: 1747793347944813158}
+  - {fileID: 7078149827793756174}
+  - {fileID: 8725394318312158136}
+  - {fileID: 2709722997311930051}
   - {fileID: 7148554253580686051}
-  - {fileID: 8414808295233733508}
-  - {fileID: 2271123526658529507}
+  - {fileID: 7073674914007829098}
+  - {fileID: 7073674914922252569}
   - {fileID: 2603436142584805292}
+  - {fileID: 3669095096288273439}
+  - {fileID: 7073674914277246130}
+  - {fileID: 8414808295233733508}
+  - {fileID: 7073674913985819814}
+  - {fileID: 7073674913114006574}
+  - {fileID: 2271123526658529507}
+  - {fileID: 7078255818471802674}
   - {fileID: 7073674914369878839}
   - {fileID: 7073674913234364622}
-  - {fileID: 7073674913114006574}
-  - {fileID: 7073674914330014489}
-  - {fileID: 7073674915153713544}
-  - {fileID: 7073674914922252569}
-  - {fileID: 7073674914468125872}
+  - {fileID: 7072210544869424784}
   - {fileID: 7073674914618651517}
-  - {fileID: 7073674914007829098}
-  - {fileID: 7073674913985819814}
-  - {fileID: 7073674914277246130}
+  - {fileID: 7073674914330014489}
+  - {fileID: 7071842540196676190}
+  - {fileID: 7073674914468125872}
   - {fileID: 982388348468117085}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -860,7 +996,7 @@ GameObject:
   - component: {fileID: 7072334477178767176}
   - component: {fileID: 7184006838930289228}
   m_Layer: 0
-  m_Name: SpawnPoint04 - Research
+  m_Name: SpawnPoint05 - Research
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -878,7 +1014,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7184006838930289228
 MonoBehaviour:
@@ -904,7 +1040,7 @@ GameObject:
   - component: {fileID: 7078243020129710470}
   - component: {fileID: 7186677085487649704}
   m_Layer: 0
-  m_Name: SpawnPoint02 - RD
+  m_Name: SpawnPoint03 - RD
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -922,7 +1058,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7186677085487649704
 MonoBehaviour:
@@ -948,7 +1084,7 @@ GameObject:
   - component: {fileID: 7078438229025203160}
   - component: {fileID: 7187110044490525566}
   m_Layer: 0
-  m_Name: SpawnPoint03 - Medical
+  m_Name: SpawnPoint09 - Medical
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -966,7 +1102,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7187110044490525566
 MonoBehaviour:
@@ -992,7 +1128,7 @@ GameObject:
   - component: {fileID: 7071842540196676190}
   - component: {fileID: 7187610406011231080}
   m_Layer: 0
-  m_Name: SpawnPoint06 - Engineer
+  m_Name: SpawnPoint30 - Engineer
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1010,7 +1146,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 5
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7187610406011231080
 MonoBehaviour:
@@ -1080,7 +1216,7 @@ GameObject:
   - component: {fileID: 7072210544869424784}
   - component: {fileID: 7186812302146108364}
   m_Layer: 0
-  m_Name: SpawnPoint05 - Sec
+  m_Name: SpawnPoint27 - Sec
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1098,7 +1234,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 4
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7186812302146108364
 MonoBehaviour:
@@ -1113,6 +1249,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Department: 3
+--- !u!1 &7083763405037602061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8725394318312158136}
+  - component: {fileID: 5928710366446546946}
+  m_Layer: 0
+  m_Name: SpawnPoint12 - Clown
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8725394318312158136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083763405037602061}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 57.5, y: 28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7072146797094779102}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5928710366446546946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083763405037602061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Department: 29
 --- !u!1 &7719563487591341948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1304,7 @@ GameObject:
   - component: {fileID: 9186336615270220658}
   - component: {fileID: 8157096419413734393}
   m_Layer: 0
-  m_Name: SpawnPoint11 - CMO
+  m_Name: SpawnPoint08 - CMO
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1142,7 +1322,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 9
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8157096419413734393
 MonoBehaviour:
@@ -1168,7 +1348,7 @@ GameObject:
   - component: {fileID: 2271123526658529507}
   - component: {fileID: 9119310160930555907}
   m_Layer: 0
-  m_Name: SpawnPoint15 - Mining
+  m_Name: SpawnPoint23 - Mining
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1186,7 +1366,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 13
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9119310160930555907
 MonoBehaviour:
@@ -1212,7 +1392,7 @@ GameObject:
   - component: {fileID: 1747793347944813158}
   - component: {fileID: 7468614082957652042}
   m_Layer: 0
-  m_Name: SpawnPoint12 - Chemist
+  m_Name: SpawnPoint10 - Chemist
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1230,7 +1410,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7072146797094779102}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7468614082957652042
 MonoBehaviour:
