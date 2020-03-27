@@ -134,17 +134,10 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		if(isOn)
-		{
-			isOn = !isOn;
-		}
-		else
-		{
-			spriteHandler.ChangeSprite(0);
-			ServerChangeSpriteVariant(9);
+			spriteHandler.ChangeSprite(4);
+			ServerChangeSpriteVariant(1);
 			pick.RefreshUISlotImage();
-			isOn = !isOn;
-		}
+			isOn = !isOn;		
 	}
 
 	[Server]
