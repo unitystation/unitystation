@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: -6765002746793913123}
   - component: {fileID: 1500758503039527989}
   - component: {fileID: 8438504971065900971}
+  - component: {fileID: 1032026185081466959}
   - component: {fileID: 42171897942477365}
   - component: {fileID: -3721379882699803303}
   - component: {fileID: 7978874405384304538}
@@ -207,10 +208,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SpriteStates:
-  - {fileID: 11400000, guid: dc9a581da778c29479d26d96cefebe40, type: 2}
-  - {fileID: 11400000, guid: 0e141d43258e27f46a2a7a29c7423296, type: 2}
-  currentSpriteState: {fileID: 11400000, guid: dc9a581da778c29479d26d96cefebe40, type: 2}
   spriteRend: {fileID: 971255727839780468}
   upSprite: {fileID: 21300002, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
   rightSprite: {fileID: 21300004, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
@@ -240,7 +237,7 @@ MonoBehaviour:
   performingAction: 0
   activated: 1
   tickRate: 1
-  target: 4
+  target: 0
   actionPerformTime: 0
 --- !u!114 &-6765002746793913123
 MonoBehaviour:
@@ -296,6 +293,38 @@ MonoBehaviour:
   tickRate: 0
   status: 0
   fleeTarget: {fileID: 0}
+--- !u!114 &1032026185081466959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
+  agentParameters:
+    agentCameras: []
+    agentRenderTextures: []
+    maxStep: 0
+    resetOnDone: 1
+    onDemandDecision: 1
+    numberOfActionsBetweenDecisions: 1
+  performingDecision: 0
+  performingAction: 0
+  activated: 0
+  tickRate: 1
+  followTarget: {fileID: 0}
+  spriteHolder: {fileID: 5751403467835134051}
+  targetOtherPlayersWhoGetInWay: 0
+  onlyHitTarget: 1
+  hitDamage: 70
+  attackVerb: swiped
+  defaultTarget: 1
+  meleeCoolDown: 0.4
 --- !u!114 &42171897942477365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,11 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobName: Runtime
   knockedDownRotation: 90
-  restingSprites:
-  - {fileID: 21300000, guid: 081c6e544473f364eb1ead0c07b39e6a, type: 3}
-  - {fileID: 21300002, guid: 081c6e544473f364eb1ead0c07b39e6a, type: 3}
-  - {fileID: 21300004, guid: 081c6e544473f364eb1ead0c07b39e6a, type: 3}
-  - {fileID: 21300006, guid: 081c6e544473f364eb1ead0c07b39e6a, type: 3}
+  mouseDmg: 70
 --- !u!114 &1835663294993441926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,7 +502,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300006, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
+  m_Sprite: {fileID: 21300004, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

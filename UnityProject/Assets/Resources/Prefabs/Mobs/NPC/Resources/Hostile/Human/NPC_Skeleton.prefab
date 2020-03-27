@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300006, guid: cc7d2a74fba5df24d9dc869783eec13f, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 781cf1ffe04168046a0971c40f5c88e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -573,6 +573,7 @@ MonoBehaviour:
   mobName: Skeleton
   knockedDownRotation: 90
   searchTickRate: 0.5
-  DeathSound: 
-  GenericSound: 
+  DeathSounds: []
+  GenericSounds: []
+  PlaySoundTime: 3
   status: 0
