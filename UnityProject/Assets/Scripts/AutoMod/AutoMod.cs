@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Telepathy;
 
@@ -26,12 +27,57 @@ namespace AdminTools
 			}
 		}
 
-		private static Dictionary<ConnectedPlayer, MessageRecord> chatCoolDown = new Dictionary<ConnectedPlayer, MessageRecord>();
-		private static double minCoolDown = 1f;
-		private static int maxMessages = 5;
+		//Cooldown is based on a score system. A score is created every time a user posts a chat message. It will check how many
+		//times the user has posted something, how fast and compare the content. If the resulting score is higher then the max score
+		//them AutoMod will take action to stop the spamming
+		private static Dictionary<ConnectedPlayer, MessageRecord> chatLogs = new Dictionary<ConnectedPlayer, MessageRecord>();
+		private static float maxScore = 0.7f; //0 - 1f;
 
 		class MessageRecord
 		{
+			private Dictionary<DateTime, string> messageLog = new Dictionary<DateTime, string>();
+
+			public bool IsSpamming(string message)
+			{
+				messageLog.Add(DateTime.Now, message);
+				if (CalculateSpamScore() > maxScore) return true;
+
+				return false;
+			}
+
+			private float CalculateSpamScore()
+			{
+				float currentScore = 0f;
+				int repeatMessages = 0;
+				for (int i = messageLog.Count - 1;
+					i >= 0 && i >= messageLog.Count - 6; i--)
+				{
+					int prevIndex = i - 1;
+					if (prevIndex < 0) break;
+
+					var thisKvp = messageLog.ElementAt(i);
+					var prevKvp = messageLog.ElementAt(prevIndex);
+					var totalSeconds = (thisKvp.Key
+					                    - prevKvp.Key).TotalSeconds;
+
+					if (totalSeconds < 1f)
+					{
+						currentScore += 0.2f;
+						if (thisKvp.Value == prevKvp.Value)
+						{
+							currentScore += 0.2f;
+							repeatMessages++;
+						}
+					}
+
+					if (repeatMessages >= 4)
+					{
+						currentScore += 0.8f;
+					}
+				}
+
+				return Mathf.Clamp(currentScore, 0f, 1f);
+			}
 
 		}
 
@@ -94,6 +140,17 @@ namespace AdminTools
 		public static string ProcessChatServer(ConnectedPlayer player, string message)
 		{
 			if (player == null || !IsEnabled()) return message;
+
+			if (!chatLogs.ContainsKey(player))
+			{
+				chatLogs.Add(player, new MessageRecord());
+			}
+
+			if (chatLogs[player].IsSpamming(message))
+			{
+				
+				return "";
+			}
 
 			return message;
 		}
