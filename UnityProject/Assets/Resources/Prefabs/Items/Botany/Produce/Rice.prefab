@@ -11,7 +11,8 @@ PrefabInstance:
         type: 3}
       propertyPath: seedPacket
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1020831183681200399, guid: 5186709fe798b0f41850799bfda96a6b,
+        type: 3}
     - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: Reagents.Array.size
@@ -47,12 +48,6 @@ PrefabInstance:
       propertyPath: willHighlight
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
-        type: 2}
     - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: m_LocalPosition.x

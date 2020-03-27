@@ -10,7 +10,6 @@ public class TableInteraction : TileInteraction
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.TileApplyType != TileApply.ApplyType.HandApply) return false;
 		return interaction.HandObject != null;
 	}
 

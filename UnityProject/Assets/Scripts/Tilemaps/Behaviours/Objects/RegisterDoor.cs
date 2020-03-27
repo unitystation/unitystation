@@ -69,9 +69,7 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				var position = isServer? LocalPositionServer : LocalPositionClient;
-				var direction = to - position;
-				return !direction.y.Equals(v.y) || !direction.x.Equals(v.x);
+				return !(to - (isServer ? LocalPositionServer : LocalPositionClient)).y.Equals(v.y);
 			}
 
 			return !isClosed;
@@ -96,9 +94,7 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				var position = isServer? LocalPositionServer : LocalPositionClient;
-				var direction = from - position;
-				return !direction.y.Equals(v.y) || !direction.x.Equals(v.x);
+				return !(from - (isServer ? LocalPositionServer : LocalPositionClient)).y.Equals(v.y);
 			}
 
 			return !isClosed;

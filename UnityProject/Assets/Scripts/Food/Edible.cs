@@ -166,7 +166,7 @@ public class Edible : NetworkBehaviour, ICheckedInteractable<HandActivate>, IChe
 
 		void Eat()
 		{
-			SoundManager.PlayNetworkedAtPos(isDrink ? "Slurp" : "EatFood", eater.WorldPos, sourceObj: eater.gameObject);
+			SoundManager.PlayNetworkedAtPos(isDrink ? "Slurp" : "EatFood", eater.WorldPos);
 
 			eater.playerHealth.Metabolism
 				.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));

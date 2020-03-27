@@ -30,8 +30,6 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	private NetLabel idNameText = null;
 	[SerializeField]
 	private GameObject popupWindow = null;
-	[SerializeField]
-	private InputFieldFocus popupWindowEditField = null;
 	private NetLabel currentlyEditingField;
 	private SecurityRecordCrime currentlyEditingCrime;
 
@@ -159,13 +157,9 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	/// 2. Client confirms edit in popup, popup closes locally.
 	/// 3. Server sets fields with values from popup.
 	/// </summary>
-	public void OpenPopup(NetLabel fieldToEdit)
+	public void OpenPopup()
 	{
 		popupWindow.SetActive(true);
-		if (fieldToEdit != null)
-		{
-			popupWindowEditField.text = fieldToEdit.Value;
-		}
 	}
 
 	/// <summary>

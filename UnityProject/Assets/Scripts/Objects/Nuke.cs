@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 /// <summary>
 /// Main component for nuke.
 /// </summary>
-public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo
+public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private ObjectBehaviour objectBehaviour;
 	private ItemStorage itemNuke;
@@ -259,12 +259,6 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInf
 			return isPushable;
 		}
 		return null;
-	}
-
-
-	public string AdminInfoString()
-	{
-		return $"Nuke Code: {nukeCode}";
 	}
 
 }

@@ -30,7 +30,7 @@ using UnityEditor;
 				return;
 			}
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
+			SoundManager.PlayAtPosition("AccessDenied", transform.position);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)
@@ -60,7 +60,7 @@ using UnityEditor;
 			}
 
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition("TripleBeep", transform.position, gameObject, polyphonic: true, isGlobal: true);
+			SoundManager.PlayAtPosition("TripleBeep", transform.position, polyphonic: true, isGlobal: true);
 			StartCoroutine(PlayPressureWarnAnim());
 		}
 

@@ -192,7 +192,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
 --- !u!114 &114993189208139396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,7 +220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -273,8 +271,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: stool
-  initialDescription: A stool for sitting.
-  willHighlight: 1
+  initialDescription: For sitting or getting strapped onto.
   exportCost: 0
   exportName: 
   exportMessage: 

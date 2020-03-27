@@ -29,7 +29,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[FormerlySerializedAs("AmmoType")] public AmmoType ammoType;
 
 	//server-side object indicating the player holding the weapon (null if none)
-	protected GameObject serverHolder;
+	private GameObject serverHolder;
 
 
 	/// <summary>
@@ -616,7 +616,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			b.Shoot(finalDirection, shooter, this, damageZone);
 		}
-		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
 		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 
@@ -704,12 +704,12 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void OutOfAmmoSFX()
 	{
-		SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
+		SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position);
 	}
 
 	private void PlayEmptySFX()
 	{
-		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position);
 	}
 
 	#endregion

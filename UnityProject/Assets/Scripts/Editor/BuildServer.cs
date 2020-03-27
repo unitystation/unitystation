@@ -10,7 +10,6 @@ using UnityEditor.Build.Reporting;
 
 static class BuildScript
 {
-	[Obsolete]
 	private static void PerformServerBuild()
 	{
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -26,7 +25,6 @@ static class BuildScript
 	}
 
 	//IMPORTANT: ALWAYS DO WINDOWS BUILD FIRST IN YOUR BUILD CYCLE:
-	[Obsolete]
 	private static void PerformWindowsBuild()
 	{
 		//Always build windows client first so that build info can increment the build number
@@ -65,8 +63,6 @@ static class BuildScript
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
-
-	[Obsolete]
 	private static void PerformOSXBuild()
 	{
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -80,8 +76,6 @@ static class BuildScript
 		BuildPreferences.SetRelease(true);
 		BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
-
-	[Obsolete]
 	private static void PerformLinuxBuild()
 	{
 		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -199,14 +193,13 @@ static class BuildScript
 			scenes = scenes,
 			locationPathName = locationPathName,
 			target = target,
-			options = BuildOptions.CompressWithLz4HC
 		};
 
 		if (target == BuildTarget.StandaloneLinux64)
 		{
 			buildOptions.options = BuildOptions.Development;
 		}
-
+		
 		ReportOptions(buildOptions);
 
 		// Perform build

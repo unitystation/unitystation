@@ -112,7 +112,7 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 			}
 		}
 
-		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 	}
 
 	[Server]

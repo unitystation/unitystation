@@ -16,7 +16,7 @@ public class GeneralDoorAnimator : DoorAnimator
 	public string spritePath;
 
 	[Tooltip("A list of frame numbers for the open/close animation, not including the openFrame and closeFrame")]
-	public int[] animFrames;
+	public int[] animFrames; 
 
 	public int animLength;
 	public int closeFrame;
@@ -94,7 +94,7 @@ public class GeneralDoorAnimator : DoorAnimator
 		}
 
 		doorController.isPerformingAction = true;
-		SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
+		SoundManager.PlayAtPosition("AccessDenied", transform.position);
 		StartCoroutine(PlayDeniedAnim());
 	}
 

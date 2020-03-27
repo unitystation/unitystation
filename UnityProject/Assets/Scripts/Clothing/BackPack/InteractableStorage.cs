@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -28,11 +27,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		All,
 	}
 
-	[Tooltip(
-		"Add storage items that should prohibited from being added to storage of this storage item (like tool boxes" +
-		"being placed inside other tool boxes")]
-	public StorageItemName denyStorageOfStorageItems;
-
 	/// <summary>
 	/// Item storage that is being interacted with.
 	/// </summary>
@@ -58,8 +52,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// The current pickup mode used when clicking
 	/// </summary>
 	private PickupMode pickupMode = PickupMode.All;
-
-	private bool allowedToInteract = false;
 
 
 	[SerializeField]
@@ -92,18 +84,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		Chat.AddExamineMsgFromServer(player, msg);
 	}
 
-	private void OnEnable()
+	void Awake()
 	{
-		allowedToInteract = false;
 		itemStorage = GetComponent<ItemStorage>();
-		StartCoroutine(SpawnCoolDown());
-	}
-
-	//Trying to prevent auto click spam exploit when storage is being populated
-	IEnumerator SpawnCoolDown()
-	{
-		yield return WaitFor.Seconds(0.2f);
-		allowedToInteract = true;
 	}
 
 	public bool Interact(InventoryApply interaction)
@@ -127,7 +110,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		if (!allowedToInteract) return false;
 		//we need to be the target - something is put inside us
 		if (interaction.TargetObject != gameObject) return false;
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -142,7 +124,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		if (!allowedToInteract) return;
 		Inventory.ServerTransfer(interaction.FromSlot,
 			itemStorage.GetBestSlotFor(((Interaction)interaction).UsedObject));
 	}
@@ -154,7 +135,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!allowedToInteract) return false;
 		// Use default interaction checks
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
@@ -225,7 +205,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (!allowedToInteract) return;
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
 		{
@@ -386,7 +365,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
-		if (!allowedToInteract) return false;
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can't drag / view ourselves
 		if (interaction.Performer == interaction.DroppedObject) return false;
@@ -415,7 +393,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void ServerPerformInteraction(MouseDrop interaction)
 	{
-		if (!allowedToInteract) return;
+
 		if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
 		{
 			//try to add item to this storage

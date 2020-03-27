@@ -36,12 +36,12 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 		entryPage.SetEditingField(fieldToEdit, crime);
 	}
 
-	public void OpenPopup(NetLabel fieldToEdit)
+	public void OpenPopup()
 	{
 		//Previously we set entryPage only server-side, but popup is opening client-side
 		if (entryPage == null)
 			entryPage = GetComponentInParent<GUI_SecurityRecordsEntryPage>();
-		entryPage.OpenPopup(fieldToEdit);
+		entryPage.OpenPopup();
 	}
 }
 

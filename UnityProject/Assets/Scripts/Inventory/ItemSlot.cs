@@ -311,31 +311,11 @@ public class ItemSlot
 	/// <returns></returns>
 	public bool CanFit(Pickupable toStore, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
+
 		if (toStore == null) return false;
-
-		ItemStorage storageToCheck = itemStorage;
-		StorageIdentifier storeIdentifier = toStore.GetComponent<StorageIdentifier>();
-
-		//Check if there is a deny entry for this toStore item
-		if (storageToCheck != null && storeIdentifier != null)
-		{
-			InteractableStorage interactiveStorage = storageToCheck.GetComponent<InteractableStorage>();
-			if (interactiveStorage != null)
-			{
-				if (interactiveStorage.denyStorageOfStorageItems.HasFlag(storeIdentifier.StorageItemName))
-				{
-					if (examineRecipient)
-					{
-						Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} can't be placed there!");
-					}
-					return false;
-				}
-			}
-		}
-
 		//go through this slot's ancestors and make sure none of them ARE toStore,
 		//as that would create a loop in the inventory hierarchy
-		int count = 0;
+		ItemStorage storageToCheck = itemStorage;
 		while (storageToCheck != null)
 		{
 			if (storageToCheck.gameObject == toStore.gameObject)
@@ -358,14 +338,6 @@ public class ItemSlot
 			else
 			{
 				storageToCheck = null;
-			}
-
-			count++;
-			if (count > 5)
-			{
-				Logger.LogTraceFormat(
-					"Something went wrong when adding {0} in slot {1}, aborting!", Category.Inventory, toStore, ToString());
-				return false;
 			}
 		}
 

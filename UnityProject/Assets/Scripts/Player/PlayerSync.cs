@@ -504,7 +504,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (isLocalPlayer && playerMove != null)
 		{
 			didWiggle = false;
-			if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript, isServer ? NetworkSide.Server : NetworkSide.Client))
+
+			if (Validations.CanInteract(playerScript, isServer ? NetworkSide.Server : NetworkSide.Client) && KeyboardInputManager.IsMovementPressed())
 			{
 				//	If being pulled by another player and you try to break free
 				if (pushPull != null && pushPull.IsBeingPulledClient)

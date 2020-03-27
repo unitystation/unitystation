@@ -34,7 +34,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
 	{
 		yield return WaitFor.Seconds( 0.02f );
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: gameObject );
+		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5 );
 		targetHealth.ApplyDamageToBodypart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
@@ -80,7 +80,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 
 	private void ClassicHonk()
 	{
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: gameObject );
+		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true );
 	}
 
 	/// <summary>
@@ -97,7 +97,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	/// </summary>
 	public bool WillInteract( PositionalHandApply interaction, NetworkSide side )
 	{
-		if (interaction.HandObject != gameObject) return false;
+		if (interaction.HandObject != gameObject) return false;  
 		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector)
 				&& allowUse;
 	}

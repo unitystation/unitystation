@@ -45,8 +45,9 @@ public class UI_StorageHandler : MonoBehaviour
 			CloseStorageUI();
 			CurrentOpenStorage = itemStorage;
 			PopulateInventorySlots();
-			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
+			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 		}
+
 	}
 
 	private void PopulateInventorySlots()
@@ -91,7 +92,7 @@ public class UI_StorageHandler : MonoBehaviour
 	{
 		if (PlayerManager.LocalPlayer != null)
 		{
-			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
+			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 		}
 		CurrentOpenStorage = null;
 		otherPlayerStorage.SetActive(false);

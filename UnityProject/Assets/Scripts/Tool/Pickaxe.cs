@@ -37,7 +37,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 				5f, interaction.Performer);
 		if (bar != null)
 		{
-			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class Pickaxe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos("BreakStone", interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+			SoundManager.PlayNetworkedAtPos("BreakStone", interaction.WorldPositionTarget);
 			var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
 
 			var tile = interactableTiles.LayerTileAt(interaction.WorldPositionTarget) as BasicTile;

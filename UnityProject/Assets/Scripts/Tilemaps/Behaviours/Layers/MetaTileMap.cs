@@ -101,39 +101,32 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) &&
-			   _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) ||
-			   _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) &&
-			   _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles);
+		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context) &&
+		       _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context) ||
+		       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context) &&
+		       _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context);
 	}
 
-
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
 			// Skip floor & base collisions if this is not a shuttle
 			if (collisionType != CollisionType.Shuttle &&
-				(SolidLayersValues[i].LayerType == LayerType.Floors ||
-				 SolidLayersValues[i].LayerType == LayerType.Base))
-			{
-				continue;
-			}
-
-			// Skip if the current tested layer is being excluded.
-			if (excludeLayers != null && excludeLayers.Contains(SolidLayersValues[i].LayerType))
+			    (SolidLayersValues[i].LayerType == LayerType.Floors ||
+			     SolidLayersValues[i].LayerType == LayerType.Base))
 			{
 				continue;
 			}
 
 			if (!SolidLayersValues[i].IsPassableAt(origin, to, isServer, collisionType: collisionType,
-				inclPlayers: inclPlayers, context: context, excludeTiles))
+				inclPlayers: inclPlayers, context: context))
 			{
 				return false;
 			}

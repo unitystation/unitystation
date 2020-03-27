@@ -48,8 +48,7 @@ public enum BloodSplatSize
 public enum BloodSplatType
 {
 	red,
-	green,
-	none
+	green
 }
 
 public enum WiringColor

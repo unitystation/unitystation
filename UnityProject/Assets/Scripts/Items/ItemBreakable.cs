@@ -32,7 +32,7 @@ public class ItemBreakable : MonoBehaviour
 	}
 	private void ChangeState()
 	{
-		SoundManager.PlayNetworkedAtPos(soundOnBreak, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(soundOnBreak, gameObject.AssumedWorldPosServer());
 		Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
 		Despawn.ServerSingle(gameObject);
 	}

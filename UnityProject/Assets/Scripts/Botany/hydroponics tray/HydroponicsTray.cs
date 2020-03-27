@@ -32,9 +32,6 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	private RegisterTile registerTile;
 	[SerializeField]
 	private bool isSoilPile;
-	[Tooltip("If this is set the plant will not grow/die over time, use it to keep wild findable plants alive")]
-	[SerializeField]
-	private bool isWild;
 	[SerializeField]
 	private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
 	[SerializeField]
@@ -52,13 +49,14 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	[SerializeField]
 	private SpriteHandler nutrimentNotifier;
 	[SerializeField]
+	private PlantData plantData;
+	[SerializeField]
 	private float tickRate;
-	
 
-	
+
 	private static readonly System.Random random = new System.Random();
 	
-	private PlantData plantData;
+
 	private readonly List<GameObject> readyProduce = new List<GameObject>();
 	private float tickCount;
 	private float weedLevel;
@@ -122,8 +120,8 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	/// </summary>
 	public override void UpdateMe()
 	{
-		//Only server checks plant status, wild plants do not grow
-		if (!isServer || isWild) return;
+		//Only server checks plant status
+		if (!isServer) return;
 
 		//Only update at set rate
 		tickCount += Time.deltaTime;

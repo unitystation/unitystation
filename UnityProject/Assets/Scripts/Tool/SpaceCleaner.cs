@@ -49,7 +49,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
 		reagentContainer.TakeReagents(reagentsPerUse);
-		SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1, sourceObj: interaction.Performer);
+		SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt(), speed: 1f);
 	}

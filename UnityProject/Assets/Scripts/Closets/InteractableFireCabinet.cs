@@ -170,7 +170,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 	private void Open()
 	{
-		SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
+		SoundManager.PlayAtPosition("OpenClose", transform.position);
 		if (isFull)
 		{
 			spriteRenderer.sprite = spriteOpenedOccupied;
@@ -183,7 +183,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 	private void Close()
 	{
-		SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
+		SoundManager.PlayAtPosition("OpenClose", transform.position);
 		spriteRenderer.sprite = spriteClosed;
 	}
 

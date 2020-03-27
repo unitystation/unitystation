@@ -123,7 +123,7 @@ public static class ToolUtils
 
 		if (seconds <= 0f)
 		{
-			ServerPlayToolSound(tool, actionTarget.TargetWorldPosition, performer);
+			ServerPlayToolSound(tool, actionTarget.TargetWorldPosition);
 			progressCompleteAction.Invoke();
 			return null;
 		}
@@ -144,7 +144,7 @@ public static class ToolUtils
 
 			if (bar != null)
 			{
-				ServerPlayToolSound(tool, actionTarget.TargetWorldPosition, performer);
+				ServerPlayToolSound(tool, actionTarget.TargetWorldPosition);
 			}
 
 			return bar;
@@ -157,7 +157,7 @@ public static class ToolUtils
 	/// </summary>
 	/// <param name="tool"></param>
 	/// <param name="worldTilePos"></param>
-	public static void ServerPlayToolSound(GameObject tool, Vector2 worldTilePos, GameObject owner = null)
+	public static void ServerPlayToolSound(GameObject tool, Vector2 worldTilePos)
 	{
 		if (tool == null) return;
 		string soundName = null;
@@ -192,7 +192,7 @@ public static class ToolUtils
 
 		if (soundName != null)
 		{
-			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: owner);
+			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f));
 		}
 	}
 
@@ -202,7 +202,7 @@ public static class ToolUtils
 	/// <param name="handApply"></param>
 	public static void ServerPlayToolSound(HandApply handApply)
 	{
-		ServerPlayToolSound(handApply.UsedObject, handApply.TargetObject.TileWorldPosition(), handApply.Performer);
+		ServerPlayToolSound(handApply.UsedObject, handApply.TargetObject.TileWorldPosition());
 	}
 
 	/// <summary>
@@ -211,7 +211,7 @@ public static class ToolUtils
 	/// <param name="handApply"></param>
 	public static void ServerPlayToolSound(PositionalHandApply handApply)
 	{
-		ServerPlayToolSound(handApply.UsedObject, handApply.WorldPositionTarget, handApply.Performer);
+		ServerPlayToolSound(handApply.UsedObject, handApply.WorldPositionTarget);
 	}
 
 	/// <summary>
@@ -220,7 +220,7 @@ public static class ToolUtils
 	/// <param name="tileApply"></param>
 	public static void ServerPlayToolSound(TileApply tileApply)
 	{
-		ServerPlayToolSound(tileApply.UsedObject, tileApply.WorldPositionTarget, tileApply.Performer);
+		ServerPlayToolSound(tileApply.UsedObject, tileApply.WorldPositionTarget);
 	}
 
 	/// <summary>

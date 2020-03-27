@@ -41,7 +41,7 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Hand
 		if (interaction.TargetObject != gameObject) return;
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
 			Disassemble(interaction);
 		}
 

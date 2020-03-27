@@ -85,7 +85,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 						.ServerStartProgress(interaction.Performer.transform.position, weldTime, interaction.Performer);
 						if (bar != null)
 						{
-							SoundManager.PlayNetworkedAtPos("Weld", interaction.Performer.transform.position, Random.Range(0.8f, 1.2f), sourceObj: interaction.Performer);
+							SoundManager.PlayNetworkedAtPos("Weld", interaction.Performer.transform.position, Random.Range(0.8f, 1.2f));
 							Chat.AddExamineMsgFromServer(interaction.Performer, "You start " + (Controller.IsWelded ? "unwelding" : "welding") + " the door...");
 						}
 

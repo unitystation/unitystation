@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -95,15 +94,6 @@ public static class PlayerSpawn
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, true);
 	}
 
-	//Jobs that should always use their own spawn points regardless of current round time
-	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>
-		{
-			JobType.AI, 
-			JobType.SYNDICATE
-		});
-	//Time to start spawning players at arrivals
-	private static readonly System.DateTime ARRIVALS_SPAWN_TIME = new System.DateTime().AddHours(12).AddMinutes(2);
-
 	/// <summary>
 	/// Spawns a new player character and transfers the connection's control into the new body.
 	/// If existingMind is null, creates the new mind and assigns it to the new body.
@@ -127,23 +117,7 @@ public static class PlayerSpawn
 		//determine where to spawn them
 		if (spawnPos == null)
 		{
-			Transform spawnTransform;
-			//Spawn normal location for special jobs or if less than 2 minutes passed
-			if (GameManager.Instance.stationTime < ARRIVALS_SPAWN_TIME || NEVER_SPAWN_ARRIVALS_JOBS.Contains(occupation.JobType))
-			{
-				 spawnTransform = GetSpawnForJob(occupation.JobType);
-			}
-			else
-			{
-				spawnTransform = GetSpawnForLateJoin(occupation.JobType);
-				//Fallback to assistant spawn location if none found for late join
-				if(spawnTransform == null && occupation.JobType != JobType.NULL)
-				{
-					spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
-				}
-				
-			}
-			
+			Transform spawnTransform = GetSpawnForJob(occupation.JobType);
 			if (spawnTransform == null)
 			{
 				Logger.LogErrorFormat(
@@ -459,17 +433,6 @@ public static class PlayerSpawn
 		}
 	}
 
-	private static Transform GetSpawnForLateJoin(JobType jobType)
-	{
-		if (jobType == JobType.NULL)
-		{
-			return null;
-		}
-		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
-			.Where(x => x.Department == JobDepartment.LateJoin).ToList();
-
-		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
-	}
 	private static Transform GetSpawnForJob(JobType jobType)
 	{
 		if (jobType == JobType.NULL)

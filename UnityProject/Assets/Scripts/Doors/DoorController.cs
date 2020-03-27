@@ -209,7 +209,7 @@ public class DoorController : NetworkBehaviour
 			if (openSFX != null)
 			{
 				// Need to play this sound as global - this will ignore muffle effect
-				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
+				SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -217,7 +217,7 @@ public class DoorController : NetworkBehaviour
 		{
 			if (closeSFX != null)
 			{
-				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
+				SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, polyphonic: true, isGlobal: true);
 			}
 		}
 
@@ -254,26 +254,33 @@ public class DoorController : NetworkBehaviour
 			}
 			if (AccessRestrictions != null)
 			{
-				if (!AccessRestrictions.CheckAccess(Originator))
+				if (AccessRestrictions.CheckAccess(Originator))
+				{
+					if (IsClosed && !isPerformingAction)
+					{
+						if (!pressureWarnActive && DoorUnderPressure())
+						{
+							ServerPressureWarn();
+						}
+						else
+						{
+							ServerOpen();
+						}
+					}
+				}
+				else
 				{
 					if (IsClosed && !isPerformingAction)
 					{
 						ServerAccessDenied();
-						return;
 					}
 				}
 			}
-
-			if (IsClosed && !isPerformingAction)
+			else
 			{
-				if (!pressureWarnActive && DoorUnderPressure())
-				{
-					ServerPressureWarn();
-				}
-				else
-				{
-					ServerOpen();
-				}
+				Logger.LogErrorFormat("Door {0} @{1} lacks access restriction component!", Category.Doors,
+					name,
+					registerTile ? registerTile.WorldPositionServer : transform.position);
 			}
 		}
 
@@ -393,7 +400,7 @@ public class DoorController : NetworkBehaviour
 			{
 				horzPressureDiff = Math.Abs(leftMetaNode.GasMix.Pressure - rightMetaNode.GasMix.Pressure);
 			}
-
+			
 			// Set pressureLevel according to the pressure difference found.
 			if (vertPressureDiff >= pressureThresholdWarning || horzPressureDiff >= pressureThresholdWarning)
 			{

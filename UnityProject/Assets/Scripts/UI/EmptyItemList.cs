@@ -13,27 +13,11 @@ public class EmptyItemList : NetUIDynamicList
 	{
 		for (int i = 0; i < count; i++)
 		{
-			AttemptAdd();
+			AddItem();
 		}
-		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
-		UpdatePeepers();
 	}
 
 	public bool AddItem()
-	{
-		if(!AttemptAdd())
-		{
-			return false;
-		}
-
-		//rescan elements  and notify
-		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
-		UpdatePeepers();
-
-		return true;
-	}
-
-	private bool AttemptAdd()
 	{
 		//add new entry
 		var newEntry = Add();
@@ -43,7 +27,11 @@ public class EmptyItemList : NetUIDynamicList
 			return false;
 		}
 		Logger.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);
-		return true;
 
+		//rescan elements  and notify
+		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+		UpdatePeepers();
+
+		return true;
 	}
 }

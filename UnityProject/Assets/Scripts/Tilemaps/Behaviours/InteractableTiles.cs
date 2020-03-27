@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 ///
 /// Also provides various utility methods for working with tiles.
 /// </summary>
-public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>, IExaminable, IClientInteractable<MouseDrop>
+public class InteractableTiles : NetworkBehaviour, IClientInteractable<PositionalHandApply>, IExaminable
 {
 	private MetaTileMap metaTileMap;
 	private Matrix matrix;
@@ -170,8 +170,9 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		return false;
 	}
 
+
 	//for internal IF2 usages only, does server side logic for processing tileapply
-	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
+	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent)
 	{
 		//find the indicated tile interaction
 		var success = false;
@@ -191,7 +192,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			var tileInteraction = basicTile.TileInteractions[tileInteractionIndex];
 			var tileApply = new TileApply(performer, usedObject, intent,
 				(Vector2Int) WorldToCell(worldPosTarget), this, basicTile, usedSlot,
-				targetVector, applyType);
+				targetVector);
 
 			if (tileInteraction.WillInteract(tileApply, NetworkSide.Server) &&
 			    Cooldowns.TryStartServer(tileApply, CommonCooldowns.Instance.Interaction))
@@ -204,34 +205,5 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				tileInteraction.ServerRollbackClient(tileApply);
 			}
 		}
-	}
-
-	public bool Interact(MouseDrop interaction)
-	{
-		Logger.Log("Interaction detected on InteractableTiles.");
-
-		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation);
-
-		if(tile is BasicTile basicTile)
-		{
-			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation), TileApply.ApplyType.MouseDrop);
-			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation));
-			var i = 0;
-			foreach (var tileInteraction in basicTile.TileInteractions)
-			{
-				if (tileInteraction == null) continue;
-				if (tileInteraction.WillInteract(tileApply, NetworkSide.Client) &&
-					Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction))
-				{
-					//request the tile interaction with this index
-					RequestInteractMessage.SendTileMouseDrop(tileMouseDrop, this, i);
-					return true;
-				}
-
-				i++;
-			}
-		}
-
-		return false;
 	}
 }

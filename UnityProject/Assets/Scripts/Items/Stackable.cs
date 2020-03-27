@@ -29,8 +29,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	/// </summary>
 	public int Amount => amount;
 
-	public int MaxAmount => maxAmount;
-
 	/// <summary>
 	/// amount currently in the stack
 	/// </summary>
