@@ -13,6 +13,9 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 	private NamedSlotPopulatorEntry[] Entries = null;
 
 	public GameObject skirtVariant;
+	public GameObject backpackVariant;
+	public GameObject duffleVariant;
+	public GameObject satchelVariant;
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{
 		Logger.LogTraceFormat("Populating item storage {0}", Category.Inventory, toPopulate.name);
@@ -44,6 +47,31 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 					var spawnskirt = Spawn.ServerPrefab(skirtVariant);
 					Inventory.ServerAdd(spawnskirt.GameObject, slot);
 					continue;
+				}
+
+				//exceoptions for backpack preference
+
+				if (entry.NamedSlot == NamedSlot.back)
+				{
+    				///SpawnResult spawnbackpack;
+   					GameObject spawnThing;
+
+   					switch (context.SpawnInfo.CharacterSettings.Backpack)
+   					{
+      					case Backpack.Duffle:
+            				spawnThing = (duffleVariant != null) ? duffleVariant: entry.Prefab;
+            				break;
+
+        				case Backpack.Satchel:
+            				spawnThing = (satchelVariant != null) ? satchelVariant: entry.Prefab;
+            				break;
+        				default:
+            				spawnThing = entry.Prefab;
+            				break;
+    				}
+
+    				var spawnbackpack = Spawn.ServerPrefab(spawnThing);
+    				Inventory.ServerAdd(spawnbackpack.GameObject, slot);
 				}
 
 				var spawn = Spawn.ServerPrefab(entry.Prefab);
