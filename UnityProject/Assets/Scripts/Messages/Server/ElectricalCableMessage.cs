@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class ElectricalCableMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.ElectricalCableMessage;
+	public override short MessageType => (short) MessageTypes.ElectricalCableMessage;
 	public Connection REWireEndA;
 	public Connection REWireEndB;
 	public WiringColor RECableType;

@@ -4,7 +4,7 @@ using Mirror;
 
 public class PlayerCustomisationMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.PlayerCustomisationMessage;
+	public override short MessageType => (short)MessageTypes.PlayerCustomisationMessage;
 	public CharacterSettings Character;
 	public BodyPartSpriteName Part = BodyPartSpriteName.Null;
 	public uint EquipmentObject;

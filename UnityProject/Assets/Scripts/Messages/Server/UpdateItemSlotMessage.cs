@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class UpdateItemSlotMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateItemSlotMessage;
+	public override short MessageType => (short) MessageTypes.UpdateItemSlotMessage;
 	public uint Storage;
 	public uint Item;
 	public int SlotIndex;

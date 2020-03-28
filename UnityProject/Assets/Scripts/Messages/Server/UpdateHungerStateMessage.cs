@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class UpdateHungerStateMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.UpdateHungerStateMessage;
+	public override short MessageType => (short)MessageTypes.UpdateHungerStateMessage;
 
 	public HungerState State;
 

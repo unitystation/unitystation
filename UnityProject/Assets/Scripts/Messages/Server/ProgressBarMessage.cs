@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class ProgressBarMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.ProgressBarMessage;
+	public override short MessageType => (short) MessageTypes.ProgressBarMessage;
 
 	public uint Recipient;
 	public int SpriteIndex;

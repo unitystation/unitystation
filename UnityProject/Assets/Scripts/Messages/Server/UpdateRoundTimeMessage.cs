@@ -5,7 +5,7 @@
 /// </summary>
 public class UpdateRoundTimeMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateRoundTimeMessage;
+	public override short MessageType => (short) MessageTypes.UpdateRoundTimeMessage;
 	public string Time;
 
 	public override IEnumerator Process()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MobMeleeLerpMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.MobMeleeLerpMessage;
+	public override short MessageType => (short) MessageTypes.MobMeleeLerpMessage;
 
 	public uint mob;
 	public Vector2 dir;

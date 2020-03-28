@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class TabInteractMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.TabInteractMessage;
+	public override short MessageType => (short) MessageTypes.TabInteractMessage;
 	public uint TabProvider;
 	public NetTabType NetTabType;
 	public string ElementId;

@@ -5,7 +5,7 @@ using Mirror;
 public class PaperUpdateMessage : ServerMessage
 {
 
-	public static short MessageType = (short)MessageTypes.PaperUpdateMessage;
+	public override short MessageType => (short)MessageTypes.PaperUpdateMessage;
 
 	public uint PaperToUpdate;
 	public uint Recipient;
