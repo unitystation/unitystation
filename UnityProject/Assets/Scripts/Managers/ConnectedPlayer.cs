@@ -13,6 +13,7 @@ public class ConnectedPlayer
 	private NetworkConnection connection;
 	private string clientID;
 	private string userID;
+	private string deviceID = SystemInfo.deviceUniqueIdentifier;
 
 	/// Flags if player received a bunch of sync messages upon joining
 	private bool synced;
@@ -117,6 +118,12 @@ public class ConnectedPlayer
 	{
 		get => userID;
 		set => userID = value;
+	}
+
+	public string DeviceId
+	{
+		get => deviceID;
+		set => deviceID = value;
 	}
 
 	public bool HasNoName()
