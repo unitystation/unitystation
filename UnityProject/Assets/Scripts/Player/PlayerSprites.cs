@@ -83,8 +83,6 @@ public class PlayerSprites : MonoBehaviour
 			// add listner in case clothing was changed
 			c.OnClothingEquiped += OnClothingEquipped;
 		}
-
-		SetupBodySprites();
 	}
 
 	public void SetupCharacterData(CharacterSettings Character)
