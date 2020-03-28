@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300004, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 2ad5c31b033a5b341ab1a16117ba52f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 4825588628206411181}
   - component: {fileID: 4858910464699741597}
   m_Layer: 12
-  m_Name: SnakeChest
+  m_Name: EyeballChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 4821506416438402663}
   - component: {fileID: 4858358136733543843}
   m_Layer: 12
-  m_Name: SnakeHead
+  m_Name: EyeballHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,10 +247,8 @@ GameObject:
   - component: {fileID: 3651291330810827203}
   - component: {fileID: 3708589072684735304}
   - component: {fileID: 6990826745820629644}
-  - component: {fileID: 4145711099332912043}
-  - component: {fileID: 5083886736440002245}
   m_Layer: 12
-  m_Name: NPC_Snake
+  m_Name: NPC_Eyeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,13 +316,13 @@ MonoBehaviour:
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
-  bloodColor: 1
+  bloodColor: 2
   BodyParts:
   - {fileID: 4858358136733543843}
   - {fileID: 4858910464699741597}
   allowKnifeHarvest: 0
   butcherResults: []
-  aliveSprite: {fileID: 21300004, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
+  aliveSprite: {fileID: 21300004, guid: 2ad5c31b033a5b341ab1a16117ba52f6, type: 3}
   deadSprite: {fileID: 21300000, guid: d5f3feba589d6ad4281496cdf138e320, type: 3}
   deadState: 0
   spriteRend: {fileID: 83192708151968013}
@@ -499,10 +497,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteRend: {fileID: 83192708151968013}
-  upSprite: {fileID: 21300002, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-  rightSprite: {fileID: 21300004, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-  downSprite: {fileID: 21300000, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-  leftSprite: {fileID: 21300006, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
+  upSprite: {fileID: 21300002, guid: 2ad5c31b033a5b341ab1a16117ba52f6, type: 3}
+  rightSprite: {fileID: 21300004, guid: 2ad5c31b033a5b341ab1a16117ba52f6, type: 3}
+  downSprite: {fileID: 21300000, guid: 2ad5c31b033a5b341ab1a16117ba52f6, type: 3}
+  leftSprite: {fileID: 21300006, guid: 2ad5c31b033a5b341ab1a16117ba52f6, type: 3}
 --- !u!114 &3651291330810827203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +556,7 @@ MonoBehaviour:
   targetOtherPlayersWhoGetInWay: 1
   onlyHitTarget: 0
   hitDamage: 15
-  attackVerb: bite
+  attackVerb: slashed
   defaultTarget: 0
   meleeCoolDown: 0.4
 --- !u!114 &6990826745820629644
@@ -573,71 +571,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b02e30a4b623144905790b2eaf49b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobName: Snake
+  mobName: Eyeball
   knockedDownRotation: 90
   searchTickRate: 0.5
-  DeathSounds:
-  - Snake1
+  DeathSounds: []
   GenericSounds:
-  - Snake1
-  - Snake2
+  - squish
   PlaySoundTime: 3
   status: 0
---- !u!114 &4145711099332912043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4827737755655954553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb350d8316826446843700e259cede7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRender: {fileID: 83192708151968013}
-  Animations:
-  - Sprites:
-    - {fileID: 21300010, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    - {fileID: 21300018, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    - {fileID: 21300026, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    AnimationFrames: 000000000100000002000000
-    Simple: 0
-    SimpleResetDirection: 0
-    IsDeathAnimation: 0
-    Speed: 0.2
-    ComplexAnimationIndex: 00000000010000000200000002000000
-  - Sprites:
-    - {fileID: 21300012, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    - {fileID: 21300020, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    - {fileID: 21300028, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    AnimationFrames: 000000000100000002000000
-    Simple: 0
-    SimpleResetDirection: 0
-    IsDeathAnimation: 0
-    Speed: 0.2
-    ComplexAnimationIndex: 00000000010000000200000002000000
-  - Sprites:
-    - {fileID: 21300016, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    - {fileID: 21300022, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    - {fileID: 21300030, guid: 2ea74600231aed749abb753a4e510f48, type: 3}
-    AnimationFrames: 000000000100000002000000
-    Simple: 0
-    SimpleResetDirection: 0
-    IsDeathAnimation: 0
-    Speed: 0.2
-    ComplexAnimationIndex: 00000000010000000200000002000000
---- !u!114 &5083886736440002245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4827737755655954553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daf23b0769d51a845ae64380380f9bda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AnimatorElement: 1
-  LoopEvery: 2
