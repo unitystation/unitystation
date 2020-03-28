@@ -21,12 +21,9 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private bool isOn = false;
 
-	public float maxMagnitude = 80;
-	public float mediumMagnitude = 40;
+	public float maxMagnitude = 50;
+	public float mediumMagnitude = 20;
 	public float closeMagnitude = 10;
-
-	[SyncVar(hook = nameof(SyncSheetVariant))]
-	private int spriteSheetVariant;
 
 	[SyncVar(hook = nameof(SyncVariant))]
 	private int spriteVariant;
@@ -53,34 +50,32 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	{
 		
 		float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-		if (CheckDistance(moveDirection))
-		{
-			AngleUpdate(angle);
-		}
+		CheckDistance(moveDirection,angle);
 	}
-	private bool CheckDistance(Vector3 moveDirection)
+	private void CheckDistance(Vector3 moveDirection, float angle)
 	{
 		if (moveDirection.magnitude > mediumMagnitude)
 		{
-			ServerChangeSpriteSheetVariant(4);
-
+			spriteHandler.ChangeSprite(4);
+			AngleUpdate(angle);
 		}
 		else if (moveDirection.magnitude > closeMagnitude)
 		{
-			ServerChangeSpriteSheetVariant(1);
+			spriteHandler.ChangeSprite(1);
+			AngleUpdate(angle);
+		}
+		else if (moveDirection == Vector3.zero)
+		{
+			spriteHandler.ChangeSprite(3);
+			ServerChangeSpriteVariant(0);
+			
 		}
 		else if (moveDirection.magnitude < closeMagnitude)
 		{
-			if (moveDirection == Vector3.zero)
-			{
-				ServerChangeSpriteVariant(0);
-				ServerChangeSpriteSheetVariant(3);
-				return false;
-			}
-			ServerChangeSpriteSheetVariant(2);
-
+			spriteHandler.ChangeSprite(2);
+			AngleUpdate(angle);
 		}
-		return true;
+		
 	}
 	private void AngleUpdate(float angle)
 	{
@@ -123,14 +118,6 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		}
 
 	}
-
-	private void SyncSheetVariant(int oldSheetVar, int newSheetVar)
-	{
-		spriteSheetVariant = newSheetVar;
-		spriteHandler.ChangeSprite(spriteSheetVariant);
-
-	}
-
 	private void SyncVariant(int oldVar, int newVar)
 	{
 		spriteVariant = newVar;
@@ -147,19 +134,10 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-			if(objectToTrack == null)
-			{
-				objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
-			}
-			ServerChangeSpriteVariant(0);
-			ServerChangeSpriteSheetVariant(0);
+			spriteHandler.ChangeSprite(0);
+			ServerChangeSpriteVariant(1);
+			pick.RefreshUISlotImage();
 			isOn = !isOn;		
-	}
-
-	[Server]
-	private void ServerChangeSpriteSheetVariant(int newSheetVar)
-	{
-		spriteSheetVariant = newSheetVar;
 	}
 
 	[Server]
@@ -170,7 +148,6 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	protected virtual void UpdateMe()
 	{
 		timeElapsedSprite += Time.deltaTime;
-		timeElapsedIcon += Time.deltaTime;
 		if (timeElapsedSprite > timeWait)
 		{
 			if (isOn)
@@ -180,7 +157,8 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 			}
 			timeElapsedSprite = 0;
 		}
-		if (isOn && timeElapsedIcon > 0.2f)
+		timeElapsedIcon += Time.deltaTime;
+		if (timeElapsedIcon > 0.2f)
 		{
 				pick.RefreshUISlotImage();
 				timeElapsedIcon = 0;
