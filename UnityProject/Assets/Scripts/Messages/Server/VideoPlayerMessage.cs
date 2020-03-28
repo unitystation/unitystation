@@ -5,7 +5,7 @@
 /// </summary>
 public class VideoPlayerMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.VideoPlayerMessage;
+	public override short MessageType => (short) MessageTypes.VideoPlayerMessage;
 	public VideoType VideoToPlay;
 
 	public override IEnumerator Process()

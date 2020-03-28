@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RequestChangeVariableNetMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestChangeVariableNetMessage;
+	public override short MessageType => (short) MessageTypes.RequestChangeVariableNetMessage;
 	public string newValue;
 	public ulong PageID;
 	public bool IsNewBookshelf = false;

@@ -9,6 +9,7 @@ using UnityEngine;
 public class ChatBubble : MonoBehaviour
 {
 	[SerializeField] private Transform target;
+	public Transform Target => target;
 	private Camera cam;
 
 	[SerializeField]
@@ -127,6 +128,11 @@ public class ChatBubble : MonoBehaviour
 		UpdateManager.Remove(CallbackType.FIXED_UPDATE, UpdateMe);
 	}
 
+	public void AppendToBubble(string newMessage, ChatModifier chatModifier = ChatModifier.None)
+	{
+		QueueMessages(newMessage, chatModifier);
+	}
+
 	/// <summary>
 	/// Set and enable this ChatBubble
 	/// </summary>
@@ -139,7 +145,14 @@ public class ChatBubble : MonoBehaviour
 
 		gameObject.SetActive(true);
 		target = _target;
+		QueueMessages(msg, chatModifier);
 
+		cancelSource = new CancellationTokenSource();
+		if (!showingDialogue) StartCoroutine(ShowDialogue(cancelSource.Token));
+	}
+
+	private void QueueMessages(string msg, ChatModifier chatModifier = ChatModifier.None)
+	{
 		if (msg.Length > maxMessageLength)
 		{
 			while (msg.Length > maxMessageLength)
@@ -174,8 +187,6 @@ public class ChatBubble : MonoBehaviour
 
 		// Progress quickly through the queue if there is a lot of text left.
 		displayTimeMultiplier = 1 + TimeToShow(msgQueue) * displayTimeMultiplierPerSecond;
-		cancelSource = new CancellationTokenSource();
-		if (!showingDialogue) StartCoroutine(ShowDialogue(cancelSource.Token));
 	}
 
 	IEnumerator ShowDialogue(CancellationToken cancelToken)

@@ -5,7 +5,7 @@ using Mirror;
 
 public class RequestGameActionSO : ClientMessage
 {
-	public static short MessageType = (short)MessageTypes.RequestGameActionSO;
+	public override short MessageType => (short)MessageTypes.RequestGameActionSO;
 	public ushort soID;
 
 	public override IEnumerator Process()
@@ -20,7 +20,7 @@ public class RequestGameActionSO : ClientMessage
 
 	public static RequestGameActionSO Send(UIActionScriptableObject uIActionScriptableObject)
 	{
-		
+
 		RequestGameActionSO msg = new RequestGameActionSO
 		{
 			soID = UIActionSOSingleton.ActionsTOID[uIActionScriptableObject]

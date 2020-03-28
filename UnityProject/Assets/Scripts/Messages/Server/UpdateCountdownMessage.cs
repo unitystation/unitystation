@@ -5,7 +5,7 @@
 /// </summary>
 public class UpdateCountdownMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateCountdownMessage;
+	public override short MessageType => (short) MessageTypes.UpdateCountdownMessage;
 	public bool Started;
 	public float Time;
 

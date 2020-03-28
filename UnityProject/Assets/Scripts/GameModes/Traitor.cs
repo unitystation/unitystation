@@ -70,11 +70,9 @@ public class Traitor : GameMode
 
 		for (int i = 0; i < TraitorAmount - 1; i++) {
 			return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
-					&& AntagManager.Instance.AntagCount == 0
 					&& PlayerList.Instance.InGamePlayers.Count > 0;
 		}
 		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
-					&& AntagManager.Instance.AntagCount == 0
 					&& PlayerList.Instance.InGamePlayers.Count > 0;
 	}
 }

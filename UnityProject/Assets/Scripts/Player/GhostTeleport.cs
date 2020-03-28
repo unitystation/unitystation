@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +43,7 @@ public class GhostTeleport : MonoBehaviour
 		Count = 0;
 		var PlayerBodies = FindObjectsOfType(typeof(PlayerScript));
 
-		if (PlayerBodies == null | PlayerBodies.Count() == 0)//If list of PlayerScripts is empty dont run rest of code.
+		if (PlayerBodies == null)//If list of PlayerScripts is empty dont run rest of code.
 		{
 		}
 		else
@@ -119,7 +118,7 @@ public class GhostTeleport : MonoBehaviour
 
 		var placeGameObjects = FindObjectsOfType(typeof(SpawnPoint));
 
-		if (placeGameObjects == null | placeGameObjects.Count() == 0)//If list of SpawnPoints is empty dont run rest of code.
+		if (placeGameObjects == null)//If list of SpawnPoints is empty dont run rest of code.
 		{
 		}
 		else

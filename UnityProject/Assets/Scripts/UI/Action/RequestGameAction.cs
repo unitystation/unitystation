@@ -9,7 +9,7 @@ using System.Reflection;
 
 public class RequestGameAction : ClientMessage
 {
-	public static short MessageType = (short)MessageTypes.RequestGameAction;
+	public override short MessageType => (short)MessageTypes.RequestGameAction;
 
 	public int ComponentLocation;
 	public uint NetObject;
@@ -32,7 +32,7 @@ public class RequestGameAction : ClientMessage
 			componentTypeToComponentID.Add(componentType, i);
 			i++;
 		}
-	
+
 	}
 
 

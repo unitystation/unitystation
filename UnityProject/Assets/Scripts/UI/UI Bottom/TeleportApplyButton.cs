@@ -7,13 +7,16 @@ public class TeleportApplyButton : MonoBehaviour
 	private int X;
 	private int Y;
 
+	[SerializeField] private GameObject XCoordinate = null;
+	[SerializeField] private GameObject YCoordinate = null;
+
 	public void OnClick()
 	{
 		//grabs input field of x
-		var x = gameObject.transform.parent.Find("XCoordinate").gameObject.transform.GetComponent<TeleportXCoordinate>().XCoordinate.text;
+		var x = XCoordinate.GetComponent<TeleportXCoordinate>().XCoordinate.text;
 
 		//grabs input field of y
-		var y = gameObject.transform.parent.Find("YCoordinate").gameObject.transform.GetComponent<TeleportYCoordinate>().YCoordinate.text;
+		var y = YCoordinate.GetComponent<TeleportYCoordinate>().YCoordinate.text;
 
 		//Checks thats theres something in it
 		if (x != "" && y != "")
