@@ -16,15 +16,15 @@ public class Traitor : GameMode
 		Logger.Log("Setting up traitor round!", Category.GameMode);
 
 		//Populates traitors based on server population
-		if (PlayerList.Instance.InGamePlayers.Count <= 150 && PlayerList.Instance.InGamePlayers.Count >= 50)
+		if (PlayerList.Instance.InGamePlayers.Count >= 50)
 		{
 			TraitorAmount = 5;
 		}
-		else if (PlayerList.Instance.InGamePlayers.Count < 50 && PlayerList.Instance.InGamePlayers.Count >= 30)
+		else if (PlayerList.Instance.InGamePlayers.Count >= 30)
 		{
 			TraitorAmount = 4;
 		}
-		else if (PlayerList.Instance.InGamePlayers.Count < 30 && PlayerList.Instance.InGamePlayers.Count >= 15)
+		else if (PlayerList.Instance.InGamePlayers.Count >= 15)
 		{
 			TraitorAmount = 2;
 		}
