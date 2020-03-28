@@ -78,7 +78,6 @@ public class Traitor : GameMode
 
 		for (int i = 1; i < TraitorAmount; i++) {
 			return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
-					&& AntagManager.Instance.AntagCount == TraitorAmount
 					&& PlayerList.Instance.InGamePlayers.Count > 0;
 		}
 		return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
