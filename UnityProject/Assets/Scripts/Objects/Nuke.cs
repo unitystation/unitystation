@@ -21,6 +21,10 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		get { return nukeSlot; }
 	}
+	[SerializeField]
+	private bool isAncharable = true;
+
+	public bool IsAncharable => isAncharable;
 
 	private bool isSafetyOn = true;
 
@@ -30,6 +34,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool IsCodeRight => isCodeRight;
 
+	public float explosionRadius = 1500;
 	[SerializeField]
 	private int minTimer = 270;
 	private bool isTimer = false;
@@ -80,6 +85,8 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		nukeCode = Random.Range(1000, 9999);
 		Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
+		Debug.Log(MatrixManager.MainStationMatrix.InitialOffset.ToString());
+		Debug.Log((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.InitialOffset).magnitude.ToString());
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -103,14 +110,21 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void Detonate()
 	{
-
-		detonated = true;
-		//if yes, blow up the nuke
-		RpcDetonate();
-		//Kill Everyone in the universe
-		//FIXME kill only people on the station matrix that the nuke was detonated on
-		StartCoroutine(WaitForDeath());
-		GameManager.Instance.RespawnCurrentlyAllowed = false;
+		if((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer()).magnitude < explosionRadius)
+		{
+			detonated = true;
+			//if yes, blow up the nuke
+			RpcDetonate();
+			//Kill Everyone in the universe
+			//FIXME kill only people on the station matrix that the nuke was detonated on
+			StartCoroutine(WaitForDeath());
+			GameManager.Instance.RespawnCurrentlyAllowed = false;
+		}
+		else
+		{
+			GameManager.Instance.EndRound();
+		}
+		
 	}
 
 	//Server telling the nukes to explode
@@ -165,8 +179,9 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 				{
 					GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 					this.TryStopCoroutine(ref timerHandle);
+					isTimerTicking = false;
 				}
-				isTimer = false;	
+				isTimer = false;
 			}
 			isSafetyOn = !isSafetyOn;
 			return isSafetyOn;
@@ -211,7 +226,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public bool? Validate()
 	{
-		if (isCodeRight && isTimer)
+		if (isCodeRight && isTimer && !isTimerTicking)
 		{
 			if(currentCode == "")
 			{

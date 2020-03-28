@@ -16,6 +16,7 @@ public class GUI_NukeWindow : NetTab
 	private string InitialInfoText;
 
 	private const string colorGreen = "008000",
+						 colorGrey = "FFFFFF",
 						 colorRed = "FF0000";
 
 	private NetUIElement infoTimerDisplay;
@@ -152,6 +153,10 @@ public class GUI_NukeWindow : NetTab
 			//	Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
 			InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
 			InfoNukeDisplay.SetValue = "Insert the disk!";
+			if(!Nuke.IsAncharable)
+			{
+				InfoAnchorColor.SetValue = colorGrey;
+			}
 			
 		}
 	}
@@ -196,6 +201,10 @@ public class GUI_NukeWindow : NetTab
 
 	public void AnchorNukeButton()
 	{
+		if(!Nuke.IsAncharable)
+		{
+			return;
+		}
 		if (nuke.NukeSlot.IsEmpty)
 		{
 			this.TryStopCoroutine(ref corHandler);
@@ -250,12 +259,19 @@ public class GUI_NukeWindow : NetTab
 		}
 		if (Nuke.AppendKey(digit))
 		{
-
-			int length = Nuke.CurrentCode.Length;
-			//replace older digits with asterisks
-			string newDigit = Nuke.CurrentCode.Substring(length <= 0 ? 0 : length - 1);
-			CodeDisplay.SetValue = newDigit.PadLeft(length, '*');
-			StartCoroutine(HideCode());
+			
+			if (!Nuke.IsCodeRight)
+			{
+				int length = Nuke.CurrentCode.Length;
+				//replace older digits with asterisks
+				string newDigit = Nuke.CurrentCode.Substring(length <= 0 ? 0 : length - 1);
+				CodeDisplay.SetValue = newDigit.PadLeft(length, '*');
+				StartCoroutine(HideCode());
+			}
+			else
+			{
+				CodeDisplay.SetValue = Nuke.CurrentCode;
+			}
 
 		}
 	}
