@@ -1,12 +1,17 @@
 using UnityEngine;
 using Antagonists;
 using System.Collections.Generic;
+using System;
 
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
 public class Traitor : GameMode
 {
-	
-	private float TraitorAmount = 0;
+
+	[Tooltip("Ratio of traitors to player count. A value of 0.2 means there would be " +
+			 "2 traitors when there are 10 players.")]
+	[Range(0, 1)]
+	[SerializeField]
+	private float TraitorRatio;
 
 	/// <summary>
 	/// Set up the station for the game mode
@@ -14,30 +19,6 @@ public class Traitor : GameMode
 	public override void SetupRound()
 	{
 		Logger.Log("Setting up traitor round!", Category.GameMode);
-
-		//Populates traitors based on server population
-		if (PlayerList.Instance.InGamePlayers.Count >= 50)
-		{
-			TraitorAmount = 5;
-		}
-		else if (PlayerList.Instance.InGamePlayers.Count >= 30)
-		{
-			TraitorAmount = 4;
-		}
-		else if (PlayerList.Instance.InGamePlayers.Count >= 24)
-		{
-			TraitorAmount = 3;
-		}
-		else if (PlayerList.Instance.InGamePlayers.Count >= 15)
-		{
-			TraitorAmount = 2;
-		}
-		else
-		{
-			TraitorAmount = 1;
-		}
-
-
 	}
 	/// <summary>
 	/// Begin the round
@@ -75,9 +56,9 @@ public class Traitor : GameMode
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-
+			// Populates traitors based on the ratio set
 			return !LoyalImplanted.Contains(spawnRequest.RequestedOccupation.JobType)
-					&& AntagManager.Instance.AntagCount <= TraitorAmount
+					&& AntagManager.Instance.AntagCount <= Math.Floor(PlayerList.Instance.InGamePlayers.Count * TraitorRatio)
 					&& PlayerList.Instance.InGamePlayers.Count > 0;
 
 	}
