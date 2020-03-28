@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class MobAnimator : MonoBehaviour
 {
-	private IDictionary<int, Tuple<Sprite[], bool, bool, float, List<int>>> LoadedSprites = new Dictionary<int, Tuple<Sprite[], bool, bool, float, List<int>>>();
+	private IDictionary<int, Tuple<Sprite[], bool, bool, bool, float, List<int>>> LoadedSprites = new Dictionary<int, Tuple<Sprite[], bool, bool, bool, float, List<int>>>();
 	//string is spritepath, list is sprite list
 
 	private int Count = 0;
@@ -18,11 +18,11 @@ public class MobAnimator : MonoBehaviour
 
 	private NPCDirectionalSprites npcDirectionalSprite;
 
+	private SimpleAnimal simpleAnimal;
+
 	private LivingHealthBehaviour livingHealthBehaviour;
 
-	private int CurrentAnimationFrame;
-
-	private Tuple<Sprite[], bool, bool, float, List<int>> NewSprites;
+	private Tuple<Sprite[], bool, bool, bool, float, List<int>> NewSprites;
 
 	/// <summary>
 	/// The different types of animations this mob has
@@ -47,6 +47,10 @@ public class MobAnimator : MonoBehaviour
 		/// </summary>
 		public bool SimpleResetDirection = false;
 		/// <summary>
+		/// Death Animation, ignores death checks
+		/// </summary>
+		public bool IsDeathAnimation = false;
+		/// <summary>
 		/// Speed of how long to next frame in animation
 		/// </summary>
 		public float Speed = 0.2f;
@@ -66,10 +70,12 @@ public class MobAnimator : MonoBehaviour
 
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
 
+		simpleAnimal = GetComponent<SimpleAnimal>();
+
 		foreach (var AnimationEntry in Animations)
 		{
 			if (AnimationEntry.Sprites == null) return;
-			LoadedSprites.Add(Count, new Tuple<Sprite[], bool, bool, float, List<int>>(AnimationEntry.Sprites, AnimationEntry.Simple, AnimationEntry.SimpleResetDirection, AnimationEntry.Speed, AnimationEntry.ComplexAnimationIndex));
+			LoadedSprites.Add(Count, new Tuple<Sprite[], bool, bool, bool, float, List<int>>(AnimationEntry.Sprites, AnimationEntry.Simple, AnimationEntry.SimpleResetDirection, AnimationEntry.IsDeathAnimation, AnimationEntry.Speed, AnimationEntry.ComplexAnimationIndex));
 			Count += 1;
 		}
 	}
@@ -80,7 +86,7 @@ public class MobAnimator : MonoBehaviour
 
 		var spritesToUse = LoadedSprites[Index];
 
-		if (spritesToUse.Item4 == 0) return; //if animation speed if 0
+		if (spritesToUse.Item5 == 0) return; //if animation speed if 0
 
 		var animationLength = spritesToUse.Item1.Length;
 
@@ -101,7 +107,7 @@ public class MobAnimator : MonoBehaviour
 	/// <param name="spritesToUse">Tuple containing data</param>
 	/// <param name="animationLength">Animation length</param>
 	/// <returns></returns>
-	private IEnumerator SimplePlayAnimation(Tuple<Sprite[], bool, bool, float, List<int>> spritesToUse, int animationLength)
+	private IEnumerator SimplePlayAnimation(Tuple<Sprite[], bool, bool, bool, float, List<int>> spritesToUse, int animationLength)
 	{
 		if (animationLength > 0)
 		{
@@ -110,7 +116,7 @@ public class MobAnimator : MonoBehaviour
 
 			for (int i = 0; i < animationLength; i++)
 			{
-				if (livingHealthBehaviour.IsDead) yield break;//makes sure sprite hasnt changed due to death
+				if (livingHealthBehaviour.IsDead && spritesToUse.Item4 == false) yield break;//makes sure sprite hasnt changed due to death
 
 				if (npcDirectionalSprite.CurrentFacingDirection != startingDirection && spritesToUse.Item3 == true)// resets direction if changed
 				{
@@ -119,12 +125,16 @@ public class MobAnimator : MonoBehaviour
 
 				spriteRender.sprite = spritesToUse.Item1[i];// change sprite to new sprite
 
-				yield return WaitFor.Seconds(spritesToUse.Item4 / 2);
+				yield return WaitFor.Seconds(spritesToUse.Item5 / 2);
 			}
 
-			yield return WaitFor.Seconds(spritesToUse.Item4 / 2);
+			yield return WaitFor.Seconds(spritesToUse.Item5 / 2);
 
-			if (livingHealthBehaviour.IsDead) yield break;
+			if (livingHealthBehaviour.IsDead)//another death check
+			{
+				spriteRender.sprite = simpleAnimal.deadSprite;
+				yield break;
+			}
 
 			//RESETING SPRITE TO CURRENT DIRECTION SPRITE, animation is over
 
@@ -143,19 +153,19 @@ public class MobAnimator : MonoBehaviour
 	/// <param name="spritesToUse">Tuple containing data</param>
 	/// <param name="animationLength">Animation length</param>
 	/// <returns></returns>
-	private IEnumerator PlayAnimation(Tuple<Sprite[], bool, bool, float, List<int>> spritesToUse, int animationLength, int start = 0)
+	private IEnumerator PlayAnimation(Tuple<Sprite[], bool, bool, bool, float, List<int>> spritesToUse, int animationLength, int start = 0)
 	{
-		if (animationLength > 0 && spritesToUse.Item5.Count == 4)
+		if (animationLength > 0 && spritesToUse.Item6.Count == 4)
 		{
 			var startingSprite = spriteRender.sprite;
 			var startingDirection = npcDirectionalSprite.CurrentFacingDirection;
-			var animationIndex = spritesToUse.Item5;
+			var animationIndex = spritesToUse.Item6;
 
 			NewSprites = spritesToUse;
 
 			for (int i = start; i < animationLength; i++)
 			{
-				if (livingHealthBehaviour.IsDead) yield break;//makes sure sprite hasnt changed due to death
+				if (livingHealthBehaviour.IsDead && spritesToUse.Item4 == false) yield break;//makes sure sprite hasnt changed due to death
 				if (i > 0 && spriteRender.sprite != NewSprites.Item1[i - 1])
 				{
 					var currentDirection = npcDirectionalSprite.CurrentFacingDirection;
@@ -184,18 +194,20 @@ public class MobAnimator : MonoBehaviour
 					spriteRender.sprite = NewSprites.Item1[i];// change sprite to new sprite
 				}
 
-				CurrentAnimationFrame = i;// for use when getting new animation based off direction
-
-				yield return WaitFor.Seconds(spritesToUse.Item4 / 2);
+				yield return WaitFor.Seconds(spritesToUse.Item5 / 2);
 			}
 
-			yield return WaitFor.Seconds(spritesToUse.Item4 / 2);
+			yield return WaitFor.Seconds(spritesToUse.Item5 / 2);
 
 			//RESETING SPRITE TO CURRENT DIRECTION SPRITE, animation is over
 
-			if (livingHealthBehaviour.IsDead) yield break; //another death check
+			if (livingHealthBehaviour.IsDead)//another death check
+			{
+				spriteRender.sprite = simpleAnimal.deadSprite;
+				yield break;
+			}
 
-			if (npcDirectionalSprite.CurrentFacingDirection == startingDirection)
+			if (npcDirectionalSprite.CurrentFacingDirection == startingDirection)//If Direction is the same as the direction at start of animation
 			{
 				spriteRender.sprite = startingSprite;
 			}
