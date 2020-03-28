@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
@@ -124,11 +124,12 @@ namespace Lobby
 
 		public void RollRandomCharacter()
 		{
-			currentCharacter.Gender = (Gender)UnityEngine.Random.Range(0, 2);
-
-			// Repopulate underwear and facialhair dropdown boxes incase gender changes
-			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
-			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
+			// Randomise gender
+			var changeGender = (UnityEngine.Random.Range(0, 2) == 0);
+			if (changeGender)
+			{
+				OnGenderChange();
+			}
 
 			// Select a random value from each dropdown
 			hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
@@ -167,7 +168,7 @@ namespace Lobby
 			PopulateDropdown(CustomisationType.Socks, socksDropdown);
 		}
 
-		private void PopulateDropdown(CustomisationType type, Dropdown itemDropdown, bool constrainGender = false)
+		private void PopulateDropdown(CustomisationType type, Dropdown itemDropdown)
 		{
 			var itemCollection = PlayerCustomisationDataSOs.Instance.GetAll(type);
 
@@ -179,19 +180,11 @@ namespace Lobby
 
 			foreach (var item in itemCollection)
 			{
-				// Check if options are being constrained by gender, only add valid gender options if so
-				if (constrainGender)
-				{
-					if (item.gender == currentCharacter.Gender || item.gender == Gender.Neuter)
-					{
-						itemOptions.Add(item.Name);
-					}
-				}
-				else
+				// Only add options that match current gender or are Neuter
+				if (item.gender == currentCharacter.Gender || item.gender == Gender.Neuter)
 				{
 					itemOptions.Add(item.Name);
 				}
-
 			}
 			itemOptions.Sort();
 			// Ensure "None" is at the top of the option lists
@@ -221,6 +214,8 @@ namespace Lobby
 			{
 				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.UI);
 				itemDropdown.value = 0;
+				// Needs to be called manually since value is probably already 0, so onValueChanged might not be invoked
+				itemDropdown.onValueChanged.Invoke(0);
 			}
 		}
 
@@ -384,8 +379,8 @@ namespace Lobby
 			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
 
 			// Set underwear and facial hair to default setting (None)
-			SetDropdownValue(underwearDropdown, "None");
-			SetDropdownValue(facialHairDropdown, "None");
+			FacialHairDropdownChange(0);
+			UnderwearDropdownChange(0);
 
 			RefreshGender();
 		}
@@ -477,12 +472,11 @@ namespace Lobby
 
 		private void RefreshHair()
 		{
-			hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
-				PlayerCustomisationDataSOs.Instance.Get(
-					CustomisationType.HairStyle,
-					currentCharacter.HairStyleName
-				).Equipped
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.HairStyle,
+				currentCharacter.HairStyleName
 			);
+			hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			hairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.HairColor, out setColor);
@@ -502,13 +496,13 @@ namespace Lobby
 
 		private void RefreshFacialHair()
 		{
-			facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
-				PlayerCustomisationDataSOs.Instance.Get(
-					CustomisationType.FacialHair,
-					currentCharacter.FacialHairName
-				).Equipped
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.FacialHair,
+				currentCharacter.FacialHairName
 			);
+			facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			facialHairSpriteController.UpdateSprite();
+
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.FacialHairColor, out setColor);
 			facialHairSpriteController.image.color = setColor;
@@ -578,12 +572,11 @@ namespace Lobby
 		}
 		private void RefreshUnderwear()
 		{
-			underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
-				PlayerCustomisationDataSOs.Instance.Get(
-					CustomisationType.Underwear,
-					currentCharacter.UnderwearName
-				).Equipped
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.Underwear,
+				currentCharacter.UnderwearName
 			);
+			underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			underwearSpriteController.UpdateSprite();
 		}
 
@@ -598,12 +591,11 @@ namespace Lobby
 		}
 		private void RefreshSocks()
 		{
-			socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
-				PlayerCustomisationDataSOs.Instance.Get(
-					CustomisationType.Socks,
-					currentCharacter.SocksName
-				).Equipped
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.Socks,
+				currentCharacter.SocksName
 			);
+			socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			socksSpriteController.UpdateSprite();
 		}
 

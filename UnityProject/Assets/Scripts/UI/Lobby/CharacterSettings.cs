@@ -22,7 +22,7 @@ public class CharacterSettings
 	public string SkinTone = "#ffe0d1";
 	public string UnderwearName = "Mankini";
 	public string SocksName = "Knee-High (Freedom)";
-	public JobPrefsDict JobPreferences;
+	public JobPrefsDict JobPreferences = new JobPrefsDict();
 
 	/// <summary>
 	/// Does nothing if all the character's properties are valid

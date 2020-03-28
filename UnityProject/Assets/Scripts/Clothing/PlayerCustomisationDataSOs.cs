@@ -10,11 +10,11 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 
 	/// <summary>
 	/// Returns a PlayerCustomisationData using the type and name.
-	/// Will cause an exception if one isn't found.
+	/// Returns null if not found.
 	/// </summary>
 	public PlayerCustomisationData Get(CustomisationType type, string customisationName)
 	{
-		return DataPCD.First(data => data.Type == type && data.Name == customisationName);
+		return DataPCD.FirstOrDefault(data => data.Type == type && data.Name == customisationName);
 	}
 
 	/// <summary>
