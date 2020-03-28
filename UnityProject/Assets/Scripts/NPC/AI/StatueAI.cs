@@ -17,6 +17,7 @@ public class StatueAI : MobAI
 	private float moveWaitTime = 0f;
 	private float searchWaitTime = 0f;
 	private LayerMask hitMask;
+	private LayerMask npcMask;
 	private int playersLayer;
 	private bool DeathSoundPlayed = false;
 
@@ -33,15 +34,25 @@ public class StatueAI : MobAI
 	{
 		None,
 		Searching,
-		Attacking
+		Attacking,
+		Frozen
 	}
 
 	public StatueStatus status;
+
+	private readonly Dictionary<Vector2, Orientation> OppositeFacing = new Dictionary<Vector2, Orientation>()
+	{
+		{Vector2.up, Orientation.Down},
+		{Vector2.down, Orientation.Up},
+		{Vector2.right, Orientation.Left},
+		{Vector2.left, Orientation.Right}
+	};
 
 	public override void OnEnable()
 	{
 		base.OnEnable();
 		hitMask = LayerMask.GetMask("Walls", "Players");
+		npcMask = LayerMask.GetMask("Walls", "NPC");
 		playersLayer = LayerMask.NameToLayer("Players");
 		mobAttack = GetComponent<MobMeleeAttack>();
 		coneOfSight = GetComponent<ConeOfSight>();
@@ -56,11 +67,68 @@ public class StatueAI : MobAI
 		BeginSearch();
 	}
 
-	//Sets a random time when a search should take place
-	void BeginSearch()
+	protected override void UpdateMe()
 	{
-		searchWaitTime = 0f;
-		status = StatueStatus.Searching;
+		base.UpdateMe();
+
+		if (DeadMonitor()) return;
+		StatusLoop();
+	}
+
+	bool DeadMonitor()
+	{
+		if (!isServer) return true;
+		if (IsDead || IsUnconscious)
+		{
+			if(IsDead && !DeathSoundPlayed && DeathSounds.Count > 0)
+			{
+				DeathSoundPlayed = true;
+				SoundManager.PlayNetworkedAtPos(
+					DeathSounds[Random.Range(0, DeathSounds.Count -1)],
+					transform.position,
+					Random.Range(0.9f, 1.1f),
+					sourceObj: gameObject);
+
+					return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	void StatusLoop()
+	{
+		if (status == StatueStatus.Frozen || status == StatueStatus.Attacking)
+		{
+			MonitorIdleness();
+			return;
+		}
+
+		if (status == StatueStatus.Searching)
+		{
+			moveWaitTime += Time.deltaTime;
+			if (moveWaitTime >= movementTickRate)
+			{
+				moveWaitTime = 0f;
+				DoRandomMove();
+			}
+
+			searchWaitTime += Time.deltaTime;
+			if (searchWaitTime >= searchTickRate)
+			{
+				searchWaitTime = 0f;
+				var findTarget = SearchForTarget();
+				if (findTarget != null)
+				{
+					BeginAttack(findTarget);
+				}
+				else
+				{
+					BeginSearch();
+				}
+			}
+		}		
 	}
 
 	GameObject SearchForTarget()
@@ -83,12 +151,30 @@ public class StatueAI : MobAI
 		return null;
 	}
 
+	bool IsSomeoneLookingAtMe()
+	{
+		var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
+		if (hits.Count == 0) return false;
+
+		foreach (Collider2D coll in hits)
+		{
+			if (coll.gameObject.layer == playersLayer
+				&& coll.gameObject.GetComponent<Directional>().CurrentDirection == OppositeFacing[dirSprites.CurrentFacingDirection])
+			{
+				Freeze();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	//The statue has heard something!!
 	public override void LocalChatReceived(ChatEvent chatEvent)
 	{
 		if (chatEvent.originator == null) return;
 
-		if (status == StatueStatus.Searching || status == StatueStatus.None)
+		if (status == StatueStatus.Searching)
 		{
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
@@ -168,54 +254,6 @@ public class StatueAI : MobAI
 		movementTickRate = Random.Range(1f, 3f);
 	}
 
-	protected override void UpdateMe()
-	{
-		base.UpdateMe();
-
-		if (!isServer) return;
-
-		if (IsDead || IsUnconscious)
-		{
-			if (IsDead && !DeathSoundPlayed && DeathSounds.Count > 0)
-			{
-				DeathSoundPlayed = true;
-				SoundManager.PlayNetworkedAtPos(DeathSounds[Random.Range(0, DeathSounds.Count - 1)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-			}
-
-			return;
-		}
-
-		if (status == StatueStatus.Searching)
-		{
-			moveWaitTime += Time.deltaTime;
-			if (moveWaitTime >= movementTickRate)
-			{
-				moveWaitTime = 0f;
-				DoRandomMove();
-			}
-
-			searchWaitTime += Time.deltaTime;
-			if (searchWaitTime >= searchTickRate)
-			{
-				searchWaitTime = 0f;
-				var findTarget = SearchForTarget();
-				if (findTarget != null)
-				{
-					BeginAttack(findTarget);
-				}
-				else
-				{
-					BeginSearch();
-				}
-			}
-		}
-
-		if (status == StatueStatus.Attacking || status == StatueStatus.None)
-		{
-			MonitorIdleness();
-		}
-	}
-
 	void PlaySound()
 	{
 		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0)
@@ -223,7 +261,9 @@ public class StatueAI : MobAI
 			var num = Random.Range(1, 5);
 			if (num == 1)
 			{
-				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(0, GenericSounds.Count - 1)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(
+					GenericSounds[Random.Range(0, GenericSounds.Count - 1)],
+					transform.position, Random.Range(0.9f, 1.1f),sourceObj: gameObject);
 			}
 			Invoke("PlaySound", PlaySoundTime);
 		}
@@ -232,16 +272,45 @@ public class StatueAI : MobAI
 	//Determine if mob has become idle:
 	void MonitorIdleness()
 	{
-		if (!mobAttack.performingDecision && mobAttack.followTarget == null)
+		if (!mobAttack.performingDecision && mobAttack.followTarget == null && !IsSomeoneLookingAtMe())
 		{
 			BeginSearch();
 		}
 	}
 
+	void BeginSearch()
+	{
+		searchWaitTime = 0f;
+		status = StatueStatus.Searching;
+	}
+
+	void Freeze()
+	{
+		ResetBehaviours();
+		status = StatueStatus.Frozen;
+		mobAttack.followTarget = null;
+	}
+
 	void BeginAttack(GameObject target)
 	{
+		ResetBehaviours();
 		status = StatueStatus.Attacking;
-		FollowTarget(target.transform);
+		StartCoroutine(StatueStalk(target.transform));
+	}
+
+	IEnumerator StatueStalk(Transform stalked)
+	{	
+		while (!IsSomeoneLookingAtMe())
+		{
+			if(mobAttack.followTarget == null)
+			{
+				FollowTarget(stalked);
+			}
+			yield return WaitFor.Seconds(searchTickRate);
+		}
+
+		Freeze();
+		yield break;
 	}
 
 	protected override void ResetBehaviours()
