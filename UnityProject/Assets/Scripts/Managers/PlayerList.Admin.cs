@@ -287,7 +287,7 @@ public partial class PlayerList
 
 
 		//banlist checking:
-		var banEntry = banList?.CheckForEntry(userid, playerConn.Connection.address);
+		var banEntry = banList?.CheckForEntry(userid, playerConn.Connection.address, playerConn.DeviceId);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
@@ -424,7 +424,8 @@ public partial class PlayerList
 				minutes = banLengthInMinutes,
 				reason = reason,
 				dateTimeOfBan = DateTime.Now.ToString("O"),
-				ipAddress = connPlayer.Connection.address
+				ipAddress = connPlayer.Connection.address,
+				deviceId = connPlayer.DeviceId
 			});
 
 			File.WriteAllText(banPath, JsonUtility.ToJson(banList));
@@ -464,18 +465,22 @@ public class BanList
 {
 	public List<BanEntry> banEntries = new List<BanEntry>();
 
-	public BanEntry CheckForEntry(string userId, string ipAddress)
+	public BanEntry CheckForEntry(string userId, string ipAddress, string deviceId)
 	{
 		var index = banEntries.FindIndex(x => x.userId == userId);
 		if (index == -1)
 		{
 			var ipIndex = banEntries.FindIndex(x => x.ipAddress == ipAddress);
-			if (ipIndex != -1)
+			if (ipIndex == -1)
 			{
-				return banEntries[ipIndex];
+				var deviceIndex = banEntries.FindIndex(x => x.deviceId == deviceId);
+				if (deviceIndex != -1)
+				{
+					return banEntries[deviceIndex];
+				}
 			}
 
-			return null;
+			return banEntries[ipIndex];
 		}
 
 		return banEntries[index];
@@ -490,4 +495,5 @@ public class BanEntry
 	public string dateTimeOfBan;
 	public string reason;
 	public string ipAddress;
+	public string deviceId;
 }
