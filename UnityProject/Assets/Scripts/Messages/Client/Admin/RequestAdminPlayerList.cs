@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class RequestAdminPlayerList : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestAdminPlayerList;
+	public override short MessageType => (short) MessageTypes.RequestAdminPlayerList;
 
 	public string Userid;
 	public string AdminToken;

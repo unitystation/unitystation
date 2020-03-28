@@ -6,7 +6,7 @@ using Mirror;
 
 public class RequestAdminBwoink : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestAdminBwoink;
+	public override short MessageType => (short) MessageTypes.RequestAdminBwoink;
 
 	public string Userid;
 	public string AdminToken;

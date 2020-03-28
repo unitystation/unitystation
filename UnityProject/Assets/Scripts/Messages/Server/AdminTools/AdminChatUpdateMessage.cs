@@ -5,7 +5,7 @@ using AdminTools;
 
 public class AdminChatUpdateMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminChatUpdateMessage;
+	public override short MessageType => (short) MessageTypes.AdminChatUpdateMessage;
 	public string JsonData;
 
 	public override IEnumerator Process()

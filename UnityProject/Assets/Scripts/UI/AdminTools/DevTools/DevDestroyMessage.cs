@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class DevDestroyMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.DevDestroyMessage;
+	public override short MessageType => (short) MessageTypes.DevDestroyMessage;
 	// Net ID of the object to destroy
 	public uint ToDestroy;
 

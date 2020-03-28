@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class HealthBrainMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.HealthBrainStats;
+	public override short MessageType => (short)MessageTypes.HealthBrainStats;
 
 	public uint EntityToUpdate;
 	public bool IsHusk;

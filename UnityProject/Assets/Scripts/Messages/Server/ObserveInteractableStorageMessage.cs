@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class ObserveInteractableStorageMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.ObserveInteractableStorage;
+	public override short MessageType => (short) MessageTypes.ObserveInteractableStorage;
 	public uint Storage;
 	public bool Observed;
 

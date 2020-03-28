@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class RequestBuildMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestBuildMessage;
+	public override short MessageType => (short) MessageTypes.RequestBuildMessage;
 
 	//index of the entry in the ConstructionList.
 	public byte EntryIndex;

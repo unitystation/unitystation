@@ -6,7 +6,7 @@ using Mirror;
 
 public class AdminCheckMessages : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminCheckMessages;
+	public override short MessageType => (short) MessageTypes.AdminCheckMessages;
 
 	public string PlayerId;
 	public int CurrentCount;

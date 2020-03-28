@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class ShootMessage : ServerMessage {
 
-	public static short MessageType = (short)MessageTypes.ShootMessage;
+	public override short MessageType => (short)MessageTypes.ShootMessage;
 
 	/// <summary>
 	/// GameObject of the player performing the shot

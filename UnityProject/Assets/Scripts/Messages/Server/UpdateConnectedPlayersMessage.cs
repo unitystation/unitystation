@@ -9,7 +9,7 @@ using UnityEngine.Experimental.XR;
 /// </summary>
 public class UpdateConnectedPlayersMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateConnectedPlayersMessage;
+	public override short MessageType => (short) MessageTypes.UpdateConnectedPlayersMessage;
 	public ClientConnectedPlayer[] Players;
 
 	public override IEnumerator Process()
@@ -19,7 +19,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 		{
 			yield break;
 		}
-		
+
 		if (Players != null)
 		{
 			Logger.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", Players));

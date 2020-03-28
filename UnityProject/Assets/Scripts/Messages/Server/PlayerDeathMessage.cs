@@ -4,7 +4,7 @@ using Mirror;
 
 public class PlayerDeathMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.PlayerDeathMessage;
+	public override short MessageType => (short) MessageTypes.PlayerDeathMessage;
 
 
 	public override IEnumerator Process()

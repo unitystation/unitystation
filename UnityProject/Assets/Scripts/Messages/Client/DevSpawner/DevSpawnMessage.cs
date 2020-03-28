@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class DevSpawnMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.DevSpawnMessage;
+	public override short MessageType => (short) MessageTypes.DevSpawnMessage;
 	// name of the prefab or hier string to spawn
 	public string Name;
 	// position to spawn at.

@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class HealthPressureMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.HealthPressureStats;
+	public override short MessageType => (short)MessageTypes.HealthPressureStats;
 	public float pressure;
 
 	public override IEnumerator Process()
