@@ -223,9 +223,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cooldownTimer: 2
-  interactionMessage: You activate the terminal on the nuclear weapon
-  deniedMessage: The nuclear weapon rejects your Identification
+  isAncharable: 1
+  explosionRadius: 500
+  minTimer: 270
 --- !u!114 &114970301685184636
 MonoBehaviour:
   m_ObjectHideFlags: 0
