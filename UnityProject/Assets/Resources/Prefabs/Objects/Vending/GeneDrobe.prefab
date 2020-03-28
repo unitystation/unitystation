@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   m_Layer: 11
-  m_Name: MediDrobe
+  m_Name: GeneDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,50 +122,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VendorContent:
-  - Item: {fileID: 6700281191928912403, guid: 0ad6b406825f747548ae2f66be19e5bd, type: 3}
-    Stock: 4
-  - Item: {fileID: 4188245363048309518, guid: a60d7ae6cf844dc4a8819e37ea156370, type: 3}
-    Stock: 4
-  - Item: {fileID: 4188245363048309518, guid: d3d13a092fe1468f39f64019ed6cda47, type: 3}
-    Stock: 4
-  - Item: {fileID: 4188245363048309518, guid: ee2b27621ec3c1d4583e596c749a820b, type: 3}
-    Stock: 4
-  - Item: {fileID: 6132127289375276769, guid: f27991fd74b5f6941a1ad2f9e161a022, type: 3}
-    Stock: 4
-  - Item: {fileID: 3011710637427380133, guid: 604161a1d792749539a5f1b0eb6e4749, type: 3}
-    Stock: 4
-  - Item: {fileID: 5920421737069179531, guid: 4d0474175ab0fcc49acc7daf8c3dc271, type: 3}
-    Stock: 4
-  - Item: {fileID: 3011710637427380133, guid: 091e9109cd71d5c4f9760883e85fe866, type: 3}
-    Stock: 4
-  - Item: {fileID: 8711982915321370836, guid: d3017b0e77acb7a4698a95281de92f44, type: 3}
-    Stock: 4
-  - Item: {fileID: 5628543767998948467, guid: c36814fb35b346c4bb4c655939943986, type: 3}
-    Stock: 4
-  - Item: {fileID: 7636118406116123594, guid: bb118b34602036247a9e597743e4e0a4, type: 3}
-    Stock: 4
-  - Item: {fileID: 1853682798720230140, guid: 42b8312937564f84ca906c22a8aa23b7, type: 3}
-    Stock: 4
-  - Item: {fileID: 1853682798720230140, guid: b7293f2ee1e4b5b408a9c76ca1f03f0a, type: 3}
-    Stock: 4
-  - Item: {fileID: 1853682798720230140, guid: 1c4a4e2e7d6a9ce4e9135ceb57d872b8, type: 3}
-    Stock: 4
-  - Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
-    Stock: 4
-  - Item: {fileID: 7950450905082407941, guid: ae6a4b707a3e192449843e8b3196b67c, type: 3}
-    Stock: 4
+  - Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
+    Stock: 2
+  - Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
+    Stock: 2
   - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
-    Stock: 4
-  - Item: {fileID: 7106618204054676533, guid: 7ca9937224493ae47be250db23caef24, type: 3}
-    Stock: 4
-  - Item: {fileID: 2877682655692791251, guid: 9818845d510044c45878180a25f836b7, type: 3}
-    Stock: 4
-  - Item: {fileID: 4017285472711692952, guid: 1d20e3f3f09719d46870ba3554189ec1, type: 3}
-    Stock: 4
-  - Item: {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
-    Stock: 4
-  - Item: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
-    Stock: 4
+    Stock: 2
+  - Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
+    Stock: 2
+  - Item: {fileID: 4188245363048309518, guid: 3eb130e231b60914a8b231815835140b, type: 3}
+    Stock: 2
+  - Item: {fileID: 4188245363048309518, guid: 0e43c9f88c6288e4e875aec740d6d02e, type: 3}
+    Stock: 2
+  - Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
+    Stock: 2
+  - Item: {fileID: 0}
+    Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -320,9 +292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: MediDrobe
-  initialDescription: A vending machine rumoured to be capable of dispensing clothing
-    for medical personnel.
+  initialName: ChemDrobe
+  initialDescription: A vending machine for dispensing chemistry related clothing.
   willHighlight: 1
   exportCost: 0
   exportName: 
@@ -396,7 +367,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 091a2a95a2699c94d92b84b0a903dfb7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76198fee39e7a9742b0a0bb0f53ee674, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -83,10 +83,38 @@ PrefabInstance:
       propertyPath: initialName
       value: paramedic's jumpskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 7594101368484472030, guid: 091e9109cd71d5c4f9760883e85fe866,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 77f8bcdb658bb774db9b7fe3c207d060,
+        type: 2}
+    - target: {fileID: 7594101368484477531, guid: 091e9109cd71d5c4f9760883e85fe866,
+        type: 3}
+      propertyPath: initialName
+      value: paramedic jumpskirt
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594101368484478512, guid: 091e9109cd71d5c4f9760883e85fe866,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594101368484501060, guid: 091e9109cd71d5c4f9760883e85fe866,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e047e4dde04b55647ad3138bfa3731df,
+        type: 3}
+    - target: {fileID: 7594101368484507513, guid: 091e9109cd71d5c4f9760883e85fe866,
+        type: 3}
+      propertyPath: m_Name
+      value: ParamedicJumpskirt
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 091e9109cd71d5c4f9760883e85fe866,
         type: 3}
-      propertyPath: variantType
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 77f8bcdb658bb774db9b7fe3c207d060,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 091e9109cd71d5c4f9760883e85fe866, type: 3}
