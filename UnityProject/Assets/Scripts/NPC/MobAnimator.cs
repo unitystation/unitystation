@@ -39,11 +39,11 @@ public class MobAnimator : MonoBehaviour
 		/// </summary>
 		public List<int> AnimationFrames;
 		/// <summary>
-		/// Is it a simple animation, does the animation NOT care about direction? IF THIS IS FALSE ALL DIRECTIONS WILL NEED THEIR OWN ANIMATIONS!
+		/// Is it a simple animation, does the animation NOT care about direction? IF THIS IS FALSE ALL DIRECTIONS WILL NEED THEIR ANIMATIONS SPECIFIED IN COMPLEX ANIMATION INDEX!
 		/// </summary>
 		public bool Simple = true;
 		/// <summary>
-		/// If Simple Animation is true, and this is true the direction will reset to the same direction everytime if it changes during animation, USE FOR MOBS WHICH ONLY HAVE ONE SPRITE DIRECTION.
+		/// If Simple Animation is true, and this is true the direction will reset to the same direction everytime if it changes during animation, USE FOR MOBS WHICH DONT ONLY HAVE ONE SPRITE DIRECTION.
 		/// </summary>
 		public bool SimpleResetDirection = false;
 		/// <summary>
