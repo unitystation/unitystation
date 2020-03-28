@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 618246b5f03aca141b4ac0f9f9eabe59, type: 3}
-  m_Name: undergarments_band
+  m_Name: undershirt_band
   m_EditorClassIdentifier: 
   Equipped:
     Texture: {fileID: 2800000, guid: 4cf33bfb1238d6b4d97d8342e5404259, type: 3}
@@ -22,3 +22,4 @@ MonoBehaviour:
     EquippedData: {fileID: 4900000, guid: 1060e59bc88f18a42b42f454cda4dceb, type: 3}
   Name: Shirt (Band)
   Type: 4
+  gender: 2

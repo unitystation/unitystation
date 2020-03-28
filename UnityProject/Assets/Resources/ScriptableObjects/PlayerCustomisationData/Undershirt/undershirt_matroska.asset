@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 618246b5f03aca141b4ac0f9f9eabe59, type: 3}
-  m_Name: undergarments_matroska
+  m_Name: undershirt_matroska
   m_EditorClassIdentifier: 
   Equipped:
     Texture: {fileID: 2800000, guid: 864d42bdc41b7194193499d2dada7398, type: 3}
@@ -22,3 +22,4 @@ MonoBehaviour:
     EquippedData: {fileID: 4900000, guid: 66c49408ec61e884a929c0eddeaee5d6, type: 3}
   Name: Shirt (Matroska)
   Type: 4
+  gender: 2
