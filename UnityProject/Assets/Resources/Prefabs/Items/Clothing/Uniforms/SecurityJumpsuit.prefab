@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-768312135327218671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3011710637427380133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!1001 &7594101368484456391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26,12 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 79fb5adb2fc4bcd488213e6ade7a3ce8,
+      objectReference: {fileID: 11400000, guid: 543e8eaad289f1f44a5e2e2feda72104,
         type: 2}
     - target: {fileID: 4658995992363608162, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: m_Name
-      value: ClownSuit
+      value: SecurityJumpsuit
       objectReference: {fileID: 0}
     - target: {fileID: 4658995992363608162, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
@@ -93,6 +78,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 4700669166950225366, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: m_AssetId
@@ -102,23 +102,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: abc6ec23d6bf16646866d3e7a4afdc47,
+      objectReference: {fileID: 21300000, guid: c55cf2cce648add419fc05367dcec5b4,
         type: 3}
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: initialName
-      value: clown suit
+      value: security jumpsuit
       objectReference: {fileID: 0}
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: initialDescription
-      value: HONK!
+      value: A tactical security jumpsuit for officers complete with Nanotrasen belt
+        buckle.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}
---- !u!1 &3011710637427380133 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4658995992363608162, guid: de234d793cfd842599c9c8726207f217,
-    type: 3}
-  m_PrefabInstance: {fileID: 7594101368484456391}
-  m_PrefabAsset: {fileID: 0}
