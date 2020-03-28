@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 namespace Lobby
 {
@@ -53,8 +51,6 @@ namespace Lobby
 		public ColorPicker colorPicker;
 
 		private CharacterSettings lastSettings;
-
-		public Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> playerCustomisationData = new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
 
 		public Action onCloseAction;
 
@@ -131,12 +127,8 @@ namespace Lobby
 			currentCharacter.Gender = (Gender)UnityEngine.Random.Range(0, 2);
 
 			// Repopulate underwear and facialhair dropdown boxes incase gender changes
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
-
+			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
+			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
 
 			// Select a random value from each dropdown
 			hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
@@ -169,22 +161,16 @@ namespace Lobby
 		//------------------
 		private void PopulateAllDropdowns()
 		{
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.HairStyle))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.HairStyle], hairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Socks))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Socks], socksDropdown); }
-
+			PopulateDropdown(CustomisationType.HairStyle, hairDropdown);
+			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
+			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
+			PopulateDropdown(CustomisationType.Socks, socksDropdown);
 		}
 
-		private void PopulateDropdown(Dictionary<string, PlayerCustomisationData> itemCollection, Dropdown itemDropdown, bool constrainGender = false)
+		private void PopulateDropdown(CustomisationType type, Dropdown itemDropdown, bool constrainGender = false)
 		{
+			var itemCollection = PlayerCustomisationDataSOs.Instance.GetAll(type);
+
 			// Clear out old options
 			itemDropdown.ClearOptions();
 
@@ -196,14 +182,14 @@ namespace Lobby
 				// Check if options are being constrained by gender, only add valid gender options if so
 				if (constrainGender)
 				{
-					if (item.Value.gender == currentCharacter.Gender || item.Value.gender == Gender.Neuter)
+					if (item.gender == currentCharacter.Gender || item.gender == Gender.Neuter)
 					{
-						itemOptions.Add(item.Key);
+						itemOptions.Add(item.Name);
 					}
 				}
 				else
 				{
-					itemOptions.Add(item.Key);
+					itemOptions.Add(item.Name);
 				}
 
 			}
@@ -394,11 +380,8 @@ namespace Lobby
 			currentCharacter.Gender = (Gender)gender;
 
 			// Repopulate underwear and facial hair dropdown boxes
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
+			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
+			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
 
 			// Set underwear and facial hair to default setting (None)
 			SetDropdownValue(underwearDropdown, "None");
@@ -494,15 +477,12 @@ namespace Lobby
 
 		private void RefreshHair()
 		{
-			if (playerCustomisationData[PlayerCustomisation.HairStyle].ContainsKey(currentCharacter.HairStyleName))
-			{
-				hairSpriteController.sprites =
-										SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.HairStyleName].Equipped);
-			}
-			else
-			{
-				hairSpriteController.sprites = null;
-			}
+			hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.HairStyle,
+					currentCharacter.HairStyleName
+				).Equipped
+			);
 			hairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.HairColor, out setColor);
@@ -522,12 +502,12 @@ namespace Lobby
 
 		private void RefreshFacialHair()
 		{
-			if (playerCustomisationData[PlayerCustomisation.FacialHair].ContainsKey(currentCharacter.FacialHairName))
-			{
-				facialHairSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.FacialHair][currentCharacter.FacialHairName].Equipped);
-			}
-			else { facialHairSpriteController.sprites = null; }
+			facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.FacialHair,
+					currentCharacter.FacialHairName
+				).Equipped
+			);
 			facialHairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.FacialHairColor, out setColor);
@@ -598,12 +578,12 @@ namespace Lobby
 		}
 		private void RefreshUnderwear()
 		{
-			if (playerCustomisationData[PlayerCustomisation.Underwear].ContainsKey(currentCharacter.UnderwearName)){
-				underwearSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.UnderwearName].Equipped);}
-			else
-			{underwearSpriteController.sprites = null;}
-
+			underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.Underwear,
+					currentCharacter.UnderwearName
+				).Equipped
+			);
 			underwearSpriteController.UpdateSprite();
 		}
 
@@ -618,12 +598,12 @@ namespace Lobby
 		}
 		private void RefreshSocks()
 		{
-
-			if (playerCustomisationData[PlayerCustomisation.Socks].ContainsKey(currentCharacter.SocksName)){
-				socksSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.SocksName].Equipped);}
-
-			else { socksSpriteController.sprites = null; }
+			socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.Socks,
+					currentCharacter.SocksName
+				).Equipped
+			);
 			socksSpriteController.UpdateSprite();
 		}
 

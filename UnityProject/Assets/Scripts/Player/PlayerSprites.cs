@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
-using NUnit.Framework.Constraints;
 using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
-using Mirror;
 
 /// <summary>
 /// Handle displaying the sprites related to player, which includes underwear and the body.
@@ -107,8 +103,10 @@ public class PlayerSprites : MonoBehaviour
 		{
 			clothes["underwear"].spriteHandler.spriteData = new SpriteData();
 			clothes["underwear"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.Underwear][ThisCharacter.UnderwearName].Equipped));
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.Underwear,
+					ThisCharacter.UnderwearName
+				).Equipped));
 			clothes["underwear"].spriteHandler.PushTexture();
 		}
 
@@ -116,8 +114,10 @@ public class PlayerSprites : MonoBehaviour
 		{
 			clothes["socks"].spriteHandler.spriteData = new SpriteData();
 			clothes["socks"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.Socks][ThisCharacter.SocksName].Equipped));
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.Socks,
+					ThisCharacter.SocksName
+				).Equipped));
 			clothes["socks"].spriteHandler.PushTexture();
 		}
 
@@ -127,8 +127,11 @@ public class PlayerSprites : MonoBehaviour
 			ColorUtility.TryParseHtmlString(ThisCharacter.FacialHairColor, out var newColor);
 			clothes["beard"].spriteHandler.spriteData = new SpriteData();
 			clothes["beard"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.FacialHair][ThisCharacter.FacialHairName].Equipped));
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.FacialHair,
+					ThisCharacter.FacialHairName
+				).Equipped));
+
 			clothes["beard"].spriteHandler.SetColor(newColor);
 			clothes["beard"].spriteHandler.PushTexture();
 		}
@@ -138,8 +141,10 @@ public class PlayerSprites : MonoBehaviour
 			ColorUtility.TryParseHtmlString(ThisCharacter.HairColor, out var newColor);
 			clothes["Hair"].spriteHandler.spriteData = new SpriteData();
 			clothes["Hair"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.HairStyle][ThisCharacter.HairStyleName].Equipped));
+				PlayerCustomisationDataSOs.Instance.Get(
+					CustomisationType.HairStyle,
+					ThisCharacter.HairStyleName
+				).Equipped));
 			clothes["Hair"].spriteHandler.SetColor(newColor);
 			clothes["Hair"].spriteHandler.PushTexture();
 		}
@@ -318,6 +323,7 @@ public class PlayerSprites : MonoBehaviour
 		}
 
 		SetupCharacterData(characterSettings);
+		// FIXME: this probably shouldn't send ALL of the character settings to everyone
 		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 	}
 
@@ -395,22 +401,4 @@ public class PlayerSprites : MonoBehaviour
 		var isVisible = !hideClothingFlags.HasFlag(hideFlag);
 		clothes[name].gameObject.SetActive(isVisible);
 	}
-
-}
-
-public enum ClothingSprite
-{
-	body_torso,
-	body_rightleg,
-	body_leftleg,
-	body_rightarm,
-	body_leftarm,
-	body_head,
-	body_right_hand,
-	body_left_hand,
-	eyes,
-	underwear,
-	socks,
-	beard,
-	Hair,
 }
