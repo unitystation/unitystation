@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class PleaseWaitScreen : MonoBehaviour
 {
 	[SerializeField] private bool isStartScreen;
+	[SerializeField] private LoadingScreen loadingScreen;
 
 	private void OnEnable()
 	{
@@ -16,14 +17,17 @@ public class PleaseWaitScreen : MonoBehaviour
 
 	IEnumerator WaitForLoad()
 	{
+		loadingScreen.SetLoadBar(0f);
 		yield return WaitFor.EndOfFrame;
 
 		AsyncOperation AO = SceneManager.LoadSceneAsync(1);
 		AO.allowSceneActivation = false;
 		while(AO.progress < 0.9f)
 		{
+			loadingScreen.SetLoadBar(AO.progress);
 			yield return WaitFor.EndOfFrame;
 		}
+		loadingScreen.SetLoadBar(1f);
 		yield return WaitFor.EndOfFrame;
 		AO.allowSceneActivation = true;
 	}

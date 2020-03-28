@@ -297,7 +297,7 @@ namespace Lobby
 			}
 			else
 			{
-				networkManager.StartHost();
+				LoadingScreenManager.LoadFromLobby(networkManager.StartHost);
 			}
 
 			// Hide dialogue and show status text
@@ -331,6 +331,11 @@ namespace Lobby
 
 		// Game handlers
 		public void ConnectToServer()
+		{
+			LoadingScreenManager.LoadFromLobby(DoServerConnect);
+		}
+
+		void DoServerConnect()
 		{
 			// Set network address
 			string serverAddress = serverAddressInput.text;
