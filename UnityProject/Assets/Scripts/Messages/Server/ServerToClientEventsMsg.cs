@@ -5,7 +5,7 @@
 /// </summary>
 public class ServerToClientEventsMsg : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.ServerToClientEvents;
+	public override short MessageType => (short) MessageTypes.ServerToClientEvents;
 	public EVENT Event;
 
 	public override IEnumerator Process()
@@ -14,7 +14,7 @@ public class ServerToClientEventsMsg : ServerMessage
 
 		EventManager.Broadcast(Event);
 	}
-	
+
 	/// <summary>
 	/// Send an event from EventManager to all clients
 	/// </summary>

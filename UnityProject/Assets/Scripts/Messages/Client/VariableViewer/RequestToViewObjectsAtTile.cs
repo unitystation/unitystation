@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RequestToViewObjectsAtTile : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestToViewObjectsAtTile;
+	public override short MessageType => (short) MessageTypes.RequestToViewObjectsAtTile;
 	public Vector3 Location;
 	public string AdminId;
 	public string AdminToken;

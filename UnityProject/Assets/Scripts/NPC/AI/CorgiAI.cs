@@ -187,6 +187,8 @@ public class CorgiAI : MobAI
 
 	public override void OnPetted(GameObject performer)
 	{
+		base.OnPetted(performer);
+
 		int randAction = Random.Range(1,6);
 
 		switch (randAction)

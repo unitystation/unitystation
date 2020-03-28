@@ -41,8 +41,7 @@ public static class NetworkManagerExtensions
 		where T : GameMessageBase, new()
 	{
 		// In normal C# this would just be `T.MessageType` but it seems unity's compiler has some stipulations about that...
-		FieldInfo field = typeof(T).GetField("MessageType",BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public);
-		short msgType = (short) field.GetValue(null);
+		short msgType = new T().MessageType;
 		NetworkMessageDelegate cb = delegate( NetworkMessage msg )
 		{
 			manager.StartCoroutine(msg.ReadMessage<T>().Process( msg.conn ));

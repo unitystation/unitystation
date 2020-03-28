@@ -8,7 +8,7 @@ using Mirror;
 /// </summary>
 public class RequestGameModeUpdate : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestGameModeUpdate;
+	public override short MessageType => (short) MessageTypes.RequestGameModeUpdate;
 
 	public string Userid;
 	public string AdminToken;

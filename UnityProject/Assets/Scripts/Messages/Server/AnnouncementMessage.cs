@@ -5,7 +5,7 @@
 /// </summary>
 public class AnnouncementMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.AnnouncementMessage;
+	public override short MessageType => (short) MessageTypes.AnnouncementMessage;
 	public string Text;
 
 	public override IEnumerator Process() {

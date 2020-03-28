@@ -411,8 +411,12 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// Triggers on creatures with Pettable component when petted.
 	///</summary>
 	///<param name="performer">The player petting</param>
-	public virtual void OnPetted(GameObject performer){}
-
+	public virtual void OnPetted(GameObject performer)
+	{
+		// face performer
+		var dir = (performer.transform.position - transform.position).normalized;
+		dirSprites.ChangeDirection(dir);
+	}
 	///<summary>
 	/// Triggers when the explorer targets people and found one
 	///</summary>

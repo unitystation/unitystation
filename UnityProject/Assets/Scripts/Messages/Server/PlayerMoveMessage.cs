@@ -5,7 +5,7 @@ using Mirror;
 ///   Tells client to apply PlayerState (update his position, flight direction etc) to the given player
 public class PlayerMoveMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.PlayerMoveMessage;
+	public override short MessageType => (short) MessageTypes.PlayerMoveMessage;
 	public PlayerState State;
 	/// Player to be moved
 	public uint SubjectPlayer;

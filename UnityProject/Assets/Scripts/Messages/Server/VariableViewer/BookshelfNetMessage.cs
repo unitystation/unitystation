@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 public class BookshelfNetMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.BookshelfNetMessage;
+	public override short MessageType => (short)MessageTypes.BookshelfNetMessage;
 	public VariableViewerNetworking.NetFriendlyBookShelfView data;
 
 	public override IEnumerator Process()
@@ -23,7 +23,7 @@ public class BookshelfNetMessage : ServerMessage
 
 	public static BookshelfNetMessage Send(Librarian.BookShelf _BookShelf)
 	{
-		BookshelfNetMessage msg = new BookshelfNetMessage(); 
+		BookshelfNetMessage msg = new BookshelfNetMessage();
 		msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
 
 		msg.SendToAll();

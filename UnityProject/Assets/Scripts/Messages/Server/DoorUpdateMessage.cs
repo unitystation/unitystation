@@ -3,7 +3,7 @@ using UnityEngine;
 using Mirror;
 
 public class DoorUpdateMessage : ServerMessage {
-	public static short MessageType = (short) MessageTypes.DoorUpdateMessage;
+	public override short MessageType => (short) MessageTypes.DoorUpdateMessage;
 
 	public DoorUpdateType Type;
 	public uint Door;

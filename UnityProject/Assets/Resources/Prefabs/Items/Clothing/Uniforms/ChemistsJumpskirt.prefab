@@ -78,10 +78,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e871e454d4a365445b3ad6bf4ba67ef9,
         type: 3}
+    - target: {fileID: 3397443007502491847, guid: 54c252491fc58478aac029a841777c90,
+        type: 3}
+      propertyPath: initialName
+      value: chemist's jumpskirt
+      objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 54c252491fc58478aac029a841777c90,
         type: 3}
-      propertyPath: variantType
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 81a9cfdf73acf3246aea3f982e5531cc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54c252491fc58478aac029a841777c90, type: 3}

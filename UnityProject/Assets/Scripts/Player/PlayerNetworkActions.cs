@@ -748,17 +748,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	#region Admin
 
 	[Command]
-	public void CmdAGhost()
+	public void CmdAGhost(string adminId, string adminToken)
 	{
-		ServerAGhost();
+		ServerAGhost(adminId, adminToken);
 	}
 
 	[Server]
-	public void ServerAGhost()
+	public void ServerAGhost(string adminId, string adminToken)
 	{
-		var adminId = DatabaseAPI.ServerData.UserID;
-		var adminToken = PlayerList.Instance.AdminToken;
-
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
@@ -771,6 +768,28 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (playerScript.mind.IsSpectator) return;
 
 			GhostEnterBody();
+		}
+	}
+
+	[Command]
+	public void CmdPlaySound(string index, string adminId, string adminToken)
+	{
+		PlaySound(index, adminId, adminToken);
+	}
+
+	[Server]
+	public void PlaySound(string index, string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		var players = FindObjectsOfType(typeof(PlayerScript));
+
+		if (players == null) return;//If list of Players is empty dont run rest of code.
+
+		foreach (PlayerScript player in players)
+		{
+			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 		}
 	}
 

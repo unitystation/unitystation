@@ -6,7 +6,7 @@ using Mirror;
 
 public class RequestAdminPromotion : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestEnableAdmin;
+	public override short MessageType => (short) MessageTypes.RequestEnableAdmin;
 
 	public string Userid;
 	public string AdminToken;

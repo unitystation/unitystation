@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,37 +25,104 @@ public static class TilePaths
 	}
 }
 
-public class TileDictionary : Dictionary<Tuple<TileType, string>, LayerTile>
+[Serializable]
+public class TilePathEntry
 {
-	public LayerTile this[TileType type, string name]
-	{
-		get { return this[new Tuple<TileType, string>(type, name)]; }
-		set { this[new Tuple<TileType, string>(type, name)] = value; }
-	}
+	public string path;
+	public TileType tileType;
+	public List<LayerTile> layerTiles = new List<LayerTile>();
 }
 
 public class TileManager : MonoBehaviour
 {
-	private static TileDictionary tiles = new TileDictionary();
-	private static bool initialized;
+	private static TileManager tileManager;
+
+	public static TileManager Instance
+	{
+		get
+		{
+			if (tileManager == null)
+			{
+				tileManager = FindObjectOfType<TileManager>();
+			}
+
+			return tileManager;
+		}
+	}
+
+	private int tilesToLoad = 0;
+	private int tilesLoaded = 0;
+	public static int TilesToLoad => Instance.tilesToLoad;
+	public static int TilesLoaded => Instance.tilesLoaded;
+
+	private Dictionary<TileType, Dictionary<string, LayerTile>> tiles = new Dictionary<TileType, Dictionary<string, LayerTile>>();
+	private bool initialized;
+
+	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();
 
 	private void Start()
 	{
-		LoadAllTiles();
+#if UNITY_EDITOR
+		CacheAllAssets();
+#endif
+		if (!GameData.IsInGame)
+		{
+			StartCoroutine(LoadAllTiles(true));
+		}
 	}
 
-	private static void LoadAllTiles()
+	[ContextMenu("Cache All Assets")]
+	public bool CacheAllAssets()
 	{
+		layerTileCollections.Clear();
 		foreach (TileType tileType in Enum.GetValues(typeof(TileType)))
 		{
 			string path = TilePaths.Get(tileType);
 
 			if (path != null)
 			{
-				LayerTile[] loadedTiles = Resources.LoadAll<LayerTile>(path);
-				loadedTiles.ToList().ForEach(x => tiles[tileType, x.name] = x);
+				layerTileCollections.Add(new TilePathEntry
+				{
+					path = path,
+					tileType = tileType,
+					layerTiles = Resources.LoadAll<LayerTile>(path).ToList()
+				});
+			}
+		}
+
+		return true;
+	}
+
+	private IEnumerator LoadAllTiles(bool staggeredload = false)
+	{
+		tilesToLoad = 0;
+		tilesLoaded = 0;
+		foreach (var type in layerTileCollections)
+		{
+			tilesToLoad += type.layerTiles.Count;
+		}
+
+		foreach (var type in layerTileCollections)
+		{
+			if (!tiles.ContainsKey(type.tileType))
+			{
+				Instance.tiles.Add(type.tileType, new Dictionary<string, LayerTile>());
 			}
 
+			foreach (var t in type.layerTiles)
+			{
+				tilesLoaded++;
+				if (t.TileType == type.tileType)
+				{
+					if (!tiles[type.tileType].ContainsKey(t.name))
+					{
+						tiles[type.tileType].Add(t.name, t);
+					}
+				}
+
+				if (staggeredload) yield return WaitFor.EndOfFrame;
+			}
+			if (staggeredload) yield return WaitFor.EndOfFrame;
 		}
 
 		initialized = true;
@@ -62,7 +130,7 @@ public class TileManager : MonoBehaviour
 
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
-		if (!initialized) LoadAllTiles();
-		return tiles[tileType, key];
+		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
+		return Instance.tiles[tileType][key];
 	}
 }

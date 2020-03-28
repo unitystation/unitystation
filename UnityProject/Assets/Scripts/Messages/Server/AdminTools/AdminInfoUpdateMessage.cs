@@ -6,7 +6,7 @@ using AdminTools;
 
 public class AdminInfoUpdateMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminInfoUpdateMessage;
+	public override short MessageType => (short) MessageTypes.AdminInfoUpdateMessage;
 	public string JsonData;
 	public bool FullUpdate;
 

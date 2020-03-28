@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class UpdateChatMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
+	public override short MessageType => (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
 	public ChatModifier ChatModifiers;
 	public string Message;
