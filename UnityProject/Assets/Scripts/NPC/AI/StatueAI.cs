@@ -306,7 +306,7 @@ public class StatueAI : MobAI
 			{
 				FollowTarget(stalked);
 			}
-			yield return WaitFor.Seconds(searchTickRate);
+			yield return WaitFor.Seconds(.2f);
 		}
 
 		Freeze();
