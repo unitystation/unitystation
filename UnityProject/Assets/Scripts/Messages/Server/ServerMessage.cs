@@ -10,7 +10,7 @@ public abstract class ServerMessage : GameMessageBase
 {
 	public void SendToAll()
 	{
-		NetworkServer.SendToAll(GetMessageType(), this);
+		NetworkServer.SendToAll(MessageType, this);
 		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
 	}
 
@@ -28,7 +28,7 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (connection.Value != null && connection.Value != excludedConnection)
 			{
-				connection.Value.Send(GetMessageType(), this);
+				connection.Value.Send(MessageType, this);
 			}
 		}
 
@@ -52,7 +52,7 @@ public abstract class ServerMessage : GameMessageBase
 //			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{
-			connection.Send(GetMessageType(), this);
+			connection.Send(MessageType, this);
 			Logger.LogTraceFormat("SentTo {0}: {1}", Category.NetMessage, recipient.name, this);
 		}
 		else
@@ -69,7 +69,7 @@ public abstract class ServerMessage : GameMessageBase
 
 		if (PlayerList.Instance.ContainsConnection(recipient))
 		{
-			recipient.Send(GetMessageType(), this);
+			recipient.Send(MessageType, this);
 		}
 	}
 
@@ -110,7 +110,7 @@ public abstract class ServerMessage : GameMessageBase
 
 			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Connection.Send(GetMessageType(),this);
+				player.Connection.Send(MessageType,this);
 			}
 		}
 	}
@@ -139,7 +139,7 @@ public abstract class ServerMessage : GameMessageBase
 
 			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Connection.Send(GetMessageType(),this);
+				player.Connection.Send(MessageType,this);
 			}
 		}
 	}
@@ -152,7 +152,7 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (PlayerList.Instance.ContainsConnection(admin.Connection))
 			{
-				admin.Connection.Send(GetMessageType(), this);
+				admin.Connection.Send(MessageType, this);
 			}
 		}
 	}

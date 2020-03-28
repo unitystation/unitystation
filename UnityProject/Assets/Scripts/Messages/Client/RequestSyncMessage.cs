@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class RequestSyncMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestSyncMessage;
+	public override short MessageType => (short) MessageTypes.RequestSyncMessage;
 
 	public override IEnumerator Process()
 	{

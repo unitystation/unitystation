@@ -1,38 +1,69 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Anything that needs to run before a build process commences should go in this script
-/// BuildReport can be used to determine which platform the build target is set to 
-/// by checking report.summary.platform enum
-/// </summary>
-class PreBuildActions : IPreprocessBuildWithReport
+//[InitializeOnLoad]
+public class PreBuildActions : IPreprocessBuild
 {
-    public int callbackOrder { get { return 0; } }
+	private Scene scene;
+	public int callbackOrder { get { return 0; } }
+	public void OnPreprocessBuild(BuildTarget target, string path) {
+		// Do the preprocessing here
+		PreChecks();
+	}
+//	static PreBuildActions()
+//	{
+//		Debug.Log("Init pre build checker");
+//		BuildPlayerWindow.RegisterBuildPlayerHandler(PreChecks);
+//	}
 
-    public void OnPreprocessBuild(BuildReport report)
-    {
-        //Any actions that need to be preformed before a build starts, goes here
-    }
+	public void PreChecks()
+	{
+		scene = EditorSceneManager.OpenScene("Assets/Scenes/Lobby.unity");
 
-    //Removed this feature as it causes too many problems in development.
-    //Leaving it as an example on how to run an external process via the editor:
-    // private async void SetPlayerSettingsTitle()
-    // {
-    //     var process = new Process();
-    //     process.StartInfo.FileName = "git";
-    //     process.StartInfo.Arguments = "log -1 --pretty=%f";
-    //     process.StartInfo.UseShellExecute = false;
-    //     process.StartInfo.RedirectStandardOutput = true;
+		if (!SpawnListBuild())
+		{
+			Debug.LogError("Could not cache prefabs for SpawnList. Unknown Error");
+			return;
+		}
 
-    //     process.Start();
-    //     string output = process.StandardOutput.ReadToEnd();
-    //     PlayerSettings.productName = "unitystation - Latest commit: " + output;
-    //     await process.WaitForExitAsync();
-    // }
+		if (!CacheTiles())
+		{
+			Debug.LogError("Could not cache tiles for TileManager. Unknown Error");
+			return;
+		}
+
+	//	BuildPipeline.BuildPlayer(obj);
+	}
+
+	private bool CacheTiles()
+	{
+		var tileManager = GameObject.FindObjectOfType<TileManager>();
+		if (tileManager.CacheAllAssets())
+		{
+			PrefabUtility.ApplyPrefabInstance(tileManager.gameObject, InteractionMode.AutomatedAction);
+			EditorSceneManager.MarkSceneDirty(scene);
+			return EditorSceneManager.SaveScene(scene);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	private bool SpawnListBuild()
+	{
+		var spawnListMonitor = GameObject.FindObjectOfType<SpawnListMonitor>();
+		if (spawnListMonitor.GenerateSpawnList())
+		{
+			PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

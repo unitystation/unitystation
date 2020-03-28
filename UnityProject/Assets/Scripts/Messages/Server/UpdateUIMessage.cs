@@ -5,7 +5,7 @@
 /// </summary>
 public class UpdateUIMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateUIMessage;
+	public override short MessageType => (short) MessageTypes.UpdateUIMessage;
 
 	public ControlDisplays.Screens Screen;
 

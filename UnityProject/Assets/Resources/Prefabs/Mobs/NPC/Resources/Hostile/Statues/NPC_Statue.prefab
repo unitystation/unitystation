@@ -556,10 +556,11 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   spriteHolder: {fileID: 3392343644113499114}
   targetOtherPlayersWhoGetInWay: 1
-  hitDamage: 20
+  onlyHitTarget: 0
+  hitDamage: 70
   attackVerb: slashed
   defaultTarget: 0
-  meleeCoolDown: 0.4
+  meleeCoolDown: 1
 --- !u!114 &5455627643366143253
 MonoBehaviour:
   m_ObjectHideFlags: 0

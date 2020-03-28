@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 /*public class PlantTrayMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.PlantTrayMessage;
+	public override short MessageType => (short) MessageTypes.PlantTrayMessage;
 	public string PlantSyncString;
 	public int GrowingPlantStage;
 	public PlantSpriteStage PlantSyncStage;

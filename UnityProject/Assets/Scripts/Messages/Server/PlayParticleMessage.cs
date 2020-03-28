@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 public class PlayParticleMessage : ServerMessage
 {
-	public static short MessageType = ( short ) MessageTypes.PlayParticleMessage;
+	public override short MessageType => ( short ) MessageTypes.PlayParticleMessage;
 	/// <summary>
 	/// GameObject containing ParticleSystem
 	/// </summary>

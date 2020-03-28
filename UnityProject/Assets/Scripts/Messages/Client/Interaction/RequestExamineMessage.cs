@@ -12,7 +12,7 @@ using UnityEngine;
 public class RequestExamineMessage : ClientMessage
 {
 	//TODO: Is this constant needed anymore
-	public static short MessageType = (short) MessageTypes.RequestExamine;
+	public override short MessageType => (short) MessageTypes.RequestExamine;
 
 	//members
 	// netid of target
@@ -27,7 +27,7 @@ public class RequestExamineMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 
-		
+
 		//TODO: check break conditions
 		if (SentByPlayer == null || SentByPlayer.Script == null)
 		{
@@ -38,14 +38,14 @@ public class RequestExamineMessage : ClientMessage
 		// it's confusing AF to me atm.
 		yield return WaitFor(examineTarget);
 
-		// Here we build the message to send, by looking at the target's components. 
+		// Here we build the message to send, by looking at the target's components.
 		// anyone extending IExaminable gets a say in it.
 		// Look for examinables.
 		var examinables = NetworkObject.GetComponents<IExaminable>();
 		string msg = "";
 		IExaminable examinable;
 
-		for (int i = 0; i < examinables.Count(); i++) 
+		for (int i = 0; i < examinables.Count(); i++)
 		{
 			examinable = examinables[i];
 
@@ -90,7 +90,7 @@ public class RequestExamineMessage : ClientMessage
 
 	// public override void Serialize(NetworkWriter writer)
 	// {
-	
+
 	// }
 
 }

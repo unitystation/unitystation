@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GibMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.GibMessage;
+	public override short MessageType => (short) MessageTypes.GibMessage;
 
 	public override IEnumerator Process()
 	{
@@ -11,7 +11,7 @@ public class GibMessage : ServerMessage
 		{
 			living.Death();
 		}
-		
+
 		yield return null;
 	}
 

@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 public class BookNetMessage : ServerMessage
 {
 
-	public static short MessageType = (short)MessageTypes.BookNetMessage;
+	public override short MessageType => (short)MessageTypes.BookNetMessage;
 	public VariableViewerNetworking.NetFriendlyBook Book;
 
 	public override IEnumerator Process()

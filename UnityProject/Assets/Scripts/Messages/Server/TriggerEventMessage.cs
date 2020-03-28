@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class TriggerEventMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.TriggerEvent;
+	public override short MessageType => (short)MessageTypes.TriggerEvent;
 
 	public EVENT EventType;
 

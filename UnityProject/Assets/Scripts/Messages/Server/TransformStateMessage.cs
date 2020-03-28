@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class TransformStateMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.TransformStateMessage;
+	public override short MessageType => (short) MessageTypes.TransformStateMessage;
 	public bool ForceRefresh;
 	public TransformState State;
 	public uint TransformedObject;

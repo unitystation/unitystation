@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class ServerTypingMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.ServerTypingMessage;
+	public override short MessageType => (short)MessageTypes.ServerTypingMessage;
 
 	public TypingState state;
 	public uint targetID;

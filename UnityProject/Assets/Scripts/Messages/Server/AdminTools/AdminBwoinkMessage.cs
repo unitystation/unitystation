@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AdminBwoinkMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminBwoinkMessage;
+	public override short MessageType => (short) MessageTypes.AdminBwoinkMessage;
 	public string AdminUID;
 	public string Message;
 
@@ -23,7 +23,7 @@ public class AdminBwoinkMessage : ServerMessage
 			AdminUID = adminUid,
 			Message = message
 		};
-		
+
 		msg.SendTo(recipient);
 
 		return msg;
