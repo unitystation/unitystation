@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
@@ -77,6 +77,11 @@ namespace Lobby
 		void OnDisable()
 		{
 			colorPicker.onValueChanged.RemoveListener(OnColorChange);
+			if (onCloseAction != null)
+			{
+				onCloseAction.Invoke();
+				onCloseAction = null;
+			}
 		}
 		private void LoadSettings()
 		{
@@ -274,48 +279,12 @@ namespace Lobby
 				return;
 			}
 			SaveData();
-			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if (ServerData.Auth.CurrentUser != null)
-			{
-				if (onCloseAction != null)
-				{
-					onCloseAction.Invoke();
-					onCloseAction = null;
-				}
-				else
-				{
-					LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-				}
-			}
-			else
-			{
-				Logger.LogWarning("User is not logged in! Returning to login screen.");
-				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
-			}
 			gameObject.SetActive(false);
 		}
 
 		public void OnCancelBtn()
 		{
-			currentCharacter = lastSettings;
-			RefreshAll();
-			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if (ServerData.Auth.CurrentUser != null)
-			{
-				if (onCloseAction != null)
-				{
-					onCloseAction.Invoke();
-					onCloseAction = null;
-				}
-				else
-				{
-					LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-				}
-			}
-			else
-			{
-				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
-			}
+			PlayerManager.CurrentCharacterSettings = lastSettings;
 			gameObject.SetActive(false);
 		}
 
