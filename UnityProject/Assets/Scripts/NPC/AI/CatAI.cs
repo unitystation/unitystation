@@ -68,6 +68,7 @@ public class CatAI : MobAI
 
 	public override void OnPetted(GameObject performer)
 	{
+		base.OnPetted(performer);
 		int randAction = Random.Range(1,5);
 		switch (randAction)
 		{
