@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Linq;
 
+/// <summary>
+/// Class containing all character preferences for a player
+/// Includes appearance, job preferences etc...
+/// </summary>
 public class CharacterSettings
 {
-	public const int MAX_NAME_LENGTH = 28; //Arbitrary limit, but it seems reasonable
+	public const int MAX_NAME_LENGTH = 26; //Arbitrary limit, but 26 is the max the current UI can fit
 	public string Username;
 	public string Name = "Cuban Pete";
 	public Gender Gender = Gender.Male;
+	public ClothingStyle ClothingStyle = ClothingStyle.JumpSuit;
+	public BagStyle BagStyle = BagStyle.Backpack;
 	public int Age = 22;
 	public string HairStyleName = "None";
 	public string HairColor = "black";

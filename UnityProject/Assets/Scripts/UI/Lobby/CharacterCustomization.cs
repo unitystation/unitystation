@@ -634,19 +634,19 @@ namespace Lobby
 
 		public void OnClothingChange()
 		{
-			int clothing = (int)currentCharacter.Clothing;
+			int clothing = (int)currentCharacter.ClothingStyle;
 			clothing++;
-			if (clothing == (int)Clothing.JumpNone)
+			if (clothing == (int)ClothingStyle.None)
 			{
 				clothing = 0;
 			}
-			currentCharacter.Clothing = (Clothing)clothing;
+			currentCharacter.ClothingStyle = (ClothingStyle)clothing;
 			RefreshClothing();
 		}
 
 		private void RefreshClothing()
 		{
-			clothingText.text = currentCharacter.Clothing.ToString();
+			clothingText.text = currentCharacter.ClothingStyle.ToString();
 		}
 
 		//------------------
@@ -655,33 +655,19 @@ namespace Lobby
 
 		public void OnBackpackChange()
 		{
-			int backpack = (int)currentCharacter.Backpack;
+			int backpack = (int)currentCharacter.BagStyle;
 			backpack++;
-			if (backpack == (int)Backpack.NoBack)
+			if (backpack == (int)BagStyle.None)
 			{
 				backpack = 0;
 			}
-			currentCharacter.Backpack = (Backpack)backpack;
+			currentCharacter.BagStyle = (BagStyle)backpack;
 			RefreshBackpack();
 		}
 
 		private void RefreshBackpack()
 		{
-			backpackText.text = currentCharacter.Backpack.ToString();
+			backpackText.text = currentCharacter.BagStyle.ToString();
 		}
 	}
-}
-
-public enum Clothing
-{
-	JumpSuit,
-	JumpSkirt,
-	JumpNone
-}
-public enum Backpack
-{
-	Backpack,
-	Duffle,
-	Satchel,
-	NoBack
 }
