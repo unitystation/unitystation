@@ -26,7 +26,7 @@ public class Traitor : GameMode
 		}
 		else if (PlayerList.Instance.InGamePlayers.Count >= 24)
 		{
-			TraitorAmount = 4;
+			TraitorAmount = 3;
 		}
 		else if (PlayerList.Instance.InGamePlayers.Count >= 15)
 		{
