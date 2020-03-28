@@ -89,9 +89,7 @@ public class MobAnimator : MonoBehaviour
 		if (spritesToUse.Item5 == 0) return; //if animation speed if 0
 
 		var animationLength = spritesToUse.Item1.Length;
-
-		Logger.Log("should not happen");
-		if (spritesToUse.Item3 == true)
+		if (spritesToUse.Item2 == true)
 		{
 			StartCoroutine(SimplePlayAnimation(spritesToUse, animationLength));
 		}

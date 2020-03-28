@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715d7edbfa5ae6742b05a85634ad752c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobName: Ian
+  mobName: God
   knockedDownRotation: -180
   allowedToGiveCommands: 0600000016000000
 --- !u!114 &1698261190327922250
@@ -388,6 +388,7 @@ MonoBehaviour:
     AnimationFrames: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
     Simple: 0
     SimpleResetDirection: 0
+    IsDeathAnimation: 0
     Speed: 0.2
     ComplexAnimationIndex: 01000000000000000000000000000000
   - Sprites:
@@ -404,6 +405,7 @@ MonoBehaviour:
     AnimationFrames: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
     Simple: 0
     SimpleResetDirection: 0
+    IsDeathAnimation: 0
     Speed: 0.2
     ComplexAnimationIndex: 01000000000000000000000000000000
 --- !u!114 &5941598165320017927
