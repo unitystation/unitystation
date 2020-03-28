@@ -15,8 +15,8 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private ItemsSprites newSprites = new ItemsSprites();
 	private Pickupable pick;
-	public float timeElapsedSprite = 0;
-	public float timeElapsedIcon = 0;
+	private float timeElapsedSprite = 0;
+	private float timeElapsedIcon = 0;
 	public float timeWait = 1;
 
 	private bool isOn = false;
@@ -126,8 +126,11 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void SyncSheetVariant(int oldSheetVar, int newSheetVar)
 	{
+		spriteVariant = 0;
+		spriteHandler.ChangeSpriteVariant(0);
 		spriteSheetVariant = newSheetVar;
 		spriteHandler.ChangeSprite(spriteSheetVariant);
+		pick.RefreshUISlotImage();
 
 	}
 
@@ -151,9 +154,10 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 			{
 				objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
 			}
+			isOn = !isOn;
 			ServerChangeSpriteVariant(0);
 			ServerChangeSpriteSheetVariant(0);
-			isOn = !isOn;		
+			pick.RefreshUISlotImage();
 	}
 
 	[Server]
@@ -180,7 +184,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 			}
 			timeElapsedSprite = 0;
 		}
-		if (isOn && timeElapsedIcon > 0.2f)
+		if (timeElapsedIcon > 0.2f)
 		{
 				pick.RefreshUISlotImage();
 				timeElapsedIcon = 0;
