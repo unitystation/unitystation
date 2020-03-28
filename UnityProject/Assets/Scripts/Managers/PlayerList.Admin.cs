@@ -466,25 +466,12 @@ public class BanList
 	public List<BanEntry> banEntries = new List<BanEntry>();
 
 	public BanEntry CheckForEntry(string userId, string ipAddress, string deviceId)
-	{
-		var index = banEntries.FindIndex(x => x.userId == userId);
-		if (index == -1)
-		{
-			var ipIndex = banEntries.FindIndex(x => x.ipAddress == ipAddress);
-			if (ipIndex == -1)
-			{
-				var deviceIndex = banEntries.FindIndex(x => x.deviceId == deviceId);
-				if (deviceIndex != -1)
-				{
-					return banEntries[deviceIndex];
-				}
-			}
-
-			return banEntries[ipIndex];
-		}
-
-		return banEntries[index];
-	}
+    {
+        return banEntries.Find(banEntry =>
+            banEntry.userId == userId || 
+            banEntry.ipAddress == ipAddress || 
+            banEntry.deviceId == deviceId);
+    }
 }
 [Serializable]
 public class BanEntry
