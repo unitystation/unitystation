@@ -13,8 +13,7 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 	private NamedSlotPopulatorEntry[] Entries = null;
 
 	public GameObject skirtVariant;
-	public GameObject backpackVariant;
-	public GameObject duffleVariant;
+	public GameObject duffelVariant;
 	public GameObject satchelVariant;
 	public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context)
 	{
@@ -59,7 +58,7 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
    					switch (context.SpawnInfo.CharacterSettings.Backpack)
    					{
       					case Backpack.Duffle:
-            				spawnThing = (duffleVariant != null) ? duffleVariant: entry.Prefab;
+            				spawnThing = (duffelVariant != null) ? duffelVariant: entry.Prefab;
             				break;
 
         				case Backpack.Satchel:
