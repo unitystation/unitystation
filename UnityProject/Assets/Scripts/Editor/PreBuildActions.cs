@@ -1,19 +1,27 @@
 ﻿using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-[InitializeOnLoad]
-public class PreBuildActions
+//[InitializeOnLoad]
+public class PreBuildActions : IPreprocessBuild
 {
-	static PreBuildActions()
-	{
-		Debug.Log("Init pre build checker");
-		BuildPlayerWindow.RegisterBuildPlayerHandler(PreChecks);
+	private Scene scene;
+	public int callbackOrder { get { return 0; } }
+	public void OnPreprocessBuild(BuildTarget target, string path) {
+		// Do the preprocessing here
+		PreChecks();
 	}
+//	static PreBuildActions()
+//	{
+//		Debug.Log("Init pre build checker");
+//		BuildPlayerWindow.RegisterBuildPlayerHandler(PreChecks);
+//	}
 
-	public static void PreChecks(BuildPlayerOptions obj)
+	public void PreChecks()
 	{
-		EditorSceneManager.OpenScene("Assets/Scenes/Lobby.unity");
+		scene = EditorSceneManager.OpenScene("Assets/Scenes/Lobby.unity");
 
 		if (!SpawnListBuild())
 		{
@@ -27,15 +35,17 @@ public class PreBuildActions
 			return;
 		}
 
-		BuildPipeline.BuildPlayer(obj);
+	//	BuildPipeline.BuildPlayer(obj);
 	}
 
-	private static bool CacheTiles()
+	private bool CacheTiles()
 	{
 		var tileManager = GameObject.FindObjectOfType<TileManager>();
 		if (tileManager.CacheAllAssets())
 		{
-			return true;
+			PrefabUtility.ApplyPrefabInstance(tileManager.gameObject, InteractionMode.AutomatedAction);
+			EditorSceneManager.MarkSceneDirty(scene);
+			return EditorSceneManager.SaveScene(scene);
 		}
 		else
 		{
@@ -43,12 +53,13 @@ public class PreBuildActions
 		}
 	}
 
-	private static bool SpawnListBuild()
+	private bool SpawnListBuild()
 	{
 		var spawnListMonitor = GameObject.FindObjectOfType<SpawnListMonitor>();
 		if (spawnListMonitor.GenerateSpawnList())
 		{
-			return EditorSceneManager.SaveOpenScenes();
+			PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
+			return true;
 		}
 		else
 		{
