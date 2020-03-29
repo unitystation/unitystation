@@ -12,22 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
   m_Name: science uniform
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 7
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    IsEVACapable: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 262d25bf1c5905040bc41169b8b896f6, type: 3}
@@ -58,15 +42,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 31e94c5845ae39041b0aa015419829ad, type: 3}
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Base_Adjusted:
     Equipped:
-      Texture: {fileID: 2800000, guid: dce9563c946f53e4e91aaf1dc4a99ac9, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: dce9563c946f53e4e91aaf1dc4a99ac9, type: 3}
-      - {fileID: 21300002, guid: dce9563c946f53e4e91aaf1dc4a99ac9, type: 3}
-      - {fileID: 21300004, guid: dce9563c946f53e4e91aaf1dc4a99ac9, type: 3}
-      - {fileID: 21300006, guid: dce9563c946f53e4e91aaf1dc4a99ac9, type: 3}
-      EquippedData: {fileID: 4900000, guid: 3ed45fd68cbfc0a41a667e7f34db4da1, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
     InHandsLeft:
       Texture: {fileID: 0}
       Sprites: []
@@ -79,34 +69,41 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   DressVariant:
     Equipped:
-      Texture: {fileID: 2800000, guid: c2ab8da54aea5184d8b7abed712db397, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: c2ab8da54aea5184d8b7abed712db397, type: 3}
-      - {fileID: 21300002, guid: c2ab8da54aea5184d8b7abed712db397, type: 3}
-      - {fileID: 21300004, guid: c2ab8da54aea5184d8b7abed712db397, type: 3}
-      - {fileID: 21300006, guid: c2ab8da54aea5184d8b7abed712db397, type: 3}
-      EquippedData: {fileID: 4900000, guid: fef1c868786dd6d40854b5200c5945bf, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
-      - {fileID: 21300002, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
-      - {fileID: 21300004, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
-      - {fileID: 21300006, guid: c2a523b6623947748b924d02e3da0fd1, type: 3}
-      EquippedData: {fileID: 4900000, guid: dc26195dccfb7ae40845517ca6ddb5ae, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
-      - {fileID: 21300002, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
-      - {fileID: 21300004, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
-      - {fileID: 21300006, guid: 7b88b74fe9e4594488d1dca5c992214f, type: 3}
-      EquippedData: {fileID: 4900000, guid: 4311d86bae7c9b242bd1756f817f2c68, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: f5535b9a9aa63ed49b62ab94dff14590, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: f5535b9a9aa63ed49b62ab94dff14590, type: 3}
+      Texture: {fileID: 0}
+      Sprites: []
       EquippedData: {fileID: 0}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Variants: []

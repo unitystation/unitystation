@@ -77,7 +77,7 @@ public class GlassShard : NetworkBehaviour
 		//8 = Players layer
 		if (coll.gameObject.layer == 8)
 		{
-			SoundManager.PlayNetworkedAtPos("GlassStep", coll.transform.position, Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos("GlassStep", coll.transform.position, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 		}
 	}
 }

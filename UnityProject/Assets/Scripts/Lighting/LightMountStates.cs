@@ -129,6 +129,9 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 				{
 					lightSwitch = lightSource.relatedLightSwitch;
 				}
+
+				if (lightSwitch == null) return;
+				
 				if (lightSwitch.isOn == LightSwitch.States.On)
 				{
 					Despawn.ServerSingle(interaction.HandObject);
@@ -202,7 +205,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	public void SwitchChangeState(LightState state)
 	{
 		if (!isServer) return;
-		
+
 		if (state == LightState.On)
 		{
 			ServerChangeLightState(LightMountState.On);
@@ -250,7 +253,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			{
 
 				ServerChangeLightState(LightMountState.Broken);
-				SoundManager.PlayNetworkedAtPos("GlassStep", pos);
+				SoundManager.PlayNetworkedAtPos("GlassStep", pos, sourceObj: gameObject);
 			}
 		}
 	}

@@ -12,7 +12,7 @@ using System.Reflection;
 /// </summary>
 public class SetActionUI : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.SetActionUI;
+	public override short MessageType => (short)MessageTypes.SetActionUI;
 
 	public ushort soID;
 	public int SpriteLocation;
@@ -140,7 +140,7 @@ public class SetActionUI : ServerMessage
 		NetObject = reader.ReadUInt32();
 		showAlert = reader.ReadBoolean();
 		ComponentType = RequestGameAction.componentIDToComponentType[reader.ReadUInt16()];
-		ProposedAction =  (SetActionUIActions)reader.ReadInt32(); 
+		ProposedAction =  (SetActionUIActions)reader.ReadInt32();
 
 	}
 

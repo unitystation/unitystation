@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 114958218028397826}
   - component: {fileID: 114970301685184636}
   - component: {fileID: 114285602872890758}
-  - component: {fileID: 3598894608692613034}
   - component: {fileID: 8332996165049030563}
   - component: {fileID: 114093552067593536}
   - component: {fileID: 114554877333081812}
@@ -331,13 +330,13 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   Resistances:
-    LavaProof: 0
-    FireProof: 0
+    LavaProof: 1
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
     Indestructable: 1
-    FreezeProof: 0
+    FreezeProof: 1
   HeatResistance: 100
   initialIntegrity: 100
 --- !u!114 &114138874156132524

@@ -31,4 +31,5 @@
 	Church,
 	Clown,
 	Mime,
+	LateJoin,
 }

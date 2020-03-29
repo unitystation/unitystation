@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SuicideMessage : ClientMessage
 {
-	public static short MessageType = (short)MessageTypes.Suicide;
+	public override short MessageType => (short)MessageTypes.Suicide;
 
 	public override IEnumerator Process()
 	{

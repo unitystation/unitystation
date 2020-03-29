@@ -7,14 +7,13 @@ using UnityEngine.Events;
 public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn, IAPCPowered
 {
 	private Queue<GrownFood> foodToBeProcessed;
-	private int processingProgress;
+	private float processingProgress;
 	private PowerStates currentState = PowerStates.Off;
 	private SeedExtractorUpdateEvent updateEvent = new SeedExtractorUpdateEvent();
-	
 
-	[Tooltip("Time it takes to process a single piece of produce")]
-	[SerializeField]
-	private int processingTime = 0;
+
+	//Time it takes to process a single piece of produce
+	private float processingTime = 3f;
 
 	[SerializeField]
 	private RegisterObject registerObject = null;
@@ -37,18 +36,17 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 	/// <summary>
 	/// Handles processing produce into seed packets at rate defined by processingTime
 	/// </summary>
-	[Server]
-	public override void FixedUpdateMe()
+	public override void UpdateMe()
 	{
 		//Only run on server and if there is something to process and the device has power
 		if (!isServer || !IsProcessing || currentState == PowerStates.Off) { return; }
 		//If processing isn't done keep waiting
 		if (processingProgress < processingTime)
 		{
-			processingProgress++;
+			processingProgress += Time.deltaTime;
 			return;
 		}
-
+		
 		//Handle completed processing
 		processingProgress = 0;
 		var grownFood = foodToBeProcessed.Dequeue();
@@ -66,6 +64,26 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		{
 			Chat.AddLocalMsgToChat("The seed extractor finishes processing", (Vector2Int)registerObject.WorldPosition, this.gameObject);
 		}
+	}
+
+	/// <summary>
+	/// Spawns seed packet in world and removes it from internal list
+	/// </summary>
+	/// <param name="seedPacket">Seed packet to spawn</param>
+	public void DispenseSeedPacket(SeedPacket seedPacket)
+	{
+		//Spawn packet
+		Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
+		CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
+		netTransform.AppearAtPosition(spawnPos);
+		netTransform.AppearAtPositionServer(spawnPos);
+		
+		//Notify chat
+		Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject.RegisterTile().WorldPosition.To2Int(), gameObject);
+
+		//Remove spawned entry from list
+		seedPackets.Remove(seedPacket);
+		updateEvent.Invoke();
 	}
 
 	/// <summary>
@@ -129,7 +147,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		if(newState == currentState) { return; }
 
 		//Show processing state change
-		if(foodToBeProcessed.Count > 0)
+		if(foodToBeProcessed?.Count > 0)
 		{
 			//Any state other than off
 			if(currentState == PowerStates.Off)

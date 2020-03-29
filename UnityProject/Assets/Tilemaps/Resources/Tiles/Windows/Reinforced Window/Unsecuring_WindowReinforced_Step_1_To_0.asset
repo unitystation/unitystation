@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Unsecuring_WindowReinforced_Step_1_To_0
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-  performerStartActionMessage: You begin securing safeties of the window...
-  othersStartActionMessage: '{performer} begins securing safeties of the window...'
+  performerStartActionMessage: You begin securing the safeties on the window...
+  othersStartActionMessage: '{performer} begins securing the safeties on the window...'
   seconds: 4
   objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 0928ea19fb08346cbb0efa5178c62dae, type: 2}
-  performerFinishActionMessage: You secured safeties of the window.
-  othersFinishActionMessage: '{performer}secured safeties of the window.'
+  performerFinishActionMessage: You secured the safeties on the window.
+  othersFinishActionMessage: '{performer} secured the safeties on the window.'

@@ -6,7 +6,7 @@ using Mirror;
 
 public class AdminReplyMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminReplyMessage;
+	public override short MessageType => (short) MessageTypes.AdminReplyMessage;
 
 	public string Message;
 

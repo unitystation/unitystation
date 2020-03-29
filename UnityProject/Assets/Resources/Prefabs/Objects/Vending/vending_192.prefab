@@ -127,22 +127,10 @@ MonoBehaviour:
     Stock: 5
   - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 5
-  - Item: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
-    Stock: 5
-  - Item: {fileID: 7636118406116123594, guid: c1986e2665f9a413694ce37f09e0f17e, type: 3}
-    Stock: 5
-  - Item: {fileID: 7636118406116123594, guid: 9445628fd16314b7388c7086f5fd2f26, type: 3}
-    Stock: 5
-  - Item: {fileID: 7636118406116123594, guid: 6fe473acd28e04fafba497e02a994da8, type: 3}
-    Stock: 5
-  - Item: {fileID: 7636118406116123594, guid: 5dd96f5e685214da19f65b06f2463aa2, type: 3}
-    Stock: 5
   - Item: {fileID: 7636118406116123594, guid: 5a6e2e3a0a44146198136e4fa2798db5, type: 3}
     Stock: 1
   - Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
-    Stock: 10
-  - Item: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
-    Stock: 5
+    Stock: 2
   HullColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -205,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114475142182648450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -254,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
-  m_AssetId: f9d6bd1cf63124b3fbfbe23b71a13858
+  m_AssetId: 
 --- !u!114 &-7662375091260369965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +261,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: ShoeClothesMate
   initialDescription: A vending machine for footwear.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 

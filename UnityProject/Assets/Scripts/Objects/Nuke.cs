@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 /// <summary>
 /// Main component for nuke.
 /// </summary>
-public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>,IAdminInfo 
 {
 	public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
 
@@ -285,6 +285,10 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 			yield return WaitFor.Seconds(1);
 		}
 		Detonate();
+	}
+	public string AdminInfoString()
+	{
+		return $"Nuke Code: {nukeCode}";
 	}
 }
 public class NukeTimerEvent : UnityEvent<int> { }

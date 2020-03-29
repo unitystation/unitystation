@@ -558,7 +558,7 @@ public partial class PlayerSync
 			var inventory = playerScript.GetComponent<ItemStorage>();
 			var feetSlot = inventory.GetNamedItemSlot(NamedSlot.feet).Item;
 			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-			SoundManager.FootstepAtPosition(nextState.WorldPosition, feetSlot);
+			SoundManager.FootstepAtPosition(nextState.WorldPosition, feetSlot, gameObject);
 		}
 
 		return nextState;

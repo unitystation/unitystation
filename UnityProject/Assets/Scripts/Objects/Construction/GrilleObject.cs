@@ -20,10 +20,10 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		SoundManager.PlayNetworkedAtPos("GrillHit", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f));
+		SoundManager.PlayNetworkedAtPos("GrillHit", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 		Spawn.ServerPrefab("Rods", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
 			scatterRadius: Random.Range(0.9f, 1.8f), cancelIfImpassable: true);
-		
+
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -62,7 +62,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 						"You secure the grille.",
 						$"{interaction.Performer.ExpensiveName()} secures the grille.",
 						() => ScrewInPlace(interaction));
-					
+
 
 					return;
 
@@ -77,7 +77,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 					"You unsecure the grille.",
 					$"{interaction.Performer.ExpensiveName()} unsecures the grille.",
 					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
-				SoundManager.PlayNetworkedAtPos("screwdriver2", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f));
+				SoundManager.PlayNetworkedAtPos("screwdriver2", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
 
 		}
@@ -90,7 +90,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 				"You disassemble the grille.",
 				$"{interaction.Performer.ExpensiveName()} disassembles the grille.",
 				() => Disassemble(interaction));
-			
+
 
 			return;
 
@@ -101,7 +101,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void Disassemble(HandApply interaction)
 	{
 		Spawn.ServerPrefab("Rods", registerObject.WorldPositionServer, count: 2);
-		SoundManager.PlayNetworkedAtPos("wirecutter", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f));
+		SoundManager.PlayNetworkedAtPos("wirecutter", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 		Despawn.ServerSingle(gameObject);
 	}
 

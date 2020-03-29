@@ -6,7 +6,7 @@ using Mirror;
 
 public class RequestRespawnPlayer : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestRespawn;
+	public override short MessageType => (short) MessageTypes.RequestRespawn;
 
 	public string Userid;
 	public string AdminToken;

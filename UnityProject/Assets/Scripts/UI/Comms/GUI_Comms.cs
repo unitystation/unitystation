@@ -111,7 +111,7 @@ public class GUI_Comms : NetTab
 
 		bool isRecall = shuttle.Status == ShuttleStatus.OnRouteStation;
 
-		var minutes = 2;
+		
 
 		string callResult;
 		bool ok;
@@ -136,6 +136,7 @@ public class GUI_Comms : NetTab
 				ok = shuttle.CallShuttle(out callResult);
 				if ( ok )
 				{
+					var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
 					CentComm.MakeShuttleCallAnnouncement( minutes, text );
 					RefreshCallButtonText();
 				}
@@ -174,7 +175,7 @@ public class GUI_Comms : NetTab
 	public void MakeAnAnnouncement(string text)
 	{
 		Logger.Log( nameof(MakeAnAnnouncement), Category.NetUI );
-		CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text, CentComm.UpdateSound.announce);
+		CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text.Substring( 0,Mathf.Max(text.Length, 200)), CentComm.UpdateSound.announce);
 		OpenMenu();
 	}
 	

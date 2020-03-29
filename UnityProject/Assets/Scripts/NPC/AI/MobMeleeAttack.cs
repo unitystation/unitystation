@@ -17,6 +17,8 @@ public class MobMeleeAttack : MobFollow
 	         "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
 	         "a player originally.")]
 	public bool targetOtherPlayersWhoGetInWay;
+	[Tooltip("Attack nothing but the target. No players in the way, no tiles, nada.")]
+	public bool onlyHitTarget;
 
 	public int hitDamage = 30;
 	public string attackVerb;
@@ -93,6 +95,21 @@ public class MobMeleeAttack : MobFollow
 				{
 					var dir = ((Vector3) hitInfo.point - transform.position).normalized;
 
+					//Only hit target
+					if (onlyHitTarget)
+					{
+						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
+						if (hitInfo.transform != followTarget || healthBehaviour.IsDead)
+						{
+							return false;
+						}
+						else
+						{
+							AttackFlesh(dir, healthBehaviour);
+							return true;
+						}
+					}
+
 					//What to do with player hit?
 					if (hitInfo.transform.gameObject.layer == playersLayer)
 					{
@@ -159,7 +176,7 @@ public class MobMeleeAttack : MobFollow
 	{
 		healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget.Randomize());
 		Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
-		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
+		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position, sourceObj: gameObject);
 		ServerDoLerpAnimation(dir);
 	}
 

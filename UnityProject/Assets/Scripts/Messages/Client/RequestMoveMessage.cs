@@ -6,7 +6,7 @@ using Mirror;
 /// </summary>
 public class RequestMoveMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestMoveMessage;
+	public override short MessageType => (short) MessageTypes.RequestMoveMessage;
 	public PlayerAction Action;
 
 	public override IEnumerator Process()

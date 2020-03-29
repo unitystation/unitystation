@@ -37,12 +37,7 @@ public abstract class GameMessageBase : MessageBase
 		}
 	}
 
-	protected short GetMessageType()
-	{
-		const BindingFlags FLAGS = BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Public;
-		FieldInfo field = this.GetType().GetField("MessageType", FLAGS);
-		return (short) field.GetValue(null);
-	}
+	public abstract short MessageType { get; }
 
 	protected IEnumerator WaitFor(params uint[] ids)
 	{

@@ -13,7 +13,7 @@ public enum TypingState
 /// </summary>
 public class ClientTypingMessage : ClientMessage
 {
-	public static short MessageType = (short)MessageTypes.ClientTypingMessage;
+	public override short MessageType => (short)MessageTypes.ClientTypingMessage;
 
 	public TypingState state;
 

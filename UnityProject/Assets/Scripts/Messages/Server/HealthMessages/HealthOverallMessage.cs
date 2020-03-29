@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class HealthOverallMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.HealthOverallStats;
+	public override short MessageType => (short)MessageTypes.HealthOverallStats;
 
 	public uint EntityToUpdate;
 	public float OverallHealth;

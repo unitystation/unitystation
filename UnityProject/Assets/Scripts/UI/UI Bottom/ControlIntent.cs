@@ -62,6 +62,9 @@ using UnityEngine.EventSystems;
 		{
 			UIManager.CurrentIntent = intent;
 
-			thisImg.sprite = sprites[(int)intent];
+			if (thisImg != null)
+			{
+				thisImg.sprite = sprites[(int)intent];
+			}
 		}
 	}

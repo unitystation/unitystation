@@ -95,7 +95,7 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
-		SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
+		SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1, sourceObj: interaction.Performer);
 		reagentContainer.TakeReagents(reagentsPerUse);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());

@@ -14,6 +14,8 @@ namespace Lobby
 		public InputField ageField;
 		public Text errorLabel;
 		public Text genderText;
+		public Text clothingText;
+		public Text backpackText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
@@ -113,6 +115,8 @@ namespace Lobby
 		{
 			RefreshName();
 			RefreshGender();
+			RefreshClothing();
+			RefreshBackpack();
 			RefreshHair();
 			RefreshFacialHair();
 			RefreshUnderwear();
@@ -648,16 +652,60 @@ namespace Lobby
 		{
 			colorChangedEvent.Invoke(newColor);
 		}
+
+		//------------------
+		//CLOTHING PREFERENCE:
+		//------------------
+
+		public void OnClothingChange()
+		{
+			int clothing = (int)currentCharacter.Clothing;
+			clothing++;
+			if (clothing == (int)Clothing.JumpNone)
+			{
+				clothing = 0;
+			}
+			currentCharacter.Clothing = (Clothing)clothing;
+			RefreshClothing();
+		}
+
+		private void RefreshClothing()
+		{
+			clothingText.text = currentCharacter.Clothing.ToString();
+		}
+
+		//------------------
+		//BACKPACK PREFERENCE:
+		//------------------
+
+		public void OnBackpackChange()
+		{
+			int backpack = (int)currentCharacter.Backpack;
+			backpack++;
+			if (backpack == (int)Backpack.NoBack)
+			{
+				backpack = 0;
+			}
+			currentCharacter.Backpack = (Backpack)backpack;
+			RefreshBackpack();
+		}
+
+		private void RefreshBackpack()
+		{
+			backpackText.text = currentCharacter.Backpack.ToString();
+		}
 	}
 }
 
 [Serializable]
 public class CharacterSettings
 {							//stuff  Marked with # is  no longer used and can be removed
-	public const int MAX_NAME_LENGTH = 28; //Arbitrary limit, but it seems reasonable
+	public const int MAX_NAME_LENGTH = 26; //Arbitrary limit, but it seems reasonable //26 is the max the current UI can fit
 	public string username;
 	public string Name = "Cuban Pete";
 	public Gender Gender = Gender.Male;
+	public Clothing Clothing = Clothing.JumpSuit;
+	public Backpack Backpack = Backpack.Backpack;
 	public int Age = 22;
 	public int hairStyleOffset = -1;  //#
 	public string hairStyleName = "None";
@@ -790,4 +838,18 @@ public enum Gender
 	Male,
 	Female,
 	Neuter //adding anymore genders will break things do not edit
+}
+
+public enum Clothing
+{
+	JumpSuit,
+	JumpSkirt,
+	JumpNone
+}
+public enum Backpack
+{
+	Backpack,
+	Duffle,
+	Satchel,
+	NoBack
 }

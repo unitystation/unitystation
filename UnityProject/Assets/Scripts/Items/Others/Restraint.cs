@@ -66,7 +66,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			.ServerStartProgress(target.RegisterTile(), applyTime, performer);
 		if (bar != null)
 		{
-			SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
+			SoundManager.PlayNetworkedAtPos(sound, target.transform.position, sourceObj: target.gameObject);
 		}
 	}
 }

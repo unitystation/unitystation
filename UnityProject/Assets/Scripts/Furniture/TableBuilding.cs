@@ -58,8 +58,8 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 						"You are deconstructing a table frame.",
 						$"{interaction.Performer.ExpensiveName()} deconstructs a table frame.",
 						() => Disassemble(interaction));
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f);
-			
+			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+
 			return;
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
@@ -81,8 +81,8 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 						"You are constructing a glass table.",
 						$"{interaction.Performer.ExpensiveName()} constructs a glass table.",
 						() => SpawnTable(interaction, glassTable));
-			SoundManager.PlayNetworkedAtPos("GlassHit", gameObject.WorldPosServer(), 1f);
-			
+			SoundManager.PlayNetworkedAtPos("GlassHit", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+
 			return;
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank))
@@ -93,8 +93,8 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 						"You are constructing a wooden table.",
 						$"{interaction.Performer.ExpensiveName()} constructs a wooden table.",
 						() => SpawnTable(interaction, woodTable));
-			SoundManager.PlayNetworkedAtPos("wood3", gameObject.WorldPosServer(), 1f);
-			
+			SoundManager.PlayNetworkedAtPos("wood3", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+
 			return;
 		}
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
@@ -105,7 +105,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 						"You are constructing a reinforced table.",
 						$"{interaction.Performer.ExpensiveName()} constructs a reinforced table.",
 						() => SpawnTable(interaction, reinforcedTable));
-			SoundManager.PlayNetworkedAtPos("Deconstruct", gameObject.WorldPosServer(), 1f);
+			SoundManager.PlayNetworkedAtPos("Deconstruct", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
 
 			return;
 		}
@@ -120,7 +120,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	private void SpawnTable(HandApply interaction, LayerTile tableToSpawn)
 	{
-		
+
 			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);

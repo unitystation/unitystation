@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3202164745322436533}
   - component: {fileID: 5588146378019075436}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8674889304118096553}
   - component: {fileID: 6332421542784671258}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 2101030153401488801}
   - component: {fileID: 6411611869092153326}
   - component: {fileID: -2445378394868782575}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: shuttle_chair_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixDebugLogging: 0
-  objectType: 0
+  objectType: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &-7596303361927942555
@@ -308,6 +308,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &-5948057208104375277
 MonoBehaviour:
   m_ObjectHideFlags: 0

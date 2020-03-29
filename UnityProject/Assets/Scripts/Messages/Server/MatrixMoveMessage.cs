@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 
-///     Tells client to 
+///     Tells client to
 public class MatrixMoveMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.MatrixMoveMessage;
+	public override short MessageType => (short) MessageTypes.MatrixMoveMessage;
 	public MatrixState State;
 	public uint Matrix;
 	//Reset client's prediction queue

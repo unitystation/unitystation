@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class ShowChatBubbleMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.ShowChatBubble;
+	public override short MessageType => (short) MessageTypes.ShowChatBubble;
 	public ChatModifier ChatModifiers;
 	public string Message;
 	public uint FollowTransform;

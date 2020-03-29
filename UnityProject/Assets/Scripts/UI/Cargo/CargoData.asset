@@ -159,8 +159,10 @@ MonoBehaviour:
       Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,
         type: 3}
       Items:
-      - {fileID: 1387665324668345695, guid: 371b9c216382844659c05791957b28c8, type: 3}
-      - {fileID: 1387665324668345695, guid: 371b9c216382844659c05791957b28c8, type: 3}
+      - {fileID: 20384307089368758, guid: 371b9c216382844659c05791957b28c8, type: 3}
+      - {fileID: 20384307089368758, guid: 371b9c216382844659c05791957b28c8, type: 3}
+      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
+      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
     - OrderName: Low voltage cable Crate
       CreditsCost: 800
       Crate: {fileID: 6439324441883113404, guid: 4ff388f72fc794b1fab838a88a5d115e,
@@ -617,6 +619,17 @@ MonoBehaviour:
       - {fileID: 7636118406116123594, guid: 97b4b6e6d0aac46f6ad3fb58fb826008, type: 3}
       - {fileID: 3921521694364753778, guid: 1f5c642823aec460a8c4867390c89849, type: 3}
       - {fileID: 3011710637427380133, guid: cda0c7d60b6a643279489d6c9a64d208, type: 3}
+    - OrderName: Prisoner Uniform Set
+      CreditsCost: 500
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 3011710637427380133, guid: f1436853dd14162fe97690f8e7714773, type: 3}
+      - {fileID: 3011710637427380133, guid: f1436853dd14162fe97690f8e7714773, type: 3}
+      - {fileID: 3011710637427380133, guid: f1436853dd14162fe97690f8e7714773, type: 3}
+      - {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+      - {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+      - {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
   - CategoryName: Emergency
     Supplies:
     - OrderName: Internals Crate

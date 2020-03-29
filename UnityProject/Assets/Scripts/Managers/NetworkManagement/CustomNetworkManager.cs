@@ -22,6 +22,9 @@ public class CustomNetworkManager : NetworkManager
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
 
+	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
+	private const double minCoolDown = 1f;
+
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
 	/// </summary>
@@ -42,8 +45,6 @@ public class CustomNetworkManager : NetworkManager
 
 	public override void Start()
 	{
-		SetSpawnableList();
-
 		//Automatically host if starting up game *not* from lobby
 		if (SceneManager.GetActiveScene().name != offlineScene)
 		{
@@ -51,7 +52,7 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	private void SetSpawnableList()
+	public void SetSpawnableList()
 	{
 		spawnPrefabs.Clear();
 
@@ -192,6 +193,27 @@ public class CustomNetworkManager : NetworkManager
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
 	}
 
+	public override void OnServerConnect(NetworkConnection conn)
+	{
+		if (!connectCoolDown.ContainsKey(conn.address))
+		{
+			connectCoolDown.Add(conn.address, DateTime.Now);
+		}
+		else
+		{
+			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
+			if (totalSeconds < minCoolDown)
+			{
+				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections");
+				conn.Disconnect();
+				return;
+			}
+
+			connectCoolDown[conn.address] = DateTime.Now;
+		}
+		base.OnServerConnect(conn);
+	}
+
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
@@ -253,8 +275,8 @@ public class CustomNetworkManager : NetworkManager
 		// (when pressing Stop in the Editor, Unity keeps threads alive
 		//  until we press Start again. so if Transports use threads, we
 		//  really want them to end now and not after next start)
-		TelepathyTransport telepathy = GetComponent<TelepathyTransport>();
-		telepathy.Shutdown();
+		var transport = GetComponent<Transport>();
+		transport.Shutdown();
 	}
 
 	//Editor item transform dance experiments

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1463353046376569348}
   - component: {fileID: 5550071810911483408}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3367356935213924318}
   - component: {fileID: 1764975225713064315}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 3385541160428677379}
   - component: {fileID: 4792015667158574305}
   - component: {fileID: -1016215171651041673}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: chairs_bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,6 +307,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &-2499762898432582042
 MonoBehaviour:
   m_ObjectHideFlags: 0
