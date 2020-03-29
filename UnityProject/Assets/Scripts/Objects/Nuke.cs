@@ -84,9 +84,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public void CodeGenerator()
 	{
 		nukeCode = Random.Range(1000, 9999);
-		Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
-		Debug.Log(MatrixManager.MainStationMatrix.InitialOffset.ToString());
-		Debug.Log((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.InitialOffset).magnitude.ToString());
+		//Debug.Log("NUKE CODE: " + nukeCode + " POS: " + transform.position);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -283,11 +281,9 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>
 		while (CurrentTimerSeconds > 0)
 		{
 			CurrentTimerSeconds -= 1;
-			SoundManager.PlayAtPosition("TimerTick", gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos("TimerTick", gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(1);
 		}
-		SoundManager.PlayNetworked("NukeDetonate");
-		yield return WaitFor.Seconds(13);
 		Detonate();
 	}
 }

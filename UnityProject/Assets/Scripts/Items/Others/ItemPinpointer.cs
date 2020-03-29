@@ -31,22 +31,20 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	[SyncVar(hook = nameof(SyncVariant))]
 	private int spriteVariant;
 
+	private void Start()
+	{
+		objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
+	}
 	private void OnEnable()
 	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		EnsureInit();
 	}
-
-	public override void OnStartServer()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-
 	void OnDisable()
 	{
-		if (isServer)
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
+
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 	}
 
 	private void ChangeAngleofSprite(Vector3 moveDirection)
@@ -145,7 +143,6 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	{
 		pick = GetComponent<Pickupable>();
 		spriteHandler = rendererSprite.GetComponent<SpriteHandler>();
-		objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -172,22 +169,29 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		spriteVariant = newVar;
 	}
 	protected virtual void UpdateMe()
-	{
-		timeElapsedSprite += Time.deltaTime;
-		timeElapsedIcon += Time.deltaTime;
-		if (timeElapsedSprite > timeWait)
+	{	
+		if (isServer)
 		{
-			if (isOn)
+
+			timeElapsedSprite += Time.deltaTime;
+			if (timeElapsedSprite > timeWait)
 			{
-				Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
-				ChangeAngleofSprite(moveDirection);
+				if (isOn)
+				{
+					Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
+					ChangeAngleofSprite(moveDirection);
+				}
+				timeElapsedSprite = 0;
 			}
-			timeElapsedSprite = 0;
 		}
-		if (timeElapsedIcon > 0.2f)
+		else
 		{
+			timeElapsedIcon += Time.deltaTime;
+			if (timeElapsedIcon > 0.2f)
+			{
 				pick.RefreshUISlotImage();
 				timeElapsedIcon = 0;
+			}
 		}
 	}
 }

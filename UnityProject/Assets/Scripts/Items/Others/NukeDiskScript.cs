@@ -16,43 +16,58 @@ public class NukeDiskScript : NetworkBehaviour
 	private EscapeShuttle escapeShuttle;
 
 	private float timeCheckDiskLocation = 1.0f;
-	private float timeCurrent = 0;
-	
+	private float timeCurrentDisk = 0;
+
+	private float timeCurrentAnimation = 0;
+
 	// Start is called before the first frame update
-	private void Awake()
+	private void Start()
+	{
+		bound = MatrixManager.MainStationMatrix.Bounds;
+		escapeShuttle = FindObjectOfType<EscapeShuttle>();
+	}
+	private void EnsureInit()
 	{
 		customNetTrans = GetComponent<CustomNetTransform>();
 		registerItem = GetComponent<RegisterItem>();
-		bound = MatrixManager.MainStationMatrix.Bounds;
-		escapeShuttle = FindObjectOfType<EscapeShuttle>();
 		pick = GetComponent<Pickupable>();
 	}
 
-	public override void OnStartServer()
+	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		EnsureInit();
 	}
 	void OnDisable()
 	{
-		if (isServer)
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
+
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 	}
 
 	protected virtual void UpdateMe()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (isServer)
 		{
-			timeCurrent += Time.deltaTime;
+			timeCurrentDisk += Time.deltaTime;
 
-			if (timeCurrent > timeCheckDiskLocation)
+			if (timeCurrentDisk > timeCheckDiskLocation)
 			{
 
 				if (DiskLost()) { Teleport();}
 
-				timeCurrent = 0;
+				timeCurrentDisk = 0;
 			}
+		}
+		else
+		{
+			timeCurrentAnimation += Time.deltaTime;
+			if (timeCurrentAnimation > 0.1f)
+			{
+				pick.RefreshUISlotImage();
+				timeCurrentAnimation = 0;
+			}
+
 		}
 			
 	}
