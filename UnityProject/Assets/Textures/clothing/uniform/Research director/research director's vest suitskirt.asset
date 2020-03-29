@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Base:
     Equipped:
-      Texture: {fileID: 2800000, guid: 439a50f8d1d4cf64aad27aeefb8961f6, type: 3}
+      Texture: {fileID: 2800000, guid: df9202c69d818024a8f0b38155f22164, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 439a50f8d1d4cf64aad27aeefb8961f6, type: 3}
-      EquippedData: {fileID: 0}
+      - {fileID: 21300000, guid: df9202c69d818024a8f0b38155f22164, type: 3}
+      - {fileID: 21300002, guid: df9202c69d818024a8f0b38155f22164, type: 3}
+      - {fileID: 21300004, guid: df9202c69d818024a8f0b38155f22164, type: 3}
+      - {fileID: 21300006, guid: df9202c69d818024a8f0b38155f22164, type: 3}
+      EquippedData: {fileID: 4900000, guid: 0b34744bef831f242822e3cf27ec14da, type: 3}
     InHandsLeft:
       Texture: {fileID: 2800000, guid: 9f2d784350c4e6d4fb8c6a63469cbea9, type: 3}
       Sprites:
