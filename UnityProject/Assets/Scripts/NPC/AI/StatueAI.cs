@@ -40,13 +40,46 @@ public class StatueAI : MobAI
 
 	public StatueStatus status;
 
-	private readonly Dictionary<Vector2, Orientation> OppositeFacing = new Dictionary<Vector2, Orientation>()
+	private readonly Dictionary<int, Orientation> Orientations = new Dictionary<int, Orientation>()
 	{
-		{Vector2.up, Orientation.Down},
-		{Vector2.down, Orientation.Up},
-		{Vector2.right, Orientation.Left},
-		{Vector2.left, Orientation.Right}
+		{1, Orientation.Up},
+		{2, Orientation.Right},
+		{3, Orientation.Down},
+		{4, Orientation.Left}
 	};
+
+		int DirToInt(Vector3 direction)
+	{
+		var angleOfDir = Vector3.Angle((Vector2) direction, transform.up);
+		if (direction.x < 0f)
+		{
+			angleOfDir = -angleOfDir;
+		}
+		if (angleOfDir > 180f)
+		{
+			angleOfDir = -180 + (angleOfDir - 180f);
+		}
+
+		if (angleOfDir < -180f)
+		{
+			angleOfDir = 180f + (angleOfDir + 180f);
+		}
+
+		switch (angleOfDir)
+		{
+			case 0:
+				return 1;
+			case float n when n == -180f || n == 180f:
+				return 3;
+			case float n when n > 0f:
+				return 2;
+			case float n when n < 0f:
+				return 4;
+			default:
+				return 2;
+
+		}
+	}
 
 	public override void OnEnable()
 	{
@@ -111,7 +144,6 @@ public class StatueAI : MobAI
 			if (moveWaitTime >= movementTickRate)
 			{
 				moveWaitTime = 0f;
-				DoRandomMove();
 			}
 
 			searchWaitTime += Time.deltaTime;
@@ -158,8 +190,11 @@ public class StatueAI : MobAI
 
 		foreach (Collider2D coll in hits)
 		{
+			var dir = (transform.position - coll.gameObject.transform.position).normalized;
+
 			if (coll.gameObject.layer == playersLayer
-				&& coll.gameObject.GetComponent<Directional>().CurrentDirection == OppositeFacing[dirSprites.CurrentFacingDirection])
+				&& !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead
+				&& coll.gameObject.GetComponent<Directional>()?.CurrentDirection == Orientations[DirToInt(dir)])
 			{
 				Freeze();
 				return true;
@@ -272,6 +307,7 @@ public class StatueAI : MobAI
 	//Determine if mob has become idle:
 	void MonitorIdleness()
 	{
+
 		if (!mobAttack.performingDecision && mobAttack.followTarget == null && !IsSomeoneLookingAtMe())
 		{
 			BeginSearch();
@@ -304,7 +340,7 @@ public class StatueAI : MobAI
 		{
 			if(mobAttack.followTarget == null)
 			{
-				FollowTarget(stalked);
+				mobAttack.StartFollowing(stalked);
 			}
 			yield return WaitFor.Seconds(.2f);
 		}
@@ -316,7 +352,7 @@ public class StatueAI : MobAI
 	protected override void ResetBehaviours()
 	{
 		base.ResetBehaviours();
-		status = StatueStatus.None;
+		status = StatueStatus.Searching;
 		searchWaitTime = 0f;
 	}
 
