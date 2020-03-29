@@ -4,7 +4,7 @@ services:
   unitystation:
     image: unitystation/unitystation:develop
     ports:
-      - 7777:7777
+      - 7777:7777/udp
     environment:
       HUB_USERNAME: $HUB_USERNAME
       HUB_PASSWORD: $HUB_PASSWORD
