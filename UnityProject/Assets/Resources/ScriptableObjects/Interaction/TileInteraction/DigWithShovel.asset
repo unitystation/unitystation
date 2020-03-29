@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: b336a4abd9d45924cb48b49a49fdea2b, type: 2}
   performerStartActionMessage: You start digging...
-  othersStartActionMessage: 
+  othersStartActionMessage: '{performer} starts digging..'
   seconds: 4
   objectsToSpawn: {fileID: 11400000, guid: 4d14f017fdbbd034eb07e3781e5ce069, type: 2}
   toTile: {fileID: 11400000, guid: 1cbd00c0c8750d34ea9dc7026dde5dd4, type: 2}
   performerFinishActionMessage: You dig a hole.
-  othersFinishActionMessage: 
+  othersFinishActionMessage: '{performer} dug a hole.'
