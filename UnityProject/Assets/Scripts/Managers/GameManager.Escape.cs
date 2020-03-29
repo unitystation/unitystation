@@ -29,8 +29,6 @@ public partial class GameManager
 		}
 	}
 
-
-
 	/// <summary>
 	/// Called after MatrixManager is initialized
 	/// </summary>

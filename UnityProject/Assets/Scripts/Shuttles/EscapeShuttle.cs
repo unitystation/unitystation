@@ -471,9 +471,9 @@ public class EscapeShuttle : NetworkBehaviour
 
 		Status = ShuttleStatus.OnRouteCentcom;
 
-		mm.SetSpeed(500f);
+		mm.SetSpeed(100f);
 		mm.StartMovement();
-		mm.MaxSpeed = 500f;
+		mm.MaxSpeed = 100f;
 		MoveToCentcom();
 	}
 
