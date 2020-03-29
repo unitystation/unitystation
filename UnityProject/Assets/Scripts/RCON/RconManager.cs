@@ -25,7 +25,7 @@ public class RconManager : RconConsole
 	}
 
 	private HttpServer httpServer;
-	private FPSMonitor fpsMonitor;
+	public FPSMonitor fpsMonitor;
 
 	private WebSocketServiceHost consoleHost;
 	private WebSocketServiceHost monitorHost;
