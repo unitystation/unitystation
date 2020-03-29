@@ -104,7 +104,7 @@ protected Vector3Int actionPosition;
 				return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
 			case Target.missingFloor:
 				// Checks the topmost tile if its the base layer (below the floor)
-				return interactableTiles.MetaTileMap.GetTile(checkPos).LayerType == LayerType.Base;
+				return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base;
 			case Target.injuredPeople:
 				return false;
 			// this includes ghosts!
