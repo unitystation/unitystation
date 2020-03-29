@@ -26,48 +26,40 @@ public class NukeDiskScript : NetworkBehaviour
 		registerItem = GetComponent<RegisterItem>();
 		bound = MatrixManager.MainStationMatrix.Bounds;
 		escapeShuttle = FindObjectOfType<EscapeShuttle>();
-	}
-	void Start()
-    {
 		pick = GetComponent<Pickupable>();
-		//StartCoroutine(Animation());
-    }
+	}
 
-	void OnEnable()
+	public override void OnStartServer()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	void OnDisable()
 	{
-
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-
+		if (isServer)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 	}
 
 	protected virtual void UpdateMe()
-	{
-		if (isServer)
-		{
+	{	
 			timeCurrent += Time.deltaTime;
 
 			if (timeCurrent > timeCheckDiskLocation)
 			{
 
-				if (CheckDiskPos()) { Teleport(); }
-
+				if (CheckDiskPos()) { Teleport(); Debug.Log(("Check disk position  =  " + CheckDiskPos().ToString())); }
+			
 				timeCurrent = 0;
 			}
-		}
-		else
-		{
-			pick.RefreshUISlotImage();
-		}
+			pick.RefreshUISlotImage();	
 	}
 
 	private bool CheckDiskPos()
 	{
-		if (MatrixManager.Get(registerItem.Matrix) != MatrixManager.MainStationMatrix)
+		if (!MatrixManager.MainStationMatrix.Bounds.Contains(Vector3Int.FloorToInt(gameObject.AssumedWorldPosServer())))
 		{
+			Debug.Log(("Disk not on station matrix"));
 			if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
 			{
 				if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
