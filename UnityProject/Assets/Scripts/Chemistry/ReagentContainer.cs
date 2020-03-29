@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Chemistry;
-using UnityEditor.Profiling.Memory.Experimental;
 
 /// <summary>
 /// Note that pretty much all the methods in this component work server-side only, but aren't
@@ -21,7 +20,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 {
 	public int maxCapacity = 100;
 	[SerializeField] private ReactionSet reactionSet;
-	[SerializeField] private ReagentMix reagentMix;
+	[SerializeField] private ReagentMix reagentMix = new ReagentMix();
 
 	public float CurrentCapacity
 	{
@@ -79,6 +78,12 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	{
 		get => reagentMix.Temperature;
 		set => reagentMix.Temperature = value;
+	}
+
+	public ReactionSet ReactionSet
+	{
+		get => reactionSet;
+		set => reactionSet = value;
 	}
 
 	private RegisterTile registerTile;
@@ -166,9 +171,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 	protected void ResetContents()
 	{
-		Reagents.Clear();
-
-		CurrentCapacity = reagentMix.CalculateTotal();
+		CurrentCapacity = reagentMix.Total;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -231,8 +234,8 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 			}
 		}
 
-		CurrentCapacity = reagentMix.CalculateTotal();
-		var totalToAdd = reagentMix.CalculateTotal();
+		CurrentCapacity = reagentMix.Total;
+		var totalToAdd = reagentMix.Total;
 
 		if (CurrentCapacity >= maxCapacity)
 		{
@@ -247,7 +250,8 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 		//Reactions happen here
 		reactionSet.Apply(this, reagentMix);
-		CurrentCapacity = reagentMix.CalculateTotal();
+		CurrentCapacity = reagentMix.Total;
+		reagentMix.Clean();
 
 		var message = string.Empty;
 		if (CurrentCapacity > maxCapacity)
@@ -255,7 +259,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 			//Reaction ends up in more reagents than container can hold
 			var excessCapacity = CurrentCapacity;
 			reagentMix.Max(maxCapacity, out _);
-			CurrentCapacity = reagentMix.CalculateTotal();
+			CurrentCapacity = reagentMix.Total;
 			message = $"Reaction caused excess ({excessCapacity}/{maxCapacity}), current capacity is {CurrentCapacity}";
 		}
 
@@ -324,7 +328,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 		}
 
 		reagentMix.Clean();
-		CurrentCapacity = reagentMix.CalculateTotal();
+		CurrentCapacity = reagentMix.Total;
 
 		return transferResult;
 	}
@@ -353,6 +357,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	public void Spill(Vector3Int worldPos, float amount)
 	{
 		var spilledReagents = TakeReagents(amount);
+		CurrentCapacity = reagentMix.Total;
 		MatrixManager.ReagentReact(spilledReagents, worldPos);
 	}
 
@@ -377,7 +382,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 		NotifyPlayersOfSpill(worldPos);
 
 		//todo: half decent regs spread
-		var spilledReagents = TakeReagents(reagentMix.CalculateTotal());
+		var spilledReagents = TakeReagents(reagentMix.Total);
 		MatrixManager.ReagentReact(spilledReagents, worldPos);
 
 		OnSpillAllContents.Invoke();
@@ -695,6 +700,11 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	public void Multiply(float multiplier)
 	{
 		reagentMix.Multiply(multiplier);
+	}
+
+	public void Clean()
+	{
+		reagentMix.Clean();
 	}
 }
 

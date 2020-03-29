@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ namespace Chemistry
 
 		public DictionaryReagentFloat reagents;
 
-		public ReagentMix(float temperature, DictionaryReagentFloat reagents)
+		public ReagentMix(DictionaryReagentFloat reagents, float temperature = ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
 			this.reagents = reagents;
@@ -40,15 +39,12 @@ namespace Chemistry
 			reagents = new DictionaryReagentFloat();
 		}
 
-		public float? this[Reagent reagent] => reagents.TryGetValue(reagent, out var val) ? val : (float?)null;
+		public float? this[Reagent reagent] => reagents.TryGetValue(reagent, out var val) ? val : (float?) null;
 
 		public void Add(ReagentMix b)
 		{
-			Temperature = (
-				              Temperature * CalculateTotal() +
-				              b.Temperature * b.CalculateTotal()
-				              ) /
-			              (CalculateTotal() + b.CalculateTotal());
+			Temperature = (Temperature * Total + b.Temperature * b.Total) /
+			              (Total + b.Total);
 
 			foreach (var reagent in b.reagents)
 			{
@@ -65,17 +61,18 @@ namespace Chemistry
 
 		public void Subtract(ReagentMix b)
 		{
-			Temperature = (
-				              Temperature * CalculateTotal() +
-				              b.Temperature * b.CalculateTotal()
-			              ) /
-			              (CalculateTotal() - b.CalculateTotal());
+			// Pretty broken, many NaNs
+			// Temperature = (
+			// 	              Temperature * CalculateTotal() +
+			// 	              b.Temperature * b.CalculateTotal()
+			//               ) /
+			//               (CalculateTotal() - b.CalculateTotal());
 
 			foreach (var reagent in b.reagents)
 			{
 				if (reagents.TryGetValue(reagent.Key, out var value))
 				{
-					reagents[reagent.Key] = reagent.Value - value;
+					reagents[reagent.Key] = value - reagent.Value;
 				}
 				else
 				{
@@ -95,7 +92,7 @@ namespace Chemistry
 		public ReagentMix TransferTo(ReagentMix b, float amount)
 		{
 			var transferred = Clone();
-			transferred.Max(amount, out _);
+			transferred.Max(Math.Min(amount, Total), out _);
 			Subtract(transferred);
 			b.Add(transferred);
 			return transferred;
@@ -110,12 +107,17 @@ namespace Chemistry
 
 		public void RemoveVolume(float amount)
 		{
-			Multiply((CalculateTotal() - amount) / CalculateTotal());
+			var multiplier = (Total - amount) / Total;
+			if (float.IsNaN(multiplier))
+			{
+				multiplier = 0;
+			}
+			Multiply(multiplier);
 		}
 
 		public void Max(float max, out float removed)
 		{
-			removed = Math.Max(max - CalculateTotal(), 0);
+			removed = Math.Max(Total - max, 0);
 			RemoveVolume(removed);
 		}
 
@@ -126,7 +128,7 @@ namespace Chemistry
 				if (reagents[key] == 0)
 				{
 					reagents.Remove(key);
-				};
+				}
 			}
 		}
 
@@ -136,9 +138,10 @@ namespace Chemistry
 		}
 
 		// Inefficient for now, can replace with a caching solution later.
-		public float CalculateTotal()
+
+		public float Total
 		{
-			return reagents.Sum(kvp => kvp.Value);
+			get { return reagents.Sum(kvp => kvp.Value); }
 		}
 
 		public bool Contains(Reagent reagent, float amount)
@@ -147,6 +150,7 @@ namespace Chemistry
 			{
 				return value >= amount;
 			}
+
 			return false;
 		}
 
@@ -156,12 +160,13 @@ namespace Chemistry
 			{
 				return value > amount;
 			}
+
 			return false;
 		}
 
 		public ReagentMix Clone()
 		{
-			return new ReagentMix(Temperature, new DictionaryReagentFloat(reagents));
+			return new ReagentMix(new DictionaryReagentFloat(reagents), Temperature);
 		}
 
 		public IEnumerator<KeyValuePair<Reagent, float>> GetEnumerator()
@@ -179,7 +184,6 @@ namespace Chemistry
 	[Serializable]
 	public class DictionaryReagentInt : SerializableDictionary<Reagent, int>
 	{
-
 	}
 
 	[Serializable]

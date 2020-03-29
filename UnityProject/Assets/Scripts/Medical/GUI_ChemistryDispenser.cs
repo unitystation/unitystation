@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Chemistry;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,39 +18,7 @@ public class GUI_ChemistryDispenser : NetTab
 	public bool HeaterOn = false;
 
 	public ChemistryDispenser ChemistryDispenser;
-	private HashSet<Chemistry.Reagent> DispensableReagents = new HashSet<Chemistry.Reagent>() { };
-
-	// private HashSet<string> DispensableChemicals = new HashSet<string>()
-	// {
-	// 	//Some security bizz
-	// 	"aluminium",
-	// 	"bromine",
-	// 	"carbon",
-	// 	"chlorine",
-	// 	"copper",
-	// 	"ethanol",
-	// 	"fluorine",
-	// 	"hydrogen",
-	// 	"iodine",
-	// 	"iron",
-	// 	"lithium",
-	// 	"mercury",
-	// 	"nitrogen",
-	// 	"oxygen",
-	// 	"phosphorus",
-	// 	"potassium",
-	// 	"radium",
-	// 	"sacid",
-	// 	"silicon",
-	// 	"silver",
-	// 	"sodium",
-	// 	"stable_plasma",
-	// 	"sugar",
-	// 	"sulfur",
-	// 	"water",
-	// 	"welding_fuel",
-	// 	"cleaner"
-	// };
+	[SerializeField] private Chemistry.Reagent[] dispensableReagents;
 
 	private List<string> DispenseAmounts = new List<string>()
 	{
@@ -146,7 +115,7 @@ public class GUI_ChemistryDispenser : NetTab
 		if (ChemistryDispenser.Container != null)
 		{
 			//Logger.Log (Chemical);
-			if (DispensableReagents.Contains(reagent)) //Checks if the the dispenser can dispense this chemical
+			if (dispensableReagents.Contains(reagent)) //Checks if the the dispenser can dispense this chemical
 			{
 				ChemistryDispenser.Container.Add(new ReagentMix(reagent,DispensedNumber, DispensedTemperatureCelsius));
 			}

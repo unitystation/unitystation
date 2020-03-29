@@ -9,8 +9,8 @@ namespace Chemistry
 	[CreateAssetMenu(fileName = "reactionSet", menuName = "ScriptableObjects/Chemistry/ReactionSet")]
 	public class ReactionSet : ScriptableObject
 	{
-		public ReactionSet[] parents;
-		public Reaction[] reactions;
+		public ReactionSet[] parents = new ReactionSet[0];
+		public Reaction[] reactions = new Reaction[0];
 
 		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{

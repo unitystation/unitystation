@@ -30,6 +30,10 @@ namespace Chemistry
 				return false;
 			}
 
+			if (!ingredients.Any())
+			{
+				return false;
+			}
 			var reactionAmount = ingredients.Min(i => reagents[i.Key] / i.Value);
 
 			if (!catalysts.All(catalyst =>
@@ -45,7 +49,15 @@ namespace Chemistry
 
 			foreach (var result in results)
 			{
-				reagents[result.Key] += reactionAmount * result.Value;
+				var reactionResult = reactionAmount * result.Value;
+				if (reagents.Contains(result.Key))
+				{
+					reagents[result.Key] += reactionResult;
+				}
+				else
+				{
+					reagents[result.Key] = reactionAmount;
+				}
 			}
 
 			foreach (var effect in effects)

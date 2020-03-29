@@ -108,40 +108,49 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				continue;
 			}
-			if (reagent.Key.name == "water")
-			{
-				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
-				foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+			switch (reagent.Key.Name)
+			{
+				case "Water":
 				{
-					livingHealthBehaviour.Extinguish();
-				}
+					matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
-				Clean(worldPosInt, localPosInt, true);
-			}
-			else if (reagent.Key.name == "cleaner")
-			{
-				Clean(worldPosInt, localPosInt, false);
-			}
-			else if (reagent.Key.name == "welding_fuel")
-			{
-				//temporary: converting spilled fuel to plasma
-				Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
-			}
-			else if (reagent.Key.name == "lube")
-			{ //( ͡° ͜ʖ ͡°)
-				if (!Get(localPosInt).IsSlippery)
-				{
-					EffectsFactory.WaterSplat(worldPosInt);
-					MakeSlipperyAt(localPosInt, false);
+					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+					{
+						livingHealthBehaviour.Extinguish();
+					}
+
+					Clean(worldPosInt, localPosInt, true);
+					break;
 				}
-			}
-			else
-			{ //for all other things leave a chem splat
-				if (!didSplat)
+				case "SpaceCleaner":
+					Clean(worldPosInt, localPosInt, false);
+					break;
+				case "WeldingFuel":
+					//temporary: converting spilled fuel to plasma
+					Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
+					break;
+				case "Lube":
 				{
-					EffectsFactory.ChemSplat(worldPosInt);
-					didSplat = true;
+					//( ͡° ͜ʖ ͡°)
+					if (!Get(localPosInt).IsSlippery)
+					{
+						EffectsFactory.WaterSplat(worldPosInt);
+						MakeSlipperyAt(localPosInt, false);
+					}
+
+					break;
+				}
+				default:
+				{
+					//for all other things leave a chem splat
+					if (!didSplat)
+					{
+						EffectsFactory.ChemSplat(worldPosInt);
+						didSplat = true;
+					}
+
+					break;
 				}
 			}
 		}
