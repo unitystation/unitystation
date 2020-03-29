@@ -118,13 +118,7 @@ namespace DatabaseAPI
             status.OSXDownload = config.OSXDownload;
             status.LinuxDownload = config.LinuxDownload;
 
-            var fps = 0;
-            if (RconManager.Instance.fpsMonitor != null)
-            {
-	            fps = (int)RconManager.Instance.fpsMonitor.Current;
-            }
-
-            status.fps = fps;
+            status.fps = (int)FPSMonitor.Instance.Current;
 
             UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)) + "&user=" + config.HubUser);
             r.SetRequestHeader("Cookie", hubCookie);
