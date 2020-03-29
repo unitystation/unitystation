@@ -257,38 +257,6 @@ public class StatueAI : MobAI
 		}
 	}
 
-	private void DoRandomMove()
-	{
-		var nudgeDir = GetNudgeDirFromInt(Random.Range(0, 8));
-		if (registerObject.Matrix.IsSpaceAt(registerObject.LocalPosition + nudgeDir.To3Int(), true))
-		{
-			for (int i = 0; i < 8; i++)
-			{
-				var testDir = GetNudgeDirFromInt(i);
-				var checkTile = registerObject.LocalPosition + testDir.To3Int();
-				if (!registerObject.Matrix.IsSpaceAt(checkTile, true))
-				{
-					if (registerObject.Matrix.IsPassableAt(checkTile, true))
-					{
-						nudgeDir = testDir;
-						break;
-					}
-					else
-					{
-						if (registerObject.Matrix.GetFirst<DoorController>(checkTile, true))
-						{
-							nudgeDir = testDir;
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		NudgeInDirection(nudgeDir);
-		movementTickRate = Random.Range(1f, 3f);
-	}
-
 	void PlaySound()
 	{
 		if (!IsDead && !IsUnconscious && GenericSounds.Count > 0)
