@@ -916,11 +916,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.14117648, g: 0.20784314, b: 0.28235295, a: 1}
-    m_HighlightedColor: {r: 0.2, g: 0.3137255, b: 0.4, a: 1}
-    m_PressedColor: {r: 0.14117648, g: 0.20784314, b: 0.28235295, a: 1}
-    m_SelectedColor: {r: 0.2, g: 0.3137255, b: 0.4, a: 1}
-    m_DisabledColor: {r: 0.14117648, g: 0.20784314, b: 0.28235295, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -935,21 +935,21 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 6869832768842475107}
-  m_TextComponent: {fileID: 7081524170148497988}
-  m_Placeholder: {fileID: 8277150103014674205}
-  m_ContentType: 4
+  m_TargetGraphic: {fileID: 0}
+  m_TextComponent: {fileID: 0}
+  m_Placeholder: {fileID: 0}
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 3
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312010063642934388}
+      - m_Target: {fileID: 659765550140704921}
         m_MethodName: OnSearch
         m_Mode: 1
         m_Arguments:
@@ -959,11 +959,11 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-        - m_Target: {fileID: 1312010063642934388}
+      - m_Target: {fileID: 659765550140704921}
         m_MethodName: OnSearch
         m_Mode: 1
         m_Arguments:
@@ -973,7 +973,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
@@ -1461,7 +1461,7 @@ GameObject:
   - component: {fileID: 5016789242479798133}
   - component: {fileID: 1899890377093831302}
   - component: {fileID: 7081524170148497988}
-  - component: {fileID: 1312010063642934388}
+  - component: {fileID: 659765550140704921}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1528,7 +1528,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &1312010063642934388
+--- !u!114 &659765550140704921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
