@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Unsecuring_WindowReinforced_Step_2_To_1
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-  performerStartActionMessage: You start securing bolts of the window...
-  othersStartActionMessage: '{performer} starts securing bolts of the window...'
+  performerStartActionMessage: You start securing the bolts on the window...
+  othersStartActionMessage: '{performer} starts securing the bolts on the window...'
   seconds: 4
   objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 5c6a9fd33552c3b4a9f1872061904d22, type: 2}
-  performerFinishActionMessage: You secured bolts of the window.
-  othersFinishActionMessage: '{performer} finished securing bolts of the window.'
+  performerFinishActionMessage: You secured the bolts on the window.
+  othersFinishActionMessage: '{performer} finished securing the bolts on the window.'
