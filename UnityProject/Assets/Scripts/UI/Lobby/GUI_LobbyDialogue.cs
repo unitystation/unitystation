@@ -355,7 +355,8 @@ namespace Lobby
 			Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, serverAddress, serverPort);
 
 			networkManager.networkAddress = serverAddress;
-			networkManager.GetComponent<TelepathyTransport>().port = serverPort;
+		//	networkManager.GetComponent<TelepathyTransport>().port = serverPort;
+			networkManager.GetComponent<IgnoranceThreaded>().CommunicationPort = serverPort;
 			networkManager.StartClient();
 		}
 
