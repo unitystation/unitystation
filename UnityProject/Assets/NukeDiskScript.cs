@@ -18,7 +18,6 @@ public class NukeDiskScript : NetworkBehaviour
 	private float timeCheckDiskLocation = 1.0f;
 	private float timeCurrent = 0;
 	
-	private float maxDistance = 800;
 	// Start is called before the first frame update
 	private void Awake()
 	{
@@ -42,24 +41,26 @@ public class NukeDiskScript : NetworkBehaviour
 	}
 
 	protected virtual void UpdateMe()
-	{	
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
 			timeCurrent += Time.deltaTime;
 
 			if (timeCurrent > timeCheckDiskLocation)
 			{
 
-				if (CheckDiskPos()) { Teleport(); Debug.Log(("Check disk position  =  " + CheckDiskPos().ToString())); }
-			
+				if (DiskLost()) { Teleport();}
+
 				timeCurrent = 0;
 			}
-			pick.RefreshUISlotImage();	
+		}
+			
 	}
 
-	private bool CheckDiskPos()
+	private bool DiskLost()
 	{
-		if (!MatrixManager.MainStationMatrix.Bounds.Contains(Vector3Int.FloorToInt(gameObject.AssumedWorldPosServer())))
+		if (!bound.Contains(Vector3Int.FloorToInt(gameObject.AssumedWorldPosServer())))
 		{
-			Debug.Log(("Disk not on station matrix"));
 			if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
 			{
 				if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
@@ -106,9 +107,6 @@ public class NukeDiskScript : NetworkBehaviour
 		{
 			position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
 		}
-		//gameObject.GetComponent<CustomNetTransform>().Stop();
 		customNetTrans.SetPosition(position);
-		Debug.Log(("Teleport disk to position = " + position.ToString()));
-		Debug.Log(("disk to assumed pos  = " + gameObject.AssumedWorldPosServer()));
 	}
 }
