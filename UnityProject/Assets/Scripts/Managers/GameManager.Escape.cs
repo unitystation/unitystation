@@ -121,7 +121,7 @@ public partial class GameManager
 		PrimaryEscapeShuttle.SendShuttle();
 
 		//centcom round end countdown
-		int timeToCentcom = (seconds * 2 - 10);
+		int timeToCentcom = (seconds * 2 - 15);
 		for ( int i = timeToCentcom - 1; i >= 0; i-- )
 		{
 			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );
