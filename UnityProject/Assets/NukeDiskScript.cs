@@ -33,66 +33,78 @@ public class NukeDiskScript : NetworkBehaviour
 		//StartCoroutine(Animation());
     }
 
-	public override void OnStartServer()
+	void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	void OnDisable()
 	{
-		if (isServer)
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
+
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 	}
-	// Update is called once per frame
-	void Update()
-    {
-		pick.RefreshUISlotImage();
-    }
+
 	protected virtual void UpdateMe()
 	{
-		timeCurrent += Time.deltaTime;
-
-		if (timeCurrent > timeCheckDiskLocation)
+		if (isServer)
 		{
-			if ((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer()).magnitude > maxDistance)
+			timeCurrent += Time.deltaTime;
+
+			if (timeCurrent > timeCheckDiskLocation)
 			{
-				if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
-				{
-					if(escapeShuttle.MatrixInfo.Bounds.Contains(Vector3Int.FloorToInt(gameObject.AssumedWorldPosServer())))
-					{
-						return;
-					}
-					Teleport();
-					timeCurrent = 0;
-					return;
-				}
-				else
-				{
-					ItemSlot slot = pick.ItemSlot;
-					if (slot == null)
-					{
-						Teleport();
-						timeCurrent = 0;
-						return;
-					}
-					RegisterPlayer player = slot.Player;
-					if (player == null)
-					{
-						Teleport();
-						timeCurrent = 0;
-						return;
-					}
-					if (player.GetComponent<PlayerHealth>().IsDead)
-					{
-						Teleport();
-						timeCurrent = 0;
-						return;
-					}
-				}
+
+				if (CheckDiskPos()) { Teleport(); }
+
+				timeCurrent = 0;
 			}
-			timeCurrent = 0;
 		}
+		else
+		{
+			pick.RefreshUISlotImage();
+		}
+	}
+
+	private bool CheckDiskPos()
+	{
+		if (MatrixManager.Get(registerItem.Matrix) != MatrixManager.MainStationMatrix)
+		{
+			if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
+			{
+				if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
+				{
+					return false;
+				}
+				return true;
+			}
+			else
+			{
+				ItemSlot slot = pick.ItemSlot;
+				if (slot == null)
+				{
+					return true;
+				}
+				RegisterPlayer player = slot.Player;
+				if (player == null)
+				{
+					return true;
+				}
+				if (player.GetComponent<PlayerHealth>().IsDead)
+				{
+					return true;
+				}
+				var checkPlayer = PlayerList.Instance.Get(player.gameObject);
+				if(checkPlayer == null)
+				{
+					return true;
+				}
+				if(!PlayerList.Instance.AntagPlayers.Contains(checkPlayer))
+				{
+					return true;
+				}
+
+			}
+		}
+		return false;
 	}
 
 	private void Teleport()
