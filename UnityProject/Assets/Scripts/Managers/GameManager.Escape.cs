@@ -71,7 +71,15 @@ public partial class GameManager
 
 			if ( status == ShuttleStatus.DockedCentcom && beenToStation )
 			{
-				Logger.Log( "Shuttle arrived to Centcom, Round should end here", Category.Round );
+				Logger.Log("Shuttle arrived at Centcom", Category.Round);
+				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has docked at Centcomm! Round will restart in 1 minute.</color>", MatrixManager.MainStationMatrix);
+				StartCoroutine(WaitForRoundEnd());
+			}
+
+			IEnumerator WaitForRoundEnd()
+			{
+				Logger.Log("Shuttle docked to Centcom, Round will end in 1 minute", Category.Round);
+				yield return WaitFor.Seconds(60f);
 				EndRound();
 			}
 
@@ -113,7 +121,7 @@ public partial class GameManager
 		PrimaryEscapeShuttle.SendShuttle();
 
 		//centcom round end countdown
-		int timeToCentcom = (seconds * 2);
+		int timeToCentcom = (seconds * 2 - 10);
 		for ( int i = timeToCentcom - 1; i >= 0; i-- )
 		{
 			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );

@@ -12,13 +12,16 @@ using UnityEngine.Serialization;
 public class EscapeShuttle : NetworkBehaviour
 {
 	// Indicates at which moment (in remaining seconds) the shuttle should really start moving
-	private const int StartMovingAtCount = 30;
+	private const int StartMovingAtCount = 100;
 
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
 
 	public ShuttleStatusEvent OnShuttleUpdate = new ShuttleStatusEvent();
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
+	public AudioSource hyperspace_begin;
+	public AudioSource hyperspace_progress;
+	public AudioSource hyperspace_end;
 
 
 	void Start()
@@ -222,6 +225,13 @@ public class EscapeShuttle : NetworkBehaviour
 		if ( mm.ServerState.IsMoving )
 		{
 
+			if (DistanceToDestination < 200)
+			{
+				mm.SetSpeed(80);
+			}
+
+			
+
 			if ( DistanceToDestination < 2 )
 			{
 				mm.SetPosition( currentDestination.Position );
@@ -231,6 +241,11 @@ public class EscapeShuttle : NetworkBehaviour
 				if ( Status == ShuttleStatus.OnRouteStation )
 				{
 					Status = ShuttleStatus.DockedStation;
+				}
+				else if(Status == ShuttleStatus.OnRouteCentcom)
+				{
+					Status = ShuttleStatus.DockedCentcom;
+					StartCoroutine(WaitForShuttleEndDock());
 				}
 			}
 			else if ( DistanceToDestination < 25 && currentDestination.ApproachReversed )
@@ -296,7 +311,12 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			isReverse = true;
 			mm.ChangeFacingDirection(mm.ServerState.FacingDirection.Rotate(2));
-			PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
+			if (Status == ShuttleStatus.DockedStation)
+			{
+				PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
+			}
+			else {}
+			
 		}
 	}
 
@@ -439,12 +459,28 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public void SendShuttle()
 	{
+		hyperspace_begin.Play();
+		StartCoroutine(WaitForShuttleLaunch());
+
+	}
+
+	IEnumerator WaitForShuttleLaunch()
+	{
+		yield return WaitFor.Seconds(7f);
+		hyperspace_progress.Play();
+
 		Status = ShuttleStatus.OnRouteCentcom;
 
-		currentDestination = Destination.Invalid;
-		mm.SetSpeed( 100f );
+		mm.SetSpeed(500f);
 		mm.StartMovement();
-		mm.MaxSpeed = 100f;
+		mm.MaxSpeed = 500f;
+		MoveToCentcom();
+	}
+
+	IEnumerator WaitForShuttleEndDock()
+	{
+		yield return WaitFor.Seconds(0);
+		hyperspace_end.Play();
 	}
 
 
@@ -471,8 +507,9 @@ public class EscapeShuttle : NetworkBehaviour
 	public void MoveToStation()
 	{
 		startedMovingToStation = true;
-		mm.SetSpeed( 25 );
-		MoveTo( StationDest );
+		
+		mm.SetSpeed( 200 );
+		MoveTo(StationDest);
 	}
 
 	/// <summary>
@@ -481,8 +518,9 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public void MoveToCentcom()
 	{
-		mm.SetSpeed( 25 );
+		mm.SetSpeed( 200 );
 		MoveTo( CentcomDest );
+
 	}
 
 	private void MoveTo( Destination dest )
