@@ -58,7 +58,6 @@ namespace AdminTools
 		public bool isAdmin;
 		public bool isOnline;
 		public string ipAddress;
-		public string deviceid;
 	}
 
 	[Serializable]
