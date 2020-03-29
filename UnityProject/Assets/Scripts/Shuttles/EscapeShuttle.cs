@@ -230,8 +230,6 @@ public class EscapeShuttle : NetworkBehaviour
 				mm.SetSpeed(80);
 			}
 
-			
-
 			if ( DistanceToDestination < 2 )
 			{
 				mm.SetPosition( currentDestination.Position );
@@ -518,7 +516,7 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public void MoveToCentcom()
 	{
-		mm.SetSpeed( 200 );
+		mm.SetSpeed( 140 );
 		MoveTo( CentcomDest );
 
 	}
