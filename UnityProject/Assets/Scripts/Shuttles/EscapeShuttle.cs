@@ -91,6 +91,11 @@ public class EscapeShuttle : NetworkBehaviour
 	private bool startedMovingToStation;
 
 	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
+
+	/// <summary>
+	/// Sets a position for the escape shuttle to move to before moving to station, which will stop it from colliding with CentComm.
+	/// </summary>
+	[Tooltip("Sets a position for the escape shuttle to move to before moving to station, which will stop it from colliding with CentComm.")]
 	public Vector2 CentCommLeave = new Vector2(3890, 8);
 
 	/// <summary>
@@ -247,14 +252,21 @@ public class EscapeShuttle : NetworkBehaviour
 				else if(Status == ShuttleStatus.OnRouteCentcom)
 				{
 					Status = ShuttleStatus.DockedCentcom;
+					
 					//StartCoroutine(WaitForShuttleEndDock());
-					hyperspace_end.Play();
+
 				}
 			}
+
 			else if ( DistanceToDestination < 25 && currentDestination.ApproachReversed )
 			{
 				TryPark();
 			}
+		}
+
+		if (Status == ShuttleStatus.DockedCentcom)
+		{
+			hyperspace_end.Play();
 		}
 
 		//check if we're trying to move but are unable to
