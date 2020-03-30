@@ -252,9 +252,6 @@ public class EscapeShuttle : NetworkBehaviour
 				else if(Status == ShuttleStatus.OnRouteCentcom)
 				{
 					Status = ShuttleStatus.DockedCentcom;
-					
-					//StartCoroutine(WaitForShuttleEndDock());
-
 				}
 			}
 
@@ -492,13 +489,6 @@ public class EscapeShuttle : NetworkBehaviour
 		mm.MaxSpeed = 100f;
 		MoveToCentcom();
 	}
-
-	IEnumerator WaitForShuttleEndDock()
-	{
-		yield return WaitFor.Seconds(0);
-		//hyperspace_end.Play();
-	}
-
 
 	private IEnumerator TickTimer( bool inverse = false )
 	{
