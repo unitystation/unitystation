@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 public class EscapeShuttle : NetworkBehaviour
 {
 	// Indicates at which moment (in remaining seconds) the shuttle should really start moving
-	private const int StartMovingAtCount = 100;
+	private const int StartMovingAtCount = 135;
 
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
@@ -256,6 +256,10 @@ public class EscapeShuttle : NetworkBehaviour
 				else if(Status == ShuttleStatus.OnRouteCentcom)
 				{
 					Status = ShuttleStatus.DockedCentcom;
+					if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
+					{
+						hyperspace_end.Play();
+					}
 				}
 			}
 
@@ -329,7 +333,7 @@ public class EscapeShuttle : NetworkBehaviour
 			}
 			else {}
 			*/
-			
+			HasShuttleDockedToStation = true;
 		}
 	}
 
@@ -477,11 +481,6 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		hyperspace_begin.Play();
 		StartCoroutine(WaitForShuttleLaunch());
-
-		if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
-		{
-			hyperspace_end.Play();
-		}
 	}
 
 	IEnumerator WaitForShuttleLaunch()
@@ -496,7 +495,6 @@ public class EscapeShuttle : NetworkBehaviour
 		mm.MaxSpeed = 100f;
 		MoveToCentcom();
 	}
-
 
 	private IEnumerator TickTimer( bool inverse = false )
 	{
