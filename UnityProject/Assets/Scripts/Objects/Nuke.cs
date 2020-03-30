@@ -175,6 +175,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>,IAdminInfo
 			{
 				if(isTimerTicking)
 				{
+					GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
 					GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 					this.TryStopCoroutine(ref timerHandle);
 					isTimerTicking = false;
@@ -211,6 +212,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>,IAdminInfo
 			if (isTimer && isTimerTicking)
 			{
 				isTimerTicking = false;
+				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
 				GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 				this.TryStopCoroutine(ref timerHandle);
 			}
@@ -238,6 +240,7 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>,IAdminInfo
 			isTimerTicking = true;
 			CurrentTimerSeconds = digit;
 			CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
+			GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
 			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
 			this.StartCoroutine(TickTimer(), ref timerHandle);
 			return true;
