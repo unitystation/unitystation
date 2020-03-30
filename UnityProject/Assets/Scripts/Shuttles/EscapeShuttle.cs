@@ -39,6 +39,8 @@ public class EscapeShuttle : NetworkBehaviour
 		else if (OrientationLeft == true)
 		{
 			CentcomDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
+			// Isolated use of CentCommLeave, modify according to your CentComm position and rotation
+			CentcomLeave = new Destination { Orientation = Orientation.Right, Position = new Vector2(- 10, 9), ApproachReversed = StationApproachReversed};
 			StationDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
 		}
 		else if (OrientationDown == true)
@@ -69,6 +71,7 @@ public class EscapeShuttle : NetworkBehaviour
 	public Vector2 DockingLocationStation;
 	public bool StationApproachReversed;
 	public Destination CentcomDest;
+	public Destination CentcomLeave;
 	public Vector2 DockingLocationCentcom;
 	public bool CentcomApproachReversed;
 	public Destination StationDest;
@@ -88,6 +91,7 @@ public class EscapeShuttle : NetworkBehaviour
 	private bool startedMovingToStation;
 
 	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
+	public Vector2 CentCommLeave = new Vector2(3890, 8);
 
 	/// <summary>
 	/// Seconds for shuttle call
@@ -243,7 +247,8 @@ public class EscapeShuttle : NetworkBehaviour
 				else if(Status == ShuttleStatus.OnRouteCentcom)
 				{
 					Status = ShuttleStatus.DockedCentcom;
-					StartCoroutine(WaitForShuttleEndDock());
+					//StartCoroutine(WaitForShuttleEndDock());
+					hyperspace_end.Play();
 				}
 			}
 			else if ( DistanceToDestination < 25 && currentDestination.ApproachReversed )
@@ -390,6 +395,7 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			if ( time <= StartMovingAtCount)
 			{
+				mm.SetPosition(CentCommLeave);
 				MoveToStation();
 				OnTimerUpdate.RemoveListener( Action ); //self-remove after firing once
 			}
@@ -478,7 +484,7 @@ public class EscapeShuttle : NetworkBehaviour
 	IEnumerator WaitForShuttleEndDock()
 	{
 		yield return WaitFor.Seconds(0);
-		hyperspace_end.Play();
+		//hyperspace_end.Play();
 	}
 
 
@@ -516,7 +522,7 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public void MoveToCentcom()
 	{
-		mm.SetSpeed( 140 );
+		mm.SetSpeed( 90 );
 		MoveTo( CentcomDest );
 
 	}
