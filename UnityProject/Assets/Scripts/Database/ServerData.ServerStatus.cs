@@ -41,6 +41,7 @@ namespace DatabaseAPI
         private string publicIP;
         private TelepathyTransport telepathyTransport;
         private IgnoranceThreaded ignoranceTransport;
+        private BoosterTransport boosterTransport;
 
         void AttemptConfigLoad()
         {
@@ -140,6 +141,11 @@ namespace DatabaseAPI
 	        if (ignoranceTransport != null)
 	        {
 		        return Convert.ToInt32(ignoranceTransport.CommunicationPort);
+	        }
+
+	        if (boosterTransport!= null)
+	        {
+		        return Convert.ToInt32(boosterTransport.boosterPort);
 	        }
 
 	        return port;
