@@ -101,20 +101,6 @@ namespace Tests.Chemistry
 			//Test multiple overflow
 			yield return new object[]
 			{
-				20,
-				new ReagentMix(a, 10),
-				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
-				new ReagentMix(new DictionaryReagentFloat {{a, 15}, {b, 5}})
-			};
-			yield return new object[]
-			{
-				100,
-				new ReagentMix(a, 90),
-				new ReagentMix(new DictionaryReagentFloat {{a, 90}, {b, 10}}),
-				new ReagentMix(new DictionaryReagentFloat {{a, 99}, {b, 1}})
-			};
-			yield return new object[]
-			{
 				10,
 				new ReagentMix(),
 				new ReagentMix(new DictionaryReagentFloat {{a, 60}, {b, 10}, {c, 30}}),
