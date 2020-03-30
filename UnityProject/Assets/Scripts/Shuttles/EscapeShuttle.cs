@@ -90,6 +90,9 @@ public class EscapeShuttle : NetworkBehaviour
 	// Indicate if the shuttle really started moving toward station (It really starts moving in the StartMovingAtCount remaining seconds)
 	private bool startedMovingToStation;
 
+	// Checks if shuttle has docked at station
+	private bool HasShuttleDockedToStation = false;
+
 	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
 
 	/// <summary>
@@ -248,6 +251,7 @@ public class EscapeShuttle : NetworkBehaviour
 				if ( Status == ShuttleStatus.OnRouteStation )
 				{
 					Status = ShuttleStatus.DockedStation;
+					HasShuttleDockedToStation = true;
 				}
 				else if(Status == ShuttleStatus.OnRouteCentcom)
 				{
@@ -259,11 +263,6 @@ public class EscapeShuttle : NetworkBehaviour
 			{
 				TryPark();
 			}
-		}
-
-		if (Status == ShuttleStatus.DockedCentcom)
-		{
-			hyperspace_end.Play();
 		}
 
 		//check if we're trying to move but are unable to
@@ -323,11 +322,13 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			isReverse = true;
 			mm.ChangeFacingDirection(mm.ServerState.FacingDirection.Rotate(2));
+			/*
 			if (Status == ShuttleStatus.DockedStation)
 			{
 				PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
 			}
 			else {}
+			*/
 			
 		}
 	}
@@ -470,11 +471,17 @@ public class EscapeShuttle : NetworkBehaviour
 	/// Should send arrived shuttle to Centcom, with Heads' blessing or otherwise
 	/// But! it sends shuttle into abyss with increasing speed for now
 	/// </summary>
+	///
+
 	public void SendShuttle()
 	{
 		hyperspace_begin.Play();
 		StartCoroutine(WaitForShuttleLaunch());
 
+		if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
+		{
+			hyperspace_end.Play();
+		}
 	}
 
 	IEnumerator WaitForShuttleLaunch()
@@ -489,6 +496,7 @@ public class EscapeShuttle : NetworkBehaviour
 		mm.MaxSpeed = 100f;
 		MoveToCentcom();
 	}
+
 
 	private IEnumerator TickTimer( bool inverse = false )
 	{
@@ -534,6 +542,7 @@ public class EscapeShuttle : NetworkBehaviour
 		currentDestination = dest;
 		mm.AutopilotTo( currentDestination.Position );
 	}
+
 }
 
 public class ShuttleStatusEvent : UnityEvent<ShuttleStatus> { }

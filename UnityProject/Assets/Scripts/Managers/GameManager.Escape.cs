@@ -84,7 +84,7 @@ public partial class GameManager
 			if (status == ShuttleStatus.DockedStation)
 			{
 				beenToStation = true;
-				SoundManager.PlayNetworked( "Disembark" );
+				SoundManager.PlayNetworked("ShuttleDocked");
 				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has arrived! Crew has 1 minute to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
 				StartCoroutine( SendEscapeShuttle( 60 ) );
