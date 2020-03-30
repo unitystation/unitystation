@@ -37,6 +37,8 @@ public class GUI_Comms : NetTab
 	private NetLabel CurrentAlertLevelLabel = null;
 	[SerializeField]
 	private NetLabel NewAlertLevelLabel = null;
+	[SerializeField]
+	private NetLabel AlertErrorLabel = null;
 
 	private CommsConsole console;
 	private EscapeShuttle shuttle;
@@ -186,14 +188,37 @@ public class GUI_Comms : NetTab
 	}
 	public void ChangeAlertLevel()
 	{
+		if (GameManager.Instance.stationTime < GameManager.Instance.CentComm.lastAlertChange.AddMinutes(
+			GameManager.Instance.CentComm.coolDownAlertChange))
+		{
+			StartCoroutine(DisplayAlertErrorMessage("Error: recent alert level change detected!"));
+			return;
+		}
+
 		Logger.Log( nameof(ChangeAlertLevel), Category.NetUI );
+		GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.stationTime;
 		GameManager.Instance.CentComm.ChangeAlertLevel(LocalAlertLevel);
 
 		OpenMenu();
 	}
 
+	IEnumerator DisplayAlertErrorMessage(string text)
+	{
+		AlertErrorLabel.SetValue = text;
+		for (int _i = 0; _i < 5; _i++)
+		{
+			yield return WaitFor.Seconds(1);
+			AlertErrorLabel.SetValue = "";
+			yield return WaitFor.Seconds(1);
+			AlertErrorLabel.SetValue = text;
+		}
+		AlertErrorLabel.SetValue = "";
+		yield break;
+	}
+
 	public void SelectAlertLevel(string levelName)
 	{
+		//TODO require 2 ID's to change to red level
 		LocalAlertLevel =
 			(CentComm.AlertLevel)Enum.Parse(typeof(CentComm.AlertLevel), levelName);
 	}
