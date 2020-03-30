@@ -84,7 +84,6 @@ GameObject:
   - component: {fileID: 9149683755898081997}
   - component: {fileID: 5997458638329033524}
   - component: {fileID: 2540429587469394975}
-  - component: {fileID: 361918911937808407}
   - component: {fileID: 7825087733742647832}
   m_Layer: 5
   m_Name: InputField
@@ -150,19 +149,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &361918911937808407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169319754478558758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa3c2b1574a34d4b93b464bd8a18e0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Searchtext: {fileID: 0}
 --- !u!114 &7825087733742647832
 MonoBehaviour:
   m_ObjectHideFlags: 0
