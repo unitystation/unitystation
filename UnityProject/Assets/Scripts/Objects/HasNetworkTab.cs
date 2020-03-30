@@ -6,10 +6,22 @@ using UnityEngine;
 /// please ensure this component is placed below them, otherwise the tab open/close will
 /// be the interaction that always takes precedence.
 /// </summary>
-public class HasNetworkTab : MonoBehaviour, IInteractable<HandApply>, IServerDespawn
+public class HasNetworkTab : MonoBehaviour, ICheckedInteractable<HandApply>, IServerDespawn
 {
 	[Tooltip("Network tab to display.")]
 	public NetTabType NetTabType = NetTabType.None;
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side))
+			return false;
+
+		//interaction only works if hand is empty
+		if (interaction.HandObject != null)
+		{ return false; }
+
+		return true;
+	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{

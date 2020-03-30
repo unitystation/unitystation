@@ -181,7 +181,7 @@ public class CentComm : MonoBehaviour
 			int _levelString = (int) ToLevel * -1;
 			MakeAnnouncement(CentCommAnnounceTemplate, 
 							AlertLevelStrings[(AlertLevelString)_levelString], 
-							UpdateSound.alert);
+							UpdateSound.notice);
 		}
 		else if (CurrentAlertLevel < ToLevel && Announce)
 		{
