@@ -110,9 +110,9 @@ public partial class GameManager
 	private IEnumerator SendEscapeShuttle( int seconds )
 	{
 		//departure countdown
-		for ( int i = seconds - 1; i >= 0; i-- )
+		for ( int i = seconds; i >= 0; i-- )
 		{
-			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Departing in\n") );
+			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Depart\nETA: ") );
 			yield return WaitFor.Seconds(1);
 		}
 
