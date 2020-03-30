@@ -39,8 +39,6 @@ public class EscapeShuttle : NetworkBehaviour
 		else if (OrientationLeft == true)
 		{
 			CentcomDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
-			// Isolated use of CentCommLeave, modify according to your CentComm position and rotation
-			CentcomLeave = new Destination { Orientation = Orientation.Right, Position = new Vector2(- 10, 9), ApproachReversed = StationApproachReversed};
 			StationDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
 		}
 		else if (OrientationDown == true)
@@ -71,7 +69,6 @@ public class EscapeShuttle : NetworkBehaviour
 	public Vector2 DockingLocationStation;
 	public bool StationApproachReversed;
 	public Destination CentcomDest;
-	public Destination CentcomLeave;
 	public Vector2 DockingLocationCentcom;
 	public bool CentcomApproachReversed;
 	public Destination StationDest;
