@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 2924057578287968402}
   - component: {fileID: 2959621213063014110}
   - component: {fileID: 5032898753073590648}
-  - component: {fileID: 2396524470576079777}
+  - component: {fileID: 1791546816897742244}
+  - component: {fileID: 4954124553048819253}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -52,7 +53,7 @@ MonoBehaviour:
   showDebugMessages: 0
   offlineScene: Lobby
   onlineScene: OutpostStation
-  transport: {fileID: 2396524470576079777}
+  transport: {fileID: 1791546816897742244}
   networkAddress: localhost
   maxConnections: 100
   authenticator: {fileID: 0}
@@ -1155,7 +1156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkManager: {fileID: 2959621213063014110}
---- !u!114 &2396524470576079777
+--- !u!114 &1791546816897742244
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1164,7 +1165,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2920527550438430692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec862738267237f4d91e6454ff15f4ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 52b2794c3c5fa43638689de2032811b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OnClientConnected:
@@ -1191,11 +1192,46 @@ MonoBehaviour:
   OnServerDisconnected:
     m_PersistentCalls:
       m_Calls: []
-  DebugEnabled: 0
-  ServerBindAll: 1
-  ServerBindAddress: 127.0.0.1
-  CommunicationPort: 7777
-  MaximumPeerCCU: 4095
-  EnetPollTimeout: 1
-  MaxPacketSizeInKb: 64
-  Channels: 0100000002000000
+  port: 7777
+  boosterPort: 7776
+  beamFile: {fileID: 0}
+--- !u!114 &4954124553048819253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClientConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  port: 7777
+  NoDelay: 0
+  serverMaxMessageSize: 16384
+  clientMaxMessageSize: 16384
