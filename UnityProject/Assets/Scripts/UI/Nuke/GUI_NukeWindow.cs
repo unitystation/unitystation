@@ -194,7 +194,7 @@ public class GUI_NukeWindow : NetTab
 			InfoSafetyColor.SetValue = isSafety.Value ? colorGreen : colorRed;
 			if (isSafety.Value) { InfoTimerColor.SetValue = colorRed; }
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("Safety is: " + (isSafety.Value ? "On" : "Off")), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Safety is: " + (isSafety.Value ? "On" : "Off"), (isSafety.Value ? "Nuke disarmed!" : "Nuke armed!")), ref corHandler);
 		}
 		else
 		{
@@ -221,12 +221,12 @@ public class GUI_NukeWindow : NetTab
 		{
 			InfoAnchorColor.SetValue = isAnchored.Value ? colorRed : colorGreen ;
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On")), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On"), (isAnchored.Value ? "Nuke position Unlocked!" : "Nuke positionLocked!")), ref corHandler);
 		}
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("Enter the code first!", "Input code:"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Safety is on!", "Nuke is unarmed!"), ref corHandler);
 		}
 	}
 
@@ -246,7 +246,7 @@ public class GUI_NukeWindow : NetTab
 			Clear();
 			InfoTimerColor.SetValue = isTimer.Value ? colorGreen : colorRed;
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off")), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off"), (isTimer.Value ? "Set countdown timer:" : "Nuclear detonation aborted!")), ref corHandler);
 			if (!isTimer.Value)
 			{
 				//Clear countdown timer upon disabling it
@@ -256,7 +256,7 @@ public class GUI_NukeWindow : NetTab
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("Enter the code first!", "Enter code:"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Safety is on!", "Nuke is unarmed!"), ref corHandler);
 		}
 	}
 
