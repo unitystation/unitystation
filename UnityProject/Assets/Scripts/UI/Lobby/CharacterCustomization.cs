@@ -396,7 +396,7 @@ namespace Lobby
 		{
 			if (!colorPicker.gameObject.activeInHierarchy)
 			{
-				OpenColorPicker(eyeColor.color, EyeColorChange, 364f);
+				OpenColorPicker(eyeColor.color, EyeColorChange, 182f);
 			}
 		}
 
@@ -428,7 +428,7 @@ namespace Lobby
 		{
 			if (!colorPicker.gameObject.activeInHierarchy)
 			{
-				OpenColorPicker(hairColor.color, HairColorChange, 374f);
+				OpenColorPicker(hairColor.color, HairColorChange, 276f);
 			}
 		}
 
@@ -482,7 +482,7 @@ namespace Lobby
 		{
 			if (!colorPicker.gameObject.activeInHierarchy)
 			{
-				OpenColorPicker(facialColor.color, FacialHairColorChange, 334f);
+				OpenColorPicker(facialColor.color, FacialHairColorChange, 64f);
 			}
 		}
 
