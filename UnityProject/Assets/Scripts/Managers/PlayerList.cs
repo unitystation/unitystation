@@ -282,6 +282,13 @@ public partial class PlayerList : NetworkBehaviour
 		return getInternal(player => player.UserId == byUserID);
 	}
 
+
+	[Server]
+	public ConnectedPlayer GetByConnection(NetworkConnection connection)
+	{
+		return getInternal(player => player.Connection == connection);
+	}
+
 	[Server]
 	public List<ConnectedPlayer> GetAllByUserID(string byUserID)
 	{
@@ -394,13 +401,13 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayer(string clientId)
+	public GameObject TakeLoggedOffPlayer(string userId)
 	{
-		Logger.LogTraceFormat("Searching for logged off players with id {0}", Category.Connections, clientId);
+		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
 		{
-			Logger.LogTraceFormat("Found logged off player with id {0}", Category.Connections, player.ClientId);
-			if (player.ClientId == clientId)
+			Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.UserId);
+			if (player.UserId == userId)
 			{
 				loggedOff.Remove(player);
 				return player.GameObject;

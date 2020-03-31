@@ -33,37 +33,41 @@ public class JoinedViewer : NetworkBehaviour
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(string clientID, string username,
-		string userid, int clientVersion, string token)
+	private void CmdServerSetupPlayer(string unverifiedClientId, string unverifiedUsername,
+		string unverifiedUserid, int unverifiedClientVersion, string unverifiedToken)
 	{
-		ServerSetUpPlayer(clientID, username, userid, clientVersion, token);
+		ServerSetUpPlayer(unverifiedClientId, unverifiedUsername, unverifiedUserid, unverifiedClientVersion, unverifiedToken);
 	}
 
 	[Server]
-	private async void ServerSetUpPlayer(string clientID, string username, string userid, int clientVersion,
-		string token)
+	private async void ServerSetUpPlayer(
+		string unverifiedClientId,
+		string unverifiedUsername,
+		string unverifiedUserid,
+		int unverifiedClientVersion,
+		string unverifiedToken)
 	{
-		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, clientID: {0} username: {1}",
+		Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, Unverified ClientId: {0} Unverified Username: {1}",
 			Category.Connections,
-			clientID, username);
+			unverifiedClientId, unverifiedUsername);
 
 		//Register player to player list (logging code exists in PlayerList so no need for extra logging here)
-		var connPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
+		var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
 		{
 			Connection = connectionToClient,
 			GameObject = gameObject,
-			Username = username,
+			Username = unverifiedUsername,
 			Job = JobType.NULL,
-			ClientId = clientID,
-			UserId = userid
+			ClientId = unverifiedClientId,
+			UserId = unverifiedUserid
 		});
 
-		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(clientID, username,
-			userid, clientVersion, connPlayer, token);
-		if (!isValidPlayer) return;
-
+		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(unverifiedClientId, unverifiedUsername,
+			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
+		if (!isValidPlayer) return; //this validates Userid and Token
+		var Userid = unverifiedUserid;
 		// Check if they have a player to rejoin. If not, assign them a new client ID
-		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
+		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(Userid);
 
 		if (loggedOffPlayer != null)
 		{
@@ -78,11 +82,11 @@ public class JoinedViewer : NetworkBehaviour
 		if (loggedOffPlayer == null)
 		{
 			//This is the players first time connecting to this round, assign them a Client ID;
-			var oldID = clientID;
-			clientID = Guid.NewGuid().ToString();
-			connPlayer.ClientId = clientID;
+			var oldID = unverifiedClientId;
+			unverifiedClientId = Guid.NewGuid().ToString();
+			unverifiedConnPlayer.ClientId = unverifiedClientId;
 			Logger.LogFormat("This server did not find a logged off player with clientID {0}, assigning" +
-			                 " joined viewer a new ID {1}", Category.Connections, oldID, clientID);
+			                 " joined viewer a new ID {1}", Category.Connections, oldID, unverifiedClientId);
 		}
 
 		// Sync all player data and the connected player count
@@ -112,11 +116,11 @@ public class JoinedViewer : NetworkBehaviour
 		}
 		else
 		{
-			TargetLocalPlayerSetupNewPlayer(connectionToClient, connPlayer.ClientId,
+			TargetLocalPlayerSetupNewPlayer(connectionToClient, unverifiedConnPlayer.ClientId,
 				GameManager.Instance.CurrentRoundState);
 		}
 
-		PlayerList.Instance.CheckAdminState(connPlayer, userid);
+		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, Userid);
 	}
 
 	/// <summary>
