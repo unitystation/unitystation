@@ -221,7 +221,7 @@ public class GUI_NukeWindow : NetTab
 		{
 			InfoAnchorColor.SetValue = isAnchored.Value ? colorRed : colorGreen ;
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On"), (isAnchored.Value ? "Nuke position Unlocked!" : "Nuke positionLocked!")), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Anchor is: " + (isAnchored.Value ? "Off" : "On"), (isAnchored.Value ? "Nuke position Unlocked!" : "Nuke position Locked!")), ref corHandler);
 		}
 		else
 		{
