@@ -33,6 +33,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		itemStorage = GetComponent<ItemStorage>();
 	}
 
+	public GameObject GetActiveItemInSlot(NamedSlot slot)
+	{
+		var pu = itemStorage.GetNamedItemSlot(slot).Item;
+		return pu?.gameObject;
+	}
+
 	/// <summary>
 	/// Get the item in the player's active hand
 	/// </summary>
@@ -326,8 +332,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		// Switch the pickup mode of the storage in the active hand
 		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
-					  GetOffHandItem()?.GetComponent<InteractableStorage>();
+		              GetOffHandItem()?.GetComponent<InteractableStorage>();
 		storage.ServerSwitchPickupMode(gameObject);
+	}
+
+	/// <summary>
+	/// Toggls mag boots on the player
+	/// </summary>
+	[Command]
+	public void CmdToggleMagBoots()
+	{
+		// Toggle mag boots
+		var magBoots = GetActiveItemInSlot(NamedSlot.feet)?.GetComponent<ItemMagBoots>();
+		if (magBoots == null) return;
+		magBoots.ServerChangeState(gameObject);
 	}
 
 	/// <summary>

@@ -16,7 +16,8 @@ public class AlertUI : MonoBehaviour
 
 	public GameObject cuffed;
 	public GameObject pickupMode;
-	
+	public GameObject magBoots;
+
 	bool shouldHideAllButtons = false;
 
 	private Action onClickBuckled;
@@ -41,6 +42,15 @@ public class AlertUI : MonoBehaviour
 	public void OnClickSwitchPickupMode()
 	{
 		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+		SoundManager.Play("Click01");
+	}
+
+	/// <summary>
+	/// Called when mag boots mode action button is pressed
+	/// </summary>
+	public void OnClickMagBoots()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdToggleMagBoots();
 		SoundManager.Play("Click01");
 	}
 
@@ -128,4 +138,13 @@ public class AlertUI : MonoBehaviour
 			pickupMode.SetActive(show);
 	}
 
+	/// <summary>
+	/// Toggle Alert UI button for mag boots
+	/// </summary>
+	/// <param name="show"></param>
+	public void ToggleAlertMagBoots(bool show)
+	{
+		if (!shouldHideAllButtons)
+			magBoots.SetActive(show);
+	}
 }
