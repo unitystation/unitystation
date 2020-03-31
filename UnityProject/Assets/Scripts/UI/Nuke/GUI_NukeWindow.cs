@@ -9,16 +9,18 @@ using UnityEngine;
 /// Optimized, new GUI_IDConsole
 /// </summary>
 public class GUI_NukeWindow : NetTab
+
 {
 	private Coroutine corHandler;
 
 
 	private string InitialInfoText;
 
-	private const string colorGreen = "008000",
-						 colorGrey = "FFFFFF",
-						 colorRed = "FF0000";
+	private const string colorGreen = "00E100",
+	colorGrey = "F3FEFF",
+	colorRed = "FF2828";
 
+	//get various ui elements (not the method i would choose, but it works)
 	private NetUIElement infoTimerDisplay;
 	private NetUIElement InfoTimerDisplay
 	{
@@ -147,7 +149,7 @@ public class GUI_NukeWindow : NetTab
 
 	private void Start()
 	{
-		//Not doing this for clients
+		//only executed on server
 		if (IsServer)
 		{
 			//	Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
@@ -163,6 +165,7 @@ public class GUI_NukeWindow : NetTab
 
 	#region Buttons
 
+	//Eject the nuke disk if it is containted within the nuke
 	public void DiskButton()
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -176,6 +179,7 @@ public class GUI_NukeWindow : NetTab
 		Clear();
 	}
 
+	//Toggle safety if the nuke disk has been inserted and the code has been entered
 	public void SafetyToggle()
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -195,10 +199,11 @@ public class GUI_NukeWindow : NetTab
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("No Access!", "Enter code:"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Enter the code first!", "Input code:"), ref corHandler);
 		}
 	}
 
+//Toggle the nuke anchor if the disk has been inserted, the code has been input and the nuke can be anchored
 	public void AnchorNukeButton()
 	{
 		if(!Nuke.IsAncharable)
@@ -221,10 +226,11 @@ public class GUI_NukeWindow : NetTab
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("No Access!", "Enter code:"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Enter the code first!", "Input code:"), ref corHandler);
 		}
 	}
 
+//Toggle the timer if the disk has been inserted
 	public void TimerSetButton()
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -240,15 +246,21 @@ public class GUI_NukeWindow : NetTab
 			Clear();
 			InfoTimerColor.SetValue = isTimer.Value ? colorGreen : colorRed;
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off"), "Set the nuke."), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Timer is: " + (isTimer.Value ? "On" : "Off")), ref corHandler);
+			if (!isTimer.Value)
+			{
+				//Clear countdown timer upon disabling it
+				InfoTimerDisplay.SetValue = "";
+			}
 		}
 		else
 		{
 			this.TryStopCoroutine(ref corHandler);
-			this.StartCoroutine(UpdateDisplay("No Access!", "Enter code:"), ref corHandler);
+			this.StartCoroutine(UpdateDisplay("Enter the code first!", "Enter code:"), ref corHandler);
 		}
 	}
 
+	//Code input
 	public void EnterDigit(char digit)
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -308,13 +320,13 @@ public class GUI_NukeWindow : NetTab
 			if (Nuke.IsTimer && Nuke.IsCodeRight)
 			{
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Timer is set!"), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Timer has been set!", "Nuke detonation in:"), ref corHandler);
 
 			}
 			else
 			{
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Correct code!","Set the nuke."), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Correct code!","Access granted!"), ref corHandler);
 			}
 
 			
@@ -325,13 +337,13 @@ public class GUI_NukeWindow : NetTab
 			{
 				Clear();
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Min 270 seconds!","Min 270 seconds!"), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Min 270 seconds!","Input time:"), ref corHandler);
 			}
 			else
 			{
 				Clear();
 				this.TryStopCoroutine(ref corHandler);
-				this.StartCoroutine(UpdateDisplay("Incorrect code!", "Enter code:"), ref corHandler);
+				this.StartCoroutine(UpdateDisplay("Incorrect code!", "Input code:"), ref corHandler);
 			}
 
 		}
