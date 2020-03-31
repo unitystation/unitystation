@@ -401,7 +401,7 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayer(string userId)
+	public GameObject TakeLoggedOffPlayerbyUserId(string userId)
 	{
 		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
@@ -409,6 +409,23 @@ public partial class PlayerList : NetworkBehaviour
 			Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.UserId);
 			if (player.UserId == userId)
 			{
+				loggedOff.Remove(player);
+				return player.GameObject;
+			}
+		}
+
+		return null;
+	}
+
+	[Server]
+	public GameObject TakeLoggedOffPlayerbyClientId(string ClientId)
+	{
+		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, ClientId);
+		foreach (var player in loggedOff)
+		{
+			if (player.ClientId == ClientId)
+			{
+				Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.ClientId);
 				loggedOff.Remove(player);
 				return player.GameObject;
 			}

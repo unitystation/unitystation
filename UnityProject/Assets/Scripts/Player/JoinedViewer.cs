@@ -67,7 +67,15 @@ public class JoinedViewer : NetworkBehaviour
 		if (!isValidPlayer) return; //this validates Userid and Token
 		var Userid = unverifiedUserid;
 		// Check if they have a player to rejoin. If not, assign them a new client ID
-		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(Userid);
+		GameObject loggedOffPlayer = null;
+		if (BuildPreferences.isForRelease)
+		{
+			loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyUserId(Userid);
+		}
+		else
+		{
+			loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
+		}
 
 		if (loggedOffPlayer != null)
 		{
