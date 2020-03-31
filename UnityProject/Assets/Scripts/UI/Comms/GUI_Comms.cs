@@ -177,7 +177,14 @@ public class GUI_Comms : NetTab
 	public void MakeAnAnnouncement(string text)
 	{
 		Logger.Log( nameof(MakeAnAnnouncement), Category.NetUI );
-		CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text.Substring(0, 200), CentComm.UpdateSound.announce);
+		if (text.Length>200)
+		{
+			CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text.Substring(0, 200), CentComm.UpdateSound.announce);
+		}
+		else
+		{
+			CentComm.MakeAnnouncement(CentComm.CaptainAnnounceTemplate, text ,CentComm.UpdateSound.announce);
+		}
 		OpenMenu();
 	}
 	
