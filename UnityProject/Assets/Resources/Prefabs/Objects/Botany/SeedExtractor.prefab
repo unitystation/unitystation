@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: -6111286260307753113}
   - component: {fileID: 8517661123045796505}
   - component: {fileID: -2124316646537833442}
+  - component: {fileID: 5073811291310827968}
   m_Layer: 11
-  m_Name: Seed Extractor
+  m_Name: SeedExtractor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -277,6 +278,26 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   State: 0
+--- !u!114 &5073811291310827968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370979911323750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: Seed Extractor
+  initialDescription: Extracts and bags seeds from produce.
+  willHighlight: 1
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1875389674981576
 GameObject:
   m_ObjectHideFlags: 0
