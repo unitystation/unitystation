@@ -46,16 +46,16 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
-		if (matrix.Matrix != null)
-		{
-			if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
-			{
-				return;
-			}
-		}
-		else {
-			return;
-		}
+
+		if (matrix.Matrix == null) return;
+		if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true)) return;
+
+		// Electrocute the performer. If shock is painful enough, cancel the interaction.
+		var electricalItem = interaction.TargetObject.GetComponent<ElectricalOIinheritance>();
+		float voltage = electricalItem.Data.ActualVoltage;
+		var electrocutionSeverity = new Electrocution()
+			.ElectrocutePlayer(interaction.Performer, localPosInt, "cable", voltage);
+		if (electrocutionSeverity > Electrocution.Severity.Mild) return;
 
 		toDestroy();
 	}

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -16,6 +15,13 @@ public class Electrocution
 		Painful,
 		Lethal
     }
+
+	private const int NON_INSULATED_ITEM_RESITANCE = 20000; // 20 kilo Ohms
+	// Increase the below if voltages have been tweaked and medium voltage cables now cause painful electrocutions,
+	// but not so much that high voltage cables are no longer a threat (turn off power sources instead).
+	private const int INSULATED_ITEM_RESISTANCE = 10000000; // 10 Mega Ohms
+	private const float POWER_MODIFIER = 1f;
+	private const int BURNDAMAGE_MODIFIER = 100; // Less is more.
 
 	private Severity severity;
 	private GameObject victim;
@@ -37,10 +43,10 @@ public class Electrocution
 	{
 		float resistance = GetPlayerShockResistance(player, voltage);
 		float current = voltage / resistance;
-		shockPower = current * voltage;
+		shockPower = (current * voltage) * POWER_MODIFIER;
 
 		// Low power (power from a small battery)
-		if (shockPower >= 0.001 && shockPower < 1) severity = Severity.Mild;
+		if (shockPower >= 0.01 && shockPower < 1) severity = Severity.Mild;
 
 		// Medium power (imagine an electric fence)
 		else if (shockPower >= 1 && shockPower < 100) severity = Severity.Painful;
@@ -60,7 +66,7 @@ public class Electrocution
 	public Severity ElectrocuteNPC(GameObject npc, Vector3Int shockSourcePos,
 		string shockSourceName, float voltage)
 	{
-		return Severity.None;
+		throw new NotImplementedException();
 	}
 
 	/// <summary>
@@ -75,19 +81,19 @@ public class Electrocution
 	public Severity ElectrocutePlayer(GameObject player, Vector3Int shockSourcePos,
 		string shockSourceName, float voltage)
     {
-		this.victim = player;
-		this.victimLHB = player.GetComponent<LivingHealthBehaviour>();
-		this.victimScript = player.GetComponent<PlayerScript>();
+		victim = player;
+		victimLHB = player.GetComponent<LivingHealthBehaviour>();
+		victimScript = player.GetComponent<PlayerScript>();
 		this.shockSourcePos = shockSourcePos;
 		this.shockSourceName = shockSourceName;
 
 		if (victim.GetComponent<PlayerNetworkActions>().activeHand == NamedSlot.leftHand)
 		{
-			this.playerActiveHand = BodyPartType.LeftArm;
+			playerActiveHand = BodyPartType.LeftArm;
 		}
 		else
 		{
-			this.playerActiveHand = BodyPartType.RightArm;
+			playerActiveHand = BodyPartType.RightArm;
         }
 
 		switch (GetPlayerSeverity(victim, voltage))
@@ -108,13 +114,19 @@ public class Electrocution
 		return severity;
     }
 
+	public Severity ElectrocutePlayer(GameObject player, GameObject sourceObject, float voltage)
+	{
+		return ElectrocutePlayer(
+			player, sourceObject.RegisterTile().WorldPosition, sourceObject.ExpensiveName(), voltage);
+	}
+
 	/// <summary>
-	 /// Calculates the human body's hand-to-foot electrical resistance based on the voltage.
-	 /// Based on the figures provided by Wikipedia's electrical injury page (hand-to-hand).
-	 /// Trends to 1200 Ohms at significant voltages.
-	 /// </summary>
-	 /// <param name="voltage">float voltage</param>
-	 /// <returns>float resistance</returns>
+	/// Calculates the human body's hand-to-foot electrical resistance based on the voltage.
+	/// Based on the figures provided by Wikipedia's electrical injury page (hand-to-hand).
+	/// Trends to 1200 Ohms at significant voltages.
+	/// </summary>
+	/// <param name="voltage">float voltage</param>
+	/// <returns>float resistance</returns>
 	private float GetHumanHandFeetResistance(float voltage)
 	{
 		float resistance = 1000 + (3000 / (1 + (float)Math.Pow(voltage / 55, 1.5f)));
@@ -157,16 +169,14 @@ public class Electrocution
 	private float GetItemResistance(ItemSlot item)
     {
 		// No item
-		if (item.ItemObject == null) return 0.0f;
+		if (item.ItemObject == null) return 0;
 
-		// Insulated item
 		if (item.ItemAttributes != null && item.ItemAttributes.HasTrait(CommonTraits.Instance.Insulated))
 		{
-			return 100000;
+			return INSULATED_ITEM_RESISTANCE;
 		}
 
-		// Normal item
-		return 2000;
+		return NON_INSULATED_ITEM_RESITANCE;
     }
 
 	/// <summary>
@@ -188,9 +198,11 @@ public class Electrocution
 	private void PlayerPainfulElectrocution()
     {
 		// TODO: Add sparks VFX at shockSourcePos.
-		SoundManager.PlayAtPosition("Sparks#", shockSourcePos, victim);
+		SoundManager.PlayNetworkedAtPos("Sparks#", shockSourcePos);
 		Inventory.ServerDrop(victimScript.ItemStorage.GetActiveHandSlot());
-		SoundManager.PlayAtPosition("Slip", victim.transform.position, victim); // Slip is essentially a yelp SFX.
+		// Slip is essentially a yelp SFX.
+		SoundManager.PlayNetworkedAtPos("Slip", victim.RegisterTile().WorldPosition,
+			UnityEngine.Random.Range(0.4f, 1f), sourceObj: victim);
 		Chat.AddExamineMsgFromServer(victim, $"The {shockSourceName} gives you a small electric shock!");
 
 		DealDamage(5, playerActiveHand);
@@ -201,16 +213,16 @@ public class Electrocution
 		// TODO: Add sparks VFX at shockSourcePos.
 		// TODO: Implement electrocution animation
 		// TODO: Consider adding a scream SFX.
-		SoundManager.PlayAtPosition("Sparks#", shockSourcePos, victim);
+		SoundManager.PlayNetworkedAtPos("Sparks#", shockSourcePos);
 		victim.GetComponent<RegisterPlayer>().ServerStun();
-		SoundManager.PlayAtPosition("Bodyfall", victim.transform.position, victim);
+		SoundManager.PlayNetworkedAtPos("Bodyfall", victim.RegisterTile().WorldPosition, sourceObj: victim);
 		// Consider removing this message when the shock animation has been implemented as it should be obvious enough.
 		Chat.AddExamineMsgFromServer(victim, $"The {shockSourceName} electrocutes you!");
 
-		var damage = shockPower / 100; // Arbitrary
-		DealDamage(damage * 0.4f, playerActiveHand);	
-		DealDamage(damage * 0.125f, BodyPartType.LeftLeg);
-		DealDamage(damage * 0.125f, BodyPartType.RightLeg);
-		DealDamage(damage * 0.35f, BodyPartType.Chest);
+		var damage = shockPower / BURNDAMAGE_MODIFIER;
+		DealDamage(damage * 0.4f, playerActiveHand);
+		DealDamage(damage * 0.25f, BodyPartType.Chest);
+		DealDamage(damage * 0.175f, BodyPartType.LeftLeg);
+		DealDamage(damage * 0.175f, BodyPartType.RightLeg);
 	}
 }
