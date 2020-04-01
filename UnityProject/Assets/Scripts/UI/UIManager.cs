@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
 	public AnimationCurve strandedZoomOutCurve;
 	public AdminChatButtons adminChatButtons;
 	public AdminChatWindows adminChatWindows;
+	public PlayerAlerts playerAlerts;
 	private bool preventChatInput;
 
 	public static bool PreventChatInput
@@ -233,6 +234,7 @@ public class UIManager : MonoBehaviour
 	{
 		adminChatButtons.ClearAllNotifications();
 		adminChatWindows.ResetAll();
+		playerAlerts.ClearLogs();
 	}
 
 	void DetermineInitialTargetFrameRate()
