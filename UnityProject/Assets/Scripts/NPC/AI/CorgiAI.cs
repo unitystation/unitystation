@@ -42,25 +42,25 @@ public class CorgiAI : MobAI
 
 	private void SingleBark(GameObject barked = null)
 	{
-		SoundManager.PlayNetworkedAtPos("Bark", 
-										gameObject.transform.position, 
+		SoundManager.PlayNetworkedAtPos("Bark",
+										gameObject.transform.position,
 										Random.Range(.8F, 1.3F));
 
 		if (barked != null)
 		{
-			Chat.AddActionMsgToChat(barked, $"{capDogName} barks at you!", 
+			Chat.AddActionMsgToChat(barked, $"{capDogName} barks at you!",
 									$"{capDogName} barks at {barked.ExpensiveName()}");
 		}
 		else
 		{
 			Chat.AddActionMsgToChat(gameObject, $"{capDogName} barks!", $"{capDogName} barks!");
-		}		
+		}
 	}
 
 	IEnumerator RandomBarks(GameObject barked = null)
 	{
 		int barkAmt = Random.Range(1, 4);
-		while (barkAmt > 0) 
+		while (barkAmt > 0)
 		{
 			SingleBark(barked);
 			yield return WaitFor.Seconds(Random.Range(0.4f, 1f));
@@ -205,7 +205,7 @@ public class CorgiAI : MobAI
 			case 4:
 				Chat.AddActionMsgToChat(
 					performer,
-					$"{capDogName} licks your hand!", 
+					$"{capDogName} licks your hand!",
 					$"{capDogName} licks {performer.ExpensiveName()}'s hand!");
 				break;
 			case 5:
@@ -220,7 +220,18 @@ public class CorgiAI : MobAI
 	protected override void OnAttackReceived(GameObject damagedBy)
 	{
 		SingleBark();
-		StartFleeing(damagedBy.transform);
+		if (damagedBy != null)
+		{
+			StartFleeing(damagedBy.transform);
+		}
+		else
+		{
+			//Could be running away from fire or something
+			var newTransform = new GameObject().transform;
+			newTransform.parent = transform.parent;
+			newTransform.position = transform.position;
+			StartFleeing(newTransform);
+		}
 	}
 
 	//Updates only on the server
