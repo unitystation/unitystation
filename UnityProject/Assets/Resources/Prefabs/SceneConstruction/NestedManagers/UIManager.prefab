@@ -1108,7 +1108,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  adminChatButtons: {fileID: 3602868326873758545}
+  adminChatButtons: {fileID: 4827786959436423629}
   adminChatWindows: {fileID: 7202757496456318431}
   isInputFocus: 0
 --- !u!114 &8587641789623873495
@@ -1255,6 +1255,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8477477531144828375}
     m_Modifications:
+    - target: {fileID: 2656602163727342579, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.020004272
+      objectReference: {fileID: 0}
+    - target: {fileID: 4938940220941065813, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.020004272
+      objectReference: {fileID: 0}
     - target: {fileID: 6132377913794604197, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1385,9 +1395,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b1473ea93f37fd4da04b8926483e6f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3602868326873758545 stripped
+--- !u!114 &4827786959436423629 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3475609575267578597, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+  m_CorrespondingSourceObject: {fileID: 4844627936708225145, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
     type: 3}
   m_PrefabInstance: {fileID: 127277103599438260}
   m_PrefabAsset: {fileID: 0}
@@ -1416,6 +1426,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8477477531144828375}
     m_Modifications:
+    - target: {fileID: 3643849538024845321, guid: 7ae89d6105393c64bb4e43d5c870eaad,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8465115023143424114, guid: 7ae89d6105393c64bb4e43d5c870eaad,
         type: 3}
       propertyPath: m_IsActive
@@ -2896,7 +2911,7 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0.41528565
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
