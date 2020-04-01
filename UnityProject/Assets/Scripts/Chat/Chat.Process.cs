@@ -128,6 +128,25 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Exclaim;
 		}
 
+		// Speech assignation
+		switch (sentByPlayer.Script.characterSettings.Speech)
+		{
+			case Speech.None:
+				break;
+			case Speech.Canadian:
+				chatModifiers |= ChatModifier.Canadian;
+				break;
+			case Speech.French:
+				chatModifiers |= ChatModifier.French;
+				break;
+			case Speech.Italian:
+				chatModifiers |= ChatModifier.Italian;
+				break;
+			case Speech.Swedish:
+				chatModifiers |= ChatModifier.Swedish;
+				break;
+		}
+
 		// Clown
 		if (sentByPlayer.Script.mind != null &&
 			sentByPlayer.Script.mind.occupation != null &&
@@ -140,6 +159,8 @@ public partial class Chat
 			}
 			chatModifiers |= ChatModifier.Clown;
 		}
+
+
 		// TODO None of the followinger modifiers are currently in use.
 		// They have been commented out to prevent compile warnings.
 
@@ -244,8 +265,8 @@ public partial class Chat
 		{
 			return AddMsgColor(channels, $"[dead] <b>{speaker}</b>: {message}");
 		}
-
-		var verb = "says,";
+		string[] _ghostVerbs = {"cries", "moans"};
+		var verb = $"{_ghostVerbs[Random.Range(0,2)]},";
 
 		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
 		{
@@ -276,6 +297,11 @@ public partial class Chat
 			verb = "asks,";
 		}
 
+		if ((modifiers & ChatModifier.Canadian) == ChatModifier.Canadian)
+		{
+			
+		}
+
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
 		if (channels.HasFlag(ChatChannel.Command))
@@ -294,6 +320,11 @@ public partial class Chat
 			+ "\"" + message + "\"");           // "This text will be spoken by TTS!"
 	}
 
+	string SpeechModifier(string message)
+	{
+		return message;
+	}
+
 	private static string StripTags(string input)
 	{
 		//Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
@@ -302,6 +333,8 @@ public partial class Chat
 
 		return output;
 	}
+
+
 
 	private static string Slur(Match m)
 	{
