@@ -10,185 +10,147 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: French
+  m_Name: Italian
   m_EditorClassIdentifier: Assets::SpeechModifierSO
   activateReplacements: 1
   WordReplaceList:
-  - original: yes
-    replaceWith:
-    - oui
-  - original: no
-    replaceWith:
-    - non
   - original: I'm
     replaceWith:
-    - j
+    - I'm-a
   - original: am
     replaceWith:
-    - suis
-  - original: a
-    replaceWith:
-    - un
+    - am-a
   - original: and
     replaceWith:
-    - et
-  - original: the
-    replaceWith:
-    - l'
-  - original: I
-    replaceWith:
-    - j'
-  - original: for
-    replaceWith:
-    - pour
-  - original: with
-    replaceWith:
-    - avec
-  - original: of
-    replaceWith:
-    - de
+    - and-a
   - original: assistant
     replaceWith:
-    - ravageur
+    - goombah
   - original: assistants
     replaceWith:
-    - ravageurs
+    - gommbahs
   - original: baby
     replaceWith:
-    - enfant
-    - petit baguette
+    - bambino
+    - little sausage roll
   - original: bad
     replaceWith:
-    - mal
+    - molto male
   - original: bye
     replaceWith:
-    - bon voyage
-    - adieu
-    - au revoir
-  - original: cake
-    replaceWith:
-    - gateau
+    - ciao
+    - arrivederci
   - original: captain
     replaceWith:
-    - capitaine
-  - original: changeling
-    replaceWith:
-    - changeur
+    - capitano
   - original: cheese
     replaceWith:
-    - brie
-    - roquefort
-    - camembert
-  - original: cigarette
-    replaceWith:
-    - clope
+    - parmesano
+    - gorgonzola
   - original: cook
     replaceWith:
-    - cuisinier
+    - cook-a
+  - original: could
+    replaceWith:
+    - could-a
   - original: dad
     replaceWith:
-    - papa
+    - pappa
   - original: enemy
     replaceWith:
-    - silly english dog
+    - friend-a
   - original: friend
     replaceWith:
-    - ami
+    - enemy-a
   - original: good
     replaceWith:
-    - bon
+    - molto bene
   - original: greytide
     replaceWith:
-    - les gitans
+    - curvisti
   - original: greytider
     replaceWith:
-    - les gitans
+    - curvisti
   - original: greytiders
     replaceWith:
-    - les gitans
-  - original: hardsuit
-    replaceWith:
-    - burkini
+    - curvisti
   - original: hello
     replaceWith:
-    - '''allo'
-    - bonjour
-    - salut
-  - original: maint
+    - ciao
+    - buongirno
+  - original: it's
     replaceWith:
-    - les banlieues
+    - it's-a
+  - original: make
+    replaceWith:
+    - make-a
   - original: meat
     replaceWith:
-    - coq au vin
-    - boeuf
+    - pepperoni
+    - proscioutto
   - original: mom
     replaceWith:
-    - maman
+    - mamma
   - original: my
     replaceWith:
-    - mon
+    - my-a
   - original: nuke
     replaceWith:
-    - grand bombe
-    - la baguette ultime
+    - spiciest-a meatball
   - original: op
     replaceWith:
-    - boche
+    - greek
   - original: operative
     replaceWith:
-    - boche
+    - greek
   - original: operatives
     replaceWith:
-    - boches
-  - original: ops
+    - greeks
+  - original: sec
     replaceWith:
-    - boches
-  - original: urity
-    replaceWith:
-    - urite
+    - polizia
   - original: security
     replaceWith:
-    - securite
-  - original: shit
-    replaceWith:
-    - merde
+    - polizia
   - original: shitsec
     replaceWith:
-    - gendarmerie
-    - les keufs
+    - carabinieri
+  - original: sing
+    replaceWith:
+    - sing-a
   - original: spaghetti
     replaceWith:
-    - macaroni
+    - SPAGHETT
   - original: spicy
     replaceWith:
-    - epice
-  - original: thanks
+    - a-spicy
+  - original: thing
     replaceWith:
-    - merci
-  - original: tomato
-    replaceWith:
-    - tomate
+    - thing-a
   - original: traitor
     replaceWith:
-    - collaborateur
+    - mafioso
+  - original: use
+    replaceWith:
+    - use-a
   - original: want
     replaceWith:
-    - envie
+    - want-a
   - original: what's
     replaceWith:
-    - quel est
+    - what's-a
   - original: who's
     replaceWith:
-    - qui est
+    - who's-a
+  - original: whose
+    replaceWith:
+    - whose-a
   - original: why
     replaceWith:
-    - porquois
+    - for-a what reason
   - original: wine
     replaceWith:
-    - vin
-  - original: wizard
-    replaceWith:
-    - sorcier
+    - vino
   LetterReplaceList: []
   activateAdditions: 0
   probability: 0
