@@ -84,7 +84,6 @@ GameObject:
   - component: {fileID: 9149683755898081997}
   - component: {fileID: 5997458638329033524}
   - component: {fileID: 2540429587469394975}
-  - component: {fileID: 361918911937808407}
   - component: {fileID: 7825087733742647832}
   m_Layer: 5
   m_Name: InputField
@@ -150,19 +149,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &361918911937808407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169319754478558758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa3c2b1574a34d4b93b464bd8a18e0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Searchtext: {fileID: 0}
 --- !u!114 &7825087733742647832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,13 +189,13 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2540429587469394975}
-  m_TextComponent: {fileID: 0}
-  m_Placeholder: {fileID: 0}
+  m_TextComponent: {fileID: 6076936000442472586}
+  m_Placeholder: {fileID: 2061585884181170127}
   m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
-  m_LineType: 0
+  m_LineType: 2
   m_HideMobileInput: 0
   m_CharacterValidation: 0
   m_CharacterLimit: 0
@@ -1827,7 +1813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0025101, y: 0.0000071526}
+  m_AnchoredPosition: {x: 0.0025177002, y: 0.0000076293945}
   m_SizeDelta: {x: 0.0050049, y: -0.000015259}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3413811851040367147
@@ -4965,7 +4951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0025024, y: -0.000034094}
+  m_AnchoredPosition: {x: -0.0025024414, y: -0.000030517578}
   m_SizeDelta: {x: 0.0050049, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5811642056727433355

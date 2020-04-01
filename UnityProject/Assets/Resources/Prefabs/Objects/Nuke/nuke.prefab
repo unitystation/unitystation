@@ -100,7 +100,8 @@ GameObject:
   - component: {fileID: 114093552067593536}
   - component: {fileID: 114554877333081812}
   - component: {fileID: 114138874156132524}
-  - component: {fileID: -8641979082638113372}
+  - component: {fileID: 5128493137642477549}
+  - component: {fileID: -4905299131361276724}
   m_Layer: 11
   m_Name: nuke
   m_TagString: Untagged
@@ -221,9 +222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cooldownTimer: 2
-  interactionMessage: You activate the terminal on the nuclear weapon
-  deniedMessage: The nuclear weapon rejects your Identification
+  isAncharable: 1
+  explosionRadius: 500
+  minTimer: 270
 --- !u!114 &114970301685184636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +252,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3598894608692613034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 1
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8332996165049030563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +354,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &-8641979082638113372
+--- !u!114 &5128493137642477549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -338,9 +363,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1754288526301548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cc34b2077deffe4ca88851eaaff1394, type: 3}
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  offsetPosition: {x: 0, y: -0.6}
+  initialName: 
+  initialDescription: 
+  willHighlight: 1
+  exportCost: 0
+  exportName: 
+  exportMessage: 
+--- !u!114 &-4905299131361276724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: ef59926623998a6429428063cd92eb79,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}

@@ -39,7 +39,7 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
 			{
 				// making exception for jumpsuit/jumpskirt
 
-				if (context.SpawnInfo.CharacterSettings.Clothing == Clothing.JumpSkirt
+				if (context.SpawnInfo.CharacterSettings.ClothingStyle == ClothingStyle.JumpSkirt
 					&& entry.NamedSlot == NamedSlot.uniform
 					&& skirtVariant != null)
 				{
@@ -55,13 +55,13 @@ public class NamedSlotStoragePopulator : ItemStoragePopulator
     				///SpawnResult spawnbackpack;
    					GameObject spawnThing;
 
-   					switch (context.SpawnInfo.CharacterSettings.Backpack)
+   					switch (context.SpawnInfo.CharacterSettings.BagStyle)
    					{
-      					case Backpack.Duffle:
+      					case BagStyle.Duffle:
             				spawnThing = (duffelVariant != null) ? duffelVariant: entry.Prefab;
             				break;
 
-        				case Backpack.Satchel:
+        				case BagStyle.Satchel:
             				spawnThing = (satchelVariant != null) ? satchelVariant: entry.Prefab;
             				break;
         				default:

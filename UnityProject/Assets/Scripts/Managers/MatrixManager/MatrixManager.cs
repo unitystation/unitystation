@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Chemistry;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -294,7 +295,7 @@ public partial class MatrixManager : MonoBehaviour
 	/// Picks best matching matrix at provided coords and releases reagents to that tile.
 	/// <inheritdoc cref="MetaDataLayer.ReagentReact"/>
 	/// </summary>
-	public static void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPos)
+	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos)
 	{
 		if (!CustomNetworkManager.IsServer) return;
 

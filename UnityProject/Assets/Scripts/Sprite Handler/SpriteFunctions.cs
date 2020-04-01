@@ -74,6 +74,20 @@ public static class SpriteFunctions
 	}
 
 	/// <summary>
+	/// Used for generating [variant][animation frame] from a PlayerCustomisationData
+	/// </summary>
+	/// <returns>The sprite list</returns>
+	public static List<List<SpriteHandler.SpriteInfo>> CompleteSpriteSetup(PlayerCustomisationData pcd)
+	{
+		if (pcd)
+		{
+			return CompleteSpriteSetup(pcd.Equipped);
+		}
+
+		return null;
+	}
+
+	/// <summary>
 	/// Used for generating a single element within a The internal data holder
 	/// </summary>
 	/// <returns>The single sprite.</returns>
