@@ -110,4 +110,5 @@ internal enum MessageTypes : short
 	AdminCheckAdminMessages = 2048,
 	RequestAdminChatMessage = 2049,
 	RequestAdminPlayerAlerts = 2050,
+	AdminPlayerAlertActions = 2051
 }

@@ -73,6 +73,12 @@ namespace AdminTools
 
 		}
 
+		public void ServerProcessActionRequest(string adminId, PlayerAlertActions actionRequest,
+			string roundTimeOfIncident, uint perpId)
+		{
+			if (!PlayerList.Instance.IsAdmin(adminId)) return;
+		}
+
 		public void ToggleWindow()
 		{
 			if (!playerAlertsWindow.activeInHierarchy)
@@ -92,6 +98,12 @@ namespace AdminTools
 	{
 		RDM,
 		PlasmaOpen
+	}
+
+	public enum PlayerAlertActions
+	{
+		Gibbed,
+		TakenCareOf,
 	}
 
 	[Serializable]
