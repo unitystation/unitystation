@@ -6,9 +6,9 @@ public enum Speech
     Italian,
     Swedish,
     Chav,
-    Smile,
-    Elvis,
-    Spurdo,
-    UwU,
+    // Smile,
+    // Elvis,
+    // Spurdo,
+    // UwU,
     Unintelligible
 }
