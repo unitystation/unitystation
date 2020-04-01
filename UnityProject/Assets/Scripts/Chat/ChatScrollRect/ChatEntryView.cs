@@ -24,7 +24,7 @@ public class ChatEntryView : MonoBehaviour
 	/// </summary>
 	public ChatEntryData EntryData => entryData;
 
-	public void SetChatEntryView(ChatEntryData data, ChatScroll chatScroll, int index, float contentViewWidth)
+	public virtual void SetChatEntryView(ChatEntryData data, ChatScroll chatScroll, int index, float contentViewWidth)
 	{
 		var thisDelta = thisRectTransform.sizeDelta;
 		thisDelta.x = contentViewWidth;
