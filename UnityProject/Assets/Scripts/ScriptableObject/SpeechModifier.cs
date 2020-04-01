@@ -20,6 +20,7 @@ public class SpeechModifierSO : SingletonScriptableObject<SpeechModifierSO>
     
     [Header("Special")]
     public bool unintelligible;
+    [Tooltip("If assigned, text will be processed by this class instead. Remember to implement a ProcessMessage method with a string message as argument!")]
     public MonoBehaviour customCode = null;
 
     private Dictionary<string, List<string>> wordlist = new Dictionary<string, List<string>>();
