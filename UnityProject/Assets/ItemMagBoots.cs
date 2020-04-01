@@ -9,13 +9,21 @@ using System.Linq;
 using UnityEngine.UI;
 
 public class ItemMagBoots : NetworkBehaviour,
-		IActionGUI,IServerInventoryMove, IClientInventoryMove
+		IActionGUI, IClientInventoryMove
 {
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isOn = false;
 
+
+	public GameObject spriteObject;
+	private SpriteHandler spriteHandler;
+
 	private GameObject player;
 	private ItemAttributesV2 itemAttributesV2;
+
+	[Tooltip("Change player run speed to this.")]
+	[SerializeField]
+	private float newSpeed = 4.5f;
 
 	[SerializeField]
 	private ActionData actionData = null;
@@ -23,87 +31,105 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private void Awake()
 	{
+		spriteHandler = spriteObject.GetComponent<SpriteHandler>();
 		itemAttributesV2 = GetComponent<ItemAttributesV2>();
 	}
 
-
 	private void ToggleBoots()
 	{
-		PlayerSync playerSync = player.GetComponent<PlayerSync>();
 		if (isOn)
 		{
-			Debug.Log("Initial Run speed before change = " + playerSync.playerMove.InitialRunSpeed.ToString());
-			Debug.Log("RunSpeed before change = " + playerSync.playerMove.RunSpeed.ToString());
-			Debug.Log("WalkSpeed before change = " + playerSync.playerMove.WalkSpeed.ToString());
-			Debug.Log("ServerSpeed before after = " + playerSync.SpeedServer.ToString());
-
-			playerSync.playerMove.InitialRunSpeed = 5;
-			playerSync.playerMove.RunSpeed = 5;
-
-			playerSync.SpeedServer  = 5;
-
-			Debug.Log("Initial Run speed after change = " + playerSync.playerMove.InitialRunSpeed.ToString());
-			Debug.Log("RunSpeed before after = " + playerSync.playerMove.RunSpeed.ToString());
-			Debug.Log("WalkSpeed before after = " + playerSync.playerMove.WalkSpeed.ToString());
-			Debug.Log("ServerSpeed after after = " + playerSync.SpeedServer.ToString());
-
 			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
+			ChangeSpeed(newSpeed);
 		}
 		else
 		{
-			Debug.Log("Initial Run speed before change = " + playerSync.playerMove.InitialRunSpeed.ToString());
-			Debug.Log("RunSpeed before change = " + playerSync.playerMove.RunSpeed.ToString());
-			Debug.Log("WalkSpeed before change = " + playerSync.playerMove.WalkSpeed.ToString());
-			Debug.Log("ServerSpeed before after = " + playerSync.SpeedServer.ToString());
-
-			playerSync.playerMove.InitialRunSpeed = 6;
-			playerSync.playerMove.RunSpeed = 6;
-			playerSync.SpeedServer  = 6;
-
-			Debug.Log("Initial Run speed after change = " + playerSync.playerMove.InitialRunSpeed.ToString());
-			Debug.Log("RunSpeed before after = " + playerSync.playerMove.RunSpeed.ToString());
-			Debug.Log("WalkSpeed before after = " + playerSync.playerMove.WalkSpeed.ToString());
-			Debug.Log("ServerSpeed after after = " + playerSync.SpeedServer.ToString());
-
 			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
+			ChangeSpeed(6);
 		}
 		player.GetComponent<ObjectBehaviour>().ServerSetPushable(!isOn);
 		Debug.Log("MagBoots are " + isOn.ToString());
+	}
+
+	private void ChangeSpeed(float speed)
+	{
+		PlayerSync playerSync = player.GetComponent<PlayerSync>();
+
+		Debug.Log("Initial Run speed before change = " + playerSync.playerMove.InitialRunSpeed.ToString());
+		Debug.Log("RunSpeed before change = " + playerSync.playerMove.RunSpeed.ToString());
+		Debug.Log("WalkSpeed before change = " + playerSync.playerMove.WalkSpeed.ToString());
+		Debug.Log("ServerSpeed before after = " + playerSync.SpeedServer.ToString());
+
+		playerSync.playerMove.InitialRunSpeed = speed;
+		playerSync.playerMove.RunSpeed = speed;
+
+		//Do not change current speed if player is walking
+		//but change speed when he toggles run
+		if (playerSync.SpeedServer == playerSync.playerMove.WalkSpeed)
+		{
+			return;
+		}
+		playerSync.SpeedServer  = speed;
+
+		Debug.Log("Initial Run speed after change = " + playerSync.playerMove.InitialRunSpeed.ToString());
+		Debug.Log("RunSpeed before after = " + playerSync.playerMove.RunSpeed.ToString());
+		Debug.Log("WalkSpeed before after = " + playerSync.playerMove.WalkSpeed.ToString());
+		Debug.Log("ServerSpeed after after = " + playerSync.SpeedServer.ToString());
 	}
 
 	private void SyncState(bool oldVar, bool newVar)
 	{
 		isOn = newVar;
 		ToggleBoots();
+		spriteHandler.ChangeSprite(isOn ? 1 : 0);
+		GetComponent<Pickupable>().RefreshUISlotImage();
 	}
+
 	[Server]
-	public void ServerChangeState(GameObject player)
+	public void ServerChangeState(GameObject newPlayer)
 	{
-		this.player = player;
+		this.player = newPlayer;
 		isOn = !isOn;
 	}
-	public void OnInventoryMoveServer(InventoryMove info)
-	{
-		//stop any observers (except for owner) from observing it if it's moved
-		var fromRootPlayer = info.FromRootPlayer;
 
-	}
-	
+	#region UI related
+
 	// Client only method
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
+		//IClientInventoryMove method
 		if (CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
 		{
 			return;
 		}
+
 		var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
+		//when item is moved and player has it on his feet
 		var showAlert = hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject;
 
+		//If item was taken off the player and it's on, change state back
+		if (isOn && info.ClientInventoryMoveType == ClientInventoryMoveType.Removed && hand.GetActiveItemInSlot(NamedSlot.feet) == null)
+		{
+			ServerChangeState(this.player);
+			Debug.Log("Item WAS REMOVED WHILE BEING ON!.");
+		}
+		//shows UI button on screen
 		UIActionManager.Toggle(this, showAlert);
 	}
+
 	public void CallActionClient()
 	{
+
 		Debug.Log("Toggle state.");
 		PlayerManager.PlayerScript.playerNetworkActions.CmdToggleMagBoots();
+
+		/*In order to have UI button, add button to Alert_UI_HUD in unity
+		define functions in AlertUI.cs, for button logic
+		example (ToggleAlertMagBoots and OnClickMagBoots)
+		define a function in PlayerNetworkActions.cs
+		example (CmdToggleMagBoots)
+		so you can call it from here and AlertUI */
 	}
+
+	#endregion
 }
