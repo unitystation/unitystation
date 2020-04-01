@@ -101,7 +101,7 @@ public class CorgiAI : MobAI
 		//We want these ones to happen right away:
 		if (msg.Contains($"{dogName} run") || msg.Contains($"{dogName} get out of here"))
 		{
-			StartFleeing(speaker.GameObject.transform, 10f);
+			StartFleeing(speaker.GameObject, 10f);
 			yield break;
 		}
 
@@ -220,7 +220,7 @@ public class CorgiAI : MobAI
 	protected override void OnAttackReceived(GameObject damagedBy)
 	{
 		SingleBark();
-		StartFleeing(damagedBy.transform);
+		StartFleeing(damagedBy);
 	}
 
 	//Updates only on the server

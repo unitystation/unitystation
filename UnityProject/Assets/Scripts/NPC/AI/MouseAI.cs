@@ -52,13 +52,13 @@ public class MouseAI : MobAI
 	public override void OnPetted(GameObject performer)
 	{
 		Squeak();
-		StartFleeing(performer.transform, 3f);
+		StartFleeing(performer, 3f);
 	}
 
 	protected override void OnAttackReceived(GameObject damagedBy)
 	{
 		Squeak();
-		FleeFromAttacker(damagedBy, 5f);
+		StartFleeing(damagedBy, 5f);
 	}
 
 	void OnExploringStooped()

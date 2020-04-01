@@ -43,6 +43,7 @@ MonoBehaviour:
     ReagentProduction: []
     MutatesInTo: []
   reagentContainer: {fileID: 3608205971236566501}
+  nutrient: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   seedPacket: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
     type: 3}
   SpriteSizeAdjustment: {fileID: 5066517181570930995}
@@ -61,17 +62,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 100
+  maxCapacity: 100
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  reagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
   itemAttributes: {fileID: 0}
-  InSolidForm: 1
-  Reagents: []
-  Amounts: []
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 4
-  PossibleTransferAmounts: []
-  InitialTransferAmount: 20
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 4
+  possibleTransferAmounts: []
+  transferAmount: 20
 --- !u!114 &6259075970471028923
 MonoBehaviour:
   m_ObjectHideFlags: 0

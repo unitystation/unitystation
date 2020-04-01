@@ -3,12 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using ConnectionConfig = UnityEngine.Networking.ConnectionConfig;
 using Mirror;
-using UnityEngine.Profiling;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
 using UnityEngine.Events;
 
 public class CustomNetworkManager : NetworkManager
@@ -45,10 +41,37 @@ public class CustomNetworkManager : NetworkManager
 
 	public override void Start()
 	{
+		CheckTransport();
 		//Automatically host if starting up game *not* from lobby
 		if (SceneManager.GetActiveScene().name != offlineScene)
 		{
 			StartHost();
+		}
+	}
+
+	void CheckTransport()
+	{
+		var booster = GetComponent<BoosterTransport>();
+		if (booster != null)
+		{
+			if (transport == booster)
+			{
+				var beamPath = Path.Combine(Application.streamingAssetsPath, "booster.bytes");
+				if (File.Exists(beamPath))
+				{
+					booster.beamData = File.ReadAllBytes(beamPath);
+					Logger.Log("Beam data found, loading booster transport..");
+				}
+				else
+				{
+					var telepathy = GetComponent<TelepathyTransport>();
+					if (telepathy != null)
+					{
+						Logger.Log("No beam data found. Falling back to Telepathy");
+						transport = telepathy;
+					}
+				}
+			}
 		}
 	}
 

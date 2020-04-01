@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114582363912736342}
   - component: {fileID: 114774533267492450}
   - component: {fileID: 114791056930384320}
+  - component: {fileID: 2396704058319493381}
   - component: {fileID: 144592572944150269}
   - component: {fileID: 5061804172772503656}
   - component: {fileID: -6765002746793913123}
@@ -194,6 +195,20 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+--- !u!114 &2396704058319493381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &144592572944150269
 MonoBehaviour:
   m_ObjectHideFlags: 0

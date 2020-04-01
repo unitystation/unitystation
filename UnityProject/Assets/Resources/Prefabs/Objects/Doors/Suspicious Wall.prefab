@@ -184,6 +184,9 @@ MonoBehaviour:
   useSimpleLightAnimation: 0
   useSimpleDeniedAnimation: 0
   maxTimeOpen: -1
+  enablePressureWarning: 0
+  DoorPressureSpriteOffset: 25
+  pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
 --- !u!114 &1354045556033732022
@@ -382,4 +385,4 @@ MonoBehaviour:
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 0
-  Smoothed: 1
+  Smoothed: 0

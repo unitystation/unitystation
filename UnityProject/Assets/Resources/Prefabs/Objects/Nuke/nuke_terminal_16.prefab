@@ -100,7 +100,9 @@ GameObject:
   - component: {fileID: 790910487500350687}
   - component: {fileID: 8788882867460085893}
   - component: {fileID: 5431312055280098251}
-  - component: {fileID: 3244672672600835765}
+  - component: {fileID: 8116012792439198840}
+  - component: {fileID: -2768982393648772593}
+  - component: {fileID: -7526719248639668006}
   m_Layer: 11
   m_Name: nuke_terminal_16
   m_TagString: Untagged
@@ -301,9 +303,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cooldownTimer: 2
-  interactionMessage: You activate the terminal on the nuclear weapon
-  deniedMessage: The nuclear weapon rejects your Identification
+  isAncharable: 0
+  explosionRadius: 500
+  minTimer: 270
 --- !u!114 &8788882867460085893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3244672672600835765
+--- !u!114 &8116012792439198840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -338,9 +340,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 1654230539544386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cc34b2077deffe4ca88851eaaff1394, type: 3}
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: ef59926623998a6429428063cd92eb79,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+--- !u!114 &-2768982393648772593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654230539544386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  offsetPosition: {x: 0, y: -0.6}
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 1
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-7526719248639668006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654230539544386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: 
+  initialDescription: 
+  willHighlight: 1
+  exportCost: 0
+  exportName: 
+  exportMessage: 

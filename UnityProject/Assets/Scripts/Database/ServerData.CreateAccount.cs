@@ -31,7 +31,7 @@ namespace DatabaseAPI
 				var newCharacter = new CharacterSettings
 				{
 					Name = StringManager.GetRandomMaleName(),
-					username = proposedName
+					Username = proposedName
 				};
 
 				callBack.Invoke(newCharacter);

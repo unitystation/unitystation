@@ -82,7 +82,7 @@ public class CatAI : MobAI
 				StartCoroutine(ChaseTail(Random.Range(1,5)));
 				break;
 			case 4:
-				StartFleeing(performer.transform, 5f);
+				StartFleeing(performer, 5f);
 				break;
 			// case 5:
 			// 	StartCoroutine(LayDown(Random.Range(10,15)));//TODO
@@ -93,7 +93,7 @@ public class CatAI : MobAI
 	protected override void OnAttackReceived(GameObject damagedBy)
 	{
 		Hiss(damagedBy);
-		FleeFromAttacker(damagedBy, 10F);
+		StartFleeing(damagedBy, 10F);
 	}
 
 	void OnFollowingStopped()
@@ -216,7 +216,7 @@ public class CatAI : MobAI
 	public void RunFromDog(Transform dog)
 	{
 		Hiss(dog.gameObject);
-		StartFleeing(dog, 10f);
+		StartFleeing(dog.gameObject, 10f);
 	}
 
 	IEnumerator LayDown(int cycles)
