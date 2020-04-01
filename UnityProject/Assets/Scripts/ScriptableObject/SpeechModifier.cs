@@ -18,7 +18,7 @@ public class SpeechModifierSO : ScriptableObject
     [Tooltip("Activate the addition of text to ending or begining of message.")]
     public bool activateAdditions;
     [Tooltip("Chances of this happening in %.")]
-    [Range(1,100)][ConditionalField(nameof(activateAdditions), true)]public int probability;
+    [Range(0,100)][ConditionalField(nameof(activateAdditions), true)]public int probability;
     [ConditionalField(nameof(activateAdditions), true)] public List<string> Beginning = new List<string>();
     [ConditionalField(nameof(activateAdditions), true)] public List<string> Ending = new List<string>();
     
@@ -30,7 +30,7 @@ public class SpeechModifierSO : ScriptableObject
 
     private Dictionary<string, List<string>> wordlist = new Dictionary<string, List<string>>();
     private Dictionary<string, List<string>> letterlist = new Dictionary<string, List<string>>();
-    private bool init = false;
+
 
     void Init()
 	{
@@ -52,12 +52,10 @@ public class SpeechModifierSO : ScriptableObject
                 }
             }
         }
-
-		init = true;
 	}
     
     string Replace(string message)
-    {//compile
+    {
         if(wordlist.Count != 0)
         {
             foreach (var kvp in wordlist)
@@ -107,8 +105,7 @@ public class SpeechModifierSO : ScriptableObject
     public string ProcessMessage(string message)
 	{
         if (customCode != null) return customCode.ProcessMessage(message);
-		
-        if (!init) Init();
+        Init();
 
         if (activateReplacements) message = Replace(message);
 
