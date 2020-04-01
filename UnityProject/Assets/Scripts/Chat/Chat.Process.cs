@@ -302,12 +302,8 @@ public partial class Chat
 		}
 
 /////// Process Speech mutations
-		if ((modifiers & ChatModifier.Canadian) == ChatModifier.Canadian)
-		{
-			message = SpeechModifierSO.Instance.ProcessMessage(message);
-		}
+		message = SpeechModManager.Instance.ApplyMod(modifiers, message);
 
-//////////
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
 		if (channels.HasFlag(ChatChannel.Command))
