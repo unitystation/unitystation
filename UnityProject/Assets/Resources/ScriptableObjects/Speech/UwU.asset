@@ -14,15 +14,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::SpeechModifierSO
   activateReplacements: 1
   WordReplaceList:
+  - original: bulge
+    replaceWith:
+    - bulgey wulgey
+  - original: sorry
+    replaceWith:
+    - sowwy
+    - "sowwy \xF3w\xF2"
+  - original: soap
+    replaceWith:
+    - soapy woapy
+  - original: fuck
+    replaceWith:
+    - fucky wucky
+  - original: assistant
+    replaceWith:
+    - nyassistant
+  - original: thing
+    replaceWith:
+    - thingy wingy
+  LetterReplaceList:
+  - original: r
+    replaceWith:
+    - w
+  - original: '!'
+    replaceWith:
+    - '! owo'
+  - original: v
+    replaceWith:
+    - w
+  - original: ing
+    replaceWith:
+    - in
   - original: na
     replaceWith:
     - nya
   - original: ne
     replaceWith:
     - nye
-  - original: ni
-    replaceWith:
-    - nyee
   - original: no
     replaceWith:
     - nyo
@@ -32,18 +61,14 @@ MonoBehaviour:
   - original: ove
     replaceWith:
     - uv
-  LetterReplaceList:
-  - original: r
+  - original: ni
     replaceWith:
-    - w
-  - original: '!'
-    replaceWith:
-    - '! owo'
+    - nyee
   activateAdditions: 1
-  probability: 50
+  probability: 80
   Beginning:
   - Nya~
-  - Nnnnnnya~
+  - Nnnnya~
   Ending:
   - OwO
   - UwU
