@@ -707,6 +707,7 @@ public class CharacterSettings
 	public Clothing Clothing = Clothing.JumpSuit;
 	public Backpack Backpack = Backpack.Backpack;
 	public int Age = 22;
+	public Speech Speech = Speech.None;
 	public int hairStyleOffset = -1;  //#
 	public string hairStyleName = "None";
 	public int hairCollectionIndex = 4; //#
@@ -838,6 +839,15 @@ public enum Gender
 	Male,
 	Female,
 	Neuter //adding anymore genders will break things do not edit
+}
+
+public enum Speech
+{
+	None,
+	Canadian,
+	French,
+	Italian,
+	Swedish
 }
 
 public enum Clothing
