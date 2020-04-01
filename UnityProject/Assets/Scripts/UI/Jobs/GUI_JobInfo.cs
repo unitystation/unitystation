@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// A window for displaying information about a certain job.
@@ -30,15 +29,15 @@ public class GUI_JobInfo : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("The job title.")]
-	private Text title = null; // We might want to replace this with TMP, but it would be inconsistent with the job select screen.
+	private TextMeshProUGUI title = null;
 
 	[SerializeField]
 	[Tooltip("Contains the summary of the job.")]
-	private TMPro.TextMeshProUGUI summary = null;
+	private TextMeshProUGUI summary = null;
 
 	[SerializeField]
 	[Tooltip("A multi-paragraph description of the job for players new to the role.")]
-	private TMPro.TextMeshProUGUI description = null;
+	private TextMeshProUGUI description = null;
 
 	[SerializeField]
 	[Tooltip("Shows the player what the uniform looks like.")]
@@ -74,7 +73,7 @@ public class GUI_JobInfo : MonoBehaviour
 			title.text = job.DisplayName;
 			title.color = job.ChoiceColor;
 		}
-		
+
 		// Preview image
 		if (previewImage != null)
 		{

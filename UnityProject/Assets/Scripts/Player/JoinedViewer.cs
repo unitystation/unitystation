@@ -25,10 +25,10 @@ public class JoinedViewer : NetworkBehaviour
 
 		Logger.LogFormat("JoinedViewer on this client calling CmdServerSetupPlayer, our clientID: {0} username: {1}",
 			Category.Connections,
-			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
+			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.Username);
 
 		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID),
-			PlayerManager.CurrentCharacterSettings.username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
+			PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
 			DatabaseAPI.ServerData.IdToken);
 	}
 
