@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Unsecuring_WindowReinforced_Step_1_To_2
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-  performerStartActionMessage: You start to lift bolts of the window...
-  othersStartActionMessage: '{performer} starts to lift bolts of the window...'
+  performerStartActionMessage: You start to lift the bolts on the window...
+  othersStartActionMessage: '{performer} starts to lift the bolts on the window...'
   seconds: 4
   objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: 07799a628a422b2499225cf11a41312d, type: 2}
-  performerFinishActionMessage: You lifted bolts of the window.
-  othersFinishActionMessage: '{performer} finished lifting bolts of the window...'
+  performerFinishActionMessage: You lifted the bolts on the window.
+  othersFinishActionMessage: '{performer} finished lifting the bolts on the window...'

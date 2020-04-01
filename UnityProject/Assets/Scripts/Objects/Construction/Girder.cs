@@ -93,8 +93,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 					"You start adding plating...",
 					$"{interaction.Performer.ExpensiveName()} begins adding plating...",
-					"You create a false wall.",
-					$"{interaction.Performer.ExpensiveName()} creates a false wall.",
+					"You create a wall.",
+					$"{interaction.Performer.ExpensiveName()} creates a wall.",
 					() => ConstructWall(interaction));
 			}
 		}

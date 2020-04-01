@@ -39,7 +39,9 @@ namespace DatabaseAPI
         private const string hubUpdate = hubRoot + "/statusupdate?data=";
         private float updateWait = 0f;
         private string publicIP;
-        private TelepathyTransport activeTransport;
+        private TelepathyTransport telepathyTransport;
+        private IgnoranceThreaded ignoranceTransport;
+        private BoosterTransport boosterTransport;
 
         void AttemptConfigLoad()
         {
@@ -48,7 +50,8 @@ namespace DatabaseAPI
 
             if (File.Exists(path))
             {
-                activeTransport = FindObjectOfType<TelepathyTransport>();
+                telepathyTransport = FindObjectOfType<TelepathyTransport>();
+                ignoranceTransport = FindObjectOfType<IgnoranceThreaded>();
                 config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
                 Instance.StartCoroutine(Instance.SendServerStatus());
             }
@@ -111,10 +114,12 @@ namespace DatabaseAPI
                 status.PlayerCount = PlayerList.Instance.ConnectionCount;
             }
             status.ServerIP = publicIP;
-            status.ServerPort = Convert.ToInt32(activeTransport.port);
+            status.ServerPort = GetPort();
             status.WinDownload = config.WinDownload;
             status.OSXDownload = config.OSXDownload;
             status.LinuxDownload = config.LinuxDownload;
+
+            status.fps = (int)FPSMonitor.Instance.Current;
 
             UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)) + "&user=" + config.HubUser);
             r.SetRequestHeader("Cookie", hubCookie);
@@ -123,6 +128,27 @@ namespace DatabaseAPI
             {
                 Logger.Log("Failed to update hub with server status" + r.error, Category.DatabaseAPI);
             }
+        }
+
+        private int GetPort()
+        {
+	        int port = 7777;
+	        if (telepathyTransport != null)
+	        {
+		        return Convert.ToInt32(telepathyTransport.port);
+	        }
+
+	        if (ignoranceTransport != null)
+	        {
+		        return Convert.ToInt32(ignoranceTransport.CommunicationPort);
+	        }
+
+	        if (boosterTransport!= null)
+	        {
+		        return Convert.ToInt32(boosterTransport.boosterPort);
+	        }
+
+	        return port;
         }
     }
 
@@ -156,6 +182,7 @@ namespace DatabaseAPI
         public string WinDownload;
         public string OSXDownload;
         public string LinuxDownload;
+        public int fps;
     }
 
     //Read from Streaming Assets/config/config.json on the server

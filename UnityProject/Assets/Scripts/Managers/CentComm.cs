@@ -21,6 +21,8 @@ public class CentComm : MonoBehaviour
 	private List<Vector2> AsteroidLocations = new List<Vector2>();
 	private int PlasmaOrderRequestAmt;
 	private GameObject paperPrefab;
+	public DateTime lastAlertChange;
+	public double coolDownAlertChange = 5;
 
 	public static string CaptainAnnounceTemplate =
 		"\n\n<color=white><size=60><b>Captain Announces</b></size></color>\n\n"
@@ -81,6 +83,7 @@ public class CentComm : MonoBehaviour
 	{
 		AsteroidLocations.Clear();
 		CurrentAlertLevel = AlertLevel.Green;
+		lastAlertChange = GameManager.Instance.stationTime;
 		StartCoroutine(WaitToPrepareReport());
 	}
 
@@ -120,9 +123,11 @@ public class CentComm : MonoBehaviour
 		AsteroidLocations = AsteroidLocations.OrderBy(x => Random.value).ToList();
 		PlasmaOrderRequestAmt = Random.Range(5, 50);
 
+
 		// Checks if there will be antags this round and sets the initial update/report
 		if (GameManager.Instance.GetGameModeName(true) != "Extended")
 		{
+			lastAlertChange = GameManager.Instance.stationTime;
 			SendAntagUpdate();
 
 			if (GameManager.Instance.GetGameModeName(true) == "Cargonia")
@@ -135,6 +140,9 @@ public class CentComm : MonoBehaviour
 		{
 			SendExtendedUpdate();
 		}
+		
+		StartCoroutine(WaitToGenericReport());
+		yield break;
 	}
 
 	private void SendExtendedUpdate()
@@ -158,6 +166,19 @@ public class CentComm : MonoBehaviour
 	{
 		yield return WaitFor.Seconds(Random.Range(600f,1200f));
 		MakeCommandReport(CargoniaReport, UpdateSound.notice);
+		yield break;
+	}
+	IEnumerator WaitToGenericReport()
+	{
+		if (!PlayerUtils.IsOk(gameObject))
+		{
+			yield break;
+		}
+		yield return WaitFor.Seconds(Random.Range(300f,1500f));
+		PlayerUtils.DoReport();
+		
+		yield return WaitFor.Seconds(10);
+		MakeAnnouncement(CentCommAnnounceTemplate, PlayerUtils.GetGenericReport(), UpdateSound.announce);
 	}
 
 	/// <summary>
@@ -181,7 +202,7 @@ public class CentComm : MonoBehaviour
 			int _levelString = (int) ToLevel * -1;
 			MakeAnnouncement(CentCommAnnounceTemplate, 
 							AlertLevelStrings[(AlertLevelString)_levelString], 
-							UpdateSound.alert);
+							UpdateSound.notice);
 		}
 		else if (CurrentAlertLevel < ToLevel && Announce)
 		{

@@ -8,7 +8,7 @@ public enum NetTabType {
 	None = -1,
 	Vendor = 0,
 	ShuttleControl = 1,
-	Nuke = 2,
+	NukeWindow = 2,
 	Spawner = 3,
 	Paper = 4,
 	ChemistryDispenser = 5,
@@ -21,7 +21,8 @@ public enum NetTabType {
 	IdConsole = 12,
 	Rename = 13,
 	NullRod = 14,
-	SeedExtractor = 15
+	SeedExtractor = 15,
+	
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab

@@ -166,6 +166,10 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		return ("Loaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
 	}
 
+	/// <summary>
+	/// Returns true if it is possible to fill this magazine with the interaction target object,
+	/// which occurs when the interaction target is a clip of the same ammo type.
+	/// </summary>
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -173,7 +177,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 
 		if (mag == null) return false;
-
+		if (mag == this) return false;
 		if (mag.ammoType != ammoType || !isClip) return false;
 
 		return true;
