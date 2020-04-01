@@ -43,10 +43,7 @@ namespace AdminTools
 
 		public void UpdateNotifications(int amt)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
-			{
-				notifications.AddNotification(NotificationKey, amt);
-			}
+			notifications.AddNotification(NotificationKey, amt);
 		}
 
 		public void ClearLogs()
@@ -107,6 +104,8 @@ namespace AdminTools
 			entry.playerNetId = perp.Connection.identity.netId;
 			entry.playerAlertType = alertType;
 			entry.Message = message;
+			serverPlayerAlerts.Add(entry);
+			PlayerAlertNotifications.SendToAll(1);
 			ServerSendEntryToAllAdmins(entry);
 		}
 

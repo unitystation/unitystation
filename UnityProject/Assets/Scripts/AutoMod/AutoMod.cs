@@ -125,7 +125,7 @@ namespace AdminTools
 				|| Instance.loadedConfig == null
 				|| !Instance.loadedConfig.enableRdmNotification) return;
 
-			if (!PlayerList.Instance.IsAntag(killedBy.GameObject)) return;
+			if (PlayerList.Instance.IsAntag(killedBy.GameObject)) return;
 
 			string roundTime = GameManager.Instance.stationTime.ToString("O");
 			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.RDM, killedBy,
@@ -136,9 +136,9 @@ namespace AdminTools
 		{
 			if (perp == null || Instance.loadedConfig == null
 			                 || !Instance.loadedConfig.enablePlasmaReleaseNotification) return;
-			
-			if (!PlayerList.Instance.IsAntag(perp.GameObject)) return;
 
+			if (PlayerList.Instance.IsAntag(perp.GameObject)) return;
+			
 			string roundTime = GameManager.Instance.stationTime.ToString("O");
 			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.PlasmaOpen, perp,
 				$"{roundTime} : {perp.Name} has released plasma as a non-antag");
