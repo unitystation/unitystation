@@ -237,7 +237,7 @@ public class StatueAI : MobAI
 			//10% chance the statue decides to flee:
 			if (Random.value < 0.1f)
 			{
-				StartFleeing(damagedBy.transform, 5f);
+				StartFleeing(damagedBy, 5f);
 				return;
 			}
 		}

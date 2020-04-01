@@ -117,7 +117,7 @@ public class GenericAI : MobAI
 			//30% chance the mob decides to flee:
 			if (Random.value < 0.3f)
 			{
-				StartFleeing(damagedBy.transform, 5f);
+				StartFleeing(damagedBy, 5f);
 				return;
 			}
 		}
