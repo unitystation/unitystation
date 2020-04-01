@@ -119,6 +119,31 @@ namespace AdminTools
 			return message;
 		}
 
+		public static void ProcessPlayerKill(ConnectedPlayer killedBy, ConnectedPlayer victim)
+		{
+			if (victim == null || killedBy == null
+				|| Instance.loadedConfig == null
+				|| !Instance.loadedConfig.enableRdmNotification) return;
+
+			if (!PlayerList.Instance.IsAntag(killedBy.GameObject)) return;
+
+			string roundTime = GameManager.Instance.stationTime.ToString("O");
+			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.RDM, killedBy,
+				$"{roundTime} : {killedBy.Name} killed {victim.Name} as a non-antag");
+		}
+
+		public static void ProcessPlasmaRelease(ConnectedPlayer perp)
+		{
+			if (perp == null || Instance.loadedConfig == null
+			                 || !Instance.loadedConfig.enablePlasmaReleaseNotification) return;
+			
+			if (!PlayerList.Instance.IsAntag(perp.GameObject)) return;
+
+			string roundTime = GameManager.Instance.stationTime.ToString("O");
+			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.PlasmaOpen, perp,
+				$"{roundTime} : {perp.Name} has released plasma as a non-antag");
+		}
+
 		private static bool IsEnabled()
 		{
 			if (Instance == null || !GameData.IsHeadlessServer || Instance.loadedConfig == null) return false;

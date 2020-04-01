@@ -99,6 +99,17 @@ namespace AdminTools
 			}
 		}
 
+		public void ServerAddNewEntry(string incidentTime, PlayerAlertTypes alertType, ConnectedPlayer perp,
+			string message)
+		{
+			var entry = new PlayerAlertData();
+			entry.roundTime = incidentTime;
+			entry.playerNetId = perp.Connection.identity.netId;
+			entry.playerAlertType = alertType;
+			entry.Message = message;
+			ServerSendEntryToAllAdmins(entry);
+		}
+
 		public void ServerSendEntryToAllAdmins(PlayerAlertData entry)
 		{
 			PlayerAlertsUpdateMessage.SendSingleEntryToAdmins(entry);
