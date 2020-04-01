@@ -14,6 +14,7 @@ namespace Lobby
 		public Text genderText;
 		public Text clothingText;
 		public Text backpackText;
+		public Text accentText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
@@ -125,6 +126,7 @@ namespace Lobby
 			RefreshEyes();
 			RefreshSkinColor();
 			RefreshAge();
+			RefreshAccent();
 		}
 
 		public void RollRandomCharacter()
@@ -629,6 +631,29 @@ namespace Lobby
 		private void RefreshBackpack()
 		{
 			backpackText.text = currentCharacter.BagStyle.ToString();
+		}
+
+		//------------------
+		//ACCENT PREFERENCE:
+		//------------------
+		// This will be a temporal thing until we have proper character traits
+
+		public void OnAccentChange()
+		{
+			int accent = (int)currentCharacter.Accent;
+			accent++;
+			Debug.LogError($"ACCENT: {(Speech)accent}");
+			if (accent == (int)Speech.Unintelligible)
+			{
+				accent = 0;
+			}
+			currentCharacter.Accent = (Speech)accent;
+			RefreshAccent();
+		}
+
+		private void RefreshAccent()
+		{
+			accentText.text = currentCharacter.Accent.ToString();
 		}
 	}
 }
