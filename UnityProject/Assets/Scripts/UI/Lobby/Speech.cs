@@ -8,5 +8,7 @@ public enum Speech
     Chav,
     Smile,
     Elvis,
+    Spurdo,
+    UwU,
     Unintelligible
 }

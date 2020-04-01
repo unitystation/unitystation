@@ -14,7 +14,7 @@ public class CharacterSettings
 	public ClothingStyle ClothingStyle = ClothingStyle.JumpSuit;
 	public BagStyle BagStyle = BagStyle.Backpack;
 	public int Age = 22;
-	public Speech Speech = Speech.None;
+	public Speech Speech = Speech.UwU;//FIXME change to None when you're done testing
 	public string HairStyleName = "None";
 	public string HairColor = "black";
 	public string EyeColor = "black";

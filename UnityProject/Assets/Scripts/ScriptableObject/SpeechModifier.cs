@@ -57,7 +57,7 @@ public class SpeechModifierSO : ScriptableObject
 	}
     
     string Replace(string message)
-    {
+    {//compile
         if(wordlist.Count != 0)
         {
             foreach (var kvp in wordlist)
