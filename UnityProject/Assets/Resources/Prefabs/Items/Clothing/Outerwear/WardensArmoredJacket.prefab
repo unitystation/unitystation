@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 3525490832341156112, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: m_Name
-      value: Trenchcoat
+      value: WardenArmoredJacket
       objectReference: {fileID: 0}
     - target: {fileID: 3525490832341156112, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -74,33 +74,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
       propertyPath: Armor.Melee
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 45
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Bullet
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Laser
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: Armor.Energy
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564244148772557028, guid: a0c29a11d2c864b7982765b5340eed0e,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3564945054494194852, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
@@ -111,24 +121,23 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9b46ab1b7bd25a44f839bd817db97804,
+      objectReference: {fileID: 21300000, guid: 90f3f7e4915125844b2d896fc0306280,
         type: 3}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: initialName
-      value: trenchcoat
+      value: warden's armored jacket
       objectReference: {fileID: 0}
     - target: {fileID: 3891274522419703410, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: initialDescription
-      value: An 18th-century multi-purpose trenchcoat. Someone who wears this means
-        serious business.
+      value: A red jacket with silver rank pips and body armor strapped on top.
       objectReference: {fileID: 0}
     - target: {fileID: 7534581208369271445, guid: a0c29a11d2c864b7982765b5340eed0e,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 506102dad4ddf3e4991c0916586fd56f,
+      objectReference: {fileID: 11400000, guid: 1bd81b53cbb3a364487478f96210139d,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0c29a11d2c864b7982765b5340eed0e, type: 3}
