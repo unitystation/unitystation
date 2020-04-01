@@ -58,7 +58,11 @@ public enum ChatModifier
 	Canadian = 1 << 11,
 	French = 1 << 12,
 	Italian = 1 << 13,
-	Swedish = 1 << 14
+	Swedish = 1 << 14,
+	Chav = 1 << 15,
+	Smile = 1 << 16,
+	Elvis = 1 << 17,
+	Unintelligible = 1 << 18
 }
 
 public class ChatEvent

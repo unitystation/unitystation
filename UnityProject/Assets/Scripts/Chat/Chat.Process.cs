@@ -129,7 +129,8 @@ public partial class Chat
 		}
 
 		// Speech assignation
-		switch (sentByPlayer.Script.characterSettings.Speech)
+		//TODO Assigning from character creation for now
+		switch (sentByPlayer.Script.characterSettings.Speech) 
 		{
 			case Speech.None:
 				break;
@@ -144,6 +145,9 @@ public partial class Chat
 				break;
 			case Speech.Swedish:
 				chatModifiers |= ChatModifier.Swedish;
+				break;
+			case Speech.Chav:
+				chatModifiers |= ChatModifier.Chav;
 				break;
 		}
 
@@ -297,11 +301,13 @@ public partial class Chat
 			verb = "asks,";
 		}
 
+/////// Process Speech mutations
 		if ((modifiers & ChatModifier.Canadian) == ChatModifier.Canadian)
 		{
-			
+			message = SpeechModifierSO.Instance.ProcessMessage(message);
 		}
 
+//////////
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
 		if (channels.HasFlag(ChatChannel.Command))
