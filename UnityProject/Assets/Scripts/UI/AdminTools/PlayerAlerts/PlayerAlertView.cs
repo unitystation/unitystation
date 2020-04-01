@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class PlayerAlertView : ChatEntryView
 {
 	private PlayerAlertData playerAlertData;
+	public PlayerAlertData LoadedData => playerAlertData;
 	[SerializeField] private Button gibButton = null;
 	[SerializeField] private Button takenCareOfButton = null;
 	[SerializeField] private Button teleportButton = null;
@@ -20,6 +21,13 @@ public class PlayerAlertView : ChatEntryView
 	{
 		base.SetChatEntryView(data, chatScroll, index, contentViewWidth);
 		playerAlertData = (PlayerAlertData)data;
+		gibButton.interactable = !playerAlertData.gibbed;
+		takenCareOfButton.interactable = !playerAlertData.takenCareOf;
+	}
+
+	public void Reload(PlayerAlertData playerAlert)
+	{
+		playerAlertData = playerAlert;
 		gibButton.interactable = !playerAlertData.gibbed;
 		takenCareOfButton.interactable = !playerAlertData.takenCareOf;
 	}
@@ -34,7 +42,7 @@ public class PlayerAlertView : ChatEntryView
 
 	public void GibRequest()
 	{
-		AdminPlayerAlertActions.Send(PlayerAlertActions.Gibbed, playerAlertData.roundTime, playerAlertData.playerNetId);
+		AdminPlayerAlertActions.Send(PlayerAlertActions.Gibbed, playerAlertData.roundTime, playerAlertData.playerNetId, PlayerList.Instance.AdminToken);
 		takenCareOfButton.interactable = false;
 	}
 
@@ -84,7 +92,7 @@ public class PlayerAlertView : ChatEntryView
 
 	public void TakenCareOf()
 	{
-		AdminPlayerAlertActions.Send(PlayerAlertActions.TakenCareOf, playerAlertData.roundTime, playerAlertData.playerNetId);
+		AdminPlayerAlertActions.Send(PlayerAlertActions.TakenCareOf, playerAlertData.roundTime, playerAlertData.playerNetId, PlayerList.Instance.AdminToken);
 		takenCareOfButton.interactable = false;
 	}
 }

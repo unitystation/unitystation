@@ -52,6 +52,20 @@ namespace AdminTools
 			LoadAllEntries(clientPlayerAlerts);
 		}
 
+		public void ClientUpdateSingleEntry(PlayerAlertData entry)
+		{
+			var index = clientPlayerAlerts.FindIndex(x =>
+				x.playerNetId == entry.playerNetId && x.roundTime == entry.roundTime);
+			if (index == -1)
+			{
+				playerAlertsScroll.AddNewPlayerAlert(entry);
+			}
+			else
+			{
+				playerAlertsScroll.UpdateExistingPlayerAlert(entry);
+			}
+		}
+
 		public void ServerRequestEntries(string userId, int count, NetworkConnection requestee)
 		{
 			if (!PlayerList.Instance.IsAdmin(userId)) return;
@@ -70,13 +84,70 @@ namespace AdminTools
 
 		public void ServerSendEntryToAllAdmins(PlayerAlertData entry)
 		{
-
+			PlayerAlertsUpdateMessage.SendSingleEntryToAdmins(entry);
 		}
 
 		public void ServerProcessActionRequest(string adminId, PlayerAlertActions actionRequest,
-			string roundTimeOfIncident, uint perpId)
+			string roundTimeOfIncident, uint perpId, string adminToken)
 		{
 			if (!PlayerList.Instance.IsAdmin(adminId)) return;
+
+			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+			if (admin == null) return;
+
+			var index = serverPlayerAlerts.FindIndex(x =>
+				x.playerNetId == perpId && x.roundTime == roundTimeOfIncident);
+			if (index == -1)
+			{
+				Logger.Log($"Could not find perp id {perpId} with roundTime incident: {roundTimeOfIncident}");
+				return;
+			}
+
+			if (!NetworkIdentity.spawned.ContainsKey(perpId))
+			{
+				Logger.Log($"Perp id {perpId} not found in Spawnlist");
+				return;
+			}
+
+			var perp = NetworkIdentity.spawned[perpId];
+
+			switch (actionRequest)
+			{
+				case PlayerAlertActions.Gibbed:
+					ProcessGibRequest(perp.gameObject, admin, serverPlayerAlerts[index], adminId);
+					break;
+				case PlayerAlertActions.TakenCareOf:
+					ProcessTakenCareOfRequest(perp.gameObject, admin, serverPlayerAlerts[index], adminId);
+					break;
+			}
+		}
+
+		private void ProcessGibRequest(GameObject perp, GameObject admin, PlayerAlertData alertEntry, string adminId)
+		{
+			var playerScript = perp.GetComponent<PlayerScript>();
+			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{admin.ExpensiveName()} BRUTALLY GIBBED player {perp.ExpensiveName()} for a " +
+			                                                                         $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
+			                                                                         $"{alertEntry.roundTime}", adminId);
+
+			playerScript.playerHealth.ServerGibPlayer();
+
+			alertEntry.gibbed = true;
+			ServerSendEntryToAllAdmins(alertEntry);
+		}
+
+		private void ProcessTakenCareOfRequest(GameObject perp, GameObject admin, PlayerAlertData alertEntry, string adminId)
+		{
+			var playerScript = perp.GetComponent<PlayerScript>();
+			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{admin.ExpensiveName()} is talking to or monitoring player {perp.ExpensiveName()} for a " +
+			                                                                         $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
+			                                                                         $"{alertEntry.roundTime}", adminId);
+
+			alertEntry.takenCareOf = true;
+			ServerSendEntryToAllAdmins(alertEntry);
 		}
 
 		public void ToggleWindow()

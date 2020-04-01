@@ -7,20 +7,30 @@ public class PlayerAlertsUpdateMessage : ServerMessage
 {
 	public override short MessageType => (short) MessageTypes.PlayerAlertsUpdateMessage;
 	public string JsonData;
+	public bool IsSingleEntry;
 
 	public override IEnumerator Process()
 	{
 		yield return new WaitForEndOfFrame();
 
-		UIManager.Instance.playerAlerts.ClientUpdateAlertLog(JsonData);
+		if (IsSingleEntry)
+		{
+			UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(JsonData));
+		}
+		else
+		{
+			UIManager.Instance.playerAlerts.ClientUpdateAlertLog(JsonData);
+		}
 	}
 
 	public static PlayerAlertsUpdateMessage SendSingleEntryToAdmins(PlayerAlertData alertMessage)
 	{
-		PlayerAlertsUpdate update = new PlayerAlertsUpdate();
-		update.playerAlerts.Add(alertMessage);
 		PlayerAlertsUpdateMessage  msg =
-			new PlayerAlertsUpdateMessage  {JsonData = JsonUtility.ToJson(update) };
+			new PlayerAlertsUpdateMessage
+			{
+				JsonData = JsonUtility.ToJson(alertMessage),
+				IsSingleEntry = true
+			};
 
 		msg.SendToAdmins();
 		return msg;
@@ -32,6 +42,7 @@ public class PlayerAlertsUpdateMessage : ServerMessage
 			new PlayerAlertsUpdateMessage
 			{
 				JsonData = JsonUtility.ToJson(update),
+				IsSingleEntry = false
 			};
 
 		msg.SendTo(requestee);

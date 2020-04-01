@@ -11,22 +11,24 @@ public class AdminPlayerAlertActions: ClientMessage
 	public int ActionRequested;
 	public string RoundTimeOfIncident;
 	public uint PerpNetID;
+	public string AdminToken;
 
 	public override IEnumerator Process()
 	{
 		yield return new WaitForEndOfFrame();
 
 		UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)ActionRequested,
-			RoundTimeOfIncident, PerpNetID);
+			RoundTimeOfIncident, PerpNetID, AdminToken);
 	}
 
-	public static AdminPlayerAlertActions Send(PlayerAlertActions actionRequested, string roundTimeOfIncident, uint perpId)
+	public static AdminPlayerAlertActions Send(PlayerAlertActions actionRequested, string roundTimeOfIncident, uint perpId, string adminToken)
 	{
 		AdminPlayerAlertActions msg = new AdminPlayerAlertActions
 		{
 			ActionRequested = (int)actionRequested,
 			RoundTimeOfIncident = roundTimeOfIncident,
-			PerpNetID = perpId
+			PerpNetID = perpId,
+			AdminToken = adminToken
 		};
 		msg.Send();
 		return msg;
@@ -38,6 +40,7 @@ public class AdminPlayerAlertActions: ClientMessage
 		ActionRequested = reader.ReadInt32();
 		RoundTimeOfIncident = reader.ReadString();
 		PerpNetID = reader.ReadUInt32();
+		AdminToken = reader.ReadString();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -46,5 +49,6 @@ public class AdminPlayerAlertActions: ClientMessage
 		writer.WriteInt32(ActionRequested);
 		writer.WriteString(RoundTimeOfIncident);
 		writer.WriteUInt32(PerpNetID);
+		writer.WriteString(AdminToken);
 	}
 }

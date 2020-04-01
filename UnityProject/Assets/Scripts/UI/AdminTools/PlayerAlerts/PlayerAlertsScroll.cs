@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace AdminTools
@@ -24,6 +25,31 @@ namespace AdminTools
 			foreach (var e in alertsToAppend)
 			{
 				AddNewPlayerAlert(e);
+			}
+		}
+
+		public void UpdateExistingPlayerAlert(PlayerAlertData alertEntry)
+		{
+			var index = alertLog.FindIndex(x =>
+				x.playerNetId == alertEntry.playerNetId && x.roundTime == alertEntry.roundTime);
+
+			if (index == -1)
+			{
+				AddNewPlayerAlert(alertEntry);
+			}
+			else
+			{
+				foreach (var v in displayPool.Cast<PlayerAlertView>().ToList())
+				{
+					if (v.LoadedData == alertLog[index])
+					{
+						alertLog[index] = alertEntry;
+						v.Reload(alertEntry);
+						return;
+					}
+				}
+
+				alertLog[index] = alertEntry;
 			}
 		}
 
