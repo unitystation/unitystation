@@ -326,7 +326,21 @@ namespace Lobby
 
 		public void OnCharacterButton()
 		{
-			ShowCharacterEditor();
+			ShowCharacterEditor(OnCharacterExit);
+		}
+
+		private void OnCharacterExit()
+		{
+			gameObject.SetActive(true);
+			if (ServerData.Auth.CurrentUser != null)
+			{
+				ShowConnectionPanel();
+			}
+			else
+			{
+				Logger.LogWarning("User is not logged in! Returning to login screen.");
+				ShowLoginScreen();
+			}
 		}
 
 		// Game handlers

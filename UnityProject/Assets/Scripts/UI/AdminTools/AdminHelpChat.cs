@@ -31,7 +31,7 @@ namespace AdminTools
 
 		void OnInputReceived(string message)
 		{
-			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.username} replied: " + message);
+			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.Username} replied: " + message);
 		}
 	}
 }
