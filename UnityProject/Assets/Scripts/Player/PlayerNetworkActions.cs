@@ -33,6 +33,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		itemStorage = GetComponent<ItemStorage>();
 	}
 
+	/// <summary>
+	/// Get the item in the player's slot
+	/// </summary>
+	/// <returns>the gameobject item in the player's slot, null if nothing </returns>
 	public GameObject GetActiveItemInSlot(NamedSlot slot)
 	{
 		var pu = itemStorage.GetNamedItemSlot(slot).Item;
