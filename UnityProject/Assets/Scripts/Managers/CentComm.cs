@@ -140,6 +140,8 @@ public class CentComm : MonoBehaviour
 		{
 			SendExtendedUpdate();
 		}
+		
+		StartCoroutine(WaitToGenericReport());
 		yield break;
 	}
 
@@ -165,6 +167,18 @@ public class CentComm : MonoBehaviour
 		yield return WaitFor.Seconds(Random.Range(600f,1200f));
 		MakeCommandReport(CargoniaReport, UpdateSound.notice);
 		yield break;
+	}
+	IEnumerator WaitToGenericReport()
+	{
+		if (!PlayerUtils.IsOk(gameObject))
+		{
+			yield break;
+		}
+		yield return WaitFor.Seconds(Random.Range(300f,1500f));
+		PlayerUtils.DoReport();
+		
+		yield return WaitFor.Seconds(10);
+		MakeAnnouncement(CentCommAnnounceTemplate, PlayerUtils.GetGenericReport(), UpdateSound.announce);
 	}
 
 	/// <summary>
