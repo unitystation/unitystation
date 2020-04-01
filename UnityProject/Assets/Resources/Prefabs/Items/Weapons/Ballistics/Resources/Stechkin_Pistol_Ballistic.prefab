@@ -93,6 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -104,11 +106,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_Name
-      value: Tactical_Handgun_ballistic
-      objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: AmmoType
@@ -128,96 +125,38 @@ PrefabInstance:
         type: 3}
       propertyPath: Projectile
       value: 
-      objectReference: {fileID: 1932369758612010, guid: 40ea4aea218be439eaf29f853612870c,
+      objectReference: {fileID: 1932369758612010, guid: 72d39cead02d7314bb5b4f8321aa9154,
         type: 3}
-    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 8e0cc4c3368734e6ca16fd5ab6045fb2,
-        type: 2}
+      propertyPath: ammoType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialName
-      value: Tactical handgun
+      value: stechkin pistol
       objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialDescription
-      value: 
+      value: A small, easily concealable 10mm handgun. Has a threaded barrel for suppressors.
       objectReference: {fileID: 0}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2800000, guid: 646e7f22ac40ffb44b34924e79c94488, type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+      objectReference: {fileID: 21300000, guid: d321377492a98424db9a571b4cde5ed9,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 646e7f22ac40ffb44b34924e79c94488,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300002, guid: 646e7f22ac40ffb44b34924e79c94488,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300004, guid: 646e7f22ac40ffb44b34924e79c94488,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300006, guid: 646e7f22ac40ffb44b34924e79c94488,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 8057989b9be9bdc46a8f1d5d1540622e, type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 336ec3896a4a9694e8080514559490e0, type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 336ec3896a4a9694e8080514559490e0,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300002, guid: 336ec3896a4a9694e8080514559490e0,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300004, guid: 336ec3896a4a9694e8080514559490e0,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300006, guid: 336ec3896a4a9694e8080514559490e0,
-        type: 3}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 530173ab2806149429b276e6407a1775, type: 3}
     - target: {fileID: 7392881626475492836, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Name
+      value: Stechkin_Pistol_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -274,12 +213,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 21300000, guid: d321377492a98424db9a571b4cde5ed9,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: 8e0cc4c3368734e6ca16fd5ab6045fb2,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}
 --- !u!4 &8577108076371459539 stripped
