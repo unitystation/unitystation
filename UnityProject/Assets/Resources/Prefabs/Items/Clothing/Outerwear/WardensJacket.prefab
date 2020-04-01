@@ -40,10 +40,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1833c1e2a1e94684384a007ca12c4b0c,
         type: 2}
+    - target: {fileID: 3495234765619245072, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
+        type: 3}
+      propertyPath: initialDescription
+      value: A navy-blue armored jacket with blue shoulder designations and '/Warden/'
+        stitched into one of the chest pockets.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
+        type: 3}
+      propertyPath: initialName
+      value: warden's jacket
+      objectReference: {fileID: 0}
+    - target: {fileID: 3791466462619397166, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5fb24498a85d6c344954d5a80ea75ea9,
+        type: 3}
     - target: {fileID: 3921521694364753778, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
         type: 3}
       propertyPath: m_Name
-      value: WardenArmoredJacket
+      value: WardensJacket
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
         type: 3}
@@ -100,5 +117,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4033042375367942854, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931175119129480439, guid: 012d5b9e077cf4eda9c65f01d1ff5b57,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1833c1e2a1e94684384a007ca12c4b0c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 012d5b9e077cf4eda9c65f01d1ff5b57, type: 3}

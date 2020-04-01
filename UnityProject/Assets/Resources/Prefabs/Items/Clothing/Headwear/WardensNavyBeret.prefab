@@ -7,6 +7,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2961199095919592321, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c01ace82cf1c3184d8d26ff5f57ad7df,
+        type: 3}
+    - target: {fileID: 3058521868674195753, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061756049588866409, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: m_Name
+      value: WardensNavyBeret
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243759188309319615, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: initialName
+      value: warden's navy beret
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243759188309319615, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: initialDescription
+      value: A special beret with the Warden's insignia emblazoned on it. For wardens
+        with class.
+      objectReference: {fileID: 0}
     - target: {fileID: 4760672335869315065, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_Name
@@ -100,5 +132,11 @@ PrefabInstance:
       propertyPath: initialName
       value: warden's navy beret
       objectReference: {fileID: 0}
+    - target: {fileID: 8328428895886091096, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c591040b0eb3a4c489de8a8950e63498,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4d736b34e26278479563c6bf5f121ce, type: 3}
