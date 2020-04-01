@@ -1068,7 +1068,6 @@ GameObject:
   - component: {fileID: 1241969205111610004}
   - component: {fileID: 4371418244065816619}
   - component: {fileID: 115040872360361421}
-  - component: {fileID: 3371072680152636239}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1175,9 +1174,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3371072680152636239}
-        m_MethodName: OnClick
-        m_Mode: 1
+      - m_Target: {fileID: 4519162249685006793}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1186,18 +1185,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
---- !u!114 &3371072680152636239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146434132746615593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9a9b81b1a44e3e4d963779a9ad6f4d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1291907214417065154
 GameObject:
   m_ObjectHideFlags: 0
@@ -3746,6 +3733,7 @@ GameObject:
   - component: {fileID: 5194705265240009594}
   - component: {fileID: 3470454692497627827}
   - component: {fileID: 8453466683392111359}
+  - component: {fileID: 5975208198897975017}
   m_Layer: 5
   m_Name: SearchBar
   m_TagString: Untagged
@@ -3886,6 +3874,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+      - m_Target: {fileID: 3470454692497627827}
+        m_MethodName: InputUnfocus
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3908,6 +3907,34 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   ExitButton: 27
+--- !u!114 &5975208198897975017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3944144288921864205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3470454692497627827}
+          m_MethodName: InputFocus
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3965479424432898852
 GameObject:
   m_ObjectHideFlags: 0
@@ -8423,6 +8450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8948dfec89f7fe948bf5aa8685e72696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalSoundWindow: {fileID: 4519162249685006793}
 --- !u!1 &8356628010292351502
 GameObject:
   m_ObjectHideFlags: 0
@@ -9702,7 +9730,7 @@ PrefabInstance:
         type: 3}
       propertyPath: adminChatButtons
       value: 
-      objectReference: {fileID: 3475609575267578597}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a6f9494007d064a8f9c7fde98a31ab, type: 3}
 --- !u!224 &3677468499188786878 stripped
@@ -9905,6 +9933,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0890619810adc5846b460c976db33c90, type: 3}
+--- !u!224 &2400951160615069360 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1787747558045631595, guid: 0890619810adc5846b460c976db33c90,
+    type: 3}
+  m_PrefabInstance: {fileID: 4151965581331145435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2400951160615069361 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1787747558045631594, guid: 0890619810adc5846b460c976db33c90,
@@ -9917,12 +9951,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb6cb319d8b26244ae23cc69b312d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &2400951160615069360 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1787747558045631595, guid: 0890619810adc5846b460c976db33c90,
-    type: 3}
-  m_PrefabInstance: {fileID: 4151965581331145435}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4333135857236674444
 PrefabInstance:
   m_ObjectHideFlags: 0
