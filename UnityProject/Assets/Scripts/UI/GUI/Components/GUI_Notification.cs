@@ -28,6 +28,10 @@ public class GUI_Notification : MonoBehaviour
 		}
 
 		notifications[key] += amountToAdd;
+		if (notifications[key] < 0)
+		{
+			notifications[key] = 0;
+		}
 		UpdateText();
 	}
 
@@ -59,7 +63,7 @@ public class GUI_Notification : MonoBehaviour
 		int count = 0;
 		foreach (var n in notifications)
 		{
-			count += n.Value;
+			count += Mathf.Clamp(n.Value, 0, 999);
 		}
 
 		label.text = count.ToString();

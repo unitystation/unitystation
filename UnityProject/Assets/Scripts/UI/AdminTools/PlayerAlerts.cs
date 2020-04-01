@@ -36,6 +36,19 @@ namespace AdminTools
 			playerAlertsWindow.SetActive(false);
 		}
 
+		public void ClearAllNotifications()
+		{
+			notifications.ClearAll();
+		}
+
+		public void UpdateNotifications(int amt)
+		{
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				notifications.AddNotification(NotificationKey, amt);
+			}
+		}
+
 		public void ClearLogs()
 		{
 			serverPlayerAlerts.Clear();
@@ -80,6 +93,10 @@ namespace AdminTools
 			update.playerAlerts = serverPlayerAlerts;
 
 			PlayerAlertsUpdateMessage.SendLogUpdateToAdmin(requestee, update);
+			if (notifications.notifications.ContainsKey(NotificationKey))
+			{
+				PlayerAlertNotifications.Send(requestee, notifications.notifications[NotificationKey]);
+			}
 		}
 
 		public void ServerSendEntryToAllAdmins(PlayerAlertData entry)
@@ -124,6 +141,8 @@ namespace AdminTools
 
 		private void ProcessGibRequest(GameObject perp, GameObject admin, PlayerAlertData alertEntry, string adminId)
 		{
+			if (alertEntry.gibbed) return;
+
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 
@@ -135,10 +154,14 @@ namespace AdminTools
 
 			alertEntry.gibbed = true;
 			ServerSendEntryToAllAdmins(alertEntry);
+			notifications.AddNotification(NotificationKey, -1);
+			PlayerAlertNotifications.SendToAll(-1);
 		}
 
 		private void ProcessTakenCareOfRequest(GameObject perp, GameObject admin, PlayerAlertData alertEntry, string adminId)
 		{
+			if (alertEntry.takenCareOf) return;
+
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 
@@ -148,6 +171,8 @@ namespace AdminTools
 
 			alertEntry.takenCareOf = true;
 			ServerSendEntryToAllAdmins(alertEntry);
+			notifications.AddNotification(NotificationKey, -1);
+			PlayerAlertNotifications.SendToAll(-1);
 		}
 
 		public void ToggleWindow()
