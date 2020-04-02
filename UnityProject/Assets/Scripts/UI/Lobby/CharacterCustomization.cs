@@ -640,20 +640,20 @@ namespace Lobby
 
 		public void OnAccentChange()
 		{
-			int accent = (int)currentCharacter.Accent;
+			int accent = (int)currentCharacter.Speech;
 			accent++;
 			Debug.LogError($"ACCENT: {(Speech)accent}");
 			if (accent == (int)Speech.Unintelligible)
 			{
 				accent = 0;
 			}
-			currentCharacter.Accent = (Speech)accent;
+			currentCharacter.Speech = (Speech)accent;
 			RefreshAccent();
 		}
 
 		private void RefreshAccent()
 		{
-			accentText.text = currentCharacter.Accent.ToString();
+			accentText.text = currentCharacter.Speech.ToString();
 		}
 	}
 }
