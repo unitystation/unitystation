@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "SpeechModManager", menuName = "Singleton/SpeechModManager")]
 public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
@@ -13,6 +14,8 @@ public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
     public SpeechModifierSO Spurdo;
     public SpeechModifierSO Swedish;
     public SpeechModifierSO UwU;
+    public SpeechModifierSO Stutter;
+
 
     public string ApplyMod(ChatModifier modifiers, string message)
     {
@@ -51,16 +54,27 @@ public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
             message = Swedish.ProcessMessage(message);
         }
 
-        if ((modifiers & ChatModifier.Spurdo) == ChatModifier.Spurdo)
-        {
-            message = UwU.ProcessMessage(message);
-        }
+        // if ((modifiers & ChatModifier.Spurdo) == ChatModifier.Spurdo)
+        // {
+        //     message = Spurdo.ProcessMessage(message);
+        // }
 
-        if ((modifiers & ChatModifier.UwU) == ChatModifier.UwU)
+        // if ((modifiers & ChatModifier.UwU) == ChatModifier.UwU)
+        // {
+        //     message = UwU.ProcessMessage(message);
+        // }
+
+        if ((modifiers & ChatModifier.Stutter) == ChatModifier.Stutter)
         {
-            message = UwU.ProcessMessage(message);
+            message = Stutter.ProcessMessage(message);
         }
 
         return message;
     }
+}
+
+[Serializable]
+public abstract class CustomSpeechModifier : ScriptableObject
+{
+    public abstract string ProcessMessage(string message);
 }

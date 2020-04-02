@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 
-[CreateAssetMenu(fileName = "SpeechModifierSO", menuName = "ScriptableObjects/SpeechModifierSO")]
+[CreateAssetMenu(fileName = "SpeechModifierSO", menuName = "ScriptableObjects/SpeechModifiers/SpeechModifierSO")]
 public class SpeechModifierSO : ScriptableObject
 {
     [Header("Replacements")]
@@ -127,10 +127,4 @@ public class LetterReplacement
 {
     public string original;
     public List<String> replaceWith;
-}
-
-[Serializable]
-public abstract class CustomSpeechModifier : ScriptableObject
-{
-    public abstract string ProcessMessage(string message);
 }

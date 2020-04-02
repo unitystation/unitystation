@@ -6,6 +6,7 @@ public enum Speech
     Italian,
     Swedish,
     Chav,
+    Stutter,
     // Smile,
     // Elvis,
     // Spurdo,

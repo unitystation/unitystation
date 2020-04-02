@@ -149,6 +149,9 @@ public partial class Chat
 			case Speech.Chav:
 				chatModifiers |= ChatModifier.Chav;
 				break;
+			case Speech.Stutter:
+				chatModifiers |= ChatModifier.Stutter;
+				break;
 		}
 
 		// Clown
@@ -174,7 +177,7 @@ public partial class Chat
 		//	//Stuttering people randomly repeat beginnings of words
 		//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
 		//	Regex rx = new Regex(@"(\b)+([^\d\W])\B");
-		//	message = rx.Replace(message, Stutter);
+			// message = rx.Replace(message, Stutter);
 		//	chatModifiers |= ChatModifier.Stutter;
 		//}
 		//
@@ -378,29 +381,6 @@ public partial class Chat
 		}
 
 		return x;
-	}
-
-	private static string Stutter(Match m)
-	{
-		string x = m.ToString();
-		string stutter = "";
-		//20% chance to stutter at any given consonant
-		if (Random.Range(1, 6) == 1)
-		{
-			//Randomly pick how bad is the stutter
-			int intensity = Random.Range(1, 4);
-			for (int i = 0; i < intensity; i++)
-			{
-				stutter = stutter + x + "... "; //h... h... h...
-			}
-
-			stutter = stutter + x; //h... h... h... h[ello]
-		}
-		else
-		{
-			stutter = x;
-		}
-		return stutter;
 	}
 
 	private static string Sing(string m)
