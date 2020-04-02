@@ -642,7 +642,6 @@ namespace Lobby
 		{
 			int accent = (int)currentCharacter.Speech;
 			accent++;
-			Debug.LogError($"ACCENT: {(Speech)accent}");
 			if (accent == (int)Speech.Unintelligible)
 			{
 				accent = 0;
