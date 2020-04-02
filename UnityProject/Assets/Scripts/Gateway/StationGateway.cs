@@ -62,9 +62,9 @@ public class StationGateway : NetworkBehaviour
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
+		Position = registerTile.WorldPosition;
 
 		SetOffline();
-		Position = registerTile.WorldPosition;
 
 		var count = Random.Range(RandomCountBegining, RandomCountEnd);
 		Invoke("WorldSetup", count);
@@ -76,21 +76,24 @@ public class StationGateway : NetworkBehaviour
 		//Selects Random world
 		SelectedWorld = Worlds[Random.Range(0, Worlds.Count)];
 
-		Message = "Teleporting to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
+		if (SelectedWorld == null) return;
 
-		if (HasPower == true && SelectedWorld != null)
+		var selectedWorld = SelectedWorld.GetComponent<WorldGateway>();
+
+		Message = "Teleporting to: " + selectedWorld.WorldName;
+
+		if (selectedWorld.IsOnlineAtStart == false)
+		{
+			selectedWorld.gameObject.SetActive(true);
+			selectedWorld.SetUp();
+		}
+
+		if (HasPower == true)
 		{
 			SetOnline();
 
 			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
-
-			var scene = SelectedWorld.transform.parent.parent.parent.gameObject;
-
-			if (scene.activeSelf == false)
-			{
-				scene.SetActive(true);
-			}
 
 			loop();
 		}
@@ -113,6 +116,7 @@ public class StationGateway : NetworkBehaviour
 		{
 			var coord = new Vector2(Position.x, Position.y);
 			Chat.AddLocalMsgToChat(Message, coord, gameObject);
+			SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
 			TransportPlayers(player);
 		}
 

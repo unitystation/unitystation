@@ -38,8 +38,7 @@ public class WorldGateway : NetworkBehaviour
 	[SerializeField]
 	private GameObject StationGateway;// doesnt have to be station just the gateway this one will connect to
 
-	[SerializeField]
-	private bool IsOnlineAtStart = true;
+	public bool IsOnlineAtStart = false;
 
 	private RegisterTile registerTile;
 
@@ -63,6 +62,21 @@ public class WorldGateway : NetworkBehaviour
 		Position = registerTile.WorldPosition;
 		Message = "Teleporting to: " + StationGateway.GetComponent<StationGateway>().WorldName;
 
+		if (IsOnlineAtStart == false)
+		{
+			gameObject.SetActive(false);
+		}
+
+		if (IsOnlineAtStart == true && StationGateway != null)
+		{
+			SetOnline();
+			loop();
+		}
+	}
+
+	[Server]
+	public void SetUp()
+	{
 		if (IsOnlineAtStart && StationGateway != null)
 		{
 			SetOnline();
@@ -86,6 +100,7 @@ public class WorldGateway : NetworkBehaviour
 		{
 			var coord = new Vector2(Position.x, Position.y);
 			Chat.AddLocalMsgToChat(Message, coord, gameObject);
+			SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff");//very weird, sometimes does the sound other times not.
 			TransportPlayers(player);
 		}
 
