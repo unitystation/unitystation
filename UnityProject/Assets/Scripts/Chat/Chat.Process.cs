@@ -152,6 +152,18 @@ public partial class Chat
 			case Speech.Stutter:
 				chatModifiers |= ChatModifier.Stutter;
 				break;
+			case Speech.Elvis:
+				chatModifiers |= ChatModifier.Elvis;
+				break;
+			case Speech.Smile:
+				chatModifiers |= ChatModifier.Smile;
+				break;
+			case Speech.Spurdo:
+				chatModifiers |= ChatModifier.Spurdo;
+				break;
+			case Speech.UwU:
+				chatModifiers |= ChatModifier.UwU;
+				break;
 		}
 
 		// Clown
@@ -270,10 +282,9 @@ public partial class Chat
 		//Ghosts don't get modifiers
 		if (channels.HasFlag(ChatChannel.Ghost))
 		{
-			return AddMsgColor(channels, $"[dead] <b>{speaker}</b>: {message}");
+			string[] _ghostVerbs = {"cries", "moans"};
+			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
 		}
-		string[] _ghostVerbs = {"cries", "moans"};
-		var verb = $"{_ghostVerbs[Random.Range(0,2)]},";
 
 		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
 		{
