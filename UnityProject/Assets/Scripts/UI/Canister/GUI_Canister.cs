@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AdminTools;
 using Objects;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -483,6 +484,14 @@ public class GUI_Canister : NetTab
 		if (isOpen)
 		{
 			StartCoroutine(DisplayFlashingText($"Canister releasing at {container.ReleasePressure}"));
+			Canister canister = Provider.GetComponent<Canister>();
+			if (canister.ContentsName.Contains("Plasma"))
+			{
+				foreach (var p in Peepers)
+				{
+					AutoMod.ProcessPlasmaRelease(p);
+				}
+			}
 		}
 	}
 

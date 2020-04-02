@@ -244,10 +244,16 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// <summary>
 	/// Start fleeing from the target
 	/// </summary>
-	protected void StartFleeing(Transform fleeTarget, float fleeDuration = -1f)
+	protected void StartFleeing(GameObject fleeTarget, float fleeDuration = -1f)
 	{
 		ResetBehaviours();
-		mobFlee.FleeFromTarget(fleeTarget);
+
+		if (fleeTarget == null) //run from itself?
+		{
+			fleeTarget = gameObject;
+		}
+
+		mobFlee.FleeFromTarget(fleeTarget.transform);
 		fleeTimeMax = fleeDuration;
 		fleeingTime = 0f;
 	}
@@ -340,23 +346,6 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	}
 
 	/// <summary>
-	/// Common behavior for npc's to run from their attackers.
-	/// Call this within OnAttackReceive method
-	/// </summary>
-	/// <param name="attackedBy">GameObject from the attacker. This can be null on fire!</param>
-	/// <param name="fleeDuration">Time in seconds the flee behavior will last. Defaults to forever</param>
-	protected void FleeFromAttacker(GameObject attackedBy = null, float fleeDuration = -1f)
-	{
-		if (attackedBy == null) //run from itself?
-		{
-			StartFleeing(gameObject.transform, fleeDuration);
-			return;
-		}
-
-		StartFleeing(attackedBy.transform, fleeDuration);
-	}
-
-	/// <summary>
 	/// Common behavior to flee from attacker if health is less than X
 	/// Call this within OnAttackedReceive method
 	/// </summary>
@@ -372,7 +361,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 		if (health.OverallHealth < healthThreshold)
 		{
-			StartFleeing(attackedBy.transform, fleeDuration);
+			StartFleeing(attackedBy, fleeDuration);
 		}
 	}
 

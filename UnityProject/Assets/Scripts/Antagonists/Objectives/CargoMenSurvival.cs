@@ -33,7 +33,7 @@ namespace Antagonists
 
 				if (p.Script.playerHealth != null)
 				{
-					if (!p.Script.playerHealth.IsDead)
+					if (!p.Script.playerHealth.IsDead & GameManager.Instance.Rebels.Contains(p.Job))
 					{
 						allAliveRebels++;
 					}

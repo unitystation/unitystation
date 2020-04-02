@@ -10,7 +10,7 @@ namespace Antagonists
 		{
 			var newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 			UpdateChatMessage.Send(newPlayer, ChatChannel.System, ChatModifier.None,
-				"<color=red>Something has awoken in you. You feel the urgent need to rebel with your brothers against this station.</color>");
+				"<color=red>Something has awoken in you. You feel the urgent need to rebel alongside all your brothers in your deparment against this station.</color>");
 			// spawn them normally, with their preferred occupation
 			return newPlayer;
 		}
