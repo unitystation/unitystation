@@ -11,7 +11,20 @@ public class CustomNetworkManager : NetworkManager
 {
 	public static bool IsServer => Instance._isServer;
 
-	public static CustomNetworkManager Instance;
+	private static CustomNetworkManager _customNetworkManager;
+
+	public static CustomNetworkManager Instance
+	{
+		get
+		{
+			if (_customNetworkManager == null)
+			{
+				_customNetworkManager = FindObjectOfType<CustomNetworkManager>();
+			}
+
+			return _customNetworkManager;
+		}
+	}
 
 	[HideInInspector] public bool _isServer;
 	public GameObject humanPlayerPrefab;
@@ -26,19 +39,7 @@ public class CustomNetworkManager : NetworkManager
 	/// </summary>
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
-
-	public override void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
-
+	
 	public override void Start()
 	{
 		CheckTransport();
