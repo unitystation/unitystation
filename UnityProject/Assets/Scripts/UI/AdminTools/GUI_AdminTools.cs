@@ -43,6 +43,11 @@ namespace AdminTools
 			gameObject.SetActive(false);
 		}
 
+		public void ToggleOnOff()
+		{
+			gameObject.SetActive(!gameObject.activeInHierarchy);
+		}
+
 		public void OnBackButton()
 		{
 			if (playerChatPage.activeInHierarchy)

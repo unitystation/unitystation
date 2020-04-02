@@ -30,7 +30,14 @@ public class ServerTypingMessage : ServerMessage
 			yield break;
 
 		var showTyping = state == TypingState.TYPING;
-		icon.ToggleTypingIcon(showTyping);
+
+		// check if player is conscious before generating typing icon
+		bool isPlayerConscious = (player.playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+								  player.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+		if (isPlayerConscious)
+		{
+			icon.ToggleTypingIcon(showTyping);
+		}
 	}
 
 	public static ServerTypingMessage Send(PlayerScript player, TypingState state)

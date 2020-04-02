@@ -2,53 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Lets Admins play sounds
-/// </summary>
-public class AdminGlobalSound : MonoBehaviour
+namespace AdminTools
 {
-	[SerializeField]
-	private GameObject buttonTemplate;
-	private AdminGlobalSoundSearchBar SearchBar;
-	public List<GameObject> soundButtons = new List<GameObject>();
-
-	private void Awake()
-	{
-		SearchBar = GetComponentInChildren<AdminGlobalSoundSearchBar>();
-		SoundList();
-	}
-
 	/// <summary>
-	/// Generates buttons for the list
+	/// Lets Admins play sounds
 	/// </summary>
-	public void SoundList()
+	public class AdminGlobalSound : MonoBehaviour
 	{
-		if (SearchBar != null)
+		[SerializeField] private GameObject buttonTemplate;
+		private AdminGlobalSoundSearchBar SearchBar;
+		public List<GameObject> soundButtons = new List<GameObject>();
+
+		private void Awake()
 		{
-			SearchBar.Resettext();
+			SearchBar = GetComponentInChildren<AdminGlobalSoundSearchBar>();
+			SoundList();
 		}
 
-		var sounds = SoundManager.Instance.GetComponentsInChildren<AudioSource>();
-
-		foreach (AudioSource pair in sounds)//sounds is a readonly so will never change hopefully
+		/// <summary>
+		/// Generates buttons for the list
+		/// </summary>
+		public void SoundList()
 		{
-			if (!pair.loop)
+			if (SearchBar != null)
 			{
-				GameObject button = Instantiate(buttonTemplate) as GameObject;//creates new button
-				button.SetActive(true);
-				button.GetComponent<AdminGlobalSoundButton>().SetAdminGlobalSoundButtonText(pair.gameObject.name);
-				soundButtons.Add(button);
+				SearchBar.Resettext();
+			}
 
-				button.transform.SetParent(buttonTemplate.transform.parent, false);
+			var sounds = SoundManager.Instance.GetComponentsInChildren<AudioSource>();
+
+			foreach (AudioSource pair in sounds) //sounds is a readonly so will never change hopefully
+			{
+				if (!pair.loop)
+				{
+					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
+					button.SetActive(true);
+					button.GetComponent<AdminGlobalSoundButton>().SetAdminGlobalSoundButtonText(pair.gameObject.name);
+					soundButtons.Add(button);
+
+					button.transform.SetParent(buttonTemplate.transform.parent, false);
+				}
 			}
 		}
-	}
 
-	public void PlaySound(string index)//send sound to sound manager
-	{
-		var adminId = DatabaseAPI.ServerData.UserID;
-		var adminToken = PlayerList.Instance.AdminToken;
+		public void PlaySound(string index) //send sound to sound manager
+		{
+			var adminId = DatabaseAPI.ServerData.UserID;
+			var adminToken = PlayerList.Instance.AdminToken;
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaySound(index, adminId, adminToken);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaySound(index, adminId, adminToken);
+		}
 	}
 }
