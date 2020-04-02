@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -37,7 +37,7 @@ public class ElectricalDirectionStep
 	//public ElectricalDirectionStep Upstream;
 	//public IntrinsicElectronicData InData;
 	//public HashSet<Resistance> Sources = new HashSet<Resistance>();
-	//public VIRResistances resistance = new VIRResistances();
+	//public VIRResistances resistance = ElectricalPool.GetVIRResistances();
 
 	//public void Clean()
 	//{

@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -15,8 +16,6 @@ public class ElectricalManagerEditor : Editor
 
 		AddButtonGroup(electricalManager);
 
-		EditorUtility.SetDirty(electricalManager);
-
 		DrawDefaultInspector();
 	}
 
@@ -25,7 +24,7 @@ public class ElectricalManagerEditor : Editor
 	{
 		EditorGUILayout.BeginHorizontal();
 
-		GUI.enabled = Application.isPlaying && electricalManager.Mode != ElectricalMode.Manual; 
+		GUI.enabled = Application.isPlaying && electricalManager.Mode != ElectricalMode.Manual;
 
 		if (GUILayout.Button("SetSpeed"))
 		{
@@ -56,3 +55,4 @@ public class ElectricalManagerEditor : Editor
 		EditorGUILayout.EndHorizontal();
 	}
 }
+#endif

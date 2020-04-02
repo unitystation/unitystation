@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b6a9e712bdf3f408fa4cc0b8b718cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HighVoltageCables: {fileID: 11400000, guid: db647ad8af0104e44b9669b961aa8fff, type: 2}
+  MediumVoltageCables: {fileID: 11400000, guid: c2e297b7aac41c141a4febee3e0b895d,
+    type: 2}
+  LowVoltageCables: {fileID: 11400000, guid: b285d916624115947a1d1bec0532f948, type: 2}
+  MSSpeed: 100
+  Mode: 0
   defaultDeadEnd: {fileID: 9003684761430561382}
 --- !u!114 &6294776786751230859
 MonoBehaviour:
@@ -95,3 +101,6 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
+
+
+

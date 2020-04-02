@@ -1,18 +1,20 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Current 
+public class Current
 {
-	public double current = 0; 
+	public double current = 0;
 }
 
 public class WrapCurrent
 {
+	public bool inPool;
 	public Current Current;
 	public double Strength;
 
-	public void CombineCurrent(WrapCurrent addSendingCurrent ) {
+	public void CombineCurrent(WrapCurrent addSendingCurrent)
+	{
 		if (Current == addSendingCurrent.Current)
 		{
 			Strength = Strength + addSendingCurrent.Strength;
@@ -22,11 +24,13 @@ public class WrapCurrent
 		}
 	}
 
-	public void Multiply(float Multiply) { 
-		Strength = Strength*Multiply;
+	public void Multiply(float Multiply)
+	{
+		Strength = Strength * Multiply;
 	}
-	 
-	public void SetUp(WrapCurrent _Current) {
+
+	public void SetUp(WrapCurrent _Current)
+	{
 		Current = _Current.Current;
 		Strength = _Current.Strength;
 	}
@@ -36,16 +40,28 @@ public class WrapCurrent
 	}
 	public override string ToString()
 	{
-		return string.Format("(" + Strength + ")");
-	} 
+		return string.Format("(" + Current.current + "*" + Strength + ")");
+	}
+	public void Pool()
+	{
+		if (!inPool)
+		{
+			Current = null;
+			Strength = 1;
+			ElectricalPool.PooledWrapCurrent.Add(this);
+			inPool = true;
+		}
+	}
 }
 
 
 public class VIRCurrent
 {
-	public HashSet<WrapCurrent> CurrentSources = new HashSet<WrapCurrent>();
+	public bool inPool;
+	public List<WrapCurrent> CurrentSources = new List<WrapCurrent>();
 
-	public void addCurrent(WrapCurrent NewWrapCurrent) { 
+	public void addCurrent(WrapCurrent NewWrapCurrent)
+	{
 		foreach (var wrapCurrent in CurrentSources)
 		{
 			if (wrapCurrent.Current == NewWrapCurrent.Current)
@@ -75,11 +91,12 @@ public class VIRCurrent
 
 	public VIRCurrent SplitCurrent(float Multiplier)
 	{
-		var newVIRCurrent = new VIRCurrent(); //pool
-		foreach (var CurrentS in CurrentSources) {
-			var newWCurrent = new WrapCurrent();
+		var newVIRCurrent = ElectricalPool.GetVIRCurrent();
+		foreach (var CurrentS in CurrentSources)
+		{
+			var newWCurrent = ElectricalPool.GetWrapCurrent();
 			newWCurrent.SetUp(CurrentS);
-			newVIRCurrent.addCurrent(newWCurrent);
+			newVIRCurrent.CurrentSources.Add(newWCurrent);
 		}
 
 		foreach (var CurrentS in newVIRCurrent.CurrentSources)
@@ -89,7 +106,8 @@ public class VIRCurrent
 		return (newVIRCurrent);
 	}
 
-	public double Current() {		double Current = 0;
+	public double Current()
+	{		double Current = 0;
 		foreach (var wrapCurrent in CurrentSources)
 		{
 			Current = Current + wrapCurrent.GetCurrent();
@@ -100,5 +118,20 @@ public class VIRCurrent
 	public override string ToString()
 	{
 		return string.Format(Current().ToString() + "[" + string.Join(",", CurrentSources) + "]");
+	}
+
+
+	public void Pool()
+	{
+		if (!inPool)
+		{
+			foreach (var CurrentSource in CurrentSources)
+			{
+				CurrentSource.Pool();
+			}
+			CurrentSources.Clear();
+			ElectricalPool.PooledVIRCurrent.Add(this);
+			inPool = true;
+		}
 	}
 }

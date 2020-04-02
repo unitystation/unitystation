@@ -11,7 +11,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	public float PreviousInternalResistance = 0;
 	public float InternalResistance = 0;
 
-	public WrapCurrent WrapCurrentSource = new WrapCurrent();
+	public Current CurrentSource = new Current();
 
 	public ElectricalDirections NetworkMap = new ElectricalDirections();
 
@@ -31,15 +31,15 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		};
 		ModuleType = ElectricalModuleTypeCategory.SupplyingDevice;
 		ControllingNode = Node;
-		ControllingNode.Node.Data.SupplyingVoltage = SupplyingVoltage;
-		ControllingNode.Node.Data.InternalResistance = InternalResistance;
-		ControllingNode.Node.Data.SupplyingCurrent = current;
+		ControllingNode.Node.InData.Data.SupplyingVoltage = SupplyingVoltage;
+		ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
+		ControllingNode.Node.InData.Data.SupplyingCurrent = current;
 		Node.AddModule(this);
 	}
 
 	public override void PowerUpdateStructureChange()
 	{
-		ControllingNode.Node.FlushConnectionAndUp();
+		ControllingNode.Node.InData.FlushConnectionAndUp();
 		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
@@ -55,12 +55,12 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	public override void OnDespawnServer(DespawnInfo info)
 	{
 		ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
-		ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node);
+		ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
 	}
 
 	[RightClickMethod]
 	public void FlushSupplyAndUp() { 
-		ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node);
+		ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
 	}
 
 	public override void PowerUpdateCurrentChange()
@@ -97,13 +97,13 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	{
 		if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
 		{
-			ControllingNode.Node.Data.SupplyingCurrent = current;
+			ControllingNode.Node.InData.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 
-			ControllingNode.Node.Data.SupplyingVoltage = SupplyingVoltage;
+			ControllingNode.Node.InData.Data.SupplyingVoltage = SupplyingVoltage;
 			PreviousSupplyingVoltage = SupplyingVoltage;
 
-			ControllingNode.Node.Data.InternalResistance = InternalResistance;
+			ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
 			PreviousInternalResistance = InternalResistance;
 
 			ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);

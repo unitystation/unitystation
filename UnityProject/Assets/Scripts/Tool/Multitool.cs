@@ -17,11 +17,11 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 		if (!Validations.IsTarget(gameObject, interaction))
 		{
 			APCPoweredDevice PoweredDevice = interaction.TargetObject.GetComponent<APCPoweredDevice>();
-			if (PoweredDevice != null) { 
+			if (PoweredDevice != null) {
 				return true;
 			}
 			APC _APC = interaction.TargetObject.GetComponent<APC>();
-			if (_APC != null) { 
+			if (_APC != null) {
 				return true;
 			}
 		}
@@ -38,9 +38,10 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			{
 				if (APCBuffer != null)
 				{
-					Chat.AddExamineMsgToClient("You set the power device to use the APC in the buffer");					PoweredDevice.SetAPC(APCBuffer);
+					Chat.AddExamineMsgToClient("You set the power device to use the APC in the buffer");
+					PoweredDevice.SetAPC(APCBuffer);
 				}
-				else { 
+				else {
 					Chat.AddExamineMsgToClient("Your buffer is empty fill it with something");
 				}
 			}
@@ -51,6 +52,5 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 				APCBuffer = _APC;
 			}
 		}
-
 	}
 }

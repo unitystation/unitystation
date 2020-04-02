@@ -148,6 +148,11 @@ MonoBehaviour:
   HighsideConnections: 0b000000
   LowsideConnections: 01000000
   TreatComingFromNullAs: 0
+  newResistance:
+    resistance:
+      Ohms: 0
+      ResistanceAvailable: 1
+    Strength: 1
 --- !u!114 &2731523975421391927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +169,8 @@ MonoBehaviour:
   syncInterval: 0.1
   Node: {fileID: 3919982737323789382}
   ApplianceType: 6
+  WireEndB: 3
+  WireEndA: 7
   ListCanConnectTo: 010000000b000000
   SelfDestruct: 0
   Reactions: []
@@ -181,27 +188,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 2
-  WireEndA: 6
-  Data:
-    CurrentInWire: 0
-    ActualVoltage: 0
-    EstimatedResistance: 0
-    SupplyingCurrent: 0
-    InternalResistance: 0
-    SupplyingVoltage: 0
-    ChangeToOff: 0
-    CurrentStoreValue: 0
   InData:
+    WireEndB: 0
+    WireEndA: 0
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    DirectionOverride: 0
-    ResistanceOverride: 0
-    ElectricityOverride: 0
+    Present: {fileID: 0}
+    Data:
+      CurrentInWire: 0
+      ActualVoltage: 0
+      EstimatedResistance: 0
+      SupplyingCurrent: 0
+      InternalResistance: 0
+      SupplyingVoltage: 0
+      ChangeToOff: 0
+      CurrentStoreValue: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  registerTile3: {fileID: 114038174743996046}
+  DestroyQueueing: 0
+  DestroyAuthorised: 0
 --- !u!114 &114392163303621646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114042349333397026
 MonoBehaviour:
   m_ObjectHideFlags: 0
