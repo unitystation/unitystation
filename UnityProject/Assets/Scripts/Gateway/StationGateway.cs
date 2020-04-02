@@ -84,6 +84,7 @@ public class StationGateway : NetworkBehaviour
 
 		if (selectedWorld.IsOnlineAtStart == false)
 		{
+			selectedWorld.IsOnlineAtStart = true;
 			selectedWorld.gameObject.SetActive(true);
 			selectedWorld.SetUp();
 		}
