@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class StationGateway : MonoBehaviour
+public class StationGateway : NetworkBehaviour
 {
 	[SerializeField]
 	private SpriteRenderer SpriteBaseTop;
@@ -35,7 +36,7 @@ public class StationGateway : MonoBehaviour
 
 	private GameObject SelectedWorld;
 
-	private bool HasPower;
+	private bool HasPower = true;
 
 	private bool IsConnected;
 
@@ -44,17 +45,16 @@ public class StationGateway : MonoBehaviour
 	[SerializeField]
 	private int RandomCountEnd = 1200;
 
+	private RegisterTile registerTile;
+
+	private Matrix Matrix => registerTile.Matrix;
+
 	private void Start()
 	{
+		registerTile = GetComponent<RegisterTile>();
 		SetOffline();
-		StartCoroutine(Wait());
-	}
-
-	IEnumerator Wait()
-	{
 		var count = Random.Range(RandomCountBegining, RandomCountEnd);
-		yield return new WaitForSeconds(count);
-		WorldSetup();
+		Invoke("WorldSetup", count);
 	}
 
 	private void WorldSetup()//do message here as well
@@ -65,7 +65,46 @@ public class StationGateway : MonoBehaviour
 		if (HasPower == true)
 		{
 			SetOnline();
+
+			var text = "Alert! New Gateway connection formed.";
+			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.announce);
+
+			var scene = SelectedWorld.transform.parent.parent.parent.gameObject;
+
+			if (scene.activeSelf == false)
+			{
+				scene.SetActive(true);
+			}
+
+			loop();
 		}
+	}
+
+	private void loop()
+	{
+		DetectPlayer();
+		Invoke("loop", 2f);
+	}
+
+	[Server]
+	private void DetectPlayer()
+	{	
+		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
+
+		Logger.Log("Players on tile:" + playersFound);
+
+		foreach (ObjectBehaviour player in playersFound)
+		{
+			Logger.Log("transport player:" + player);
+			TransportPlayers(player);
+		}
+	}
+
+	[Server]
+	private void TransportPlayers(ObjectBehaviour player)
+	{
+		Logger.Log("Server transport");
+		player.GetComponent<PlayerSync>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition, false);
 	}
 
 	private void SetOnline()
