@@ -52,11 +52,20 @@ public class StationGateway : NetworkBehaviour
 
 	private Matrix Matrix => registerTile.Matrix;
 
+	public string WorldName = "The Station";
+
+	private Vector3Int Position;
+
+	private string Message;
+
 	[Server]
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
+
 		SetOffline();
+		Position = registerTile.WorldPosition;
+
 		var count = Random.Range(RandomCountBegining, RandomCountEnd);
 		Invoke("WorldSetup", count);
 	}
@@ -67,12 +76,14 @@ public class StationGateway : NetworkBehaviour
 		//Selects Random world
 		SelectedWorld = Worlds[Random.Range(0, Worlds.Count)];
 
+		Message = "Teleporting to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
+
 		if (HasPower == true && SelectedWorld != null)
 		{
 			SetOnline();
 
-			var text = "Alert! New Gateway connection formed.";
-			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.announce);
+			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
+			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 
 			var scene = SelectedWorld.transform.parent.parent.parent.gameObject;
 
@@ -100,6 +111,8 @@ public class StationGateway : NetworkBehaviour
 
 		foreach (ObjectBehaviour player in playersFound)
 		{
+			var coord = new Vector2(Position.x, Position.y);
+			Chat.AddLocalMsgToChat(Message, coord, gameObject);
 			TransportPlayers(player);
 		}
 

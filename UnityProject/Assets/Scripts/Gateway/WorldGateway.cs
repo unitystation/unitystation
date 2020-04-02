@@ -45,11 +45,23 @@ public class WorldGateway : NetworkBehaviour
 
 	private Matrix Matrix => registerTile.Matrix;
 
+	public string WorldName = "Unknown";
+	//Displayed when teleporting
+
+	private Vector3Int Position;
+
+	private string Message;
+
 	[Server]
 	private void Start()
 	{
+		if (StationGateway == null) return;
+
 		registerTile = GetComponent<RegisterTile>();
 		SetOffline();
+
+		Position = registerTile.WorldPosition;
+		Message = "Teleporting to: " + StationGateway.GetComponent<StationGateway>().WorldName;
 
 		if (IsOnlineAtStart && StationGateway != null)
 		{
@@ -72,6 +84,8 @@ public class WorldGateway : NetworkBehaviour
 
 		foreach (ObjectBehaviour player in playersFound)
 		{
+			var coord = new Vector2(Position.x, Position.y);
+			Chat.AddLocalMsgToChat(Message, coord, gameObject);
 			TransportPlayers(player);
 		}
 
