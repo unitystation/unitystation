@@ -324,7 +324,7 @@ public partial class PlayerList
 			{
 				//User is still banned:
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is banned. " +
-				                                      $"Check your initial ban message for expiry time"));
+				                                      $"You were banned for {banEntry.reason}. This ban has {banEntry.minutes} minutes remaining."));
 				Logger.Log($"{unverifiedConnPlayer.Username} tried to log back in but the account is banned. " +
 				           $"IP: {unverifiedConnPlayer.Connection.address}", Category.Admin);
 				return false;
@@ -467,6 +467,7 @@ public partial class PlayerList
 		Logger.Log($"Kicking client {clientID} : {message}");
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 
+		yield return WaitFor.Seconds(1f);
 
 		connPlayer.Connection.Disconnect();
 		connPlayer.Connection.Dispose();
