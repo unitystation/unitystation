@@ -12,8 +12,8 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
-		// TODO: Remove this after finding a solution to problem on line 74.
-		//return false;
+		// NOTE: Disable grille electrification until a solution to problem on line 74 is found.
+		return false;
 
 		// Make sure performer is near the grille.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -72,7 +72,6 @@ public class ElectrifiedGrilleInteraction : TileInteraction
                 }
 
 				// TODO: Find a way to get the voltage of the cable to the client.
-				// Try looking into the RequestElectricalStats class.
 				float newVoltage = 0;
 				if (newVoltage > voltage) voltage = newVoltage;
             }
