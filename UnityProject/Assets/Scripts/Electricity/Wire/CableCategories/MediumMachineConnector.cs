@@ -23,8 +23,8 @@ public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<Po
 		base.OnStartServer();
 		RelatedWire.InData.CanConnectTo = CanConnectTo;
 		RelatedWire.InData.Categorytype = ApplianceType;
-		RelatedWire.WireEndA = Connection.MachineConnect;
-		RelatedWire.WireEndB = Connection.Overlap;
+		RelatedWire.InData.WireEndA = Connection.MachineConnect;
+		RelatedWire.InData.WireEndB = Connection.Overlap;
 	}
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)

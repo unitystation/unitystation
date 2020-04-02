@@ -44,8 +44,8 @@ public class FieldGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	public void PowerNetworkUpdate()
 	{
-		Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
-		UpdateSprites(isOn, isOn);
+		//Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
+		//UpdateSprites(isOn, isOn);
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 

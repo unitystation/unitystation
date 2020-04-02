@@ -48,7 +48,7 @@ public class ElectricalModuleInheritance : MonoBehaviour, IServerDespawn
 
 	public virtual VIRCurrent  ModifyElectricityInput(VIRCurrent Current,
 										 ElectricalOIinheritance SourceInstance,
-										 ElectricalOIinheritance ComingFromm){
+										 IntrinsicElectronicData ComingFromm){
 		return (Current);
 	}
 
@@ -56,10 +56,10 @@ public class ElectricalModuleInheritance : MonoBehaviour, IServerDespawn
 		return (Current);
 	}
 
-	public virtual VIRResistances ModifyResistanceInput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom){
+	public virtual ResistanceWrap ModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom){
 		return (Resistance);
 	}
-	public virtual VIRResistances ModifyResistancyOutput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance){
+	public virtual ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance){
 		return (Resistance);
 	}
 }

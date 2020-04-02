@@ -66,33 +66,36 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 
 	public override void PowerUpdateCurrentChange()
 	{
-		if (ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node].ResistanceComingFrom.Count > 0 )
+		if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node))
 		{
-			if (!(SlowResponse && PullingWatts == 0))
+			if (ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].ResistanceComingFrom.Count > 0)
 			{
-				ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node); //Room for optimisation
-				CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node].ResistanceComingFrom); // //!!
-				VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
-				VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
-				BatteryCalculation.PowerUpdateCurrentChange(this);
-
-				if (current != Previouscurrent)
+				if (!(SlowResponse && PullingWatts == 0))
 				{
-					if (Previouscurrent == 0 && !(current <= 0))
-					{
+					ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node); //Room for optimisation
+					CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].ResistanceComingFrom); // //!!
+					VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
+					VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
+					BatteryCalculation.PowerUpdateCurrentChange(this);
 
-					}
-					else if (current == 0 && !(Previouscurrent <= 0))
+					if (current != Previouscurrent)
 					{
-						ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node);
+						if (Previouscurrent == 0 && !(current <= 0))
+						{
+
+						}
+						else if (current == 0 && !(Previouscurrent <= 0))
+						{
+							ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
+						}
+						ControllingNode.Node.InData.Data.SupplyingCurrent = current;
+						Previouscurrent = current;
 					}
-					ControllingNode.Node.Data.SupplyingCurrent = current;
-					Previouscurrent = current;
 				}
 			}
-		}
-		else {
-			CircuitResistance = 999999999999;
+			else {
+				CircuitResistance = 999999999999;
+			}
 		}
 		PowerSupplyFunction.PowerUpdateCurrentChange(this);
 	}
@@ -106,13 +109,13 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 		BatteryCalculation.PowerNetworkUpdate(this);
 		if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
 		{
-			ControllingNode.Node.Data.SupplyingCurrent = current;
+			ControllingNode.Node.InData.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 
-			ControllingNode.Node.Data.SupplyingVoltage = SupplyingVoltage;
+			ControllingNode.Node.InData.Data.SupplyingVoltage = SupplyingVoltage;
 			PreviousSupplyingVoltage = SupplyingVoltage;
 
-			ControllingNode.Node.Data.InternalResistance = InternalResistance;
+			ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
 			PreviousInternalResistance = InternalResistance;
 
 			ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);

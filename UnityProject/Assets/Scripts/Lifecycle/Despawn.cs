@@ -65,7 +65,7 @@ public static class Despawn
 		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
 		if (Electrical != null)
 		{
-			if (!Electrical.DestroyAuthorised)
+			if (!Electrical.InData.DestroyAuthorised)
 			{
 				Electrical.DestroyThisPlease();
 				return DespawnResult.Single(info);

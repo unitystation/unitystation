@@ -17,7 +17,7 @@ public class ElectronicData  { //to Store data about the electrical device
 	/// <summary>
 	/// The things connected in the vicinity of this
 	/// </summary>
-	public HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance> ();
+	public HashSet<IntrinsicElectronicData> connections = new HashSet<IntrinsicElectronicData>();
 	public float CurrentInWire;
 	public float ActualVoltage;
 	public float EstimatedResistance;
@@ -27,9 +27,4 @@ public class ElectronicData  { //to Store data about the electrical device
 	public bool ChangeToOff;
 
 	public float CurrentStoreValue; //I'm lazy and it's cheaper than making a key value And putting it into a hash set
-}
-
-public class ElectronicStepAndProcessed {
-	public HashSet<ElectricalDirectionStep> Steps = new HashSet<ElectricalDirectionStep>();
-	public bool BeenProcessed = false; 
 }

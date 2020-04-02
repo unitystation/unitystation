@@ -49,37 +49,37 @@ public class CableLine
 	//}
 
 
-	public void Kill()
-	{
-		foreach (var Cable in Covering)
-		{
-			var Wire = Cable.Present as WireConnect;
-			Wire.RelatedLine = null;           
-		}
-	}
+	//public void Kill()
+	//{
+	//	foreach (var Cable in Covering)
+	//	{
+	//		var Wire = Cable.Present as WireConnect;
+	//		Wire.RelatedLine = null;           
+	//	}
+	//}
 
-	public void FlushConnectionAndUp(IntrinsicElectronicData ComingFrom)
-	{
-		if (ComingFrom == TheStart)
-		{
-			TheEnd.Present.FlushConnectionAndUp();
-		}
-		else if (ComingFrom == TheEnd)
-		{
-			TheStart.Present.FlushConnectionAndUp();
-		}
+	//public void FlushConnectionAndUp(IntrinsicElectronicData ComingFrom)
+	//{
+	//	if (ComingFrom == TheStart)
+	//	{
+	//		TheEnd.Present.FlushConnectionAndUp();
+	//	}
+	//	else if (ComingFrom == TheEnd)
+	//	{
+	//		TheStart.Present.FlushConnectionAndUp();
+	//	}
 
-	}
+	//}
 
-	public void UpdateCoveringCable()
-	{
-		foreach (var Cable in Covering)
-		{
-			Cable.Present.Data.ActualVoltage = TheStart.Present.Data.ActualVoltage;
-			Cable.Present.Data.CurrentInWire = TheStart.Present.Data.CurrentInWire;
-			Cable.Present.Data.EstimatedResistance = TheStart.Present.Data.EstimatedResistance;
-		}
+	//public void UpdateCoveringCable()
+	//{
+	//	foreach (var Cable in Covering)
+	//	{
+	//		Cable.Present.Data.ActualVoltage = TheStart.Present.Data.ActualVoltage;
+	//		Cable.Present.Data.CurrentInWire = TheStart.Present.Data.CurrentInWire;
+	//		Cable.Present.Data.EstimatedResistance = TheStart.Present.Data.EstimatedResistance;
+	//	}
 
-	}
+	//}
 
 }

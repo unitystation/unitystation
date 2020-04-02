@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3847097056762358022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844587092189195201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324df0c2a7d82a04dbe86f00989c9400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7990758211881508758
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7,11 +19,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: m_Name
-      value: Wirecutter
-      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -126,6 +133,12 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 9eb53e9cfa5af564f8fb41d06f28fefd, type: 3}
+    - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 65cc06a5fab1ed54d81510c5c1e92b07,
+        type: 3}
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_AssetId
@@ -186,11 +199,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+    - target: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 65cc06a5fab1ed54d81510c5c1e92b07,
-        type: 3}
+      propertyPath: m_Name
+      value: Wirecutter
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
+--- !u!1 &1844587092189195201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7990758211881508758}
+  m_PrefabAsset: {fileID: 0}
