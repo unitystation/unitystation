@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AdminTools;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
@@ -58,7 +59,12 @@ public class PlayerHealth : LivingHealthBehaviour
 			string killerName = null;
 			if (LastDamagedBy != null)
 			{
-				killerName = PlayerList.Instance.Get(LastDamagedBy)?.Name;
+				var lastDamager = PlayerList.Instance.Get(LastDamagedBy);
+				if (lastDamager != null)
+				{
+					killerName = lastDamager.Name;
+					AutoMod.ProcessPlayerKill(lastDamager, player);
+				}
 			}
 
 			if (killerName == null)

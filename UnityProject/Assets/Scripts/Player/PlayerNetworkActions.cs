@@ -738,7 +738,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerGhostPerformTeleport(Vector3 s3)
 	{
-		if (playerScript.IsGhost && Math.Abs(s3.x) <= 5000 && Math.Abs(s3.y) <= 5000)
+		if (playerScript.IsGhost && Math.Abs(s3.x) <= 20000 && Math.Abs(s3.y) <= 20000)
 		{
 			playerScript.PlayerSync.SetPosition(s3); //server forces position on player
 		}
