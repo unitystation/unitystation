@@ -40,6 +40,8 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 	public float EditorResistance;
 	public bool NotEditorResistanceset = true;
 
+	public Resistance RR = new Resistance();
+
 	/// <summary>
 	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
 	/// </summary>
@@ -81,81 +83,31 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 
 	public override void InitialPowerUpdateResistance()
 	{
-		foreach (var Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+		foreach (var Supplie in ControllingNode.Node.InData.Data.ResistanceToConnectedDevices)
 		{
 			foreach (var _Resistance in Supplie.Value)
 			{
 
 				var Wrap = ElectricalPool.GetResistanceWrap();
 				Wrap.Strength = 1;
-				Wrap.SplitResistance(_Resistance.Value.Count);
-				Wrap.resistance = _Resistance.Key;
+				RR.Ohms = 240;
+				Wrap.resistance = RR; //_Resistance.Key
 
-				var VIR = new VIRResistances();
-				VIR.AddResistance(Wrap);
-				ControllingNode.Node.ResistanceInput(VIR, Supplie.Key, ComingFromDevice);
+				ControllingNode.Node.InData.ResistanceInput(Wrap, Supplie.Key, ComingFromDevice);
 			}
 
 			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
 		}
-
-		//foreach (var Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
-		//{
-		//	foreach (var Connections in Supplie.Value)
-		//	{
-		//		if (!Connections.Value.BeenProcessed)
-		//		{
-		//			var TT = new ResistanceWrap();
-		//			TT.resistance = resistance;
-		//			var ToNext = new List<ElectricalDirectionStep>();
-		//			foreach (var Direction in Connections.Value.Steps)
-		//			{
-		//				if (Direction != null)
-		//				{
-		//					ToNext.Add(Direction.Upstream);
-		//					///Direction.Downstream 
-		//					var Step = new ElectricalDirectionStep();
-		//					Step.Upstream = Direction;
-		//					Step.InData = ComingFromDevice;
-		//					Step.Sources.Add(resistance);
-		//					Step.resistance.AddResistance(TT);
-		//					Direction.Downstream.Add(Step);
-		//					Direction.Sources.Add(resistance);
-		//					Direction.resistance.AddResistance(TT);
-		//					if (Direction.Upstream != null)
-		//					{
-		//						Direction.Upstream.Downstream.Add(Direction);
-		//						Direction.Upstream.Sources.Add(resistance);
-		//						Direction.Upstream.resistance.AddResistance(TT);
-		//					}
-		//				}
-		//			}
-		//			//ControllingNode.Node.InData.ConnectionReaction[Connections.Key.InData.Categorytype].ResistanceReactionA.Resistance.Ohms = 240;
-		//			//Logger.LogError(Connections.Key.name + "FFFFFFFF", Category.Electrical);
-		//			ControllingNode.Node.ResistanceInput(
-		//				//ControllingNode.Node.InData.ConnectionReaction[Connections.Key.InData.Categorytype].ResistanceReactionA.Resistance,
-		//				TT,
-		//				Supplie.Key,//Issue needs to get ID out of Thread
-		//				ComingFromDevice,
-		//				ToNext
-		//				);
-		//			Connections.Value.BeenProcessed = true;
-		//		}
-		//	}
-		//	ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
-
-		//}
-
 	}
 
 	public override void PowerUpdateResistanceChange()
 	{
-		foreach (var Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+		foreach (var Supplie in ControllingNode.Node.InData.Data.ResistanceToConnectedDevices)
 		{
 			//foreach (var Connections in Supplie.Value)
 			//{
 
-			//	Logger.LogError(Connections.Key.name + "F2222222FFFFFFF", Category.Electrical); 
+			//	Logger.LogError(Connections.Key.name + "F2222222FFFFFFF", Category.Electrical);
 			//	ComingFromDevice.SetDeadEnd();
 			//	ControllingNode.Node.ResistanceInput(
 			//		//ControllingNode.Node.InData.ConnectionReaction[Connections.Key.InData.Categorytype].ResistanceReactionA.Resistance.Ohms,

@@ -1,27 +1,33 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Atmospherics;
-using Tilemaps.Behaviours.Meta;
-using System.Diagnostics;
-using System;
 using System.Threading;
 
 
 public class ElectricalManager : MonoBehaviour
 {
-	public static ElectricalManager Instance;
-	public DeadEndConnection defaultDeadEnd;
+
+
+	public CableTileList HighVoltageCables;
+	public CableTileList MediumVoltageCables;
+	public CableTileList LowVoltageCables;
+	
 	private bool roundStartedServer = false;
 	public bool Running { get; private set; }
 	public float MSSpeed = 100;
 	public ElectricalMode Mode = ElectricalMode.Threaded;
 
+
+	public static ElectricalManager Instance;
+
+	public bool DOCheck;
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		} 
+	}
 
 	public void StartSimulation()
 	{

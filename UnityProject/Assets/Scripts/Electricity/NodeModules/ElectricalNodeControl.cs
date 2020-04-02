@@ -8,6 +8,8 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	[SerializeField]
 	public InLineDevice Node;
 	public PowerTypeCategory ApplianceType;
+	public Connection WireEndB;
+	public Connection WireEndA;
 	public List<PowerTypeCategory> ListCanConnectTo;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 	public bool SelfDestruct;
@@ -24,6 +26,8 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		CanConnectTo = new HashSet<PowerTypeCategory>(ListCanConnectTo);
 		Node.InData.Categorytype = ApplianceType;
 		Node.InData.CanConnectTo = CanConnectTo;
+		Node.InData.WireEndA = WireEndA;
+		Node.InData.WireEndB = WireEndB;
 		Node.InData.ControllingDevice = this;
 		foreach (PowerInputReactions ReactionC in Reactions)
 		{
@@ -39,7 +43,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	{
 		yield return WaitFor.Seconds(1);
 		Node.FindPossibleConnections();
-		Node.FlushConnectionAndUp();
+		Node.InData.FlushConnectionAndUp();
 	}
 
 	public void PotentialDestroyed()
@@ -77,7 +81,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public void OnDespawnServer(DespawnInfo info)
 	{
-		Node.FlushConnectionAndUp();
+		Node.InData.FlushConnectionAndUp();
 		UpDespawn(info);
 	}
 
@@ -112,13 +116,13 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void PowerUpdateCurrentChange()
 	{
-		ElectricityFunctions.WorkOutActualNumbers(Node);
+		ElectricityFunctions.WorkOutActualNumbers(Node.InData);
 		UpPowerUpdateCurrentChange();
 	}
 
 	public void PowerNetworkUpdate()
 	{
-		ElectricityFunctions.WorkOutActualNumbers(Node);
+		ElectricityFunctions.WorkOutActualNumbers(Node.InData);
 		UpPowerNetworkUpdate();
 		if (NodeControl != null)
 		{
@@ -134,20 +138,20 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public VIRCurrent ModifyElectricityInput(VIRCurrent Current,
 										 ElectricalOIinheritance SourceInstance,
-										 ElectricalOIinheritance ComingFromm)
+										 IntrinsicElectronicData ComingFromm)
 	{
 		return (UpModifyElectricityInput(Current, SourceInstance, ComingFromm));
 	}
-	public VIRCurrent ModifyElectricityOutput(VIRCurrent  Current, ElectricalOIinheritance SourceInstance)
+	public VIRCurrent ModifyElectricityOutput(VIRCurrent Current, ElectricalOIinheritance SourceInstance)
 	{
 		return (UpModifyElectricityOutput(Current, SourceInstance));
 	}
 
-	public VIRResistances ModifyResistanceInput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
+	public ResistanceWrap ModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
 	{
 		return (UpModifyResistanceInput(Resistance, SourceInstance, ComingFrom));
 	}
-	public VIRResistances ModifyResistancyOutput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance)
+	public ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
 	{
 		return (UpModifyResistancyOutput(Resistance, SourceInstance));
 	}
@@ -308,7 +312,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public VIRResistances UpModifyResistancyOutput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance)
+	public ResistanceWrap UpModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistancyOutput))
 		{
@@ -320,7 +324,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		return (Resistance);
 	}
 
-	public VIRResistances UpModifyResistanceInput(VIRResistances Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
+	public ResistanceWrap UpModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistanceInput))
 		{
@@ -333,9 +337,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 
 
-	public VIRCurrent  UpModifyElectricityInput(VIRCurrent Current,
+	public VIRCurrent UpModifyElectricityInput(VIRCurrent Current,
 										 ElectricalOIinheritance SourceInstance,
-										 ElectricalOIinheritance ComingFromm)
+										 IntrinsicElectronicData ComingFromm)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityInput))
 		{
@@ -347,7 +351,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		return (Current);
 	}
 
-	public VIRCurrent  UpModifyElectricityOutput(VIRCurrent  Current, ElectricalOIinheritance SourceInstance)
+	public VIRCurrent UpModifyElectricityOutput(VIRCurrent Current, ElectricalOIinheritance SourceInstance)
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityOutput))
 		{
