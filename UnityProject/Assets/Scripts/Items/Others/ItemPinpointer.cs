@@ -33,8 +33,13 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void Start()
 	{
-		objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
+		var NukeDisk = FindObjectOfType<NukeDiskScript>();
+		if (NukeDisk != null)
+		{
+			objectToTrack =  NukeDisk.gameObject;
+		}
 	}
+
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -49,7 +54,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void ChangeAngleofSprite(Vector3 moveDirection)
 	{
-		
+
 		float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
 		if (CheckDistance(moveDirection))
 		{
@@ -169,7 +174,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 		spriteVariant = newVar;
 	}
 	protected virtual void UpdateMe()
-	{	
+	{
 		if (isServer)
 		{
 

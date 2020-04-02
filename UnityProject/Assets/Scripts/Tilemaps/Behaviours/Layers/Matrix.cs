@@ -362,6 +362,10 @@ public class  Matrix : MonoBehaviour
 
 	public void RemoveUnderFloorTile(Vector2Int position, GenericTile tile)
 	{
+		if (UnderFloorLayer == null)
+		{
+			underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+		}
 		UnderFloorLayer.RemoveSpecifiedTile( position, tile);
 	}
 
