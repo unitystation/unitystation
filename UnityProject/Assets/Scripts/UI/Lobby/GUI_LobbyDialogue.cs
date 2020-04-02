@@ -56,6 +56,7 @@ namespace Lobby
 		{
 			LoadingScreenManager.Instance.CloseLoadingScreen();
 			gameObject.SetActive(true);
+			ShowConnectionPanel();
 			StartCoroutine(FlashConnectionFailedText());
 		}
 
