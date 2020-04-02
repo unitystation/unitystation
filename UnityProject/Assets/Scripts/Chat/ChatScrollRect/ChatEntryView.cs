@@ -9,8 +9,8 @@ public class ChatEntryView : MonoBehaviour
 	[SerializeField] private RectTransform textRectTransform = null;
 	[SerializeField] private RectTransform thisRectTransform = null;
 	[SerializeField] private ContentSizeFitter contentFitter = null;
-	private ChatEntryData entryData;
-	private ChatScroll chatScroll;
+	protected ChatEntryData entryData;
+	protected ChatScroll chatScroll;
 
 	public int Index { get; private set; }
 
@@ -24,7 +24,7 @@ public class ChatEntryView : MonoBehaviour
 	/// </summary>
 	public ChatEntryData EntryData => entryData;
 
-	public void SetChatEntryView(ChatEntryData data, ChatScroll chatScroll, int index, float contentViewWidth)
+	public virtual void SetChatEntryView(ChatEntryData data, ChatScroll chatScroll, int index, float contentViewWidth)
 	{
 		var thisDelta = thisRectTransform.sizeDelta;
 		thisDelta.x = contentViewWidth;

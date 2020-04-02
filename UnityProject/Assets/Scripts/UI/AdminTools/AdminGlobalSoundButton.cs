@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// On the buttons in the list
-/// </summary>
-public class AdminGlobalSoundButton : MonoBehaviour
+namespace AdminTools
 {
-	public Text myText;
-
-	private AdminGlobalSound adminGlobalSound;
-
-	public void SetAdminGlobalSoundButtonText(string textString)
+	/// <summary>
+	/// On the buttons in the list
+	/// </summary>
+	public class AdminGlobalSoundButton : MonoBehaviour
 	{
-		myText.text = textString;
-	}
+		public Text myText;
 
-	public void Onclick()
-	{
-		adminGlobalSound = GetComponentInParent<AdminGlobalSound>();
+		private AdminGlobalSound adminGlobalSound;
 
-		adminGlobalSound.PlaySound(myText.text);// Gives text to function to play sound.
+		public void SetAdminGlobalSoundButtonText(string textString)
+		{
+			myText.text = textString;
+		}
+
+		public void Onclick()
+		{
+			adminGlobalSound = GetComponentInParent<AdminGlobalSound>();
+
+			adminGlobalSound.PlaySound(myText.text); // Gives text to function to play sound.
+		}
 	}
 }

@@ -130,7 +130,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 				block.SetInt("_IsPaletted", 1);
 				curRend.SetPropertyBlock(block);
 			}
-			
+
 			UIManager.IsMouseInteractionDisabled = true;
 			escapeKeyTarget.enabled = true;
 			selectedItem = this;
@@ -176,6 +176,8 @@ public class DevSpawnerListItemController : MonoBehaviour
 		if (CustomNetworkManager.IsServer)
 		{
 			Spawn.ServerPrefab(prefab, position);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				$"{PlayerManager.LocalPlayer.ExpensiveName()} spawned a {prefab.name} at {position}", ServerData.UserID);
 		}
 		else
 		{

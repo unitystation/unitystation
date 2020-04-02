@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdminGlobalSoundButtonTab : MonoBehaviour
+namespace AdminTools
 {
-
-	public void OnClick()
+	public class AdminGlobalSoundButtonTab : MonoBehaviour
 	{
-		var controller = gameObject.transform.parent.parent.parent.Find("GlobalSoundButtonScrollList").gameObject;
+		[SerializeField] private GameObject globalSoundWindow = null;
 
-		if (!controller.activeInHierarchy)
+		public void OnClick()
 		{
-			controller.SetActive(true);
-		}
-		else
-		{
-			controller.SetActive(false);
+			if (!globalSoundWindow.activeInHierarchy)
+			{
+				globalSoundWindow.SetActive(true);
+			}
+			else
+			{
+				globalSoundWindow.SetActive(false);
+			}
 		}
 	}
 }

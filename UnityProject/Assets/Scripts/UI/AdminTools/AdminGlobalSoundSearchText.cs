@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdminGlobalSoundSearchText : MonoBehaviour
+namespace AdminTools
 {
-	public void OnSearch()//called when search field is changed or finished being edited
+	public class AdminGlobalSoundSearchText : MonoBehaviour
 	{
-		gameObject.transform.parent.GetComponent<AdminGlobalSoundSearchBar>().Search();
+		public void OnSearch() //called when search field is changed or finished being edited
+		{
+			gameObject.transform.parent.GetComponent<AdminGlobalSoundSearchBar>().Search();
+		}
 	}
 }
