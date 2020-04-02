@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
+/// <summary>
+/// For the station Gate, only connects to a gate this script will pick
+/// </summary>
 public class StationGateway : NetworkBehaviour
 {
 	[SerializeField]
@@ -29,19 +32,19 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private Sprite[] Offline;
 	[SerializeField]
-	private Sprite[] PowerOff;
+	private Sprite[] PowerOff;//TODO connect gateway to APC
 
 	[SerializeField]
-	private List<GameObject> Worlds = new List<GameObject>();
+	private List<GameObject> Worlds = new List<GameObject>();//List of worlds available to be chosen
 
-	private GameObject SelectedWorld;
+	private GameObject SelectedWorld;// The world from the list that was chosen
 
-	private bool HasPower = true;
+	private bool HasPower = true;// Not used atm
 
 	private bool IsConnected;
 
 	[SerializeField]
-	private int RandomCountBegining = 300;
+	private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
 	[SerializeField]
 	private int RandomCountEnd = 1200;
 
@@ -88,14 +91,12 @@ public class StationGateway : NetworkBehaviour
 
 	[Server]
 	private void DetectPlayer()
-	{	
+	{
+		//detect players positioned on the portal bit of the gateway
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
-
-		Logger.Log("Players on tile:" + playersFound);
 
 		foreach (ObjectBehaviour player in playersFound)
 		{
-			Logger.Log("transport player:" + player);
 			TransportPlayers(player);
 		}
 	}
@@ -103,7 +104,7 @@ public class StationGateway : NetworkBehaviour
 	[Server]
 	private void TransportPlayers(ObjectBehaviour player)
 	{
-		Logger.Log("Server transport");
+		//teleports player to the front of the new gateway
 		player.GetComponent<PlayerSync>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition, false);
 	}
 

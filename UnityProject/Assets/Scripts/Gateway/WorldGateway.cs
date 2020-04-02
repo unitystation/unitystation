@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+
+/// <summary>
+/// Connects two portals together, can be separate from the station gateway.
+/// </summary>
 public class WorldGateway : NetworkBehaviour
 {
 	[SerializeField]
@@ -32,7 +36,7 @@ public class WorldGateway : NetworkBehaviour
 	private Sprite[] PowerOff;
 
 	[SerializeField]
-	private GameObject StationGateway;
+	private GameObject StationGateway;// doesnt have to be station just the gateway this one will connect to
 
 	[SerializeField]
 	private bool IsOnlineAtStart = true;
@@ -64,11 +68,8 @@ public class WorldGateway : NetworkBehaviour
 	{
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
-		Logger.Log("Players on tile:" + playersFound);
-
 		foreach (ObjectBehaviour player in playersFound)
 		{
-			Logger.Log("transport player:" + player);
 			TransportPlayers(player);
 		}
 	}
@@ -76,7 +77,6 @@ public class WorldGateway : NetworkBehaviour
 	[Server]
 	private void TransportPlayers(ObjectBehaviour player)
 	{
-		Logger.Log("Server transport");
 		player.GetComponent<PlayerSync>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition, false);
 	}
 
