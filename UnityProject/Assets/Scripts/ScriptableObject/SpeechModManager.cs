@@ -54,15 +54,15 @@ public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
             message = Swedish.ProcessMessage(message);
         }
 
-        // if ((modifiers & ChatModifier.Spurdo) == ChatModifier.Spurdo)
-        // {
-        //     message = Spurdo.ProcessMessage(message);
-        // }
+        if ((modifiers & ChatModifier.Spurdo) == ChatModifier.Spurdo)
+        {
+            message = Spurdo.ProcessMessage(message);
+        }
 
-        // if ((modifiers & ChatModifier.UwU) == ChatModifier.UwU)
-        // {
-        //     message = UwU.ProcessMessage(message);
-        // }
+        if ((modifiers & ChatModifier.UwU) == ChatModifier.UwU)
+        {
+            message = UwU.ProcessMessage(message);
+        }
 
         if ((modifiers & ChatModifier.Stutter) == ChatModifier.Stutter)
         {
