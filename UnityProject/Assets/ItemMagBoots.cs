@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEngine.UI;
 
 public class ItemMagBoots : NetworkBehaviour,
-		IActionGUI, IClientInventoryMove
+	IServerActionGUI, IClientInventoryMove,IServerInventoryMove
 {
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isOn = false;
@@ -20,7 +20,7 @@ public class ItemMagBoots : NetworkBehaviour,
 	[Tooltip("For UI button, 0 = off , 1 = on")]
 	public Sprite[] sprites;
 
-	private GameObject player;
+	private ConnectedPlayer player;
 	private ItemAttributesV2 itemAttributesV2;
 	private Pickupable pick;
 
@@ -42,45 +42,46 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private void ToggleBoots()
 	{
-		if (isOn)
-		{
-			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
-			//ChangeSpeed(newSpeed);
-		}
-		else
-		{
-			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-			//ChangeSpeed(6);
-		}
 		if(player == null )
 		{
 			Debug.Log("Player == null");
 			return;
 		}
+		if (isOn)
+		{
+			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
+			ServerChangeSpeed(newSpeed);
 
-		player.GetComponent<ObjectBehaviour>()?.ServerSetPushable(!isOn);
-		//Debug.Log("MagBoots are " + isOn.ToString());
+		}
+		else
+		{
+			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
+			ServerChangeSpeed(6);
+		}
+		//if the ghost NRE will be thrown
+		player.Script.pushPull.ServerSetPushable(!isOn);
+
 	}
-
-	private void ChangeSpeed(float speed)
+	[Server]
+	private void ServerChangeSpeed(float speed)
 	{
-		PlayerSync playerSync = player.GetComponent<PlayerScript>().GetComponent<PlayerSync>();
+
 		/*
 		Debug.Log("Initial Run speed before change = " + playerSync.playerMove.InitialRunSpeed.ToString());
 		Debug.Log("RunSpeed before change = " + playerSync.playerMove.RunSpeed.ToString());
 		Debug.Log("WalkSpeed before change = " + playerSync.playerMove.WalkSpeed.ToString());
 		Debug.Log("ServerSpeed before after = " + playerSync.SpeedServer.ToString());*/
 
-		playerSync.playerMove.InitialRunSpeed = speed;
-		playerSync.playerMove.RunSpeed = speed;
+		player.Script.playerMove.InitialRunSpeed = speed;
+		player.Script.playerMove.RunSpeed = speed;
 
 		//Do not change current speed if player is walking
 		//but change speed when he toggles run
-		if (playerSync.SpeedServer == playerSync.playerMove.WalkSpeed)
+		if (player.Script.PlayerSync.SpeedServer < speed)
 		{
 			return;
 		}
-		playerSync.SpeedServer  = speed;
+		player.Script.PlayerSync.SpeedServer  = speed;
 		/*
 		Debug.Log("Initial Run speed after change = " + playerSync.playerMove.InitialRunSpeed.ToString());
 		Debug.Log("RunSpeed before after = " + playerSync.playerMove.RunSpeed.ToString());
@@ -96,8 +97,8 @@ public class ItemMagBoots : NetworkBehaviour,
 		ToggleBoots();
 	}
 
-	[Server]
-	public void ServerChangeState(GameObject newPlayer)
+
+	public void ServerChangeState(ConnectedPlayer newPlayer)
 	{
 		this.player = newPlayer;
 		isOn = !isOn;
@@ -105,10 +106,18 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	#region UI related
 
+	public void OnInventoryMoveServer(InventoryMove info)
+	{
+		//If item was taken off the player and it's on, change state back
+		if (isOn && info.FromSlot.NamedSlot == NamedSlot.feet)
+		{
+			ServerChangeState(this.player);
+		}
+	}
+
 	// Client only method
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
-		//IClientInventoryMove method
 		if (CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
 		{
 			return;
@@ -117,13 +126,6 @@ public class ItemMagBoots : NetworkBehaviour,
 		var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
 		//when item is moved and player has it on his feet
 		var showAlert = hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject;
-
-		//If item was taken off the player and it's on, change state back
-		if (isOn && info.ClientInventoryMoveType == ClientInventoryMoveType.Removed && hand.GetActiveItemInSlot(NamedSlot.feet) == null)
-		{
-			ServerChangeState(this.player);
-			//Debug.Log("Item WAS REMOVED WHILE BEING ON!.");
-		}
 		//shows UI button on screen
 		UIActionManager.Toggle(this, showAlert);
 	}
@@ -131,15 +133,10 @@ public class ItemMagBoots : NetworkBehaviour,
 	public void CallActionClient()
 	{
 		UIActionManager.SetSprite(this, (!isOn ? sprites[1] : sprites[0]));
-		//Debug.Log("Toggle state.");
-		PlayerManager.PlayerScript.playerNetworkActions.CmdToggleMagBoots();
-		/*In order to have UI button, add button to Alert_UI_HUD in unity
-		define functions in AlertUI.cs, for button logic
-		example (ToggleAlertMagBoots and OnClickMagBoots)
-		define a function in PlayerNetworkActions.cs
-		example (CmdToggleMagBoots)
-		so you can call it from here and AlertUI */
 	}
-
+	public void CallActionServer(ConnectedPlayer SentByPlayer)
+	{
+		ServerChangeState(SentByPlayer);
+	}
 	#endregion
 }

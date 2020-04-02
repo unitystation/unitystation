@@ -341,18 +341,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Toggls mag boots on the player
-	/// </summary>
-	[Command]
-	public void CmdToggleMagBoots()
-	{
-		// Toggle mag boots
-		var magBoots = GetActiveItemInSlot(NamedSlot.feet)?.GetComponent<ItemMagBoots>();
-		if (magBoots == null) return;
-		magBoots.ServerChangeState(gameObject);
-	}
-
-	/// <summary>
 	/// Validates that the player can interact with the specified wallmount
 	/// </summary>
 	/// <param name="wallmount">wallmount to check</param>
