@@ -52,6 +52,7 @@ public class StationGateway : NetworkBehaviour
 
 	private Matrix Matrix => registerTile.Matrix;
 
+	[Server]
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -60,12 +61,13 @@ public class StationGateway : NetworkBehaviour
 		Invoke("WorldSetup", count);
 	}
 
+	[Server]
 	private void WorldSetup()//do message here as well
 	{
 		//Selects Random world
 		SelectedWorld = Worlds[Random.Range(0, Worlds.Count)];
 
-		if (HasPower == true)
+		if (HasPower == true && SelectedWorld != null)
 		{
 			SetOnline();
 
@@ -83,6 +85,7 @@ public class StationGateway : NetworkBehaviour
 		}
 	}
 
+	[Server]
 	private void loop()
 	{
 		DetectPlayer();
@@ -99,6 +102,16 @@ public class StationGateway : NetworkBehaviour
 		{
 			TransportPlayers(player);
 		}
+
+		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true))
+		{
+			TransportObjects(objects);
+		}
+
+		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true))
+		{
+			TransportItems(items);
+		}
 	}
 
 	[Server]
@@ -106,6 +119,18 @@ public class StationGateway : NetworkBehaviour
 	{
 		//teleports player to the front of the new gateway
 		player.GetComponent<PlayerSync>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition, false);
+	}
+
+	[Server]
+	private void TransportObjects(ObjectBehaviour objects)
+	{
+		objects.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
+	}
+
+	[Server]
+	private void TransportItems(ObjectBehaviour items)
+	{
+		items.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	private void SetOnline()

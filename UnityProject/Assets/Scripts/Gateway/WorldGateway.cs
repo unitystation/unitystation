@@ -45,18 +45,20 @@ public class WorldGateway : NetworkBehaviour
 
 	private Matrix Matrix => registerTile.Matrix;
 
+	[Server]
 	private void Start()
 	{
 		registerTile = GetComponent<RegisterTile>();
 		SetOffline();
 
-		if (IsOnlineAtStart)
+		if (IsOnlineAtStart && StationGateway != null)
 		{
 			SetOnline();
 			loop();
 		}
 	}
 
+	[Server]
 	private void loop()
 	{
 		DetectPlayer();
@@ -72,12 +74,34 @@ public class WorldGateway : NetworkBehaviour
 		{
 			TransportPlayers(player);
 		}
+
+		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true))
+		{
+			TransportObjects(objects);
+		}
+
+		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true))
+		{
+			TransportItems(items);
+		}
 	}
 
 	[Server]
 	private void TransportPlayers(ObjectBehaviour player)
 	{
 		player.GetComponent<PlayerSync>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition, false);
+	}
+
+	[Server]
+	private void TransportObjects(ObjectBehaviour objects)
+	{
+		objects.GetComponent<CustomNetTransform>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition);
+	}
+
+	[Server]
+	private void TransportItems(ObjectBehaviour items)
+	{
+		items.GetComponent<CustomNetTransform>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	private void SetOnline()
