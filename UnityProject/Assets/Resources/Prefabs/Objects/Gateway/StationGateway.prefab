@@ -110,7 +110,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925386106379506438}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &812093067107287745
 SpriteRenderer:
@@ -272,7 +272,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925386106379506438}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1677672421976492244
 SpriteRenderer:
@@ -312,7 +312,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5131059599873687833, guid: 50386ced7d1ba73428044aef280ed44f,
+  m_Sprite: {fileID: 3479196352367776281, guid: 50386ced7d1ba73428044aef280ed44f,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -353,7 +353,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925386106379506438}
-  m_RootOrder: 8
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8782174392070045440
 SpriteRenderer:
@@ -433,7 +433,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925386106379506438}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1216164826478389243
 SpriteRenderer:
@@ -514,7 +514,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925386106379506438}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3859359529583401668
 SpriteRenderer:
@@ -595,7 +595,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925386106379506438}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8108458996930749080
 SpriteRenderer:
@@ -665,6 +665,7 @@ GameObject:
   - component: {fileID: 1835757013911865864}
   - component: {fileID: 3348285834374005981}
   - component: {fileID: 7106149064385931371}
+  - component: {fileID: 1531655255234784303}
   m_Layer: 11
   m_Name: StationGateway
   m_TagString: Untagged
@@ -685,13 +686,13 @@ Transform:
   m_Children:
   - {fileID: 4963249456697642776}
   - {fileID: 4503220692550936247}
+  - {fileID: 8984756948690238051}
   - {fileID: 481075634775811155}
-  - {fileID: 903713401243785635}
   - {fileID: 2056672127640377674}
+  - {fileID: 903713401243785635}
+  - {fileID: 8505669634558573900}
   - {fileID: 4647410868040270552}
   - {fileID: 7698361592637018058}
-  - {fileID: 8505669634558573900}
-  - {fileID: 8984756948690238051}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -777,7 +778,7 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 1
-  Passable: 0
+  Passable: 1
 --- !u!114 &4216241947996897747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,6 +878,60 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &1531655255234784303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3469ef3a42b225a41befd950d93d56fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteBaseTop: {fileID: 9179395053284328901}
+  SpriteBaseBottom: {fileID: 2686865071572127923}
+  SpriteBaseCentre: {fileID: 8782174392070045440}
+  SpriteBaseRightTop: {fileID: 3859359529583401668}
+  SpriteBaseRightMiddle: {fileID: 9157353705880644089}
+  SpriteBaseRightBottom: {fileID: 1677672421976492244}
+  SpriteBaseLeftTop: {fileID: 812093067107287745}
+  SpriteBaseLeftMiddle: {fileID: 1216164826478389243}
+  SpriteBaseLeftBottom: {fileID: 8108458996930749080}
+  Online:
+  - {fileID: -5053537777833272925, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: 4658743146477972809, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: 7761410002650570052, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: -8676475718867505300, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: 3479196352367776281, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: 8033078337819609105, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: 3293299140940688845, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: -1184879654540406518, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
+  - {fileID: 21300000, guid: 2cdc09ed58ba5964faa7138d9efb79b9, type: 3}
+  Offline:
+  - {fileID: 21300000, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300002, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300004, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300006, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300008, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300010, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300012, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300014, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
+  - {fileID: 21300000, guid: 254349f6e8c80cf469c5c4ebb400f286, type: 3}
+  PowerOff:
+  - {fileID: 21300000, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300002, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300004, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300006, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300008, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300010, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300012, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300014, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
+  - {fileID: 21300000, guid: f816a89e22885a248b686ca3b47a29af, type: 3}
+  Worlds: []
+  RandomCountBegining: 300
+  RandomCountEnd: 1200
 --- !u!1 &9115553880125540775
 GameObject:
   m_ObjectHideFlags: 0
