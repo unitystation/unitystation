@@ -30,9 +30,6 @@ MonoBehaviour:
   - original: assistant
     replaceWith:
     - nyassistant
-  - original: thing
-    replaceWith:
-    - thingy wingy
   LetterReplaceList:
   - original: r
     replaceWith:
@@ -43,9 +40,9 @@ MonoBehaviour:
   - original: v
     replaceWith:
     - w
-  - original: ing
+  - original: ni
     replaceWith:
-    - in
+    - nyee
   - original: na
     replaceWith:
     - nya
@@ -61,9 +58,6 @@ MonoBehaviour:
   - original: ove
     replaceWith:
     - uv
-  - original: ni
-    replaceWith:
-    - nyee
   activateAdditions: 1
   probability: 80
   Beginning:
@@ -73,5 +67,6 @@ MonoBehaviour:
   - OwO
   - UwU
   - ~
+  - ~~
   unintelligible: 0
   customCode: {fileID: 0}
