@@ -18,44 +18,58 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	/// Returns a PlayerCustomisationData using the type and name.
 	/// Returns null if not found.
 	/// </summary>
-	public PlayerCustomisationData Get(CustomisationType type, string customisationName)
+	public PlayerCustomisationData Get(CustomisationType type, Gender gender, string customisationName)
 	{
-		if (!playerCustomisationDictionary.ContainsKey(type))
+		if (!IsTypePopulated(type))
 		{
-			Logger.LogErrorFormat("No entries for {0} CustomisationType", Category.Character, type);
 			return null;
 		}
 
 		return playerCustomisationDictionary[type].FirstOrDefault(pcd =>
-			pcd.Type == type && pcd.Name == customisationName);
+			pcd.Type == type && (pcd.gender == gender || pcd.gender == Gender.Neuter) && pcd.Name == customisationName);
 	}
 
 	/// <summary>
 	/// Returns the first customisation type it can find
 	/// </summary>
-	private PlayerCustomisationData GetFirst(CustomisationType type)
+	private PlayerCustomisationData GetFirst(CustomisationType type, Gender gender)
 	{
-		if (!playerCustomisationDictionary.ContainsKey(type))
+		if (!IsTypePopulated(type))
 		{
-			Logger.LogErrorFormat("No entries for {0} CustomisationType", Category.Character, type);
 			return null;
 		}
 
-		return playerCustomisationDictionary[type].FirstOrDefault(pcd => pcd.Type == type);
+		return playerCustomisationDictionary[type].FirstOrDefault(pcd =>
+			pcd.Type == type && (pcd.gender == gender || pcd.gender == Gender.Neuter));
 	}
 
 	/// <summary>
 	/// Returns all PlayerCustomisationDatas of a certain type.
 	/// </summary>
-	public IEnumerable<PlayerCustomisationData> GetAll(CustomisationType type)
+	public IEnumerable<PlayerCustomisationData> GetAll(CustomisationType type, Gender gender)
 	{
-		if (!playerCustomisationDictionary.ContainsKey(type))
+		if (!IsTypePopulated(type))
 		{
-			Logger.LogErrorFormat("No entries for {0} CustomisationType", Category.Character, type);
 			return null;
 		}
 
-		return playerCustomisationDictionary[type].Where(pcd => pcd.Type == type);
+		return playerCustomisationDictionary[type].Where(pcd =>
+			pcd.Type == type && (pcd.gender == gender || pcd.gender == Gender.Neuter));
+	}
+
+	private bool IsTypePopulated(CustomisationType type)
+	{
+		if (playerCustomisationDictionary.ContainsKey(type) &&
+			playerCustomisationDictionary[type].Any())
+		{
+			return true;
+		}
+
+		Logger.LogErrorFormat(
+			"No entries for {0} CustomisationType. Have they been populated correctly in the inspector?",
+			Category.Character, type);
+		return false;
+
 	}
 
 	/// <summary>
@@ -66,25 +80,29 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	public bool ValidateCharacterSettings(ref CharacterSettings character)
 	{
 		var result = true;
-		if (!IsSettingValid(CustomisationType.HairStyle, character.HairStyleName, out string defaultSetting));
+		if (!IsSettingValid(CustomisationType.HairStyle, character.Gender,
+			character.HairStyleName, out string defaultSetting))
 		{
 			character.HairStyleName = defaultSetting;
 			result = false;
 		}
 
-		if (!IsSettingValid(CustomisationType.FacialHair, character.FacialHairName, out defaultSetting));
+		if (!IsSettingValid(CustomisationType.FacialHair, character.Gender,
+			character.FacialHairName, out defaultSetting))
 		{
 			character.FacialHairName = defaultSetting;
 			result = false;
 		}
 
-		if (!IsSettingValid(CustomisationType.Underwear, character.UnderwearName, out defaultSetting));
+		if (!IsSettingValid(CustomisationType.Underwear, character.Gender,
+			character.UnderwearName, out defaultSetting))
 		{
 			character.UnderwearName = defaultSetting;
 			result = false;
 		}
 
-		if (!IsSettingValid(CustomisationType.Socks, character.SocksName, out defaultSetting));
+		if (!IsSettingValid(CustomisationType.Socks, character.Gender,
+			character.SocksName, out defaultSetting))
 		{
 			character.SocksName = defaultSetting;
 			result = false;
@@ -97,30 +115,22 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	/// If it can't find one then defaultSettingName contains a default one.
 	/// </summary>
 	/// <param name="type">Customisation type of settingName</param>
+	/// <param name="gender">The gender of the customisation option</param>
 	/// <param name="settingName">The name of the setting</param>
 	/// <param name="defaultSettingName">The default setting to assign on failure</param>
 	/// <returns></returns>
-	private bool IsSettingValid(CustomisationType type, string settingName, out string defaultSettingName)
+	private bool IsSettingValid(CustomisationType type, Gender gender, string settingName, out string defaultSettingName)
 	{
-		if (Get(type, settingName) != null)
+		var foundSetting = Get(type, gender, settingName);
+		if (settingName == "None" || foundSetting != null)
 		{
 			defaultSettingName = string.Empty;
 			return true;
 		}
 
-		defaultSettingName = GetFirst(type).Name;
-		if (string.IsNullOrEmpty(defaultSettingName))
-		{
-			Logger.LogError("testing");
-			Logger.LogErrorFormat(
-				"Cannot find a default {0} setting, have customisation options been populated correctly?",
-				Category.Character, type);
-		}
-		else
-		{
-			Logger.LogWarningFormat("Invalid {0} setting: cannot find {1}. Resetting to {2}.",
+		defaultSettingName = GetFirst(type, gender)?.Name ?? "None";
+		Logger.LogWarningFormat("Invalid {0} setting: cannot find {1}. Resetting to {2}.",
 				Category.Character, type, settingName, defaultSettingName);
-		}
 		return false;
 	}
 
