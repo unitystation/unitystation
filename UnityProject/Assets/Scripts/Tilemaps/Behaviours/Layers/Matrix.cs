@@ -5,7 +5,6 @@ using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
-
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
 ///
@@ -48,7 +47,6 @@ public class  Matrix : MonoBehaviour
 	/// Should make people fall and shake items a bit
 	/// </summary>
 	public EarthquakeEvent OnEarthquake = new EarthquakeEvent();
-
 	private void Awake()
 	{
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
