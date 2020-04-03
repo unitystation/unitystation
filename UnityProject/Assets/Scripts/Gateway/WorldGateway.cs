@@ -10,23 +10,8 @@ using Mirror;
 public class WorldGateway : NetworkBehaviour
 {
 	[SerializeField]
-	private SpriteRenderer SpriteBaseTop;
-	[SerializeField]
-	private SpriteRenderer SpriteBaseBottom;
-	[SerializeField]
-	private SpriteRenderer SpriteBaseCentre;// TODO animation of centre piece
-	[SerializeField]
-	private SpriteRenderer SpriteBaseRightTop;
-	[SerializeField]
-	private SpriteRenderer SpriteBaseRightMiddle;
-	[SerializeField]
-	private SpriteRenderer SpriteBaseRightBottom;
-	[SerializeField]
-	private SpriteRenderer SpriteBaseLeftTop;
-	[SerializeField]
-	private SpriteRenderer SpriteBaseLeftMiddle;
-	[SerializeField]
-	private SpriteRenderer SpriteBaseLeftBottom;
+	private SpriteRenderer SpriteBaseTop, SpriteBaseBottom, SpriteBaseCentre, SpriteBaseRightTop, SpriteBaseRightMiddle, SpriteBaseRightBottom, SpriteBaseLeftTop, SpriteBaseLeftMiddle, SpriteBaseLeftBottom;
+	//TODO animate centre
 
 	[SerializeField]
 	private Sprite[] Online;
