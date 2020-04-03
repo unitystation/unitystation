@@ -20,6 +20,8 @@ public class ItemMagBoots : NetworkBehaviour,
 	[Tooltip("For UI button, 0 = off , 1 = on")]
 	public Sprite[] sprites;
 
+	public  SpriteSheetAndData[] spriteSheets;
+
 	private ConnectedPlayer player;
 	private ItemAttributesV2 itemAttributesV2;
 	private Pickupable pick;
@@ -62,32 +64,8 @@ public class ItemMagBoots : NetworkBehaviour,
 		player.Script.pushPull.ServerSetPushable(!isOn);
 
 	}
-	[Server]
-	private void ServerChangeSpeed(float speed)
-	{
 
-		/*
-		Debug.Log("Initial Run speed before change = " + playerSync.playerMove.InitialRunSpeed.ToString());
-		Debug.Log("RunSpeed before change = " + playerSync.playerMove.RunSpeed.ToString());
-		Debug.Log("WalkSpeed before change = " + playerSync.playerMove.WalkSpeed.ToString());
-		Debug.Log("ServerSpeed before after = " + playerSync.SpeedServer.ToString());*/
 
-		player.Script.playerMove.InitialRunSpeed = speed;
-		player.Script.playerMove.RunSpeed = speed;
-
-		//Do not change current speed if player is walking
-		//but change speed when he toggles run
-		if (player.Script.PlayerSync.SpeedServer < speed)
-		{
-			return;
-		}
-		player.Script.PlayerSync.SpeedServer  = speed;
-		/*
-		Debug.Log("Initial Run speed after change = " + playerSync.playerMove.InitialRunSpeed.ToString());
-		Debug.Log("RunSpeed before after = " + playerSync.playerMove.RunSpeed.ToString());
-		Debug.Log("WalkSpeed before after = " + playerSync.playerMove.WalkSpeed.ToString());
-		Debug.Log("ServerSpeed after after = " + playerSync.SpeedServer.ToString());*/
-	}
 
 	private void SyncState(bool oldVar, bool newVar)
 	{
@@ -125,18 +103,83 @@ public class ItemMagBoots : NetworkBehaviour,
 
 		var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
 		//when item is moved and player has it on his feet
-		var showAlert = hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject;
-		//shows UI button on screen
-		UIActionManager.Toggle(this, showAlert);
+		if (hand.GetActiveItemInSlot(NamedSlot.feet) != null && hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject)
+		{
+			UIActionManager.Toggle(this, true);
+			UIActionManager.SetSprite(this, (sprites[0]));
+		}
+		else
+		{
+			if (isOn)
+			{
+				ClientChangeSpeed();
+			}
+			UIActionManager.Toggle(this, false);
+		}
 	}
 
 	public void CallActionClient()
 	{
 		UIActionManager.SetSprite(this, (!isOn ? sprites[1] : sprites[0]));
+		var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
+		//if player has it on his feet
+		if (hand.GetActiveItemInSlot(NamedSlot.feet) != null && hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject)
+		{
+			ClientChangeSpeed();
+		}
+	}
+
+	private void ClientChangeSpeed()
+	{
+		PlayerMove playerMove = PlayerManager.LocalPlayerScript.playerMove;
+		if (!isOn)
+		{
+
+
+			playerMove.InitialRunSpeed = newSpeed;
+			playerMove.RunSpeed = newSpeed;
+
+			//Do not change current speed if player is walking
+			//but change speed when he toggles run
+			if (playerMove.GetComponent<PlayerSync>().SpeedServer < newSpeed)
+			{
+				return;
+			}
+
+			playerMove.GetComponent<PlayerSync>().SpeedClient = newSpeed;
+		}
+		else
+		{
+			playerMove.InitialRunSpeed = 6;
+			playerMove.RunSpeed = 6;
+
+			//Do not change current speed if player is walking
+			//but change speed when he toggles run
+			if (playerMove.GetComponent<PlayerSync>().SpeedServer < 6)
+			{
+				return;
+			}
+
+			playerMove.GetComponent<PlayerSync>().SpeedClient = 6;
+		}
 	}
 	public void CallActionServer(ConnectedPlayer SentByPlayer)
 	{
 		ServerChangeState(SentByPlayer);
 	}
+
+	private void ServerChangeSpeed(float speed)
+	{
+		player.Script.playerMove.InitialRunSpeed = speed;
+		player.Script.playerMove.RunSpeed = speed;
+		//Do not change current speed if player is walking
+		//but change speed when he toggles run
+		if (player.Script.PlayerSync.SpeedServer < speed)
+		{
+			return;
+		}
+		player.Script.PlayerSync.SpeedServer  = speed;
+	}
+
 	#endregion
 }
