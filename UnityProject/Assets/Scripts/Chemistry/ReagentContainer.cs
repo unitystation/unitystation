@@ -93,9 +93,13 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	private void Awake()
 	{
 		itemAttributes = GetComponent<ItemAttributesV2>();
+
+		// add ReagentContainer trait on server and client
 		if (itemAttributes != null)
 		{
-			itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
+			var containerTrait = CommonTraits.Instance.ReagentContainer;
+			if (!itemAttributes.HasTrait(containerTrait))
+				itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
 		}
 
 		this.WaitForNetworkManager(() =>
