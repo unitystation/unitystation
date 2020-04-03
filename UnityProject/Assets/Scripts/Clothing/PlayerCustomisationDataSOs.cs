@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerCustomisationDataSOs", menuName = "Singleton/PlayerCustomisationData")]
 public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustomisationDataSOs>
 {
+	/// <summary>
+	/// This stores all customisation SOs according to their type.
+	/// </summary>
+	[Header("Drag multiple ScriptableObjects into the lists to populate them")]
+	[Tooltip("Contains entries for each customisation type which should list all customisation options")]
 	[SerializeField]
-	private List<PlayerCustomisationData> DataPCD;
+	private PlayerCustomisationDictionary playerCustomisationDictionary;
 
 	/// <summary>
 	/// Returns a PlayerCustomisationData using the type and name.
@@ -14,7 +20,14 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	/// </summary>
 	public PlayerCustomisationData Get(CustomisationType type, string customisationName)
 	{
-		return DataPCD.FirstOrDefault(data => data.Type == type && data.Name == customisationName);
+		if (!playerCustomisationDictionary.ContainsKey(type))
+		{
+			Logger.LogErrorFormat("No entries for {0} CustomisationType", Category.Character, type);
+			return null;
+		}
+
+		return playerCustomisationDictionary[type].FirstOrDefault(pcd =>
+			pcd.Type == type && pcd.Name == customisationName);
 	}
 
 	/// <summary>
@@ -22,7 +35,13 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	/// </summary>
 	private PlayerCustomisationData GetFirst(CustomisationType type)
 	{
-		return DataPCD.FirstOrDefault(data => data.Type == type);
+		if (!playerCustomisationDictionary.ContainsKey(type))
+		{
+			Logger.LogErrorFormat("No entries for {0} CustomisationType", Category.Character, type);
+			return null;
+		}
+
+		return playerCustomisationDictionary[type].FirstOrDefault(pcd => pcd.Type == type);
 	}
 
 	/// <summary>
@@ -30,7 +49,13 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	/// </summary>
 	public IEnumerable<PlayerCustomisationData> GetAll(CustomisationType type)
 	{
-		return DataPCD.Where(data => data.Type == type);
+		if (!playerCustomisationDictionary.ContainsKey(type))
+		{
+			Logger.LogErrorFormat("No entries for {0} CustomisationType", Category.Character, type);
+			return null;
+		}
+
+		return playerCustomisationDictionary[type].Where(pcd => pcd.Type == type);
 	}
 
 	/// <summary>
@@ -97,5 +122,13 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 				Category.Character, type, settingName, defaultSettingName);
 		}
 		return false;
+	}
+
+	[Serializable]
+	private class PlayerCustomisationListStorage : SerializableDictionary.Storage<List<PlayerCustomisationData>> {}
+
+	[Serializable]
+	private class PlayerCustomisationDictionary : SerializableDictionary<CustomisationType, List<PlayerCustomisationData>, PlayerCustomisationListStorage>
+	{
 	}
 }
