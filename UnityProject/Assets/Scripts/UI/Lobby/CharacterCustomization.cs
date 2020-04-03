@@ -217,7 +217,7 @@ namespace Lobby
 			}
 			else
 			{
-				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.UI);
+				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
 				itemDropdown.value = 0;
 				// Needs to be called manually since value is probably already 0, so onValueChanged might not be invoked
 				itemDropdown.onValueChanged.Invoke(0);
@@ -274,7 +274,7 @@ namespace Lobby
 			}
 			catch (InvalidOperationException e)
 			{
-				Logger.LogFormat("Invalid character settings: {0}", Category.UI, e.Message);
+				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
 				DisplayErrorText(e.Message);
 				return;
 			}
