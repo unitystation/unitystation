@@ -128,8 +128,8 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Exclaim;
 		}
 
-		// Speech assignation
-		//TODO Assigning from character creation for now
+		// Assign character trait speech mods
+		//TODO Assigning from character creation for now, they exclude each others
 		switch (sentByPlayer.Script.characterSettings.Speech) 
 		{
 			case Speech.None:
@@ -166,6 +166,8 @@ public partial class Chat
 				break;
 		}
 
+		//TODO Assign racial speech mods
+
 		// Clown
 		if (sentByPlayer.Script.mind != null &&
 			sentByPlayer.Script.mind.occupation != null &&
@@ -179,44 +181,8 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Clown;
 		}
 
-
-		// TODO None of the followinger modifiers are currently in use.
-		// They have been commented out to prevent compile warnings.
-
-		// Stutter
-		//if (false) // TODO Currently players can not stutter.
-		//{
-		//	//Stuttering people randomly repeat beginnings of words
-		//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
-		//	Regex rx = new Regex(@"(\b)+([^\d\W])\B");
-			// message = rx.Replace(message, Stutter);
-		//	chatModifiers |= ChatModifier.Stutter;
-		//}
-		//
-		//// Hiss
-		//if (false) // TODO Currently players can never speak like a snek.
-		//{
-		//	Regex rx = new Regex("s+|S+");
-		//	message = rx.Replace(message, Hiss);
-		//	chatModifiers |= ChatModifier.Hiss;
-		//}
-		//
-		//// Drunk
-		//if (false) // TODO Currently players can not get drunk.
-		//{
-		//	//Regex - find 1 or more "s"
-		//	Regex rx = new Regex("s+|S+");
-		//	message = rx.Replace(message, Slur);
-		//	//Regex - find 1 or more whitespace
-		//	rx = new Regex(@"\s+");
-		//	message = rx.Replace(message, Hic);
-		//	//50% chance to ...hic!... at end of sentance
-		//	if (UnityEngine.Random.Range(1, 3) == 1)
-		//	{
-		//		message = message + " ...hic!...";
-		//	}
-		//	chatModifiers |= ChatModifier.Drunk;
-		//}
+		/////// Process Speech mutations
+		message = SpeechModManager.Instance.ApplyMod(chatModifiers, message);
 
 		return (message, chatModifiers);
 	}
@@ -316,9 +282,6 @@ public partial class Chat
 			verb = "asks,";
 		}
 
-/////// Process Speech mutations
-		message = SpeechModManager.Instance.ApplyMod(modifiers, message);
-
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
 		if (channels.HasFlag(ChatChannel.Command))
@@ -337,11 +300,6 @@ public partial class Chat
 			+ "\"" + message + "\"");           // "This text will be spoken by TTS!"
 	}
 
-	string SpeechModifier(string message)
-	{
-		return message;
-	}
-
 	private static string StripTags(string input)
 	{
 		//Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
@@ -352,7 +310,7 @@ public partial class Chat
 	}
 
 
-
+//TODO move all these methods to a proper SpeechModifier SO
 	private static string Slur(Match m)
 	{
 		string x = m.ToString();
