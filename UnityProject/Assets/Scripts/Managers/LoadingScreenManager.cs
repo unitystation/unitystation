@@ -37,9 +37,14 @@ public class LoadingScreenManager : MonoBehaviour
 		SceneManager.activeSceneChanged -= OnSceneChange;
 	}
 
-	void OnSceneChange(Scene oldScene, Scene newScene)
+	public void CloseLoadingScreen()
 	{
 		loadingScreen.gameObject.SetActive(false);
+	}
+
+	void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		CloseLoadingScreen();
 	}
 
 	public static void LoadFromLobby(Action endAction)
@@ -64,7 +69,7 @@ public class LoadingScreenManager : MonoBehaviour
 			loadingScreen.SetLoadBar((float)TileManager.TilesLoaded / (float)TileManager.TilesToLoad);
 			yield return WaitFor.EndOfFrame;
 		}
-
+		
 		endAction.Invoke();
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GUI_PreRoundWindow : MonoBehaviour
@@ -19,6 +20,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private GameObject playerWaitPanel = null;
 	[SerializeField]
 	private GameObject countdownPanel = null;
+	[SerializeField]
+	private GameObject characterCustomization = null;
 
 	private bool doCountdown;
 	private float countdownTime;
@@ -76,5 +79,11 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		UpdateUI();
 		countdownPanel.SetActive(started);
 		playerWaitPanel.SetActive(!started);
+	}
+
+	public void OnCharacterButton()
+	{
+		SoundManager.Play("Click01");
+		characterCustomization.SetActive(true);
 	}
 }

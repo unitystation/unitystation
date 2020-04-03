@@ -8,7 +8,7 @@ public enum NetTabType {
 	None = -1,
 	Vendor = 0,
 	ShuttleControl = 1,
-	Nuke = 2,
+	NukeWindow = 2,
 	Spawner = 3,
 	Paper = 4,
 	ChemistryDispenser = 5,

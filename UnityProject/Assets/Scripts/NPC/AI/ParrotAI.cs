@@ -65,7 +65,7 @@ public class ParrotAI : MobAI
 
 	protected override void OnAttackReceived(GameObject damagedBy)
 	{
-		StartFleeing(damagedBy.transform, 5f);
+		StartFleeing(damagedBy, 5f);
 	}
 
 	// Steals shit from your active hand
@@ -85,10 +85,10 @@ public class ParrotAI : MobAI
 
 	IEnumerator FleeAndDrop(GameObject dude, GameObject stolenThing)
 	{
-		StartFleeing(dude.transform, 3f);
+		StartFleeing(dude, 3f);
 		yield return WaitFor.Seconds(3f);
 		Spawn.ServerPrefab(stolenThing, gameObject.WorldPosServer());
-		StartFleeing(dude.transform, 5f);
+		StartFleeing(dude, 5f);
 		yield break;
 	}
 
@@ -116,7 +116,7 @@ public class ParrotAI : MobAI
 		}
 		else
 		{	
-			Speak(pollyPhrases[Random.Range(0, pollyPhrases.Length)]);
+			Speak(polyPhrases[Random.Range(0, polyPhrases.Length)]);
 		}
 	}
 
@@ -144,7 +144,7 @@ public class ParrotAI : MobAI
 		}
 	}
 
-	private readonly string[] pollyPhrases = 
+	private readonly string[] polyPhrases = 
 	{
 		"Who wired the SMES!",
 		"Has anyone seen the Nuke disc?",

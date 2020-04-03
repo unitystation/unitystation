@@ -20,6 +20,7 @@ MonoBehaviour:
   - {fileID: 21300002, guid: e80c50765d43ad54f838c18f5fb7b987, type: 3}
   welderRenderer: {fileID: 4282312991069114565}
   flameRenderer: {fileID: 6120423163433110244}
+  fuel: {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
   damageOn: 15
 --- !u!114 &5085703287445411477
 MonoBehaviour:
@@ -49,20 +50,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 200
+  maxCapacity: 100
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  reagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+      m_values:
+      - 100
   itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents:
-  - welding_fuel
-  Amounts:
-  - 200
-  TraitWhitelist: []
-  ReagentWhitelist:
-  - welding_fuel
-  TransferMode: 3
-  PossibleTransferAmounts: []
-  InitialTransferAmount: 100
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 0}
+  transferMode: 3
+  possibleTransferAmounts: []
+  transferAmount: 100
 --- !u!1 &7095945559787729905
 GameObject:
   m_ObjectHideFlags: 0

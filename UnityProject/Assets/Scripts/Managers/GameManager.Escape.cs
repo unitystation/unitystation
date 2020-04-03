@@ -29,8 +29,6 @@ public partial class GameManager
 		}
 	}
 
-
-
 	/// <summary>
 	/// Called after MatrixManager is initialized
 	/// </summary>
@@ -71,14 +69,22 @@ public partial class GameManager
 
 			if ( status == ShuttleStatus.DockedCentcom && beenToStation )
 			{
-				Logger.Log( "Shuttle arrived to Centcom, Round should end here", Category.Round );
+				Logger.Log("Shuttle arrived at Centcom", Category.Round);
+				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has docked at Centcomm! Round will restart in 1 minute.</color>", MatrixManager.MainStationMatrix);
+				StartCoroutine(WaitForRoundEnd());
+			}
+
+			IEnumerator WaitForRoundEnd()
+			{
+				Logger.Log("Shuttle docked to Centcom, Round will end in 1 minute", Category.Round);
+				yield return WaitFor.Seconds(1f);
 				EndRound();
 			}
 
 			if (status == ShuttleStatus.DockedStation)
 			{
 				beenToStation = true;
-				SoundManager.PlayNetworked( "Disembark" );
+				SoundManager.PlayNetworked("ShuttleDocked");
 				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has arrived! Crew has 1 minute to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
 				StartCoroutine( SendEscapeShuttle( 60 ) );
@@ -104,16 +110,16 @@ public partial class GameManager
 	private IEnumerator SendEscapeShuttle( int seconds )
 	{
 		//departure countdown
-		for ( int i = seconds - 1; i >= 0; i-- )
+		for ( int i = seconds; i >= 0; i-- )
 		{
-			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Departing in\n") );
+			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Depart\nETA: ") );
 			yield return WaitFor.Seconds(1);
 		}
 
 		PrimaryEscapeShuttle.SendShuttle();
 
 		//centcom round end countdown
-		int timeToCentcom = (seconds * 2);
+		int timeToCentcom = (seconds * 2 - 2);
 		for ( int i = timeToCentcom - 1; i >= 0; i-- )
 		{
 			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );

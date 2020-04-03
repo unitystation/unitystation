@@ -18,7 +18,7 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	[SerializeField]
 	[Range(1,50)]
-	private int reagentsPerUse = 5;
+	private int reagentsPerUse = 1;
 
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
@@ -96,7 +96,6 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 		Effect.PlayParticleDirectional( this.gameObject, interaction.TargetVector );
 
 		SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1, sourceObj: interaction.Performer);
-		reagentContainer.TakeReagents(reagentsPerUse);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}
@@ -138,9 +137,7 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	void ExtinguishTile(Vector3Int worldPos)
 	{
-		//it actually uses remaining contents to react with world
-		//instead of the sprayed ones. not sure if this is right
-		MatrixManager.ReagentReact(reagentContainer.Contents, worldPos);
+		reagentContainer.Spill(worldPos, reagentsPerUse);
 	}
 
 	public void SyncSprite(int oldValue, int value)

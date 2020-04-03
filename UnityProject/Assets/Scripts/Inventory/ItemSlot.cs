@@ -441,7 +441,8 @@ public class ItemSlot
 	/// <param name="storageToFree"></param>
 	public static void Free(ItemStorage storageToFree)
 	{
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.Instance != null && 
+		    CustomNetworkManager.Instance._isServer)
 		{
 			//destroy all items in the slots
 			foreach (var slot in storageToFree.GetItemSlots())

@@ -55,13 +55,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GhostSpritese:
-    Texture: {fileID: 2800000, guid: 0ebde3cef52c7dc4782830d329fe107b, type: 3}
+    Texture: {fileID: 2800000, guid: e8e3c8ab1b638f444a23fdb839a9dc00, type: 3}
     Sprites:
-    - {fileID: 21300000, guid: 0ebde3cef52c7dc4782830d329fe107b, type: 3}
-    - {fileID: 21300002, guid: 0ebde3cef52c7dc4782830d329fe107b, type: 3}
-    - {fileID: 21300004, guid: 0ebde3cef52c7dc4782830d329fe107b, type: 3}
-    - {fileID: 21300006, guid: 0ebde3cef52c7dc4782830d329fe107b, type: 3}
-    EquippedData: {fileID: 4900000, guid: d3474b596dfd2a1439b422b6ca9a3874, type: 3}
+    - {fileID: 21300000, guid: e8e3c8ab1b638f444a23fdb839a9dc00, type: 3}
+    - {fileID: 21300002, guid: e8e3c8ab1b638f444a23fdb839a9dc00, type: 3}
+    - {fileID: 21300004, guid: e8e3c8ab1b638f444a23fdb839a9dc00, type: 3}
+    - {fileID: 21300006, guid: e8e3c8ab1b638f444a23fdb839a9dc00, type: 3}
+    EquippedData: {fileID: 4900000, guid: b8d1bf7750f747d4fb2da8ca1577d09d, type: 3}
 --- !u!114 &5316147545403001103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +80,8 @@ MonoBehaviour:
     username: 
     Name: Cuban Pete
     Gender: 0
+    Clothing: 0
+    Backpack: 0
     Age: 22
     hairStyleOffset: -1
     hairStyleName: Bald
@@ -104,6 +106,7 @@ MonoBehaviour:
     rightArmSpriteIndex: 4
     leftArmSpriteIndex: 8
   playerName: ' '
+  visibleName: ' '
 --- !u!114 &3553771700973194240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  chatBubbleTarget: {fileID: 0}
 --- !u!114 &3920682320074774566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +153,10 @@ MonoBehaviour:
   syncInterval: 0.1
   diagonalMovement: 1
   allowInput: 1
+  actionData: {fileID: 0}
   moveList: 05000000060000000700000008000000
   pna: {fileID: 0}
+  InitialRunSpeed: 6
   RunSpeed: 10
   WalkSpeed: 10
   CrawlSpeed: 0.8
@@ -224,7 +230,7 @@ SpriteRenderer:
   m_SortingLayerID: 1066465801
   m_SortingLayer: 22
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0ebde3cef52c7dc4782830d329fe107b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ae37b6cf125c88479ab9b036de9fa13, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -251,6 +257,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 0
+  DisableSyncing: 0
 --- !u!114 &1105258743114886135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
+  ignoreExtraRotation: []
 --- !u!114 &114960620051331706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,10 +284,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &8224268276445300722
 MonoBehaviour:
   m_ObjectHideFlags: 0

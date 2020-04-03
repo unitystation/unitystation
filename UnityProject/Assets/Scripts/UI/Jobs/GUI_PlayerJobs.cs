@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -135,10 +134,8 @@ public class GUI_PlayerJobs : MonoBehaviour
 			// This line was added for unit testing - but now it's only rewrite occupations meta
 			//occupation.name = jobType.ToString();
 
-			var color = occupation.ChoiceColor;
-
-			occupationGO.GetComponent<Image>().color = color;
-			occupationGO.GetComponentInChildren<Text>().text = occupation.DisplayName + " (" + active + " of " + available + ")";
+			occupationGO.GetComponent<Image>().color = occupation.ChoiceColor;
+			occupationGO.GetComponentInChildren<TextMeshProUGUI>().text = occupation.DisplayName + " (" + active + " of " + available + ")";
 			occupationGO.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
 			// Disabled button for full jobs
@@ -171,7 +168,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 	{
 		GameObject occupationGO = Instantiate(buttonPrefab, footer.transform);
 		occupationGO.GetComponent<Image>().color = Color.white;
-		occupationGO.GetComponentInChildren<Text>().text = "Spectate";
+		occupationGO.GetComponentInChildren<TextMeshProUGUI>().text = "Spectate";
 		occupationGO.transform.localScale = new Vector3(1.0f, 1f, 1.0f);
 		occupationGO.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.CmdSpectacte(); });
 
