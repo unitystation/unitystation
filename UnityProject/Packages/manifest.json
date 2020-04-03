@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.analytics": "3.3.5",
@@ -48,5 +49,11 @@
   },
   "testables": [
     "com.unity.test-framework.performance"
-  ]
+  ],
+  "lock": {
+    "com.dbrizov.naughtyattributes": {
+      "hash": "b46e9e8fde10448accd59ecabd09fbe296ef62f7",
+      "revision": "upm"
+    }
+  }
 }
