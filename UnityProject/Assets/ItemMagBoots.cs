@@ -30,6 +30,8 @@ public class ItemMagBoots : NetworkBehaviour,
 	[SerializeField]
 	private float newSpeed = 4.5f;
 
+	private float oldSpeed;
+
 	[SerializeField]
 	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
@@ -46,7 +48,6 @@ public class ItemMagBoots : NetworkBehaviour,
 	{
 		if(player == null )
 		{
-			Debug.Log("Player == null");
 			return;
 		}
 		if (isOn)
@@ -112,7 +113,7 @@ public class ItemMagBoots : NetworkBehaviour,
 		{
 			if (isOn)
 			{
-				ClientChangeSpeed();
+				ClientChangeSpeed(6);//old
 			}
 			UIActionManager.Toggle(this, false);
 		}
@@ -125,43 +126,34 @@ public class ItemMagBoots : NetworkBehaviour,
 		//if player has it on his feet
 		if (hand.GetActiveItemInSlot(NamedSlot.feet) != null && hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject)
 		{
-			ClientChangeSpeed();
+			if (!isOn)
+			{
+				ClientChangeSpeed(newSpeed);//newspeed
+			}
+			else
+			{
+				ClientChangeSpeed(6);//old
+			}
 		}
 	}
 
-	private void ClientChangeSpeed()
+	private void ClientChangeSpeed(float speed)
 	{
 		PlayerMove playerMove = PlayerManager.LocalPlayerScript.playerMove;
-		if (!isOn)
-		{
+		PlayerSync playerSync = playerMove.GetComponent<PlayerSync>();
 
 
-			playerMove.InitialRunSpeed = newSpeed;
-			playerMove.RunSpeed = newSpeed;
+		playerMove.InitialRunSpeed = speed;
+		playerMove.RunSpeed = speed;
 
-			//Do not change current speed if player is walking
-			//but change speed when he toggles run
-			if (playerMove.GetComponent<PlayerSync>().SpeedServer < newSpeed)
-			{
-				return;
-			}
-
-			playerMove.GetComponent<PlayerSync>().SpeedClient = newSpeed;
+		//Do not change current speed if player is walking
+		//but change speed when he toggles run
+		if (playerSync.SpeedServer < speed)
+		{ return;
 		}
-		else
-		{
-			playerMove.InitialRunSpeed = 6;
-			playerMove.RunSpeed = 6;
 
-			//Do not change current speed if player is walking
-			//but change speed when he toggles run
-			if (playerMove.GetComponent<PlayerSync>().SpeedServer < 6)
-			{
-				return;
-			}
+		playerSync.SpeedClient = speed;
 
-			playerMove.GetComponent<PlayerSync>().SpeedClient = 6;
-		}
 	}
 	public void CallActionServer(ConnectedPlayer SentByPlayer)
 	{
