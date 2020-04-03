@@ -666,6 +666,7 @@ GameObject:
   - component: {fileID: 3348285834374005981}
   - component: {fileID: 7106149064385931371}
   - component: {fileID: 2298940309693936288}
+  - component: {fileID: 5787897650670296218}
   m_Layer: 11
   m_Name: WorldGateway
   m_TagString: Untagged
@@ -890,6 +891,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc88837ef1b39e444a4b1d28d79ed7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   SpriteBaseTop: {fileID: 9179395053284328901}
   SpriteBaseBottom: {fileID: 2686865071572127923}
   SpriteBaseCentre: {fileID: 8782174392070045440}
@@ -930,6 +933,23 @@ MonoBehaviour:
   - {fileID: 21300014, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
   - {fileID: 21300000, guid: f816a89e22885a248b686ca3b47a29af, type: 3}
   StationGateway: {fileID: 0}
+  IsOnlineAtStart: 0
+  WorldName: Unknown
+--- !u!114 &5787897650670296218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9af92f13e8593498129314ec6e0607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MobSpawners: []
 --- !u!1 &9115553880125540775
 GameObject:
   m_ObjectHideFlags: 0

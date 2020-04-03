@@ -70,6 +70,12 @@ public class WorldGateway : NetworkBehaviour
 		if (IsOnlineAtStart == true && StationGateway != null)
 		{
 			SetOnline();
+
+			if (GetComponent<MobSpawnControlScript>() != null)
+			{
+				GetComponent<MobSpawnControlScript>().SpawnMobs();
+			}
+
 			loop();
 		}
 	}
@@ -80,6 +86,12 @@ public class WorldGateway : NetworkBehaviour
 		if (IsOnlineAtStart && StationGateway != null)
 		{
 			SetOnline();
+
+			if (GetComponent<MobSpawnControlScript>() != null)
+			{
+				GetComponent<MobSpawnControlScript>().SpawnMobs();
+			}
+
 			loop();
 		}
 	}
