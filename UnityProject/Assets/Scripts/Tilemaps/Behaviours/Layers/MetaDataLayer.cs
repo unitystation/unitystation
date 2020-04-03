@@ -109,7 +109,7 @@ public class MetaDataLayer : MonoBehaviour
 				continue;
 			}
 
-			switch (reagent.Key.Name)
+			switch (reagent.Key.name)
 			{
 				case "Water":
 				{
@@ -130,7 +130,7 @@ public class MetaDataLayer : MonoBehaviour
 					//temporary: converting spilled fuel to plasma
 					Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
 					break;
-				case "Lube":
+				case "SpaceLube":
 				{
 					//( ͡° ͜ʖ ͡°)
 					if (!Get(localPosInt).IsSlippery)
