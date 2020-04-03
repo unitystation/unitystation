@@ -13,8 +13,6 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 	public Current CurrentSource = new Current();
 
-	public ElectricalDirections NetworkMap = new ElectricalDirections();
-
 	public virtual void BroadcastSetUpMessage(ElectricalNodeControl Node)
 	{
 		RequiresUpdateOn = new HashSet<ElectricalUpdateTypeCategory>
@@ -59,7 +57,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	}
 
 	[RightClickMethod]
-	public void FlushSupplyAndUp() { 
+	public void FlushSupplyAndUp() {
 		ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
 	}
 
