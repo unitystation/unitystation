@@ -10,7 +10,6 @@ public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
     public SpeechModifierSO Elvis;
     public SpeechModifierSO French;
     public SpeechModifierSO Italian;
-    public SpeechModifierSO Smile;
     public SpeechModifierSO Spurdo;
     public SpeechModifierSO Swedish;
     public SpeechModifierSO UwU;
@@ -44,11 +43,6 @@ public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
             message = Italian.ProcessMessage(message);
         }
 
-		if ((modifiers & ChatModifier.Smile) == ChatModifier.Smile)
-        {
-            message = Smile.ProcessMessage(message);
-        }
-
 		if ((modifiers & ChatModifier.Swedish) == ChatModifier.Swedish)
         {
             message = Swedish.ProcessMessage(message);
@@ -73,8 +67,3 @@ public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
     }
 }
 
-[Serializable]
-public abstract class CustomSpeechModifier : ScriptableObject
-{
-    public abstract string ProcessMessage(string message);
-}

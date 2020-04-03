@@ -6,125 +6,101 @@ using System.Text.RegularExpressions;
 [CreateAssetMenu(fileName = "SpeechModifierSO", menuName = "ScriptableObjects/SpeechModifiers/SpeechModifierSO")]
 public class SpeechModifierSO : ScriptableObject
 {
-    [Header("Replacements")]
-    [Tooltip("Activate the replacement behavior for this speech modifier.")]
-    public bool activateReplacements = true;
-    [Tooltip("Strict replacement. Will only replace word or words isolated by spaces.")]
-    [ConditionalField(nameof(activateReplacements), true)] public List<WordReplacement> WordReplaceList = new List<WordReplacement>();
-    [Tooltip("Lazy replacement. Will replace anything you put here, doesn't matter if isolated or in the middle of a word")]
-    [ConditionalField(nameof(activateReplacements), true)] public List<LetterReplacement> LetterReplaceList = new List<LetterReplacement>();
+	[Header("Replacements")]
+	[Tooltip("Activate the replacement behavior for this speech modifier.")]
+	public bool activateReplacements = true;
+	[Tooltip("Strict replacement. Will only replace word or words isolated by spaces.")]
+	[ConditionalField(nameof(activateReplacements), true)] public List<StringListOfStrings> WordReplaceList = new List<StringListOfStrings>();
+	[Tooltip("Lazy replacement. Will replace anything you put here, doesn't matter if isolated or in the middle of a word")]
+	[ConditionalField(nameof(activateReplacements), true)] public List<StringListOfStrings> LetterReplaceList = new List<StringListOfStrings>();
 
-    [Header("Additions")]
-    [Tooltip("Activate the addition of text to ending or begining of message.")]
-    public bool activateAdditions;
-    [Tooltip("Chances of this happening in %.")]
-    [Range(0,100)][ConditionalField(nameof(activateAdditions), true)]public int probability;
-    [ConditionalField(nameof(activateAdditions), true)] public List<string> Beginning = new List<string>();
-    [ConditionalField(nameof(activateAdditions), true)] public List<string> Ending = new List<string>();
-    
-    [Header("Special")]
-    [Tooltip("Currently unused!")]
-    public bool unintelligible;
-    [Tooltip("If assigned, text will be processed by this class instead. Remember to implement a ProcessMessage method with a string message as argument!")]
-    public CustomSpeechModifier customCode = null;
+	[Header("Additions")]
+	[Tooltip("Activate the addition of text to ending or begining of message.")]
+	public bool activateAdditions;
+	[Tooltip("Chances of this happening in %.")]
+	[Range(0,100)][ConditionalField(nameof(activateAdditions), true)]public int probability;
+	[ConditionalField(nameof(activateAdditions), true)] public List<string> Beginning = new List<string>();
+	[ConditionalField(nameof(activateAdditions), true)] public List<string> Ending = new List<string>();
+	
+	[Header("Special")]
+	[Tooltip("If assigned, text will be processed by this class instead. Remember to implement a ProcessMessage method with a string message as argument!")]
+	public CustomSpeechModifier customCode = null;
 
-    private Dictionary<string, List<string>> wordlist = new Dictionary<string, List<string>>();
-    private Dictionary<string, List<string>> letterlist = new Dictionary<string, List<string>>();
-
-
-    void Init()
+	string Replace (string message)
 	{
-        if (activateReplacements)
-        {
-            foreach (WordReplacement word in WordReplaceList)
-            {
-                if(!wordlist.ContainsKey(word.original))
-                {
-                    wordlist.Add(word.original, word.replaceWith);
-                }
-            }
+		if (WordReplaceList.Count != 0)
+		{
+			foreach (var word in WordReplaceList)
+			{
+				message = Regex.Replace(
+					message, 
+					@"\b(" + word.original + @")\b", 
+					m => WasYelling(m.Groups[1].Value) ? word.replaceWith.PickRandom().ToUpper() : word.replaceWith.PickRandom(),
+					RegexOptions.IgnoreCase);
+			}
+		}
 
-            foreach (LetterReplacement letter in LetterReplaceList)
-            {
-                if(!letterlist.ContainsKey(letter.original))
-                {
-                    letterlist.Add(letter.original, letter.replaceWith);
-                }
-            }
-        }
+		if (LetterReplaceList.Count != 0)
+		{
+			foreach (var word in LetterReplaceList)
+			{
+				message = Regex.Replace(
+					message, 
+					"(" + word.original + ")", 
+					m => WasYelling(m.Groups[1].Value) ? word.replaceWith.PickRandom().ToUpper() : word.replaceWith.PickRandom(),
+					RegexOptions.IgnoreCase);
+			}
+		}
+		
+		return message;
 	}
-    
-    string Replace(string message)
-    {
-        if(wordlist.Count != 0)
-        {
-            foreach (var kvp in wordlist)
-            {
-                Regex r = new Regex(@"\b" + kvp.Key + @"\b", RegexOptions.IgnoreCase);
-                message = r.Replace(message, WasYelling(message) ? kvp.Value.PickRandom().ToUpper(): kvp.Value.PickRandom());
-            };
-        }
 
-        if(letterlist.Count != 0)
-        {
-            foreach (var kvp in letterlist)
-            {
-                Regex r = new Regex(kvp.Key, RegexOptions.IgnoreCase);
-                message = r.Replace(message, WasYelling(message) ? kvp.Value.PickRandom().ToUpper(): kvp.Value.PickRandom());
-            }
-        }
-
-        return message;
-    }
-
-    string AddText(string message)
-    {
-       if (DMMath.Prob(probability))
-       {
-           if (Beginning.Count != 0)
-           {
-               message = $"{Beginning.PickRandom()} {message}";
-           }
-
-           if (Ending.Count != 0)
-           {
-               message = $"{message} {Ending.PickRandom()}";
-           }
-       }
-        
-        return message;
-    }
-
-    bool WasYelling(string message)
-    {
-        if(message == message.ToUpper()) return true;
-
-        return false;
-    }
-
-    public string ProcessMessage(string message)
+	string AddText(string message)
 	{
-        if (customCode != null) return customCode.ProcessMessage(message);
-        Init();
+	   if (DMMath.Prob(probability))
+	   {
+		   if (Beginning.Count != 0)
+		   {
+			   message = $"{Beginning.PickRandom()} {message}";
+		   }
 
-        if (activateReplacements) message = Replace(message);
+		   if (Ending.Count != 0)
+		   {
+			   message = $"{message} {Ending.PickRandom()}";
+		   }
+	   }
+		
+		return message;
+	}
 
-        if (activateAdditions) message = AddText(message);
+	bool WasYelling(string message)
+	{
+		if(message == message.ToUpper()) return true;
+
+		return false;
+	}
+
+	public string ProcessMessage(string message)
+	{
+		if (customCode != null) return customCode.ProcessMessage(message);
+
+		if (activateReplacements) message = Replace(message);
+
+		if (activateAdditions) message = AddText(message);
 
 		return message;
 	}
 }
 
 [Serializable]
-public class WordReplacement
+public class StringListOfStrings
 {
-    public string original;
-    public List<String> replaceWith;
+	public string original;
+	public List<String> replaceWith;
 }
 
 [Serializable]
-public class LetterReplacement
+public abstract class CustomSpeechModifier : ScriptableObject
 {
-    public string original;
-    public List<String> replaceWith;
+    public abstract string ProcessMessage(string message);
 }
