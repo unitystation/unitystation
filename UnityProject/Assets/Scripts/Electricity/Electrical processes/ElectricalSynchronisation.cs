@@ -140,9 +140,6 @@ public static class ElectricalSynchronisation
 	//public static ElectronicSupplyData InputSupplyingUsingData;
 	//public static ElectronicSupplyData OutputSupplyingUsingData;
 
-
-	public static List<ElectricalDirectionStep> PooledSteps = new List<ElectricalDirectionStep>();
-
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
