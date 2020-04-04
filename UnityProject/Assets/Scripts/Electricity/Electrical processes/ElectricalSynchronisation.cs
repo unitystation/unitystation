@@ -1,18 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Win32;
 using UnityEngine.Profiling;
-using UnityEngine;
 using System.Threading;
-using Atmospherics;
-using Tilemaps.Behaviours.Meta;
 using System.Diagnostics;
-using System;
-
+using System.Linq;
 #if UNITY_EDITOR
 using Unity.Profiling;
-using System.Linq;
-
 #endif
 
 public class ElectricalSynchronisationStorage
@@ -23,7 +15,6 @@ public class ElectricalSynchronisationStorage
 
 public static class ElectricalSynchronisation
 {
-
 	private static bool running;
 
 	public static bool MainThreadProcess = false;
@@ -69,23 +60,21 @@ public static class ElectricalSynchronisation
 
 	private static void Run()
 	{
-		Profiler.BeginThreadProfiling("Unitystation", "Electronics");
+		//Profiler.BeginThreadProfiling("Unitystation", "Electronics");
 		while (running)
 		{
-
-			sampler.Begin();
+		//	sampler.Begin();
 			StopWatch.Restart();
 			RunStep();
 			StopWatch.Stop();
-			sampler.End();
+		//	sampler.End();
 			if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)
 			{
 				Thread.Sleep(MillieSecondDelay - (int)StopWatch.ElapsedMilliseconds);
 			}
 		}
-		Profiler.EndThreadProfiling();
+		//Profiler.EndThreadProfiling();
 	}
-
 
 	//What keeps electrical Ticking
 	//so this is correlated to what has changed on the network, Needs to be optimised so (when one resistant source changes only that one updates its values currently the entire network updates their values)
@@ -135,11 +124,6 @@ public static class ElectricalSynchronisation
 
 	public static bool UesAlternativeResistanceWorkOnNextList;
 
-
-	//public static KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> OneJump;
-	//public static ElectronicSupplyData InputSupplyingUsingData;
-	//public static ElectronicSupplyData OutputSupplyingUsingData;
-
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
@@ -152,7 +136,6 @@ public static class ElectricalSynchronisation
 		PowerTypeCategory.SolarPanel,
 		PowerTypeCategory.RadiationCollector,
 		PowerTypeCategory.PowerGenerator,//make sure unconditional supplies come first
-
 
 		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
 		PowerTypeCategory.SolarPanelController,
@@ -193,10 +176,8 @@ public static class ElectricalSynchronisation
 		public PowerTypeCategory category;
 	};
 
-
 #if UNITY_EDITOR
 	public const string updateName = nameof(ElectricalSynchronisation) + "." + nameof(DoUpdate);
-	//	private static ProfilerMarker update = new ProfilerMarker(updateName);
 
 	public static readonly string[] markerNames = new[]
 	{
@@ -248,7 +229,6 @@ public static class ElectricalSynchronisation
 		SupplyToadd.Add(Adding);
 	}
 
-
 	private static void InternalAddSupply(QueueAddSupply Adding)
 	{
 		if (!(AliveSupplies.ContainsKey(Adding.category)))
@@ -258,7 +238,6 @@ public static class ElectricalSynchronisation
 		AliveSupplies[Adding.category].Add(Adding.supply);
 		TotalSupplies.Add(Adding.supply);
 	}
-
 
 	public static void RemoveSupply(ElectricalNodeControl Supply, PowerTypeCategory category)
 	{
@@ -270,10 +249,6 @@ public static class ElectricalSynchronisation
 
 	public static void DoUpdate(bool Thread = true)
 	{
-		//The beating heart
-#if UNITY_EDITOR
-		//		update.Begin();
-#endif
 		if (!Initialise)
 		{
 			foreach (var category in OrderList)
@@ -287,28 +262,12 @@ public static class ElectricalSynchronisation
 		}
 		currentTick = ++currentTick % Steps;
 		DoTick(Thread);
-		//if (tickRate == 0)
-		//{
-		//	tickRate = tickRateComplete / Steps;
-		//}
-
-		//tickCount += Time.deltaTime;
-
-		//if (tickCount > tickRate)
-		//{
-		//	;
-		//	tickCount = 0f;
-		//	currentTick = ++currentTick % Steps;
-		//}
-#if UNITY_EDITOR
-		//		update.End();
-#endif
 	}
 
 	private static void DoTick(bool Thread = true)
 	{
 #if UNITY_EDITOR
-		using (markers[currentTick].Auto())
+	//	using (markers[currentTick].Auto())
 #endif
 			switch (currentTick)
 			{
@@ -538,11 +497,9 @@ public static class ElectricalSynchronisation
 	{
 		lock (Electriclock)
 		{
-			//Logger.Log("MainThreadProcess Allowed");
 			MainThreadProcess = true;
 			Monitor.Wait(Electriclock);
 		}
-		//Logger.Log("Thread process to continue");
 	}
 
 
