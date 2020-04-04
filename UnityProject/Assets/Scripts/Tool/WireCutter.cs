@@ -27,7 +27,11 @@ public class WireCutter : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		if (MetaDataNode.ElectricalData.Count > 0) {
 			//matrix
 			Logger.Log(MetaDataNode.ElectricalData[0].InData.Categorytype.ToString());
-			matrix.RemoveUnderFloorTile(MetaDataNode.ElectricalData[0].NodeLocation, MetaDataNode.ElectricalData[0].RelatedTile);
+			Spawn.ServerPrefab(MetaDataNode.ElectricalData[0].RelatedTile.SpawnOnDeconstruct, interaction.WorldPositionTarget ,
+				count : MetaDataNode.ElectricalData[0].RelatedTile.SpawnAmountOnDeconstruct);
+			matrix.RemoveUnderFloorTile(MetaDataNode.ElectricalData[0].NodeLocation,
+				MetaDataNode.ElectricalData[0].RelatedTile);
+
 			MetaDataNode.ElectricalData[0].InData.DestroyThisPlease();
 		}
 		Logger.Log("end");
