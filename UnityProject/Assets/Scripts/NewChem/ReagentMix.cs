@@ -38,8 +38,38 @@ namespace Chemistry
 					avgColor += colorStep;
 				}
 
-
 				return avgColor;
+			}
+		}
+
+		/// <summary>
+		/// Average state of all reagents in mix
+		/// </summary>
+		public ReagentState MixState
+		{
+			get
+			{
+				// Fallback for empty mix
+				if (reagents.Count == 0)
+					return ReagentState.Solid;
+
+				// Just shortcut to avoid all calculations bellow
+				if (reagents.Count == 1)
+					return reagents.First().Key.state;
+
+				// First group all reagents by their state
+				var groupedByState = reagents.GroupBy(x => x.Key.state);
+
+				// Next - get sum for each state
+				var volumeByState = groupedByState.Select((group) =>
+				{
+					return new KeyValuePair<ReagentState, float>
+					(group.Key, group.Sum(r => r.Value));
+				});
+
+				// Now get state with the biggest sum
+				var mostState = volumeByState.OrderBy(group => group.Value).First();
+				return mostState.Key;
 			}
 		}
 
