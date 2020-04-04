@@ -37,32 +37,89 @@ public class WorldGateway : NetworkBehaviour
 
 	private string Message;
 
+	private float timeElapsedServer = 0;
+	private float timeElapsedClient = 0;
+	public float DetectionTime = 1;
+
+	[SyncVar(hook = nameof(SyncState))]
+	private bool isOn = false;
+
+	private void SyncState(bool oldVar, bool newVar)
+	{
+		isOn = newVar;
+		//do your thing
+		//all clients will be updated with this
+	}
+
 	[Server]
+	public void ServerChangeState(bool newVar)
+	{
+		isOn = newVar;
+	}
+
+	protected virtual void UpdateMe()
+	{
+		if (isServer)
+		{
+			timeElapsedServer += Time.deltaTime;
+			if (timeElapsedServer > DetectionTime && isOn == true)
+			{
+				DetectPlayer();
+				timeElapsedServer = 0;
+			}
+		}
+		else if (isClient)
+		{
+			timeElapsedClient += Time.deltaTime;
+			if (timeElapsedClient > 1)
+			{
+				if (isOn == true)
+				{
+					SetOnline();
+				}
+				else if (isOn == false)
+				{
+					SetOffline();
+				}
+				timeElapsedClient = 0;
+			}
+		}
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+	void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void Start()
 	{
 		if (StationGateway == null) return;
 
-		registerTile = GetComponent<RegisterTile>();
+		
 		SetOffline();
+
+		if (!isServer) return;
+
+		ServerChangeState(false);
+
+		registerTile = GetComponent<RegisterTile>();
 
 		Position = registerTile.WorldPosition;
 		Message = "Teleporting to: " + StationGateway.GetComponent<StationGateway>().WorldName;
 
-		if (IsOnlineAtStart == false)
-		{
-			gameObject.SetActive(false);
-		}
-
 		if (IsOnlineAtStart == true && StationGateway != null)
 		{
 			SetOnline();
+			ServerChangeState(true);
 
 			if (GetComponent<MobSpawnControlScript>() != null)
 			{
 				GetComponent<MobSpawnControlScript>().SpawnMobs();
 			}
-
-			GateDetectPlayerLoop();
 		}
 	}
 
@@ -72,21 +129,13 @@ public class WorldGateway : NetworkBehaviour
 		if (IsOnlineAtStart && StationGateway != null)
 		{
 			SetOnline();
+			ServerChangeState(true);
 
 			if (GetComponent<MobSpawnControlScript>() != null)
 			{
 				GetComponent<MobSpawnControlScript>().SpawnMobs();
 			}
-
-			GateDetectPlayerLoop();
 		}
-	}
-
-	[Server]
-	private void GateDetectPlayerLoop()
-	{
-		DetectPlayer();
-		Invoke(nameof(GateDetectPlayerLoop), 2f);
 	}
 
 	[Server]
