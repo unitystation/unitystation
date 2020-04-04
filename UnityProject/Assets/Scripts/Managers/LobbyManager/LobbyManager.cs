@@ -29,14 +29,10 @@ namespace Lobby
 		{
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
-		}
-
-		private void OnEnable()
-		{
 			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
 			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
 		}
-
+		
 		private void OnDisable()
 		{
 			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
