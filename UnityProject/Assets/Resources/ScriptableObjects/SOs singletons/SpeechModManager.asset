@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0156d8db4924140478af5c6f2b3717a7, type: 3}
   m_Name: SpeechModManager
   m_EditorClassIdentifier: 
-  Canadian: {fileID: 11400000, guid: fa48eb89071b44a459987415e8ac6a22, type: 2}
-  Chav: {fileID: 11400000, guid: 7bed9bfe535749a4bb476f7fecda4afa, type: 2}
-  Elvis: {fileID: 11400000, guid: 2814685f55206b54a823b06c358994d9, type: 2}
-  French: {fileID: 11400000, guid: 39d2405e276192e42b540942d0d19755, type: 2}
-  Italian: {fileID: 11400000, guid: 27691f8d9c3f459479647fb47b6c15fa, type: 2}
-  Smile: {fileID: 11400000, guid: e02d8372196a4674790a32c2712e4303, type: 2}
-  Spurdo: {fileID: 11400000, guid: be2f08d3690f8404db4f070fe6888264, type: 2}
-  Swedish: {fileID: 11400000, guid: 2205cdc95f2d1084f987501f370dbbfc, type: 2}
-  UwU: {fileID: 11400000, guid: 2fd85d35ebd72a54789a88a12f3a90be, type: 2}
-  Stutter: {fileID: 11400000, guid: 388d9d925a84d0e49b2866826d1b3926, type: 2}
+  speechModifier:
+    m_keys: 02000000000800000010000000200000004000000080000000000100000002000000040000000800
+    m_values:
+    - {fileID: 11400000, guid: fa3adcd3d8a530f44acd8e18df0319bb, type: 2}
+    - {fileID: 11400000, guid: 348e419ebc24a4b4eafdc8239b8aaedb, type: 2}
+    - {fileID: 11400000, guid: a99002d2ef9293d43a41283f91f71199, type: 2}
+    - {fileID: 11400000, guid: 60a6f33182bd83343b17794f745c7ac6, type: 2}
+    - {fileID: 11400000, guid: 8f3444491c62b1e4a93cd28dec1c22d4, type: 2}
+    - {fileID: 11400000, guid: 06fc8de40c23ff945865f8fea586909b, type: 2}
+    - {fileID: 11400000, guid: 48d7ba70c73ba954984d75ab0e557438, type: 2}
+    - {fileID: 11400000, guid: 18a108c97bf441649b7d4b481da28a41, type: 2}
+    - {fileID: 11400000, guid: 5f1f25fc948873c489956b632eca6761, type: 2}
+    - {fileID: 11400000, guid: f603376b5f34e6a4d89708b726eda479, type: 2}

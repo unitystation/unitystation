@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 
-[CreateAssetMenu(fileName = "SpeechModifierSO", menuName = "ScriptableObjects/SpeechModifiers/SpeechModifierSO")]
-public class SpeechModifierSO : ScriptableObject
+[CreateAssetMenu(fileName = "SpeechModifier", menuName = "ScriptableObjects/SpeechModifiers/SpeechModifier")]
+
+public class SpeechModifier : ScriptableObject
 {
 	[Header("Replacements")]
 	[Tooltip("Activate the replacement behavior for this speech modifier.")]

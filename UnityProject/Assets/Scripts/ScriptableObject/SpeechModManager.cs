@@ -21,4 +21,4 @@ public class SpeechModManager: SingletonScriptableObject<SpeechModManager>
 }
 
 [Serializable]
-public class SpeechModDict : SerializableDictionary<ChatModifier, SpeechModifierSO>{}
+public class SpeechModDict : SerializableDictionary<ChatModifier, SpeechModifier>{}

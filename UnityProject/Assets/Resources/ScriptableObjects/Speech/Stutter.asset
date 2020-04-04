@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: c302747b295f59d429cc78a122bcb51d, type: 3}
   m_Name: Stutter
-  m_EditorClassIdentifier: Assets::SpeechModifierSO
+  m_EditorClassIdentifier: 
   activateReplacements: 1
   WordReplaceList: []
   LetterReplaceList: []
@@ -19,5 +19,4 @@ MonoBehaviour:
   probability: 0
   Beginning: []
   Ending: []
-  unintelligible: 0
   customCode: {fileID: 11400000, guid: 93867d31090779545a9a7e56a641c611, type: 2}
