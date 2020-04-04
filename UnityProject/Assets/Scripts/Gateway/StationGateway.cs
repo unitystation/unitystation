@@ -12,6 +12,10 @@ public class StationGateway : NetworkBehaviour
 	private SpriteRenderer[] Sprites;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 	//TODO animate centre
+	[SerializeField]
+	private SpriteRenderer Centre;
+
+	private int Count = 0;
 
 	[SerializeField]
 	private Sprite[] Online;
@@ -189,6 +193,14 @@ public class StationGateway : NetworkBehaviour
 		{
 			Sprites[i].sprite = Online[i];
 		}
+
+		Centre.sprite = Online[Count + 8];
+		Count += 1;
+
+		if (Count > 2)
+		{
+			Count = 0;
+		}
 	}
 
 	public virtual void SetOffline()
@@ -196,6 +208,14 @@ public class StationGateway : NetworkBehaviour
 		for (int i = 0; i < Sprites.Length; i++)
 		{
 			Sprites[i].sprite = Offline[i];
+		}
+
+		Centre.sprite = Offline[Count + 8];
+		Count += 1;
+
+		if (Count > 2)
+		{
+			Count = 0;
 		}
 	}
 
@@ -206,5 +226,4 @@ public class StationGateway : NetworkBehaviour
 			Sprites[i].sprite = PowerOff[i];
 		}
 	}
-
 }
