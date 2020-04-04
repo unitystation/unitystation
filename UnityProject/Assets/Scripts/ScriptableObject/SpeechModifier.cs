@@ -10,17 +10,17 @@ public class SpeechModifierSO : ScriptableObject
 	[Tooltip("Activate the replacement behavior for this speech modifier.")]
 	public bool activateReplacements = true;
 	[Tooltip("Strict replacement. Will only replace word or words isolated by spaces.")]
-	[ConditionalField(nameof(activateReplacements), true)] public List<StringListOfStrings> WordReplaceList = new List<StringListOfStrings>();
+ 	public List<StringListOfStrings> WordReplaceList = new List<StringListOfStrings>();
 	[Tooltip("Lazy replacement. Will replace anything you put here, doesn't matter if isolated or in the middle of a word")]
-	[ConditionalField(nameof(activateReplacements), true)] public List<StringListOfStrings> LetterReplaceList = new List<StringListOfStrings>();
+	public List<StringListOfStrings> LetterReplaceList = new List<StringListOfStrings>();
 
 	[Header("Additions")]
 	[Tooltip("Activate the addition of text to ending or begining of message.")]
 	public bool activateAdditions;
 	[Tooltip("Chances of this happening in %.")]
-	[Range(0,100)][ConditionalField(nameof(activateAdditions), true)]public int probability;
-	[ConditionalField(nameof(activateAdditions), true)] public List<string> Beginning = new List<string>();
-	[ConditionalField(nameof(activateAdditions), true)] public List<string> Ending = new List<string>();
+	[Range(0,100)]public int probability;
+	public List<string> Beginning = new List<string>();
+	public List<string> Ending = new List<string>();
 	
 	[Header("Special")]
 	[Tooltip("If assigned, text will be processed by this class instead. Remember to implement a ProcessMessage method with a string message as argument!")]
