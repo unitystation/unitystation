@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Syncs fill visualisation and color between all clients
+/// Syncs ReagentContainer visualisation (fill level and content color) between all clients
 /// </summary>
 [RequireComponent(typeof(ReagentContainer))]
 public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
@@ -33,10 +33,13 @@ public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 	private VisualState visualState;
 
 	private ReagentContainer serverContainer;
+	private Pickupable pickupable;
 
 	private void Awake()
 	{
+		pickupable = GetComponent<Pickupable>();
 		serverContainer = GetComponent<ReagentContainer>();
+
 		if (serverContainer)
 		{
 			serverContainer.OnReagentMixChanged.AddListener(ServerUpdateFillState);
@@ -72,6 +75,9 @@ public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 		// Apply new state to sprite render
 		fillSpriteRender.color = newState.mixColor;
 		fillSpriteRender.sprite = GetSpriteByFill(newState.fillPercent);
+
+		// Update UI sprite in inventory
+		pickupable?.RefreshUISlotImage();
 	}
 
 	private Sprite GetSpriteByFill(float fillPercent)
