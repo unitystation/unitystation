@@ -15,9 +15,9 @@ public class GodAI : MobAI
 	private bool soundplaying = false;
 
 	void Start()
-    {
+	{
 		PlaySound();
-    }
+	}
 
 	void PlaySound()
 	{
