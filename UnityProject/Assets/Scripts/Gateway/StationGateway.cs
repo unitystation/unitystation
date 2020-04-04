@@ -34,18 +34,18 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private int RandomCountEnd = 1200;
 
-	private RegisterTile registerTile;
+	public RegisterTile registerTile;
 
 	private Matrix Matrix => registerTile.Matrix;
 
 	public string WorldName = "The Station";
 
-	private Vector3Int Position;
+	public Vector3Int Position;
 
-	private string Message;
+	public string Message;
 
-	private float timeElapsedServer = 0;
-	private float timeElapsedClient = 0;
+	public float timeElapsedServer = 0;
+	public float timeElapsedClient = 0;
 	public float DetectionTime = 1;
 
 	[SyncVar(hook = nameof(SyncState))]
@@ -75,7 +75,7 @@ public class StationGateway : NetworkBehaviour
 				timeElapsedServer = 0;
 			}
 		}
-		else if (isClient)
+		else
 		{
 			timeElapsedClient += Time.deltaTime;
 			if (timeElapsedClient > 1)
@@ -84,7 +84,7 @@ public class StationGateway : NetworkBehaviour
 				{
 					SetOnline();
 				}
-				else if (isOn == false)
+				else
 				{
 					SetOffline();
 				}
@@ -112,12 +112,13 @@ public class StationGateway : NetworkBehaviour
 		Position = registerTile.WorldPosition;
 
 		ServerChangeState(false);
+		isOn = false;
 		var count = Random.Range(RandomCountBegining, RandomCountEnd);
 		Invoke(nameof(WorldSetup), count);
 	}
 
 	[Server]
-	private void WorldSetup()
+	public virtual void WorldSetup()
 	{
 		//Selects Random world
 		SelectedWorld = Worlds[Random.Range(0, Worlds.Count)];
@@ -128,16 +129,17 @@ public class StationGateway : NetworkBehaviour
 
 		Message = "Teleporting to: " + selectedWorld.WorldName;
 
-		if (selectedWorld.IsOnlineAtStart == false)
+		if (!selectedWorld.IsOnlineAtStart)
 		{
 			selectedWorld.IsOnlineAtStart = true;
 			selectedWorld.SetUp();
 		}
 
-		if (HasPower == true)
+		if (HasPower)
 		{
 			SetOnline();
 			ServerChangeState(true);
+			isOn = true;
 
 			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
@@ -145,7 +147,7 @@ public class StationGateway : NetworkBehaviour
 	}
 
 	[Server]
-	private void DetectPlayer()
+	public virtual void DetectPlayer()
 	{
 		//detect players positioned on the portal bit of the gateway
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
@@ -170,25 +172,25 @@ public class StationGateway : NetworkBehaviour
 	}
 
 	[Server]
-	private void TransportPlayers(ObjectBehaviour player)
+	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
 		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition, false);
+		player.GetComponent<PlayerSync>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	[Server]
-	private void TransportObjects(ObjectBehaviour objects)
+	public virtual void TransportObjects(ObjectBehaviour objects)
 	{
 		objects.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	[Server]
-	private void TransportItems(ObjectBehaviour items)
+	public virtual void TransportItems(ObjectBehaviour items)
 	{
 		items.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
-	private void SetOnline()
+	public virtual void SetOnline()
 	{
 		for (int i = 0; i < Sprites.Length; i++)
 		{
@@ -196,7 +198,7 @@ public class StationGateway : NetworkBehaviour
 		}
 	}
 
-	private void SetOffline()
+	public virtual void SetOffline()
 	{
 		for (int i = 0; i < Sprites.Length; i++)
 		{
@@ -204,7 +206,7 @@ public class StationGateway : NetworkBehaviour
 		}
 	}
 
-	private void SetPowerOff()
+	public virtual void SetPowerOff()
 	{
 		for (int i = 0; i < Sprites.Length; i++)
 		{
