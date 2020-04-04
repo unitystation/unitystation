@@ -80,7 +80,7 @@ public class ReagentContainerFillVisualisation : NetworkBehaviour, IServerSpawn
 			return null;
 
 		// check if container is empty
-		if (Mathf.Approximately(0f, fillPercent))
+		if (fillPercent <= 0f)
 			return null;
 
 		// Get the sprite index

@@ -724,12 +724,19 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 	public Color GetMixColor()
 	{
-		return Color.green;
+		return reagentMix.MixColor;
 	}
 
+	/// <summary>
+	/// Server only. Returns [0,1] fill percents
+	/// </summary>
+	/// <returns></returns>
 	public float GetFillPercent()
 	{
-		return 0.35f;
+		if (IsEmpty)
+			return 0f;
+
+		return Mathf.Clamp01(reagentMix.Total / maxCapacity);
 	}
 }
 

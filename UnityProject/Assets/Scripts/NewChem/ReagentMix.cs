@@ -19,6 +19,30 @@ namespace Chemistry
 			set => temperature = value;
 		}
 
+
+		/// <summary>
+		/// Average of all reagent colors in a mix 
+		/// </summary>
+		public Color MixColor
+		{
+			get
+			{
+				var avgColor = Color.black;
+				var totalAmount = Total;
+
+				foreach (var reag in reagents)
+				{
+					var percent = reag.Value / totalAmount;
+					var colorStep = percent * reag.Key.color;
+
+					avgColor += colorStep;
+				}
+
+
+				return avgColor;
+			}
+		}
+
 		public DictionaryReagentFloat reagents;
 
 		public ReagentMix(DictionaryReagentFloat reagents, float temperature = ZERO_CELSIUS_IN_KELVIN)
