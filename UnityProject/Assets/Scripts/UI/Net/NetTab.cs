@@ -22,6 +22,7 @@ public enum NetTabType {
 	Rename = 13,
 	NullRod = 14,
 	SeedExtractor = 15,
+	ExosuitFabricator = 16,
 	
 	//add your tabs here
 }
