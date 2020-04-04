@@ -43,12 +43,12 @@ SpriteRenderer:
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -60,16 +60,16 @@ SpriteRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 759710bacbc493b4c9f1976a08a3a73f, type: 3}
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 11
+  m_SortingOrder: 39
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8252420901833865603
@@ -95,6 +95,14 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   fillSpriteRender: {fileID: 7444988503882157947}
+  fillIcons:
+  - {fileID: 21300000, guid: 4331ab1131ff73d42be58a520114f5a6, type: 3}
+  - {fileID: 21300000, guid: a8b1ca84c8b7ad94c8ad448aa6013fd5, type: 3}
+  - {fileID: 21300000, guid: 6c9d6e187077a7f4c8df217a00c2e670, type: 3}
+  - {fileID: 21300000, guid: fedcf67eae724524fa9a225009fdf265, type: 3}
+  - {fileID: 21300000, guid: 7a1b1d10aa8cbf6478a7c54f7f907a46, type: 3}
+  - {fileID: 21300000, guid: ee05a46ab8b67a14d9e7ab72422874d7, type: 3}
+  - {fileID: 21300000, guid: 759710bacbc493b4c9f1976a08a3a73f, type: 3}
 --- !u!1001 &8357475037607643904
 PrefabInstance:
   m_ObjectHideFlags: 0
