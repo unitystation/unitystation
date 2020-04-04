@@ -62,6 +62,11 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	/// </summary>
 	[NonSerialized] public UnityEvent OnSpillAllContents = new UnityEvent();
 
+	/// <summary>
+	/// Invoked server side when the mix of reagents inside container changes
+	/// </summary>
+	[NonSerialized] public UnityEvent OnReagentMixChanged = new UnityEvent();
+
 	[field: Range(1, 100)]
 	[field: SerializeField]
 	[field: FormerlySerializedAs("TransferAmount")]
@@ -77,7 +82,11 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	public float Temperature
 	{
 		get => reagentMix.Temperature;
-		set => reagentMix.Temperature = value;
+		set
+		{
+			reagentMix.Temperature = value;
+			OnReagentMixChanged?.Invoke();
+		}
 	}
 
 	public ReactionSet ReactionSet
@@ -255,7 +264,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 		//Reactions happen here
 		reactionSet.Apply(this, reagentMix);
 		CurrentCapacity = reagentMix.Total;
-		reagentMix.Clean();
+		Clean();
 
 		var message = string.Empty;
 		if (CurrentCapacity > maxCapacity)
@@ -267,6 +276,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 			message = $"Reaction caused excess ({excessCapacity}/{maxCapacity}), current capacity is {CurrentCapacity}";
 		}
 
+		OnReagentMixChanged?.Invoke();
 		return new TransferResult {Success = true, TransferAmount = totalToAdd, Message = message};
 	}
 
@@ -284,13 +294,16 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	/// Extracts reagents to be used outside ReagentContainer
 	/// </summary>
 	public ReagentMix TakeReagents(float amount)
-	{
-		return reagentMix.Take(amount);
+	{	
+		var takeMix = reagentMix.Take(amount);
+		OnReagentMixChanged?.Invoke();
+		return takeMix;
 	}
 
 	public void Subtract(ReagentMix reagents)
 	{
 		reagentMix.Subtract(reagents);
+		OnReagentMixChanged?.Invoke();
 	}
 
 	/// <summary>
@@ -331,7 +344,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 			};
 		}
 
-		reagentMix.Clean();
+		Clean();
 		CurrentCapacity = reagentMix.Total;
 
 		return transferResult;
@@ -346,11 +359,6 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	{
 		Reagents.TryGetValue(reagent, out var amount);
 		return amount;
-	}
-
-	private void RemoveAll()
-	{
-		reagentMix.Clear();
 	}
 
 	private void SpillAll(bool thrown = false)
@@ -704,11 +712,24 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	public void Multiply(float multiplier)
 	{
 		reagentMix.Multiply(multiplier);
+		OnReagentMixChanged?.Invoke();
 	}
 
 	public void Clean()
 	{
 		reagentMix.Clean();
+		OnReagentMixChanged?.Invoke();
+	}
+
+
+	public Color GetMixColor()
+	{
+		return Color.green;
+	}
+
+	public float GetFillPercent()
+	{
+		return 0.35f;
 	}
 }
 
