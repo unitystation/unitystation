@@ -9,7 +9,8 @@ using UnityEngine;
 public class StationGateway : NetworkBehaviour
 {
 	[SerializeField]
-	private SpriteRenderer SpriteBaseTop, SpriteBaseBottom, SpriteBaseCentre, SpriteBaseRightTop, SpriteBaseRightMiddle, SpriteBaseRightBottom, SpriteBaseLeftTop, SpriteBaseLeftMiddle, SpriteBaseLeftBottom;
+	private SpriteRenderer[] Sprites;
+	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 	//TODO animate centre
 
 	[SerializeField]
@@ -52,7 +53,7 @@ public class StationGateway : NetworkBehaviour
 		SetOffline();
 
 		var count = Random.Range(RandomCountBegining, RandomCountEnd);
-		Invoke("WorldSetup", count);
+		Invoke(nameof(WorldSetup), count);
 	}
 
 	[Server]
@@ -81,15 +82,15 @@ public class StationGateway : NetworkBehaviour
 			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 
-			loop();
+			GateDetectPlayerLoop();
 		}
 	}
 
 	[Server]
-	private void loop()
+	private void GateDetectPlayerLoop()
 	{
 		DetectPlayer();
-		Invoke("loop", 2f);
+		Invoke(nameof(GateDetectPlayerLoop), 2f);
 	}
 
 	[Server]
@@ -138,41 +139,26 @@ public class StationGateway : NetworkBehaviour
 
 	private void SetOnline()
 	{
-		SpriteBaseTop.sprite = Online[1];
-		SpriteBaseBottom.sprite = Online[0];
-		SpriteBaseRightMiddle.sprite = Online[2];
-		SpriteBaseLeftMiddle.sprite = Online[3];
-		SpriteBaseRightBottom.sprite = Online[4];
-		SpriteBaseLeftBottom.sprite = Online[5];
-		SpriteBaseRightTop.sprite = Online[6];
-		SpriteBaseLeftTop.sprite = Online[7];
-		SpriteBaseCentre.sprite = Online[8];
+		for (int i = 0; i < Sprites.Length; i++)
+		{
+			Sprites[i].sprite = Online[i];
+		}
 	}
 
 	private void SetOffline()
 	{
-		SpriteBaseTop.sprite = Offline[1];
-		SpriteBaseBottom.sprite = Offline[0];
-		SpriteBaseRightMiddle.sprite = Offline[2];
-		SpriteBaseLeftMiddle.sprite = Offline[3];
-		SpriteBaseRightBottom.sprite = Offline[4];
-		SpriteBaseLeftBottom.sprite = Offline[5];
-		SpriteBaseRightTop.sprite = Offline[6];
-		SpriteBaseLeftTop.sprite = Offline[7];
-		SpriteBaseCentre.sprite = Offline[8];
+		for (int i = 0; i < Sprites.Length; i++)
+		{
+			Sprites[i].sprite = Offline[i];
+		}
 	}
 
 	private void SetPowerOff()
 	{
-		SpriteBaseTop.sprite = PowerOff[1];
-		SpriteBaseBottom.sprite = PowerOff[0];
-		SpriteBaseRightMiddle.sprite = PowerOff[2];
-		SpriteBaseLeftMiddle.sprite = PowerOff[3];
-		SpriteBaseRightBottom.sprite = PowerOff[4];
-		SpriteBaseLeftBottom.sprite = PowerOff[5];
-		SpriteBaseRightTop.sprite = PowerOff[6];
-		SpriteBaseLeftTop.sprite = PowerOff[7];
-		SpriteBaseCentre.sprite = PowerOff[8];
+		for (int i = 0; i < Sprites.Length; i++)
+		{
+			Sprites[i].sprite = PowerOff[i];
+		}
 	}
 
 }

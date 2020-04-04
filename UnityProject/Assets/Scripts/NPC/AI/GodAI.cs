@@ -28,7 +28,7 @@ public class GodAI : MobAI
 			{
 				SoundManager.PlayNetworkedAtPos(GenericSounds[Random.Range(0, GenericSounds.Count - 1)], transform.position, Random.Range(0.9f, 1.1f), sourceObj: gameObject);
 			}
-			Invoke("PlaySound", PlaySoundTime);
+			Invoke(nameof(PlaySound), PlaySoundTime);
 		}
 	}
 }
