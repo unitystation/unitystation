@@ -5,8 +5,6 @@ using System.Threading;
 
 public class ElectricalManager : MonoBehaviour
 {
-
-
 	public CableTileList HighVoltageCables;
 	public CableTileList MediumVoltageCables;
 	public CableTileList LowVoltageCables;
@@ -15,7 +13,6 @@ public class ElectricalManager : MonoBehaviour
 	public bool Running { get; private set; }
 	public float MSSpeed = 100;
 	public ElectricalMode Mode = ElectricalMode.Threaded;
-
 
 	public static ElectricalManager Instance;
 
@@ -27,6 +24,21 @@ public class ElectricalManager : MonoBehaviour
 		{
 			Instance = this;
 		} 
+	}
+
+	private void Start()
+	{
+		if (Mode != ElectricalMode.Manual)
+		{
+			StartCoroutine(WaitForElectricalInitialisation());
+			//StartSimulation();
+		}
+	}
+
+	IEnumerator WaitForElectricalInitialisation()
+	{
+		yield return WaitFor.Seconds(4f);
+		StartSimulation();
 	}
 
 	public void StartSimulation()
@@ -50,17 +62,9 @@ public class ElectricalManager : MonoBehaviour
 	{
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Mode == ElectricalMode.GameLoop && Running)
 		{
-			//try
-			//{
-				ElectricalSynchronisation.DoUpdate(false);
-			//}
-			//catch (Exception e)
-			//{
-			//	Logger.LogError($"Exception in Electrical Thread! Will no longer Electrical!!\n{e.StackTrace}",
-			//	                Category.Electrical);
-			//	throw;
-			//}
+			ElectricalSynchronisation.DoUpdate(false);
 		}
+
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
 		{
 			lock (ElectricalSynchronisation.Electriclock)
@@ -73,23 +77,6 @@ public class ElectricalManager : MonoBehaviour
 				Monitor.Pulse(ElectricalSynchronisation.Electriclock);
 			}
 		}
-
-	}
-
-
-	private void Start()
-	{
-		if (Mode != ElectricalMode.Manual)
-		{
-			StartCoroutine(WaitForElectricalInitialisation());
-			//StartSimulation();
-		}
-	}
-
-	IEnumerator WaitForElectricalInitialisation()
-	{
-		yield return WaitFor.Seconds(4f);
-		StartSimulation();
 	}
 
 	private void OnApplicationQuit()
