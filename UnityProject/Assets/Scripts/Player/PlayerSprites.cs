@@ -103,6 +103,7 @@ public class PlayerSprites : MonoBehaviour
 			clothes["underwear"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				PlayerCustomisationDataSOs.Instance.Get(
 					CustomisationType.Underwear,
+					ThisCharacter.Gender,
 					ThisCharacter.UnderwearName
 				).Equipped));
 			clothes["underwear"].spriteHandler.PushTexture();
@@ -114,6 +115,7 @@ public class PlayerSprites : MonoBehaviour
 			clothes["socks"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				PlayerCustomisationDataSOs.Instance.Get(
 					CustomisationType.Socks,
+					ThisCharacter.Gender,
 					ThisCharacter.SocksName
 				).Equipped));
 			clothes["socks"].spriteHandler.PushTexture();
@@ -127,6 +129,7 @@ public class PlayerSprites : MonoBehaviour
 			clothes["beard"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				PlayerCustomisationDataSOs.Instance.Get(
 					CustomisationType.FacialHair,
+					ThisCharacter.Gender,
 					ThisCharacter.FacialHairName
 				).Equipped));
 
@@ -141,6 +144,7 @@ public class PlayerSprites : MonoBehaviour
 			clothes["Hair"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
 				PlayerCustomisationDataSOs.Instance.Get(
 					CustomisationType.HairStyle,
+					ThisCharacter.Gender,
 					ThisCharacter.HairStyleName
 				).Equipped));
 			clothes["Hair"].spriteHandler.SetColor(newColor);
