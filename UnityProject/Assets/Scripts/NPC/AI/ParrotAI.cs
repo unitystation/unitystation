@@ -116,7 +116,7 @@ public class ParrotAI : MobAI
 		}
 		else
 		{	
-			Speak(pollyPhrases[Random.Range(0, pollyPhrases.Length)]);
+			Speak(polyPhrases[Random.Range(0, polyPhrases.Length)]);
 		}
 	}
 
@@ -144,7 +144,7 @@ public class ParrotAI : MobAI
 		}
 	}
 
-	private readonly string[] pollyPhrases = 
+	private readonly string[] polyPhrases = 
 	{
 		"Who wired the SMES!",
 		"Has anyone seen the Nuke disc?",

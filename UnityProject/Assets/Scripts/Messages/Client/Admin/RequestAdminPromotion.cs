@@ -24,6 +24,9 @@ public class RequestAdminPromotion : ClientMessage
 		if (player != null)
 		{
 			PlayerList.Instance.ProcessAdminEnableRequest(Userid, UserToPromote);
+			var user = PlayerList.Instance.GetByUserID(UserToPromote);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				$"{player.ExpensiveName()} made {user.Name} an admin. Users ID is: {UserToPromote}", Userid);
 		}
 	}
 

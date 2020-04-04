@@ -253,7 +253,7 @@ public class EscapeShuttle : NetworkBehaviour
 				else if(Status == ShuttleStatus.OnRouteCentcom)
 				{
 					Status = ShuttleStatus.DockedCentcom;
-					if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
+					if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true && hyperspace_end != null)
 					{
 						hyperspace_end.Play();
 					}
@@ -476,14 +476,22 @@ public class EscapeShuttle : NetworkBehaviour
 
 	public void SendShuttle()
 	{
-		hyperspace_begin.Play();
+		if (hyperspace_begin != null)
+		{
+			hyperspace_begin.Play();
+		}
+
 		StartCoroutine(WaitForShuttleLaunch());
 	}
 
 	IEnumerator WaitForShuttleLaunch()
 	{
 		yield return WaitFor.Seconds(7f);
-		hyperspace_progress.Play();
+
+		if (hyperspace_progress != null )
+		{
+			hyperspace_progress.Play();
+		}
 
 		Status = ShuttleStatus.OnRouteCentcom;
 
