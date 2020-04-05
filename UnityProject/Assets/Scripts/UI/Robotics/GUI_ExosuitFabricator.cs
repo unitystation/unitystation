@@ -34,6 +34,28 @@ public class GUI_ExosuitFabricator : NetTab
 		materialsDisplay.UpdateMaterialCount(exosuitFabricator);
 	}
 
+	//Used by buttons to remove sheets from the exofab
+	public void RemoveOneSheet(ItemTrait materialType)
+	{
+		exosuitFabricator.DispenseMaterialSheet(1, materialType);
+	}
+
+	//Used by buttons to remove sheets from the exofab
+	public void RemoveTenSheets(ItemTrait materialType)
+	{
+		exosuitFabricator.DispenseMaterialSheet(10, materialType);
+	}
+
+	//Used by buttons to remove sheets from the exofab
+	public void RemoveFiftySheets(ItemTrait materialType)
+	{
+		exosuitFabricator.DispenseMaterialSheet(50, materialType);
+	}
+
+	public void ModifySheetsCount(int amount, ItemTrait materialType)
+	{
+	}
+
 	public void OpenTab(NetPage pageToOpen)
 	{
 		NestedSwitcher.SetActivePage(pageToOpen);
