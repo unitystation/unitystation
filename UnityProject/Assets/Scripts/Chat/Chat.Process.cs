@@ -134,6 +134,9 @@ public partial class Chat
 
 		//TODO Assign racial speech mods
 
+		// Assign inventory speech mods
+		chatModifiers |= sentByPlayer.Script.mind.inventorySpeechModifiers;
+
 		// Clown
 		if (sentByPlayer.Script.mind != null &&
 			sentByPlayer.Script.mind.occupation != null &&
@@ -589,6 +592,7 @@ public partial class Chat
 
 	private readonly Dictionary<Speech, ChatModifier> CharacterSpeech = new Dictionary<Speech, ChatModifier>()
 	{
+		{Speech.None, ChatModifier.None},
 		{Speech.Canadian, ChatModifier.Canadian},
 		{Speech.French, ChatModifier.French},
 		{Speech.Italian, ChatModifier.Italian},
