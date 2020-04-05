@@ -20,13 +20,13 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private RectTransform layoutRoot;
 
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
-	private List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
+	protected List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
 	//Pool of entries that are currently visible with index 0 being the bottom
-	private List<ChatEntryView> displayPool = new List<ChatEntryView>();
+	protected List<ChatEntryView> displayPool = new List<ChatEntryView>();
 
 	[Tooltip("the max amount of views to display in the view. This would be how many " +
 	         "of the minimum sized entries until it touches the top of your viewport")]
-	[SerializeField] private int MaxViews = 17;
+	[SerializeField] protected int MaxViews = 17;
 	[Tooltip("If this is set to true then the input field will not add a chat entry to the" +
 	         "chatlogs. You do this because you want to handle the entry manually")]
 	[SerializeField] private bool doNotAddInputToChatLog;
@@ -40,7 +40,7 @@ public class ChatScroll : MonoBehaviour
 
 	private float scrollTime;
 	private bool isUsingScrollBar;
-	private bool isInit = false;
+	protected bool isInit = false;
 
 	void Awake()
 	{
@@ -71,6 +71,16 @@ public class ChatScroll : MonoBehaviour
 	/// <param name="chatLogsToLoad">A list of the chatlogs you want to load into the scroll rect</param>
 	public void LoadChatEntries(List<ChatEntryData> chatLogsToLoad)
 	{
+		ReturnAllViewsToPool();
+		chatLog = new List<ChatEntryData>(chatLogsToLoad);
+		if (gameObject.activeInHierarchy)
+		{
+			StartCoroutine(LoadAllChatEntries());
+		}
+	}
+
+	public virtual void ReturnAllViewsToPool()
+	{
 		foreach (Transform t in chatContentParent.transform)
 		{
 			var c = t.GetComponent<ChatEntryView>();
@@ -83,11 +93,6 @@ public class ChatScroll : MonoBehaviour
 		displayPool.Clear();
 
 		chatLog.Clear();
-		chatLog = new List<ChatEntryData>(chatLogsToLoad);
-		if (gameObject.activeInHierarchy)
-		{
-			StartCoroutine(LoadAllChatEntries());
-		}
 	}
 
 	/// <summary>
@@ -150,7 +155,7 @@ public class ChatScroll : MonoBehaviour
 		}
 	}
 
-	void TryShowView(ChatEntryData data, bool forBottom, int proposedIndex, ScrollButtonDirection scrollDir = ScrollButtonDirection.None)
+	protected void TryShowView(ChatEntryData data, bool forBottom, int proposedIndex, ScrollButtonDirection scrollDir = ScrollButtonDirection.None)
 	{
 		var entry = GetViewFromPool();
 
@@ -187,7 +192,7 @@ public class ChatScroll : MonoBehaviour
 		}
 	}
 
-	public void OnScrollUp()
+	public virtual void OnScrollUp()
 	{
 		if (chatLog.Count <= MaxViews) return;
 		if (displayPool.Count == 0) return;
@@ -204,7 +209,7 @@ public class ChatScroll : MonoBehaviour
 		ReturnViewToPool(displayPool[0]);
 	}
 
-	public void OnScrollDown()
+	public virtual void OnScrollDown()
 	{
 		if (chatLog.Count <= MaxViews) return;
 		if (displayPool.Count == 0) return;

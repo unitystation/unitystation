@@ -19,10 +19,6 @@ public class EscapeShuttle : NetworkBehaviour
 
 	public ShuttleStatusEvent OnShuttleUpdate = new ShuttleStatusEvent();
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
-	public AudioSource hyperspace_begin;
-	public AudioSource hyperspace_progress;
-	public AudioSource hyperspace_end;
-
 
 	void Start()
 	{
@@ -255,7 +251,7 @@ public class EscapeShuttle : NetworkBehaviour
 					Status = ShuttleStatus.DockedCentcom;
 					if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
 					{
-						hyperspace_end.Play();
+						SoundManager.PlayAtPosition("HyperSpaceEnd", transform.position, gameObject);
 					}
 				}
 			}
@@ -476,15 +472,17 @@ public class EscapeShuttle : NetworkBehaviour
 
 	public void SendShuttle()
 	{
-		hyperspace_begin.Play();
+		SoundManager.PlayAtPosition("HyperSpaceBegin", transform.position, gameObject);
+
 		StartCoroutine(WaitForShuttleLaunch());
 	}
 
 	IEnumerator WaitForShuttleLaunch()
 	{
 		yield return WaitFor.Seconds(7f);
-		hyperspace_progress.Play();
 
+		SoundManager.PlayAtPosition("HyperSpaceProgress", transform.position, gameObject);
+	
 		Status = ShuttleStatus.OnRouteCentcom;
 
 		mm.SetSpeed(100f);
