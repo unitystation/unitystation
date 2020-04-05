@@ -158,10 +158,8 @@ public class JoinedViewer : NetworkBehaviour
 	/// <summary>
 	/// Command to spectate a round instead of spawning as a player
 	/// </summary>
-	/// <param name="jobType"></param>
-	/// <param name="characterSettings"></param>
 	[Command]
-	public void CmdSpectacte()
+	public void CmdSpectate()
 	{
 		PlayerSpawn.ServerSpawnGhost(this);
 	}
