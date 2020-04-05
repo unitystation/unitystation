@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public override void OnStartServer()
 	{
+		Logger.Log("yoooooo");
 		base.OnStartServer();
 		NodeControl = gameObject.GetComponent<INodeControl>();
 		Node = gameObject.GetComponent<InLineDevice>();
@@ -35,16 +37,15 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		}
 		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
 		UpOnStartServer();
-		StartCoroutine(WaitForload());
 		ElectricalSynchronisation.StructureChange = true;
 	}
 
-	IEnumerator WaitForload()
+	void Awake()
 	{
-		yield return WaitFor.Seconds(1);
-		Node.FindPossibleConnections();
-		Node.InData.FlushConnectionAndUp();
+		ElectricalSynchronisation.StructureChange = true;
 	}
+
+
 
 	public void PotentialDestroyed()
 	{
@@ -54,7 +55,6 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
 			Despawn.ServerSingle(gameObject);
 		}
-
 	}
 	public void OverlayInternalResistance(float InternalResistance, PowerTypeCategory Connecting)
 	{
