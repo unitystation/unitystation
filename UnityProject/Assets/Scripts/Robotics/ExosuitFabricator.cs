@@ -17,6 +17,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	[SerializeField] private SpriteSheetAndData idleSprite;
 	[SerializeField] private SpriteSheetAndData productionSprite;
 	private RegisterObject registerObject;
+	public MaterialStorage materialStorage;
 
 	[Space]
 	[SerializeField] private ItemTrait silver;
@@ -149,6 +150,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 
 			Inventory.ServerDespawn(interaction.HandObject);
 			UpdateMaterialCount(materialSheetAmount * 2000, materialType);
+			materialStorage.TryAddMaterialSheet(materialType, materialSheetAmount);
 		}
 	}
 
@@ -160,6 +162,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 			if (HasMaterialAmount(amountOfSheets, materialType))
 			{
 				UpdateMaterialCount(-amountOfSheets * 2000, materialType);
+				materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets);
 				Spawn.ServerPrefab(materialTypeByPrefab[materialType],
 				registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: amountOfSheets);
 			}
