@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chav
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: looking at
     replaceWith:
     - gawpin' at
@@ -76,10 +76,10 @@ MonoBehaviour:
   - original: security
     replaceWith:
     - coppers
-  LetterReplaceList: []
+  letterReplaceList: []
   activateAdditions: 0
   probability: 0
-  Beginning: []
-  Ending: []
+  beginning: []
+  ending: []
   unintelligible: 0
   customCode: {fileID: 0}

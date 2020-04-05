@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Smile
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: stupid
     replaceWith:
     - smart
@@ -151,10 +151,10 @@ MonoBehaviour:
   - original: fucking
     replaceWith:
     - hugging
-  LetterReplaceList: []
+  letterReplaceList: []
   activateAdditions: 0
   probability: 0
-  Beginning: []
-  Ending: []
+  beginning: []
+  ending: []
   unintelligible: 0
   customCode: {fileID: 0}

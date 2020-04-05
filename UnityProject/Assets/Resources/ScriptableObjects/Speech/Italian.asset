@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Italian
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: I'm
     replaceWith:
     - I'm-a
@@ -151,10 +151,10 @@ MonoBehaviour:
   - original: wine
     replaceWith:
     - vino
-  LetterReplaceList: []
+  letterReplaceList: []
   activateAdditions: 0
   probability: 0
-  Beginning: []
-  Ending: []
+  beginning: []
+  ending: []
   unintelligible: 0
   customCode: {fileID: 0}

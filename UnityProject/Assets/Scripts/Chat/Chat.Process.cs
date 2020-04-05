@@ -130,41 +130,7 @@ public partial class Chat
 
 		// Assign character trait speech mods
 		//TODO Assigning from character creation for now, they exclude each others
-		switch (sentByPlayer.Script.characterSettings.Speech) 
-		{
-			case Speech.None:
-				break;
-			case Speech.Canadian:
-				chatModifiers |= ChatModifier.Canadian;
-				break;
-			case Speech.French:
-				chatModifiers |= ChatModifier.French;
-				break;
-			case Speech.Italian:
-				chatModifiers |= ChatModifier.Italian;
-				break;
-			case Speech.Swedish:
-				chatModifiers |= ChatModifier.Swedish;
-				break;
-			case Speech.Chav:
-				chatModifiers |= ChatModifier.Chav;
-				break;
-			case Speech.Stutter:
-				chatModifiers |= ChatModifier.Stutter;
-				break;
-			case Speech.Elvis:
-				chatModifiers |= ChatModifier.Elvis;
-				break;
-			case Speech.Smile:
-				chatModifiers |= ChatModifier.Smile;
-				break;
-			case Speech.Spurdo:
-				chatModifiers |= ChatModifier.Spurdo;
-				break;
-			case Speech.UwU:
-				chatModifiers |= ChatModifier.UwU;
-				break;
-		}
+		chatModifiers |= Instance.CharacterSpeech[sentByPlayer.Script.characterSettings.Speech];
 
 		//TODO Assign racial speech mods
 
@@ -620,4 +586,18 @@ public partial class Chat
 
 		return !string.IsNullOrEmpty(message.Trim());
 	}
+
+	private readonly Dictionary<Speech, ChatModifier> CharacterSpeech = new Dictionary<Speech, ChatModifier>()
+	{
+		{Speech.Canadian, ChatModifier.Canadian},
+		{Speech.French, ChatModifier.French},
+		{Speech.Italian, ChatModifier.Italian},
+		{Speech.Swedish, ChatModifier.Swedish},
+		{Speech.Chav, ChatModifier.Chav},
+		{Speech.Stutter, ChatModifier.Stutter},
+		{Speech.Elvis, ChatModifier.Elvis},
+		{Speech.Smile, ChatModifier.Smile},
+		{Speech.Spurdo, ChatModifier.Spurdo},
+		{Speech.UwU, ChatModifier.UwU}
+	};
 }

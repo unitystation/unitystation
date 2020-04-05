@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: French
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: yes
     replaceWith:
     - oui
@@ -189,10 +189,10 @@ MonoBehaviour:
   - original: wizard
     replaceWith:
     - sorcier
-  LetterReplaceList: []
+  letterReplaceList: []
   activateAdditions: 0
   probability: 0
-  Beginning: []
-  Ending: []
+  beginning: []
+  ending: []
   unintelligible: 0
   customCode: {fileID: 0}

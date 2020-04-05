@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Spurdo
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: epic
     replaceWith:
     - ebin
-  LetterReplaceList:
+  letterReplaceList:
   - original: c
     replaceWith:
     - g
@@ -35,6 +35,6 @@ MonoBehaviour:
     - gs
   activateAdditions: 0
   probability: 0
-  Beginning: []
-  Ending: []
+  beginning: []
+  ending: []
   customCode: {fileID: 0}

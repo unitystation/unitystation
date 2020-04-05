@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UwU
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: bulge
     replaceWith:
     - bulgey wulgey
@@ -30,7 +30,7 @@ MonoBehaviour:
   - original: assistant
     replaceWith:
     - nyassistant
-  LetterReplaceList:
+  letterReplaceList:
   - original: r
     replaceWith:
     - w
@@ -60,10 +60,10 @@ MonoBehaviour:
     - uv
   activateAdditions: 1
   probability: 80
-  Beginning:
+  beginning:
   - Nya~
   - Nnnnya~
-  Ending:
+  ending:
   - OwO
   - UwU
   - ~

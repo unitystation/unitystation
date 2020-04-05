@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Canadian
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: toilet
     replaceWith:
     - washroom
@@ -128,10 +128,10 @@ MonoBehaviour:
   - original: pound
     replaceWith:
     - kilogram
-  LetterReplaceList: []
+  letterReplaceList: []
   activateAdditions: 0
   probability: 0
-  Beginning: []
-  Ending: []
+  beginning: []
+  ending: []
   unintelligible: 0
   customCode: {fileID: 0}

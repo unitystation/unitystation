@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Elvis
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList:
+  wordReplaceList:
   - original: I'm not
     replaceWith:
     - I aint
@@ -51,10 +51,10 @@ MonoBehaviour:
   - original: muh valids
     replaceWith:
     - my kicks
-  LetterReplaceList: []
+  letterReplaceList: []
   activateAdditions: 0
   probability: 0
-  Beginning: []
-  Ending: []
+  beginning: []
+  ending: []
   unintelligible: 0
   customCode: {fileID: 0}

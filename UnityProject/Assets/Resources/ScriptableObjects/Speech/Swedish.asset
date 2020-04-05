@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Swedish
   m_EditorClassIdentifier: 
   activateReplacements: 1
-  WordReplaceList: []
-  LetterReplaceList:
+  wordReplaceList: []
+  letterReplaceList:
   - original: w
     replaceWith:
     - v
@@ -37,8 +37,8 @@ MonoBehaviour:
     - o
   activateAdditions: 1
   probability: 30
-  Beginning: []
-  Ending:
+  beginning: []
+  ending:
   - Bork!
   - Bork, bork!
   - Bork, bork, bork!

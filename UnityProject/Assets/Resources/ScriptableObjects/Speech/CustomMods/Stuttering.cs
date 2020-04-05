@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/CustomCode")]
 public class Stuttering : CustomSpeechModifier
 {
-    private static string Stutter(Match m)
+	private static string Stutter(Match m)
 	{
 		string x = m.ToString();
 		string stutter = "";
@@ -27,14 +27,12 @@ public class Stuttering : CustomSpeechModifier
 		}
 		return stutter;
 	}
-    public override string ProcessMessage(string message)
-    {
-        //	//Stuttering people randomly repeat beginnings of words
+	public override string ProcessMessage(string message)
+	{
+		//	//Stuttering people randomly repeat beginnings of words
 		//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
-			// Regex rx = new Regex(@"(\b)+([^\d\W])\B");
-			// message = rx.Replace(message, Stutter);
 			message = Regex.Replace(message, @"(\b)+([^\d\W])\B", Stutter);
 
-        return message;
-    }
+		return message;
+	}
 }
