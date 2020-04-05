@@ -13,7 +13,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public static CustomNetworkManager Instance;
 
-	[HideInInspector] public bool _isServer;
+		[HideInInspector] public bool _isServer;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
@@ -27,7 +27,8 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-	public override void Awake()
+
+	void Awake()
 	{
 		if (Instance == null)
 		{
@@ -38,7 +39,7 @@ public class CustomNetworkManager : NetworkManager
 			Destroy(gameObject);
 		}
 	}
-
+	
 	public override void Start()
 	{
 		CheckTransport();
