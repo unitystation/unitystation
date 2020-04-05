@@ -9,12 +9,12 @@ using UnityEngine;
 public class Electrocution
 {
 	public enum Severity
-    {
+	{
 		None,
 		Mild,
 		Painful,
 		Lethal
-    }
+	}
 
 	private const int NON_INSULATED_ITEM_RESITANCE = 20000; // 20 kilo Ohms
 	// Increase the below if voltages have been tweaked and medium voltage cables now cause painful electrocutions,
@@ -36,9 +36,9 @@ public class Electrocution
 	/// Finds the severity of what the electrocution would be for the given player at
 	/// the given voltage.
 	/// </summary>
-	/// <param name="player">GameObject player</param>
-	/// <param name="voltage">float voltage</param>
-	/// <returns>Severity enumerable</returns>
+	/// <param name="player">The player GameObject to find the severity for</param>
+	/// <param name="voltage">The voltage the player would be exposed to</param>
+	/// <returns>Severity enumerable - None, Mild, Painful, Lethal</returns>
 	public Severity GetPlayerSeverity(GameObject player, float voltage)
 	{
 		float resistance = GetPlayerShockResistance(player, voltage);
@@ -71,16 +71,16 @@ public class Electrocution
 
 	/// <summary>
 	/// Electrocutes a player, applying effects to the victim
-    /// depending on the electrocution power.
+	/// depending on the electrocution power.
 	/// </summary>
-	/// <param name="player"GameObject player></param>
-	/// <param name="shockSourcePos">Vector3Int shockSourcePos</param>
-	/// <param name="shockSourceName">string shockSourceName</param>
-	/// <param name="voltage">float voltage</param>
+	/// <param name="player">The player GameObject to electrocute></param>
+	/// <param name="shockSourcePos">The Vector3Int position of the voltage source</param>
+	/// <param name="shockSourceName">The name of the voltage source</param>
+	/// <param name="voltage">The voltage the victim receives</param>
 	/// <returns>Severity enumerable</returns>
 	public Severity ElectrocutePlayer(GameObject player, Vector3Int shockSourcePos,
 		string shockSourceName, float voltage)
-    {
+	{
 		victim = player;
 		victimLHB = player.GetComponent<LivingHealthBehaviour>();
 		victimScript = player.GetComponent<PlayerScript>();
@@ -94,10 +94,10 @@ public class Electrocution
 		else
 		{
 			playerActiveHand = BodyPartType.RightArm;
-        }
+		}
 
 		switch (GetPlayerSeverity(victim, voltage))
-        {
+		{
 			case Severity.None:
 				break;
 			case Severity.Mild:
@@ -109,11 +109,19 @@ public class Electrocution
 			case Severity.Lethal:
 				PlayerLethalElectrocution();
 				break;
-        }
+		}
 
 		return severity;
-    }
+	}
 
+	/// <summary>
+	/// Electrocutes a player, applying effects to the victim
+	/// depending on the electrocution power.
+	/// </summary>
+	/// <param name="player">The player GameObject to electrocute></param>
+	/// <param name="sourceObject">The voltage source GameObject (used for name, position)</param>
+	/// <param name="voltage">The voltage the victim receives</param>
+	/// <returns>Severity enumerable</returns>
 	public Severity ElectrocutePlayer(GameObject player, GameObject sourceObject, float voltage)
 	{
 		return ElectrocutePlayer(
@@ -125,7 +133,7 @@ public class Electrocution
 	/// Based on the figures provided by Wikipedia's electrical injury page (hand-to-hand).
 	/// Trends to 1200 Ohms at significant voltages.
 	/// </summary>
-	/// <param name="voltage">float voltage</param>
+	/// <param name="voltage">The potential difference across the human</param>
 	/// <returns>float resistance</returns>
 	private float GetHumanHandFeetResistance(float voltage)
 	{
@@ -137,8 +145,8 @@ public class Electrocution
 	/// Calculates the player's total resistance using a base human resistance value,
 	/// their health and the items the performer is wearing or holding.
 	/// </summary>
-	/// <param name="player">GameObject player</param>
-	/// <param name="voltage">float voltage</param>
+	/// <param name="player">The player to calculate shock resistance with</param>
+	/// <param name="voltage">The potential difference across the player</param>
 	/// <returns>float resistance</returns>
 	private float GetPlayerShockResistance(GameObject player, float voltage)
 	{
@@ -161,13 +169,13 @@ public class Electrocution
 	}
 
 	/// <summary>
-    /// Gets the electrical resistance of the given item.
-    /// Checks if the item has the insulated trait and if so, returns with a large resistance.
-    /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
+	/// Gets the electrical resistance of the given item.
+	/// Checks if the item has the insulated trait and if so, returns with a large resistance.
+	/// </summary>
+	/// <param name="item">The item to obtain resistance from</param>
+	/// <returns>A float resistance value</returns>
 	private float GetItemResistance(ItemSlot item)
-    {
+	{
 		// No item
 		if (item.ItemObject == null) return 0;
 
@@ -177,26 +185,26 @@ public class Electrocution
 		}
 
 		return NON_INSULATED_ITEM_RESITANCE;
-    }
+	}
 
 	/// <summary>
-    /// Applies burn damage to the specified victim's bodyparts.
-    /// Attack type is internal, so as to avoid adding electrical resistances to Armor class.
-    /// </summary>
-    /// <param name="damage">float damage</param>
-    /// <param name="bodypart">BodyPartType bodypart</param>
+	/// Applies burn damage to the specified victim's bodyparts.
+	/// Attack type is internal, so as to avoid adding electrical resistances to Armor class.
+	/// </summary>
+	/// <param name="damage">The amount of damage to apply to the bodypart</param>
+	/// <param name="bodypart">The BodyPartType to damage.</param>
 	private void DealDamage(float damage, BodyPartType bodypart)
-    {
+	{
 		victimLHB.ApplyDamageToBodypart(null, damage, AttackType.Internal, DamageType.Burn, bodypart);
-    }
+	}
 
 	private void PlayerMildElectrocution()
-    {
+	{
 		Chat.AddExamineMsgFromServer(victim, $"The {shockSourceName} gives you a slight tingling sensation...");
 	}
 
 	private void PlayerPainfulElectrocution()
-    {
+	{
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos("Sparks#", shockSourcePos);
 		Inventory.ServerDrop(victimScript.ItemStorage.GetActiveHandSlot());
@@ -209,7 +217,7 @@ public class Electrocution
 	}
 
 	private void PlayerLethalElectrocution()
-    {
+	{
 		// TODO: Add sparks VFX at shockSourcePos.
 		// TODO: Implement electrocution animation
 		// TODO: Consider adding a scream SFX.

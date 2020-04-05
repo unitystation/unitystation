@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-///  Extended interaction logic for grilles.
-///  Checks if the performer should be electrocuted. Needs to come before other interactions.
+/// Extended interaction logic for grilles.
+/// Checks if the performer should be electrocuted. Needs to come before other interactions.
 /// </summary>
 [CreateAssetMenu(fileName = "ElectrifiedGrilleInteraction",
 	menuName = "Interaction/TileInteraction/ElectrifiedGrilleInteraction")]
@@ -34,12 +34,12 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 	}
 
 	/// <summary>
-    /// Checks if the grille's location has exposed floor plating,
-    /// that cables and a machine connector exists there, and writes the
-    /// highest voltage detected to the class property voltage.
-    /// </summary>
-    /// <param name="interaction">TileApply interaction</param>
-    /// <returns>Boolean</returns>
+	/// Checks if the grille's location has exposed floor plating,
+	/// that cables and a machine connector exists there, and writes the
+	/// highest voltage detected to the class property voltage.
+	/// </summary>
+	/// <param name="interaction">TileApply interaction</param>
+	/// <returns>Boolean</returns>
 	private bool ElectrocutionCriteriaMet(TileApply interaction, NetworkSide side)
 	{
 
@@ -62,35 +62,35 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 		bool connectorExists = false;
 		// Unfortunately client won't report conn.InData.Categorytype and conn.Data.ActualVoltage correctly.
 		if (side == NetworkSide.Client)
-        {
+		{
 			foreach (var conn in eConns)
-            {
+			{
 				if (conn.ToString().Contains("MachineConnector"))
-                {
+				{
 					connectorExists = true;
 					continue; // Connector won't report a voltage.
-                }
+				}
 
 				// TODO: Find a way to get the voltage of the cable to the client.
 				float newVoltage = 0;
 				if (newVoltage > voltage) voltage = newVoltage;
-            }
-        }
+			}
+		}
 		else
-        {
+		{
 			foreach (var conn in eConns)
-            {
+			{
 				if (conn.InData.Categorytype == PowerTypeCategory.LowMachineConnector
 					|| conn.InData.Categorytype == PowerTypeCategory.MediumMachineConnector
 					|| conn.InData.Categorytype == PowerTypeCategory.HighMachineConnector)
-                {
+				{
 					connectorExists = true;
 					continue; // Connector won't report a voltage.
-                }
+				}
 
 				if (conn.Data.ActualVoltage > voltage) voltage = conn.Data.ActualVoltage;
 			}
-        }
+		}
 
 		// Check that there is a machine connector.
 		if (!connectorExists) return false;
