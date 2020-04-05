@@ -586,9 +586,5 @@ public partial class Chat
 		{Speech.Swedish, ChatModifier.Swedish},
 		{Speech.Chav, ChatModifier.Chav},
 		{Speech.Stutter, ChatModifier.Stutter},
-		{Speech.Elvis, ChatModifier.Elvis},
-		{Speech.Smile, ChatModifier.Smile},
-		{Speech.Spurdo, ChatModifier.Spurdo},
-		{Speech.UwU, ChatModifier.UwU}
 	};
 }
