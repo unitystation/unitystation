@@ -38,18 +38,19 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private int RandomCountEnd = 1200;
 
-	private protected RegisterTile registerTile;
+	protected RegisterTile registerTile;
 
 	private Matrix Matrix => registerTile.Matrix;
 
 	public string WorldName = "The Station";
 
-	private protected Vector3Int Position;
+	protected Vector3Int Position;
 
-	private protected string Message;
+	protected string Message;
 
-	private protected float timeElapsedServer = 0;
-	private protected float timeElapsedClient = 0;
+	protected float timeElapsedServer = 0;
+	protected float timeElapsedClient = 0;
+	protected float timeElapsedServerSound = 0;
 	public float DetectionTime = 1;
 
 	[SyncVar(hook = nameof(SyncState))]
@@ -77,6 +78,14 @@ public class StationGateway : NetworkBehaviour
 			{
 				DetectPlayer();
 				timeElapsedServer = 0;
+			}
+
+			timeElapsedServerSound += Time.deltaTime;
+			if (timeElapsedServerSound > 7 && isOn)
+			{
+				DetectPlayer();
+				SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
+				timeElapsedServerSound = 0;
 			}
 		}
 		else
