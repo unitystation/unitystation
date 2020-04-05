@@ -45,17 +45,34 @@ namespace DatabaseAPI
 			}
 
 			string content = await response.Content.ReadAsStringAsync();
-
 			FireStoreResponse fr = JsonUtility.FromJson<FireStoreResponse>(content);
+			FireStoreCharacter fireStoreChar = fr.fields.character;
 
-			var newChar = "";
-			if (fr.fields.character == null)
+			CharacterSettings characterSettings;
+			var settingsValid = false;
+
+			if (fireStoreChar == null)
 			{
-				var newCharacter = new CharacterSettings();
-				newCharacter.Name = StringManager.GetRandomMaleName();
-				newCharacter.Username = user.DisplayName;
-				var updateSuccess = await ServerData.UpdateCharacterProfile(newCharacter);
+				// Make a new character since there isn't one in the database
+				characterSettings = new CharacterSettings
+				{
+					Name = StringManager.GetRandomMaleName(),
+					Username = user.DisplayName
+				};
+			}
+			else
+			{
+				string unescapedJson = Regex.Unescape(fireStoreChar.stringValue);
+				characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
 
+				// Validate and correct settings in case the customization options change
+				settingsValid = PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref characterSettings);
+			}
+
+			if (!settingsValid)
+			{
+				// Upload the corrected settings so they are valid next time
+				bool updateSuccess = await UpdateCharacterProfile(characterSettings);
 				if (!updateSuccess)
 				{
 					Logger.LogError($"Error when updating character", Category.DatabaseAPI);
@@ -64,17 +81,11 @@ namespace DatabaseAPI
 				}
 			}
 
-			if (string.IsNullOrEmpty(newChar))
-			{
-				var characterSettings =
-					JsonConvert.DeserializeObject<CharacterSettings>(Regex.Unescape(fr.fields.character.stringValue));
-				PlayerPrefs.SetString("currentcharacter", fr.fields.character.stringValue);
-				PlayerManager.CurrentCharacterSettings = characterSettings;
-			}
-			else
-			{
-				PlayerManager.CurrentCharacterSettings = JsonConvert.DeserializeObject<CharacterSettings>(newChar);
-			}
+			// In case PlayerPrefs doesn't already have the settings
+			string jsonChar = JsonConvert.SerializeObject(characterSettings);
+			PlayerPrefs.SetString("currentcharacter", jsonChar);
+
+			PlayerManager.CurrentCharacterSettings = characterSettings;
 
 			successAction?.Invoke("Login success");
 			PlayerPrefs.SetString("lastLogin", user.Email);
