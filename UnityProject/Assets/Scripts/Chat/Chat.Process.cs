@@ -137,19 +137,6 @@ public partial class Chat
 		// Assign inventory speech mods
 		chatModifiers |= sentByPlayer.Script.mind.inventorySpeechModifiers;
 
-		// Clown
-		if (sentByPlayer.Script.mind != null &&
-			sentByPlayer.Script.mind.occupation != null &&
-			sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
-		{
-			int intensity = UnityEngine.Random.Range(1, 4);
-			for (int i = 0; i < intensity; i++)
-			{
-				message += " HONK!";
-			}
-			chatModifiers |= ChatModifier.Clown;
-		}
-
 		/////// Process Speech mutations
 		message = SpeechModManager.Instance.ApplyMod(chatModifiers, message);
 
