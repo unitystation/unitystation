@@ -374,12 +374,6 @@ namespace Lobby
 				telepathy.port = serverPort;
 			}
 
-			var ignorance = CustomNetworkManager.Instance.GetComponent<IgnoranceThreaded>();
-			if (ignorance != null)
-			{
-				ignorance.CommunicationPort = serverPort;
-			}
-
 			var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();
 			if (booster != null)
 			{

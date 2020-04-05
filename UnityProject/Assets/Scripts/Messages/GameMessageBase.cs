@@ -9,6 +9,11 @@ public abstract class GameMessageBase : MessageBase
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
 
+	public virtual void PreProcess(NetworkConnection sentBy, GameMessageBase b)
+	{
+		CustomNetworkManager.Instance.StartCoroutine(Process(sentBy));
+	}
+
 	public abstract IEnumerator Process();
 
 	public virtual IEnumerator Process( NetworkConnection sentBy )
