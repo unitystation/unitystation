@@ -66,21 +66,17 @@ public class GUI_ExosuitFabricatorPageMaterialsAndCategory : GUI_ExosuitFabricat
 
 	public void UpdateMaterialCount(ExosuitFabricator exofab)
 	{
-		iron.SetValue = SheetAmountToCubicCM(exofab.ironAmount).ToString() + "cm3";
-		glass.SetValue = SheetAmountToCubicCM(exofab.glassAmount).ToString() + "cm3";
-		silver.SetValue = SheetAmountToCubicCM(exofab.silverAmount).ToString() + "cm3";
-		gold.SetValue = SheetAmountToCubicCM(exofab.goldAmount).ToString() + "cm3";
-		diamond.SetValue = SheetAmountToCubicCM(exofab.diamondAmount).ToString() + "cm3";
-		plasma.SetValue = SheetAmountToCubicCM(exofab.plasmaAmount).ToString() + "cm3";
-		uranium.SetValue = SheetAmountToCubicCM(exofab.uraniumAmount).ToString() + "cm3";
-		bananium.SetValue = SheetAmountToCubicCM(exofab.bananiumAmount).ToString() + "cm3";
-		titanium.SetValue = SheetAmountToCubicCM(exofab.titaniumAmount).ToString() + "cm3";
+		iron.SetValue = exofab.materialStorage.NameToMaterialRecord["iron"].currentAmount.ToString() + "cm3";
+		glass.SetValue = exofab.materialStorage.NameToMaterialRecord["glass"].currentAmount.ToString() + "cm3";
+		silver.SetValue = exofab.materialStorage.NameToMaterialRecord["silver"].currentAmount.ToString() + "cm3";
+		gold.SetValue = exofab.materialStorage.NameToMaterialRecord["gold"].currentAmount.ToString() + "cm3";
+		diamond.SetValue = exofab.materialStorage.NameToMaterialRecord["diamond"].currentAmount.ToString() + "cm3";
+		plasma.SetValue = exofab.materialStorage.NameToMaterialRecord["plasma"].currentAmount.ToString() + "cm3";
+		uranium.SetValue = exofab.materialStorage.NameToMaterialRecord["uranium"].currentAmount.ToString() + "cm3";
+		//bananium.SetValue = exofab.materialStorage.NameToMaterialRecord["iron"].currentAmount.ToString() + "cm3";
+		titanium.SetValue = exofab.materialStorage.NameToMaterialRecord["titanium"].currentAmount.ToString() + "cm3";
 		//bluespaceCrystal.SetValue = exofab.SheetAmountToCubicCM(bluespaceCrystalSheetAmount).ToString();+ "cm3";    not implemented yet as of April 4th 20
-		plastic.SetValue = SheetAmountToCubicCM(exofab.plasticAmount).ToString() + "cm3";
-	}
-
-	private int SheetAmountToCubicCM(int sheetAmount)
-	{
-		return sheetAmount;
+		//plastic.SetValue = exofab.materialStorage.NameToMaterialRecord["plastic"].currentAmount.ToString() + "cm3";
+		UpdateButtonVisibility(exofab);
 	}
 }

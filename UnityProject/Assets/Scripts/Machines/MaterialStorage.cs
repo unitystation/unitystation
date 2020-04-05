@@ -6,7 +6,7 @@ public class MaterialStorage : MonoBehaviour
 {
 	public Dictionary<string, int> Stored;
 	public int maximumTotalResourceStorage;
-	private int currentTotalResourceAmount;
+	private int currentTotalResourceAmount = 0;
 
 	public MaterialsInMachineStorage materialsInMachines;
 	public List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
@@ -28,38 +28,37 @@ public class MaterialStorage : MonoBehaviour
 			materialRecord.materialPrefab = material.materialPrefab;
 			materialRecord.materialType = material.materialTrait;
 			materialRecordList.Add(materialRecord);
-			Logger.Log("ADDING TO LIST: " + materialRecord.materialName);
 		}
 
 		//Optimizes retrieval of record
 		foreach (MaterialRecord materialRecord in materialRecordList)
 		{
-			NameToMaterialRecord.Add(materialRecord.materialName, materialRecord);
+			NameToMaterialRecord.Add(materialRecord.materialName.ToLower(), materialRecord);
 			ItemTraitToMaterialRecord.Add(materialRecord.materialType, materialRecord);
 		}
 	}
 
-	public bool TryAddMaterialValue(string material, int quantity)
+	public bool TryAddMaterialCM3Value(string material, int quantity)
 	{
 		int valueInCM3 = quantity;
 		int totalSum = valueInCM3 + currentTotalResourceAmount;
 		if (totalSum <= maximumTotalResourceStorage)
 		{
-			NameToMaterialRecord[material.ToLower()].currentAmount = totalSum;
-			Logger.Log("QUANTITY ADDED: " + quantity + "  TOTAL SUM: " + totalSum);
+			NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
+			currentTotalResourceAmount += valueInCM3;
 			return true;
 		}
 		else return false;
 	}
 
-	public bool TryAddMaterialValue(ItemTrait itemTrait, int quantity)
+	public bool TryAddMaterialCM3Value(ItemTrait itemTrait, int quantity)
 	{
 		int valueInCM3 = quantity;
 		int totalSum = valueInCM3 + currentTotalResourceAmount;
 		if (totalSum <= maximumTotalResourceStorage)
 		{
-			ItemTraitToMaterialRecord[itemTrait].currentAmount = totalSum;
-			Logger.Log("QUANTITY ADDED: " + quantity + "  TOTAL SUM: " + totalSum);
+			ItemTraitToMaterialRecord[itemTrait].currentAmount += valueInCM3;
+			currentTotalResourceAmount += valueInCM3;
 			return true;
 		}
 		else return false;
@@ -71,8 +70,8 @@ public class MaterialStorage : MonoBehaviour
 		int totalSum = valueInCM3 + currentTotalResourceAmount;
 		if (totalSum <= maximumTotalResourceStorage)
 		{
-			NameToMaterialRecord[material.ToLower()].currentAmount = totalSum;
-			Logger.Log("QUANTITY ADDED: " + quantity + "  TOTAL SUM: " + totalSum);
+			NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
+			currentTotalResourceAmount += valueInCM3;
 			return true;
 		}
 		else return false;
@@ -80,40 +79,38 @@ public class MaterialStorage : MonoBehaviour
 
 	public bool TryAddMaterialSheet(ItemTrait itemTrait, int quantity)
 	{
-		Logger.Log("Try add materialSheet");
 		int valueInCM3 = quantity * cm3PerSheet;
 		int totalSum = valueInCM3 + currentTotalResourceAmount;
-		Logger.Log("VALUEINCM3 = " + valueInCM3);
-		Logger.Log("totalSum = " + totalSum);
+
 		if (totalSum <= maximumTotalResourceStorage)
 		{
-			ItemTraitToMaterialRecord[itemTrait].currentAmount = totalSum;
-			Logger.Log("QUANTITY ADDED: " + quantity + "  TOTAL SUM: " + totalSum);
+			ItemTraitToMaterialRecord[itemTrait].currentAmount += valueInCM3;
+			currentTotalResourceAmount += valueInCM3;
 			return true;
 		}
 		else return false;
 	}
 
 	//Returns false if storage amount goes below 0
-	public bool TryRemoveMaterial(string material, int quantity)
+	public bool TryRemoveCM3Material(string material, int quantity)
 	{
-		int valueInCM3Removed = quantity * cm3PerSheet;
+		int valueInCM3Removed = quantity;
 		if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
 		{
 			NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
-			Logger.Log("QUANTITY REMOVED: " + quantity + "  TOTAL SUM: " + NameToMaterialRecord[material.ToLower()].currentAmount);
+			currentTotalResourceAmount -= valueInCM3Removed;
 			return true;
 		}
 		else return false;
 	}
 
-	public bool TryRemoveMaterial(ItemTrait materialType, int quantity)
+	public bool TryRemoveCM3Material(ItemTrait materialType, int quantity)
 	{
-		int valueInCM3Removed = quantity * cm3PerSheet;
+		int valueInCM3Removed = quantity;
 		if (ItemTraitToMaterialRecord[materialType].currentAmount >= valueInCM3Removed)
 		{
 			ItemTraitToMaterialRecord[materialType].currentAmount -= valueInCM3Removed;
-			Logger.Log("QUANTITY REMOVED: " + quantity + "  TOTAL SUM: " + ItemTraitToMaterialRecord[materialType].currentAmount);
+			currentTotalResourceAmount -= valueInCM3Removed;
 			return true;
 		}
 		else return false;
@@ -125,7 +122,7 @@ public class MaterialStorage : MonoBehaviour
 		if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
 		{
 			NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
-			Logger.Log("QUANTITY REMOVED: " + quantity + "  TOTAL SUM: " + NameToMaterialRecord[material.ToLower()].currentAmount);
+			currentTotalResourceAmount -= valueInCM3Removed;
 			return true;
 		}
 		else return false;
@@ -138,7 +135,7 @@ public class MaterialStorage : MonoBehaviour
 		if (ItemTraitToMaterialRecord[materialType].currentAmount >= valueInCM3Removed)
 		{
 			ItemTraitToMaterialRecord[materialType].currentAmount -= valueInCM3Removed;
-			Logger.Log("QUANTITY REMOVED: " + quantity + "  TOTAL SUM: " + ItemTraitToMaterialRecord[materialType].currentAmount);
+			currentTotalResourceAmount -= valueInCM3Removed;
 			return true;
 		}
 		else return false;

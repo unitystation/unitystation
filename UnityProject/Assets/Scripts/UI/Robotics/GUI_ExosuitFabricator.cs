@@ -52,10 +52,6 @@ public class GUI_ExosuitFabricator : NetTab
 		exosuitFabricator.DispenseMaterialSheet(50, materialType);
 	}
 
-	public void ModifySheetsCount(int amount, ItemTrait materialType)
-	{
-	}
-
 	public void OpenTab(NetPage pageToOpen)
 	{
 		NestedSwitcher.SetActivePage(pageToOpen);
