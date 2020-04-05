@@ -12,7 +12,7 @@ using Chemistry;
 /// prefixed with "Server"
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
+public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
 	ICheckedInteractable<HandActivate>, //Activate to change transfer amount
 	ICheckedInteractable<InventoryApply>, //Transfer: active hand <-> other hand
