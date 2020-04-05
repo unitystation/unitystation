@@ -24,10 +24,10 @@ GameObject:
   - component: {fileID: 8251347940129356532}
   - component: {fileID: 8602547056562296912}
   - component: {fileID: 8093655862165673158}
-  - component: {fileID: 159138128674865030}
   - component: {fileID: 1698261190327922250}
   - component: {fileID: 4146971549855715412}
   - component: {fileID: 5941598165320017927}
+  - component: {fileID: 2133879513358567812}
   m_Layer: 12
   m_Name: NPC_GOD_Friendly
   m_TagString: Untagged
@@ -333,21 +333,6 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
---- !u!114 &159138128674865030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 715d7edbfa5ae6742b05a85634ad752c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: God
-  knockedDownRotation: -180
-  allowedToGiveCommands: 0600000016000000
 --- !u!114 &1698261190327922250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,6 +407,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimatorElement: 1
   LoopEvery: 2
+--- !u!114 &2133879513358567812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e36df76b32ffd489ecff328e122570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: 
+  knockedDownRotation: 90
+  GenericSounds:
+  - god1
+  - god2
+  PlaySoundTime: 3
 --- !u!1 &2123639465450100608
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +436,7 @@ GameObject:
   - component: {fileID: 5437484472061382214}
   - component: {fileID: 2647510864872935770}
   m_Layer: 12
-  m_Name: IanHead
+  m_Name: GodHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -520,7 +523,7 @@ GameObject:
   - component: {fileID: 3617425533762231686}
   - component: {fileID: 186469482417783052}
   m_Layer: 12
-  m_Name: IanChest
+  m_Name: GodChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
