@@ -18,14 +18,21 @@ namespace Chemistry
 				return "empty";
 			else if (fillPercent <= 0.25f)
 				return "almost empty";
-			else if (fillPercent <= 0.75f)
+			else if (fillPercent <= 0.5f)
 				return "half empty";
-			else if (fillPercent <= 1f)
+			else if (fillPercent <= 0.75f)
+				return "half full";
+			else if (fillPercent < 1f)
 				return "almost full";
 			else
 				return "full";
 		}
 
+		/// <summary>
+		/// Average state of all reagents as a string (liquid, gas, etc)
+		/// </summary>
+		/// <param name="mix"></param>
+		/// <returns></returns>
 		public static string GetMixStateDescription(ReagentMix mix)
 		{
 			var mixState = mix.MixState;

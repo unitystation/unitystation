@@ -65,10 +65,10 @@ namespace Chemistry
 				{
 					return new KeyValuePair<ReagentState, float>
 					(group.Key, group.Sum(r => r.Value));
-				});
+				}).ToArray();
 
 				// Now get state with the biggest sum
-				var mostState = volumeByState.OrderBy(group => group.Value).First();
+				var mostState = volumeByState.OrderByDescending(group => group.Value).First();
 				return mostState.Key;
 			}
 		}
