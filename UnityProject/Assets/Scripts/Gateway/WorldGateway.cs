@@ -50,11 +50,6 @@ public class WorldGateway : StationGateway
 		{
 			SetOnline();
 			ServerChangeState(true);
-
-			if (GetComponent<MobSpawnControlScript>() != null)
-			{
-				GetComponent<MobSpawnControlScript>().SpawnMobs();
-			}
 		}
 	}
 

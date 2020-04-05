@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
 /// For Gateways inheritable class
@@ -11,7 +12,6 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private SpriteRenderer[] Sprites;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
-	//TODO animate centre
 
 	private int Count = 0;
 
@@ -30,6 +30,8 @@ public class StationGateway : NetworkBehaviour
 	private bool HasPower = true;// Not used atm
 
 	private bool IsConnected;
+
+	private bool SpawnedMobs = false;
 
 	[SerializeField]
 	private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
@@ -50,6 +52,12 @@ public class StationGateway : NetworkBehaviour
 	protected float timeElapsedClient = 0;
 	protected float timeElapsedServerSound = 0;
 	public float DetectionTime = 1;
+
+	private int NumberOfSprites = 26;
+	private int NumberOfSpriteRenderers = 9;
+
+	public float SoundLength = 7f;
+	public float AnimationSpeed = 0.25f;
 
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isOn = false;
@@ -79,7 +87,7 @@ public class StationGateway : NetworkBehaviour
 			}
 
 			timeElapsedServerSound += Time.deltaTime;
-			if (timeElapsedServerSound > 7 && isOn)
+			if (timeElapsedServerSound > SoundLength && isOn)
 			{
 				DetectPlayer();
 				SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
@@ -89,7 +97,7 @@ public class StationGateway : NetworkBehaviour
 		else
 		{
 			timeElapsedClient += Time.deltaTime;
-			if (timeElapsedClient > 0.25)
+			if (timeElapsedClient > AnimationSpeed)
 			{
 				if (isOn)
 				{
@@ -162,6 +170,16 @@ public class StationGateway : NetworkBehaviour
 		//detect players positioned on the portal bit of the gateway
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
+		if (!SpawnedMobs && playersFound.Count() > 0)
+		{
+			Logger.Log("spawned mobs");
+			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
+			{
+				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
+			}
+			SpawnedMobs = true;
+		}
+
 		foreach (ObjectBehaviour player in playersFound)
 		{
 			var coord = new Vector2(Position.x, Position.y);
@@ -196,14 +214,14 @@ public class StationGateway : NetworkBehaviour
 
 	public virtual void SetOnline()
 	{
-		for (int i = Count; i <= Count + 8; i++)
+		for (int i = Count; i < Count + NumberOfSpriteRenderers; i++)
 		{
 			Sprites[i - Count].sprite = Online[i];
 		}
 
-		Count += 9;
+		Count += NumberOfSpriteRenderers;
 
-		if (Count > 26)
+		if (Count > NumberOfSprites)
 		{
 			Count = 0;
 		}
@@ -211,14 +229,14 @@ public class StationGateway : NetworkBehaviour
 
 	public virtual void SetOffline()
 	{
-		for (int i = Count; i <= Count + 8; i++)
+		for (int i = Count; i < Count + NumberOfSpriteRenderers; i++)
 		{
 			Sprites[i - Count].sprite = Offline[i];
 		}
 
-		Count += 9;
+		Count += NumberOfSpriteRenderers;
 
-		if (Count > 26)
+		if (Count > NumberOfSprites)
 		{
 			Count = 0;
 		}
