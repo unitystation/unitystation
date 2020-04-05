@@ -17,7 +17,7 @@ public static class NetworkManagerExtensions
 		foreach (Type type in types)
 		{
 			MethodInfo method = mi.MakeGenericMethod(type);
-			method.Invoke(null, new object[] {manager, null});
+			method.Invoke(null, new object[] {true, null});
 		}
 	}
 
@@ -32,16 +32,16 @@ public static class NetworkManagerExtensions
 		foreach (Type type in types)
 		{
 			MethodInfo method = mi.MakeGenericMethod(type);
-			method.Invoke(null, new object[] {manager, conn});
+			method.Invoke(null, new object[] {false, conn});
 		}
 	}
 
-	public static void RegisterHandler<T>(this CustomNetworkManager manager, NetworkConnection conn)
+	public static void RegisterHandler<T>(bool isServer, NetworkConnection conn)
 		where T : GameMessageBase, new()
 	{
 		var msg = new T();
 		
-		if (!manager._isServer)
+		if (!isServer)
 		{
 			NetworkClient.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
 		}
