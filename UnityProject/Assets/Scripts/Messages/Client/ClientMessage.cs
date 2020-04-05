@@ -16,13 +16,13 @@ public abstract class ClientMessage : GameMessageBase
 
 	public void Send()
 	{
-		NetworkClient.Send(MessageType, this);
+		NetworkClient.Send(this, MessageType);
 //		Logger.Log($"Sent {this}");
 	}
 
 	public void SendUnreliable()
 	{
-		NetworkClient.Send(MessageType, this);
+		NetworkClient.Send(this, MessageType);
 	}
 
 	private static uint LocalPlayerId()

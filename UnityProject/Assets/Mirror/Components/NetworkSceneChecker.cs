@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -20,14 +21,16 @@ namespace Mirror
         [Tooltip("Enable to force this object to be hidden from all observers.")]
         public bool forceHidden;
 
-        public static readonly Dictionary<string, HashSet<NetworkIdentity>> sceneCheckerObjects = new Dictionary<string, HashSet<NetworkIdentity>>();
+        // Use Scene instead of string scene.name because when additively loading multiples of a subscene the name won't be unique
+        static readonly Dictionary<Scene, HashSet<NetworkIdentity>> sceneCheckerObjects = new Dictionary<Scene, HashSet<NetworkIdentity>>();
 
-        string currentScene;
+        Scene currentScene;
 
         [ServerCallback]
         void Awake()
         {
-            currentScene = gameObject.scene.name;
+            currentScene = gameObject.scene;
+            if (LogFilter.Debug) Debug.Log($"NetworkSceneChecker.Awake currentScene: {currentScene}");
         }
 
         public override void OnStartServer()
@@ -41,7 +44,7 @@ namespace Mirror
         [ServerCallback]
         void Update()
         {
-            if (currentScene == gameObject.scene.name)
+            if (currentScene == gameObject.scene)
                 return;
 
             // This object is in a new scene so observers in the prior scene
@@ -54,7 +57,7 @@ namespace Mirror
             RebuildSceneObservers();
 
             // Set this to the new scene this object just entered
-            currentScene = gameObject.scene.name;
+            currentScene = gameObject.scene;
 
             // Make sure this new scene is in the dictionary
             if (!sceneCheckerObjects.ContainsKey(currentScene))
@@ -74,6 +77,11 @@ namespace Mirror
                     networkIdentity.RebuildObservers(false);
         }
 
+        /// <summary>
+        /// Called when a new player enters the scene
+        /// </summary>
+        /// <param name="newObserver">NetworkConnection of player object</param>
+        /// <returns>True if object is in the same scene</returns>
         public override bool OnCheckObserver(NetworkConnection conn)
         {
             if (forceHidden)

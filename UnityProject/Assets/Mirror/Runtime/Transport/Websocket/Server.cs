@@ -91,7 +91,7 @@ namespace Mirror.Websocket
                 cancellation = new CancellationTokenSource();
 
                 listener = TcpListener.Create(port);
-                listener.Server.NoDelay = this.NoDelay;
+                listener.Server.NoDelay = NoDelay;
                 listener.Start();
                 Debug.Log($"Websocket server started listening on port {port}");
                 while (true)
@@ -253,7 +253,8 @@ namespace Mirror.Websocket
         public void Stop()
         {
             // only if started
-            if (!Active) return;
+            if (!Active)
+                return;
 
             Debug.Log("Server: stopping...");
             cancellation.Cancel();

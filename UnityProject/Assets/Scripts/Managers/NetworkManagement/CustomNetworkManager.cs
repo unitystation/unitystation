@@ -276,7 +276,7 @@ public class CustomNetworkManager : NetworkManager
 		yield return WaitFor.Seconds(0.1f);
 		if (!GameData.IsHeadlessServer && !GameData.Instance.testServer)
 		{
-			if (!IsClientConnected())
+			if (NetworkClient.isConnected)
 			{
 				//				if (GameData.IsInGame) {
 				//					UIManager.Display.logInWindow.SetActive(true);

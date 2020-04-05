@@ -196,7 +196,7 @@ public class EncryptionKey : NetworkBehaviour
 /// Downside – all players will get that info (same with syncvars)
 	public override bool OnSerialize(NetworkWriter writer, bool initialState)
 	{
-		writer.Write(type.ToString());
+		writer.WriteString(type.ToString());
 		return base.OnSerialize(writer, initialState);
 	}
 	public override void OnDeserialize(NetworkReader reader, bool initialState)
