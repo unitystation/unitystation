@@ -11,7 +11,7 @@ public abstract class GameMessageBase : MessageBase
 
 	public virtual void PreProcess(NetworkConnection sentBy, GameMessageBase b)
 	{
-		CustomNetworkManager.Instance.StartCoroutine(Process(sentBy));
+		CustomNetworkManager.Instance.StartCoroutine(b.Process(sentBy));
 	}
 
 	public abstract IEnumerator Process();

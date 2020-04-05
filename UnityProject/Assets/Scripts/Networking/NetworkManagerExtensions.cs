@@ -40,7 +40,7 @@ public static class NetworkManagerExtensions
 		where T : GameMessageBase, new()
 	{
 		var msg = new T();
-
+		
 		if (conn != null)
 		{
 			NetworkClient.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
