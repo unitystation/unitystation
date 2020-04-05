@@ -24,6 +24,8 @@ public class WorldGateway : StationGateway
 
 		if (!isServer) return;
 
+		SpawnedMobs = true;
+
 		ServerChangeState(false);
 
 		registerTile = GetComponent<RegisterTile>();
@@ -50,11 +52,6 @@ public class WorldGateway : StationGateway
 		{
 			SetOnline();
 			ServerChangeState(true);
-
-			if (GetComponent<MobSpawnControlScript>() != null)
-			{
-				GetComponent<MobSpawnControlScript>().SpawnMobs();
-			}
 		}
 	}
 

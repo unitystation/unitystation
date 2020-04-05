@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
 /// For Gateways inheritable class
@@ -11,11 +12,8 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private SpriteRenderer[] Sprites;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
-	//TODO animate centre
-	[SerializeField]
-	private SpriteRenderer Centre;
 
-	private int Count = 0;
+	private int animationOffset = 0;
 
 	[SerializeField]
 	private Sprite[] Online;
@@ -33,24 +31,30 @@ public class StationGateway : NetworkBehaviour
 
 	private bool IsConnected;
 
+	protected bool SpawnedMobs = false;
+
 	[SerializeField]
 	private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
 	[SerializeField]
 	private int RandomCountEnd = 1200;
 
-	private protected RegisterTile registerTile;
+	protected RegisterTile registerTile;
 
 	private Matrix Matrix => registerTile.Matrix;
 
 	public string WorldName = "The Station";
 
-	private protected Vector3Int Position;
+	protected Vector3Int Position;
 
-	private protected string Message;
+	protected string Message;
 
-	private protected float timeElapsedServer = 0;
-	private protected float timeElapsedClient = 0;
+	protected float timeElapsedServer = 0;
+	protected float timeElapsedClient = 0;
+	protected float timeElapsedServerSound = 0;
 	public float DetectionTime = 1;
+
+	public float SoundLength = 7f;
+	public float AnimationSpeed = 0.25f;
 
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isOn = false;
@@ -78,11 +82,19 @@ public class StationGateway : NetworkBehaviour
 				DetectPlayer();
 				timeElapsedServer = 0;
 			}
+
+			timeElapsedServerSound += Time.deltaTime;
+			if (timeElapsedServerSound > SoundLength && isOn)
+			{
+				DetectPlayer();
+				SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
+				timeElapsedServerSound = 0;
+			}
 		}
 		else
 		{
 			timeElapsedClient += Time.deltaTime;
-			if (timeElapsedClient > 1)
+			if (timeElapsedClient > AnimationSpeed)
 			{
 				if (isOn)
 				{
@@ -155,6 +167,16 @@ public class StationGateway : NetworkBehaviour
 		//detect players positioned on the portal bit of the gateway
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
+		if (!SpawnedMobs && playersFound.Count() > 0)
+		{
+			Logger.Log("spawned mobs");
+			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
+			{
+				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
+			}
+			SpawnedMobs = true;
+		}
+
 		foreach (ObjectBehaviour player in playersFound)
 		{
 			var coord = new Vector2(Position.x, Position.y);
@@ -189,41 +211,31 @@ public class StationGateway : NetworkBehaviour
 
 	public virtual void SetOnline()
 	{
-		for (int i = 0; i < Sprites.Length; i++)
-		{
-			Sprites[i].sprite = Online[i];
-		}
+		SetSprites(Online);
 
-		Centre.sprite = Online[Count + 8];
-		Count += 1;
-
-		if (Count > 2)
-		{
-			Count = 0;
-		}
+		animationOffset += Sprites.Length;
+		animationOffset %= Online.Length;
 	}
 
 	public virtual void SetOffline()
 	{
-		for (int i = 0; i < Sprites.Length; i++)
-		{
-			Sprites[i].sprite = Offline[i];
-		}
+		SetSprites(Offline);
 
-		Centre.sprite = Offline[Count + 8];
-		Count += 1;
-
-		if (Count > 2)
-		{
-			Count = 0;
-		}
+		animationOffset += Sprites.Length;
+		animationOffset %= Offline.Length;
 	}
 
 	public virtual void SetPowerOff()
 	{
+		animationOffset = 0;
+		SetSprites(PowerOff);
+	}
+
+	private void SetSprites(Sprite[] spriteSet)
+	{
 		for (int i = 0; i < Sprites.Length; i++)
 		{
-			Sprites[i].sprite = PowerOff[i];
+			Sprites[i].sprite = spriteSet[i + animationOffset];
 		}
 	}
 }
