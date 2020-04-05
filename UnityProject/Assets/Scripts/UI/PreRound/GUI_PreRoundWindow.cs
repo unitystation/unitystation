@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GUI_PreRoundWindow : MonoBehaviour
 {
 	[SerializeField]
-	private Text currentGameMode = null;
+	private TMP_Text currentGameMode = null;
 	[SerializeField]
-	private Text timer = null;
+	private TMP_Text timer = null;
 	[SerializeField]
-	private Text playerCount = null;
+	private TMP_Text playerCount = null;
 
 	[SerializeField]
 	private GameObject adminPanel = null;
@@ -19,9 +22,14 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private GameObject countdownPanel = null;
 	[SerializeField]
 	private GameObject characterCustomization = null;
+	[SerializeField]
+	private Button characterButton = null;
+	[SerializeField]
+	private TMP_Text readyText = null;
 
 	private bool doCountdown;
 	private float countdownTime;
+	private bool isReady;
 
 	void OnDisable()
 	{
@@ -82,5 +90,15 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		SoundManager.Play("Click01");
 		characterCustomization.SetActive(true);
+	}
+
+	public void OnReadyButton()
+	{
+		SoundManager.Play("Click01");
+		// Toggle ready status
+		isReady = !isReady;
+		characterButton.interactable = !isReady;
+		readyText.text = (!isReady) ? "Ready" : "Unready";
+		PlayerManager.LocalViewerScript.SetReady(isReady);
 	}
 }

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Newtonsoft.Json;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -12,6 +12,7 @@ public partial class PlayerList : NetworkBehaviour
 	//ConnectedPlayer list, server only
 	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
 	private List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
+	private List<ConnectedPlayer> readyPlayers = new List<ConnectedPlayer>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -29,14 +30,13 @@ public partial class PlayerList : NetworkBehaviour
 	public List<ConnectedPlayer> AllPlayers =>
 		loggedIn.FindAll(player => (player.Script != null || player.ViewerScript != null));
 
+	public List<ConnectedPlayer> LobbyPlayers => loggedIn.FindAll(player => player.ViewerScript != null);
+
 	/// <summary>
 	/// Used to track who killed who. Could be used to check that a player actually killed someone themselves.
 	/// </summary>
 	public Dictionary<PlayerScript, List<PlayerScript>>
 		KillTracker = new Dictionary<PlayerScript, List<PlayerScript>>();
-
-	//Nuke Ops (TODO: throughoutly remove all unnecessary TDM variables)
-	public bool nukeSetOff = false;
 
 	private void Awake()
 	{
@@ -273,8 +273,7 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		var conn = Get(playerObj);
 		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
-		if (conn.Script.mind.IsAntag) return true;
-		return false;
+		return conn.Script.mind.IsAntag;
 	}
 
 	[Server]
@@ -454,6 +453,25 @@ public partial class PlayerList : NetworkBehaviour
 		{
 			adminListWatcher.Changed -= LoadCurrentAdmins;
 			adminListWatcher.Dispose();
+		}
+	}
+
+	/// <summary>
+	/// Makes a player ready/unready for job allocations
+	/// </summary>
+	public void SetPlayerReady(ConnectedPlayer player, bool isReady, JobPrefsDict jobPrefs = null)
+	{
+		if (isReady)
+		{
+			// Update connection with locked in job prefs
+			player.JobPreferences = jobPrefs;
+			readyPlayers.Add(player);
+			Logger.Log($"Set {player.Username} to ready! Job prefs:\n{jobPrefs}");
+		}
+		else
+		{
+			readyPlayers.Remove(player);
+			Logger.Log($"Set {player.Username} to NOT ready!");
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 using Mirror;
+using Newtonsoft.Json;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -187,5 +188,41 @@ public class JoinedViewer : NetworkBehaviour
 		}
 
 		return "";
+	}
+
+	/// <summary>
+	/// Mark this joined viewer as ready for job allocation
+	/// </summary>
+	public void SetReady(bool isReady)
+	{
+		string jobPrefs = "";
+		if (isReady)
+		{
+			jobPrefs = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings.JobPreferences);
+		}
+		CmdPlayerReady(netIdentity, DatabaseAPI.ServerData.UserID, isReady, jobPrefs);
+	}
+
+	[Command]
+	private void CmdPlayerReady(NetworkIdentity networkIdentity, string userID, bool isReady, string jsonJobPrefs)
+	{
+		var byConnection = PlayerList.Instance.GetByConnection(networkIdentity.connectionToClient);
+		var byUserID = PlayerList.Instance.GetByUserID(userID);
+
+		// Double check connection and userID
+		if (byConnection != byUserID)
+		{
+			Logger.LogErrorFormat("Client's NetworkConnection and UserID point to different players!\n" +
+								  "Player from connection: {0}\n" +
+								  "Player from UserID: {1}", Category.Exploits, byConnection, byUserID);
+			return;
+		}
+
+		JobPrefsDict jobPrefs = null;
+		if (isReady)
+		{
+			jobPrefs = JsonConvert.DeserializeObject<JobPrefsDict>(jsonJobPrefs);
+		}
+		PlayerList.Instance.SetPlayerReady(byConnection, isReady, jobPrefs);
 	}
 }
