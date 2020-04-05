@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 
 /// <summary>
-/// For the station Gate, only connects to a gate this script will pick
+/// For Gateways inheritable class
 /// </summary>
 public class StationGateway : NetworkBehaviour
 {
@@ -12,6 +12,10 @@ public class StationGateway : NetworkBehaviour
 	private SpriteRenderer[] Sprites;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 	//TODO animate centre
+	[SerializeField]
+	private SpriteRenderer Centre;
+
+	private int Count = 0;
 
 	[SerializeField]
 	private Sprite[] Online;
@@ -34,18 +38,18 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private int RandomCountEnd = 1200;
 
-	public RegisterTile registerTile;
+	private protected RegisterTile registerTile;
 
 	private Matrix Matrix => registerTile.Matrix;
 
 	public string WorldName = "The Station";
 
-	public Vector3Int Position;
+	private protected Vector3Int Position;
 
-	public string Message;
+	private protected string Message;
 
-	public float timeElapsedServer = 0;
-	public float timeElapsedClient = 0;
+	private protected float timeElapsedServer = 0;
+	private protected float timeElapsedClient = 0;
 	public float DetectionTime = 1;
 
 	[SyncVar(hook = nameof(SyncState))]
@@ -69,7 +73,7 @@ public class StationGateway : NetworkBehaviour
 		if (isServer)
 		{
 			timeElapsedServer += Time.deltaTime;
-			if (timeElapsedServer > DetectionTime && isOn == true)
+			if (timeElapsedServer > DetectionTime && isOn)
 			{
 				DetectPlayer();
 				timeElapsedServer = 0;
@@ -80,7 +84,7 @@ public class StationGateway : NetworkBehaviour
 			timeElapsedClient += Time.deltaTime;
 			if (timeElapsedClient > 1)
 			{
-				if (isOn == true)
+				if (isOn)
 				{
 					SetOnline();
 				}
@@ -112,7 +116,7 @@ public class StationGateway : NetworkBehaviour
 		Position = registerTile.WorldPosition;
 
 		ServerChangeState(false);
-		isOn = false;
+
 		var count = Random.Range(RandomCountBegining, RandomCountEnd);
 		Invoke(nameof(WorldSetup), count);
 	}
@@ -139,7 +143,6 @@ public class StationGateway : NetworkBehaviour
 		{
 			SetOnline();
 			ServerChangeState(true);
-			isOn = true;
 
 			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
@@ -162,12 +165,12 @@ public class StationGateway : NetworkBehaviour
 
 		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true))
 		{
-			TransportObjects(objects);
+			TransportObjectsItems(objects);
 		}
 
 		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true))
 		{
-			TransportItems(items);
+			TransportObjectsItems(items);
 		}
 	}
 
@@ -179,15 +182,9 @@ public class StationGateway : NetworkBehaviour
 	}
 
 	[Server]
-	public virtual void TransportObjects(ObjectBehaviour objects)
+	public virtual void TransportObjectsItems(ObjectBehaviour objectsitems)
 	{
-		objects.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
-	}
-
-	[Server]
-	public virtual void TransportItems(ObjectBehaviour items)
-	{
-		items.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		objectsitems.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	public virtual void SetOnline()
@@ -196,6 +193,14 @@ public class StationGateway : NetworkBehaviour
 		{
 			Sprites[i].sprite = Online[i];
 		}
+
+		Centre.sprite = Online[Count + 8];
+		Count += 1;
+
+		if (Count > 2)
+		{
+			Count = 0;
+		}
 	}
 
 	public virtual void SetOffline()
@@ -203,6 +208,14 @@ public class StationGateway : NetworkBehaviour
 		for (int i = 0; i < Sprites.Length; i++)
 		{
 			Sprites[i].sprite = Offline[i];
+		}
+
+		Centre.sprite = Offline[Count + 8];
+		Count += 1;
+
+		if (Count > 2)
+		{
+			Count = 0;
 		}
 	}
 
@@ -213,5 +226,4 @@ public class StationGateway : NetworkBehaviour
 			Sprites[i].sprite = PowerOff[i];
 		}
 	}
-
 }

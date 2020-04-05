@@ -902,7 +902,7 @@ MonoBehaviour:
   - {fileID: 8108458996930749080}
   - {fileID: 3859359529583401668}
   - {fileID: 812093067107287745}
-  - {fileID: 8782174392070045440}
+  Centre: {fileID: 8782174392070045440}
   Online:
   - {fileID: -5053537777833272925, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
   - {fileID: 4658743146477972809, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
@@ -913,6 +913,8 @@ MonoBehaviour:
   - {fileID: 3293299140940688845, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
   - {fileID: -1184879654540406518, guid: 50386ced7d1ba73428044aef280ed44f, type: 3}
   - {fileID: 21300000, guid: 2cdc09ed58ba5964faa7138d9efb79b9, type: 3}
+  - {fileID: 21300002, guid: 2cdc09ed58ba5964faa7138d9efb79b9, type: 3}
+  - {fileID: 21300004, guid: 2cdc09ed58ba5964faa7138d9efb79b9, type: 3}
   Offline:
   - {fileID: 21300000, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
   - {fileID: 21300002, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
@@ -923,6 +925,8 @@ MonoBehaviour:
   - {fileID: 21300012, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
   - {fileID: 21300014, guid: 62f656a0042d2e141a885ca786845e3e, type: 3}
   - {fileID: 21300000, guid: 254349f6e8c80cf469c5c4ebb400f286, type: 3}
+  - {fileID: 21300002, guid: 254349f6e8c80cf469c5c4ebb400f286, type: 3}
+  - {fileID: 21300004, guid: 254349f6e8c80cf469c5c4ebb400f286, type: 3}
   PowerOff:
   - {fileID: 21300000, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
   - {fileID: 21300002, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
@@ -933,9 +937,13 @@ MonoBehaviour:
   - {fileID: 21300012, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
   - {fileID: 21300014, guid: 5d8a821e0fd56f944aceae231589a2d9, type: 3}
   - {fileID: 21300000, guid: f816a89e22885a248b686ca3b47a29af, type: 3}
+  Worlds: []
+  RandomCountBegining: 300
+  RandomCountEnd: 1200
+  WorldName: Unknown
+  DetectionTime: 1
   StationGateway: {fileID: 0}
   IsOnlineAtStart: 0
-  WorldName: Unknown
 --- !u!114 &5787897650670296218
 MonoBehaviour:
   m_ObjectHideFlags: 0
