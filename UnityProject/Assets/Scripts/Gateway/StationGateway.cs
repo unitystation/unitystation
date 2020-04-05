@@ -13,7 +13,7 @@ public class StationGateway : NetworkBehaviour
 	private SpriteRenderer[] Sprites;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 
-	private int Count = 0;
+	private int animationOffset = 0;
 
 	[SerializeField]
 	private Sprite[] Online;
@@ -31,7 +31,7 @@ public class StationGateway : NetworkBehaviour
 
 	private bool IsConnected;
 
-	private bool SpawnedMobs = false;
+	protected bool SpawnedMobs = false;
 
 	[SerializeField]
 	private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
@@ -52,9 +52,6 @@ public class StationGateway : NetworkBehaviour
 	protected float timeElapsedClient = 0;
 	protected float timeElapsedServerSound = 0;
 	public float DetectionTime = 1;
-
-	private int NumberOfSprites = 26;
-	private int NumberOfSpriteRenderers = 9;
 
 	public float SoundLength = 7f;
 	public float AnimationSpeed = 0.25f;
@@ -214,39 +211,31 @@ public class StationGateway : NetworkBehaviour
 
 	public virtual void SetOnline()
 	{
-		for (int i = Count; i < Count + NumberOfSpriteRenderers; i++)
-		{
-			Sprites[i - Count].sprite = Online[i];
-		}
+		SetSprites(Online);
 
-		Count += NumberOfSpriteRenderers;
-
-		if (Count > NumberOfSprites)
-		{
-			Count = 0;
-		}
+		animationOffset += Sprites.Length;
+		animationOffset %= Online.Length;
 	}
 
 	public virtual void SetOffline()
 	{
-		for (int i = Count; i < Count + NumberOfSpriteRenderers; i++)
-		{
-			Sprites[i - Count].sprite = Offline[i];
-		}
+		SetSprites(Offline);
 
-		Count += NumberOfSpriteRenderers;
-
-		if (Count > NumberOfSprites)
-		{
-			Count = 0;
-		}
+		animationOffset += Sprites.Length;
+		animationOffset %= Offline.Length;
 	}
 
 	public virtual void SetPowerOff()
 	{
+		animationOffset = 0;
+		SetSprites(PowerOff);
+	}
+
+	private void SetSprites(Sprite[] spriteSet)
+	{
 		for (int i = 0; i < Sprites.Length; i++)
 		{
-			Sprites[i].sprite = PowerOff[i];
+			Sprites[i].sprite = spriteSet[i + animationOffset];
 		}
 	}
 }

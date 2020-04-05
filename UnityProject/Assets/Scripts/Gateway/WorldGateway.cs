@@ -24,6 +24,8 @@ public class WorldGateway : StationGateway
 
 		if (!isServer) return;
 
+		SpawnedMobs = true;
+
 		ServerChangeState(false);
 
 		registerTile = GetComponent<RegisterTile>();
