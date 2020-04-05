@@ -15,19 +15,16 @@ public class WorldGateway : StationGateway
 
 	public bool IsOnlineAtStart = false;
 
-	public string NewWorldName = "Unknown";
-	//Displayed when teleporting
-
 
 	private void Start()
 	{
 		if (StationGateway == null) return;
 
-		WorldName = NewWorldName;
-
 		SetOffline();
 
 		if (!isServer) return;
+
+		SpawnedMobs = true;
 
 		ServerChangeState(false);
 
@@ -36,7 +33,7 @@ public class WorldGateway : StationGateway
 		Position = registerTile.WorldPosition;
 		Message = "Teleporting to: " + StationGateway.GetComponent<StationGateway>().WorldName;
 
-		if (IsOnlineAtStart == true && StationGateway != null)
+		if (IsOnlineAtStart && StationGateway != null)
 		{
 			SetOnline();
 			ServerChangeState(true);
@@ -55,11 +52,6 @@ public class WorldGateway : StationGateway
 		{
 			SetOnline();
 			ServerChangeState(true);
-
-			if (GetComponent<MobSpawnControlScript>() != null)
-			{
-				GetComponent<MobSpawnControlScript>().SpawnMobs();
-			}
 		}
 	}
 
@@ -71,14 +63,8 @@ public class WorldGateway : StationGateway
 	}
 
 	[Server]
-	public override void TransportObjects(ObjectBehaviour objects)
+	public override void TransportObjectsItems(ObjectBehaviour objectsitems)
 	{
-		objects.GetComponent<CustomNetTransform>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition);
-	}
-
-	[Server]
-	public override void TransportItems(ObjectBehaviour items)
-	{
-		items.GetComponent<CustomNetTransform>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition);
+		objectsitems.GetComponent<CustomNetTransform>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition);
 	}
 }

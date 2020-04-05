@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
-/// For the station Gate, only connects to a gate this script will pick
+/// For Gateways inheritable class
 /// </summary>
 public class StationGateway : NetworkBehaviour
 {
 	[SerializeField]
 	private SpriteRenderer[] Sprites;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
-	//TODO animate centre
+
+	private int animationOffset = 0;
 
 	[SerializeField]
 	private Sprite[] Online;
@@ -29,24 +31,30 @@ public class StationGateway : NetworkBehaviour
 
 	private bool IsConnected;
 
+	protected bool SpawnedMobs = false;
+
 	[SerializeField]
 	private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
 	[SerializeField]
 	private int RandomCountEnd = 1200;
 
-	public RegisterTile registerTile;
+	protected RegisterTile registerTile;
 
 	private Matrix Matrix => registerTile.Matrix;
 
 	public string WorldName = "The Station";
 
-	public Vector3Int Position;
+	protected Vector3Int Position;
 
-	public string Message;
+	protected string Message;
 
-	public float timeElapsedServer = 0;
-	public float timeElapsedClient = 0;
+	protected float timeElapsedServer = 0;
+	protected float timeElapsedClient = 0;
+	protected float timeElapsedServerSound = 0;
 	public float DetectionTime = 1;
+
+	public float SoundLength = 7f;
+	public float AnimationSpeed = 0.25f;
 
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isOn = false;
@@ -69,18 +77,26 @@ public class StationGateway : NetworkBehaviour
 		if (isServer)
 		{
 			timeElapsedServer += Time.deltaTime;
-			if (timeElapsedServer > DetectionTime && isOn == true)
+			if (timeElapsedServer > DetectionTime && isOn)
 			{
 				DetectPlayer();
 				timeElapsedServer = 0;
+			}
+
+			timeElapsedServerSound += Time.deltaTime;
+			if (timeElapsedServerSound > SoundLength && isOn)
+			{
+				DetectPlayer();
+				SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
+				timeElapsedServerSound = 0;
 			}
 		}
 		else
 		{
 			timeElapsedClient += Time.deltaTime;
-			if (timeElapsedClient > 1)
+			if (timeElapsedClient > AnimationSpeed)
 			{
-				if (isOn == true)
+				if (isOn)
 				{
 					SetOnline();
 				}
@@ -112,7 +128,7 @@ public class StationGateway : NetworkBehaviour
 		Position = registerTile.WorldPosition;
 
 		ServerChangeState(false);
-		isOn = false;
+
 		var count = Random.Range(RandomCountBegining, RandomCountEnd);
 		Invoke(nameof(WorldSetup), count);
 	}
@@ -139,7 +155,6 @@ public class StationGateway : NetworkBehaviour
 		{
 			SetOnline();
 			ServerChangeState(true);
-			isOn = true;
 
 			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
@@ -152,6 +167,16 @@ public class StationGateway : NetworkBehaviour
 		//detect players positioned on the portal bit of the gateway
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
+		if (!SpawnedMobs && playersFound.Count() > 0)
+		{
+			Logger.Log("spawned mobs");
+			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
+			{
+				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
+			}
+			SpawnedMobs = true;
+		}
+
 		foreach (ObjectBehaviour player in playersFound)
 		{
 			var coord = new Vector2(Position.x, Position.y);
@@ -162,12 +187,12 @@ public class StationGateway : NetworkBehaviour
 
 		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true))
 		{
-			TransportObjects(objects);
+			TransportObjectsItems(objects);
 		}
 
 		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true))
 		{
-			TransportItems(items);
+			TransportObjectsItems(items);
 		}
 	}
 
@@ -179,39 +204,38 @@ public class StationGateway : NetworkBehaviour
 	}
 
 	[Server]
-	public virtual void TransportObjects(ObjectBehaviour objects)
+	public virtual void TransportObjectsItems(ObjectBehaviour objectsitems)
 	{
-		objects.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
-	}
-
-	[Server]
-	public virtual void TransportItems(ObjectBehaviour items)
-	{
-		items.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		objectsitems.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	public virtual void SetOnline()
 	{
-		for (int i = 0; i < Sprites.Length; i++)
-		{
-			Sprites[i].sprite = Online[i];
-		}
+		SetSprites(Online);
+
+		animationOffset += Sprites.Length;
+		animationOffset %= Online.Length;
 	}
 
 	public virtual void SetOffline()
 	{
-		for (int i = 0; i < Sprites.Length; i++)
-		{
-			Sprites[i].sprite = Offline[i];
-		}
+		SetSprites(Offline);
+
+		animationOffset += Sprites.Length;
+		animationOffset %= Offline.Length;
 	}
 
 	public virtual void SetPowerOff()
 	{
-		for (int i = 0; i < Sprites.Length; i++)
-		{
-			Sprites[i].sprite = PowerOff[i];
-		}
+		animationOffset = 0;
+		SetSprites(PowerOff);
 	}
 
+	private void SetSprites(Sprite[] spriteSet)
+	{
+		for (int i = 0; i < Sprites.Length; i++)
+		{
+			Sprites[i].sprite = spriteSet[i + animationOffset];
+		}
+	}
 }
