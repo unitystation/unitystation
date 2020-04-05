@@ -41,7 +41,7 @@ public static class NetworkManagerExtensions
 	{
 		var msg = new T();
 		
-		if (conn != null)
+		if (!manager._isServer)
 		{
 			NetworkClient.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
 		}
