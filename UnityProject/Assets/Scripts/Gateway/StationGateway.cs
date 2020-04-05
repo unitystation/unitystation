@@ -12,8 +12,6 @@ public class StationGateway : NetworkBehaviour
 	private SpriteRenderer[] Sprites;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 	//TODO animate centre
-	[SerializeField]
-	private SpriteRenderer Centre;
 
 	private int Count = 0;
 
@@ -91,7 +89,7 @@ public class StationGateway : NetworkBehaviour
 		else
 		{
 			timeElapsedClient += Time.deltaTime;
-			if (timeElapsedClient > 1)
+			if (timeElapsedClient > 0.25)
 			{
 				if (isOn)
 				{
@@ -198,15 +196,14 @@ public class StationGateway : NetworkBehaviour
 
 	public virtual void SetOnline()
 	{
-		for (int i = 0; i < Sprites.Length; i++)
+		for (int i = Count; i <= Count + 8; i++)
 		{
-			Sprites[i].sprite = Online[i];
+			Sprites[i - Count].sprite = Online[i];
 		}
 
-		Centre.sprite = Online[Count + 8];
-		Count += 1;
+		Count += 9;
 
-		if (Count > 2)
+		if (Count > 26)
 		{
 			Count = 0;
 		}
@@ -214,15 +211,14 @@ public class StationGateway : NetworkBehaviour
 
 	public virtual void SetOffline()
 	{
-		for (int i = 0; i < Sprites.Length; i++)
+		for (int i = Count; i <= Count + 8; i++)
 		{
-			Sprites[i].sprite = Offline[i];
+			Sprites[i - Count].sprite = Offline[i];
 		}
 
-		Centre.sprite = Offline[Count + 8];
-		Count += 1;
+		Count += 9;
 
-		if (Count > 2)
+		if (Count > 26)
 		{
 			Count = 0;
 		}
