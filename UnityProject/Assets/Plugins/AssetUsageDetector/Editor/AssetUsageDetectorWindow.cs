@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Object = UnityEngine.Object;
 
-namespace AssetUsageDetectorNamespace.Extras
+namespace AssetUsageDetectorNamespace
 {
 	public enum Phase { Setup, Processing, Complete };
 
@@ -26,6 +26,9 @@ namespace AssetUsageDetectorNamespace.Extras
 		private const string PREFS_SHOW_PROGRESS = "AUD_Progress";
 		private const string PREFS_SHOW_TOOLTIPS = "AUD_Tooltips";
 
+		private static readonly GUIContent windowTitle = new GUIContent( "Asset Usage Detector" );
+		private static readonly Vector2 windowMinSize = new Vector2( 325f, 220f );
+
 		private AssetUsageDetector core = new AssetUsageDetector();
 		private SearchResult searchResult; // Overall search results
 
@@ -38,7 +41,7 @@ namespace AssetUsageDetectorNamespace.Extras
 		private bool searchInScenesInBuildTickedOnly = true; // Scenes in build (ticked only or not)
 		private bool searchInAllScenes = true; // All scenes (including scenes that are not in build)
 		private bool searchInAssetsFolder = true; // Assets in Project window
-		private bool dontSearchInSourceAssets = false; // objectsToSearch won't be searched for internal references
+		private bool dontSearchInSourceAssets = true; // objectsToSearch won't be searched for internal references
 
 		private List<Object> searchInAssetsSubset = new List<Object>() { null }; // If not empty, only these assets are searched for references
 		private List<Object> excludedAssets = new List<Object>() { null }; // These assets won't be searched for references
@@ -68,17 +71,47 @@ namespace AssetUsageDetectorNamespace.Extras
 
 		private Vector2 scrollPosition = Vector2.zero;
 
-		private static AssetUsageDetectorWindow visibleWindow = null;
+		private bool shouldRepositionSelf;
+		private Rect windowTargetPosition;
+
+		private static AssetUsageDetectorWindow mainWindow = null;
 
 		// Add "Asset Usage Detector" menu item to the Window menu
-		[MenuItem( "Window/Asset Usage Detector" )]
-		private static void Init()
+		[MenuItem( "Window/Asset Usage Detector/Active Window" )]
+		private static void OpenActiveWindow()
 		{
-			AssetUsageDetectorWindow window = GetWindow<AssetUsageDetectorWindow>();
-			window.titleContent = new GUIContent( "Asset Usage Detector" );
-			window.minSize = new Vector2( 325f, 220f );
+			if( !mainWindow )
+			{
+				mainWindow = GetWindow<AssetUsageDetectorWindow>();
+				mainWindow.titleContent = windowTitle;
+				mainWindow.minSize = windowMinSize;
+			}
 
-			window.Show();
+			mainWindow.Show();
+		}
+
+		[MenuItem( "Window/Asset Usage Detector/New Window" )]
+		private static void OpenNewWindow()
+		{
+			Rect? windowTargetPosition = null;
+			if( mainWindow )
+			{
+				Rect position = mainWindow.position;
+				position.position += new Vector2( 50f, 50f );
+				windowTargetPosition = position;
+			}
+
+			mainWindow = CreateInstance<AssetUsageDetectorWindow>();
+			mainWindow.titleContent = windowTitle;
+			mainWindow.minSize = windowMinSize;
+
+			if( windowTargetPosition.HasValue )
+			{
+				mainWindow.shouldRepositionSelf = true;
+				mainWindow.windowTargetPosition = windowTargetPosition.Value;
+			}
+
+			mainWindow.Show( true );
 		}
 
 		// Quickly initiate search for the selected assets
@@ -133,57 +166,58 @@ namespace AssetUsageDetectorNamespace.Extras
 
 		private static void ShowAndSearchInternal( IEnumerable<Object> searchObjects, AssetUsageDetector.Parameters searchParameters )
 		{
-			if( visibleWindow != null && !visibleWindow.ReturnToSetupPhase( true ) )
+			if( mainWindow != null && !mainWindow.ReturnToSetupPhase( true ) )
 			{
 				Debug.LogError( "Need to reset the previous search first!" );
 				return;
 			}
 
-			Init();
+			OpenActiveWindow();
 
-			visibleWindow.objectsToSearch.Clear();
+			mainWindow.objectsToSearch.Clear();
 			if( searchObjects != null )
 			{
 				foreach( Object obj in searchObjects )
-					visibleWindow.objectsToSearch.Add( new ObjectToSearch( obj ) );
+					mainWindow.objectsToSearch.Add( new ObjectToSearch( obj ) );
 			}
 
 			if( searchParameters != null )
 			{
-				visibleWindow.ParseSceneSearchMode( searchParameters.searchInScenes );
-				visibleWindow.searchInAssetsFolder = searchParameters.searchInAssetsFolder;
-				visibleWindow.dontSearchInSourceAssets = searchParameters.dontSearchInSourceAssets;
-				visibleWindow.searchDepthLimit = searchParameters.searchDepthLimit;
-				visibleWindow.fieldModifiers = searchParameters.fieldModifiers;
-				visibleWindow.propertyModifiers = searchParameters.propertyModifiers;
-				visibleWindow.searchNonSerializableVariables = searchParameters.searchNonSerializableVariables;
-				visibleWindow.lazySceneSearch = searchParameters.lazySceneSearch;
-				visibleWindow.noAssetDatabaseChanges = searchParameters.noAssetDatabaseChanges;
-				visibleWindow.showDetailedProgressBar = searchParameters.showDetailedProgressBar;
+				mainWindow.ParseSceneSearchMode( searchParameters.searchInScenes );
+				mainWindow.searchInAssetsFolder = searchParameters.searchInAssetsFolder;
+				mainWindow.dontSearchInSourceAssets = searchParameters.dontSearchInSourceAssets;
+				mainWindow.searchDepthLimit = searchParameters.searchDepthLimit;
+				mainWindow.fieldModifiers = searchParameters.fieldModifiers;
+				mainWindow.propertyModifiers = searchParameters.propertyModifiers;
+				mainWindow.searchNonSerializableVariables = searchParameters.searchNonSerializableVariables;
+				mainWindow.lazySceneSearch = searchParameters.lazySceneSearch;
+				mainWindow.noAssetDatabaseChanges = searchParameters.noAssetDatabaseChanges;
+				mainWindow.showDetailedProgressBar = searchParameters.showDetailedProgressBar;
 
-				visibleWindow.searchInAssetsSubset.Clear();
+				mainWindow.searchInAssetsSubset.Clear();
 				if( searchParameters.searchInAssetsSubset != null )
 				{
 					foreach( Object obj in searchParameters.searchInAssetsSubset )
-						visibleWindow.searchInAssetsSubset.Add( obj );
+						mainWindow.searchInAssetsSubset.Add( obj );
 				}
 
-				visibleWindow.excludedAssets.Clear();
+				mainWindow.excludedAssets.Clear();
 				if( searchParameters.excludedAssetsFromSearch != null )
 				{
 					foreach( Object obj in searchParameters.excludedAssetsFromSearch )
-						visibleWindow.excludedAssets.Add( obj );
+						mainWindow.excludedAssets.Add( obj );
 				}
 
-				visibleWindow.excludedScenes.Clear();
+				mainWindow.excludedScenes.Clear();
 				if( searchParameters.excludedScenesFromSearch != null )
 				{
 					foreach( Object obj in searchParameters.excludedScenesFromSearch )
-						visibleWindow.excludedScenes.Add( obj );
+						mainWindow.excludedScenes.Add( obj );
 				}
 			}
 
-			visibleWindow.InitiateSearch();
+			mainWindow.InitiateSearch();
+			mainWindow.Repaint();
 		}
 
 		private void Awake()
@@ -193,7 +227,22 @@ namespace AssetUsageDetectorNamespace.Extras
 
 		private void OnEnable()
 		{
-			visibleWindow = this;
+			mainWindow = this;
+
+#if UNITY_2018_3_OR_NEWER
+			UnityEditor.Experimental.SceneManagement.PrefabStage.prefabStageClosing -= ReplacePrefabStageObjectsWithAssets;
+			UnityEditor.Experimental.SceneManagement.PrefabStage.prefabStageClosing += ReplacePrefabStageObjectsWithAssets;
+#endif
+		}
+
+		private void OnDisable()
+		{
+#if UNITY_2018_3_OR_NEWER
+			UnityEditor.Experimental.SceneManagement.PrefabStage.prefabStageClosing -= ReplacePrefabStageObjectsWithAssets;
+#endif
+
+			if( mainWindow == this )
+				mainWindow = null;
 		}
 
 		private void OnDestroy()
@@ -208,8 +257,11 @@ namespace AssetUsageDetectorNamespace.Extras
 				if( EditorUtility.DisplayDialog( "Scenes", "Restore initial scene setup?", "Yes", "Leave it as is" ) )
 					searchResult.RestoreInitialSceneSetup();
 			}
+		}
 
-			visibleWindow = null;
+		private void OnFocus()
+		{
+			mainWindow = this;
 		}
 
 		private void SavePrefs()
@@ -285,6 +337,12 @@ namespace AssetUsageDetectorNamespace.Extras
 			{
 				nextPlayModeRefreshTime = EditorApplication.timeSinceStartup + PLAY_MODE_REFRESH_INTERVAL; ;
 				Repaint();
+			}
+
+			if( shouldRepositionSelf )
+			{
+				shouldRepositionSelf = false;
+				position = windowTargetPosition;
 			}
 		}
 
@@ -523,7 +581,7 @@ namespace AssetUsageDetectorNamespace.Extras
 
 					GUILayout.Space( 35 );
 
-					if( EditorGUILayout.ToggleLeft( "Shorter: Draw only the most relevant unique parts of the complete paths that start with a UnityEngine.Object", searchResultDrawParameters.pathDrawingMode == PathDrawingMode.ShortRelevantParts ) )
+					if( EditorGUILayout.ToggleLeft( "Shorter: Draw only the most relevant parts (that start with a UnityEngine.Object) of the complete paths", searchResultDrawParameters.pathDrawingMode == PathDrawingMode.ShortRelevantParts ) )
 						searchResultDrawParameters.pathDrawingMode = PathDrawingMode.ShortRelevantParts;
 
 					GUILayout.EndHorizontal();
@@ -532,7 +590,7 @@ namespace AssetUsageDetectorNamespace.Extras
 
 					GUILayout.Space( 35 );
 
-					if( EditorGUILayout.ToggleLeft( "Shortest: Draw only the last two nodes of complete paths that are unique", searchResultDrawParameters.pathDrawingMode == PathDrawingMode.Shortest ) )
+					if( EditorGUILayout.ToggleLeft( "Shortest: Draw only the last two nodes of complete paths", searchResultDrawParameters.pathDrawingMode == PathDrawingMode.Shortest ) )
 						searchResultDrawParameters.pathDrawingMode = PathDrawingMode.Shortest;
 
 					GUILayout.EndHorizontal();
@@ -565,25 +623,7 @@ namespace AssetUsageDetectorNamespace.Extras
 				SavePrefs();
 
 #if UNITY_2018_3_OR_NEWER
-				// Try replacing prefab stage objects with their corresponding prefab assets
-				var openPrefabStage = UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
-				if( openPrefabStage != null && openPrefabStage.stageHandle.IsValid() )
-				{
-					GameObject openPrefabStagePrefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>( openPrefabStage.prefabAssetPath );
-					if( openPrefabStagePrefabAsset != null )
-					{
-						for( int i = 0; i < objectsToSearch.Count; i++ )
-						{
-							if( objectsToSearch[i].obj != null && !objectsToSearch[i].obj.Equals( null ) &&
-								objectsToSearch[i].obj is GameObject && openPrefabStage.IsPartOfPrefabContents( (GameObject) objectsToSearch[i].obj ) )
-							{
-								GameObject prefabStageObjectSource = ( (GameObject) objectsToSearch[i].obj ).FollowSymmetricHierarchy( openPrefabStagePrefabAsset );
-								if( prefabStageObjectSource != null )
-									objectsToSearch[i].obj = prefabStageObjectSource;
-							}
-						}
-					}
-				}
+				ReplacePrefabStageObjectsWithAssets( UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() );
 #endif
 
 				// Start searching
@@ -608,6 +648,42 @@ namespace AssetUsageDetectorNamespace.Extras
 				currentPhase = Phase.Complete;
 			}
 		}
+
+#if UNITY_2018_3_OR_NEWER
+		// Try replacing searched objects who are part of currently open prefab stage with their corresponding prefab assets
+		public void ReplacePrefabStageObjectsWithAssets( UnityEditor.Experimental.SceneManagement.PrefabStage prefabStage )
+		{
+			if( prefabStage == null || !prefabStage.stageHandle.IsValid() )
+				return;
+
+			GameObject prefabAsset = AssetDatabase.LoadAssetAtPath<GameObject>( prefabStage.prefabAssetPath );
+			if( prefabAsset == null )
+				return;
+
+			for( int i = 0; i < objectsToSearch.Count; i++ )
+			{
+				Object obj = objectsToSearch[i].obj;
+				if( obj != null && !obj.Equals( null ) && obj is GameObject && prefabStage.IsPartOfPrefabContents( (GameObject) obj ) )
+				{
+					GameObject prefabStageObjectSource = ( (GameObject) obj ).FollowSymmetricHierarchy( prefabAsset );
+					if( prefabStageObjectSource != null )
+						objectsToSearch[i].obj = prefabStageObjectSource;
+
+					List<ObjectToSearch.SubAsset> subAssets = objectsToSearch[i].subAssets;
+					for( int j = 0; j < subAssets.Count; j++ )
+					{
+						obj = subAssets[j].subAsset;
+						if( obj != null && !obj.Equals( null ) && obj is GameObject && prefabStage.IsPartOfPrefabContents( (GameObject) obj ) )
+						{
+							prefabStageObjectSource = ( (GameObject) obj ).FollowSymmetricHierarchy( prefabAsset );
+							if( prefabStageObjectSource != null )
+								subAssets[j].subAsset = prefabStageObjectSource;
+						}
+					}
+				}
+			}
+		}
+#endif
 
 		private bool ReturnToSetupPhase( bool restoreInitialSceneSetup )
 		{
