@@ -9,7 +9,6 @@ using Mirror;
 /// </summary>
 public class SpawnMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.SpawnMessage;
 	public uint SpawnedObject;
 	public uint ClonedFrom;
 

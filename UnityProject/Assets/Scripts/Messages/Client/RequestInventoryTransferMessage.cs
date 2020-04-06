@@ -11,8 +11,6 @@ using Mirror;
 /// </summary>
 public class RequestInventoryTransferMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestSlotTransferMessage;
-
 	public uint FromStorage;
 	public int FromSlotIndex;
 	public NamedSlot FromNamedSlot;

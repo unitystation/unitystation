@@ -6,8 +6,6 @@ using Mirror;
 
 public class AdminReplyMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminReplyMessage;
-
 	public string Message;
 
 	public override IEnumerator Process()

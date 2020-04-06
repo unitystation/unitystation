@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class RequestBookshelfNetMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestBookshelfNetMessage;
 	public ulong BookshelfID;
 	public bool IsNewBookshelf = false;
 	public string AdminId;

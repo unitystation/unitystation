@@ -8,7 +8,6 @@ using Mirror;
 /// </summary>
 public class TabInteractMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.TabInteractMessage;
 	public uint TabProvider;
 	public NetTabType NetTabType;
 	public string ElementId;
@@ -86,12 +85,6 @@ public class TabInteractMessage : ClientMessage
 		};
 		msg.Send();
 		return msg;
-	}
-
-	public override string ToString() {
-		return $"[TabInteractMessage {nameof( TabProvider )}: {TabProvider}, {nameof( NetTabType )}: {NetTabType}, " +
-									$"{nameof( ElementId )}: {ElementId}, {nameof( ElementValue )}: {ElementValue}, " +
-									$"MsgType={MessageType} SentBy={SentByPlayer}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)

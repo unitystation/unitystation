@@ -10,7 +10,6 @@ using Mirror;
 /// </summary>
 public class AdminChatNotifications : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminChatNotifications;
 	public string NotificationKey;
 	public AdminChatWindow TargetWindow;
 	public int Amount;

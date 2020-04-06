@@ -10,7 +10,7 @@ public abstract class ServerMessage : GameMessageBase
 {
 	public void SendToAll()
 	{
-		NetworkServer.SendToAll(this, MessageType);
+		NetworkServer.SendToAll(this, 0);
 		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
 	}
 

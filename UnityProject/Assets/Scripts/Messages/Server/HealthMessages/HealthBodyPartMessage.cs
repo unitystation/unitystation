@@ -7,8 +7,6 @@ using Mirror;
 /// </summary>
 public class HealthBodyPartMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.HealthBodyPartStats;
-
 	public uint EntityToUpdate;
 	public BodyPartType BodyPart;
 	public float BruteDamage;

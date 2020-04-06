@@ -7,7 +7,6 @@ using Mirror;
 /// </summary>
 public class UpdateHeadsetKeyMessage : ClientMessage
 {
-	public override short MessageType => ( short ) MessageTypes.UpdateHeadsetKeyMessage;
 	public uint EncryptionKey;
 	public uint HeadsetItem;
 

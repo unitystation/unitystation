@@ -6,8 +6,6 @@ using Mirror;
 
 public class RequestKickMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestKick;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToKick;

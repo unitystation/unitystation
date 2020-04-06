@@ -11,9 +11,6 @@ using UnityEngine;
 /// </summary>
 public class RequestExamineMessage : ClientMessage
 {
-	//TODO: Is this constant needed anymore
-	public override short MessageType => (short) MessageTypes.RequestExamine;
-
 	//members
 	// netid of target
 	public uint examineTarget;

@@ -8,8 +8,6 @@ using Mirror;
 /// </summary>
 public class RequestAdminPlayerList : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestAdminPlayerList;
-
 	public string Userid;
 	public string AdminToken;
 

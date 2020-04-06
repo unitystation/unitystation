@@ -10,8 +10,6 @@ using Newtonsoft.Json;
 
 public class BookNetMessage : ServerMessage
 {
-
-	public override short MessageType => (short)MessageTypes.BookNetMessage;
 	public VariableViewerNetworking.NetFriendlyBook Book;
 
 	public override IEnumerator Process()

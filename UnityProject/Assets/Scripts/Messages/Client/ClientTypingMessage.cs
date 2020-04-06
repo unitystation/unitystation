@@ -13,8 +13,6 @@ public enum TypingState
 /// </summary>
 public class ClientTypingMessage : ClientMessage
 {
-	public override short MessageType => (short)MessageTypes.ClientTypingMessage;
-
 	public TypingState state;
 
 	public override IEnumerator Process()

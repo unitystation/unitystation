@@ -7,7 +7,6 @@ using AdminTools;
 
 public class AdminToolRefreshMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminToolRefreshMessage;
 	public string JsonData;
 	public uint Recipient;
 

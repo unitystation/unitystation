@@ -9,7 +9,6 @@ using Mirror;
 /// </summary>
 public class DespawnMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.DespawnMessage;
 	public uint DespawnedObject;
 
 	public override IEnumerator Process()

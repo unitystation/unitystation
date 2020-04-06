@@ -7,7 +7,6 @@ using Mirror;
 /// </summary>
 public class HealthRespiratoryMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.HealthRespiratoryStats;
 	public bool IsSuffocating;
 
 	public override IEnumerator Process()

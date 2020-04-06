@@ -44,8 +44,6 @@ public abstract class GameMessageBase : MessageBase
 		NetworkObject = NetworkIdentity.spawned[id].gameObject;
 	}
 
-	public abstract short MessageType { get; }
-
 	protected IEnumerator WaitFor(params uint[] ids)
 	{
 		NetworkObjects = new GameObject[ids.Length];

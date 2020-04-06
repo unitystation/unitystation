@@ -7,7 +7,6 @@ using AdminTools;
 
 public class AdminPlayerListRefreshMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminPlayerListRefreshMessage;
 	public string JsonData;
 	public uint Recipient;
 

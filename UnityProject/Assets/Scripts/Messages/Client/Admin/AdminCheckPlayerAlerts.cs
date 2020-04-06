@@ -6,8 +6,6 @@ using Mirror;
 
 public class AdminCheckPlayerAlerts : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestAdminPlayerAlerts;
-
 	public string PlayerId;
 	public int CurrentCount;
 

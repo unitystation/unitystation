@@ -6,8 +6,6 @@ using Mirror;
 
 public class AdminPlayerAlertActions: ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminPlayerAlertActions;
-
 	public int ActionRequested;
 	public string RoundTimeOfIncident;
 	public uint PerpNetID;

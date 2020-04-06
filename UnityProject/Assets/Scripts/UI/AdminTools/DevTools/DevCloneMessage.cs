@@ -8,7 +8,6 @@ using Mirror;
 /// </summary>
 public class DevCloneMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.DevCloneMessage;
 	// Net ID of the object to destroy
 	public uint ToClone;
 	// position to spawn at.

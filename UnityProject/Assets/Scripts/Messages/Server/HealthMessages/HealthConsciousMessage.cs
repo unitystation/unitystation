@@ -7,8 +7,6 @@ using Mirror;
 /// </summary>
 public class HealthConsciousMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.HealthConsciousState;
-
 	public uint EntityToUpdate;
 	public ConsciousState ConsciousState;
 

@@ -5,7 +5,6 @@
 /// </summary>
 public class ServerToClientEventsMsg : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.ServerToClientEvents;
 	public EVENT Event;
 
 	public override IEnumerator Process()

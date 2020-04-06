@@ -7,8 +7,6 @@ using Mirror;
 /// </summary>
 public class ProgressBarMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.ProgressBarMessage;
-
 	public uint Recipient;
 	public int SpriteIndex;
 	public Vector2Int OffsetFromPlayer;

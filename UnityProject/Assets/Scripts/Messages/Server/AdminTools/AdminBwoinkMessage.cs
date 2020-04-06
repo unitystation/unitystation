@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AdminBwoinkMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminBwoinkMessage;
 	public string AdminUID;
 	public string Message;
 

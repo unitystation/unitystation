@@ -4,8 +4,6 @@ using UnityEngine;
 using Mirror;
 
 public class TabUpdateMessage : ServerMessage {
-	public override short MessageType => (short) MessageTypes.TabUpdateMessage;
-
 	public uint Provider;
 	public NetTabType Type;
 	public TabAction Action;

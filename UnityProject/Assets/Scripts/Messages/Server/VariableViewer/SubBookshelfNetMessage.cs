@@ -7,7 +7,6 @@ using Newtonsoft.Json.Bson;
 using System;
 public class SubBookshelfNetMessage : ServerMessage
 {
-   	public override short MessageType => (short)MessageTypes.SubBookshelfNetMessage;
 	public string data;
 	public VariableViewerNetworking.NetFriendlyBookShelf BookShelf;
 

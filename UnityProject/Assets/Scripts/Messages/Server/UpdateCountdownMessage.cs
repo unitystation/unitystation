@@ -5,7 +5,6 @@
 /// </summary>
 public class UpdateCountdownMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.UpdateCountdownMessage;
 	public bool Started;
 	public float Time;
 
@@ -24,10 +23,5 @@ public class UpdateCountdownMessage : ServerMessage
 		};
 		msg.SendToAll();
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateCountdownMessage Type={MessageType} Started={Started} Time={Time}]";
 	}
 }

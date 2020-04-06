@@ -6,8 +6,6 @@ using UnityEngine;
 /// </summary>
 public class UpdateHungerStateMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.UpdateHungerStateMessage;
-
 	public HungerState State;
 
 	public override IEnumerator Process()
@@ -27,10 +25,5 @@ public class UpdateHungerStateMessage : ServerMessage
 		};
 		msg.SendTo(recipient);
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateHungerStateMessage Type={MessageType} State={State}]";
 	}
 }

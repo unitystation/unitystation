@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class SendClientLogMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.SendClientLog;
 	public string Message;
 	public Category Category;
 	public bool IsError;

@@ -7,7 +7,6 @@ using Mirror;
 /// </summary>
 public class PostToChatMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.PostToChatMessage;
 	public ChatChannel Channels;
 	public string ChatMessageText;
 

@@ -11,9 +11,6 @@ using UnityEngine;
 /// </summary>
 public class RequestInteractMessage : ClientMessage
 {
-	//TODO: Is this constant needed anymore
-	public override short MessageType => (short) MessageTypes.RequestInteraction;
-
 	//these are always populated
 	public Type ComponentType;
 	public Type InteractionType;

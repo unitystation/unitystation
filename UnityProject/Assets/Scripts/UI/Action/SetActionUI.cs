@@ -12,8 +12,6 @@ using System.Reflection;
 /// </summary>
 public class SetActionUI : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.SetActionUI;
-
 	public ushort soID;
 	public int SpriteLocation;
 	public int ComponentLocation;

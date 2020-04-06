@@ -8,8 +8,6 @@ using Mirror;
 /// </summary>
 public class RequestAdminPageRefresh : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestAdminPageRefresh;
-
 	public string Userid;
 	public string AdminToken;
 

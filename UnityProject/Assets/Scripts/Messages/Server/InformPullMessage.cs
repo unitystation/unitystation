@@ -6,8 +6,6 @@ using Mirror;
 ///     Message that tells client that "Subject" is now pulled by "PulledBy"
 public class InformPullMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.InformPull;
-
 	public uint Subject;
 	public uint PulledBy;
 

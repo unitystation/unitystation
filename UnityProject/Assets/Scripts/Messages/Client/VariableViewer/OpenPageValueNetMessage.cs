@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class OpenPageValueNetMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.OpenPageValueNetMessage;
 	public ulong PageID;
 	public uint SentenceID;
 	public bool ISSentence;

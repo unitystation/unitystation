@@ -5,8 +5,6 @@
 /// </summary>
 public class UpdateUIMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.UpdateUIMessage;
-
 	public ControlDisplays.Screens Screen;
 
 	public override IEnumerator Process()
@@ -23,10 +21,5 @@ public class UpdateUIMessage : ServerMessage
 		};
 		msg.SendToAll();
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateUIMessage Type={MessageType} Screen={Screen}]";
 	}
 }

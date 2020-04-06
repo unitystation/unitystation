@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class AdminEnableMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminEnableMessage;
 	public string AdminToken;
 
 	public override IEnumerator Process()

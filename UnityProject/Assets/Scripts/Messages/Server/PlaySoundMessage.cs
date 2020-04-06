@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class PlaySoundMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlaySoundMessage;
 	public string SoundName;
 	public Vector3 Position;
 	public float Pitch;

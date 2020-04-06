@@ -9,8 +9,6 @@ using System.Reflection;
 
 public class RequestGameAction : ClientMessage
 {
-	public override short MessageType => (short)MessageTypes.RequestGameAction;
-
 	public int ComponentLocation;
 	public uint NetObject;
 	public Type ComponentType;
@@ -35,13 +33,6 @@ public class RequestGameAction : ClientMessage
 
 	}
 
-
-
-
-
-
-
-
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(NetObject);
@@ -55,7 +46,6 @@ public class RequestGameAction : ClientMessage
 			}
 		}
 	}
-
 
 	public static RequestGameAction Send(IServerActionGUI iServerActionGUI )
 	{
@@ -104,5 +94,4 @@ public class RequestGameAction : ClientMessage
 		writer.WriteUInt32(NetObject);
 		writer.WriteInt32(ComponentLocation);
 	}
-
 }

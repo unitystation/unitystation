@@ -10,7 +10,6 @@ using Mirror;
 /// </summary>
 public class PlayerAlertNotifications : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlayerAlertsNotifications;
 	public int Amount;
 	public bool IsFullUpdate;
 

@@ -6,8 +6,6 @@ using Mirror;
 
 public class RequestAdminPromotion : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestEnableAdmin;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToPromote;

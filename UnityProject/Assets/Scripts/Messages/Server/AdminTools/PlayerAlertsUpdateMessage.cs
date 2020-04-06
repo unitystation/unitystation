@@ -5,7 +5,6 @@ using AdminTools;
 
 public class PlayerAlertsUpdateMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlayerAlertsUpdateMessage;
 	public string JsonData;
 	public bool IsSingleEntry;
 

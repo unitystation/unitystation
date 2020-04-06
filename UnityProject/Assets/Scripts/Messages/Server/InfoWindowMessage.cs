@@ -7,7 +7,6 @@ using Mirror;
 /// </summary>
 public class InfoWindowMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.InfoWindowMessage;
 	public string Text;
 	public string Title;
 	public bool Bwoink;

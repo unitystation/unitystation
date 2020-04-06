@@ -7,7 +7,6 @@ using Mirror;
 /// </summary>
 public class FollowCameraMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.FollowCameraMessage;
 	public uint ObjectToFollow;
 
 	public override IEnumerator Process()

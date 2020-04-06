@@ -6,8 +6,6 @@ using Mirror;
 
 public class RequestAdminChatMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestAdminChatMessage;
-
 	public string Userid;
 	public string AdminToken;
 	public string Message;

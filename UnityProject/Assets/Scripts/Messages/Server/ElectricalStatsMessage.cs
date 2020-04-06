@@ -8,7 +8,6 @@ using Mirror;
 //atm its just being sent to examine channel
 public class ElectricalStatsMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.ElectricalStatsMessage;
 	public string JsonData;
 	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
 

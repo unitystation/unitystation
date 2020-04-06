@@ -10,8 +10,6 @@ public class TileChangesNewClientSync : ServerMessage
 	//just a best guess, try increasing it until the message exceeds mirror's limit
 	private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
 
-	public override short MessageType => (short)MessageTypes.TileChangesNewClientSync;
-
 	public string data;
 	public uint ManagerSubject;
 

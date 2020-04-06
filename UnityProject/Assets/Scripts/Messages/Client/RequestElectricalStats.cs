@@ -8,8 +8,6 @@ using Mirror;
 /// </summary>
 public class RequestElectricalStats : ClientMessage
 {
-	public override short MessageType => (short)MessageTypes.RequestElectricalStats;
-
 	public uint Player;
 	public uint ElectricalItem;
 

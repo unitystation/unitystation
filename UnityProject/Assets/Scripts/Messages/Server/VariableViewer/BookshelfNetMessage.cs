@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 
 public class BookshelfNetMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.BookshelfNetMessage;
 	public VariableViewerNetworking.NetFriendlyBookShelfView data;
 
 	public override IEnumerator Process()

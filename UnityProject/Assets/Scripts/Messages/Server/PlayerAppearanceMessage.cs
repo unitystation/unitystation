@@ -17,7 +17,6 @@ using Mirror;
 /// </summary>
 public class PlayerAppearanceMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlayerAppearanceMessage;
 	//if IsBodySprites, index in PlayerSprites.characterSprites to update.
 	//otherwise, ordinal value of NamedSlot enum in Equipment to update
 	public int Index;

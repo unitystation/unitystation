@@ -4,9 +4,6 @@ using Mirror;
 
 public class PaperUpdateMessage : ServerMessage
 {
-
-	public override short MessageType => (short)MessageTypes.PaperUpdateMessage;
-
 	public uint PaperToUpdate;
 	public uint Recipient;
 	public string Message;

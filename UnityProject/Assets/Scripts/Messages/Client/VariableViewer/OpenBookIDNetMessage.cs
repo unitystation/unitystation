@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class OpenBookIDNetMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestOpenBookIDNetMessage;
 	public ulong BookID;
 	public string AdminId;
 	public string AdminToken;

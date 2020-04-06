@@ -5,7 +5,6 @@ using AdminTools;
 
 public class AdminPlayerChatUpdateMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminPlayerChatUpdateMessage;
 	public string JsonData;
 	public string PlayerId;
 

@@ -7,7 +7,6 @@ using Mirror;
 /// </summary>
 public class TransformStateMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.TransformStateMessage;
 	public bool ForceRefresh;
 	public TransformState State;
 	public uint TransformedObject;
@@ -77,12 +76,5 @@ public class TransformStateMessage : ServerMessage
 	};
 		msg.SendToAll();
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return
-			$"[TransformStateMessage Parameter={TransformedObject} Active={State.Active} WorldPos={State.WorldPosition} localPos={State.Position} " +
-			$"Spd={State.Speed} Imp={State.WorldImpulse} Type={MessageType} Forced={ForceRefresh}]";
 	}
 }

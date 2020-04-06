@@ -9,7 +9,6 @@ using UnityEngine.Experimental.XR;
 /// </summary>
 public class UpdateConnectedPlayersMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.UpdateConnectedPlayersMessage;
 	public ClientConnectedPlayer[] Players;
 
 	public override IEnumerator Process()
@@ -78,10 +77,5 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 		msg.SendToAll();
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateConnectedPlayersMessage Type={MessageType} Players={string.Join(", ", Players)}]";
 	}
 }
