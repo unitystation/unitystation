@@ -10,7 +10,6 @@ using Mirror;
 /// </summary>
 public class UpdateChatMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
 	public ChatModifier ChatModifiers;
 	public string Message;
@@ -21,9 +20,9 @@ public class UpdateChatMessage : ServerMessage
 	public uint Originator;
 	public string Speaker;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
+		LoadNetworkObject(Recipient);
 		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker);
 	}
 

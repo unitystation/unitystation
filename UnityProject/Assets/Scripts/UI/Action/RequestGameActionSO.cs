@@ -5,16 +5,14 @@ using Mirror;
 
 public class RequestGameActionSO : ClientMessage
 {
-	public override short MessageType => (short)MessageTypes.RequestGameActionSO;
 	public ushort soID;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
 			UIActionSOSingleton.Instance.ActionCallServer(soID, SentByPlayer);
 		}
-		yield return null;
 	}
 
 

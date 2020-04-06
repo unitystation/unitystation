@@ -5,17 +5,15 @@ using UnityEngine;
 
 public class RequestChangeVariableNetMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestChangeVariableNetMessage;
 	public string newValue;
 	public ulong PageID;
 	public bool IsNewBookshelf = false;
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()

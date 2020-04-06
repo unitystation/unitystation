@@ -5,12 +5,9 @@
 /// </summary>
 public class AnnouncementMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.AnnouncementMessage;
 	public string Text;
 
-	public override IEnumerator Process() {
-		yield return null;
-
+	public override void Process() {
 		//Yeah, that will lead to n +-simultaneous tts synth requests, mary will probably struggle
 		MaryTTS.Instance.Synthesize( Text, bytes => {
 			Synth.Instance.PlayAnnouncement(bytes);

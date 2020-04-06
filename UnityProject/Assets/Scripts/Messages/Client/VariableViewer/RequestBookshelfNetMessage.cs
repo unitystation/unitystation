@@ -5,16 +5,14 @@ using UnityEngine;
 
 public class RequestBookshelfNetMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestBookshelfNetMessage;
 	public ulong BookshelfID;
 	public bool IsNewBookshelf = false;
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()

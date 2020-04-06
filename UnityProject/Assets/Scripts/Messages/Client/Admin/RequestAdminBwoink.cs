@@ -6,16 +6,13 @@ using Mirror;
 
 public class RequestAdminBwoink : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestAdminBwoink;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToBwoink;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

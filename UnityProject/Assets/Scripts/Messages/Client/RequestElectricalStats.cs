@@ -8,14 +8,13 @@ using Mirror;
 /// </summary>
 public class RequestElectricalStats : ClientMessage
 {
-	public override short MessageType => (short)MessageTypes.RequestElectricalStats;
-
 	public uint Player;
 	public uint ElectricalItem;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Player, ElectricalItem);
+		LoadMultipleObjects(new uint[] {Player, ElectricalItem});
+
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		if (playerScript.IsInReach(NetworkObjects[1], true))
 		{
@@ -24,7 +23,7 @@ public class RequestElectricalStats : ClientMessage
 			if (poweredDevice != null)
 			{
 				SendDataToClient(poweredDevice.Data, NetworkObjects[0]);
-				yield break;
+				return;
 			}
 		}
 	}

@@ -9,29 +9,27 @@ using UnityEngine;
 /// </summary>
 public class RequestBuildMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestBuildMessage;
-
 	//index of the entry in the ConstructionList.
 	public byte EntryIndex;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		var clientStorage = SentByPlayer.Script.ItemStorage;
 		var usedSlot = clientStorage.GetActiveHandSlot();
-		if (usedSlot == null || usedSlot.ItemObject == null) yield break;
+		if (usedSlot == null || usedSlot.ItemObject == null) return;
 
 		var hasConstructionMenu = usedSlot.ItemObject.GetComponent<BuildingMaterial>();
-		if (hasConstructionMenu == null) yield break;
+		if (hasConstructionMenu == null) return;
 
 		var entry = hasConstructionMenu.BuildList.Entries.ToArray()[EntryIndex];
 
-		if (!entry.CanBuildWith(hasConstructionMenu)) yield break;
+		if (!entry.CanBuildWith(hasConstructionMenu)) return;
 
 		//check if the space to construct on is passable
 		if (!MatrixManager.IsPassableAt((Vector3Int) SentByPlayer.GameObject.TileWorldPosition(), true, includingPlayers: false))
 		{
 			Chat.AddExamineMsg(SentByPlayer.GameObject, "It won't fit here.");
-			yield break;
+			return;
 		}
 
 		//if we are building something impassable, check if there is anything on the space other than the performer.
@@ -42,7 +40,7 @@ public class RequestBuildMessage : ClientMessage
 		{
 			//requires immediate attention, show it regardless of log filter:
 			Logger.Log($"Construction entry is missing prefab for {entry.Name}");
-			yield break;
+			return;
 		}
 
 		var registerTile = entry.Prefab.GetComponent<RegisterTile>();
@@ -59,7 +57,7 @@ public class RequestBuildMessage : ClientMessage
 				if (entry.Prefab.Equals(Spawn.DeterminePrefab(thingAtPosition.gameObject)))
 				{
 					Chat.AddExamineMsg(SentByPlayer.GameObject, $"There's already one here.");
-					yield break;
+					return;
 				}
 			}
 
@@ -68,7 +66,7 @@ public class RequestBuildMessage : ClientMessage
 				//if the object we are building is itself impassable, we should check if anything blocks construciton.
 				//otherwise it's fine to add it to the pile on the tile
 				if (ServerValidations.IsConstructionBlocked(SentByPlayer.GameObject, null,
-					SentByPlayer.GameObject.TileWorldPosition())) yield break;
+					SentByPlayer.GameObject.TileWorldPosition())) return;
 			}
 		}
 
