@@ -1447,7 +1447,7 @@ namespace AssetUsageDetectorNamespace
 							continue;
 						else if( ( propertyName == "material" || propertyName == "materials" ) &&
 							( typeof( Renderer ).IsAssignableFrom( currType ) || typeof( Collider ).IsAssignableFrom( currType ) ||
-							typeof( Collider2D ).IsAssignableFrom( currType )
+							typeof( Collider2D ).IsAssignableFrom( currType )))
 #if !UNITY_2019_3_OR_NEWER
 #pragma warning disable 0618
 							|| typeof( GUIText ).IsAssignableFrom( currType ) ) )
