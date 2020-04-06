@@ -455,6 +455,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// Registers if unhidden, unregisters if hidden
 	private void UpdateActiveStatusClient()
 	{
+		if (registerTile == null) return;
 		if (predictedState.Active)
 		{
 			registerTile.UpdatePositionClient();
