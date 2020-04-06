@@ -51,6 +51,15 @@ public class IntrinsicElectronicData
 		WireEndA = indata.WireEndA;
 	}
 
+	public void SetUp(ElectricalCableTile electricalCableTile)
+		{
+			Categorytype = electricalCableTile.PowerType;
+			CanConnectTo = new HashSet<PowerTypeCategory>(electricalCableTile.CanConnectTo);
+			WireEndB = electricalCableTile.WireEndB;
+			WireEndA = electricalCableTile.WireEndA;
+		}
+
+
 	public virtual void FindPossibleConnections()
 	{
 		if (MetaDataPresent != null)

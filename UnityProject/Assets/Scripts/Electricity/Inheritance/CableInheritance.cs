@@ -210,7 +210,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	}
 
 
-	public void ConvertToTile()
+	public void ConvertToTile(bool editor = false)
 	{
 		if (this != null)
 		{
@@ -219,13 +219,29 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 				var searchVec = wireConnect.registerTile.LocalPosition;
 				if (wireConnect.SpriteHandler == null)
 				{
-					wireConnect.registerTile.Matrix.AddElectricalNode(searchVec, wireConnect);
+					if (editor)
+					{
+						wireConnect.registerTile.Matrix.EditorAddElectricalNode(searchVec, wireConnect);
+					}
+					else
+					{
+						wireConnect.registerTile.Matrix.AddElectricalNode(searchVec, wireConnect);
+					}
+
 					//wireConnect.InData = new IntrinsicElectronicData();
 					wireConnect.InData.DestroyAuthorised = true;
 					wireConnect.InData.DestroyQueueing = true;
-					Despawn.ServerSingle(gameObject);
+					if (editor)
+					{
+						DestroyImmediate(gameObject);
+					}
+					else
+					{
+						Despawn.ServerSingle(gameObject);
+					}
 					wireConnect.InData.DestroyAuthorised = false;
 					wireConnect.InData.DestroyQueueing = false;
+					//DestroyImmediate(gameObject); ##d
 				}
 			}
 		}

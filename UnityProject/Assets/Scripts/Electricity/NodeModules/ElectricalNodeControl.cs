@@ -21,7 +21,7 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public override void OnStartServer()
 	{
-		Logger.Log("yoooooo");
+		//Logger.Log("yoooooo");
 		base.OnStartServer();
 		NodeControl = gameObject.GetComponent<INodeControl>();
 		Node = gameObject.GetComponent<InLineDevice>();

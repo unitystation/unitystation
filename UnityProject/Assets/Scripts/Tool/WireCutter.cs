@@ -7,6 +7,8 @@ public class WireCutter : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (interaction.TargetObject == this.gameObject) return false;
 		// If there's a table, we should drop there
 		if (MatrixManager.IsTableAt(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server))
 		{

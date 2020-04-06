@@ -22,7 +22,20 @@ public class OverlapDestroy : MonoBehaviour
 				ElectricalManager = FindObjectOfType<ElectricalManager>();
 			}
 
-			if (ElectricalManager.DOCheck){
+			if (ElectricalManager.DOCheck)
+			{
+				Logger.Log("Seting cables!");
+				var wireConnect = this.GetComponent<WireConnect>();
+				if (wireConnect != null)
+				{
+					Undo.RecordObject(wireConnect, "Cable connections update");
+					wireConnect.InData.WireEndA = (wireConnect.WireEndA + 1);
+					wireConnect.InData.WireEndB = (wireConnect.WireEndB + 1);
+				}
+
+				var thing = this.GetComponent<CableInheritance>();
+				thing.ConvertToTile(true);
+
 				/*Logger.Log("Cleaning cables!");
 				var ElectricalOI = this.GetComponent<ElectricalOIinheritance>();
 				if (bigDict.ContainsKey(this.transform.localPosition))
@@ -47,26 +60,6 @@ public class OverlapDestroy : MonoBehaviour
 					bigDict[this.transform.localPosition] = new HashSet<ElectricalOIinheritance>();
 					bigDict[this.transform.localPosition].Add(ElectricalOI);
 				}*/
-				Logger.Log("Seting cables!");
-				var wireConnect = this.GetComponent<WireConnect>();
-				if (wireConnect != null)
-				{
-					Undo.RecordObject(wireConnect, "Cable connections update");
-					//Undo.RegisterCompleteObjectUndo (gameObject, "FUCKCKCKCKC THIS SHITRRRRTTTTTTTTTTTTTTTTTTTT");
-					wireConnect.InData.WireEndA = (wireConnect.WireEndA + 1);
-					wireConnect.InData.WireEndB = (wireConnect.WireEndB + 1);
-					//Undo.FlushUndoRecordObjects();
-					//PrefabUtility.RecordPrefabInstancePropertyModifications(gameObject);
-
-					/*var mySO = new SerializedObject(wireConnect.InData);
-
-					mySO.ApplyModifiedProperty();
-
-					wireConnect.InData.WireEndA = (wireConnect.WireEndA + 1);
-					wireConnect.InData.WireEndB = (wireConnect.WireEndB + 1);*/
-
-				}
-
 			}
 		}
 	}
