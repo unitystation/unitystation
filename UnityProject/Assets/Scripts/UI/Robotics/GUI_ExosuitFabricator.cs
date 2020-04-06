@@ -25,6 +25,8 @@ public class GUI_ExosuitFabricator : NetTab
 		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
 		//Subscribes to the MaterialsManipulated event
 		ExosuitFabricator.MaterialsManipulated += UpdateAll;
+
+		materialsDisplay.initMaterialList(exosuitFabricator);
 		UpdateAll();
 	}
 
@@ -32,6 +34,11 @@ public class GUI_ExosuitFabricator : NetTab
 	public void UpdateAll()
 	{
 		materialsDisplay.UpdateMaterialCount(exosuitFabricator);
+	}
+
+	public void DispenseSheet(ExoFabRemoveMaterialButton button)
+	{
+		Logger.Log(button.Value);
 	}
 
 	//Used by buttons to remove sheets from the exofab
