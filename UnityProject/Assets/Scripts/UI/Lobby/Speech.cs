@@ -7,9 +7,5 @@ public enum Speech
     Swedish,
     Chav,
     Stutter,
-    Smile,
-    Elvis,
-    Spurdo,
-    UwU,
     Unintelligible
 }

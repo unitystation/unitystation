@@ -9,6 +9,11 @@ public abstract class GameMessageBase : MessageBase
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
 
+	public virtual void PreProcess(NetworkConnection sentBy, GameMessageBase b)
+	{
+		CustomNetworkManager.Instance.StartCoroutine(b.Process(sentBy));
+	}
+
 	public abstract IEnumerator Process();
 
 	public virtual IEnumerator Process( NetworkConnection sentBy )
@@ -25,7 +30,7 @@ public abstract class GameMessageBase : MessageBase
 		}
 
 		int tries = 0;
-		while ((NetworkObject = ClientScene.FindLocalObject(id)) == null)
+		while (!NetworkIdentity.spawned.ContainsKey(id))
 		{
 			if (tries++ > 10)
 			{
@@ -35,6 +40,8 @@ public abstract class GameMessageBase : MessageBase
 
 			yield return global::WaitFor.EndOfFrame;
 		}
+
+		NetworkObject = NetworkIdentity.spawned[id].gameObject;
 	}
 
 	public abstract short MessageType { get; }
@@ -57,13 +64,13 @@ public abstract class GameMessageBase : MessageBase
 			if ( netId == NetId.Invalid ) {
 				continue;
 			}
-			GameObject obj = ClientScene.FindLocalObject(netId);
-			if (obj == null)
+
+			if (!NetworkIdentity.spawned.ContainsKey(netId))
 			{
 				return false;
 			}
 
-			NetworkObjects[i] = obj;
+			NetworkObjects[i] = NetworkIdentity.spawned[netId].gameObject;
 		}
 
 		return true;

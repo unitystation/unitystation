@@ -134,18 +134,8 @@ public partial class Chat
 
 		//TODO Assign racial speech mods
 
-		// Clown
-		if (sentByPlayer.Script.mind != null &&
-			sentByPlayer.Script.mind.occupation != null &&
-			sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
-		{
-			int intensity = UnityEngine.Random.Range(1, 4);
-			for (int i = 0; i < intensity; i++)
-			{
-				message += " HONK!";
-			}
-			chatModifiers |= ChatModifier.Clown;
-		}
+		// Assign inventory speech mods
+		chatModifiers |= sentByPlayer.Script.mind.inventorySpeechModifiers;
 
 		/////// Process Speech mutations
 		message = SpeechModManager.Instance.ApplyMod(chatModifiers, message);
@@ -589,15 +579,12 @@ public partial class Chat
 
 	private readonly Dictionary<Speech, ChatModifier> CharacterSpeech = new Dictionary<Speech, ChatModifier>()
 	{
+		{Speech.None, ChatModifier.None},
 		{Speech.Canadian, ChatModifier.Canadian},
 		{Speech.French, ChatModifier.French},
 		{Speech.Italian, ChatModifier.Italian},
 		{Speech.Swedish, ChatModifier.Swedish},
 		{Speech.Chav, ChatModifier.Chav},
 		{Speech.Stutter, ChatModifier.Stutter},
-		{Speech.Elvis, ChatModifier.Elvis},
-		{Speech.Smile, ChatModifier.Smile},
-		{Speech.Spurdo, ChatModifier.Spurdo},
-		{Speech.UwU, ChatModifier.UwU}
 	};
 }
