@@ -25,6 +25,9 @@ public class ItemMagBoots : NetworkBehaviour,
 	private ConnectedPlayer player;
 	private ItemAttributesV2 itemAttributesV2;
 	private Pickupable pick;
+	[Tooltip("Default player run speed.")]
+	[SerializeField]
+	private float initialSpeed = 6;
 
 	[Tooltip("Change player run speed to this.")]
 	[SerializeField]
@@ -59,7 +62,7 @@ public class ItemMagBoots : NetworkBehaviour,
 		else
 		{
 			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-			ServerChangeSpeed(6);
+			ServerChangeSpeed(initialSpeed);
 		}
 		//if the ghost NRE will be thrown
 		player.Script.pushPull.ServerSetPushable(!isOn);
@@ -113,7 +116,7 @@ public class ItemMagBoots : NetworkBehaviour,
 		{
 			if (isOn)
 			{
-				ClientChangeSpeed(6);//old
+				ClientChangeSpeed(initialSpeed);//old
 			}
 			UIActionManager.Toggle(this, false);
 		}
@@ -132,7 +135,7 @@ public class ItemMagBoots : NetworkBehaviour,
 			}
 			else
 			{
-				ClientChangeSpeed(6);//old
+				ClientChangeSpeed(initialSpeed);//old
 			}
 		}
 	}
