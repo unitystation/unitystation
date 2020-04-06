@@ -10,9 +10,9 @@ public class HealthOverallMessage : ServerMessage
 	public uint EntityToUpdate;
 	public float OverallHealth;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EntityToUpdate);
+		LoadNetworkObject(EntityToUpdate);
 		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientHealthStats(OverallHealth);
 	}
 

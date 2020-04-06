@@ -11,9 +11,9 @@ public class HealthBrainMessage : ServerMessage
 	public bool IsHusk;
 	public int BrainDamage;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EntityToUpdate);
+		LoadNetworkObject(EntityToUpdate);
 		if(NetworkObject != null) NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBrainStats(IsHusk, BrainDamage);
 	}
 

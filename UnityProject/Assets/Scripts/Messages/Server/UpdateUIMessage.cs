@@ -7,10 +7,9 @@ public class UpdateUIMessage : ServerMessage
 {
 	public ControlDisplays.Screens Screen;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		UIManager.Display.SetScreenFor(Screen);
-		yield return null;
 	}
 
 	public static UpdateUIMessage Send(ControlDisplays.Screens screen)

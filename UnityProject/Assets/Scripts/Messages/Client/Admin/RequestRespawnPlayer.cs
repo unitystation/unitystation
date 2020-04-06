@@ -10,9 +10,8 @@ public class RequestRespawnPlayer : ClientMessage
 	public string AdminToken;
 	public string UserToRespawn;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

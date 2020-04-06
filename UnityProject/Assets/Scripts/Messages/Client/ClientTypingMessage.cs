@@ -15,15 +15,15 @@ public class ClientTypingMessage : ClientMessage
 {
 	public TypingState state;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		// server side logic
 		if (SentByPlayer == ConnectedPlayer.Invalid)
-			yield break;
+			return;
 
 		var playerScript = SentByPlayer.Script;
 		if (!playerScript)
-			yield break;
+			return;
 
 		// send it to server that will decide what should be done next
 		ServerTypingMessage.Send(playerScript, state);

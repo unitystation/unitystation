@@ -7,10 +7,9 @@ public class MobMeleeLerpMessage : ServerMessage
 	public uint mob;
 	public Vector2 dir;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
-		if (mob == NetId.Empty) yield break;
+		if (mob == NetId.Empty) return;
 
 		var getMob = NetworkIdentity.spawned[mob];
 		var mobMelee = getMob.GetComponent<MobMeleeAttack>();

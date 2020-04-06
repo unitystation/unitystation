@@ -33,9 +33,9 @@ public class RequestGameAction : ClientMessage
 
 	}
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(NetObject);
+		LoadNetworkObject(NetObject);
 		//Logger.Log("ComponentLocation > " + ComponentLocation  + " NetworkObject > " +  NetworkObject + " ComponentType > " + ComponentType);
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{

@@ -12,9 +12,9 @@ public class ProgressBarMessage : ServerMessage
 	public Vector2Int OffsetFromPlayer;
 	public int ProgressBarID;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
+		LoadNetworkObject(Recipient);
 
 		var bar = UIManager.GetProgressBar(ProgressBarID);
 

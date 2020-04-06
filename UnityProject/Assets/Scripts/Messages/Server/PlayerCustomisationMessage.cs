@@ -8,9 +8,9 @@ public class PlayerCustomisationMessage : ServerMessage
 	public BodyPartSpriteName Part = BodyPartSpriteName.Null;
 	public uint EquipmentObject;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EquipmentObject);
+		LoadNetworkObject(EquipmentObject);
 		if (NetworkObject != null)
 		{
 			NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(Character);

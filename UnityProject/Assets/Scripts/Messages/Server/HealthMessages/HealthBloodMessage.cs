@@ -13,9 +13,9 @@ public class HealthBloodMessage : ServerMessage
 	public float OxygenDamage;
 	public float ToxinLevel;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EntityToUpdate);
+		LoadNetworkObject(EntityToUpdate);
 		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(HeartRate, BloodLevel, OxygenDamage, ToxinLevel);
 	}
 

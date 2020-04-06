@@ -14,9 +14,9 @@ public class TabUpdateMessage : ServerMessage {
 
 	private static readonly ElementValue[] NoValues = new ElementValue[0];
 
-	public override IEnumerator Process() {
+	public override void Process() {
 		Logger.LogTraceFormat("Processed {0}", Category.NetUI, this);
-		yield return WaitFor( Provider );
+		LoadNetworkObject(Provider);
 		switch ( Action ) {
 			case TabAction.Open:
 				ControlTabs.ShowTab( Type, NetworkObject, ElementValues );

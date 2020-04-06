@@ -10,9 +10,8 @@ public class RequestAdminChatMessage : ClientMessage
 	public string AdminToken;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

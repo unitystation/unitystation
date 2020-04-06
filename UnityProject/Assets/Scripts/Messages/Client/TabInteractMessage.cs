@@ -13,10 +13,10 @@ public class TabInteractMessage : ClientMessage
 	public string ElementId;
 	public string ElementValue;
 	//Serverside
-	public override IEnumerator Process()
+	public override void Process()
 	{
 //		Logger.Log("Processed " + ToString());
-		yield return WaitFor(TabProvider);
+		LoadNetworkObject(TabProvider);
 		ProcessFurther(SentByPlayer, NetworkObject);
 	}
 

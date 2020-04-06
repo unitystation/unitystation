@@ -9,15 +9,15 @@ public class FollowCameraMessage : ServerMessage
 {
 	public uint ObjectToFollow;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		if ( ObjectToFollow == NetId.Invalid )
 		{
-			yield return null;
+			return;
 		}
 		else
 		{
-			yield return WaitFor(ObjectToFollow);
+			LoadNetworkObject(ObjectToFollow);
 		}
 		var objectToFollow = NetworkObject;
 

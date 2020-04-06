@@ -7,10 +7,8 @@ public class ServerToClientEventsMsg : ServerMessage
 {
 	public EVENT Event;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
-
 		EventManager.Broadcast(Event);
 	}
 

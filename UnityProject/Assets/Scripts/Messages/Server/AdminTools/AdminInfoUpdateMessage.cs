@@ -9,9 +9,8 @@ public class AdminInfoUpdateMessage : ServerMessage
 	public string JsonData;
 	public bool FullUpdate;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		if (FullUpdate)
 		{
 			AdminOverlay.ClientFullUpdate(JsonUtility.FromJson<AdminInfoUpdate>(JsonData));

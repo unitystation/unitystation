@@ -18,15 +18,15 @@ public class PlayParticleMessage : ServerMessage
 	public bool 	UseAngle;
 
 	///To be run on client
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		if (ParticleObject.Equals(NetId.Invalid)) {
 			//Failfast
 			Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.NetMessage);
-			yield break;
+			return;
 		}
 
-		yield return WaitFor(ParticleObject, ParentObject );
+		LoadMultipleObjects(new uint[] {ParentObject, ParentObject});
 
 		GameObject particleObject = NetworkObjects[0];
 		GameObject parentObject = NetworkObjects[1];
@@ -34,7 +34,7 @@ public class PlayParticleMessage : ServerMessage
 		if ( !particleObject.activeInHierarchy )
 		{
 			Logger.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.NetMessage, particleObject);
-			yield break;
+			return;
 		}
 
 
@@ -51,7 +51,7 @@ public class PlayParticleMessage : ServerMessage
 		if ( particleSystem == null )
 		{
 			Logger.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored", Category.NetMessage, particleObject);
-			yield break;
+			return;
 		}
 
 		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();

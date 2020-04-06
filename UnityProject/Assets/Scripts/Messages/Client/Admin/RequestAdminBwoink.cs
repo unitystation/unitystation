@@ -11,9 +11,8 @@ public class RequestAdminBwoink : ClientMessage
 	public string UserToBwoink;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

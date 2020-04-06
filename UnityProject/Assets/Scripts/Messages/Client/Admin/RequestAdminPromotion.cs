@@ -10,9 +10,8 @@ public class RequestAdminPromotion : ClientMessage
 	public string AdminToken;
 	public string UserToPromote;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

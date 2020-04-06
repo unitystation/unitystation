@@ -10,9 +10,8 @@ public class AdminEnableMessage : ServerMessage
 {
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		PlayerList.Instance.SetClientAsAdmin(AdminToken);
 		UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(true);
 	}

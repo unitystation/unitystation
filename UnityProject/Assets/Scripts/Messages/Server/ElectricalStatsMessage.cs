@@ -11,9 +11,9 @@ public class ElectricalStatsMessage : ServerMessage
 	public string JsonData;
 	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
+		LoadNetworkObject(Recipient);
 		ElectronicData data = JsonUtility.FromJson<ElectronicData>(JsonData);
 
 		string newChatText = "";

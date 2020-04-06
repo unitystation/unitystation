@@ -9,9 +9,9 @@ public class DoorUpdateMessage : ServerMessage {
 	// whether the update should occur instantaneously
 	public bool SkipAnimation;
 
-	public override IEnumerator Process() {
+	public override void Process() {
 //		Logger.Log("Processed " + ToString());
-		yield return WaitFor( Door );
+		LoadNetworkObject(Door);
 
 		if ( NetworkObject != null ) {
 			NetworkObject.GetComponent<DoorAnimator>()?.PlayAnimation( Type, SkipAnimation );

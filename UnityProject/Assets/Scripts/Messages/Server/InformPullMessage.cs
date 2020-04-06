@@ -9,12 +9,13 @@ public class InformPullMessage : ServerMessage
 	public uint Subject;
 	public uint PulledBy;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Subject, PulledBy);
+		LoadMultipleObjects(new uint [] {Subject, PulledBy});
+
 		if ( NetworkObjects[0] == null )
 		{
-			yield break;
+			return;
 		}
 
 		PushPull subject = NetworkObjects[0].GetComponent<PushPull>();

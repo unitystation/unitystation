@@ -8,9 +8,8 @@ public class AdminBwoinkMessage : ServerMessage
 	public string AdminUID;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		SoundManager.Play("Bwoink");
 		Chat.AddAdminPrivMsg(Message);
 	}

@@ -13,12 +13,11 @@ public class TileChangesNewClientSync : ServerMessage
 	public string data;
 	public uint ManagerSubject;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		//server doesn't need this message, it messes with its own tiles.
-		if (CustomNetworkManager.IsServer) yield break;
-
-		yield return WaitFor(ManagerSubject);
+		if (CustomNetworkManager.IsServer) return;
+		LoadNetworkObject(ManagerSubject);
 		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
 		tm.InitServerSync(data);
 	}

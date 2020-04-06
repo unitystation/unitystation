@@ -11,10 +11,8 @@ public class AdminPlayerAlertActions: ClientMessage
 	public uint PerpNetID;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
-
 		UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)ActionRequested,
 			RoundTimeOfIncident, PerpNetID, AdminToken);
 	}

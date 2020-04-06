@@ -11,10 +11,9 @@ public class RequestChangeVariableNetMessage : ClientMessage
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()

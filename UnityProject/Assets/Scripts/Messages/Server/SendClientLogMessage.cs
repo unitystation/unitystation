@@ -11,10 +11,8 @@ public class SendClientLogMessage : ServerMessage
 	public Category Category;
 	public bool IsError;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
-
 		if (IsError)
 		{
 			Logger.LogError(Message, Category);

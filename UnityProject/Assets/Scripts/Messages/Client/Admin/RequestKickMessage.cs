@@ -13,9 +13,8 @@ public class RequestKickMessage : ClientMessage
 	public bool IsBan;
 	public int BanMinutes;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

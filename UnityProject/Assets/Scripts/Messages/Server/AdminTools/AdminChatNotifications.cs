@@ -17,9 +17,8 @@ public class AdminChatNotifications : ServerMessage
 	public bool IsFullUpdate;
 	public string FullUpdateJson;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		if (!IsFullUpdate)
 		{
 			UIManager.Instance.adminChatButtons.ClientUpdateNotifications(NotificationKey, TargetWindow,

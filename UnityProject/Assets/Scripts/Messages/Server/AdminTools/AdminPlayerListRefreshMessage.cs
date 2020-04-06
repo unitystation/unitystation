@@ -10,9 +10,9 @@ public class AdminPlayerListRefreshMessage : ServerMessage
 	public string JsonData;
 	public uint Recipient;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
+		LoadNetworkObject(Recipient);
 		var listData = JsonUtility.FromJson<AdminPlayersList>(JsonData);
 
 		foreach (var v in UIManager.Instance.adminChatWindows.playerListViews)

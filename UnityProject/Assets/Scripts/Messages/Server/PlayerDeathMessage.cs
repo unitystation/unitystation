@@ -4,9 +4,8 @@ using Mirror;
 
 public class PlayerDeathMessage : ServerMessage
 {
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		OnYourDeath();
 	}
 

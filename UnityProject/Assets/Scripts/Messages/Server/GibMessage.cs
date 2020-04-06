@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class GibMessage : ServerMessage
 {
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
 		{
 			living.Death();
 		}
-
-		yield return null;
 	}
 
 	public static GibMessage Send()

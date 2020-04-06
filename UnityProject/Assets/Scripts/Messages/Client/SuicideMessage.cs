@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SuicideMessage : ClientMessage
 {
-	public override IEnumerator Process()
+	public override void Process()
 	{
 
 		if (SentByPlayer.Script.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
@@ -19,8 +19,6 @@ public class SuicideMessage : ClientMessage
 				livingHealthBehaviour.ApplyDamage(null, float.MaxValue, AttackType.Melee, DamageType.Brute);
 			}
 		}
-
-		yield return null;
 	}
 
 

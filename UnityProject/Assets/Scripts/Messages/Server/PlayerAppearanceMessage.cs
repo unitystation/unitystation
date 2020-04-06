@@ -27,9 +27,9 @@ public class PlayerAppearanceMessage : ServerMessage
 	//Is this for the body parts or for the clothing items:
 	public bool IsBodySprites;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EquipmentObject, ItemNetID);
+		LoadMultipleObjects(new uint[] {EquipmentObject, ItemNetID});
 		//Debug.Log(
 		//	$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
 

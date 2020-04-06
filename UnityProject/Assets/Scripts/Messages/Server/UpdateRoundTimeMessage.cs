@@ -7,10 +7,9 @@ public class UpdateRoundTimeMessage : ServerMessage
 {
 	public string Time;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		GameManager.Instance.SyncTime(Time);
-		yield return null;
 	}
 
 	public static UpdateRoundTimeMessage Send(string time)

@@ -12,9 +12,9 @@ public class HealthBodyPartMessage : ServerMessage
 	public float BruteDamage;
 	public float BurnDamage;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EntityToUpdate);
+		LoadNetworkObject(EntityToUpdate);
 		if (NetworkObject != null){
 			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBodyPartStats(BodyPart, BruteDamage, BurnDamage);
 		}

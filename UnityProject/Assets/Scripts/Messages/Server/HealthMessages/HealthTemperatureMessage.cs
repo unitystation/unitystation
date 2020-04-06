@@ -9,9 +9,8 @@ public class HealthTemperatureMessage : ServerMessage
 {
 	public float temperature;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientTemperatureStats(temperature);
 	}
 

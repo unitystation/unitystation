@@ -8,11 +8,10 @@ public class RequestMoveMessage : ClientMessage
 {
 	public PlayerAction Action;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 //		Logger.Log("Processed " + ToString());
 		SentByPlayer.Script.PlayerSync.ProcessAction(Action);
-		yield return null;
 	}
 
 	public static RequestMoveMessage Send(PlayerAction action)

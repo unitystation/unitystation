@@ -8,10 +8,8 @@ public class AdminPlayerChatUpdateMessage : ServerMessage
 	public string JsonData;
 	public string PlayerId;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
-
 		UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(JsonData, PlayerId);
 	}
 

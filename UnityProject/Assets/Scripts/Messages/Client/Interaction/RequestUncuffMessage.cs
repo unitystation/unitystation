@@ -28,9 +28,9 @@ public class RequestUncuffMessage : ClientMessage
 		msg.Send();
 	}
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(PlayerToUncuff);
+		LoadNetworkObject(PlayerToUncuff);
 		GameObject actor = SentByPlayer.GameObject;
 		GameObject playerToUncuff = NetworkObject;
 

@@ -8,13 +8,11 @@ public class UpdateHungerStateMessage : ServerMessage
 {
 	public HungerState State;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
 
 		metabolismSystem.HungerState = State;
-
-		yield return null;
 	}
 
 	public static UpdateHungerStateMessage Send(GameObject recipient, HungerState state)

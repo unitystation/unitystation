@@ -18,9 +18,9 @@ public class RequestInventoryTransferMessage : ClientMessage
 	public int ToSlotIndex;
 	public NamedSlot ToNamedSlot;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(FromStorage, ToStorage);
+		LoadMultipleObjects(new uint[]{FromStorage, ToStorage});
 
 		var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), FromNamedSlot, FromSlotIndex);
 		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), ToNamedSlot, ToSlotIndex);
@@ -29,13 +29,13 @@ public class RequestInventoryTransferMessage : ClientMessage
 		if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 		{
 			HandleFail(fromSlot, toSlot);
-			yield return null;
+			return;
 		}
 		//the slots must both be either in this player's inv or in an observed InteractableStorage
 		if (!ValidSlot(toSlot) || !ValidSlot(fromSlot))
 		{
 			HandleFail(fromSlot, toSlot);
-			yield return null;
+			return;
 		}
 
 		Inventory.ServerTransfer(fromSlot, toSlot);

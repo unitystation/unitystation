@@ -9,9 +9,8 @@ public class AdminCheckPlayerAlerts : ClientMessage
 	public string PlayerId;
 	public int CurrentCount;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		UIManager.Instance.playerAlerts.ServerRequestEntries(PlayerId, CurrentCount, SentByPlayer.Connection);
 	}
 

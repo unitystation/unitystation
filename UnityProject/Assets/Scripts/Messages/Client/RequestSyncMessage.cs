@@ -7,7 +7,7 @@ using Mirror;
 /// </summary>
 public class RequestSyncMessage : ClientMessage
 {
-	public override IEnumerator Process()
+	public override void Process()
 	{
 //		Logger.Log("Processed " + ToString());
 		Logger.Log($"{SentByPlayer} requested sync", Category.Connections);
@@ -21,7 +21,5 @@ public class RequestSyncMessage : ClientMessage
 			SentByPlayer.Synced = true;
 
 		}
-
-		yield return null;
 	}
 }

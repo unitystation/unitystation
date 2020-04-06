@@ -12,11 +12,11 @@ public class InfoWindowMessage : ServerMessage
 	public bool Bwoink;
 	public uint Recipient;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		//To be run on client
 //		Logger.Log($"Processed {this}");
-		yield return WaitFor(Recipient); //FIXME: broken
+		LoadNetworkObject(Recipient);
 		UIManager.InfoWindow.Show(Text, Bwoink, string.IsNullOrEmpty(Title) ? "" : Title);
 	}
 

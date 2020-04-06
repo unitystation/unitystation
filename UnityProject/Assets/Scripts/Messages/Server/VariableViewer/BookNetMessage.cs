@@ -12,10 +12,9 @@ public class BookNetMessage : ServerMessage
 {
 	public VariableViewerNetworking.NetFriendlyBook Book;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		UIManager.Instance.VariableViewer.ReceiveBook(Book);
-		return null;
 	}
 
 	public static BookNetMessage Send(Librarian.Book _book)

@@ -11,15 +11,15 @@ public class ObserveInteractableStorageMessage : ServerMessage
 	public uint Storage;
 	public bool Observed;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Storage);
+		LoadNetworkObject(Storage);
 
 		var storageObject = NetworkObject;
 		if (storageObject == null)
 		{
 			Logger.LogWarningFormat("Client could not find observed storage with id {0}", Category.Inventory, Storage);
-			yield break;
+			return;
 		}
 
 		var itemStorage = storageObject.GetComponent<ItemStorage>();

@@ -8,9 +8,9 @@ public class PaperUpdateMessage : ServerMessage
 	public uint Recipient;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient, PaperToUpdate);
+		LoadMultipleObjects(new uint[] {Recipient, PaperToUpdate});
 		var paper = NetworkObjects[1].GetComponent<Paper>();
 		paper.PaperString = Message;
 		ControlTabs.RefreshTabs();

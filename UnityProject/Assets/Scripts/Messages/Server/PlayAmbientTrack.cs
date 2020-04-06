@@ -8,9 +8,8 @@ public class PlayAmbientTrack : ServerMessage
 {
 	public string TrackName;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		SoundManager.PlayAmbience(TrackName);
 	}
 

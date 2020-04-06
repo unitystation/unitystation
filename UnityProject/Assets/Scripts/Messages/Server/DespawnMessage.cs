@@ -11,10 +11,9 @@ public class DespawnMessage : ServerMessage
 {
 	public uint DespawnedObject;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(DespawnedObject);
-
+		LoadNetworkObject(DespawnedObject);
 		//call all the hooks!
 		if (NetworkObject == null)
 		{

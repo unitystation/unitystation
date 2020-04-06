@@ -10,9 +10,9 @@ public class AdminToolRefreshMessage : ServerMessage
 	public string JsonData;
 	public uint Recipient;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
+		LoadNetworkObject(Recipient);
 		var adminPageData = JsonUtility.FromJson<AdminPageRefreshData>(JsonData);
 
 		var pages = GameObject.FindObjectsOfType<AdminPage>();

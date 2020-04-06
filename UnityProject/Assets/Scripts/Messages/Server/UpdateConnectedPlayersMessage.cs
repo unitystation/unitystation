@@ -11,12 +11,12 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 {
 	public ClientConnectedPlayer[] Players;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 //		Logger.Log("Processed " + ToString());
 		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers == null)
 		{
-			yield break;
+			return;
 		}
 
 		if (Players != null)
@@ -31,7 +31,6 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 		PlayerList.Instance.RefreshPlayerListText();
 		UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
-		yield return null;
 	}
 
 	public static UpdateConnectedPlayersMessage Send()

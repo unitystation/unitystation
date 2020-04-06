@@ -9,9 +9,8 @@ public class HealthRespiratoryMessage : ServerMessage
 {
 	public bool IsSuffocating;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientRespiratoryStats(IsSuffocating);
 	}
 

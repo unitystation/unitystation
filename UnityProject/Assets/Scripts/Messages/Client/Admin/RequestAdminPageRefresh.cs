@@ -11,9 +11,8 @@ public class RequestAdminPageRefresh : ClientMessage
 	public string Userid;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

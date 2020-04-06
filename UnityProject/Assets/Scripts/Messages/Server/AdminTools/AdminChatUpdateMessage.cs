@@ -7,10 +7,8 @@ public class AdminChatUpdateMessage : ServerMessage
 {
 	public string JsonData;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
-
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ClientUpdateChatLog(JsonData);
 	}
 

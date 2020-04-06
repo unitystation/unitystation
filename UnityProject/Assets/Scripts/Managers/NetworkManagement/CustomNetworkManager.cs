@@ -109,11 +109,6 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	public void Process(NetworkConnection conn, GameMessageBase msg)
-	{
-		StartCoroutine(msg.Process(conn));
-	}
-
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
