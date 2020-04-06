@@ -20,6 +20,9 @@ public class Layer : MonoBehaviour
 
 	public LayerType LayerType;
 	protected Tilemap tilemap;
+
+	public Tilemap Tilemap => tilemap;
+
 	public TilemapDamage TilemapDamage { get; private set; }
 
 	public BoundsInt Bounds => boundsCache;

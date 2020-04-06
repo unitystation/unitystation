@@ -22,6 +22,20 @@ public class ElectricalMetaData
 		InData.Present = null;
 	}
 
+	public void Initialise(ElectricalCableTile DataToTake, MetaDataNode metaDataNode, Vector2Int searchVec, Matrix locatedon)
+	{
+		RelatedTile = DataToTake;
+		IsOn = metaDataNode;
+		InData = new IntrinsicElectronicData();
+		InData.SetUp(DataToTake);
+		InData.MetaDataPresent = this;
+		NodeLocation = searchVec;
+		Locatedon = locatedon;
+		InData.MetaDataPresent = this;
+		InData.Present = null;
+	}
+
+
 	public virtual void FindPossibleConnections()
 	{
 		InData.Data.connections.Clear();
