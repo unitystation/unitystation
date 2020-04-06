@@ -8,7 +8,7 @@ using Mirror;
 public abstract class GameMessageBase : MessageBase
 {
 	public GameObject NetworkObject;
-	public List<GameObject> NetworkObjects = new List<GameObject>();
+	public GameObject[] NetworkObjects;
 
 	/// <summary>
 	/// Called before any message processing takes place
@@ -38,9 +38,9 @@ public abstract class GameMessageBase : MessageBase
 
 	protected void LoadMultipleObjects(uint[] ids)
 	{
+		NetworkObjects = new GameObject[ids.Length];
 		for (int i = 0; i < ids.Length; i++)
 		{
-			NetworkObjects.Add(null);
 			var netId = ids[i];
 			if (NetworkIdentity.spawned.ContainsKey(netId))
 			{
