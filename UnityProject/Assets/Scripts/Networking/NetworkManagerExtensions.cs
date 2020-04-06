@@ -9,7 +9,7 @@ public static class NetworkManagerExtensions
 	/// <summary>
 	///     Finds all classes derived from ClientMessage and registers their server handlers.
 	/// </summary>
-	public static void RegisterServerHandlers(this CustomNetworkManager manager)
+	public static void RegisterServerHandlers()
 	{
 		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage));
 		MethodInfo mi = GetHandlerInfo();
@@ -17,14 +17,14 @@ public static class NetworkManagerExtensions
 		foreach (Type type in types)
 		{
 			MethodInfo method = mi.MakeGenericMethod(type);
-			method.Invoke(null, new object[] {true, null});
+			method.Invoke(null, new object[] {true});
 		}
 	}
 
 	/// <summary>
 	///     Finds all classes derived from ServerMessage and registers their client handlers.
 	/// </summary>
-	public static void RegisterClientHandlers(this CustomNetworkManager manager, NetworkConnection conn)
+	public static void RegisterClientHandlers()
 	{
 		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage));
 		MethodInfo mi = GetHandlerInfo();
@@ -32,15 +32,15 @@ public static class NetworkManagerExtensions
 		foreach (Type type in types)
 		{
 			MethodInfo method = mi.MakeGenericMethod(type);
-			method.Invoke(null, new object[] {false, conn});
+			method.Invoke(null, new object[] {false});
 		}
 	}
 
-	public static void RegisterHandler<T>(bool isServer, NetworkConnection conn)
+	public static void RegisterHandler<T>(bool isServer)
 		where T : GameMessageBase, new()
 	{
 		var msg = new T();
-		
+
 		if (!isServer)
 		{
 			NetworkClient.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
