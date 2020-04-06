@@ -1,13 +1,21 @@
 fileFormatVersion: 2
-guid: da0c42dfa5b0e844f9944ca33ee0080c
+guid: 9c47bb9efb927b845a2bc1f01e702f0e
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: capformal_0
-    21300002: capformal_1
-    21300004: capformal_2
-    21300006: capformal_3
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: capcap_0
+  - first:
+      213: 21300002
+    second: capcap_1
+  - first:
+      213: 21300004
+    second: capcap_2
+  - first:
+      213: 21300006
+    second: capcap_3
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,7 +70,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -73,7 +81,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -84,11 +93,12 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: capformal_0
+      name: capcap_0
       rect:
         serializedVersion: 2
         x: 0
@@ -103,12 +113,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: capformal_1
+      name: capcap_1
       rect:
         serializedVersion: 2
         x: 32
@@ -123,12 +134,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: capformal_2
+      name: capcap_2
       rect:
         serializedVersion: 2
         x: 64
@@ -143,12 +155,13 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: capformal_3
+      name: capcap_3
       rect:
         serializedVersion: 2
         x: 96
@@ -163,6 +176,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b16489681e753a24ab39d1f4a26cd82a
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -171,10 +185,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 280b93732caf29f42b334a277f625760
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
