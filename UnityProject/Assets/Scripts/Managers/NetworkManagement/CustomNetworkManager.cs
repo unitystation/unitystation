@@ -13,7 +13,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public static CustomNetworkManager Instance;
 
-		[HideInInspector] public bool _isServer;
+	[HideInInspector] public bool _isServer;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
@@ -27,7 +27,6 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-
 	void Awake()
 	{
 		if (Instance == null)
@@ -39,7 +38,7 @@ public class CustomNetworkManager : NetworkManager
 			Destroy(gameObject);
 		}
 	}
-	
+
 	public override void Start()
 	{
 		CheckTransport();
@@ -110,6 +109,11 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
+	public void Process(NetworkConnection conn, GameMessageBase msg)
+	{
+		StartCoroutine(msg.Process(conn));
+	}
+
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
@@ -124,7 +128,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		_isServer = true;
 		base.OnStartServer();
-		this.RegisterServerHandlers();
+		NetworkManagerExtensions.RegisterServerHandlers();
 		// Fixes loading directly into the station scene
 		if (GameManager.Instance.LoadedDirectlyToStation)
 		{
@@ -154,7 +158,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		Logger.LogFormat("We (the client) connected to the server {0}", Category.Connections, conn);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
-		this.RegisterClientHandlers(conn);
+		NetworkManagerExtensions.RegisterClientHandlers();
 
 		base.OnClientConnect(conn);
 	}
@@ -274,17 +278,7 @@ public class CustomNetworkManager : NetworkManager
 	private IEnumerator DoHeadlessCheck()
 	{
 		yield return WaitFor.Seconds(0.1f);
-		if (!GameData.IsHeadlessServer && !GameData.Instance.testServer)
-		{
-			if (!IsClientConnected())
-			{
-				//				if (GameData.IsInGame) {
-				//					UIManager.Display.logInWindow.SetActive(true);
-				//				}
-				UIManager.Display.jobSelectWindow.SetActive(false);
-			}
-		}
-		else
+		if (GameData.IsHeadlessServer && GameData.Instance.testServer)
 		{
 			//Set up for headless mode stuff here
 			//Useful for turning on and off components
