@@ -42,7 +42,7 @@ public class KeyboardInputManager : MonoBehaviour
 			}
 
 			// Only check for keyboard input once in-game
-			if (GameData.IsInGame && CustomNetworkManager.Instance.IsClientConnected())
+			if (GameData.IsInGame && Mirror.NetworkClient.active)
 			{
 				CheckInGameKeybinds();
 			}
