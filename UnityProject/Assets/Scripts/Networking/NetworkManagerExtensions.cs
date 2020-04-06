@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
 using Mirror;
 
 public static class NetworkManagerExtensions
@@ -10,7 +9,7 @@ public static class NetworkManagerExtensions
 	/// <summary>
 	///     Finds all classes derived from ClientMessage and registers their server handlers.
 	/// </summary>
-	public static void RegisterServerHandlers(this CustomNetworkManager manager)
+	public static void RegisterServerHandlers()
 	{
 		IEnumerable<Type> types = GetDerivedTypes(typeof(ClientMessage));
 		MethodInfo mi = GetHandlerInfo();
@@ -18,14 +17,14 @@ public static class NetworkManagerExtensions
 		foreach (Type type in types)
 		{
 			MethodInfo method = mi.MakeGenericMethod(type);
-			method.Invoke(null, new object[] {manager, null});
+			method.Invoke(null, new object[] {true});
 		}
 	}
 
 	/// <summary>
 	///     Finds all classes derived from ServerMessage and registers their client handlers.
 	/// </summary>
-	public static void RegisterClientHandlers(this CustomNetworkManager manager, NetworkConnection conn)
+	public static void RegisterClientHandlers()
 	{
 		IEnumerable<Type> types = GetDerivedTypes(typeof(ServerMessage));
 		MethodInfo mi = GetHandlerInfo();
@@ -33,27 +32,22 @@ public static class NetworkManagerExtensions
 		foreach (Type type in types)
 		{
 			MethodInfo method = mi.MakeGenericMethod(type);
-			method.Invoke(null, new object[] {manager, conn});
+			method.Invoke(null, new object[] {false});
 		}
 	}
 
-	public static void RegisterHandler<T>(this CustomNetworkManager manager, NetworkConnection conn)
+	public static void RegisterHandler<T>(bool isServer)
 		where T : GameMessageBase, new()
 	{
-		// In normal C# this would just be `T.MessageType` but it seems unity's compiler has some stipulations about that...
-		short msgType = new T().MessageType;
-		NetworkMessageDelegate cb = delegate( NetworkMessage msg )
-		{
-			manager.StartCoroutine(msg.ReadMessage<T>().Process( msg.conn ));
-		};
+		var msg = new T();
 
-		if (conn != null)
+		if (!isServer)
 		{
-			conn.RegisterHandler(msgType, cb);
+			NetworkClient.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
 		}
 		else
 		{
-			NetworkServer.RegisterHandler(msgType, cb);
+			NetworkServer.RegisterHandler<T>(new Action<NetworkConnection, T>(msg.PreProcess));
 		}
 	}
 
