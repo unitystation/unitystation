@@ -24,7 +24,7 @@ public class OverlapDestroy : MonoBehaviour
 
 			if (ElectricalManager.DOCheck)
 			{
-				Logger.Log("Seting cables!");
+				//Logger.Log("Seting cables!");
 				var wireConnect = this.GetComponent<WireConnect>();
 				if (wireConnect != null)
 				{
@@ -35,7 +35,7 @@ public class OverlapDestroy : MonoBehaviour
 
 				var thing = this.GetComponent<CableInheritance>();
 				thing.ConvertToTile(true);
-
+				//ElectricalManager.DOCheck = false;
 				/*Logger.Log("Cleaning cables!");
 				var ElectricalOI = this.GetComponent<ElectricalOIinheritance>();
 				if (bigDict.ContainsKey(this.transform.localPosition))
