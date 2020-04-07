@@ -9,6 +9,7 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.TargetObject == this.gameObject) return false;
 		//can only be used on tiles
 		return true;
 	}
