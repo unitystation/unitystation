@@ -5,13 +5,11 @@
 /// </summary>
 public class UpdateRoundTimeMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.UpdateRoundTimeMessage;
 	public string Time;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		GameManager.Instance.SyncTime(Time);
-		yield return null;
 	}
 
 	public static UpdateRoundTimeMessage Send(string time)
@@ -22,10 +20,5 @@ public class UpdateRoundTimeMessage : ServerMessage
 		};
 		msg.SendToAll();
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateRoundTimeMessage Type={MessageType} Time={Time}]";
 	}
 }

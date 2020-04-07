@@ -7,18 +7,17 @@ using Mirror;
 /// </summary>
 public class FollowCameraMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.FollowCameraMessage;
 	public uint ObjectToFollow;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		if ( ObjectToFollow == NetId.Invalid )
 		{
-			yield return null;
+			return;
 		}
 		else
 		{
-			yield return WaitFor(ObjectToFollow);
+			LoadNetworkObject(ObjectToFollow);
 		}
 		var objectToFollow = NetworkObject;
 

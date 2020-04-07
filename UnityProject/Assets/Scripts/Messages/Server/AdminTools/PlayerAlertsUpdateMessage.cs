@@ -5,14 +5,11 @@ using AdminTools;
 
 public class PlayerAlertsUpdateMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlayerAlertsUpdateMessage;
 	public string JsonData;
 	public bool IsSingleEntry;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
-
 		if (IsSingleEntry)
 		{
 			UIManager.Instance.playerAlerts.ClientUpdateSingleEntry(JsonUtility.FromJson<PlayerAlertData>(JsonData));

@@ -10,14 +10,14 @@ on:
     - 'UnityProject/**'
     - '.github/workflows/main.yml'
     - 'Docker/**'
-#  pull_request:
-#    branches:
-#    - develop
-#    - master
-#    paths:
-#    - 'Tools/UnityLicense.ulf'
-#    - 'UnityProject/**'
-#    - '.github/workflows/main.yml'
+  pull_request:
+    branches:
+    - develop
+    - master
+    paths:
+    - 'Tools/UnityLicense.ulf'
+    - 'UnityProject/**'
+    - '.github/workflows/main.yml'
 
 jobs:
 

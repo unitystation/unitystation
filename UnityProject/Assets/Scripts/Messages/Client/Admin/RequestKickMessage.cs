@@ -6,8 +6,6 @@ using Mirror;
 
 public class RequestKickMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestKick;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToKick;
@@ -15,9 +13,8 @@ public class RequestKickMessage : ClientMessage
 	public bool IsBan;
 	public int BanMinutes;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

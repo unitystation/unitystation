@@ -6,14 +6,11 @@ using Mirror;
 
 public class AdminCheckAdminMessages : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminCheckAdminMessages;
-
 	public string PlayerId;
 	public int CurrentCount;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerGetUnreadMessages(PlayerId, CurrentCount, SentByPlayer.Connection);
 	}
 

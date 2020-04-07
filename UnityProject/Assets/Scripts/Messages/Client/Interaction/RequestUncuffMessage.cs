@@ -14,8 +14,6 @@ public class RequestUncuffMessage : ClientMessage
 
 	//TODO: This class shouldn't be needed, IF2 can be used instead
 
-	public override short MessageType => (short)MessageTypes.RequestUncuffMessage;
-
 	/// <summary>
 	/// ID of the player who will be uncuffed
 	/// </summary>
@@ -30,9 +28,9 @@ public class RequestUncuffMessage : ClientMessage
 		msg.Send();
 	}
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(PlayerToUncuff);
+		LoadNetworkObject(PlayerToUncuff);
 		GameObject actor = SentByPlayer.GameObject;
 		GameObject playerToUncuff = NetworkObject;
 

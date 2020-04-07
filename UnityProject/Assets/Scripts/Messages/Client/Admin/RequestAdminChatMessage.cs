@@ -6,15 +6,12 @@ using Mirror;
 
 public class RequestAdminChatMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestAdminChatMessage;
-
 	public string Userid;
 	public string AdminToken;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 
