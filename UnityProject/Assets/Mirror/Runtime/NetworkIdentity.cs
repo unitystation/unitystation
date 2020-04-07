@@ -351,7 +351,7 @@ namespace Mirror
         // * sceneIds should never be generated temporarily for unopened scenes
         //   when building, otherwise editor and build get out of sync
         //   => BuildPipeline.isBuildingPlayer check solves that
-        void AssignSceneID()
+        public void AssignSceneID()
         {
             // we only ever assign sceneIds at edit time, never at runtime.
             // by definition, only the original scene objects should get one.
