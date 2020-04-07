@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a530723332345043ae218456ed72ca0, type: 3}
+  m_Name: ExoFabProducts
+  m_EditorClassIdentifier: 
+  productCategoryList:
+  - categoryName: Cyborg
+    products:
+    - name: Cyborg Head
+      product: {fileID: 0}
+    - name: Cyborg Left Arm
+      product: {fileID: 0}
+    - name: Cyborg Right Arm
+      product: {fileID: 0}
+  - categoryName: Ripley
+    products:
+    - name: Test
+      product: {fileID: 0}
+  - categoryName: Odysseus
+    products:
+    - name: Test2
+      product: {fileID: 0}
+    - name: Test3
+      product: {fileID: 0}
