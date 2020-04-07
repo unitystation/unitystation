@@ -90,8 +90,8 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 
 				var Wrap = ElectricalPool.GetResistanceWrap();
 				Wrap.Strength = 1;
-				RR.Ohms = 240;
-				Wrap.resistance = RR; //_Resistance.Key
+				//RR.Ohms = 240;*/
+				Wrap.resistance = _Resistance.Key;
 
 				ControllingNode.Node.InData.ResistanceInput(Wrap, Supplie.Key, ComingFromDevice);
 			}
