@@ -19,13 +19,11 @@ Please join us on Discord:<br>
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://github.com/unitystation/unitystation/wiki/Starting-contribution)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version **2019.2.19** (NOT 2019.3!)
+2. Install editor version **2019.3.8f1**
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines
 6. Submit a pull request
-
-#### IMPORTANT NOTE: There is currently a bug that you may experience when playing the game in the editor for the first time. If you get stuck on the `Waiting for Players` screen then open any script, make a change and save it to force the editor to recompile.
 
 ## LICENSE
 

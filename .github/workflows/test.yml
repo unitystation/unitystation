@@ -44,7 +44,7 @@ jobs:
   #       uses: webbertakken/unity-request-manual-activation-file@v1.1
   #       id: getManualLicenseFile
   #       with:
-  #         unityVersion: 2019.2.19f1
+  #         unityVersion: 2019.3.8f1
   #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
   #     - name: Expose as artifact
   #       uses: actions/upload-artifact@v1
@@ -62,7 +62,7 @@ jobs:
         projectPath:
           - UnityProject
         unityVersion:
-          - 2019.2.19f1
+          - 2019.3.8f1
         targetPlatform:
           - StandaloneWindows64
     steps:
