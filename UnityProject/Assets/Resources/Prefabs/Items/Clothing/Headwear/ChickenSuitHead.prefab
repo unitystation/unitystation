@@ -10,23 +10,23 @@ PrefabInstance:
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: initialName
-      value: Tophat
+      value: chicken suit head
       objectReference: {fileID: 0}
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: initialDescription
-      value: A sophisticated Tophat worn by noblemen
+      value: Bkaw!
       objectReference: {fileID: 0}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b60b1105383115d43b5360612f8f44b6,
+      objectReference: {fileID: 21300000, guid: 111982aed538774479afcc26acad0c27,
         type: 3}
     - target: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Name
-      value: TopHat
+      value: ChickenSuitHead
       objectReference: {fileID: 0}
     - target: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -102,7 +102,12 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 9b2847707924cc54d8eecfe989a0e54a,
+      objectReference: {fileID: 11400000, guid: e094cecfa89e337478508bacf41d6d7d,
         type: 2}
+    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 1008
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a048f6c330048e9a2358fb6f71d385, type: 3}
