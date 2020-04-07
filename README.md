@@ -25,8 +25,6 @@ Read our Quick Start guide [here](https://github.com/unitystation/unitystation/w
 5. Read the contribution guidelines
 6. Submit a pull request
 
-#### IMPORTANT NOTE: There is currently a bug that you may experience when playing the game in the editor for the first time. If you get stuck on the `Waiting for Players` screen then open any script, make a change and save it to force the editor to recompile.
-
 ## LICENSE
 
 All code after [commit 44695c862d6d84cfc99354d6dfba1f0b70f20407 on 2017/03/12 at 11:39 PM CET](https://github.com/unitystation/unitystation/commit/44695c862d6d84cfc99354d6dfba1f0b70f20407) is licensed under [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.html).
