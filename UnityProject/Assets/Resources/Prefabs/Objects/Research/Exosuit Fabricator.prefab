@@ -30,6 +30,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cm3PerSheet: 2000
   maximumTotalResourceStorage: 20000
   materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
     type: 2}
@@ -163,12 +164,12 @@ PrefabInstance:
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 36.94
+      value: 22.95398
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 101.98
+      value: 246.02283
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
