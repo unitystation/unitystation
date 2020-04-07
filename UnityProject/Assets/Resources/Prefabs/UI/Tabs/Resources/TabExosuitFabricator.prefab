@@ -3685,6 +3685,10 @@ MonoBehaviour:
   ProviderRegisterTile: {fileID: 0}
   Type: 16
   materialsDisplay: {fileID: 8250160379045555555}
+  nestedSwitcher: {fileID: 8396678451261372182}
+  materialsAndCategoryPage: {fileID: 8250160379045555555}
+  productsPage: {fileID: 8119739478174430954}
+  exosuitFabricator: {fileID: 0}
 --- !u!1 &5236417620822984911
 GameObject:
   m_ObjectHideFlags: 0
@@ -5743,6 +5747,16 @@ PrefabInstance:
       propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: -908370874475079000}
+    - target: {fileID: 1090239539325940878, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1473902886244051019, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1981491120818071743, guid: 475e99927a9922941948733967a89656,
         type: 3}
       propertyPath: m_AssetId
@@ -5753,16 +5767,36 @@ PrefabInstance:
       propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: -908370874475079000}
+    - target: {fileID: 3898401365554447954, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: value
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4280312789032323277, guid: 475e99927a9922941948733967a89656,
         type: 3}
       propertyPath: m_Name
       value: MaterialEntryTemplate
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847193812025078527, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410686751044062767, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9020547528920610364, guid: 475e99927a9922941948733967a89656,
         type: 3}
       propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: -908370874475079000}
+    - target: {fileID: 9020547528920610364, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: value
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 475e99927a9922941948733967a89656, type: 3}
 --- !u!224 &9116828378219900488 stripped

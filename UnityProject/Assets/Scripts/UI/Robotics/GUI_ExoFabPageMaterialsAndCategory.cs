@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExosuitFabricatorPageMaterialsAndCategory : GUI_ExosuitFabricatorPage
+public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 {
 	[SerializeField] private MaterialEntry materialEntry;
 	private GameObject currentMaterialEntry;
@@ -13,6 +13,8 @@ public class GUI_ExosuitFabricatorPageMaterialsAndCategory : GUI_ExosuitFabricat
 
 	public void initMaterialList(ExosuitFabricator exofab)
 	{
+		//For each material record in the material storage, a new material entry is created in the
+		//UI with the material type, its current amount and the dispense buttons.
 		foreach (MaterialRecord record in exofab.materialStorage.ItemTraitToMaterialRecord.Values)
 		{
 			currentMaterial = record.materialType;
@@ -26,25 +28,25 @@ public class GUI_ExosuitFabricatorPageMaterialsAndCategory : GUI_ExosuitFabricat
 		}
 	}
 
-	public void UpdateButtonVisibility(int currentValue, ItemTrait materialType)
+	/// <summary>
+	/// Updates the visibility of buttons for a given material.
+	/// </summary>
+	/// <param name="currentMaterialAmount"></param>
+	/// <param name="cm3PerSheet">cm3 per material sheet. Standard is 2000cm3 per sheet</param>
+	/// <param name="materialType"></param>
+	public void UpdateButtonVisibility(int currentMaterialAmount, int cm3PerSheet, ItemTrait materialType)
 	{
-		//Inefficient code, we can do better
-		//if (exofab.ironAmount == 0)
-		//{
-		//	ironRemoveOne.SetActive(false);
-		//}
-		//else if (0 < exofab.ironAmount && exofab.ironAmount < 10)
-		//{
-		//	ironRemoveOne.SetActive(true);
-		//}
-		//else if (10 < exofab.ironAmount < 50)
+		materialEntries[materialType].SetButtonVisibility(cm3PerSheet, currentMaterialAmount);
 	}
 
+	/// <summary>
+	/// Updates the material count for each material
+	/// </summary>
+	/// <param name="exofab"></param>
 	public void UpdateMaterialCount(ExosuitFabricator exofab)
 	{
 		foreach (ItemTrait materialType in materialEntries.Keys)
 		{
-			Logger.Log("UPDATING MATERIALS FOR: " + materialType.name);
 			string amountInExofab = exofab.materialStorage.ItemTraitToMaterialRecord[materialType].currentAmount.ToString();
 			materialEntries[materialType].amountLabel.SetValue = amountInExofab;
 		}

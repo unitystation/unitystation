@@ -32,4 +32,33 @@ public class MaterialEntry : MonoBehaviour
 		buttonFifty.itemTrait = materialRecord.materialType;
 		buttonFifty.gameObject.name = "Fifty" + materialName + "Button";
 	}
+
+	public void SetButtonVisibility(int cm3PerSheet, int materialAmount)
+	{
+		int sheetsDispensable = materialAmount / cm3PerSheet;
+		if (sheetsDispensable < 1)
+		{
+			buttonOne.gameObject.SetActive(false);
+			buttonTen.gameObject.SetActive(false);
+			buttonFifty.gameObject.SetActive(false);
+		}
+		else if (sheetsDispensable >= 1 && sheetsDispensable < 10)
+		{
+			buttonOne.gameObject.SetActive(true);
+			buttonTen.gameObject.SetActive(false);
+			buttonFifty.gameObject.SetActive(false);
+		}
+		else if (sheetsDispensable > 10 && sheetsDispensable < 50)
+		{
+			buttonOne.gameObject.SetActive(true);
+			buttonTen.gameObject.SetActive(true);
+			buttonFifty.gameObject.SetActive(false);
+		}
+		else
+		{
+			buttonOne.gameObject.SetActive(true);
+			buttonTen.gameObject.SetActive(true);
+			buttonFifty.gameObject.SetActive(true);
+		}
+	}
 }

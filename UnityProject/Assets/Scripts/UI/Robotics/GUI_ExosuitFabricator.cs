@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class GUI_ExosuitFabricator : NetTab
 {
-	[SerializeField] private GUI_ExosuitFabricatorPageMaterialsAndCategory materialsDisplay;
+	[SerializeField] private GUI_ExoFabPageMaterialsAndCategory materialsDisplay;
 
-	private NetPageSwitcher nestedSwitcher;
-	private NetPageSwitcher NestedSwitcher => nestedSwitcher ? nestedSwitcher : nestedSwitcher = this["LeftDisplay"] as NetPageSwitcher;
+	[SerializeField]
+	private NetPageSwitcher nestedSwitcher = null;
+
+	[SerializeField]
+	private NetPage materialsAndCategoryPage = null;
+
+	[SerializeField]
+	private NetPage productsPage = null;
 
 	private ExosuitFabricator exosuitFabricator;
 
 	protected override void InitServer()
 	{
-		foreach (NetPage page in NestedSwitcher.Pages)
-		{
-			page.GetComponent<GUI_ExosuitFabricatorPage>().Init();
-		}
 	}
 
 	private void Start()
@@ -30,39 +32,31 @@ public class GUI_ExosuitFabricator : NetTab
 		UpdateAll();
 	}
 
-	//Updates the GUI
+	//Updates the GUI and adds any visible NetUIElements to the server.
 	public void UpdateAll()
 	{
 		materialsDisplay.UpdateMaterialCount(exosuitFabricator);
+		foreach (ItemTrait materialType in exosuitFabricator.materialStorage.ItemTraitToMaterialRecord.Keys)
+		{
+			int materialAmount = exosuitFabricator.materialStorage.ItemTraitToMaterialRecord[materialType].currentAmount;
+			int cm3PerSheet = exosuitFabricator.materialStorage.cm3PerSheet;
+
+			materialsDisplay.UpdateButtonVisibility(materialAmount, cm3PerSheet, materialType);
+			RescanElements();
+		}
 	}
 
+	//Used by buttons, which contains the amount and type to dispense
 	public void DispenseSheet(ExoFabRemoveMaterialButton button)
 	{
-		Logger.Log(button.Value);
-	}
-
-	//Used by buttons to remove sheets from the exofab
-	public void RemoveOneSheet(ItemTrait materialType)
-	{
-		exosuitFabricator.DispenseMaterialSheet(1, materialType);
-	}
-
-	//Used by buttons to remove sheets from the exofab
-	public void RemoveTenSheets(ItemTrait materialType)
-	{
-		exosuitFabricator.DispenseMaterialSheet(10, materialType);
-	}
-
-	//Used by buttons to remove sheets from the exofab
-	public void RemoveFiftySheets(ItemTrait materialType)
-	{
-		exosuitFabricator.DispenseMaterialSheet(50, materialType);
+		int sheetAmount = button.value;
+		ItemTrait materialType = button.itemTrait;
+		exosuitFabricator.DispenseMaterialSheet(sheetAmount, materialType);
 	}
 
 	public void OpenTab(NetPage pageToOpen)
 	{
-		NestedSwitcher.SetActivePage(pageToOpen);
-		pageToOpen.GetComponent<GUI_ExosuitFabricatorPage>().OpenTab();
+		nestedSwitcher.SetActivePage(pageToOpen);
 	}
 
 	public void CloseTab()

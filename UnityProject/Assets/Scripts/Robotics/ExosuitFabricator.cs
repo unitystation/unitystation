@@ -27,7 +27,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 
 	private void UpdateGUI()
 	{
-		// Change event runs updateAll in ChemistryGUI
+		//Delegate calls method in all subscribers when material is changed
 		if (MaterialsManipulated != null)
 		{
 			MaterialsManipulated();
@@ -60,7 +60,6 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		//Checks if the material is acceptable and sets the current materialType
 		if (!interaction.HandSlot.IsEmpty)
 		{
 			//Checks if materialStorage has the materialRecord
@@ -82,8 +81,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	//Every sheet is 2000cm^3
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		//Can't insert materials while exofab is under production.
-
+		//Can't insert materials while exofab is in production.
 		if (stateSync != ExosuitFabricatorState.Production)
 		{
 			int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
@@ -97,7 +95,9 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		else Logger.Log("Cannot put in materials while producing");
 	}
 
-	//Dispenses material sheets if there's enough
+	///<summary>
+	///Spawns a number material sheet if there is enough in the storage
+	///</summary>
 	public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 	{
 		if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))

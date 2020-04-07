@@ -6,4 +6,9 @@ public class ExoFabRemoveMaterialButton : NetButton
 {
 	public int value = 5;
 	public ItemTrait itemTrait;
+
+	public override void ExecuteServer()
+	{
+		ServerMethod.Invoke();
+	}
 }

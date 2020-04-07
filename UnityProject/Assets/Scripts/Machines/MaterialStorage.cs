@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MaterialStorage : MonoBehaviour
 {
+	public int cm3PerSheet;
 	public Dictionary<string, int> Stored;
 	public int maximumTotalResourceStorage;
 	private int currentTotalResourceAmount = 0;
@@ -12,8 +13,6 @@ public class MaterialStorage : MonoBehaviour
 	public List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
 	public Dictionary<string, MaterialRecord> NameToMaterialRecord = new Dictionary<string, MaterialRecord>();
 	public Dictionary<ItemTrait, MaterialRecord> ItemTraitToMaterialRecord = new Dictionary<ItemTrait, MaterialRecord>();
-
-	private int cm3PerSheet;
 
 	private void Awake()
 	{
