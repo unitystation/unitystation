@@ -7,15 +7,12 @@ using UnityEngine;
 /// </summary>
 public class SendClientLogMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.SendClientLog;
 	public string Message;
 	public Category Category;
 	public bool IsError;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
-
 		if (IsError)
 		{
 			Logger.LogError(Message, Category);

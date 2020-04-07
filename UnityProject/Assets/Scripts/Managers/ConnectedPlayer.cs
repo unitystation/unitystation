@@ -78,8 +78,8 @@ public class ConnectedPlayer
 
 	public string Username
 	{
-		get => username;
-		set => username = value;
+		get { return username; }
+		set { username = value; }
 	}
 
 	public string Name
@@ -109,14 +109,14 @@ public class ConnectedPlayer
 
 	public string ClientId
 	{
-		get => clientID;
-		set => clientID = value;
+		get { return clientID; }
+		set { clientID = value; }
 	}
 
 	public string UserId
 	{
-		get => userID;
-		set => userID = value;
+		get { return userID; }
+		set { userID = value; }
 	}
 
 	public bool HasNoName()

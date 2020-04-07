@@ -6,17 +6,13 @@ using UnityEngine;
 /// </summary>
 public class UpdateHungerStateMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.UpdateHungerStateMessage;
-
 	public HungerState State;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
 
 		metabolismSystem.HungerState = State;
-
-		yield return null;
 	}
 
 	public static UpdateHungerStateMessage Send(GameObject recipient, HungerState state)
@@ -27,10 +23,5 @@ public class UpdateHungerStateMessage : ServerMessage
 		};
 		msg.SendTo(recipient);
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateHungerStateMessage Type={MessageType} State={State}]";
 	}
 }

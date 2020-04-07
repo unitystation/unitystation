@@ -8,7 +8,6 @@ using Mirror;
 /// </summary>
 public class DevSpawnMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.DevSpawnMessage;
 	// name of the prefab or hier string to spawn
 	public string Name;
 	// position to spawn at.
@@ -16,10 +15,9 @@ public class DevSpawnMessage : ClientMessage
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()

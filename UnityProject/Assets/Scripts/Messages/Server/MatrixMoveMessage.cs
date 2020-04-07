@@ -5,17 +5,16 @@ using Mirror;
 ///     Tells client to
 public class MatrixMoveMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.MatrixMoveMessage;
 	public MatrixState State;
 	public uint Matrix;
 	//Reset client's prediction queue
 //	public bool ResetQueue;
 
 	///To be run on client
-	public override IEnumerator Process()
+	public override void Process()
 	{
 //		Logger.Log("Processed " + ToString());
-		yield return WaitFor(Matrix);
+		LoadNetworkObject(Matrix);
 
 		//Sometimes NetworkObject is gone because of game ending or just before exit
 		if (NetworkObject != null) {

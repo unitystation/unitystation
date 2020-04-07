@@ -7,36 +7,19 @@ using Mirror;
 /// </summary>
 public class RequestSyncMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestSyncMessage;
-
-	public override IEnumerator Process()
+	public override void Process()
 	{
 //		Logger.Log("Processed " + ToString());
 		Logger.Log($"{SentByPlayer} requested sync", Category.Connections);
 
 		//not sending out sync data for players not ingame
-		if ( SentByPlayer.Job != JobType.NULL && !SentByPlayer.Synced ) {
+		if (SentByPlayer.Job != JobType.NULL && !SentByPlayer.Synced)
+		{
 			CustomNetworkManager.Instance.SyncPlayerData(SentByPlayer.GameObject);
 
 			//marking player as synced to avoid sending that data pile again
 			SentByPlayer.Synced = true;
 
 		}
-		yield return null;
-	}
-
-	public override string ToString()
-	{
-		return $"[RequestSyncMessage Type={MessageType} SentBy={SentByPlayer}]";
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
 	}
 }

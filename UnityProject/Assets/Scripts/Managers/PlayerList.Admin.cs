@@ -458,7 +458,7 @@ public partial class PlayerList
 		SendClientLogMessage.SendLogToClient(connPlayer.GameObject, message, Category.Admin, true);
 		yield return WaitFor.Seconds(0.1f);
 
-		if (!connPlayer.Connection.isConnected)
+		if (connPlayer.Connection == null)
 		{
 			Logger.Log($"Not kicking, already disconnected: {connPlayer.Name}");
 			yield break;

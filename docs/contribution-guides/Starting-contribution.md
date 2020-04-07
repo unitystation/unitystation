@@ -12,7 +12,7 @@
 Just check the little box and download the installer. 
 At some point you'll have to make an account, but can use disposable mail for that.
 
-**Note that you should use Unity 2019.2.19 as of 08.02.2020.**
+**Note that you should use Unity 2019.3.8f1 as of 06.04.2020.**
 
 #### Downloading the repository
 ```bash

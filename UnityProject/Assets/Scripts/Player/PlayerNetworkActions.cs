@@ -34,6 +34,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Get the item in the player's slot
+	/// </summary>
+	/// <returns>the gameobject item in the player's slot, null if nothing </returns>
+	public GameObject GetActiveItemInSlot(NamedSlot slot)
+	{
+		var pu = itemStorage.GetNamedItemSlot(slot).Item;
+		return pu?.gameObject;
+	}
+
+	/// <summary>
 	/// Get the item in the player's active hand
 	/// </summary>
 	/// <returns>the gameobject item in the player's active hand, null if nothing in active hand</returns>
@@ -326,7 +336,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		// Switch the pickup mode of the storage in the active hand
 		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
-					  GetOffHandItem()?.GetComponent<InteractableStorage>();
+		              GetOffHandItem()?.GetComponent<InteractableStorage>();
 		storage.ServerSwitchPickupMode(gameObject);
 	}
 

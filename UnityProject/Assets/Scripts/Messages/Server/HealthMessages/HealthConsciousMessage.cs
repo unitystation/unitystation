@@ -7,17 +7,15 @@ using Mirror;
 /// </summary>
 public class HealthConsciousMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.HealthConsciousState;
-
 	public uint EntityToUpdate;
 	public ConsciousState ConsciousState;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EntityToUpdate);
+		LoadNetworkObject(EntityToUpdate);
 		if (NetworkObject == null)
 		{
-			yield break;
+			return;
 		}
 
 		var healthBehaviour = NetworkObject.GetComponent<LivingHealthBehaviour>();
