@@ -6,15 +6,12 @@ using Mirror;
 
 public class RequestRespawnPlayer : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestRespawn;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToRespawn;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 

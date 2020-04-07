@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,17 @@ public class Tools : Editor
 		public Connection wireEndB;
 		public PowerTypeCategory wireType;
 
+	}
+
+	[MenuItem("Tools/Reset NetworkObj Scene IDs")]
+	private static void ResetNetIDs()
+	{
+		var identities = FindObjectsOfType<NetworkIdentity>();
+		foreach (var i in identities)
+		{
+			i.AssignSceneID();
+		}
+		Logger.Log($"{identities.Length} network identities were reassigned scene ids");
 	}
 
 	[MenuItem("Tools/Clean Up Wire Dupes")]

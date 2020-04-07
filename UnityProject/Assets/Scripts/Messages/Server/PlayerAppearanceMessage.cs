@@ -17,7 +17,6 @@ using Mirror;
 /// </summary>
 public class PlayerAppearanceMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlayerAppearanceMessage;
 	//if IsBodySprites, index in PlayerSprites.characterSprites to update.
 	//otherwise, ordinal value of NamedSlot enum in Equipment to update
 	public int Index;
@@ -28,9 +27,9 @@ public class PlayerAppearanceMessage : ServerMessage
 	//Is this for the body parts or for the clothing items:
 	public bool IsBodySprites;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EquipmentObject, ItemNetID);
+		LoadMultipleObjects(new uint[] {EquipmentObject, ItemNetID});
 		//Debug.Log(
 		//	$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
 

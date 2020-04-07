@@ -11,9 +11,6 @@ using UnityEngine;
 /// </summary>
 public class RequestInteractMessage : ClientMessage
 {
-	//TODO: Is this constant needed anymore
-	public override short MessageType => (short) MessageTypes.RequestInteraction;
-
 	//these are always populated
 	public Type ComponentType;
 	public Type InteractionType;
@@ -96,14 +93,16 @@ public class RequestInteractMessage : ClientMessage
 		return toCheck.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == genericType);
 	}
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		var performer = SentByPlayer.GameObject;
 
 		if (SentByPlayer == null || SentByPlayer.Script == null || SentByPlayer.Script.ItemStorage == null)
 		{
-			yield break;
+			return;
 		}
+
+
 
 		if (InteractionType == typeof(PositionalHandApply))
 		{
@@ -111,7 +110,9 @@ public class RequestInteractMessage : ClientMessage
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-			yield return WaitFor(TargetObject, ProcessorObject);
+			LoadMultipleObjects(new uint[]{
+				TargetObject, ProcessorObject
+			});
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
 			var interaction = PositionalHandApply.ByClient(performer, usedObject, targetObj, TargetVector, usedSlot, Intent, TargetBodyPart);
@@ -122,7 +123,9 @@ public class RequestInteractMessage : ClientMessage
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-			yield return WaitFor(TargetObject, ProcessorObject);
+			LoadMultipleObjects(new uint[]{
+				TargetObject, ProcessorObject
+			});
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
 			var interaction = HandApply.ByClient(performer, usedObject, targetObj, TargetBodyPart, usedSlot, Intent, IsAltUsed);
@@ -133,14 +136,16 @@ public class RequestInteractMessage : ClientMessage
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-			yield return WaitFor(ProcessorObject);
+			LoadNetworkObject(ProcessorObject);
 			var processorObj = NetworkObject;
 			var interaction = AimApply.ByClient(performer, TargetVector, usedObject, usedSlot, MouseButtonState, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 		else if (InteractionType == typeof(MouseDrop))
 		{
-			yield return WaitFor(UsedObject, TargetObject, ProcessorObject);
+			LoadMultipleObjects(new uint[]{UsedObject,
+				TargetObject, ProcessorObject
+			});
 			var usedObj = NetworkObjects[0];
 			var targetObj = NetworkObjects[1];
 			var processorObj = NetworkObjects[2];
@@ -149,7 +154,8 @@ public class RequestInteractMessage : ClientMessage
 		}
 		else if (InteractionType == typeof(HandActivate))
 		{
-			yield return WaitFor(ProcessorObject);
+			LoadNetworkObject(ProcessorObject);
+
 			var processorObj = NetworkObject;
 			var performerObj = SentByPlayer.GameObject;
 			//look up item in active hand slot
@@ -161,7 +167,9 @@ public class RequestInteractMessage : ClientMessage
 		}
 		else if (InteractionType == typeof(InventoryApply))
 		{
-			yield return WaitFor(ProcessorObject, UsedObject, Storage);
+			LoadMultipleObjects(new uint[]{ProcessorObject, UsedObject,
+				Storage
+			});
 			var processorObj = NetworkObjects[0];
 			var usedObj = NetworkObjects[1];
 			var storageObj = NetworkObjects[2];
@@ -194,14 +202,17 @@ public class RequestInteractMessage : ClientMessage
 			var clientStorage = SentByPlayer.Script.ItemStorage;
 			var usedSlot = clientStorage.GetActiveHandSlot();
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-			yield return WaitFor(ProcessorObject);
+			LoadNetworkObject(ProcessorObject);
 			var processorObj = NetworkObject;
 			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
 				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent, TileApply.ApplyType.HandApply);
 		}
 		else if(InteractionType == typeof(TileMouseDrop))
 		{
-			yield return WaitFor(UsedObject, ProcessorObject);
+			LoadMultipleObjects(new uint[]{UsedObject,
+				ProcessorObject
+			});
+
 			var usedObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
 			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,

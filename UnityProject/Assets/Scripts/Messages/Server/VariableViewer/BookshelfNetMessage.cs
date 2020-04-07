@@ -11,14 +11,12 @@ using Newtonsoft.Json;
 
 public class BookshelfNetMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.BookshelfNetMessage;
 	public VariableViewerNetworking.NetFriendlyBookShelfView data;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
 		UIManager.Instance.BookshelfViewer.BookShelfView  = data;
 		UIManager.Instance.BookshelfViewer.ValueSetUp();
-		return null;
 	}
 
 	public static BookshelfNetMessage Send(Librarian.BookShelf _BookShelf)

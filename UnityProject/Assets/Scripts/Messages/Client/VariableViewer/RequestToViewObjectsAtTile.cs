@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class RequestToViewObjectsAtTile : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestToViewObjectsAtTile;
 	public Vector3 Location;
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()
