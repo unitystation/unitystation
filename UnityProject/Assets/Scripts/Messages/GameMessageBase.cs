@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using Mirror;
@@ -9,70 +10,42 @@ public abstract class GameMessageBase : MessageBase
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
 
+	/// <summary>
+	/// Called before any message processing takes place
+	/// </summary>
 	public virtual void PreProcess(NetworkConnection sentBy, GameMessageBase b)
 	{
-		CustomNetworkManager.Instance.StartCoroutine(b.Process(sentBy));
+		b.Process(sentBy);
 	}
 
-	public abstract IEnumerator Process();
+	public abstract void Process();
 
-	public virtual IEnumerator Process( NetworkConnection sentBy )
+	public virtual void Process( NetworkConnection sentBy )
 	{
-		yield return Process();
+		Process();
 	}
 
-	protected IEnumerator WaitFor(uint id)
+	protected bool LoadNetworkObject(uint id)
 	{
-		if (id == NetId.Empty)
+		if (NetworkIdentity.spawned.ContainsKey(id) && NetworkIdentity.spawned[id] != null)
 		{
-			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.NetMessage, this.GetType().Name );
-			yield break;
+			NetworkObject = NetworkIdentity.spawned[id].gameObject;
+			return true;
 		}
 
-		int tries = 0;
-		while (!NetworkIdentity.spawned.ContainsKey(id))
-		{
-			if (tries++ > 10)
-			{
-				Logger.LogWarningFormat( "{0} could not find object with id {1}", Category.NetMessage, this.GetType().Name, id );
-				yield break;
-			}
-
-			yield return global::WaitFor.EndOfFrame;
-		}
-
-		NetworkObject = NetworkIdentity.spawned[id].gameObject;
+		return false;
 	}
 
-	public abstract short MessageType { get; }
-
-	protected IEnumerator WaitFor(params uint[] ids)
+	protected void LoadMultipleObjects(uint[] ids)
 	{
 		NetworkObjects = new GameObject[ids.Length];
-
-		while (!AllLoaded(ids))
-		{
-			yield return global::WaitFor.EndOfFrame;
-		}
-	}
-
-	private bool AllLoaded(uint[] ids)
-	{
 		for (int i = 0; i < ids.Length; i++)
 		{
 			var netId = ids[i];
-			if ( netId == NetId.Invalid ) {
-				continue;
-			}
-
-			if (!NetworkIdentity.spawned.ContainsKey(netId))
+			if (NetworkIdentity.spawned.ContainsKey(netId) && NetworkIdentity.spawned[netId] != null)
 			{
-				return false;
+				NetworkObjects[i] = NetworkIdentity.spawned[netId].gameObject;
 			}
-
-			NetworkObjects[i] = NetworkIdentity.spawned[netId].gameObject;
 		}
-
-		return true;
 	}
 }

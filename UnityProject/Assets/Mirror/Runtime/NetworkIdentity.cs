@@ -47,6 +47,7 @@ namespace Mirror
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkIdentity.html")]
     public sealed class NetworkIdentity : MonoBehaviour
     {
+	    public bool isDirty;
         // configuration
         NetworkBehaviour[] networkBehavioursCache;
 
@@ -351,7 +352,7 @@ namespace Mirror
         // * sceneIds should never be generated temporarily for unopened scenes
         //   when building, otherwise editor and build get out of sync
         //   => BuildPipeline.isBuildingPlayer check solves that
-        void AssignSceneID()
+        public void AssignSceneID()
         {
             // we only ever assign sceneIds at edit time, never at runtime.
             // by definition, only the original scene objects should get one.
@@ -1296,6 +1297,8 @@ namespace Mirror
             {
                 comp.ClearAllDirtyBits();
             }
+
+            isDirty = false;
         }
 
         // clear only dirty component's dirty bits. ignores components which
@@ -1309,6 +1312,8 @@ namespace Mirror
                     comp.ClearAllDirtyBits();
                 }
             }
+
+            isDirty = false;
         }
     }
 }

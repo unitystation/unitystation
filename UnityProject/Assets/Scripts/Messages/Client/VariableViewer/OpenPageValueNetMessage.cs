@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class OpenPageValueNetMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.OpenPageValueNetMessage;
 	public ulong PageID;
 	public uint SentenceID;
 	public bool ISSentence;
@@ -13,10 +12,9 @@ public class OpenPageValueNetMessage : ClientMessage
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()

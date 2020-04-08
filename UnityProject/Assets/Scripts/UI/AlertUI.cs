@@ -16,9 +16,11 @@ public class AlertUI : MonoBehaviour
 
 	public GameObject cuffed;
 	public GameObject pickupMode;
-	
+	public GameObject magBoots;
+
 	bool shouldHideAllButtons = false;
 
+	private Action magBootsAction;
 	private Action onClickBuckled;
 
 	//invoked when the restrained alert is clicked
@@ -44,6 +46,15 @@ public class AlertUI : MonoBehaviour
 		SoundManager.Play("Click01");
 	}
 
+	/// <summary>
+	/// Called when mag boots mode action button is pressed
+	/// </summary>
+	public void OnClickMagBoots()
+	{
+		SoundManager.Play("Click01");
+		magBootsAction?.Invoke();
+	}
+
 	private void OnEnable()
 	{
 		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
@@ -63,6 +74,7 @@ public class AlertUI : MonoBehaviour
 	{
 		shouldHideAllButtons = true;
 
+		magBoots.SetActive(false);
 		buckled.SetActive(false);
 		cuffed.SetActive(false);
 		pickupMode.SetActive(false);
@@ -83,9 +95,11 @@ public class AlertUI : MonoBehaviour
 
 	public void OnRoundEnd()
 	{
+		magBootsAction = null;
 		onClickBuckled = null;
 		shouldHideAllButtons = false;
 
+		magBoots.SetActive(false);
 		buckled.SetActive(false);
 		cuffed.SetActive(false);
 		pickupMode.SetActive(false);
@@ -128,4 +142,18 @@ public class AlertUI : MonoBehaviour
 			pickupMode.SetActive(show);
 	}
 
+	/// <summary>
+	/// Toggle Alert UI button for mag boots
+	/// </summary>
+	/// <param name="show"></param>
+	public void ToggleAlertMagBoots(bool show, Action magAction)
+	{
+		if (show)
+		{
+			this.magBootsAction = magAction;
+		}
+
+		if (!shouldHideAllButtons)
+			magBoots.SetActive(show);
+	}
 }

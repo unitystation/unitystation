@@ -8,17 +8,13 @@ using Mirror;
 /// </summary>
 public class RequestGameModeUpdate : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.RequestGameModeUpdate;
-
 	public string Userid;
 	public string AdminToken;
 	public string NextGameMode;
 	public bool IsSecret;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
-
 		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
 		if (admin != null)
 		{

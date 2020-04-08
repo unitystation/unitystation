@@ -191,7 +191,8 @@ public static class ConnectionMap
 	//Direction of the adjacent tile
 	public enum Connection
 {
-	North = 0,
+	NA,
+	North,
 	NorthEast,
 	East,
 	SouthEast,
@@ -201,7 +202,6 @@ public static class ConnectionMap
 	NorthWest,
 	Overlap,
 	MachineConnect,
-	NA
 }
 
 	public struct ConnPoint{

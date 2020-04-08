@@ -43,7 +43,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		CheckTransport();
 		//Automatically host if starting up game *not* from lobby
-		if (SceneManager.GetActiveScene().name != offlineScene)
+		if (SceneManager.GetActiveScene().name != "Lobby")
 		{
 			StartHost();
 		}
@@ -107,11 +107,6 @@ public class CustomNetworkManager : NetworkManager
 				spawnPrefabs.Add(netObj.gameObject);
 			}
 		}
-	}
-
-	public void Process(NetworkConnection conn, GameMessageBase msg)
-	{
-		StartCoroutine(msg.Process(conn));
 	}
 
 	private void OnEnable()

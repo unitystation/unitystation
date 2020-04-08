@@ -8,13 +8,12 @@ using Mirror;
 /// </summary>
 public class UpdateItemSlotMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.UpdateItemSlotMessage;
 	public uint Storage;
 	public uint Item;
 	public int SlotIndex;
 	public NamedSlot NamedSlot;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		//server calls their own client side hooks, so server doesn't do anything here.
 		//It's necessary for it to be this way because by the time the server reaches this point,
@@ -22,7 +21,8 @@ public class UpdateItemSlotMessage : ServerMessage
 		//slot was for this item.
 		if (!CustomNetworkManager.IsServer)
 		{
-			yield return WaitFor(Storage, Item);
+			LoadMultipleObjects(new uint[]{Storage, Item});
+			if (NetworkObjects[0] == null) return;
 
 			ItemSlot slot = null;
 			if (SlotIndex == -1)
