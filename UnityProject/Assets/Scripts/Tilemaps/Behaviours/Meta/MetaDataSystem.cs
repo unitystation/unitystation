@@ -52,7 +52,11 @@ public class MetaDataSystem : SubsystemBehaviour
 		if (MatrixManager.IsInitialized)
 		{
 			LocateRooms();
+			Stopwatch Dsw = new Stopwatch();
+			Dsw.Start();
 			InitialiseElectricalTiles();
+			Dsw.Stop();
+			Logger.Log("InitialiseElectricalTiles init: " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}
 
 		sw.Stop();

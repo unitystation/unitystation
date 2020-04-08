@@ -8,7 +8,7 @@ public class ElectricalManager : MonoBehaviour
 	public CableTileList HighVoltageCables;
 	public CableTileList MediumVoltageCables;
 	public CableTileList LowVoltageCables;
-	
+
 	private bool roundStartedServer = false;
 	public bool Running { get; private set; }
 	public float MSSpeed = 100;
@@ -23,7 +23,7 @@ public class ElectricalManager : MonoBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-		} 
+		}
 	}
 
 	private void Start()
@@ -98,12 +98,14 @@ public class ElectricalManager : MonoBehaviour
 
 	void OnRoundStart()
 	{
+		ElectricalSynchronisation.Start();
 		roundStartedServer = true;
 		Logger.Log("Round Started", Category.Electrical);
 	}
 
 	void OnRoundEnd()
 	{
+		ElectricalSynchronisation.Stop();
 		roundStartedServer = false;
 		ElectricalSynchronisation.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
