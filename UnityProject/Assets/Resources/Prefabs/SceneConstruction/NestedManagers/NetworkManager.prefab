@@ -48,10 +48,10 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   startOnHeadless: 1
-  serverTickRate: 100
   showDebugMessages: 0
-  offlineScene: Lobby
-  onlineScene: OutpostStation
+  serverTickRate: 100
+  offlineScene: Assets/Scenes/Lobby.unity
+  onlineScene: Assets/Scenes/OutpostStation.unity
   transport: {fileID: 4954124553048819253}
   networkAddress: localhost
   maxConnections: 100
@@ -1192,6 +1192,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   port: 7777
-  NoDelay: 0
+  NoDelay: 1
   serverMaxMessageSize: 16384
   clientMaxMessageSize: 16384
