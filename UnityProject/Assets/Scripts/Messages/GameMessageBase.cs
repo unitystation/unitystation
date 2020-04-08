@@ -27,7 +27,7 @@ public abstract class GameMessageBase : MessageBase
 
 	protected bool LoadNetworkObject(uint id)
 	{
-		if (NetworkIdentity.spawned.ContainsKey(id))
+		if (NetworkIdentity.spawned.ContainsKey(id) && NetworkIdentity.spawned[id] != null)
 		{
 			NetworkObject = NetworkIdentity.spawned[id].gameObject;
 			return true;
@@ -42,7 +42,7 @@ public abstract class GameMessageBase : MessageBase
 		for (int i = 0; i < ids.Length; i++)
 		{
 			var netId = ids[i];
-			if (NetworkIdentity.spawned.ContainsKey(netId))
+			if (NetworkIdentity.spawned.ContainsKey(netId) && NetworkIdentity.spawned[netId] != null)
 			{
 				NetworkObjects[i] = NetworkIdentity.spawned[netId].gameObject;
 			}

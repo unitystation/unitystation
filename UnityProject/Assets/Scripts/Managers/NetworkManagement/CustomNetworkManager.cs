@@ -43,7 +43,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		CheckTransport();
 		//Automatically host if starting up game *not* from lobby
-		if (SceneManager.GetActiveScene().name != offlineScene)
+		if (SceneManager.GetActiveScene().name != "Lobby")
 		{
 			StartHost();
 		}
