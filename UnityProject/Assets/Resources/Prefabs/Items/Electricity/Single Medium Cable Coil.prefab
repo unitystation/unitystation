@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5088143710567535412
+--- !u!1001 &8312881624760851880
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: m_Name
-      value: Single Cable Coil
+      value: Single Medium Cable Coil
       objectReference: {fileID: 0}
     - target: {fileID: 5712767464971415221, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -84,15 +84,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
-      propertyPath: stacksWith.Array.data[0]
-      value: 
-      objectReference: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
       propertyPath: stacksWith.Array.data[1]
       value: 
-      objectReference: {fileID: 598787000970870837, guid: 170c0f63281a5a04bbf3a87cde6426e9,
+      objectReference: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
