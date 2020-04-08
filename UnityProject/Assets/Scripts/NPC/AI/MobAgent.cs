@@ -104,7 +104,7 @@ public class MobAgent : Agent
 
 	/// <summary>
 	/// Called when the mob is performing an action
-	/// </summary>	
+	/// </summary>
 	protected virtual void OnPerformAction()
 	{
 	}
@@ -130,8 +130,9 @@ public class MobAgent : Agent
 
 	void MonitorDecisionMaking()
 	{
+		if (health == null || integrity == null) return;
 		// Only living mobs have health.  Some like the bots have integrity instead.
-		if (((health != null) && (health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)) ||
+		if (((health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)) ||
 			((integrity != null) && (integrity.integrity <= 0)))
 		{
 			//can't do anything this NPC is not capable of movement
