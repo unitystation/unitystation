@@ -4949,6 +4949,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -5061,7 +5062,7 @@ MonoBehaviour:
   itemAttributes: {fileID: 0}
   traitWhitelist: []
   reagentWhitelist:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   transferMode: 3
   possibleTransferAmounts: []
   transferAmount: 20
