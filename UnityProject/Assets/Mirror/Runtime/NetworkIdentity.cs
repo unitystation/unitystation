@@ -47,6 +47,7 @@ namespace Mirror
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkIdentity.html")]
     public sealed class NetworkIdentity : MonoBehaviour
     {
+	    public bool isDirty;
         // configuration
         NetworkBehaviour[] networkBehavioursCache;
 
@@ -1296,6 +1297,8 @@ namespace Mirror
             {
                 comp.ClearAllDirtyBits();
             }
+
+            isDirty = false;
         }
 
         // clear only dirty component's dirty bits. ignores components which
@@ -1309,6 +1312,8 @@ namespace Mirror
                     comp.ClearAllDirtyBits();
                 }
             }
+
+            isDirty = false;
         }
     }
 }
