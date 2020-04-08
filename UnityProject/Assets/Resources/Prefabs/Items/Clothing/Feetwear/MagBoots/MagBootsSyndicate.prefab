@@ -29,7 +29,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3463029306022918768}
+  m_Father: {fileID: 1869883964880262248}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6106710238082641512
@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -113,7 +114,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3463029306022910090}
+  m_GameObject: {fileID: 1864679013969520924}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 405e48484e64e814f96791247c632a67, type: 3}
@@ -132,6 +133,7 @@ MonoBehaviour:
   - Texture: {fileID: 2800000, guid: 7052a2badb26047458afe3961f54863b, type: 3}
     Sprites: []
     EquippedData: {fileID: 0}
+  initialSpeed: 6
   newSpeed: 4.5
   actionData: {fileID: 11400000, guid: a9f264c5391b47441beaa8c56ebbf935, type: 2}
 --- !u!1001 &3463029306022828862
@@ -241,13 +243,14 @@ PrefabInstance:
     - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: initialDescription
-      value: Not getting stuck when the gravity goes out with style.
+      value: Reverse-engineered magnetic boots that have a heavy magnetic pull. Property
+        of Gorlex Marauders.
       objectReference: {fileID: 0}
     - target: {fileID: 4219673947213385745, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: spriteHandler
       value: 
-      objectReference: {fileID: 3463029306022698305}
+      objectReference: {fileID: 5523300560698462875}
     - target: {fileID: 8183805690938991015, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: clothData
@@ -321,19 +324,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
---- !u!1 &3463029306022910090 stripped
+--- !u!1 &1864679013969520924 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
     type: 3}
   m_PrefabInstance: {fileID: 3463029306022828862}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3463029306022918768 stripped
+--- !u!4 &1869883964880262248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
     type: 3}
   m_PrefabInstance: {fileID: 3463029306022828862}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3463029306022698305 stripped
+--- !u!114 &5523300560698462875 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
     type: 3}

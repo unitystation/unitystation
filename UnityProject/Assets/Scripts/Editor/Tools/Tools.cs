@@ -15,17 +15,6 @@ public class Tools : Editor
 
 	}
 
-	[MenuItem("Tools/Reset NetworkObj Scene IDs")]
-	private static void ResetNetIDs()
-	{
-		var identities = FindObjectsOfType<NetworkIdentity>();
-		foreach (var i in identities)
-		{
-			i.AssignSceneID();
-		}
-		Logger.Log($"{identities.Length} network identities were reassigned scene ids");
-	}
-
 	[MenuItem("Tools/Clean Up Wire Dupes")]
 	private static void RemoveWireDupes()
 	{
@@ -42,8 +31,8 @@ public class Tools : Editor
 			var c = new Conn
 			{
 				worldPos = w.transform.position,
-				wireEndA = w.WireEndA,
-				wireEndB = w.WireEndB,
+				wireEndA = w.InData.WireEndA,
+				wireEndB = w.InData.WireEndB,
 				wireType = cable.ApplianceType
 			};
 

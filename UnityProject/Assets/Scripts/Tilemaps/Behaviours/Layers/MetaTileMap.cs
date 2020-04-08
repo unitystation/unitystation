@@ -17,6 +17,8 @@ public class MetaTileMap : MonoBehaviour
 	public Layer[] LayersValues { get; private set; }
 	public ObjectLayer ObjectLayer { get; private set; }
 
+
+	public List<Layer> ffLayersValues;
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
@@ -404,10 +406,9 @@ public class MetaTileMap : MonoBehaviour
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
-			Layer layer = LayersValues[i];
-			if (layer.LayerType < refLayer &&
-			    !(refLayer == LayerType.Objects &&
-			      layer.LayerType == LayerType.Floors) &&
+			Layer layer = LayersValues[i]; //layer.LayerType < refLayer &&
+			if (
+			    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors) &&
 			    refLayer != LayerType.Grills)
 			{
 				layer.RemoveTile(position);

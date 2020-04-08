@@ -56,7 +56,7 @@ public static class BatteryCalculation  {
 						if (Battery.ChargLastDeductedTime == 0) { //so it's based on time
 							Battery.ChargLastDeductedTime = Time.time;
 						}
-						//Logger.Log (Battery.ActualVoltage.ToString () + " < ActualVoltage " + Battery.Resistance.ToString () + " < Resistance ", Category.Electrical);
+						//Logger.Log (Battery.VoltageAtChargePort.ToString () + " < ActualVoltage " + Battery.ResistanceSourceModule.Resistance.ToString () + " < Resistance ", Category.Electrical);
 						Battery.ChargingWatts = (Battery.VoltageAtChargePort / Battery.ResistanceSourceModule.Resistance) * Battery.VoltageAtChargePort;
 						Battery.CurrentCapacity = Battery.CurrentCapacity + (Battery.ChargingWatts * (Time.time - Battery.ChargLastDeductedTime));
 						Battery.ChargLastDeductedTime = Time.time;
