@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 
-public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<PositionalHandApply>, IDeviceControl
+public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<PositionalHandApply>
 {
 	private bool SelfDestruct = false;
 
@@ -12,30 +12,19 @@ public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<Po
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.MediumMachineConnector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.SMES,
-		PowerTypeCategory.SolarPanelController,
+		//PowerTypeCategory.SMES,
+		//PowerTypeCategory.SolarPanelController,
 	};
 
-	public void PotentialDestroyed(){
-		if (SelfDestruct) {
-			
-		}
-	}
+
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
 		RelatedWire.InData.CanConnectTo = CanConnectTo;
 		RelatedWire.InData.Categorytype = ApplianceType;
-		RelatedWire.WireEndA = Connection.MachineConnect;
-		RelatedWire.WireEndB = Connection.Overlap;
-	}
-
-	//FIXME:
-	public void OnDestroy(){
-		SelfDestruct = true;
-	}
-	public void TurnOffCleanup (){
+		RelatedWire.InData.WireEndA = Connection.MachineConnect;
+		RelatedWire.InData.WireEndB = Connection.Overlap;
 	}
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)

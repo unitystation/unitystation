@@ -14,7 +14,7 @@ public class HighVoltageCable : CableInheritance
 			PowerTypeCategory.PowerSink,
 	};
 
-	public override void _OnStartServer()
+	void Awake()
 	{		
 		ApplianceType = PowerTypeCategory.HighVoltageCable;
 		CableType = WiringColor.high;

@@ -207,6 +207,10 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private IFireExposable[] fireExposables;
 	private bool hasCachedComponents;
 
+
+	private ElectricalOIinheritance electricalData;
+	public ElectricalOIinheritance ElectricalData => electricalData;
+
 	protected virtual void Awake()
 	{
 		EnsureInit();
@@ -278,6 +282,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
+	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
+	{
+		//Logger.Log("seting " + this.name);
+		electricalData = inElectricalData;
+	}
 
 
 	/// <summary>
