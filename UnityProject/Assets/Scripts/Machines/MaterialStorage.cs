@@ -12,6 +12,7 @@ public class MaterialStorage : MonoBehaviour
 	public MaterialsInMachineStorage materialsInMachines;
 	public List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
 	public Dictionary<string, MaterialRecord> NameToMaterialRecord = new Dictionary<string, MaterialRecord>();
+	public Dictionary<ItemTrait, string> MaterialToNameRecord = new Dictionary<ItemTrait, string>();
 	public Dictionary<ItemTrait, MaterialRecord> ItemTraitToMaterialRecord = new Dictionary<ItemTrait, MaterialRecord>();
 
 	private void Awake()
@@ -33,6 +34,7 @@ public class MaterialStorage : MonoBehaviour
 		foreach (MaterialRecord materialRecord in materialRecordList)
 		{
 			NameToMaterialRecord.Add(materialRecord.materialName.ToLower(), materialRecord);
+			MaterialToNameRecord.Add(materialRecord.materialType, materialRecord.materialName);
 			ItemTraitToMaterialRecord.Add(materialRecord.materialType, materialRecord);
 		}
 	}

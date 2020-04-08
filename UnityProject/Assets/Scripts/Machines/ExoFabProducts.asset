@@ -17,17 +17,56 @@ MonoBehaviour:
     products:
     - name: Cyborg Head
       product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 10000
+      - material: {fileID: 11400000, guid: 1eeb3d785ef561f40ab7e3bb924cedd6, type: 2}
+        amount: 1000
     - name: Cyborg Left Arm
       product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 10000
     - name: Cyborg Right Arm
       product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 10000
+    - name: Cyborg Left Leg
+      product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 10000
+    - name: Right Leg
+      product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 10000
+    - name: Cyborg Exoskeleton
+      product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 10000
   - categoryName: Ripley
     products:
-    - name: Test
+    - name: RipleyPart
       product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 1500000
   - categoryName: Odysseus
     products:
     - name: Test2
       product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 99999
+      - material: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}
+        amount: 99999
     - name: Test3
       product: {fileID: 0}
+      materialPrice:
+      - material: {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
+        amount: 50000
+      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
+        amount: 25000

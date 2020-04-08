@@ -14,6 +14,8 @@ public class MaterialEntry : MonoBehaviour
 	public void Setup(MaterialRecord materialRecord)
 	{
 		string materialName = char.ToUpper(materialRecord.materialName[0]) + materialRecord.materialName.Substring(1).ToLower();
+		this.gameObject.name = materialName;
+
 		nameLabel.gameObject.name = materialName + "NameLabel";
 		nameLabel.SetValue = materialName;
 

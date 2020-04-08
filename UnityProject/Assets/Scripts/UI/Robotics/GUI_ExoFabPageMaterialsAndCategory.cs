@@ -5,14 +5,18 @@ using UnityEngine;
 public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 {
 	[SerializeField] private MaterialEntry materialEntry;
-	private GameObject currentMaterialEntry;
-	private ItemTrait currentMaterial;
-	private string currentMaterialName;
-	private SpawnResult spawnResult;
+	[SerializeField] private MachineCategoryEntry categoryEntry;
+	[SerializeField] private ExoFabProductEntry productEntryTemplate;
+	[SerializeField] private GameObject productsParent;
+
 	private Dictionary<ItemTrait, MaterialEntry> materialEntries = new Dictionary<ItemTrait, MaterialEntry>();
 
-	public void initMaterialList(ExosuitFabricator exofab)
+	public void InitMaterialList(ExosuitFabricator exofab)
 	{
+		ItemTrait currentMaterial = null;
+		string currentMaterialName = null;
+		GameObject currentMaterialEntry = null;
+		SpawnResult spawnResult = null;
 		//For each material record in the material storage, a new material entry is created in the
 		//UI with the material type, its current amount and the dispense buttons.
 		foreach (MaterialRecord record in exofab.materialStorage.ItemTraitToMaterialRecord.Values)
@@ -26,6 +30,41 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 			currentMaterialEntry = spawnResult.GameObject;
 			materialEntries.Add(currentMaterial, spawnResult.GameObject.GetComponent<MaterialEntry>());
 		}
+	}
+
+	public Dictionary<string, GameObject[]> InitCategoryList(MachineProductsCollection productsCollection, Dictionary<ItemTrait, string> materialToName)
+	{
+		SpawnResult spawnResult = null;
+		Dictionary<string, GameObject[]> nameToProductEntries = new Dictionary<string, GameObject[]>();
+		//For each loop creates a category entry with its products
+		foreach (MachineProductCategory category in productsCollection.productCategoryList)
+		{
+			string categoryName = category.categoryName;
+			spawnResult = Spawn.ServerPrefab(categoryEntry.gameObject,
+				worldPosition: new Vector3(0, 0, 0), parent: this.transform.GetChild(2).GetChild(0).GetChild(0), count: 1);
+			spawnResult.GameObject.GetComponent<MachineCategoryEntry>().Setup(categoryName, category.products);
+			spawnResult.GameObject.SetActive(true);
+			List<GameObject> productEntryList = new List<GameObject>();
+			productEntryList = InitProductsList(category.products, categoryName, materialToName);
+			nameToProductEntries.Add(categoryName, productEntryList.ToArray());
+		}
+		return nameToProductEntries;
+	}
+
+	public List<GameObject> InitProductsList(MachineProduct[] products, string categoryName, Dictionary<ItemTrait, string> materialToName)
+	{
+		SpawnResult spawnResult;
+		List<GameObject> categoryProductEntries = new List<GameObject>();
+		//Sets up a list of products, depending on what's in the collection of products
+		foreach (MachineProduct product in products)
+		{
+			//Spawns one product entry for each one in this category
+			spawnResult = Spawn.ServerPrefab(productEntryTemplate.gameObject,
+				worldPosition: new Vector3(0, 0, 0), parent: productsParent.transform, count: 1);
+			spawnResult.GameObject.GetComponent<ExoFabProductEntry>().Setup(product, materialToName);
+			categoryProductEntries.Add(spawnResult.GameObject);
+		}
+		return categoryProductEntries;
 	}
 
 	/// <summary>

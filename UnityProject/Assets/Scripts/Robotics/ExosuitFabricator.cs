@@ -18,6 +18,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	[SerializeField] private SpriteSheetAndData productionSprite;
 	private RegisterObject registerObject;
 	public MaterialStorage materialStorage;
+	public MachineProductsCollection productsCollection;
 
 	private ItemTrait materialType;
 
