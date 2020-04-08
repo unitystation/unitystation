@@ -22,6 +22,7 @@ public class Tools : Editor
 		foreach (var i in identities)
 		{
 			i.AssignSceneID();
+			EditorUtility.SetDirty(i);
 		}
 		Logger.Log($"{identities.Length} network identities were reassigned scene ids");
 	}
