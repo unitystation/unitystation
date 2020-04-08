@@ -15,18 +15,6 @@ public class Tools : Editor
 
 	}
 
-	[MenuItem("Tools/Reset NetworkObj Scene IDs")]
-	private static void ResetNetIDs()
-	{
-		var identities = FindObjectsOfType<NetworkIdentity>();
-		foreach (var i in identities)
-		{
-			i.AssignSceneID();
-			EditorUtility.SetDirty(i);
-		}
-		Logger.Log($"{identities.Length} network identities were reassigned scene ids");
-	}
-
 	[MenuItem("Tools/Clean Up Wire Dupes")]
 	private static void RemoveWireDupes()
 	{
