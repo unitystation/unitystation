@@ -62,15 +62,7 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 		}
 	}
 
-	private bool HasHardsuit(Mind mind, NamedSlot? changeSlot)
-	{
-		if (mind.stepType == StepType.Suit & changeSlot != NamedSlot.outerwear)
-		{
-			return true;
-		}
-
-		return false;
-	}
+	private bool HasHardsuit(Mind mind, NamedSlot? changeSlot) => mind.stepType == StepType.Suit & changeSlot != NamedSlot.outerwear;
 
 	private enum WearType
 	{
