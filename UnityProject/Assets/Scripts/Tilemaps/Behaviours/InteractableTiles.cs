@@ -40,6 +40,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	public Layer WindowLayer => windowLayer;
 	private ObjectLayer objectLayer;
 	public ObjectLayer ObjectLayer => objectLayer;
+	private Layer underFloorLayer;
+	public Layer UnderFloorLayer => underFloorLayer;
 
 	private Layer grillTileMap;
 
@@ -128,6 +130,11 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			if (tilemaps[i].name.Contains("Grills"))
 			{
 				grillTileMap = tilemaps[i];
+			}
+
+			if (tilemaps[i].name.Contains("UnderFloor"))
+			{
+				underFloorLayer = tilemaps[i];
 			}
 		}
 	}

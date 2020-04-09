@@ -102,8 +102,6 @@ public class RequestInteractMessage : ClientMessage
 			return;
 		}
 
-
-
 		if (InteractionType == typeof(PositionalHandApply))
 		{
 			//look up item in active hand slot

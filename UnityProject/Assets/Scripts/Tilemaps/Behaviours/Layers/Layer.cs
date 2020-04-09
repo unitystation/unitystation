@@ -190,27 +190,21 @@ public class Layer : MonoBehaviour
 
 	public virtual void RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-		//Logger.Log("5.1 ");
 		if (removeAll)
 		{
-			//Logger.Log("6.1 ");
-			position.z = 0;
-
 			//TODO: OVERLAYS - This wouldn't work reliably if there is something at level -3 but nothing at -1 and -2.
+			position.z = 0;
 			while (tilemap.HasTile(position))
 			{
-				//Logger.Log("7.1 ");
 				InternalSetTile(position, null);
-
 				position.z--;
 			}
 		}
 		else
 		{
-			//Logger.Log("8.1 ");
 			InternalSetTile(position, null);
 		}
-		//Logger.Log("9.1 ");
+
 		position.z = 0;
 		subsystemManager.UpdateAt(position);
 	}
