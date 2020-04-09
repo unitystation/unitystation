@@ -5,13 +5,13 @@ using UnityEngine;
 public class ElectricalMetaData
 {
 	public MetaDataNode IsOn;
-	public Vector2Int NodeLocation;
+	public Vector3Int NodeLocation;
 	public IntrinsicElectronicData InData;
 	public Matrix Locatedon;
 	public ElectricalCableTile RelatedTile;
 
 
-	public void Initialise(WireConnect DataToTake, MetaDataNode metaDataNode, Vector2Int searchVec, Matrix locatedon)
+	public void Initialise(WireConnect DataToTake, MetaDataNode metaDataNode, Vector3Int searchVec, Matrix locatedon)
 	{
 		IsOn = metaDataNode;
 		InData = new IntrinsicElectronicData();
@@ -22,7 +22,7 @@ public class ElectricalMetaData
 		InData.Present = null;
 	}
 
-	public void Initialise(ElectricalCableTile DataToTake, MetaDataNode metaDataNode, Vector2Int searchVec, Matrix locatedon)
+	public void Initialise(ElectricalCableTile DataToTake, MetaDataNode metaDataNode, Vector3Int searchVec, Matrix locatedon)
 	{
 		RelatedTile = DataToTake;
 		IsOn = metaDataNode;

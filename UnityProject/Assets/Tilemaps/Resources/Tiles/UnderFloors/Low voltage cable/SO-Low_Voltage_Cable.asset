@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 
   LayerType: 8
-  TileType: 10
+  TileType: 11
   RequiredTiles: []
   WalkingSoundCategory: 0
   BarefootWalkingSoundCategory: 0
@@ -53,7 +53,8 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
-  tileInteractions: []
+  tileInteractions:
+  - {fileID: 11400000, guid: 083f744039991f740881b5c54dc913b2, type: 2}
   spawnOnDeconstruct: {fileID: 4433336198165141055, guid: 827dad187b7a6e449b5b73aa0e691a38,
     type: 3}
   spawnAmountOnDeconstruct: 1

@@ -13,9 +13,50 @@ MonoBehaviour:
   m_Name: NE_SE-Medium_Voltage_Cable
   m_EditorClassIdentifier: 
   displayName: 
-  LayerType: 2
-  TileType: 0
+  LayerType: 8
+  TileType: 11
   RequiredTiles: []
+  WalkingSoundCategory: 0
+  BarefootWalkingSoundCategory: 0
+  ClawFootstepSoundCategory: 0
+  HeavyFootstepSoundCategory: 0
+  ClownFootstepSoundCategory: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  oreCategory: 0
+  MaxHealth: 0
+  HealthStates: []
+  passable: 0
+  mineable: 0
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 0
+  healthStates: []
+  resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  tileInteractions:
+  - {fileID: 11400000, guid: b1aa7895e49ac4f428c823e421f43d79, type: 2}
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
   IsItem: 1
   KeepOrientation: 0
   Object: {fileID: 1042895037894172, guid: e76e1e2174fe48d41bf086955b459b61, type: 3}

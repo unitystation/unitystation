@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_Name
@@ -102,7 +107,7 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: fd3b4b3f5ee967342bfc92f6a0468189,
+      objectReference: {fileID: 11400000, guid: 03028a9bd6fbf0b46886792a5d7b0a74,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}
