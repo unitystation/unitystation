@@ -29,7 +29,7 @@ public class ElectricalManager : MonoBehaviour
 
 	private void Start()
 	{
-		if (Mode != ElectricalMode.Manual)
+		if (Mode != ElectricalMode.Manual && CustomNetworkManager.Instance._isServer)
 		{
 			StartCoroutine(WaitForElectricalInitialisation());
 			//StartSimulation();
