@@ -401,7 +401,7 @@ public class  Matrix : MonoBehaviour
 		return (metaDataLayer.Get(localPosition, createIfNotExists));
 	}
 
-	public void RemoveUnderFloorTile(Vector2Int position, GenericTile tile)
+	public void RemoveUnderFloorTile(Vector2Int position, LayerTile tile)
 	{
 		if (UnderFloorLayer == null)
 		{

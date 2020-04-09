@@ -16,7 +16,8 @@ public enum TileType
 	Base,
 	WindowDamaged,
 	Effects,
-	UnderFloor
+	UnderFloor,
+	ElectricalCable
 }
 
 //If you change numbers, scene layers will mess up

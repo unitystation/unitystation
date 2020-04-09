@@ -5,9 +5,8 @@ using UnityEngine.Tilemaps;
 using UnityEditor;
 #endif
 
-
 [Serializable]
-public class ObjectTile : LayerTile
+public class ObjectTile : BasicTile
 {
 	private TileChangeManager tileChangeManager;
 	private GameObject objectCurrent;
@@ -79,7 +78,7 @@ public class ObjectTile : LayerTile
 #if UNITY_EDITOR
 		GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(Object);
 #else
-            GameObject go = Instantiate(Object);
+		GameObject go = Instantiate(Object);
 #endif
 
 		go.SetActive(false);
@@ -108,13 +107,9 @@ public class ObjectTile : LayerTile
 	void SetWireSettings(GameObject spawnedObj)
 	{
 		var wireScript = spawnedObj.GetComponent<ElectricalOIinheritance>();
-		//Logger.Log (WireStartEnd.x.ToString() + " <x and y> " + WireStartEnd.x.ToString());
 		wireScript.SetConnPoints(WireEndA, WireEndB);
 		var SpriteScript = spawnedObj.GetComponent<CableInheritance>();
-		//Logger.Log(SpriteScript.ToString() + "oh yeah?");
 		SpriteScript.SetDirection(WireEndA, WireEndB, CableType);
-
-
 	}
 
 	public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)

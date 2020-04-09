@@ -226,7 +226,6 @@ public class IntrinsicElectronicData
 
 	public virtual void ShowDetails()
 	{
-
 		ElectricityFunctions.WorkOutActualNumbers(this);
 		Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
 		//Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
@@ -262,12 +261,10 @@ public class IntrinsicElectronicData
 	{
 		if (Present != null)
 		{
-			//Logger.Log("Present");
 			Present.DestroyThisPlease();
 		}
 		else
 		{
-			//Logger.Log("NOT Present");
 			InternalDestroyThisPlease();
 		}
 	}
@@ -281,16 +278,13 @@ public class IntrinsicElectronicData
 
 	public void DestroyingThisNow()
 	{
-		///Logger.Log("DestroyingThisNow");
 		if (Present != null)
 		{
-			///Logger.Log("Present DestroyingThisNow");
 			Present.DestroyingThisNow();
 			Present = null;
 		}
 		else
 		{
-			//Logger.Log("NOT Present DestroyingThisNow");
 			InternalDestroyingThisNow();
 		}
 	}
@@ -299,7 +293,6 @@ public class IntrinsicElectronicData
 	{
 		if (DestroyQueueing)
 		{
-			//Logger.Log("GGGGG");
 			FlushConnectionAndUp();
 			FindPossibleConnections();
 			FlushConnectionAndUp();
