@@ -5,10 +5,9 @@
 /// </summary>
 public class VideoPlayerMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.VideoPlayerMessage;
 	public VideoType VideoToPlay;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		switch (VideoToPlay)
 		{
@@ -19,7 +18,6 @@ public class VideoPlayerMessage : ServerMessage
 				UIManager.Display.VideoPlayer.PlayRoundRestartVideo();
 				break;
 		}
-		yield return null;
 	}
 
 	public static VideoPlayerMessage Send(VideoType videoType)

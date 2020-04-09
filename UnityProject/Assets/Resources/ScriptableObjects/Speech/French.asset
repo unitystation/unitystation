@@ -1,0 +1,198 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c302747b295f59d429cc78a122bcb51d, type: 3}
+  m_Name: French
+  m_EditorClassIdentifier: 
+  activateReplacements: 1
+  wordReplaceList:
+  - original: yes
+    replaceWith:
+    - oui
+  - original: no
+    replaceWith:
+    - non
+  - original: I'm
+    replaceWith:
+    - j
+  - original: am
+    replaceWith:
+    - suis
+  - original: a
+    replaceWith:
+    - un
+  - original: and
+    replaceWith:
+    - et
+  - original: the
+    replaceWith:
+    - l'
+  - original: I
+    replaceWith:
+    - j'
+  - original: for
+    replaceWith:
+    - pour
+  - original: with
+    replaceWith:
+    - avec
+  - original: of
+    replaceWith:
+    - de
+  - original: assistant
+    replaceWith:
+    - ravageur
+  - original: assistants
+    replaceWith:
+    - ravageurs
+  - original: baby
+    replaceWith:
+    - enfant
+    - petit baguette
+  - original: bad
+    replaceWith:
+    - mal
+  - original: bye
+    replaceWith:
+    - bon voyage
+    - adieu
+    - au revoir
+  - original: cake
+    replaceWith:
+    - gateau
+  - original: captain
+    replaceWith:
+    - capitaine
+  - original: changeling
+    replaceWith:
+    - changeur
+  - original: cheese
+    replaceWith:
+    - brie
+    - roquefort
+    - camembert
+  - original: cigarette
+    replaceWith:
+    - clope
+  - original: cook
+    replaceWith:
+    - cuisinier
+  - original: dad
+    replaceWith:
+    - papa
+  - original: enemy
+    replaceWith:
+    - silly english dog
+  - original: friend
+    replaceWith:
+    - ami
+  - original: good
+    replaceWith:
+    - bon
+  - original: greytide
+    replaceWith:
+    - les gitans
+  - original: greytider
+    replaceWith:
+    - les gitans
+  - original: greytiders
+    replaceWith:
+    - les gitans
+  - original: hardsuit
+    replaceWith:
+    - burkini
+  - original: hello
+    replaceWith:
+    - '''allo'
+    - bonjour
+    - salut
+  - original: maint
+    replaceWith:
+    - les banlieues
+  - original: meat
+    replaceWith:
+    - coq au vin
+    - boeuf
+  - original: mom
+    replaceWith:
+    - maman
+  - original: my
+    replaceWith:
+    - mon
+  - original: nuke
+    replaceWith:
+    - grand bombe
+    - la baguette ultime
+  - original: op
+    replaceWith:
+    - boche
+  - original: operative
+    replaceWith:
+    - boche
+  - original: operatives
+    replaceWith:
+    - boches
+  - original: ops
+    replaceWith:
+    - boches
+  - original: urity
+    replaceWith:
+    - urite
+  - original: security
+    replaceWith:
+    - securite
+  - original: shit
+    replaceWith:
+    - merde
+  - original: shitsec
+    replaceWith:
+    - gendarmerie
+    - les keufs
+  - original: spaghetti
+    replaceWith:
+    - macaroni
+  - original: spicy
+    replaceWith:
+    - epice
+  - original: thanks
+    replaceWith:
+    - merci
+  - original: tomato
+    replaceWith:
+    - tomate
+  - original: traitor
+    replaceWith:
+    - collaborateur
+  - original: want
+    replaceWith:
+    - envie
+  - original: what's
+    replaceWith:
+    - quel est
+  - original: who's
+    replaceWith:
+    - qui est
+  - original: why
+    replaceWith:
+    - porquois
+  - original: wine
+    replaceWith:
+    - vin
+  - original: wizard
+    replaceWith:
+    - sorcier
+  letterReplaceList: []
+  activateAdditions: 0
+  probability: 0
+  beginning: []
+  ending: []
+  unintelligible: 0
+  customCode: {fileID: 0}

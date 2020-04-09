@@ -7,15 +7,11 @@ using Mirror;
 /// </summary>
 public class TriggerEventMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.TriggerEvent;
-
 	public EVENT EventType;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		TriggerEvent();
-
-		yield return null;
 	}
 
 	/// Raise the specified event

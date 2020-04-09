@@ -9,23 +9,22 @@ using Mirror;
 /// </summary>
 public class SpawnMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.SpawnMessage;
 	public uint SpawnedObject;
 	public uint ClonedFrom;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(SpawnedObject, ClonedFrom);
+		LoadMultipleObjects(new uint[] {SpawnedObject, ClonedFrom});
 
 		if (NetworkObjects[0] == null)
 		{
 			Logger.LogWarning("Couldn't resolve SpawnedObject!", Category.NetMessage);
-			yield break;
+			return;
 		}
 		if (NetworkObjects[1] == null)
 		{
 			Logger.LogWarning("Couldn't resolve ClonedFrom!", Category.NetMessage);
-			yield break;
+			return;
 		}
 
 		//call all the hooks!

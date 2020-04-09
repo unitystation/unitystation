@@ -10,13 +10,11 @@ using Mirror;
 /// </summary>
 public class PlayerAlertNotifications : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlayerAlertsNotifications;
 	public int Amount;
 	public bool IsFullUpdate;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		if (!IsFullUpdate)
 		{
 			UIManager.Instance.playerAlerts.UpdateNotifications(Amount);

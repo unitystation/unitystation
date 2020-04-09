@@ -6,17 +6,13 @@ using Mirror;
 
 public class AdminPlayerAlertActions: ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.AdminPlayerAlertActions;
-
 	public int ActionRequested;
 	public string RoundTimeOfIncident;
 	public uint PerpNetID;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
-
 		UIManager.Instance.playerAlerts.ServerProcessActionRequest(SentByPlayer.UserId, (PlayerAlertActions)ActionRequested,
 			RoundTimeOfIncident, PerpNetID, AdminToken);
 	}

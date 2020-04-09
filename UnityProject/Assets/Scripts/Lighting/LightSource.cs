@@ -102,7 +102,7 @@ public class LightSource : ObjectTrigger
 		if (Renderer == null)
 		{
 			waitToCheckState = true;
-			if (this != null)
+			if (this != null && gameObject.activeInHierarchy)
 			{
 				StartCoroutine(WaitToTryAgain());
 			}

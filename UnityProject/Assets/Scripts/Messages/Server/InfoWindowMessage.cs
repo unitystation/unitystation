@@ -7,17 +7,16 @@ using Mirror;
 /// </summary>
 public class InfoWindowMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.InfoWindowMessage;
 	public string Text;
 	public string Title;
 	public bool Bwoink;
 	public uint Recipient;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		//To be run on client
 //		Logger.Log($"Processed {this}");
-		yield return WaitFor(Recipient); //FIXME: broken
+		LoadNetworkObject(Recipient);
 		UIManager.InfoWindow.Show(Text, Bwoink, string.IsNullOrEmpty(Title) ? "" : Title);
 	}
 

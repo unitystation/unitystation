@@ -7,7 +7,6 @@ using Mirror;
 /// </summary>
 public class ShowChatBubbleMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.ShowChatBubble;
 	public ChatModifier ChatModifiers;
 	public string Message;
 	public uint FollowTransform;
@@ -15,9 +14,9 @@ public class ShowChatBubbleMessage : ServerMessage
 									//You may have to do something like this if your target does not
 									//have a NetworkIdentity on it
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(FollowTransform);
+		LoadNetworkObject(FollowTransform);
 		var target = NetworkObject.transform;
 
 		if (IsPlayerChatBubble)

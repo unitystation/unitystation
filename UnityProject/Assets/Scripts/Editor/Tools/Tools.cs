@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,8 +31,8 @@ public class Tools : Editor
 			var c = new Conn
 			{
 				worldPos = w.transform.position,
-				wireEndA = w.WireEndA,
-				wireEndB = w.WireEndB,
+				wireEndA = w.InData.WireEndA,
+				wireEndB = w.InData.WireEndB,
 				wireType = cable.ApplianceType
 			};
 

@@ -318,7 +318,7 @@ public partial class PlayerList : NetworkBehaviour
 			return;
 		}
 
-		if (connection.playerController == null)
+		if (connection.identity == null)
 		{
 			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - player controller was null IP:{connection.address}", Category.Connections);
 			ValidatePlayerListRecords();
@@ -327,7 +327,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		var connectedPlayer = ConnectedPlayer.Invalid;
 
-		var playerScript = connection.playerController.GetComponent<PlayerScript>();
+		var playerScript = connection.identity.GetComponent<PlayerScript>();
 		if (playerScript != null)
 		{
 			var index = loggedIn.FindIndex(x => x.Script == playerScript);
@@ -337,7 +337,7 @@ public partial class PlayerList : NetworkBehaviour
 			}
 		}
 
-		var joinedViewer = connection.playerController.GetComponent<JoinedViewer>();
+		var joinedViewer = connection.identity.GetComponent<JoinedViewer>();
 		if (joinedViewer != null)
 		{
 			var index = loggedIn.FindIndex(x => x.ViewerScript == joinedViewer);
@@ -349,7 +349,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		if (connectedPlayer.Equals(ConnectedPlayer.Invalid))
 		{
-			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connected player was invalid IP:{connection.address} Name:{connection.playerController.name}", Category.Connections);
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connected player was invalid IP:{connection.address} Name:{connection.identity.name}", Category.Connections);
 			ValidatePlayerListRecords();
 		}
 		else

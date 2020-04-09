@@ -7,12 +7,10 @@ using Mirror;
 /// </summary>
 public class HealthTemperatureMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.HealthTemperatureStats;
 	public float temperature;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientTemperatureStats(temperature);
 	}
 

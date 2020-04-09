@@ -10,7 +10,8 @@ namespace Telepathy
 {
     public abstract class Common
     {
-        // common code /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        // common code
         // incoming message queue of <connectionId, message>
         // (not a HashSet because one connection can have multiple new messages)
         protected ConcurrentQueue<Message> receiveQueue = new ConcurrentQueue<Message>();
@@ -61,7 +62,8 @@ namespace Telepathy
         // all threads
         [ThreadStatic] static byte[] payload;
 
-        // static helper functions /////////////////////////////////////////////
+        /////////////////////////////////////////////
+        // static helper functions
         // send message (via stream) with the <size,content> message structure
         // this function is blocking sometimes!
         // (e.g. if someone has high latency or wire was cut off)
@@ -75,7 +77,8 @@ namespace Telepathy
                 // packet to avoid TCP overheads and improve performance.
                 int packetSize = 0;
                 for (int i = 0; i < messages.Length; ++i)
-                    packetSize += sizeof(int) + messages[i].Length; // header + content
+                    // header + content
+                    packetSize += sizeof(int) + messages[i].Length;
 
                 // create payload buffer if not created yet or previous one is
                 // too small
@@ -138,9 +141,10 @@ namespace Telepathy
                 content = new byte[size];
                 return stream.ReadExactly(content, size);
             }
-
-            //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
             Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
+
+			//THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
+			Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
 			Logger.LogWarning($"Content: {content}");
 			Logger.LogWarning($"IP: {client.Client.RemoteEndPoint.ToString()}");
 			allocationAttackQueue.Enqueue(IPAddress.Parse(client.Client.RemoteEndPoint.ToString()).MapToIPv4().ToString());
@@ -148,16 +152,17 @@ namespace Telepathy
 			return false;
         }
 
-        //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
-        public static Queue<string> allocationAttackQueue = new Queue<string>();
+		//THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
+		public static Queue<string> allocationAttackQueue = new Queue<string>();
 
-        // thread receive function is the same for client and server's clients
-        // (static to reduce state for maximum reliability)
-        protected static void ReceiveLoop(int connectionId, TcpClient client, ConcurrentQueue<Message> receiveQueue, int MaxMessageSize)
+		// thread receive function is the same for client and server's clients
+		// (static to reduce state for maximum reliability)
+		protected static void ReceiveLoop(int connectionId, TcpClient client, ConcurrentQueue<Message> receiveQueue, int MaxMessageSize)
         {
             // get NetworkStream from client
             NetworkStream stream = client.GetStream();
-	       // keep track of last message queue warning
+
+            // keep track of last message queue warning
             DateTime messageQueueLastWarning = DateTime.Now;
 
             // absolutely must wrap with try/catch, otherwise thread exceptions
@@ -189,7 +194,8 @@ namespace Telepathy
                     // read the next message (blocking) or stop if stream closed
                     byte[] content;
                     if (!ReadMessageBlocking(stream, MaxMessageSize, out content, client))
-                        break; // break instead of return so stream close still happens!
+                        // break instead of return so stream close still happens!
+                        break;
 
                     // queue it
                     receiveQueue.Enqueue(new Message(connectionId, EventType.Data, content));
@@ -243,7 +249,8 @@ namespace Telepathy
 
             try
             {
-                while (client.Connected) // try this. client will get closed eventually.
+                // try this. client will get closed eventually.
+                while (client.Connected)
                 {
                     // reset ManualResetEvent before we do anything else. this
                     // way there is no race condition. if Send() is called again
@@ -251,7 +258,8 @@ namespace Telepathy
                     // -> otherwise Send might be called right after dequeue but
                     //    before .Reset, which would completely ignore it until
                     //    the next Send call.
-                    sendPending.Reset(); // WaitOne() blocks until .Set() again
+                    // WaitOne() blocks until .Set() again
+                    sendPending.Reset();
 
                     // dequeue all
                     // SafeQueue.TryDequeueAll is twice as fast as
@@ -261,7 +269,8 @@ namespace Telepathy
                     {
                         // send message (blocking) or stop if stream is closed
                         if (!SendMessagesBlocking(stream, messages))
-                            break; // break instead of return so stream close still happens!
+                            // break instead of return so stream close still happens!
+                            break;
                     }
 
                     // don't choke up the CPU: wait until queue not empty anymore

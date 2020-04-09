@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -13,7 +12,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	private List<Sprite> handCuffOverlays = new List<Sprite>();
 
 	[SerializeField] private SpriteRenderer spriteRend = null;
-	private CancellationTokenSource cancelSource;
+	private IEnumerator uncuffCoroutine;
 	private float healthCache;
 	private Vector3Int positionCache;
 
@@ -21,7 +20,6 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 	private ActionData actionData = null;
 
 	public ActionData ActionData => actionData;
-
 
 	public override void SetReference(GameObject Item)
 	{
@@ -45,7 +43,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 		}
 	}
 
-	void DetermineAlertUI()
+	private void DetermineAlertUI()
 	{
 		if (thisPlayerScript != PlayerManager.PlayerScript) return;
 
@@ -61,48 +59,46 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 
 	public void ServerBeginUnCuffAttempt()
 	{
-		if (cancelSource != null)
-		{
-			cancelSource.Cancel();
-		}
+		if (uncuffCoroutine != null)
+			StopCoroutine(uncuffCoroutine);
 
+		float resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
 		healthCache = thisPlayerScript.playerHealth.OverallHealth;
 		positionCache = thisPlayerScript.registerTile.LocalPositionServer;
 		if (!CanUncuff()) return;
 
-		cancelSource = new CancellationTokenSource();
-		StartCoroutine(UncuffCountDown(cancelSource.Token));
-		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You are attempting to remove the cuffs. This takes up to 30 seconds",
+		uncuffCoroutine = UncuffCountDown(resistTime);
+		StartCoroutine(uncuffCoroutine);
+		Chat.AddActionMsgToChat(
+			thisPlayerScript.gameObject,
+			$"You are attempting to remove the cuffs. This takes up to {resistTime:0} seconds",
 			thisPlayerScript.playerName + " is attempting to remove their cuffs");
 	}
 
-	IEnumerator UncuffCountDown(CancellationToken cancelToken)
+	private IEnumerator UncuffCountDown(float resistTime)
 	{
 		float waitTime = 0f;
-		bool canUncuff = false;
-		while (!canUncuff && !cancelToken.IsCancellationRequested)
+		while (waitTime < resistTime)
 		{
 			waitTime += Time.deltaTime;
-			//Stop uncuff timer if needed
 			if (!CanUncuff())
 			{
 				yield break;
 			}
-
-			if (waitTime > 30f)
+			else
 			{
-				canUncuff = true;
-				thisPlayerScript.playerMove.Uncuff();
-				Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
-					thisPlayerScript.playerName + " has removed their cuffs");
-
-				SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
+				yield return WaitFor.EndOfFrame;
 			}
-			yield return WaitFor.EndOfFrame;
 		}
+
+		thisPlayerScript.playerMove.Uncuff();
+		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
+			thisPlayerScript.playerName + " has removed their cuffs");
+
+		SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
 	}
 
-	bool CanUncuff()
+	private bool CanUncuff()
 	{
 		PlayerHealth playerHealth = thisPlayerScript.playerHealth;
 
@@ -111,7 +107,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 			playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
 			playerHealth.OverallHealth != healthCache ||
 			thisPlayerScript.registerTile.IsSlippingServer ||
-		    positionCache != thisPlayerScript.registerTile.LocalPositionServer)
+			positionCache != thisPlayerScript.registerTile.LocalPositionServer)
 		{
 			return false;
 		}

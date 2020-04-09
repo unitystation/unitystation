@@ -10,17 +10,14 @@ public class TileChangesNewClientSync : ServerMessage
 	//just a best guess, try increasing it until the message exceeds mirror's limit
 	private static readonly int MAX_CHANGES_PER_MESSAGE = 20;
 
-	public override short MessageType => (short)MessageTypes.TileChangesNewClientSync;
-
 	public string data;
 	public uint ManagerSubject;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		//server doesn't need this message, it messes with its own tiles.
-		if (CustomNetworkManager.IsServer) yield break;
-
-		yield return WaitFor(ManagerSubject);
+		if (CustomNetworkManager.IsServer) return;
+		LoadNetworkObject(ManagerSubject);
 		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
 		tm.InitServerSync(data);
 	}

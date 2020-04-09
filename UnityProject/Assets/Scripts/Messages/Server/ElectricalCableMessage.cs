@@ -7,21 +7,19 @@ using Mirror;
 /// </summary>
 public class ElectricalCableMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.ElectricalCableMessage;
 	public Connection REWireEndA;
 	public Connection REWireEndB;
 	public WiringColor RECableType;
 	public uint Cable;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Cable);
+		LoadNetworkObject(Cable);
 
 		if ( NetworkObject != null)
 		{
 			NetworkObject.GetComponent<CableInheritance>()?.SetDirection(REWireEndA,REWireEndB,RECableType);
 		}
-		yield return null;
 	}
 
 	public static ElectricalCableMessage  Send(GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType = WiringColor.unknown)

@@ -62,7 +62,7 @@ MonoBehaviour:
   itemAttributes: {fileID: 0}
   traitWhitelist: []
   reagentWhitelist:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
   transferMode: 3
   possibleTransferAmounts: []
   transferAmount: 100
@@ -112,6 +112,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -211,6 +212,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

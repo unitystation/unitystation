@@ -5376,27 +5376,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 8
-  WireEndA: 9
-  Data:
-    CurrentInWire: 0
-    ActualVoltage: 0
-    EstimatedResistance: 0
-    SupplyingCurrent: 0
-    InternalResistance: 0
-    SupplyingVoltage: 0
-    ChangeToOff: 0
-    CurrentStoreValue: 0
   InData:
-    Categorytype: 0
+    WireEndB: 10
+    WireEndA: 8
+    Categorytype: 13
     ControllingDevice: {fileID: 0}
-    DirectionOverride: 0
-    ResistanceOverride: 0
-    ElectricityOverride: 0
+    Present: {fileID: 0}
+    Data:
+      CurrentInWire: 0
+      ActualVoltage: 0
+      EstimatedResistance: 0
+      SupplyingCurrent: 0
+      InternalResistance: 0
+      SupplyingVoltage: 0
+      ChangeToOff: 0
+      CurrentStoreValue: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  registerTile3: {fileID: 114738137265545768}
+  DestroyQueueing: 0
+  DestroyAuthorised: 0
 --- !u!114 &6324674111779620640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5413,6 +5412,8 @@ MonoBehaviour:
   syncInterval: 0.1
   Node: {fileID: 7281671087508858390}
   ApplianceType: 13
+  WireEndB: 9
+  WireEndA: 0
   ListCanConnectTo: 010000000b000000
   SelfDestruct: 0
   Reactions:
@@ -5482,7 +5483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 69c27c4a07b053d458c6fec363e66403
+  m_AssetId: 
 --- !u!114 &1348606562097783112
 MonoBehaviour:
   m_ObjectHideFlags: 0
