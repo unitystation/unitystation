@@ -7,8 +7,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class UnderFloorLayer : Layer
 {
-	bool Initialised = false;
-
 	//It is assumed that the tiles start at 1 and go down
 	private Dictionary<Vector2Int, List<LayerTile>> TileStore = new Dictionary<Vector2Int, List<LayerTile>>();
 
@@ -24,7 +22,7 @@ public class UnderFloorLayer : Layer
 
 				for (int i = 0; i < 50; i++)
 				{
-					localPlace.z = (-i) + 1;
+					localPlace.z = -i + 1;
 					var getTile = tilemap.GetTile(localPlace) as LayerTile;
 					if (getTile != null)
 					{
@@ -38,7 +36,7 @@ public class UnderFloorLayer : Layer
 						var electricalCableTile = getTile as ElectricalCableTile;
 						if (getTile != null)
 						{
-							matrix.AddElectricalNode(new Vector3Int(n, p, 0), electricalCableTile);
+							matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
 						}
 					}
 				}
@@ -90,9 +88,7 @@ public class UnderFloorLayer : Layer
 				var electricalCableTile = tile as ElectricalCableTile;
 				if (tile != null)
 				{
-					var nodePosition = position;
-					nodePosition.z = 0;
-					matrix.AddElectricalNode(nodePosition, electricalCableTile);
+					matrix.AddElectricalNode(position, electricalCableTile);
 				}
 
 				matrix.TileChangeManager.UpdateTile(position, tile as BasicTile, false);
@@ -105,20 +101,16 @@ public class UnderFloorLayer : Layer
 		}
 	}
 
-	public void RemoveSpecifiedTile(Vector2Int position, LayerTile tile)
+	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile)
 	{
-		if (!TileStore.ContainsKey(position)) return;
+		if (!TileStore.ContainsKey((Vector2Int)position)) return;
 
-		if (TileStore.ContainsKey(position))
+		if (TileStore.ContainsKey((Vector2Int)position))
 		{
-			if (TileStore[position].Contains(tile))
+			if (TileStore[(Vector2Int)position].Contains(tile))
 			{
-				int index = TileStore[position].IndexOf(tile);
-				matrix.TileChangeManager.RemoveTile(new Vector3Int(position.x, position.y, (-index) + 1),
-					LayerType.Underfloor,
-					false);
-
-				TileStore[position].RemoveAt(index);
+				int index = TileStore[(Vector2Int)position].IndexOf(tile);
+				TileStore[(Vector2Int)position][index] = null;
 			}
 		}
 		else

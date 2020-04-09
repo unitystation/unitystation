@@ -207,7 +207,7 @@ public class IntrinsicElectronicData
 	{
 		if (MetaDataPresent != null)
 		{
-			return (MetaDataPresent.NodeLocation);
+			return (Vector2Int)MetaDataPresent.NodeLocation;
 		}
 		else if (Present != null)
 		{
