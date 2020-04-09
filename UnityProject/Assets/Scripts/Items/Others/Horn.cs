@@ -65,7 +65,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 
 			ClassicHonk();
 
-			if ( isCrit )
+			if ( isCrit && interaction.Intent == Intent.Harm)
 			{
 				StartCoroutine( CritHonk( interaction, targetHealth ) );
 			}
