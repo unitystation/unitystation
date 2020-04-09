@@ -15,10 +15,11 @@ namespace Tests
 
 		protected override SampleGroupDefinition[] SampleGroupDefinitions => sampleGroupDefinitions;
 
-		readonly SampleGroupDefinition[] sampleGroupDefinitions =
-			new[] {
-				new SampleGroupDefinition(ElectricalSynchronisation.updateName) }.Concat(
-			ElectricalSynchronisation.markerNames.Select(mn => new SampleGroupDefinition(mn))).ToArray();
+		private readonly SampleGroupDefinition[] sampleGroupDefinitions =
+			new[]
+			{
+				new SampleGroupDefinition(ElectricalSynchronisation.updateName)
+			};
 
 		PlayerSync player;
 

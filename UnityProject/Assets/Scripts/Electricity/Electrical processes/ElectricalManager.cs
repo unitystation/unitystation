@@ -8,6 +8,7 @@ public class ElectricalManager : MonoBehaviour
 	public CableTileList HighVoltageCables;
 	public CableTileList MediumVoltageCables;
 	public CableTileList LowVoltageCables;
+	public ElectricalSynchronisation electricalSync;
 
 	private bool roundStartedServer = false;
 	public bool Running { get; private set; }
@@ -47,34 +48,34 @@ public class ElectricalManager : MonoBehaviour
 
 		if (Mode == ElectricalMode.Threaded)
 		{
-			ElectricalSynchronisation.SetSpeed((int)MSSpeed);
-			ElectricalSynchronisation.Start();
+			electricalSync.SetSpeed((int)MSSpeed);
+			electricalSync.Start();
 		}
 	}
 
 	public void StopSimulation()
 	{
 		Running = false;
-		ElectricalSynchronisation.Stop();
+		electricalSync.Stop();
 	}
 
 	private void Update()
 	{
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Mode == ElectricalMode.GameLoop && Running)
 		{
-			ElectricalSynchronisation.DoUpdate(false);
+			electricalSync.DoUpdate(false);
 		}
 
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
 		{
-			lock (ElectricalSynchronisation.Electriclock)
+			lock (electricalSync.Electriclock)
 			{
-				if (ElectricalSynchronisation.MainThreadProcess)
+				if (electricalSync.MainThreadProcess)
 				{
-					ElectricalSynchronisation.PowerNetworkUpdate();
+					electricalSync.PowerNetworkUpdate();
 				}
-				ElectricalSynchronisation.MainThreadProcess = false;
-				Monitor.Pulse(ElectricalSynchronisation.Electriclock);
+				electricalSync.MainThreadProcess = false;
+				Monitor.Pulse(electricalSync.Electriclock);
 			}
 		}
 	}
@@ -98,16 +99,16 @@ public class ElectricalManager : MonoBehaviour
 
 	void OnRoundStart()
 	{
-		ElectricalSynchronisation.Start();
+		electricalSync.Start();
 		roundStartedServer = true;
 		Logger.Log("Round Started", Category.Electrical);
 	}
 
 	void OnRoundEnd()
 	{
-		ElectricalSynchronisation.Stop();
+		electricalSync.Stop();
 		roundStartedServer = false;
-		ElectricalSynchronisation.Reset();
+		electricalSync.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
 	}
 }

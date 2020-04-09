@@ -32,7 +32,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 
 	public bool Logall = false;
 
-	private void Awake()
+	private void Start()
 	{
 		EnsureInit();
 	}
@@ -51,7 +51,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 			registerTile.SetElectricalData(this);
 			Vector2 searchVec = this.registerTile.LocalPosition.To2Int();
 		}
-		ElectricalSynchronisation.StructureChange = true;
+		ElectricalManager.Instance.electricalSync.StructureChange = true;
 		InData.Present = this;
 	}
 
@@ -226,7 +226,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 	public void DestroyThisPlease()
 	{
 		InData.DestroyQueueing = true;
-		ElectricalSynchronisation.NUElectricalObjectsToDestroy.Add(InData);
+		ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(InData);
 	}
 
 	public void DestroyingThisNow()
@@ -241,7 +241,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 			registerTile.UnregisterServer();
 			if (this != null)
 			{
-				ElectricalSynchronisation.StructureChange = true;
+				ElectricalManager.Instance.electricalSync.StructureChange = true;
 				InData.DestroyAuthorised = true;
 				Despawn.ServerSingle(gameObject);
 			}
@@ -265,7 +265,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 
 	[RightClickMethod]
 	public void StructureChange() {
-		ElectricalSynchronisation.StructureChange = true;
+		ElectricalManager.Instance.electricalSync.StructureChange = true;
 	}
 
 	//
