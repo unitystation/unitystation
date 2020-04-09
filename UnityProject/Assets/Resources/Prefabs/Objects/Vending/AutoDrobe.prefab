@@ -128,6 +128,14 @@ MonoBehaviour:
     Stock: 1
   - Item: {fileID: 0}
     Stock: 1
+  - Item: {fileID: 3921521694364753778, guid: 65a378878b1d64f428bb7a05510b9092, type: 3}
+    Stock: 1
+  - Item: {fileID: 7636118406116123594, guid: 185e8f1981e885b47a92b5e69ca88f1d, type: 3}
+    Stock: 1
+  - Item: {fileID: 6595718230816168079, guid: a9799cb5acad5a44fa29b2eb0f75c5c0, type: 3}
+    Stock: 1
+  - Item: {fileID: 3955254198958978278, guid: faa0112f6ce89384e8aa4545fe64fb0a, type: 3}
+    Stock: 1
   - Item: {fileID: 3921521694364753778, guid: a731bca6e7803034eaf73a1ff169485b, type: 3}
     Stock: 1
   - Item: {fileID: 7636118406116123594, guid: 3864fa9dd4aa14c4c83805082e402fc2, type: 3}
@@ -173,6 +181,8 @@ MonoBehaviour:
   - Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
     Stock: 1
   - Item: {fileID: 3011710637427380133, guid: dff9b7e8f22ff9b4cb9e2f035702e875, type: 3}
+    Stock: 1
+  - Item: {fileID: 1268281847278913779, guid: 73a102ba242379c4b92c25800ea7976a, type: 3}
     Stock: 1
   - Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
     Stock: 1
@@ -260,9 +270,17 @@ MonoBehaviour:
     Stock: 1
   - Item: {fileID: 7781396554342910705, guid: c0bdfc0522dc2ef43add0458efd1c87c, type: 3}
     Stock: 3
+  - Item: {fileID: 6404652678407139925, guid: abed35e9cfa734a00815cf8cda62687a, type: 3}
+    Stock: 1
+  - Item: {fileID: 3011710637427380133, guid: a08b3d5119d894fcb917204c9c820035, type: 3}
+    Stock: 1
   - Item: {fileID: 6404652678407139925, guid: 6e0f2c36f6463c041ae9aee579487c6c, type: 3}
     Stock: 1
   - Item: {fileID: 1492798854262677143, guid: edb26444a4c140d4d834a7e3744c6987, type: 3}
+    Stock: 1
+  - Item: {fileID: 6404652678407139925, guid: 82493ba3850304e50a7d25606a4f59f1, type: 3}
+    Stock: 1
+  - Item: {fileID: 3011710637427380133, guid: 57b4739d8947544f387d028cd2dd59b9, type: 3}
     Stock: 1
   - Item: {fileID: 6404652678407139925, guid: 2a7be38bec4c1de4d9848443b6691ffb, type: 3}
     Stock: 1
@@ -303,6 +321,8 @@ MonoBehaviour:
   - Item: {fileID: 0}
     Stock: 1
   - Item: {fileID: 3011710637427380133, guid: ab23fc0ba00b309459f2a039f0098d57, type: 3}
+    Stock: 1
+  - Item: {fileID: 3921521694364753778, guid: de49a39e89fc6194aa45f7ffa599e023, type: 3}
     Stock: 1
   - Item: {fileID: 2502055301998392637, guid: d77ca13e6df71a4468e5a524d3c698bc, type: 3}
     Stock: 1
@@ -535,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -603,6 +624,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
