@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExoFabProductButton : NetButton
+public class GUI_ExoFabRemoveMaterialButton : NetButton
 {
-	[HideInInspector]
-	public MachineProduct machineProduct;
-
-	[HideInInspector]
-	public string categoryName;
+	public int value = 5;
+	public ItemTrait itemTrait;
 
 	public override void ExecuteServer()
 	{

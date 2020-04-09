@@ -5,31 +5,49 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MachineProductsCollection", menuName = "ScriptableObjects/Machines/MachineProductsCollection")]
 public class MachineProductsCollection : ScriptableObject
 {
+	[SerializeField]
 	[Tooltip("A list of product categories.")]
-	public MachineProductCategory[] productCategoryList;
+	private List<MachineProductList> productCategoryList = new List<MachineProductList>();
+
+	public List<MachineProductList> ProductCategoryList { get => productCategoryList; }
 }
 
 [System.Serializable]
-public class MachineProductCategory
+public class MachineProductList
 {
+	[SerializeField]
 	[Tooltip("Category name for a list of products.")]
-	public string categoryName;
+	private string categoryName;
 
+	public string CategoryName { get => categoryName; }
+
+	[SerializeField]
 	[Tooltip("The list of products in this category")]
-	public MachineProduct[] products;
+	private List<MachineProduct> products = new List<MachineProduct>();
+
+	public List<MachineProduct> Products { get => products; }
 }
 
 [System.Serializable]
 public class MachineProduct
 {
+	[SerializeField]
 	[Tooltip("Product name.")]
-	public string name;
+	private string name;
 
+	public string Name { get => name; }
+
+	[SerializeField]
 	[Tooltip("Product Prefab")]
-	public GameObject product;
+	private GameObject product;
 
+	public GameObject Product { get => product; }
+
+	[SerializeField]
 	[Tooltip("Product material cost")]
-	public MachineProductMaterialPrice[] materialPrice;
+	public List<MachineProductMaterialPrice> materialPrice = new List<MachineProductMaterialPrice>();
+
+	public List<MachineProductMaterialPrice> MaterialPrice { get => materialPrice; }
 }
 
 //This is used to define material price of materials for a certain product. If
@@ -37,9 +55,14 @@ public class MachineProduct
 [System.Serializable]
 public class MachineProductMaterialPrice
 {
+	[SerializeField]
 	[Tooltip("The material type, materials have an item trait according to their types.")]
 	public ItemTrait material;
 
+	public ItemTrait Material { get => material; }
+
 	[Tooltip("The amount of materials the product costs.")]
 	public int amount;
+
+	public int Amount { get => amount; }
 }

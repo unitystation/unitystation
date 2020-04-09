@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GUI_ExosuitFabricator : NetTab
 {
-	[SerializeField] private GUI_ExoFabPageMaterialsAndCategory materialsAndCategoryDisplay;
-	[SerializeField] private GUI_ExoFabPageProducts productDisplay;
+	[SerializeField]
+	private GUI_ExoFabPageMaterialsAndCategory materialsAndCategoryDisplay = null;
+
+	[SerializeField]
+	private GUI_ExoFabPageProducts productDisplay = null;
 
 	[SerializeField]
 	private NetPageSwitcher nestedSwitcher = null;
@@ -26,7 +29,7 @@ public class GUI_ExosuitFabricator : NetTab
 		ExosuitFabricator.MaterialsManipulated += UpdateAll;
 
 		materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator);
-		categoryNameToProductEntries = materialsAndCategoryDisplay.InitCategoryList(exosuitFabricator.productsCollection, exosuitFabricator.materialStorage.MaterialToNameRecord);
+		materialsAndCategoryDisplay.DisplayCategories(exosuitFabricator.exoFabProducts);
 		UpdateAll();
 	}
 
@@ -45,7 +48,7 @@ public class GUI_ExosuitFabricator : NetTab
 	}
 
 	//Used by buttons, which contains the amount and type to dispense
-	public void DispenseSheet(ExoFabRemoveMaterialButton button)
+	public void DispenseSheet(GUI_ExoFabRemoveMaterialButton button)
 	{
 		int sheetAmount = button.value;
 		ItemTrait materialType = button.itemTrait;
@@ -57,19 +60,19 @@ public class GUI_ExosuitFabricator : NetTab
 		Logger.Log("Click");
 	}
 
-	public void AddAllProductsToQueue(ExoFabCategoryButton button)
+	public void AddAllProductsToQueue(NetButton button)
 	{
+		Logger.Log("Click");
 	}
 
 	//Called after a category button is pressed. The button contains data for the products on the page.
-	public void SetupAndOpenProductsPage(ExoFabCategoryButton button)
+	public void SetupAndOpenProductsPage(NetButton button)
 	{
-		productDisplay.SetupPage(button, categoryNameToProductEntries);
 		nestedSwitcher.SetActivePage(productDisplay);
 		RescanElements();
 	}
 
-	public void ReturnFromProductPage(ExoFabProductButton button)
+	public void ReturnFromProductPage(GUI_ExoFabProductButton button)
 	{
 		foreach (GameObject productEntries in categoryNameToProductEntries[button.categoryName])
 		{
