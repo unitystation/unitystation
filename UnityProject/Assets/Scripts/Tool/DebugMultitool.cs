@@ -20,11 +20,5 @@ public class DebugMultitool : MonoBehaviour, ICheckedInteractable<PositionalHand
 		foreach (var D in MetaDataNode.ElectricalData) {
 			D.InData.ShowDetails();
 		}
-
-		if (Input.GetKey(KeyCode.F8))
-		{
-			UnderFloorLayer.LOk = true;
-			matrix.UnderFloorLayer.CalculateTile(localPosInt.To2Int());
-		}
 	}
 }
