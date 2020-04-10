@@ -85,7 +85,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &3892757361480040570
@@ -189,27 +188,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 10
-  WireEndA: 9
-  Data:
-    CurrentInWire: 0
-    ActualVoltage: 0
-    EstimatedResistance: 0
-    SupplyingCurrent: 0
-    InternalResistance: 0
-    SupplyingVoltage: 0
-    ChangeToOff: 0
-    CurrentStoreValue: 0
   InData:
+    WireEndB: 0
+    WireEndA: 0
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    DirectionOverride: 0
-    ResistanceOverride: 0
-    ElectricityOverride: 0
+    Present: {fileID: 0}
+    Data:
+      CurrentInWire: 0
+      ActualVoltage: 0
+      EstimatedResistance: 0
+      SupplyingCurrent: 0
+      InternalResistance: 0
+      SupplyingVoltage: 0
+      ChangeToOff: 0
+      CurrentStoreValue: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  registerTile3: {fileID: 114840369580293110}
+  DestroyQueueing: 0
+  DestroyAuthorised: 0
 --- !u!114 &7309201818092580452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +232,7 @@ MonoBehaviour:
     DirectionReaction: 0
     ResistanceReaction: 1
     DirectionReactionA:
-      YouShallNotPass: 0
+      YouShallNotPass: 1
     ResistanceReactionA:
       Resistance:
         Ohms: 240
@@ -255,6 +253,8 @@ MonoBehaviour:
   syncInterval: 0.1
   Node: {fileID: 5337989651947616586}
   ApplianceType: 0
+  WireEndB: 10
+  WireEndA: 0
   ListCanConnectTo: 09000000
   SelfDestruct: 0
   Reactions: []
@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114348839316776372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,10 +315,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1737181241
 --- !u!114 &8587603746953740326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -369,6 +370,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: APC
   initialDescription: Area Power Controller
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 

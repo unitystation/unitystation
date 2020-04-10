@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using AdminTools;
 using Mirror;
 using UI.UI_Bottom;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Unitystation.Options;
@@ -41,6 +43,7 @@ public class UIManager : MonoBehaviour
 	public AnimationCurve strandedZoomOutCurve;
 	public AdminChatButtons adminChatButtons;
 	public AdminChatWindows adminChatWindows;
+	public PlayerAlerts playerAlerts;
 	private bool preventChatInput;
 
 	public static bool PreventChatInput
@@ -213,8 +216,25 @@ public class UIManager : MonoBehaviour
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 		}
 
-		adminChatButtons.gameObject.SetActive(false);
+		adminChatButtons.transform.parent.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		adminChatButtons.ClearAllNotifications();
+		adminChatWindows.ResetAll();
+		playerAlerts.ClearLogs();
 	}
 
 	void DetermineInitialTargetFrameRate()

@@ -5,13 +5,11 @@ using UnityEngine;
 
 public class AdminBwoinkMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminBwoinkMessage;
 	public string AdminUID;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
 		SoundManager.Play("Bwoink");
 		Chat.AddAdminPrivMsg(Message);
 	}
@@ -23,7 +21,7 @@ public class AdminBwoinkMessage : ServerMessage
 			AdminUID = adminUid,
 			Message = message
 		};
-		
+
 		msg.SendTo(recipient);
 
 		return msg;

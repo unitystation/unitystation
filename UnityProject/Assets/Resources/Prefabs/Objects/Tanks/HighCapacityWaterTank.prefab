@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114225304750474940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114884226294134310
@@ -193,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -226,10 +227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3862907474
 --- !u!114 &2102555284219174637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,19 +259,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 100000
+  maxCapacity: 30000
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  reagentMix:
+    temperature: 0
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+      m_values:
+      - 30000
   itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents:
-  - water
-  Amounts:
-  - 100000
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 2
-  InitialTransferAmount: 20
-  PossibleTransferAmounts: []
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  transferMode: 2
+  possibleTransferAmounts: []
+  transferAmount: 20
 --- !u!1 &1814863487152160
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +320,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

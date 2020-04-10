@@ -5,16 +5,13 @@
 /// </summary>
 public class ServerToClientEventsMsg : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.ServerToClientEvents;
 	public EVENT Event;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
-
 		EventManager.Broadcast(Event);
 	}
-	
+
 	/// <summary>
 	/// Send an event from EventManager to all clients
 	/// </summary>

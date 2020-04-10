@@ -6,7 +6,7 @@ using System;
 public class TransformerModule : ElectricalModuleInheritance
 {
 	[Header("Transformer Settings")]
-	public float TurnRatio; //the Turn ratio of the transformer so if it 2, 1v in 2v out 
+	public float TurnRatio; //the Turn ratio of the transformer so if it 2, 1v in 2v out
 	public bool InvertingTurnRatio;  //what it will be limited to
 	public float VoltageLimiting; //If it requires VoltageLimiting and  At what point the VoltageLimiting will kick in
 	public float VoltageLimitedTo;  //what it will be limited to
@@ -28,32 +28,36 @@ public class TransformerModule : ElectricalModuleInheritance
 		}
 		Node.AddModule(this);
 	}
-	public override float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
+	public override VIRCurrent ModifyElectricityInput(VIRCurrent Current,
+										 ElectricalOIinheritance SourceInstance,
+										 IntrinsicElectronicData ComingFromm)
 	{
-		int InstanceID = SourceInstance.GetInstanceID();
-		float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[InstanceID].ResistanceComingFrom);
-		float Voltage = (Current * Resistance);
+		float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.InData.Data.SupplyDependent[SourceInstance].ResistanceGoingTo);
+		var Voltage = ElectricityFunctions.WorkOutVoltage(ControllingNode.Node);
+		//Logger.Log("Voltage" + Voltage);
 
 		//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance"  + Current.ToString() + " < Current");
-		Tuple<float, float> Currentandoffcut = TransformerCalculations.ElectricalStageTransformerCalculate(this, Voltage: Voltage, ResistanceModified: Resistance, FromHighSide : HighsideConnections.Contains(ComingFrom.InData.Categorytype)  );
-		if (Currentandoffcut.Item2 > 0)
-		{
-			ControllingNode.Node.Data.SupplyDependent[InstanceID].CurrentGoingTo[ControllingNode.Node] = Currentandoffcut.Item2;
-		}
-		return (Currentandoffcut.Item1);
+		VIRCurrent Currentout=
+		TransformerCalculations.ElectricalStageTransformerCalculate(this,
+			                                                           	Current,
+			                                                            Resistance,
+			                                                       		 Voltage,
+			                                                             HighsideConnections.Contains(ComingFromm.Categorytype));
+		return (Currentout);
 	}
-	public override float ModifyResistancyOutput(float Resistance, GameObject SourceInstance)
+	public override ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
 	{
-		//return (Resistance);		int InstanceID = SourceInstance.GetInstanceID();
+		//return (Resistance);
 		bool FromHighSide = false;
-		foreach (var Upst in ControllingNode.Node.Data.SupplyDependent[InstanceID].Upstream) {
-			if (LowsideConnections.Contains(Upst.InData.Categorytype)) {
+		foreach (var Upst in ControllingNode.Node.InData.Data.SupplyDependent[SourceInstance].Upstream) {
+			if (LowsideConnections.Contains(Upst.Categorytype)) {
 				FromHighSide = true;
 			}
 		}
-			
-		Tuple<float, float> ResistanceM = TransformerCalculations.ResistanceStageTransformerCalculate(this, ResistanceToModify: Resistance, FromHighSide : FromHighSide);
-		return (ResistanceM.Item1);
+
+
+		ResistanceWrap ResistanceM = TransformerCalculations.ResistanceStageTransformerCalculate(this, ResistanceToModify: Resistance, FromHighSide : FromHighSide);
+		return (ResistanceM);
 	}
 
 }

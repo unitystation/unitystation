@@ -53,7 +53,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	/// </summary>
 	IEnumerator CheckStartingPlasma()
 	{
-		yield return WaitFor.Seconds(5); //Todo: figure out a robust way to init such things, don't rely on timeouts
+		yield return WaitFor.Seconds(1); //Todo: figure out a robust way to init such things, don't rely on timeouts
 		var plasmaObjs = registerTile.Matrix.Get<SolidPlasma>(registerTile.LocalPositionServer, true);
 		foreach (SolidPlasma plasma in plasmaObjs)
 		{

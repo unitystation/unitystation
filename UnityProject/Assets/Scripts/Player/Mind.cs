@@ -17,6 +17,7 @@ public class Mind
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
+	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	//Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 	public bool IsSpectator => occupation == null || body == null;
 

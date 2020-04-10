@@ -44,5 +44,6 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Breakable;
 	public ItemTrait Rods;
 	public ItemTrait SolidPlasma;
+	public ItemTrait NukeDisk;
 	public ItemTrait Insulated;
 }

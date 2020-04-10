@@ -8,7 +8,6 @@ using Mirror;
 /// </summary>
 public class DevSpawnMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.DevSpawnMessage;
 	// name of the prefab or hier string to spawn
 	public string Name;
 	// position to spawn at.
@@ -16,10 +15,9 @@ public class DevSpawnMessage : ClientMessage
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()
@@ -28,6 +26,9 @@ public class DevSpawnMessage : ClientMessage
 		if (admin == null) return;
 		//no longer checks impassability, spawn anywhere, go hog wild.
 		Spawn.ServerPrefab(Name, WorldPosition);
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			$"{admin.ExpensiveName()} spawned a {Name} at {WorldPosition}", AdminId);
 	}
 
 	public override string ToString()

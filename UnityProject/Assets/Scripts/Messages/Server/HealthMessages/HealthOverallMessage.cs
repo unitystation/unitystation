@@ -7,14 +7,12 @@ using Mirror;
 /// </summary>
 public class HealthOverallMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.HealthOverallStats;
-
 	public uint EntityToUpdate;
 	public float OverallHealth;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EntityToUpdate);
+		LoadNetworkObject(EntityToUpdate);
 		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientHealthStats(OverallHealth);
 	}
 

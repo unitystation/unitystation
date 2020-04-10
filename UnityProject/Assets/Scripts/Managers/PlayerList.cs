@@ -268,9 +268,25 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
+	public bool IsAntag(GameObject playerObj)
+	{
+		var conn = Get(playerObj);
+		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
+		if (conn.Script.mind.IsAntag) return true;
+		return false;
+	}
+
+	[Server]
 	public ConnectedPlayer GetByUserID(string byUserID)
 	{
 		return getInternal(player => player.UserId == byUserID);
+	}
+
+
+	[Server]
+	public ConnectedPlayer GetByConnection(NetworkConnection connection)
+	{
+		return getInternal(player => player.Connection == connection);
 	}
 
 	[Server]
@@ -302,7 +318,7 @@ public partial class PlayerList : NetworkBehaviour
 			return;
 		}
 
-		if (connection.playerController == null)
+		if (connection.identity == null)
 		{
 			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - player controller was null IP:{connection.address}", Category.Connections);
 			ValidatePlayerListRecords();
@@ -311,7 +327,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		var connectedPlayer = ConnectedPlayer.Invalid;
 
-		var playerScript = connection.playerController.GetComponent<PlayerScript>();
+		var playerScript = connection.identity.GetComponent<PlayerScript>();
 		if (playerScript != null)
 		{
 			var index = loggedIn.FindIndex(x => x.Script == playerScript);
@@ -321,7 +337,7 @@ public partial class PlayerList : NetworkBehaviour
 			}
 		}
 
-		var joinedViewer = connection.playerController.GetComponent<JoinedViewer>();
+		var joinedViewer = connection.identity.GetComponent<JoinedViewer>();
 		if (joinedViewer != null)
 		{
 			var index = loggedIn.FindIndex(x => x.ViewerScript == joinedViewer);
@@ -333,7 +349,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		if (connectedPlayer.Equals(ConnectedPlayer.Invalid))
 		{
-			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connected player was invalid IP:{connection.address} Name:{connection.playerController.name}", Category.Connections);
+			Logger.Log($"Unknown Player Disconnected verifying playerlists for integrity - connected player was invalid IP:{connection.address} Name:{connection.identity.name}", Category.Connections);
 			ValidatePlayerListRecords();
 		}
 		else
@@ -385,14 +401,31 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayer(string clientId)
+	public GameObject TakeLoggedOffPlayerbyUserId(string userId)
 	{
-		Logger.LogTraceFormat("Searching for logged off players with id {0}", Category.Connections, clientId);
+		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
 		{
-			Logger.LogTraceFormat("Found logged off player with id {0}", Category.Connections, player.ClientId);
-			if (player.ClientId == clientId)
+			Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.UserId);
+			if (player.UserId == userId)
 			{
+				loggedOff.Remove(player);
+				return player.GameObject;
+			}
+		}
+
+		return null;
+	}
+
+	[Server]
+	public GameObject TakeLoggedOffPlayerbyClientId(string ClientId)
+	{
+		Logger.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, ClientId);
+		foreach (var player in loggedOff)
+		{
+			if (player.ClientId == ClientId)
+			{
+				Logger.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.ClientId);
 				loggedOff.Remove(player);
 				return player.GameObject;
 			}

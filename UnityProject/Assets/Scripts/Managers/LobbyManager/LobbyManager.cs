@@ -29,6 +29,19 @@ namespace Lobby
 		{
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
+			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
+			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
+		}
+		
+		private void OnDisable()
+		{
+			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
+			CustomNetworkManager.Instance?.OnClientDisconnected?.RemoveListener(OnClientDisconnect);
+		}
+
+		public void OnClientDisconnect()
+		{
+			lobbyDialogue.OnClientDisconnect();
 		}
 
 		void DetermineUIScale()
@@ -46,16 +59,6 @@ namespace Lobby
 					lobbyDialogue.transform.localScale *= 0.9f;
 				}
 			}
-		}
-
-		void OnEnable()
-		{
-			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
-		}
-
-		void OnDisable()
-		{
-			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
 		}
 
 		private void SetOnLogOut()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,9 +11,13 @@ public class MobFlee : MobPathFinder
 	private int doorMask;
 	private int doorAndObstacleMask;
 
+	private DateTime lastFlee;
+	private float fleeCoolDown = 4f;
+
 	public override void OnEnable()
 	{
 		base.OnEnable();
+		lastFlee = DateTime.Now;
 		coneOfSight = GetComponent<ConeOfSight>();
 		doorMask = LayerMask.GetMask("Door Open", "Door Closed", "Windows");
 		doorAndObstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects", "Door Open",
@@ -28,6 +33,9 @@ public class MobFlee : MobPathFinder
 
 	public void FleeFromTarget(Transform target)
 	{
+		var totalSeconds = (DateTime.Now - lastFlee).TotalSeconds;
+		if (totalSeconds < fleeCoolDown) return;
+		lastFlee = DateTime.Now;
 		fleeTarget = target;
 		Activate();
 		TryToFlee();

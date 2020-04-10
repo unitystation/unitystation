@@ -6,15 +6,12 @@ using Mirror;
 
 public class RequestRespawnPlayer : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestRespawn;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToRespawn;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 
@@ -40,7 +37,8 @@ public class RequestRespawnPlayer : ClientMessage
 
 	void TryRespawn(ConnectedPlayer deadPlayer)
 	{
-		Logger.Log($"Admin: {PlayerList.Instance.GetByUserID(Userid).Name} respawned dead player: {deadPlayer.Name}", Category.Admin);
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			$"{PlayerList.Instance.GetByUserID(Userid).Name} respawned dead player {deadPlayer.Name}", Userid);
 		deadPlayer.Script.playerNetworkActions.ServerRespawnPlayer();
 	}
 

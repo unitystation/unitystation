@@ -17,6 +17,8 @@ public class MetaTileMap : MonoBehaviour
 	public Layer[] LayersValues { get; private set; }
 	public ObjectLayer ObjectLayer { get; private set; }
 
+
+	public List<Layer> ffLayersValues;
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
@@ -101,32 +103,39 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context) &&
-		       _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context) ||
-		       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context) &&
-		       _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context);
+		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) &&
+			   _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) ||
+			   _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) &&
+			   _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles);
 	}
 
+
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
 			// Skip floor & base collisions if this is not a shuttle
 			if (collisionType != CollisionType.Shuttle &&
-			    (SolidLayersValues[i].LayerType == LayerType.Floors ||
-			     SolidLayersValues[i].LayerType == LayerType.Base))
+				(SolidLayersValues[i].LayerType == LayerType.Floors ||
+				 SolidLayersValues[i].LayerType == LayerType.Base))
+			{
+				continue;
+			}
+
+			// Skip if the current tested layer is being excluded.
+			if (excludeLayers != null && excludeLayers.Contains(SolidLayersValues[i].LayerType))
 			{
 				continue;
 			}
 
 			if (!SolidLayersValues[i].IsPassableAt(origin, to, isServer, collisionType: collisionType,
-				inclPlayers: inclPlayers, context: context))
+				inclPlayers: inclPlayers, context: context, excludeTiles))
 			{
 				return false;
 			}
@@ -397,10 +406,9 @@ public class MetaTileMap : MonoBehaviour
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
-			Layer layer = LayersValues[i];
-			if (layer.LayerType < refLayer &&
-			    !(refLayer == LayerType.Objects &&
-			      layer.LayerType == LayerType.Floors) &&
+			Layer layer = LayersValues[i]; //layer.LayerType < refLayer &&
+			if (
+			    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors) &&
 			    refLayer != LayerType.Grills)
 			{
 				layer.RemoveTile(position);

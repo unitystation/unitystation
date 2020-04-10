@@ -54,6 +54,17 @@ public class ChatBubbleManager : MonoBehaviour
     public static void ShowAChatBubble(Transform followTarget, string msg,
 	    ChatModifier chatModifier = ChatModifier.None)
     {
+	    var index = Instance.chatBubblePool.FindIndex(x => x.Target == followTarget);
+
+	    if (index != -1)
+	    {
+		    if (Instance.chatBubblePool[index].gameObject.activeInHierarchy)
+		    {
+			    Instance.chatBubblePool[index].AppendToBubble(msg, chatModifier);
+			    return;
+		    }
+	    }
+
 		Instance.GetChatBubbleFromPool().SetupBubble(followTarget, msg, chatModifier);
     }
 

@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114019091986045732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &1612245312422546373
@@ -228,14 +228,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  syncHarvestNotifier: 0
-  syncWeedNotifier: 0
-  syncWaterNotifier: 0
-  syncNutrimentNotifier: 0
-  plantSyncStage: 0
-  growingPlantStage: 0
-  plantSyncString: 
+  registerTile: {fileID: 0}
   isSoilPile: 0
+  isWild: 0
   potentialWeeds:
   - {fileID: 11400000, guid: 375fdb78e44a16f44bd8fed477aec2fa, type: 2}
   - {fileID: 11400000, guid: 8381b65b5721d454cbe2b03391fd34c4, type: 2}
@@ -243,55 +238,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c5c8c48fefd6af742a194210057456e6, type: 2}
   - {fileID: 11400000, guid: e08fe974797d87d49980a832c69354ff, type: 2}
   - {fileID: 11400000, guid: 53bb9f10c65e1dd4fa5b856a06b91f91, type: 2}
-  readyProduce: []
   modification: 0
   reagentContainer: {fileID: 3468170437254342443}
+  water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  mutagen: {fileID: 11400000, guid: 034ab10c20e9a63099ab7df08b99509c, type: 2}
   plantSprite: {fileID: 6974158223068387757}
   harvestNotifier: {fileID: 4430441488956415440}
   weedNotifier: {fileID: 7881375107564956764}
   waterNotifier: {fileID: 1254092131188494499}
   nutrimentNotifier: {fileID: 2269397715240448978}
-  plantData:
-    ProduceObject: {fileID: 0}
-    Name: 
-    Plantname: 
-    Description: 
-    PacketsSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    GrowthSprites: []
-    FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    WeedResistance: 0
-    WeedGrowthRate: 0
-    GrowthSpeed: 0
-    Potency: 0
-    Endurance: 0
-    Yield: 0
-    Lifespan: 0
-    PlantTrays: 
-    ReagentProduction: []
-    MutatesInTo: []
-  hasPlant: 0
   tickRate: 1
-  tickCount: 0
-  weedLevel: 0
-  nutritionLevel: 100
-  numberOfUpdatesAlive: 0
-  plantSubStage: 0
-  plantHealth: 100
-  readyToHarvest: 0
 --- !u!114 &3468170437254342443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,19 +260,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 200
+  maxCapacity: 100
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  reagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
   itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents:
-  - water
-  Amounts:
-  - 100
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 0
-  InitialTransferAmount: 20
-  PossibleTransferAmounts: []
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -364,10 +321,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2112165963
 --- !u!114 &17410868912263334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,6 +356,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Hydroponics Tray
   initialDescription: 
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
@@ -496,6 +453,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites:
   - Texture: {fileID: 2800000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
     Sprites:
@@ -603,6 +562,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites:
   - Texture: {fileID: 2800000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
     Sprites:
@@ -710,6 +671,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites:
   - Texture: {fileID: 2800000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
     Sprites:
@@ -817,6 +780,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites:
   - Texture: {fileID: 2800000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
     Sprites:
@@ -924,6 +889,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0

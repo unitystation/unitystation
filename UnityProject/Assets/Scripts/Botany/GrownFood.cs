@@ -10,6 +10,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 {
 	public PlantData plantData;
 	public ReagentContainer reagentContainer;
+	public Chemistry.Reagent nutrient;
 	public GameObject SeedPacket => seedPacket;
 
 	[SerializeField]
@@ -59,7 +60,10 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 		plantData = PlantData.MutateNewPlant(newPlantData, modification);
 		SyncSize(SizeScale, 0.5f + (newPlantData.Potency / 200f));
 		SetupChemicalContents();
-		SetupEdible();
+		if(edible != null)
+		{
+			SetupEdible();
+		}
 	}
 
 	/// <summary>
@@ -67,25 +71,17 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	/// </summary>
 	private void SetupChemicalContents()
 	{
-		List<string> nameList = new List<string>();
-		List<float> amountList = new List<float>();
-		for (int i = 0; i < reagentContainer.Amounts.Count; i++)
-		{
-			nameList.Add(reagentContainer.Reagents[i]);
-			amountList.Add(reagentContainer.Amounts[i] * plantData.Potency);
-		}
-		//Reset container
-		reagentContainer.ResetContents(nameList, amountList);
+		reagentContainer.Multiply(plantData.Potency);
 	}
 
 	/// <summary>
-	/// Set NutritionLevel to be equal to nuriment amount 
+	/// Set NutritionLevel to be equal to nuriment amount
 	/// </summary>
 	private void SetupEdible()
 	{
-		edible.NutritionLevel = Mathf.FloorToInt(reagentContainer.AmountOfReagent("nutriment"));
+		edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient] ?? 0);
 	}
-	
+
 	/// <summary>
 	/// Gets seeds for plant and replaces held food with seeds
 	/// DOES NOT WORK, eating overrides this.

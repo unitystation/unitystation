@@ -25,7 +25,6 @@ public class RconManager : RconConsole
 	}
 
 	private HttpServer httpServer;
-	private FPSMonitor fpsMonitor;
 
 	private WebSocketServiceHost consoleHost;
 	private WebSocketServiceHost monitorHost;
@@ -55,7 +54,6 @@ public class RconManager : RconConsole
 	{
 		Logger.Log("Init RconManager", Category.Rcon);
 		DontDestroyOnLoad(rconManager.gameObject);
-		fpsMonitor = GetComponent<FPSMonitor>();
 
 		if (ServerData.ServerConfig == null)
 		{
@@ -223,7 +221,7 @@ public class RconManager : RconConsole
 		}
 
 		//Removed GC Check for time being
-		return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
+		return $"FPS Stats: Current: {FPSMonitor.Instance.Current} Average: {FPSMonitor.Instance.Average}" +
 			$" Admins Online: " + connectedAdmins;
 
 		// return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +

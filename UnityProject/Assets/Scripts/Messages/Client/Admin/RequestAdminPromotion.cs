@@ -6,15 +6,12 @@ using Mirror;
 
 public class RequestAdminPromotion : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestEnableAdmin;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToPromote;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 
@@ -24,6 +21,9 @@ public class RequestAdminPromotion : ClientMessage
 		if (player != null)
 		{
 			PlayerList.Instance.ProcessAdminEnableRequest(Userid, UserToPromote);
+			var user = PlayerList.Instance.GetByUserID(UserToPromote);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				$"{player.ExpensiveName()} made {user.Name} an admin. Users ID is: {UserToPromote}", Userid);
 		}
 	}
 

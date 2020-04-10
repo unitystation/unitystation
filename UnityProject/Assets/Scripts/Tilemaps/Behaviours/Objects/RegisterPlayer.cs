@@ -32,6 +32,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	public SlipEvent OnSlipChangeServer = new SlipEvent();
 
 	private PlayerScript playerScript;
+	public PlayerScript PlayerScript => playerScript;
 	private Directional playerDirectional;
 	private UprightSprites uprightSprites;
 

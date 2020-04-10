@@ -11,6 +11,7 @@ using System.Collections;
 public class CorgiAI : MobAI
 {
 	private string dogName;
+	private string capDogName;
 
 	//Set this inspector. The corgi will only respond to
 	//voice commands from these job types:
@@ -22,10 +23,51 @@ public class CorgiAI : MobAI
 	private float timeForNextRandomAction;
 	private float timeWaiting;
 
+	private ConeOfSight coneOfSight;
+	private LayerMask mobMask;
+
 	protected override void Awake()
 	{
 		base.Awake();
 		dogName = mobName.ToLower();
+		capDogName = char.ToUpper(dogName[0]) + dogName.Substring(1);
+	}
+
+	public override void OnEnable()
+	{
+		base.OnEnable();
+		mobMask = LayerMask.GetMask("Walls", "NPC");
+		coneOfSight = GetComponent<ConeOfSight>();
+	}
+
+	private void SingleBark(GameObject barked = null)
+	{
+		SoundManager.PlayNetworkedAtPos("Bark", 
+										gameObject.transform.position, 
+										Random.Range(.8F, 1.3F));
+
+		if (barked != null)
+		{
+			Chat.AddActionMsgToChat(barked, $"{capDogName} barks at you!", 
+									$"{capDogName} barks at {barked.ExpensiveName()}");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(gameObject, $"{capDogName} barks!", $"{capDogName} barks!");
+		}		
+	}
+
+	IEnumerator RandomBarks(GameObject barked = null)
+	{
+		int barkAmt = Random.Range(1, 4);
+		while (barkAmt > 0) 
+		{
+			SingleBark(barked);
+			yield return WaitFor.Seconds(Random.Range(0.4f, 1f));
+			barkAmt--;
+		}
+
+		yield break;
 	}
 
 	protected override void AIStartServer()
@@ -59,12 +101,12 @@ public class CorgiAI : MobAI
 		//We want these ones to happen right away:
 		if (msg.Contains($"{dogName} run") || msg.Contains($"{dogName} get out of here"))
 		{
-			StartFleeing(speaker.GameObject.transform, 10f);
+			StartFleeing(speaker.GameObject, 10f);
 			yield break;
 		}
 
 		if (msg.Contains($"{dogName} stay") || msg.Contains($"{dogName} sit")
-		                                    || msg.Contains($"{dogName} stop"))
+											|| msg.Contains($"{dogName} stop"))
 		{
 			ResetBehaviours();
 			yield break;
@@ -74,11 +116,15 @@ public class CorgiAI : MobAI
 		yield return WaitFor.Seconds(0.5f);
 
 		if (msg.Contains($"{dogName} come") || msg.Contains($"{dogName} follow")
-		                                    || msg.Contains($"come {dogName}"))
+											|| msg.Contains($"come {dogName}"))
 		{
 			if (Random.value > 0.8f)
 			{
 				yield return StartCoroutine(ChaseTail(1));
+			}
+			else
+			{
+				SingleBark();
 			}
 
 			FollowTarget(speaker.GameObject.transform);
@@ -91,6 +137,10 @@ public class CorgiAI : MobAI
 			{
 				yield return StartCoroutine(ChaseTail(2));
 			}
+			else
+			{
+				SingleBark();
+			}
 
 			BeginExploring();
 			yield break;
@@ -100,6 +150,8 @@ public class CorgiAI : MobAI
 	IEnumerator ChaseTail(int times)
 	{
 		var timesSpun = 0;
+		Chat.AddActionMsgToChat(gameObject, $"{capDogName} start chasing its own tail!", $"{capDogName} start chasing its own tail!");
+;
 
 		while (timesSpun <= times)
 		{
@@ -112,20 +164,63 @@ public class CorgiAI : MobAI
 			timesSpun++;
 		}
 
+		StartCoroutine(RandomBarks());
+
 		yield return WaitFor.EndOfFrame;
 	}
 
 	//TODO: Do extra stuff on these events, like barking when being told to sit:
 	void OnFleeStopped()
 	{
+		StartCoroutine(RandomBarks());
 	}
 
 	void OnExploreStopped()
 	{
+		StartCoroutine(RandomBarks());
 	}
 
 	void OnFollowingStopped()
 	{
+		StartCoroutine(RandomBarks());
+	}
+
+	public override void OnPetted(GameObject performer)
+	{
+		base.OnPetted(performer);
+
+		int randAction = Random.Range(1,6);
+
+		switch (randAction)
+		{
+			case 1:
+				StartCoroutine(ChaseTail(Random.Range(1,3)));
+				break;
+			case 2:
+				RandomBarks();
+				break;
+			case 3:
+				Chat.AddActionMsgToChat(gameObject, $"{capDogName} wags its tail!", $"{capDogName} wags its tail!");
+				break;
+			case 4:
+				Chat.AddActionMsgToChat(
+					performer,
+					$"{capDogName} licks your hand!", 
+					$"{capDogName} licks {performer.ExpensiveName()}'s hand!");
+				break;
+			case 5:
+				Chat.AddActionMsgToChat(
+					performer,
+					$"{capDogName} gives you its paw!",
+					$"{capDogName} gives his paw to {performer.ExpensiveName()}");
+				break;
+		}
+	}
+
+	protected override void OnAttackReceived(GameObject damagedBy)
+	{
+		SingleBark();
+		StartFleeing(damagedBy);
 	}
 
 	//Updates only on the server
@@ -147,14 +242,50 @@ public class CorgiAI : MobAI
 		if (timeWaiting > timeForNextRandomAction)
 		{
 			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(8f, 30f);
+			timeForNextRandomAction = Random.Range(15f, 30f);
 
-			DoRandomAction(Random.Range(1, 3));
+			DoRandomAction();
 		}
 	}
 
-	void DoRandomAction(int randAction)
+	CatAI AnyCatsNearby()
 	{
+		var hits = coneOfSight.GetObjectsInSight(mobMask, dirSprites.CurrentFacingDirection, 10f, 5);
+		foreach (Collider2D coll in hits)
+		{
+			if (coll.gameObject != gameObject && coll.gameObject.GetComponent<CatAI>() != null
+				&& !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+			{
+				return coll.gameObject.GetComponent<CatAI>();
+			}
+		}
+		return null;
+	}
+
+	void BarkAtCats(CatAI cat)
+	{
+		float chase = Random.value;
+		// RandomBarks(cat.gameObject);
+		SingleBark(cat.gameObject);
+
+		//Make the cat flee!
+		cat.RunFromDog(gameObject.transform);
+		FollowTarget(cat.gameObject.transform, 5f);
+		RandomBarks();
+	}
+
+	void DoRandomAction()
+	{
+		// Bark at cats!
+		var possibleCat = AnyCatsNearby();
+		if (possibleCat != null)
+		{
+
+			BarkAtCats(possibleCat);
+			return;
+		}
+
+		int randAction = Random.Range(1, 5);
 		switch (randAction)
 		{
 			case 1:
@@ -163,7 +294,15 @@ public class CorgiAI : MobAI
 			case 2:
 				NudgeInDirection(GetNudgeDirFromInt(Random.Range(0, 8)));
 				break;
-			//case 3 is nothing
+			case 3:
+				RandomBarks();
+				break;
+			case 4:
+				Chat.AddActionMsgToChat(
+					gameObject,
+					$"{capDogName} wags its tail!",
+					$"{capDogName} wags its tail!");
+				break;
 		}
 	}
 }

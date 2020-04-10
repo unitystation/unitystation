@@ -12,14 +12,13 @@ using UnityEngine.Serialization;
 public class EscapeShuttle : NetworkBehaviour
 {
 	// Indicates at which moment (in remaining seconds) the shuttle should really start moving
-	private const int StartMovingAtCount = 30;
+	private const int StartMovingAtCount = 135;
 
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
 
 	public ShuttleStatusEvent OnShuttleUpdate = new ShuttleStatusEvent();
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
-
 
 	void Start()
 	{
@@ -84,7 +83,16 @@ public class EscapeShuttle : NetworkBehaviour
 	// Indicate if the shuttle really started moving toward station (It really starts moving in the StartMovingAtCount remaining seconds)
 	private bool startedMovingToStation;
 
+	// Checks if shuttle has docked at station
+	private bool HasShuttleDockedToStation = false;
+
 	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
+
+	/// <summary>
+	/// Sets a position for the escape shuttle to move to before moving to station, which will stop it from colliding with CentComm.
+	/// </summary>
+	[Tooltip("Sets a position for the escape shuttle to move to before moving to station, which will stop it from colliding with CentComm.")]
+	public Vector2 CentCommLeave = new Vector2(3890, 8);
 
 	/// <summary>
 	/// Seconds for shuttle call
@@ -222,6 +230,11 @@ public class EscapeShuttle : NetworkBehaviour
 		if ( mm.ServerState.IsMoving )
 		{
 
+			if (DistanceToDestination < 200)
+			{
+				mm.SetSpeed(80);
+			}
+
 			if ( DistanceToDestination < 2 )
 			{
 				mm.SetPosition( currentDestination.Position );
@@ -231,8 +244,18 @@ public class EscapeShuttle : NetworkBehaviour
 				if ( Status == ShuttleStatus.OnRouteStation )
 				{
 					Status = ShuttleStatus.DockedStation;
+					HasShuttleDockedToStation = true;
+				}
+				else if(Status == ShuttleStatus.OnRouteCentcom)
+				{
+					Status = ShuttleStatus.DockedCentcom;
+					if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
+					{
+						SoundManager.PlayAtPosition("HyperSpaceEnd", transform.position, gameObject);
+					}
 				}
 			}
+
 			else if ( DistanceToDestination < 25 && currentDestination.ApproachReversed )
 			{
 				TryPark();
@@ -296,7 +319,14 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			isReverse = true;
 			mm.ChangeFacingDirection(mm.ServerState.FacingDirection.Rotate(2));
-			PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
+			/*
+			if (Status == ShuttleStatus.DockedStation)
+			{
+				PlaySoundMessage.SendToAll("ShuttleDocked", Vector3.zero, 1f);
+			}
+			else {}
+			*/
+			HasShuttleDockedToStation = true;
 		}
 	}
 
@@ -372,6 +402,7 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			if ( time <= StartMovingAtCount)
 			{
+				mm.SetPosition(CentCommLeave);
 				MoveToStation();
 				OnTimerUpdate.RemoveListener( Action ); //self-remove after firing once
 			}
@@ -437,16 +468,28 @@ public class EscapeShuttle : NetworkBehaviour
 	/// Should send arrived shuttle to Centcom, with Heads' blessing or otherwise
 	/// But! it sends shuttle into abyss with increasing speed for now
 	/// </summary>
+	///
+
 	public void SendShuttle()
 	{
-		Status = ShuttleStatus.OnRouteCentcom;
+		SoundManager.PlayAtPosition("HyperSpaceBegin", transform.position, gameObject);
 
-		currentDestination = Destination.Invalid;
-		mm.SetSpeed( 100f );
-		mm.StartMovement();
-		mm.MaxSpeed = 100f;
+		StartCoroutine(WaitForShuttleLaunch());
 	}
 
+	IEnumerator WaitForShuttleLaunch()
+	{
+		yield return WaitFor.Seconds(7f);
+
+		SoundManager.PlayAtPosition("HyperSpaceProgress", transform.position, gameObject);
+	
+		Status = ShuttleStatus.OnRouteCentcom;
+
+		mm.SetSpeed(100f);
+		mm.StartMovement();
+		mm.MaxSpeed = 100f;
+		MoveToCentcom();
+	}
 
 	private IEnumerator TickTimer( bool inverse = false )
 	{
@@ -471,8 +514,9 @@ public class EscapeShuttle : NetworkBehaviour
 	public void MoveToStation()
 	{
 		startedMovingToStation = true;
-		mm.SetSpeed( 25 );
-		MoveTo( StationDest );
+		
+		mm.SetSpeed( 200 );
+		MoveTo(StationDest);
 	}
 
 	/// <summary>
@@ -481,8 +525,9 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public void MoveToCentcom()
 	{
-		mm.SetSpeed( 25 );
+		mm.SetSpeed( 90 );
 		MoveTo( CentcomDest );
+
 	}
 
 	private void MoveTo( Destination dest )
@@ -490,6 +535,7 @@ public class EscapeShuttle : NetworkBehaviour
 		currentDestination = dest;
 		mm.AutopilotTo( currentDestination.Position );
 	}
+
 }
 
 public class ShuttleStatusEvent : UnityEvent<ShuttleStatus> { }

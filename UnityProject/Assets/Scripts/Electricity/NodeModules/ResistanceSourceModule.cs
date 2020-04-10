@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ResistanceSourceModule : ElectricalModuleInheritance
 {
+
+	private IntrinsicElectronicData ComingFromDevice = new IntrinsicElectronicData();
+
 	public Resistance resistance = new Resistance();
 	private float _resistance = 9999999999;
 
@@ -37,6 +40,8 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 	public float EditorResistance;
 	public bool NotEditorResistanceset = true;
 
+	public Resistance RR = new Resistance();
+
 	/// <summary>
 	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
 	/// </summary>
@@ -54,40 +59,66 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		};
 		ModuleType = ElectricalModuleTypeCategory.ResistanceSource;
 		ControllingNode = Node;
-		resistance.Ohms = ReactionTo.ResistanceReactionA.Resistance.Ohms;
+		//resistance.Ohms = ReactionTo.ResistanceReactionA.Resistance.Ohms;
 		ReactionTo.ResistanceReactionA.Resistance = resistance;
+		if (resistance.Ohms == 0)
+		{
+			resistance.Ohms = 9999991;
+		}
 		ControllingNode.Node.InData.ConnectionReaction[ReactionTo.ConnectingDevice] = ReactionTo;
-		ElectricalSynchronisation.PoweredDevices.Add(ControllingNode);
+		ElectricalManager.Instance.electricalSync.PoweredDevices.Add(ControllingNode);
+		ComingFromDevice.SetDeadEnd();
 		Node.AddModule(this);
 	}
 
 	public override void OnDespawnServer(DespawnInfo info)
 	{
-		ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
+		ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ControllingNode);
 	}
 
 	public override void PotentialDestroyed()
 	{
-		ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
+		ElectricalManager.Instance.electricalSync.ResistanceChange.Add(ControllingNode);
 	}
 
 	public override void InitialPowerUpdateResistance()
 	{
-		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+		foreach (var Supplie in ControllingNode.Node.InData.Data.ResistanceToConnectedDevices)
 		{
-			ControllingNode.Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+			foreach (var _Resistance in Supplie.Value)
+			{
+
+				var Wrap = ElectricalPool.GetResistanceWrap();
+				Wrap.Strength = 1;
+				//RR.Ohms = 240;*/
+				Wrap.resistance = _Resistance.Key;
+
+				ControllingNode.Node.InData.ResistanceInput(Wrap, Supplie.Key, ComingFromDevice);
+			}
+
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
 		}
 	}
 
 	public override void PowerUpdateResistanceChange()
 	{
-		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+		foreach (var Supplie in ControllingNode.Node.InData.Data.ResistanceToConnectedDevices)
 		{
-			ControllingNode.Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
-		}
+			//foreach (var Connections in Supplie.Value)
+			//{
 
+			//	Logger.LogError(Connections.Key.name + "F2222222FFFFFFF", Category.Electrical);
+			//	ComingFromDevice.SetDeadEnd();
+			//	ControllingNode.Node.ResistanceInput(
+			//		//ControllingNode.Node.InData.ConnectionReaction[Connections.Key.InData.Categorytype].ResistanceReactionA.Resistance.Ohms,
+			//		240,
+			//		Supplie.Key.GameObject(),
+			//		ComingFromDevice,
+			//		Connections.Value
+			//);
+			//}
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+		}
 	}
 
 	public override void PowerNetworkUpdate()
@@ -104,14 +135,14 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 			}
 			resistance.Ohms = Resistance;
 			dirtyResistance = false;
-			ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
-			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
-			{
-				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable))
-				{
-					ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
-				}
-			}
+			ElectricalManager.Instance.electricalSync.ResistanceChange.Add(ControllingNode);
+			//foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
+			//{
+			//	if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)) //wtf is here?
+			//	{
+			//		ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+			//	}
+			//}
 		}
 	}
 }

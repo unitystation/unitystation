@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
+using Chemistry;
 using UnityEngine;
 
 /// <summary>
@@ -92,7 +93,7 @@ public class MetaDataLayer : MonoBehaviour
 	/// <summary>
 	/// Release reagents at provided coordinates, making them react with world
 	/// </summary>
-	public void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
+	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true))
 		{
@@ -101,46 +102,55 @@ public class MetaDataLayer : MonoBehaviour
 
 		bool didSplat = false;
 
-		foreach (KeyValuePair<string, float> reagent in reagents)
+		foreach (var reagent in reagents.reagents)
 		{
 			if(reagent.Value < 1)
 			{
 				continue;
 			}
-			if (reagent.Key == "water")
-			{
-				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
-				foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+			switch (reagent.Key.name)
+			{
+				case "Water":
 				{
-					livingHealthBehaviour.Extinguish();
-				}
+					matrix.ReactionManager.ExtinguishHotspot(localPosInt);
 
-				Clean(worldPosInt, localPosInt, true);
-			}
-			else if (reagent.Key == "cleaner")
-			{
-				Clean(worldPosInt, localPosInt, false);
-			}
-			else if (reagent.Key == "welding_fuel")
-			{
-				//temporary: converting spilled fuel to plasma
-				Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
-			}
-			else if (reagent.Key == "lube")
-			{ //( ͡° ͜ʖ ͡°)
-				if (!Get(localPosInt).IsSlippery)
-				{
-					EffectsFactory.WaterSplat(worldPosInt);
-					MakeSlipperyAt(localPosInt, false);
+					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthBehaviour>(localPosInt, true))
+					{
+						livingHealthBehaviour.Extinguish();
+					}
+
+					Clean(worldPosInt, localPosInt, true);
+					break;
 				}
-			}
-			else
-			{ //for all other things leave a chem splat
-				if (!didSplat)
+				case "SpaceCleaner":
+					Clean(worldPosInt, localPosInt, false);
+					break;
+				case "WeldingFuel":
+					//temporary: converting spilled fuel to plasma
+					Get(localPosInt).GasMix.AddGas(Gas.Plasma, reagent.Value);
+					break;
+				case "SpaceLube":
 				{
-					EffectsFactory.ChemSplat(worldPosInt);
-					didSplat = true;
+					//( ͡° ͜ʖ ͡°)
+					if (!Get(localPosInt).IsSlippery)
+					{
+						EffectsFactory.WaterSplat(worldPosInt);
+						MakeSlipperyAt(localPosInt, false);
+					}
+
+					break;
+				}
+				default:
+				{
+					//for all other things leave a chem splat
+					if (!didSplat)
+					{
+						EffectsFactory.ChemSplat(worldPosInt);
+						didSplat = true;
+					}
+
+					break;
 				}
 			}
 		}
