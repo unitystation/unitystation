@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GUI_ExosuitFabricator : NetTab
 {
@@ -17,19 +18,36 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public Dictionary<string, GameObject[]> categoryNameToProductEntries = new Dictionary<string, GameObject[]>();
 
+	private ExoFabProductAddClickEvent onProductAddClicked;
+	public ExoFabProductAddClickEvent OnProductAddClicked;
+	private ExoFabCategoryClickEvent onCategoryClicked;
+	public ExoFabCategoryClickEvent OnCategoryClicked { get => onCategoryClicked; }
+
 	protected override void InitServer()
 	{
 	}
 
 	private void Start()
 	{
+		if (OnProductAddClicked == null)
+		{
+			onProductAddClicked = new ExoFabProductAddClickEvent();
+
+			OnProductAddClicked.AddListener(AddProductToQueue);
+		}
+		if (OnCategoryClicked == null)
+		{
+			onCategoryClicked = new ExoFabCategoryClickEvent();
+
+			OnCategoryClicked.AddListener(OpenCategory);
+		}
 		//Makes sure it connects with the ExosuitFabricator
 		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
 		//Subscribes to the MaterialsManipulated event
 		ExosuitFabricator.MaterialsManipulated += UpdateAll;
 
 		materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator);
-		materialsAndCategoryDisplay.DisplayCategories(exosuitFabricator.exoFabProducts);
+		materialsAndCategoryDisplay.InitCategories(exosuitFabricator.exoFabProducts);
 		UpdateAll();
 	}
 
@@ -55,9 +73,9 @@ public class GUI_ExosuitFabricator : NetTab
 		exosuitFabricator.DispenseMaterialSheet(sheetAmount, materialType);
 	}
 
-	public void AddProductToQueue()
+	public void AddProductToQueue(MachineProduct product)
 	{
-		Logger.Log("Click");
+		Logger.Log("Adding product to queue");
 	}
 
 	public void AddAllProductsToQueue(NetButton button)
@@ -65,20 +83,21 @@ public class GUI_ExosuitFabricator : NetTab
 		Logger.Log("Click");
 	}
 
-	//Called after a category button is pressed. The button contains data for the products on the page.
-	public void SetupAndOpenProductsPage(NetButton button)
-	{
-		nestedSwitcher.SetActivePage(productDisplay);
-		RescanElements();
-	}
-
 	public void ReturnFromProductPage(GUI_ExoFabProductButton button)
 	{
-		foreach (GameObject productEntries in categoryNameToProductEntries[button.categoryName])
-		{
-			productEntries.SetActive(false);
-		}
+		//foreach (GameObject productEntries in categoryNameToProductEntries[button.categoryName])
+		//{
+		//	productEntries.SetActive(false);
+		//}
+		Logger.Log("RETURNING TO MATERIAL CATEGORY PAGE");
 		nestedSwitcher.SetActivePage(materialsAndCategoryDisplay);
+	}
+
+	public void OpenCategory(MachineProductList categoryProducts)
+	{
+		Logger.Log("OPENING CATEGORY");
+		nestedSwitcher.SetActivePage(productDisplay);
+		productDisplay.DisplayProducts(categoryProducts);
 	}
 
 	public void OpenTab(NetPage pageToOpen)
@@ -95,4 +114,18 @@ public class GUI_ExosuitFabricator : NetTab
 	{
 		ExosuitFabricator.MaterialsManipulated -= UpdateAll;
 	}
+}
+
+[System.Serializable]
+public class ExoFabProductAddClickEvent : UnityEvent<MachineProduct>
+{
+}
+
+public class ExoFabCategoryClickEvent : UnityEvent<MachineProductList>
+{
+}
+
+[System.Serializable]
+public class ExoFabRemoveProductClickedEvent : UnityEvent<DynamicEntry>
+{
 }

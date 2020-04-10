@@ -11,9 +11,26 @@ public class MaterialStorage : MonoBehaviour
 
 	public MaterialsInMachineStorage materialsInMachines;
 	public List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
-	public Dictionary<string, MaterialRecord> NameToMaterialRecord = new Dictionary<string, MaterialRecord>();
-	public Dictionary<ItemTrait, string> MaterialToNameRecord = new Dictionary<ItemTrait, string>();
-	public Dictionary<ItemTrait, MaterialRecord> ItemTraitToMaterialRecord = new Dictionary<ItemTrait, MaterialRecord>();
+	private Dictionary<string, MaterialRecord> nameToMaterialRecord = new Dictionary<string, MaterialRecord>();
+
+	public Dictionary<string, MaterialRecord> NameToMaterialRecord
+	{
+		get => nameToMaterialRecord;
+	}
+
+	private static Dictionary<ItemTrait, string> materialToNameRecord = new Dictionary<ItemTrait, string>();
+
+	public static Dictionary<ItemTrait, string> MaterialToNameRecord
+	{
+		get => materialToNameRecord;
+	}
+
+	private Dictionary<ItemTrait, MaterialRecord> itemTraitToMaterialRecord = new Dictionary<ItemTrait, MaterialRecord>();
+
+	public Dictionary<ItemTrait, MaterialRecord> ItemTraitToMaterialRecord
+	{
+		get => itemTraitToMaterialRecord;
+	}
 
 	private void Awake()
 	{
@@ -30,11 +47,18 @@ public class MaterialStorage : MonoBehaviour
 			materialRecordList.Add(materialRecord);
 		}
 
+		//Temporary solution to get material name and material type together, metal is called iron in machines for instance etc.
+		foreach (MaterialRecord materialRecord in materialRecordList)
+		{
+			if (!MaterialToNameRecord.ContainsKey(materialRecord.materialType))
+				MaterialToNameRecord.Add(materialRecord.materialType, materialRecord.materialName);
+		}
+
 		//Optimizes retrieval of record
 		foreach (MaterialRecord materialRecord in materialRecordList)
 		{
 			NameToMaterialRecord.Add(materialRecord.materialName.ToLower(), materialRecord);
-			MaterialToNameRecord.Add(materialRecord.materialType, materialRecord.materialName);
+
 			ItemTraitToMaterialRecord.Add(materialRecord.materialType, materialRecord);
 		}
 	}

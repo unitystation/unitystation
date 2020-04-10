@@ -5,20 +5,57 @@ using System.Text;
 
 public class GUI_ExoFabItem : DynamicEntry
 {
-	private MachineProduct products = null;
+	private GUI_ExosuitFabricator ExoFabmasterTab = null;
+	private MachineProduct product = null;
 
-	public MachineProduct Products
+	public MachineProduct Product
 	{
 		get
 		{
-			return products;
+			return product;
 		}
 		set
 		{
-			products = value;
-			//ReInit();
+			product = value;
+			ReInit();
 		}
+	}
 
-		//ReInit(catego
+	public void AddToQueue()
+	{
+		Logger.Log("CLICK");
+		if (ExoFabmasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
+		else { ExoFabmasterTab?.OnProductAddClicked.Invoke(Product); }
+	}
+
+	public void ReInit()
+	{
+		if (product == null)
+		{
+			Logger.Log("ExoFab Product not found");
+			return;
+		}
+		foreach (var element in Elements)
+		{
+			string nameBeforeIndex = element.name.Split('~')[0];
+			switch (nameBeforeIndex)
+			{
+				case "ProductName":
+					element.SetValue = Product.Name;
+					break;
+
+				case "MaterialCost":
+					StringBuilder sb = new StringBuilder();
+					string materialName;
+					sb.Append("Cost: ");
+					foreach (MachineProductMaterialPrice materialPrice in Product.MaterialPrice)
+					{
+						materialName = MaterialStorage.MaterialToNameRecord[materialPrice.Material];
+						sb.Append(materialPrice.Amount.ToString() + " " + materialName + " ");
+					}
+					element.SetValue = sb.ToString();
+					break;
+			}
+		}
 	}
 }

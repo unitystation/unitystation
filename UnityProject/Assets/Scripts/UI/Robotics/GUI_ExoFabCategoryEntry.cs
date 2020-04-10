@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class GUI_ExoFabCategoryEntry : DynamicEntry
 {
+	private GUI_ExosuitFabricator ExoFabmasterTab = null;
 	private MachineProductList exoFabProducts = null;
 
 	public MachineProductList ExoFabProducts
 	{
 		get => exoFabProducts;
-		set => exoFabProducts = value;
+		set
+		{
+			exoFabProducts = value;
+		}
 	}
 
 	public void OpenCategory()
 	{
 		Logger.Log("CLICK");
+		if (ExoFabmasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
+		else { ExoFabmasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
 	}
 
 	public void ReInit(MachineProductList productCategory)

@@ -7,7 +7,6 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 	[SerializeField] private GUI_MaterialEntry materialEntry;
 	[SerializeField] private EmptyItemList productCategoryList;
 	[SerializeField] private GUI_ExoFabCategoryEntry productCategoryEntryTemplate;
-	[SerializeField] private GameObject productsParent;
 
 	private Dictionary<ItemTrait, GUI_MaterialEntry> materialEntries = new Dictionary<ItemTrait, GUI_MaterialEntry>();
 
@@ -32,7 +31,7 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 		}
 	}
 
-	public void DisplayCategories(MachineProductsCollection exoFabProducts)
+	public void InitCategories(MachineProductsCollection exoFabProducts)
 	{
 		List<MachineProductList> categories = exoFabProducts.ProductCategoryList;
 
@@ -44,19 +43,6 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 			item.ExoFabProducts = categories[i];
 			item.ReInit(categories[i]);
 		}
-
-		//orderList.Clear();
-		//orderList.AddItems(categories.Count);
-		//for (int i = 0; i < categories.Count; i++)
-		//{
-		//	GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
-		//	item.ReInit(categories[i]);
-		//}
-		//categoryText.SetValue = "Categories";
-	}
-
-	public void InitProductsList(MachineProduct[] products, string categoryName, Dictionary<ItemTrait, string> materialToName)
-	{
 	}
 
 	/// <summary>

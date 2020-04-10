@@ -45,7 +45,7 @@ public class MachineProduct
 
 	[SerializeField]
 	[Tooltip("Product material cost")]
-	public List<MachineProductMaterialPrice> materialPrice = new List<MachineProductMaterialPrice>();
+	private List<MachineProductMaterialPrice> materialPrice = new List<MachineProductMaterialPrice>();
 
 	public List<MachineProductMaterialPrice> MaterialPrice { get => materialPrice; }
 }
@@ -57,12 +57,13 @@ public class MachineProductMaterialPrice
 {
 	[SerializeField]
 	[Tooltip("The material type, materials have an item trait according to their types.")]
-	public ItemTrait material;
+	private ItemTrait material;
 
 	public ItemTrait Material { get => material; }
 
+	[SerializeField]
 	[Tooltip("The amount of materials the product costs.")]
-	public int amount;
+	private int amount;
 
 	public int Amount { get => amount; }
 }
