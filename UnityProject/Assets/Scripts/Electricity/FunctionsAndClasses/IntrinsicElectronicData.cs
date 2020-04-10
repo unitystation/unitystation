@@ -272,7 +272,7 @@ public class IntrinsicElectronicData
 	private void InternalDestroyThisPlease()
 	{
 		DestroyQueueing = true;
-		ElectricalSynchronisation.NUElectricalObjectsToDestroy.Add(this);
+		ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(this);
 	}
 
 
@@ -297,7 +297,7 @@ public class IntrinsicElectronicData
 			FindPossibleConnections();
 			FlushConnectionAndUp();
 			MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
-			ElectricalSynchronisation.StructureChange = true;
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			MetaDataPresent.Locatedon.RemoveUnderFloorTile(MetaDataPresent.NodeLocation, MetaDataPresent.RelatedTile);
 		}
 	}
