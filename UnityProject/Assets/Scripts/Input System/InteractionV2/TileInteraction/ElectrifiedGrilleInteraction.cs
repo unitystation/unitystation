@@ -80,9 +80,9 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 		{
 			foreach (var conn in eConns)
 			{
-				if (conn.InData.Categorytype == PowerTypeCategory.LowMachineConnector
-					|| conn.InData.Categorytype == PowerTypeCategory.MediumMachineConnector
-					|| conn.InData.Categorytype == PowerTypeCategory.HighMachineConnector)
+				if (conn.Categorytype == PowerTypeCategory.LowMachineConnector
+					|| conn.Categorytype == PowerTypeCategory.MediumMachineConnector
+					|| conn.Categorytype == PowerTypeCategory.HighMachineConnector)
 				{
 					connectorExists = true;
 					continue; // Connector won't report a voltage.
