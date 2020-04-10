@@ -21,12 +21,12 @@ PrefabInstance:
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: initialName
-      value: night vision goggles
+      value: HUD
       objectReference: {fileID: 0}
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: initialDescription
-      value: You can totally see in the dark now!
+      value: A heads-up display that provides important info in (almost) real time.
       objectReference: {fileID: 0}
     - target: {fileID: 2607336686439034363, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -91,24 +91,12 @@ PrefabInstance:
     - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_Name
-      value: NightVisionGoogles
+      value: HUDBase
       objectReference: {fileID: 0}
     - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_TagString
       value: Clothing
       objectReference: {fileID: 0}
-    - target: {fileID: 2831320378751705875, guid: 28c72054b1f484ed4a6253c4feee3eb4,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9ba50cb42ef758247b5fa5d205049de6,
-        type: 3}
-    - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: a546daec89ac0914cb15633c53e7fc78,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28c72054b1f484ed4a6253c4feee3eb4, type: 3}
