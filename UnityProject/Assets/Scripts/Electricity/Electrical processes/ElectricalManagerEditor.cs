@@ -19,12 +19,11 @@ public class ElectricalManagerEditor : Editor
 		DrawDefaultInspector();
 	}
 
-
 	private static void AddButtonGroup(ElectricalManager electricalManager)
 	{
 		EditorGUILayout.BeginHorizontal();
 
-		GUI.enabled = Application.isPlaying && electricalManager.Mode != ElectricalMode.Manual;
+		GUI.enabled = Application.isPlaying;
 
 		if (GUILayout.Button("SetSpeed"))
 		{
@@ -35,12 +34,12 @@ public class ElectricalManagerEditor : Editor
 		{
 			if (GUILayout.Button("Start"))
 			{
-				electricalManager.StartSimulation();
+				electricalManager.StartSim();
 			}
 		}
 		else if (GUILayout.Button("Stop"))
 		{
-			electricalManager.StopSimulation();
+			electricalManager.StopSim();
 		}
 
 		GUI.enabled = Application.isPlaying && !electricalManager.Running;

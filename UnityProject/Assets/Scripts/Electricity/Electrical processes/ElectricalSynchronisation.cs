@@ -4,8 +4,10 @@ using System.Threading;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 #if UNITY_EDITOR
 using Unity.Profiling;
+
 #endif
 
 public class ElectricalSynchronisationStorage
@@ -36,6 +38,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	public void Start()
 	{
+		return;
 		if (!running)
 		{
 			new Thread(Run).Start();
@@ -64,16 +67,17 @@ public class ElectricalSynchronisation : MonoBehaviour
 		//Profiler.BeginThreadProfiling("Unitystation", "Electronics");
 		while (running)
 		{
-		//	sampler.Begin();
+			//	sampler.Begin();
 			StopWatch.Restart();
 			RunStep();
 			StopWatch.Stop();
-		//	sampler.End();
+			//	sampler.End();
 			if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)
 			{
-				Thread.Sleep(MillieSecondDelay - (int)StopWatch.ElapsedMilliseconds);
+				Thread.Sleep(MillieSecondDelay - (int) StopWatch.ElapsedMilliseconds);
 			}
 		}
+
 		//Profiler.EndThreadProfiling();
 	}
 
@@ -94,12 +98,12 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	public HashSet<ElectricalNodeControl> ResistanceChange = new HashSet<ElectricalNodeControl>();
 
-	public  HashSet<ElectricalNodeControl>
+	public HashSet<ElectricalNodeControl>
 		InitialiseResistanceChange =
 			new HashSet<ElectricalNodeControl>(); //Used for getting stuff to generate constant resistance values not really used properly
 
 	public HashSet<ElectricalNodeControl> NUCurrentChange = new HashSet<ElectricalNodeControl>();
-	public HashSet<CableInheritance> CableUpdates = new HashSet<CableInheritance>();//#
+	public HashSet<CableInheritance> CableUpdates = new HashSet<CableInheritance>(); //#
 	public CableInheritance CableToDestroy; //#
 
 	private bool Initialise = false;
@@ -136,7 +140,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		//Since you want the batteries to come after the radiation collectors so batteries don't put all there charge out then realise radiation collectors already doing it
 		PowerTypeCategory.SolarPanel,
 		PowerTypeCategory.RadiationCollector,
-		PowerTypeCategory.PowerGenerator,//make sure unconditional supplies come first
+		PowerTypeCategory.PowerGenerator, //make sure unconditional supplies come first
 
 		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
 		PowerTypeCategory.SolarPanelController,
@@ -161,7 +165,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	public Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>> AliveSupplies =
 		new Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>>()
-		{ }; //Things that are supplying voltage
+			{ }; //Things that are supplying voltage
 
 	public List<QueueAddSupply> SupplyToadd = new List<QueueAddSupply>();
 
@@ -180,7 +184,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 #if UNITY_EDITOR
 	public const string updateName = nameof(ElectricalSynchronisation) + "." + nameof(DoUpdate);
 
-	public  readonly string[] markerNames = new[]
+	public readonly string[] markerNames = new[]
 	{
 		nameof(IfStructureChange),
 		nameof(PowerUpdateStructureChangeReact),
@@ -192,7 +196,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	//private readonly ProfilerMarker[] markers = markerNames.Select(mn => new ProfilerMarker(mn)).ToArray();
 #endif
 
-	public  void Reset()
+	public void Reset()
 	{
 		Initialise = false;
 		NUElectricalObjectsToDestroy.Clear();
@@ -219,7 +223,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		ToRemove.Clear();
 	}
 
-	public  void AddSupply(ElectricalNodeControl Supply, PowerTypeCategory category)
+	public void AddSupply(ElectricalNodeControl Supply, PowerTypeCategory category)
 	{
 		//SupplyToadd
 		var Adding = new QueueAddSupply()
@@ -230,17 +234,18 @@ public class ElectricalSynchronisation : MonoBehaviour
 		SupplyToadd.Add(Adding);
 	}
 
-	private  void InternalAddSupply(QueueAddSupply Adding)
+	private void InternalAddSupply(QueueAddSupply Adding)
 	{
 		if (!(AliveSupplies.ContainsKey(Adding.category)))
 		{
 			AliveSupplies[Adding.category] = new HashSet<ElectricalNodeControl>();
 		}
+
 		AliveSupplies[Adding.category].Add(Adding.supply);
 		TotalSupplies.Add(Adding.supply);
 	}
 
-	public  void RemoveSupply(ElectricalNodeControl Supply, PowerTypeCategory category)
+	public void RemoveSupply(ElectricalNodeControl Supply, PowerTypeCategory category)
 	{
 		ElectricalSynchronisationStorage QuickAdd = new ElectricalSynchronisationStorage();
 		QuickAdd.device = Supply;
@@ -248,7 +253,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		ToRemove.Enqueue(QuickAdd);
 	}
 
-	public  void DoUpdate(bool Thread = true)
+	public void DoUpdate(bool Thread = true)
 	{
 		if (!Initialise)
 		{
@@ -259,41 +264,45 @@ public class ElectricalSynchronisation : MonoBehaviour
 					AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
 				}
 			}
+
 			Initialise = true;
 		}
+
 		currentTick = ++currentTick % Steps;
 		DoTick(Thread);
 	}
 
-	private  void DoTick(bool Thread = true)
+	private void DoTick(bool Thread = true)
 	{
 #if UNITY_EDITOR
-	//	using (markers[currentTick].Auto())
+		//	using (markers[currentTick].Auto())
 #endif
-			switch (currentTick)
-			{
-				case 0:
-					IfStructureChange();
-					break;
-				case 1:
-					PowerUpdateStructureChangeReact();
-					break;
-				case 2:
-					PowerUpdateResistanceChange();
-					break;
-				case 3:
-					PowerUpdateCurrentChange();
-					break;
-				case 4:
-					if (Thread)
-					{
-						ThreadedPowerNetworkUpdate();
-					}
-					else {
-						PowerNetworkUpdate();
-					}
-					break;
-			}
+		switch (currentTick)
+		{
+			case 0:
+				IfStructureChange();
+				break;
+			case 1:
+				PowerUpdateStructureChangeReact();
+				break;
+			case 2:
+				PowerUpdateResistanceChange();
+				break;
+			case 3:
+				PowerUpdateCurrentChange();
+				break;
+			case 4:
+				if (Thread)
+				{
+					ThreadedPowerNetworkUpdate();
+				}
+				else
+				{
+					PowerNetworkUpdate();
+				}
+
+				break;
+		}
 
 		RemoveSupplies();
 	}
@@ -301,13 +310,13 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// <summary>
 	/// Remove all devices from <see cref="AliveSupplies"/> that were enqueued in <see cref="ToRemove"/>
 	/// </summary>
-	private  void RemoveSupplies()
+	private void RemoveSupplies()
 	{
 		while (ToRemove.Count > 0)
 		{
 			var toRemove = ToRemove.Dequeue();
 			if (AliveSupplies.ContainsKey(toRemove.category) &&
-				AliveSupplies[toRemove.category].Contains(toRemove.device))
+			    AliveSupplies[toRemove.category].Contains(toRemove.device))
 			{
 				AliveSupplies[toRemove.category].Remove(toRemove.device);
 				TotalSupplies.Remove(toRemove.device);
@@ -315,18 +324,13 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}
 	}
 
-	private  void IfStructureChange()
+	private void IfStructureChange()
 	{
-		//		Profiler.BeginSample("IfStructureChange");
-		//Logger.Log("PowerUpdateStructureChange", Category.Electrical);
-
 		if (!StructureChange)
 		{
-			//			Profiler.EndSample();
 			return;
 		}
 
-		//Logger.Log("StructureChange bool PowerUpdateStructureChange!",Category.Electrical);
 		StructureChange = false;
 		foreach (var category in OrderList)
 		{
@@ -340,46 +344,38 @@ public class ElectricalSynchronisation : MonoBehaviour
 		{
 			ToWork.PowerUpdateStructureChange();
 		}
+
 		ElectricalPool.PoolsStatuses();
-		//		Profiler.EndSample();
 	}
 
 	/// <summary>
 	/// This will generate directions
 	/// </summary>
-	private  void PowerUpdateStructureChangeReact()
+	private void PowerUpdateStructureChangeReact()
 	{
-		//		Profiler.BeginSample("PowerUpdateStructureChangeReact");
-		//Logger.Log("PowerUpdateStructureChangeReact", Category.Electrical);
 		for (int i = 0; i < OrderList.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
 			{
 				if (NUStructureChangeReact.Contains(TheSupply))
 				{
-					//Logger.Log("PowerUpdateStructureChangeReact " + TheSupply, Category.Electrical);
 					TheSupply.PowerUpdateStructureChangeReact();
 					NUStructureChangeReact.Remove(TheSupply);
 				}
 			}
 		}
-
-		//		Profiler.EndSample();
 	}
 
 	/// <summary>
 	/// Clear  resistance and Calculate the resistance for everything
 	/// </summary>
-	private  void PowerUpdateResistanceChange()
+	private void PowerUpdateResistanceChange()
 	{
-		//		Profiler.BeginSample("PowerUpdateResistanceChange");
-		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance", Category.Electrical);
 		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
 		{
 			PoweredDevice.InitialPowerUpdateResistance();
 		}
 
-		//Logger.Log("InitialiseResistanceChange");
 		InitialiseResistanceChange.Clear();
 		foreach (ElectricalNodeControl PoweredDevice in ResistanceChange)
 		{
@@ -394,32 +390,26 @@ public class ElectricalSynchronisation : MonoBehaviour
 				if (NUResistanceChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)))
 				{
 					TheSupply.PowerUpdateResistanceChange();
-					//Logger.Log("PowerUpdateResistanceChange " + TheSupply, Category.Electrical);
 					NUResistanceChange.Remove(TheSupply);
 				}
 			}
 		}
 
-		//Logger.Log("CircuitResistanceLoop");
 		CircuitResistanceLoop();
-		//		Profiler.EndSample();
 	}
 
 	/// <summary>
 	/// Clear currents and Calculate the currents And voltage
 	/// </summary>
-	private  void PowerUpdateCurrentChange()
+	private void PowerUpdateCurrentChange()
 	{
-		//		Profiler.BeginSample("PowerUpdateCurrentChange");
-		//Logger.Log("PowerUpdateCurrentChange ", Category.Electrical);
 		for (int i = 0; i < UnconditionalSupplies.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
 			{
 				if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) &&
-					!(NUResistanceChange.Contains(TheSupply)))
+				    !(NUResistanceChange.Contains(TheSupply)))
 				{
-					//Logger.Log("PowerUpdateCurrentChange " + TheSupply, Category.Electrical);
 					TheSupply
 						.PowerUpdateCurrentChange(); //Does all the updates for the constant sources since they don't have to worry about other supplies being on or off since they just go steaming ahead
 					NUCurrentChange.Remove(TheSupply);
@@ -443,7 +433,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 						if (ReactiveSuppliesSet.Contains(TheSupply.Node.InData.Categorytype))
 						{
 							if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) &&
-								!(NUResistanceChange.Contains(TheSupply)))
+							    !(NUResistanceChange.Contains(TheSupply)))
 							{
 								if (LowestReactive == null)
 								{
@@ -475,7 +465,6 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 			if (LowestReactive != null)
 			{
-				//Logger.Log("PowerUpdateCurrentChange " + LowestReactive, Category.Electrical);
 				LowestReactive.PowerUpdateCurrentChange();
 				NUCurrentChange.Remove(LowestReactive);
 				DoneSupplies.Add(LowestReactive);
@@ -490,11 +479,9 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 			QToRemove = new List<ElectricalNodeControl>();
 		}
-
-		//		Profiler.EndSample();
 	}
 
-	private  void ThreadedPowerNetworkUpdate()
+	private void ThreadedPowerNetworkUpdate()
 	{
 		lock (Electriclock)
 		{
@@ -503,18 +490,16 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}
 	}
 
-
 	/// <summary>
 	/// Sends updates to things that might need it
 	/// </summary>
-	public  void PowerNetworkUpdate()
+	public void PowerNetworkUpdate()
 	{
-		//Logger.Log("PowerNetworkUpdate", Category.Electrical);
-		//		Profiler.BeginSample("PowerNetworkUpdate");
 		for (int i = 0; i < SupplyToadd.Count; i++)
 		{
 			InternalAddSupply(SupplyToadd[i]);
 		}
+
 		SupplyToadd.Clear();
 
 		for (int i = 0; i < OrderList.Count; i++)
@@ -534,6 +519,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		{
 			ToWork.PowerNetworkUpdate();
 		}
+
 		CableUpdates.Clear();
 
 
@@ -548,11 +534,11 @@ public class ElectricalSynchronisation : MonoBehaviour
 		{
 			Thing.DestroyingThisNow();
 		}
+
 		NUElectricalObjectsToDestroy.Clear();
-		//		Profiler.EndSample();
 	}
 
-	public  int NumberOfReactiveSupplies_f()
+	public int NumberOfReactiveSupplies_f()
 	{
 		int Counting = 0;
 		foreach (ElectricalNodeControl Device in NUCurrentChange)
@@ -569,7 +555,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		return (Counting);
 	}
 
-	public  int NumberOfReactiveSupplies(IntrinsicElectronicData Devices)
+	public int NumberOfReactiveSupplies(IntrinsicElectronicData Devices)
 	{
 		int Counting = 0;
 		foreach (var Device in Devices.Data
@@ -585,9 +571,8 @@ public class ElectricalSynchronisation : MonoBehaviour
 	}
 
 
-	public  void CircuitSearchLoop(ElectricalOIinheritance Thiswire)
+	public void CircuitSearchLoop(ElectricalOIinheritance Thiswire)
 	{
-
 		InputOutputFunctions.DirectionOutput(Thiswire, Thiswire.InData);
 		bool Break = true;
 		while (Break)
@@ -599,15 +584,14 @@ public class ElectricalSynchronisation : MonoBehaviour
 			DOCircuitSearchLoop(Thiswire, DirectionWorkOnNextList, DirectionWorkOnNextListWait);
 
 			if (DirectionWorkOnNextList.Count <= 0 & DirectionWorkOnNextListWait.Count <= 0 &
-				_DirectionWorkOnNextList.Count <= 0 & _DirectionWorkOnNextListWait.Count <= 0)
+			    _DirectionWorkOnNextList.Count <= 0 & _DirectionWorkOnNextListWait.Count <= 0)
 			{
-				//Logger.Log ("CircuitSearchLoop stop!", Category.Electrical );
 				Break = false;
 			}
 		}
 	}
 
-	public  void DirectionWorkOnNextListADD(IntrinsicElectronicData Thiswire)
+	public void DirectionWorkOnNextListADD(IntrinsicElectronicData Thiswire)
 	{
 		if (UesAlternativeDirectionWorkOnNextList)
 		{
@@ -619,7 +603,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}
 	}
 
-	public  void DirectionWorkOnNextListWaitADD(IntrinsicElectronicData Thiswire)
+	public void DirectionWorkOnNextListWaitADD(IntrinsicElectronicData Thiswire)
 	{
 		if (UesAlternativeDirectionWorkOnNextList)
 		{
@@ -631,7 +615,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}
 	}
 
-	public  void DOCircuitSearchLoop(ElectricalOIinheritance GameObject,
+	public void DOCircuitSearchLoop(ElectricalOIinheritance GameObject,
 		List<IntrinsicElectronicData> IterateDirectionWorkOnNextList,
 		List<IntrinsicElectronicData> DirectionWorkOnNextListWait)
 	{
@@ -652,7 +636,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}
 	}
 
-	public  void ResistanceWorkOnNextListADD(
+	public void ResistanceWorkOnNextListADD(
 		QEntry Thiswire)
 	{
 		if (UesAlternativeResistanceWorkOnNextList)
@@ -665,7 +649,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}
 	}
 
-	public  void ResistanceWorkOnNextListWaitADD(
+	public void ResistanceWorkOnNextListWaitADD(
 		QEntry Thiswire)
 	{
 		if (UesAlternativeResistanceWorkOnNextList)
@@ -678,7 +662,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}
 	}
 
-	public  void CircuitResistanceLoop()
+	public void CircuitResistanceLoop()
 	{
 		do
 		{
@@ -688,10 +672,10 @@ public class ElectricalSynchronisation : MonoBehaviour
 			UesAlternativeResistanceWorkOnNextList = true;
 			DOCircuitResistanceLoop(ResistanceWorkOnNextList, ResistanceWorkOnNextListWait);
 		} while (ResistanceWorkOnNextList.Count > 0 | ResistanceWorkOnNextListWait.Count > 0 |
-				 _ResistanceWorkOnNextList.Count > 0 | _ResistanceWorkOnNextListWait.Count > 0);
+		         _ResistanceWorkOnNextList.Count > 0 | _ResistanceWorkOnNextListWait.Count > 0);
 	}
 
-	public  void DOCircuitResistanceLoop(
+	public void DOCircuitResistanceLoop(
 		List<QEntry> IterateDirectionWorkOnNextList,
 		List<QEntry> IterateDirectionWorkOnNextListWait)
 	{
@@ -714,26 +698,8 @@ public class ElectricalSynchronisation : MonoBehaviour
 		}*/
 	}
 
-
-
-
-	//public  ElectricalDirectionStep GetStep()
-	//{
-	//	if (PooledSteps.Count > 0)
-	//	{
-	//		var electricalDirectionStep = PooledSteps[0];
-	//		PooledSteps.RemoveAt(0);
-	//		electricalDirectionStep.Clean();
-	//		return (electricalDirectionStep);
-	//	}
-	//	else {
-	//		return (new ElectricalDirectionStep());
-	//	}
-
-	//}intrinsic
-
-
-	public class QEntry{
+	public class QEntry
+	{
 		public ElectricalOIinheritance OIinheritance;
 		public IntrinsicElectronicData InData;
 	}
