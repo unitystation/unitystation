@@ -45,7 +45,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public float cloningDamage;
 
 	/// <summary>
-	/// Serverside, used for gibbing bodies after certain amount of damage is received afer death
+	/// Serverside, used for gibbing bodies after certain amount of damage is received after death
 	/// </summary>
 	private float afterDeathDamage = 0f;
 
@@ -362,7 +362,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		{
 			return;
 		}
-		//TODO: determine and apply armor protection
 
 		var prevHealth = OverallHealth;
 
@@ -370,7 +369,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
-		bodyPartBehaviour.ReceiveDamage(damageType, damage);
+		bodyPartBehaviour.ReceiveDamage(damageType, bodyPartBehaviour.armor.GetDamage(damage, attackType));
 		HealthBodyPartMessage.Send(gameObject, gameObject, bodyPartAim, bodyPartBehaviour.BruteDamage, bodyPartBehaviour.BurnDamage);
 
 		if (attackType == AttackType.Fire)

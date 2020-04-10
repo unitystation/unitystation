@@ -21,6 +21,7 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	public DamageSeverity Severity; //{ get; private set; }
 	public float OverallDamage => BruteDamage + BurnDamage;
+	public Armor armor = new Armor();
 
 	void Start()
 	{
