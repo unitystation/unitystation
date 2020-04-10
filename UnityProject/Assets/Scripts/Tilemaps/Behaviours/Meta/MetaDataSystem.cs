@@ -54,9 +54,9 @@ public class MetaDataSystem : SubsystemBehaviour
 			LocateRooms();
 			Stopwatch Dsw = new Stopwatch();
 			Dsw.Start();
-			InitialiseElectricalTiles();
+			matrix.UnderFloorLayer.InitialiseUnderFloorUtilities();
 			Dsw.Stop();
-			Logger.Log("InitialiseElectricalTiles init: " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
+			Logger.Log("Initialise Station Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}
 
 		sw.Stop();
@@ -91,33 +91,6 @@ public class MetaDataSystem : SubsystemBehaviour
 			}
 		}
 	}
-
-	private void InitialiseElectricalTiles()
-	{
-		BoundsInt bounds = matrix.UnderFloorLayer.Tilemap.cellBounds;
-		List<Vector3Int> miningTiles = new List<Vector3Int>();
-
-		for (int n = bounds.xMin; n < bounds.xMax; n++)
-		{
-			for (int p = bounds.yMin; p < bounds.yMax; p++)
-			{
-				Vector2Int localPlace = (new Vector2Int(n, p));
-
-				if (matrix.UnderFloorLayer.IsAnyTileHere(localPlace)) //Future proof later on
-				{
-					foreach (var tile in matrix.UnderFloorLayer.TileStore[localPlace])
-					{
-						var electricalCableTile = tile as ElectricalCableTile;
-						if (tile != null)
-						{
-							matrix.AddElectricalNode(new Vector3Int(n, p, 0), electricalCableTile);
-						}
-					}
-				}
-			}
-		}
-	}
-
 
 	private void LocateRooms()
 	{

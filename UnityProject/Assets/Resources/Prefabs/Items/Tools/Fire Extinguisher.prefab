@@ -29,7 +29,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7910266627795891021}
+  m_Father: {fileID: 7914790827376991746}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8349287093357475524
@@ -5004,7 +5004,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
+  m_GameObject: {fileID: 7914790827376970613}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df14585efc20d2f4c9f0b66982db3b8d, type: 3}
@@ -5014,10 +5014,10 @@ MonoBehaviour:
   syncInterval: 0.1
   travelDistance: 6
   reagentContainer: {fileID: 5035609469445439989}
-  registerItem: {fileID: 7800578374368079781}
-  pickupable: {fileID: 7800624420709097799}
+  registerItem: {fileID: 7914790827377021865}
+  pickupable: {fileID: 7914790827377021448}
   reagentsPerUse: 5
-  spriteRenderer: {fileID: 8008699943347289445}
+  spriteRenderer: {fileID: 7914790827377014488}
   spriteSync: 0
   spriteList:
   - {fileID: 21300000, guid: 65bae883a79671342ba887b2c584674c, type: 3}
@@ -5028,7 +5028,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
+  m_GameObject: {fileID: 7914790827376970613}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
@@ -5044,13 +5044,13 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
+  m_GameObject: {fileID: 7914790827376970613}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCapacity: 100
+  maxCapacity: 3000
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   reagentMix:
     temperature: 273.15
@@ -5058,7 +5058,7 @@ MonoBehaviour:
       m_keys:
       - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
       m_values:
-      - 100
+      - 3000
   itemAttributes: {fileID: 0}
   traitWhitelist: []
   reagentWhitelist:
@@ -5248,43 +5248,43 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: d1bf86e3842f3df4583a1c0d0fff2ed3, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!1 &7914350351518715449 stripped
+--- !u!1 &7914790827376970613 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 7914790827376915075}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7910266627795891021 stripped
+--- !u!4 &7914790827376991746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 7914790827376915075}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7800624420709097799 stripped
+--- !u!114 &7914790827377021448 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 7914790827376915075}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
+  m_GameObject: {fileID: 7914790827376970613}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7800578374368079781 stripped
+--- !u!114 &7914790827377021865 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 7914790827376915075}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
+  m_GameObject: {fileID: 7914790827376970613}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &8008699943347289445 stripped
+--- !u!212 &7914790827377014488 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}

@@ -26,7 +26,7 @@ public class PlayParticleMessage : ServerMessage
 			return;
 		}
 
-		LoadMultipleObjects(new uint[] {ParentObject, ParentObject});
+		LoadMultipleObjects(new uint[] {ParticleObject, ParentObject});
 
 		GameObject particleObject = NetworkObjects[0];
 		GameObject parentObject = NetworkObjects[1];
