@@ -365,7 +365,7 @@ public class PlayerSprites : MonoBehaviour
 			hideClothingFlags |= clothing.HideClothingFlags;
 		// if player get off old clothes, we need to remove old flags
 		else
-			hideClothingFlags ^= clothing.HideClothingFlags;
+			hideClothingFlags &= clothing.HideClothingFlags;
 
 		// Update hide flags
 		ValidateHideFlags();
