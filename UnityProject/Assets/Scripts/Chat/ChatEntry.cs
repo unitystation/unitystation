@@ -34,7 +34,6 @@ public class ChatEntry : MonoBehaviour
 	public Text stackTimesText;
 	private Image stackCircle;
 	private int stackTimes = 1;
-	private string adminId;
 	private Vector3 localScaleCache;
 
 	void Awake()
@@ -88,7 +87,6 @@ public class ChatEntry : MonoBehaviour
 		isCoolingDown = false;
 		isAdminMsg = false;
 		visibleText.text = "";
-		adminId = "";
 		adminOverlay.SetActive(false);
 		shadow.enabled = true;
 		stackPosSet = false;
