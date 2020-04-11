@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
@@ -84,6 +84,29 @@ public class ItemMagBoots : NetworkBehaviour,
 	{
 		this.player = newPlayer;
 		isOn = !isOn;
+	}
+
+	private void OnPlayerDeath()
+	{
+		if (isServer)
+		{
+			if (isOn)
+			{
+				ServerChangeState(this.player);
+			}
+			UIActionManager.Toggle(this, false);
+			player.Script.playerHealth.OnDeathNotifyEvent -= OnPlayerDeath;
+			player = null;
+		}
+		else
+		{
+			if (isOn)
+			{
+				ClientChangeSpeed(initialSpeed);
+			}
+			UIActionManager.Toggle(this, false);
+		}
+
 	}
 
 	#region UI related
