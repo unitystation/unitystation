@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ModuleSupplyingDevice : ElectricalModuleInheritance
 {
+	public bool StartOnStartUp = false;
+
 	public float current = 0;
 	public float Previouscurrent = 0;
 	public float SupplyingVoltage = 0;
@@ -33,26 +35,32 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
 		ControllingNode.Node.InData.Data.SupplyingCurrent = current;
 		Node.AddModule(this);
+		if (StartOnStartUp)
+		{
+			TurnOnSupply();
+		}
 	}
 
 	public override void PowerUpdateStructureChange()
 	{
+		var sync = ElectricalManager.Instance.electricalSync;
 		ControllingNode.Node.InData.FlushConnectionAndUp();
-		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
-		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
-		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
+		sync.NUStructureChangeReact.Add(ControllingNode);
+		sync.NUResistanceChange.Add(ControllingNode);
+		sync.NUCurrentChange.Add(ControllingNode);
 	}
 
 	public override void PowerUpdateStructureChangeReact()
 	{
 		PowerSupplyFunction.PowerUpdateStructureChangeReact(this);
-		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
-		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
+		var sync = ElectricalManager.Instance.electricalSync;
+		sync.NUResistanceChange.Add(ControllingNode);
+		sync.NUCurrentChange.Add(ControllingNode);
 	}
 
 	public override void OnDespawnServer(DespawnInfo info)
 	{
-		ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
+		ElectricalManager.Instance.electricalSync.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
 		ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
 	}
 
@@ -74,7 +82,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 			{
 				ControllingNode.OverlayInternalResistance(InternalResistance, Connecting);
 			}
-			ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
+			ElectricalManager.Instance.electricalSync.NUResistanceChange.Add(ControllingNode);
 		}
 		PowerSupplyFunction.TurnOnSupply(this);
 	}
@@ -88,7 +96,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 				ControllingNode.RestoreResistance(Connecting);
 			}
 		}
-		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
+		ElectricalManager.Instance.electricalSync.NUResistanceChange.Add(ControllingNode);
 		PowerSupplyFunction.TurnOffSupply(this);
 	}
 	public override void PowerNetworkUpdate()
@@ -104,7 +112,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 			ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
 			PreviousInternalResistance = InternalResistance;
 
-			ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
 		}
 	}
 }

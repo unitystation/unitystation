@@ -14,7 +14,7 @@ public class Department : ScriptableObject
 
 	[SerializeField]
 	[Tooltip("Display name for this department.")]
-	private string displayName;
+	private string displayName = null;
 	public string DisplayName => displayName;
 
 	[SerializeField]
@@ -40,6 +40,6 @@ public class Department : ScriptableObject
 	[SerializeField]
 	[Tooltip("Occupations associated with this department, and the order in which" +
 	         "they should be displayed in job preferences.")]
-	private Occupation[] occupations;
+	private Occupation[] occupations = null;
 	public IEnumerable<Occupation> Occupations => occupations;
 }

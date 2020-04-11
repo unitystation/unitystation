@@ -8,25 +8,25 @@ namespace AdminTools
 {
 	public class GUI_AdminTools : MonoBehaviour
 	{
-		[SerializeField] private GameObject retrievingDataScreen;
+		[SerializeField] private GameObject retrievingDataScreen = null;
 
-		[SerializeField] private GameObject backBtn;
-		[SerializeField] private GameObject gameModePage;
-		[SerializeField] private GameObject mainPage;
-		[SerializeField] private GameObject playerManagePage;
-		[SerializeField] private GameObject playerChatPage;
-		[SerializeField] private GameObject playersScrollView;
-		[SerializeField] private GameObject CentCommPage;
+		[SerializeField] private GameObject backBtn = null;
+		[SerializeField] private GameObject gameModePage = null;
+		[SerializeField] private GameObject mainPage = null;
+		[SerializeField] private GameObject playerManagePage = null;
+		[SerializeField] private GameObject playerChatPage = null;
+		[SerializeField] private GameObject playersScrollView = null;
+		[SerializeField] private GameObject CentCommPage = null;
 		[SerializeField] private AdminChatButtons adminChatButtons;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
 		public AreYouSurePage areYouSurePage;
 
-		[SerializeField] private Transform playerListContent;
-		[SerializeField] private GameObject playerEntryPrefab;
+		[SerializeField] private Transform playerListContent = null;
+		[SerializeField] private GameObject playerEntryPrefab = null;
 
-		[SerializeField] private Text windowTitle;
+		[SerializeField] private Text windowTitle = null;
 
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
 		public string SelectedPlayer { get; private set; }

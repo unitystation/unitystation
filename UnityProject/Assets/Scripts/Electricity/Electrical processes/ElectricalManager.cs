@@ -2,19 +2,20 @@
 using UnityEngine;
 using System.Threading;
 
-
 public class ElectricalManager : MonoBehaviour
 {
 	public CableTileList HighVoltageCables;
 	public CableTileList MediumVoltageCables;
 	public CableTileList LowVoltageCables;
+	public ElectricalSynchronisation electricalSync;
 
 	private bool roundStartedServer = false;
 	public bool Running { get; private set; }
 	public float MSSpeed = 100;
-	public ElectricalMode Mode = ElectricalMode.Threaded;
 
 	public static ElectricalManager Instance;
+
+	public ElectricalMode Mode;
 
 	public bool DOCheck;
 
@@ -26,90 +27,76 @@ public class ElectricalManager : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-		if (Mode != ElectricalMode.Manual)
-		{
-			StartCoroutine(WaitForElectricalInitialisation());
-			//StartSimulation();
-		}
-	}
-
-	IEnumerator WaitForElectricalInitialisation()
-	{
-		yield return WaitFor.Seconds(4f);
-		StartSimulation();
-	}
-
-	public void StartSimulation()
-	{
-		Running = true;
-
-		if (Mode == ElectricalMode.Threaded)
-		{
-			ElectricalSynchronisation.SetSpeed((int)MSSpeed);
-			ElectricalSynchronisation.Start();
-		}
-	}
-
-	public void StopSimulation()
-	{
-		Running = false;
-		ElectricalSynchronisation.Stop();
-	}
-
 	private void Update()
 	{
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Mode == ElectricalMode.GameLoop && Running)
 		{
-			ElectricalSynchronisation.DoUpdate(false);
+			electricalSync.DoUpdate(false);
 		}
 
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
 		{
-			lock (ElectricalSynchronisation.Electriclock)
+			lock (electricalSync.Electriclock)
 			{
-				if (ElectricalSynchronisation.MainThreadProcess)
+				if (electricalSync.MainThreadProcess)
 				{
-					ElectricalSynchronisation.PowerNetworkUpdate();
+					electricalSync.PowerNetworkUpdate();
 				}
-				ElectricalSynchronisation.MainThreadProcess = false;
-				Monitor.Pulse(ElectricalSynchronisation.Electriclock);
+
+				electricalSync.MainThreadProcess = false;
+				Monitor.Pulse(electricalSync.Electriclock);
 			}
 		}
 	}
 
 	private void OnApplicationQuit()
 	{
-		StopSimulation();
+		StopSim();
 	}
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
-		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+		EventManager.AddHandler(EVENT.RoundStarted, StartSim);
+		EventManager.AddHandler(EVENT.RoundEnded, StopSim);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
-		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+		EventManager.RemoveHandler(EVENT.RoundStarted, StartSim);
+		EventManager.RemoveHandler(EVENT.RoundEnded, StopSim);
 	}
 
-	void OnRoundStart()
+	public void StartSim()
 	{
-		ElectricalSynchronisation.Start();
+		if (!CustomNetworkManager.Instance._isServer) return;
 		roundStartedServer = true;
+		Running = true;
+
+		if (Mode == ElectricalMode.Threaded)
+		{
+			electricalSync.SetSpeed((int)MSSpeed);
+			electricalSync.Start();
+		}
+
 		Logger.Log("Round Started", Category.Electrical);
 	}
 
-	void OnRoundEnd()
+	public void StopSim()
 	{
-		ElectricalSynchronisation.Stop();
+		if (!CustomNetworkManager.Instance._isServer) return;
+
+		Running = false;
+		electricalSync.Stop();
 		roundStartedServer = false;
-		ElectricalSynchronisation.Reset();
+		electricalSync.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
 	}
+
+	public static void SetInternalSpeed()
+	{
+		Instance.electricalSync.SetSpeed((int)Instance.MSSpeed);
+	}
+
 }
 
 public enum ElectricalMode

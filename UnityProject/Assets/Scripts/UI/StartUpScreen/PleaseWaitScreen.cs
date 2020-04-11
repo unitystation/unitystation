@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class PleaseWaitScreen : MonoBehaviour
 {
-	[SerializeField] private bool isStartScreen;
-	[SerializeField] private LoadingScreen loadingScreen;
+	[SerializeField] private bool isStartScreen = false;
+	[SerializeField] private LoadingScreen loadingScreen = null;
 
 	private void OnEnable()
 	{

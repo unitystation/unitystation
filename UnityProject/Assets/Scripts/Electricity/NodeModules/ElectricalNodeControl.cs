@@ -37,22 +37,20 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		}
 		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
 		UpOnStartServer();
-		ElectricalSynchronisation.StructureChange = true;
+		ElectricalManager.Instance.electricalSync.StructureChange = true;
 	}
 
-	void Awake()
+	void Start()
 	{
-		ElectricalSynchronisation.StructureChange = true;
+		ElectricalManager.Instance.electricalSync.StructureChange = true;
 	}
-
-
 
 	public void PotentialDestroyed()
 	{
 		UpPotentialDestroyed();
 		if (SelfDestruct)
 		{
-			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
+			ElectricalManager.Instance.electricalSync.RemoveSupply(this, ApplianceType);
 			Despawn.ServerSingle(gameObject);
 		}
 	}
@@ -63,9 +61,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 			ResistanceRestorepoints[Connecting] = Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms;
 			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = InternalResistance;
 		}
-		ElectricalSynchronisation.InitialiseResistanceChange.Add(this);
-
+		ElectricalManager.Instance.electricalSync.InitialiseResistanceChange.Add(this);
 	}
+
 	public void RestoreResistance(PowerTypeCategory Connecting)
 	{
 		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (ResistanceRestorepoints.ContainsKey(Connecting)))
@@ -74,7 +72,6 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 			ResistanceRestorepoints.Remove(Connecting);
 		}
 	}
-
 
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens

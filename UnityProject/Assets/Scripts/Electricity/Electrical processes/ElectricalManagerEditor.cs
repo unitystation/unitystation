@@ -19,7 +19,6 @@ public class ElectricalManagerEditor : Editor
 		DrawDefaultInspector();
 	}
 
-
 	private static void AddButtonGroup(ElectricalManager electricalManager)
 	{
 		EditorGUILayout.BeginHorizontal();
@@ -28,26 +27,26 @@ public class ElectricalManagerEditor : Editor
 
 		if (GUILayout.Button("SetSpeed"))
 		{
-			AtmosManager.SetInternalSpeed();
+			ElectricalManager.SetInternalSpeed();
 		}
 
 		if (!electricalManager.Running)
 		{
 			if (GUILayout.Button("Start"))
 			{
-				electricalManager.StartSimulation();
+				electricalManager.StartSim();
 			}
 		}
 		else if (GUILayout.Button("Stop"))
 		{
-			electricalManager.StopSimulation();
+			electricalManager.StopSim();
 		}
 
 		GUI.enabled = Application.isPlaying && !electricalManager.Running;
 
 		if (GUILayout.Button("Step"))
 		{
-			ElectricalSynchronisation.RunStep(false);
+			ElectricalManager.Instance.electricalSync.RunStep(false);
 		}
 
 		GUI.enabled = true;

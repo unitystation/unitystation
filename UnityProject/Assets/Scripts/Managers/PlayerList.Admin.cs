@@ -24,7 +24,6 @@ public partial class PlayerList
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
 	private string whiteListPath;
-	private bool thisClientIsAdmin;
 	public string AdminToken { get; private set; }
 
 	[Server]
@@ -365,7 +364,6 @@ public partial class PlayerList
 
 	public void SetClientAsAdmin(string _adminToken)
 	{
-		thisClientIsAdmin = true;
 		AdminToken = _adminToken;
 		ControlTabs.Instance.ToggleOnAdminTab();
 		Logger.Log("You have logged in as an admin. Admin tools are now available.");

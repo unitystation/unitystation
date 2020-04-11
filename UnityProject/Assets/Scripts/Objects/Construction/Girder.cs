@@ -27,9 +27,6 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 	[SerializeField]
 	private BasicTile falseTile = null;
 
-	//tracked server side only
-	private int plasteelSheetCount;
-
 	private void Start(){
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
@@ -39,7 +36,8 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		plasteelSheetCount = 0;
+		// This used to set the variable plasteelSheetCount to zero.
+		// That variable has been removed because it was unused.
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
