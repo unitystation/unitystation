@@ -48,6 +48,12 @@ public class MachineProduct
 	private List<MachineProductMaterialPrice> materialPrice = new List<MachineProductMaterialPrice>();
 
 	public List<MachineProductMaterialPrice> MaterialPrice { get => materialPrice; }
+
+	[SerializeField]
+	[Tooltip("Base time it takes to create the product")]
+	private float productionTime = 10;
+
+	public float ProductionTime { get => productionTime; }
 }
 
 //This is used to define material price of materials for a certain product. If

@@ -19,9 +19,16 @@ public class GUI_ExosuitFabricator : NetTab
 	public Dictionary<string, GameObject[]> categoryNameToProductEntries = new Dictionary<string, GameObject[]>();
 
 	private ExoFabProductAddClickEvent onProductAddClicked;
-	public ExoFabProductAddClickEvent OnProductAddClicked;
+	public ExoFabProductAddClickEvent OnProductAddClicked { get => onProductAddClicked; }
 	private ExoFabCategoryClickEvent onCategoryClicked;
 	public ExoFabCategoryClickEvent OnCategoryClicked { get => onCategoryClicked; }
+	private ExoFabRemoveProductClickedEvent onRemoveProductClicked;
+	public ExoFabRemoveProductClickedEvent OnRemoveProductClicked { get => onRemoveProductClicked; }
+
+	private ExoFabUpQueueClickedEvent onUpQueueClicked;
+	public ExoFabUpQueueClickedEvent OnUpQueueClicked { get => onUpQueueClicked; }
+	private ExoFabDownQueueClickedEvent onDownQueueClicked;
+	public ExoFabDownQueueClickedEvent OnDownQueueClicked { get => onDownQueueClicked; }
 
 	protected override void InitServer()
 	{
@@ -29,18 +36,16 @@ public class GUI_ExosuitFabricator : NetTab
 
 	private void Start()
 	{
-		if (OnProductAddClicked == null)
-		{
-			onProductAddClicked = new ExoFabProductAddClickEvent();
+		onProductAddClicked = new ExoFabProductAddClickEvent();
 
-			OnProductAddClicked.AddListener(AddProductToQueue);
-		}
-		if (OnCategoryClicked == null)
-		{
-			onCategoryClicked = new ExoFabCategoryClickEvent();
+		OnProductAddClicked.AddListener(AddProductToQueue);
 
-			OnCategoryClicked.AddListener(OpenCategory);
-		}
+		onCategoryClicked = new ExoFabCategoryClickEvent();
+
+		OnCategoryClicked.AddListener(OpenCategory);
+
+		onRemoveProductClicked = new ExoFabRemoveProductClickedEvent();
+
 		//Makes sure it connects with the ExosuitFabricator
 		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
 		//Subscribes to the MaterialsManipulated event
@@ -57,8 +62,8 @@ public class GUI_ExosuitFabricator : NetTab
 		materialsAndCategoryDisplay.UpdateMaterialCount(exosuitFabricator);
 		foreach (ItemTrait materialType in exosuitFabricator.materialStorage.ItemTraitToMaterialRecord.Keys)
 		{
-			int materialAmount = exosuitFabricator.materialStorage.ItemTraitToMaterialRecord[materialType].currentAmount;
-			int cm3PerSheet = exosuitFabricator.materialStorage.cm3PerSheet;
+			int materialAmount = exosuitFabricator.materialStorage.ItemTraitToMaterialRecord[materialType].CurrentAmount;
+			int cm3PerSheet = exosuitFabricator.materialStorage.CM3PerSheet;
 
 			materialsAndCategoryDisplay.UpdateButtonVisibility(materialAmount, cm3PerSheet, materialType);
 			RescanElements();
@@ -93,6 +98,19 @@ public class GUI_ExosuitFabricator : NetTab
 		nestedSwitcher.SetActivePage(materialsAndCategoryDisplay);
 	}
 
+	public void RemoveFromQueue(int productNumber)
+	{
+		//Need implementation
+	}
+
+	public void UpQueue(int productNumber)
+	{
+	}
+
+	public void DownQueue(int productNumber)
+	{
+	}
+
 	public void OpenCategory(MachineProductList categoryProducts)
 	{
 		Logger.Log("OPENING CATEGORY");
@@ -121,11 +139,22 @@ public class ExoFabProductAddClickEvent : UnityEvent<MachineProduct>
 {
 }
 
-public class ExoFabCategoryClickEvent : UnityEvent<MachineProductList>
+[System.Serializable]
+public class ExoFabRemoveProductClickedEvent : UnityEvent<int>
 {
 }
 
 [System.Serializable]
-public class ExoFabRemoveProductClickedEvent : UnityEvent<DynamicEntry>
+public class ExoFabUpQueueClickedEvent : UnityEvent<int>
+{
+}
+
+[System.Serializable]
+public class ExoFabDownQueueClickedEvent : UnityEvent<int>
+{
+}
+
+[System.Serializable]
+public class ExoFabCategoryClickEvent : UnityEvent<MachineProductList>
 {
 }

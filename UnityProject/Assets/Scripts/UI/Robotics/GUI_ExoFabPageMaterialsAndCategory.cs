@@ -64,7 +64,7 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 	{
 		foreach (ItemTrait materialType in materialEntries.Keys)
 		{
-			string amountInExofab = exofab.materialStorage.ItemTraitToMaterialRecord[materialType].currentAmount.ToString();
+			string amountInExofab = exofab.materialStorage.ItemTraitToMaterialRecord[materialType].CurrentAmount.ToString();
 			materialEntries[materialType].amountLabel.SetValue = amountInExofab;
 		}
 	}

@@ -8,9 +8,9 @@ using Mirror;
 /// <summary>
 /// Main component for the exosuit fabricator.
 /// </summary>
-public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 {
-	[SyncVar(hook = nameof(SyncSprite))]
+	[SyncVar(hook = nameof(ServerSyncSprite))]
 	private ExosuitFabricatorState stateSync;
 
 	[SerializeField] private SpriteHandler spriteHandler;
@@ -41,6 +41,17 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		Production,
 	};
 
+	public override void OnStartClient()
+	{
+		ServerSyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
+		base.OnStartClient();
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		ServerSyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
+	}
+
 	private void Awake()
 	{
 		stateSync = ExosuitFabricatorState.Idle;
@@ -50,11 +61,6 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	public void OnEnable()
 	{
 		registerObject = GetComponent<RegisterObject>();
-	}
-
-	public override void OnStartClient()
-	{
-		SyncSprite(stateSync, stateSync);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -80,6 +86,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	//Clicking the exofab with material sheets(Metal sheets, glass sheets, silver sheets, etc.)
 	//in hand will insert the materials in the storage and update the GUI.
 	//Every sheet is 2000cm^3
+	[Server]
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//Can't insert materials while exofab is in production.
@@ -133,7 +140,8 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		stateSync = ExosuitFabricatorState.Idle;
 	}
 
-	public void SyncSprite(ExosuitFabricatorState stateOld, ExosuitFabricatorState stateNew)
+	[Server]
+	public void ServerSyncSprite(ExosuitFabricatorState stateOld, ExosuitFabricatorState stateNew)
 	{
 		stateSync = stateNew;
 		if (stateNew == ExosuitFabricatorState.Idle)

@@ -1,35 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class MaterialStorage : MonoBehaviour
+public class MaterialStorage : NetworkBehaviour, IServerSpawn
 {
-	public int cm3PerSheet;
-	public Dictionary<string, int> Stored;
-	public int maximumTotalResourceStorage;
+	public MaterialsInMachineStorage materialsInMachines;
+	private int cm3PerSheet;
+	public int CM3PerSheet { get => cm3PerSheet; }
+
+	[SerializeField]
+	private int maximumTotalResourceStorage;
+
+	[SyncVar(hook = nameof(SyncCurrentTotalResourceAmount))]
 	private int currentTotalResourceAmount = 0;
 
-	public MaterialsInMachineStorage materialsInMachines;
-	public List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
+	public int CurrentTotalResourceAmount { get => currentTotalResourceAmount; }
+
+	private List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
 	private Dictionary<string, MaterialRecord> nameToMaterialRecord = new Dictionary<string, MaterialRecord>();
 
-	public Dictionary<string, MaterialRecord> NameToMaterialRecord
-	{
-		get => nameToMaterialRecord;
-	}
+	public Dictionary<string, MaterialRecord> NameToMaterialRecord { get => nameToMaterialRecord; }
 
 	private static Dictionary<ItemTrait, string> materialToNameRecord = new Dictionary<ItemTrait, string>();
-
-	public static Dictionary<ItemTrait, string> MaterialToNameRecord
-	{
-		get => materialToNameRecord;
-	}
+	public static Dictionary<ItemTrait, string> MaterialToNameRecord { get => materialToNameRecord; }
 
 	private Dictionary<ItemTrait, MaterialRecord> itemTraitToMaterialRecord = new Dictionary<ItemTrait, MaterialRecord>();
+	public Dictionary<ItemTrait, MaterialRecord> ItemTraitToMaterialRecord { get => itemTraitToMaterialRecord; }
 
-	public Dictionary<ItemTrait, MaterialRecord> ItemTraitToMaterialRecord
+	public override void OnStartClient()
 	{
-		get => itemTraitToMaterialRecord;
+		foreach (MaterialRecord materialRecord in materialRecordList)
+		{
+			materialRecord.SyncCurrentAmount(materialRecord.CurrentAmount, materialRecord.CurrentAmount);
+		}
+		base.OnStartClient();
 	}
 
 	private void Awake()
@@ -40,7 +45,6 @@ public class MaterialStorage : MonoBehaviour
 		foreach (MaterialUsedInMachines material in materialsInMachines.materials)
 		{
 			MaterialRecord materialRecord = new MaterialRecord();
-			materialRecord.currentAmount = 0;
 			materialRecord.materialName = material.materialName;
 			materialRecord.materialPrefab = material.materialPrefab;
 			materialRecord.materialType = material.materialTrait;
@@ -58,50 +62,50 @@ public class MaterialStorage : MonoBehaviour
 		foreach (MaterialRecord materialRecord in materialRecordList)
 		{
 			NameToMaterialRecord.Add(materialRecord.materialName.ToLower(), materialRecord);
-
 			ItemTraitToMaterialRecord.Add(materialRecord.materialType, materialRecord);
 		}
 	}
 
-	public bool TryAddMaterialCM3Value(string material, int quantity)
-	{
-		int valueInCM3 = quantity;
-		int totalSum = valueInCM3 + currentTotalResourceAmount;
-		if (totalSum <= maximumTotalResourceStorage)
-		{
-			NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
-			currentTotalResourceAmount += valueInCM3;
-			return true;
-		}
-		else return false;
-	}
+	//public bool TryAddMaterialCM3Value(string material, int quantity)
+	//{
+	//	int valueInCM3 = quantity;
+	//	int totalSum = valueInCM3 + currentTotalResourceAmount;
+	//	if (totalSum <= maximumTotalResourceStorage)
+	//	{
+	//		NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
+	//		currentTotalResourceAmount += valueInCM3;
+	//		return true;
+	//	}
+	//	else return false;
+	//}
 
-	public bool TryAddMaterialCM3Value(ItemTrait itemTrait, int quantity)
-	{
-		int valueInCM3 = quantity;
-		int totalSum = valueInCM3 + currentTotalResourceAmount;
-		if (totalSum <= maximumTotalResourceStorage)
-		{
-			ItemTraitToMaterialRecord[itemTrait].currentAmount += valueInCM3;
-			currentTotalResourceAmount += valueInCM3;
-			return true;
-		}
-		else return false;
-	}
+	//public bool TryAddMaterialCM3Value(ItemTrait itemTrait, int quantity)
+	//{
+	//	int valueInCM3 = quantity;
+	//	int totalSum = valueInCM3 + currentTotalResourceAmount;
+	//	if (totalSum <= maximumTotalResourceStorage)
+	//	{
+	//		ItemTraitToMaterialRecord[itemTrait].currentAmount += valueInCM3;
+	//		currentTotalResourceAmount += valueInCM3;
+	//		return true;
+	//	}
+	//	else return false;
+	//}
 
-	public bool TryAddMaterialSheet(string material, int quantity)
-	{
-		int valueInCM3 = quantity * cm3PerSheet;
-		int totalSum = valueInCM3 + currentTotalResourceAmount;
-		if (totalSum <= maximumTotalResourceStorage)
-		{
-			NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
-			currentTotalResourceAmount += valueInCM3;
-			return true;
-		}
-		else return false;
-	}
+	//public bool TryAddMaterialSheet(string material, int quantity)
+	//{
+	//	int valueInCM3 = quantity * cm3PerSheet;
+	//	int totalSum = valueInCM3 + currentTotalResourceAmount;
+	//	if (totalSum <= maximumTotalResourceStorage)
+	//	{
+	//		NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
+	//		currentTotalResourceAmount += valueInCM3;
+	//		return true;
+	//	}
+	//	else return false;
+	//}
 
+	[Server]
 	public bool TryAddMaterialSheet(ItemTrait itemTrait, int quantity)
 	{
 		int valueInCM3 = quantity * cm3PerSheet;
@@ -109,68 +113,111 @@ public class MaterialStorage : MonoBehaviour
 
 		if (totalSum <= maximumTotalResourceStorage)
 		{
-			ItemTraitToMaterialRecord[itemTrait].currentAmount += valueInCM3;
-			currentTotalResourceAmount += valueInCM3;
+			//Sets the current amount of a certain material
+			int newAmount = ItemTraitToMaterialRecord[itemTrait].CurrentAmount + valueInCM3;
+			ItemTraitToMaterialRecord[itemTrait].ServerSetCurrentAmount(newAmount);
+			//Sets the total amount of all materials
+			int newTotalAmount = CurrentTotalResourceAmount + valueInCM3;
+			ServerSetCurrentTotalResourceAmount(newTotalAmount);
 			return true;
 		}
 		else return false;
 	}
 
-	//Returns false if storage amount goes below 0
-	public bool TryRemoveCM3Material(string material, int quantity)
-	{
-		int valueInCM3Removed = quantity;
-		if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
-		{
-			NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
-			currentTotalResourceAmount -= valueInCM3Removed;
-			return true;
-		}
-		else return false;
-	}
+	//public bool TryRemoveCM3Material(string material, int quantity)
+	//{
+	//	int valueInCM3Removed = quantity;
+	//	if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
+	//	{
+	//		NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
+	//		currentTotalResourceAmount -= valueInCM3Removed;
+	//		return true;
+	//	}
+	//	else return false;
+	//}
 
+	[Server]
 	public bool TryRemoveCM3Material(ItemTrait materialType, int quantity)
 	{
 		int valueInCM3Removed = quantity;
-		if (ItemTraitToMaterialRecord[materialType].currentAmount >= valueInCM3Removed)
+		if (ItemTraitToMaterialRecord[materialType].CurrentAmount >= valueInCM3Removed)
 		{
-			ItemTraitToMaterialRecord[materialType].currentAmount -= valueInCM3Removed;
-			currentTotalResourceAmount -= valueInCM3Removed;
+			int newAmount = ItemTraitToMaterialRecord[materialType].CurrentAmount - valueInCM3Removed;
+			ItemTraitToMaterialRecord[materialType].ServerSetCurrentAmount(newAmount);
 			return true;
 		}
 		else return false;
 	}
 
-	public bool TryRemoveMaterialSheet(string material, int quantity)
-	{
-		int valueInCM3Removed = quantity * cm3PerSheet;
-		if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
-		{
-			NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
-			currentTotalResourceAmount -= valueInCM3Removed;
-			return true;
-		}
-		else return false;
-	}
+	//public bool TryRemoveMaterialSheet(string material, int quantity)
+	//{
+	//	int valueInCM3Removed = quantity * cm3PerSheet;
+	//	if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
+	//	{
+	//		NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
+	//		currentTotalResourceAmount -= valueInCM3Removed;
+	//		return true;
+	//	}
+	//	else return false;
+	//}
 
+	[Server]
 	public bool TryRemoveMaterialSheet(ItemTrait materialType, int quantity)
 	{
-		Logger.Log("TryRemoveMaterialSheet");
 		int valueInCM3Removed = quantity * cm3PerSheet;
-		if (ItemTraitToMaterialRecord[materialType].currentAmount >= valueInCM3Removed)
+		if (ItemTraitToMaterialRecord[materialType].CurrentAmount >= valueInCM3Removed)
 		{
-			ItemTraitToMaterialRecord[materialType].currentAmount -= valueInCM3Removed;
-			currentTotalResourceAmount -= valueInCM3Removed;
+			//Sets the new current amount of material
+			int newAmount = ItemTraitToMaterialRecord[materialType].CurrentAmount - valueInCM3Removed;
+			ItemTraitToMaterialRecord[materialType].ServerSetCurrentAmount(newAmount);
+
+			//Sets the total amount of all materials
+			int newTotalAmount = CurrentTotalResourceAmount - valueInCM3Removed;
+			ServerSetCurrentTotalResourceAmount(newTotalAmount);
 			return true;
 		}
 		else return false;
+	}
+
+	[Server]
+	public void ServerSetCurrentTotalResourceAmount(int newValue)
+	{
+		int oldTotalAmount = currentTotalResourceAmount;
+		currentTotalResourceAmount = newValue;
+		SyncCurrentTotalResourceAmount(oldTotalAmount, currentTotalResourceAmount);
+	}
+
+	public void SyncCurrentTotalResourceAmount(int oldValue, int newValue)
+	{
+		currentTotalResourceAmount = newValue;
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		throw new System.NotImplementedException();
 	}
 }
 
-public class MaterialRecord
+public class MaterialRecord : NetworkBehaviour
 {
-	public int currentAmount { get; set; }
+	[SyncVar(hook = nameof(SyncCurrentAmount))]
+	private int currentAmount;
+
+	public int CurrentAmount { get => currentAmount; }
 	public string materialName { get; set; }
 	public ItemTrait materialType { get; set; }
 	public GameObject materialPrefab { get; set; }
+
+	[Server]
+	public void ServerSetCurrentAmount(int newAmount)
+	{
+		int oldAmount = CurrentAmount;
+		currentAmount = newAmount;
+		SyncCurrentAmount(oldAmount, currentAmount);
+	}
+
+	public void SyncCurrentAmount(int oldValue, int newValue)
+	{
+		currentAmount = newValue;
+	}
 }

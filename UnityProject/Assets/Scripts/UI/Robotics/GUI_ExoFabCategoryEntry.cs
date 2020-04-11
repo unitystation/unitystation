@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GUI_ExoFabCategoryEntry : DynamicEntry
 {
-	private GUI_ExosuitFabricator ExoFabmasterTab = null;
+	private GUI_ExosuitFabricator ExoFabMasterTab = null;
 	private MachineProductList exoFabProducts = null;
 
 	public MachineProductList ExoFabProducts
@@ -19,8 +19,8 @@ public class GUI_ExoFabCategoryEntry : DynamicEntry
 	public void OpenCategory()
 	{
 		Logger.Log("CLICK");
-		if (ExoFabmasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
-		else { ExoFabmasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
+		else { ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
 	}
 
 	public void ReInit(MachineProductList productCategory)

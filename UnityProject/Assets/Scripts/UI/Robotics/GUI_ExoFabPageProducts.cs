@@ -18,15 +18,4 @@ public class GUI_ExoFabPageProducts : NetPage
 			item.Product = products[i];
 		}
 	}
-
-	//List<MachineProductList> categories = exoFabProducts.ProductCategoryList;
-
-	//productCategoryList.Clear();
-	//	productCategoryList.AddItems(categories.Count);
-	//	for (int i = 0; i<categories.Count; i++)
-	//	{
-	//		GUI_ExoFabCategoryEntry item = productCategoryList.Entries[i] as GUI_ExoFabCategoryEntry;
-	//item.ExoFabProducts = categories[i];
-	//		item.ReInit(categories[i]);
-	//	}
 }

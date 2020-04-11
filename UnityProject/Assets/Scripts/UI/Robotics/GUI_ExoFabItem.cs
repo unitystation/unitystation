@@ -5,7 +5,7 @@ using System.Text;
 
 public class GUI_ExoFabItem : DynamicEntry
 {
-	private GUI_ExosuitFabricator ExoFabmasterTab = null;
+	private GUI_ExosuitFabricator ExoFabMasterTab = null;
 	private MachineProduct product = null;
 
 	public MachineProduct Product
@@ -24,8 +24,8 @@ public class GUI_ExoFabItem : DynamicEntry
 	public void AddToQueue()
 	{
 		Logger.Log("CLICK");
-		if (ExoFabmasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
-		else { ExoFabmasterTab?.OnProductAddClicked.Invoke(Product); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
+		else { ExoFabMasterTab?.OnProductAddClicked.Invoke(Product); }
 	}
 
 	public void ReInit()
