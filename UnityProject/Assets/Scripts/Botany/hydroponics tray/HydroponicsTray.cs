@@ -43,14 +43,14 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 
 	[SerializeField] private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
 	[SerializeField] private PlantTrayModification modification;
-	[SerializeField] private ReagentContainer reagentContainer;
-	[SerializeField] private Chemistry.Reagent water;
-	[SerializeField] private Chemistry.Reagent mutagen;
-	[SerializeField] private SpriteHandler plantSprite;
-	[SerializeField] private SpriteHandler harvestNotifier;
-	[SerializeField] private SpriteHandler weedNotifier;
-	[SerializeField] private SpriteHandler waterNotifier;
-	[SerializeField] private SpriteHandler nutrimentNotifier;
+	[SerializeField] private ReagentContainer reagentContainer = null;
+	[SerializeField] private Chemistry.Reagent water = null;
+	[SerializeField] private Chemistry.Reagent mutagen = null;
+	[SerializeField] private SpriteHandler plantSprite = null;
+	[SerializeField] private SpriteHandler harvestNotifier = null;
+	[SerializeField] private SpriteHandler weedNotifier = null;
+	[SerializeField] private SpriteHandler waterNotifier = null;
+	[SerializeField] private SpriteHandler nutrimentNotifier = null;
 	[SerializeField] private float tickRate;
 
 

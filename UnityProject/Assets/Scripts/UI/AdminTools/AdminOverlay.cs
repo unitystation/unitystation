@@ -29,7 +29,7 @@ namespace AdminTools
 			}
 		}
 
-		[SerializeField] private GameObject infoPanelPrefab;
+		[SerializeField] private GameObject infoPanelPrefab = null;
 		private List<AdminOverlayPanel> infoPanelPool = new List<AdminOverlayPanel>();
 		private List<AdminOverlayPanel> panelsInUse = new List<AdminOverlayPanel>();
 

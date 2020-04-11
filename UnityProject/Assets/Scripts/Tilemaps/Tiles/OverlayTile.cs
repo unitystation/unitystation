@@ -12,7 +12,7 @@ public class OverlayTile : LayerTile
 
 	[Tooltip("Appearance of this overlay")]
 	[SerializeField]
-	private Sprite sprite;
+	private Sprite sprite = null;
 	public override Sprite PreviewSprite => sprite;
 
 	[FormerlySerializedAs("isMoppable")]

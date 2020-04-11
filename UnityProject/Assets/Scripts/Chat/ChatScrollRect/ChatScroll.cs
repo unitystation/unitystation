@@ -17,7 +17,7 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
 	[SerializeField] private Scrollbar scrollBar = null;
 	[SerializeField] private float scrollSpeed = 0.5f;
-	[SerializeField] private RectTransform layoutRoot;
+	[SerializeField] private RectTransform layoutRoot = null;
 
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	protected List<ChatEntryView> chatViewPool = new List<ChatEntryView>();

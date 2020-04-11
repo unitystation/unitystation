@@ -24,8 +24,8 @@ public class UpdateManager : MonoBehaviour
 
 	private class NamedAction
 	{
-		public Action Action;
-		public string Name;
+		public Action Action = null;
+		public string Name = null;
 		public bool WaitingForRemove;
 	}
 
