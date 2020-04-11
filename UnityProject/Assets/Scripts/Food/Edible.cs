@@ -56,7 +56,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		TryConsume(interaction.PerformerPlayerScript.gameObject);
 	}
 
-	public override bool TryConsume(GameObject feederGO, GameObject eaterGO)
+	public override void TryConsume(GameObject feederGO, GameObject eaterGO)
 	{
 		var eater = eaterGO.GetComponent<PlayerScript>();
 		if (eater == null)
@@ -69,7 +69,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 			}
 
 			Despawn.ServerSingle(gameObject);
-			return true;
+			return;
 		}
 
 		var feeder = feederGO.GetComponent<PlayerScript>();
@@ -79,26 +79,23 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 		// Check if eater can eat anything
-		if (eaterHungerState == HungerState.Full)
+		if (eaterHungerState != HungerState.Full)
 		{
-			return false;
-		}
-
-		if (feeder != eater)  //If you're feeding it to someone else.
-		{
-			//Wait 3 seconds before you can feed
-			StandardProgressAction.Create(ProgressConfig, () =>
+			if (feeder != eater)  //If you're feeding it to someone else.
 			{
-				ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
+				//Wait 3 seconds before you can feed
+				StandardProgressAction.Create(ProgressConfig, () =>
+				{
+					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
+					Eat(eater, feeder);
+				}).ServerStartProgress(eater.registerTile, 3f, feeder.gameObject);
+				return;
+			}
+			else
+			{
 				Eat(eater, feeder);
-			}).ServerStartProgress(eater.registerTile, 3f, feeder.gameObject);
-
-			// todo: fix always return true even if force feed failed
-			return true;
+			}
 		}
-
-		Eat(eater, feeder);
-		return true;
 	}
 
 	private void Eat(PlayerScript eater, PlayerScript feeder)

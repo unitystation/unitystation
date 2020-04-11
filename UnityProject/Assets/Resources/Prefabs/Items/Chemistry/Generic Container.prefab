@@ -28,6 +28,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 1
   maxCapacity: 100
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   reagentMix:
@@ -47,9 +50,19 @@ MonoBehaviour:
   - 30
   - 50
   transferAmount: 10
-  UseStandardExamine: 1
-  ExamineAmount: 0
-  ExamineContent: 1
+--- !u!114 &6745350564874167598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785875528613525472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e87ca80500964a91bd61d1a1a7ab3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: Slurp
 --- !u!1001 &7786560402941971290
 PrefabInstance:
   m_ObjectHideFlags: 0

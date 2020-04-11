@@ -733,6 +733,17 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 
 		return Mathf.Clamp01(reagentMix.Total / maxCapacity);
 	}
+
+	/// <summary>
+	/// Server only. Reagent mix ammount in units
+	/// </summary>
+	public float ReagentMixTotal
+	{
+		get
+		{
+			return reagentMix.Total;
+		}
+	}
 }
 
 public struct TransferResult

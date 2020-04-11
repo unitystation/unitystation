@@ -56,20 +56,18 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 
 
 	/// <summary>
-	/// Try to consume this item by eater
+	/// Try to consume this item by eater. Server side only.
 	/// </summary>
 	/// <param name="eater">Player that want to eat item</param>
-	/// <returns>True if eater ate consumable or some part of it</returns>
-	public bool TryConsume(GameObject eater)
+	public void TryConsume(GameObject eater)
 	{
-		return TryConsume(eater, eater);
+		TryConsume(eater, eater);
 	}
 
 	/// <summary>
-	/// Try to consume this item by eater. Explicit state the feeder.
+	/// Try to consume this item by eater. Server side only.
 	/// </summary>
-	/// <param name="feeder">Player that feed eater</param>
+	/// <param name="feeder">Player that feed eater. Can be same as eater.</param>
 	/// <param name="eater">Player that is going to eat item</param>
-	/// <returns>True if eater ate consumable or some part of it</returns>
-	public abstract bool TryConsume(GameObject feeder, GameObject eater);
+	public abstract void TryConsume(GameObject feeder, GameObject eater);
 }

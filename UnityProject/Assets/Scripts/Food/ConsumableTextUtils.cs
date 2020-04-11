@@ -55,7 +55,7 @@ public static class ConsumableTextUtils
 		HungerState eaterHungerState, string consumableName, string eatVerb)
 	{
 		Chat.AddActionMsgToChat(eater.gameObject,
-			$"{feeder.playerName} forces you to eat {consumableName}!",
-			$"{feeder.playerName} forces {eater.playerName} to eat {consumableName}!");
+			$"{feeder.playerName} forces you to {eatVerb} {consumableName}!",
+			$"{feeder.playerName} forces {eater.playerName} to {eatVerb} {consumableName}!");
 	}
 }
