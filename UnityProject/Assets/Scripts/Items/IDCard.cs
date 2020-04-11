@@ -37,7 +37,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 	[Tooltip("If true, will initialize itself with the correct access list, name, job, etc...based on the" +
 	         " first player whose inventory it is added to. Used for initial loadout.")]
 	[SerializeField]
-	private bool autoInitOnPickup;
+	private bool autoInitOnPickup = false;
 	private bool hasAutoInit;
 
 
@@ -216,7 +216,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 	}
 
 	// When examine is triggered by the server on a player gameobj (by a shift click from another player)
-	// the target's Equipment component returns ID info based on presence of ID card in "viewable" slot (id and hands). 
+	// the target's Equipment component returns ID info based on presence of ID card in "viewable" slot (id and hands).
 	// When ID card itself is examined, it should return full text.
 	public string Examine(Vector3 worldPos)
 	{

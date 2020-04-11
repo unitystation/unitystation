@@ -29,7 +29,7 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] protected int MaxViews = 17;
 	[Tooltip("If this is set to true then the input field will not add a chat entry to the" +
 	         "chatlogs. You do this because you want to handle the entry manually")]
-	[SerializeField] private bool doNotAddInputToChatLog;
+	[SerializeField] private bool doNotAddInputToChatLog = false;
 
 	private float contentWidth;
 

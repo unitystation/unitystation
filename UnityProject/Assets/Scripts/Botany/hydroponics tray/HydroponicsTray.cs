@@ -35,11 +35,11 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	[SyncVar(hook = nameof(UpdatePlant))] private string plantSyncString;
 
 	[SerializeField] private RegisterTile registerTile;
-	[SerializeField] private bool isSoilPile;
+	[SerializeField] private bool isSoilPile = false;
 
 	[Tooltip("If this is set the plant will not grow/die over time, use it to keep wild findable plants alive")]
 	[SerializeField]
-	private bool isWild;
+	private bool isWild = false;
 
 	[SerializeField] private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
 	[SerializeField] private PlantTrayModification modification;

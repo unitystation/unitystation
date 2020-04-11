@@ -17,7 +17,7 @@ public class SpeechModifier : ScriptableObject
 
 	[Header("Additions")]
 	[Tooltip("Activate the addition of text to ending or begining of message.")]
-	[SerializeField] private bool activateAdditions;
+	[SerializeField] private bool activateAdditions = false;
 	[Tooltip("Chances of this happening in %.")]
 	[SerializeField] [Range(0,100)] private int probability = 0;
 	[SerializeField] private List<string> beginning = null;

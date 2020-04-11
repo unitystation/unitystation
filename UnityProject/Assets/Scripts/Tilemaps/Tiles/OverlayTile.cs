@@ -18,6 +18,6 @@ public class OverlayTile : LayerTile
 	[FormerlySerializedAs("isMoppable")]
 	[Tooltip("Is this removed when the tile it's on is cleaned?")]
 	[SerializeField]
-	private bool isCleanable;
+	private bool isCleanable = false;
 	public bool IsCleanable => isCleanable;
 }
