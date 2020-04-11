@@ -67,7 +67,7 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 	private enum WearType
 	{
 		shoes = StepType.Shoes,
-		clownshoes = StepType.clown,
+		clownshoes = StepType.Clown,
 		hardsuit = StepType.Suit
 	}
 }
