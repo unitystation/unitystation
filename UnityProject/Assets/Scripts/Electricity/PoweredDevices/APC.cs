@@ -53,7 +53,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	private void OnDisable()
 	{
-		ElectricalSynchronisation.PoweredDevices.Remove(ElectricalNodeControl);
+		ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ElectricalNodeControl);
 	}
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
