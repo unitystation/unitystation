@@ -11,6 +11,7 @@ namespace Chemistry
 	{
 		public const float ZERO_CELSIUS_IN_KELVIN = 273.15f;
 
+		[Tooltip("In Kelvins")]
 		[SerializeField] private float temperature = ZERO_CELSIUS_IN_KELVIN;
 
 		public float Temperature
