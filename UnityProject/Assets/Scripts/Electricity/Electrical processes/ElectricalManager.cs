@@ -15,6 +15,8 @@ public class ElectricalManager : MonoBehaviour
 
 	public static ElectricalManager Instance;
 
+	public ElectricalMode Mode;
+
 	public bool DOCheck;
 
 	private void Awake()
@@ -27,9 +29,23 @@ public class ElectricalManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
+		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Mode == ElectricalMode.GameLoop && Running)
 		{
 			electricalSync.DoUpdate(false);
+		}
+
+		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
+		{
+			lock (electricalSync.Electriclock)
+			{
+				if (electricalSync.MainThreadProcess)
+				{
+					electricalSync.PowerNetworkUpdate();
+				}
+
+				electricalSync.MainThreadProcess = false;
+				Monitor.Pulse(electricalSync.Electriclock);
+			}
 		}
 	}
 
@@ -53,10 +69,15 @@ public class ElectricalManager : MonoBehaviour
 	public void StartSim()
 	{
 		if (!CustomNetworkManager.Instance._isServer) return;
-
-		electricalSync.Start();
 		roundStartedServer = true;
 		Running = true;
+
+		if (Mode == ElectricalMode.Threaded)
+		{
+			electricalSync.SetSpeed((int)MSSpeed);
+			electricalSync.Start();
+		}
+
 		Logger.Log("Round Started", Category.Electrical);
 	}
 
@@ -70,6 +91,12 @@ public class ElectricalManager : MonoBehaviour
 		electricalSync.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
 	}
+
+	public static void SetInternalSpeed()
+	{
+		Instance.electricalSync.SetSpeed((int)Instance.MSSpeed);
+	}
+
 }
 
 public enum ElectricalMode

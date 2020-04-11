@@ -16,11 +16,20 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
 
-    public static bool IsInitialized { get { return instance != null; } }
+	public bool Profile = false;
+
+	public static bool IsInitialized
+	{
+		get { return instance != null; }
+	}
+
 	private static UpdateManager instance;
 
 	// TODO: Obsolete, remove when no longer used.
-	public static UpdateManager Instance { get { return instance; } }
+	public static UpdateManager Instance
+	{
+		get { return instance; }
+	}
 
 	private class NamedAction
 	{
@@ -64,10 +73,9 @@ public class UpdateManager : MonoBehaviour
 
 	public static void Remove(CallbackType type, Action action)
 	{
-
 		if (action == null || Instance == null) return;
 
-			if (type == CallbackType.UPDATE)
+		if (type == CallbackType.UPDATE)
 		{
 			if (Instance.updateActions.Contains(action))
 			{
@@ -149,7 +157,6 @@ public class UpdateManager : MonoBehaviour
 
 	private void AddCallbackInternal(CallbackType type, Action action)
 	{
-
 		if (type == CallbackType.UPDATE)
 		{
 			if (!Instance.updateActions.Contains(action))
@@ -184,19 +191,20 @@ public class UpdateManager : MonoBehaviour
 
 		// Give that shit a name so we can refer to it in profiler.
 #if UNITY_EDITOR
-		namedAction.Name = action.Target != null ?
-			action.Target.GetType().ToString() + "." + action.Method.ToString() :
-			action.Method.ToString();
+		namedAction.Name = action.Target != null
+			? action.Target.GetType().ToString() + "." + action.Method.ToString()
+			: action.Method.ToString();
 #endif
 		namedAction.Action = action;
 
-        CallbackCollection callbackCollection = collections[type];
+		CallbackCollection callbackCollection = collections[type];
 
 		// Check if it's already been added, should never be the case so avoiding the overhead in build.
 #if UNITY_EDITOR
 		if (callbackCollection.ActionDictionary.ContainsKey(action))
 		{
-			Debug.LogErrorFormat("Failed to add callback '{0}' to CallbackEvent '{1}' because it is already added.", namedAction.Name, type.ToString());
+			Debug.LogErrorFormat("Failed to add callback '{0}' to CallbackEvent '{1}' because it is already added.",
+				namedAction.Name, type.ToString());
 			return;
 		}
 #endif
@@ -238,9 +246,22 @@ public class UpdateManager : MonoBehaviour
 		{
 			if (i > 0 && i < updateActions.Count)
 			{
+#if UNITY_EDITOR
+				if (Profile)
+				{
+					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
+				}
+#endif
 				updateActions[i].Invoke();
+#if UNITY_EDITOR
+				if (Profile)
+				{
+					Profiler.EndSample();
+				}
+#endif
 			}
 		}
+
 		//Fixme
 		//ProcessCallbacks(collections[CallbackType.UPDATE]);
 	}
@@ -254,6 +275,7 @@ public class UpdateManager : MonoBehaviour
 				fixedUpdateActions[i].Invoke();
 			}
 		}
+
 		//Fixme
 		//ProcessCallbacks(collections[CallbackType.FIXED_UPDATE]);
 	}
@@ -267,6 +289,7 @@ public class UpdateManager : MonoBehaviour
 				lateUpdateActions[i].Invoke();
 			}
 		}
+
 		//Fixme
 		//ProcessCallbacks(collections[CallbackType.LATE_UPDATE]);
 	}
@@ -297,6 +320,6 @@ public struct CallbackTypeComparer : IEqualityComparer<CallbackType>
 
 	public int GetHashCode(CallbackType obj)
 	{
-		return (int)obj;
+		return (int) obj;
 	}
 }
