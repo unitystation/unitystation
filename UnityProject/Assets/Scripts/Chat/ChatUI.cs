@@ -22,8 +22,6 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private GameObject activeRadioChannelPanel = null;
 	[SerializeField] private GameObject activeChannelTemplate = null;
 	[SerializeField] private InputField InputFieldChat = null;
-	[SerializeField] private Image scrollHandle = null;
-	[SerializeField] private Image scrollBackground = null;
 	[SerializeField] private Transform thresholdMarker = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
 	private bool windowCoolDown = false;
