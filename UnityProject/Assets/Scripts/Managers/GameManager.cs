@@ -52,9 +52,6 @@ public partial class GameManager : MonoBehaviour
 	public DateTime stationTime;
 	public int RoundsPerMap = 10;
 
-	private int MapRotationCount = 0;
-	private int MapRotationMapsCounter = 0;
-
 	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
 	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
@@ -142,7 +139,7 @@ public partial class GameManager : MonoBehaviour
 		//Fills list of Vectors all along shuttle path
 		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
 		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
-		
+
 
 		var distance = (int)Vector2.Distance(beginning, target);
 

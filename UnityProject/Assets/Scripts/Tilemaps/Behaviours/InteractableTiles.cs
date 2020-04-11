@@ -192,7 +192,6 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
-		var success = false;
 		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
 		//pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(worldPosTarget);

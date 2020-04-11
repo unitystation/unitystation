@@ -10,7 +10,7 @@ public class Cooldown : ScriptableObject
 {
 	[Tooltip("Default time in seconds this cooldown takes to countdown.")]
 	[SerializeField]
-	private float defaultTime;
+	private float defaultTime = 0;
 
 	/// <summary>
 	/// Default time in seconds this cooldown takes to countdown.

@@ -8,9 +8,9 @@ namespace AdminTools
 {
 	public class PlayerAlerts : MonoBehaviour
 	{
-		[SerializeField] private GameObject playerAlertsWindow;
-		[SerializeField] private PlayerAlertsScroll playerAlertsScroll;
-		[SerializeField] private GUI_Notification notifications;
+		[SerializeField] private GameObject playerAlertsWindow = null;
+		[SerializeField] private PlayerAlertsScroll playerAlertsScroll = null;
+		[SerializeField] private GUI_Notification notifications = null;
 		private const string NotificationKey = "playeralert";
 
 

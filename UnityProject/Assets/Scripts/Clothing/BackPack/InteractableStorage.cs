@@ -45,7 +45,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	[SerializeField]
 	[Tooltip("Can you store items by clicking on them with this in hand?")]
-	private bool canClickPickup;
+	private bool canClickPickup = false;
 
 	/// <summary>
 	/// Flag to determine if this can empty out all items by activating it

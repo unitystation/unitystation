@@ -48,12 +48,6 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private float minimumHeight = 200f;
 
-		/// <summary>
-		/// Should command input field be cleared after pressing Enter
-		/// </summary>
-		[SerializeField]
-		private bool startInPopupMode = true;
-
 		[SerializeField]
 		private bool clearCommandAfterExecution = true;
 

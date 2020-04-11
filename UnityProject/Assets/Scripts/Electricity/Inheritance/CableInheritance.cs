@@ -18,11 +18,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem sparksPrefab;
+	private ParticleSystem sparksPrefab = null;
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem smokePrefab;
+	private ParticleSystem smokePrefab = null;
 
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
