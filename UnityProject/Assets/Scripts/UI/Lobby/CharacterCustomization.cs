@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace Lobby
 		public Text genderText;
 		public Text clothingText;
 		public Text backpackText;
+		public Text accentText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
@@ -125,6 +127,7 @@ namespace Lobby
 			RefreshEyes();
 			RefreshSkinColor();
 			RefreshAge();
+			RefreshAccent();
 		}
 
 		public void RollRandomCharacter()
@@ -175,23 +178,14 @@ namespace Lobby
 
 		private void PopulateDropdown(CustomisationType type, Dropdown itemDropdown)
 		{
-			var itemCollection = PlayerCustomisationDataSOs.Instance.GetAll(type);
-
 			// Clear out old options
 			itemDropdown.ClearOptions();
 
 			// Make a list of all available options which can then be passed to the dropdown box
-			List<string> itemOptions = new List<string>();
-
-			foreach (var item in itemCollection)
-			{
-				// Only add options that match current gender or are Neuter
-				if (item.gender == currentCharacter.Gender || item.gender == Gender.Neuter)
-				{
-					itemOptions.Add(item.Name);
-				}
-			}
+			var itemOptions = PlayerCustomisationDataSOs.Instance.GetAll(type, currentCharacter.Gender)
+				.Select(pcd => pcd.Name).ToList();
 			itemOptions.Sort();
+
 			// Ensure "None" is at the top of the option lists
 			itemOptions.Insert(0, "None");
 			itemDropdown.AddOptions(itemOptions);
@@ -217,7 +211,7 @@ namespace Lobby
 			}
 			else
 			{
-				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.UI);
+				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
 				itemDropdown.value = 0;
 				// Needs to be called manually since value is probably already 0, so onValueChanged might not be invoked
 				itemDropdown.onValueChanged.Invoke(0);
@@ -274,7 +268,7 @@ namespace Lobby
 			}
 			catch (InvalidOperationException e)
 			{
-				Logger.LogFormat("Invalid character settings: {0}", Category.UI, e.Message);
+				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
 				DisplayErrorText(e.Message);
 				return;
 			}
@@ -443,6 +437,7 @@ namespace Lobby
 		{
 			var pcd = PlayerCustomisationDataSOs.Instance.Get(
 				CustomisationType.HairStyle,
+				currentCharacter.Gender,
 				currentCharacter.HairStyleName
 			);
 			hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
@@ -467,6 +462,7 @@ namespace Lobby
 		{
 			var pcd = PlayerCustomisationDataSOs.Instance.Get(
 				CustomisationType.FacialHair,
+				currentCharacter.Gender,
 				currentCharacter.FacialHairName
 			);
 			facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
@@ -543,6 +539,7 @@ namespace Lobby
 		{
 			var pcd = PlayerCustomisationDataSOs.Instance.Get(
 				CustomisationType.Underwear,
+				currentCharacter.Gender,
 				currentCharacter.UnderwearName
 			);
 			underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
@@ -562,6 +559,7 @@ namespace Lobby
 		{
 			var pcd = PlayerCustomisationDataSOs.Instance.Get(
 				CustomisationType.Socks,
+				currentCharacter.Gender,
 				currentCharacter.SocksName
 			);
 			socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
@@ -629,6 +627,28 @@ namespace Lobby
 		private void RefreshBackpack()
 		{
 			backpackText.text = currentCharacter.BagStyle.ToString();
+		}
+
+		//------------------
+		//ACCENT PREFERENCE:
+		//------------------
+		// This will be a temporal thing until we have proper character traits
+
+		public void OnAccentChange()
+		{
+			int accent = (int)currentCharacter.Speech;
+			accent++;
+			if (accent == (int)Speech.Unintelligible)
+			{
+				accent = 0;
+			}
+			currentCharacter.Speech = (Speech)accent;
+			RefreshAccent();
+		}
+
+		private void RefreshAccent()
+		{
+			accentText.text = currentCharacter.Speech.ToString();
 		}
 	}
 }

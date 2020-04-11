@@ -8,11 +8,10 @@ using Mirror;
 /// </summary>
 public class DevDestroyMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.DevDestroyMessage;
 	// Net ID of the object to destroy
 	public uint ToDestroy;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		//TODO: Validate if player is allowed to destroy things, check if they have admin privs.
 		//For now we will let anyone spawn.
@@ -23,11 +22,9 @@ public class DevDestroyMessage : ClientMessage
 		}
 		else
 		{
-			yield return WaitFor(ToDestroy);
+			LoadNetworkObject(ToDestroy);
 			Despawn.ServerSingle(NetworkObject);
 		}
-
-		yield return null;
 	}
 
 	public override string ToString()

@@ -8,13 +8,12 @@ using Mirror;
 /// </summary>
 public class DevCloneMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.DevCloneMessage;
 	// Net ID of the object to destroy
 	public uint ToClone;
 	// position to spawn at.
 	public Vector2 WorldPosition;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		//TODO: Validate if player is allowed to spawn things, check if they have admin privs.
 		//For now we will let anyone spawn.
@@ -25,15 +24,12 @@ public class DevCloneMessage : ClientMessage
 		}
 		else
 		{
-			yield return WaitFor(ToClone);
+			LoadNetworkObject(ToClone);
 			if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt(), true))
 			{
 				Spawn.ServerClone(NetworkObject, WorldPosition);
 			}
-
 		}
-
-		yield return null;
 	}
 
 	public override string ToString()

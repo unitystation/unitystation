@@ -39,7 +39,9 @@ public class PlayerManager : MonoBehaviour
 	void Awake()
 	{
 		if (CurrentCharacterSettings == null){
-			CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(PlayerPrefs.GetString("currentcharacter")));
+			var deserialized = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(PlayerPrefs.GetString("currentcharacter")));
+			PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref deserialized);
+			CurrentCharacterSettings = deserialized;
 			if (CurrentCharacterSettings == null)
 			{
 				CurrentCharacterSettings = new CharacterSettings();

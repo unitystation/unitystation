@@ -18,6 +18,7 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 	ICheckedInteractable<InventoryApply>, //Transfer: active hand <-> other hand
 	IEnumerable<KeyValuePair<Chemistry.Reagent, float>>
 {
+	[Header("Container Parameters")]
 	public int maxCapacity = 100;
 	[SerializeField] private ReactionSet reactionSet;
 	[SerializeField] private ReagentMix reagentMix = new ReagentMix();
@@ -644,13 +645,7 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 
 		var transferAmount = transferFrom.TransferAmount;
 
-		var useFillMessage = false;
-		//always taking max capacity from output-only things like tanks
-		if (transferFrom.transferMode == TransferMode.OutputOnly)
-		{
-			transferAmount = transferFrom.CurrentCapacity;
-			useFillMessage = true;
-		}
+		var useFillMessage = true;
 
 		var result = transferFrom.MoveReagentsTo(transferAmount, transferTo);
 

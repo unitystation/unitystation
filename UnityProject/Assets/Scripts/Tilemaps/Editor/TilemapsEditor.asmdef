@@ -1,9 +1,9 @@
 {
     "name": "TilemapsEditor",
     "references": [
-        "Assets"
+        "Assets",
+        "Unity.2D.Tilemap.Editor"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -12,5 +12,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

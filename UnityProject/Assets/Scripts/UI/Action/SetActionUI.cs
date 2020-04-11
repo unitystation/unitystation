@@ -12,8 +12,6 @@ using System.Reflection;
 /// </summary>
 public class SetActionUI : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.SetActionUI;
-
 	public ushort soID;
 	public int SpriteLocation;
 	public int ComponentLocation;
@@ -22,22 +20,23 @@ public class SetActionUI : ServerMessage
 	public Type ComponentType;
 	public SetActionUIActions ProposedAction;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		IServerActionGUI IServerActionGUI = null;
 		if (soID != 0)
 		{
 			IServerActionGUI = UIActionSOSingleton.Instance.ReturnFromID(soID);
 		}
-		else {
-
-			yield return WaitFor(NetObject);
+		else
+		{
+			LoadNetworkObject(NetObject);
 			var IServerIActionGUIs = NetworkObject.GetComponentsInChildren(ComponentType);
 			if ((IServerIActionGUIs.Length > ComponentLocation))
 			{
 				IServerActionGUI = (IServerIActionGUIs[ComponentLocation] as IServerActionGUI);
 			}
 		}
+
 		if (IServerActionGUI != null)
 		{
 			switch (ProposedAction)
@@ -57,10 +56,10 @@ public class SetActionUI : ServerMessage
 
 
 	private static SetActionUI _Send(GameObject recipient,
-									 IServerActionGUI iServerActionGUI,
-									 SetActionUIActions ProposedAction,
-									 bool _showAlert = false,
-									 int location = 0)
+		IServerActionGUI iServerActionGUI,
+		SetActionUIActions ProposedAction,
+		bool _showAlert = false,
+		int location = 0)
 	{
 		if (!(iServerActionGUI is UIActionScriptableObject))
 		{
@@ -76,8 +75,10 @@ public class SetActionUI : ServerMessage
 					Found = true;
 					break;
 				}
+
 				_ComponentLocation++;
 			}
+
 			if (Found)
 			{
 				SetActionUI msg = new SetActionUI
@@ -91,17 +92,17 @@ public class SetActionUI : ServerMessage
 				};
 				msg.SendTo(recipient);
 				return msg;
-
 			}
-			else {
+			else
+			{
 				Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
 			}
 		}
-		else {
+		else
+		{
 			var _ComponentType = iServerActionGUI.GetType();
 			SetActionUI msg = new SetActionUI
 			{
-
 				soID = UIActionSOSingleton.ActionsTOID[(iServerActionGUI as UIActionScriptableObject)],
 				showAlert = _showAlert,
 				SpriteLocation = location,
@@ -111,6 +112,7 @@ public class SetActionUI : ServerMessage
 			msg.SendTo(recipient);
 			return msg;
 		}
+
 		return (null);
 	}
 
@@ -124,7 +126,8 @@ public class SetActionUI : ServerMessage
 		return (_Send(recipient, iServerActionGUI, SetActionUIActions.FrontIcon, location: FrontIconlocation));
 	}
 
-	public static SetActionUI SetBackgroundSprite(GameObject recipient, IServerActionGUI iServerActionGUI, int FrontIconlocation)
+	public static SetActionUI SetBackgroundSprite(GameObject recipient, IServerActionGUI iServerActionGUI,
+		int FrontIconlocation)
 	{
 		return (_Send(recipient, iServerActionGUI, SetActionUIActions.BackgroundIcon, location: FrontIconlocation));
 	}
@@ -140,8 +143,7 @@ public class SetActionUI : ServerMessage
 		NetObject = reader.ReadUInt32();
 		showAlert = reader.ReadBoolean();
 		ComponentType = RequestGameAction.componentIDToComponentType[reader.ReadUInt16()];
-		ProposedAction =  (SetActionUIActions)reader.ReadInt32();
-
+		ProposedAction = (SetActionUIActions) reader.ReadInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -154,7 +156,6 @@ public class SetActionUI : ServerMessage
 		writer.WriteBoolean(showAlert);
 		writer.WriteUInt16(RequestGameAction.componentTypeToComponentID[ComponentType]);
 		writer.WriteInt32((int) ProposedAction);
-
 	}
 }
 

@@ -14,6 +14,7 @@ public class CharacterSettings
 	public ClothingStyle ClothingStyle = ClothingStyle.JumpSuit;
 	public BagStyle BagStyle = BagStyle.Backpack;
 	public int Age = 22;
+	public Speech Speech = Speech.None;
 	public string HairStyleName = "None";
 	public string HairColor = "black";
 	public string EyeColor = "black";

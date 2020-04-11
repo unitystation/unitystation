@@ -62,8 +62,18 @@ public static class Despawn
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
 		var poolPrefabTracker = info.GameObject.GetComponent<PoolPrefabTracker>();
 		var transform = info.GameObject.GetComponent<IPushable>();
+		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
+		if (Electrical != null)
+		{
+			if (!Electrical.InData.DestroyAuthorised)
+			{
+				Electrical.DestroyThisPlease();
+				return DespawnResult.Single(info);
+			}
+		}
+
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
-		if ( transform != null )
+		if (transform != null)
 		{
 			transform.VisibleState = false;
 		}

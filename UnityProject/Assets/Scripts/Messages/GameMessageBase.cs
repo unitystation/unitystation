@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using Mirror;
@@ -9,63 +10,42 @@ public abstract class GameMessageBase : MessageBase
 	public GameObject NetworkObject;
 	public GameObject[] NetworkObjects;
 
-	public abstract IEnumerator Process();
-
-	public virtual IEnumerator Process( NetworkConnection sentBy )
+	/// <summary>
+	/// Called before any message processing takes place
+	/// </summary>
+	public virtual void PreProcess(NetworkConnection sentBy, GameMessageBase b)
 	{
-		yield return Process();
+		b.Process(sentBy);
 	}
 
-	protected IEnumerator WaitFor(uint id)
+	public abstract void Process();
+
+	public virtual void Process( NetworkConnection sentBy )
 	{
-		if (id == NetId.Empty)
-		{
-			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.NetMessage, this.GetType().Name );
-			yield break;
-		}
-
-		int tries = 0;
-		while ((NetworkObject = ClientScene.FindLocalObject(id)) == null)
-		{
-			if (tries++ > 10)
-			{
-				Logger.LogWarningFormat( "{0} could not find object with id {1}", Category.NetMessage, this.GetType().Name, id );
-				yield break;
-			}
-
-			yield return global::WaitFor.EndOfFrame;
-		}
+		Process();
 	}
 
-	public abstract short MessageType { get; }
+	protected bool LoadNetworkObject(uint id)
+	{
+		if (NetworkIdentity.spawned.ContainsKey(id) && NetworkIdentity.spawned[id] != null)
+		{
+			NetworkObject = NetworkIdentity.spawned[id].gameObject;
+			return true;
+		}
 
-	protected IEnumerator WaitFor(params uint[] ids)
+		return false;
+	}
+
+	protected void LoadMultipleObjects(uint[] ids)
 	{
 		NetworkObjects = new GameObject[ids.Length];
-
-		while (!AllLoaded(ids))
-		{
-			yield return global::WaitFor.EndOfFrame;
-		}
-	}
-
-	private bool AllLoaded(uint[] ids)
-	{
 		for (int i = 0; i < ids.Length; i++)
 		{
 			var netId = ids[i];
-			if ( netId == NetId.Invalid ) {
-				continue;
-			}
-			GameObject obj = ClientScene.FindLocalObject(netId);
-			if (obj == null)
+			if (NetworkIdentity.spawned.ContainsKey(netId) && NetworkIdentity.spawned[netId] != null)
 			{
-				return false;
+				NetworkObjects[i] = NetworkIdentity.spawned[netId].gameObject;
 			}
-
-			NetworkObjects[i] = obj;
 		}
-
-		return true;
 	}
 }

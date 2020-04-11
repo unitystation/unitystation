@@ -5,14 +5,11 @@
 /// </summary>
 public class UpdateUIMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.UpdateUIMessage;
-
 	public ControlDisplays.Screens Screen;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		UIManager.Display.SetScreenFor(Screen);
-		yield return null;
 	}
 
 	public static UpdateUIMessage Send(ControlDisplays.Screens screen)
@@ -23,10 +20,5 @@ public class UpdateUIMessage : ServerMessage
 		};
 		msg.SendToAll();
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return $"[UpdateUIMessage Type={MessageType} Screen={Screen}]";
 	}
 }

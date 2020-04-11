@@ -52,7 +52,19 @@ public enum ChatModifier
 	Emote   = 1 << 7, // Message starts with "/me" or "*"
 	Exclaim = 1 << 8, // Message ends with a "!"
 	Question= 1 << 9, // Message ends with a "?"
-	Sing = 1 << 10 // Message starts with "/s" or "%"
+	Sing = 1 << 10, // Message starts with "/s" or "%"
+	
+	//Speech mutations, these should happen before drunk, stutter and that kind of thing!
+	Canadian = 1 << 11,
+	French = 1 << 12,
+	Italian = 1 << 13,
+	Swedish = 1 << 14,
+	Chav = 1 << 15,
+	Smile = 1 << 16,
+	Elvis = 1 << 17,
+	Spurdo = 1 << 18,
+	UwU = 1 << 19,
+	Unintelligible = 1 << 20
 }
 
 public class ChatEvent

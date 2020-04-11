@@ -17,7 +17,7 @@ using UnityEngine;
 
 	public uint Tray;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		yield return WaitFor(Tray);
 

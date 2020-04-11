@@ -40,7 +40,6 @@ namespace DatabaseAPI
         private float updateWait = 0f;
         private string publicIP;
         private TelepathyTransport telepathyTransport;
-        private IgnoranceThreaded ignoranceTransport;
         private BoosterTransport boosterTransport;
 
         void AttemptConfigLoad()
@@ -51,7 +50,6 @@ namespace DatabaseAPI
             if (File.Exists(path))
             {
                 telepathyTransport = FindObjectOfType<TelepathyTransport>();
-                ignoranceTransport = FindObjectOfType<IgnoranceThreaded>();
                 config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
                 Instance.StartCoroutine(Instance.SendServerStatus());
             }
@@ -136,11 +134,6 @@ namespace DatabaseAPI
 	        if (telepathyTransport != null)
 	        {
 		        return Convert.ToInt32(telepathyTransport.port);
-	        }
-
-	        if (ignoranceTransport != null)
-	        {
-		        return Convert.ToInt32(ignoranceTransport.CommunicationPort);
 	        }
 
 	        if (boosterTransport!= null)

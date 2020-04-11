@@ -7,17 +7,15 @@ using Mirror;
 /// </summary>
 public class PostToChatMessage : ClientMessage
 {
-	public override short MessageType => (short) MessageTypes.PostToChatMessage;
 	public ChatChannel Channels;
 	public string ChatMessageText;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
 			Chat.AddChatMsgToChat(SentByPlayer, ChatMessageText, Channels);
 		}
-		yield return null;
 	}
 
 	//This is only used to send the chat input on the client to the server

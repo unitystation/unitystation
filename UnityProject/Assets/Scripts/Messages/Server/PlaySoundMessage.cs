@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class PlaySoundMessage : ServerMessage
 {
-	public override short MessageType => (short) MessageTypes.PlaySoundMessage;
 	public string SoundName;
 	public Vector3 Position;
 	public float Pitch;
@@ -19,13 +18,12 @@ public class PlaySoundMessage : ServerMessage
 
 	public uint TargetNetId;
 
-	public override IEnumerator Process() {
-		yield return null;
+	public override void Process() {
 
 		if (string.IsNullOrEmpty(SoundName))
 		{
 			Logger.LogError(ToString()+" has no SoundName!", Category.Audio);
-			yield break;
+			return;
 		}
 
 		bool isPositionProvided = Position.RoundToInt() != TransformState.HiddenPos;
@@ -45,7 +43,7 @@ public class PlaySoundMessage : ServerMessage
 			 && !PlayerManager.LocalPlayerScript.IsInReach( Position, false, ShakeRange ) )
 			{
 				//Don't shake if local player is out of range
-				yield break;
+				return;
 			}
 			float intensity = Mathf.Clamp(ShakeIntensity/(float)byte.MaxValue, 0.01f, 10f);
 			Camera2DFollow.followControl.Shake(intensity, intensity);

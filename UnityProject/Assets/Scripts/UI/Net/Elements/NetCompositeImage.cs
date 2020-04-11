@@ -86,7 +86,7 @@ public class NetCompositeImage : NetUIElement
 		}
 
 		int tries = 0;
-		while ((ResolvedObject = ClientScene.FindLocalObject(id)) == null)
+		while (!NetworkIdentity.spawned.ContainsKey(id))
 		{
 			if (tries++ > 10)
 			{
@@ -96,6 +96,8 @@ public class NetCompositeImage : NetUIElement
 
 			yield return WaitFor.EndOfFrame;
 		}
+
+		ResolvedObject = NetworkIdentity.spawned[id].gameObject;
 	}
 
 	public override void ExecuteServer() {}

@@ -8,26 +8,24 @@ using UnityEngine;
 /// </summary>
 public class ServerTypingMessage : ServerMessage
 {
-	public override short MessageType => (short)MessageTypes.ServerTypingMessage;
-
 	public TypingState state;
 	public uint targetID;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		// other client try to find networked identity that's typing
-		yield return WaitFor(targetID);
+		LoadNetworkObject(targetID);
 		if (!NetworkObject)
-			yield break;
+			return;
 
 		// than we change it typing icon
 		var player = NetworkObject.GetComponent<PlayerScript>();
 		if (!player)
-			yield break;
+			return;
 
 		var icon = player.chatIcon;
 		if (!icon)
-			yield break;
+			return;
 
 		var showTyping = state == TypingState.TYPING;
 
