@@ -9,7 +9,7 @@ namespace Antagonists
     public class CaptureCapsHat : Objective
     {
         [SerializeField]
-        private List<GameObject> allowedHats;
+        private List<GameObject> allowedHats = null;
 
         protected override void Setup()
         {
@@ -27,7 +27,7 @@ namespace Antagonists
 
         protected override bool CheckCompletion()
         {
- 
+
             var captain = FindCaptain();
             // No captain? Objective completed
             if (captain == null) return true;

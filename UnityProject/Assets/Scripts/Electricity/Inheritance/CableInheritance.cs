@@ -18,11 +18,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem sparksPrefab;
+	private ParticleSystem sparksPrefab = null;
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem smokePrefab;
+	private ParticleSystem smokePrefab = null;
 
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
@@ -304,6 +304,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 							else if (Econns[i].WireEndB == Connection.Overlap)
 							{
@@ -317,6 +318,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 						}
 					}

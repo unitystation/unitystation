@@ -26,7 +26,6 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		var roundTargetWorldPosition = interaction.WorldPositionTarget.RoundToInt();
 		Vector3 PlaceDirection = interaction.Performer.Player().Script.WorldPos - (Vector3) roundTargetWorldPosition;
 		OrientationEnum FaceDirection = OrientationEnum.Down;
-		Vector3 PlaceLocation = new Vector3();
 
 		if (PlaceDirection == Vector3.up)
 		{

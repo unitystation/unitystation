@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ModuleSupplyingDevice : ElectricalModuleInheritance
 {
+	public bool StartOnStartUp = false;
+
 	public float current = 0;
 	public float Previouscurrent = 0;
 	public float SupplyingVoltage = 0;
@@ -33,6 +35,10 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
 		ControllingNode.Node.InData.Data.SupplyingCurrent = current;
 		Node.AddModule(this);
+		if (StartOnStartUp)
+		{
+			TurnOnSupply();
+		}
 	}
 
 	public override void PowerUpdateStructureChange()

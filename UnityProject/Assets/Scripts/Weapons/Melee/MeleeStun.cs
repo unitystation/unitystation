@@ -13,7 +13,7 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// How long to stun for (in seconds)
 	/// </summary>
 	[SerializeField]
-	private float stunTime;
+	private float stunTime = 0;
 
 	/// <summary>
 	/// Sounds to play when stunning someone

@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Deconstruct the tile and spawn its deconstruction object (if defined) and (optionally) additional objects when an item with a particular
 /// trait is used on the tile.
-/// </summary>
+/// </summary>\
 [CreateAssetMenu(fileName = "DeconstructWhenItemUsed", menuName = "Interaction/TileInteraction/DeconstructWhenItemUsed")]
 public class DeconstructWhenItemUsed : TileInteraction
 {
@@ -41,7 +41,6 @@ public class DeconstructWhenItemUsed : TileInteraction
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
 		if (requiredTrait == CommonTraits.Instance.Welder)
 		{
 			return Validations.HasUsedActiveWelder(interaction);

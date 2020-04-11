@@ -50,6 +50,10 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 		ModuleType = ElectricalModuleTypeCategory.BatterySupplyingDevice;
 		ControllingNode = Node;
 		Node.AddModule(this);
+		if (StartOnStartUp)
+		{
+			TurnOnSupply();
+		}
 	}
 
 	public override void TurnOnSupply()

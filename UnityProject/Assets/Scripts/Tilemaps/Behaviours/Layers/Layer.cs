@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Collections.Generic;
-using System.Linq;
-
 
 
 [ExecuteInEditMode]

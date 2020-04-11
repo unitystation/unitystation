@@ -90,7 +90,7 @@ public class PlayParticleMessage : ServerMessage
 		try
 		{
 			topContainer = obj.GetComponent<PushPull>().TopContainer.gameObject;
-		} catch ( Exception ignored ) {}
+		} catch ( Exception ignored ) {} // TODO This should not be ignored!!
 
 
 		PlayParticleMessage msg = new PlayParticleMessage {
