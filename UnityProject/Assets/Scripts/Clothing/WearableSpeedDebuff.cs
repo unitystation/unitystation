@@ -2,57 +2,82 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// when wore, this item will apply a debuff on player speed
-/// </summary>
-public class WearableSpeedDebuff : MonoBehaviour, IServerInventoryMove
+namespace Clothing
 {
-    private PlayerScript player;
-    const float InitialRunSpeed = 6;
-    
-    [SerializeField]
-    [Tooltip("This will be the speed to substract from the initial run speed")]
-    private float runningSpeedDebuff = 1.5f;
-    
-    [SerializeField]
-    [Tooltip("In what slot should this debuff take place.")]
-    private NamedSlot slot;
-
-    public void OnInventoryMoveServer(InventoryMove info)
-	{   
-		//Wearing
-		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
-		{
-            player = info.ToRootPlayer?.PlayerScript;
-
-            if (player != null && info.ToSlot.NamedSlot == slot)
-            {
-                ServerChangeSpeed(InitialRunSpeed - runningSpeedDebuff);
-            }
-		}
-		//taking off
-		if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
-		{
-            player = info.FromRootPlayer?.PlayerScript;
-
-            if (player != null && info.FromSlot.NamedSlot == slot)
-            {
-
-                ServerChangeSpeed(InitialRunSpeed);
-            }
-		}
-	}
-
-    private void ServerChangeSpeed(float speed)
+	/// <summary>
+	/// when wore, this item will apply a debuff on player speed
+	/// </summary>
+	public class WearableSpeedDebuff : MonoBehaviour, IServerInventoryMove
 	{
-        player.playerMove.InitialRunSpeed = speed;
-        player.playerMove.RunSpeed = speed;
+		[SerializeField]
+		[Tooltip("This will be the speed to substract from running speed")]
+		private float runningSpeedDebuff = 1.5f;
 
-        if (player.PlayerSync.SpeedServer < speed)
-        {
-            return;
-        }
+		[SerializeField]
+		[Tooltip("This will be speed to substract from walking speed")]
+		private float walkingSpeedDebuff;
 
-        player.PlayerSync.SpeedServer = speed;
+		[SerializeField]
+		[Tooltip("In what slot should this debuff take place")]
+		private NamedSlot slot;
+
+		private PlayerScript player;
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if (IsPuttingOn(info))
+			{
+				ApplyDebuff();
+			}
+			else if (IsTakingOff(info))
+			{
+				RemoveDebuff();
+			}
+		}
+
+		private bool IsPuttingOn (InventoryMove info)
+		{
+			if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+			{
+				player = info.ToRootPlayer?.PlayerScript;
+
+				if (player != null && info.ToSlot.NamedSlot == slot)
+				{
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private bool IsTakingOff (InventoryMove info)
+		{
+			if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+			{
+				player = info.FromRootPlayer?.PlayerScript;
+
+				if (player != null && info.FromSlot.NamedSlot == slot)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		void ApplyDebuff()
+		{
+			player.playerMove.ServerChangeSpeed(
+				run: player.playerMove.runSpeed -= runningSpeedDebuff,
+				walk: player.playerMove.walkSpeed -= walkingSpeedDebuff);
+		}
+
+		void RemoveDebuff()
+		{
+			player.playerMove.ServerChangeSpeed(
+				run: player.playerMove.runSpeed += runningSpeedDebuff,
+				walk: player.playerMove.walkSpeed += walkingSpeedDebuff);
+		}
 	}
 }
