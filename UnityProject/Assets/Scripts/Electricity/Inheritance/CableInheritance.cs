@@ -304,6 +304,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 							else if (Econns[i].WireEndB == Connection.Overlap)
 							{
@@ -317,6 +318,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 						}
 					}

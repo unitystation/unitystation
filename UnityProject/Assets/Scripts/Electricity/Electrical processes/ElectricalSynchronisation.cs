@@ -4,6 +4,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using System;
 using Debug = UnityEngine.Debug;
 #if UNITY_EDITOR
 using Unity.Profiling;
@@ -26,6 +27,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private int MillieSecondDelay;
 
+	[NonSerialized]
 	public UnityEngine.Object Electriclock = new UnityEngine.Object();
 
 	private CustomSampler sampler;
@@ -38,15 +40,12 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	public void Start()
 	{
-		// TODO The following code needs to be removed, or a justification on why it's still here must be added.
-		/*
 		if (!running)
 		{
 			new Thread(Run).Start();
 
 			running = true;
 		}
-		*/
 	}
 
 	public void Stop()
@@ -66,21 +65,20 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private void Run()
 	{
-		//Profiler.BeginThreadProfiling("Unitystation", "Electronics");
+		Profiler.BeginThreadProfiling("Unitystation", "Electronics");
 		while (running)
 		{
-			//	sampler.Begin();
+			sampler.Begin();
 			StopWatch.Restart();
 			RunStep();
 			StopWatch.Stop();
-			//	sampler.End();
+			sampler.End();
 			if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)
 			{
 				Thread.Sleep(MillieSecondDelay - (int) StopWatch.ElapsedMilliseconds);
 			}
 		}
-
-		//Profiler.EndThreadProfiling();
+		Profiler.EndThreadProfiling();
 	}
 
 	//What keeps electrical Ticking
@@ -134,6 +132,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	public int currentTick;
 	public float tickRateComplete = 1f; //currently set to update every second
 	public float tickRate;
+	private float tickCount = 0f;
 	private const int Steps = 5;
 
 	public List<PowerTypeCategory> OrderList = new List<PowerTypeCategory>()

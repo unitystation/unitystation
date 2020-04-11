@@ -12,8 +12,6 @@ using UnityEditor;
 
 public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 {
-	public Connection WireEndB;
-	public Connection WireEndA;
 
 	//is the Bass class but every node inherits from
 	[SerializeField]

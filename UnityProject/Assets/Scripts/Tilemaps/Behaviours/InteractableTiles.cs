@@ -91,6 +91,17 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
 	}
 
+	/// <summary>
+	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public LayerTile LayerTileAt(Vector2 worldPos, LayerTypeSelection ExcludedLayers)
+	{
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
+
+		return metaTileMap.GetTile(pos, ExcludedLayers);
+	}
 
 	/// <summary>
 	/// Converts the world position to a cell position on these tiles.
