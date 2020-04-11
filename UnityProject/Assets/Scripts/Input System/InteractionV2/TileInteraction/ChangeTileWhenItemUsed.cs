@@ -26,7 +26,7 @@ public class ChangeTileWhenItemUsed : TileInteraction
 
 	[Tooltip("Seconds taken to perform this action. Leave at 0 for instant.")]
 	[SerializeField]
-	private float seconds;
+	private float seconds = 0;
 
 	[Tooltip("Additional objects to spawn at the changed tile.")]
 	[SerializeField]

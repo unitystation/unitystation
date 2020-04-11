@@ -51,7 +51,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	[SerializeField] private SpriteHandler weedNotifier = null;
 	[SerializeField] private SpriteHandler waterNotifier = null;
 	[SerializeField] private SpriteHandler nutrimentNotifier = null;
-	[SerializeField] private float tickRate;
+	[SerializeField] private float tickRate = 0;
 
 
 	private static readonly System.Random random = new System.Random();
