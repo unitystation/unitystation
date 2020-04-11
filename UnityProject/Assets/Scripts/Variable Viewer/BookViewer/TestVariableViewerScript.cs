@@ -8,7 +8,6 @@ public class TestVariableViewerScript : MonoBehaviour
 	public bool Pbool = true;
 	public int Pint = 55;
 	public string pstring = "yoyyyoy";
-	private string PVstring = "My porn collection"; //Me private variables!!!
 	public Teststruct pTeststruct;
 	public Connection pConnection  = Connection.Overlap;
 

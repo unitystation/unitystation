@@ -37,7 +37,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	private int rightHandFlame;
 
 	private bool isBurning = false;
-	private float burnRate = 0.2f;
 
 	public float damageOn;
 	private float damageOff;
