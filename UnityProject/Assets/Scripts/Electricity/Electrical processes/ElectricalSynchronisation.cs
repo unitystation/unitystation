@@ -38,13 +38,15 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	public void Start()
 	{
-		return;
+		// TODO The following code needs to be removed, or a justification on why it's still here must be added.
+		/*
 		if (!running)
 		{
 			new Thread(Run).Start();
 
 			running = true;
 		}
+		*/
 	}
 
 	public void Stop()

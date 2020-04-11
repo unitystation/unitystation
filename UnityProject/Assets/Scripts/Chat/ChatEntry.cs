@@ -116,8 +116,8 @@ public class ChatEntry : MonoBehaviour
 
 	public void OnChatFocused()
 	{
-		//Revist fades in chat system v2
-		return;
+		// TODO Revisit fades in chat system v2
+		/*
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null)
@@ -132,6 +132,7 @@ public class ChatEntry : MonoBehaviour
 		{
 			ToggleVisibleState(false);
 		}
+		*/
 	}
 
 	void CheckPosition()
@@ -191,8 +192,8 @@ public class ChatEntry : MonoBehaviour
 
 	public void OnChatUnfocused()
 	{
-		//Revist fades in chat system v2
-		return;
+		// TODO Revisit fades in chat system v2
+		/*
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null) StopCoroutine(coCoolDown);
@@ -207,6 +208,7 @@ public class ChatEntry : MonoBehaviour
 				ToggleVisibleState(true);
 			}
 		}
+		*/
 	}
 
 //	IEnumerator CoolDown()
@@ -245,8 +247,8 @@ public class ChatEntry : MonoBehaviour
 	public void AddChatDuplication()
 	{
 		stackTimes++;
-		//Switched off until we do ChatSystem V2
-		return;
+		// TODO Switched off until we do ChatSystem V2
+		/*
 		stackTimesText.text = $"x{stackTimes}";
 		stackTimesObj.SetActive(true);
 		StartCoroutine(StackPumpAnim());
@@ -261,6 +263,7 @@ public class ChatEntry : MonoBehaviour
 			isCoolingDown = true;
 			//coCoolDown = StartCoroutine(CoolDown());
 		}
+		*/
 	}
 
 	IEnumerator StackPumpAnim()
@@ -352,10 +355,12 @@ public class ChatEntry : MonoBehaviour
 
 	void SetCrossFadeAlpha(float amt, float time)
 	{
-		//Revist fades in chat system v2
+		// TODO Revisit fades in chat system v2
+		/*
 		return;
 		visibleText.CrossFadeAlpha(amt, time, false);
 		stackTimesText.CrossFadeAlpha(amt, time, false);
 		stackCircle.CrossFadeAlpha(amt, time, false);
+		*/
 	}
 }

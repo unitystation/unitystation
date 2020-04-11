@@ -177,9 +177,8 @@ public class UpdateManager : MonoBehaviour
 			}
 		}
 
-		//FIXME current system is 2 x slower possibly because of garbage being created
-		//in ProcessCallbacks()
-		return;
+		// TODO FIXME current system is 2 x slower possibly because of garbage being created in ProcessCallbacks()
+		/*
 		NamedAction namedAction = new NamedAction();
 
 		// Give that shit a name so we can refer to it in profiler.
@@ -203,6 +202,7 @@ public class UpdateManager : MonoBehaviour
 
 		callbackCollection.ActionList.Add(namedAction);
 		callbackCollection.ActionDictionary.Add(action, namedAction);
+		*/
 	}
 
 	private void RemoveCallbackInternal(CallbackCollection collection, Action callback)
