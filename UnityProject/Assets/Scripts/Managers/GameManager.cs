@@ -292,6 +292,9 @@ public partial class GameManager : MonoBehaviour
 			SpaceBodies.Clear();
 			PendingSpaceBodies = new Queue<MatrixMove>();
 
+			// Clear the list of ready players so they have to ready up again
+			PlayerList.Instance.ClearReadyPlayers();
+
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
@@ -309,6 +312,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			// Execute server-side OnSpawn hooks for mapped objects
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
 			foreach (var s in iServerSpawns)
 			{
@@ -345,17 +349,16 @@ public partial class GameManager : MonoBehaviour
 				//TODO set default game modes
 				NextGameMode = "Random";
 			}
+
 			// Game mode specific setup
 			GameMode.SetupRound();
-			GameMode.StartRound();
-			// TODO make job selection stuff
 
 			// Standard round start setup
 			stationTime = new DateTime().AddHours(12);
 			counting = true;
 			RespawnCurrentlyAllowed = GameMode.CanRespawn;
 			StartCoroutine(WaitToInitEscape());
-
+			StartCoroutine(WaitToStartGameMode());
 			CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(EVENT.RoundStarted);
 		}

@@ -123,8 +123,12 @@ public abstract class GameMode : ScriptableObject
 	/// </summary>
 	public virtual void StartRound()
 	{
-		// TODO remove once random job allocation is done
-		UpdateUIMessage.Send(ControlDisplays.Screens.JobSelect);
+		// Allocate jobs to all ready players and spawn them
+		var playerSpawnRequests = JobAllocator.DetermineJobs(PlayerList.Instance.ReadyPlayers);
+		foreach (var spawnReq in playerSpawnRequests)
+		{
+			PlayerSpawn.ServerSpawnPlayer(spawnReq);
+		}
 	}
 
 	/// <summary>

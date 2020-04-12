@@ -124,4 +124,14 @@ public partial class GameManager
 	{
 		return GameMode.TrySpawnAntag(spawnRequest);
 	}
+
+	/// <summary>
+	/// Waits before starting the game mode (to stop players being spawned in before everything has initialised)
+	/// </summary>
+	// TODO could add a nice cutscene/animation here while waiting for initialisation
+	private IEnumerator WaitToStartGameMode()
+	{
+		yield return WaitFor.Seconds(1f);
+		GameMode.StartRound();
+	}
 }
