@@ -1015,6 +1015,10 @@ public class SoundManager : MonoBehaviour
 				{
 					FloorTileType.water,
 					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
 				}
 			}
 		}
