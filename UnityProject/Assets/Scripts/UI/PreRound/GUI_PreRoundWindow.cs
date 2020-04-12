@@ -31,6 +31,20 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private float countdownTime;
 	private bool isReady;
 
+	private void OnEnable()
+	{
+		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
+		{
+			// In pre-round so setup button for readying
+			SetReady(false);
+		}
+		else
+		{
+			// Not in pre-round so setup button for joining
+			readyText.text = "Join now!";
+		}
+	}
+
 	void OnDisable()
 	{
 		doCountdown = false;
@@ -50,14 +64,28 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			countdownTime -= Time.deltaTime;
 			if (countdownTime <= 0)
 			{
-				doCountdown = false;
-				// Server should tell client what to do at the end of the countdown
+				OnCountdownEnd();
 			}
 		}
 
 		UpdateUI();
 	}
 
+	private void OnCountdownEnd()
+	{
+		doCountdown = false;
+		if (isReady)
+		{
+			// Server should spawn the player so hide this window
+			gameObject.SetActive(false);
+		}
+		else
+		{
+			// Change the ready button to a join button so the player can still edit their character
+			readyText.text = "Join now!";
+
+		}
+	}
 	public void UpdateUI()
 	{
 		if (PlayerList.Instance == null) return;
@@ -95,10 +123,32 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	public void OnReadyButton()
 	{
 		SoundManager.Play("Click01");
-		// Toggle ready status
-		isReady = !isReady;
-		characterButton.interactable = !isReady;
-		readyText.text = (!isReady) ? "Ready" : "Unready";
-		PlayerManager.LocalViewerScript.SetReady(isReady);
+
+		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
+		{
+			// Player can only toggle ready status in pre-round phase
+			SetReady(!isReady);
+		}
+		else
+		{
+			// Let the player choose a job when not in pre-round phase
+			UIManager.Display.SetScreenForJobSelect();
+		}
+	}
+
+	/// <summary>
+	/// Sets the new ready status. Will tell the server about the new ready state if it has changed.
+	/// </summary>
+	/// <param name="ready"></param>
+	private void SetReady(bool ready)
+	{
+		if (isReady != ready)
+		{
+			// Ready status changed so tell the server
+			PlayerManager.LocalViewerScript.SetReady(ready);
+		}
+		isReady = ready;
+		characterButton.interactable = !ready;
+		readyText.text = (!ready) ? "Ready" : "Unready";
 	}
 }
