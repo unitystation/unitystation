@@ -365,8 +365,20 @@ public class PlayerSprites : MonoBehaviour
 			hideClothingFlags |= clothing.HideClothingFlags;
 		// if player get off old clothes, we need to remove old flags
 		else
-			hideClothingFlags ^= clothing.HideClothingFlags;
-
+		{	//repeat 11 times, once for each bit		
+			for (int i = 0;i < 11; i++)
+			{
+				//get a bit from the byte
+				ulong bit = ((ulong)clothing.HideClothingFlags >> i) & 1U;
+				if (bit == 1)
+				{
+					//disable the enabled bit
+					ulong bytechange = (ulong)hideClothingFlags;
+					bytechange &= ~(1UL << 1);
+					hideClothingFlags = (ClothingHideFlags)bytechange;
+				}
+			}
+		}
 		// Update hide flags
 		ValidateHideFlags();
 	}
