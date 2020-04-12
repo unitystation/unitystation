@@ -14,7 +14,7 @@ public class Cargonia : GameMode
 
 	public override void SetupRound()
 	{
-		Logger.Log("Setting up traitor round!", Category.GameMode);
+		Logger.Log("Setting up Rebel round!", Category.GameMode);
 		//Select a random department
 		var rnd = new System.Random();
 		var RebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
@@ -26,7 +26,7 @@ public class Cargonia : GameMode
 	/// </summary>
 	public override void StartRound()
 	{
-		Logger.Log("Starting traitor round!", Category.GameMode);
+		Logger.Log("Starting Rebel round!", Category.GameMode);
 		base.StartRound();
 	}
 	// /// <summary>
@@ -44,7 +44,9 @@ public class Cargonia : GameMode
 	// {
 
 	// }
-	private  enum Departments 
+
+	// TODO switch this for the Department ScriptableObjects
+	private  enum Departments
 	{
 		Engineering,
 		Science,
