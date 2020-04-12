@@ -29,13 +29,23 @@ public class GUI_ExosuitFabricator : NetTab
 	public ExoFabUpQueueClickedEvent OnUpQueueClicked { get => onUpQueueClicked; }
 	private ExoFabDownQueueClickedEvent onDownQueueClicked;
 	public ExoFabDownQueueClickedEvent OnDownQueueClicked { get => onDownQueueClicked; }
+	private ExoFabDispenseSheetClickEvent onDispenseSheetClicked;
+	public ExoFabDispenseSheetClickEvent OnDispenseSheetClicked { get => onDispenseSheetClicked; }
+
+	private bool inited = false;
 
 	protected override void InitServer()
 	{
+		StartCoroutine(WaitForProvider());
 	}
 
-	private void Start()
+	private IEnumerator WaitForProvider()
 	{
+		while (Provider == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		inited = true;
 		onProductAddClicked = new ExoFabProductAddClickEvent();
 
 		OnProductAddClicked.AddListener(AddProductToQueue);
@@ -46,36 +56,43 @@ public class GUI_ExosuitFabricator : NetTab
 
 		onRemoveProductClicked = new ExoFabRemoveProductClickedEvent();
 
+		OnRemoveProductClicked.AddListener(RemoveFromQueue);
+
+		onDispenseSheetClicked = new ExoFabDispenseSheetClickEvent();
+
+		OnDispenseSheetClicked.AddListener(DispenseSheet);
+
 		//Makes sure it connects with the ExosuitFabricator
 		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
 		//Subscribes to the MaterialsManipulated event
 		ExosuitFabricator.MaterialsManipulated += UpdateAll;
 
-		materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator);
+		materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator.materialStorage);
 		materialsAndCategoryDisplay.InitCategories(exosuitFabricator.exoFabProducts);
+		UpdateAll();
+	}
+
+	public override void OnEnable()
+	{
+		base.OnEnable();
+		if (!CustomNetworkManager.Instance._isServer || !inited)
+		{
+			return;
+		}
 		UpdateAll();
 	}
 
 	//Updates the GUI and adds any visible NetUIElements to the server.
 	public void UpdateAll()
 	{
-		materialsAndCategoryDisplay.UpdateMaterialCount(exosuitFabricator);
-		foreach (ItemTrait materialType in exosuitFabricator.materialStorage.ItemTraitToMaterialRecord.Keys)
-		{
-			int materialAmount = exosuitFabricator.materialStorage.ItemTraitToMaterialRecord[materialType].CurrentAmount;
-			int cm3PerSheet = exosuitFabricator.materialStorage.CM3PerSheet;
-
-			materialsAndCategoryDisplay.UpdateButtonVisibility(materialAmount, cm3PerSheet, materialType);
-			RescanElements();
-		}
+		materialsAndCategoryDisplay.UpdateMaterialCount(exosuitFabricator.materialStorage);
+		RescanElements();
 	}
 
 	//Used by buttons, which contains the amount and type to dispense
-	public void DispenseSheet(GUI_ExoFabRemoveMaterialButton button)
+	public void DispenseSheet(int amount, ItemTrait materialType)
 	{
-		int sheetAmount = button.value;
-		ItemTrait materialType = button.itemTrait;
-		exosuitFabricator.DispenseMaterialSheet(sheetAmount, materialType);
+		exosuitFabricator.DispenseMaterialSheet(amount, materialType);
 	}
 
 	public void AddProductToQueue(MachineProduct product)
@@ -156,5 +173,10 @@ public class ExoFabDownQueueClickedEvent : UnityEvent<int>
 
 [System.Serializable]
 public class ExoFabCategoryClickEvent : UnityEvent<MachineProductList>
+{
+}
+
+[System.Serializable]
+public class ExoFabDispenseSheetClickEvent : UnityEvent<int, ItemTrait>
 {
 }

@@ -106,6 +106,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	///<summary>
 	///Spawns a number material sheet if there is enough in the storage
 	///</summary>
+	[Server]
 	public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 	{
 		if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))

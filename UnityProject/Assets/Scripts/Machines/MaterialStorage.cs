@@ -18,6 +18,8 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 	public int CurrentTotalResourceAmount { get => currentTotalResourceAmount; }
 
 	private List<MaterialRecord> materialRecordList = new List<MaterialRecord>();
+
+	public List<MaterialRecord> MaterialRecordList { get => materialRecordList; }
 	private Dictionary<string, MaterialRecord> nameToMaterialRecord = new Dictionary<string, MaterialRecord>();
 
 	public Dictionary<string, MaterialRecord> NameToMaterialRecord { get => nameToMaterialRecord; }

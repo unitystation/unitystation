@@ -10,10 +10,7 @@ public class GUI_ExoFabCategoryEntry : DynamicEntry
 	public MachineProductList ExoFabProducts
 	{
 		get => exoFabProducts;
-		set
-		{
-			exoFabProducts = value;
-		}
+		set => exoFabProducts = value;
 	}
 
 	public void OpenCategory()
