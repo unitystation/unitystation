@@ -25,9 +25,6 @@ public class ItemMagBoots : NetworkBehaviour,
 	private ConnectedPlayer player;
 	private ItemAttributesV2 itemAttributesV2;
 	private Pickupable pick;
-	[Tooltip("Default player run speed.")]
-	[SerializeField]
-	private float initialSpeed = 6;
 
 	[Tooltip("The speed debuff to apply to run speed.")]
 	[SerializeField]
@@ -76,7 +73,6 @@ public class ItemMagBoots : NetworkBehaviour,
 		pick.RefreshUISlotImage();
 		ToggleBoots();
 	}
-
 
 	public void ServerChangeState(ConnectedPlayer newPlayer)
 	{
@@ -130,33 +126,24 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private bool IsPuttingOn (InventoryMove info)
 	{
-		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+		if (info.ToSlot == null | info.ToSlot?.NamedSlot == null)
 		{
-			playerMove = info.ToRootPlayer?.PlayerScript.playerMove;
-
-			if (playerMove != null && info.ToSlot.NamedSlot == NamedSlot.feet)
-			{
-
-				return true;
-			}
+			return false;
 		}
+		playerMove = info.ToRootPlayer?.PlayerScript.playerMove;
 
-		return false;
+		return playerMove != null && info.ToSlot.NamedSlot == NamedSlot.feet;
 	}
 
 	private bool IsTakingOff (InventoryMove info)
 	{
-		if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+		if (info.FromSlot == null | info.FromSlot?.NamedSlot == null)
 		{
-			playerMove = info.FromRootPlayer?.PlayerScript.playerMove;
-
-			if (playerMove != null && info.FromSlot.NamedSlot == NamedSlot.feet)
-			{
-				return true;
-			}
+			return false;
 		}
+		playerMove = info.FromRootPlayer?.PlayerScript.playerMove;
 
-		return false;
+		return playerMove != null && info.FromSlot.NamedSlot == NamedSlot.feet;
 	}
 
 	// Client only method
@@ -182,15 +169,6 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	public void CallActionServer(ConnectedPlayer SentByPlayer)
 	{
-		var feet = SentByPlayer.Script.Equipment.GetClothingItem(NamedSlot.feet)?.gameObject;
-
-		if (feet != null && feet == gameObject)
-		{
-			if (!isOn)
-			{
-
-			}
-		}
 		ServerChangeState(SentByPlayer);
 	}
 
