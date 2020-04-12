@@ -94,7 +94,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				{
 					//locally predict
 					canSwap = UIManager.CurrentIntent == Intent.Help
-							  && !PlayerScript.pushPull.IsPullingSomething;
+					          && !PlayerScript.pushPull.IsPullingSomething;
 				}
 			}
 			else
@@ -103,12 +103,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				canSwap = isSwappable;
 			}
 			return canSwap
-				   //don't swap with ghosts
-				   && !PlayerScript.IsGhost
-				   //pass through players if we can
-				   && !registerPlayer.IsPassable(isServer)
-				   //can't swap with buckled players, they're strapped down
-				   && !IsBuckled;
+			       //don't swap with ghosts
+			       && !PlayerScript.IsGhost
+			       //pass through players if we can
+			       && !registerPlayer.IsPassable(isServer)
+			       //can't swap with buckled players, they're strapped down
+			       && !IsBuckled;
 		}
 	}
 
@@ -304,7 +304,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-											  direction);
+			                                  direction);
 		}
 
 
@@ -345,7 +345,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (netid == NetId.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
-							" can only be used on objects with a Net ID. Ensure this object has one.",
+			                " can only be used on objects with a Net ID. Ensure this object has one.",
 				Category.Movement);
 			return;
 		}
