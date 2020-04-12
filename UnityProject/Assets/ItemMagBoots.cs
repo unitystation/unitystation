@@ -29,15 +29,16 @@ public class ItemMagBoots : NetworkBehaviour,
 	[SerializeField]
 	private float initialSpeed = 6;
 
-	[Tooltip("Change player run speed to this.")]
+	[Tooltip("The speed debuff to apply to run speed.")]
 	[SerializeField]
-	private float newSpeed = 4.5f;
+	private float runSpeedDebuff = 1.5f;
 
-	private float oldSpeed;
 
 	[SerializeField]
 	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
+
+	private PlayerMove playerMove;
 
 	private void Awake()
 	{
@@ -56,20 +57,17 @@ public class ItemMagBoots : NetworkBehaviour,
 		if (isOn)
 		{
 			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
-			ServerChangeSpeed(newSpeed);
+			ApplySpeedDebuff();
 
 		}
 		else
 		{
 			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-			ServerChangeSpeed(initialSpeed);
+			RemoveSpeedDebuff();
 		}
 		//if the ghost NRE will be thrown
 		player.Script.pushPull.ServerSetPushable(!isOn);
-
 	}
-
-
 
 	private void SyncState(bool oldVar, bool newVar)
 	{
@@ -86,25 +84,84 @@ public class ItemMagBoots : NetworkBehaviour,
 		isOn = !isOn;
 	}
 
+	private void OnPlayerDeath()
+	{
+		if (isServer)
+		{
+			if (isOn)
+			{
+				ServerChangeState(this.player);
+			}
+			UIActionManager.Toggle(this, false);
+			// player.Script.playerHealth.OnDeathNotifyEvent -= OnPlayerDeath;
+			player = null;
+		}
+		else
+		{
+			UIActionManager.Toggle(this, false);
+		}
+
+	}
+
+	private void ApplySpeedDebuff()
+	{
+		playerMove.ServerChangeSpeed(run: playerMove.runSpeed - runSpeedDebuff);
+	}
+
+	private void RemoveSpeedDebuff()
+	{
+		playerMove.ServerChangeSpeed(run: playerMove.runSpeed + runSpeedDebuff);
+	}
+
 	#region UI related
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		//If item was taken off the player and it's on, change state back
-		if (isOn && info.FromSlot.NamedSlot == NamedSlot.feet)
+		if (IsPuttingOn(info) & isOn)
 		{
-			ServerChangeState(this.player);
+			ApplySpeedDebuff();
 		}
+		else if (IsTakingOff(info) & isOn)
+		{
+			ServerChangeState(player);
+			RemoveSpeedDebuff();
+		}
+	}
+
+	private bool IsPuttingOn (InventoryMove info)
+	{
+		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
+		{
+			playerMove = info.ToRootPlayer?.PlayerScript.playerMove;
+
+			if (playerMove != null && info.ToSlot.NamedSlot == NamedSlot.feet)
+			{
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool IsTakingOff (InventoryMove info)
+	{
+		if (info.FromSlot != null & info.FromSlot?.NamedSlot != null)
+		{
+			playerMove = info.FromRootPlayer?.PlayerScript.playerMove;
+
+			if (playerMove != null && info.FromSlot.NamedSlot == NamedSlot.feet)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	// Client only method
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
-		if (CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
-		{
-			return;
-		}
-
 		var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
 		//when item is moved and player has it on his feet
 		if (hand.GetActiveItemInSlot(NamedSlot.feet) != null && hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject)
@@ -114,10 +171,6 @@ public class ItemMagBoots : NetworkBehaviour,
 		}
 		else
 		{
-			if (isOn)
-			{
-				ClientChangeSpeed(initialSpeed);//old
-			}
 			UIActionManager.Toggle(this, false);
 		}
 	}
@@ -125,55 +178,20 @@ public class ItemMagBoots : NetworkBehaviour,
 	public void CallActionClient()
 	{
 		UIActionManager.SetSprite(this, (!isOn ? sprites[1] : sprites[0]));
-		var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
-		//if player has it on his feet
-		if (hand.GetActiveItemInSlot(NamedSlot.feet) != null && hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject)
+	}
+
+	public void CallActionServer(ConnectedPlayer SentByPlayer)
+	{
+		var feet = SentByPlayer.Script.Equipment.GetClothingItem(NamedSlot.feet)?.gameObject;
+
+		if (feet != null && feet == gameObject)
 		{
 			if (!isOn)
 			{
-				ClientChangeSpeed(newSpeed);//newspeed
-			}
-			else
-			{
-				ClientChangeSpeed(initialSpeed);//old
+
 			}
 		}
-	}
-
-	private void ClientChangeSpeed(float speed)
-	{
-		PlayerMove playerMove = PlayerManager.LocalPlayerScript.playerMove;
-		PlayerSync playerSync = playerMove.GetComponent<PlayerSync>();
-
-
-		playerMove.InitialRunSpeed = speed;
-		playerMove.RunSpeed = speed;
-
-		//Do not change current speed if player is walking
-		//but change speed when he toggles run
-		if (playerSync.SpeedServer < speed)
-		{ return;
-		}
-
-		playerSync.SpeedClient = speed;
-
-	}
-	public void CallActionServer(ConnectedPlayer SentByPlayer)
-	{
 		ServerChangeState(SentByPlayer);
-	}
-
-	private void ServerChangeSpeed(float speed)
-	{
-		player.Script.playerMove.InitialRunSpeed = speed;
-		player.Script.playerMove.RunSpeed = speed;
-		//Do not change current speed if player is walking
-		//but change speed when he toggles run
-		if (player.Script.PlayerSync.SpeedServer < speed)
-		{
-			return;
-		}
-		player.Script.PlayerSync.SpeedServer  = speed;
 	}
 
 	#endregion
