@@ -128,7 +128,7 @@ public class MetabolismSystem : NetworkBehaviour
 	}
 
 	void UpdateMe()
-    {
+	{
 		//Server only
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -194,8 +194,9 @@ public class MetabolismSystem : NetworkBehaviour
 	/// </summary>
 	private void ApplySpeedDebuff()
 	{
-		playerMove.RunSpeed -= starvingRunDebuff;
-		playerMove.WalkSpeed -= starvingWalkDebuff;
+		playerMove.ServerChangeSpeed(
+			run:playerMove.RunSpeed + starvingRunDebuff,
+			walk: playerMove.WalkSpeed + starvingWalkDebuff);
 		appliedStarvingDebuff = true;
 	}
 
@@ -204,8 +205,9 @@ public class MetabolismSystem : NetworkBehaviour
 	/// </summary>
 	private void RemoveSpeedDebuff()
 	{
-		playerMove.RunSpeed += starvingRunDebuff;
-		playerMove.WalkSpeed += starvingWalkDebuff;
+		playerMove.ServerChangeSpeed(
+			run:playerMove.RunSpeed + starvingRunDebuff,
+			walk: playerMove.WalkSpeed + starvingWalkDebuff);
 		appliedStarvingDebuff = false;
 	}
 
