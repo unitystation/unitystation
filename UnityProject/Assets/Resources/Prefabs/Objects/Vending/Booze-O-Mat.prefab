@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 114881596125346598}
   - component: {fileID: 114211682909943906}
   m_Layer: 11
-  m_Name: vending_76
+  m_Name: Booze-O-Mat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114579340578427108
@@ -120,7 +119,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent: []
+  VendorContent:
+  - Item: {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+    Stock: 10
+  - Item: {fileID: 1321544868721115095, guid: cef63d01a274d414ba46966ae5790027, type: 3}
+    Stock: 5
+  - Item: {fileID: 6248929123533218389, guid: 56d91ad002311c74ab3bdfbd34db3031, type: 3}
+    Stock: 5
+  - Item: {fileID: 8304274547702105696, guid: cbf8a187a73d7d243ab6ccdc325f1742, type: 3}
+    Stock: 5
+  - Item: {fileID: 5426160498802093876, guid: 73832b33f58924a40b5c771587f9707e, type: 3}
+    Stock: 20
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 2
@@ -183,6 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114881596125346598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -230,10 +241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1965835928
 --- !u!1 &1796110219090800
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +290,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

@@ -11,12 +11,67 @@ namespace Chemistry
 	{
 		public const float ZERO_CELSIUS_IN_KELVIN = 273.15f;
 
+		[Tooltip("In Kelvins")]
 		[SerializeField] private float temperature = ZERO_CELSIUS_IN_KELVIN;
 
 		public float Temperature
 		{
 			get => temperature;
 			set => temperature = value;
+		}
+
+
+		/// <summary>
+		/// Average of all reagent colors in a mix 
+		/// </summary>
+		public Color MixColor
+		{
+			get
+			{
+				var avgColor = new Color();
+				var totalAmount = Total;
+
+				foreach (var reag in reagents)
+				{
+					var percent = reag.Value / totalAmount;
+					var colorStep = percent * reag.Key.color;
+
+					avgColor += colorStep;
+				}
+
+				return avgColor;
+			}
+		}
+
+		/// <summary>
+		/// Average state of all reagents in mix
+		/// </summary>
+		public ReagentState MixState
+		{
+			get
+			{
+				// Fallback for empty mix
+				if (reagents.Count == 0)
+					return ReagentState.Solid;
+
+				// Just shortcut to avoid all calculations bellow
+				if (reagents.Count == 1)
+					return reagents.First().Key.state;
+
+				// First group all reagents by their state
+				var groupedByState = reagents.GroupBy(x => x.Key.state);
+
+				// Next - get sum for each state
+				var volumeByState = groupedByState.Select((group) =>
+				{
+					return new KeyValuePair<ReagentState, float>
+					(group.Key, group.Sum(r => r.Value));
+				}).ToArray();
+
+				// Now get state with the biggest sum
+				var mostState = volumeByState.OrderByDescending(group => group.Value).First();
+				return mostState.Key;
+			}
 		}
 
 		public DictionaryReagentFloat reagents;
