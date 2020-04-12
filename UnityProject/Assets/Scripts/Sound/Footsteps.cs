@@ -5,28 +5,39 @@ namespace Sound
 {
 	/// <summary>
 	/// This class handles all the logic to play the
-	/// proper footsteps of players when walking
+	/// proper footsteps of creatures (including players) when walking
 	/// </summary>
-	public class Footsteps : MonoBehaviour
+	public class Footsteps
 	{
-		private static readonly System.Random Rnd = new System.Random();
 		private static bool step;
+		private Footsteps footsteps;
 
-		public static void FootstepAtPosition(Vector3 worldPos, StepType stepType, GameObject performer)
+		public Footsteps Instance => this;
+
+		/// <summary>
+		/// Play footsteps at given position. It will handle all the logic to determine
+		/// the proper sound to use.
+		/// </summary>
+		/// <param name="worldPos">Where in the world is this sound coming from. Also used to get the type of tile</param>
+		/// <param name="stepType">What kind of step does the creature walking have</param>
+		/// <param name="performer">The creature making the sound</param>
+		public void FootstepAtPosition(Vector3 worldPos, StepType stepType, GameObject performer)
 		{
 			MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
 			var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
 			var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
-			
+
 			if (tile != null)
 			{
 				if (step)
 				{
 					SoundManager.PlayNetworkedAtPos(
-						stepSounds[stepType][tile.floorTileType][Rnd.Next(stepSounds[stepType][tile.floorTileType].Count)],
+						 stepSounds[stepType][tile.floorTileType].PickRandom(),
 						worldPos,
-						(float)SoundManager.Instance.GetRandomNumber(0.7d, 1.2d),
-						Global: false, polyphonic: true, sourceObj: performer
+						Random.Range(0.7f, 1.2f),
+						Global: false,
+						polyphonic: true,
+						sourceObj: performer
 					);
 				}
 

@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
+using Sound;
 
 public partial class PlayerSync
 {
@@ -111,7 +112,7 @@ public partial class PlayerSync
 		{
 			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
 			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos, true);
-			masterSpeedServer = playerMove.RunSpeed;
+			masterSpeedServer = playerMove.runSpeed;
 			PlayerState state = new PlayerState
 			{
 				MoveNumber = 0,
@@ -490,7 +491,7 @@ public partial class PlayerSync
 
 		if ( !playerScript.playerHealth || !playerScript.playerHealth.IsSoftCrit )
 		{
-			SpeedServer = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			SpeedServer = action.isRun ? playerMove.runSpeed : playerMove.walkSpeed;
 		}
 
 		//we only lerp back if the client thinks it's passable  but server does not...if client
@@ -556,7 +557,7 @@ public partial class PlayerSync
 		if (!playerScript.IsGhost)
 		{
 			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-			Sound.Footsteps.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
+			playerMove.footsteps.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
 		}
 
 		return nextState;
