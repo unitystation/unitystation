@@ -28,7 +28,7 @@ namespace Chemistry
 		{
 			get
 			{
-				var avgColor = Color.black;
+				var avgColor = new Color();
 				var totalAmount = Total;
 
 				foreach (var reag in reagents)

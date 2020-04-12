@@ -35,7 +35,7 @@ public static class TextUtils
 	public static string ColorToString(Color color)
 	{
 		var a = color.a;
-		if (a <= 0.25f)
+		if (a < 0.5f)
 			return "transparent";
 
 		float H, S, V;
