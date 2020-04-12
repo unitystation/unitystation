@@ -374,7 +374,7 @@ public class PlayerSprites : MonoBehaviour
 				{
 					//disable the enabled bit
 					ulong bytechange = (ulong)hideClothingFlags;
-					bytechange &= ~(1UL << n);
+					bytechange &= ~(1UL << 1);
 					hideClothingFlags = (ClothingHideFlags)bytechange;
 				}
 			}
