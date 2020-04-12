@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
-using static Sound.Footsteps;
 
 [Serializable]
 public struct TileState

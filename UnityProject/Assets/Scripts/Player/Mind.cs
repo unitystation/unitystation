@@ -15,7 +15,7 @@ public class Mind
 	public bool IsGhosting;
 	public bool DenyCloning;
 	public int bodyMobID;
-	public Sound.Footsteps.StepType stepType = Sound.Footsteps.StepType.Barefoot;
+	public StepType stepType = StepType.Barefoot;
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	//Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 	public bool IsSpectator => occupation == null || body == null;
@@ -144,5 +144,4 @@ public class Mind
 		if (!IsAntag) return;
 		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectivesForPlayer());
 	}
-
 }

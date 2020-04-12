@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Sound;
-using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -16,7 +14,6 @@ using UnityEngine.Serialization;
 public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI
 {
 	public PlayerScript PlayerScript => playerScript;
-	public Footsteps footsteps = new Footsteps();
 
 	public bool diagonalMovement;
 
@@ -650,11 +647,4 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		SyncCuffed(cuffed, this.cuffed);
 	}
-}
-
-/// <summary>
-/// Cuff state changed, provides old state and new state as 1st and 2nd args
-/// </summary>
-public class CuffEvent : UnityEvent<bool, bool>
-{
 }

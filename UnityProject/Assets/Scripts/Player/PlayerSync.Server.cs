@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
-using Sound;
 
 public partial class PlayerSync
 {
@@ -557,7 +556,7 @@ public partial class PlayerSync
 		if (!playerScript.IsGhost)
 		{
 			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-			playerMove.footsteps.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
+			SoundManager.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
 		}
 
 		return nextState;

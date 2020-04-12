@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static Sound.Footsteps;
 
 /// <summary>
 /// Handles the change of StepType when players equip or unequip this item
@@ -27,7 +26,7 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 		{
 			var mind = info.FromPlayer.PlayerScript.mind;
 			if(mind != null & info.FromSlot.NamedSlot == slot)
-			{	
+			{
 				TryChange(mind, info.FromSlot.NamedSlot, info.FromPlayer, true);
 			}
 		}
